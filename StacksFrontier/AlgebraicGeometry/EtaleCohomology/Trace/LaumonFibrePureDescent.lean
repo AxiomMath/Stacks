@@ -1,0 +1,524 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.LaumonFibreStableReduction
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.LaumonFamilyFibreCohomology
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.AffineLineFourierKernel
+
+/-!
+# Descent of the purity of the fibres along a finite extension of the base field
+
+The statement `Stacks.EtaleCohomology.LaumonFibrePureDescentInput` of Laumon's proof of
+[Tag 03VH](https://stacks.math.columbia.edu/tag/03VH): if the fibres of the pullback of `σ` to
+`𝔸¹_{k₀}`, `k₀` a finite extension of `k`, are pure off `D₀ = 0`, then the fibres of `σ` are pure
+off `D = 0`, `D` the norm `∏_{τ ∈ Gal(k₀/k)} τ(D₀)` of `D₀`.
+
+At a fibre over a finite extension `k'` of `k`, choose a common finite extension `k''` of `k'` and
+`k₀` (`Stacks.EtaleCohomology.exists_finiteField_compositum`) and a geometric point of `𝔸¹_{k''}`
+over that of `𝔸¹_{k₀}`. Then `𝔸¹_{k''} = 𝔸¹_{k'} ×_{k'} k''`, so `H¹_c` of the fibre over `k''` is
+`H¹_c` of the fibre over `k'`, with the Frobenius of `k''` the `[k'' : k']`-th power of that of
+`k'` (`Stacks.EtaleCohomology.exists_compositum_rationalCohomology_linearEquiv`): the two twisted
+representations of `π₁(𝔸¹_{k''})` are conjugate, since they come from the same morphism to `U` and
+the Artin–Schreier characters agree by the trace compatibility
+`ψ ∘ Tr_{k₀/k} ∘ Tr_{k''/k₀} = ψ ∘ Tr_{k'/k} ∘ Tr_{k''/k'}`
+(`Stacks.EtaleCohomology.exists_conj_characterTwist_compositum`). A root `z` of the Frobenius of
+`k'` gives the root `z ^ [k'' : k']` of that of `k''`, whose absolute value is known.
+
+## Main results
+
+* `Stacks.EtaleCohomology.exists_mvPolynomial_map_eq_mul`,
+  `Stacks.EtaleCohomology.exists_finiteField_compositum`.
+* `Stacks.EtaleCohomology.exists_conj_characterTwist_compositum`,
+  `Stacks.EtaleCohomology.exists_compositum_rationalCohomology_linearEquiv`.
+* `Stacks.EtaleCohomology.laumonFibrePureDescentInput`.
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry AlgebraicGeometry.SmallEtale
+open Stacks.Frobenius
+
+universe u
+
+namespace AlgebraicGeometry
+
+/-- **The identity of `π₁(Y, ȳ)` is induced by the base change along `𝟙 Y`.** -/
+public theorem isEtaleFundamentalGroupHomInducedBy_id {Y : Scheme.{u}} [ConnectedSpace Y]
+    (y : GeometricPoint Y) :
+    IsEtaleFundamentalGroupHomInducedBy (finiteEtaleBaseChange (𝟙 Y))
+      (MonoidHom.id (EtaleFundamentalGroup Y y)) :=
+  IsEtaleFundamentalGroupHomInducedBy.of_iso finiteEtaleBaseChangeId.symm
+    ⟨Functor.leftUnitor _, fun _ _ _ => rfl⟩
+
+end AlgebraicGeometry
+
+namespace Stacks.EtaleCohomology
+
+section Algebra
+
+variable (k : Type u) [Field k] [Fintype k] (k₀ : Type u) [Field k₀] [Fintype k₀] [Algebra k k₀]
+
+omit [Fintype k] [Fintype k₀] in
+/-- **The norm of a curve over a finite extension**: for a finite extension `k₀` of a finite field
+`k` and `D₀ ≠ 0` in `k₀[X_s, s ∈ σ]`, the product `∏_τ τ(D₀)` over `Gal(k₀/k)` has coefficients in
+`k`; it is a nonzero `D` over `k` whose image in `k₀[X_s]` is a multiple of `D₀`. -/
+public theorem exists_mvPolynomial_map_eq_mul [Finite k₀] {σ : Type*} (D₀ : MvPolynomial σ k₀)
+    (hD₀ : D₀ ≠ 0) :
+    ∃ D : MvPolynomial σ k, D ≠ 0 ∧
+      ∃ R : MvPolynomial σ k₀, MvPolynomial.map (algebraMap k k₀) D = D₀ * R := by
+  classical
+  let D' : MvPolynomial σ k₀ := ∏ τ : Gal(k₀/k), MvPolynomial.map (τ : k₀ →+* k₀) D₀
+  have hfix : ∀ τ' : Gal(k₀/k), MvPolynomial.map (τ' : k₀ →+* k₀) D' = D' := by
+    intro τ'
+    simp only [D', map_prod, MvPolynomial.map_map]
+    exact Fintype.prod_equiv (Equiv.mulLeft τ') _ _ fun τ => rfl
+  have hmem : D' ∈ Set.range (MvPolynomial.map (algebraMap k k₀)) := by
+    rw [MvPolynomial.mem_range_map_iff_coeffs_subset]
+    intro c hc
+    obtain ⟨s, -, rfl⟩ := MvPolynomial.mem_coeffs_iff.1 hc
+    have hbot : D'.coeff s ∈ (⊥ : IntermediateField k k₀) := by
+      rw [IsGalois.mem_bot_iff_fixed]
+      intro τ'
+      have h := congrArg (MvPolynomial.coeff s) (hfix τ')
+      rwa [MvPolynomial.coeff_map] at h
+    exact IntermediateField.mem_bot.1 hbot
+  obtain ⟨D, hD⟩ := hmem
+  refine ⟨D, ?_, ∏ τ ∈ (Finset.univ : Finset Gal(k₀/k)).erase 1,
+    MvPolynomial.map (τ : k₀ →+* k₀) D₀, ?_⟩
+  · rintro rfl
+    rw [map_zero] at hD
+    refine Finset.prod_ne_zero_iff.2 (fun τ _ => ?_) hD.symm
+    intro h
+    apply hD₀
+    apply MvPolynomial.map_injective (τ : k₀ →+* k₀) τ.injective
+    rw [h, map_zero]
+  · rw [hD]
+    show ∏ τ : Gal(k₀/k), MvPolynomial.map (τ : k₀ →+* k₀) D₀ = _
+    rw [← Finset.mul_prod_erase Finset.univ
+      (fun τ : Gal(k₀/k) => MvPolynomial.map (τ : k₀ →+* k₀) D₀) (Finset.mem_univ 1)]
+    congr 1
+    exact MvPolynomial.map_id D₀
+
+variable (k' : Type u) [Field k'] [Fintype k'] [Algebra k k']
+
+omit [Fintype k] [Fintype k₀] [Fintype k'] in
+/-- **A common finite extension of two finite extensions of a finite field**: a finite field `k''`
+with embeddings of `k'` and `k₀` which agree on `k` (the field generated by `k₀` over `k'` in an
+algebraic closure of `k'`). -/
+public theorem exists_finiteField_compositum [Finite k₀] [Finite k'] :
+    ∃ (k'' : Type u) (_ : Field k'') (_ : Fintype k'') (_ : Algebra k' k'') (_ : Algebra k₀ k''),
+      (algebraMap k₀ k'').comp (algebraMap k k₀) = (algebraMap k' k'').comp (algebraMap k k') := by
+  let Ω := AlgebraicClosure k'
+  let iΩ : Algebra k Ω := ((algebraMap k' Ω).comp (algebraMap k k')).toAlgebra
+  have : Algebra.IsAlgebraic k k₀ := Algebra.IsAlgebraic.of_finite k k₀
+  let i₀ : k₀ →ₐ[k] Ω := IsAlgClosed.lift
+  let K := IntermediateField.adjoin k' (Set.range i₀)
+  have : FiniteDimensional k' K :=
+    IntermediateField.finiteDimensional_adjoin fun x _ =>
+      (Algebra.IsIntegral.isIntegral (R := k') x)
+  have : Finite K := Module.finite_of_finite k'
+  let : Fintype K := Fintype.ofFinite K
+  let j₀ : k₀ →+* K := i₀.toRingHom.codRestrict K.toSubfield fun a =>
+    IntermediateField.subset_adjoin k' (Set.range i₀) ⟨a, rfl⟩
+  refine ⟨K, inferInstance, inferInstance, inferInstance, j₀.toAlgebra, ?_⟩
+  ext a
+  exact congrArg Subtype.val (Subtype.ext (i₀.commutes a) :
+    (⟨i₀ (algebraMap k k₀ a), _⟩ : K) = ⟨algebraMap k' Ω (algebraMap k k' a), _⟩)
+
+end Algebra
+
+section Roots
+
+variable {E M₁ M₂ : Type*} [Field E] [AddCommGroup M₁] [Module E M₁] [AddCommGroup M₂]
+  [Module E M₂] [FiniteDimensional E M₁] [FiniteDimensional E M₂]
+
+/-- **A root of `A₂` gives a root of `A₁` through an intertwining with a power**: if
+`e ∘ A₁ = A₂ ^ r ∘ e` for a linear equivalence `e`, then `z ^ r` is a root of the characteristic
+polynomial of `A₁` along `ι` for every root `z` of that of `A₂`. -/
+public theorem isRoot_charpoly_of_linearEquiv_pow (e : M₁ ≃ₗ[E] M₂) {A₁ : Module.End E M₁}
+    {A₂ : Module.End E M₂} (r : ℕ) (h : ∀ w, e (A₁ w) = (A₂ ^ r) (e w)) (ι : E →+* ℂ) {z : ℂ}
+    (hz : (A₂.charpoly.map ι).IsRoot z) : (A₁.charpoly.map ι).IsRoot (z ^ r) := by
+  have hcp : A₁.charpoly = (A₂ ^ r).charpoly := by
+    rw [← e.charpoly_conj]
+    congr 1
+    refine LinearMap.ext fun w => ?_
+    rw [LinearEquiv.conj_apply, LinearMap.comp_apply, LinearMap.comp_apply, LinearEquiv.coe_coe,
+      LinearEquiv.coe_coe, h, LinearEquiv.apply_symm_apply]
+  rw [hcp]
+  exact isRoot_charpoly_map_pow ι hz r
+
+end Roots
+
+/-- **Absolute values from a power**: if `‖z ^ (m + 1)‖ = (q ^ (m + 1)) ^ (w / 2)` then
+`‖z‖ = q ^ (w / 2)`. -/
+public theorem norm_eq_rpow_of_norm_pow_eq {z : ℂ} {q m : ℕ} {w : ℤ}
+    (h : ‖z ^ (m + 1)‖ = ((q ^ (m + 1) : ℕ) : ℝ) ^ ((w : ℝ) / 2)) :
+    ‖z‖ = (q : ℝ) ^ ((w : ℝ) / 2) := by
+  have hq0 : (0 : ℝ) ≤ q := Nat.cast_nonneg q
+  have hrhs : ((q ^ (m + 1) : ℕ) : ℝ) ^ ((w : ℝ) / 2) = ((q : ℝ) ^ ((w : ℝ) / 2)) ^ (m + 1) := by
+    rw [Nat.cast_pow, ← Real.rpow_natCast, ← Real.rpow_natCast, ← Real.rpow_mul hq0,
+      ← Real.rpow_mul hq0, mul_comm]
+  rw [norm_pow, hrhs] at h
+  exact (pow_left_inj₀ (norm_nonneg z) (Real.rpow_nonneg hq0 _) (Nat.succ_ne_zero m)).1 h
+
+section Twist
+
+/-- **A representation conjugate to one along a continuous map has continuous restriction of
+scalars.** -/
+public theorem continuous_restrictScalarsRep_of_conj {ℓ : ℕ} [Fact ℓ.Prime] {E : Type} [Field E]
+    [Algebra ℚ_[ℓ] E] {d : ℕ} (b : Module.Basis (Fin d) ℚ_[ℓ] E) {G H : Type*} [Group G]
+    [TopologicalSpace G] [Group H] [TopologicalSpace H] {m : ℕ} {τ : G →* GL (Fin m) E}
+    (hτ : Continuous (restrictScalarsRep b τ)) {Φ : H →* G} (hΦ : Continuous Φ)
+    {τ' : H →* GL (Fin m) E} (g : GL (Fin m) E) (hg : ∀ γ, τ' γ = g⁻¹ * τ (Φ γ) * g) :
+    Continuous (restrictScalarsRep b τ') := by
+  have hcont : Continuous fun γ => (Units.map (restrictScalarsMonoidHom b m) g)⁻¹ *
+      restrictScalarsRep b τ (Φ γ) * Units.map (restrictScalarsMonoidHom b m) g :=
+    (continuous_const.mul (hτ.comp hΦ)).mul continuous_const
+  convert hcont using 1
+  funext γ
+  show Units.map (restrictScalarsMonoidHom b m) (τ' γ) = _
+  rw [hg γ, map_mul, map_mul, map_inv]
+  rfl
+
+
+variable {U : Scheme.{u}} [ConnectedSpace U] {k : Type u} [Field k] [Fintype k]
+  (e : U ⟶ Spec (.of (Polynomial k))) [IsIso e] {x : GeometricPoint U} {E : Type} [Field E]
+  {m : ℕ} (σ : EtaleFundamentalGroup U x →* GL (Fin m) E) (ψ : AddChar k E) (n : ℕ)
+  {k' k₀ k'' : Type u} [Field k'] [Fintype k'] [Field k₀] [Fintype k₀] [Field k''] [Fintype k'']
+  [Algebra k k'] [Algebra k k₀] [Algebra k k''] [Algebra k' k''] [Algebra k₀ k'']
+  [IsScalarTower k k' k''] [IsScalarTower k k₀ k'']
+
+omit [Fintype k] [Fintype k₀] in
+/-- **The twisted pullbacks of `σ` to `𝔸¹_{k''}` through `𝔸¹_{k'}` and through `𝔸¹_{k₀}` are
+conjugate**, for a compositum `k''` of `k'` and `k₀`: along any `Φ : π₁(𝔸¹_{k''}) → π₁(𝔸¹_{k'})`
+induced by the base change, the twist of `σ` over `k'` by `L_{ψ ∘ Tr_{k'/k}}(a xⁿ + c x)` is
+conjugate to the twist of `σ` over `k''` (pulled back through `k₀`) by
+`L_{ψ ∘ Tr_{k₀/k} ∘ Tr_{k''/k₀}}(a xⁿ + c x)`: the maps to `π₁(U)` come from the same morphism,
+and the Artin–Schreier characters agree by the trace compatibility. -/
+public theorem exists_conj_characterTwist_compositum [Finite k] [Finite k₀]
+    (x' : GeometricPoint (Spec (.of (Polynomial k'))))
+    (hx' : x'.map (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k k'))) ≫
+      inv e) = x)
+    (x₀ : GeometricPoint (Spec (.of (Polynomial k₀))))
+    (hx₀ : x₀.map (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k k₀))) ≫
+      inv e) = x)
+    (x'' : GeometricPoint (Spec (.of (Polynomial k''))))
+    (hx'' : x''.map (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k₀ k''))) ≫
+      inv (𝟙 (Spec (.of (Polynomial k₀))))) = x₀)
+    (a c : k')
+    (p₀ : (finiteEtaleFiberFunctor x').obj
+      (Stacks.ArtinSchreier.cover k' (Polynomial k')
+        (Polynomial.C a * Polynomial.X ^ n + Polynomial.C c * Polynomial.X)))
+    (p₀'' : (finiteEtaleFiberFunctor x'').obj (Stacks.ArtinSchreier.cover k'' (Polynomial k'')
+      (Polynomial.C (algebraMap k' k'' a) * Polynomial.X ^ n +
+        Polynomial.C (algebraMap k' k'' c) * Polynomial.X)))
+    (Φ : EtaleFundamentalGroup (Spec (.of (Polynomial k''))) x'' →*
+      EtaleFundamentalGroup (Spec (.of (Polynomial k'))) x')
+    (hΦ : IsEtaleFundamentalGroupHomInducedBy (finiteEtaleBaseChange
+      (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k''))))) Φ) :
+    ∃ g : GL (Fin m) E, ∀ γ,
+      characterTwist ((σ.comp (hx₀ ▸ (etaleFundamentalGroupMap (Spec.map (CommRingCat.ofHom
+          (Polynomial.mapRingHom (algebraMap k k₀))) ≫ inv e) x₀).toMonoidHom)).comp
+            (hx'' ▸ (etaleFundamentalGroupMap (Spec.map (CommRingCat.ofHom
+              (Polynomial.mapRingHom (algebraMap k₀ k''))) ≫
+                inv (𝟙 (Spec (.of (Polynomial k₀))))) x'').toMonoidHom))
+        (Stacks.ArtinSchreier.artinSchreierCharacter k'' (Polynomial k'')
+          (Polynomial.C (algebraMap k' k'' a) * Polynomial.X ^ n +
+            Polynomial.C (algebraMap k' k'' c) * Polynomial.X)
+          ((ψ.compAddMonoidHom (Algebra.trace k k₀).toAddMonoidHom).compAddMonoidHom
+            (Algebra.trace k₀ k'').toAddMonoidHom) x'' p₀'') γ =
+      g⁻¹ * ((characterTwist (σ.comp (hx' ▸ (etaleFundamentalGroupMap (Spec.map (CommRingCat.ofHom
+          (Polynomial.mapRingHom (algebraMap k k'))) ≫ inv e) x').toMonoidHom))
+        (Stacks.ArtinSchreier.artinSchreierCharacter k' (Polynomial k')
+          (Polynomial.C a * Polynomial.X ^ n + Polynomial.C c * Polynomial.X)
+          (ψ.compAddMonoidHom (Algebra.trace k k').toAddMonoidHom) x' p₀)).comp Φ) γ * g := by
+  have : Module.Finite k k' := Module.Finite.of_finite
+  have : Module.Finite k k₀ := Module.Finite.of_finite
+  have : Module.Finite k' k'' := Module.Finite.of_finite
+  have : Module.Finite k₀ k'' := Module.Finite.of_finite
+  let gU' := Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k k'))) ≫ inv e
+  let g₀ := Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k k₀))) ≫ inv e
+  let h₀ := Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k₀ k''))) ≫
+    inv (𝟙 (Spec (.of (Polynomial k₀))))
+  let ψ' := ψ.compAddMonoidHom (Algebra.trace k k').toAddMonoidHom
+  let ψ'' := (ψ.compAddMonoidHom (Algebra.trace k k₀).toAddMonoidHom).compAddMonoidHom
+    (Algebra.trace k₀ k'').toAddMonoidHom
+  have hψ : ∀ a, ψ'' a = ψ' (Algebra.trace k' k'' a) := fun a => by
+    show ψ (Algebra.trace k k₀ (Algebra.trace k₀ k'' a)) =
+      ψ (Algebra.trace k k' (Algebra.trace k' k'' a))
+    rw [Algebra.trace_trace, Algebra.trace_trace]
+  have hg : Polynomial.mapAlgHom (Algebra.ofId k' k'')
+      (Polynomial.C a * Polynomial.X ^ n + Polynomial.C c * Polynomial.X) =
+      Polynomial.C (algebraMap k' k'' a) * Polynomial.X ^ n +
+        Polynomial.C (algebraMap k' k'' c) * Polynomial.X := by
+    simp
+  have hχ := fun γ => artinSchreierCharacter_trace_baseChange_eq k' k'' ψ' ψ'' hψ
+    (Polynomial.C a * Polynomial.X ^ n + Polynomial.C c * Polynomial.X)
+    (Polynomial.mapAlgHom (Algebra.ofId k' k''))
+    (Polynomial.C (algebraMap k' k'' a) * Polynomial.X ^ n +
+      Polynomial.C (algebraMap k' k'' c) * Polynomial.X) hg x' p₀ x'' p₀''
+    (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k'')))) (𝟙 _)
+    (by rw [Category.id_comp]; rfl) hΦ (isEtaleFundamentalGroupHomInducedBy_id x'') γ
+  have hcomm : Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k''))) ≫ gU' =
+      𝟙 _ ≫ (h₀ ≫ g₀) := by
+    have hcomp : (algebraMap k₀ k'').comp (algebraMap k k₀) =
+        (algebraMap k' k'').comp (algebraMap k k') := by
+      rw [← IsScalarTower.algebraMap_eq, ← IsScalarTower.algebraMap_eq]
+    simp only [gU', h₀, g₀, IsIso.inv_id, Category.id_comp, Category.comp_id, ← Category.assoc,
+      ← Spec.map_comp, ← CommRingCat.ofHom_comp, Polynomial.mapRingHom_comp, hcomp]
+  exact exists_conj_of_isEtaleFundamentalGroupHomInducedBy σ hcomm hΦ
+    (isEtaleFundamentalGroupHomInducedBy_map_cast gU' x' hx')
+    (isEtaleFundamentalGroupHomInducedBy_id x'')
+    ((isEtaleFundamentalGroupHomInducedBy_map_cast h₀ x'' hx'').comp_baseChange
+      (isEtaleFundamentalGroupHomInducedBy_map_cast g₀ x₀ hx₀)) _ _ hχ _ _
+    (fun _ => rfl) (fun _ => rfl)
+
+end Twist
+
+section Compositum
+
+/-- **`𝔸¹_{k''} = 𝔸¹_{k'} ×_{k'} k''`**: the spectrum of the pushout square
+`k'[x] ⊗_{k'} k'' = k''[x]`. -/
+public theorem isPullback_specMap_polynomial_mapRingHom (k' k'' : Type u) [Field k']
+    [Field k''] [Algebra k' k''] :
+    IsPullback (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k''))))
+      (Spec.map (CommRingCat.ofHom (algebraMap k'' (Polynomial k''))))
+      (Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k')))) (specAlgebraMap k' k'') := by
+  rw [Polynomial.algebraMap_eq, Polynomial.algebraMap_eq]
+  exact (isPullback_SpecMap_of_isPushout _ _ _ _ (isPushout_C_mapRingHom k' k'')).flip
+
+variable (B : BigEtaleSite.{u}) (ℓ : ℕ) [Fact ℓ.Prime]
+  [∀ (n : ℕ) (S T : B.Scheme) (g : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B g).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.1 S.property)
+      (SmallEtale.topology B T.1 T.property)).IsRightAdjoint]
+  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.1 T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  {E : Type} [Field E] [Algebra ℚ_[ℓ] E] {d : ℕ} (b : Module.Basis (Fin d) ℚ_[ℓ] E) {m : ℕ}
+
+/-- **`H¹_c(𝔸¹_{k̄}, ℱ_{τ''}) ≃ H¹_c(𝔸¹_{k̄}, ℱ_{τ'})` over a finite extension `k''` of `k'`**,
+`E`-linearly, carrying the Frobenius of `k''` to the `[k'' : k']`-th power of that of `k'`, for a
+representation `τ''` of `π₁(𝔸¹_{k''})` conjugate to `τ' ∘ Φ` for every `Φ` induced by the base
+change `𝔸¹_{k''} → 𝔸¹_{k'}`: `𝔸¹_{k''} = 𝔸¹_{k'} ×_{k'} k''`, the base change of the field
+(`Stacks.EtaleCohomology.exists_fieldExtension_restrictScalarsRepCoefficientSheaf_linearEquiv`)
+and the conjugation. -/
+public theorem exists_compositum_rationalCohomology_linearEquiv {k' k'' : Type u} [Field k']
+    [Fintype k'] [Field k''] [Fintype k''] [Algebra k' k'']
+    (hX' : schemeSizeBelow B.cutoff (Spec (.of (Polynomial k'))))
+    (hX'' : schemeSizeBelow B.cutoff (Spec (.of (Polynomial k''))))
+    [LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k'))))]
+    [QuasiCompact (Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k'))))]
+    [IsSeparated (Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k'))))]
+    [LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap k'' (Polynomial k''))))]
+    (j' : CompactificationOf (Over.mk
+      (Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k'))))))
+    (kbar' : Type u) [Field kbar'] [Algebra k' kbar'] [Algebra k'' kbar']
+    [IsScalarTower k' k'' kbar'] (x' : GeometricPoint (Spec (.of (Polynomial k'))))
+    (τ' : EtaleFundamentalGroup (Spec (.of (Polynomial k'))) x' →* GL (Fin m) E)
+    (hτ : Continuous (restrictScalarsRep b τ'))
+    (x'' : GeometricPoint (Spec (.of (Polynomial k''))))
+    (τ'' : EtaleFundamentalGroup (Spec (.of (Polynomial k''))) x'' →* GL (Fin m) E)
+    (hτ'' : Continuous (restrictScalarsRep b τ''))
+    (hconj : ∀ Φ : EtaleFundamentalGroup (Spec (.of (Polynomial k''))) x'' →*
+        EtaleFundamentalGroup (Spec (.of (Polynomial k'))) x',
+      IsEtaleFundamentalGroupHomInducedBy (finiteEtaleBaseChange
+        (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k''))))) Φ →
+      ∃ g : GL (Fin m) E, ∀ γ, τ'' γ = g⁻¹ * (τ'.comp Φ) γ * g)
+    (p n' : ℕ) [Fact p.Prime] [CharP k' p] [CharP k'' p] (hcard' : Fintype.card k' = p ^ n')
+    (m' : ℕ) (hcard'' : Fintype.card k'' = p ^ (n' * (m' + 1))) :
+    letI := (restrictScalarsRepCoefficientSheaf B
+      (Stacks.ArtinSchreier.specObject (Polynomial k'') B hX'') x'' b τ''
+        hτ'').rationalCohomologyModule
+      (Spec.map (CommRingCat.ofHom (algebraMap k'' (Polynomial k''))))
+      (affineLineProjectiveCompactification k'') kbar' 1 E
+    letI := (restrictScalarsRepCoefficientSheaf B
+      (Stacks.ArtinSchreier.specObject (Polynomial k') B hX') x' b τ' hτ).rationalCohomologyModule
+      (Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k')))) j' kbar' 1 E
+    ∃ eY : LAdicSheaf.rationalGeometricCompactlySupportedCohomology B
+        (Stacks.ArtinSchreier.specObject (Polynomial k'') B hX'') ℓ
+        (Spec.map (CommRingCat.ofHom (algebraMap k'' (Polynomial k''))))
+        (affineLineProjectiveCompactification k'') kbar'
+        (restrictScalarsRepCoefficientSheaf B
+          (Stacks.ArtinSchreier.specObject (Polynomial k'') B hX'') x'' b τ'' hτ'').toLAdicSheaf
+          1 ≃ₗ[E]
+        LAdicSheaf.rationalGeometricCompactlySupportedCohomology B
+          (Stacks.ArtinSchreier.specObject (Polynomial k') B hX') ℓ
+          (Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k')))) j' kbar'
+          (restrictScalarsRepCoefficientSheaf B
+            (Stacks.ArtinSchreier.specObject (Polynomial k') B hX') x' b τ' hτ).toLAdicSheaf 1,
+      ∀ w, eY ((restrictScalarsRepCoefficientSheaf B
+          (Stacks.ArtinSchreier.specObject (Polynomial k'') B hX'') x'' b τ''
+            hτ'').rationalGeometricCompactlySupportedFrobenius
+          (Spec.map (CommRingCat.ofHom (algebraMap k'' (Polynomial k''))))
+          (affineLineProjectiveCompactification k'') kbar' 1 E p (n' * (m' + 1)) hcard'' w) =
+        (((restrictScalarsRepCoefficientSheaf B
+          (Stacks.ArtinSchreier.specObject (Polynomial k') B hX') x' b τ'
+            hτ).rationalGeometricCompactlySupportedFrobenius
+          (Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k')))) j' kbar' 1 E p n'
+            hcard') ^ (m' + 1)) (eY w) := by
+  have : Module.Finite k' k'' := Module.Finite.of_finite
+  let X := Stacks.ArtinSchreier.specObject (Polynomial k') B hX'
+  let Y := Stacks.ArtinSchreier.specObject (Polynomial k'') B hX''
+  have hXn : IsNoetherian X.1 := inferInstanceAs (IsNoetherian (Spec (.of (Polynomial k'))))
+  have hXc : ConnectedSpace X.1 := inferInstanceAs (ConnectedSpace (Spec (.of (Polynomial k'))))
+  have hYn : IsNoetherian Y.1 := inferInstanceAs (IsNoetherian (Spec (.of (Polynomial k''))))
+  have hYc : ConnectedSpace Y.1 := inferInstanceAs (ConnectedSpace (Spec (.of (Polynomial k''))))
+  let f' : X.1 ⟶ Spec (.of k') := Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k')))
+  let fY : Y.1 ⟶ Spec (.of k'') :=
+    Spec.map (CommRingCat.ofHom (algebraMap k'' (Polynomial k'')))
+  have hP : IsPullback (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k''))))
+      fY f' (specAlgebraMap k' k'') := isPullback_specMap_polynomial_mapRingHom k' k''
+  let α : Y ⟶ fieldExtensionScheme B X f' k'' := ObjectProperty.homMk hP.isoPullback.hom
+  have : IsIso (B.inclusion.map α) := inferInstanceAs (IsIso hP.isoPullback.hom)
+  have hα : B.inclusion.map α ≫ pullback.snd f' (specAlgebraMap k' k'') = fY :=
+    hP.isoPullback_hom_snd
+  have hαf : (α.hom ≫ (fieldExtensionProj B X f' k'').hom) ≫ 𝟙 _ =
+      Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k''))) :=
+    (Category.comp_id _).trans hP.isoPullback_hom_fst
+  have : IsNoetherian (fieldExtensionScheme B X f' k'').1 :=
+    isNoetherian_fieldExtensionScheme B X f' k''
+  have : ConnectedSpace (fieldExtensionScheme B X f' k'').1 :=
+    @Function.Surjective.connectedSpace _ _ _ hYc _ _ (Scheme.homeoOfIso hP.isoPullback).surjective
+      (Scheme.homeoOfIso hP.isoPullback).continuous
+  let pr := fieldExtensionProj B X f' k''
+  obtain ⟨t⟩ := nonempty_finiteEtaleFiberFunctorIso X.1 x' ((x''.map α.hom).map pr.hom)
+  let Φ := (etaleFundamentalGroupBasePointHom t).toMonoidHom.comp
+    ((etaleFundamentalGroupMap pr.hom (x''.map α.hom)).toMonoidHom.comp
+      (etaleFundamentalGroupMap α.hom x'').toMonoidHom)
+  have hΦ : IsEtaleFundamentalGroupHomInducedBy (finiteEtaleBaseChange
+      (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k''))))) Φ := by
+    rw [← hαf]
+    exact ((isEtaleFundamentalGroupHomInducedBy_map α.hom x'').comp_baseChange
+      (isEtaleFundamentalGroupHomInducedBy_map pr.hom (x''.map α.hom))).comp_baseChange
+        (isEtaleFundamentalGroupHomInducedBy_basePointHom_id t)
+  obtain ⟨gc, hgc⟩ := hconj Φ hΦ
+  let τΦ := ((τ'.comp (etaleFundamentalGroupBasePointHom t).toMonoidHom).comp
+    (etaleFundamentalGroupMap pr.hom (x''.map α.hom)).toMonoidHom).comp
+      (etaleFundamentalGroupMap α.hom x'').toMonoidHom
+  have hτΦ : Continuous (restrictScalarsRep b τΦ) :=
+    ((hτ.comp (etaleFundamentalGroupBasePointHom t).continuous).comp
+      (etaleFundamentalGroupMap pr.hom (x''.map α.hom)).continuous).comp
+        (etaleFundamentalGroupMap α.hom x'').continuous
+  let := (restrictScalarsRepCoefficientSheaf B Y x'' b τΦ hτΦ).rationalCohomologyModule fY
+    (affineLineProjectiveCompactification k'') kbar' 1 E
+  obtain ⟨e₁, he₁⟩ := exists_fieldExtension_restrictScalarsRepCoefficientSheaf_linearEquiv B ℓ b
+    f' j' k'' kbar' fY (affineLineProjectiveCompactification k'') α hα x'' t τ' hτ hτΦ 1 p n'
+      hcard' m' hcard''
+  obtain ⟨e₂, he₂⟩ := exists_restrictScalarsRepCoefficientSheaf_conjLinearEquiv B Y x'' b hτΦ hτ''
+    gc hgc fY (affineLineProjectiveCompactification k'') kbar' 1 p (n' * (m' + 1)) hcard''
+  refine ⟨e₂.symm.trans e₁, fun w => ?_⟩
+  rw [LinearEquiv.trans_apply, LinearEquiv.trans_apply, ← he₁]
+  congr 1
+  apply e₂.injective
+  rw [LinearEquiv.apply_symm_apply, he₂, LinearEquiv.apply_symm_apply]
+
+end Compositum
+
+/-- **Descent of the purity of the fibres along a finite extension of the base field** (Kedlaya,
+*Fourier transforms and p-adic Weil II*, §6.4):
+`Stacks.EtaleCohomology.LaumonFibrePureDescentInput`. At a fibre over `k'`, pass to a compositum
+`k''` of `k'` and `k₀` (`Stacks.EtaleCohomology.exists_finiteField_compositum`): its Frobenius is
+the `[k'' : k']`-th power of that of `k'` on the same geometric cohomology
+(`Stacks.EtaleCohomology.exists_compositum_rationalCohomology_linearEquiv`,
+`Stacks.EtaleCohomology.exists_conj_characterTwist_compositum`), and the curve is the norm of `D₀`
+(`Stacks.EtaleCohomology.exists_mvPolynomial_map_eq_mul`). -/
+public theorem laumonFibrePureDescentInput : LaumonFibrePureDescentInput.{u} := by
+  intro B U ℓ _ _ _ _ k _ _ e _ x E _ _ d b m σ ι' β ψ n k₀ _ _ _ hX₀ x₀ hx₀ D₀ hD₀ hpure
+  classical
+  obtain ⟨D, hD, R, hDR⟩ := exists_mvPolynomial_map_eq_mul k k₀ D₀ hD₀
+  refine ⟨D, hD, ?_⟩
+  intro k' _ _ _ hX' _ _ x' hx' a c hDac p₀ hτ _ _ _ j' kbar' _ _ _ p n' _ _ hcard' hV z hz
+  obtain ⟨k'', _, _, _, _, hcomp⟩ := exists_finiteField_compositum k k₀ k'
+  let ik'' : Algebra k k'' := ((algebraMap k' k'').comp (algebraMap k k')).toAlgebra
+  have : IsScalarTower k k' k'' := IsScalarTower.of_algebraMap_eq fun _ => rfl
+  have : IsScalarTower k k₀ k'' :=
+    IsScalarTower.of_algebraMap_eq fun a => (RingHom.congr_fun hcomp a).symm
+  have : Module.Finite k' k'' := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic k₀ k'' := Algebra.IsAlgebraic.of_finite k₀ k''
+  have : Algebra.IsAlgebraic k' k'' := Algebra.IsAlgebraic.of_finite k' k''
+  have : CharP k'' p := charP_of_injective_algebraMap (algebraMap k' k'').injective p
+  obtain ⟨m', hm'⟩ : ∃ m', Module.finrank k' k'' = m' + 1 :=
+    Nat.exists_eq_succ_of_ne_zero Module.finrank_pos.ne'
+  have hcard'' : Fintype.card k'' = p ^ (n' * (m' + 1)) := by
+    rw [Module.card_eq_pow_finrank (K := k') (V := k''), hcard', hm', pow_mul]
+  have : IsAlgClosed kbar' := IsAlgClosure.isAlgClosed k'
+  let ιk : k'' →ₐ[k'] kbar' := IsAlgClosed.lift
+  let ikbar : Algebra k'' kbar' := ιk.toRingHom.toAlgebra
+  have : IsScalarTower k' k'' kbar' := IsScalarTower.of_algebraMap_eq fun a => (ιk.commutes a).symm
+  have : Algebra.IsAlgebraic k' kbar' := IsAlgClosure.isAlgebraic
+  have : IsAlgClosure k'' kbar' := ⟨inferInstance, Algebra.IsAlgebraic.tower_top (K := k') k''⟩
+  have hX'' : schemeSizeBelow B.cutoff (Spec (.of (Polynomial k''))) :=
+    schemeSizeBelow_spec_polynomial k'' B
+  have : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap k'' (Polynomial k'')))) := by
+    rw [HasRingHomProperty.Spec_iff (P := @LocallyOfFiniteType)]
+    exact RingHom.finiteType_algebraMap.mpr inferInstance
+  obtain ⟨x'', hx''⟩ := exists_geometricPoint_polynomial_map_eq
+    (𝟙 (Spec (.of (Polynomial k₀)))) k'' x₀
+  obtain ⟨p₀''⟩ := Stacks.ArtinSchreier.nonempty_finiteEtaleFiberFunctor_cover k''
+    (Polynomial.C (algebraMap k' k'' a) * Polynomial.X ^ n +
+      Polynomial.C (algebraMap k' k'' c) * Polynomial.X) x''
+  have hD'' : MvPolynomial.eval ![algebraMap k' k'' a, algebraMap k' k'' c]
+      (MvPolynomial.map (algebraMap k₀ k'') D₀) ≠ 0 := by
+    intro h0
+    apply hDac
+    apply (algebraMap k' k'').injective
+    rw [map_zero]
+    have hv : (algebraMap k' k'') ∘ ![a, c] = ![algebraMap k' k'' a, algebraMap k' k'' c] := by
+      funext i
+      fin_cases i <;> rfl
+    have h1 : algebraMap k' k'' (MvPolynomial.eval ![a, c]
+        (MvPolynomial.map (algebraMap k k') D)) =
+        MvPolynomial.eval ![algebraMap k' k'' a, algebraMap k' k'' c]
+          (MvPolynomial.map (algebraMap k₀ k'') (MvPolynomial.map (algebraMap k k₀) D)) := by
+      rw [MvPolynomial.eval_map, MvPolynomial.eval₂_comp_left, hv, MvPolynomial.map_map, hcomp,
+        MvPolynomial.eval_map]
+    rw [h1, hDR, map_mul, map_mul, h0, zero_mul]
+  have hconj := exists_conj_characterTwist_compositum e σ ψ n x' hx' x₀ hx₀ x'' hx'' a c p₀ p₀''
+  obtain ⟨t⟩ := nonempty_finiteEtaleFiberFunctorIso _ x'
+    (x''.map (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k'')))))
+  have hΦ := (isEtaleFundamentalGroupHomInducedBy_map
+    (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k' k'')))) x'').comp_baseChange
+      (isEtaleFundamentalGroupHomInducedBy_basePointHom_id t)
+  rw [Category.comp_id] at hΦ
+  obtain ⟨gc, hgc⟩ := hconj _ hΦ
+  have hτ'' := continuous_restrictScalarsRep_of_conj b hτ
+    ((etaleFundamentalGroupBasePointHom t).continuous.comp
+      (etaleFundamentalGroupMap _ x'').continuous) gc hgc
+  obtain ⟨eY, heY⟩ := exists_compositum_rationalCohomology_linearEquiv B ℓ b hX' hX'' j' kbar' x'
+    _ hτ x'' _ hτ'' hconj p n' hcard' m' hcard''
+  let Fτ' := restrictScalarsRepCoefficientSheaf B
+    (Stacks.ArtinSchreier.specObject (Polynomial k') B hX') x' b _ hτ
+  let Fτ'' := restrictScalarsRepCoefficientSheaf B
+    (Stacks.ArtinSchreier.specObject (Polynomial k'') B hX'') x'' b _ hτ''
+  let f' := Spec.map (CommRingCat.ofHom (algebraMap k' (Polynomial k')))
+  let fY := Spec.map (CommRingCat.ofHom (algebraMap k'' (Polynomial k'')))
+  let j'' := affineLineProjectiveCompactification k''
+  let := Fτ'.rationalCohomologyModule f' j' kbar' 1 E
+  let := Fτ''.rationalCohomologyModule fY j'' kbar' 1 E
+  have := Fτ'.rationalCohomologyModule_isScalarTower f' j' kbar' 1 E
+    (algebraMap_conjIntegralSubring_algebraMap _ _)
+  have := Fτ''.rationalCohomologyModule_isScalarTower fY j'' kbar' 1 E
+    (algebraMap_conjIntegralSubring_algebraMap _ _)
+  have hVX : FiniteDimensional ℚ_[ℓ] (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B
+      (Stacks.ArtinSchreier.specObject (Polynomial k') B hX') ℓ f' j' kbar'
+        Fτ'.toLAdicSheaf 1) := hV
+  have hV'' : FiniteDimensional ℚ_[ℓ] (LAdicSheaf.rationalGeometricCompactlySupportedCohomology
+      B (Stacks.ArtinSchreier.specObject (Polynomial k'') B hX'') ℓ fY j'' kbar'
+        Fτ''.toLAdicSheaf 1) :=
+    LinearEquiv.finiteDimensional (eY.restrictScalars ℚ_[ℓ]).symm
+  have : Module.Finite E (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B
+      (Stacks.ArtinSchreier.specObject (Polynomial k') B hX') ℓ f' j' kbar'
+        Fτ'.toLAdicSheaf 1) := Module.Finite.of_restrictScalars_finite ℚ_[ℓ] E _
+  have : Module.Finite E (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B
+      (Stacks.ArtinSchreier.specObject (Polynomial k'') B hX'') ℓ fY j'' kbar'
+        Fτ''.toLAdicSheaf 1) := Module.Finite.of_restrictScalars_finite ℚ_[ℓ] E _
+  have hzpow := isRoot_charpoly_of_linearEquiv_pow eY (m' + 1) heY ι' hz
+  have key := hpure k'' hX'' x'' hx'' (algebraMap k' k'' a) (algebraMap k' k'' c) hD'' p₀'' hτ''
+    j'' kbar' p (n' * (m' + 1)) hcard'' (hV := hV'') (z ^ (m' + 1)) hzpow
+  rw [pow_mul] at key
+  exact norm_eq_rpow_of_norm_pow_eq key
+
+end Stacks.EtaleCohomology
+
+end

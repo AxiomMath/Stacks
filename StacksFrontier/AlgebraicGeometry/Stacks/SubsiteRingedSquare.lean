@@ -1,0 +1,551 @@
+module
+
+public import StacksCore.Tactic.StacksAttribute
+public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.RingedToposRestrictionTransport
+public import StacksFrontier.AlgebraicGeometry.Stacks.FlatFppfRinged
+public import StacksFrontier.AlgebraicGeometry.Stacks.LisseEtaleClosure
+public import StacksFrontier.AlgebraicGeometry.Stacks.StructureSheafFunctoriality
+public import StacksFrontier.AlgebraicGeometry.Stacks.StructureSheafRepresentableMorphism
+public import StacksFrontier.AlgebraicGeometry.Stacks.SubsiteDerivedPushforwardBaseChange
+public import StacksFrontier.AlgebraicGeometry.Stacks.SubsiteSheafPushforwardBaseChange
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.FibredCategory.RingedToposOfAMorphism
+
+/-!
+# The ringed-topos square of Stacks 07AT
+
+Let `f : 𝒳 ⟶ 𝒴` be a smooth 1-morphism of algebraic stacks over a scheme `S` in a big fppf site
+`B`, let `f'` be its restriction to the lisse-étale sites (**Stacks 07AT** (1), the site functor),
+and let `g`, `g'` be the two inclusions of **Stacks 0788** (1). This file carries the two
+assertions of **Stacks 07AT** that concern the *ringed* topoi rather than the topoi: that `f'` is
+a morphism of ringed topoi, and that the square
+
+```
+(Sh(𝒳_{lisse,étale}), O) --f'--> (Sh(𝒴_{lisse,étale}), O)
+            |g                              |g'
+            v                               v
+   (Sh(𝒳_{étale}), O)    --f-->    (Sh(𝒴_{étale}), O)
+```
+
+2-commutes. Both are stated for the lisse-étale site of a smooth 1-morphism and for the flat-fppf
+site of a flat one, which are the two cases the source names.
+
+## Main definitions
+
+* `AlgebraicGeometry.Stack.LisseEtale.siteFunctorRingedToposHom` and
+  `AlgebraicGeometry.Stack.FlatFppf.siteFunctorRingedToposHom`: **Stacks 07AT**, `f'` as a
+  morphism of ringed topoi.
+* `AlgebraicGeometry.Stack.LisseEtale.etaleRingedToposHom` and
+  `AlgebraicGeometry.Stack.FlatFppf.fppfRingedToposHom`: the ambient `f` as a morphism of ringed
+  topoi, which is **Stacks 06TW**.
+* `AlgebraicGeometry.Stack.LisseEtale.ringedSquareTwoIso` and
+  `AlgebraicGeometry.Stack.FlatFppf.ringedSquareTwoIso`: **Stacks 07AT**, the invertible
+  2-morphism `g' ∘ f' ⇒ f ∘ g` of morphisms of ringed topoi.
+
+## Main results
+
+* `AlgebraicGeometry.Stack.sheafPushforwardContinuous_subsiteFunctor_comp_ι`: restriction along
+  the subsite functor, after restriction along the inclusion of the target subsite, *is*
+  restriction along the inclusion of the source subsite after restriction along the ambient
+  functor. This is `CategoryTheory.SubsitePushforward.subsiteFunctor_comp_ι` read on sheaves, and
+  like it an equality on the nose.
+* `AlgebraicGeometry.Stack.LisseEtale.ringedSquare_inverseImage_eq` and
+  `AlgebraicGeometry.Stack.FlatFppf.ringedSquare_inverseImage_eq`: the two ways around the square
+  have *equal* inverse images.
+* `AlgebraicGeometry.Stack.LisseEtale.isIso_fSharpInverseImage_siteFunctorRingedToposHom` and its
+  flat-fppf twin: the structure map of `f'` is an isomorphism.
+
+## Implementation notes
+
+The clauses of **Stacks 07AT** split across two coefficient universes, deliberately. The two
+identities `f'_*(g')⁻¹ = g⁻¹f_*` and `g'_!(f')⁻¹ = f⁻¹g_!` live at `Type (u + 1)`, the universe of
+the objects of the sites, because that is where the Kan extensions computing `g_*` and `g_!`
+exist; they are in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteSheafPushforwardBaseChange.lean`. The ringed-topoi
+clauses live at `Type u`, the universe in which the structure sheaf of **Stacks 06TV** takes its
+sections, exactly as `AlgebraicGeometry.Stack.subsiteRingedToposHom` does for `g`. The two
+universes do not have to meet: no statement here mentions `g_*` or `g_!`.
+
+Nothing in the square is transported and no 2-cell is computed. Being a 1-morphism makes
+`p = F ⋙ q` hold on the nose, being a restriction makes `f' ⋙ ι_𝒴 = ι_𝒳 ⋙ F` hold on the nose
+(`CategoryTheory.SubsitePushforward.subsiteFunctor_comp_ι` is a `rfl`), and restriction along a
+composite is the composite of the restrictions on the nose as well. So the two ways around the
+square have the *same* inverse-image functor, and the comparison of inverse images is the
+canonical morphism of that equality. Every structure map in sight is likewise canonical — each is
+the comparison `Stacks.Sheaves.ToposPullback.restrictionCommRingIso`, which is the identity on
+sections, followed by an equality of structure sheaves — so the 2-isomorphism is the adjoint mate
+of an `eqToHom` and its compatibility with the structure maps holds because both sides of it are
+transports between the same two objects. That argument is
+`AlgebraicGeometry.RingedToposHom.TwoIso.ofInverseImageEqOfIsTransport`.
+
+For the lisse-étale site the topology of the ringed topos of **Stacks 0788** is the inherited one,
+`AlgebraicGeometry.Stack.LisseEtale.inclusionTopology`, while the site functor's continuity is
+proved for the topology generated by the chosen covering families; the two are equal by
+`AlgebraicGeometry.Stack.LisseEtale.inclusionTopology_eq_topology`, whose hypothesis is discharged
+unconditionally by `AlgebraicGeometry.Stack.LisseEtale.closedUnderSmoothMorphisms`. For the
+flat-fppf site no such step is needed: there the ringed topos of **Stacks 0788** is already built
+at the generated topology.
+
+## References
+
+* [Stacks Project, Tag 06TV](https://stacks.math.columbia.edu/tag/06TV)
+* [Stacks Project, Tag 06TW](https://stacks.math.columbia.edu/tag/06TW)
+* [Stacks Project, Tag 0787](https://stacks.math.columbia.edu/tag/0787)
+* [Stacks Project, Tag 0788](https://stacks.math.columbia.edu/tag/0788)
+* [Stacks Project, Tag 07AT](https://stacks.math.columbia.edu/tag/07AT)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits
+open Stacks.Sheaves.ToposPullback Stacks.Sheaves.ToposPushforward
+
+namespace AlgebraicGeometry.Stack
+
+universe u v w v' w'
+
+variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+
+/-! ### Restriction along the subsite functor -/
+
+section Restriction
+
+variable {𝒳 : Type v} [Category.{w} 𝒳] {𝒴 : Type v'} [Category.{w'} 𝒴]
+  (F : 𝒳 ⥤ 𝒴) (P : ObjectProperty 𝒳) {Q : ObjectProperty 𝒴}
+  (hPQ : ∀ x : P.FullSubcategory, Q (F.obj x.obj))
+  (A : Type*) [Category A]
+  (JP : GrothendieckTopology P.FullSubcategory) (JQ : GrothendieckTopology Q.FullSubcategory)
+  (J : GrothendieckTopology 𝒳) (K : GrothendieckTopology 𝒴)
+  [(SubsitePushforward.subsiteFunctor F P hPQ).IsContinuous JP JQ]
+  [Q.ι.IsContinuous JQ K] [P.ι.IsContinuous JP J] [F.IsContinuous J K]
+
+/-- **Going down then across the subsite square is going across then down, on sheaves.**
+Restricting a sheaf on the ambient site of `𝒴` to the subsite of `𝒴` and then along the subsite
+functor is restricting it along the ambient functor and then to the subsite of `𝒳`.
+
+There is nothing to prove: restriction along a composite is the composite of the restrictions, and
+`CategoryTheory.SubsitePushforward.subsiteFunctor_comp_ι` says the two composites of functors of
+sites agree on the nose. -/
+theorem sheafPushforwardContinuous_subsiteFunctor_comp_ι :
+    Q.ι.sheafPushforwardContinuous A JQ K ⋙
+        (SubsitePushforward.subsiteFunctor F P hPQ).sheafPushforwardContinuous A JP JQ =
+      F.sheafPushforwardContinuous A J K ⋙ P.ι.sheafPushforwardContinuous A JP J :=
+  rfl
+
+/-- The object form of `AlgebraicGeometry.Stack.sheafPushforwardContinuous_subsiteFunctor_comp_ι`:
+the two restrictions of a given sheaf agree. -/
+theorem sheafPushforwardContinuous_subsiteFunctor_obj (O : Sheaf K A) :
+    ((SubsitePushforward.subsiteFunctor F P hPQ).sheafPushforwardContinuous A JP JQ).obj
+        ((Q.ι.sheafPushforwardContinuous A JQ K).obj O) =
+      (P.ι.sheafPushforwardContinuous A JP J).obj
+        ((F.sheafPushforwardContinuous A J K).obj O) :=
+  rfl
+
+end Restriction
+
+/-! ### The structure maps of the edges are transports -/
+
+/-- If the inverse-image structure map of a morphism of ringed topoi is a given morphism, whose
+image under `forgetRing` is a transport, then the forgotten structure map is a transport. -/
+private theorem isTransport_fSharpInverseImageForget_of_fSharpInverseImage_eq
+    {X : RingedTopos.{v, u, w}} {Y : RingedTopos.{v', w', w}}
+    [X.J.HasSheafCompose (forget CommRingCat.{w})] [Y.J.HasSheafCompose (forget CommRingCat.{w})]
+    (φ : RingedToposHom X Y) {m : (inverseImageCommRingFunctor φ.toToposHom).obj Y.O ⟶ X.O}
+    (h : φ.fSharpInverseImage = m) (hm : Stacks.IsTransport (X.forgetRing.map m)) :
+    Stacks.IsTransport φ.fSharpInverseImageForget := by
+  rw [← RingedToposHom.forgetRing_map_fSharpInverseImage_eq_fSharpInverseImageForget, h]
+  exact hm
+
+section Transport
+
+variable {𝒳 : Type v} [Category.{w} 𝒳] {𝒴 : Type v'} [Category.{w'} 𝒴]
+  (p : 𝒳 ⥤ BigFppfOver B S hS) (q : 𝒴 ⥤ BigFppfOver B S hS) (F : 𝒳 ⥤ 𝒴)
+  (hp : p.IsFiberedInGroupoids) (hq : q.IsFiberedInGroupoids)
+  (τ : GrothendieckTopology B.Schemes) (hτ : τ ≤ B.topology) (P : ObjectProperty 𝒳)
+
+/-- **The structure map of the morphism of ringed topoi of Stacks 0788 is a transport.** It is the
+comparison `AlgebraicGeometry.Stack.subsiteStructureSheafIso`, which is the identity on sections
+over an object of the subsite. -/
+theorem isTransport_fSharpInverseImageForget_subsiteRingedToposHom [EssentiallySmall.{u} 𝒳]
+    [P.ι.IsContinuous (subsiteTopology B S hS p τ P) (associatedTopology B S hS p τ)]
+    [P.ι.IsCocontinuous (subsiteTopology B S hS p τ P) (associatedTopology B S hS p τ)] :
+    Stacks.IsTransport
+      (subsiteRingedToposHom B S hS p hp τ hτ P).fSharpInverseImageForget := by
+  refine isTransport_fSharpInverseImageForget_of_fSharpInverseImage_eq _
+    (fSharpInverseImage_subsiteRingedToposHom B S hS p hp τ hτ P) ?_
+  exact isTransport_forget_restrictionCommRingIso_hom.{u, w, v, w, v} _ _ P.ι _
+
+end Transport
+
+/-! ### The lisse-étale square -/
+
+namespace LisseEtale
+
+variable {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS}
+
+/-- The right Kan extensions computing the direct image along the site functor at the universe of
+the structure sheaf's sections exist, because the lisse-étale site is essentially small there. -/
+theorem hasPointwiseRightKanExtension_primedSiteFunctor_op (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsSmooth B S hS f) (G : (LisseEtale.{u, w} B S hS 𝒳)ᵒᵖ ⥤ Type u) :
+    (primedSiteFunctor.{u, w} B S hS f hf).op.HasPointwiseRightKanExtension G := fun Y ↦ by
+  have := hasLimitsOfShape_of_essentiallySmall.{u}
+    (StructuredArrow Y (primedSiteFunctor.{u, w} B S hS f hf).op) (Type u)
+  infer_instance
+
+/-- **The structure sheaves of the two lisse-étale sites are identified by the site functor.**
+Both are restrictions of one and the same structure sheaf of the base: the equality of composites
+that specifies the site functor reduces the claim to **Stacks 06TW** on the ambient sites. -/
+theorem sheafPushforwardContinuous_primedSiteFunctor_structureSheaf (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsSmooth B S hS f)
+    [(primedSiteFunctor.{u, w} B S hS f hf).IsContinuous
+      (inclusionTopology.{u, w} B S hS 𝒳) (inclusionTopology.{u, w} B S hS 𝒴)] :
+    ((primedSiteFunctor.{u, w} B S hS f hf).sheafPushforwardContinuous CommRingCat.{u}
+          (inclusionTopology.{u, w} B S hS 𝒳) (inclusionTopology.{u, w} B S hS 𝒴)).obj
+        (ringedTopos.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴)).O =
+      (ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳)).O := by
+  have := isContinuous_inclusion.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳)
+  have := (isContinuous_and_isCocontinuous_homFunctor_associatedTopology B S hS f
+    (etaleTopology B)).1
+  exact congrArg
+    (fun O ↦ ((smoothObject.{u, w} B S hS 𝒳).ι.sheafPushforwardContinuous CommRingCat.{u}
+      (inclusionTopology.{u, w} B S hS 𝒳)
+      (associatedTopology B S hS 𝒳.val.val.p (etaleTopology B))).obj O)
+    (sheafPushforwardContinuous_structureSheaf B S hS 𝒳.val.val.p 𝒴.val.val.p
+      f.hom.hom.toFunctor 𝒳.val.isFiberedInGroupoids 𝒴.val.isFiberedInGroupoids
+      (etaleTopology B) (etaleTopology_le_topology B)
+      (𝒴.val.isFiberedInGroupoids.isFibredOneMorphism f.hom.hom.w).comp_eq)
+
+/-- **Stacks 07AT** (1), clause (d). **The restriction `f'` of a smooth 1-morphism to the
+lisse-étale sites is a morphism of ringed topoi.** Its inverse image is restriction along the site
+functor, and its structure map is the canonical identification of the two lisse-étale structure
+sheaves: both are restrictions of the structure sheaf of **Stacks 06TV** of the base, along the
+two composites of the square, which agree on the nose. -/
+@[stacks 07AT "part (1), clause (d): the restriction `f'` of a smooth 1-morphism to the \
+lisse-étale sites is a morphism of ringed topoi, at the universe in which the structure sheaf of \
+Stacks 06TV takes its sections. Its structure map is the canonical identification of the two \
+restricted structure sheaves"]
+def siteFunctorRingedToposHom (f : 𝒳 ⟶ 𝒴) (hf : AlgebraicStacks.IsSmooth B S hS f) :
+    RingedToposHom
+      (ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+      (ringedTopos.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴)) :=
+  haveI := isContinuous_subsiteFunctor.{u, w} B S hS f hf
+  haveI := isCocontinuous_subsiteFunctor.{u, w} B S hS f hf
+  haveI := hasPointwiseRightKanExtension_primedSiteFunctor_op.{u, w} B S hS f hf
+  RingedToposHom.ofInverseImageIso
+    (X := ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+    (Y := ringedTopos.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴))
+    ((primedSiteFunctor.{u, w} B S hS f hf).morphismOfTopoiOfCocontinuous
+      (inclusionTopology.{u, w} B S hS 𝒳) (inclusionTopology.{u, w} B S hS 𝒴))
+    (restrictionCommRingIso.{u, u, u + 1, u, u + 1}
+        (inclusionTopology.{u, w} B S hS 𝒳) (inclusionTopology.{u, w} B S hS 𝒴)
+        (primedSiteFunctor.{u, w} B S hS f hf)
+        (ringedTopos.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴)).O ≪≫
+      eqToIso (sheafPushforwardContinuous_primedSiteFunctor_structureSheaf.{u, w} B S hS f hf))
+
+/-- **Stacks 07AT** (1), clause (d). The structure map of `f'` is an isomorphism: it is the
+canonical identification of the two restricted structure sheaves. -/
+@[stacks 07AT "part (1), clause (d): the structure map of `f'` on the lisse-étale sites is an \
+isomorphism, so `f'` is a flat morphism of ringed topoi"]
+theorem isIso_fSharpInverseImage_siteFunctorRingedToposHom (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsSmooth B S hS f) :
+    IsIso (siteFunctorRingedToposHom.{u, w} B S hS f hf).fSharpInverseImage :=
+  have := isContinuous_subsiteFunctor.{u, w} B S hS f hf
+  have := isCocontinuous_subsiteFunctor.{u, w} B S hS f hf
+  have := hasPointwiseRightKanExtension_primedSiteFunctor_op.{u, w} B S hS f hf
+  RingedToposHom.isIso_fSharpInverseImage_ofInverseImageIso
+    (X := ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+    (Y := ringedTopos.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴)) _ _
+
+/-- The structure map of `f'` is a transport: it is the restriction comparison followed by an
+equality of structure sheaves, and nothing else. -/
+theorem isTransport_fSharpInverseImageForget_siteFunctorRingedToposHom (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsSmooth B S hS f) :
+    Stacks.IsTransport
+      (siteFunctorRingedToposHom.{u, w} B S hS f hf).fSharpInverseImageForget :=
+  have := isContinuous_subsiteFunctor.{u, w} B S hS f hf
+  have := isCocontinuous_subsiteFunctor.{u, w} B S hS f hf
+  have := hasPointwiseRightKanExtension_primedSiteFunctor_op.{u, w} B S hS f hf
+  RingedToposHom.isTransport_fSharpInverseImageForget_ofInverseImageIso
+    (X := ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+    (Y := ringedTopos.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴)) _ _
+    (isTransport_forget_restrictionCommRingIso_trans_eqToIso_hom.{u, u, u + 1, u, u + 1} _ _
+      (primedSiteFunctor.{u, w} B S hS f hf) _ _)
+
+/-- **Stacks 06TW** for the étale sites of two algebraic stacks: the ambient 1-morphism `f` as a
+morphism of ringed topoi, which is the bottom edge of the square of **Stacks 07AT** (1). -/
+abbrev etaleRingedToposHom (f : 𝒳 ⟶ 𝒴) :
+    RingedToposHom (etaleRingedTopos.{u, w} B S hS 𝒳) (etaleRingedTopos.{u, w} B S hS 𝒴) :=
+  associatedRingedToposHom B S hS 𝒳.val.val.p 𝒴.val.val.p f.hom.hom.toFunctor
+    𝒳.val.isFiberedInGroupoids 𝒴.val.isFiberedInGroupoids (etaleTopology B)
+    (etaleTopology_le_topology B)
+    (𝒴.val.isFiberedInGroupoids.isFibredOneMorphism f.hom.hom.w)
+
+/-- **Down then across the square of Stacks 07AT (1)**: the inclusion `g` of the lisse-étale site
+of `𝒳`, followed by the ambient `f`. -/
+abbrev ringedSquareDownAcross (f : 𝒳 ⟶ 𝒴) :
+    RingedToposHom
+      (ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+      (etaleRingedTopos.{u, w} B S hS 𝒴) :=
+  RingedToposHom.comp
+    (X := ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+    (Y := etaleRingedTopos.{u, w} B S hS 𝒳) (Z := etaleRingedTopos.{u, w} B S hS 𝒴)
+    (etaleRingedToposHom.{u, w} B S hS f)
+    (ringedToposMorphism.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+
+/-- **Across then down the square of Stacks 07AT (1)**: the restriction `f'` of `f` to the
+lisse-étale sites, followed by the inclusion `g'` of the lisse-étale site of `𝒴`. -/
+abbrev ringedSquareAcrossDown (f : 𝒳 ⟶ 𝒴) (hf : AlgebraicStacks.IsSmooth B S hS f) :
+    RingedToposHom
+      (ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+      (etaleRingedTopos.{u, w} B S hS 𝒴) :=
+  RingedToposHom.comp
+    (X := ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+    (Y := ringedTopos.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴))
+    (Z := etaleRingedTopos.{u, w} B S hS 𝒴)
+    (ringedToposMorphism.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴))
+    (siteFunctorRingedToposHom.{u, w} B S hS f hf)
+
+/-- **The two ways around the square of Stacks 07AT (1) have equal inverse images.** Both are
+restriction along one and the same functor of sites: `f' ⋙ ι_𝒴` and `ι_𝒳 ⋙ f` are the same
+functor, by the equality of composites that specifies the site functor. -/
+theorem ringedSquare_inverseImage_eq (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsSmooth B S hS f) :
+    (ringedSquareDownAcross.{u, w} B S hS f).toToposHom.inverseImage =
+      (ringedSquareAcrossDown.{u, w} B S hS f hf).toToposHom.inverseImage :=
+  rfl
+
+/-- Down then across, the structure map is a transport: both edges have one. -/
+theorem isTransport_fSharpInverseImageForget_ringedSquareDownAcross (f : 𝒳 ⟶ 𝒴) :
+    Stacks.IsTransport
+      (ringedSquareDownAcross.{u, w} B S hS f).fSharpInverseImageForget :=
+  have := isContinuous_inclusion.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳)
+  have := isCocontinuous_inclusion.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳)
+  RingedToposHom.isTransport_fSharpInverseImageForget_comp
+    (X := ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+    (Y := etaleRingedTopos.{u, w} B S hS 𝒳) (Z := etaleRingedTopos.{u, w} B S hS 𝒴)
+    (etaleRingedToposHom.{u, w} B S hS f)
+    (ringedToposMorphism.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+    (isTransport_fSharpInverseImageForget_associatedRingedToposHom B S hS 𝒳.val.val.p
+      𝒴.val.val.p f.hom.hom.toFunctor 𝒳.val.isFiberedInGroupoids 𝒴.val.isFiberedInGroupoids
+      (etaleTopology B) (etaleTopology_le_topology B)
+      (𝒴.val.isFiberedInGroupoids.isFibredOneMorphism f.hom.hom.w))
+    (isTransport_fSharpInverseImageForget_subsiteRingedToposHom B S hS 𝒳.val.val.p
+      𝒳.val.isFiberedInGroupoids (etaleTopology B) (etaleTopology_le_topology B)
+      (smoothObject.{u, w} B S hS 𝒳))
+
+/-- Across then down, the structure map is a transport: both edges have one. -/
+theorem isTransport_fSharpInverseImageForget_ringedSquareAcrossDown (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsSmooth B S hS f) :
+    Stacks.IsTransport
+      (ringedSquareAcrossDown.{u, w} B S hS f hf).fSharpInverseImageForget :=
+  have := isContinuous_inclusion.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴)
+  have := isCocontinuous_inclusion.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴)
+  RingedToposHom.isTransport_fSharpInverseImageForget_comp
+    (X := ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+    (Y := ringedTopos.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴))
+    (Z := etaleRingedTopos.{u, w} B S hS 𝒴)
+    (ringedToposMorphism.{u, w} B S hS 𝒴 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒴))
+    (siteFunctorRingedToposHom.{u, w} B S hS f hf)
+    (isTransport_fSharpInverseImageForget_subsiteRingedToposHom B S hS 𝒴.val.val.p
+      𝒴.val.isFiberedInGroupoids (etaleTopology B) (etaleTopology_le_topology B)
+      (smoothObject.{u, w} B S hS 𝒴))
+    (isTransport_fSharpInverseImageForget_siteFunctorRingedToposHom.{u, w} B S hS f hf)
+
+/-- **Stacks 07AT** (1), clause (e). **The square of ringed topoi 2-commutes**: the composite
+`g' ∘ f'` and the composite `f ∘ g` are 2-isomorphic as morphisms of ringed topoi
+`(Sh(𝒳_{lisse,étale}), O) ⟶ (Sh(𝒴_{étale}), O)`.
+
+The 2-isomorphism is the adjoint mate of the canonical morphism of
+`AlgebraicGeometry.Stack.LisseEtale.ringedSquare_inverseImage_eq`: the two ways around the square
+restrict along the same functor of sites, so their inverse images are *equal*, and every structure
+map in sight is the restriction comparison followed by an equality of structure sheaves, hence a
+transport. Compatibility of the mate with the structure maps is then automatic, both sides of it
+being transports between the same two objects. -/
+@[stacks 07AT "part (1), clause (e): the square of ringed topoi formed by `f`, its restriction \
+`f'` to the lisse-étale sites and the two inclusions `g`, `g'` of Stacks 0788 2-commutes. The \
+invertible 2-morphism is the adjoint mate of the canonical morphism of the equality of the two \
+inverse images"]
+def ringedSquareTwoIso (f : 𝒳 ⟶ 𝒴) (hf : AlgebraicStacks.IsSmooth B S hS f) :
+    RingedToposHom.TwoIso
+      (A := ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+      (B := etaleRingedTopos.{u, w} B S hS 𝒴)
+      (ringedSquareDownAcross.{u, w} B S hS f)
+      (ringedSquareAcrossDown.{u, w} B S hS f hf) :=
+  RingedToposHom.TwoIso.ofInverseImageEqOfIsTransport
+    (X := ringedTopos.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳))
+    (Y := etaleRingedTopos.{u, w} B S hS 𝒴)
+    (p := ringedSquareDownAcross.{u, w} B S hS f)
+    (q := ringedSquareAcrossDown.{u, w} B S hS f hf)
+    (ringedSquare_inverseImage_eq.{u, w} B S hS f hf)
+    (isTransport_fSharpInverseImageForget_ringedSquareDownAcross.{u, w} B S hS f)
+    (isTransport_fSharpInverseImageForget_ringedSquareAcrossDown.{u, w} B S hS f hf)
+
+end LisseEtale
+
+/-! ### The flat-fppf square -/
+
+namespace FlatFppf
+
+variable {𝒳 𝒴 : Stack.AlgebraicStacks.{u, w} B S hS}
+
+/-- The right Kan extensions computing the direct image along the site functor at the universe of
+the structure sheaf's sections exist, because the flat-fppf site is essentially small there. -/
+theorem hasPointwiseRightKanExtension_primedSiteFunctor_op (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsFlat B S hS f) (G : (FlatFppf B S hS 𝒳)ᵒᵖ ⥤ Type u) :
+    (primedSiteFunctor B S hS f hf).op.HasPointwiseRightKanExtension G := fun Y ↦ by
+  have := hasLimitsOfShape_of_essentiallySmall.{u}
+    (StructuredArrow Y (primedSiteFunctor B S hS f hf).op) (Type u)
+  infer_instance
+
+/-- **The structure sheaves of the two flat-fppf sites are identified by the site functor.** Both
+are restrictions of one and the same structure sheaf of the base: the equality of composites that
+specifies the site functor reduces the claim to **Stacks 06TW** on the ambient fppf sites. -/
+theorem sheafPushforwardContinuous_primedSiteFunctor_structureSheaf (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsFlat B S hS f)
+    [(primedSiteFunctor B S hS f hf).IsContinuous (topology B S hS 𝒳) (topology B S hS 𝒴)] :
+    ((primedSiteFunctor B S hS f hf).sheafPushforwardContinuous CommRingCat.{u}
+          (topology B S hS 𝒳) (topology B S hS 𝒴)).obj (ringedTopos B S hS 𝒴).O =
+      (ringedTopos B S hS 𝒳).O := by
+  have := isContinuous_inclusion_topology B S hS 𝒳
+  have := (isContinuous_and_isCocontinuous_homFunctor_associatedTopology B S hS f B.topology).1
+  exact congrArg
+    (fun O ↦ ((objectProperty B S hS 𝒳).ι.sheafPushforwardContinuous CommRingCat.{u}
+      (topology B S hS 𝒳) (fppfTopology B S hS 𝒳)).obj O)
+    (sheafPushforwardContinuous_structureSheaf B S hS 𝒳.val.val.p 𝒴.val.val.p
+      f.hom.hom.toFunctor 𝒳.val.isFiberedInGroupoids 𝒴.val.isFiberedInGroupoids
+      B.topology le_rfl
+      (𝒴.val.isFiberedInGroupoids.isFibredOneMorphism f.hom.hom.w).comp_eq)
+
+/-- **Stacks 07AT** (2), clause (d). **The restriction `f'` of a flat 1-morphism to the flat-fppf
+sites is a morphism of ringed topoi.** Its inverse image is restriction along the site functor,
+and its structure map is the canonical identification of the two flat-fppf structure sheaves. -/
+@[stacks 07AT "part (2), clause (d): the restriction `f'` of a flat 1-morphism to the flat-fppf \
+sites is a morphism of ringed topoi, at the universe in which the structure sheaf of Stacks 06TV \
+takes its sections. Its structure map is the canonical identification of the two restricted \
+structure sheaves"]
+def siteFunctorRingedToposHom (f : 𝒳 ⟶ 𝒴) (hf : AlgebraicStacks.IsFlat B S hS f) :
+    RingedToposHom (ringedTopos B S hS 𝒳) (ringedTopos B S hS 𝒴) :=
+  haveI := isContinuous_subsiteFunctor_topology B S hS f hf
+  haveI := isCocontinuous_subsiteFunctor_topology B S hS f hf
+  haveI := hasPointwiseRightKanExtension_primedSiteFunctor_op B S hS f hf
+  RingedToposHom.ofInverseImageIso
+    (X := ringedTopos B S hS 𝒳) (Y := ringedTopos B S hS 𝒴)
+    ((primedSiteFunctor B S hS f hf).morphismOfTopoiOfCocontinuous
+      (topology B S hS 𝒳) (topology B S hS 𝒴))
+    (restrictionCommRingIso.{u, u, u + 1, u, u + 1}
+        (topology B S hS 𝒳) (topology B S hS 𝒴) (primedSiteFunctor B S hS f hf)
+        (ringedTopos B S hS 𝒴).O ≪≫
+      eqToIso (sheafPushforwardContinuous_primedSiteFunctor_structureSheaf B S hS f hf))
+
+/-- **Stacks 07AT** (2), clause (d). The structure map of `f'` is an isomorphism. -/
+@[stacks 07AT "part (2), clause (d): the structure map of `f'` on the flat-fppf sites is an \
+isomorphism, so `f'` is a flat morphism of ringed topoi"]
+theorem isIso_fSharpInverseImage_siteFunctorRingedToposHom (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsFlat B S hS f) :
+    IsIso (siteFunctorRingedToposHom B S hS f hf).fSharpInverseImage :=
+  have := isContinuous_subsiteFunctor_topology B S hS f hf
+  have := isCocontinuous_subsiteFunctor_topology B S hS f hf
+  have := hasPointwiseRightKanExtension_primedSiteFunctor_op B S hS f hf
+  RingedToposHom.isIso_fSharpInverseImage_ofInverseImageIso
+    (X := ringedTopos B S hS 𝒳) (Y := ringedTopos B S hS 𝒴) _ _
+
+/-- The structure map of `f'` is a transport. -/
+theorem isTransport_fSharpInverseImageForget_siteFunctorRingedToposHom (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsFlat B S hS f) :
+    Stacks.IsTransport (siteFunctorRingedToposHom B S hS f hf).fSharpInverseImageForget :=
+  have := isContinuous_subsiteFunctor_topology B S hS f hf
+  have := isCocontinuous_subsiteFunctor_topology B S hS f hf
+  have := hasPointwiseRightKanExtension_primedSiteFunctor_op B S hS f hf
+  RingedToposHom.isTransport_fSharpInverseImageForget_ofInverseImageIso
+    (X := ringedTopos B S hS 𝒳) (Y := ringedTopos B S hS 𝒴) _ _
+    (isTransport_forget_restrictionCommRingIso_trans_eqToIso_hom.{u, u, u + 1, u, u + 1} _ _
+      (primedSiteFunctor B S hS f hf) _ _)
+
+/-- The structure map of the morphism of ringed topoi `g` of **Stacks 0788** (2) is a transport:
+it is `AlgebraicGeometry.Stack.FlatFppf.structureSheafIso`, the identity on sections. -/
+theorem isTransport_fSharpInverseImageForget_ringedToposMorphism
+    (𝒵 : Stack.AlgebraicStacks.{u, w} B S hS) :
+    Stacks.IsTransport (ringedToposMorphism B S hS 𝒵).fSharpInverseImageForget := by
+  have := isContinuous_inclusion_topology B S hS 𝒵
+  refine isTransport_fSharpInverseImageForget_of_fSharpInverseImage_eq _
+    (ringedToposMorphism_fSharpInverseImage B S hS 𝒵) ?_
+  exact isTransport_forget_restrictionCommRingIso_hom.{u, u, u + 1, u, u + 1} _ _
+    (objectProperty B S hS 𝒵).ι _
+
+/-- **Stacks 06TW** for the fppf sites of two algebraic stacks: the ambient 1-morphism `f` as a
+morphism of ringed topoi, the bottom edge of the square of **Stacks 07AT** (2). -/
+abbrev fppfRingedToposHom (f : 𝒳 ⟶ 𝒴) :
+    RingedToposHom (fppfRingedTopos B S hS 𝒳) (fppfRingedTopos B S hS 𝒴) :=
+  associatedRingedToposHom B S hS 𝒳.val.val.p 𝒴.val.val.p f.hom.hom.toFunctor
+    𝒳.val.isFiberedInGroupoids 𝒴.val.isFiberedInGroupoids B.topology le_rfl
+    (𝒴.val.isFiberedInGroupoids.isFibredOneMorphism f.hom.hom.w)
+
+/-- **Down then across the square of Stacks 07AT (2)**: the inclusion `g` of the flat-fppf site of
+`𝒳`, followed by the ambient `f`. -/
+abbrev ringedSquareDownAcross (f : 𝒳 ⟶ 𝒴) :
+    RingedToposHom (ringedTopos B S hS 𝒳) (fppfRingedTopos B S hS 𝒴) :=
+  RingedToposHom.comp (X := ringedTopos B S hS 𝒳) (Y := fppfRingedTopos B S hS 𝒳)
+    (Z := fppfRingedTopos B S hS 𝒴)
+    (fppfRingedToposHom B S hS f) (ringedToposMorphism B S hS 𝒳)
+
+/-- **Across then down the square of Stacks 07AT (2)**: the restriction `f'` of `f` to the
+flat-fppf sites, followed by the inclusion `g'` of the flat-fppf site of `𝒴`. -/
+abbrev ringedSquareAcrossDown (f : 𝒳 ⟶ 𝒴) (hf : AlgebraicStacks.IsFlat B S hS f) :
+    RingedToposHom (ringedTopos B S hS 𝒳) (fppfRingedTopos B S hS 𝒴) :=
+  RingedToposHom.comp (X := ringedTopos B S hS 𝒳) (Y := ringedTopos B S hS 𝒴)
+    (Z := fppfRingedTopos B S hS 𝒴)
+    (ringedToposMorphism B S hS 𝒴) (siteFunctorRingedToposHom B S hS f hf)
+
+/-- **The two ways around the square of Stacks 07AT (2) have equal inverse images.** Both are
+restriction along one and the same functor of sites. -/
+theorem ringedSquare_inverseImage_eq (f : 𝒳 ⟶ 𝒴) (hf : AlgebraicStacks.IsFlat B S hS f) :
+    (ringedSquareDownAcross B S hS f).toToposHom.inverseImage =
+      (ringedSquareAcrossDown B S hS f hf).toToposHom.inverseImage :=
+  rfl
+
+/-- Down then across, the structure map is a transport: both edges have one. -/
+theorem isTransport_fSharpInverseImageForget_ringedSquareDownAcross (f : 𝒳 ⟶ 𝒴) :
+    Stacks.IsTransport (ringedSquareDownAcross B S hS f).fSharpInverseImageForget :=
+  RingedToposHom.isTransport_fSharpInverseImageForget_comp
+    (X := ringedTopos B S hS 𝒳) (Y := fppfRingedTopos B S hS 𝒳)
+    (Z := fppfRingedTopos B S hS 𝒴)
+    (fppfRingedToposHom B S hS f) (ringedToposMorphism B S hS 𝒳)
+    (isTransport_fSharpInverseImageForget_associatedRingedToposHom B S hS 𝒳.val.val.p
+      𝒴.val.val.p f.hom.hom.toFunctor 𝒳.val.isFiberedInGroupoids 𝒴.val.isFiberedInGroupoids
+      B.topology le_rfl (𝒴.val.isFiberedInGroupoids.isFibredOneMorphism f.hom.hom.w))
+    (isTransport_fSharpInverseImageForget_ringedToposMorphism B S hS 𝒳)
+
+/-- Across then down, the structure map is a transport: both edges have one. -/
+theorem isTransport_fSharpInverseImageForget_ringedSquareAcrossDown (f : 𝒳 ⟶ 𝒴)
+    (hf : AlgebraicStacks.IsFlat B S hS f) :
+    Stacks.IsTransport (ringedSquareAcrossDown B S hS f hf).fSharpInverseImageForget :=
+  RingedToposHom.isTransport_fSharpInverseImageForget_comp
+    (X := ringedTopos B S hS 𝒳) (Y := ringedTopos B S hS 𝒴)
+    (Z := fppfRingedTopos B S hS 𝒴)
+    (ringedToposMorphism B S hS 𝒴) (siteFunctorRingedToposHom B S hS f hf)
+    (isTransport_fSharpInverseImageForget_ringedToposMorphism B S hS 𝒴)
+    (isTransport_fSharpInverseImageForget_siteFunctorRingedToposHom B S hS f hf)
+
+/-- **Stacks 07AT** (2), clause (e). **The square of ringed topoi 2-commutes**: `g' ∘ f'` and
+`f ∘ g` are 2-isomorphic as morphisms of ringed topoi
+`(Sh(𝒳_{flat,fppf}), O) ⟶ (Sh(𝒳_{fppf}), O)`, the 2-isomorphism being the adjoint mate of the
+canonical morphism of `AlgebraicGeometry.Stack.FlatFppf.ringedSquare_inverseImage_eq`. -/
+@[stacks 07AT "part (2), clause (e): the square of ringed topoi formed by `f`, its restriction \
+`f'` to the flat-fppf sites and the two inclusions `g`, `g'` of Stacks 0788 2-commutes. The \
+invertible 2-morphism is the adjoint mate of the canonical morphism of the equality of the two \
+inverse images"]
+def ringedSquareTwoIso (f : 𝒳 ⟶ 𝒴) (hf : AlgebraicStacks.IsFlat B S hS f) :
+    RingedToposHom.TwoIso (A := ringedTopos B S hS 𝒳) (B := fppfRingedTopos B S hS 𝒴)
+      (ringedSquareDownAcross B S hS f) (ringedSquareAcrossDown B S hS f hf) :=
+  RingedToposHom.TwoIso.ofInverseImageEqOfIsTransport
+    (X := ringedTopos B S hS 𝒳) (Y := fppfRingedTopos B S hS 𝒴)
+    (p := ringedSquareDownAcross B S hS f)
+    (q := ringedSquareAcrossDown B S hS f hf)
+    (ringedSquare_inverseImage_eq B S hS f hf)
+    (isTransport_fSharpInverseImageForget_ringedSquareDownAcross B S hS f)
+    (isTransport_fSharpInverseImageForget_ringedSquareAcrossDown B S hS f hf)
+
+end FlatFppf
+
+end AlgebraicGeometry.Stack
+
+end

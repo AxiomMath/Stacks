@@ -1,0 +1,8 @@
+module
+
+public import StacksFrontier.Deformation.Artin.Infinitesimal.ActionOnLifts.InfComparison
+public import StacksFrontier.Deformation.Artin.Infinitesimal.ActionOnLifts.LiftAction
+public import StacksFrontier.Deformation.Artin.Infinitesimal.ActionOnLifts.Presentation
+import all StacksFrontier.Deformation.Artin.Infinitesimal.ActionOnLifts.InfComparison
+import all StacksFrontier.Deformation.Artin.Infinitesimal.ActionOnLifts.LiftAction
+import all StacksFrontier.Deformation.Artin.Infinitesimal.ActionOnLifts.Presentation

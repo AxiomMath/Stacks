@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.RingTheory.Henselian.Pair.Criteria.IntegralClosureSplitting
+public import StacksFrontier.RingTheory.Henselian.Pair.Criteria.ProductDecomposition
+public import StacksFrontier.RingTheory.Henselian.Pair.Criteria.Characterizations

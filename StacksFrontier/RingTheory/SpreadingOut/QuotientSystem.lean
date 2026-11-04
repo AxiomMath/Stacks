@@ -1,0 +1,1050 @@
+module
+
+import Mathlib.CategoryTheory.Limits.ConcreteCategory.Filtered
+
+public import StacksFrontier.RingTheory.SpreadingOut.ColimitSystem
+public import StacksFrontier.RingTheory.SpreadingOut.Flat
+
+/-!
+# The quotient of a spreading-out system by an ideal of the colimit
+
+Let `R → S` be a homomorphism of rings, `M` an `S`-module, and let `(A λ → B λ, N λ)` be a directed
+system spreading `(R → S, M)` out over `ℤ` in the sense of 00QX. Let `I ≠ R` be an ideal of `R` and
+`I_λ = ρ_λ^{-1}(I)` its inverse image at the stage `λ`. Then the quotients `A λ/I_λ → B λ/I_λ B λ`
+with the modules `N λ/I_λ N λ` form a system of the same kind, whose colimits are `R/I → S/IS` and
+`M/IM`; so if `M/IM` is flat over `R/I`, Stacks 00R6 applied to *that* system says that
+`N λ/I_λ N λ` is flat over `A λ/I_λ` for cofinally many `λ`.
+
+## Main results
+
+* `Module.Flat.exists_ge_flat_quotient_of_isColimit`: the statement above.
+
+## Implementation notes
+
+The system is spelled as in 00R6, as the data and the conditions concluded by
+`RingHom.EssentiallyOfFinitePresentation.exists_isColimit_essFiniteType_module`, together with
+locality of the transition maps `A λ → A μ`, which follows from the locality of the structure maps
+`A λ → R` that 00QX provides.
+
+The quotient of `N λ` is taken by the ideal `I_λ B_λ` of `B λ` rather than by `I_λ` itself, that
+is, as `N λ / (I_λ B_λ) N λ`. The two submodules have the same elements, but only the first
+spelling is the quotient of a `B λ`-module by an ideal of `B λ`, which gives `N λ/I_λ N λ` its
+`B λ/I_λ B λ`-module structure. The isomorphism `quotSMulTopEquiv` identifies the two quotients
+as `A λ/I_λ`-modules.
+-/
+
+@[expose] public section
+
+universe u
+
+open CategoryTheory Limits
+open scoped TensorProduct
+
+namespace Stacks.SpreadingOut.QuotientSystem
+
+/-! ### The two spellings of `N/IN` -/
+
+/-- For an `A`-algebra `B` and a `B`-module `N`, the submodule `I_A N` generated over `A` by an
+ideal `I` of `A` and the submodule `(I B) N` generated over `B` by its image agree; so the two
+quotients are the same `A ⧸ I`-module. -/
+public noncomputable def quotSMulTopEquiv {A B N : Type*} [CommRing A] [CommRing B] [Algebra A B]
+    [AddCommGroup N] [Module A N] [Module B N] [IsScalarTower A B N] (J : Ideal A)
+    [Module (A ⧸ J) (N ⧸ ((J.map (algebraMap A B)) • (⊤ : Submodule B N)))]
+    [IsScalarTower A (A ⧸ J) (N ⧸ ((J.map (algebraMap A B)) • (⊤ : Submodule B N)))] :
+    (N ⧸ ((J.map (algebraMap A B)) • (⊤ : Submodule B N)))
+      ≃ₗ[A ⧸ J] (N ⧸ (J • (⊤ : Submodule A N))) :=
+  LinearEquiv.extendScalarsOfSurjective (R := A) Ideal.Quotient.mk_surjective
+    ((Submodule.Quotient.restrictScalarsEquiv A
+        ((J.map (algebraMap A B)) • (⊤ : Submodule B N))).symm ≪≫ₗ
+      Submodule.quotEquivOfEq _ _ (by rw [Ideal.smul_restrictScalars]; simp))
+
+/-- If `algebraMap R₀ S₀ r • x = r • x` for all `r` and `x`, then `IsScalarTower R₀ S₀ M₀`, with
+both actions on `M₀` taken from the `Module` structures. -/
+public lemma tower_of_algebraMap_smul {R₀ S₀ M₀ : Type*} [CommSemiring R₀] [CommSemiring S₀]
+    [AddCommMonoid M₀] [Algebra R₀ S₀] [Module R₀ M₀] [Module S₀ M₀]
+    (h : ∀ (r : R₀) (x : M₀), algebraMap R₀ S₀ r • x = r • x) : IsScalarTower R₀ S₀ M₀ :=
+  IsScalarTower.of_algebraMap_smul h
+
+variable {R S M : Type u} [CommRing R] [CommRing S] [Algebra R S]
+  [AddCommGroup M] [Module S M]
+  {Λ : Type u} [Preorder Λ]
+  {A B : Λ ⥤ CommRingCat.{u}} {N : Λ ⥤ AddCommGrpCat.{u}}
+
+section Data
+
+variable (φ : A ⟶ B) (ρ : A ⟶ (Functor.const Λ).obj (CommRingCat.of R))
+  (σ : B ⟶ (Functor.const Λ).obj (CommRingCat.of S))
+  (ν : N ⟶ (Functor.const Λ).obj (AddCommGrpCat.of M)) (I : Ideal R)
+
+/-! ### The ideals at each stage -/
+
+/-- `I_λ = ρ_λ^{-1}(I)`, the inverse image of `I` at the stage `λ`. -/
+public def idealA (k : Λ) : Ideal ↑(A.obj k) := I.comap (ρ.app k).hom
+
+/-- The legs `ρ` are compatible with the transition maps of `A`. -/
+public lemma legA_map {k l : Λ} (h : k ⟶ l) (x : ↑(A.obj k)) :
+    ((ρ.app l) ((A.map h) x) : R) = (ρ.app k) x := by simp
+
+/-- The legs `σ` are compatible with the transition maps of `B`. -/
+public lemma legB_map {k l : Λ} (h : k ⟶ l) (x : ↑(B.obj k)) :
+    ((σ.app l) ((B.map h) x) : S) = (σ.app k) x := by simp
+
+/-- Naturality of `φ`, elementwise. -/
+public lemma phi_map {k l : Λ} (h : k ⟶ l) (x : ↑(A.obj k)) :
+    ((φ.app l) ((A.map h) x) : ↑(B.obj l)) = (B.map h) ((φ.app k) x) := by simp
+
+/-- The transition map `A_λ → A_μ` sends `I_λ` into `I_μ`. -/
+public lemma idealA_le_comap {k l : Λ} (h : k ⟶ l) :
+    idealA ρ I k ≤ (idealA ρ I l).comap (A.map h).hom := by
+  intro x hx
+  rw [Ideal.mem_comap]
+  show (ρ.app l) ((A.map h) x) ∈ I
+  rw [legA_map ρ h x]
+  exact hx
+
+/-- If `I ≠ R` then `I_λ ≠ A_λ`. -/
+public lemma idealA_ne_top (hI : I ≠ ⊤) (k : Λ) : idealA ρ I k ≠ ⊤ := by
+  intro hk
+  refine hI (Ideal.eq_top_iff_one I |>.2 ?_)
+  have h1 : (1 : ↑(A.obj k)) ∈ idealA ρ I k := by rw [hk]; exact Submodule.mem_top
+  have := Ideal.mem_comap.mp h1
+  rwa [map_one] at this
+
+/-- `I_λ B_λ`, the ideal of `B_λ` generated by the image of `I_λ`. -/
+public def idealB (k : Λ) : Ideal ↑(B.obj k) := (idealA ρ I k).map (φ.app k).hom
+
+/-- The image in `B_λ` of an element of `I_λ` lies in `I_λ B_λ`. -/
+public lemma mem_idealB {k : Λ} {x : ↑(A.obj k)} (hx : x ∈ idealA ρ I k) :
+    (φ.app k) x ∈ idealB φ ρ I k :=
+  Ideal.mem_map_of_mem _ hx
+
+/-- The map `A_λ → B_λ` sends `I_λ` into `I_λ B_λ`. -/
+public lemma idealA_le_comap_idealB (k : Λ) :
+    idealA ρ I k ≤ (idealB φ ρ I k).comap (φ.app k).hom :=
+  fun _ hx => Ideal.mem_comap.2 (mem_idealB φ ρ I hx)
+
+/-- The transition map `B_λ → B_μ` sends `I_λ B_λ` into `I_μ B_μ`. -/
+public lemma idealB_le_comap {k l : Λ} (h : k ⟶ l) :
+    idealB φ ρ I k ≤ (idealB φ ρ I l).comap (B.map h).hom := by
+  refine Ideal.map_le_iff_le_comap.2 fun x hx => ?_
+  rw [Ideal.mem_comap, Ideal.mem_comap]
+  show (B.map h) ((φ.app k) x) ∈ idealB φ ρ I l
+  rw [← phi_map φ h x]
+  exact mem_idealB φ ρ I (idealA_le_comap ρ I h hx)
+
+/-- The compatibility `hφ` of the legs, elementwise. -/
+private theorem sigma_phi_apply
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (k : Λ) (x : ↑(A.obj k)) :
+    ((σ.app k) ((φ.app k) x) : S) = algebraMap R S ((ρ.app k) x) := by
+  simpa using ConcreteCategory.congr_hom (hφ k) x
+
+/-- The leg `B_λ → S` sends `I_λ B_λ` into `IS`. -/
+public lemma idealB_le_comap_legB
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S)) (k : Λ) :
+    idealB φ ρ I k ≤ (I.map (algebraMap R S)).comap (σ.app k).hom := by
+  refine Ideal.map_le_iff_le_comap.2 fun x hx => ?_
+  rw [Ideal.mem_comap, Ideal.mem_comap]
+  show (σ.app k) ((φ.app k) x) ∈ I.map (algebraMap R S)
+  rw [sigma_phi_apply φ ρ σ hφ k x]
+  exact Ideal.mem_map_of_mem _ hx
+
+/-! ### The quotient system on the ring side -/
+
+/-- The functor `λ ↦ A_λ/I_λ`. -/
+public def funA : Λ ⥤ CommRingCat.{u} where
+  obj k := CommRingCat.of (↑(A.obj k) ⧸ idealA ρ I k)
+  map h := CommRingCat.ofHom (Ideal.quotientMap _ (A.map h).hom (idealA_le_comap ρ I h))
+  map_id k := by
+    refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun x => ?_))
+    change Ideal.Quotient.mk _ ((A.map (𝟙 k)).hom x) = Ideal.Quotient.mk _ x
+    rw [A.map_id]
+    rfl
+  map_comp {k l m} f g := by
+    refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun x => ?_))
+    change Ideal.Quotient.mk _ ((A.map (f ≫ g)).hom x)
+      = Ideal.Quotient.mk _ ((A.map g).hom ((A.map f).hom x))
+    rw [A.map_comp]
+    rfl
+
+/-- The transition maps of `funA` on representatives. -/
+public lemma funA_map_mk {k l : Λ} (h : k ⟶ l) (x : ↑(A.obj k)) :
+    ((funA ρ I).map h) (Ideal.Quotient.mk (idealA ρ I k) x)
+      = Ideal.Quotient.mk (idealA ρ I l) ((A.map h) x) :=
+  rfl
+
+/-- The functor `λ ↦ B_λ/I_λ B_λ`. -/
+public def funB : Λ ⥤ CommRingCat.{u} where
+  obj k := CommRingCat.of (↑(B.obj k) ⧸ idealB φ ρ I k)
+  map h := CommRingCat.ofHom (Ideal.quotientMap _ (B.map h).hom (idealB_le_comap φ ρ I h))
+  map_id k := by
+    refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun x => ?_))
+    change Ideal.Quotient.mk _ ((B.map (𝟙 k)).hom x) = Ideal.Quotient.mk _ x
+    rw [B.map_id]
+    rfl
+  map_comp {k l m} f g := by
+    refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun x => ?_))
+    change Ideal.Quotient.mk _ ((B.map (f ≫ g)).hom x)
+      = Ideal.Quotient.mk _ ((B.map g).hom ((B.map f).hom x))
+    rw [B.map_comp]
+    rfl
+
+/-- The transition maps of `funB` on representatives. -/
+public lemma funB_map_mk {k l : Λ} (h : k ⟶ l) (x : ↑(B.obj k)) :
+    ((funB φ ρ I).map h) (Ideal.Quotient.mk (idealB φ ρ I k) x)
+      = Ideal.Quotient.mk (idealB φ ρ I l) ((B.map h) x) :=
+  rfl
+
+/-- The transition map `B_λ/I_λ B_λ → B_μ/I_μ B_μ`, as a ring homomorphism. -/
+public def qmapB {k l : Λ} (h : k ⟶ l) :
+    (↑(B.obj k) ⧸ idealB φ ρ I k) →+* (↑(B.obj l) ⧸ idealB φ ρ I l) :=
+  Ideal.quotientMap (idealB φ ρ I l) (B.map h).hom (idealB_le_comap φ ρ I h)
+
+/-- The system of quotient maps `A_λ/I_λ → B_λ/I_λ B_λ`. -/
+public def funPhi : funA ρ I ⟶ funB φ ρ I where
+  app k := CommRingCat.ofHom
+    (Ideal.quotientMap (idealB φ ρ I k) (φ.app k).hom (idealA_le_comap_idealB φ ρ I k))
+  naturality {k l} h := by
+    refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun x => ?_))
+    change Ideal.Quotient.mk (idealB φ ρ I l) ((φ.app l) ((A.map h) x))
+      = Ideal.Quotient.mk (idealB φ ρ I l) ((B.map h) ((φ.app k) x))
+    rw [phi_map φ h x]
+
+/-- The components of `funPhi` on representatives. -/
+public lemma funPhi_app_mk (k : Λ) (x : ↑(A.obj k)) :
+    ((funPhi φ ρ I).app k) (Ideal.Quotient.mk (idealA ρ I k) x)
+      = Ideal.Quotient.mk (idealB φ ρ I k) ((φ.app k) x) :=
+  rfl
+
+/-- The cocone leg `A_λ/I_λ → R/I`. -/
+public def legA : funA ρ I ⟶ (Functor.const Λ).obj (CommRingCat.of (R ⧸ I)) where
+  app k := CommRingCat.ofHom (Ideal.quotientMap I (ρ.app k).hom le_rfl)
+  naturality {k l} h := by
+    refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun x => ?_))
+    change Ideal.Quotient.mk _ ((ρ.app l).hom ((A.map h).hom x))
+      = ((Functor.const Λ).obj (CommRingCat.of (R ⧸ I))).map h
+          (Ideal.Quotient.mk _ ((ρ.app k).hom x))
+    rw [show ((ρ.app l).hom ((A.map h).hom x) : R) = (ρ.app l) ((A.map h) x) from rfl,
+      legA_map ρ h x]
+    rfl
+
+/-- The legs `legA` on representatives. -/
+public lemma legA_app_mk (k : Λ) (x : ↑(A.obj k)) :
+    ((legA ρ I).app k) (Ideal.Quotient.mk (idealA ρ I k) x)
+      = Ideal.Quotient.mk I ((ρ.app k) x) :=
+  rfl
+
+/-- The cocone leg `B_λ/I_λ B_λ → S/IS`. -/
+public def legB (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S)) :
+    funB φ ρ I ⟶ (Functor.const Λ).obj (CommRingCat.of (S ⧸ I.map (algebraMap R S))) where
+  app k := CommRingCat.ofHom
+    (Ideal.quotientMap _ (σ.app k).hom (idealB_le_comap_legB φ ρ σ I hφ k))
+  naturality {k l} h := by
+    refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun x => ?_))
+    change Ideal.Quotient.mk _ ((σ.app l).hom ((B.map h).hom x))
+      = ((Functor.const Λ).obj (CommRingCat.of (S ⧸ I.map (algebraMap R S)))).map h
+          (Ideal.Quotient.mk _ ((σ.app k).hom x))
+    rw [show ((σ.app l).hom ((B.map h).hom x) : S) = (σ.app l) ((B.map h) x) from rfl,
+      legB_map σ h x]
+    rfl
+
+/-- The legs `legB` on representatives. -/
+public lemma legB_app_mk
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (k : Λ) (x : ↑(B.obj k)) :
+    ((legB φ ρ σ I hφ).app k) (Ideal.Quotient.mk (idealB φ ρ I k) x)
+      = Ideal.Quotient.mk (I.map (algebraMap R S)) ((σ.app k) x) :=
+  rfl
+
+/-! ### The quotient system on the module side -/
+
+variable (mod : ∀ i, Module ↑(B.obj i) ↑(N.obj i))
+  (hsmul : ∀ ⦃i j : Λ⦄ (h : i ⟶ j) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+    N.map h (b • m) = B.map h b • N.map h m)
+
+/-- The transition map `N_λ → N_μ`, as a map semilinear over `B_λ → B_μ`. -/
+public def modMap {k l : Λ} (h : k ⟶ l) : ↑(N.obj k) →ₛₗ[(B.map h).hom] ↑(N.obj l) :=
+  ⟨(N.map h).hom.toAddHom, hsmul h⟩
+
+/-- The submodule `I_λ N_λ`. -/
+public def subN (k : Λ) : Submodule ↑(B.obj k) ↑(N.obj k) :=
+  (idealB φ ρ I k) • (⊤ : Submodule ↑(B.obj k) ↑(N.obj k))
+
+/-- The transition map `N_λ → N_μ` sends `I_λ N_λ` into `I_μ N_μ`. -/
+public lemma subN_le_comap {k l : Λ} (h : k ⟶ l) :
+    subN φ ρ I mod k ≤ Submodule.comap (modMap mod hsmul h) (subN φ ρ I mod l) := by
+  refine Submodule.smul_le.2 fun b hb n _ => ?_
+  rw [Submodule.mem_comap]
+  show (N.map h) (b • n) ∈ subN φ ρ I mod l
+  rw [hsmul h b n]
+  exact Submodule.smul_mem_smul (idealB_le_comap φ ρ I h hb) Submodule.mem_top
+
+/-- The functor `λ ↦ N_λ/I_λ N_λ`. -/
+public def funN : Λ ⥤ AddCommGrpCat.{u} where
+  obj k := AddCommGrpCat.of (↑(N.obj k) ⧸ subN φ ρ I mod k)
+  map h := AddCommGrpCat.ofHom
+    (Submodule.mapQ _ _ (modMap mod hsmul h) (subN_le_comap φ ρ I mod hsmul h)).toAddMonoidHom
+  map_id k := by
+    refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x => ?_)
+    induction x using Submodule.Quotient.induction_on with
+    | _ z =>
+      change Submodule.Quotient.mk ((N.map (𝟙 k)) z)
+        = (Submodule.Quotient.mk z : ↑(N.obj k) ⧸ subN φ ρ I mod k)
+      rw [N.map_id]
+      rfl
+  map_comp {k l m} f g := by
+    refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x => ?_)
+    induction x using Submodule.Quotient.induction_on with
+    | _ z =>
+      change Submodule.Quotient.mk ((N.map (f ≫ g)) z)
+        = (Submodule.Quotient.mk ((N.map g) ((N.map f) z)) : ↑(N.obj m) ⧸ subN φ ρ I mod m)
+      rw [N.map_comp]
+      rfl
+
+/-- The transition maps of `funN` on representatives. -/
+public lemma funN_map_mk {k l : Λ} (h : k ⟶ l) (x : ↑(N.obj k)) :
+    ((funN φ ρ I mod hsmul).map h) (Submodule.Quotient.mk x)
+      = (Submodule.Quotient.mk ((N.map h) x) : ↑(N.obj l) ⧸ subN φ ρ I mod l) :=
+  rfl
+
+/-- The leg `N_λ → M` of the module cocone, as an additive map. -/
+public def modLegHom (k : Λ) : ↑(N.obj k) →+ M := (ν.app k).hom
+
+/-- The leg `N_λ → M`, as a map semilinear over `B_λ → S`. -/
+public def modLegMap
+    (hν : ∀ (i : Λ) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      (ν.app i (b • m) : M) = HSMul.hSMul (α := S) (β := M) (σ.app i b) (ν.app i m))
+    (k : Λ) : ↑(N.obj k) →ₛₗ[Stacks.SpreadingOut.LocalModuleSystem.legHom σ k] M :=
+  ⟨(modLegHom ν k).toAddHom, hν k⟩
+
+/-- The leg `N_λ → M` is semilinear over `σ_λ : B_λ → S`. -/
+public lemma modLegHom_smul
+    (hν : ∀ (i : Λ) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      (ν.app i (b • m) : M) = HSMul.hSMul (α := S) (β := M) (σ.app i b) (ν.app i m))
+    (k : Λ) (b : ↑(B.obj k)) (m : ↑(N.obj k)) :
+    (modLegHom ν k) (b • m)
+      = HSMul.hSMul (α := S) (β := M) ((σ.app k) b) (modLegHom ν k m) :=
+  hν k b m
+
+/-- The leg `N_λ → M` sends `I_λ N_λ` into `IM`. -/
+public lemma subN_le_comap_leg
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (hν : ∀ (i : Λ) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      (ν.app i (b • m) : M) = HSMul.hSMul (α := S) (β := M) (σ.app i b) (ν.app i m))
+    (k : Λ) :
+    subN φ ρ I mod k ≤ Submodule.comap (modLegMap σ ν mod hν k)
+      ((I.map (algebraMap R S)) • (⊤ : Submodule S M)) := by
+  refine Submodule.smul_le.2 fun b hb n _ => ?_
+  have key : (modLegHom ν k) (b • n)
+      = HSMul.hSMul (α := S) (β := M) (Stacks.SpreadingOut.LocalModuleSystem.legHom σ k b)
+          (modLegHom ν k n) := hν k b n
+  rw [Submodule.mem_comap]
+  show (modLegHom ν k) (b • n) ∈ (I.map (algebraMap R S)) • (⊤ : Submodule S M)
+  rw [key]
+  exact Submodule.smul_mem_smul (idealB_le_comap_legB φ ρ σ I hφ k hb) Submodule.mem_top
+
+/-- The legs `N_λ → M` are compatible with the transition maps of `N`. -/
+public lemma legN_map {k l : Λ} (h : k ⟶ l) (x : ↑(N.obj k)) :
+    (modLegHom ν l) ((N.map h) x) = (modLegHom ν k) x := by simp [modLegHom]
+
+/-- The cocone leg `N_λ/I_λ N_λ → M/IM`. -/
+public def legN
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (hν : ∀ (i : Λ) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      (ν.app i (b • m) : M) = HSMul.hSMul (α := S) (β := M) (σ.app i b) (ν.app i m)) :
+    funN φ ρ I mod hsmul ⟶ (Functor.const Λ).obj
+      (AddCommGrpCat.of (M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M))) where
+  app k := AddCommGrpCat.ofHom (Submodule.mapQ _ _ (modLegMap σ ν mod hν k)
+    (subN_le_comap_leg φ ρ σ ν I mod hφ hν k)).toAddMonoidHom
+  naturality {k l} h := by
+    refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x => ?_)
+    induction x using Submodule.Quotient.induction_on with
+    | _ z =>
+      change (Submodule.Quotient.mk ((modLegHom ν l) ((N.map h) z)) :
+          M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M))
+        = Submodule.Quotient.mk ((modLegHom ν k) z)
+      rw [legN_map ν h z]
+
+/-- The legs `legN` on representatives. -/
+public lemma legN_app_mk
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (hν : ∀ (i : Λ) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      (ν.app i (b • m) : M) = HSMul.hSMul (α := S) (β := M) (σ.app i b) (ν.app i m))
+    (k : Λ) (x : ↑(N.obj k)) :
+    ((legN φ ρ σ ν I mod hsmul hφ hν).app k) (Submodule.Quotient.mk x)
+      = (Submodule.Quotient.mk ((modLegHom ν k) x) :
+          M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M)) :=
+  rfl
+
+/-! ### The three colimits -/
+
+/-- Composites of transition maps of `B` along a preorder depend only on the endpoints. -/
+public lemma map_map_B {k l m : Λ} (f : k ⟶ l) (g : l ⟶ m) (f' : k ⟶ m) (x : ↑(B.obj k)) :
+    (B.map g) ((B.map f) x) = (B.map f') x := by
+  rw [← CategoryTheory.comp_apply, ← B.map_comp, Subsingleton.elim (f ≫ g) f']
+
+/-- Composites of transition maps of `N` along a preorder depend only on the endpoints. -/
+public lemma map_map_N {k l m : Λ} (f : k ⟶ l) (g : l ⟶ m) (f' : k ⟶ m) (x : ↑(N.obj k)) :
+    (N.map g) ((N.map f) x) = (N.map f') x := by
+  rw [← CategoryTheory.comp_apply, ← N.map_comp, Subsingleton.elim (f ≫ g) f']
+
+section Colimits
+
+variable [Nonempty Λ] [IsDirected Λ (· ≤ ·)]
+
+/-- Two elements of `N_j` with the same image in `M` already agree at a later stage. -/
+public lemma exists_eventually_eq_N
+    (hM : IsColimit (Cocone.mk (AddCommGrpCat.of M) ν))
+    {j : Λ} (a b : ↑(N.obj j)) (hab : (modLegHom ν j) a = (modLegHom ν j) b) :
+    ∃ (p : Λ) (hjp : j ≤ p), (N.map (homOfLE hjp)) a = (N.map (homOfLE hjp)) b := by
+  obtain ⟨k, f, g, hfg⟩ := (IsColimit.eq_iff N hM).1 hab
+  refine ⟨k, leOfHom f, ?_⟩
+  have hfg' : (N.map g) a = (N.map g) b := by
+    rwa [Subsingleton.elim f g] at hfg
+  rw [Subsingleton.elim (homOfLE (leOfHom f)) g]
+  exact hfg'
+
+/-- The colimit of the `A_λ/I_λ` is `R/I`: the legs are injective and jointly surjective. -/
+public noncomputable def legAIsColimit (hR : IsColimit (Cocone.mk (CommRingCat.of R) ρ)) :
+    IsColimit (Cocone.mk (CommRingCat.of (R ⧸ I)) (legA ρ I)) := by
+  refine Stacks.SpreadingOut.LocalModuleSystem.isColimitCommRingCatOf _ _ ?_ ?_
+  · intro x
+    obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
+    obtain ⟨k, a, ha⟩ := Concrete.isColimit_exists_rep A hR r
+    exact ⟨k, Ideal.Quotient.mk (idealA ρ I k) a, congrArg (Ideal.Quotient.mk I) ha⟩
+  · intro k y hy
+    obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective y
+    refine ⟨k, 𝟙 k, ?_⟩
+    have hmem : ((ρ.app k) a : R) ∈ I := Ideal.Quotient.eq_zero_iff_mem.1 hy
+    have h0 : Ideal.Quotient.mk (idealA ρ I k) a = 0 := Ideal.Quotient.eq_zero_iff_mem.2 hmem
+    rw [(funA ρ I).map_id]
+    exact h0
+
+/-- An element of `IS` comes from `I_λ B_λ` at a finite stage. -/
+public lemma exists_stage_mem_idealB
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (hR : IsColimit (Cocone.mk (CommRingCat.of R) ρ))
+    (hσ : IsColimit (Cocone.mk (CommRingCat.of S) σ))
+    (x : S) (hx : x ∈ I.map (algebraMap R S)) :
+    ∃ (m : Λ) (c : ↑(B.obj m)), ((σ.app m) c : S) = x ∧ c ∈ idealB φ ρ I m := by
+  have hx' : x ∈ I • (⊤ : Submodule R S) := by rw [Ideal.smul_top_eq_map]; exact hx
+  refine Submodule.smul_induction_on hx' ?_ ?_
+  · intro r hr s _
+    obtain ⟨k₁, a, ha⟩ := Concrete.isColimit_exists_rep A hR r
+    obtain ⟨k₂, b, hb⟩ := Concrete.isColimit_exists_rep B hσ s
+    obtain ⟨m, h₁, h₂⟩ := directed_of (· ≤ ·) k₁ k₂
+    refine ⟨m, (φ.app m) ((A.map (homOfLE h₁)) a) * (B.map (homOfLE h₂)) b, ?_, ?_⟩
+    · rw [map_mul, sigma_phi_apply φ ρ σ hφ m, legA_map ρ (homOfLE h₁) a, ha,
+        legB_map σ (homOfLE h₂) b, hb, Algebra.smul_def]
+    · refine Ideal.mul_mem_right _ _ (mem_idealB φ ρ I ?_)
+      refine idealA_le_comap ρ I (homOfLE h₁) ?_
+      show ((ρ.app k₁) a : R) ∈ I
+      rw [ha]; exact hr
+  · rintro x y ⟨m₁, c₁, hc₁, hm₁⟩ ⟨m₂, c₂, hc₂, hm₂⟩
+    obtain ⟨m, h₁, h₂⟩ := directed_of (· ≤ ·) m₁ m₂
+    refine ⟨m, (B.map (homOfLE h₁)) c₁ + (B.map (homOfLE h₂)) c₂, ?_, ?_⟩
+    · rw [map_add, legB_map σ (homOfLE h₁) c₁, legB_map σ (homOfLE h₂) c₂, hc₁, hc₂]
+    · exact Ideal.add_mem _ (idealB_le_comap φ ρ I (homOfLE h₁) hm₁)
+        (idealB_le_comap φ ρ I (homOfLE h₂) hm₂)
+
+/-- The colimit of the `B_λ/I_λ B_λ` is `S/IS`. -/
+public noncomputable def legBIsColimit
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (hR : IsColimit (Cocone.mk (CommRingCat.of R) ρ))
+    (hσ : IsColimit (Cocone.mk (CommRingCat.of S) σ)) :
+    IsColimit (Cocone.mk (CommRingCat.of (S ⧸ I.map (algebraMap R S))) (legB φ ρ σ I hφ)) := by
+  refine Stacks.SpreadingOut.LocalModuleSystem.isColimitCommRingCatOf _ _ ?_ ?_
+  · intro x
+    obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective x
+    obtain ⟨k, b, hb⟩ := Concrete.isColimit_exists_rep B hσ s
+    exact ⟨k, Ideal.Quotient.mk (idealB φ ρ I k) b,
+      congrArg (Ideal.Quotient.mk (I.map (algebraMap R S))) hb⟩
+  · intro k y hy
+    obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective y
+    have hmem : ((σ.app k) b : S) ∈ I.map (algebraMap R S) := Ideal.Quotient.eq_zero_iff_mem.1 hy
+    obtain ⟨m, c, hc, hcmem⟩ := exists_stage_mem_idealB φ ρ σ I hφ hR hσ _ hmem
+    obtain ⟨p, hkp, hmp⟩ := directed_of (· ≤ ·) k m
+    have hsame : ∀ _ : Unit, (Stacks.SpreadingOut.LocalModuleSystem.legHom σ p) ((B.map (homOfLE
+        hkp)) b)
+        = (Stacks.SpreadingOut.LocalModuleSystem.legHom σ p) ((B.map (homOfLE hmp)) c) := by
+      intro _
+      change ((σ.app p) ((B.map (homOfLE hkp)) b) : S) = (σ.app p) ((B.map (homOfLE hmp)) c)
+      rw [legB_map σ (homOfLE hkp) b, legB_map σ (homOfLE hmp) c, hc]
+    obtain ⟨q, hpq, heq⟩ := Stacks.SpreadingOut.LocalModuleSystem.exists_eventually_eq σ hσ
+      (fun _ : Unit => (B.map (homOfLE hkp)) b) (fun _ : Unit => (B.map (homOfLE hmp)) c) hsame
+    refine ⟨q, homOfLE (hkp.trans hpq), ?_⟩
+    have h1 : (B.map (homOfLE (hkp.trans hpq))) b = (B.map (homOfLE (hmp.trans hpq))) c := by
+      rw [← map_map_B (homOfLE hkp) (homOfLE hpq) (homOfLE (hkp.trans hpq)) b,
+        ← map_map_B (homOfLE hmp) (homOfLE hpq) (homOfLE (hmp.trans hpq)) c]
+      exact heq ()
+    rw [funB_map_mk, h1]
+    exact Ideal.Quotient.eq_zero_iff_mem.2
+      (Ideal.mem_comap.1 (idealB_le_comap φ ρ I (homOfLE (hmp.trans hpq)) hcmem))
+
+include hsmul in
+/-- An element of `IM` comes from `I_λ N_λ` at a finite stage. -/
+public lemma exists_stage_mem_subN
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (hν : ∀ (i : Λ) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      (ν.app i (b • m) : M) = HSMul.hSMul (α := S) (β := M) (σ.app i b) (ν.app i m))
+    (hR : IsColimit (Cocone.mk (CommRingCat.of R) ρ))
+    (hσ : IsColimit (Cocone.mk (CommRingCat.of S) σ))
+    (hM : IsColimit (Cocone.mk (AddCommGrpCat.of M) ν))
+    (x : M) (hx : x ∈ (I.map (algebraMap R S)) • (⊤ : Submodule S M)) :
+    ∃ (m : Λ) (w : ↑(N.obj m)), (modLegHom ν m) w = x ∧ w ∈ subN φ ρ I mod m := by
+  refine Submodule.smul_induction_on hx ?_ ?_
+  · intro r hr n _
+    obtain ⟨k₁, c, hc, hcmem⟩ := exists_stage_mem_idealB φ ρ σ I hφ hR hσ r hr
+    obtain ⟨k₂, w, hw⟩ := Concrete.isColimit_exists_rep N hM n
+    obtain ⟨m, h₁, h₂⟩ := directed_of (· ≤ ·) k₁ k₂
+    refine ⟨m, (B.map (homOfLE h₁)) c • (N.map (homOfLE h₂)) w, ?_, ?_⟩
+    · rw [modLegHom_smul σ ν mod hν m ((B.map (homOfLE h₁)) c) ((N.map (homOfLE h₂)) w),
+        legB_map σ (homOfLE h₁) c, hc, legN_map ν (homOfLE h₂) w,
+        show (modLegHom ν k₂) w = n from hw]
+    · exact Submodule.smul_mem_smul
+        (Ideal.mem_comap.1 (idealB_le_comap φ ρ I (homOfLE h₁) hcmem)) Submodule.mem_top
+  · rintro x y ⟨m₁, w₁, hw₁, hs₁⟩ ⟨m₂, w₂, hw₂, hs₂⟩
+    obtain ⟨m, h₁, h₂⟩ := directed_of (· ≤ ·) m₁ m₂
+    refine ⟨m, (N.map (homOfLE h₁)) w₁ + (N.map (homOfLE h₂)) w₂, ?_, ?_⟩
+    · rw [map_add, legN_map ν (homOfLE h₁) w₁, legN_map ν (homOfLE h₂) w₂, hw₁, hw₂]
+    · exact Submodule.add_mem _ (subN_le_comap φ ρ I mod hsmul (homOfLE h₁) hs₁)
+        (subN_le_comap φ ρ I mod hsmul (homOfLE h₂) hs₂)
+
+/-- The colimit of the `N_λ/I_λ N_λ` is `M/IM`. -/
+public noncomputable def legNIsColimit
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (hν : ∀ (i : Λ) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      (ν.app i (b • m) : M) = HSMul.hSMul (α := S) (β := M) (σ.app i b) (ν.app i m))
+    (hR : IsColimit (Cocone.mk (CommRingCat.of R) ρ))
+    (hσ : IsColimit (Cocone.mk (CommRingCat.of S) σ))
+    (hM : IsColimit (Cocone.mk (AddCommGrpCat.of M) ν)) :
+    IsColimit (Cocone.mk (AddCommGrpCat.of (M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M)))
+      (legN φ ρ σ ν I mod hsmul hφ hν)) := by
+  refine Stacks.SpreadingOut.LocalModuleSystem.isColimitAddCommGrpCatOf _ _ ?_ ?_
+  · intro x
+    obtain ⟨n, rfl⟩ := Submodule.Quotient.mk_surjective _ x
+    obtain ⟨k, w, hw⟩ := Concrete.isColimit_exists_rep N hM n
+    exact ⟨k, Submodule.Quotient.mk w, congrArg Submodule.Quotient.mk hw⟩
+  · intro k y hy
+    obtain ⟨w, rfl⟩ := Submodule.Quotient.mk_surjective _ y
+    have hmem : (modLegHom ν k) w ∈ (I.map (algebraMap R S)) • (⊤ : Submodule S M) :=
+      (Submodule.Quotient.mk_eq_zero _).1 hy
+    obtain ⟨m, v, hv, hvmem⟩ := exists_stage_mem_subN φ ρ σ ν I mod hsmul hφ hν hR hσ hM _ hmem
+    obtain ⟨p, hkp, hmp⟩ := directed_of (· ≤ ·) k m
+    have hsame : (modLegHom ν p) ((N.map (homOfLE hkp)) w)
+        = (modLegHom ν p) ((N.map (homOfLE hmp)) v) := by
+      rw [legN_map ν (homOfLE hkp) w, legN_map ν (homOfLE hmp) v, hv]
+    obtain ⟨q, hpq, heq⟩ := exists_eventually_eq_N ν hM _ _ hsame
+    refine ⟨q, homOfLE (hkp.trans hpq), ?_⟩
+    have h1 : (N.map (homOfLE (hkp.trans hpq))) w = (N.map (homOfLE (hmp.trans hpq))) v := by
+      rw [← map_map_N (homOfLE hkp) (homOfLE hpq) (homOfLE (hkp.trans hpq)) w,
+        ← map_map_N (homOfLE hmp) (homOfLE hpq) (homOfLE (hmp.trans hpq)) v]
+      exact heq
+    rw [funN_map_mk, h1]
+    exact (Submodule.Quotient.mk_eq_zero _).2
+      (subN_le_comap φ ρ I mod hsmul (homOfLE (hmp.trans hpq)) hvmem)
+
+end Colimits
+
+/-! ### The remaining conditions of 00QX for the quotient system -/
+
+/-- Each `N_λ/I_λ N_λ` is a module over `B_λ/I_λ B_λ`. -/
+@[instance_reducible]
+public def modQ (k : Λ) : Module ↑((funB φ ρ I).obj k) ↑((funN φ ρ I mod hsmul).obj k) :=
+  inferInstanceAs (Module (↑(B.obj k) ⧸ idealB φ ρ I k)
+    (↑(N.obj k) ⧸ (idealB φ ρ I k) • (⊤ : Submodule ↑(B.obj k) ↑(N.obj k))))
+
+/-- The transition maps of `funN` are semilinear over those of `funB`. -/
+public lemma hsmulQ ⦃i j : Λ⦄ (h : i ⟶ j) (b : ↑((funB φ ρ I).obj i))
+    (m : ↑((funN φ ρ I mod hsmul).obj i)) :
+    let _ := modQ φ ρ I mod hsmul
+    (funN φ ρ I mod hsmul).map h (b • m)
+      = (funB φ ρ I).map h b • (funN φ ρ I mod hsmul).map h m := by
+  let _ := modQ φ ρ I mod hsmul
+  obtain ⟨β, rfl⟩ := Ideal.Quotient.mk_surjective (I := idealB φ ρ I i) b
+  obtain ⟨n, rfl⟩ := Submodule.Quotient.mk_surjective (subN φ ρ I mod i) m
+  exact congrArg Submodule.Quotient.mk (hsmul h β n)
+
+/-- The quotient system satisfies the compatibility `hφ` of the original one, with the
+legs `legA`, `legB` and the map `R/I → S/IS`. -/
+public lemma hphiQ
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S)) (i : Λ) :
+    (funPhi φ ρ I).app i ≫ (legB φ ρ σ I hφ).app i
+      = (legA ρ I).app i ≫ CommRingCat.ofHom
+          (algebraMap (R ⧸ I) (S ⧸ I.map (algebraMap R S))) := by
+  refine CommRingCat.hom_ext (Ideal.Quotient.ringHom_ext (RingHom.ext fun a => ?_))
+  show Ideal.Quotient.mk (I.map (algebraMap R S)) ((σ.app i) ((φ.app i) a))
+    = Ideal.Quotient.mk (I.map (algebraMap R S)) (algebraMap R S ((ρ.app i) a))
+  rw [sigma_phi_apply φ ρ σ hφ i a]
+
+/-- The legs `legN` are semilinear over the legs `legB`. -/
+public lemma hnuQ
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (hν : ∀ (i : Λ) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      (ν.app i (b • m) : M) = HSMul.hSMul (α := S) (β := M) (σ.app i b) (ν.app i m))
+    (i : Λ) (b : ↑((funB φ ρ I).obj i)) (m : ↑((funN φ ρ I mod hsmul).obj i)) :
+    let _ := modQ φ ρ I mod hsmul
+    ((legN φ ρ σ ν I mod hsmul hφ hν).app i (b • m) :
+        M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M))
+      = HSMul.hSMul (α := S ⧸ I.map (algebraMap R S))
+          (β := M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M))
+          ((legB φ ρ σ I hφ).app i b) ((legN φ ρ σ ν I mod hsmul hφ hν).app i m) := by
+  let _ := modQ φ ρ I mod hsmul
+  obtain ⟨β, rfl⟩ := Ideal.Quotient.mk_surjective (I := idealB φ ρ I i) b
+  obtain ⟨n, rfl⟩ := Submodule.Quotient.mk_surjective (subN φ ρ I mod i) m
+  exact congrArg Submodule.Quotient.mk (hν i β n)
+
+/-- The map induced on quotients by a local homomorphism of local rings is local. -/
+public lemma isLocalHom_quotientMap {A₀ B₀ : Type*} [CommRing A₀] [CommRing B₀] [IsLocalRing A₀]
+    [IsLocalRing B₀] (f : A₀ →+* B₀) [IsLocalHom f] {JA : Ideal A₀} (JB : Ideal B₀)
+    (hJA : JA ≠ ⊤) (hJB : JB ≠ ⊤) (h : JA ≤ JB.comap f) :
+    IsLocalHom (Ideal.quotientMap JB f h) := by
+  have : Nontrivial (A₀ ⧸ JA) := Ideal.Quotient.nontrivial_iff.mpr hJA
+  have : Nontrivial (B₀ ⧸ JB) := Ideal.Quotient.nontrivial_iff.mpr hJB
+  have hA : IsLocalHom (Ideal.Quotient.mk JA) :=
+    IsLocalHom.of_surjective _ Ideal.Quotient.mk_surjective
+  have hB : IsLocalHom (Ideal.Quotient.mk JB) :=
+    IsLocalHom.of_surjective _ Ideal.Quotient.mk_surjective
+  refine ⟨fun a ha => ?_⟩
+  obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective a
+  have h1 : IsUnit ((Ideal.Quotient.mk JB) (f x)) := ha
+  exact IsUnit.map (Ideal.Quotient.mk JA) (IsLocalHom.map_nonunit (f := f) x
+    (IsLocalHom.map_nonunit (f := Ideal.Quotient.mk JB) (f x) h1))
+
+/-- The image of `I_λ` in `B_λ` is a proper ideal. -/
+public lemma idealB_ne_top (hI : I ≠ ⊤) (hAlocal : ∀ i, IsLocalRing ↑(A.obj i))
+    (hBlocal : ∀ i, IsLocalRing ↑(B.obj i)) (hφlocal : ∀ i, IsLocalHom (φ.app i).hom) (k : Λ) :
+    idealB φ ρ I k ≠ ⊤ := by
+  have := hAlocal k
+  have := hBlocal k
+  have := hφlocal k
+  intro hk
+  have h1 : (1 : ↑(B.obj k)) ∈ idealB φ ρ I k := by rw [hk]; exact Submodule.mem_top
+  refine (IsLocalRing.maximalIdeal.isMaximal ↑(B.obj k)).ne_top (Ideal.eq_top_iff_one _ |>.2 ?_)
+  refine (Ideal.map_le_iff_le_comap.2 fun x hx => ?_ : idealB φ ρ I k
+    ≤ IsLocalRing.maximalIdeal ↑(B.obj k)) h1
+  rw [Ideal.mem_comap]
+  by_contra hmem
+  have hu : IsUnit ((φ.app k).hom x) := IsLocalRing.notMem_maximalIdeal.1 hmem
+  have hxu : IsUnit x := IsLocalHom.map_nonunit (f := (φ.app k).hom) x hu
+  exact (IsLocalRing.notMem_maximalIdeal.2 hxu)
+    (IsLocalRing.le_maximalIdeal (idealA_ne_top ρ I hI k) hx)
+
+/-- Each `A_λ/I_λ` is a local ring. -/
+public lemma hAlocalQ (hI : I ≠ ⊤) (hAlocal : ∀ i, IsLocalRing ↑(A.obj i)) (k : Λ) :
+    IsLocalRing ↑((funA ρ I).obj k) := by
+  have := hAlocal k
+  have : Nontrivial ↑((funA ρ I).obj k) :=
+    Ideal.Quotient.nontrivial_iff.mpr (idealA_ne_top ρ I hI k)
+  exact IsLocalRing.of_surjective' (Ideal.Quotient.mk (idealA ρ I k))
+    Ideal.Quotient.mk_surjective
+
+/-- Each `B_λ/I_λ B_λ` is a local ring. -/
+public lemma hBlocalQ (hI : I ≠ ⊤) (hAlocal : ∀ i, IsLocalRing ↑(A.obj i))
+    (hBlocal : ∀ i, IsLocalRing ↑(B.obj i)) (hφlocal : ∀ i, IsLocalHom (φ.app i).hom) (k : Λ) :
+    IsLocalRing ↑((funB φ ρ I).obj k) := by
+  have := hBlocal k
+  have : Nontrivial ↑((funB φ ρ I).obj k) :=
+    Ideal.Quotient.nontrivial_iff.mpr (idealB_ne_top φ ρ I hI hAlocal hBlocal hφlocal k)
+  exact IsLocalRing.of_surjective' (Ideal.Quotient.mk (idealB φ ρ I k))
+    Ideal.Quotient.mk_surjective
+
+/-- Each `A_λ/I_λ → B_λ/I_λ B_λ` is a local homomorphism. -/
+public lemma hphilocalQ (hI : I ≠ ⊤) (hAlocal : ∀ i, IsLocalRing ↑(A.obj i))
+    (hBlocal : ∀ i, IsLocalRing ↑(B.obj i)) (hφlocal : ∀ i, IsLocalHom (φ.app i).hom) (k : Λ) :
+    IsLocalHom ((funPhi φ ρ I).app k).hom := by
+  have := hAlocal k
+  have := hBlocal k
+  have := hφlocal k
+  exact isLocalHom_quotientMap (φ.app k).hom (idealB φ ρ I k) (idealA_ne_top ρ I hI k)
+    (idealB_ne_top φ ρ I hI hAlocal hBlocal hφlocal k) (idealA_le_comap_idealB φ ρ I k)
+
+/-- Each transition map `A_λ/I_λ → A_μ/I_μ` is a local homomorphism. -/
+public lemma hAmaplocalQ (hI : I ≠ ⊤) (hAlocal : ∀ i, IsLocalRing ↑(A.obj i))
+    (hAmaplocal : ∀ ⦃i j : Λ⦄ (h : i ⟶ j), IsLocalHom (A.map h).hom)
+    ⦃k l : Λ⦄ (h : k ⟶ l) : IsLocalHom ((funA ρ I).map h).hom := by
+  have := hAlocal k
+  have := hAlocal l
+  have := hAmaplocal h
+  exact isLocalHom_quotientMap (A.map h).hom (idealA ρ I l) (idealA_ne_top ρ I hI k)
+    (idealA_ne_top ρ I hI l) (idealA_le_comap ρ I h)
+
+/-- Each `A_λ/I_λ` is essentially of finite type over `ℤ`. -/
+public lemma hAftQ (hAft : ∀ i, Algebra.EssFiniteType ℤ ↑(A.obj i)) (k : Λ) :
+    Algebra.EssFiniteType ℤ ↑((funA ρ I).obj k) := by
+  have := hAft k
+  exact inferInstanceAs (Algebra.EssFiniteType ℤ (↑(A.obj k) ⧸ idealA ρ I k))
+
+/-- Each `A_λ/I_λ → B_λ/I_λ B_λ` is essentially of finite type. -/
+public lemma hphiftQ (hφft : ∀ i, (φ.app i).hom.EssFiniteType) (k : Λ) :
+    ((funPhi φ ρ I).app k).hom.EssFiniteType := by
+  let algAB : Algebra ↑(A.obj k) ↑(B.obj k) := (φ.app k).hom.toAlgebra
+  have hft : Algebra.EssFiniteType ↑(A.obj k) ↑(B.obj k) := hφft k
+  let algQQ : Algebra (↑(A.obj k) ⧸ idealA ρ I k) (↑(B.obj k) ⧸ idealB φ ρ I k) :=
+    Ideal.Quotient.algebraQuotientMapQuotient
+  have h1 : Algebra.EssFiniteType (↑(A.obj k) ⧸ idealA ρ I k) (↑(B.obj k) ⧸ idealB φ ρ I k) :=
+    Algebra.EssFiniteType.quotient_map ↑(A.obj k) ↑(B.obj k) (idealA ρ I k)
+  show RingHom.EssFiniteType
+    (algebraMap (↑(A.obj k) ⧸ idealA ρ I k) (↑(B.obj k) ⧸ idealB φ ρ I k))
+  exact (RingHom.essFiniteType_algebraMap
+    (R := ↑(A.obj k) ⧸ idealA ρ I k) (S := ↑(B.obj k) ⧸ idealB φ ρ I k)).mpr h1
+
+/-- Each `N_λ/I_λ N_λ` is a finite `B_λ/I_λ B_λ`-module. -/
+public lemma hNfinQ (hNfin : ∀ i, Module.Finite ↑(B.obj i) ↑(N.obj i)) (k : Λ) :
+    letI := modQ φ ρ I mod hsmul
+    Module.Finite ↑((funB φ ρ I).obj k) ↑((funN φ ρ I mod hsmul).obj k) := by
+  show Module.Finite (↑(B.obj k) ⧸ idealB φ ρ I k)
+    (↑(N.obj k) ⧸ (idealB φ ρ I k) • (⊤ : Submodule ↑(B.obj k) ↑(N.obj k)))
+  have := hNfin k
+  have : Module.Finite ↑(B.obj k)
+      (↑(N.obj k) ⧸ (idealB φ ρ I k) • (⊤ : Submodule ↑(B.obj k) ↑(N.obj k))) :=
+    Module.Finite.of_surjective (Submodule.mkQ _) (Submodule.mkQ_surjective _)
+  exact Module.Finite.of_restrictScalars_finite ↑(B.obj k) (↑(B.obj k) ⧸ idealB φ ρ I k) _
+
+/-- If `B_μ` is a localization of `B_λ ⊗_{A_λ} A_μ` at a prime, then `B_μ/I_μ B_μ` is a
+localization of `(B_λ/I_λ B_λ) ⊗_{A_λ/I_λ} (A_μ/I_μ)` at a prime. -/
+public lemma hBlocQ (hI : I ≠ ⊤) (hAlocal : ∀ i, IsLocalRing ↑(A.obj i))
+    (hBlocal : ∀ i, IsLocalRing ↑(B.obj i)) (hφlocal : ∀ i, IsLocalHom (φ.app i).hom)
+    (hBloc : ∀ ⦃i j : Λ⦄ (h : i ⟶ j),
+      letI := (pushout.desc (B.map h) (φ.app j) (φ.naturality h).symm).hom.toAlgebra
+      ∃ (q : Ideal ↑(pushout (φ.app i) (A.map h))) (_ : q.IsPrime),
+        IsLocalization q.primeCompl ↑(B.obj j))
+    ⦃k l : Λ⦄ (h : k ⟶ l) :
+    letI := (pushout.desc ((funB φ ρ I).map h) ((funPhi φ ρ I).app l)
+      ((funPhi φ ρ I).naturality h).symm).hom.toAlgebra
+    ∃ (q : Ideal ↑(pushout ((funPhi φ ρ I).app k) ((funA ρ I).map h))) (_ : q.IsPrime),
+      IsLocalization q.primeCompl ↑((funB φ ρ I).obj l) := by
+  let algAkBk : Algebra ↑(A.obj k) ↑(B.obj k) := (φ.app k).hom.toAlgebra
+  let algAkAl : Algebra ↑(A.obj k) ↑(A.obj l) := (A.map h).hom.toAlgebra
+  let algBkBl : Algebra ↑(B.obj k) ↑(B.obj l) := (B.map h).hom.toAlgebra
+  let algAlBl : Algebra ↑(A.obj l) ↑(B.obj l) := (φ.app l).hom.toAlgebra
+  let algAkBl : Algebra ↑(A.obj k) ↑(B.obj l) := ((B.map h).hom.comp (φ.app k).hom).toAlgebra
+  have towBk := IsScalarTower.of_algebraMap_eq (R := ↑(A.obj k)) (S := ↑(B.obj k))
+    (A := ↑(B.obj l)) (fun _ => rfl)
+  have towAl := IsScalarTower.of_algebraMap_eq (R := ↑(A.obj k)) (S := ↑(A.obj l))
+    (A := ↑(B.obj l)) (fun x => (phi_map φ h x).symm)
+  let algTensor : Algebra (↑(B.obj k) ⊗[↑(A.obj k)] ↑(A.obj l)) ↑(B.obj l) :=
+    (Algebra.TensorProduct.productMap
+      (IsScalarTower.toAlgHom ↑(A.obj k) ↑(B.obj k) ↑(B.obj l))
+      (IsScalarTower.toAlgHom ↑(A.obj k) ↑(A.obj l) ↑(B.obj l))).toRingHom.toAlgebra
+  obtain ⟨T, hT⟩ := CommRingCat.exists_isLocalization_tensorProduct_of_pushout
+    (Ri := ↑(A.obj k)) (Si := ↑(B.obj k)) (Rj := ↑(A.obj l)) (Sj := ↑(B.obj l))
+    (fun _ => rfl) (φ.naturality h).symm (hBloc h)
+  have := hT
+  let algRiSi : Algebra (↑(A.obj k) ⧸ idealA ρ I k) (↑(B.obj k) ⧸ idealB φ ρ I k) :=
+    ((funPhi φ ρ I).app k).hom.toAlgebra
+  let algRiRj : Algebra (↑(A.obj k) ⧸ idealA ρ I k) (↑(A.obj l) ⧸ idealA ρ I l) :=
+    ((funA ρ I).map h).hom.toAlgebra
+  let algSiSj : Algebra (↑(B.obj k) ⧸ idealB φ ρ I k) (↑(B.obj l) ⧸ idealB φ ρ I l) :=
+    ((funB φ ρ I).map h).hom.toAlgebra
+  let algRjSj : Algebra (↑(A.obj l) ⧸ idealA ρ I l) (↑(B.obj l) ⧸ idealB φ ρ I l) :=
+    ((funPhi φ ρ I).app l).hom.toAlgebra
+  let algRiSj : Algebra (↑(A.obj k) ⧸ idealA ρ I k) (↑(B.obj l) ⧸ idealB φ ρ I l) :=
+    (((funB φ ρ I).map h).hom.comp ((funPhi φ ρ I).app k).hom).toAlgebra
+  have towSi := IsScalarTower.of_algebraMap_eq (R := ↑(A.obj k) ⧸ idealA ρ I k)
+    (S := ↑(B.obj k) ⧸ idealB φ ρ I k) (A := ↑(B.obj l) ⧸ idealB φ ρ I l) (fun _ => rfl)
+  have towRj := IsScalarTower.of_algebraMap_eq (R := ↑(A.obj k) ⧸ idealA ρ I k)
+    (S := ↑(A.obj l) ⧸ idealA ρ I l) (A := ↑(B.obj l) ⧸ idealB φ ρ I l) (fun x => by
+      obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
+      exact congrArg (Ideal.Quotient.mk (idealB φ ρ I l)) (phi_map φ h y).symm)
+  let algAkRi : Algebra ↑(A.obj k) (↑(A.obj k) ⧸ idealA ρ I k) := Ideal.Quotient.algebra _
+  let algAkSi : Algebra ↑(A.obj k) (↑(B.obj k) ⧸ idealB φ ρ I k) :=
+    ((Ideal.Quotient.mk (idealB φ ρ I k)).comp (φ.app k).hom).toAlgebra
+  let algAkRj : Algebra ↑(A.obj k) (↑(A.obj l) ⧸ idealA ρ I l) :=
+    ((Ideal.Quotient.mk (idealA ρ I l)).comp (A.map h).hom).toAlgebra
+  have towAkRiSi := IsScalarTower.of_algebraMap_eq (R := ↑(A.obj k))
+    (S := ↑(A.obj k) ⧸ idealA ρ I k) (A := ↑(B.obj k) ⧸ idealB φ ρ I k) (fun _ => rfl)
+  have towAkRiRj := IsScalarTower.of_algebraMap_eq (R := ↑(A.obj k))
+    (S := ↑(A.obj k) ⧸ idealA ρ I k) (A := ↑(A.obj l) ⧸ idealA ρ I l) (fun _ => rfl)
+  have towAkBkSi := IsScalarTower.of_algebraMap_eq (R := ↑(A.obj k)) (S := ↑(B.obj k))
+    (A := ↑(B.obj k) ⧸ idealB φ ρ I k) (fun _ => rfl)
+  have towAkAlRj := IsScalarTower.of_algebraMap_eq (R := ↑(A.obj k)) (S := ↑(A.obj l))
+    (A := ↑(A.obj l) ⧸ idealA ρ I l) (fun _ => rfl)
+  let algAkC : Algebra ↑(A.obj k)
+      ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k] (↑(A.obj l) ⧸ idealA ρ I l)) :=
+    ((algebraMap (↑(A.obj k) ⧸ idealA ρ I k)
+      ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k]
+        (↑(A.obj l) ⧸ idealA ρ I l))).comp (Ideal.Quotient.mk (idealA ρ I k))).toAlgebra
+  have towAkRiC := IsScalarTower.of_algebraMap_eq (R := ↑(A.obj k))
+    (S := ↑(A.obj k) ⧸ idealA ρ I k)
+    (A := (↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k]
+      (↑(A.obj l) ⧸ idealA ρ I l)) (fun _ => rfl)
+  let f₁ : ↑(B.obj k) →ₐ[↑(A.obj k)]
+      ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k] (↑(A.obj l) ⧸ idealA ρ I l)) :=
+    ((Algebra.TensorProduct.includeLeft :
+      (↑(B.obj k) ⧸ idealB φ ρ I k) →ₐ[↑(A.obj k) ⧸ idealA ρ I k]
+        ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k]
+          (↑(A.obj l) ⧸ idealA ρ I l))).restrictScalars ↑(A.obj k)).comp
+      (IsScalarTower.toAlgHom ↑(A.obj k) ↑(B.obj k) (↑(B.obj k) ⧸ idealB φ ρ I k))
+  let f₂ : ↑(A.obj l) →ₐ[↑(A.obj k)]
+      ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k] (↑(A.obj l) ⧸ idealA ρ I l)) :=
+    ((Algebra.TensorProduct.includeRight :
+      (↑(A.obj l) ⧸ idealA ρ I l) →ₐ[↑(A.obj k) ⧸ idealA ρ I k]
+        ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k]
+          (↑(A.obj l) ⧸ idealA ρ I l))).restrictScalars ↑(A.obj k)).comp
+      (IsScalarTower.toAlgHom ↑(A.obj k) ↑(A.obj l) (↑(A.obj l) ⧸ idealA ρ I l))
+  let fC := (Algebra.TensorProduct.productMap f₁ f₂).toRingHom
+  have hfC_tmul : ∀ (b : ↑(B.obj k)) (a : ↑(A.obj l)),
+      fC (b ⊗ₜ[↑(A.obj k)] a)
+        = (Ideal.Quotient.mk (idealB φ ρ I k) b) ⊗ₜ[↑(A.obj k) ⧸ idealA ρ I k]
+            (Ideal.Quotient.mk (idealA ρ I l) a) := by
+    intro b a
+    show Algebra.TensorProduct.productMap f₁ f₂ (b ⊗ₜ[↑(A.obj k)] a) = _
+    rw [Algebra.TensorProduct.productMap_apply_tmul]
+    show ((Ideal.Quotient.mk (idealB φ ρ I k) b) ⊗ₜ[↑(A.obj k) ⧸ idealA ρ I k] 1)
+        * (1 ⊗ₜ[↑(A.obj k) ⧸ idealA ρ I k] (Ideal.Quotient.mk (idealA ρ I l) a)) = _
+    rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul]
+  have hfCsurj : Function.Surjective fC := by
+    intro z
+    induction z using TensorProduct.induction_on with
+    | zero => exact ⟨0, map_zero _⟩
+    | tmul s r =>
+      obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective s
+      obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective r
+      exact ⟨b ⊗ₜ[↑(A.obj k)] a, hfC_tmul b a⟩
+    | add z w hz hw =>
+      obtain ⟨x, rfl⟩ := hz
+      obtain ⟨y, rfl⟩ := hw
+      exact ⟨x + y, map_add _ _ _⟩
+  let algCSj : Algebra ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k]
+      (↑(A.obj l) ⧸ idealA ρ I l)) (↑(B.obj l) ⧸ idealB φ ρ I l) :=
+    (Algebra.TensorProduct.productMap
+      (IsScalarTower.toAlgHom (↑(A.obj k) ⧸ idealA ρ I k) (↑(B.obj k) ⧸ idealB φ ρ I k)
+        (↑(B.obj l) ⧸ idealB φ ρ I l))
+      (IsScalarTower.toAlgHom (↑(A.obj k) ⧸ idealA ρ I k) (↑(A.obj l) ⧸ idealA ρ I l)
+        (↑(B.obj l) ⧸ idealB φ ρ I l))).toRingHom.toAlgebra
+  have hsq : (Ideal.Quotient.mk (idealB φ ρ I l)).comp
+      (algebraMap (↑(B.obj k) ⊗[↑(A.obj k)] ↑(A.obj l)) ↑(B.obj l))
+      = (algebraMap ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k]
+          (↑(A.obj l) ⧸ idealA ρ I l)) (↑(B.obj l) ⧸ idealB φ ρ I l)).comp fC := by
+    refine RingHom.ext fun z => ?_
+    induction z using TensorProduct.induction_on with
+    | zero => simp
+    | tmul b a =>
+      simp only [RingHom.comp_apply]
+      rw [hfC_tmul b a]
+      show Ideal.Quotient.mk (idealB φ ρ I l)
+          (Algebra.TensorProduct.productMap
+            (IsScalarTower.toAlgHom ↑(A.obj k) ↑(B.obj k) ↑(B.obj l))
+            (IsScalarTower.toAlgHom ↑(A.obj k) ↑(A.obj l) ↑(B.obj l)) (b ⊗ₜ a))
+        = Algebra.TensorProduct.productMap
+            (IsScalarTower.toAlgHom (↑(A.obj k) ⧸ idealA ρ I k) (↑(B.obj k) ⧸ idealB φ ρ I k)
+              (↑(B.obj l) ⧸ idealB φ ρ I l))
+            (IsScalarTower.toAlgHom (↑(A.obj k) ⧸ idealA ρ I k) (↑(A.obj l) ⧸ idealA ρ I l)
+              (↑(B.obj l) ⧸ idealB φ ρ I l))
+            ((Ideal.Quotient.mk (idealB φ ρ I k) b) ⊗ₜ (Ideal.Quotient.mk (idealA ρ I l) a))
+      rw [Algebra.TensorProduct.productMap_apply_tmul,
+        Algebra.TensorProduct.productMap_apply_tmul]
+      exact map_mul (Ideal.Quotient.mk (idealB φ ρ I l)) _ _
+    | add z w hz hw => rw [map_add, map_add, hz, hw]
+  have hker : RingHom.ker (Ideal.Quotient.mk (idealB φ ρ I l))
+      ≤ Ideal.map (algebraMap (↑(B.obj k) ⊗[↑(A.obj k)] ↑(A.obj l)) ↑(B.obj l))
+          (RingHom.ker fC) := by
+    rw [Ideal.mk_ker]
+    refine Ideal.map_le_iff_le_comap.2 fun x hx => ?_
+    rw [Ideal.mem_comap]
+    have h1 : ((φ.app l).hom x : ↑(B.obj l))
+        = algebraMap (↑(B.obj k) ⊗[↑(A.obj k)] ↑(A.obj l)) ↑(B.obj l)
+            (1 ⊗ₜ[↑(A.obj k)] x) := by
+      show _ = Algebra.TensorProduct.productMap
+        (IsScalarTower.toAlgHom ↑(A.obj k) ↑(B.obj k) ↑(B.obj l))
+        (IsScalarTower.toAlgHom ↑(A.obj k) ↑(A.obj l) ↑(B.obj l)) (1 ⊗ₜ[↑(A.obj k)] x)
+      rw [Algebra.TensorProduct.productMap_apply_tmul, map_one, one_mul]
+      rfl
+    rw [h1]
+    refine Ideal.mem_map_of_mem _ ?_
+    rw [RingHom.mem_ker, hfC_tmul 1 x, Ideal.Quotient.eq_zero_iff_mem.2 hx,
+      TensorProduct.tmul_zero]
+  have hloc := IsLocalization.of_surjective T ↑(B.obj l) fC hfCsurj
+    (Ideal.Quotient.mk (idealB φ ρ I l)) Ideal.Quotient.mk_surjective hsq hker
+  have := hloc
+  have : IsLocalRing (↑(B.obj l) ⧸ idealB φ ρ I l) :=
+    hBlocalQ φ ρ I hI hAlocal hBlocal hφlocal l
+  have hprime := Stacks.SpreadingOut.LocalModuleSystem.isLocalization_primeCompl_comap_maximalIdeal
+    (P := (↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k] (↑(A.obj l) ⧸ idealA ρ I l))
+    (S := ↑(B.obj l) ⧸ idealB φ ρ I l) (Submonoid.map fC T)
+  exact
+    Stacks.SpreadingOut.LocalModuleSystem.exists_isLocalization_primeCompl_pushout_of_tensorProduct
+    (Ri := ↑(A.obj k) ⧸ idealA ρ I k) (Si := ↑(B.obj k) ⧸ idealB φ ρ I k)
+    (Rj := ↑(A.obj l) ⧸ idealA ρ I l) (Sj := ↑(B.obj l) ⧸ idealB φ ρ I l)
+    ((funPhi φ ρ I).naturality h).symm
+    ⟨(IsLocalRing.maximalIdeal (↑(B.obj l) ⧸ idealB φ ρ I l)).comap
+      (algebraMap ((↑(B.obj k) ⧸ idealB φ ρ I k) ⊗[↑(A.obj k) ⧸ idealA ρ I k]
+        (↑(A.obj l) ⧸ idealA ρ I l)) (↑(B.obj l) ⧸ idealB φ ρ I l)),
+      Ideal.IsPrime.comap _, hprime⟩
+
+/-- If `N_μ` is the base change of `N_λ` along `B_λ → B_μ`, then `N_μ/I_μ N_μ` is the base change
+of `N_λ/I_λ N_λ` along `B_λ/I_λ B_λ → B_μ/I_μ B_μ`. -/
+public lemma hNbcQ
+    (hNbc : ∀ ⦃i j : Λ⦄ (h : i ⟶ j),
+      letI : Algebra ↑(B.obj i) ↑(B.obj j) := (B.map h).hom.toAlgebra
+      letI : Module ↑(B.obj i) ↑(N.obj j) := Module.compHom _ (B.map h).hom
+      letI : IsScalarTower ↑(B.obj i) ↑(B.obj j) ↑(N.obj j) :=
+        .of_algebraMap_smul fun _ _ => rfl
+      IsBaseChange ↑(B.obj j)
+        (⟨(N.map h).hom.toAddHom, hsmul h⟩ : ↑(N.obj i) →ₗ[↑(B.obj i)] ↑(N.obj j)))
+    ⦃k l : Λ⦄ (h : k ⟶ l) :
+    letI _algBB : Algebra (↑(B.obj k) ⧸ idealB φ ρ I k) (↑(B.obj l) ⧸ idealB φ ρ I l) :=
+      (qmapB φ ρ I h).toAlgebra
+    letI _modBN : Module (↑(B.obj k) ⧸ idealB φ ρ I k)
+        (↑(N.obj l) ⧸ (idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l))) :=
+      Module.compHom _ (qmapB φ ρ I h)
+    letI _towBB := tower_of_algebraMap_smul (R₀ := ↑(B.obj k) ⧸ idealB φ ρ I k)
+      (S₀ := ↑(B.obj l) ⧸ idealB φ ρ I l)
+      (M₀ := ↑(N.obj l) ⧸ (idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l)))
+      (fun _ _ => rfl)
+    IsBaseChange (↑(B.obj l) ⧸ idealB φ ρ I l)
+      (⟨((funN φ ρ I mod hsmul).map h).hom.toAddHom,
+          fun b m => hsmulQ φ ρ I mod hsmul h b m⟩ :
+        (↑(N.obj k) ⧸ (idealB φ ρ I k) • (⊤ : Submodule ↑(B.obj k) ↑(N.obj k)))
+          →ₗ[↑(B.obj k) ⧸ idealB φ ρ I k]
+          (↑(N.obj l) ⧸ (idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l)))) := by
+  let algBB : Algebra (↑(B.obj k) ⧸ idealB φ ρ I k) (↑(B.obj l) ⧸ idealB φ ρ I l) :=
+    (qmapB φ ρ I h).toAlgebra
+  let modBN : Module (↑(B.obj k) ⧸ idealB φ ρ I k)
+      (↑(N.obj l) ⧸ (idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l))) :=
+    Module.compHom _ (qmapB φ ρ I h)
+  have towBB := tower_of_algebraMap_smul (R₀ := ↑(B.obj k) ⧸ idealB φ ρ I k)
+    (S₀ := ↑(B.obj l) ⧸ idealB φ ρ I l)
+    (M₀ := ↑(N.obj l) ⧸ (idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l)))
+    (fun _ _ => rfl)
+  let algBkBl : Algebra ↑(B.obj k) ↑(B.obj l) := (B.map h).hom.toAlgebra
+  let modBkNl : Module ↑(B.obj k) ↑(N.obj l) := Module.compHom _ (B.map h).hom
+  have towBkBlNl : IsScalarTower ↑(B.obj k) ↑(B.obj l) ↑(N.obj l) :=
+    .of_algebraMap_smul fun _ _ => rfl
+  have bc : IsBaseChange ↑(B.obj l)
+      (⟨(N.map h).hom.toAddHom, hsmul h⟩ : ↑(N.obj k) →ₗ[↑(B.obj k)] ↑(N.obj l)) := hNbc h
+  have bck : IsBaseChange (↑(B.obj k) ⧸ idealB φ ρ I k)
+      (((idealB φ ρ I k) • (⊤ : Submodule ↑(B.obj k) ↑(N.obj k))).mkQ) :=
+    isBaseChange_mkQ_smul_top _
+  have bcl : IsBaseChange (↑(B.obj l) ⧸ idealB φ ρ I l)
+      (((idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l))).mkQ) :=
+    isBaseChange_mkQ_smul_top _
+  let algBkQl : Algebra ↑(B.obj k) (↑(B.obj l) ⧸ idealB φ ρ I l) :=
+    ((Ideal.Quotient.mk (idealB φ ρ I l)).comp (B.map h).hom).toAlgebra
+  have tow1 := IsScalarTower.of_algebraMap_eq (R := ↑(B.obj k)) (S := ↑(B.obj l))
+    (A := ↑(B.obj l) ⧸ idealB φ ρ I l) (fun _ => rfl)
+  have tow2 := IsScalarTower.of_algebraMap_eq (R := ↑(B.obj k))
+    (S := ↑(B.obj k) ⧸ idealB φ ρ I k) (A := ↑(B.obj l) ⧸ idealB φ ρ I l) (fun _ => rfl)
+  have tow3 := tower_of_algebraMap_smul (R₀ := ↑(B.obj k)) (S₀ := ↑(B.obj l))
+    (M₀ := ↑(N.obj l) ⧸ (idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l)))
+    (fun x q => by induction q using Submodule.Quotient.induction_on with | _ n => rfl)
+  have tow4 := tower_of_algebraMap_smul (R₀ := ↑(B.obj k))
+    (S₀ := ↑(B.obj k) ⧸ idealB φ ρ I k)
+    (M₀ := ↑(N.obj l) ⧸ (idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l)))
+    (fun x q => by induction q using Submodule.Quotient.induction_on with | _ n => rfl)
+  have tow5 := tower_of_algebraMap_smul (R₀ := ↑(B.obj k))
+    (S₀ := ↑(B.obj l) ⧸ idealB φ ρ I l)
+    (M₀ := ↑(N.obj l) ⧸ (idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l)))
+    (fun x q => by induction q using Submodule.Quotient.induction_on with | _ n => rfl)
+  have hcomp : IsBaseChange (↑(B.obj l) ⧸ idealB φ ρ I l)
+      ((((idealB φ ρ I l) • (⊤ : Submodule ↑(B.obj l) ↑(N.obj l))).mkQ.restrictScalars
+          ↑(B.obj k)).comp
+        (⟨(N.map h).hom.toAddHom, hsmul h⟩ : ↑(N.obj k) →ₗ[↑(B.obj k)] ↑(N.obj l))) :=
+    bc.comp bcl
+  refine IsBaseChange.of_comp bck ?_
+  convert hcomp using 1
+  exact LinearMap.ext fun _ => rfl
+
+end Data
+
+end Stacks.SpreadingOut.QuotientSystem
+
+/-! ### Flatness of the quotient system -/
+
+open Stacks.SpreadingOut.QuotientSystem in
+/-- Let `(A i → B i, N i)` be a directed system as in 00QX, with colimits `R → S` and `M`, and
+with the transition maps `A i → A j` local. Let `I ≠ R` be an ideal of `R` and write
+`I_k = ρ_k^{-1}(I) ⊆ A k`. If `M/IM` is flat over `R/I`, then for every index `i` there is `j ≥ i`
+such that `N j/I_j N j` is flat over `A j/I_j`. -/
+public theorem Module.Flat.exists_ge_flat_quotient_of_isColimit
+    {R S M : Type u} [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup M] [Module R M] [Module S M] [IsScalarTower R S M]
+    {Λ : Type u} [Preorder Λ] [Nonempty Λ] [IsDirected Λ (· ≤ ·)]
+    {A B : Λ ⥤ CommRingCat.{u}} {φ : A ⟶ B} {N : Λ ⥤ AddCommGrpCat.{u}}
+    (mod : ∀ i, Module ↑(B.obj i) ↑(N.obj i))
+    (hsmul : ∀ ⦃i j : Λ⦄ (h : i ⟶ j) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      N.map h (b • m) = B.map h b • N.map h m)
+    {ρ : A ⟶ (Functor.const Λ).obj (CommRingCat.of R)}
+    {σ : B ⟶ (Functor.const Λ).obj (CommRingCat.of S)}
+    {ν : N ⟶ (Functor.const Λ).obj (AddCommGrpCat.of M)}
+    (hR : IsColimit (Cocone.mk (CommRingCat.of R) ρ))
+    (hS : IsColimit (Cocone.mk (CommRingCat.of S) σ))
+    (hM : IsColimit (Cocone.mk (AddCommGrpCat.of M) ν))
+    (hφ : ∀ i, φ.app i ≫ σ.app i = ρ.app i ≫ CommRingCat.ofHom (algebraMap R S))
+    (hν : ∀ (i : Λ) (b : ↑(B.obj i)) (m : ↑(N.obj i)),
+      (ν.app i (b • m) : M) = HSMul.hSMul (α := S) (β := M) (σ.app i b) (ν.app i m))
+    (hAlocal : ∀ i, IsLocalRing ↑(A.obj i)) (hBlocal : ∀ i, IsLocalRing ↑(B.obj i))
+    (hφlocal : ∀ i, IsLocalHom (φ.app i).hom)
+    (hAmaplocal : ∀ ⦃i j : Λ⦄ (h : i ⟶ j), IsLocalHom (A.map h).hom)
+    (hAft : ∀ i, Algebra.EssFiniteType ℤ ↑(A.obj i))
+    (hφft : ∀ i, (φ.app i).hom.EssFiniteType)
+    (hNfin : ∀ i, Module.Finite ↑(B.obj i) ↑(N.obj i))
+    (hBloc : ∀ ⦃i j : Λ⦄ (h : i ⟶ j),
+      letI := (pushout.desc (B.map h) (φ.app j) (φ.naturality h).symm).hom.toAlgebra
+      ∃ (q : Ideal ↑(pushout (φ.app i) (A.map h))) (_ : q.IsPrime),
+        IsLocalization q.primeCompl ↑(B.obj j))
+    (hNbc : ∀ ⦃i j : Λ⦄ (h : i ⟶ j),
+      letI : Algebra ↑(B.obj i) ↑(B.obj j) := (B.map h).hom.toAlgebra
+      letI : Module ↑(B.obj i) ↑(N.obj j) := Module.compHom _ (B.map h).hom
+      letI : IsScalarTower ↑(B.obj i) ↑(B.obj j) ↑(N.obj j) :=
+        .of_algebraMap_smul fun _ _ => rfl
+      IsBaseChange ↑(B.obj j)
+        (⟨(N.map h).hom.toAddHom, hsmul h⟩ : ↑(N.obj i) →ₗ[↑(B.obj i)] ↑(N.obj j)))
+    (I : Ideal R) (hI : I ≠ ⊤)
+    (hflat : Module.Flat (R ⧸ I) (M ⧸ (I • (⊤ : Submodule R M))))
+    (i : Λ) :
+    ∃ j, i ≤ j ∧
+      (letI : Module ↑(A.obj j) ↑(N.obj j) := Module.compHom _ (φ.app j).hom
+       Module.Flat (↑(A.obj j) ⧸ I.comap (ρ.app j).hom)
+         (↑(N.obj j) ⧸ ((I.comap (ρ.app j).hom) • (⊤ : Submodule ↑(A.obj j) ↑(N.obj j))))) := by
+  let _ : Module (R ⧸ I) (M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M)) :=
+    Module.compHom _ (algebraMap (R ⧸ I) (S ⧸ I.map (algebraMap R S)))
+  have : IsScalarTower (R ⧸ I) (S ⧸ I.map (algebraMap R S))
+      (M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M)) :=
+    .of_algebraMap_smul fun _ _ => rfl
+  have htower : IsScalarTower R (R ⧸ I)
+      (M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M)) := by
+    refine .of_algebraMap_smul fun r x => ?_
+    induction x using Submodule.Quotient.induction_on with
+    | _ z => exact congrArg Submodule.Quotient.mk (algebraMap_smul S r z)
+  have : Module.Flat (R ⧸ I) (M ⧸ (I.map (algebraMap R S)) • (⊤ : Submodule S M)) := by
+    have := hflat
+    exact Module.Flat.of_linearEquiv (quotSMulTopEquiv (A := R) (B := S) (N := M) I)
+  let _ := modQ φ ρ I mod hsmul
+  obtain ⟨j, hij, hflatj⟩ := Module.Flat.exists_ge_flat_of_isColimit
+    (A := funA ρ I) (B := funB φ ρ I) (φ := funPhi φ ρ I) (N := funN φ ρ I mod hsmul)
+    (ρ := legA ρ I) (σ := legB φ ρ σ I hφ) (ν := legN φ ρ σ ν I mod hsmul hφ hν)
+    (modQ φ ρ I mod hsmul) (fun {a b} h => hsmulQ φ ρ I mod hsmul h)
+    (legAIsColimit ρ I hR) (legBIsColimit φ ρ σ I hφ hR hS)
+    (legNIsColimit φ ρ σ ν I mod hsmul hφ hν hR hS hM)
+    (hphiQ φ ρ σ I hφ) (hnuQ φ ρ σ ν I mod hsmul hφ hν)
+    (hAlocalQ ρ I hI hAlocal) (hBlocalQ φ ρ I hI hAlocal hBlocal hφlocal)
+    (hphilocalQ φ ρ I hI hAlocal hBlocal hφlocal)
+    (fun {k l} h => hAmaplocalQ ρ I hI hAlocal hAmaplocal h)
+    (hAftQ ρ I hAft) (hphiftQ φ ρ I hφft) (hNfinQ φ ρ I mod hsmul hNfin)
+    (fun {k l} h => hBlocQ φ ρ I hI hAlocal hBlocal hφlocal hBloc h)
+    (fun {k l} h => hNbcQ φ ρ I mod hsmul hNbc h)
+    i
+  refine ⟨j, hij, ?_⟩
+  let algAjBj : Algebra ↑(A.obj j) ↑(B.obj j) := (φ.app j).hom.toAlgebra
+  let modAjNj : Module ↑(A.obj j) ↑(N.obj j) := Module.compHom _ (φ.app j).hom
+  have towj : IsScalarTower ↑(A.obj j) ↑(B.obj j) ↑(N.obj j) :=
+    .of_algebraMap_smul fun _ _ => rfl
+  let modQj : Module (↑(A.obj j) ⧸ (I.comap (ρ.app j).hom))
+      (↑(N.obj j) ⧸ (((I.comap (ρ.app j).hom)).map (algebraMap ↑(A.obj j) ↑(B.obj j)))
+        • (⊤ : Submodule ↑(B.obj j) ↑(N.obj j))) :=
+    Module.compHom _ (algebraMap (↑(A.obj j) ⧸ (I.comap (ρ.app j).hom))
+      (↑(B.obj j) ⧸ ((I.comap (ρ.app j).hom)).map (algebraMap ↑(A.obj j) ↑(B.obj j))))
+  have towQj : IsScalarTower ↑(A.obj j) (↑(A.obj j) ⧸ (I.comap (ρ.app j).hom))
+      (↑(N.obj j) ⧸ (((I.comap (ρ.app j).hom)).map (algebraMap ↑(A.obj j) ↑(B.obj j)))
+        • (⊤ : Submodule ↑(B.obj j) ↑(N.obj j))) := by
+    refine .of_algebraMap_smul fun x q => ?_
+    induction q using Submodule.Quotient.induction_on with
+    | _ n => rfl
+  have hfl : Module.Flat (↑(A.obj j) ⧸ (I.comap (ρ.app j).hom))
+      (↑(N.obj j) ⧸ (((I.comap (ρ.app j).hom)).map (algebraMap ↑(A.obj j) ↑(B.obj j)))
+        • (⊤ : Submodule ↑(B.obj j) ↑(N.obj j))) := hflatj
+  exact Module.Flat.of_linearEquiv
+    (quotSMulTopEquiv (A := ↑(A.obj j)) (B := ↑(B.obj j)) (N := ↑(N.obj j))
+      ((I.comap (ρ.app j).hom))).symm

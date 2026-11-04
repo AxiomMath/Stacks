@@ -1,0 +1,386 @@
+module
+
+public import Mathlib.Algebra.Algebra.Shrink
+public import Mathlib.RingTheory.Finiteness.Small
+public import Mathlib.RingTheory.TensorProduct.Quotient
+public import StacksFrontier.RingTheory.Flat.CompleteDevissageStep
+public import StacksFrontier.RingTheory.Flat.GeometricFibresStage
+
+/-!
+# Closed fibres of a base change of a stage algebra
+
+The proof of Stacks Tag 05PG applies Stacks Tag 05I3 to the stage algebras `B` of a complete
+dévissage over a local ring `A`, but not over `A`: over an arbitrary local `A`-algebra `R`, to
+the base change `B ⊗[A] R`. Stacks Tag 05I3 asks that the extension of the maximal ideal of `R`
+to `B ⊗[A] R` be prime, that the stage map stay an isomorphism over its residue field, and that
+the prime at which flatness is tested exist. This file supplies the three, with `R` in an
+arbitrary universe: the test algebras of Stacks Tag 05PG do not live in the universe of `A`.
+
+## Main results
+
+* `Module.isDomain_tensorProduct_of_geometricallyIntegral`: if `B` is flat over `A` with
+  geometrically integral fibres then `B ⊗[A] L` is a domain for every field `L` over `A`, in
+  any universe. The definition of geometric integrality only tests fields in the universe of
+  `A`; the passage to other universes is a smallness argument.
+* `Module.closedFiberIdeal_tensorProduct_isPrime`: consequently `𝔪_R (B ⊗[A] R)` is prime.
+* `Module.comap_closedFiberIdeal_tensorProduct`: `𝔪_R (B ⊗[A] R)` contracts to `𝔪_A B`.
+* `Module.bijective_baseChange_closedFiber_tensorProduct`: a map bijective over `κ(𝔪_A B)` has
+  base change to `B ⊗[A] R` bijective over `κ(𝔪_R (B ⊗[A] R))`.
+* `Module.exists_isPrime_closedFiber_comap_eq`: for a prime `Q` of `B` over the closed point of
+  `A`, some prime of `B ⊗[A] R` contains `𝔪_R` and contracts to `Q`.
+
+## Implementation notes
+
+The `R`-algebra structure on `B ⊗[A] R` is `Algebra.TensorProduct.rightAlgebra`, introduced by
+`letI` in the statements as `Module.IsFlatAtPrimesOver` does.
+
+## References
+
+* [Stacks Project, Tag 05DX](https://stacks.math.columbia.edu/tag/05DX)
+* [Stacks Project, Tag 05I3](https://stacks.math.columbia.edu/tag/05I3)
+* [Stacks Project, Tag 05PG](https://stacks.math.columbia.edu/tag/05PG)
+-/
+
+@[expose] public section
+
+open AlgebraicGeometry IsLocalRing
+
+open scoped TensorProduct
+
+universe u v w x y
+
+namespace Module
+
+/-- The inclusion `B ⊗[A] D → B ⊗[A] L` for an `A`-subalgebra `D` of `L`. -/
+private noncomputable abbrev subTensor {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
+    {L : Type*} [CommRing L] [Algebra A L] (D : Subalgebra A L) : B ⊗[A] D →ₐ[A] B ⊗[A] L :=
+  Algebra.TensorProduct.map (AlgHom.id A B) D.val
+
+/-- By flatness of `B`, the inclusion `B ⊗[A] D → B ⊗[A] L` is injective. -/
+private theorem subTensor_injective {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
+    [Module.Flat A B] {L : Type*} [CommRing L] [Algebra A L] (D : Subalgebra A L) :
+    Function.Injective (subTensor (B := B) D) :=
+  Module.Flat.lTensor_preserves_injective_linearMap (M := B) D.val.toLinearMap
+    Subtype.val_injective
+
+/-- A `Small` `A`-subalgebra `D` of a field: `B ⊗[A] D` is a domain when `B` is flat over `A` with
+geometrically integral fibres, because it embeds in `B ⊗[A] K` for the fraction field `K` of a
+universe-`u` copy of `D`. -/
+private theorem isDomain_tensor_subalgebra {A B : Type u} [CommRing A] [CommRing B] [Algebra A B]
+    [Module.Flat A B] [GeometricallyIntegral (Spec.map (CommRingCat.ofHom (algebraMap A B)))]
+    {L : Type y} [Field L] [Algebra A L] (D : Subalgebra A L) [Small.{u} D] :
+    IsDomain (B ⊗[A] D) := by
+  have : IsDomain (Shrink.{u} D) :=
+    (Shrink.ringEquiv D).injective.isDomain (f := (Shrink.ringEquiv D).toRingHom)
+  let K := FractionRing (Shrink.{u} D)
+  let g : D →ₐ[A] K :=
+    (IsScalarTower.toAlgHom A (Shrink.{u} D) K).comp (Shrink.algEquiv A D).symm.toAlgHom
+  have hg : Function.Injective g :=
+    (IsFractionRing.injective (Shrink.{u} D) K).comp (Shrink.algEquiv A D).symm.injective
+  have hinj : Function.Injective (Algebra.TensorProduct.map (AlgHom.id A B) g) :=
+    Module.Flat.lTensor_preserves_injective_linearMap (M := B) g.toLinearMap hg
+  have := (Algebra.geometricallyIntegral_iff_forall_isDomain_tensorProduct A B).mp ‹_› K
+  exact hinj.isDomain (f := (Algebra.TensorProduct.map (AlgHom.id A B) g).toRingHom)
+
+/-- The inclusions `B ⊗[A] E → B ⊗[A] L` are compatible with an inclusion `E ≤ D`. -/
+private theorem subTensor_comp_inclusion {A B : Type*} [CommRing A] [CommRing B]
+    [Algebra A B] {L : Type*} [CommRing L] [Algebra A L] {E D : Subalgebra A L} (h : E ≤ D) :
+    (subTensor (B := B) D).comp
+        (Algebra.TensorProduct.map (AlgHom.id A B) (Subalgebra.inclusion h)) =
+      subTensor (B := B) E := by
+  rw [subTensor, ← Algebra.TensorProduct.map_comp, AlgHom.comp_id,
+    show D.val.comp (Subalgebra.inclusion h) = E.val from AlgHom.ext fun _ ↦ rfl]
+
+/-- Every element of `B ⊗[A] L` comes from `B ⊗[A] D` for the subalgebra `D` generated by a finite
+subset of `L`. -/
+private theorem exists_finset_mem_range_subTensor {A B : Type*} [CommRing A] [CommRing B]
+    [Algebra A B] {L : Type*} [CommRing L] [Algebra A L] (z : B ⊗[A] L) :
+    ∃ s : Finset L, z ∈ Set.range (subTensor (B := B) (Algebra.adjoin A (s : Set L))) := by
+  classical
+  have hmono : ∀ {s t : Finset L}, s ⊆ t → ∀ z,
+      z ∈ Set.range (subTensor (B := B) (Algebra.adjoin A (s : Set L))) →
+      z ∈ Set.range (subTensor (B := B) (Algebra.adjoin A (t : Set L))) := by
+    rintro s t hst _ ⟨w, rfl⟩
+    exact ⟨_, DFunLike.congr_fun (subTensor_comp_inclusion
+      (Algebra.adjoin_mono (by exact_mod_cast hst))) w⟩
+  induction z using TensorProduct.induction_on with
+  | zero => exact ⟨∅, 0, map_zero _⟩
+  | tmul b l =>
+    exact ⟨{l}, b ⊗ₜ ⟨l, Algebra.subset_adjoin (by simp)⟩, by simp [subTensor]⟩
+  | add z₁ z₂ h₁ h₂ =>
+    obtain ⟨s, hs⟩ := h₁
+    obtain ⟨t, ht⟩ := h₂
+    obtain ⟨w₁, hw₁⟩ := hmono Finset.subset_union_left _ hs (t := s ∪ t)
+    obtain ⟨w₂, hw₂⟩ := hmono Finset.subset_union_right _ ht (s := t) (t := s ∪ t)
+    exact ⟨s ∪ t, w₁ + w₂, by rw [map_add, hw₁, hw₂]⟩
+
+/-- **Geometric integrality of the fibres gives domains after any field base change, in any
+universe.** If `B` is flat over `A` and `Spec B → Spec A` has geometrically integral fibres, then
+`B ⊗[A] L` is a domain for every field `L` over `A`, whatever its universe.
+
+`Algebra.geometricallyIntegral_iff_forall_isDomain_tensorProduct` gives this for fields in the
+universe of `A` and `B`. A product of two elements of `B ⊗[A] L` involves finitely many elements
+of `L`, so it lives in `B ⊗[A] D` for a finitely generated, hence small, subalgebra `D ⊆ L`; by
+flatness `B ⊗[A] D` embeds both in `B ⊗[A] L` and in `B ⊗[A] K` for the fraction field `K` of a
+small copy of `D`, which is a domain. -/
+theorem isDomain_tensorProduct_of_geometricallyIntegral {A B : Type u} [CommRing A]
+    [CommRing B] [Algebra A B] [Module.Flat A B]
+    [GeometricallyIntegral (Spec.map (CommRingCat.ofHom (algebraMap A B)))]
+    (L : Type y) [Field L] [Algebra A L] : IsDomain (B ⊗[A] L) := by
+  have : Nontrivial (B ⊗[A] L) := by
+    have : IsDomain (B ⊗[A] (Algebra.adjoin A ((∅ : Finset L) : Set L))) :=
+      isDomain_tensor_subalgebra _
+    exact (subTensor_injective (B := B) (Algebra.adjoin A ((∅ : Finset L) : Set L))).nontrivial
+  have : NoZeroDivisors (B ⊗[A] L) := by
+    refine ⟨fun {z₁ z₂} h ↦ ?_⟩
+    classical
+    obtain ⟨s, hs⟩ := exists_finset_mem_range_subTensor (B := B) z₁
+    obtain ⟨t, ht⟩ := exists_finset_mem_range_subTensor (B := B) z₂
+    let D := Algebra.adjoin A ((s ∪ t : Finset L) : Set L)
+    have hsD : Algebra.adjoin A (s : Set L) ≤ D := Algebra.adjoin_mono (by simp)
+    have htD : Algebra.adjoin A (t : Set L) ≤ D := Algebra.adjoin_mono (by simp)
+    have hlift : ∀ (E : Subalgebra A L) (hE : E ≤ D) (z : B ⊗[A] L),
+        z ∈ Set.range (subTensor (B := B) E) → z ∈ Set.range (subTensor (B := B) D) := by
+      rintro E hE _ ⟨w, rfl⟩
+      exact ⟨_, DFunLike.congr_fun (subTensor_comp_inclusion hE) w⟩
+    obtain ⟨w₁, rfl⟩ := hlift _ hsD _ hs
+    obtain ⟨w₂, rfl⟩ := hlift _ htD _ ht
+    have : IsDomain (B ⊗[A] D) := isDomain_tensor_subalgebra D
+    rw [← map_mul, ← map_zero (subTensor (B := B) D)] at h
+    exact (mul_eq_zero.mp (subTensor_injective D h)).imp (fun h ↦ by rw [h, map_zero])
+      fun h ↦ by rw [h, map_zero]
+  exact NoZeroDivisors.to_isDomain _
+
+/-- **The generic point of the closed fibre survives an arbitrary base change of the base.** If
+`B` is flat over `A` with geometrically integral fibres and `R` is a local `A`-algebra, in any
+universe, the extension of the maximal ideal of `R` to `B ⊗[A] R` is prime: the quotient is
+`B ⊗[A] κ(R)` (`Algebra.TensorProduct.tensorQuotientEquiv`), a domain by
+`Module.isDomain_tensorProduct_of_geometricallyIntegral`. -/
+theorem closedFiberIdeal_tensorProduct_isPrime {A B : Type u} [CommRing A] [CommRing B]
+    [Algebra A B] [Module.Flat A B]
+    [GeometricallyIntegral (Spec.map (CommRingCat.ofHom (algebraMap A B)))]
+    (R : Type y) [CommRing R] [IsLocalRing R] [Algebra A R] :
+    letI : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+    (Algebra.closedFiberIdeal R (B ⊗[A] R)).IsPrime := by
+  let : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+  let : Field (R ⧸ maximalIdeal R) := Ideal.Quotient.field _
+  have : IsDomain (B ⊗[A] (R ⧸ maximalIdeal R)) :=
+    isDomain_tensorProduct_of_geometricallyIntegral _
+  let e := Algebra.TensorProduct.tensorQuotientEquiv (R := A) A R B (maximalIdeal R)
+  have : IsDomain ((B ⊗[A] R) ⧸
+      (maximalIdeal R).map (Algebra.TensorProduct.includeRight (A := B) (R := A))) :=
+    MulEquiv.isDomain _ e.symm.toMulEquiv
+  exact (Ideal.Quotient.isDomain_iff_prime _).mp this
+
+/-- **A module over a field injects into its base change along a nonzero extension**, the tensor
+product being taken over a ring mapping to the field. A `k`-linear retraction `φ : K → k` of the
+structure map gives the `A`-bilinear left inverse `m ⊗ₜ x ↦ φ x • m`. -/
+theorem injective_tmul_one {A : Type*} [CommRing A] {k : Type*} [Field k] [Algebra A k]
+    {K : Type*} [CommRing K] [Nontrivial K] [Algebra A K] [Algebra k K] [IsScalarTower A k K]
+    (M : Type*) [AddCommGroup M] [Module A M] [Module k M] [IsScalarTower A k M] :
+    Function.Injective (fun m : M ↦ m ⊗ₜ[A] (1 : K)) := by
+  obtain ⟨φ, hφ⟩ := (Algebra.linearMap k K).exists_leftInverse_of_injective
+    (LinearMap.ker_eq_bot.mpr (algebraMap k K).injective)
+  have hφ1 : φ (1 : K) = 1 := by simpa using LinearMap.congr_fun hφ 1
+  let bil : M →ₗ[A] K →ₗ[A] M :=
+    LinearMap.mk₂ A (fun m x ↦ φ x • m)
+      (fun m₁ m₂ x ↦ by simp [smul_add])
+      (fun a m x ↦ by
+        rw [← IsScalarTower.algebraMap_smul k a m, smul_comm, IsScalarTower.algebraMap_smul])
+      (fun m x₁ x₂ ↦ by simp [add_smul])
+      (fun a m x ↦ by
+        rw [← IsScalarTower.algebraMap_smul k a x, map_smul, smul_assoc,
+          IsScalarTower.algebraMap_smul])
+  intro m m' h
+  simpa only [TensorProduct.lift.tmul, bil, LinearMap.mk₂_apply, hφ1, one_smul] using
+    congrArg (TensorProduct.lift bil) h
+
+/-- The extension of `𝔪_R` to `B ⊗[A] R` dies under every base change of `B` and reduction of
+`R` modulo `𝔪_R`. -/
+private theorem closedFiberIdeal_le_ker_map {A B R C : Type*} [CommRing A] [CommRing B]
+    [CommRing R] [CommRing C] [IsLocalRing R] [Algebra A B] [Algebra A R] [Algebra A C]
+    (f : B →ₐ[A] C) :
+    letI : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+    Algebra.closedFiberIdeal R (B ⊗[A] R) ≤
+      RingHom.ker (Algebra.TensorProduct.map f (Ideal.Quotient.mkₐ A (maximalIdeal R))).toRingHom :=
+  Ideal.map_le_iff_le_comap.mpr fun x hx ↦ by
+    rw [Ideal.mem_comap, RingHom.mem_ker]
+    show Algebra.TensorProduct.map f (Ideal.Quotient.mkₐ A (maximalIdeal R)) (1 ⊗ₜ[A] x) = 0
+    simp [Ideal.Quotient.eq_zero_iff_mem.mpr hx]
+
+/-- **The generic point of the closed fibre of a base change contracts to the generic point of
+the closed fibre.** For a local homomorphism `A → R` of local rings and an `A`-algebra `B`, the
+extension of `𝔪_R` to `B ⊗[A] R` contracts along `b ↦ b ⊗ₜ 1` to the extension of `𝔪_A` to `B`.
+The rings may live in three different universes. -/
+theorem comap_closedFiberIdeal_tensorProduct (A : Type u) (B : Type v) (R : Type y)
+    [CommRing A] [CommRing B] [CommRing R] [IsLocalRing A] [IsLocalRing R] [Algebra A B]
+    [Algebra A R] [IsLocalHom (algebraMap A R)] :
+    letI : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+    (Algebra.closedFiberIdeal R (B ⊗[A] R)).comap
+        (Algebra.TensorProduct.includeLeftRingHom : B →+* B ⊗[A] R) =
+      Algebra.closedFiberIdeal A B := by
+  let : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+  have : (maximalIdeal A).IsMaximal := maximalIdeal.isMaximal A
+  have : (maximalIdeal R).IsMaximal := maximalIdeal.isMaximal R
+  let : Field (A ⧸ maximalIdeal A) := Ideal.Quotient.field _
+  let : Field (R ⧸ maximalIdeal R) := Ideal.Quotient.field _
+  have hle : maximalIdeal A ≤ (maximalIdeal R).comap (algebraMap A R) :=
+    (maximalIdeal_comap (algebraMap A R)).ge
+  let : Algebra (A ⧸ maximalIdeal A) (R ⧸ maximalIdeal R) :=
+    Ideal.Quotient.algebraQuotientOfLEComap hle
+  have : IsScalarTower A (A ⧸ maximalIdeal A) (R ⧸ maximalIdeal R) :=
+    IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  let : Algebra (A ⧸ maximalIdeal A) (B ⧸ Algebra.closedFiberIdeal A B) :=
+    Ideal.Quotient.algebraQuotientOfLEComap Ideal.le_comap_map
+  have : IsScalarTower A (A ⧸ maximalIdeal A) (B ⧸ Algebra.closedFiberIdeal A B) :=
+    IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  set Ψ : (B ⊗[A] R) →ₐ[A] (B ⧸ Algebra.closedFiberIdeal A B) ⊗[A] (R ⧸ maximalIdeal R) :=
+    Algebra.TensorProduct.map (Ideal.Quotient.mkₐ A (Algebra.closedFiberIdeal A B))
+      (Ideal.Quotient.mkₐ A (maximalIdeal R)) with hΨ
+  have hker : Algebra.closedFiberIdeal R (B ⊗[A] R) ≤ RingHom.ker Ψ.toRingHom :=
+    closedFiberIdeal_le_ker_map _
+  refine le_antisymm (fun b hb ↦ ?_) (Ideal.map_le_iff_le_comap.mpr fun a ha ↦ ?_)
+  · have h0 : Ψ (b ⊗ₜ[A] (1 : R)) = 0 := RingHom.mem_ker.mp (hker hb)
+    rw [hΨ, Algebra.TensorProduct.map_tmul] at h0
+    have h1 : (Ideal.Quotient.mk (Algebra.closedFiberIdeal A B) b) ⊗ₜ[A]
+        (1 : R ⧸ maximalIdeal R) =
+          (0 : B ⧸ Algebra.closedFiberIdeal A B) ⊗ₜ[A] (1 : R ⧸ maximalIdeal R) := by
+      simpa using h0
+    exact (Ideal.Quotient.eq_zero_iff_mem).mp
+      (injective_tmul_one (A := A) (k := A ⧸ maximalIdeal A)
+        (K := R ⧸ maximalIdeal R) (B ⧸ Algebra.closedFiberIdeal A B) h1)
+  · have hx : (algebraMap A B a) ⊗ₜ[A] (1 : R) =
+        algebraMap R (B ⊗[A] R) (algebraMap A R a) := by
+      show (algebraMap A B a) ⊗ₜ[A] (1 : R) = (1 : B) ⊗ₜ[A] (algebraMap A R a)
+      rw [Algebra.algebraMap_eq_smul_one (R := A) (A := B),
+        Algebra.algebraMap_eq_smul_one (R := A) (A := R)]
+      exact TensorProduct.smul_tmul _ _ _
+    rw [Ideal.mem_comap, Ideal.mem_comap]
+    show (algebraMap A B a) ⊗ₜ[A] (1 : R) ∈ Algebra.closedFiberIdeal R (B ⊗[A] R)
+    rw [hx]
+    exact Ideal.mem_map_of_mem _ (hle ha)
+
+/-- **The primes tested above a point of the closed fibre exist.** Let `A` be local, `B` an
+`A`-algebra, `Q` a prime of `B` over the closed point and `R` a local `A`-algebra with local
+structure map. Some prime of `B ⊗[A] R` contains the extension of `𝔪_R` and contracts to `Q`.
+
+It is the preimage of a maximal ideal of `κ(Q) ⊗[A] κ(R)`, which is a nonzero ring because
+`κ(Q)` injects into it (`Module.injective_tmul_one`, both factors being vector spaces over
+`κ(A)`); `Q` is recovered because the units of `κ(Q)` stay units. -/
+theorem exists_isPrime_closedFiber_comap_eq {A : Type u} [CommRing A] [IsLocalRing A] {B : Type v}
+    [CommRing B] [Algebra A B] (Q : Ideal B) [Q.IsPrime]
+    (hQ : Q.comap (algebraMap A B) = maximalIdeal A) (R : Type y) [CommRing R] [IsLocalRing R]
+    [Algebra A R] [IsLocalHom (algebraMap A R)] :
+    letI : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+    ∃ 𝔮 : Ideal (B ⊗[A] R), 𝔮.IsPrime ∧
+      Ideal.map (algebraMap R (B ⊗[A] R)) (maximalIdeal R) ≤ 𝔮 ∧
+      𝔮.comap (algebraMap B (B ⊗[A] R)) = Q := by
+  let : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+  have : (maximalIdeal A).IsMaximal := maximalIdeal.isMaximal A
+  have : (maximalIdeal R).IsMaximal := maximalIdeal.isMaximal R
+  let : Field (A ⧸ maximalIdeal A) := Ideal.Quotient.field _
+  let : Field (R ⧸ maximalIdeal R) := Ideal.Quotient.field _
+  have hle : maximalIdeal A ≤ (maximalIdeal R).comap (algebraMap A R) :=
+    (maximalIdeal_comap (algebraMap A R)).ge
+  let : Algebra (A ⧸ maximalIdeal A) (R ⧸ maximalIdeal R) :=
+    Ideal.Quotient.algebraQuotientOfLEComap hle
+  have : IsScalarTower A (A ⧸ maximalIdeal A) (R ⧸ maximalIdeal R) :=
+    IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  have hker : ∀ a ∈ maximalIdeal A, algebraMap A Q.ResidueField a = 0 := fun a ha ↦ by
+    rwa [IsScalarTower.algebraMap_apply A B Q.ResidueField, Ideal.algebraMap_residueField_eq_zero,
+      ← Ideal.mem_comap, hQ]
+  let : Algebra (A ⧸ maximalIdeal A) Q.ResidueField :=
+    (Ideal.Quotient.lift _ (algebraMap A Q.ResidueField) hker).toAlgebra
+  have : IsScalarTower A (A ⧸ maximalIdeal A) Q.ResidueField :=
+    IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
+  let Θ : (B ⊗[A] R) →ₐ[A] Q.ResidueField ⊗[A] (R ⧸ maximalIdeal R) :=
+    Algebra.TensorProduct.map (IsScalarTower.toAlgHom A B Q.ResidueField)
+      (Ideal.Quotient.mkₐ A (maximalIdeal R))
+  have hinj := injective_tmul_one (A := A) (k := A ⧸ maximalIdeal A)
+    (K := R ⧸ maximalIdeal R) Q.ResidueField
+  have : Nontrivial (Q.ResidueField ⊗[A] (R ⧸ maximalIdeal R)) :=
+    ⟨⟨(1 : Q.ResidueField) ⊗ₜ[A] (1 : R ⧸ maximalIdeal R), 0, fun h ↦ one_ne_zero
+      (hinj (h.trans (TensorProduct.zero_tmul _ _).symm))⟩⟩
+  obtain ⟨𝔭, h𝔭⟩ := Ideal.exists_maximal (Q.ResidueField ⊗[A] (R ⧸ maximalIdeal R))
+  refine ⟨𝔭.comap Θ.toRingHom, Ideal.comap_isPrime _ _, ?_, ?_⟩
+  · exact (closedFiberIdeal_le_ker_map (A := A) (R := R) _).trans (Ideal.comap_mono bot_le)
+  · ext b
+    rw [Ideal.mem_comap, Ideal.mem_comap]
+    show Θ (b ⊗ₜ[A] (1 : R)) ∈ 𝔭 ↔ b ∈ Q
+    rw [Algebra.TensorProduct.map_tmul, map_one]
+    show (algebraMap B Q.ResidueField b) ⊗ₜ[A] (1 : R ⧸ maximalIdeal R) ∈ 𝔭 ↔ b ∈ Q
+    refine ⟨fun h ↦ ?_, fun hb ↦ ?_⟩
+    · by_contra hb
+      have hu : IsUnit (algebraMap B Q.ResidueField b) := by
+        rwa [isUnit_iff_ne_zero, Ne, Ideal.algebraMap_residueField_eq_zero]
+      exact h𝔭.ne_top (Ideal.eq_top_of_isUnit_mem _ h (hu.map
+        (Algebra.TensorProduct.includeLeft (R := A) (S := A) (A := Q.ResidueField)
+          (B := R ⧸ maximalIdeal R))))
+    · rw [(Ideal.algebraMap_residueField_eq_zero).mpr hb, TensorProduct.zero_tmul]
+      exact 𝔭.zero_mem
+
+/-- **Base changing in one step or in two gives the same bijectivity.** For a `B`-algebra `S` and
+an `S`-algebra `K`, a map `α` of `B`-modules is bijective after base change to `K` exactly when
+its base change to `S` is bijective after base change to `K`. -/
+theorem bijective_baseChange_baseChange_iff {B : Type*} [CommRing B] (S : Type*) [CommRing S]
+    [Algebra B S] (K : Type*) [CommRing K] [Algebra B K] [Algebra S K] [IsScalarTower B S K]
+    {P : Type*} [AddCommGroup P] [Module B P] {M : Type*} [AddCommGroup M] [Module B M]
+    (α : P →ₗ[B] M) :
+    Function.Bijective ((α.baseChange S).baseChange K) ↔ Function.Bijective (α.baseChange K) := by
+  rw [LinearMap.baseChange_baseChange (A := S) (B := K) α]
+  show Function.Bijective
+    (⇑(TensorProduct.AlgebraTensorModule.cancelBaseChange B S K K M).symm ∘
+      ⇑(α.baseChange K) ∘ ⇑(TensorProduct.AlgebraTensorModule.cancelBaseChange B S K K P)) ↔ _
+  rw [EquivLike.comp_bijective _
+      (TensorProduct.AlgebraTensorModule.cancelBaseChange B S K K M).symm,
+    EquivLike.bijective_comp (TensorProduct.AlgebraTensorModule.cancelBaseChange B S K K P)]
+
+/-- **A map which becomes bijective over a `B`-algebra `S` stays bijective over every
+`S`-algebra.** -/
+theorem bijective_baseChange_of_tower {B : Type*} [CommRing B] (S : Type*) [CommRing S]
+    [Algebra B S] (K : Type*) [CommRing K] [Algebra B K] [Algebra S K] [IsScalarTower B S K]
+    {P : Type*} [AddCommGroup P] [Module B P] {M : Type*} [AddCommGroup M] [Module B M]
+    (α : P →ₗ[B] M) (h : Function.Bijective (α.baseChange S)) :
+    Function.Bijective (α.baseChange K) := by
+  refine (bijective_baseChange_baseChange_iff S K α).mp ?_
+  rw [LinearMap.baseChange_eq_ltensor]
+  exact (LinearEquiv.lTensor K (LinearEquiv.ofBijective (α.baseChange S) h)).bijective
+
+/-- **The fibre condition of a dévissage stage survives an arbitrary local base change of the
+base.** Let `A → R` be a local homomorphism of local rings, `B` an `A`-algebra whose closed fibre
+ideal `𝔪_A B` is prime, and suppose the closed fibre ideal `𝔪_R (B ⊗[A] R)` is prime too. If a
+map `α` of `B`-modules is bijective over `κ(𝔪_A B)`, then its base change to `B ⊗[A] R` is
+bijective over `κ(𝔪_R (B ⊗[A] R))`: the latter residue field is an extension of the former by
+`Module.comap_closedFiberIdeal_tensorProduct`. -/
+theorem bijective_baseChange_closedFiber_tensorProduct {A : Type u} {B : Type v} {R : Type y}
+    [CommRing A] [CommRing B] [CommRing R] [IsLocalRing A] [IsLocalRing R] [Algebra A B]
+    [Algebra A R] [IsLocalHom (algebraMap A R)] [(Algebra.closedFiberIdeal A B).IsPrime]
+    (hR : letI : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+      (Algebra.closedFiberIdeal R (B ⊗[A] R)).IsPrime)
+    {P : Type w} [AddCommGroup P] [Module B P] {M : Type x} [AddCommGroup M] [Module B M]
+    (α : P →ₗ[B] M)
+    (hα : Function.Bijective (α.baseChange (Algebra.closedFiberIdeal A B).ResidueField)) :
+    letI : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+    haveI := hR
+    Function.Bijective ((α.baseChange (B ⊗[A] R)).baseChange
+      (Algebra.closedFiberIdeal R (B ⊗[A] R)).ResidueField) := by
+  let : Algebra R (B ⊗[A] R) := Algebra.TensorProduct.rightAlgebra
+  have := hR
+  rw [bijective_baseChange_baseChange_iff]
+  let φ := Ideal.ResidueField.map (Algebra.closedFiberIdeal A B)
+    (Algebra.closedFiberIdeal R (B ⊗[A] R))
+    (Algebra.TensorProduct.includeLeftRingHom : B →+* B ⊗[A] R)
+    (comap_closedFiberIdeal_tensorProduct A B R).symm
+  let : Algebra (Algebra.closedFiberIdeal A B).ResidueField
+      (Algebra.closedFiberIdeal R (B ⊗[A] R)).ResidueField := φ.toAlgebra
+  have : IsScalarTower B (Algebra.closedFiberIdeal A B).ResidueField
+      (Algebra.closedFiberIdeal R (B ⊗[A] R)).ResidueField :=
+    IsScalarTower.of_algebraMap_eq fun b ↦ by
+      show _ = φ _
+      rw [Ideal.ResidueField.map_algebraMap,
+        IsScalarTower.algebraMap_apply B (B ⊗[A] R)
+          (Algebra.closedFiberIdeal R (B ⊗[A] R)).ResidueField]
+      rfl
+  exact bijective_baseChange_of_tower _ _ α hα
+
+end Module

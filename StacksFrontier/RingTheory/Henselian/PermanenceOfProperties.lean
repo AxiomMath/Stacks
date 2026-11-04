@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.RingTheory.Henselian.PermanenceOfProperties.FlatnessAndReducedness
+public import StacksFrontier.RingTheory.Henselian.PermanenceOfProperties.NormalityAndDimension
+public import StacksFrontier.RingTheory.Henselian.PermanenceOfProperties.NoetherianCompletions
+public import StacksFrontier.RingTheory.Henselian.PermanenceOfProperties.DepthRegularityAndFibres

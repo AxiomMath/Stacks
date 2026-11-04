@@ -1,0 +1,8 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesOpenVersality.ProperFlatFamilies
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesOpenVersality.OverIntegers
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesOpenVersality.Relocalization
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesOpenVersality.LargerBaseFamilies
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesOpenVersality.CurvesOverBase
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesOpenVersality.VersalityTransport

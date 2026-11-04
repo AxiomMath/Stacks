@@ -1,0 +1,221 @@
+module
+
+public import StacksCore.Tactic.StacksAttribute
+public import StacksFrontier.AlgebraicGeometry.Descent.AffineHomEtaleDescent
+public import StacksFrontier.AlgebraicGeometry.Divisors.LocallyPrincipalAffineComplement
+public import StacksFrontier.AlgebraicGeometry.Spaces.LocallyPrincipalChartScheme
+public import StacksFrontier.AlgebraicGeometry.Spaces.OpenComplement
+public import StacksFrontier.AlgebraicGeometry.Spaces.PointsRepresentable
+public import StacksFrontier.AlgebraicGeometry.Spaces.ZeroScheme
+
+/-!
+# Affineness of the complement of a closed subspace of an algebraic space
+
+Let `S` be a scheme contained in a big fppf site `B`, let `X` be an algebraic space over `S` and
+let `Z ⊆ X` be a closed subspace.  Stacks 083D says that the inclusion `X ∖ Z ⟶ X` of the open
+complement `AlgebraicGeometry.Space.openComplement` is an affine morphism as soon as `Z` is
+locally principal, and the source argument for it is that affineness is étale local on the
+target, so that the assertion reduces to the case of schemes, Stacks 07ZT.
+
+This file carries out that reduction, up to the chartwise hypothesis; the tag itself is
+`AlgebraicGeometry.Space.isAffineHom_ι_openComplement` in
+`StacksFrontier/AlgebraicGeometry/Spaces/OpenComplementAffineHom.lean`.  Affineness of a morphism of
+algebraic spaces *is* étale local on the target in this development, unconditionally: it is the
+implication from item (3) to item (2) of
+`AlgebraicGeometry.Space.isAffineHom_tfae_of_isAlgebraicSpace`, which is Stacks 03WG.  What the
+reduction consumes on the scheme side is local principality of the ideal sheaf cut out by `Z` on
+an affine étale chart, and that is the space-level `AlgebraicGeometry.Space.IsLocallyPrincipal`
+of Stacks 083B(1) read on that chart,
+`AlgebraicGeometry.Space.isLocallyPrincipal_ker_rep_snd_of_isLocallyPrincipal`.
+
+## Main results
+
+* `AlgebraicGeometry.Space.mem_range_rep_snd_iff_pointsMap_mem_range`: a point of an étale chart
+  of an algebraic space lies in the image of the base change of a representable subspace exactly
+  when its image in the point space of the ambient space lies in the point set of that subspace.
+  No hypothesis beyond representability of the inclusion, so it applies to open and closed
+  subspaces alike.
+* `AlgebraicGeometry.Space.range_rep_snd_openComplement_eq_compl`: the base change of the open
+  complement of a closed subspace to a chart has, as its image in the chart scheme, exactly the
+  complement of the image of the base change of the closed subspace.
+* `AlgebraicGeometry.Space.isAffineHom_rep_snd_openComplement_of_isLocallyPrincipal`: on a chart
+  whose induced sheaf of ideals is locally principal, the base change of the inclusion of the
+  open complement is an affine morphism of schemes.
+* `AlgebraicGeometry.Space.isAffineHom_openComplement_of_isLocallyPrincipal_charts`: the
+  étale-chart descent: if the sheaf of ideals induced by `Z` on every affine étale chart of `X`
+  is locally principal, then `X ∖ Z ⟶ X` is an affine morphism of algebraic spaces.
+
+## Implementation notes
+
+The three ingredients are independent of one another.
+
+The passage between the two descriptions of the image of a base change — as a set of points of
+the chart scheme, and as a set of classes of field valued points of the ambient space — is
+`AlgebraicGeometry.Space.preimage_range_pointsMap_eq_range_pointsMap_snd`, Stacks 03H4, together
+with the bijection `AlgebraicGeometry.Space.pointsToScheme` between the point space of a
+represented presheaf and its scheme.  Both are stated for an arbitrary representability bundle
+`CategoryTheory.Functor.relativelyRepresentable`, which is what lets the same lemma serve the
+closed subspace and its open complement; the complement computation is then only
+`AlgebraicGeometry.Space.range_pointsMap_ι_openComplement` read through that bijection.
+
+On a chart the base change of the complement is an open immersion of schemes whose image is the
+complement of the image of a closed immersion, hence the complement of the support of that closed
+immersion's kernel ideal by `AlgebraicGeometry.Scheme.Hom.support_ker`.  Two open immersions with
+the same image are identified by `AlgebraicGeometry.IsOpenImmersion.isoOfRangeEq`, so affineness
+transfers from `Stacks.Divisors.isAffineHom_ι_of_isLocallyPrincipal`, which is the scheme-level
+Stacks 07ZT in the shape that takes an arbitrary open with the prescribed underlying set.
+
+Descent is item (3) of `AlgebraicGeometry.Space.isAffineHom_tfae_of_isAlgebraicSpace`: an
+affine étale chart of the target, and a representation of the base change by an affine object of
+the site.  The representing object is supplied by the representability bundle of the open
+immersion `X ∖ Z ⟶ X` itself, and it is affine because the chart is affine and the base change
+is an affine morphism of schemes, `AlgebraicGeometry.isAffine_of_isAffineHom`.
+
+**The chart hypothesis.**  The space-level predicate of Stacks 083B(1) asks that the defining
+ideal sheaf be generated by one section locally on the *small étale site*, so recovering from it
+a Zariski affine open of a chart on which the induced ideal is principal is a descent statement
+about generation by one section.  It is
+`AlgebraicGeometry.Space.isLocallyPrincipal_ker_rep_snd_of_isLocallyPrincipal`, proved in
+`StacksFrontier/AlgebraicGeometry/Spaces/LocallyPrincipalChartScheme.lean`: faithfully flat descent
+of membership in a principal ideal makes the defining ideal of an affine étale chart principal
+on the nose, the ideal subsheaf of the inverse image is the flat pullback of the ideal subsheaf,
+and generation by one section near a point descends through the Fitting ideals.  So the chart
+hypothesis of the descent theorem below is discharged and Stacks 083D is obtained outright; the
+descent theorem is kept in its hypothetical form because it holds for any chartwise condition.
+
+## References
+
+* [Stacks Project, Tag 083D](https://stacks.math.columbia.edu/tag/083D)
+* [Stacks Project, Tag 083B](https://stacks.math.columbia.edu/tag/083B)
+* [Stacks Project, Tag 083C](https://stacks.math.columbia.edu/tag/083C)
+* [Stacks Project, Tag 03WG](https://stacks.math.columbia.edu/tag/03WG)
+* [Stacks Project, Tag 03H4](https://stacks.math.columbia.edu/tag/03H4)
+* [Stacks Project, Tag 07ZT](https://stacks.math.columbia.edu/tag/07ZT)
+-/
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory CategoryTheory.Limits
+
+universe u
+
+namespace AlgebraicGeometry.Space
+
+variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+variable {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+
+/-- **The image of the base change of a subspace to a chart, read on the chart scheme.**  A point
+of a chart `g : h_V ⟶ F` lies in the image of the base change of a subspace `W ⊆ F` whose
+inclusion is representable exactly when its image in the point space of `F` lies in the point set
+of `W`.  Nothing is assumed of `W` beyond representability of `W.ι`, so the statement serves a
+closed subspace and its open complement equally. -/
+theorem mem_range_rep_snd_iff_pointsMap_mem_range {W : Subfunctor F}
+    (hW : yoneda.relativelyRepresentable W.ι) {V : BigFppfOver B S hS}
+    (g : yoneda.obj V ⟶ F) (p : points B S hS (yoneda.obj V)) :
+    pointsToScheme B S hS V p ∈
+        Set.range ((BigFppfOver.toScheme B S hS).map (hW.snd g)).base ↔
+      pointsMap B S hS (yoneda.obj V) g p ∈
+        Set.range (pointsMap B S hS W.toFunctor W.ι) := by
+  rw [← Set.mem_preimage (f := pointsMap B S hS (yoneda.obj V) g),
+    preimage_range_pointsMap_eq_range_pointsMap_snd B S hS hW g]
+  constructor
+  · rintro ⟨t, ht⟩
+    obtain ⟨t', ht'⟩ := surjective_pointsToScheme B S hS (hW.pullback g) t
+    refine ⟨t', injective_pointsToScheme B S hS V ?_⟩
+    rw [pointsToScheme_pointsMap_yoneda, ht', ht]
+  · rintro ⟨t, ht⟩
+    exact ⟨pointsToScheme B S hS (hW.pullback g) t, by rw [← pointsToScheme_pointsMap_yoneda, ht]⟩
+
+/-- **The base change of an open complement to a chart is the complement of the base change.**
+For a closed subspace `Z ⊆ F` and a chart `g : h_V ⟶ F`, the image in the chart scheme of the
+base change of the inclusion of `F ∖ Z` is the complement of the image of the base change of the
+inclusion of `Z`. -/
+theorem range_rep_snd_openComplement_eq_compl (hF : IsAlgebraicSpace B S hS F)
+    (Z : Subfunctor F) (hZ : IsClosedSubspace B S hS Z) {V : BigFppfOver B S hS}
+    (g : yoneda.obj V ⟶ F) :
+    Set.range ((BigFppfOver.toScheme B S hS).map
+        ((isOpenSubspace_openComplement B S hS hF Z hZ).2.rep.snd g)).base =
+      (Set.range ((BigFppfOver.toScheme B S hS).map (hZ.2.rep.snd g)).base)ᶜ := by
+  ext y
+  obtain ⟨p, rfl⟩ := surjective_pointsToScheme B S hS V y
+  simp only [Set.mem_compl_iff,
+    mem_range_rep_snd_iff_pointsMap_mem_range B S hS
+      (isOpenSubspace_openComplement B S hS hF Z hZ).2.rep g p,
+    mem_range_rep_snd_iff_pointsMap_mem_range B S hS hZ.2.rep g p,
+    range_pointsMap_ι_openComplement B S hS Z]
+
+/-- **Affineness of the base change of the complement to a chart.**  If the sheaf of ideals that a
+closed subspace `Z ⊆ F` induces on a chart `g : h_V ⟶ F` is locally principal, then the base
+change to that chart of the inclusion of the open complement `F ∖ Z` is an affine morphism of
+schemes.  This is the scheme-level Stacks 07ZT transported across the identification of that base
+change with the complement of the support of the induced ideal. -/
+theorem isAffineHom_rep_snd_openComplement_of_isLocallyPrincipal
+    (hF : IsAlgebraicSpace B S hS F) (Z : Subfunctor F) (hZ : IsClosedSubspace B S hS Z)
+    {V : BigFppfOver B S hS} (g : yoneda.obj V ⟶ F)
+    (hprin : Stacks.Divisors.IsLocallyPrincipal
+      ((BigFppfOver.toScheme B S hS).map (hZ.2.rep.snd g)).ker) :
+    _root_.AlgebraicGeometry.IsAffineHom ((BigFppfOver.toScheme B S hS).map
+      ((isOpenSubspace_openComplement B S hS hF Z hZ).2.rep.snd g)) := by
+  have hci : _root_.AlgebraicGeometry.IsClosedImmersion
+      ((BigFppfOver.toScheme B S hS).map (hZ.2.rep.snd g)) :=
+    hZ.2.property_snd g
+  have hoi : _root_.AlgebraicGeometry.IsOpenImmersion
+      ((BigFppfOver.toScheme B S hS).map
+        ((isOpenSubspace_openComplement B S hS hF Z hZ).2.rep.snd g)) :=
+    (isOpenSubspace_openComplement B S hS hF Z hZ).2.property_snd g
+  obtain ⟨W, hWdef⟩ : ∃ W : ((BigFppfOver.toScheme B S hS).obj V).Opens,
+      (W : Set ((BigFppfOver.toScheme B S hS).obj V)) =
+        (Set.range ((BigFppfOver.toScheme B S hS).map (hZ.2.rep.snd g)).base)ᶜ :=
+    ⟨⟨_, ((BigFppfOver.toScheme B S hS).map
+      (hZ.2.rep.snd g)).isClosedEmbedding.isClosed_range.isOpen_compl⟩, rfl⟩
+  have hsupp : (((BigFppfOver.toScheme B S hS).map (hZ.2.rep.snd g)).ker.support :
+      Set ((BigFppfOver.toScheme B S hS).obj V)) =
+      Set.range ((BigFppfOver.toScheme B S hS).map (hZ.2.rep.snd g)).base := by
+    rw [Scheme.Hom.support_ker]
+    exact ((BigFppfOver.toScheme B S hS).map
+      (hZ.2.rep.snd g)).isClosedEmbedding.isClosed_range.closure_eq
+  have : _root_.AlgebraicGeometry.IsAffineHom (Scheme.Opens.ι W) :=
+    Stacks.Divisors.isAffineHom_ι_of_isLocallyPrincipal _ hprin (by rw [hWdef, hsupp])
+  have hrange : Set.range ((BigFppfOver.toScheme B S hS).map
+      ((isOpenSubspace_openComplement B S hS hF Z hZ).2.rep.snd g)) =
+      Set.range (Scheme.Opens.ι W) := by
+    rw [Scheme.Opens.range_ι, hWdef]
+    exact range_rep_snd_openComplement_eq_compl B S hS hF Z hZ g
+  rw [← IsOpenImmersion.isoOfRangeEq_hom_fac _ (Scheme.Opens.ι W) hrange]
+  infer_instance
+
+/-- **Étale-chart descent of affineness of the complement of a closed subspace.**  If the sheaf of
+ideals that a closed subspace `Z` of an algebraic space `X` induces on every affine étale chart of
+`X` is locally principal, then the inclusion `X ∖ Z ⟶ X` of the open complement is an affine
+morphism of algebraic spaces.
+
+This is the reduction of Stacks 083D to the case of schemes.  The hypothesis is carried rather
+than discharged, so that the statement applies to any chartwise condition;
+`AlgebraicGeometry.Space.isAffineHom_ι_openComplement` discharges it from Stacks 083B(1) and is
+the tag itself. -/
+theorem isAffineHom_openComplement_of_isLocallyPrincipal_charts
+    (X : AlgebraicSpaces B S hS) (Z : ClosedSubspaces B S hS X.1)
+    (hprin : ∀ (V : BigFppfOver B S hS) (g : yoneda.obj V ⟶ X.1),
+      IsEtale B S hS g → IsAffine ((BigFppfOver.toScheme B S hS).obj V) →
+      Stacks.Divisors.IsLocallyPrincipal
+        ((BigFppfOver.toScheme B S hS).map (Z.2.2.rep.snd g)).ker) :
+    IsAffineHom B S hS (openComplement B S hS Z.1).ι := by
+  refine ((isAffineHom_tfae_of_isAlgebraicSpace B S hS (openComplement B S hS Z.1).ι
+    (isOpenSubspace_openComplement B S hS X.2 Z.1 Z.2).1 X.2).out 3 2).mp ?_
+  intro V g hg
+  have hVaff : IsAffine ((BigFppfOver.toScheme B S hS).obj
+      ((BigAffineFppf.inclusion B S hS).obj V)) := V.2
+  have haff := isAffineHom_rep_snd_openComplement_of_isLocallyPrincipal B S hS X.2 Z.1 Z.2 g
+    (hprin _ g hg V.2)
+  have hPaff : IsAffine ((BigFppfOver.toScheme B S hS).obj
+      ((isOpenSubspace_openComplement B S hS X.2 Z.1 Z.2).2.rep.pullback g)) :=
+    isAffine_of_isAffineHom ((BigFppfOver.toScheme B S hS).map
+      ((isOpenSubspace_openComplement B S hS X.2 Z.1 Z.2).2.rep.snd g))
+  exact ⟨⟨(isOpenSubspace_openComplement B S hS X.2 Z.1 Z.2).2.rep.pullback g, hPaff⟩,
+    (isOpenSubspace_openComplement B S hS X.2 Z.1 Z.2).2.rep.fst g,
+    (isOpenSubspace_openComplement B S hS X.2 Z.1 Z.2).2.rep.snd g,
+    (isOpenSubspace_openComplement B S hS X.2 Z.1 Z.2).2.rep.isPullback g⟩
+
+end AlgebraicGeometry.Space
+
+end

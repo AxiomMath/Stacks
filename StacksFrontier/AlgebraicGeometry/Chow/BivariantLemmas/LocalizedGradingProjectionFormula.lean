@@ -1,0 +1,8 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.LocalizedGradingProjectionFormula.RestrictionMultiplicative
+public import StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.LocalizedGradingProjectionFormula.ProjectionFormula
+public import StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.LocalizedGradingProjectionFormula.PairingAssociativity
+public import StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.LocalizedGradingProjectionFormula.Associativity
+
+/-! Re-exports the four parts of the associativity of the multiplication of Stacks 0FA0. -/

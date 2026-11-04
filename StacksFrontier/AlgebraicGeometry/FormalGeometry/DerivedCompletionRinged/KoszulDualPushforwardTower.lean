@@ -1,0 +1,174 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.KoszulDualPullback
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.PushforwardCommutesCompletionHomTower
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.PushforwardCommutesCompletionKoszulTower
+
+/-!
+# The tower of the Koszul formula is carried by `Rf_*` from one site to the other
+
+Let `f : (Sh(𝒟), 𝒪') ⟶ (Sh(𝒞), 𝒪)` be a morphism of ringed sites, let `t_1, …, t_r` be global
+sections of `𝒪`, let `g_1, …, g_r` be global sections of `𝒪'` with `g_i = f^♯(t_i)`, and let
+`K ∈ D(𝒪')` be arbitrary. The tower of the Koszul formula of [Stacks, Tag 0A0E] is
+`n ↦ K ⊗^𝐋 (K^n)^∨` — `AlgebraicGeometry.RingedSite.tensorDerivedDualSystem` at the Koszul
+tower. This file identifies its direct image with the corresponding tower on the target:
+
+`Rf_*(K ⊗^𝐋_{𝒪'} (K(𝒪', g^{n+1}))^∨) ≅ Rf_*K ⊗^𝐋_𝒪 (K(𝒪, t^{n+1}))^∨`,  naturally in `n`.
+
+That display is the hypothesis `hproj` of
+`nonempty_iso_derivedPushforward_derivedCompletion_generatedIdealSheaf_of_natIso` of
+`PushforwardCommutesCompletionKoszulTower.lean`.
+
+## Main results
+
+* `AlgebraicGeometry.RingedSite.pushforwardIdealCompatible_of_pushGlobalSectionsCompatible`: the
+  relation of [Stacks, Tag 099J] between `ℐ = (t_1, …, t_r)` and `ℐ' = (g_1, …, g_r)` holds as
+  soon as `g_i = f^♯(t_i)`.
+* `AlgebraicGeometry.RingedSite.pushforwardKoszulTensorDualSystemIso`: **the identification of
+  the two towers of [Stacks, Tag 0A0E] along `Rf_*`**, which is `hproj`.
+
+## Implementation notes
+
+The tensor-dual tower is converted into the tower of derived internal Homs on each site by
+`AlgebraicGeometry.RingedSite.koszulTensorDualSystemIso` of `KoszulPerfectDual.lean`, which is
+[Stacks, Tag 0BYU]'s interchange morphism at the Koszul complexes and carries no hypothesis. The
+two Hom towers are then identified by
+`AlgebraicGeometry.RingedSite.derivedPushforwardKoszulSheafHomSystemIso` of
+`PushforwardCommutesCompletionHomTower.lean`, by the adjoint formula
+`Rf_* R𝑆heafHom_{𝒪'}(Lf^*A, M) ≅ R𝑆heafHom_𝒪(A, Rf_*M)` together with the pulled-back Koszul
+*complexes*. The projection formula [Stacks, Tag 0944] does not enter, and neither does the
+pulled-back Koszul *dual*.
+
+The same display also follows from the projection formula at the Koszul duals, which is the
+source's proof: `AlgebraicGeometry.RingedSite.pushforwardKoszulDualSystemProjectionIso` of
+`KoszulDualPullback.lean`. That isomorphism is stated over
+`Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor`, the derived tensor product
+[Stacks, Tag 0944] is stated over, while `tensorDerivedDualSystem` is stated over
+`Stacks.SheafOfModules.canonicalDerivedTensorProduct`; the two are independent constructions of
+derived functors of the same bifunctor, each made opaque with `irreducible_def`, whose
+bifunctors are identified by `AlgebraicGeometry.RingedSite.derivedTensorFunctorIso`.
+
+The conclusion of
+`nonempty_iso_derivedPushforward_derivedCompletion_generatedIdealSheaf_of_natIso` is
+`Nonempty (Rf_*(K^∧) ≅ (Rf_*K)^∧)`, an isomorphism of the two objects, and not by itself
+invertibility of the canonical comparison map
+`AlgebraicGeometry.RingedSite.derivedCompletionPushforwardComparison`: the two sides are derived
+limits of isomorphic towers, and uniqueness of derived limits ([Stacks, Tag 0H9L]) is not
+canonical. Invertibility of the canonical map follows from the display quantified over all
+objects by
+`AlgebraicGeometry.RingedSite.isIso_derivedCompletionPushforwardComparison_of_nonempty_iso` of
+`PushforwardCommutesCompletionCanonical.lean`, which applies it at the cone of the completion
+map, whose own completion vanishes.
+
+## References
+
+* [Stacks Project, Tag 099J](https://stacks.math.columbia.edu/tag/099J)
+* [Stacks Project, Tag 0BYU](https://stacks.math.columbia.edu/tag/0BYU)
+* [Stacks Project, Tag 0944](https://stacks.math.columbia.edu/tag/0944)
+* [Stacks Project, Tag 0A0E](https://stacks.math.columbia.edu/tag/0A0E)
+* [Stacks Project, Tag 0A0G](https://stacks.math.columbia.edu/tag/0A0G)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits Opposite
+open AlgebraicGeometry
+
+universe u
+
+namespace AlgebraicGeometry.RingedSite
+
+attribute [local instance 100000] HasDerivedCategory.standard
+attribute [local instance] AlgebraicGeometry.RingedSite.hasSheafCompose_forget₂_ringCat
+
+/-! ## The relation between the two ideal sheaves, from the generators -/
+
+section Ideal
+
+variable {X Y : RingedSite.{u, u, u}} (f : RingedSite.Hom X Y)
+  [HasWeakSheafify Y.J CommRingCat.{u}] [HasWeakSheafify X.J CommRingCat.{u}] {r : ℕ}
+  (t : Fin r → Presheaf.globalSections (Y.O.obj ⋙ forget CommRingCat.{u}))
+  (g : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
+
+omit [HasWeakSheafify Y.J CommRingCat.{u}] [HasWeakSheafify X.J CommRingCat.{u}] in
+/-- **The relation of [Stacks, Tag 099J] holds between the two ideal sheaves generated by
+corresponding families of global sections.** If `g_i = f^♯(t_i)` over every object of the target
+site, then `f^♯` carries every section of `ℐ = (t_1, …, t_r)` into `ℐ' = (g_1, …, g_r)`.
+
+The generators go to the generators by hypothesis, and
+`AlgebraicGeometry.RingedSite.pushforwardIdealCompatible_generatedIdealSheaf` upgrades that to
+all sections: membership in `ℐ` is local, so the upgrade is the push-forward of a covering sieve
+along the continuous functor, not a formal consequence. -/
+theorem pushforwardIdealCompatible_of_pushGlobalSectionsCompatible
+    (hg : PushGlobalSectionsCompatible f t g) :
+    PushforwardIdealCompatible f (generatedIdealSheaf t) (generatedIdealSheaf g) :=
+  pushforwardIdealCompatible_generatedIdealSheaf f (generatedIdealSheaf g) t fun i W => by
+    rw [show fSharpSection f W (globalSectionVal (t i) (op W)) =
+        globalSectionVal (g i) (op (f.u.obj W)) from (hg i W).symm]
+    exact globalSectionVal_mem_generatedIdealSheaf g i (op (f.u.obj W))
+
+end Ideal
+
+/-! ## The direct image of the tower of the Koszul formula -/
+
+section Tower
+
+attribute [local instance] hasLeftDerivedFunctor_pullbackOnHomotopy
+
+open Stacks.Cohomology.DerivedPullbackPushforwardAdjunction
+
+variable {X Y : RingedSite.{u, u, u}}
+  [HasSheafify X.J AddCommGrpCat.{u}] [HasWeakSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).Additive]
+  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} X.O).obj A).Additive]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.O)) (ComplexShape.up ℤ)),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor X.O)
+      (ComplexShape.up ℤ)]
+  [HasSheafify Y.J AddCommGrpCat.{u}] [HasWeakSheafify Y.J AddCommGrpCat.{u}]
+  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} Y.O).Additive]
+  [∀ A, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u} Y.O).obj A).Additive]
+  [∀ (K₁ K₂ : HomologicalComplex (SheafOfModules.{u}
+      (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} Y.O)) (ComplexShape.up ℤ)),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor Y.O)
+      (ComplexShape.up ℤ)]
+  [HasWeakSheafify Y.J CommRingCat.{u}] [HasWeakSheafify X.J CommRingCat.{u}]
+  (f : RingedSite.Hom X Y) {r : ℕ}
+  (t : Fin r → Presheaf.globalSections (Y.O.obj ⋙ forget CommRingCat.{u}))
+  (g : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))
+  (hg : PushGlobalSectionsCompatible f t g)
+
+include hg in
+/-- **`Rf_*` carries the tower of the Koszul formula of [Stacks, Tag 0A0E] on the source to the
+one on the target.** For `K ∈ D(𝒪')` arbitrary, the isomorphism of towers `ℕᵒᵖ ⥤ D(𝒪)`
+
+`n ↦ Rf_*(K ⊗^𝐋_{𝒪'} (K(𝒪', g_1^{n+1}, …, g_r^{n+1}))^∨)` ≅
+`n ↦ Rf_*K ⊗^𝐋_𝒪 (K(𝒪, t_1^{n+1}, …, t_r^{n+1}))^∨`.
+
+This is the hypothesis `hproj` of
+`nonempty_iso_derivedPushforward_derivedCompletion_generatedIdealSheaf_of_natIso`. The
+tensor-dual tower is replaced on each site by the tower
+of derived internal Homs (`AlgebraicGeometry.RingedSite.koszulTensorDualSystemIso`,
+hypothesis-free) and the two Hom towers are identified by
+`AlgebraicGeometry.RingedSite.derivedPushforwardKoszulSheafHomSystemIso`. -/
+def pushforwardKoszulTensorDualSystemIso
+    (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
+    tensorDerivedDualSystem X (Stacks.SheafOfModules.canonicalDerivedTensorProduct X)
+          (koszulPowerSystem X g ⋙ DerivedCategory.Q) K ⋙
+        derivedPushforward.{u} f.toRingedToposSiteHom ≅
+      tensorDerivedDualSystem Y (Stacks.SheafOfModules.canonicalDerivedTensorProduct Y)
+        (koszulPowerSystem Y t ⋙ DerivedCategory.Q)
+        ((derivedPushforward.{u} f.toRingedToposSiteHom).obj K) :=
+  Functor.isoWhiskerRight (koszulTensorDualSystemIso X g K)
+      (derivedPushforward.{u} f.toRingedToposSiteHom) ≪≫
+    derivedPushforwardKoszulSheafHomSystemIso f t g hg K ≪≫
+    (koszulTensorDualSystemIso Y t
+      ((derivedPushforward.{u} f.toRingedToposSiteHom).obj K)).symm
+
+end Tower
+
+end AlgebraicGeometry.RingedSite
+
+end

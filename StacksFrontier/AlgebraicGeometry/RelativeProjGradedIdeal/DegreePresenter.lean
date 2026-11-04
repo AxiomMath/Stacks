@@ -1,0 +1,160 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.GluedTwistAlgebra.Assemble
+public import StacksFrontier.AlgebraicGeometry.RelativeProjGradedIdeal.DegreeChart
+public import StacksFrontier.AlgebraicGeometry.RelativeProjGradedIdeal.GeneratedByDegreeQcoh
+
+/-!
+# The graded-quotient presentation of a closed subscheme of a relative Proj, in one degree
+
+Work in Situation 01NN with `p : Proj_S(A) ⟶ S` quasi-compact and `i : Z ⟶ Proj_S(A)` a closed
+immersion. Tag 0801 presents `Z` as `Proj_S(A/ℐ)` for the saturated graded ideal
+`ℐ = twistKerGradedIdeal A D i`. This file derives from that presentation:
+
+* a `Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.DegreeQuotientPresenter`, which converts a
+  submodule `ℱ` of a single homogeneous piece cutting `Z` out on the charts into a presentation
+  of `Z` as `Proj_S(A/ℱA)`;
+* over an open of the base that `Z` misses, the statement that every homogeneous local section of
+  `A` is an equation for `Z`.
+
+## Main results
+
+* `Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.vanishesOver_twistKer`: over an open of the
+  base disjoint from the image of `Z`, every homogeneous local section of `A` is an equation.
+* `Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.degreeQuotientPresenter_twistKer`: the degree
+  presenter of Tag 0801's presentation.
+* `Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.exists_finiteType_presentation_supp`: under
+  finiteness hypotheses, `Z = Proj_S(A/ℱA)` for a quasi-coherent finite type submodule `ℱ` of a
+  homogeneous piece `A_d`, `d > 0`, such that the support of `A_d/ℱ` does not meet a given
+  quasi-compact open `U` of the base disjoint from the image of `Z` (Tag 0803).
+
+## References
+
+* [Stacks Project, Tag 0801](https://stacks.math.columbia.edu/tag/0801)
+* [Stacks Project, Tag 0802](https://stacks.math.columbia.edu/tag/0802)
+* [Stacks Project, Tag 0803](https://stacks.math.columbia.edu/tag/0803)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry TopologicalSpace Opposite
+open Stacks.AlgebraicGeometry.RelativeProj
+open Stacks.AlgebraicGeometry.RelativeProjBridge
+open Stacks.AlgebraicGeometry.RelativeProjMapDomain
+open Stacks.AlgebraicGeometry.RelativeProjTwists
+
+universe u
+
+namespace Stacks.AlgebraicGeometry.RelativeProjGradedIdeal
+
+attribute [local instance_reducible] AlgebraicGeometry.Scheme.Modules
+
+variable {S : Scheme.{u}} (A : SheafGradedAlgebra S)
+
+/-! ### Sections over an empty open -/
+
+/-- A section of a sheaf of modules over an open that is empty vanishes. -/
+theorem eq_zero_of_eq_bot {X : Scheme.{u}} (M : X.Modules) {V : X.Opens} (hV : V = ⊥)
+    (s : Γ(M, V)) : s = 0 := by
+  subst hV
+  have : Subsingleton Γ(M, (⊥ : X.Opens)) :=
+    AddCommGrpCat.subsingleton_of_isZero
+      (Stacks.AlgebraicGeometry.Subsheaf.abSheaf M).isTerminalOfEmpty.isZero
+  exact Subsingleton.elim _ _
+
+/-! ### Over an open the closed subscheme misses, every section is an equation -/
+
+variable (D : TwistData A) {Z : Scheme.{u}} (i : Z ⟶ (relativeProj A).scheme)
+
+/-- The part of `Z` lying over an open of the base disjoint from the image of `Z` is empty. -/
+theorem twistOpen_eq_bot {U : S.Opens}
+    (hU : (U : Set S) ∩ Set.range (i ≫ (relativeProj A).toBase).base = ∅)
+    {W : S.Opens} (hW : W ≤ U) : twistOpen A i W = ⊥ := by
+  have hcomp : twistOpen A i W = (i ≫ (relativeProj A).toBase) ⁻¹ᵁ W :=
+    (Scheme.Hom.comp_preimage i (relativeProj A).toBase W).symm
+  rw [hcomp, ← TopologicalSpace.Opens.coe_inj, TopologicalSpace.Opens.coe_bot,
+    Set.eq_empty_iff_forall_notMem]
+  exact fun z hz ↦ Set.eq_empty_iff_forall_notMem.1 hU _ ⟨hW hz, ⟨z, rfl⟩⟩
+
+/-- **Over an open of the base disjoint from the image of the closed subscheme, every homogeneous
+local section of `A` is an equation for it.** -/
+theorem mem_twistKerGradedIdeal_of_disjoint [IsClosedImmersion i]
+    [QuasiCompact (relativeProj A).toBase] {U : S.Opens}
+    (hU : (U : Set S) ∩ Set.range (i ≫ (relativeProj A).toBase).base = ∅) (n : ℕ)
+    {W : S.Opens} (hW : W ≤ U) (a : Γ(A.piece (n : ℤ), W)) :
+    a ∈ ((twistKerGradedIdeal A D i).piece (n : ℤ)).toSubmodule.obj (op W) := by
+  rw [mem_twistKerGradedIdeal_iff]
+  exact eq_zero_of_eq_bot ((restrictTwists A D i).piece (n : ℤ))
+    (twistOpen_eq_bot A i hU hW) _
+
+/-- Over an open of the base disjoint from the image of `Z`, every homogeneous local section of
+`A` is carried to zero by the quotient homomorphism of Tag 0801's presentation. -/
+theorem vanishesOver_twistKer [IsClosedImmersion i]
+    [QuasiCompact (relativeProj A).toBase] (U : S.Opens)
+    (hU : (U : Set S) ∩ Set.range (i ≫ (relativeProj A).toBase).base = ∅) :
+    VanishesOver A (gradedQuotientPresentation_twistKer A D i) U := fun n W hW a =>
+  (quotProj_app_eq_zero_iff A (twistKerGradedIdeal A D i) (n : ℤ) W a).2
+    (mem_twistKerGradedIdeal_of_disjoint A D i hU n hW a)
+
+/-! ### The degree presenter -/
+
+/-- **Tag 0801 presents `Z` as the relative Proj of the quotient by the graded ideal generated by a
+submodule of a single homogeneous piece, as soon as that submodule cuts `Z` out on the charts.** -/
+theorem degreeQuotientPresenter_twistKer [IsClosedImmersion i]
+    [QuasiCompact (relativeProj A).toBase] :
+    DegreeQuotientPresenter A i (quotHom A (twistKerGradedIdeal A D i)) := by
+  intro d _ ℱ hqc heq hcut
+  let ℐ : QcohGradedIdeal A := qcohGradedIdealGeneratedByDegree A ℱ hqc
+  exact ⟨{ toGradedQuotientPresentation :=
+            gradedQuotientPresentationOfKerEq A ℐ i
+              (ker_eq_ker_projQuotientHom_of_cutsOutOnCharts A D i ℱ ℐ
+                (le_generatedByDegree_self A ℱ)
+                (generatedByDegree_le_of_le A ℱ (twistKerGradedIdeal A D i).toGradedIdeal
+                  (le_piece_of_isEquationSubmodule A ℱ (twistKerGradedIdeal A D i) heq))
+                hcut)
+           kernel := fun n U _ a => quotProj_app_eq_zero_iff A ℐ n U a }⟩
+
+/-! ### Tag 0803 -/
+
+/-- Let `S` be a quasi-compact and quasi-separated scheme, `𝒜` a
+quasi-coherent graded `𝒪_S`-algebra, `p : X = Proj_S(𝒜) ⟶ S` the relative homogeneous spectrum,
+`i : Z ⟶ X` a closed subscheme and `U ⊆ S` an open of the base. Assume
+
+1. `p` is quasi-compact,
+2. `i` is of finite presentation,
+3. `U ∩ p(i(Z)) = ∅`,
+4. `U` is quasi-compact, and
+5. every graded piece `𝒜_n` is a finite type `𝒪_S`-module.
+
+Then there are `d > 0` and a quasi-coherent finite type `𝒪_S`-submodule `ℱ ⊆ 𝒜_d` such that
+
+(a) `Z = Proj_S(𝒜/ℱ𝒜)`, read as a `DegreeQuotientPresentation` — an identification of `Z` with
+the relative Proj of the quotient of `𝒜` by the graded ideal generated by `ℱ`, over `Proj_S(𝒜)`;
+and
+
+(b) the support of `𝒜_d/ℱ` does not meet `U`. -/
+@[stacks 0803]
+theorem exists_finiteType_presentation_supp (U : S.Opens)
+    [CompactSpace S] [QuasiSeparatedSpace S] [IsClosedImmersion i]
+    [QuasiCompact (relativeProj A).toBase]
+    (hi : AlgebraicGeometry.FinitePresentation i)
+    (hU : (U : Set S) ∩ Set.range (i ≫ (relativeProj A).toBase).base = ∅)
+    (hUc : IsCompact (U : Set S))
+    (hA : ∀ n : ℕ, SheafOfModules.IsFiniteType.{u, u, u} (A.piece (n : ℤ))) :
+    ∃ d : ℕ, 0 < d ∧ ∃ ℱ : (A.piece (d : ℤ)).Submodule,
+      ℱ.toSheafOfModules.IsQuasicoherent ∧
+        SheafOfModules.IsFiniteType.{u, u, u} ℱ.toSheafOfModules ∧
+          (U : Set S) ∩ (⟨(cokernel ℱ.ι).val, (cokernel ℱ.ι).isSheaf⟩ :
+              RingedSpace.ModuleSheaf.{u} S.toRingedSpace).supp = ∅ ∧
+            Nonempty (DegreeQuotientPresentation A i ℱ) :=
+  exists_finiteType_presentation_supp_of_presenter A i U hi hU hUc hA
+    (gradedQuotientPresentation_twistKer A
+      (Stacks.AlgebraicGeometry.GluedTwistAlgebra.twistDataOfGradedAlgebra A) i)
+    (vanishesOver_twistKer A
+      (Stacks.AlgebraicGeometry.GluedTwistAlgebra.twistDataOfGradedAlgebra A) i U hU)
+    (degreeQuotientPresenter_twistKer A
+      (Stacks.AlgebraicGeometry.GluedTwistAlgebra.twistDataOfGradedAlgebra A) i)
+
+end Stacks.AlgebraicGeometry.RelativeProjGradedIdeal
+
+end

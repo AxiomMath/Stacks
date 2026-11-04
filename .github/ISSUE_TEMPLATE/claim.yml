@@ -1,0 +1,69 @@
+name: Claim a task
+description: Propose a blueprint for a Stacks tag, a task or an exercise. A maintainer reviews it before you start.
+title: "[claim] "
+labels: ["claim"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check the [open claims](https://github.com/AxiomMath/Stacks/issues?q=is%3Aissue+label%3Aclaim) first, so that work does not collide.
+        A maintainer reviews this blueprint. When it is approved, the issue is labelled `blueprint-approved` and assigned to you: that is your claim. Then formalize it and open a pull request that closes this issue.
+  - type: input
+    id: task
+    attributes:
+      label: Task, tag or exercise
+      description: A task ID from the website's task board, a Stacks tag (e.g. 00DS), or an exercise tag.
+      placeholder: "00DS"
+    validations:
+      required: true
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Target tier
+      description: StacksCore holds code brought to Mathlib standards. StacksFrontier holds everything else, including AI-assisted formalizations. Pull requests to either tier are reviewed by the maintainers.
+      options:
+        - StacksCore
+        - StacksFrontier
+        - Moving StacksFrontier code into StacksCore
+    validations:
+      required: true
+  - type: textarea
+    id: statement
+    attributes:
+      label: Statement
+      description: The exact mathematical statement, with its hypotheses, and where it comes from (Stacks tag, theorem or page number).
+    validations:
+      required: true
+  - type: textarea
+    id: lean_statement
+    attributes:
+      label: Proposed Lean statement
+      description: The Lean signature you intend to prove. It may be a sketch.
+      render: lean
+  - type: textarea
+    id: existing_work
+    attributes:
+      label: Existing work
+      description: Declarations in this library or in Mathlib that you will use or extend, and related issues or pull requests.
+    validations:
+      required: true
+  - type: textarea
+    id: outline
+    attributes:
+      label: Proof outline
+      description: The argument, and any prerequisites that still need to be formalized.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked the open claims and the library for existing work on this.
+          required: true
+        - label: I will wait for `blueprint-approved` before opening a pull request.
+          required: true

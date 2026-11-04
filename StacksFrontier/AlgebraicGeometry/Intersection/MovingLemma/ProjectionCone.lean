@@ -1,0 +1,298 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Intersection.MovingLemma.ConeGenericPoint
+public import StacksFrontier.AlgebraicGeometry.Intersection.Projections.GenericProjectionIntersection
+public import StacksFrontier.AlgebraicGeometry.Scheme.ClosureOfOpenSubscheme
+
+/-!
+# The cone over a closed subset of `𝐏(W)` and its closure in `𝐏(V)`
+
+Let `W ≤ V` be a submodule and let `r_W : 𝐏(V) ∖ 𝐏(V/W) ⟶ 𝐏(W)` be the linear projection away
+from the linear subspace cut out by `W`. For a subset `Z` of `𝐏(W)` the set
+`r_W^{-1}(Z)`, read back inside `𝐏(V)` along the inclusion of the domain of definition, is the
+cone over `Z` with vertex that linear subspace, with the vertex removed. Its closure in `𝐏(V)`
+adds the vertex back, and nothing else: a closed subset of an open subscheme meets that open
+subscheme in exactly its closure's intersection with it.
+
+Consequently, for any closed subscheme `X` of `𝐏(V)` disjoint from the vertex — equivalently,
+any `X` whose inclusion factors through the domain of definition of `r_W` — the closure meets
+`X` in precisely `(r_W|_X)^{-1}(Z)`. With `Z` the image of a closed subvariety of `X` this is
+the identity
+
+`C ∩ X = π^{-1}(π(Z))`
+
+of the proof of Stacks 0B0E, `C` being the closure of `π^{-1}(π(Z))` in `𝐏(V)`.
+
+## Main definitions
+
+* `AlgebraicGeometry.ProjectiveSpaceOfModule.projectionPreimage`: the set `r_W^{-1}(Z)` read
+  inside `𝐏(V)`.
+
+## Main results
+
+* `AlgebraicGeometry.ProjectiveSpaceOfModule.isIrreducible_projectionPreimage`: the cone over an
+  irreducible closed subset is irreducible.
+* `AlgebraicGeometry.ProjectiveSpaceOfModule.closure_projectionPreimage_inter_compl_eq`: the
+  closure of the cone meets the domain of definition of `r_W` in the cone itself, so the closure
+  adds only points of the vertex.
+* `AlgebraicGeometry.ProjectiveSpaceOfModule.closure_projectionPreimage_inter_eq_of_disjoint`:
+  the closure of the cone meets any set disjoint from the vertex in what the cone meets it in.
+* `AlgebraicGeometry.ProjectiveSpaceOfModule.preimage_closure_projectionPreimage_eq`: the
+  identity `C ∩ X = π^{-1}(Z)` of Stacks 0B0E, read on `X` as an equality of subsets of `X`.
+* `AlgebraicGeometry.ProjectiveSpaceOfModule.image_preimage_closure_projectionPreimage_eq`: the
+  same identity read as an equality of subsets of `𝐏(V)`.
+* `AlgebraicGeometry.ProjectiveSpaceOfModule.comap_closureIdeal_projection_comp`: the identity
+  scheme-theoretically, for a reduced closed subscheme of the domain of definition.
+* `AlgebraicGeometry.ProjectiveSpaceOfModule.isClosed_image_projection_of_subset_range`: the
+  image `π(Z)` of a closed subset of `X` is closed in `𝐏(W)`, which is what makes the closed
+  subset `Z` of the statements above available from a closed subvariety of `X`.
+
+## Implementation notes
+
+**Why the closure adds only the vertex.** The domain of definition of `r_W` is the open
+subscheme complementary to the vertex
+(`AlgebraicGeometry.ProjectiveSpaceOfModule.coe_mapDomain_subtype`), and `r_W^{-1}(Z)` is closed
+in it when `Z` is closed. A set closed in an open subscheme meets its own closure in itself,
+because the inclusion of an open subscheme is an open embedding and so its underlying map
+commutes with closures in both directions; this is the same argument that makes
+`Stacks.IdealSheaf.closureIdeal_comap` work, and is isolated here as the private lemma
+`closure_image_inter_range`. Hence the closure is contained in the cone together with the
+vertex, and the two assertions about sets disjoint from the vertex follow.
+
+**The identity read on `X`.** No disjointness hypothesis appears in
+`AlgebraicGeometry.ProjectiveSpaceOfModule.preimage_closure_projectionPreimage_eq`: a
+factorization `j` of the inclusion of `X` through the domain of definition of `r_W` already
+places `X` off the vertex, that domain being exactly the complement of it. Such a factorization
+is what `AlgebraicGeometry.ProjectiveSpaceOfModule.exists_isFinite_projection_of_disjoint`
+produces from the disjointness, together with the finiteness of `π = r_W|_X`.
+
+**Scheme-theoretically.** `C` as a closed subscheme is
+`Stacks.IdealSheaf.closureIdeal (projectionDomain k V W).ι I` for `I` the ideal sheaf of
+`π^{-1}(Z)` in the domain of definition, and `Stacks.IdealSheaf.closureIdeal_comap` already says
+that intersecting it back with the domain returns `I`. What is added here is the form the source
+uses, with `X` in place of the domain: the comap along `j ≫ ι` is the comap along `j`. The
+hypothesis that `I` be reduced is the one `Stacks.IdealSheaf.closureIdeal_comap` carries, the
+closure being given the reduced induced structure on the closure of the support.
+
+**Irreducibility needs nothing of `r_W`.**
+`AlgebraicGeometry.ProjectiveSpaceOfModule.isIrreducible_projectionPreimage` asks only that `Z`
+be irreducible and closed: no openness of `r_W`, and no irreducibility of any fibre. The cone's
+generic point is exhibited directly. Points of `𝐏(V)` *are* relevant homogeneous primes of
+`Sym(V)`, and the ideal generated by the homogeneous prime of the generic point of `Z` is one
+(`AlgebraicGeometry.ProjectiveSpaceOfModule.coneGenericPoint`); it lies off the vertex, projects
+to that generic point, and specializes to every point of the cone, which makes the cone
+irreducible by `Topology.isIrreducible_of_mem_of_subset_closure_singleton`. So the route through
+Stacks 004Z — which would need `r_W` to be an open map, hence flat and locally of finite
+presentation, none of which is proved of it — is not taken.
+
+**A single submodule rather than a chain.** `W` of corank `c` makes `r_W` the composite of `c`
+projections away from points, as recorded in the implementation notes of
+`StacksFrontier.AlgebraicGeometry.Intersection.Projections.IteratedProjection`; the statements here
+are about the one morphism `r_W` and so hold for the composite `π = r_{n+1} ∘ ⋯ ∘ r_N` of the
+source without forming the chain. For `W` of corank one, cut out by a closed point `p`, the cone
+is `AlgebraicGeometry.ProjectiveSpaceOfModule.projectionCone` of
+`StacksFrontier.AlgebraicGeometry.Intersection.Projections.GenericProjectionIntersection`, on which
+Stacks 0B1R is stated: the two agree by
+`AlgebraicGeometry.ProjectiveSpaceOfModule.projectionCone_eq_projectionPreimage`, the cone of a
+subset of `𝐏(V)` being the cone over its image.
+
+## References
+
+* [Stacks Project, Tag 0B0E](https://stacks.math.columbia.edu/tag/0B0E)
+* [Stacks Project, Tag 0B1R](https://stacks.math.columbia.edu/tag/0B1R)
+-/
+
+@[expose] public noncomputable section
+
+open AlgebraicGeometry CategoryTheory TopologicalSpace
+open Stacks.AlgebraicGeometry.ProjShared
+
+namespace AlgebraicGeometry.ProjectiveSpaceOfModule
+
+universe u
+
+variable (k V : Type u) [Field k] [AddCommGroup V] [Module k V]
+
+/-- The preimage of the closure of the image of a closed set under an open immersion is the
+set itself: the underlying map is an injective open map, so it commutes with closures. -/
+private theorem preimage_closure_image {A B : Scheme.{u}} (f : A ⟶ B) [IsOpenImmersion f]
+    {F : Set A} (hF : IsClosed F) : f.base ⁻¹' closure (f.base '' F) = F := by
+  rw [f.isOpenEmbedding.isOpenMap.preimage_closure_eq_closure_preimage f.continuous,
+    Set.preimage_image_eq _ f.isOpenEmbedding.injective, hF.closure_eq]
+
+/-- A closed subset of an open subscheme meets the closure of its image in exactly that image. -/
+private theorem closure_image_inter_range {A B : Scheme.{u}} (f : A ⟶ B) [IsOpenImmersion f]
+    {F : Set A} (hF : IsClosed F) :
+    closure (f.base '' F) ∩ Set.range f.base = f.base '' F := by
+  rw [← Set.image_preimage_eq_inter_range, preimage_closure_image f hF]
+
+/-- The domain of definition of `r_W` is the complement of the vertex. -/
+private theorem range_projectionDomain_ι (W : Submodule k V) :
+    Set.range (projectionDomain k V W).ι.base = (linearSubspace k V W)ᶜ := by
+  rw [← coe_mapDomain_subtype k V W, ← Scheme.Opens.range_ι]
+
+/-- **The cone over a subset of `𝐏(W)` with vertex the linear subspace cut out by `W`, with the
+vertex removed.** The set `r_W^{-1}(Z)` swept out by the fibres of the projection away from `W`
+through a subset `Z` of `𝐏(W)`, read back inside `𝐏(V)` along the inclusion of the domain of
+definition of `r_W`. -/
+public def projectionPreimage (W : Submodule k V)
+    (Z : Set (projectiveSpaceOfModule k ↥W)) : Set (projectiveSpaceOfModule k V) :=
+  (projectionDomain k V W).ι.base '' ((projection k V W).base ⁻¹' Z)
+
+/-- A point of the cone over `Z` lies off the vertex and projects into `Z`. -/
+public theorem projectionPreimage_subset_compl (W : Submodule k V)
+    (Z : Set (projectiveSpaceOfModule k ↥W)) :
+    projectionPreimage k V W Z ⊆ (linearSubspace k V W)ᶜ := by
+  rw [projectionPreimage, ← range_projectionDomain_ι k V W]
+  exact Set.image_subset_range _ _
+
+/-- **The cone over an irreducible closed subset is irreducible.** The cone over an irreducible
+closed subset `Z` of `𝐏(W)` is irreducible — and hence so is its closure `C` in `𝐏(V)`, by
+`IsIrreducible.closure`.
+
+`𝐏(W)` is a scheme and so sober, so `Z` is the closure of a generic point `z`, and the ideal of
+`Sym(V)` generated by the homogeneous prime of `z` is a relevant homogeneous prime
+(`AlgebraicGeometry.ProjectiveSpaceOfModule.coneGenericPoint`) lying in the cone and specializing
+to every point of it. A set containing a point whose closure contains the set is irreducible.
+
+Irreducibility of `C` is what Stacks 0B0E needs of it twice over: `C` is required to be a
+subvariety of `𝐏(V)`, and the lower bound `dim C ≥ d + N - n` which makes `C` intersect `X`
+properly is read off a chain of nested cones, each irreducible by this. -/
+public theorem isIrreducible_projectionPreimage (W : Submodule k V)
+    {Z : Set (projectiveSpaceOfModule k ↥W)} (hZ : IsIrreducible Z) (hZc : IsClosed Z) :
+    IsIrreducible (projectionPreimage k V W Z) := by
+  obtain ⟨z, hz⟩ := QuasiSober.sober hZ hZc
+  refine Topology.isIrreducible_of_mem_of_subset_closure_singleton
+    (ξ := coneGenericPoint k V W z) ⟨⟨coneGenericPoint k V W z,
+      coneGenericPoint_mem_projectionDomain k V W z⟩, ?_, rfl⟩ ?_
+  · show (projection k V W).base _ ∈ Z
+    rw [projection_base_coneGenericPoint k V W z]
+    exact hz ▸ subset_closure (Set.mem_singleton z)
+  · rintro x ⟨y, hy, rfl⟩
+    exact mem_closure_coneGenericPoint k V W z y (by rwa [hz])
+
+/-- **The closure of the cone adds only points of the vertex.** For a closed `Z` the cone over
+`Z` meets its own closure in itself, the cone being closed in the complement of the vertex, which
+is the domain of definition of `r_W`. -/
+public theorem closure_projectionPreimage_inter_compl_eq (W : Submodule k V)
+    {Z : Set (projectiveSpaceOfModule k ↥W)} (hZ : IsClosed Z) :
+    closure (projectionPreimage k V W Z) ∩ (linearSubspace k V W)ᶜ =
+      projectionPreimage k V W Z := by
+  rw [projectionPreimage, ← range_projectionDomain_ι k V W]
+  exact closure_image_inter_range _ (hZ.preimage (projection k V W).continuous)
+
+/-- **The closure of the cone over a closed set meets anything off the vertex in what the cone
+meets it in.** For `A` disjoint from the linear subspace cut out by `W` the closure of the cone
+and the cone itself cut out the same subset of `A`. -/
+public theorem closure_projectionPreimage_inter_eq_of_disjoint (W : Submodule k V)
+    {Z : Set (projectiveSpaceOfModule k ↥W)} (hZ : IsClosed Z)
+    {A : Set (projectiveSpaceOfModule k V)} (hA : Disjoint A (linearSubspace k V W)) :
+    closure (projectionPreimage k V W Z) ∩ A = projectionPreimage k V W Z ∩ A := by
+  calc closure (projectionPreimage k V W Z) ∩ A
+      = (closure (projectionPreimage k V W Z) ∩ (linearSubspace k V W)ᶜ) ∩ A := by
+        rw [Set.inter_assoc,
+          Set.inter_eq_right.mpr (Set.subset_compl_iff_disjoint_right.mpr hA)]
+    _ = projectionPreimage k V W Z ∩ A := by
+        rw [closure_projectionPreimage_inter_compl_eq k V W hZ]
+
+/-- **`C ∩ X = π^{-1}(Z)`, read on `X`.** Let the inclusion of `X` in `𝐏(V)` factor as
+`i = j ≫ ι` through the domain of definition of the projection away from `W`, and write
+`π = j ≫ r_W` for the resulting morphism `X ⟶ 𝐏(W)`. Then the closure in `𝐏(V)` of the cone
+over a closed subset `Z` of `𝐏(W)` cuts out of `X` exactly `π^{-1}(Z)`.
+
+The factorization is what places `X` off the vertex: the domain of definition of `r_W` is the
+complement of the vertex, so no disjointness hypothesis is needed. -/
+public theorem preimage_closure_projectionPreimage_eq (W : Submodule k V) {X : Scheme.{u}}
+    (i : X ⟶ projectiveSpaceOfModule k V) (j : X ⟶ (projectionDomain k V W).toScheme)
+    (hj : j ≫ (projectionDomain k V W).ι = i)
+    {Z : Set (projectiveSpaceOfModule k ↥W)} (hZ : IsClosed Z) :
+    i.base ⁻¹' closure (projectionPreimage k V W Z) =
+      (j ≫ projection k V W).base ⁻¹' Z := by
+  have hdom : (projectionDomain k V W).ι.base ⁻¹' closure (projectionPreimage k V W Z) =
+      (projection k V W).base ⁻¹' Z := by
+    rw [projectionPreimage]
+    exact preimage_closure_image _ (hZ.preimage (projection k V W).continuous)
+  rw [← hj, Scheme.Hom.comp_base, TopCat.coe_comp, Set.preimage_comp, hdom,
+    Scheme.Hom.comp_base, TopCat.coe_comp, Set.preimage_comp]
+
+/-- **`C ∩ X = π^{-1}(Z)`, read in `𝐏(V)`.** In the situation of
+`AlgebraicGeometry.ProjectiveSpaceOfModule.preimage_closure_projectionPreimage_eq`, with `X`
+carried into `𝐏(V)` by a closed immersion, the closure of the cone meets the image of `X` in the
+image of `π^{-1}(Z)`.
+
+This is the form in which the source uses the identity: `T_i ∩ Z_j ⊆ T_i ∩ π^{-1}(π(Z))` is read
+inside `𝐏(V)`, where the `T_i` live. -/
+public theorem image_preimage_closure_projectionPreimage_eq (W : Submodule k V) {X : Scheme.{u}}
+    (i : X ⟶ projectiveSpaceOfModule k V) (j : X ⟶ (projectionDomain k V W).toScheme)
+    (hj : j ≫ (projectionDomain k V W).ι = i)
+    {Z : Set (projectiveSpaceOfModule k ↥W)} (hZ : IsClosed Z) :
+    closure (projectionPreimage k V W Z) ∩ Set.range i.base =
+      i.base '' ((j ≫ projection k V W).base ⁻¹' Z) := by
+  rw [← Set.image_preimage_eq_inter_range,
+    preimage_closure_projectionPreimage_eq k V W i j hj hZ]
+
+/-- **`C ∩ X = π^{-1}(Z)` scheme-theoretically.** The closure in `𝐏(V)` of a reduced closed
+subscheme `I` of the domain of definition of `r_W` meets a scheme `X` mapping into that domain by
+`j` in the same closed subscheme that `I` does.
+
+Taking `j` the factorization of a closed immersion `X ⟶ 𝐏(V)` and `I` the ideal sheaf of
+`π^{-1}(π(Z))`, this is the source's `C ∩ X = π^{-1}(π(Z))` as closed subschemes of `X`; the
+case `j = 𝟙` is `Stacks.IdealSheaf.closureIdeal_comap`. -/
+public theorem comap_closureIdeal_projection_comp (W : Submodule k V) {X : Scheme.{u}}
+    (j : X ⟶ (projectionDomain k V W).toScheme)
+    (I : (projectionDomain k V W).toScheme.IdealSheafData) [IsReduced I.subscheme] :
+    (Stacks.IdealSheaf.closureIdeal (projectionDomain k V W).ι I).comap
+        (j ≫ (projectionDomain k V W).ι) = I.comap j := by
+  rw [Scheme.IdealSheafData.comap_comp,
+    Stacks.IdealSheaf.closureIdeal_comap (projectionDomain k V W).ι I]
+
+/-- **The support of `C` meets the domain of definition of `r_W` in the support of `π^{-1}(Z)`.**
+The support of the closure is the closure of the image of the support, and a closed subset of an
+open subscheme meets its closure in itself. -/
+public theorem support_closureIdeal_projection_inter_compl_eq (W : Submodule k V)
+    (I : (projectionDomain k V W).toScheme.IdealSheafData) :
+    ((Stacks.IdealSheaf.closureIdeal (projectionDomain k V W).ι I).support :
+          Set (projectiveSpaceOfModule k V)) ∩ (linearSubspace k V W)ᶜ =
+      (projectionDomain k V W).ι.base '' (I.support : Set (projectionDomain k V W).toScheme) := by
+  rw [Stacks.IdealSheaf.closureIdeal_support, ← range_projectionDomain_ι k V W]
+  exact closure_image_inter_range _ I.support.isClosed
+
+section
+
+variable [FiniteDimensional k V] [Nontrivial V]
+
+/-- **The image of a closed subset of `X` under `π` is closed in `𝐏(W)`.** A closed subset of
+`𝐏(V)` contained in the range of a scheme mapping into the domain of definition of `r_W` is
+disjoint from the vertex, so its image is closed by
+`AlgebraicGeometry.ProjectiveSpaceOfModule.isClosed_image_projection`.
+
+This supplies the closed subset `Z` of `𝐏(W)` that the identity `C ∩ X = π^{-1}(Z)` is stated
+for, from a closed subvariety of `X`. -/
+public theorem isClosed_image_projection_of_subset_range (W : Submodule k V) [Nontrivial ↥W]
+    {X : Scheme.{u}} (j : X ⟶ (projectionDomain k V W).toScheme)
+    {C : Set (projectiveSpaceOfModule k V)} (hC : IsClosed C)
+    (hCX : C ⊆ Set.range (j ≫ (projectionDomain k V W).ι).base) :
+    IsClosed ((projection k V W).base '' ((projectionDomain k V W).ι.base ⁻¹' C)) := by
+  refine isClosed_image_projection k V W hC (Set.disjoint_left.mpr fun x hxC hxW => ?_)
+  obtain ⟨y, hy⟩ := hCX hxC
+  have hxdom : x ∈ (linearSubspace k V W)ᶜ := by
+    rw [← range_projectionDomain_ι k V W]
+    exact ⟨j.base y, by rw [← hy, Scheme.Hom.comp_base]; rfl⟩
+  exact hxdom hxW
+
+end
+
+/-- The cone over a subset `Z` of `𝐏(V)` swept out by the projection away from a closed point is
+the cone over the image of `Z` in the sense of
+`AlgebraicGeometry.ProjectiveSpaceOfModule.projectionPreimage`, taken for the hyperplane of that
+point. Stacks 0B1R is stated for the former and the results of this module for the latter. -/
+public theorem projectionCone_eq_projectionPreimage (p : projectiveSpaceOfModule k V)
+    (Z : Set (projectiveSpaceOfModule k V)) :
+    projectionCone k V p Z =
+      projectionPreimage k V (pointSubmodule k V p)
+        ((projection k V (pointSubmodule k V p)).base ''
+          ((projectionDomain k V (pointSubmodule k V p)).ι.base ⁻¹' Z)) := rfl
+
+end AlgebraicGeometry.ProjectiveSpaceOfModule
+
+end

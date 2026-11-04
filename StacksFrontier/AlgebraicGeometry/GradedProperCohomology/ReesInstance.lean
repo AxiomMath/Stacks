@@ -1,0 +1,347 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Blowup.Proper
+public import StacksFrontier.AlgebraicGeometry.FormalFunctions.ReesGradedModuleAffineFiniteType
+public import StacksFrontier.AlgebraicGeometry.GradedProperCohomology.TotalModuleAction
+
+/-!
+# The Rees-algebra instance of Tag 0897 part (1), in the shape Tag 02O8 consumes
+
+[Stacks, Tag 02O8] is proved in the source by applying [Stacks, Tag 0897] part (1) to the Rees
+algebra `B = ⨁_{n ≥ 0} Iⁿ` of an ideal `I ⊆ A` and the graded `𝓑 = ⨁_{n ≥ 0} ℐⁿ`-module
+`⨁_{n ≥ 0} ℐⁿℱ`. The two statements are, however, *not* literally composable in this library,
+and the mismatch is not a matter of unfolding: the conclusion of
+`Stacks.AlgebraicGeometry.GradedProperCohomology.moduleFinite_gradedCohomologySum_gradedAction`
+— part (1) over the canonical graded action — speaks of
+
+* the `ℤ`-indexed direct sum `⨁_{n : ℤ} Hᵖ(X, ℱₙ)`, as a module over the *ring* `B`,
+
+whereas the conclusion `Stacks.Cohomology.FormalFunctions.IsCohomologyReesFiniteOfGradedModule`
+that [Stacks, Tag 02O8] consumes speaks of
+
+* the `ℕ`-indexed direct sum `⨁_{n : ℕ} Hᵖ(X, Mₙ)`, as a module over the *direct sum*
+  `⨁_{n : ℕ} Iⁿ`.
+
+This file closes that gap. Two things have to be reconciled.
+
+**The acting ring.** `⨁_{n : ℕ} Iⁿ` and the Rees algebra `B = reesAlgebra I` are identified by
+`DirectSum.decomposeRingEquiv (Stacks.Blowup.reesGrading I)`, which is a ring isomorphism
+because `Stacks.Blowup.instGradedAlgebraReesGrading` makes `B` a graded `A`-algebra;
+`reesSumRingEquiv` is that isomorphism in the direction needed here, and
+`reesSumRingEquiv_of` says it sends a homogeneous generator to the element it represents.
+
+**The index.** The `ℕ`-indexed sum is a `B`-*submodule* of the `ℤ`-indexed one — not a quotient:
+a homogeneous element of `B` raises the degree, so the nonnegative part is stable under the
+action while the negative part is not. So finiteness does not transport along a surjection;
+`gradedCohomologyNatInclusion` is the inclusion, `gradedCohomologyNatInclusion_smul` makes it
+semilinear over `reesSumRingEquiv`, `gradedCohomologyNatInclusion_injective` makes it injective
+(a left inverse is the degreewise projection `gradedCohomologyNatProjection`), and the passage
+from the whole to the submodule is Noetherianity of the Rees algebra, which is available because
+`A` is Noetherian. That is `Module.Finite.of_injective`.
+
+**The graded algebra.** The third discrepancy is that the source's `𝓑 = f^* B̃` is replaced here
+by `𝓑 = ⨁ₙ ℐⁿ`, of which `f^* B̃` is only a quotient. Nothing has to be done about it: the only
+thing part (1)'s graded action uses from `𝓑 = f^* B̃` is the datum
+`Stacks.AlgebraicGeometry.GradedProperCohomology.HomogeneousSectionAssignment` of global
+homogeneous sections of `𝓑` attached to the homogeneous elements of `B`, and for the Rees algebra
+that datum is `Stacks.AlgebraicGeometry.GradedProperCohomology.reesHomogeneousSections`. With it,
+the two actions on the pieces agree *definitionally* — that is `actHom_reesHomogeneousSections`,
+proved by `rfl` — so no comparison of actions is needed.
+
+## Main definitions
+
+* `Stacks.Cohomology.FormalFunctions.reesSumRingEquiv`: the ring isomorphism
+  `⨁_{n : ℕ} Iⁿ ≃+* B` of the Rees algebra with the direct sum of its homogeneous pieces.
+* `Stacks.Cohomology.FormalFunctions.gradedCohomologyNatInclusion`: the inclusion
+  `⨁_{n : ℕ} Hᵖ(X, Mₙ) ⟶ ⨁_{n : ℤ} Hᵖ(X, Mₙ)` of the nonnegatively graded part.
+* `Stacks.Cohomology.FormalFunctions.gradedCohomologyNatProjection`: its degreewise left
+  inverse, which is additive but *not* linear and is used only for injectivity.
+
+## Main results
+
+* `Stacks.Cohomology.FormalFunctions.actHom_reesHomogeneousSections`: the action of a homogeneous
+  element of the Rees algebra on a graded `⨁ₙ ℐⁿ`-module built from `reesHomogeneousSections` is
+  the action of `Stacks.Cohomology.FormalFunctions.actHom`.
+* `Stacks.Cohomology.FormalFunctions.gradedCohomologyNatInclusion_smul`: the inclusion is
+  semilinear over `reesSumRingEquiv`.
+* `Stacks.Cohomology.FormalFunctions.isCohomologyReesFiniteOfGradedModule_of_moduleFinite`:
+  **the two conclusions are the same statement** — finiteness of `⨁_{n : ℤ} Hᵖ(X, Mₙ)` over `B`
+  for the graded action gives `IsCohomologyReesFiniteOfGradedModule`.
+* `Stacks.Cohomology.FormalFunctions.isCohomologyReesFiniteOfGradedModule_of_properBaseChange`:
+  **[Stacks, Tag 0897] part (1) at the Rees algebra, in the shape [Stacks, Tag 02O8] consumes**,
+  granted the base change of the source's own proof.
+
+## Implementation notes
+
+The hypothesis `hft` of the last statement is
+`Stacks.Coherent.IsFiniteTypeOnAffine M`, the predicate part (1) is stated with, and *not* the
+sectionwise `SheafOfModules.GradedModule.IsFiniteType` that
+`Stacks.Blowup.isFiniteType_reesGradedModule_of_isCoherent` produces. The two are genuinely
+different statements — the first asks that the sections over *every* affine open be generated by
+one finite family, the second only that generation hold locally on *some* covering — and no
+lemma in this library connects them. The implication that is true, and that the Rees module
+needs, is the affine one: for `U` affine and `ℱ` coherent,
+`Γ(U, ℐⁿℱ) = (ℐ(U))ⁿ · Γ(U, ℱ)` by
+`Stacks.Algebraization.idealPowerMultiple_toSubmodule_obj_affine`, so a finite generating family
+of `Γ(U, ℱ)` generates every piece. That implication is not proved here.
+
+What remains between this file and an unconditional [Stacks, Tag 02O8] is only the base change:
+a coherent `ℱ'` on a scheme proper over `Spec B` whose cohomology is `⨁ₙ Hᵖ(X, ℱₙ)`
+`B`-linearly. The hypotheses `f'`, `F'` and `cmp` below are exactly that, unchanged from
+`moduleFinite_gradedCohomologySum_gradedAction`; nothing about them is weakened or assumed away.
+
+No `@[stacks]` attribute is attached. Tag 0897 has its site on
+`GradedProperCohomology/Basic.lean` and tag 02O8 on
+`Stacks.Cohomology.FormalFunctions.isCohomologyReesFinite_of_isCoherent`; neither is moved or
+duplicated, and the statements here are instances of the first in the vocabulary of the second.
+
+## References
+
+* [Stacks Project, Tag 0897](https://stacks.math.columbia.edu/tag/0897)
+* [Stacks Project, Tag 02O8](https://stacks.math.columbia.edu/tag/02O8)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry Opposite
+open Stacks.AlgebraicGeometry.GradedProperCohomology Stacks.Blowup
+open scoped AlgebraicGeometry DirectSum
+
+universe u
+
+namespace Stacks.Cohomology.FormalFunctions
+
+attribute [local instance] HasDerivedCategory.standard
+
+variable {A : Type u} [CommRing A] (I : Ideal A) (X : Over (Spec (.of A)))
+  (M : SheafOfModules.GradedModule.{u, u, u} (baseReesAlgebra I X)) (p : ℕ)
+
+/-! ### The acting ring: the Rees algebra and the direct sum of its pieces -/
+
+/-- **The direct sum of the homogeneous pieces of the Rees algebra is the Rees algebra.** This is
+`DirectSum.decomposeRingEquiv` at the grading `Stacks.Blowup.reesGrading`, in the direction in
+which it is the ring homomorphism along which the graded cohomology of
+[Stacks, Tag 0897] part (1) is semilinear over the one of [Stacks, Tag 02O8]. -/
+def reesSumRingEquiv : (⨁ k : ℕ, ↥(reesGrading I k)) ≃+* ↥(reesAlgebra I) :=
+  (DirectSum.decomposeRingEquiv (reesGrading I)).symm
+
+/-- The identification sends a homogeneous generator to the element of the Rees algebra it
+represents. -/
+theorem reesSumRingEquiv_of {k : ℕ} (b : ↥(reesGrading I k)) :
+    reesSumRingEquiv I (DirectSum.of _ k b) = (b : ↥(reesAlgebra I)) :=
+  DirectSum.decompose_symm_of _ b
+
+/-! ### The graded action of the Rees algebra, in the two spellings -/
+
+/-- **The two spellings of the action agree.** The action of a homogeneous element of the Rees
+algebra on the pieces of a graded `⨁ₙ ℐⁿ`-module built in
+`GradedProperCohomology/GradedAction.lean` out of the datum `reesHomogeneousSections` is the
+action `Stacks.Cohomology.FormalFunctions.actHom` of
+`FormalFunctions/CohomologyGradedReesFinite.lean`: both are multiplication by the global section
+`gradedReesSection` followed by the transport to the target degree. -/
+theorem actHom_reesHomogeneousSections {k : ℕ} (b : ↥(reesGrading I k)) (n : ℤ) {m : ℤ}
+    (hm : n + (k : ℤ) = m) :
+    Stacks.AlgebraicGeometry.GradedProperCohomology.actHom
+        (reesHomogeneousSections I X) M b n hm =
+      actHom I X M b n hm :=
+  rfl
+
+/-! ### The nonnegatively graded part -/
+
+/-- **The inclusion of the nonnegatively graded part** `⨁_{n : ℕ} Hᵖ(X, Mₙ)` into the `ℤ`-indexed
+graded cohomology `⨁_{n : ℤ} Hᵖ(X, Mₙ)` of [Stacks, Tag 0897] part (1). -/
+def gradedCohomologyNatInclusion :
+    (⨁ k : ℕ, gradedCohomologyPiece I X M p k) →+ gradedCohomologySum M p :=
+  DirectSum.toAddMonoid fun k : ℕ =>
+    DirectSum.of (fun n : ℤ => ↥(cohomologyOf X.left p (pieceModule M n))) (k : ℤ)
+
+/-- The inclusion `gradedCohomologyNatInclusion` sends a class `x` in degree `k : ℕ` to the same
+class in degree `(k : ℤ)`. -/
+theorem gradedCohomologyNatInclusion_of (k : ℕ) (x : gradedCohomologyPiece I X M p k) :
+    gradedCohomologyNatInclusion I X M p (DirectSum.of _ k x) =
+      DirectSum.of (fun n : ℤ => ↥(cohomologyOf X.left p (pieceModule M n))) (k : ℤ) x :=
+  DirectSum.toAddMonoid_of _ k x
+
+/-- The degreewise projection onto the nonnegatively graded part, as a homomorphism of additive
+groups. It is a left inverse of the inclusion and is used for nothing else: it is **not**
+semilinear over `reesSumRingEquiv`, because a homogeneous element of positive degree carries a
+class of negative degree into nonnegative degree. -/
+def gradedCohomologyNatProjection :
+    gradedCohomologySum M p →+ (⨁ k : ℕ, gradedCohomologyPiece I X M p k) :=
+  DirectSum.toAddMonoid fun n : ℤ =>
+    if h : 0 ≤ n then
+      (DirectSum.of (fun k : ℕ => gradedCohomologyPiece I X M p k) n.toNat).comp
+        (cohoMap p (M.pieceCast (Int.toNat_of_nonneg h).symm))
+    else 0
+
+/-- The degreewise projection `gradedCohomologyNatProjection` is a left inverse of the inclusion
+`gradedCohomologyNatInclusion`. -/
+theorem gradedCohomologyNatProjection_natInclusion :
+    Function.LeftInverse (gradedCohomologyNatProjection I X M p)
+      (gradedCohomologyNatInclusion I X M p) := by
+  intro z
+  induction z using DirectSum.induction_on with
+  | zero => rw [map_zero, map_zero]
+  | of k x =>
+      rw [gradedCohomologyNatInclusion_of, gradedCohomologyNatProjection,
+        DirectSum.toAddMonoid_of, dite_eq_left (Int.natCast_nonneg k), AddMonoidHom.coe_comp,
+        Function.comp_apply]
+      exact congrArg (DirectSum.of (fun j : ℕ => gradedCohomologyPiece I X M p j) k)
+        (cohoMap_id p (M.piece (k : ℤ)) x)
+  | add z z' hz hz' => rw [map_add, map_add, hz, hz']
+
+/-- **The inclusion of the nonnegatively graded part is injective**, the projection being a left
+inverse. -/
+theorem gradedCohomologyNatInclusion_injective :
+    Function.Injective (gradedCohomologyNatInclusion I X M p) :=
+  (gradedCohomologyNatProjection_natInclusion I X M p).injective
+
+/-- **The inclusion of the nonnegatively graded part is semilinear** over the identification
+`reesSumRingEquiv` of the acting rings: it carries the action of `⨁ₙ Iⁿ` coming from
+`Stacks.Cohomology.FormalFunctions.cohomologyGradedModule` to the action of the Rees algebra
+coming from `Stacks.AlgebraicGeometry.GradedProperCohomology.gradedCohomologyModule`.
+
+Both sides are additive in each variable, so it suffices to check this on homogeneous elements,
+where the two actions are `gradedCohomologySmul` and `gradedCohomologyModule_smul_of`. They land
+in the degrees `k + n` and `n + k` of the two index types, and `degree_add_eq` identifies them;
+the transport between the two targets is absorbed by `actHom_comp_pieceCast` and killed by
+`of_cohoMap_pieceCast`. -/
+theorem gradedCohomologyNatInclusion_smul (r : ⨁ k : ℕ, ↥(reesGrading I k))
+    (z : ⨁ k : ℕ, gradedCohomologyPiece I X M p k) :
+    letI := cohomologyGradedModule I X M p
+    letI := gradedCohomologyModule (reesHomogeneousSections I X) M p
+    gradedCohomologyNatInclusion I X M p (r • z) =
+      reesSumRingEquiv I r • gradedCohomologyNatInclusion I X M p z := by
+  let := cohomologyGradedModule I X M p
+  let := gradedCohomologyModule (reesHomogeneousSections I X) M p
+  induction r using DirectSum.induction_on with
+  | zero => rw [zero_smul, map_zero, map_zero, zero_smul]
+  | of k b =>
+      induction z using DirectSum.induction_on with
+      | zero => rw [smul_zero, map_zero, smul_zero]
+      | of n x =>
+          rw [DirectSum.Gmodule.of_smul_of, gradedCohomologyNatInclusion_of,
+            gradedCohomologyNatInclusion_of, reesSumRingEquiv_of,
+            gradedCohomologyModule_smul_of (reesHomogeneousSections I X) M p b (n : ℤ) x]
+          refine Eq.trans ?_ (of_cohoMap_pieceCast M p (degree_add_eq k n) _)
+          refine congrArg
+            (DirectSum.of (fun j : ℤ => ↥(cohomologyOf X.left p (pieceModule M j)))
+              ((k + n : ℕ) : ℤ)) ?_
+          exact ((cohoMap_comp p _ _ x).trans
+            (congrArg (fun φ : M.piece (n : ℤ) ⟶ M.piece ((k + n : ℕ) : ℤ) => cohoMap p φ x)
+              (actHom_comp_pieceCast I X M b (n : ℤ) rfl (degree_add_eq k n)))).symm
+      | add z z' hz hz' => rw [smul_add, map_add, hz, hz', map_add, smul_add]
+  | add r r' hr hr' =>
+      rw [add_smul, map_add, hr, hr', map_add, add_smul]
+
+/-! ### The two conclusions are the same statement -/
+
+/-- **The conclusion of [Stacks, Tag 0897] part (1) is the conclusion
+`IsCohomologyReesFiniteOfGradedModule` that [Stacks, Tag 02O8] consumes.** If the `ℤ`-indexed
+graded cohomology `⨁_{n : ℤ} Hᵖ(X, Mₙ)` is a finite module over the Rees algebra for the graded
+action, then the `ℕ`-indexed `⨁_{n : ℕ} Hᵖ(X, Mₙ)` is a finite module over `⨁_{n : ℕ} Iⁿ` for
+the graded action `cohomologyGradedModule`.
+
+The nonnegative part is a submodule, not a quotient, so this is not a transport along a
+surjection: the Rees algebra of an ideal of a Noetherian ring is Noetherian, so a finite module
+over it is a Noetherian module and the submodule is finite as well. -/
+theorem isCohomologyReesFiniteOfGradedModule_of_moduleFinite [IsNoetherianRing A]
+    (h : letI := gradedCohomologyModule (reesHomogeneousSections I X) M p
+      Module.Finite ↥(reesAlgebra I) (gradedCohomologySum M p)) :
+    IsCohomologyReesFiniteOfGradedModule I X M p := by
+  let := cohomologyGradedModule I X M p
+  let := gradedCohomologyModule (reesHomogeneousSections I X) M p
+  have := h
+  have : IsNoetherian ↥(reesAlgebra I) (gradedCohomologySum M p) := inferInstance
+  have := RingHomInvPair.of_ringEquiv (reesSumRingEquiv I)
+  have := RingHomInvPair.of_ringEquiv_symm (reesSumRingEquiv I)
+  exact Module.Finite.of_injective
+    (σ := ((reesSumRingEquiv I : (⨁ k : ℕ, ↥(reesGrading I k)) →+* ↥(reesAlgebra I))))
+    { toFun := gradedCohomologyNatInclusion I X M p
+      map_add' := map_add _
+      map_smul' := gradedCohomologyNatInclusion_smul I X M p }
+    (gradedCohomologyNatInclusion_injective I X M p)
+
+/-- **[Stacks, Tag 0897] part (1) at the Rees algebra, in the shape [Stacks, Tag 02O8]
+consumes.** Let `A` be Noetherian, `I ⊆ A` an ideal, `f : X ⟶ Spec A` proper and `M` a
+quasi-coherent graded `⨁ₙ ℐⁿ`-module of finite type. Granted the base change of the source's own
+proof — a scheme with a proper morphism `f'` to `Spec` of the Rees algebra `B = ⨁ₙ Iⁿ`, a
+coherent module `F'` on it, and a `B`-linear comparison of `⨁ₙ Hᵖ(X, Mₙ)` with `Hᵖ(X', F')` —
+the graded module `⨁_{n : ℕ} Hᵖ(X, Mₙ)` is a finite module over `⨁_{n : ℕ} Iⁿ`, which is
+`IsCohomologyReesFiniteOfGradedModule`.
+
+The Rees algebra is a finitely generated `A`-algebra because `I` is finitely generated, `A` being
+Noetherian: that is `Stacks.Blowup.finiteType_reesAlgebra_of_fg`, and it is the only hypothesis
+of part (1) that is discharged here rather than passed on. -/
+theorem isCohomologyReesFiniteOfGradedModule_of_properBaseChange [IsNoetherianRing A]
+    (hX : AlgebraicGeometry.IsProper X.hom)
+    (hqc : ∀ n : ℤ, (M.piece n).IsQuasicoherent)
+    (hft : Stacks.Coherent.IsFiniteTypeOnAffine M)
+    {X' : Scheme.{u}} (f' : X' ⟶ Spec (.of ↥(reesAlgebra I))) (hf' : IsProper f')
+    (F' : X'.Modules) (hF' : F'.IsCoherent)
+    (cmp : letI := gradedCohomologyModule (reesHomogeneousSections I X) M p
+      gradedCohomologySum M p ≃ₗ[↥(reesAlgebra I)]
+        ↥((ModuleCat.restrictScalars (specAlgebraRingHom ↥(reesAlgebra I) f')).obj
+          (cohomologyOf X' p F'))) :
+    IsCohomologyReesFiniteOfGradedModule I X M p := by
+  have := hX
+  have := hf'
+  have := hF'
+  have : Algebra.FiniteType A ↥(reesAlgebra I) :=
+    finiteType_reesAlgebra_of_fg I (IsNoetherian.noetherian I)
+  exact isCohomologyReesFiniteOfGradedModule_of_moduleFinite I X M p
+    (moduleFinite_gradedCohomologySum_gradedAction (reesHomogeneousSections I X) X.hom M hqc hft
+      p f' F' cmp)
+
+/-! ### Tag 02O8 at the ideal-power filtration, granted only the base change -/
+
+section Filtration
+
+attribute [local instance] cohomologyGradedModule filtrationCohomologyGmodule
+
+/-- **[Stacks, Tag 02O8], granted only the base change of [Stacks, Tag 0897]'s own proof.** Let
+`A` be Noetherian, `I ⊆ A` an ideal, `f : X ⟶ Spec A` proper and `ℱ` coherent. Granted a scheme
+`X'` with a proper morphism `f'` to `Spec` of the Rees algebra `B = ⨁ₙ Iⁿ`, a coherent
+`𝒪_{X'}`-module `ℱ'` and a `B`-linear comparison of `⨁ₙ Hᵖ(X, ℐⁿℱ)` with `Hᵖ(X', ℱ')`, the
+graded module `⨁_{n ≥ 0} Hᵖ(X, Iⁿℱ)` carried by
+`Stacks.Cohomology.FormalFunctions.cohomologyIdealPowerSystem` is a finite `B`-module.
+
+Compared with `Stacks.Cohomology.FormalFunctions.isCohomologyReesFinite_of_isCoherent`, whose
+hypothesis `h0897` is [Stacks, Tag 0897] part (1) quantified over *every* graded `⨁ₙ ℐⁿ`-module,
+what is assumed here is only the geometric input of that tag's proof at the one graded module
+02O8 needs. All three discrepancies between the two statements are discharged:
+`isCohomologyReesFiniteOfGradedModule_of_properBaseChange` reconciles the index and the acting
+ring, `reesHomogeneousSections` the graded algebra, and
+`Stacks.Blowup.isFiniteTypeOnAffine_reesGradedModule` the finite-type predicate — the sectionwise
+`SheafOfModules.GradedModule.IsFiniteType` of
+`Stacks.Blowup.isFiniteType_reesGradedModule_of_isCoherent` is not what part (1) asks for, and
+the affine predicate it does ask for is proved from the affine description of `ℐⁿℱ`.
+
+The last step is the one of `isCohomologyReesFinite_of_isCoherent`: the surjection
+`Stacks.Cohomology.FormalFunctions.transferLinear` between the two models of `ℐⁿℱ`. -/
+theorem isCohomologyReesFinite_of_properBaseChange [IsNoetherianRing A]
+    (hX : AlgebraicGeometry.IsProper X.hom) (F : X.left.Modules) [F.IsCoherent] (p : ℕ)
+    {X' : Scheme.{u}} (f' : X' ⟶ Spec (.of ↥(reesAlgebra I))) (hf' : IsProper f')
+    (F' : X'.Modules) (hF' : F'.IsCoherent)
+    (cmp :
+      letI := gradedCohomologyModule (reesHomogeneousSections I X)
+        (reesFiltrationModule I X F) p
+      gradedCohomologySum (reesFiltrationModule I X F) p ≃ₗ[↥(reesAlgebra I)]
+        ↥((ModuleCat.restrictScalars (specAlgebraRingHom ↥(reesAlgebra I) f')).obj
+          (cohomologyOf X' p F'))) :
+    IsCohomologyReesFinite I X F p := by
+  have : F.IsQuasicoherent := _root_.isQuasicoherent_of_isCoherent F
+  have : F.IsFiniteType := ‹F.IsCoherent›.isFiniteType
+  have hfin : Module.Finite (⨁ n, ↥(reesGrading I n))
+      (⨁ n, gradedCohomologyPiece I X (reesFiltrationModule I X F) p n) :=
+    isCohomologyReesFiniteOfGradedModule_of_properBaseChange I X (reesFiltrationModule I X F) p hX
+      (isQuasicoherent_piece_reesFiltrationModule I X F)
+      (isFiniteTypeOnAffine_reesGradedModule (baseIdealSheaf A I X.hom) F) f' hf' F' hF' cmp
+  show Module.Finite (⨁ n, ↥(reesGrading I n)) (⨁ n, cohomologyIdealPower I X F p n)
+  exact Module.Finite.of_surjective (transferLinear I X F p) (transferLinear_surjective I X F p)
+
+end Filtration
+
+end Stacks.Cohomology.FormalFunctions
+
+end

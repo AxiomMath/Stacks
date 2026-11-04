@@ -1,0 +1,119 @@
+module
+
+public import Mathlib.CategoryTheory.Sites.Over
+public import StacksFrontier.AlgebraicGeometry.Topologies.Syntomic.BigSite
+
+/-!
+# The big and big affine syntomic sites over a scheme
+
+Let `B` be a big syntomic site containing a scheme `S`. Its localization at `S` is the slice site,
+and its big affine syntomic site is the full subcategory of the slice on affine objects, whose
+covering families are the standard syntomic ones.
+
+## Main definitions
+
+* `AlgebraicGeometry.BigSyntomicOver` — the big syntomic category over `S`.
+* `AlgebraicGeometry.BigAffineSyntomic` — its full subcategory on affine schemes.
+* `AlgebraicGeometry.BigSyntomicOver.IsCovering` — the covering families over `S`.
+* `AlgebraicGeometry.BigAffineSyntomic.IsCovering` — the covering families of the affine category.
+* `AlgebraicGeometry.BigSyntomicOver.topology` and `AlgebraicGeometry.BigAffineSyntomic.topology` —
+  the corresponding Grothendieck topologies.
+
+## Implementation notes
+
+The localization is the slice category `Over (B.obj S hS)` with the localized Grothendieck topology
+`GrothendieckTopology.over`. The affine category is a
+`CategoryTheory.ObjectProperty.FullSubcategory` of the slice. An affine family is covering exactly
+when its image in the big site is covering and its underlying family of scheme morphisms is a
+standard syntomic covering; since standardness is a property of a family and not of the sieve it
+generates, the covering families are recorded as indexed families besides the topologies.
+
+## References
+
+* [Stacks Project, Tag 03X3](https://stacks.math.columbia.edu/tag/03X3)
+-/
+
+@[expose] public section
+
+open CategoryTheory
+
+universe u
+
+namespace AlgebraicGeometry
+
+variable (B : BigSyntomicSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+
+/-- The big syntomic category over `S` is the slice of the chosen big syntomic category at `S`. -/
+@[stacks 03X3 "part (1), category"]
+public abbrev BigSyntomicOver := Over (B.obj S hS)
+
+namespace BigSyntomicOver
+
+/-- The forgetful functor to the chosen big syntomic category. -/
+public abbrev forget : BigSyntomicOver B S hS ⥤ B.category := Over.forget (B.obj S hS)
+
+/-- The functor taking a scheme over `S` to its underlying scheme. -/
+public abbrev toScheme : BigSyntomicOver B S hS ⥤ Scheme.{u} :=
+  forget B S hS ⋙ B.inclusion
+
+/-- A family in the slice is covering precisely when its underlying family is covering in the
+chosen big syntomic site. -/
+@[stacks 03X3 "part (1), coverings"]
+public abbrev IsCovering (E : Covering (BigSyntomicOver B S hS)) : Prop :=
+  B.IsCovering ⟨(forget B S hS).obj E.1, E.2.map (forget B S hS)⟩
+
+/-- The localized Grothendieck topology of the big syntomic site. -/
+public abbrev topology : GrothendieckTopology (BigSyntomicOver B S hS) :=
+  B.topology.over (B.obj S hS)
+
+end BigSyntomicOver
+
+/-- The property that a scheme over `S` has affine source. -/
+public abbrev BigSyntomicOver.IsAffineOver : ObjectProperty (BigSyntomicOver B S hS) :=
+  fun X ↦ IsAffine ((BigSyntomicOver.toScheme B S hS).obj X)
+
+/-- The big affine syntomic category over `S` is the full subcategory of the big syntomic category
+over `S` on affine source schemes. -/
+@[stacks 03X3 "part (2), category"]
+public abbrev BigAffineSyntomic := (BigSyntomicOver.IsAffineOver B S hS).FullSubcategory
+
+namespace BigAffineSyntomic
+
+/-- The canonical full embedding into the big syntomic category over `S`. -/
+public abbrev inclusion : BigAffineSyntomic B S hS ⥤ BigSyntomicOver B S hS :=
+  (BigSyntomicOver.IsAffineOver B S hS).ι
+
+/-- The functor taking an affine scheme over `S` to its underlying scheme. -/
+public abbrev toScheme : BigAffineSyntomic B S hS ⥤ Scheme.{u} :=
+  inclusion B S hS ⋙ BigSyntomicOver.toScheme B S hS
+
+/-- The underlying scheme of an object of the big affine syntomic category is affine. -/
+public instance isAffine_toScheme_obj (X : BigAffineSyntomic B S hS) :
+    IsAffine ((toScheme B S hS).obj X) := X.property
+
+/-- A family in the affine category is standard syntomic when its underlying scheme family is a
+standard syntomic covering. -/
+public abbrev IsStandardSyntomicCovering (E : Covering (BigAffineSyntomic B S hS)) : Prop :=
+  AlgebraicGeometry.IsStandardSyntomicCovering (fun i ↦ (toScheme B S hS).obj (E.2.X i))
+    (fun i ↦ (toScheme B S hS).map (E.2.f i))
+
+/-- A family in the big affine syntomic site is covering exactly when it is covering in the
+localized big syntomic site and is a standard syntomic covering of schemes. -/
+@[stacks 03X3 "part (2), coverings"]
+public abbrev IsCovering (E : Covering (BigAffineSyntomic B S hS)) : Prop :=
+  BigSyntomicOver.IsCovering B S hS
+    ⟨(inclusion B S hS).obj E.1, E.2.map (inclusion B S hS)⟩ ∧
+  IsStandardSyntomicCovering B S hS E
+
+/-- The precoverage of standard syntomic families in the affine category. -/
+public def precoverage : Precoverage (BigAffineSyntomic B S hS) where
+  coverings X := {R | ∃ E : PreZeroHypercover.{u + 1} X,
+    R = E.presieve₀ ∧ IsCovering B S hS ⟨X, E⟩}
+
+/-- The Grothendieck topology generated by standard syntomic families. -/
+public abbrev topology : GrothendieckTopology (BigAffineSyntomic B S hS) :=
+  (precoverage B S hS).toGrothendieck
+
+end BigAffineSyntomic
+
+end AlgebraicGeometry

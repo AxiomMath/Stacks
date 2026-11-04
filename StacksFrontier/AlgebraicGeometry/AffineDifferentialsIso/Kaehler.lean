@@ -1,0 +1,281 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.AffineDifferentialsIso.Basic
+public import Mathlib.AlgebraicGeometry.Modules.Tilde
+
+/-!
+# The comparison with the Kähler differentials is split injective on an affine open
+
+Let `f : X ⟶ S` be a morphism of schemes, let `V` be an affine open of `S` and let
+`U ≤ f ⁻¹ᵁ V` be an affine open of `X`. Stacks 01UT asserts that the sections of `Ω_{X/S}` on
+`U` are uniquely isomorphic to the Kähler differentials of `Γ(S, V) ⟶ Γ(X, U)`, compatibly
+with the universal derivations, and `AffineDifferentials` shows that this is equivalent to one
+explicitly given map `kaehlerToSections` being an isomorphism. This file proves that that map
+is a split monomorphism.
+
+## Main definitions
+
+* `kaehlerModule` is the Kähler differentials of `f.appLE V U hUV`.
+* `toTildeTop` is the comparison of a module with the global sections of the quasi-coherent
+  sheaf it defines on the spectrum of its base ring.
+* `kaehlerSeed` is the universal differential of `Γ(X, U)` over `Γ(S, V)`, read as an additive
+  map from `Γ(Spec Γ(X, U), ⊤)` to the global sections of that quasi-coherent sheaf.
+* `kaehlerRetraction` is restriction to `⊤` followed by the inverse comparison.
+
+## Main results
+
+* `fromSpec_appLE_top`: the comorphism of `hU.fromSpec` on `U`, followed by restriction to the
+  whole spectrum, is the inverse of the global-sections comparison.
+* `kaehlerSeed_mul` and `kaehlerSeed_base`: the seed is Leibniz and annihilates the image of
+  `Γ(S, V)`, which are the hypotheses of the construction in the companion file.
+* `isSplitMono_kaehlerToSections`: **half of Stacks 01UT.** For `U` and `V` affine the
+  canonical comparison map is a split monomorphism.
+
+## Implementation notes
+
+The route is to feed `exists_relativeDifferentials_hom_of_affine` the quasi-coherent sheaf
+`tilde` of the Kähler differentials on `Spec Γ(X, U)`, whose global sections are those Kähler
+differentials by `tilde.isoTop`. That produces a morphism out of `Ω_{X/S}` sending the
+universal relative differential of a section of `𝒪_X` over `U` to the universal differential of
+that section; evaluating it on `U`, restricting to the whole spectrum and inverting the
+global-sections comparison gives a retraction of `kaehlerToSections`, and the identity
+`kaehlerToSections ≫ retraction = 𝟙` follows because the universal differentials generate, by
+`CommRingCat.KaehlerDifferential.ext`.
+
+Choosing `Spec Γ(X, U)` as the model of the affine open, through `hU.fromSpec`, rather than `U`
+as an open subscheme, is what keeps the statement in the coordinate ring `Γ(X, U)` of the tag's
+statement itself: the Kähler differentials are formed on `f.appLE V U hUV` directly and no comparison of
+rings has to be transported through them. The one comparison that does appear is the
+global-sections comparison `Scheme.ΓSpecIso`, and the single lemma `fromSpec_appLE_top`
+identifies it with the comorphism, which is where the two bookkeeping facts
+`hU.fromSpec_app_self` and `hU.fromSpec_preimage_self` are used.
+
+The scalar bookkeeping is the other cost. Mathlib equips the sections of a sheaf of modules on
+`Spec R` with an `R`-action and records in `Scheme.Modules.smul_Spec_def` that it is the action
+of the structure sheaf read through `ΓSpecIso`; `smul_Spec_top` is that statement on `⊤`, where
+the restriction map involved is the identity, and it is what makes the Leibniz rule for the seed
+and the linearity of the retraction come out.
+
+Everything is in a single universe: the schemes are in `Scheme.{u}`, the coordinate ring is in
+`CommRingCat.{u}` and the Kähler differentials in `ModuleCat.{u}`, so no universe side
+condition arises.
+
+Three transparency points. The additive and Leibniz properties of the seed
+and the linearity of the retraction are written in term mode out of `congrArg` and `Eq.trans`:
+the global sections of the quasi-coherent sheaf carry two spellings, as an abelian group through
+`Γ(·, ⊤)` and as a module through the forgetful functor to sheaves of modules over the base
+ring, and a `show` that moves between them makes the goal type-incorrect at implicit
+transparency, after which `rw [map_add]` fails to find a pattern the goal displays. Second, the
+retraction is built with `ModuleCat.ofHom` on the `Γ(·, U)` spelling of its source rather than
+on the sections of the pushforward presheaf: at the latter spelling the scalar ring is reached
+through `X.ringCatSheaf` composed with the forgetful functor to rings, and the module instance
+is not found, while the two objects agree by eta so the composite with the evaluated morphism
+still typechecks. Third, the retraction needs its own `rfl` lemma, since `inv` of an
+isomorphism does not unfold and the definitional equality is not available to the elaborator
+at the point of use.
+
+## What is not done here
+
+Stacks 01UT is not closed in this file: `kaehlerToSections` is shown here to be a split
+monomorphism only. Its surjectivity, equivalently that `Γ(Ω_{X/S}, U)` is generated by the
+universal relative differentials of sections over `U`, is proved in
+`StacksFrontier.AlgebraicGeometry.AffineDifferentialsIso.Surjective`, which shows that the
+morphism produced by `exists_relativeDifferentials_hom_of_affine` is injective on sections over
+`U`; the full tag statement is `Surjective.existsUnique_affineDifferentialsIso`. The
+isomorphism is not shown to be natural in `U` and `V`, nor compatible with composition of
+morphisms, and quasi-coherence of `Ω_{X/S}` is not deduced from it. No tag attribute is
+attached to any declaration here.
+
+## References
+
+* [Stacks Project, Tag 01UT](https://stacks.math.columbia.edu/tag/01UT)
+* [Stacks Project, Tag 01UO](https://stacks.math.columbia.edu/tag/01UO)
+* [Stacks Project, Tag 01R2](https://stacks.math.columbia.edu/tag/01R2)
+-/
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory TopologicalSpace Opposite
+
+universe u
+
+namespace Stacks.AlgebraicGeometry.AffineDifferentialsIso
+
+section Kaehler
+
+variable {X S : Scheme.{u}} (f : X ⟶ S) {U : X.Opens} (hU : IsAffineOpen U) {V : S.Opens}
+
+/-- The comorphism of `hU.fromSpec` on `U`, followed by the restriction to the whole of
+`Spec Γ(X, U)`, is the inverse of the global-sections comparison. -/
+theorem fromSpec_appLE_top :
+    hU.fromSpec.appLE U ⊤ (le_of_eq hU.fromSpec_preimage_self.symm) =
+      (Scheme.ΓSpecIso Γ(X, U)).inv := by
+  rw [Scheme.Hom.appLE, hU.fromSpec_app_self, Category.assoc, ← Functor.map_comp,
+    show ((eqToHom hU.fromSpec_preimage_self).op ≫
+        (homOfLE (le_of_eq hU.fromSpec_preimage_self.symm)).op) = 𝟙 _ from rfl,
+    CategoryTheory.Functor.map_id, Category.comp_id]
+
+variable (hV : IsAffineOpen V) (hUV : U ≤ f ⁻¹ᵁ V)
+
+/-- The Kähler differentials of the ring map that `f` induces on the two affine opens. -/
+noncomputable abbrev kaehlerModule : ModuleCat.{u} Γ(X, U) :=
+  CommRingCat.KaehlerDifferential (f.appLE V U hUV)
+
+/-- The comparison of the Kähler differentials with the global sections of the quasi-coherent
+sheaf they define on `Spec Γ(X, U)`. -/
+noncomputable abbrev toTildeTop :
+    kaehlerModule f hUV ⟶
+      (modulesSpecToSheaf.obj (tilde (kaehlerModule f hUV))).presheaf.obj (op ⊤) :=
+  tilde.toOpen (kaehlerModule f hUV) ⊤
+
+/-- The universal differential of `Γ(X, U)` over `Γ(S, V)`, read on the global sections of
+`Spec Γ(X, U)` with values in the global sections of the associated quasi-coherent sheaf. -/
+noncomputable def kaehlerSeed :
+    Γ(Spec Γ(X, U), ⊤) →+ Γ(tilde (kaehlerModule f hUV), ⊤) :=
+  AddMonoidHom.mk'
+    (fun y => (toTildeTop f hUV).hom
+      (CommRingCat.KaehlerDifferential.d ((Scheme.ΓSpecIso Γ(X, U)).hom y)))
+    (fun y y' => by
+      rw [map_add]
+      exact (congrArg (fun z => (toTildeTop f hUV).hom z)
+        (ModuleCat.Derivation.d_add (CommRingCat.KaehlerDifferential.D (f.appLE V U hUV))
+          _ _)).trans (map_add (toTildeTop f hUV).hom _ _))
+
+/-- The `Γ(X, U)`-action on sections over `⊤` of a sheaf of modules on `Spec Γ(X, U)` is the
+action of the global sections of the structure sheaf. -/
+theorem smul_Spec_top {A : CommRingCat.{u}} {M : (Spec A).Modules}
+    (y : Γ(Spec A, ⊤)) (x : Γ(M, ⊤)) :
+    (Scheme.ΓSpecIso A).hom y • x = y • x := by
+  rw [Scheme.Modules.smul_Spec_def, Iso.hom_inv_id_apply,
+    show (Opens.leTop (⊤ : (Spec A).Opens)).op = 𝟙 _ from rfl,
+    CategoryTheory.Functor.map_id]
+  rfl
+
+/-- The global-sections comparison carries the universal differential of a section coming from
+`Γ(X, U)` to the value of the seed. -/
+theorem ΓSpecIso_hom_appLE_top (r : Γ(X, U)) :
+    (Scheme.ΓSpecIso Γ(X, U)).hom (hU.fromSpec.appLE U ⊤
+      (le_of_eq hU.fromSpec_preimage_self.symm) r) = r :=
+  (congrArg (fun x => (CommRingCat.Hom.hom (Scheme.ΓSpecIso Γ(X, U)).hom) x)
+      (congrArg (fun g => (CommRingCat.Hom.hom g) r) (fromSpec_appLE_top hU))).trans
+    (Iso.inv_hom_id_apply (Scheme.ΓSpecIso Γ(X, U)) r)
+
+/-- The seed satisfies the Leibniz rule. -/
+theorem kaehlerSeed_mul (y y' : Γ(Spec Γ(X, U), ⊤)) :
+    kaehlerSeed f hUV (y * y') =
+      y • kaehlerSeed f hUV y' + y' • kaehlerSeed f hUV y := by
+  have h1 : kaehlerSeed f hUV (y * y') =
+      (toTildeTop f hUV).hom ((Scheme.ΓSpecIso Γ(X, U)).hom y •
+          CommRingCat.KaehlerDifferential.d ((Scheme.ΓSpecIso Γ(X, U)).hom y') +
+        (Scheme.ΓSpecIso Γ(X, U)).hom y' •
+          CommRingCat.KaehlerDifferential.d ((Scheme.ΓSpecIso Γ(X, U)).hom y)) :=
+    congrArg (fun z => (toTildeTop f hUV).hom z)
+      ((congrArg (fun w => CommRingCat.KaehlerDifferential.d (f := f.appLE V U hUV) w)
+          (map_mul (CommRingCat.Hom.hom (Scheme.ΓSpecIso Γ(X, U)).hom) y y')).trans
+        (ModuleCat.Derivation.d_mul
+          (CommRingCat.KaehlerDifferential.D (f.appLE V U hUV)) _ _))
+  have h2 : (toTildeTop f hUV).hom ((Scheme.ΓSpecIso Γ(X, U)).hom y •
+          CommRingCat.KaehlerDifferential.d ((Scheme.ΓSpecIso Γ(X, U)).hom y') +
+        (Scheme.ΓSpecIso Γ(X, U)).hom y' •
+          CommRingCat.KaehlerDifferential.d ((Scheme.ΓSpecIso Γ(X, U)).hom y)) =
+      (Scheme.ΓSpecIso Γ(X, U)).hom y • kaehlerSeed f hUV y' +
+        (Scheme.ΓSpecIso Γ(X, U)).hom y' • kaehlerSeed f hUV y :=
+    (map_add (toTildeTop f hUV).hom _ _).trans
+      (congrArg₂ (fun p q => p + q)
+        ((toTildeTop f hUV).hom.map_smul _ _) ((toTildeTop f hUV).hom.map_smul _ _))
+  refine h1.trans (h2.trans ?_)
+  rw [smul_Spec_top, smul_Spec_top]
+
+/-- The seed annihilates the image of `Γ(S, V)`. -/
+theorem kaehlerSeed_base (r : Γ(S, V)) :
+    kaehlerSeed f hUV (hU.fromSpec.appLE U ⊤
+      (le_of_eq hU.fromSpec_preimage_self.symm) (f.appLE V U hUV r)) = 0 :=
+  (congrArg (fun z => (toTildeTop f hUV).hom
+      (CommRingCat.KaehlerDifferential.d (f := f.appLE V U hUV) z))
+    (ΓSpecIso_hom_appLE_top hU (f.appLE V U hUV r))).trans
+    ((congrArg (fun z => (toTildeTop f hUV).hom z)
+      (ModuleCat.Derivation.d_map
+        (CommRingCat.KaehlerDifferential.D (f.appLE V U hUV)) r)).trans (map_zero _))
+
+/-- The inclusion of `⊤` into the preimage of `U`, which is all of `Spec Γ(X, U)`. -/
+noncomputable abbrev topToPreimage : (⊤ : (Spec Γ(X, U)).Opens) ⟶ hU.fromSpec ⁻¹ᵁ U :=
+  homOfLE (le_of_eq hU.fromSpec_preimage_self.symm)
+
+/-- Restriction to `⊤` followed by the inverse of the global-sections comparison, as a
+`Γ(X, U)`-linear map from the sections on `U` of the pushforward of the quasi-coherent sheaf
+attached to the Kähler differentials. -/
+noncomputable def kaehlerRetraction :
+    ModuleCat.of Γ(X, U)
+        Γ((Scheme.Modules.pushforward hU.fromSpec).obj
+          (tilde (kaehlerModule f hUV)), U) ⟶ kaehlerModule f hUV :=
+  ModuleCat.ofHom
+    { toFun := fun x => (inv (toTildeTop f hUV)).hom
+        ((tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op x),
+      map_add' := fun x x' =>
+        (congrArg (fun z => (inv (toTildeTop f hUV)).hom z)
+            (map_add (ConcreteCategory.hom
+              ((tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op)) x x')).trans
+          (map_add (ModuleCat.Hom.hom (inv (toTildeTop f hUV))) _ _),
+      map_smul' := fun r x => by
+        have h1 := Scheme.Modules.map_smul (M := tilde (kaehlerModule f hUV))
+          (topToPreimage hU) ((hU.fromSpec.app U).hom r) x
+        have hr : (Spec Γ(X, U)).presheaf.map (topToPreimage hU).op
+              ((hU.fromSpec.app U).hom r) =
+            (Scheme.ΓSpecIso Γ(X, U)).inv r :=
+          congrArg (fun g => (CommRingCat.Hom.hom g) r) (fromSpec_appLE_top hU)
+        have h2 : (Scheme.ΓSpecIso Γ(X, U)).inv r •
+              (tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op x =
+            r • (tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op x :=
+          (smul_Spec_top ((Scheme.ΓSpecIso Γ(X, U)).inv r)
+              ((tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op x)).symm.trans
+            (congrArg
+              (fun z => z • (tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op x)
+              (Iso.inv_hom_id_apply (Scheme.ΓSpecIso Γ(X, U)) r))
+        exact (congrArg (fun z => (inv (toTildeTop f hUV)).hom z)
+            ((h1.trans (congrArg
+              (fun z => z • (tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op x)
+              hr)).trans h2)).trans
+          ((inv (toTildeTop f hUV)).hom.map_smul r
+            ((tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op x)) }
+
+/-- The retraction is restriction to `⊤` followed by the inverse comparison. -/
+theorem kaehlerRetraction_apply
+    (x : Γ((Scheme.Modules.pushforward hU.fromSpec).obj (tilde (kaehlerModule f hUV)), U)) :
+    (kaehlerRetraction f hU hUV).hom x =
+      (inv (toTildeTop f hUV)).hom
+        ((tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op x) := rfl
+
+include hU hV in
+/-- **Half of Stacks Project, Tag 01UT.** For `U` and `V` affine, the canonical comparison map
+from the Kähler differentials of `Γ(S, V) ⟶ Γ(X, U)` to the sections of `Ω_{X/S}` on `U` is a
+split monomorphism. The retraction is the morphism out of `Ω_{X/S}` furnished by
+`exists_relativeDifferentials_hom_of_affine` for the quasi-coherent sheaf on `Spec Γ(X, U)`
+attached to those Kähler differentials, evaluated on `U`. -/
+theorem isSplitMono_kaehlerToSections :
+    IsSplitMono (AffineDifferentials.kaehlerToSections f V U hUV) := by
+  obtain ⟨E, ψ, hE, hres, hψ⟩ := exists_relativeDifferentials_hom_of_affine f hU hV hUV
+    (kaehlerSeed f hUV) (kaehlerSeed_mul f hUV) (kaehlerSeed_base f hU hUV)
+  refine IsSplitMono.mk' ⟨ψ.val.app (op U) ≫ kaehlerRetraction f hU hUV, ?_⟩
+  refine CommRingCat.KaehlerDifferential.ext fun b => ?_
+  have h2 : (tilde (kaehlerModule f hUV)).presheaf.map (topToPreimage hU).op
+        ((ψ.val.app (op U)).hom ((Scheme.Hom.universalRelativeDerivation f).d b)) =
+      (toTildeTop f hUV).hom (CommRingCat.KaehlerDifferential.d b) := by
+    rw [hψ U b, ← hres (hU.fromSpec ⁻¹ᵁ U) ⊤ (topToPreimage hU), hE]
+    exact congrArg (fun z => (toTildeTop f hUV).hom
+        (CommRingCat.KaehlerDifferential.d (f := f.appLE V U hUV) z))
+      (ΓSpecIso_hom_appLE_top hU b)
+  have key : (kaehlerRetraction f hU hUV).hom ((ψ.val.app (op U)).hom
+        ((Scheme.Hom.universalRelativeDerivation f).d b)) =
+      CommRingCat.KaehlerDifferential.d b :=
+    (kaehlerRetraction_apply f hU hUV _).trans
+      ((congrArg (fun z => (inv (toTildeTop f hUV)).hom z) h2).trans
+        (congrArg (fun g => (ModuleCat.Hom.hom g) (CommRingCat.KaehlerDifferential.d b))
+          (IsIso.hom_inv_id (toTildeTop f hUV))))
+  exact (congrArg (fun z => (kaehlerRetraction f hU hUV).hom ((ψ.val.app (op U)).hom z))
+    (AffineDifferentials.kaehlerToSections_d f V U hUV b)).trans key
+
+end Kaehler
+
+end Stacks.AlgebraicGeometry.AffineDifferentialsIso
+
+end

@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Spaces.Limits.ClosedImmersionDescent.PreimagesAndRepresentations
+public import StacksFrontier.AlgebraicGeometry.Spaces.Limits.ClosedImmersionDescent.AffinePullbackSystem
+public import StacksFrontier.AlgebraicGeometry.Spaces.Limits.ClosedImmersionDescent.EventualImmersion

@@ -1,0 +1,14 @@
+module
+
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.GaloisDegree
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.RamificationCases
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.OrbitPolynomial
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.OrbitExtension
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.PoleReduction
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.LaurentCoefficients
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.ScaledPole
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.WeakSolutionCriteria
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.ResidueBaseChange
+public import StacksFrontier.RingTheory.DiscreteValuationRing.ArtinSchreier.CharPSolution
+
+/-! # Artin--Schreier extensions of a discrete valuation field (re-exports the parts above) -/

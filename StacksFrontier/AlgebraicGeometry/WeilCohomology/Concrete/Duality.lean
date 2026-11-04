@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.Duality.TriangleComposites
+public import StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.Duality.TriangleIdentities
+public import StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.Duality.UnitCounit

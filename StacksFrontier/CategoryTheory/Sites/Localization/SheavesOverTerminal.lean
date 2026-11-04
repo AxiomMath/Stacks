@@ -1,0 +1,168 @@
+module
+
+public import Mathlib.CategoryTheory.Sites.Over
+public import Mathlib.CategoryTheory.Sites.Equivalence
+public import StacksFrontier.CategoryTheory.Sites.Continuous.PullbackOfSheafifiedYoneda
+
+/-!
+# Restriction to a slice site: over a terminal object, and along a morphism
+
+Let `J` be a Grothendieck topology on `C` and let `X : C`. Restriction along the forgetful
+functor of the slice is `CategoryTheory.GrothendieckTopology.overPullback`, a functor
+`Sheaf J A ⥤ Sheaf (J.over X) A`, and restriction along `CategoryTheory.Over.map` of a morphism
+`g : V ⟶ W` of `C` is `CategoryTheory.GrothendieckTopology.overMapPullback`, a functor
+`Sheaf (J.over W) A ⥤ Sheaf (J.over V) A`. This file records the two facts about them which make
+a localized site usable as a replacement for the site itself.
+
+The first is that when `X` is terminal nothing is lost: the forgetful functor `Over X ⥤ C` is
+then an equivalence, it is continuous and cocontinuous for the two topologies, and so the
+localized topology is the one it induces and restriction along it is an **equivalence** of sheaf
+categories. In particular a sheaf on `C` may be replaced by its restriction to the slice over a
+terminal object, and an isomorphism of the restrictions comes from an isomorphism of the sheaves.
+That equivalence also matches the two sheafified Yoneda embeddings: a sheaf on the slice
+represented by an object `V` of the slice comes from the sheaf on `C` represented by the
+underlying object of `V`.
+
+The second is that the two restrictions compose as expected: forgetting from the slice over `V`
+is forgetting from the slice over `W` after `Over.map g`, so restricting to the slice over `W`
+and then along `g` is restricting to the slice over `V`.
+
+Apart from the comparison of the Yoneda embeddings, which is about sheaves of sets, all of this
+holds for an arbitrary coefficient category.
+
+## Main results
+
+* `CategoryTheory.GrothendieckTopology.isDenseSubsite_overForget` — the forgetful functor of the
+  slice over a terminal object exhibits the localized topology as a dense subsite of `J`.
+* `CategoryTheory.GrothendieckTopology.ofArrows_overMk_mem_over_iff` — a family of arrows into
+  `X` is covering exactly when it is covering, read in the slice over `X`, for the terminal
+  object there.
+* `CategoryTheory.GrothendieckTopology.sheafOverTerminalEquivalence` — the induced equivalence
+  `Sheaf J A ≌ Sheaf (J.over X) A`, whose functor is
+  `CategoryTheory.GrothendieckTopology.overPullback` itself.
+* `CategoryTheory.GrothendieckTopology.sheafifiedYonedaCompSheafOverTerminalEquivalenceInverse`
+  — that equivalence carries sheafified representables to sheafified representables.
+* `CategoryTheory.GrothendieckTopology.overPullbackCompOverMapPullback` — restricting to the
+  slice over `W` and then along `g : V ⟶ W` is restricting to the slice over `V`.
+
+## Implementation notes
+
+The equivalence of sites is `CategoryTheory.Over.equivalenceOfIsTerminal`, read backwards so
+that its inverse is `CategoryTheory.Over.forget`; that is the spelling in which
+`CategoryTheory.Equivalence.sheafCongr` consumes it, and it is why the functor of the resulting
+equivalence of sheaf categories is `overPullback` on the nose.
+
+The dense-subsite statement is a hypothesis-carrying theorem rather than an instance, since the
+terminality of `X` is data that typeclass inference cannot recover from the topology.
+
+The comparison of the sheafified Yoneda embeddings is stated for a site whose objects live in
+`Type (max u v)`, since `CategoryTheory.Sheaf.sheafifiedYoneda` reads its coefficient universe
+off the universe of the objects and `Over X` lies in `Type (max u v)` whatever `C` does. For the
+small étale site of a scheme, where the objects are in `Type (u + 1)` and the morphisms in
+`Type u`, nothing is lost.
+-/
+
+@[expose] public section
+
+open CategoryTheory CategoryTheory.Limits
+
+universe t w v u
+
+namespace CategoryTheory.GrothendieckTopology
+
+section General
+
+variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
+
+/-- **Over a terminal object the slice site is a dense subsite.** The forgetful functor
+`Over X ⥤ C` of the slice over a terminal object `X` is an equivalence, hence cover dense, and
+the localized topology `J.over X` is the topology it induces from `J`. -/
+public theorem isDenseSubsite_overForget {X : C} (hX : IsTerminal X) :
+    (Over.forget X).IsDenseSubsite (J.over X) J := by
+  have _hequiv : (Over.forget X).IsEquivalence :=
+    (Over.equivalenceOfIsTerminal hX).isEquivalence_functor
+  have htop : J.over X = (Over.forget X).inducedTopology J := by
+    ext Y S
+    rw [GrothendieckTopology.mem_over_iff, Functor.mem_inducedTopology_iff_of_isCoverDense]
+    rfl
+  rw [htop]
+  infer_instance
+
+/-- **A family of arrows into `X` covers `X` exactly when it covers the terminal object of the
+slice over `X`.** The terminal object of `Over X` is the identity of `X`, an arrow `f : Y ⟶ X`
+is an object of the slice over it, and the sieve it generates there has the sieve generated by
+the family as its image under `CategoryTheory.Sieve.overEquiv`.
+
+This is what lets a covering of `X` be read as a covering in the localized site, where its
+members are arrows of a single slice category. -/
+public theorem ofArrows_overMk_mem_over_iff {X : C} {I : Type*} (Y : I → C)
+    (f : ∀ i, Y i ⟶ X) :
+    Sieve.ofArrows (fun i ↦ Over.mk (f i))
+          (fun i ↦ (Over.homMk (f i) (by simp) : Over.mk (f i) ⟶ Over.mk (𝟙 X))) ∈
+        (J.over X) (Over.mk (𝟙 X)) ↔
+      Sieve.ofArrows Y f ∈ J X := by
+  rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_ofArrows]
+  rfl
+
+variable (A : Type w) [Category.{t} A]
+
+/-- **Restriction to the slice over a terminal object is an equivalence of sheaf categories.**
+Its functor is `CategoryTheory.GrothendieckTopology.overPullback`, by
+`CategoryTheory.GrothendieckTopology.sheafOverTerminalEquivalence_functor`. -/
+public noncomputable def sheafOverTerminalEquivalence {X : C} (hX : IsTerminal X) :
+    Sheaf J A ≌ Sheaf (J.over X) A :=
+  have : (Over.equivalenceOfIsTerminal hX).symm.inverse.IsDenseSubsite (J.over X) J :=
+    isDenseSubsite_overForget J hX
+  (Over.equivalenceOfIsTerminal hX).symm.sheafCongr J (J.over X) A
+
+/-- The functor of `CategoryTheory.GrothendieckTopology.sheafOverTerminalEquivalence` is
+restriction to the slice site. -/
+public theorem sheafOverTerminalEquivalence_functor {X : C} (hX : IsTerminal X) :
+    (sheafOverTerminalEquivalence J A hX).functor = J.overPullback A X :=
+  rfl
+
+/-- **Restriction to the slice over `W`, followed by restriction along `g : V ⟶ W`, is
+restriction to the slice over `V`.** Forgetting the structure morphism after `Over.map g` is
+forgetting it, so this is the composition law for pushforwards of sheaves along continuous
+functors. -/
+public def overPullbackCompOverMapPullback {V W : C} (g : V ⟶ W) :
+    J.overPullback A W ⋙ J.overMapPullback A g ≅ J.overPullback A V :=
+  Functor.sheafPushforwardContinuousComp' (Over.mapForget g) _ _ _ _
+
+end General
+
+section SheafifiedYoneda
+
+variable {C : Type max u v} [Category.{v} C] (J : GrothendieckTopology C)
+  [HasWeakSheafify J (Type max u v)]
+
+/-- **The equivalence of sheaf categories over a terminal object is compatible with the
+sheafified Yoneda embedding.** Reading the sheafified representable of an object `V` of the
+slice back on the site itself gives the sheafified representable of the underlying object of
+`V`.
+
+The inverse of `CategoryTheory.GrothendieckTopology.sheafOverTerminalEquivalence` is a left
+adjoint of restriction to the slice, hence is the inverse image along `Over.forget`, and inverse
+image commutes with the sheafified Yoneda embedding by
+`CategoryTheory.Sheaf.sheafifiedYonedaCompSheafPullbackIso` (Stacks 04D3). -/
+public noncomputable def sheafifiedYonedaCompSheafOverTerminalEquivalenceInverse
+    {X : C} (hX : IsTerminal X)
+    [HasWeakSheafify (J.over X) (Type max u v)] :
+    Sheaf.sheafifiedYoneda (J.over X) ⋙
+        (sheafOverTerminalEquivalence J (Type max u v) hX).inverse ≅
+      Over.forget X ⋙ Sheaf.sheafifiedYoneda J :=
+  have _hds := isDenseSubsite_overForget J hX
+  have _hra : ((Over.forget X).sheafPushforwardContinuous (Type max u v)
+      (J.over X) J).IsRightAdjoint :=
+    (sheafOverTerminalEquivalence J (Type max u v) hX).symm.toAdjunction.isRightAdjoint
+  Functor.isoWhiskerLeft _
+      (Adjunction.leftAdjointUniq
+        ((Over.forget X).sheafAdjunctionContinuous (Type max u v) (J.over X) J)
+        (sheafOverTerminalEquivalence J (Type max u v) hX).symm.toAdjunction).symm ≪≫
+    Sheaf.sheafifiedYonedaCompSheafPullbackIso (Over.forget X) (J.over X) J
+
+end SheafifiedYoneda
+
+end CategoryTheory.GrothendieckTopology
+
+end

@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.RingTheory.DividedPowers.Extend.Existence
+public import StacksFrontier.RingTheory.DividedPowers.Extend.IntegersAtPrime
+public import StacksFrontier.RingTheory.DividedPowers.Extend.Completion
+public import StacksFrontier.RingTheory.DividedPowers.Extend.CompletedDividedPowers

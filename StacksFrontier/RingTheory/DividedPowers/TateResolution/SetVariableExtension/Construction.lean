@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.SetVariableExtension.Construction.OneVariableLift
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.SetVariableExtension.Construction.FiniteVariable
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.SetVariableExtension.Construction.DirectLimit
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.SetVariableExtension.Construction.Existence

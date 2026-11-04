@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.Deformation.Artin.Approximation.Descent
+public import StacksFrontier.Deformation.Artin.Approximation.FiniteType
+public import StacksFrontier.Deformation.Artin.Approximation.QuotientEquiv
+public import StacksFrontier.Deformation.Artin.Approximation.TruncationIso

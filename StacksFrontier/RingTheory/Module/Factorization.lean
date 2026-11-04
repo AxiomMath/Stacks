@@ -1,0 +1,305 @@
+module
+
+public import StacksFrontier.RingTheory.UniversallyExact
+
+@[expose] public section
+
+universe u v
+
+/-!
+# Domination and factorization of maps of modules
+
+Let `f : M → N` and `g : M → M'` be maps of `R`-modules with common source `M`, and suppose the
+cokernel `N ⧸ Im(f)` of `f` is of finite presentation. Then `g` dominates `f` — that is,
+`Ker(f ⊗ id_Q) ⊆ Ker(g ⊗ id_Q)` for every `R`-module `Q` — if and only if `g` factors through `f`.
+
+The proof follows the source. Form the pushout `N' = (M' × N) ⧸ K`, `K = {(g x, -f x) : x ∈ M}`,
+of the span `M' ←g— M —f→ N`, with structural maps `f' : M' → N'` and `g' : N → N'`. The second
+projection identifies `Coker(f')` with `Coker(f)`, so `Coker(f')` is of finite presentation. What
+carries the proof is the kernel of the tensored pushout map,
+`Ker(f' ⊗ id_Q) = (g ⊗ id_Q)(Ker(f ⊗ id_Q))`, which is the source's short exact sequence
+`0 → Ker(f ⊗ id_Q) ∩ Ker(g ⊗ id_Q) → Ker(f ⊗ id_Q) → Ker(f' ⊗ id_Q) → 0` read as an identity of
+submodules of `M' ⊗ Q`: it says that `f' ⊗ id_Q` is injective exactly when
+`Ker(f ⊗ id_Q) ⊆ Ker(g ⊗ id_Q)`, so domination of `f` by `g` is precisely universal injectivity of
+`f'`, and its case `Q = R` is what makes `f'` itself injective. Stacks 058L then splits
+`0 → M' → N' → Coker(f) → 0`, and a retraction `r : N' → M'` of `f'` gives the factorization
+`h = r ∘ g'`, since `f' ∘ g = g' ∘ f`.
+
+## Main results
+
+* `Stacks.Modules.FactorizationCriterion.solution`: with `Coker(f)` of finite presentation, `g`
+  dominates `f` if and only if `g = h ∘ f` for some `h : N → M'`.
+
+## Implementation notes
+
+The pushout is built here rather than taken from `CategoryTheory`: only the two structural maps,
+the commutativity of the square, the identification of `Coker(f')` with `Coker(f)` and the
+presentation `M —(g, -f)→ M' × N → N' → 0` are used, and all four are one-line computations on the
+quotient `(M' × N) ⧸ K`.
+
+Stacks 0AUM states the equivalence "`g` dominates `f` ↔ `f'` is universally injective" for this
+square, but only in the single universe `Type u` of the ring, whereas here `R : Type u` and
+the modules lie in `Type v` with `Small.{v} R`. It is therefore proved here directly and one test
+module at a time, in `injective_rTensor_pushoutInl_iff`; only the universal injectivity half is
+used. The plain injectivity of `f'` that Stacks 058L also asks for is the case `Q = Shrink R` of
+that same equivalence, transported along `A ⊗ Shrink R ≃ A` in
+`injective_of_rTensor_injective`, so no separate argument on untensored kernels is needed.
+
+The retraction of `f'` is extracted from the section of `N' → Coker(f)` produced by Stacks 058L
+through Mathlib's `Function.Exact.split_tfae'`.
+
+## References
+
+* [StacksProject 058L](https://stacks.math.columbia.edu/tag/058L)
+* [StacksProject 059D](https://stacks.math.columbia.edu/tag/059D)
+* [StacksProject 0AUM](https://stacks.math.columbia.edu/tag/0AUM)
+-/
+
+namespace Stacks.Modules.FactorizationCriterion
+
+open TensorProduct
+
+section Pushout
+
+variable {R : Type u} [CommRing R] {M N M' : Type v} [AddCommGroup M] [Module R M]
+  [AddCommGroup N] [Module R N] [AddCommGroup M'] [Module R M']
+
+/-- The submodule `K = {(g x, -f x) : x ∈ M}` of `M' × N` by which one divides to form the pushout
+of the span `M' ←g— M —f→ N`. -/
+private def pushoutRel (f : M →ₗ[R] N) (g : M →ₗ[R] M') : Submodule R (M' × N) :=
+  LinearMap.range (g.prod (-f))
+
+/-- The pushout `N' = (M' × N) ⧸ K` of the span `M' ←g— M —f→ N`. -/
+private abbrev Pushout (f : M →ₗ[R] N) (g : M →ₗ[R] M') : Type v :=
+  (M' × N) ⧸ pushoutRel f g
+
+/-- The structural map `f' : M' → N'` of the pushout, `m' ↦ ⟦(m', 0)⟧`. -/
+private def pushoutInl (f : M →ₗ[R] N) (g : M →ₗ[R] M') : M' →ₗ[R] Pushout f g :=
+  (pushoutRel f g).mkQ ∘ₗ LinearMap.inl R M' N
+
+/-- The structural map `g' : N → N'` of the pushout, `n ↦ ⟦(0, n)⟧`. -/
+private def pushoutInr (f : M →ₗ[R] N) (g : M →ₗ[R] M') : N →ₗ[R] Pushout f g :=
+  (pushoutRel f g).mkQ ∘ₗ LinearMap.inr R M' N
+
+/-- The second projection of the pushout, `N' → Coker(f)`, `⟦(m', n)⟧ ↦ n mod Im(f)`. It exhibits
+`Coker(f)` as the cokernel of `f' : M' → N'`. -/
+private def pushoutCoker (f : M →ₗ[R] N) (g : M →ₗ[R] M') :
+    Pushout f g →ₗ[R] N ⧸ LinearMap.range f :=
+  (pushoutRel f g).liftQ ((LinearMap.range f).mkQ ∘ₗ LinearMap.snd R M' N) <| by
+    rw [pushoutRel, LinearMap.range_le_ker_iff]
+    ext x
+    simp
+
+private lemma pushoutInl_apply (f : M →ₗ[R] N) (g : M →ₗ[R] M') (m : M') :
+    pushoutInl f g m = Submodule.Quotient.mk (p := pushoutRel f g) (m, 0) := rfl
+
+private lemma pushoutInr_apply (f : M →ₗ[R] N) (g : M →ₗ[R] M') (n : N) :
+    pushoutInr f g n = Submodule.Quotient.mk (p := pushoutRel f g) (0, n) := rfl
+
+private lemma pushoutCoker_mk (f : M →ₗ[R] N) (g : M →ₗ[R] M') (x : M' × N) :
+    pushoutCoker f g (Submodule.Quotient.mk (p := pushoutRel f g) x) =
+      Submodule.Quotient.mk (p := LinearMap.range f) x.2 := rfl
+
+/-- The pushout is generated by its two structural maps: `⟦(m', n)⟧ = f' m' + g' n`. -/
+private lemma mk_eq_pushoutInl_add_pushoutInr (f : M →ₗ[R] N) (g : M →ₗ[R] M') (x : M' × N) :
+    Submodule.Quotient.mk (p := pushoutRel f g) x = pushoutInl f g x.1 + pushoutInr f g x.2 := by
+  rw [pushoutInl_apply, pushoutInr_apply, ← Submodule.Quotient.mk_add]
+  simp
+
+/-- The pushout square commutes, on elements: `f' (g x) = g' (f x)`. -/
+private lemma pushoutInl_comp_apply (f : M →ₗ[R] N) (g : M →ₗ[R] M') (x : M) :
+    pushoutInl f g (g x) = pushoutInr f g (f x) := by
+  rw [pushoutInl_apply, pushoutInr_apply, Submodule.Quotient.eq]
+  exact ⟨x, by simp⟩
+
+/-- The pushout square commutes: `f' ∘ g = g' ∘ f`. -/
+private lemma pushoutInl_comp (f : M →ₗ[R] N) (g : M →ₗ[R] M') :
+    pushoutInl f g ∘ₗ g = pushoutInr f g ∘ₗ f :=
+  LinearMap.ext (pushoutInl_comp_apply f g)
+
+private lemma pushoutCoker_surjective (f : M →ₗ[R] N) (g : M →ₗ[R] M') :
+    Function.Surjective (pushoutCoker f g) := fun y => by
+  obtain ⟨n, rfl⟩ := (LinearMap.range f).mkQ_surjective y
+  exact ⟨pushoutInr f g n, rfl⟩
+
+/-- `Coker(f)` is the cokernel of the pushout map `f' : M' → N'`. -/
+private lemma exact_pushoutInl_pushoutCoker (f : M →ₗ[R] N) (g : M →ₗ[R] M') :
+    Function.Exact (pushoutInl f g) (pushoutCoker f g) := by
+  rw [LinearMap.exact_iff]
+  refine le_antisymm (fun y hy => ?_) (LinearMap.range_le_ker_iff.mpr (by
+    ext m
+    simp [pushoutInl_apply, pushoutCoker_mk]))
+  obtain ⟨x, rfl⟩ := (pushoutRel f g).mkQ_surjective y
+  rw [LinearMap.mem_ker, Submodule.mkQ_apply, pushoutCoker_mk,
+    Submodule.Quotient.mk_eq_zero] at hy
+  obtain ⟨z, hz⟩ := hy
+  refine ⟨x.1 + g z, ?_⟩
+  rw [map_add, pushoutInl_comp_apply, hz, Submodule.mkQ_apply, mk_eq_pushoutInl_add_pushoutInr]
+
+/-- The presentation of the pushout: `M —(g, -f)→ M' × N → N'` is exact. -/
+private lemma exact_prod_mkQ (f : M →ₗ[R] N) (g : M →ₗ[R] M') :
+    Function.Exact (g.prod (-f)) (pushoutRel f g).mkQ := by
+  rw [LinearMap.exact_iff, Submodule.ker_mkQ]
+  rfl
+
+/-- The kernel of the tensored pushout map is the image of the kernel of `f ⊗ id_Q`:
+`Ker(f' ⊗ id_Q) = (g ⊗ id_Q)(Ker(f ⊗ id_Q))`. This is the source's short exact sequence
+`0 → Ker(f ⊗ id_Q) ∩ Ker(g ⊗ id_Q) → Ker(f ⊗ id_Q) → Ker(f' ⊗ id_Q) → 0`. -/
+private lemma ker_rTensor_pushoutInl (f : M →ₗ[R] N) (g : M →ₗ[R] M') (Q : Type v)
+    [AddCommGroup Q] [Module R Q] :
+    LinearMap.ker ((pushoutInl f g).rTensor Q)
+      = (LinearMap.ker (f.rTensor Q)).map (g.rTensor Q) := by
+  refine le_antisymm (fun u hu => ?_) ?_
+  · have hu' : (pushoutRel f g).mkQ.rTensor Q ((LinearMap.inl R M' N).rTensor Q u) = 0 := by
+      rwa [← LinearMap.rTensor_comp_apply]
+    obtain ⟨z, hz⟩ :=
+      (rTensor_exact Q (exact_prod_mkQ f g) (pushoutRel f g).mkQ_surjective _).mp hu'
+    have hfst := congrArg ((LinearMap.fst R M' N).rTensor Q) hz
+    have hsnd := congrArg ((LinearMap.snd R M' N).rTensor Q) hz
+    simp only [← LinearMap.rTensor_comp_apply, LinearMap.fst_prod, LinearMap.snd_prod,
+      LinearMap.fst_comp_inl, LinearMap.snd_comp_inl, LinearMap.rTensor_id, LinearMap.id_coe,
+      id_eq, LinearMap.rTensor_zero, LinearMap.zero_apply, LinearMap.rTensor_neg,
+      LinearMap.neg_apply, neg_eq_zero] at hfst hsnd
+    exact ⟨z, LinearMap.mem_ker.mpr hsnd, hfst⟩
+  · rw [Submodule.map_le_iff_le_comap, ← LinearMap.ker_comp, ← LinearMap.rTensor_comp,
+      pushoutInl_comp, LinearMap.rTensor_comp]
+    exact LinearMap.ker_le_ker_comp _ _
+
+/-- Half of Stacks 0AUM, one test module at a time: `f' ⊗ id_Q` is injective exactly when
+`Ker(f ⊗ id_Q) ⊆ Ker(g ⊗ id_Q)`. -/
+private lemma injective_rTensor_pushoutInl_iff (f : M →ₗ[R] N) (g : M →ₗ[R] M') (Q : Type v)
+    [AddCommGroup Q] [Module R Q] :
+    Function.Injective ((pushoutInl f g).rTensor Q) ↔
+      LinearMap.ker (f.rTensor Q) ≤ LinearMap.ker (g.rTensor Q) := by
+  rw [← LinearMap.ker_eq_bot, ker_rTensor_pushoutInl, ← LinearMap.le_ker_iff_map]
+
+end Pushout
+
+section RTensor
+
+variable {R : Type u} [CommRing R] {A B Q : Type*} [AddCommGroup A] [Module R A]
+  [AddCommGroup B] [Module R B] [AddCommGroup Q] [Module R Q]
+
+/-- A linear map that becomes injective after tensoring with a module isomorphic to the ring
+itself is injective. -/
+private lemma injective_of_rTensor_injective (e : Q ≃ₗ[R] R) {φ : A →ₗ[R] B}
+    (h : Function.Injective (φ.rTensor Q)) : Function.Injective φ := by
+  rw [injective_iff_map_eq_zero] at h ⊢
+  intro a ha
+  have h0 : a ⊗ₜ[R] e.symm 1 = 0 :=
+    h _ (by rw [LinearMap.rTensor_tmul, ha, TensorProduct.zero_tmul])
+  simpa using congrArg (fun t => TensorProduct.rid R A ((e : Q →ₗ[R] R).lTensor A t)) h0
+
+end RTensor
+
+section Main
+
+variable {R : Type u} [CommRing R] [Small.{v} R] {M N M' : Type v} [AddCommGroup M] [Module R M]
+  [AddCommGroup N] [Module R N] [AddCommGroup M'] [Module R M']
+
+/-- Stacks 059D: if the cokernel of `f : M → N` is finitely presented, then
+`Ker(f ⊗ id_Q) ⊆ Ker(g ⊗ id_Q)` for every `R`-module `Q` if and only if `g` factors through `f`. -/
+public theorem solution (f : M →ₗ[R] N) (g : M →ₗ[R] M')
+    [Module.FinitePresentation R (N ⧸ LinearMap.range f)] :
+    (∀ (Q : Type v) [AddCommGroup Q] [Module R Q],
+        LinearMap.ker (f.rTensor Q) ≤ LinearMap.ker (g.rTensor Q)) ↔
+      ∃ h : N →ₗ[R] M', g = h ∘ₗ f := by
+  constructor
+  · intro hdom
+    have huniv (Q : Type v) [AddCommGroup Q] [Module R Q] :
+        Function.Injective ((pushoutInl f g).rTensor Q) :=
+      (injective_rTensor_pushoutInl_iff f g Q).mpr (hdom Q)
+    have hexact := exact_pushoutInl_pushoutCoker f g
+    have hinj : Function.Injective (pushoutInl f g) :=
+      injective_of_rTensor_injective (Shrink.linearEquiv R R) (huniv _)
+    have hsplit : Function.Injective (pushoutInl f g) ∧
+        ∃ l : (N ⧸ LinearMap.range f) →ₗ[R] Pushout f g, pushoutCoker f g ∘ₗ l = LinearMap.id :=
+      ⟨hinj, (hexact.split_iff_forall_rTensor_injective hinj
+        (pushoutCoker_surjective f g)).mpr fun Q _ _ => huniv Q⟩
+    obtain ⟨-, r, hr⟩ := (hexact.split_tfae'.out 1 2).mp hsplit
+    refine ⟨r ∘ₗ pushoutInr f g, ?_⟩
+    rw [LinearMap.comp_assoc, ← pushoutInl_comp, ← LinearMap.comp_assoc, hr, LinearMap.id_comp]
+  · rintro ⟨h, rfl⟩ Q _ _
+    rw [LinearMap.rTensor_comp]
+    exact LinearMap.ker_le_ker_comp _ _
+
+end Main
+
+end Stacks.Modules.FactorizationCriterion
+
+/-!
+# Domination and factorization of maps of modules
+
+Let `f : M → N` and `g : M → M'` be maps of `R`-modules. Following the source, `g` *dominates* `f`
+if `Ker(f ⊗ id_Q) ⊆ Ker(g ⊗ id_Q)` for every `R`-module `Q` (Definition 059B). Factorization
+implies domination: if `g = h ∘ f` then `g ⊗ id_Q = (h ⊗ id_Q) ∘ (f ⊗ id_Q)`, so anything killed
+by `f ⊗ id_Q` is killed by `g ⊗ id_Q`. The converse fails in general, because domination is a
+condition on kernels and produces a map out of `Im(f)` with no way to extend it to `N`: the
+inclusion `f` of `⨁ₙ ℤ/2ⁿℤ` into `∏ₙ ℤ/2ⁿℤ` is universally injective, hence dominated by every
+map out of `⨁ₙ ℤ/2ⁿℤ` and in particular by `g = id`, while a factorization `id = h ∘ f` would
+exhibit `⨁ₙ ℤ/2ⁿℤ` as a direct summand of `∏ₙ ℤ/2ⁿℤ`, which it is not. In that example
+`Coker(f) = ∏ₙ ℤ/2ⁿℤ / ⨁ₙ ℤ/2ⁿℤ` has the cardinality of the continuum, so it is not even finitely
+generated, and this is exactly what goes wrong: as soon as `Coker(f)` is of finite presentation,
+domination and factorization agree, which is the result of this file.
+
+## Main results
+
+* `LinearMap.forall_ker_rTensor_le_iff_exists_eq_comp`: for `f : M → N` with `Coker(f)` of finite
+  presentation, a map `g : M → M'` dominates `f` if and only if it factors through `f`, that is
+  `g = h ∘ f` for some `h : N → M'`.
+
+## Implementation notes
+
+`Mathlib` has no notion of domination of module maps, so the condition is spelled out: `f ⊗ id_Q`
+is `f.rTensor Q`, and the source's containment of kernels is the containment
+`ker (f.rTensor Q) ≤ ker (g.rTensor Q)` of two submodules of `M ⊗ Q`. `Coker(f)` is
+`N ⧸ LinearMap.range f`, and its finite presentation is a typeclass hypothesis.
+
+`Function.FactorsThrough` is not the notion the source asks for. For linear maps
+`g.FactorsThrough f` says that `Ker(f) ⊆ Ker(g)`, which yields a map out of `Im(f)` only, and that
+containment is the case `Q = R` of domination; the content here is a map defined on all of `N`.
+
+The test module `Q` ranges over `Type v`, the universe of `M`, `N` and `M'`, and `R` is `v`-small,
+as in the criterion 058K for universal exactness on which the proof of the substantial direction
+rests. For a `v`-small `R` every finitely presented `R`-module is isomorphic to one in `Type v`,
+and domination may be tested on finitely presented modules alone (Lemma 059C), so the displayed
+condition is the source's "for every `R`-module `Q`". Smallness is automatic in the usual case
+where the modules live in the universe of `R`.
+
+Faithfulness. (1) Every hypothesis is used: finite presentation of `Coker(f)` is what makes the
+forward implication true, by the pure non-split inclusion above, whose cokernel fails it, and
+`Small.{v} R` is what makes the quantifier over `Q : Type v` the source's condition on all `Q`.
+(2) The scalars and the base are the source's: all tensor products are `⊗[R]` over the source's
+commutative ring `R`, and `h` is an `R`-linear map `N →ₗ[R] M'`; nothing is localized or base
+changed. (3) The source names no canonical `h`, and none exists: `h` may be altered by any map
+`N → M'` vanishing on `Im(f)`, so existence is the content. What is canonical is pinned: the maps
+whose kernels are compared are `f.rTensor Q` and `g.rTensor Q`, not merely maps `M ⊗ Q → N ⊗ Q`
+and `M ⊗ Q → M' ⊗ Q`, and the equation `g = h ∘ₗ f` pins the factorization to be through `f`.
+(4) The instantiation is not degenerate, and neither side is vacuous: for `R = ℤ` and
+`M = N = M' = ℤ` with `f = id` both sides hold, with `h = g`; for `R = ℤ` and `M = N = M' = ℤ`
+with `f` multiplication by `2` and `g = id` the hypothesis holds, as `Coker(f) = ℤ/2ℤ`, and both
+sides fail — the left at `Q = ℤ/2ℤ`, where `f ⊗ id_Q = 0` while `g ⊗ id_Q = id`, and the right
+because `1 = 2 * h 1` has no solution in `ℤ`.
+
+## References
+
+* [StacksProject 059D](https://stacks.math.columbia.edu/tag/059D)
+-/
+
+@[expose] public section
+
+/-- **Stacks 059D.** Let `f : M → N` and `g : M → M'` be maps of `R`-modules and suppose that
+`Coker(f) = N ⧸ Im(f)` is of finite presentation. Then `g` dominates `f`, that is
+`Ker(f ⊗ id_Q) ⊆ Ker(g ⊗ id_Q)` for every `R`-module `Q`, if and only if `g` factors through `f`,
+that is `g = h ∘ f` for some module map `h : N → M'`. -/
+@[stacks 059D "Domination is spelled out as containment of the kernels of the tensored maps."]
+public theorem LinearMap.forall_ker_rTensor_le_iff_exists_eq_comp {R : Type u} [CommRing R]
+    [Small.{v} R] {M N M' : Type v} [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
+    [AddCommGroup M'] [Module R M'] (f : M →ₗ[R] N) (g : M →ₗ[R] M')
+    [Module.FinitePresentation R (N ⧸ LinearMap.range f)] :
+    (∀ (Q : Type v) [AddCommGroup Q] [Module R Q],
+        LinearMap.ker (f.rTensor Q) ≤ LinearMap.ker (g.rTensor Q)) ↔
+      ∃ h : N →ₗ[R] M', g = h ∘ₗ f :=
+  Stacks.Modules.FactorizationCriterion.solution f g
+
+end

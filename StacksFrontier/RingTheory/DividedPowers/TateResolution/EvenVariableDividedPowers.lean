@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.EvenVariableDividedPowers.Basic
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.EvenVariableDividedPowers.EvenPolynomial
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.EvenVariableDividedPowers.Transport
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.EvenVariableDividedPowers.Structure

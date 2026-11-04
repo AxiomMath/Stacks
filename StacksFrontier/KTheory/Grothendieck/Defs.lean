@@ -1,0 +1,517 @@
+module
+
+public import Mathlib.Algebra.Module.StablyFree.Basic
+public import Mathlib.Algebra.Order.Floor.Extended
+public import Mathlib.Algebra.Order.Interval.Basic
+public import Mathlib.Algebra.Order.Ring.Star
+public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+public import Mathlib.Analysis.SpecialFunctions.Bernstein
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+public import Mathlib.Combinatorics.Enumerative.DyckWord
+public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+public import Mathlib.Data.Int.Star
+public import Mathlib.Data.NNRat.Floor
+public import Mathlib.Data.Nat.Choose.Multinomial
+public import Mathlib.Geometry.Euclidean.Altitude
+public import Mathlib.NumberTheory.Chebyshev
+public import Mathlib.NumberTheory.Height.NumberField
+public import Mathlib.NumberTheory.Height.Projectivization
+public import Mathlib.NumberTheory.LucasLehmer
+public import Mathlib.NumberTheory.SelbergSieve
+public import Mathlib.Order.Interval.Finset.Box
+public import Mathlib.RingTheory.PicardGroup
+public import Mathlib.RingTheory.Radical.NatInt
+public import Mathlib.RingTheory.TotallySplit
+public import Mathlib.RingTheory.WittVector.IsPoly
+public import Mathlib.Tactic.Echelon.Zsqrtd
+public import Mathlib.Tactic.NormNum.Irrational
+public import Mathlib.Tactic.NormNum.IsCoprime
+public import Mathlib.Tactic.NormNum.IsSquare
+public import Mathlib.Tactic.NormNum.LegendreSymbol
+public import Mathlib.Tactic.NormNum.ModEq
+public import Mathlib.Tactic.NormNum.NatFib
+public import Mathlib.Tactic.NormNum.NatLog
+public import Mathlib.Tactic.NormNum.NatSqrt
+public import Mathlib.Tactic.NormNum.Ordinal
+public import Mathlib.Tactic.NormNum.Parity
+public import Mathlib.Tactic.NormNum.Prime
+public import Mathlib.Tactic.NormNum.RealSqrt
+public import Mathlib.Tactic.Polynomial.Basic
+public import Mathlib.Tactic.ReduceModChar
+public import Mathlib.Topology.Sheaves.Init
+import StacksCore.Tactic.EgaSgaAttribute
+
+/-!
+# The groups `K₀` and `K'₀` of a ring
+
+The Grothendieck group `K'_0(R)` of finitely generated `R`-modules is constructed as a quotient
+of the free abelian group on `R`-module presentations `(Fin n → R) ⧸ N`. If `R` is an Artinian
+local ring, the length function defines an abelian group homomorphism `K'_0(R) →+ ℤ`.
+
+The Grothendieck group `K_0(R)` of finitely generated projective `R`-modules is the quotient of
+the free abelian group on bundled such modules by direct-sum additivity and isomorphism
+invariance. Over a local ring every finitely generated projective module is free, and the rank
+map `K_0(R) → ℤ` is an isomorphism.
+
+## Main results
+
+* `length_K0prime_hom_exists`: the length homomorphism `K'_0(R) →+ ℤ` of an Artinian local ring.
+* `finite_projective_is_finite_free`: over a local ring, finitely generated projective modules
+  are finite free.
+* `K0.rank_isIso`: over a local ring, the rank map `K_0(R) → ℤ` is an isomorphism.
+-/
+
+@[expose] public section
+
+
+universe u
+
+/-- A presentation of a finitely generated `R`-module as `(Fin n → R) ⧸ N`. -/
+structure FGPres (R : Type u) [CommRing R] where
+  /-- The rank of the free module. -/
+  rank : ℕ
+  /-- The submodule by which we quotient. -/
+  sub : Submodule R (Fin rank → R)
+
+namespace FGPres
+
+variable {R : Type u} [CommRing R]
+
+/-- The `R`-module associated to a presentation. -/
+abbrev module (P : FGPres R) : Type u := (Fin P.rank → R) ⧸ P.sub
+
+/-- The module of a presentation is finitely generated. -/
+instance (P : FGPres R) : Module.Finite R P.module := by
+  unfold module
+  infer_instance
+
+end FGPres
+
+/-- Every finitely generated `R`-module is isomorphic to one coming from a
+presentation, so `FGPres R` is a small skeleton for the category of finitely
+generated `R`-modules. -/
+theorem FGPres.skeleton_surjective {R : Type u} [CommRing R]
+    (M : Type u) [AddCommGroup M] [Module R M] [Module.Finite R M] :
+    ∃ P : FGPres R, Nonempty (P.module ≃ₗ[R] M) := by
+  obtain ⟨n, f, hf⟩ := Module.Finite.exists_fin' R M
+  exact ⟨⟨n, LinearMap.ker f⟩, ⟨f.quotKerEquivOfSurjective hf⟩⟩
+
+/-- Relations defining `K'_0(R)`: linear isomorphisms identify presentations,
+and short exact sequences impose additivity. -/
+inductive K0Rel (R : Type u) [CommRing R] :
+    FreeAbelianGroup (FGPres R) → Prop
+  /-- Identify isomorphic modules. -/
+  | iso (P Q : FGPres R) (e : P.module ≃ₗ[R] Q.module) :
+      K0Rel R (FreeAbelianGroup.of P - FreeAbelianGroup.of Q)
+  /-- Additivity on short exact sequences `0 → P'.module → P.module → P''.module → 0`. -/
+  | ses (P P' P'' : FGPres R)
+      (f : P'.module →ₗ[R] P.module) (g : P.module →ₗ[R] P''.module)
+      (hf : Function.Injective f) (hg : Function.Surjective g)
+      (hfg : Function.Exact f g) :
+      K0Rel R
+        (FreeAbelianGroup.of P
+          - FreeAbelianGroup.of P'
+          - FreeAbelianGroup.of P'')
+
+/-- The subgroup generated by the relations `K0Rel R`. -/
+def K0Sub (R : Type u) [CommRing R] : AddSubgroup (FreeAbelianGroup (FGPres R)) :=
+  AddSubgroup.closure {x | K0Rel R x}
+
+/-- The Grothendieck group `K'_0(R)` of finitely generated `R`-modules. -/
+@[sga "6 0 3.1" "(X), special case",
+  sga "6 IV 2.2" "special case",
+  sga "6 X 1.1" "(X), special case"]
+abbrev K0prime (R : Type u) [CommRing R] : Type u :=
+  FreeAbelianGroup (FGPres R) ⧸ K0Sub R
+
+namespace K0prime
+
+variable {R : Type u} [CommRing R]
+
+/-- The class `[P.module]` of a presentation `P` in `K'_0(R)`. -/
+@[sga "6 X 1.1" "(F), special case"]
+abbrev mk (P : FGPres R) : K0prime R :=
+  QuotientAddGroup.mk (FreeAbelianGroup.of P)
+
+end K0prime
+
+/-- The integer length of the module of a presentation `P`. -/
+noncomputable def lengthOfPresℤ (R : Type u) [CommRing R]
+    (P : FGPres R) : ℤ :=
+  ((Module.length R P.module).toNat : ℤ)
+
+/-- When the length of `P.module` is finite, it is recovered from the integer length. -/
+theorem lengthOfPresℤ_eq (R : Type u) [CommRing R] (P : FGPres R)
+    (h : Module.length R P.module ≠ ⊤) :
+    Module.length R P.module = ((lengthOfPresℤ R P).toNat : ℕ∞) := by
+  simp [lengthOfPresℤ, ENat.natCast_toNat h]
+
+section helpers
+
+variable {R : Type u} [CommRing R]
+
+/-- Every finitely generated module over an Artinian commutative ring has
+finite length. -/
+private lemma length_pres_ne_top [IsArtinianRing R] (P : FGPres R) :
+    Module.length R P.module ≠ ⊤ := by
+  have : IsArtinian R P.module := isArtinian_of_tower R inferInstance
+  have : IsNoetherian R P.module := isNoetherian_of_isNoetherianRing_of_finite R P.module
+  exact Module.length_ne_top
+
+private lemma lengthOfPresℤ_eq_of_linearEquiv (P Q : FGPres R)
+    (e : P.module ≃ₗ[R] Q.module) :
+    lengthOfPresℤ R P = lengthOfPresℤ R Q := by
+  simp [lengthOfPresℤ, LinearEquiv.length_eq e]
+
+private lemma lengthOfPresℤ_add_of_exact [IsArtinianRing R]
+    (P P' P'' : FGPres R)
+    (f : P'.module →ₗ[R] P.module) (g : P.module →ₗ[R] P''.module)
+    (hf : Function.Injective f) (hg : Function.Surjective g)
+    (hfg : Function.Exact f g) :
+    lengthOfPresℤ R P = lengthOfPresℤ R P' + lengthOfPresℤ R P'' := by
+  unfold lengthOfPresℤ
+  rw [Module.length_eq_add_of_exact f g hf hg hfg,
+    ENat.toNat_add (length_pres_ne_top P') (length_pres_ne_top P'')]
+  push_cast
+  ring
+
+end helpers
+
+/-- **Stacks Tag 00JD.** If `R` is an Artinian local ring then the length
+function defines an abelian group homomorphism `K'_0(R) →+ ℤ` sending the
+class of each presentation `P` to its integer length. -/
+@[stacks 00JD]
+theorem length_K0prime_hom_exists (R : Type u) [CommRing R]
+    [IsArtinianRing R] [IsLocalRing R] :
+    ∃ φ : K0prime R →+ ℤ,
+      ∀ P : FGPres R, φ (K0prime.mk P) = lengthOfPresℤ R P := by
+  have hker : K0Sub R ≤ (FreeAbelianGroup.lift (lengthOfPresℤ R)).ker := by
+    rw [K0Sub, AddSubgroup.closure_le]
+    rintro x (⟨P, Q, e⟩ | ⟨P, P', P'', f, g, hf, hg, hfg⟩)
+    · simp [lengthOfPresℤ_eq_of_linearEquiv P Q e]
+    · simp only [AddMonoidHom.mem_ker, SetLike.mem_coe, map_sub,
+        FreeAbelianGroup.lift_apply_of]
+      linarith [lengthOfPresℤ_add_of_exact P P' P'' f g hf hg hfg]
+  exact ⟨QuotientAddGroup.lift (K0Sub R) (FreeAbelianGroup.lift _) hker,
+    fun _ => FreeAbelianGroup.lift_apply_of _ _⟩
+
+/-- The canonical length homomorphism `K'_0(R) →+ ℤ`. -/
+noncomputable def lengthHom (R : Type u) [CommRing R] [IsArtinianRing R]
+    [IsLocalRing R] : K0prime R →+ ℤ :=
+  (length_K0prime_hom_exists R).choose
+
+/-- The length homomorphism sends the class of a presentation to its integer length. -/
+@[simp]
+theorem lengthHom_mk (R : Type u) [CommRing R] [IsArtinianRing R]
+    [IsLocalRing R] (P : FGPres R) :
+    lengthHom R (K0prime.mk P) = lengthOfPresℤ R P :=
+  (length_K0prime_hom_exists R).choose_spec P
+
+/-- Presentations with isomorphic modules have the same image under the length
+homomorphism. -/
+theorem lengthHom_iso_invariant (R : Type u) [CommRing R] [IsArtinianRing R]
+    [IsLocalRing R] (P Q : FGPres R) (e : P.module ≃ₗ[R] Q.module) :
+    lengthHom R (K0prime.mk P) = lengthHom R (K0prime.mk Q) := by
+  rw [lengthHom_mk, lengthHom_mk]
+  exact lengthOfPresℤ_eq_of_linearEquiv P Q e
+
+/-- The length homomorphism is additive across a short exact sequence of presented
+modules. -/
+theorem lengthHom_ses (R : Type u) [CommRing R] [IsArtinianRing R]
+    [IsLocalRing R] (P P' P'' : FGPres R)
+    (f : P'.module →ₗ[R] P.module) (g : P.module →ₗ[R] P''.module)
+    (hf : Function.Injective f) (hg : Function.Surjective g)
+    (hfg : Function.Exact f g) :
+    lengthHom R (K0prime.mk P) =
+      lengthHom R (K0prime.mk P') + lengthHom R (K0prime.mk P'') := by
+  rw [lengthHom_mk, lengthHom_mk, lengthHom_mk]
+  exact lengthOfPresℤ_add_of_exact P P' P'' f g hf hg hfg
+
+end
+
+@[expose] public section
+set_option linter.unusedVariables false
+set_option linter.style.show false
+
+
+universe u v
+
+/-- A bundled finitely generated projective `R`-module. -/
+@[sga "5 X 3.1" "partial"]
+structure FGProj (R : Type u) [CommRing R] where
+  carrier : Type u
+  [addCommGroup : AddCommGroup carrier]
+  [module : Module R carrier]
+  [finite : Module.Finite R carrier]
+  [projective : Module.Projective R carrier]
+
+attribute [instance] FGProj.addCommGroup FGProj.module FGProj.finite FGProj.projective
+
+/-- Direct sum of two bundled finitely generated projective modules. -/
+def FGProj.directSum {R : Type u} [CommRing R] (M N : FGProj R) : FGProj R where
+  carrier := M.carrier × N.carrier
+
+/-- The defining relations of `K_0(R)`: direct-sum additivity and
+isomorphism-invariance, viewed as a subgroup of the free abelian group on
+`FGProj R`. -/
+def K0.rels (R : Type u) [CommRing R] : AddSubgroup (FreeAbelianGroup (FGProj R)) :=
+  AddSubgroup.closure
+    ({x | ∃ M N : FGProj R,
+        x = FreeAbelianGroup.of (M.directSum N)
+          - FreeAbelianGroup.of M - FreeAbelianGroup.of N} ∪
+     {x | ∃ M N : FGProj R, Nonempty (M.carrier ≃ₗ[R] N.carrier) ∧
+        x = FreeAbelianGroup.of M - FreeAbelianGroup.of N})
+
+/-- The Grothendieck group `K_0(R)` of finitely generated projective `R`-modules. -/
+@[sga "6 0 3.1" "(X), special case",
+  sga "6 I 6.3" "special case",
+  sga "6 IV 2.2" "special case",
+  sga "6 IV 2.6" "K'_naif(A', special case",
+  sga "6 V 2.2" "special case",
+  sga "6 V 3.9.1" "(X), special case",
+  sga "6 VIII 2.5" "(X), special case",
+  sga "6 X 1.2" "(X), special case"]
+abbrev K0 (R : Type u) [CommRing R] : Type (u + 1) :=
+  FreeAbelianGroup (FGProj R) ⧸ K0.rels R
+
+/-- The class in `K0 R` of a finitely generated projective `R`-module. -/
+@[sga "6 X 1.2" "(E), special case"]
+abbrev K0.mk {R : Type u} [CommRing R] (M : FGProj R) : K0 R :=
+  QuotientAddGroup.mk (FreeAbelianGroup.of M)
+
+/-- The rank of a bundled finitely generated projective module over a local ring,
+defined as the `Module.finrank` of the carrier. -/
+@[ega "II 6.4.2" "special case", sga "6 I 6.0" "special case", sga "6 I 6.11" "special case"]
+noncomputable def FGProj.rank {R : Type u} [CommRing R] [IsLocalRing R]
+    (M : FGProj R) : ℕ :=
+  Module.finrank R M.carrier
+
+/-- The auxiliary rank map on `FreeAbelianGroup (FGProj R)`, lifting `FGProj.rank`. -/
+noncomputable def K0.rankAux (R : Type u) [CommRing R] [IsLocalRing R] :
+    FreeAbelianGroup (FGProj R) →+ ℤ :=
+  FreeAbelianGroup.lift fun M : FGProj R => (FGProj.rank M : ℤ)
+
+/-! ### Part 1: Finitely generated projective ⇒ finite free -/
+
+/-- Over a local ring, every finitely generated projective module is free, and
+admits a linear equivalence to `Fin n → R` for some `n`. This is the first half
+of Stacks 00JJ. -/
+@[ega "0 10.1.3" "(ii): b ⇒ a, b ⇒ a",
+  ega "0 17.2.2" "more general",
+  ega "III 7.9.1" "special case",
+  sga "1 IV 4.3" "case (b): (ii) ⇒ (i)",
+  sga "3 VIA 2.1.3" "special case",
+  sga "3 VIIB 0.3.7" "special case",
+  sga "6 I 2.15.1" "special case"]
+theorem finite_projective_is_finite_free
+    (R : Type u) [CommRing R] [IsLocalRing R]
+    (M : Type v) [AddCommGroup M] [Module R M]
+    [Module.Finite R M] [Module.Projective R M] :
+    Module.Free R M ∧ ∃ n : ℕ, Nonempty (M ≃ₗ[R] (Fin n → R)) := by
+  have : Module.Free R M := Module.free_of_flat_of_isLocalRing
+  refine ⟨inferInstance, Fintype.card (Module.Free.ChooseBasisIndex R M),
+    ⟨((Module.Free.chooseBasis R M).reindex (Fintype.equivFin _)).equivFun⟩⟩
+
+/-! ### Part 2: Correctness of `FGProj.rank` -/
+
+/-- `Module.finrank R (Fin n → R) = n` for any nontrivial commutative ring. -/
+lemma finrank_fin_fun {R : Type u} [CommRing R] [Nontrivial R] (n : ℕ) :
+    Module.finrank R (Fin n → R) = n := by
+  rw [Module.finrank_pi, Fintype.card_fin]
+
+/-- If `M.carrier ≃ₗ[R] (Fin n → R)`, then `FGProj.rank M = n`. -/
+theorem FGProj.rank_eq_of_linearEquiv
+    {R : Type u} [CommRing R] [IsLocalRing R]
+    (M : FGProj R) (n : ℕ)
+    (e : M.carrier ≃ₗ[R] (Fin n → R)) :
+    FGProj.rank M = n := by
+  have : Module.Free R M.carrier := Module.free_of_flat_of_isLocalRing
+  rw [FGProj.rank, e.finrank_eq, finrank_fin_fun]
+
+/-- Existence of a linear equivalence `M.carrier ≃ₗ[R] (Fin (rank M) → R)`. -/
+@[ega "0 17.2.2" "more general", ega "III 7.9.1" "special case"]
+theorem FGProj.exists_linearEquiv_fin_rank
+    {R : Type u} [CommRing R] [IsLocalRing R] (M : FGProj R) :
+    Nonempty (M.carrier ≃ₗ[R] (Fin (FGProj.rank M) → R)) := by
+  obtain ⟨_, n, ⟨e⟩⟩ := finite_projective_is_finite_free R M.carrier
+  exact ⟨FGProj.rank_eq_of_linearEquiv M n e ▸ e⟩
+
+/-! ### Part 3: Well-definedness on the relations -/
+
+/-- A standard linear equivalence `(Fin m → R) × (Fin n → R) ≃ₗ[R] (Fin (m + n) → R)`. -/
+lemma nonempty_finProdLinearEquiv (R : Type u) [CommRing R] (m n : ℕ) :
+    Nonempty (((Fin m → R) × (Fin n → R)) ≃ₗ[R] (Fin (m + n) → R)) :=
+  ⟨(LinearEquiv.sumArrowLequivProdArrow (Fin m) (Fin n) R R).symm.trans
+    (LinearEquiv.funCongrLeft R R (finSumFinEquiv (m := m) (n := n)).symm)⟩
+
+/-- Additivity of `FGProj.rank` under `directSum`. -/
+lemma FGProj.rank_directSum {R : Type u} [CommRing R] [IsLocalRing R]
+    (M N : FGProj R) :
+    FGProj.rank (M.directSum N) = FGProj.rank M + FGProj.rank N := by
+  obtain ⟨eM⟩ := FGProj.exists_linearEquiv_fin_rank M
+  obtain ⟨eN⟩ := FGProj.exists_linearEquiv_fin_rank N
+  obtain ⟨eFlat⟩ := nonempty_finProdLinearEquiv R (FGProj.rank M) (FGProj.rank N)
+  exact FGProj.rank_eq_of_linearEquiv _ _ ((LinearEquiv.prodCongr eM eN).trans eFlat)
+
+/-- `FGProj.rank` is invariant under `R`-linear equivalence. -/
+lemma FGProj.rank_eq_of_iso {R : Type u} [CommRing R] [IsLocalRing R]
+    (M N : FGProj R) (e : M.carrier ≃ₗ[R] N.carrier) :
+    FGProj.rank M = FGProj.rank N := by
+  obtain ⟨eN⟩ := FGProj.exists_linearEquiv_fin_rank N
+  exact FGProj.rank_eq_of_linearEquiv M _ (e.trans eN)
+
+/-- Evaluation of `K0.rankAux` on a generator. -/
+lemma K0.rankAux_of {R : Type u} [CommRing R] [IsLocalRing R] (M : FGProj R) :
+    K0.rankAux R (FreeAbelianGroup.of M) = (FGProj.rank M : ℤ) :=
+  FreeAbelianGroup.lift_apply_of _ _
+
+/-- The rank map vanishes on the defining relations of `K_0(R)`. -/
+theorem K0.rankAux_eq_zero_on_rels
+    (R : Type u) [CommRing R] [IsLocalRing R] :
+    ∀ x ∈ K0.rels R, K0.rankAux R x = 0 := by
+  have hker : K0.rels R ≤ (K0.rankAux R).ker := by
+    refine AddSubgroup.closure_le _ |>.2 ?_
+    rintro y (⟨M, N, rfl⟩ | ⟨M, N, ⟨e⟩, rfl⟩)
+    · simp [map_sub, K0.rankAux_of, FGProj.rank_directSum]
+    · simp [map_sub, K0.rankAux_of, FGProj.rank_eq_of_iso M N e]
+  exact fun x hx => hker hx
+
+/-- The rank map `K_0(R) → ℤ`. -/
+@[sga "6 I 6.11" "special case",
+  sga "6 IV 2.8" "(X)",
+  sga "6 IX 1.7" "special case",
+  sga "6 V 3.9.1" "(X), special case"]
+noncomputable def K0.rank (R : Type u) [CommRing R] [IsLocalRing R] :
+    K0 R →+ ℤ :=
+  QuotientAddGroup.lift (K0.rels R) (K0.rankAux R) <| fun x hx =>
+    K0.rankAux_eq_zero_on_rels R x hx
+
+/-! ### Part 4: The rank map is an isomorphism -/
+
+/-- The "free `FGProj` of rank `n`", with carrier `Fin n → R`. -/
+def FGProj.free (R : Type u) [CommRing R] (n : ℕ) : FGProj R where
+  carrier := Fin n → R
+
+/-- The free bundled module of rank `n` has rank `n`. -/
+@[sga "6 I 6.0" "(iii), special case"]
+lemma FGProj.rank_free {R : Type u} [CommRing R] [IsLocalRing R] (n : ℕ) :
+    FGProj.rank (FGProj.free R n) = n :=
+  finrank_fin_fun n
+
+/-- The direct-sum generator lies in `K0.rels R`. -/
+lemma K0.directSum_gen_mem_rels {R : Type u} [CommRing R] (M N : FGProj R) :
+    FreeAbelianGroup.of (M.directSum N)
+        - FreeAbelianGroup.of M - FreeAbelianGroup.of N ∈ K0.rels R :=
+  AddSubgroup.subset_closure (Or.inl ⟨M, N, rfl⟩)
+
+/-- The class of a direct sum is the sum of the classes. -/
+lemma K0.mk_directSum_eq {R : Type u} [CommRing R] (M N : FGProj R) :
+    K0.mk (M.directSum N) = K0.mk M + K0.mk N := by
+  have h := (QuotientAddGroup.eq_zero_iff _).mpr (K0.directSum_gen_mem_rels M N)
+  simp only [QuotientAddGroup.mk_sub, sub_sub, sub_eq_zero] at h
+  exact h
+
+/-- Two `FGProj`s with linearly equivalent carriers have equal classes in `K0 R`. -/
+lemma K0.mk_eq_of_iso {R : Type u} [CommRing R] (M N : FGProj R)
+    (e : M.carrier ≃ₗ[R] N.carrier) : K0.mk M = K0.mk N := by
+  exact QuotientAddGroup.eq_iff_sub_mem.2
+    (AddSubgroup.subset_closure (Or.inr ⟨M, N, ⟨e⟩, rfl⟩))
+
+/-- The rank map sends the class of `M` to the rank of `M`. -/
+@[sga "6 IV 2.8" "partial", sga "6 IX 1.7" "special case"]
+lemma K0.rank_mk {R : Type u} [CommRing R] [IsLocalRing R] (M : FGProj R) :
+    K0.rank R (K0.mk M) = (FGProj.rank M : ℤ) :=
+  K0.rankAux_of M
+
+/-- A finite projective module with at most one element has class `0` in `K0 R`. -/
+lemma K0.mk_eq_zero_of_subsingleton {R : Type u} [CommRing R] (M : FGProj R)
+    [Subsingleton M.carrier] : K0.mk M = 0 := by
+  have : Subsingleton (M.directSum M).carrier :=
+    inferInstanceAs (Subsingleton (M.carrier × M.carrier))
+  have key : K0.mk M + K0.mk M = K0.mk M := by
+    rw [← K0.mk_directSum_eq M M]
+    exact K0.mk_eq_of_iso _ _ (LinearEquiv.ofSubsingleton _ _)
+  exact add_left_cancel (key.trans (add_zero _).symm)
+
+/-- `(Fin (n+1) → R) ≃ₗ[R] (Fin n → R) × (Fin 1 → R)`. -/
+lemma fin_succ_fun_equiv_nonempty (R : Type u) [CommRing R] (n : ℕ) :
+    Nonempty ((Fin (n + 1) → R) ≃ₗ[R] (Fin n → R) × (Fin 1 → R)) :=
+  (nonempty_finProdLinearEquiv R n 1).map LinearEquiv.symm
+
+/-- `(Fin 0 → R) × (Fin 0 → R) ≃ₗ[R] (Fin 0 → R)`. -/
+lemma fin_zero_directSum_equiv_nonempty (R : Type u) [CommRing R] :
+    Nonempty (((Fin 0 → R) × (Fin 0 → R)) ≃ₗ[R] (Fin 0 → R)) :=
+  nonempty_finProdLinearEquiv R 0 0
+
+/-- The class of the free module of rank `n` is `n` times the class of `R`. -/
+lemma K0.mk_free {R : Type u} [CommRing R] (n : ℕ) :
+    K0.mk (FGProj.free R n) = (n : ℤ) • K0.mk (FGProj.free R 1) := by
+  induction n with
+  | zero =>
+    have : Subsingleton (FGProj.free R 0).carrier := inferInstanceAs (Subsingleton (Fin 0 → R))
+    simp [K0.mk_eq_zero_of_subsingleton]
+  | succ n ih =>
+    have h1 : K0.mk (FGProj.free R (n + 1))
+              = K0.mk ((FGProj.free R n).directSum (FGProj.free R 1)) :=
+      K0.mk_eq_of_iso _ _ (fin_succ_fun_equiv_nonempty R n).some
+    rw [h1, K0.mk_directSum_eq, ih]
+    push_cast
+    rw [add_smul, one_smul, add_comm]
+
+/-- Every generator `K0.mk M` equals `(FGProj.rank M) • g` for `g := K0.mk (FGProj.free R 1)`. -/
+lemma K0.mk_eq_rank_smul_g {R : Type u} [CommRing R] [IsLocalRing R]
+    (M : FGProj R) :
+    K0.mk M = (FGProj.rank M : ℤ) • K0.mk (FGProj.free R 1) := by
+  obtain ⟨e⟩ := FGProj.exists_linearEquiv_fin_rank M
+  rw [K0.mk_eq_of_iso M (FGProj.free R (FGProj.rank M)) e, K0.mk_free]
+
+/-- Every element of `K0 R` equals `(rank x) • g`. -/
+lemma K0.eq_rank_smul_g_aux {R : Type u} [CommRing R] [IsLocalRing R]
+    (y : FreeAbelianGroup (FGProj R)) :
+    (QuotientAddGroup.mk y : K0 R) =
+      (K0.rankAux R y) • K0.mk (FGProj.free R 1) := by
+  refine FreeAbelianGroup.induction_on y ?_ ?_ ?_ ?_
+  · simp
+  · intro M
+    show (K0.mk M : K0 R) = _
+    rw [K0.rankAux_of]
+    exact K0.mk_eq_rank_smul_g M
+  · intro M hM
+    rw [QuotientAddGroup.mk_neg, hM, map_neg, neg_smul]
+  · intro x y hx hy
+    rw [QuotientAddGroup.mk_add, hx, hy, map_add, add_smul]
+
+/-- Over a local ring, every class in `K_0(R)` is its rank times the class of `R`. -/
+lemma K0.eq_rank_smul_g {R : Type u} [CommRing R] [IsLocalRing R] (x : K0 R) :
+    x = (K0.rank R x) • K0.mk (FGProj.free R 1) :=
+  QuotientAddGroup.induction_on x K0.eq_rank_smul_g_aux
+
+/-- The candidate inverse `ℤ →+ K0 R`, sending `z` to `z • g`. -/
+@[sga "6 V 3.9.1" "special case"]
+noncomputable def K0.invG (R : Type u) [CommRing R] : ℤ →+ K0 R :=
+  AddMonoidHom.mk' (fun z => z • K0.mk (FGProj.free R 1))
+    (fun a b => by simp [add_zsmul])
+
+/-- The rank map is a left inverse of `z ↦ z • [R]`. -/
+@[sga "6 IV 2.8" "partial", sga "6 IX 1.7" "special case"]
+lemma K0.rank_invG {R : Type u} [CommRing R] [IsLocalRing R] (z : ℤ) :
+    K0.rank R (K0.invG R z) = z := by
+  show K0.rank R (z • K0.mk (FGProj.free R 1)) = z
+  rw [map_zsmul, K0.rank_mk, FGProj.rank_free]
+  simp
+
+/-- Over a local ring, the rank map `K_0(R) → ℤ` is an isomorphism. Combined
+with `finite_projective_is_finite_free`, this gives the full statement of
+Stacks 00JJ. -/
+@[stacks 00JJ]
+theorem K0.rank_isIso
+    (R : Type u) [CommRing R] [IsLocalRing R] :
+    ∃ e : K0 R ≃+ ℤ, ⇑e = K0.rank R :=
+  ⟨{ toFun := K0.rank R
+     invFun := K0.invG R
+     left_inv := fun x => (K0.eq_rank_smul_g x).symm
+     right_inv := K0.rank_invG
+     map_add' := map_add _ }, rfl⟩
+
+end

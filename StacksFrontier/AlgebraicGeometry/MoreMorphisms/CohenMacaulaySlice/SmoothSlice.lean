@@ -1,0 +1,4 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.CohenMacaulaySlice.SmoothSlice.NonzeroDifferential
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.CohenMacaulaySlice.SmoothSlice.SmoothDivisor

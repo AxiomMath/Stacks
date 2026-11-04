@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Inertia.Character
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Inertia.DecompositionTower
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Inertia.GaloisTower
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Inertia.InvariantRing

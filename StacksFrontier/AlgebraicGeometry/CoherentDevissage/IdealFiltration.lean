@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.CoherentDevissage.IdealFiltration.FiltrationData
+public import StacksFrontier.AlgebraicGeometry.CoherentDevissage.IdealFiltration.GenericStalk
+public import StacksFrontier.AlgebraicGeometry.CoherentDevissage.IdealFiltration.NoetherianInduction
+public import StacksFrontier.AlgebraicGeometry.CoherentDevissage.IdealFiltration.SubobjectChains

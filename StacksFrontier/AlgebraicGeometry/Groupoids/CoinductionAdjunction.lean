@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Groupoids.CoinductionAdjunction.CocycleCondition
+public import StacksFrontier.AlgebraicGeometry.Groupoids.CoinductionAdjunction.IdentityRestriction
+public import StacksFrontier.AlgebraicGeometry.Groupoids.CoinductionAdjunction.Adjunction

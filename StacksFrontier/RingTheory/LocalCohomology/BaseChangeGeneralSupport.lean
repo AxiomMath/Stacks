@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.RingTheory.LocalCohomology.BaseChangeGeneralSupport.Augmentation
+public import StacksFrontier.RingTheory.LocalCohomology.BaseChangeGeneralSupport.ComparisonMap
+public import StacksFrontier.RingTheory.LocalCohomology.BaseChangeGeneralSupport.BaseChangeIso

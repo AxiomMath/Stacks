@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+
+version: "v0.4"
+
+project:
+  name: "Stacks"
+  authors: [Kenny Lau, Brian Nugent, Ashvin A. Swaminathan, Yunzhou Xie]
+  description: >
+    `Stacks` is a Lean 4 formalization, on top of Mathlib, of statements and proofs of The Stacks
+    Project, indexed by Stacks tag. `StacksCore` is the human-reviewed library; `StacksFrontier`
+    holds drafted formalizations that build and are axiom-clean but are not yet reviewed. The
+    formalization was generated collaboratively between human formalisers at Axiom Math and
+    AxiomProver, their in-house theorem proving system. Community feedback and contributions are
+    welcome!
+  responsible_maintainers: [Ashvin A. Swaminathan, Kenny Lau, Brian Nugent, Yunzhou Xie]
+  license: "Apache-2.0"
+
+sources:
+  - title: "The Stacks Project"
+    authors: [The Stacks project authors]
+    id: "https://stacks.math.columbia.edu"
+    type: "book"
+    location: "Chapters 1 to 109"
+    relationship: "formalizes"
+    note: "Statements taken from the Stacks project at commit a5811b23a9bfc23256ca49035d7e121533dd6f29. The exercises and obsolete chapters are out of scope."
+
+classification:
+  arxiv: [math.AG, math.AC, math.CT]
+  msc2020: [14A15, 14A20, 14D23, 14F20, 18F20]  # Based on the subjects of the source
+
+status:
+  scope: "A Lean library of the results of The Stacks Project, organised by chapter and indexed by Stacks tag, with each formalized result carrying its tag."
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: [propext, Classical.choice, Quot.sound]
+
+automation:
+  methods:
+    - method: "autonomous"
+      models: [AxiomProver]
+    - method: "manual"
+  notes: "Foundational definitions and the StacksCore library formalised and reviewed by hand; most of StacksFrontier formalised autonomously"
+
+review:
+  status: "self-assessed"
+  reviewers: [Kenny Lau, Brian Nugent, Yunzhou Xie]
+  notes: >
+    StacksCore is human-reviewed. StacksFrontier builds with no sorry and only the standard axioms,
+    and each statement was checked against its Stacks tag, but it has not yet had human review.
+    The development took place in a repository internal to Axiom Math.
+
+alignment:
+  statements:
+    - source: "The Stacks Project, Tag 09I8"
+      lean: "transcendental_pi"
+      module: "StacksCore.Examples.Stacks09I8"
+      status: "Proved"
+    - source: "The Stacks Project, Tag 0753"
+      lean: "Algebra.isCentralSimple_tfae"
+      module: "StacksCore.Algebra.Split.CentralSimple"
+      status: "Proved"
+    - source: "The Stacks Project, Tag 0EXN"
+      lean: "IsCyclotomicExtension.finrank_dvd_totient"
+      module: "StacksCore.NumberTheory.Cyclotomic.Gal"
+      status: "Proved"
+
+acknowledgements: "We thank Johan de Jong and the Stacks project authors, whose text this library formalizes, and we acknowledge the dependence of our repository on Mathlib."

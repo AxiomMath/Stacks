@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Kummer.Eisenstein
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Kummer.IntermediateFields
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Kummer.Ramification
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Kummer.RingOfIntegers

@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.OddVariable.Extension
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.OddVariable.Uniqueness
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.OddVariable.Existence

@@ -1,0 +1,10 @@
+module
+
+public import StacksFrontier.RingTheory.EssentialFiniteness.ColimitFinitePresentation.LocalRingColimit
+public import StacksFrontier.RingTheory.EssentialFiniteness.ColimitFinitePresentation.QuotientColimit
+public import StacksFrontier.RingTheory.EssentialFiniteness.ColimitFinitePresentation.LocalizationColimit
+public import StacksFrontier.RingTheory.EssentialFiniteness.ColimitFinitePresentation.BaseChangeLocalization
+
+/-!
+# Local maps essentially of finite presentation as colimits
+-/

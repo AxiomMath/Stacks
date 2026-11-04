@@ -1,0 +1,319 @@
+module
+
+public import StacksFrontier.RingTheory.Smoothing.BaseChangeOfPresentation
+
+/-!
+# Renumbering the variables of a presentation
+
+Let `R → A` be a ring map and let `P` be a presentation
+`A = R[x_1, …, x_n]/(f_1, …, f_m)` of `A` over `R`. Permuting the variables
+`x_1, …, x_n` produces a new presentation of the same algebra, with the same
+numbers of variables and relations and with the relations renamed along the
+permutation. This file constructs that presentation and records the compatibilities
+one needs in practice: it represents the same elements of `A`, it satisfies the
+same instances of condition 16.2.3.2, and its *principal* `c × c` Jacobian minor
+represents the element of `A` represented by the minor of `P` on a prescribed set
+of `c` columns.
+
+The resulting statement is the step of Stacks 16.2.4 that turns a Jacobian minor
+taken on an arbitrary set of columns into a principal one, which is what the
+definition of an elementary standard element (Stacks 16.2.3.1) asks for.
+
+## Main definitions
+
+* `Stacks.Smoothing.relabelVars`: the presentation obtained from `P` by renaming
+  the variables along a permutation of `Fin P.n`.
+
+## Main results
+
+* `Stacks.Smoothing.lift_relabelVars`: renaming a polynomial along the permutation
+  does not change the element of `A` it represents.
+* `Stacks.Smoothing.lift_jacobianMinorPrincipal_relabelVars`: if the permutation
+  carries a prescribed set `U` of `c` columns onto the first `c` columns in
+  increasing order, then the principal minor of the relabelled presentation
+  represents the same element of `A` as the minor of `P` on `U`.
+* `Stacks.Smoothing.standardCond2_relabelVars`: condition 16.2.3.2 transfers from
+  `P` to the relabelled presentation.
+* `Stacks.Smoothing.isElementaryStandard_mul_lift_jacobianMinor`: if `a` satisfies
+  condition 16.2.3.2 for the presentation `P` and the integer `c`, then for every
+  set `U` of `c` columns the product of `a` with the element represented by the
+  minor of `P` on `U` is elementary standard.
+
+## Implementation notes
+
+The permutation acts on polynomials through `MvPolynomial.renameEquiv`, and the
+isomorphism of the relabelled presentation is obtained from
+`Ideal.quotientEquivAlg`, which is why the ideal of relations of the relabelled
+presentation is literally the image of the ideal of relations of `P`. The
+relabelled presentation is `implicit_reducible` so that its numbers of variables
+and relations, which are those of `P`, are seen as such by unification.
+
+## References
+
+* [Stacks Project, Tag 07C7](https://stacks.math.columbia.edu/tag/07C7)
+* [Stacks Project, Tag 07CA](https://stacks.math.columbia.edu/tag/07CA)
+-/
+
+@[expose] public section
+
+namespace Stacks.Smoothing
+
+universe u v
+
+variable {R : Type u} [CommRing R] {A : Type v} [CommRing A] [Algebra R A]
+
+/-- Renaming the members of a family of polynomials along a permutation of the
+variables turns the ideal they span into the image of that ideal. -/
+theorem span_range_rename_eq_map (R : Type u) [CommRing R] {ι : Type*} (n : ℕ)
+    (e : Fin n ≃ Fin n) (f : ι → MvPolynomial (Fin n) R) :
+    Ideal.span (Set.range fun i ↦ MvPolynomial.rename e (f i)) =
+      Ideal.map (MvPolynomial.renameEquiv R e).toRingHom (Ideal.span (Set.range f)) := by
+  rw [Ideal.map_span]
+  congr 1
+  ext x
+  simp
+
+/-- The presentation of `A` obtained from `P` by renaming the variables along a
+permutation `e` of `Fin P.n`. It has the same numbers of variables and relations,
+and its `j`-th relation is the `j`-th relation of `P` renamed along `e`. -/
+@[implicit_reducible]
+noncomputable def relabelVars (P : Presentation R A) (e : Fin P.n ≃ Fin P.n) :
+    Presentation R A where
+  n := P.n
+  m := P.m
+  f := fun j ↦ MvPolynomial.rename e (P.f j)
+  iso := P.iso.trans (Ideal.quotientEquivAlg (Ideal.span (Set.range P.f))
+    (Ideal.span (Set.range fun j ↦ MvPolynomial.rename e (P.f j)))
+    (MvPolynomial.renameEquiv R e) (span_range_rename_eq_map R P.n e P.f))
+
+/-- The relabelled presentation has the same number of variables as `P`. -/
+@[simp]
+theorem relabelVars_n (P : Presentation R A) (e : Fin P.n ≃ Fin P.n) :
+    (relabelVars P e).n = P.n := rfl
+
+/-- The relabelled presentation has the same number of relations as `P`. -/
+@[simp]
+theorem relabelVars_m (P : Presentation R A) (e : Fin P.n ≃ Fin P.n) :
+    (relabelVars P e).m = P.m := rfl
+
+/-- The `j`-th relation of the relabelled presentation is the `j`-th relation of `P`
+renamed along `e`. -/
+@[simp]
+theorem relabelVars_f (P : Presentation R A) (e : Fin P.n ≃ Fin P.n) (j : Fin P.m) :
+    (relabelVars P e).f j = MvPolynomial.rename e (P.f j) := rfl
+
+/-- The ideal of relations of the relabelled presentation is the image of the
+ideal of relations of `P`. -/
+theorem relIdeal_relabelVars (P : Presentation R A) (e : Fin P.n ≃ Fin P.n) :
+    (relabelVars P e).relIdeal =
+      Ideal.map (MvPolynomial.renameEquiv R e).toRingHom P.relIdeal :=
+  span_range_rename_eq_map R P.n e P.f
+
+/-- The ideal generated by the first `c` relations of the relabelled presentation is
+the image of the corresponding ideal for `P`. -/
+theorem firstRelIdeal_relabelVars (P : Presentation R A) (e : Fin P.n ≃ Fin P.n)
+    (c : ℕ) (hcm : c ≤ P.m) (hcm' : c ≤ (relabelVars P e).m) :
+    (relabelVars P e).firstRelIdeal c hcm' =
+      Ideal.map (MvPolynomial.renameEquiv R e).toRingHom (P.firstRelIdeal c hcm) :=
+  span_range_rename_eq_map R P.n e fun k : Fin c ↦ P.f (Fin.castLE hcm k)
+
+/-- The relabelled presentation represents the same elements of `A`: the polynomial
+`p` renamed along `e` represents, for `relabelVars P e`, the element `p` represents
+for `P`. -/
+theorem lift_relabelVars (P : Presentation R A) (e : Fin P.n ≃ Fin P.n)
+    (p : MvPolynomial (Fin P.n) R) :
+    (relabelVars P e).lift (MvPolynomial.rename e p) = P.lift p := by
+  have hmk : Ideal.Quotient.mkₐ R
+      (Ideal.span (Set.range fun j ↦ MvPolynomial.rename e (P.f j)))
+      (MvPolynomial.renameEquiv R e p) =
+      Ideal.quotientEquivAlg (Ideal.span (Set.range P.f))
+        (Ideal.span (Set.range fun j ↦ MvPolynomial.rename e (P.f j)))
+        (MvPolynomial.renameEquiv R e) (span_range_rename_eq_map R P.n e P.f)
+        (Ideal.Quotient.mkₐ R (Ideal.span (Set.range P.f)) p) :=
+    (Ideal.quotientEquivAlg_mk _ _ _ _).symm
+  refine (AlgEquiv.symm_apply_eq _).2 ?_
+  show Ideal.Quotient.mkₐ R
+      (Ideal.span (Set.range fun j ↦ MvPolynomial.rename e (P.f j)))
+      (MvPolynomial.renameEquiv R e p) = _
+  rw [hmk]
+  exact congrArg _ (AlgEquiv.apply_symm_apply _ _).symm
+
+/-- If the permutation `e` carries the `i`-th element of `U` (in increasing order)
+to the `i`-th variable for every `i`, then the principal `c × c` Jacobian minor of
+the relabelled presentation is the minor of `P` on the columns `U`, renamed along
+`e`. -/
+theorem jacobianMinorPrincipal_relabelVars (P : Presentation R A)
+    (e : Fin P.n ≃ Fin P.n) (c : ℕ) (hcn : c ≤ P.n) (hcm : c ≤ P.m)
+    (hcn' : c ≤ (relabelVars P e).n) (hcm' : c ≤ (relabelVars P e).m)
+    (U : Finset (Fin P.n)) (hU : U.card = c)
+    (he : ∀ i : Fin c, e (U.orderIsoOfFin hU i : Fin P.n) = Fin.castLE hcn i) :
+    (relabelVars P e).jacobianMinorPrincipal c hcn' hcm' =
+      MvPolynomial.rename e (P.jacobianMinor c hcm U hU) := by
+  have hentry (j i : Fin c) :
+      MvPolynomial.pderiv (Fin.castLE hcn i)
+          (MvPolynomial.rename (R := R) e (P.f (Fin.castLE hcm j))) =
+        MvPolynomial.rename e (MvPolynomial.pderiv
+          (U.orderIsoOfFin hU i : Fin P.n) (P.f (Fin.castLE hcm j))) := by
+    rw [← he i]
+    exact MvPolynomial.pderiv_rename e.injective _ _
+  have key : Matrix.det (fun (j i : Fin c) ↦ MvPolynomial.pderiv (Fin.castLE hcn i)
+        (MvPolynomial.rename (R := R) e (P.f (Fin.castLE hcm j)))) =
+      MvPolynomial.rename e (P.jacobianMinor c hcm U hU) := by
+    rw [show (fun (j i : Fin c) ↦ MvPolynomial.pderiv (Fin.castLE hcn i)
+          (MvPolynomial.rename (R := R) e (P.f (Fin.castLE hcm j)))) =
+        (MvPolynomial.rename (R := R) e).toRingHom.mapMatrix
+          (fun (j i : Fin c) ↦ MvPolynomial.pderiv
+            (U.orderIsoOfFin hU i : Fin P.n) (P.f (Fin.castLE hcm j))) from
+      Matrix.ext fun j i ↦ hentry j i]
+    simpa [Presentation.jacobianMinor] using
+      (RingHom.map_det (MvPolynomial.rename (R := R) e).toRingHom
+        (fun (j i : Fin c) ↦ MvPolynomial.pderiv
+          (U.orderIsoOfFin hU i : Fin P.n) (P.f (Fin.castLE hcm j)))).symm
+  exact key
+
+/-- Under the hypothesis of `jacobianMinorPrincipal_relabelVars`, the principal
+`c × c` Jacobian minor of the relabelled presentation represents the same element
+of `A` as the minor of `P` on the columns `U`. -/
+theorem lift_jacobianMinorPrincipal_relabelVars (P : Presentation R A)
+    (e : Fin P.n ≃ Fin P.n) (c : ℕ) (hcn : c ≤ P.n) (hcm : c ≤ P.m)
+    (hcn' : c ≤ (relabelVars P e).n) (hcm' : c ≤ (relabelVars P e).m)
+    (U : Finset (Fin P.n)) (hU : U.card = c)
+    (he : ∀ i : Fin c, e (U.orderIsoOfFin hU i : Fin P.n) = Fin.castLE hcn i) :
+    (relabelVars P e).lift ((relabelVars P e).jacobianMinorPrincipal c hcn' hcm') =
+      P.lift (P.jacobianMinor c hcm U hU) := by
+  rw [jacobianMinorPrincipal_relabelVars P e c hcn hcm hcn' hcm' U hU he]
+  exact lift_relabelVars P e (P.jacobianMinor c hcm U hU)
+
+/-- Condition 16.2.3.2 for an element `b` transfers from a presentation to its
+relabelling. -/
+theorem standardCond2_relabelVars (P : Presentation R A) (e : Fin P.n ≃ Fin P.n)
+    (b : A) (c : ℕ) (hcm : c ≤ P.m) (hcm' : c ≤ (relabelVars P e).m)
+    (h : P.StandardCond2 b c hcm) :
+    (relabelVars P e).StandardCond2 b c hcm' := by
+  intro j p hp
+  have hj : (j : ℕ) < P.m - c := j.2
+  obtain ⟨p₀, hp₀⟩ := (MvPolynomial.renameEquiv R e).surjective p
+  have hp₀lift : P.IsLift b p₀ := by
+    have hQ : (relabelVars P e).lift (MvPolynomial.rename e p₀) = b := by
+      rw [show MvPolynomial.rename e p₀ = p from hp₀]
+      exact hp
+    rwa [lift_relabelVars] at hQ
+  have hmem := h ⟨(j : ℕ), hj⟩ p₀ hp₀lift
+  have hmemMap : (MvPolynomial.renameEquiv R e)
+      (p₀ * P.f ⟨c + (j : ℕ), by omega⟩) ∈
+      Ideal.map (MvPolynomial.renameEquiv R e).toRingHom (P.firstRelIdeal c hcm) ⊔
+        (Ideal.map (MvPolynomial.renameEquiv R e).toRingHom P.relIdeal) ^ 2 := by
+    have hmap := Ideal.mem_map_of_mem (MvPolynomial.renameEquiv R e).toRingHom hmem
+    rwa [Ideal.add_eq_sup, Ideal.map_sup, Ideal.map_pow] at hmap
+  rw [Ideal.add_eq_sup, firstRelIdeal_relabelVars P e c hcm hcm',
+    relIdeal_relabelVars P e]
+  rw [show p * (relabelVars P e).f ⟨c + (j : ℕ), by omega⟩ =
+      (MvPolynomial.renameEquiv R e) (p₀ * P.f ⟨c + (j : ℕ), by omega⟩) from by
+    rw [map_mul, ← hp₀]
+    rfl]
+  exact hmemMap
+
+/-- Condition 16.2.3.2 is stable under multiplying the element by any Jacobian
+minor of the same presentation. -/
+theorem standardCond2_mul_lift_jacobianMinor (P : Presentation R A) (a : A)
+    (c : ℕ) (hcm : c ≤ P.m) (ha : P.StandardCond2 a c hcm)
+    (U : Finset (Fin P.n)) (hU : U.card = c) :
+    P.StandardCond2 (a * P.lift (P.jacobianMinor c hcm U hU)) c hcm := by
+  intro j p hp
+  obtain ⟨pa, hpa⟩ := P.exists_isLift a
+  have hdiff : p - pa * P.jacobianMinor c hcm U hU ∈ P.relIdeal := by
+    have hz : P.lift (p - pa * P.jacobianMinor c hcm U hU) = 0 := by
+      have hsub : P.lift (p - pa * P.jacobianMinor c hcm U hU) =
+          P.lift p - P.lift pa * P.lift (P.jacobianMinor c hcm U hU) := by
+        simp [Presentation.lift, map_sub, map_mul]
+      rw [hsub, show P.lift p = a * P.lift (P.jacobianMinor c hcm U hU) from hp,
+        show P.lift pa = a from hpa, sub_self]
+    have hmk : Ideal.Quotient.mk (Ideal.span (Set.range P.f))
+        (p - pa * P.jacobianMinor c hcm U hU) = 0 := by
+      have hh := congrArg P.iso hz
+      simpa only [Presentation.lift, AlgEquiv.apply_symm_apply, map_zero,
+        Ideal.Quotient.mkₐ_eq_mk] using hh
+    exact Ideal.Quotient.eq_zero_iff_mem.mp hmk
+  have hjm : c + (j : ℕ) < P.m := by have := j.2; omega
+  have hrelgen : P.f ⟨c + (j : ℕ), hjm⟩ ∈ P.relIdeal := Ideal.subset_span ⟨_, rfl⟩
+  have hsquare : (p - pa * P.jacobianMinor c hcm U hU) * P.f ⟨c + (j : ℕ), hjm⟩ ∈
+      P.relIdeal ^ 2 := by
+    simpa [pow_two] using
+      Ideal.mul_mem_mul (I := P.relIdeal) (J := P.relIdeal) hdiff hrelgen
+  have hpoly : p * P.f ⟨c + (j : ℕ), hjm⟩ =
+      (p - pa * P.jacobianMinor c hcm U hU) * P.f ⟨c + (j : ℕ), hjm⟩ +
+        P.jacobianMinor c hcm U hU * (pa * P.f ⟨c + (j : ℕ), hjm⟩) := by ring
+  rw [hpoly]
+  exact Ideal.add_mem _ (Ideal.mem_sup_right hsquare)
+    (Ideal.mul_mem_left _ _ (ha j pa hpa))
+
+/-- Any set `U` of `c` variables can be carried onto the first `c` variables, in
+increasing order, by a permutation of the variables. -/
+theorem exists_equiv_orderIsoOfFin_eq_castLE {n : ℕ} (c : ℕ) (hcn : c ≤ n)
+    (U : Finset (Fin n)) (hU : U.card = c) :
+    ∃ e : Fin n ≃ Fin n,
+      ∀ i : Fin c, e (U.orderIsoOfFin hU i : Fin n) = Fin.castLE hcn i := by
+  classical
+  have hccomp : (Uᶜ : Finset (Fin n)).card = n - c := by simp [Finset.card_compl, hU]
+  have hn : c + (n - c) = n := by omega
+  let ecomp : {x : Fin n // x ∉ U} ≃ (Uᶜ : Finset (Fin n)) :=
+    Equiv.subtypeEquiv (Equiv.refl _) (by intro x; simp)
+  let esplit : Fin c ⊕ Fin (n - c) ≃ Fin n :=
+    finSumFinEquiv.trans (Fin.castOrderIso hn).toEquiv
+  let epart : Fin c ⊕ Fin (n - c) ≃ Fin n :=
+    Equiv.trans (Equiv.sumCongr (U.orderIsoOfFin hU).toEquiv
+      (Equiv.trans ((Uᶜ).orderIsoOfFin hccomp).toEquiv ecomp.symm))
+      (Equiv.sumCompl (· ∈ U))
+  refine ⟨(esplit.symm.trans epart).symm, fun i ↦ ?_⟩
+  apply (esplit.symm.trans epart).injective
+  have hleft : Fin.castOrderIso hn (Fin.castAdd (n - c) i) = Fin.castLE hcn i := by
+    apply Fin.ext
+    simp [Fin.castOrderIso, Fin.castLE, Fin.castAdd]
+  have hpre : esplit.symm (Fin.castLE hcn i) = Sum.inl i := by
+    apply esplit.injective
+    simp [esplit, finSumFinEquiv_apply_left, hleft]
+  have hr : (esplit.symm.trans epart) (Fin.castLE hcn i) =
+      (U.orderIsoOfFin hU i : Fin n) := by
+    show epart (esplit.symm (Fin.castLE hcn i)) = (U.orderIsoOfFin hU i : Fin n)
+    rw [hpre]
+    simp [epart]
+  simpa using hr.symm
+
+/-- **Renumbering the columns of the minor in condition 16.2.3.1.** If `a` is a
+multiple of the Jacobian minor of `P` on an arbitrary set `U` of `c` columns and
+satisfies condition 16.2.3.2 for `P` and `c`, then `a` is elementary standard: the
+witnessing presentation is `P` with its variables renumbered so that `U` comes
+first, which turns that minor into the principal one. -/
+theorem isElementaryStandard_of_standardCond2 (P : Presentation R A) (a a' : A)
+    (c : ℕ) (hcn : c ≤ P.n) (hcm : c ≤ P.m)
+    (U : Finset (Fin P.n)) (hU : U.card = c)
+    (heq : a = a' * P.lift (P.jacobianMinor c hcm U hU))
+    (ha : P.StandardCond2 a c hcm) :
+    IsElementaryStandard (R := R) (A := A) a := by
+  classical
+  obtain ⟨e, he⟩ := exists_equiv_orderIsoOfFin_eq_castLE c hcn U hU
+  have hcn' : c ≤ (relabelVars P e).n := hcn
+  have hcm' : c ≤ (relabelVars P e).m := hcm
+  refine ⟨relabelVars P e, c, hcn', hcm', ⟨⟨a', ?_⟩, ?_⟩⟩
+  · rw [lift_jacobianMinorPrincipal_relabelVars P e c hcn hcm hcn' hcm' U hU he]
+    exact heq
+  · exact standardCond2_relabelVars P e a c hcm hcm' ha
+
+/-- **Stacks 16.2.4, the step turning a strictly standard element into an
+elementary standard one.** If `a` satisfies condition 16.2.3.2 for the
+presentation `P` and the integer `c`, then for every set `U` of `c` variables the
+product of `a` with the element of `A` represented by the `c × c` Jacobian minor
+of `P` on the columns `U` is elementary standard in `A` over `R`.
+
+The presentation witnessing elementary standardness is `P` with its variables
+renumbered so that `U` comes first. -/
+theorem isElementaryStandard_mul_lift_jacobianMinor (P : Presentation R A) (a : A)
+    (c : ℕ) (hcn : c ≤ P.n) (hcm : c ≤ P.m) (ha : P.StandardCond2 a c hcm)
+    (U : Finset (Fin P.n)) (hU : U.card = c) :
+    IsElementaryStandard (R := R) (A := A) (a * P.lift (P.jacobianMinor c hcm U hU)) := by
+  exact isElementaryStandard_of_standardCond2 P _ a c hcn hcm U hU rfl
+    (standardCond2_mul_lift_jacobianMinor P a c hcm ha U hU)
+
+end Stacks.Smoothing
+
+end

@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.RingTheory.Flat.ClosedSubset.FlatAlongZeroLocus
+public import StacksFrontier.RingTheory.Flat.ClosedSubset.DirectedColimit
+public import StacksFrontier.RingTheory.Flat.ClosedSubset.ColimitDescent

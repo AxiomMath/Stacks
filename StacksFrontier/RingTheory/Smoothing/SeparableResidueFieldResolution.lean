@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.RingTheory.Smoothing.SeparableResidueFieldResolution.ParameterPresentation
+public import StacksFrontier.RingTheory.Smoothing.SeparableResidueFieldResolution.FilteredColimitOfSmooth
+public import StacksFrontier.RingTheory.Smoothing.SeparableResidueFieldResolution.RegularSeparableResolution

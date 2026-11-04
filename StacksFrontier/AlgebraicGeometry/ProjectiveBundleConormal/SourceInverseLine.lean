@@ -1,0 +1,306 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.SourceCoherence
+public import StacksFrontier.AlgebraicGeometry.ProjBundleInverseBaseChange.InvIsoLeftPin
+public import StacksFrontier.AlgebraicGeometry.ProjBundleInverseBaseChange.MulNegOne
+public import StacksFrontier.AlgebraicGeometry.SectionRingProjTheta.PowerCompareAgreement
+
+/-!
+# The two conjugators of the re-seating, and the snake, for Tag 0B3V's inverse-line factor
+
+The inverse-line factor `hinv` of the source coherence of Tag 0B3V's base-change square — the
+hypothesis of `Stacks.ProjectiveBundleConormal.sourceCoherence` — is an equality of two
+composites of comparisons of tensor inverses, and
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.SourceCoherence` records that proving it
+asks for each factor to be *pinned* against an evaluation pairing, in the left single-tensor form
+of `StacksFrontier.AlgebraicGeometry.ProjBundleInverseBaseChange.InvIsoLeftPin`.
+
+Three of those factors are `Stacks.TensorPowers.TensorInverse.invIso` at a transported inverse,
+and their only pin, `Stacks.TensorPowers.TensorInverse.tensorHom_comp_mulIso_ofIso`, is stated
+over `Stacks.SheafInternalHom.monoidalCategory`, while the rest of the assembly — the pin of
+`Stacks.ProjectiveBundleConormal.schemePullbackCompIso`, that of
+`inverseTwistBundleBaseChangeIso`, and every `⊗ₘ` of the conormal construction — is stated over
+`SheafOfModules.monoidalCategorySheafTensor`. The two structures are one re-seating apart
+(`SheafOfModules.monoidalCategorySheafTensor_eq_reseat`, by `rfl`), so the discrepancy is a
+conjugation by the re-seating's two comparisons, and `tensorHom_comp_mulIso_ofIso` additionally
+asks for the snake identity of its *source* inverse.
+
+**This file supplies those inputs.** Each had been asserted in prose in a sibling docstring and
+was not a declaration anywhere; two of them were recorded there as new monoidal algebra, and
+neither is.
+
+## Main results
+
+* `CategoryTheory.MonoidalCategory.reseat_tensorHom`: the tensor product of two morphisms in a
+  re-seated monoidal structure is the given one conjugated by `reseatIso`. One
+  `CategoryTheory.MonoidalCategory.tensorHom_def` on top of `reseat_whiskerLeft` and
+  `reseat_whiskerRight`.
+* `CategoryTheory.MonoidalCategory.reseat_pin`: **a left pin transports across a re-seating.**
+  If `(δ ⊗ₘ u) ≫ h₂ = h₁` in the given structure and the two pairings `h₁`, `h₂` are the
+  re-seated pairings `p₁`, `p₂` conjugated by `reseatIso` on the source and by the unit
+  comparison `ε` on the target, then `δ ⊗ₘ u` followed by `p₂` is `p₁` in the re-seated
+  structure. Nothing is assumed of the pairings — they are bare morphisms out of a tensor
+  product — so this is the cancellation the inverse-line factor needs, once and generically,
+  rather than one bridging declaration per pairing.
+* `Stacks.TensorPowers.TensorInverse.tensorHom_comp_mulIso_ofIso_braided`: **the left pin of
+  `invIso` at `Stacks.TensorPowers.TensorInverse.ofIso`, with no snake hypothesis.** In a
+  symmetric monoidal category the snake of the source inverse `a` follows from two things that
+  are available where the geometry arrives: that `a.inv` has trivial self-braiding, and that
+  `a`'s two trivialisations differ by the braiding. It is `Stacks.Monoidal.braidedSnakeHyp` fed
+  into `tensorHom_comp_mulIso_ofIso`.
+* `Stacks.ProjBundleInverseBaseChange.negOneMulIso_eq_braiding`: **the two trivialisations of Tag
+  01CU's `(-1)`st tensor power differ by the braiding**, which is the second hypothesis of the
+  previous item at the base case of the inverse line.
+* `Stacks.ProjectiveBundleConormal.tensorIso_eq_sheafTensorIso` and
+  `Stacks.ProjectiveBundleConormal.unitIso_eq`: **the two conjugators are the re-seating's own.**
+  `AlgebraicGeometry.SheafOfModules.tensorIso` is `SheafOfModules.sheafTensorIso`, the component
+  of `SheafOfModules.sheafTensorNatIso` that `CategoryTheory.MonoidalCategory.reseatIso` is, and
+  `AlgebraicGeometry.SheafOfModules.unitIso` is `SheafOfModules.unitIso`, the unit comparison of
+  the same re-seating.
+
+## What is still owed
+
+The three pins themselves, and the assembly. What the re-seating's own trivialisations have to be
+recognised as is `Stacks.ProjectiveBundleConormal.invertibleEvaluation` on one side and the
+pulled-back pairing of
+`Stacks.ProjectiveBundleConormal.schemePullbackCompIso_tensorHom_comp_pullbackPairing` on the
+other, and **that recognition cannot be taken by `rw` or `simp`.** A goal naming
+both `AlgebraicGeometry.Scheme.Modules` and
+`SheafOfModules (Stacks.SheafOfModules.TensorSheafification.structureSheaf X.presheaf _)` under a
+`⊗` is not type-correct at `implicit` transparency, which is where `rw` and `simp` work; the
+tactic reports the mismatch on `MonoidalCategoryStruct.tensorObj`. Each such recognition has
+therefore to be taken either in term mode, by `congrArg` against the two conjugator equations
+above, or as a hypothesis generated by unification from `reseat_pin` applied to the concrete
+data — which is why `reseat_pin` takes the two re-seated pairings as implicit arguments and their
+descriptions as hypotheses.
+
+**The braiding relation for
+`Stacks.ProjBundleInverseBaseChange.pullbackTensorInverse` — the second hypothesis of
+`tensorHom_comp_mulIso_ofIso_braided` at the pulled-back inverse — is not owed, because the left
+pin is not the one to take.** It would reduce to Tag 01CD's comparison commuting with the
+braiding (`Stacks.PullbackTensorCoherence.pullbackTensorComparison_braiding`, stated over
+`Stacks.SheafOfModules.Strict.braidedCategory`) across the conjugation by
+`AlgebraicGeometry.SheafOfModules.tensorIso` that `pullbackTensorIso` carries, and that crossing
+is unpaid. The right pin `Stacks.TensorPowers.TensorInverse.pin_invIso_ofIso` asks for the snake
+of its *target* instead of its source, and the target of every one of Tag 0B3V's inverse-line
+factors is a plain `Stacks.ProjBundleInverseBaseChange.negOneTensorInverse`, whose snake follows
+from `negOneMulIso_eq_braiding` above. See
+`StacksFrontier.AlgebraicGeometry.ProjectiveBundleConormal.InverseLineFactor`, where that snake and
+the pin built on it are proved, together with the term-mode route out of the recognition
+obstacle recorded just above.
+
+**No `@[stacks 0B3V]` attribute is attached**: nothing here states the
+clause, and the objects of the clause appear only as the source of a conjugation.
+
+## References
+
+* [Stacks Project, Tag 0B3V](https://stacks.math.columbia.edu/tag/0B3V)
+* [Stacks Project, Tag 01CA](https://stacks.math.columbia.edu/tag/01CA)
+* [Stacks Project, Tag 01CD](https://stacks.math.columbia.edu/tag/01CD)
+* [Stacks Project, Tag 01CU](https://stacks.math.columbia.edu/tag/01CU)
+-/
+
+@[expose] public section
+
+universe v u w
+
+open CategoryTheory MonoidalCategory Limits AlgebraicGeometry
+open Stacks.SheafOfModules.TensorSheafification
+open Stacks.SheafInternalHom (isSheaf_structureRingPresheaf)
+
+namespace CategoryTheory.MonoidalCategory
+
+variable {C : Type u} [Category.{v} C] [MonoidalCategory C] {T : C ⥤ C ⥤ C} {U : C}
+
+/-- **The tensor product of two morphisms in a re-seated monoidal structure**, conjugated back to
+the given one by `CategoryTheory.MonoidalCategory.reseatIso`.
+
+This is `reseat_whiskerRight` and `reseat_whiskerLeft` composed, the two conjugating factors
+meeting in the middle, and one `CategoryTheory.MonoidalCategory.tensorHom_def` to read the
+composite as a single tensor product. -/
+theorem reseat_tensorHom (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U) {A B D E : C}
+    (f : A ⟶ B) (k : D ⟶ E) :
+    @MonoidalCategoryStruct.tensorHom C _ (reseat e ε).toMonoidalCategoryStruct _ _ _ _ f k =
+      (reseatIso e A D).inv ≫ (f ⊗ₘ k) ≫ (reseatIso e B E).hom := by
+  show (T.map f).app D ≫ (T.obj B).map k = _
+  rw [reseat_whiskerRight e f D, reseat_whiskerLeft e B k]
+  simp only [Category.assoc, Iso.hom_inv_id_assoc]
+  rw [MonoidalCategory.tensorHom_def]
+  simp only [Category.assoc]
+
+/-- **Being pinned by a pairing survives a re-seating.** Let `h₁ : L₁ ⊗ Y₁ ⟶ 𝟙` and
+`h₂ : L₂ ⊗ Y₂ ⟶ 𝟙` be pairings of the given structure, and let `p₁`, `p₂` be pairings of the
+re-seated one presenting them: `hᵢ` is `pᵢ` conjugated by `reseatIso` on the source and by the
+unit comparison `ε` on the target. Then a morphism `u` carrying `h₂` back to `h₁` along `δ`
+carries `p₂` back to `p₁` along `δ`, in the re-seated structure.
+
+Nothing is assumed of the pairings — they are bare morphisms out of a tensor product, not
+trivialisations of a tensor inverse — so this is the single generic cancellation that carries the
+left pins of `StacksFrontier.AlgebraicGeometry.ProjBundleInverseBaseChange.InvIsoLeftPin`, stated
+over `Stacks.SheafInternalHom.monoidalCategory`, to the structure
+`SheafOfModules.monoidalCategorySheafTensor` that the rest of the conormal construction of
+Tag 0B3V is stated over. One `reseat_tensorHom` and two cancellations. -/
+theorem reseat_pin (e : curriedTensor C ≅ T) (ε : 𝟙_ C ≅ U) {L₁ L₂ Y₁ Y₂ : C}
+    (δ : L₁ ⟶ L₂) (u : Y₁ ⟶ Y₂) {h₁ : L₁ ⊗ Y₁ ⟶ 𝟙_ C} {h₂ : L₂ ⊗ Y₂ ⟶ 𝟙_ C}
+    {p₁ : (T.obj L₁).obj Y₁ ⟶ U} {p₂ : (T.obj L₂).obj Y₂ ⟶ U}
+    (hp₁ : h₁ = (reseatIso e L₁ Y₁).hom ≫ p₁ ≫ ε.inv)
+    (hp₂ : h₂ = (reseatIso e L₂ Y₂).hom ≫ p₂ ≫ ε.inv)
+    (hpin : (δ ⊗ₘ u) ≫ h₂ = h₁) :
+    @MonoidalCategoryStruct.tensorHom C _ (reseat e ε).toMonoidalCategoryStruct _ _ _ _ δ u ≫
+      p₂ = p₁ := by
+  rw [reseat_tensorHom e ε δ u]
+  rw [hp₁, hp₂] at hpin
+  refine (cancel_epi (reseatIso e L₁ Y₁).hom).mp ?_
+  refine (cancel_mono ε.inv).mp ?_
+  simp only [Category.assoc, Iso.hom_inv_id_assoc]
+  simp only [← Category.assoc] at hpin ⊢
+  exact hpin
+
+end CategoryTheory.MonoidalCategory
+
+namespace Stacks.TensorPowers
+
+variable {C : Type u} [Category.{v} C] [MonoidalCategory C]
+
+/-- **The left pin of the comparison of an inverse with a transported one, with no snake
+hypothesis.** For `a : TensorInverse L₁`, `b : TensorInverse L₂` and `ε : L₁ ≅ L₂`, the canonical
+comparison of `a⁻¹` with the inverse object of `Stacks.TensorPowers.TensorInverse.ofIso ε b`,
+tensored with `ε` and followed by the left trivialisation of `b`, is the left trivialisation
+of `a`.
+
+This is `Stacks.TensorPowers.TensorInverse.tensorHom_comp_mulIso_ofIso` with its snake hypothesis
+discharged. In a symmetric monoidal category the snake of `a` follows from two facts, and both are
+available where the geometry of Tag 0B3V's inverse-line factor arrives: that the inverse object
+`a.inv` has trivial self-braiding, which for an invertible sheaf of modules is
+`Stacks.SelfBraidingInvertible.hasTrivialSelfBraiding`; and that `a`'s two trivialisations differ
+by the braiding, which for Tag 01CU's `(-1)`st power is
+`Stacks.ProjBundleInverseBaseChange.negOneMulIso_eq_braiding` below. The implication is
+`Stacks.Monoidal.braidedSnakeHyp`, and neither hypothesis can be dropped: the snake fails in
+super vector spaces, where the odd line is invertible and its self-braiding is `-𝟙`. -/
+theorem TensorInverse.tensorHom_comp_mulIso_ofIso_braided [SymmetricCategory C]
+    {L₁ L₂ : C} (a : TensorInverse L₁) (b : TensorInverse L₂) (ε : L₁ ≅ L₂)
+    (hb : Stacks.GradedSections.HasTrivialSelfBraiding a.inv)
+    (ha : a.mulIso' = β_ a.inv L₁ ≪≫ a.mulIso) :
+    (ε.hom ⊗ₘ (TensorInverse.invIso a (TensorInverse.ofIso ε b)).hom) ≫ b.mulIso.hom =
+      a.mulIso.hom := by
+  refine TensorInverse.tensorHom_comp_mulIso_ofIso a b ε ?_
+  rw [ha]
+  exact (Stacks.Monoidal.braidedSnakeHyp hb a.mulIso).symm
+
+end Stacks.TensorPowers
+
+namespace Stacks.ProjBundleInverseBaseChange
+
+open Stacks.TensorPowers Stacks.SheafOfModules
+open Stacks.SheafOfModules.TensorPower (tensorPower)
+
+attribute [local instance] Stacks.SheafInternalHom.monoidalCategory
+  Stacks.SheafInternalHom.braidedCategory
+
+variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+  (𝒪 : Cᵒᵖ ⥤ CommRingCat.{w})
+  (h𝒪 : Presheaf.IsSheaf J (structureRingPresheaf 𝒪))
+  [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
+  (L : SheafOfModules.{w} (structureSheaf 𝒪 h𝒪))
+  [Stacks.SheafOfModules.IsInvertible 𝒪 h𝒪 L]
+
+/-- Moving a braiding across a conjugation and cancelling it against its partner, over a bare
+category. Both cancellations are available there and nowhere else: the composite of
+`Stacks.ProjBundleInverseBaseChange.negOneMulIso'` names both the tensor product of
+`Stacks.SheafInternalHom.monoidalCategory` and `Stacks.SheafOfModules.Tensor.sheafTensor`'s
+value, so it is not type-correct at `implicit` transparency and `rw` and `simp` cannot act on
+it — `CategoryTheory.Iso.trans_hom` silently does not fire on such a chain. -/
+private theorem braidAux {D : Type*} [Category D] {X₁ X₂ Y₁ Y₂ Z : D}
+    (t : X₁ ⟶ X₂) (p : X₂ ⟶ Y₁) (q : Y₁ ⟶ Y₂) (x : X₁ ≅ Y₂) (r : Y₂ ⟶ Y₁) (n : X₁ ⟶ Z)
+    (hb : t ≫ p = x.hom ≫ r) (hs : r ≫ q = 𝟙 Y₂) :
+    n = t ≫ p ≫ q ≫ x.inv ≫ n := by
+  rw [← Category.assoc t p, hb, Category.assoc x.hom r, ← Category.assoc r q, hs,
+    Category.id_comp, Iso.hom_inv_id_assoc]
+
+/-- **The two trivialisations of Tag 01CU's `(-1)`st tensor power differ by the braiding.** The
+right trivialisation `Stacks.ProjBundleInverseBaseChange.negOneMulIso` of `L^{⊗ -1} ⊗ L` is the
+braiding followed by the left trivialisation `negOneMulIso'` of `L ⊗ L^{⊗ -1}`.
+
+This is the hypothesis `ha` of
+`Stacks.TensorPowers.TensorInverse.tensorHom_comp_mulIso_ofIso_braided` at
+`Stacks.ProjBundleInverseBaseChange.negOneTensorInverse`, and so the snake identity that the
+left pin of `Stacks.ProjBundleInverseBaseChange.inverseQuotientBaseChangeIso` needs, at the base
+case of the inverse line.
+
+`negOneMulIso'` is *defined* as the symmetry constraint
+`Stacks.SheafOfModules.tensorSheafBraiding` of the tensor product sheaf of [Stacks, Tag 01CA]
+followed by `negOneMulIso`, conjugated by `AlgebraicGeometry.SheafOfModules.tensorIso` on both
+sides; so all that is needed is to move the localized braiding across that conjugation, which is
+`Stacks.SheafOfModules.braiding_hom_eq` read at `tensorIso` by
+`Stacks.SheafOfModules.Invertible.tensorIso_eq_tensorObjIso`, after which the two symmetry
+constraints cancel by `Stacks.SheafOfModules.tensorSheafBraiding_trans_self` and the conjugation
+cancels against itself. -/
+theorem negOneMulIso_eq_braiding :
+    negOneMulIso 𝒪 h𝒪 L =
+      β_ (tensorPower 𝒪 h𝒪 L (-1)) L ≪≫ negOneMulIso' 𝒪 h𝒪 L := by
+  refine Iso.ext ?_
+  have hb : (β_ (tensorPower 𝒪 h𝒪 L (-1)) L).hom ≫
+      (AlgebraicGeometry.SheafOfModules.tensorIso 𝒪 h𝒪 L (tensorPower 𝒪 h𝒪 L (-1))).hom =
+      (AlgebraicGeometry.SheafOfModules.tensorIso 𝒪 h𝒪
+          (tensorPower 𝒪 h𝒪 L (-1)) L).hom ≫
+        (tensorSheafBraiding 𝒪 h𝒪 (tensorPower 𝒪 h𝒪 L (-1)) L).hom := by
+    rw [Stacks.SheafOfModules.Invertible.tensorIso_eq_tensorObjIso,
+      Stacks.SheafOfModules.Invertible.tensorIso_eq_tensorObjIso]
+    exact Stacks.SheafOfModules.braiding_hom_eq 𝒪 h𝒪 _ _
+  have hs : (tensorSheafBraiding 𝒪 h𝒪 (tensorPower 𝒪 h𝒪 L (-1)) L).hom ≫
+      (tensorSheafBraiding 𝒪 h𝒪 L (tensorPower 𝒪 h𝒪 L (-1))).hom = 𝟙 _ :=
+    congrArg Iso.hom (tensorSheafBraiding_trans_self 𝒪 h𝒪 _ _)
+  exact braidAux (β_ (tensorPower 𝒪 h𝒪 L (-1)) L).hom
+    (AlgebraicGeometry.SheafOfModules.tensorIso 𝒪 h𝒪 L (tensorPower 𝒪 h𝒪 L (-1))).hom
+    (tensorSheafBraiding 𝒪 h𝒪 L (tensorPower 𝒪 h𝒪 L (-1))).hom
+    (AlgebraicGeometry.SheafOfModules.tensorIso 𝒪 h𝒪 (tensorPower 𝒪 h𝒪 L (-1)) L)
+    (tensorSheafBraiding 𝒪 h𝒪 (tensorPower 𝒪 h𝒪 L (-1)) L).hom
+    (negOneMulIso 𝒪 h𝒪 L).hom hb hs
+
+end Stacks.ProjBundleInverseBaseChange
+
+namespace Stacks.ProjectiveBundleConormal
+
+attribute [local instance] monoidalSheafTensor
+
+/-- **The conormal construction's comparison of the two tensor products is the re-seating's own.**
+`AlgebraicGeometry.SheafOfModules.tensorIso`, the factor that
+`Stacks.ProjBundleInverseBaseChange.pullbackTensorIso` and
+`Stacks.ProjBundleInverseBaseChange.negOneMulIso'` conjugate by, is
+`SheafOfModules.sheafTensorIso` — the component of the bifunctor isomorphism
+`SheafOfModules.sheafTensorNatIso` that `CategoryTheory.MonoidalCategory.reseatIso` is for the
+re-seating `SheafOfModules.monoidalCategorySheafTensor_eq_reseat` exhibits.
+
+So the conjugation those definitions carry is exactly the re-seating's, and
+`CategoryTheory.MonoidalCategory.reseat_pin` cancels it; and
+`SheafOfModules.sheafTensorIso_naturality_left` and `..._naturality_right` apply to `tensorIso`
+directly.
+
+The `CategoryTheory.Iso.ext` is not avoidable: the forward maps are definitionally equal and
+`rfl` on the isomorphisms is not, `CategoryTheory.Iso.inv` not being exposed across the module
+boundary. -/
+theorem tensorIso_eq_sheafTensorIso (X : Scheme.{u}) (F G : X.Modules) :
+    AlgebraicGeometry.SheafOfModules.tensorIso X.presheaf (isSheaf_structureRingPresheaf X) F G =
+      SheafOfModules.sheafTensorIso X.toRingedSpace.sheaf F G :=
+  Iso.ext rfl
+
+/-- **The conormal construction's comparison of the two units is the re-seating's own.**
+`AlgebraicGeometry.SheafOfModules.unitIso`, the factor that
+`Stacks.ProjBundleInverseBaseChange.pullbackUnitMonoidalIso` and `negOneMulIso'` conjugate by, is
+`SheafOfModules.unitIso`, the unit comparison `ε` of the re-seating
+`SheafOfModules.monoidalCategorySheafTensor_eq_reseat` exhibits.
+
+The first is the sheafification counit at Mathlib's unit and the second is the counit of the
+localization at `SheafOfModules.unit`; only their sources are `rfl`-equal as objects
+(`Stacks.SectionProduct.monoidalUnit_eq_sheafify_unit`), and the morphism is not the identity, so
+the conjugation cannot be dropped — but it is the re-seating's, so
+`CategoryTheory.MonoidalCategory.reseat_pin` cancels it. By `CategoryTheory.Iso.ext` on the `hom`
+fields, for the reason recorded on `tensorIso_eq_sheafTensorIso`. -/
+theorem unitIso_eq (X : Scheme.{u}) :
+    AlgebraicGeometry.SheafOfModules.unitIso X.presheaf (isSheaf_structureRingPresheaf X) =
+      SheafOfModules.unitIso X.toRingedSpace.sheaf :=
+  Iso.ext rfl
+
+end Stacks.ProjectiveBundleConormal
+
+end

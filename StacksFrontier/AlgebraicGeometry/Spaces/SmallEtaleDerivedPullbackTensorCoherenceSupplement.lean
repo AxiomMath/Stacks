@@ -1,0 +1,21 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Spaces.AffineDerivedPushforwardPullbackTensor
+public import StacksFrontier.AlgebraicGeometry.Spaces.CompactGeneration.AffineGenerator
+public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.CohomologyBaseChangeSheafHom
+public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleDerivedPullbackTensorCoherence
+public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleModuleKFlat
+public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleProjectionFormulaIso
+public import StacksFrontier.CategoryTheory.Adjunction.PullbackInternalHomPushforward
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedPullback.DerivedPullbackTensorAssociativityModels
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.Associativity
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedTensor.AssociativityGeneral
+import all StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleDerivedPullbackTensorCoherence
+
+/-!
+# Supplement to a module
+
+Declarations and imports of an alternative version of
+`StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleDerivedPullbackTensorCoherence`
+that other modules of this library use beside the version kept there.
+-/

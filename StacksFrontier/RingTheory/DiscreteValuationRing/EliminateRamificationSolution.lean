@@ -1,0 +1,11 @@
+module
+
+public import StacksFrontier.RingTheory.DiscreteValuationRing.EliminateRamificationSolution.AlgClosedResidueExtension
+public import StacksFrontier.RingTheory.DiscreteValuationRing.EliminateRamificationSolution.PerfectResidueCase
+public import StacksFrontier.RingTheory.DiscreteValuationRing.EliminateRamificationSolution.ReducedTensorLocalization
+public import StacksFrontier.RingTheory.DiscreteValuationRing.EliminateRamificationSolution.LocalSolutions
+public import StacksFrontier.RingTheory.DiscreteValuationRing.EliminateRamificationSolution.FiniteIntegralClosure
+public import StacksFrontier.RingTheory.DiscreteValuationRing.EliminateRamificationSolution.FiniteStageDescent
+public import StacksFrontier.RingTheory.DiscreteValuationRing.EliminateRamificationSolution.Assembly
+
+/-! Re-exports the parts of the development of Stacks Tag 09II from Epp's theorem. -/

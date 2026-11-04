@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Topologies.ExtendingFunctorsLimits.AffineCase
+public import StacksFrontier.AlgebraicGeometry.Topologies.ExtendingFunctorsLimits.LimitCondition
+public import StacksFrontier.AlgebraicGeometry.Topologies.ExtendingFunctorsLimits.Uniqueness

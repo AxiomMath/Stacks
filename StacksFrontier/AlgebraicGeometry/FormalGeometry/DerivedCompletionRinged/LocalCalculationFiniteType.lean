@@ -1,0 +1,198 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.GlobalSectionsCompletionKoszulIdentity
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.IdealOfGlobalSections
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.LocalizationCompletionFiniteType
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.DerivedCompletionRinged.SliceDerivedSections
+import StacksCore.Tactic.StacksAttribute
+
+/-!
+# Tag 0CQI: `RΓ(U, K^∧) = RΓ(U, K)^∧` at a sheaf of ideals of finite type
+
+Let `(𝒞, 𝒪)` be a ringed site, `ℐ ⊂ 𝒪` a sheaf of ideals of finite type and `K ↦ K^∧` the
+derived completion of [Stacks, Tag 099F]. Let `U` be an object of `𝒞` over which `ℐ` is
+generated as an ideal sheaf by sections `f_1, …, f_r ∈ ℐ(U)`, and set `A = 𝒪(U)` and
+`I = (f_1, …, f_r) ⊂ A`. [Stacks, Tag 0CQI] states
+```
+RΓ(U, K^∧) = RΓ(U, K)^∧
+```
+in `D(A)`, the completion on the right being the derived completion of `RΓ(U, K)` along `I`.
+This file proves it, for every `K ∈ D(𝒪)` and with no hypothesis on `ℐ` beyond finite type.
+
+## Main results
+
+* `AlgebraicGeometry.RingedSite.nonempty_iso_derivedSectionsOverObject_derivedCompletion`:
+  **[Stacks, Tag 0CQI].**
+
+## Implementation notes
+
+The proof follows the source: derived completion commutes with localization, and
+[Stacks, Tag 0BLX] holds on the localized ringed site.
+
+1. *Both sides are read on `(𝒞/U, 𝒪_U)`.* `RΓ(U, -) ≅ (-)|_U ⋙ RΓ(𝒞/U, -)` as functors
+   `D(𝒪) ⥤ D(A)`, which is [Stacks, Tag 0D6F] with its module structure,
+   `AlgebraicGeometry.RingedSite.derivedSectionsOverObjectIsoSliceModule`. The ring map making
+   `𝒪_U` a sheaf of `A`-algebras is `AlgebraicGeometry.RingedSite.overSectionsRingHom`, which
+   reads a section of `𝒪` over `U` as a global section of `𝒪_U`; the identity arrow of `U` is
+   the terminal object of `𝒞/U`, so the two notions of "section over `U`" agree.
+2. *[Stacks, Tag 0A0F].* `K^∧|_U` is the derived completion of `K|_U` along `ℐ|_U`:
+   `AlgebraicGeometry.RingedSite.derivedCompletionRestrictIso`, at a sheaf of ideals of finite
+   type.
+3. *[Stacks, Tag 0BLX] on `(𝒞/U, 𝒪_U)`.* There the `f_i` are *global* sections and `ℐ|_U` is
+   the ideal sheaf they generate, which is the hypothesis `hgen`; so the identity
+   `RΓ(𝒞/U, E^∧) = RΓ(𝒞/U, E)^∧` of
+   `AlgebraicGeometry.RingedSite.nonempty_iso_derivedCompletion_derivedGlobalSections` applies
+   at `E = K|_U`, with the completion on the right taken along
+   `Ideal.span (Set.range f) = I`.
+
+Composing 1, 2, 3 and 1 again gives the equality.
+
+*Nothing is assumed.* The derived completion functor of [Stacks, Tag 099F] on `D(𝒪)` is the
+instance `AlgebraicGeometry.RingedSite.isRightAdjoint_ι_isDerivedComplete`, produced from the
+finite-type hypothesis; the one on `D(𝒪_U)` is
+`AlgebraicGeometry.RingedSite.isRightAdjoint_ι_isDerivedComplete_overIdeal`, produced from it;
+and the one on `D(A)` is `DerivedCompletion.derivedCompletionFunctor`, the reflector of
+[Stacks, Tag 0G3E]. No nilpotence, boundedness or finiteness hypothesis on `K` enters, and `I`
+is not identified with `ℐ(U)` — the source warns that the two ideals may differ, and the
+statement below is about `I = (f_1, …, f_r)` throughout.
+
+*Why the isomorphism is a `Nonempty`.* The identity of [Stacks, Tag 0BLX] is proved by
+identifying two derived limits of one tower, and a derived limit is determined only up to a
+non-canonical isomorphism; see
+`CategoryTheory.Pretriangulated.nonempty_iso_of_isDerivedLimit`. Steps 1 and 2 are canonical.
+
+*The nilpotent case.*
+`AlgebraicGeometry.RingedSite.isIso_map_derivedCompletionUnit_derivedSectionsOverObject` and
+`AlgebraicGeometry.RingedSite.isDerivedComplete_derivedSectionsOverObject` of
+`LocalCalculation.lean` prove the two sides separately for a sheaf of ideals whose local
+sections are nilpotent, where both completions are the identity; they also record the
+compatibility of the identity with the canonical maps in that case.
+
+## References
+
+* [Stacks Project, Tag 099F](https://stacks.math.columbia.edu/tag/099F)
+* [Stacks Project, Tag 0A0F](https://stacks.math.columbia.edu/tag/0A0F)
+* [Stacks Project, Tag 0BLX](https://stacks.math.columbia.edu/tag/0BLX)
+* [Stacks Project, Tag 0CQI](https://stacks.math.columbia.edu/tag/0CQI)
+* [Stacks Project, Tag 0D6F](https://stacks.math.columbia.edu/tag/0D6F)
+* [Stacks Project, Tag 0G3E](https://stacks.math.columbia.edu/tag/0G3E)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits Opposite
+
+universe u
+
+namespace AlgebraicGeometry.RingedSite
+
+attribute [local instance 100000] HasDerivedCategory.standard
+attribute [local instance] hasSheafCompose_forget₂_ringCat
+attribute [local instance] isRightAdjoint_ι_isDerivedComplete_generatedIdealSheaf
+
+section Comparison
+
+variable {X : RingedSite.{u, u, u}}
+
+/-- **The two constructions of the sheaf of ideals generated by finitely many global sections
+agree.** Each is characterised by containing the restrictions of the generators and being least
+among the sheaves of ideals that do. -/
+theorem generatedIdealSheaf_eq_idealOfGlobalSections {r : ℕ}
+    (g : Fin r → Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u})) :
+    generatedIdealSheaf g = idealOfGlobalSections X g :=
+  le_antisymm (generatedIdealSheaf_le g (globalSectionVal_mem_idealOfGlobalSections X g))
+    (idealOfGlobalSections_le X g fun i V => globalSectionVal_mem_generatedIdealSheaf g i V)
+
+/-- Equal sheaves of ideals have the same derived completion. The two reflector instances are
+propositions, so no compatibility between them has to be supplied. -/
+def derivedCompletionObjIsoOfEq
+    {I J : SheafOfModules.Submodule
+      (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
+    [(ObjectProperty.ι (IsDerivedComplete.{u, u, u, u} X I)).IsRightAdjoint]
+    [(ObjectProperty.ι (IsDerivedComplete.{u, u, u, u} X J)).IsRightAdjoint] (h : I = J)
+    (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
+    (derivedCompletion X I).obj K ≅ (derivedCompletion X J).obj K := by
+  subst h
+  exact Iso.refl _
+
+end Comparison
+
+section Tag0CQI
+
+variable (X : RingedSite.{u, u, u})
+  (𝓘 : SheafOfModules.Submodule (SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
+  [𝓘.toSheafOfModules.IsFiniteType] (U : X.C) {r : ℕ} (f : Fin r → sectionRing X U)
+
+omit [𝓘.toSheafOfModules.IsFiniteType] in
+/-- **`ℐ|_U` is the ideal sheaf generated on `𝒞/U` by the global sections attached to
+`f_1, …, f_r`**, in the spelling `generatedIdealSheaf` which the identity of
+[Stacks, Tag 0BLX] uses, given the generation hypothesis of [Stacks, Tag 0CQI] in the spelling
+`idealOfGlobalSections` which [Stacks, Tag 099E] uses. -/
+theorem generatedIdealSheaf_overSectionsRingHom_eq_overIdeal
+    (hgen : idealOfGlobalSections (X.over U)
+      (fun i => globalSectionOfTerminalSection (X := X.over U) Over.mkIdTerminal (f i)) =
+        overIdeal 𝓘 U) :
+    generatedIdealSheaf (fun i => globalSectionOfSections (overSectionsRingHom X U (f i))) =
+      overIdeal 𝓘 U := by
+  refine Eq.trans ?_ hgen
+  refine (generatedIdealSheaf_eq_idealOfGlobalSections _).trans ?_
+  exact congrArg (idealOfGlobalSections (X.over U))
+    (funext fun i => globalSectionOfSections_overSectionsRingHom X U (f i))
+
+/-- **[Stacks, Tag 0CQI].** Let `(𝒞, 𝒪)` be a ringed site, let `ℐ ⊂ 𝒪` be a sheaf of ideals of
+finite type and let `K ↦ K^∧` be the derived completion of [Stacks, Tag 099F]. Let `U` be an
+object of `𝒞` such that `ℐ` is generated as an ideal sheaf by `f_1, …, f_r ∈ ℐ(U)`, and set
+`A = 𝒪(U)` and `I = (f_1, …, f_r) ⊂ A`. Then, for every `K ∈ D(𝒪)`,
+```
+RΓ(U, K^∧) = RΓ(U, K)^∧   in D(A),
+```
+the right hand side being the derived completion of `RΓ(U, K)` along `I`.
+
+`I` is the ideal of `A` generated by the chosen sections and is not `ℐ(U)`: the source warns
+that the two may differ, and neither side of the statement mentions `ℐ(U)`.
+
+Derived completion commutes with localization
+([Stacks, Tag 0A0F], `derivedCompletionRestrictIso`), so `K^∧|_U` is the derived completion of
+`K|_U` along `ℐ|_U`; on the localized ringed site `(𝒞/U, 𝒪_U)` the sections `f_i` are global
+sections generating `ℐ|_U`, so [Stacks, Tag 0BLX] gives
+`RΓ(𝒞/U, (K|_U)^∧) = RΓ(𝒞/U, K|_U)^∧`; and `RΓ(U, -)` is `RΓ(𝒞/U, (-)|_U)` by
+[Stacks, Tag 0D6F] in its `A`-linear functor-level form,
+`derivedSectionsOverObjectIsoSliceModule`. -/
+@[stacks 0CQI "the whole remark, at the source's own hypotheses — `(𝒞, 𝒪)` a ringed site, \
+`ℐ ⊂ 𝒪` a sheaf of ideals of finite type, `K ↦ K^∧` the derived completion of \
+[Stacks, Tag 099F], `U` an object over which `ℐ` is generated as an ideal sheaf by \
+`f_1, …, f_r ∈ ℐ(U)`, `A = 𝒪(U)` and `I = (f_1, …, f_r) ⊂ A`: the displayed identity \
+`RΓ(U, K^∧) = RΓ(U, K)^∧` in `D(A)` for every `K` of `D(𝒪)`, the right hand side being the \
+derived completion of `RΓ(U, K)` along `I`. Both completion functors are produced: the one on \
+`D(𝒪)` is the reflector of [Stacks, Tag 099F] at a finite-type ideal sheaf and the one on \
+`D(A)` is the reflector of [Stacks, Tag 0G3E] along `I`. The proof is the source's, by \
+[Stacks, Tag 0A0F] and [Stacks, Tag 0BLX], and `I` is the ideal the chosen sections generate \
+rather than `ℐ(U)`, which the source warns need not be the same ideal"]
+theorem nonempty_iso_derivedSectionsOverObject_derivedCompletion
+    (_hf : ∀ i, f i ∈ 𝓘.toSubmodule.obj (op U))
+    (hgen : idealOfGlobalSections (X.over U)
+      (fun i => globalSectionOfTerminalSection (X := X.over U) Over.mkIdTerminal (f i)) =
+        overIdeal 𝓘 U)
+    (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
+    Nonempty ((derivedSectionsOverObject X U).obj ((derivedCompletion X 𝓘).obj K) ≅
+      (DerivedCompletion.derivedCompletionFunctor (sectionRing X U) f).obj
+        ((derivedSectionsOverObject X U).obj K)) := by
+  set j := SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U with hj
+  set e := derivedSectionsOverObjectIsoSliceModule X U with he
+  obtain ⟨iso⟩ := nonempty_iso_derivedCompletion_derivedGlobalSections (X.over U)
+    (sectionRing X U) (overSectionsRingHom X U) f (j.mapDerivedCategory.obj K)
+  refine ⟨e.app ((derivedCompletion X 𝓘).obj K) ≪≫
+    (derivedGlobalSectionsOverUnbounded (X.over U) (sectionRing X U)
+        (overSectionsRingHom X U)).mapIso
+      ((((derivedCompletionRestrictIso X 𝓘 U).app K).symm).trans
+        (derivedCompletionObjIsoOfEq (X := X.over U)
+          (generatedIdealSheaf_overSectionsRingHom_eq_overIdeal X 𝓘 U f hgen).symm
+          (j.mapDerivedCategory.obj K))) ≪≫
+    iso ≪≫
+    (DerivedCompletion.derivedCompletionFunctor (sectionRing X U) f).mapIso (e.app K).symm⟩
+
+end Tag0CQI
+
+end AlgebraicGeometry.RingedSite
+
+end

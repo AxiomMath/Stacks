@@ -1,0 +1,797 @@
+module
+
+public import StacksFrontier.RingTheory.Smoothing.InseparableResidueField.EssentiallySmoothFactorization
+
+/-!
+# Inseparable residue fields: Nugent's repair and Stacks 07FH
+
+Brian Nugent's repair of the λ-choice of Stacks 07FH, an approximating subalgebra built over a
+global generating family, and the three clauses of Stacks 07FH in the generality of the tag.
+
+This is the last part of `StacksFrontier.RingTheory.Smoothing.InseparableResidueField`.
+
+## Main results
+
+* `Stacks.Smoothing.exists_global_stage_primePowerQuotient`: Nugent's repair of the λ-choice.
+* `Stacks.Smoothing.exists_mvPolynomial_factorization_mem_isEssentiallySmooth_flat_of_charP`:
+  Stacks 07FH, all three clauses.
+-/
+
+@[expose] public section
+
+namespace Stacks.Smoothing
+
+open IsLocalRing MvPolynomial
+open scoped TensorProduct
+
+universe u v
+
+/-- The map `Λ → Λ_𝔮/𝔮^nΛ_𝔮` is the quotient map composed with the localization map. -/
+private lemma algebraMap_primePowerQuotient {Λ : Type*} [CommRing Λ] (𝔮 : Ideal Λ) [𝔮.IsPrime]
+    (n : ℕ) (y : Λ) :
+    algebraMap Λ (primePowerQuotient 𝔮 n) y
+      = Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
+        (algebraMap Λ (Localization.AtPrime 𝔮) y) :=
+  IsScalarTower.algebraMap_apply Λ (Localization.AtPrime 𝔮) (primePowerQuotient 𝔮 n) y
+
+/-- The image in `Λ_𝔮/𝔮^nΛ_𝔮` of an element of `Λ` outside `𝔮` is a unit. -/
+private lemma isUnit_algebraMap_primePowerQuotient {Λ : Type*} [CommRing Λ] (𝔮 : Ideal Λ)
+    [𝔮.IsPrime] (n : ℕ) {s : Λ} (hs : s ∉ 𝔮) :
+    IsUnit (algebraMap Λ (primePowerQuotient 𝔮 n) s) := by
+  rw [algebraMap_primePowerQuotient]
+  exact (IsLocalization.map_units (Localization.AtPrime 𝔮)
+    (⟨s, hs⟩ : 𝔮.primeCompl)).map _
+
+/-- **Clearing denominators in `Λ_𝔮/𝔮^nΛ_𝔮`.** Every element `z` of `Λ_𝔮/𝔮^nΛ_𝔮` satisfies an
+*exact* relation `q(a) = z·q(s)` with `a, s ∈ Λ` and `s ∉ 𝔮`, not merely a relation between
+residues: the ring is a quotient of the localization, in which every element is a fraction.
+
+This exactness is what makes Nugent's repair work. -/
+private lemma exists_mul_eq_algebraMap_primePowerQuotient {Λ : Type*} [CommRing Λ]
+    (𝔮 : Ideal Λ) [𝔮.IsPrime] {n : ℕ} (z : primePowerQuotient 𝔮 n) :
+    ∃ a s : Λ, s ∉ 𝔮 ∧ algebraMap Λ (primePowerQuotient 𝔮 n) a
+      = z * algebraMap Λ (primePowerQuotient 𝔮 n) s := by
+  obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective z
+  obtain ⟨⟨a, s⟩, hs⟩ := IsLocalization.mk'_surjective 𝔮.primeCompl y
+  refine ⟨a, (s : Λ), s.2, ?_⟩
+  have hspec := IsLocalization.mk'_spec (Localization.AtPrime 𝔮) a s
+  rw [show IsLocalization.mk' (Localization.AtPrime 𝔮) a s = y from hs] at hspec
+  rw [algebraMap_primePowerQuotient, algebraMap_primePowerQuotient, ← map_mul, hspec]
+
+/-- **The Frobenius identity of Nugent's repair.** Let `Λ` be a local ring of characteristic `p`
+whose maximal ideal has vanishing `n`-th power, and let `σ` be a ring-theoretic section of its
+residue map. For every `p`-power exponent `P = p^j ≥ n` and every `z ∈ Λ`,
+`z^P = σ(z̄^P)`: writing `z = σ(z̄) + μ` with `μ ∈ 𝔪`, the Frobenius expansion gives
+`z^P = σ(z̄)^P + μ^P` and `μ^P = 0`.
+
+In particular `z^P` lies in the image of `σ`, hence in every stage `Ψ_σ(F[x])` whose coefficient
+field contains `z̄^P` — and this without enlarging the generating family `x`. -/
+private lemma pow_pow_eq_section_pow {Λ : Type*} [CommRing Λ] [IsLocalRing Λ] (p : ℕ)
+    [ExpChar Λ p] {j n : ℕ} (hnil : maximalIdeal Λ ^ n = ⊥) (hjn : n ≤ p ^ j)
+    (σ : ResidueField Λ →+* Λ) (hsec : ∀ c, residue Λ (σ c) = c) (z : Λ) :
+    z ^ p ^ j = σ (residue Λ z ^ p ^ j) := by
+  have hm : z - σ (residue Λ z) ∈ maximalIdeal Λ := by
+    rw [← residue_eq_zero_iff, map_sub, hsec, sub_self]
+  have hzero : (z - σ (residue Λ z)) ^ p ^ j = 0 := by
+    have hmem : (z - σ (residue Λ z)) ^ p ^ j ∈ maximalIdeal Λ ^ n :=
+      Ideal.pow_le_pow_right hjn (Ideal.pow_mem_pow hm _)
+    rw [hnil] at hmem
+    exact hmem
+  have key := add_pow_expChar_pow (σ (residue Λ z)) (z - σ (residue Λ z)) p j
+  have hadd : σ (residue Λ z) + (z - σ (residue Λ z)) = z := by ring
+  rw [hadd, hzero, add_zero] at key
+  rw [key, map_pow]
+
+
+/-! ### Nugent's repair of the λ-choice: the denominator-cleared coefficient field -/
+
+/-- The `n`-th power of the maximal ideal of `Λ_𝔮/𝔮^n Λ_𝔮` vanishes. -/
+private theorem maximalIdeal_primePowerQuotient_pow_eq_bot {Λ : Type*} [CommRing Λ]
+    (𝔮 : Ideal Λ) [𝔮.IsPrime] {n : ℕ} [IsLocalRing (primePowerQuotient 𝔮 n)] :
+    maximalIdeal (primePowerQuotient 𝔮 n) ^ n = ⊥ :=
+  maximalIdeal_quotient_pow_eq_bot (map_pow_eq_maximalIdeal_pow 𝔮 n)
+
+
+/-- **Nugent's denominator-clearing step.** Let `k` be a field of characteristic `p > 0`, let `Λ`
+be a `k`-algebra, let `𝔮` be a prime of `Λ` and write `B = Λ_𝔮/𝔮^nΛ_𝔮`, `q : Λ → B`, `K = κ(𝔮)`.
+Let `σ : K → B` be a ring-theoretic section of the residue map and let `k ⊆ F₁ ⊆ K` be finitely
+generated. Then there is a finite subset `S` of `Λ` — of *global* elements — such that
+
+* `F₁` is contained in the subfield `F' = k(q(w)‾ : w ∈ S)` generated by the residues of `S`, and
+* every `w ∈ S` has `q(w) = σ(q(w)‾)`, so `q(S) ⊆ σ(F')`.
+
+Since `σ(F')` lies in the stage `Ψ_σ(F'[x])` for *any* generating family `x` of `𝔪_B`, this puts
+the global elements `q(S)` into the stage with the generating family untouched; and the second
+item is exactly what the `p`-th-power route of the implementation notes could not deliver for a
+field containing a prescribed element.
+
+**This is Brian Nugent's repair of the λ-choice of Stacks 07FH**, and the construction is his.
+For each of finitely many field generators `f` of `F₁/k`, clearing denominators in `B` — which is
+a quotient of a *localization*, so the relation is an equality in `B` and not merely between
+residues — gives `a, s ∈ Λ` with `s ∉ 𝔮` and `q(a) = σ(f)·q(s)`. Put `α = q(s)‾ ≠ 0` and let
+`P = p^n ≥ n`. The Frobenius identity `pow_pow_eq_section_pow` gives `q(s)^P = σ(α^P)`, whence
+also `q(a·s^{P-1}) = σ(f)·q(s)^P = σ(f·α^P)`. The two global elements `s^P` and `a·s^{P-1}` of `Λ`
+therefore have their images in `σ(K)`, and their residues `α^P` and `f·α^P` have ratio `f`; so
+`k` adjoined to the residues of the `2s` elements so produced contains every `f`, hence `F₁`,
+although the `P`-th powers alone generate only inside `k·K^P`. Carrying the *pair*, whose quotient
+recovers `f`, is the new idea. -/
+private theorem exists_finset_global_adjoin_residue_eq_section {k Λ : Type*} [Field k]
+    [CommRing Λ] [Algebra k Λ] (𝔮 : Ideal Λ) [𝔮.IsPrime] {n : ℕ} (p : ℕ) [Fact p.Prime]
+    [CharP k p] [IsLocalRing (primePowerQuotient 𝔮 n)]
+    (σ : ResidueField (primePowerQuotient 𝔮 n) →+* primePowerQuotient 𝔮 n)
+    (hsec : ∀ c, residue (primePowerQuotient 𝔮 n) (σ c) = c)
+    (F₁ : IntermediateField k (ResidueField (primePowerQuotient 𝔮 n))) (hF₁ : F₁.FG) :
+    ∃ S : Finset Λ,
+      F₁ ≤ IntermediateField.adjoin k ((fun y => residue (primePowerQuotient 𝔮 n)
+        (algebraMap Λ (primePowerQuotient 𝔮 n) y)) '' (S : Set Λ)) ∧
+      ∀ w ∈ S, algebraMap Λ (primePowerQuotient 𝔮 n) w
+        = σ (residue (primePowerQuotient 𝔮 n)
+            (algebraMap Λ (primePowerQuotient 𝔮 n) w)) := by
+  classical
+  set B := primePowerQuotient 𝔮 n with hBdef
+  set q : Λ →+* B := algebraMap Λ B with hqdef
+  have hcharB : CharP B p := charP_of_injective_algebraMap (algebraMap k B).injective p
+  have hexp : ExpChar B p := ExpChar.prime (Fact.out)
+  have hnilB : maximalIdeal B ^ n = ⊥ := maximalIdeal_primePowerQuotient_pow_eq_bot 𝔮
+  have hPn : n ≤ p ^ n := Nat.le_of_lt (Nat.lt_pow_self (Fact.out : p.Prime).one_lt)
+  have hP1 : 1 ≤ p ^ n := Nat.one_le_pow _ _ (Fact.out : p.Prime).pos
+  obtain ⟨T, hT⟩ := hF₁
+  -- clear denominators for every element of `K`, with an exact relation in `B`
+  choose av sv hsv hav using
+    fun c : ResidueField B => exists_mul_eq_algebraMap_primePowerQuotient 𝔮 (σ c)
+  set α : ResidueField B → ResidueField B := fun c => residue B (q (sv c)) with hαdef
+  have hα : ∀ c, α c ≠ 0 := by
+    intro c h0
+    exact (mem_maximalIdeal _).mp ((residue_eq_zero_iff _).mp h0)
+      (isUnit_algebraMap_primePowerQuotient 𝔮 n (hsv c))
+  -- the two global elements attached to `c`, and their images under `q`
+  have key1 : ∀ c, q (sv c ^ p ^ n) = σ (α c ^ p ^ n) := by
+    intro c
+    rw [map_pow]
+    exact pow_pow_eq_section_pow p hnilB hPn σ hsec (q (sv c))
+  have key2 : ∀ c, q (av c * sv c ^ (p ^ n - 1)) = σ (c * α c ^ p ^ n) := by
+    intro c
+    have hsplit : sv c ^ p ^ n = sv c * sv c ^ (p ^ n - 1) := by
+      rw [← pow_succ']
+      congr 1
+      omega
+    rw [map_mul, map_pow, hav c, mul_assoc, ← map_pow, ← map_mul, ← hsplit, key1 c, map_mul]
+  -- the global finite set and the field it generates
+  set S : Finset Λ := T.image (fun c => sv c ^ p ^ n) ∪
+    T.image (fun c => av c * sv c ^ (p ^ n - 1)) with hSdef
+  set U : Set (ResidueField B) := (fun y => residue B (q y)) '' (S : Set Λ) with hUdef
+  have hmem1 : ∀ c ∈ T, α c ^ p ^ n ∈ IntermediateField.adjoin k U := by
+    intro c hc
+    refine IntermediateField.subset_adjoin k U ⟨sv c ^ p ^ n, ?_, ?_⟩
+    · exact Finset.mem_coe.mpr (Finset.mem_union_left _ (Finset.mem_image_of_mem _ hc))
+    · show residue B (q (sv c ^ p ^ n)) = α c ^ p ^ n
+      rw [key1 c, hsec]
+  have hmem2 : ∀ c ∈ T, c * α c ^ p ^ n ∈ IntermediateField.adjoin k U := by
+    intro c hc
+    refine IntermediateField.subset_adjoin k U ⟨av c * sv c ^ (p ^ n - 1), ?_, ?_⟩
+    · exact Finset.mem_coe.mpr (Finset.mem_union_right _ (Finset.mem_image_of_mem _ hc))
+    · show residue B (q (av c * sv c ^ (p ^ n - 1))) = c * α c ^ p ^ n
+      rw [key2 c, hsec]
+  refine ⟨S, ?_, ?_⟩
+  · -- the ratio of the two residues is `c`, so every generator of `F₁` is recovered
+    rw [← hT]
+    refine IntermediateField.adjoin_le_iff.mpr fun c hc => ?_
+    have hcT : c ∈ T := hc
+    have hne : α c ^ p ^ n ≠ 0 := pow_ne_zero _ (hα c)
+    have hdiv : (c * α c ^ p ^ n) / (α c ^ p ^ n) = c := mul_div_cancel_right₀ c hne
+    rw [← hdiv]
+    exact div_mem (hmem2 c hcT) (hmem1 c hcT)
+  · -- each member of `S` has its image in the range of `σ`
+    intro w hw
+    rcases Finset.mem_union.mp hw with hw | hw
+    · obtain ⟨c, -, rfl⟩ := Finset.mem_image.mp hw
+      rw [key1 c, hsec]
+    · obtain ⟨c, -, rfl⟩ := Finset.mem_image.mp hw
+      rw [key2 c, hsec]
+
+
+/-! ### Nugent's repair of the λ-choice: the global stage -/
+
+/-- **The approximating subalgebra of Stacks 07FG over a global generating family and with a
+globally generated residue field.** Let `k` be a field of characteristic `p > 0`, let `Λ` be a
+Noetherian `k`-algebra with `dim_K H₁(L_{K/k}) < ∞` for `K = κ(𝔮)`, let `n ≥ 1` and let `E` be a
+finite subset of `B = Λ_𝔮/𝔮^nΛ_𝔮`. Then there are
+
+* a finite family `μ_1, …, μ_r` of elements of `𝔮 ⊆ Λ` whose images generate `𝔪_{Λ_𝔮}`;
+* a finite subset `S` of `Λ`;
+* an Artinian local `k`-subalgebra `A` of `B` whose residue field is `k(q(w)‾ : w ∈ S)`,
+
+such that `A` contains `E`, the images `q(w)` for `w ∈ S` and the images `q(μ_j)`, `B` is free
+over `A`, `A` is essentially of finite type over `k`, and `𝔪_A B = 𝔪_B`.
+
+**This is Brian Nugent's repair of the λ-choice of Stacks 07FH.** The point of the statement is
+that both the generating family of `𝔪_B` used to build the stage and the elements whose residues
+generate its residue field are *global* — elements of `Λ`, not of `Λ_𝔮` — while the stage still
+has all the properties Stacks 07FG asserts. The source's text asks for elements of `Λ` whose
+images lie in the approximating subalgebra and whose residue differentials form a basis of
+`Ω_{A/𝔪_A ⁄ k}`, and that is false for a general member of the directed family; see the two
+counterexamples in the implementation notes, of which the second — `Λ = 𝐅_p[x, y]`, `𝔮 = (x)`,
+`n = 2`, `A = k[ε]/(ε²)` embedded by `ε ↦ x/y` — is Nugent's and shows that no regular parameter
+of `Λ_𝔮` need be found among the elements of `Λ` mapping into `A`. Here `A` is instead *built* so
+that the global data is available: the generating family is `q(μ)` once and for all
+(`exists_fin_span_eq_maximalIdeal_localization`), which costs nothing because `exists_stage`
+proves freeness for an arbitrary generating family whose `b`-coordinates lie in the coefficient
+field, a condition monotone in that field; and the coefficient field is pushed up to one generated
+by residues of global elements whose images lie in `σ(F)` by
+`exists_finset_global_adjoin_residue_eq_section`, which leaves the generating family untouched. -/
+theorem exists_global_stage_primePowerQuotient {k Λ : Type u} [Field k] [CommRing Λ]
+    [Algebra k Λ] [IsNoetherianRing Λ] (𝔮 : Ideal Λ) [𝔮.IsPrime] (p : ℕ) [Fact p.Prime]
+    [CharP k p] {n : ℕ} [IsLocalRing (primePowerQuotient 𝔮 n)]
+    [Module.Finite (ResidueField (primePowerQuotient 𝔮 n))
+      (Algebra.H1Cotangent k (ResidueField (primePowerQuotient 𝔮 n)))]
+    (E : Finset (primePowerQuotient 𝔮 n)) :
+    ∃ (r : ℕ) (mu : Fin r → Λ) (S : Finset Λ)
+      (A : Subalgebra k (primePowerQuotient 𝔮 n))
+      (_ : IsArtinianRing A) (_ : IsLocalRing A)
+      (e : ResidueField A ≃+* IntermediateField.adjoin k
+        ((fun y => residue (primePowerQuotient 𝔮 n)
+          (algebraMap Λ (primePowerQuotient 𝔮 n) y)) '' (S : Set Λ))),
+      (∀ j, mu j ∈ 𝔮) ∧
+      Ideal.span (Set.range fun j => algebraMap Λ (Localization.AtPrime 𝔮) (mu j))
+        = maximalIdeal (Localization.AtPrime 𝔮) ∧
+      (∀ x ∈ E, x ∈ A) ∧
+      (∀ w ∈ S, algebraMap Λ (primePowerQuotient 𝔮 n) w ∈ A) ∧
+      (∀ j, algebraMap Λ (primePowerQuotient 𝔮 n) (mu j) ∈ A) ∧
+      Module.Free A (primePowerQuotient 𝔮 n) ∧ Algebra.EssFiniteType k A ∧
+      Ideal.map A.val.toRingHom (maximalIdeal A) = maximalIdeal (primePowerQuotient 𝔮 n) ∧
+      ∀ y : A, ((e (residue A y) : ResidueField (primePowerQuotient 𝔮 n)))
+        = residue (primePowerQuotient 𝔮 n) (y : primePowerQuotient 𝔮 n) := by
+  classical
+  have hartB : IsArtinianRing (primePowerQuotient 𝔮 n) := isArtinianRing_primePowerQuotient 𝔮
+  -- the global generating family of `𝔪_B`, chosen in `𝔮` once and for all
+  obtain ⟨r, mu, hmuq, hspanmu, -⟩ := exists_fin_span_eq_maximalIdeal_localization 𝔮
+  set gen : Fin r → primePowerQuotient 𝔮 n :=
+    fun j => algebraMap Λ (primePowerQuotient 𝔮 n) (mu j) with hgendef
+  have hgen : Ideal.span (Set.range gen) = maximalIdeal (primePowerQuotient 𝔮 n) := by
+    rw [maximalIdeal_primePowerQuotient, ← hspanmu, Ideal.map_span, ← Set.range_comp]
+    rfl
+  -- the stage machinery over that family
+  obtain ⟨σ, F₀, hsec, hF₀fg, hstage⟩ :=
+    exists_stage_of_gen (k := k) (Λ := primePowerQuotient 𝔮 n) p gen hgen E
+  -- Nugent's denominator clearing: a global `S` generating a field above `F₀`
+  obtain ⟨S, hF₀S, hSσ⟩ :=
+    exists_finset_global_adjoin_residue_eq_section 𝔮 p σ hsec F₀ hF₀fg
+  set F : IntermediateField k (ResidueField (primePowerQuotient 𝔮 n)) :=
+    IntermediateField.adjoin k ((fun y => residue (primePowerQuotient 𝔮 n)
+      (algebraMap Λ (primePowerQuotient 𝔮 n) y)) '' (S : Set Λ)) with hFdef
+  have hFfg : F.FG := IntermediateField.fg_def.mpr ⟨_, S.finite_toSet.image _, rfl⟩
+  obtain ⟨A, hart, hloc, e, hAeq, hE, hfree, heft, hmax, he⟩ := hstage F hF₀S hFfg
+  have hAmem : ∀ y : primePowerQuotient 𝔮 n, y ∈ A ↔ y ∈ coefficientStage σ F gen := fun y => by
+    rw [← hAeq]; exact Iff.rfl
+  refine ⟨r, mu, S, A, hart, hloc, e, hmuq, hspanmu, hE, fun w hw => ?_,
+    fun j => (hAmem _).2 (mem_coefficientStage_gen σ gen F j), hfree, heft, hmax, he⟩
+  -- the images of `S` lie in `σ(F)`, hence in the stage, with the generating family untouched
+  have hresF : residue (primePowerQuotient 𝔮 n)
+      (algebraMap Λ (primePowerQuotient 𝔮 n) w) ∈ F :=
+    IntermediateField.subset_adjoin k _ ⟨w, hw, rfl⟩
+  rw [hSσ w hw]
+  exact (hAmem _).2 (mem_coefficientStage_of_mem σ gen F ⟨_, hresF⟩)
+
+
+/-! ### Stacks 07FH, clauses (2) and (3) in the generality of the tag -/
+
+/-- An element of a localization has its image in a subring as soon as the images of the
+numerators are there and the images of the denominators are units there: the latter is automatic
+when the subring is *local* and the denominator's image is a unit in the ambient ring.
+
+This is the first of Nugent's two auxiliary observations: a prescribed finite subset of
+`Λ_𝔮/𝔮^nΛ_𝔮` costs no more than a finite subset of `Λ`, and the map
+`k[y]_𝔭/𝔭^n → Λ_𝔮/𝔮^nΛ_𝔮` factors through the stage as soon as the images of the variables
+do. -/
+private theorem mem_subalgebra_of_isLocalization {P A₀ B : Type*} [CommRing P] [CommRing A₀]
+    [CommRing B] [IsLocalRing B] (𝔭 : Ideal P) [𝔭.IsPrime] [Algebra P A₀]
+    [IsLocalization.AtPrime A₀ 𝔭] {k : Type*} [CommSemiring k] [Algebra k B]
+    (A : Subalgebra k B) [IsLocalRing A] (v : A₀ →+* B)
+    (hmaxA : Ideal.map A.val.toRingHom (maximalIdeal A) = maximalIdeal B)
+    (hmem : ∀ f : P, v (algebraMap P A₀ f) ∈ A)
+    (hunit : ∀ f : P, f ∉ 𝔭 → IsUnit (v (algebraMap P A₀ f))) (y : A₀) :
+    v y ∈ A := by
+  obtain ⟨⟨f, sv⟩, hfs⟩ := IsLocalization.mk'_surjective 𝔭.primeCompl y
+  have hspec : y * algebraMap P A₀ (sv : P) = algebraMap P A₀ f := by
+    rw [← hfs]
+    exact IsLocalization.mk'_spec _ f sv
+  have hkey : v y * v (algebraMap P A₀ (sv : P)) = v (algebraMap P A₀ f) := by
+    rw [← map_mul, hspec]
+  have hzsB : IsUnit (v (algebraMap P A₀ (sv : P))) :=
+    hunit _ (Ideal.mem_primeCompl_iff.mp sv.2)
+  set zs : A := ⟨v (algebraMap P A₀ (sv : P)), hmem _⟩ with hzsdef
+  set zf : A := ⟨v (algebraMap P A₀ f), hmem f⟩ with hzfdef
+  have hzscoe : (zs : B) = v (algebraMap P A₀ (sv : P)) := rfl
+  have hzfcoe : (zf : B) = v (algebraMap P A₀ f) := rfl
+  obtain ⟨zsu, hzsu⟩ : IsUnit zs := by
+    refine notMem_maximalIdeal.mp fun hmemm => ?_
+    exact (notMem_maximalIdeal.mpr (hzscoe ▸ hzsB))
+      (hmaxA ▸ Ideal.mem_map_of_mem A.val.toRingHom hmemm)
+  have hcancel : (zf * ↑zsu⁻¹ : A) * zs = zf := by
+    rw [← hzsu, mul_assoc, Units.inv_mul, mul_one]
+  have hval : v y = ((zf * ↑zsu⁻¹ : A) : B) := by
+    refine (hzscoe ▸ hzsB).mul_left_injective ?_
+    calc v y * (zs : B) = (zf : B) := by rw [hzscoe, hzfcoe, hkey]
+      _ = (((zf * ↑zsu⁻¹ : A) * zs : A) : B) := by rw [hcancel]
+      _ = ((zf * ↑zsu⁻¹ : A) : B) * (zs : B) := rfl
+  rw [hval]
+  exact (zf * ↑zsu⁻¹ : A).2
+
+/-- Faithfully flat extensions reflect equalities of ideals. -/
+private theorem ideal_eq_of_map_eq {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
+    [Module.FaithfullyFlat A B] {I J : Ideal A}
+    (h : I.map (algebraMap A B) = J.map (algebraMap A B)) : I = J :=
+  Ideal.map_injective_of_faithfullyFlat h
+
+/-- **The closing étale step of Stacks 07FH over an approximating subalgebra.** Let `R` be a
+Noetherian local ring, let `B` be a local `R`-algebra, flat over `R` and with `𝔪_R B = 𝔪_B`, and
+let `A` be a local Artinian `k`-subalgebra of `B` with `𝔪_A B = 𝔪_B`, over which `B` is free and
+which contains the image of `R`. If the residue extension `κ(A)/κ(R)` is finite and separable —
+presented here as an arbitrary finite separable extension `κ₀ ⊆ κ₁` together with isomorphisms
+`κ₀ ≅ κ(R)`, `κ₁ ≅ κ(A)` compatible with the two structure maps — then `R → A` is essentially
+smooth.
+
+Three steps. `A` is flat over `R` by `flat_of_free_of_map_maximalIdeal_ne_top`, descending along
+the free extension `A → B`. `𝔪_R A = 𝔪_A` by faithfully flat contraction (`ideal_eq_of_map_eq`)
+from `𝔪_R B = 𝔪_B = 𝔪_A B`. And `A` is finite over `R` by Lemma [stacks, 07DT](1)
+(`finite_iff_residue_finite`), the residue extension being finite. Lemma [stacks, 00U6] then
+applies, through `isEssentiallySmooth_of_finite_flat`. -/
+private theorem isEssentiallySmooth_codRestrict_of_free {R B : Type u} [CommRing R]
+    [IsLocalRing R] [IsNoetherianRing R] [CommRing B] [IsLocalRing B] [Algebra R B]
+    [Module.Flat R B] {k : Type*} [Field k] [Algebra k B] (A : Subalgebra k B)
+    [IsLocalRing A] [IsArtinianRing A] [Module.Free A B]
+    (hmaxR : Ideal.map (algebraMap R B) (maximalIdeal R) = maximalIdeal B)
+    (hmaxA : Ideal.map A.val.toRingHom (maximalIdeal A) = maximalIdeal B)
+    (huA : ∀ z : R, algebraMap R B z ∈ A)
+    {κ₀ κ₁ : Type*} [Field κ₀] [Field κ₁] [Algebra κ₀ κ₁] [Module.Finite κ₀ κ₁]
+    [Algebra.IsSeparable κ₀ κ₁] (j₀ : κ₀ ≃+* ResidueField R) (j₁ : κ₁ ≃+* ResidueField A)
+    (hj : ∀ z : R, j₁ (algebraMap κ₀ κ₁ (j₀.symm (residue R z)))
+      = residue A ⟨algebraMap R B z, huA z⟩) :
+    (RingHom.codRestrict (algebraMap R B) A huA).IsEssentiallySmooth := by
+  let instRA : Algebra R A := (RingHom.codRestrict (algebraMap R B) A huA).toAlgebra
+  have halgRA : (algebraMap R A) = RingHom.codRestrict (algebraMap R B) A huA :=
+    RingHom.algebraMap_toAlgebra _
+  have hAvaleq : (algebraMap A B) = A.val.toRingHom := rfl
+  have hacoe : ∀ z : R, ((algebraMap R A z : A) : B) = algebraMap R B z := fun z => by
+    rw [halgRA]; rfl
+  have htow : IsScalarTower R A B :=
+    IsScalarTower.of_algebraMap_eq fun z => (hacoe z).symm
+  -- flatness of `A` over `R`, descending along the free extension `A → B`
+  have hflatRA : Module.Flat R A :=
+    flat_of_free_of_map_maximalIdeal_ne_top
+      (by rw [hAvaleq, hmaxA]; exact (maximalIdeal.isMaximal B).ne_top)
+  -- `𝔪_R A = 𝔪_A`, by faithfully flat contraction
+  have hlocAB : IsLocalHom (algebraMap A B) :=
+    ((local_hom_TFAE (algebraMap A B)).out 3 1).mp (hAvaleq ▸ hmaxA.le)
+  have hflatAB : Module.Flat A B := Module.Flat.of_free
+  have hffAB : Module.FaithfullyFlat A B := Module.FaithfullyFlat.of_flat_of_isLocalHom
+  have hmaxRA : Ideal.map (algebraMap R A) (maximalIdeal R) = maximalIdeal A := by
+    refine ideal_eq_of_map_eq (A := A) (B := B) ?_
+    rw [Ideal.map_map, ← IsScalarTower.algebraMap_eq R A B, hmaxR, hAvaleq, hmaxA]
+  have hlocRA : IsLocalHom (algebraMap R A) :=
+    ((local_hom_TFAE (algebraMap R A)).out 3 1).mp hmaxRA.le
+  -- the residue extension, transported along the two isomorphisms
+  have hsquare : (algebraMap (ResidueField R) (ResidueField A)).comp
+        (j₀ : κ₀ →+* ResidueField R)
+      = ((j₁ : κ₁ →+* ResidueField A)).comp (algebraMap κ₀ κ₁) := by
+    refine RingHom.ext fun x => ?_
+    obtain ⟨z, hz⟩ := residue_surjective ((j₀ : κ₀ →+* ResidueField R) x)
+    have hx : j₀.symm (residue R z) = x := by rw [hz]; exact j₀.symm_apply_apply x
+    have h2 := hj z
+    rw [hx] at h2
+    rw [RingHom.comp_apply, RingHom.comp_apply, ← hz,
+      IsLocalRing.ResidueField.algebraMap_residue (R := R) (S := A) z]
+    exact h2.symm
+  have hfinres : Module.Finite (ResidueField R) (ResidueField A) :=
+    Module.Finite.of_equiv_equiv j₀ j₁ hsquare
+  have hsepres : Algebra.IsSeparable (ResidueField R) (ResidueField A) :=
+    Algebra.IsSeparable.of_equiv_equiv j₀ j₁ hsquare
+  -- finiteness of `A` over `R`, by Lemma 07DT(1)
+  have hfinRA : Module.Finite R A := by
+    have hfinRκ : Module.Finite R (ResidueField R) :=
+      Module.Finite.of_surjective (Algebra.linearMap R (ResidueField R))
+        Ideal.Quotient.mk_surjective
+    have hfinRA' : Module.Finite R (ResidueField A) :=
+      Module.Finite.trans (ResidueField R) (ResidueField A)
+    have hfa : (algebraMap R A).Finite := by
+      rw [finite_iff_residue_finite (algebraMap R A)]
+      exact hfinRA'
+    exact hfa
+  have hess := isEssentiallySmooth_of_finite_flat (R := R) (D := A)
+    (fun x => IsLocalRing.ResidueField.algebraMap_residue x) hmaxRA
+  rwa [halgRA] at hess
+
+
+/-- The residue field of a quotient of a local ring by an ideal with local quotient is the residue
+field of the ring itself: the quotient map is a local homomorphism which is surjective on residue
+fields, and a ring map between fields is injective. -/
+private theorem exists_residueField_quotient_equiv {R : Type*} [CommRing R] [IsLocalRing R]
+    (I : Ideal R) [IsLocalRing (R ⧸ I)] :
+    ∃ e : ResidueField R ≃+* ResidueField (R ⧸ I),
+      ∀ y : R, e (residue R y) = residue (R ⧸ I) (Ideal.Quotient.mk I y) := by
+  have : IsLocalHom (Ideal.Quotient.mk I) := isLocalHom_quotientMk
+  have hsurj : Function.Surjective (ResidueField.map (Ideal.Quotient.mk I)) := by
+    intro z
+    obtain ⟨w, rfl⟩ := residue_surjective z
+    obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective w
+    exact ⟨residue R a, ResidueField.map_residue _ a⟩
+  exact ⟨RingEquiv.ofBijective _
+    ⟨(ResidueField.map (Ideal.Quotient.mk I)).injective, hsurj⟩,
+    fun y => ResidueField.map_residue _ y⟩
+
+/-- The residue field of `Λ_𝔮` is `k`-isomorphic to that of `Λ_𝔮/𝔮^nΛ_𝔮`, compatibly with the
+quotient map. -/
+private theorem exists_algEquiv_residueField_primePowerQuotient {k Λ : Type*} [Field k]
+    [CommRing Λ] [Algebra k Λ] (𝔮 : Ideal Λ) [𝔮.IsPrime] {n : ℕ}
+    [IsLocalRing (primePowerQuotient 𝔮 n)] :
+    ∃ e : ResidueField (Localization.AtPrime 𝔮) ≃ₐ[k] ResidueField (primePowerQuotient 𝔮 n),
+      ∀ y, e (residue (Localization.AtPrime 𝔮) y) = residue (primePowerQuotient 𝔮 n)
+        (Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n)) y) := by
+  obtain ⟨e, he⟩ := exists_residueField_quotient_equiv
+    (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
+  refine ⟨{ e with commutes' := fun a => ?_ }, he⟩
+  exact he (algebraMap k (Localization.AtPrime 𝔮) a)
+
+/-- **Clauses (2) and (3) of Stacks 07FH out of a global stage.** Given the data produced by
+`exists_global_stage_primePowerQuotient` — a global family `μ` generating `𝔪_{Λ_𝔮}`, a global
+finite set `S`, and the stage `A ⊆ B = Λ_𝔮/𝔮^nΛ_𝔮` with residue field `F = k(q(w)‾ : w ∈ S)`
+containing `E`, `q(S)` and `q(μ)` — the source's closing argument goes through.
+
+Clause (1) over the copy `G ⊆ κ(𝔮)` of `F`
+(`exists_mvPolynomial_flat_localization_of_intermediateField`, run with the second block of
+variables drawn from `μ`) gives `φ : k[y_1, …, y_m] → Λ` with `𝔭Λ_𝔮 = 𝔮Λ_𝔮`, with
+`k[y]_𝔭 → Λ_𝔮` flat and with `G/κ(𝔭)` finite separable. Every variable is sent into
+`S ∪ range μ`, so `q(φ(f)) ∈ A` for every polynomial `f`; and a denominator `q(φ(s))` with
+`s ∉ 𝔭` is a unit *in the stage*, because the stage is local and the element lies outside its
+maximal ideal. So the induced map `u : k[y]_𝔭/𝔭^n → B` factors through `A`
+(`mem_subalgebra_of_isLocalization`), and `isEssentiallySmooth_codRestrict_of_free` closes with
+Lemma [stacks, 00U6]. -/
+private theorem exists_factorization_of_global_stage
+    {k Λ : Type u} [Field k] [CommRing Λ] [Algebra k Λ] [IsNoetherianRing Λ]
+    [Algebra.IsGeometricallyRegular k Λ] (𝔮 : Ideal Λ) [𝔮.IsPrime] (p : ℕ) [Fact p.Prime]
+    [CharP k p] {n : ℕ} (hn : 1 ≤ n) [IsLocalRing (primePowerQuotient 𝔮 n)]
+    (E : Finset (primePowerQuotient 𝔮 n))
+    {r : ℕ} (mu : Fin r → Λ) (hmuq : ∀ j, mu j ∈ 𝔮)
+    (hmuspan : Ideal.span (Set.range fun j => algebraMap Λ (Localization.AtPrime 𝔮) (mu j))
+      = maximalIdeal (Localization.AtPrime 𝔮))
+    (S : Finset Λ) (A : Subalgebra k (primePowerQuotient 𝔮 n))
+    [IsArtinianRing A] [IsLocalRing A] [Module.Free A (primePowerQuotient 𝔮 n)]
+    (F : IntermediateField k (ResidueField (primePowerQuotient 𝔮 n)))
+    (eF : ResidueField A ≃+* F)
+    (hE : ∀ x ∈ E, x ∈ A)
+    (hSA : ∀ w ∈ S, algebraMap Λ (primePowerQuotient 𝔮 n) w ∈ A)
+    (hmuA : ∀ j, algebraMap Λ (primePowerQuotient 𝔮 n) (mu j) ∈ A)
+    (hmaxA : Ideal.map A.val.toRingHom (maximalIdeal A) = maximalIdeal (primePowerQuotient 𝔮 n))
+    (heF : ∀ y : A, ((eF (residue A y) : ResidueField (primePowerQuotient 𝔮 n)))
+      = residue (primePowerQuotient 𝔮 n) (y : primePowerQuotient 𝔮 n))
+    (G : IntermediateField k (ResidueField (Localization.AtPrime 𝔮)))
+    (hG : IntermediateField.adjoin k ((fun w => residue (Localization.AtPrime 𝔮)
+        (algebraMap Λ (Localization.AtPrime 𝔮) w)) '' (S : Set Λ)) = G)
+    (hF : IntermediateField.adjoin k ((fun w => residue (primePowerQuotient 𝔮 n)
+        (algebraMap Λ (primePowerQuotient 𝔮 n) w)) '' (S : Set Λ)) = F) :
+    ∃ (m : ℕ) (φ : MvPolynomial (Fin m) k →ₐ[k] Λ)
+      (g : Localization.AtPrime (Ideal.comap φ.toRingHom 𝔮) →+* Localization.AtPrime 𝔮)
+      (u : primePowerQuotient (Ideal.comap φ.toRingHom 𝔮) n →+* primePowerQuotient 𝔮 n)
+      (D : Subring (primePowerQuotient 𝔮 n))
+      (a : primePowerQuotient (Ideal.comap φ.toRingHom 𝔮) n →+* D),
+      Ideal.map ((algebraMap Λ (Localization.AtPrime 𝔮)).comp φ.toRingHom)
+          (Ideal.comap φ.toRingHom 𝔮)
+        = Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) 𝔮 ∧
+      (∀ f, g (algebraMap (MvPolynomial (Fin m) k)
+            (Localization.AtPrime (Ideal.comap φ.toRingHom 𝔮)) f)
+          = algebraMap Λ (Localization.AtPrime 𝔮) (φ f)) ∧
+      g.Flat ∧
+      (∀ y, u (Ideal.Quotient.mk (Ideal.map (algebraMap (MvPolynomial (Fin m) k)
+              (Localization.AtPrime (Ideal.comap φ.toRingHom 𝔮)))
+              (Ideal.comap φ.toRingHom 𝔮 ^ n)) y)
+          = Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
+            (g y)) ∧
+      (∀ z, (a z : primePowerQuotient 𝔮 n) = u z) ∧
+      (∀ x ∈ E, x ∈ D) ∧
+      ∃ (_ : IsLocalRing D) (_ : IsArtinianRing D),
+        a.IsEssentiallySmooth ∧ D.subtype.Flat := by
+  classical
+  have hartB : IsArtinianRing (primePowerQuotient 𝔮 n) := isArtinianRing_primePowerQuotient 𝔮
+  have hGfg : G.FG := hG ▸ IntermediateField.fg_def.mpr ⟨_, S.finite_toSet.image _, rfl⟩
+  have hGeft : Algebra.EssFiniteType k G := IntermediateField.essFiniteType_iff.mpr hGfg
+  obtain ⟨m, φ, g, ι, hmapeq, hg, hgflat, hvars, hι, hfinsep⟩ :=
+    exists_mvPolynomial_flat_localization_of_intermediateField p 𝔮 G S hG mu hmuq hmuspan
+  set 𝔭 : Ideal (MvPolynomial (Fin m) k) := Ideal.comap φ.toRingHom 𝔮 with h𝔭def
+  let instA₀L : Algebra (Localization.AtPrime 𝔭)
+    (Localization.AtPrime 𝔮) := g.toAlgebra
+  have hA₀L : (algebraMap (Localization.AtPrime 𝔭)
+      (Localization.AtPrime 𝔮)) = g := RingHom.algebraMap_toAlgebra _
+  have hflatA₀L : Module.Flat (Localization.AtPrime 𝔭)
+      (Localization.AtPrime 𝔮) := RingHom.flat_algebraMap_iff.mp (hA₀L ▸ hgflat)
+  have hmaxg : Ideal.map (algebraMap (Localization.AtPrime 𝔭)
+        (Localization.AtPrime 𝔮))
+        (maximalIdeal (Localization.AtPrime 𝔭))
+      = maximalIdeal (Localization.AtPrime 𝔮) := by
+    rw [hA₀L, ← IsLocalization.AtPrime.map_eq_maximalIdeal 𝔭
+      (Localization.AtPrime 𝔭), Ideal.map_map,
+      show g.comp (algebraMap (MvPolynomial (Fin m) k)
+          (Localization.AtPrime 𝔭))
+        = (algebraMap Λ (Localization.AtPrime 𝔮)).comp φ.toRingHom from RingHom.ext hg,
+      hmapeq]
+    exact IsLocalization.AtPrime.map_eq_maximalIdeal 𝔮 (Localization.AtPrime 𝔮)
+  obtain ⟨u, hu, hflatu, hlocR, hlocB', hmaxu, hlocu⟩ :=
+    exists_quotient_flat_map_maximalIdeal_eq
+      (A := Localization.AtPrime 𝔭) (L := Localization.AtPrime 𝔮)
+      hmaxg hn (map_pow_eq_maximalIdeal_pow 𝔭 n)
+      (map_pow_eq_maximalIdeal_pow 𝔮 n)
+  have hug : ∀ y, u (Ideal.Quotient.mk (Ideal.map (algebraMap (MvPolynomial (Fin m) k)
+        (Localization.AtPrime 𝔭))
+        (𝔭 ^ n)) y)
+      = Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n)) (g y) :=
+    fun y => by rw [hu y, hA₀L]
+  let instRB : Algebra (primePowerQuotient 𝔭 n)
+    (primePowerQuotient 𝔮 n) := u.toAlgebra
+  have halgRB : (algebraMap (primePowerQuotient 𝔭 n)
+      (primePowerQuotient 𝔮 n)) = u := RingHom.algebraMap_toAlgebra _
+  have hflatRB : Module.Flat (primePowerQuotient 𝔭 n)
+      (primePowerQuotient 𝔮 n) := RingHom.flat_algebraMap_iff.mp (halgRB ▸ hflatu)
+  have hmaxRB : Ideal.map (algebraMap (primePowerQuotient 𝔭 n)
+        (primePowerQuotient 𝔮 n))
+        (maximalIdeal (primePowerQuotient 𝔭 n))
+      = maximalIdeal (primePowerQuotient 𝔮 n) := by rw [halgRB]; exact hmaxu
+  -- every polynomial is sent into the stage, and a denominator outside `𝔭` becomes a unit there
+  have hφA : ∀ f : MvPolynomial (Fin m) k,
+      algebraMap Λ (primePowerQuotient 𝔮 n) (φ f) ∈ A := by
+    intro f
+    induction f using MvPolynomial.induction_on with
+    | C c =>
+        rw [show φ (MvPolynomial.C c) = algebraMap k Λ c from by
+            rw [← MvPolynomial.algebraMap_eq]; exact φ.commutes c,
+          ← IsScalarTower.algebraMap_apply k Λ (primePowerQuotient 𝔮 n)]
+        exact A.algebraMap_mem c
+    | add f₁ f₂ h₁ h₂ => rw [map_add, map_add]; exact A.add_mem h₁ h₂
+    | mul_X f i h =>
+        rw [map_mul, map_mul]
+        refine A.mul_mem h ?_
+        rcases hvars i with ⟨w, hwS, hw⟩ | ⟨j, hj⟩
+        · rw [hw]; exact hSA w hwS
+        · rw [hj]; exact hmuA j
+  have huA : ∀ z : primePowerQuotient 𝔭 n,
+      algebraMap (primePowerQuotient 𝔭 n)
+        (primePowerQuotient 𝔮 n) z ∈ A := by
+    intro z
+    obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective z
+    rw [halgRB, hug y]
+    refine mem_subalgebra_of_isLocalization 𝔭 A
+      ((Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))).comp g)
+      hmaxA (fun f => ?_) (fun f hf => ?_) y
+    · show Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
+        (g (algebraMap (MvPolynomial (Fin m) k) _ f)) ∈ A
+      rw [hg f, ← algebraMap_primePowerQuotient]
+      exact hφA f
+    · show IsUnit (Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
+        (g (algebraMap (MvPolynomial (Fin m) k) _ f)))
+      rw [hg f, ← algebraMap_primePowerQuotient]
+      exact isUnit_algebraMap_primePowerQuotient 𝔮 n fun hmem => hf (Ideal.mem_comap.mpr hmem)
+  -- the residue field of the stage, identified with `G` and so with a finite separable
+  -- extension of `κ(𝔭)`
+  obtain ⟨e₁, he₁⟩ := exists_residueField_quotient_equiv
+    (Ideal.map (algebraMap (MvPolynomial (Fin m) k)
+      (Localization.AtPrime 𝔭)) (𝔭 ^ n))
+  obtain ⟨eresalg, heresalg⟩ := exists_algEquiv_residueField_primePowerQuotient (k := k) 𝔮 (n := n)
+  have hGmap : G.map (eresalg : ResidueField (Localization.AtPrime 𝔮) →ₐ[k]
+      ResidueField (primePowerQuotient 𝔮 n)) = F := by
+    have hres : ∀ w : Λ, eresalg (residue (Localization.AtPrime 𝔮)
+          (algebraMap Λ (Localization.AtPrime 𝔮) w))
+        = residue (primePowerQuotient 𝔮 n) (algebraMap Λ (primePowerQuotient 𝔮 n) w) :=
+      fun w => by rw [heresalg, algebraMap_primePowerQuotient]
+    have hset : (eresalg : ResidueField (Localization.AtPrime 𝔮) →ₐ[k]
+          ResidueField (primePowerQuotient 𝔮 n)) ''
+          ((fun w : Λ => residue (Localization.AtPrime 𝔮)
+            (algebraMap Λ (Localization.AtPrime 𝔮) w)) '' (S : Set Λ))
+        = (fun w : Λ => residue (primePowerQuotient 𝔮 n)
+          (algebraMap Λ (primePowerQuotient 𝔮 n) w)) '' (S : Set Λ) := by
+      rw [Set.image_image]
+      exact Set.image_congr' hres
+    rw [← hG, IntermediateField.adjoin_map, hset, hF]
+  set eG : G ≃ₐ[k] F :=
+    (IntermediateField.intermediateFieldMap eresalg G).trans (IntermediateField.equivOfEq hGmap)
+    with heGdef
+  have heGcoe : ∀ c : G, ((eG c : F) : ResidueField (primePowerQuotient 𝔮 n))
+      = eresalg (c : ResidueField (Localization.AtPrime 𝔮)) := fun _ => rfl
+  set e₂ : G ≃+* ResidueField A := eG.toRingEquiv.trans eF.symm with he₂def
+  let instκG : Algebra (ResidueField (Localization.AtPrime 𝔭)) G :=
+    ι.toAlgebra
+  have hκG : (algebraMap (ResidueField (Localization.AtPrime 𝔭)) G)
+      = ι := RingHom.algebraMap_toAlgebra _
+  obtain ⟨hfinG, hsepG⟩ := hfinsep
+  have hj : ∀ z : primePowerQuotient 𝔭 n,
+      e₂ (algebraMap (ResidueField (Localization.AtPrime 𝔭)) G
+        (e₁.symm (residue (primePowerQuotient 𝔭 n) z)))
+      = residue A ⟨algebraMap (primePowerQuotient 𝔭 n)
+        (primePowerQuotient 𝔮 n) z, huA z⟩ := by
+    intro z
+    obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective z
+    have h1 : e₁.symm (residue (primePowerQuotient 𝔭 n)
+        (Ideal.Quotient.mk _ y)) = residue (Localization.AtPrime 𝔭) y := by
+      rw [← he₁ y]
+      exact e₁.symm_apply_apply _
+    have h2 : eF (e₂ (ι (residue (Localization.AtPrime 𝔭) y)))
+        = eG (ι (residue (Localization.AtPrime 𝔭) y)) := by
+      rw [he₂def]
+      exact eF.apply_symm_apply _
+    have hL : ((eF (e₂ (ι (residue (Localization.AtPrime 𝔭) y))) : F)
+          : ResidueField (primePowerQuotient 𝔮 n))
+        = residue (primePowerQuotient 𝔮 n) (Ideal.Quotient.mk
+          (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n)) (g y)) := by
+      rw [h2, heGcoe, hι, heresalg]
+    have hR : ((eF (residue A ⟨algebraMap (primePowerQuotient 𝔭 n) (primePowerQuotient 𝔮 n)
+            (Ideal.Quotient.mk (Ideal.map (algebraMap (MvPolynomial (Fin m) k)
+              (Localization.AtPrime 𝔭)) (𝔭 ^ n)) y), huA _⟩) : F)
+          : ResidueField (primePowerQuotient 𝔮 n))
+        = residue (primePowerQuotient 𝔮 n) (Ideal.Quotient.mk
+          (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n)) (g y)) := by
+      rw [heF]
+      show residue (primePowerQuotient 𝔮 n)
+          (algebraMap (primePowerQuotient 𝔭 n) (primePowerQuotient 𝔮 n)
+            (Ideal.Quotient.mk _ y)) = _
+      rw [halgRB, hug y]
+    rw [h1, hκG]
+    exact eF.injective (Subtype.ext (hL.trans hR.symm))
+  have hnoeA₀ : IsNoetherianRing (Localization.AtPrime 𝔭) :=
+    IsLocalization.isNoetherianRing 𝔭.primeCompl _ inferInstance
+  have hnoeR : IsNoetherianRing (primePowerQuotient 𝔭 n) :=
+    inferInstance
+  have hess := isEssentiallySmooth_codRestrict_of_free A hmaxRB hmaxA huA e₁ e₂ hj
+  have hflatAB : Module.Flat A (primePowerQuotient 𝔮 n) := Module.Flat.of_free
+  refine ⟨m, φ, g, u, A.toSubring,
+    RingHom.codRestrict (algebraMap (primePowerQuotient 𝔭 n)
+      (primePowerQuotient 𝔮 n)) A huA,
+    hmapeq, hg, hgflat, hug, fun _ => rfl, hE,
+    ‹IsLocalRing A›, ‹IsArtinianRing A›, hess, RingHom.flat_algebraMap_iff.mpr hflatAB⟩
+
+
+/-- Finite dimensionality of the first cotangent homology of a field extension is invariant under
+an isomorphism of the extension field. -/
+private theorem finite_h1Cotangent_of_algEquiv {k K K' : Type*} [Field k] [Field K] [Field K']
+    [Algebra k K] [Algebra k K'] (e : K ≃ₐ[k] K')
+    [Module.Finite K (Algebra.H1Cotangent k K)] :
+    Module.Finite K' (Algebra.H1Cotangent k K') := by
+  let : Algebra K K' := (e : K →+* K').toAlgebra
+  let : IsScalarTower k K K' :=
+    IsScalarTower.of_algebraMap_eq' (RingHom.ext fun x => (e.commutes x).symm)
+  let : IsLocalization (⊥ : Submonoid K) K := IsLocalization.self bot_le
+  let e' : K ≃ₐ[K] K' := { e.toRingEquiv with commutes' := fun _ => rfl }
+  let : IsLocalization (⊥ : Submonoid K) K' :=
+    IsLocalization.isLocalization_of_algEquiv (⊥ : Submonoid K) e'
+  exact Module.Finite.of_surjective
+    (Algebra.tensorH1CotangentOfIsLocalization k K' (⊥ : Submonoid K)).toLinearMap
+    (Algebra.tensorH1CotangentOfIsLocalization k K' (⊥ : Submonoid K)).surjective
+
+/-- Finiteness of `H₁(L_{κ(𝔮)⁄k})` in the setting of Stacks 07FH, read on the residue field of
+`Λ_𝔮/𝔮^nΛ_𝔮`. -/
+private theorem finite_h1Cotangent_primePowerQuotient {k Λ : Type u} [Field k] [CommRing Λ]
+    [Algebra k Λ] [IsNoetherianRing Λ] [Algebra.IsGeometricallyRegular k Λ] (𝔮 : Ideal Λ)
+    [𝔮.IsPrime] (p : ℕ) [Fact p.Prime] [CharP k p] {n : ℕ}
+    [IsLocalRing (primePowerQuotient 𝔮 n)] :
+    Module.Finite (ResidueField (primePowerQuotient 𝔮 n))
+      (Algebra.H1Cotangent k (ResidueField (primePowerQuotient 𝔮 n))) := by
+  have hregT : IsRegularRing (k ⊗[k] Λ) :=
+    Algebra.IsGeometricallyRegular.isRegularRing_tensorProduct k
+  have hregΛ : IsRegularRing Λ :=
+    IsRegularRing.of_ringEquiv (Algebra.TensorProduct.lid k Λ).toRingEquiv
+  have hgrL : Algebra.IsGeometricallyRegular k (Localization.AtPrime 𝔮) :=
+    Algebra.IsGeometricallyRegular.of_isLocalization 𝔮.primeCompl
+  have hfinL : Module.Finite (ResidueField (Localization.AtPrime 𝔮))
+      (Algebra.H1Cotangent k (ResidueField (Localization.AtPrime 𝔮))) :=
+    finite_h1Cotangent_of_isGeometricallyRegular p k (Localization.AtPrime 𝔮)
+  obtain ⟨e, -⟩ := exists_algEquiv_residueField_primePowerQuotient (k := k) 𝔮 (n := n)
+  exact finite_h1Cotangent_of_algEquiv e
+
+/-- **Stacks 07FH, all three clauses, in the generality of the tag.** Let `k` be a field of
+characteristic `p > 0`, let `Λ` be a Noetherian geometrically regular `k`-algebra, let `𝔮` be a
+prime of `Λ`, let `n ≥ 1` and let `E` be a finite subset of `Λ̄ = Λ_𝔮/𝔮^nΛ_𝔮`. Then there are
+`m ≥ 0` and a `k`-algebra map `φ : k[y_1, …, y_m] → Λ` such that, with `𝔭 = φ^{-1}(𝔮)`:
+
+* `𝔭 Λ_𝔮 = 𝔮 Λ_𝔮` and the induced local map `g : k[y_1, …, y_m]_𝔭 → Λ_𝔮` is flat — clause (1);
+* the map `u : k[y_1, …, y_m]_𝔭/𝔭^n → Λ̄` induced by `g` factors through a local Artinian
+  subring `D` of `Λ̄` as an essentially smooth map `a` followed by the inclusion of `D`, which is
+  flat — clause (2);
+* `E ⊆ D` — clause (3).
+
+No hypothesis is placed on `κ(𝔮)`. **The proof of clause (3) is Brian Nugent's**: see
+`exists_global_stage_primePowerQuotient` for his repair of the λ-choice, which the source's text
+leaves unjustified and which is false for a general member of the directed family of Stacks 07FG
+(two counterexamples are recorded in the implementation notes, the second of them his). The two
+ingredients are that the generating family of `𝔪_Λ̄` used to build the approximating subalgebra
+`D` is kept GLOBAL — chosen in `𝔮 ⊆ Λ` once and for all, so that `exists_stage` still grants
+freeness and the fibre's regular parameters can be extracted from it as a subfamily by Nakayama —
+and that the coefficient field is pushed up to one generated by residues of global elements
+`s^P`, `a·s^{P-1}` whose images lie in `σ(F)`, where `σ(f) = q(a)/q(s)` is an exact relation in
+`Λ̄` and `P` is a `p`-power at least `n`. The pair `s^P`, `a·s^{P-1}` generates what neither
+member does: their residues are `α^P` and `f·α^P`, of ratio `f`. -/
+@[stacks 07FH "All three clauses, in the generality of the tag: no hypothesis on κ(𝔮) beyond the
+tag's own (Λ Noetherian and geometrically regular over a field k of characteristic p, 𝔮 a prime,
+n ≥ 1, E a finite subset of Λ_𝔮/𝔮^nΛ_𝔮). Clause (1) is the ideal identity 𝔭Λ_𝔮 = 𝔮Λ_𝔮 together
+with flatness of k[y]_𝔭 → Λ_𝔮; clause (2) is the factorization of k[y]_𝔭/𝔭^n → Λ_𝔮/𝔮^nΛ_𝔮
+through a local Artinian subring D by an essentially smooth map followed by a flat one; clause
+(3) is E ⊆ D. `Essentially smooth' is RingHom.IsEssentiallySmooth: essentially of finite
+presentation (Tag 00QM (2)) and formally smooth; the Stacks Project never defines the term. The
+λ-choice of the source's proof is not justified by its text and is false for a general member of
+the directed family of 07FG; the repair implemented here is due to Brian Nugent and is described
+in the module docstring and in `exists_global_stage_primePowerQuotient`."]
+theorem exists_mvPolynomial_factorization_mem_isEssentiallySmooth_flat_of_charP
+    {k Λ : Type u} [Field k] [CommRing Λ] [Algebra k Λ] [IsNoetherianRing Λ]
+    [Algebra.IsGeometricallyRegular k Λ] (𝔮 : Ideal Λ) [𝔮.IsPrime] (p : ℕ) [Fact p.Prime]
+    [CharP k p] {n : ℕ} (hn : 1 ≤ n) (E : Finset (primePowerQuotient 𝔮 n)) :
+    ∃ (m : ℕ) (φ : MvPolynomial (Fin m) k →ₐ[k] Λ)
+      (g : Localization.AtPrime (Ideal.comap φ.toRingHom 𝔮) →+* Localization.AtPrime 𝔮)
+      (u : primePowerQuotient (Ideal.comap φ.toRingHom 𝔮) n →+* primePowerQuotient 𝔮 n)
+      (D : Subring (primePowerQuotient 𝔮 n))
+      (a : primePowerQuotient (Ideal.comap φ.toRingHom 𝔮) n →+* D),
+      Ideal.map ((algebraMap Λ (Localization.AtPrime 𝔮)).comp φ.toRingHom)
+          (Ideal.comap φ.toRingHom 𝔮)
+        = Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) 𝔮 ∧
+      (∀ f, g (algebraMap (MvPolynomial (Fin m) k)
+            (Localization.AtPrime (Ideal.comap φ.toRingHom 𝔮)) f)
+          = algebraMap Λ (Localization.AtPrime 𝔮) (φ f)) ∧
+      g.Flat ∧
+      (∀ y, u (Ideal.Quotient.mk (Ideal.map (algebraMap (MvPolynomial (Fin m) k)
+              (Localization.AtPrime (Ideal.comap φ.toRingHom 𝔮)))
+              (Ideal.comap φ.toRingHom 𝔮 ^ n)) y)
+          = Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
+            (g y)) ∧
+      (∀ z, (a z : primePowerQuotient 𝔮 n) = u z) ∧
+      (∀ x ∈ E, x ∈ D) ∧
+      ∃ (_ : IsLocalRing D) (_ : IsArtinianRing D),
+        a.IsEssentiallySmooth ∧ D.subtype.Flat := by
+  have hlocB : IsLocalRing (primePowerQuotient 𝔮 n) := isLocalRing_primePowerQuotient 𝔮 hn
+  have hH1 : Module.Finite (ResidueField (primePowerQuotient 𝔮 n))
+      (Algebra.H1Cotangent k (ResidueField (primePowerQuotient 𝔮 n))) :=
+    finite_h1Cotangent_primePowerQuotient (k := k) 𝔮 p
+  obtain ⟨r, mu, S, A, hartA, hlocA, eF, hmuq, hspanmu, hE, hSA, hmuA, hfree, heft, hmaxA,
+    heF⟩ := exists_global_stage_primePowerQuotient (k := k) 𝔮 p (n := n) E
+  exact exists_factorization_of_global_stage 𝔮 p hn E mu hmuq hspanmu S A _ eF hE hSA hmuA
+    hmaxA heF _ rfl rfl
+
+
+/-- **Stacks 07FH, all three clauses**, repackaged in the shape that Stacks 07FT consumes: the
+factorization is given as an equality `D.subtype.comp a = u` of ring maps and the locality and
+Artinian-ness of all three rings of the factorization are part of the data.
+
+This is `exists_mvPolynomial_factorization_mem_isEssentiallySmooth_flat_of_charP` with nothing
+added; it carries no `@[stacks]` attribute of its own. -/
+theorem exists_mvPolynomial_localArtinianFactorization_mem_of_charP {k Λ : Type u} [Field k]
+    [CommRing Λ] [Algebra k Λ] [IsNoetherianRing Λ] [Algebra.IsGeometricallyRegular k Λ]
+    (𝔮 : Ideal Λ) [𝔮.IsPrime] (p : ℕ) [Fact p.Prime] [CharP k p] {n : ℕ} (hn : 1 ≤ n)
+    (E : Finset (primePowerQuotient 𝔮 n)) :
+    ∃ (m : ℕ) (φ : MvPolynomial (Fin m) k →ₐ[k] Λ)
+      (g : Localization.AtPrime (Ideal.comap φ.toRingHom 𝔮) →+* Localization.AtPrime 𝔮)
+      (u : primePowerQuotient (Ideal.comap φ.toRingHom 𝔮) n →+* primePowerQuotient 𝔮 n)
+      (D : Subring (primePowerQuotient 𝔮 n))
+      (a : primePowerQuotient (Ideal.comap φ.toRingHom 𝔮) n →+* D),
+      Ideal.map ((algebraMap Λ (Localization.AtPrime 𝔮)).comp φ.toRingHom)
+          (Ideal.comap φ.toRingHom 𝔮)
+        = Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) 𝔮 ∧
+      (∀ f, g (algebraMap (MvPolynomial (Fin m) k)
+            (Localization.AtPrime (Ideal.comap φ.toRingHom 𝔮)) f)
+          = algebraMap Λ (Localization.AtPrime 𝔮) (φ f)) ∧
+      g.Flat ∧
+      (∀ y, u (Ideal.Quotient.mk (Ideal.map (algebraMap (MvPolynomial (Fin m) k)
+              (Localization.AtPrime (Ideal.comap φ.toRingHom 𝔮)))
+              (Ideal.comap φ.toRingHom 𝔮 ^ n)) y)
+          = Ideal.Quotient.mk (Ideal.map (algebraMap Λ (Localization.AtPrime 𝔮)) (𝔮 ^ n))
+            (g y)) ∧
+      D.subtype.comp a = u ∧
+      (∀ e ∈ E, e ∈ D) ∧
+      ∃ (_ : IsLocalRing (primePowerQuotient (Ideal.comap φ.toRingHom 𝔮) n))
+        (_ : IsArtinianRing (primePowerQuotient (Ideal.comap φ.toRingHom 𝔮) n))
+        (_ : IsLocalRing (primePowerQuotient 𝔮 n))
+        (_ : IsArtinianRing (primePowerQuotient 𝔮 n))
+        (_ : IsLocalRing D) (_ : IsArtinianRing D),
+        a.IsEssentiallySmooth ∧ D.subtype.Flat := by
+  obtain ⟨m, φ, g, u, D, a, hmap, hg, hgflat, hu, ha, hE, hlocD, hartD, hess, hflat⟩ :=
+    exists_mvPolynomial_factorization_mem_isEssentiallySmooth_flat_of_charP (k := k) 𝔮 p hn E
+  have hlocP : IsLocalRing (primePowerQuotient (Ideal.comap φ.toRingHom 𝔮) n) :=
+    isLocalRing_primePowerQuotient _ hn
+  have hlocQ : IsLocalRing (primePowerQuotient 𝔮 n) := isLocalRing_primePowerQuotient 𝔮 hn
+  exact ⟨m, φ, g, u, D, a, hmap, hg, hgflat, hu, RingHom.ext ha, hE, hlocP,
+    isArtinianRing_primePowerQuotient _, hlocQ, isArtinianRing_primePowerQuotient _,
+    hlocD, hartD, hess, hflat⟩
+
+end Stacks.Smoothing

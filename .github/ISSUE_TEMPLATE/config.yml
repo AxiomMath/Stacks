@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Task board
+    url: https://stacks.axiommath.ai/contributing
+    about: Find a task or tag to claim, with references and a blueprint draft.

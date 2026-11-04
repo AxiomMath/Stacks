@@ -1,0 +1,190 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Topologies.HTopology.GeneratorAlmostBlowUpStackSeparated
+public import StacksFrontier.CategoryTheory.FiberedCategory.PullbackPseudofunctorSquare
+public import StacksFrontier.CategoryTheory.Sites.Glueing.MapsOfSheavesGlue
+
+/-!
+# Compatibility of a morphism of a fibre with a family of local morphisms
+
+Fix an object `U` of the big h category over `S`, two objects `x` and `y` of the fibre over `U`, a
+family `f i : V i ⟶ U` and, for each `i`, a morphism `ψ i` between the chosen pullbacks of `x` and
+`y` along `f i`.  For a morphism `F : W ⟶ U` of the site, a morphism `m` between the chosen
+pullbacks of `x` and `y` along `F` *agrees with* `ψ` when, over every object mapping compatibly
+into some `V i` and into `W`, the two base changes coincide.  This is
+`AlgebraicGeometry.BigHOver.MorAgree`.
+
+The predicate is written with the composite into `U` as a named argument, in the style of
+`CategoryTheory.Functor.baseChangeFiberMor`, so that no equality of morphisms of the site has to be
+transported at a call site.
+
+## Main definitions
+
+* `AlgebraicGeometry.BigHOver.MorAgree`: the agreement predicate above.
+
+## Main results
+
+* `AlgebraicGeometry.BigHOver.MorAgree.baseChange`: agreement is stable under base change, which is
+  the monotonicity hypothesis of `AlgebraicGeometry.BigHOver.of_localOnGenerators` for the property
+  that some morphism agreeing with `ψ` exists.
+* `AlgebraicGeometry.BigHOver.MorAgree.eq`: **a morphism agreeing with `ψ` is unique.**  The
+  canonical fibre products `V i ×_U W` form an h covering of `W`, over which both candidates have
+  the same base change, so `AlgebraicGeometry.BigHOver.eq_of_pullbackFiberHom_eq_of_covering`
+  identifies them.  In particular the property that one exists is subterminal, which is what makes
+  it a property `of_localOnGenerators` can be run on.
+* `AlgebraicGeometry.BigHOver.morAgree_of_covering`: **agreement is h local.** A morphism whose
+  base changes along an h covering family of `W` all agree with `ψ` agrees with `ψ`.
+
+## Implementation notes
+
+`AlgebraicGeometry.BigHOver.MorAgree.eq` and `AlgebraicGeometry.BigHOver.morAgree_of_covering` are
+the only two statements that consume the conditions of Stacks 0EX9, and both consume them only
+through `AlgebraicGeometry.BigHOver.eq_of_pullbackFiberHom_eq_of_covering`.  The pulled-back
+covering family is the one of `Stacks.SheafMapGluing.pullback_ofArrows_eq`, whose membership of the
+h topology is stability of a Grothendieck topology under pullback.
+
+## References
+
+* [Stacks Project, Tag 0EX9](https://stacks.math.columbia.edu/tag/0EX9)
+* [Stacks Project, Tag 02ZI](https://stacks.math.columbia.edu/tag/02ZI)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits
+
+universe t v u
+
+namespace AlgebraicGeometry
+
+namespace BigHOver
+
+variable {B : BigHSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+variable {𝒳 : Type t} [Category.{v} 𝒳] {p : 𝒳 ⥤ BigHOver B S hS} [p.IsFibered]
+variable {U : BigHOver B S hS} {x y : p.Fiber U}
+variable {I : Type (u + 1)} {V : I → BigHOver B S hS} {f : ∀ i, V i ⟶ U}
+
+/-- **Compatibility of a morphism of a fibre with a family of local morphisms.** For a morphism
+`F : W ⟶ U` of the site, a morphism `m` between the chosen pullbacks of `x` and of `y` along `F`
+agrees with the family `ψ` when, for every `i` and every object `Z` mapping to `V i` and to `W` so
+that the two composites into `U` are one named morphism `q`, the base changes of `m` and of `ψ i`
+to `Z` over `q` coincide. -/
+public def MorAgree (ψ : ∀ i, Functor.pullbackFiber p x (f i) ⟶ Functor.pullbackFiber p y (f i))
+    {W : BigHOver B S hS} (F : W ⟶ U)
+    (m : Functor.pullbackFiber p x F ⟶ Functor.pullbackFiber p y F) : Prop :=
+  ∀ (i : I) (Z : BigHOver B S hS) (ε : Z ⟶ V i) (δ : Z ⟶ W) (q : Z ⟶ U)
+    (h₁ : ε ≫ f i = q) (h₂ : δ ≫ F = q),
+    Functor.baseChangeFiberMor m δ q h₂ q h₂ = Functor.baseChangeFiberMor (ψ i) ε q h₁ q h₁
+
+variable {ψ : ∀ i, Functor.pullbackFiber p x (f i) ⟶ Functor.pullbackFiber p y (f i)}
+
+/-- **Agreement is stable under base change.** The base change along `δ` of a morphism agreeing
+with `ψ` agrees with `ψ`.
+
+This is `CategoryTheory.Functor.baseChangeFiberMor_baseChangeFiberMor`: a base change of a base
+change is the base change along the composite, which is one of the composites the agreement
+condition for `m` is quantified over. -/
+public theorem MorAgree.baseChange {W W' : BigHOver B S hS} {F : W ⟶ U}
+    {m : Functor.pullbackFiber p x F ⟶ Functor.pullbackFiber p y F} (hm : MorAgree ψ F m)
+    (δ : W' ⟶ W) (q : W' ⟶ U) (hq : δ ≫ F = q) :
+    MorAgree ψ q (Functor.baseChangeFiberMor m δ q hq q hq) := by
+  intro i Z ε δ' q' h₁ h₂
+  rw [Functor.baseChangeFiberMor_baseChangeFiberMor]
+  exact hm i Z ε (δ' ≫ δ) q' h₁ (by rw [Category.assoc, hq, h₂])
+
+/-- The canonical fibre products of the family with `F` form an h covering of the source of `F`.
+
+The family `{V i ×_U W ⟶ W}` generates the pullback along `F` of the sieve generated by `f`, by
+`Stacks.SheafMapGluing.pullback_ofArrows_eq`, and a Grothendieck topology is stable under
+pullback. -/
+public theorem sieve_ofArrows_pullback_mem_topology
+    (hf : Sieve.ofArrows V f ∈ BigHOver.topology B S hS U)
+    {W : BigHOver B S hS} (F : W ⟶ U) :
+    Sieve.ofArrows (fun i ↦ Limits.pullback (f i) F) (fun i ↦ Limits.pullback.snd (f i) F) ∈
+      BigHOver.topology B S hS W := by
+  rw [Stacks.SheafMapGluing.pullback_ofArrows_eq V f F]
+  exact BigHOver.topology B S hS |>.pullback_stable F hf
+
+/-- **A morphism agreeing with `ψ` is unique.** Two morphisms between the chosen pullbacks of `x`
+and of `y` along `F` which both agree with `ψ` are equal.
+
+The canonical fibre products `V i ×_U W` form an h covering of `W`, and over each of them the two
+morphisms have the same base change, namely that of `ψ i`; so
+`AlgebraicGeometry.BigHOver.eq_of_pullbackFiberHom_eq_of_covering` identifies them.  The two
+readings of a base change are exchanged by
+`CategoryTheory.Functor.pullbackFiberHom_eq_of_baseChangeFiberMor_eq`. -/
+public theorem MorAgree.eq
+    (h1 : IsZariskiStackInGroupoids B S hS p)
+    (h2 : IsAffineFlatProperFinitePresentationDescent B S hS p)
+    (h3 : IsOneGeneratorAlmostBlowUpStack B S hS p)
+    (h4 : IsTwoGeneratorAlmostBlowUpStack B S hS p)
+    (hf : Sieve.ofArrows V f ∈ BigHOver.topology B S hS U)
+    {W : BigHOver B S hS} {F : W ⟶ U}
+    {m m' : Functor.pullbackFiber p x F ⟶ Functor.pullbackFiber p y F}
+    (hm : MorAgree ψ F m) (hm' : MorAgree ψ F m') : m = m' := by
+  refine eq_of_pullbackFiberHom_eq_of_covering h1 h2 h3 h4 m m'
+    (fun i ↦ Limits.pullback.snd (f i) F) (sieve_ofArrows_pullback_mem_topology hf F) fun i ↦ ?_
+  refine Functor.pullbackFiberHom_eq_of_baseChangeFiberMor_eq m m'
+    (Limits.pullback.snd (f i) F) Limits.pullback.condition.symm ?_
+  rw [hm i _ (Limits.pullback.fst (f i) F) (Limits.pullback.snd (f i) F) _ rfl
+      Limits.pullback.condition.symm,
+    hm' i _ (Limits.pullback.fst (f i) F) (Limits.pullback.snd (f i) F) _ rfl
+      Limits.pullback.condition.symm]
+
+/-- The base change of a morphism of a fibre does not depend on the morphism of the site it is
+taken along beyond that morphism itself: two equal base morphisms give the same base change. -/
+public theorem baseChangeFiberMor_congr {Ux Uy V' W : BigHOver B S hS} {a : p.Fiber Ux}
+    {b : p.Fiber Uy} {fa : V' ⟶ Ux} {fb : V' ⟶ Uy}
+    (ξ : Functor.pullbackFiber p a fa ⟶ Functor.pullbackFiber p b fb) {g g' : W ⟶ V'} (hg : g = g')
+    {mx : W ⟶ Ux} (hmx : g ≫ fa = mx) (hmx' : g' ≫ fa = mx) {my : W ⟶ Uy} (hmy : g ≫ fb = my)
+    (hmy' : g' ≫ fb = my) :
+    Functor.baseChangeFiberMor ξ g mx hmx my hmy =
+      Functor.baseChangeFiberMor ξ g' mx hmx' my hmy' := by
+  subst hg
+  rfl
+
+/-- **Agreement with `ψ` is h local.** A morphism between the chosen pullbacks of `x` and of `y`
+along `F` whose base changes along every member of an h covering family of `W` agree with `ψ`
+agrees with `ψ`.
+
+Each instance of the agreement condition is an equality of two morphisms of the fibre over the
+object `Z` it is stated at, and `Z` is covered by its fibre products with the covering family; over
+each of those the equality is an instance of the hypothesis, after
+`CategoryTheory.Functor.baseChangeFiberMor_baseChangeFiberMor` has contracted the two successive
+base changes on either side. -/
+public theorem morAgree_of_covering
+    (h1 : IsZariskiStackInGroupoids B S hS p)
+    (h2 : IsAffineFlatProperFinitePresentationDescent B S hS p)
+    (h3 : IsOneGeneratorAlmostBlowUpStack B S hS p)
+    (h4 : IsTwoGeneratorAlmostBlowUpStack B S hS p)
+    {W : BigHOver B S hS} {F : W ⟶ U}
+    (m : Functor.pullbackFiber p x F ⟶ Functor.pullbackFiber p y F)
+    {K : Type (u + 1)} {T : K → BigHOver B S hS} (γ : ∀ k, T k ⟶ W) (q : ∀ k, T k ⟶ U)
+    (hq : ∀ k, γ k ≫ F = q k)
+    (hcov : Sieve.ofArrows T γ ∈ BigHOver.topology B S hS W)
+    (h : ∀ k, MorAgree ψ (q k) (Functor.baseChangeFiberMor m (γ k) (q k) (hq k) (q k) (hq k))) :
+    MorAgree ψ F m := by
+  intro i Z ε δ r h₁ h₂
+  refine eq_of_pullbackFiberHom_eq_of_covering h1 h2 h3 h4 _ _
+    (fun k ↦ Limits.pullback.snd (γ k) δ)
+    (sieve_ofArrows_pullback_mem_topology hcov δ) fun k ↦ ?_
+  refine Functor.pullbackFiberHom_eq_of_baseChangeFiberMor_eq _ _
+    (Limits.pullback.snd (γ k) δ) rfl ?_
+  have key := h k i _ (Limits.pullback.snd (γ k) δ ≫ ε) (Limits.pullback.fst (γ k) δ) _
+    (by rw [Category.assoc, h₁])
+    (by rw [← hq k, ← Category.assoc, Limits.pullback.condition, Category.assoc, h₂])
+  rw [Functor.baseChangeFiberMor_baseChangeFiberMor] at key
+  rw [Functor.baseChangeFiberMor_baseChangeFiberMor,
+    Functor.baseChangeFiberMor_baseChangeFiberMor,
+    baseChangeFiberMor_congr m (Limits.pullback.condition (f := γ k) (g := δ)).symm
+      (by rw [Category.assoc, h₂])
+      (by rw [Limits.pullback.condition, Category.assoc, h₂])
+      (by rw [Category.assoc, h₂])
+      (by rw [Limits.pullback.condition, Category.assoc, h₂])]
+  exact key
+
+end BigHOver
+
+end AlgebraicGeometry
+
+end

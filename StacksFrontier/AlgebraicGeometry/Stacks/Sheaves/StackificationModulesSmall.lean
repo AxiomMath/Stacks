@@ -1,0 +1,537 @@
+module
+
+public import Mathlib.CategoryTheory.Sites.DenseSubsite.OneHypercoverDense
+public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.PresentationFullyFaithful
+public import StacksFrontier.AlgebraicGeometry.Spaces.SiteProperties
+public import StacksFrontier.AlgebraicGeometry.Stacks.EssentiallySmallSite
+public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.Modules
+public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SectionUniverseLiftDescent
+public import StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.Injectives
+public import StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.StackificationModules
+public import StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.StackificationModulesExtensions
+public import StacksFrontier.AlgebraicGeometry.Topologies.QuasicoherentRestrictionOfUniv
+
+/-!
+# Pullback of quasi-coherent modules at every module universe (Stacks 06WH, 06WR)
+
+`AlgebraicGeometry.Stack.isQuasicoherentOnSite_modulePullback` (Stacks 06WH) and the 06WR
+equivalence of `AlgebraicGeometry/Stacks/Sheaves/StackificationModules.lean` are stated for two
+categories fibred in groupoids with objects in one `Type v` and morphisms in one `Type w`, and for
+modules with sections in `Type (max u v w m)`. The categories of quasi-coherent modules that the
+later chapters use, `AlgebraicGeometry.FibredSite.quasicoherentModules.{u, v, w, u}`, have their
+sections in `Type u`, below the universe of the objects of a big site, and the 1-morphisms they
+are compared along join categories with *different* hom universes.
+
+This file proves both statements with the object and morphism universes of source and target
+independent, and the module universe arbitrary.
+
+## Main results
+
+* `AlgebraicGeometry.Stack.isQuasicoherentOnSite_modulePullback'`: **Stacks 06WH** at every
+  module universe, for categories fibred in groupoids in independent universes.
+* `AlgebraicGeometry.Stack.quasicoherentPullback'`: the induced functor
+  `QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳)` on the categories of Stacks 06WG.
+* `AlgebraicGeometry.Stack.isQuasicoherentOnSite_of_modulePullback'`: `f^*` reflects
+  quasi-coherence along a cover-dense 1-morphism, at every module universe.
+* `AlgebraicGeometry.Stack.isEquivalence_modulePullback_of_full_of_faithful` and
+  `AlgebraicGeometry.Stack.isEquivalence_quasicoherentPullback'_of_full_of_faithful`:
+  **Stacks 06WR** for `Mod` and for `QCoh`, at every module universe containing `u`, for a fully
+  faithful 1-morphism covering its target by `u`-small families of images.
+* `CategoryTheory.Functor.IsFibredOneMorphism.exists_ofArrows_mem_inheritedTopology`: a locally
+  essentially surjective 1-morphism over an essentially small site covers its target by small
+  families of images.
+* `AlgebraicGeometry.Stack.isEquivalence_quasicoherentPullback'_pointwiseToQuotientStack` and
+  `AlgebraicGeometry.Stack.isEquivalence_modulePullback_pointwiseToQuotientStack`: the
+  quasi-coherent modules, and the modules, with sections in `Type u` on the quotient stack
+  `[U/R]` are those on the pointwise groupoid fibration of `(U, R, s, t, c)`.
+
+## Implementation notes
+
+The inverse image is restriction along `f` with the identity on scalars, and `f` is continuous
+and cocontinuous for the inherited fppf topologies (Stacks 06NW), so quasi-coherence is carried by
+`Stacks.SheafOfModules.SiteTransport.isQuasicoherentOnSite_pushforward_ofUniv`. That transport is
+stated at a module universe containing the object and morphism universes of both sites; the
+module is first raised there by `SheafOfModules.uliftForPresentation`, which neither creates nor
+destroys quasi-coherence
+(`SheafOfModules.isQuasicoherentOnSite_uliftForPresentation'` and
+`SheafOfModules.IsQuasicoherentOnSite.of_uliftForPresentation'`), and restriction commutes with
+that raise on the nose (`Stacks.SheafOfModules.SiteTransport.pushforwardUliftIso_ofUniv`).
+
+For 06WR the abelian Comparison Lemma used in
+`AlgebraicGeometry/Stacks/Sheaves/StackificationModules.lean` needs abelian groups in the module
+universe to have limits over comma categories of `f.op`, whose objects lie in the universe of the
+objects of `𝒳`; at module universe `u` that fails. The route here is Mathlib's
+`CategoryTheory.Functor.isEquivalence_of_isOneHypercoverDense`, which needs only limits indexed
+by the `1`-hypercovers, and those are `u`-small once every object of `𝒴` is covered by a
+`u`-small family of images, since `𝒴` has fibre products (Stacks 06WY) and `f` is fully faithful.
+For the quotient stack the `u`-small family comes from Stacks 044X (1) and the essential smallness
+of the big fppf category.
+
+## References
+
+* [Stacks Project, Tag 06WH](https://stacks.math.columbia.edu/tag/06WH)
+* [Stacks Project, Tag 06WR](https://stacks.math.columbia.edu/tag/06WR)
+-/
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory
+
+universe u v w m v' w'
+
+namespace CategoryTheory
+
+/-- A sieve contains the sieve generated by a family as soon as it contains each member. -/
+private theorem ofArrows_le_of_forall_mem {C : Type*} [Category C] {X : C} {ι : Type*}
+    {Y : ι → C} {g : ∀ i, Y i ⟶ X} {S : Sieve X} (h : ∀ i, S.arrows (g i)) :
+    Sieve.ofArrows Y g ≤ S := by
+  rw [Sieve.ofArrows, Sieve.generate_le_iff]
+  rintro _ _ ⟨i⟩
+  exact h i
+
+/-- **Every sieve on an essentially small category is generated by a small family.** On a
+category with morphisms in `Type w` which is essentially `w`-small, a sieve is the sieve generated
+by the family of its arrows out of the objects of a `w`-small model, which is indexed by a type
+in `Type w`. -/
+theorem Sieve.exists_eq_ofArrows_of_essentiallySmall.{w₀, u₀} {C : Type u₀} [Category.{w₀} C]
+    [EssentiallySmall.{w₀} C] {X : C} (S : Sieve X) :
+    ∃ (ι : Type w₀) (Y : ι → C) (f : ∀ i, Y i ⟶ X), S = Sieve.ofArrows Y f := by
+  let e := equivSmallModel.{w₀} C
+  refine ⟨Σ d : SmallModel.{w₀} C, {k : e.inverse.obj d ⟶ X // S k},
+    fun i => e.inverse.obj i.1, fun i => i.2.1, le_antisymm (fun Z g hg => ?_) ?_⟩
+  · exact (Sieve.mem_ofArrows_iff _ _ _).mpr ⟨⟨e.functor.obj Z,
+      ⟨(e.unitIso.app Z).inv ≫ g, S.downward_closed hg _⟩⟩, (e.unitIso.app Z).hom, by simp⟩
+  · exact ofArrows_le_of_forall_mem fun i => i.2.2
+
+namespace Functor.IsFibredOneMorphism
+
+/-- **A locally essentially surjective 1-morphism covers its target by a small family of
+images.** Let `F : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred over a site `(𝒞, J)` with `𝒴`
+fibred in groupoids, such that every object `y` of a fibre of `𝒴` is, along a covering sieve of
+the base, in the essential image of `F` on fibres (clause (2) of Stacks 02ZN). If `𝒞` is
+essentially small, with morphisms in `Type w`, then `y` is covered, for the inherited topology, by
+a family of images `F x_i ⟶ y` indexed by a type in `Type w`.
+
+The covering sieve of the base is generated by a `w`-small family
+(`CategoryTheory.Sieve.exists_eq_ofArrows_of_essentiallySmall`); over each of its members the
+pullback of `y` is isomorphic in the fibre to an image, and the composite of that isomorphism with
+the comparison map of the pullback is strongly cartesian and lies over the member. -/
+theorem exists_ofArrows_mem_inheritedTopology.{w₀, u₀, u₁, v₁, u₂, v₂}
+    {𝒞 : Type u₀} [Category.{w₀} 𝒞] [EssentiallySmall.{w₀} 𝒞] (J : GrothendieckTopology 𝒞)
+    {𝒳 : Type u₁} [Category.{v₁} 𝒳] {𝒴 : Type u₂} [Category.{v₂} 𝒴]
+    {p : 𝒳 ⥤ 𝒞} {q : 𝒴 ⥤ 𝒞} [p.IsFibered] [q.IsFibered] {F : 𝒳 ⥤ 𝒴}
+    (hq : q.IsFiberedInGroupoids) (hF : p.IsFibredOneMorphism q F)
+    (hloc : ∀ (U : 𝒞) (y : q.Fiber U), ∃ R ∈ J U, ∀ ⦃V : 𝒞⦄ ⦃k : V ⟶ U⦄,
+      R.arrows k →
+        (Functor.fiberFunctorOfCompEq hF.comp_eq V).essImage (Functor.pullbackFiber q y k))
+    (y : 𝒴) :
+    ∃ (I : Type w₀) (x : I → 𝒳) (g : ∀ i, F.obj (x i) ⟶ y),
+      Sieve.ofArrows _ g ∈ q.inheritedTopology J y := by
+  obtain ⟨R, hR, hess⟩ := hloc (q.obj y) (Functor.Fiber.mk rfl)
+  obtain ⟨I, V, k, rfl⟩ := R.exists_eq_ofArrows_of_essentiallySmall
+  have hk (i : I) : (Sieve.ofArrows V k).arrows (k i) := Sieve.ofArrows_mk _ _ i
+  let xx : ∀ i : I, p.Fiber (V i) := fun i => (hess (hk i)).choose
+  let ee : ∀ i : I, (Functor.fiberFunctorOfCompEq hF.comp_eq (V i)).obj (xx i) ≅
+      Functor.pullbackFiber q (Functor.Fiber.mk rfl) (k i) := fun i =>
+    (hess (hk i)).choose_spec.some
+  let g : ∀ i : I, F.obj (xx i).1 ⟶ y := fun i =>
+    Functor.Fiber.fiberInclusion.map (ee i).hom ≫
+      Functor.IsPreFibered.pullbackMap (Functor.Fiber.mk rfl).2 (k i)
+  refine ⟨I, fun i => (xx i).1, g, ?_⟩
+  have hbaseObj (i : I) : q.obj (F.obj (xx i).1) = V i := by
+    rw [← Functor.comp_obj, hF.comp_eq]
+    exact (xx i).2
+  have hmap (i : I) : q.map (g i) = eqToHom (hbaseObj i) ≫ k i :=
+    Functor.map_comp_eq_eqToHom_comp q (Functor.Fiber.fiberInclusion.map (ee i).hom)
+      (Functor.IsPreFibered.pullbackMap
+        (Functor.Fiber.mk (rfl : q.obj y = q.obj y)).2 (k i)) (ee i).hom.2
+      (inferInstanceAs (q.IsHomLift (k i) (Functor.IsPreFibered.pullbackMap
+        (Functor.Fiber.mk (rfl : q.obj y = q.obj y)).2 (k i)))) (hbaseObj i)
+  have hbase : Sieve.ofArrows (fun i : I => q.obj (F.obj (xx i).1)) (fun i => q.map (g i)) =
+      Sieve.ofArrows V k := by
+    apply le_antisymm
+    · refine ofArrows_le_of_forall_mem fun i => ?_
+      rw [hmap i]
+      exact (Sieve.ofArrows V k).downward_closed (hk i) (eqToHom (hbaseObj i))
+    · intro W a ha
+      obtain ⟨i, b, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).mp ha
+      refine (Sieve.mem_ofArrows_iff _ _ _).mpr ⟨i, b ≫ eqToHom (hbaseObj i).symm, ?_⟩
+      rw [Category.assoc, hmap i, eqToHom_trans_assoc, eqToHom_refl, Category.id_comp]
+  have hmem : Presieve.ofArrows (fun i : I => F.obj (xx i).1) g ∈
+      q.inheritedPrecoverage J.toPrecoverage y := by
+    refine ⟨fun _ _ hz => ?_, ?_⟩
+    · obtain ⟨i⟩ := hz
+      exact hq.isStronglyCartesian (g i)
+    rw [Presieve.map_ofArrows, GrothendieckTopology.mem_toPrecoverage_iff]
+    show Sieve.ofArrows (fun i : I => q.obj (F.obj (xx i).1)) (fun i => q.map (g i)) ∈
+      J (q.obj y)
+    rwa [hbase]
+  rw [Functor.inheritedTopology_eq]
+  exact Precoverage.generate_mem_toGrothendieck hmem
+
+end Functor.IsFibredOneMorphism
+
+end CategoryTheory
+
+namespace AlgebraicGeometry.Stack
+
+variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+  {𝒳 : Type v} [Category.{w} 𝒳] {𝒴 : Type v'} [Category.{w'} 𝒴]
+  (p : 𝒳 ⥤ BigFppfOver B S hS) (q : 𝒴 ⥤ BigFppfOver B S hS)
+  (hp : p.IsFiberedInGroupoids) (hq : q.IsFiberedInGroupoids)
+  (f : 𝒳 ⥤ 𝒴) (hf : f ⋙ q = p)
+
+/-- A 1-morphism of categories fibred in groupoids is continuous and cocontinuous for the
+inherited fppf topologies. -/
+private theorem isContinuous_and_isCocontinuous_associatedTopology
+    (hp : p.IsFiberedInGroupoids) (hq : q.IsFiberedInGroupoids) (hf : f ⋙ q = p) :
+    f.IsContinuous (associatedTopology B S hS p B.topology)
+        (associatedTopology B S hS q B.topology) ∧
+      f.IsCocontinuous (associatedTopology B S hS p B.topology)
+        (associatedTopology B S hS q B.topology) := by
+  let : p.IsFibered := hp.isFibered
+  let : q.IsFibered := hq.isFibered
+  exact (hq.isFibredOneMorphism hf).isContinuous_and_isCocontinuous_inheritedTopology
+    (B.topology.over (B.obj hS))
+
+/-- The inverse image preserves quasi-coherence, at every module universe. The inverse image of
+sheaves of modules along a 1-morphism of categories fibred in groupoids over the big fppf category
+of `S` preserves quasi-coherence, for source and target with independent object and morphism
+universes and for modules with sections in an arbitrary universe.
+
+The inverse image is restriction along `f`, which is continuous and cocontinuous for the
+inherited fppf topologies (Stacks 06NW), with an isomorphism of structure sheaves; after raising
+the module to a universe containing both sites, quasi-coherence travels by
+`Stacks.SheafOfModules.SiteTransport.isQuasicoherentOnSite_pushforward_ofUniv`, and lowering the
+universe again does not lose it. -/
+theorem isQuasicoherentOnSite_modulePullback'
+    (M : SheafOfModules.{m} (ringStructureSheafCore B S hS q hq B.topology le_rfl))
+    (hM : M.IsQuasicoherentOnSite) :
+    ((modulePullback.{u, v, w, m, v', w'} B S hS p q hp hq f hf
+      B.topology le_rfl).obj M).IsQuasicoherentOnSite := by
+  let J := associatedTopology B S hS p B.topology
+  let K := associatedTopology B S hS q B.topology
+  let : f.IsContinuous J K := (isContinuous_and_isCocontinuous_associatedTopology B S hS p q f
+    hp hq hf).1
+  let : f.IsCocontinuous J K := (isContinuous_and_isCocontinuous_associatedTopology B S hS p q f
+    hp hq hf).2
+  have hpost : ∀ X : 𝒳, (Over.post (X := X) f).IsContinuous (J.over X) (K.over (f.obj X)) := by
+    intro X
+    have := Functor.IsFiberedInGroupoids.isEquivalence_overPost_of_comp_eq hp hq hf X
+    exact Functor.isContinuous_iff_coverPreserving.mpr
+      ((CoverPreserving.of_isContinuous f J K).overPost X)
+  let R := ringStructureSheafCore B S hS q hq B.topology le_rfl
+  let φ : ringStructureSheafCore B S hS p hp B.topology le_rfl ⟶
+      (f.sheafPushforwardContinuous RingCat.{u} J K).obj R :=
+    ⟨eqToHom (ringStructureSheafCore_obj_eq B S hS p q hp hq f hf B.topology le_rfl)⟩
+  have hφ : IsIso φ := by
+    have : IsIso ((sheafToPresheaf J RingCat.{u}).map φ) :=
+      inferInstanceAs (IsIso (eqToHom
+        (ringStructureSheafCore_obj_eq B S hS p q hp hq f hf B.topology le_rfl)))
+    exact isIso_of_reflects_iso _ (sheafToPresheaf J RingCat.{u})
+  have hN := SheafOfModules.isQuasicoherentOnSite_uliftForPresentation'.{v', w', u, m,
+    max u v w v' w'} hM
+  have h₁ := Stacks.SheafOfModules.SiteTransport.isQuasicoherentOnSite_pushforward_ofUniv.{
+    v', w', v, w, u, m} f φ hφ _ hN
+  have h₂ := SheafOfModules.IsQuasicoherentOnSite.of_iso
+    (Stacks.SheafOfModules.SiteTransport.pushforwardUliftIso_ofUniv.{v', w', v, w, u, m,
+      max u v w v' w'} φ M) h₁
+  exact SheafOfModules.IsQuasicoherentOnSite.of_uliftForPresentation' h₂
+
+/-- The inverse image of quasi-coherent modules along a 1-morphism of categories fibred in
+groupoids, `QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳)` on the categories of Stacks 06WG, at every module universe
+and for source and target in independent universes: the inverse image of sheaves of modules of
+Stacks 06WE, which preserves quasi-coherence by
+`AlgebraicGeometry.Stack.isQuasicoherentOnSite_modulePullback'`. -/
+noncomputable def quasicoherentPullback' :
+    FibredSite.quasicoherentModules.{u, v', w', m} B S hS q hq ⥤
+      FibredSite.quasicoherentModules.{u, v, w, m} B S hS p hp :=
+  ObjectProperty.lift (SheafOfModules.isQuasicoherentOnSite.{v, w, u, m}
+      (ringStructureSheafCore B S hS p hp B.topology le_rfl))
+    ((SheafOfModules.isQuasicoherentOnSite.{v', w', u, m}
+        (ringStructureSheafCore B S hS q hq B.topology le_rfl)).ι ⋙
+      modulePullback.{u, v, w, m, v', w'} B S hS p q hp hq f hf B.topology le_rfl)
+    fun M => isQuasicoherentOnSite_modulePullback' B S hS p q hp hq f hf M.obj M.property
+
+/-- The underlying sheaf of modules of the inverse image of a quasi-coherent module is the
+inverse image of its underlying sheaf of modules. -/
+@[simp]
+theorem quasicoherentPullback'_obj_obj
+    (M : FibredSite.quasicoherentModules.{u, v', w', m} B S hS q hq) :
+    ((quasicoherentPullback' B S hS p q hp hq f hf).obj M).obj =
+      (modulePullback.{u, v, w, m, v', w'} B S hS p q hp hq f hf B.topology le_rfl).obj
+        M.obj := rfl
+
+/-- On morphisms, the inverse image of quasi-coherent modules is the inverse image of sheaves of
+modules. -/
+@[simp]
+theorem quasicoherentPullback'_map_hom
+    {M N : FibredSite.quasicoherentModules.{u, v', w', m} B S hS q hq} (g : M ⟶ N) :
+    ((quasicoherentPullback' B S hS p q hp hq f hf).map g).hom =
+      (modulePullback.{u, v, w, m, v', w'} B S hS p q hp hq f hf B.topology le_rfl).map
+        g.hom := rfl
+
+/-- A global presentation of the restriction of the inverse image `f^* M` to an object `x` of
+`𝒳` is one of the restriction of `M` to `f x`, at a module universe containing both sites.
+
+The localization `Over x ⥤ Over (f x)` of `f` is an equivalence (Stacks 06W0), continuous and
+cocontinuous for the localized inherited topologies, so its inverse is continuous too; it matches
+the two structure sheaves and carries `M|_{f x}` to `(f^* M)|_x`, so
+`Stacks.SheafOfModules.SiteTransport.hasGlobalPresentation_of_transport` applies. -/
+theorem hasGlobalPresentation_over_of_modulePullback
+    (M : SheafOfModules.{max u v w v' w' m}
+      (ringStructureSheafCore B S hS q hq B.topology le_rfl)) (x : 𝒳)
+    (h : (((modulePullback.{u, v, w, max u v w v' w' m, v', w'} B S hS p q hp hq f hf
+      B.topology le_rfl).obj M).over x).HasGlobalPresentation) :
+    (M.over (f.obj x)).HasGlobalPresentation := by
+  subst hf
+  let J := associatedTopology B S hS (f ⋙ q) B.topology
+  let K := associatedTopology B S hS q B.topology
+  let : f.IsContinuous J K :=
+    (isContinuous_and_isCocontinuous_associatedTopology B S hS (f ⋙ q) q f hp hq rfl).1
+  let : f.IsCocontinuous J K :=
+    (isContinuous_and_isCocontinuous_associatedTopology B S hS (f ⋙ q) q f hp hq rfl).2
+  have := Functor.IsFiberedInGroupoids.isEquivalence_overPost_of_comp_eq hp hq rfl x
+  let e := (Over.post (X := x) f).asEquivalence
+  let : e.functor.IsContinuous (J.over x) (K.over (f.obj x)) :=
+    Functor.isContinuous_iff_coverPreserving.mpr
+      ((CoverPreserving.of_isContinuous f J K).overPost x)
+  let : e.functor.IsCocontinuous (J.over x) (K.over (f.obj x)) :=
+    inferInstanceAs ((Over.post (X := x) f).IsCocontinuous _ _)
+  let : e.inverse.IsContinuous (K.over (f.obj x)) (J.over x) :=
+    e.toAdjunction.isContinuous_of_isCocontinuous _ _
+  exact Stacks.SheafOfModules.SiteTransport.hasGlobalPresentation_of_transport.{
+    max v' w', w', max v w, w, u, max v w v' w' m} (J' := J.over x) e
+    ((ringStructureSheafCore B S hS q hq B.topology le_rfl).over (f.obj x)) (M.over (f.obj x)) h
+
+/-- **Quasi-coherence is reflected by `f^*`** along a cover-dense 1-morphism of categories
+fibred in groupoids, at a module universe containing both sites.
+
+The objects of `𝒴` over which `M` has a global presentation cover `𝒴`: every object is covered by
+images `f x`, and each `f x` is covered by the images of a covering of `x` on whose members `f^* M`
+is globally presented, which is a global presentation of `M` on the image by
+`AlgebraicGeometry.Stack.hasGlobalPresentation_over_of_modulePullback`. -/
+theorem isQuasicoherentOnSite_of_modulePullback_ofUniv
+    (hcd : f.IsCoverDense (associatedTopology B S hS q B.topology))
+    (M : SheafOfModules.{max u v w v' w' m}
+      (ringStructureSheafCore B S hS q hq B.topology le_rfl))
+    (h : ((modulePullback.{u, v, w, max u v w v' w' m, v', w'} B S hS p q hp hq f hf
+      B.topology le_rfl).obj M).IsQuasicoherentOnSite) :
+    M.IsQuasicoherentOnSite := by
+  let J := associatedTopology B S hS p B.topology
+  let K := associatedTopology B S hS q B.topology
+  let : f.IsContinuous J K :=
+    (isContinuous_and_isCocontinuous_associatedTopology B S hS p q f hp hq hf).1
+  let W : {y : 𝒴 // (M.over y).HasGlobalPresentation} → 𝒴 := fun i => i.1
+  have key : ∀ x : 𝒳, Sieve.ofObjects W (f.obj x) ∈ K (f.obj x) := by
+    intro x
+    obtain ⟨I, V, g, hcov, hpres⟩ := h.locally_hasGlobalPresentation x
+    refine K.superset_covering ?_ ((CoverPreserving.of_isContinuous f J K).cover_preserve hcov)
+    rintro Z a ⟨T, b, c, hb, rfl⟩
+    obtain ⟨i, d, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).mp hb
+    exact ⟨⟨f.obj (V i), hasGlobalPresentation_over_of_modulePullback.{u, v, w, m, v', w'}
+      B S hS p q hp hq f hf M (V i) (hpres i)⟩, ⟨c ≫ f.map d⟩⟩
+  refine Stacks.SheafOfModules.isQuasicoherentOnSite_of_coversTop_hasGlobalPresentation M
+    (W := W) (fun Y => ?_) (fun i => i.2)
+  refine K.transitive (Functor.is_cover_of_isCoverDense f K Y) _ ?_
+  rintro Z g ⟨⟨x, a, b, rfl⟩⟩
+  refine K.superset_covering ?_ (K.pullback_stable a (key x))
+  rintro T k ⟨i, ⟨l⟩⟩
+  exact ⟨i, ⟨l⟩⟩
+
+include hp hq hf in
+/-- A fully faithful 1-morphism of categories fibred in groupoids, every object of whose target
+is covered by images, is a dense subsite inclusion for the inherited fppf topologies: the
+equalizer sieve of two arrows with the same image and the image sieve of an arrow between images
+are maximal. -/
+theorem isDenseSubsite_of_full_of_faithful [f.Full] [f.Faithful]
+    (hcd : f.IsCoverDense (associatedTopology B S hS q B.topology)) :
+    f.IsDenseSubsite (associatedTopology B S hS p B.topology)
+      (associatedTopology B S hS q B.topology) := by
+  let J := associatedTopology B S hS p B.topology
+  let K := associatedTopology B S hS q B.topology
+  let : f.IsContinuous J K := (isContinuous_and_isCocontinuous_associatedTopology B S hS p q f
+    hp hq hf).1
+  let : f.IsCocontinuous J K := (isContinuous_and_isCocontinuous_associatedTopology B S hS p q f
+    hp hq hf).2
+  refine Functor.isDenseSubsite_of_isCocontinuous f J K (CoverPreserving.of_isContinuous f J K)
+    (fun U' U a b hab => ?_) (fun U' U c => ?_)
+  · refine J.superset_covering (fun Z g _ => ?_) (J.top_mem U')
+    show g ≫ a = g ≫ b
+    rw [f.map_injective hab]
+  · exact J.superset_covering (fun Z g _ => ⟨g ≫ f.preimage c, by simp⟩) (J.top_mem U')
+
+/-- An object of `𝒴` covered by a family of images is covered by images: the sieve generated by
+the family is contained in the sieve of arrows factoring through an image. -/
+theorem isCoverDense_of_forall_exists_ofArrows_mem
+    (hloc : ∀ y : 𝒴, ∃ (I : Type u) (x : I → 𝒳) (g : ∀ i, f.obj (x i) ⟶ y),
+      Sieve.ofArrows _ g ∈ associatedTopology B S hS q B.topology y) :
+    f.IsCoverDense (associatedTopology B S hS q B.topology) := by
+  refine ⟨fun y => ?_⟩
+  obtain ⟨I, x, g, hg⟩ := hloc y
+  refine (associatedTopology B S hS q B.topology).superset_covering ?_ hg
+  exact ofArrows_le_of_forall_mem fun i => Presieve.in_coverByImage f (g i)
+
+/-- **Stacks 06WR for `Mod`, at every module universe containing `u`**, for a fully faithful
+1-morphism `f : 𝒳 ⥤ 𝒴` of categories fibred in groupoids every object of whose target is covered,
+for the fppf topology, by a family of images indexed by a type in `Type u`: the inverse image of
+sheaves of modules `Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳)` is an equivalence, for source and target in
+independent universes.
+
+Such an `f` is a dense subsite inclusion, and since `𝒴` has fibre products (Stacks 06WY) every
+object of `𝒴` has a `1`-hypercover by objects of `𝒳` indexed by types in `Type u`; so restriction
+of abelian sheaves along `f` is an equivalence as soon as abelian groups have limits of size `u`
+(`CategoryTheory.Functor.isEquivalence_of_isOneHypercoverDense`), and the Comparison Lemma for
+sheaves of modules, `Stacks.DenseSubsiteModules.isEquivalence_moduleRestriction`, lifts it to
+modules. -/
+theorem isEquivalence_modulePullback_of_full_of_faithful [f.Full] [f.Faithful]
+    (hloc : ∀ y : 𝒴, ∃ (I : Type u) (x : I → 𝒳) (g : ∀ i, f.obj (x i) ⟶ y),
+      Sieve.ofArrows _ g ∈ associatedTopology B S hS q B.topology y) :
+    (modulePullback.{u, v, w, max u m, v', w'} B S hS p q hp hq f hf
+      B.topology le_rfl).IsEquivalence := by
+  let J := associatedTopology B S hS p B.topology
+  let K := associatedTopology B S hS q B.topology
+  have hcd : f.IsCoverDense K := isCoverDense_of_forall_exists_ofArrows_mem B S hS q f hloc
+  have : f.IsDenseSubsite J K :=
+    isDenseSubsite_of_full_of_faithful B S hS p q hp hq f hf hcd
+  have : Limits.HasPullbacks 𝒴 := BigFppfOver.hasPullbacks_of_isFiberedInGroupoids B S hS q hq
+  have : Functor.IsOneHypercoverDense.{u} f J K :=
+    Functor.IsOneHypercoverDense.of_hasPullbacks hloc
+  have : (f.sheafPushforwardContinuous AddCommGrpCat.{max u m} J K).IsEquivalence :=
+    Functor.isEquivalence_of_isOneHypercoverDense.{u} f J K _
+  exact isEquivalence_pushforward_eqToHom' f _ _
+    (ringStructureSheafCore_obj_eq B S hS p q hp hq f hf B.topology le_rfl)
+
+/-- **Quasi-coherence is reflected by `f^*`** along a cover-dense 1-morphism of categories
+fibred in groupoids, at every module universe and for source and target in independent universes.
+
+The module is raised to a universe containing both sites, where
+`AlgebraicGeometry.Stack.isQuasicoherentOnSite_of_modulePullback_ofUniv` applies; raising the
+universe of the sections commutes with `f^*` and neither creates nor destroys quasi-coherence. -/
+theorem isQuasicoherentOnSite_of_modulePullback'
+    (hcd : f.IsCoverDense (associatedTopology B S hS q B.topology))
+    (M : SheafOfModules.{m} (ringStructureSheafCore B S hS q hq B.topology le_rfl))
+    (h : ((modulePullback.{u, v, w, m, v', w'} B S hS p q hp hq f hf
+      B.topology le_rfl).obj M).IsQuasicoherentOnSite) :
+    M.IsQuasicoherentOnSite := by
+  let : f.IsContinuous (associatedTopology B S hS p B.topology)
+      (associatedTopology B S hS q B.topology) :=
+    (isContinuous_and_isCocontinuous_associatedTopology B S hS p q f hp hq hf).1
+  refine SheafOfModules.IsQuasicoherentOnSite.of_uliftForPresentation'.{v', w', u, m,
+    max u v w v' w'} ?_
+  refine isQuasicoherentOnSite_of_modulePullback_ofUniv.{u, v, w, m, v', w'}
+    B S hS p q hp hq f hf hcd _ ?_
+  exact SheafOfModules.IsQuasicoherentOnSite.of_iso
+    (Stacks.SheafOfModules.SiteTransport.pushforwardUliftIso_ofUniv.{v', w', v, w, u, m,
+      max u v w v' w'} _ M).symm
+    (SheafOfModules.isQuasicoherentOnSite_uliftForPresentation'.{v, w, u, m,
+      max u v w v' w'} h)
+
+/-- **Stacks 06WR for `QCoh`, at every module universe containing `u`**, for a fully faithful
+1-morphism `f : 𝒳 ⥤ 𝒴` of categories fibred in groupoids every object of whose target is covered,
+for the fppf topology, by a family of images indexed by a type in `Type u`: the inverse image of
+quasi-coherent modules `QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳)` is an equivalence, for source and target in
+independent universes.
+
+Full faithfulness comes from the equivalence on all modules,
+`AlgebraicGeometry.Stack.isEquivalence_modulePullback_of_full_of_faithful`, since `QCoh` is a
+full subcategory; essential surjectivity needs in addition that `f^*` reflects quasi-coherence,
+`AlgebraicGeometry.Stack.isQuasicoherentOnSite_of_modulePullback'`. -/
+theorem isEquivalence_quasicoherentPullback'_of_full_of_faithful [f.Full] [f.Faithful]
+    (hloc : ∀ y : 𝒴, ∃ (I : Type u) (x : I → 𝒳) (g : ∀ i, f.obj (x i) ⟶ y),
+      Sieve.ofArrows _ g ∈ associatedTopology B S hS q B.topology y) :
+    (quasicoherentPullback'.{u, v, w, max u m, v', w'} B S hS p q hp hq f hf).IsEquivalence := by
+  have hL : (modulePullback.{u, v, w, max u m, v', w'} B S hS p q hp hq f hf
+      B.topology le_rfl).IsEquivalence :=
+    isEquivalence_modulePullback_of_full_of_faithful.{u, v, w, m, v', w'}
+      B S hS p q hp hq f hf hloc
+  let L := modulePullback.{u, v, w, max u m, v', w'} B S hS p q hp hq f hf B.topology le_rfl
+  let ι := (SheafOfModules.isQuasicoherentOnSite.{v', w', u, max u m}
+    (ringStructureSheafCore B S hS q hq B.topology le_rfl)).ι
+  let ι' := (SheafOfModules.isQuasicoherentOnSite.{v, w, u, max u m}
+    (ringStructureSheafCore B S hS p hp B.topology le_rfl)).ι
+  let Q := quasicoherentPullback'.{u, v, w, max u m, v', w'} B S hS p q hp hq f hf
+  have : L.Faithful := hL.faithful
+  have : L.Full := hL.full
+  have : L.EssSurj := hL.essSurj
+  have : (Q ⋙ ι').Faithful := inferInstanceAs (ι ⋙ L).Faithful
+  have : (Q ⋙ ι').Full := inferInstanceAs (ι ⋙ L).Full
+  have hfaithful : Q.Faithful := Functor.Faithful.of_comp Q ι'
+  have hfull : Q.Full := ⟨fun {M N} g => ⟨ObjectProperty.homMk (L.preimage g.hom),
+    ObjectProperty.hom_ext _ (L.map_preimage g.hom)⟩⟩
+  have hess : Q.EssSurj := by
+    refine ⟨fun N => ?_⟩
+    let N' : SheafOfModules.{max u m} (ringStructureSheafCore B S hS p hp B.topology le_rfl) :=
+      N.obj
+    have e : L.obj (L.objPreimage N') ≅ N' := L.objObjPreimageIso N'
+    exact ⟨⟨_, isQuasicoherentOnSite_of_modulePullback' B S hS p q hp hq f hf
+      (isCoverDense_of_forall_exists_ofArrows_mem B S hS q f hloc) _
+      (SheafOfModules.IsQuasicoherentOnSite.of_iso e.symm N.property)⟩,
+      ⟨ObjectProperty.isoMk _ e⟩⟩
+  exact Functor.IsEquivalence.mk
+
+section QuotientStack
+
+variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} {B : AlgebraicSpaces C S hS}
+
+/-- **Every object of `[U/R]` is covered by a small family of points of `U`.** For a groupoid
+`(U, R, s, t, c)` in algebraic spaces, every object of the quotient stack `[U/R]` is covered, for
+its fppf topology, by images of points of `U` indexed by a type in `Type u`: it is fppf locally
+the image of a point of `U` by Stacks 044X (1), and the big fppf category is essentially small. -/
+theorem exists_ofArrows_pointwiseToQuotientStack (G : GroupoidInAlgebraicSpaces C S hS B)
+    (y : (quotientStack G).obj) :
+    ∃ (I : Type u) (x : I → (presheafOfGroupoids
+        (evaluationGroupoidFunctor G.toGroupoidInFunctors)).obj)
+      (g : ∀ i, (pointwiseToQuotientStack G).obj (x i) ⟶ y),
+      Sieve.ofArrows _ g ∈ associatedTopology C S hS (quotientStack G).p C.topology y := by
+  have := C.essentiallySmall_schemes
+  have := essentiallySmall_bigFppfOver C S hS
+  obtain ⟨I, x, g, hg⟩ :=
+    (isFibredOneMorphism_toQuotientStack G).exists_ofArrows_mem_inheritedTopology
+      (BigFppfOver.topology C S hS) (isFiberedInGroupoids_quotientStack G)
+      (essImage_toQuotientStack G) y
+  exact ⟨I, fun i => ULiftHom.objDown.{u + 1, u + 1} (x i), g, hg⟩
+
+/-- **The fppf quasi-coherent modules of `[U/R]` are those of the pointwise groupoid
+fibration.** For a groupoid `(U, R, s, t, c)` in algebraic spaces, the inverse image along the
+canonical map from the pointwise groupoid fibration (whose objects over `T` are the `T`-points of
+`U` and whose arrows over `T` are the `T`-points of `R`) to the quotient stack `[U/R]` is an
+equivalence `QCoh(𝒪_{[U/R]}) ⥤ QCoh(𝒪_P)` of the categories of quasi-coherent modules with
+sections in `Type u` (Stacks 06WG).
+
+The canonical map is fully faithful by Stacks 044X (2) and covers `[U/R]` by images, so this is
+`AlgebraicGeometry.Stack.isEquivalence_quasicoherentPullback'_of_full_of_faithful`. -/
+theorem isEquivalence_quasicoherentPullback'_pointwiseToQuotientStack
+    (G : GroupoidInAlgebraicSpaces C S hS B) :
+    (quasicoherentPullback'.{u, u + 1, u, u, u + 1, u + 1} C S hS
+      (presheafOfGroupoids (evaluationGroupoidFunctor G.toGroupoidInFunctors)).p
+      (quotientStack G).p (isFiberedInGroupoids_presheafOfGroupoids _)
+      (isFiberedInGroupoids_quotientStack G) (pointwiseToQuotientStack G)
+      (isFibredOneMorphism_pointwiseToQuotientStack G).comp_eq).IsEquivalence := by
+  have := (fullyFaithfulPointwiseToQuotientStack G).full
+  have := (fullyFaithfulPointwiseToQuotientStack G).faithful
+  exact isEquivalence_quasicoherentPullback'_of_full_of_faithful.{u, u + 1, u, u, u + 1, u + 1}
+    C S hS _ _ _ _ _ _ (exists_ofArrows_pointwiseToQuotientStack G)
+
+/-- **The fppf modules of `[U/R]` are those of the pointwise groupoid fibration.** For a groupoid
+`(U, R, s, t, c)` in algebraic spaces, the inverse image along the canonical map from the
+pointwise groupoid fibration to the quotient stack `[U/R]` is an equivalence
+`Mod(𝒪_{[U/R]}) ⥤ Mod(𝒪_P)` of the categories of sheaves of modules with sections in `Type u`. -/
+theorem isEquivalence_modulePullback_pointwiseToQuotientStack
+    (G : GroupoidInAlgebraicSpaces C S hS B) :
+    (modulePullback.{u, u + 1, u, u, u + 1, u + 1} C S hS
+      (presheafOfGroupoids (evaluationGroupoidFunctor G.toGroupoidInFunctors)).p
+      (quotientStack G).p (isFiberedInGroupoids_presheafOfGroupoids _)
+      (isFiberedInGroupoids_quotientStack G) (pointwiseToQuotientStack G)
+      (isFibredOneMorphism_pointwiseToQuotientStack G).comp_eq C.topology
+      le_rfl).IsEquivalence := by
+  have := (fullyFaithfulPointwiseToQuotientStack G).full
+  have := (fullyFaithfulPointwiseToQuotientStack G).faithful
+  exact isEquivalence_modulePullback_of_full_of_faithful.{u, u + 1, u, u, u + 1, u + 1}
+    C S hS _ _ _ _ _ _ (exists_ofArrows_pointwiseToQuotientStack G)
+
+end QuotientStack
+
+end AlgebraicGeometry.Stack
+
+end

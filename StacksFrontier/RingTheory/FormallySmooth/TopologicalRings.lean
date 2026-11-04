@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.RingTheory.FormallySmooth.TopologicalRings.AdicCriterion
+public import StacksFrontier.RingTheory.FormallySmooth.TopologicalRings.AdicCompletionComparison
+public import StacksFrontier.RingTheory.FormallySmooth.TopologicalRings.Completion
+public import StacksFrontier.RingTheory.FormallySmooth.TopologicalRings.AdicBaseChange

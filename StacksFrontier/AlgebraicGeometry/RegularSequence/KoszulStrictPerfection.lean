@@ -1,0 +1,179 @@
+module
+
+public import StacksFrontier.Algebra.Homology.ChainComplexAsCochainComplex
+public import StacksFrontier.AlgebraicGeometry.RegularSequence.KoszulAugmentation
+public import StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect.ExteriorPowerVanishing
+public import StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.ExtFromStrictlyPerfectResolution
+import StacksCore.Tactic.EgaSgaAttribute
+
+/-!
+# The Koszul complex is a strictly perfect resolution, and the Ext sheaves it computes
+
+Let `(X, O_X)` be a ringed space, let `r` be a natural number and let
+`φ : (O_X)ʳ ⟶ O_X` be a morphism of sheaves of modules, with ideal sheaf `I` its image and
+quotient `O_X/I`. The Koszul complex of `φ` is a chain complex whose degree-`n` term is the
+`n`-th exterior power of `(O_X)ʳ`; by the previous file those terms are direct summands of
+finite free modules and vanish outside the degrees `0, …, r`. Read as a cochain complex, in
+degrees `-r, …, 0`, the Koszul complex is therefore a *strictly perfect* complex in the sense of
+Stacks 08DM, and when its augmentation is a quasi-isomorphism — that is, when `φ` is
+Koszul-regular — it is a strictly perfect resolution of `O_X/I`.
+
+This is exactly the input of the computation of Ext sheaves by a strictly perfect resolution, so
+for every complex `M` of `O_X`-modules and every `n` the Ext sheaf
+
+`Ext^n_{O_X}(O_X/I, M)`
+
+is the `n`-th cohomology sheaf of the internal Hom complex `SheafHom^•(⋀^{-•}(O_X)ʳ, M)`, with
+no injective resolution of `M` entering.
+
+## Main definitions
+
+* `Stacks.RegularSequence.KoszulChainData.quotient`: the quotient `O_X/I`, as a sheaf of modules
+  over the structure sheaf of the space.
+* `Stacks.RegularSequence.KoszulChainData.cochain`: the Koszul complex read as a cochain
+  complex, with `⋀ⁿ((O_X)ʳ)` sitting in degree `-n`.
+* `Stacks.RegularSequence.KoszulChainData.quotientSingleIso`: the comparison of the two readings
+  of the complex concentrated in degree zero on `O_X/I`.
+* `Stacks.RegularSequence.KoszulChainData.cochainAugmentation`: the augmentation of that cochain
+  complex, a morphism to the complex concentrated in degree zero on `O_X/I`.
+* `Stacks.RegularSequence.KoszulChainData.derivedSheafExtIsoHomologyCochain`: **the Ext sheaves
+  of `O_X/I` computed by the Koszul complex.**
+
+## Main results
+
+* `Stacks.RegularSequence.KoszulChainData.isFiniteFreeSummand_cochain_X`: every term of the
+  Koszul cochain complex is a direct summand of a finite free `O_X`-module.
+* `Stacks.RegularSequence.KoszulChainData.finite_not_isZero_cochain_X`: the Koszul cochain
+  complex has finitely many nonvanishing terms.
+* `Stacks.RegularSequence.KoszulChainData.quasiIso_cochainAugmentation`: the augmentation of the
+  Koszul cochain complex is a quasi-isomorphism as soon as the augmentation of the Koszul chain
+  complex is.
+
+## Implementation notes
+
+The two hypotheses of Stacks 08DM are supplied in the shape the computation takes them. The
+termwise one transports the statement about the homogeneous pieces of the exterior algebra along
+the equality `K.chain.X n = ⋀ⁿF` which is part of the Koszul data. The boundedness one confines
+the nonvanishing degrees of the chain complex to the interval `[0, r]`, using the vanishing in
+negative degrees and the vanishing above the rank, and then reads that interval off in the
+cochain indexing; the index type of the free module is `ULift (Fin r)`, whose cardinality is `r`.
+
+The augmentation lands in a complex concentrated in degree zero, and reindexing turns the chain
+version of that complex into the cochain version only up to isomorphism, not equality. Rather
+than composing the reindexed augmentation with that isomorphism — which would make it a
+quasi-isomorphism onto the cochain single complex, at the cost of composing two morphisms of
+complexes — the comparison is applied at the very end, on the Ext sheaves, where it is the
+isomorphism induced in the first variable by an isomorphism of the source.
+
+## References
+
+* [Stacks Project, Tag 063C](https://stacks.math.columbia.edu/tag/063C)
+* [Stacks Project, Tag 08DM](https://stacks.math.columbia.edu/tag/08DM)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits CategoryTheory.Sheaf Opposite TopologicalSpace
+open AlgebraicGeometry HomologicalComplex Stacks.ChainComplex Stacks.SheafOfModules
+
+universe u
+
+namespace Stacks.RegularSequence.KoszulChainData
+
+attribute [local instance] HasDerivedCategory.standard
+
+variable {X : TopCat.{u}} (Rc : TopCat.Sheaf CommRingCat.{u} X)
+  [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  {r : ℕ}
+  {A : SheafOfModules.TensorExteriorSymmetricAlgebras (Opens.grothendieckTopology ↥X)
+    (koszulFreeSheaf Rc r)}
+  {φ : koszulFreeSheaf Rc r ⟶
+    SheafOfModules.unit (toRingCat (Opens.grothendieckTopology ↥X) Rc)}
+
+/-- **The quotient `O_X/I`** of the structure sheaf by the ideal sheaf generated by `φ`, with
+its universe parameters pinned to those of the ringed space. -/
+abbrev quotient : StructureSheafModules Rc := koszulQuotient.{u, u, u} φ
+
+/-- **The Koszul complex read as a cochain complex**, with the `n`-th exterior power of
+`(O_X)ʳ` sitting in degree `-n`. This is the form in which the Koszul complex enters a
+cohomological computation. -/
+abbrev cochain (K : KoszulChainData.{u, u, u} A φ) :
+    CochainComplex (StructureSheafModules Rc) ℤ :=
+  asCochain K.chain
+
+/-- **Every term of the Koszul cochain complex is a direct summand of a finite free
+`O_X`-module.** The term in degree `i` is the exterior power of `(O_X)ʳ` in degree `-i`, and the
+exterior powers of a finite free module are free of finite rank. -/
+theorem isFiniteFreeSummand_cochain_X (K : KoszulChainData.{u, u, u} A φ) (i : ℤ) :
+    RingedSite.IsFiniteFreeSummand (ringedSite Rc) ((cochain Rc K).X i) :=
+  RingedSite.IsFiniteFreeSummand.of_iso _ (eqToIso (K.chain_X (-i)))
+    (RingedSite.isFiniteFreeSummand_exteriorPiece (ringedSite Rc) A (ULift.{u} (Fin r))
+      (Iso.refl _) (-i))
+
+/-- **The Koszul cochain complex has finitely many nonvanishing terms.** The Koszul chain
+complex vanishes in negative degrees and above the rank `r`, so its nonvanishing degrees lie in
+`[0, r]`. -/
+theorem finite_not_isZero_cochain_X (K : KoszulChainData.{u, u, u} A φ) :
+    {i : ℤ | ¬ IsZero ((cochain Rc K).X i)}.Finite := by
+  refine Stacks.ChainComplex.finite_not_isZero_asCochain_X K.chain
+    ((Set.finite_Icc 0 (r : ℤ)).subset fun i hi => ?_)
+  rw [Set.mem_ofPred_eq] at hi
+  refine Set.mem_Icc.2 ⟨by by_contra h; exact hi (K.isZero_chain_X_of_neg (by omega)), ?_⟩
+  by_contra h
+  refine hi (IsZero.of_iso (RingedSite.isZero_exteriorPiece_of_card_lt (ringedSite Rc) A
+    (ULift.{u} (Fin r)) (Iso.refl _) i ?_) (eqToIso (K.chain_X i)))
+  simpa using (by omega : (r : ℤ) < i)
+
+/-- **The complex concentrated in degree zero on `O_X/I`, read as a cochain complex**, compared
+with the cochain complex concentrated in degree zero on `O_X/I`. Reindexing a complex
+concentrated in degree zero gives a complex concentrated in degree zero, but on the nose only up
+to isomorphism: the degree-`n` term of the one is `if -n = 0 then O_X/I else 0` and of the other
+`if n = 0 then O_X/I else 0`. -/
+abbrev quotientSingleIso :
+    asCochain ((single (StructureSheafModules Rc) (ComplexShape.down ℤ) 0).obj
+        (quotient Rc (φ := φ))) ≅
+      (single (StructureSheafModules Rc) (ComplexShape.up ℤ) 0).obj (quotient Rc (φ := φ)) :=
+  asCochainSingleZeroIso (quotient Rc (φ := φ))
+
+/-- **The augmentation of the Koszul cochain complex**: the augmentation of the Koszul chain
+complex, read as a morphism of cochain complexes. -/
+@[sga "3 III 4.6.1" "more general"]
+def cochainAugmentation (K : KoszulChainData.{u, u, u} A φ) :
+    cochain Rc K ⟶
+      asCochain ((single (StructureSheafModules Rc) (ComplexShape.down ℤ) 0).obj
+        (quotient Rc (φ := φ))) :=
+  asCochainMap K.augmentation
+
+/-- **The augmentation of the Koszul cochain complex is a quasi-isomorphism as soon as the
+augmentation of the Koszul chain complex is**, that is, as soon as the Koszul complex of `φ`
+resolves `O_X/I`. Reindexing preserves quasi-isomorphisms. -/
+instance quasiIso_cochainAugmentation (K : KoszulChainData.{u, u, u} A φ)
+    [QuasiIso K.augmentation] : QuasiIso (cochainAugmentation Rc K) :=
+  inferInstanceAs (QuasiIso (asCochainMap K.augmentation))
+
+/-- **The Ext sheaves of `O_X/I` are the cohomology sheaves of the Hom complex out of the
+Koszul complex.** For `φ` whose Koszul complex resolves the quotient `O_X/I`, every complex `M`
+of `O_X`-modules and every `n`, the Ext sheaf `Ext^n_{O_X}(O_X/I, M)` is the `n`-th cohomology
+sheaf of the internal Hom complex `SheafHom^•(⋀^{-•}((O_X)ʳ), M)`.
+
+This is the computation of Ext sheaves by a strictly perfect resolution, applied to the Koszul
+resolution: its two hypotheses are the termwise and boundedness statements above, and the
+resolution is the augmentation. -/
+def derivedSheafExtIsoHomologyCochain (K : KoszulChainData.{u, u, u} A φ)
+    [QuasiIso K.augmentation] (M : CochainComplex (StructureSheafModules Rc) ℤ) (n : ℤ) :
+    derivedSheafExt Rc
+        (DerivedCategory.Q.obj
+          ((single (StructureSheafModules Rc) (ComplexShape.up ℤ) 0).obj
+            (quotient Rc (φ := φ))))
+        (DerivedCategory.Q.obj M) n ≅
+      (RingedSite.sheafHomComplex (ringedSite Rc) (cochain Rc K) M).obj.homology n :=
+  derivedSheafExtMapIso Rc n
+      (DerivedCategory.Q.mapIso (quotientSingleIso Rc (φ := φ))) (Iso.refl _) ≪≫
+    derivedSheafExtIsoHomologyOfResolution Rc (cochain Rc K) M n
+      (finite_not_isZero_cochain_X Rc K) (isFiniteFreeSummand_cochain_X Rc K)
+      (cochainAugmentation Rc K)
+
+end Stacks.RegularSequence.KoszulChainData
+
+end

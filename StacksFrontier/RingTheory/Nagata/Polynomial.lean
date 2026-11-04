@@ -1,0 +1,692 @@
+module
+
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.FieldTheory.PurelyInseparable.Exponent
+import Mathlib.RingTheory.Polynomial.IsIntegral
+import Mathlib.RingTheory.PicardGroup
+import Mathlib.Tactic.ENatToNat
+import Std.Tactic.BVDecide.Normalize.Prop
+
+public import StacksFrontier.RingTheory.Nagata.JapaneseCriteria
+import StacksCore.Tactic.EgaSgaAttribute
+
+@[expose] public section
+
+universe u
+
+/-!
+# N-1 and N-2 ascend to a polynomial ring
+
+Proof of `Polynomial.isN1_and_isJapaneseRing`. Let `R` be a domain with field of fractions
+`K = Frac(R)` and let `R'` be the integral closure of `R` in `K`.
+
+For the N-1 conjunct the mechanism is a computation of the integral closure of `R[X]` in
+`L = Frac(R[X])`. The polynomial ring `K[X]` is the localization of `R[X]` at the image of the
+nonzero elements of `R` under `C`, so the structure map `R[X] → L` extends to an injective ring map
+`K[X] → L`, and `R'[X]` is carried by it to a subring `R'[X]ᴸ` of `L` sitting between `R[X]` and
+`L`. Being a subalgebra of `L` containing `R[X]`, it has `L` as its field of fractions; it is
+integrally closed, because `R'` is integrally closed and hence so is the polynomial ring `R'[X]`;
+and it is a finite `R[X]`-module, because `R'` is a finite `R`-module. So `R'[X]ᴸ` *is* the
+integral closure of `R[X]` in `L`, which is therefore a finite `R[X]`-module.
+
+## Main results
+
+* `Stacks.Nagata.PolynomialAscent.solution`: the proof of `Polynomial.isN1_and_isJapaneseRing`.
+
+## Implementation notes
+
+`Polynomial.algebra`, the `R[X]`-algebra structure on `A[X]` induced by an `R`-algebra structure
+on `A`, is not a global instance in Mathlib (it would give a diamond for `Algebra R[X] R[X][X]`),
+so it is enabled here by a `local` attribute, as `Mathlib.RingTheory.Localization.Algebra` and
+`Mathlib.FieldTheory.RatFunc.Basic` do.
+
+The general step of the N-1 argument is isolated as
+`module_finite_integralClosure_of_isIntegrallyClosed`: if `B` is an integrally closed ring,
+module-finite over `A`, whose field of fractions is `L`, then the integral closure of `A` in `L` is
+module-finite over `A`. It is `IsIntegralClosure.of_isIntegrallyClosedIn` (transitivity of
+integrality, Tag 0308) followed by the uniqueness of integral closures,
+`IsIntegralClosure.equiv`, and is what makes the identification of the integral closure with
+`R'[X]` a statement about `R'[X]` alone rather than a computation inside `L`.
+
+The image of `R'[X]` in `L` is taken as the *range* of the algebra map rather than as `R'[X]` with
+a transported fraction-field structure: for a `Subalgebra` of `L` the instances
+`IsFractionRing ↥S L` and `IsScalarTower R[X] ↥S L` are already available, and injectivity of
+`R'[X] → L` then transports integral closedness and module-finiteness across
+`AlgEquiv.ofInjective`.
+
+The two general steps of the N-2 route are `module_finite_polynomial_of_expand` and
+`module_finite_integralClosure_of_expand`, both stated for the map `R[X] → S[X]`,
+`X ↦ X ^ q`, along which `S[X] = R'[x^{1/q}]` is an `R[x]`-algebra: the first says that `S[X]` is
+then a finite `R[X]`-module as soon as `S` is a finite `R`-module, the second that the integral
+closure of `R[X]` in the field of fractions of `S[X]` is a finite `R[X]`-module when moreover `S`
+is an integrally closed domain. Since that `R[X]`-algebra structure is not the one induced by `R →
+S`, it is a
+parameter of both statements, described by a hypothesis on its structure map.
+
+## References
+
+* [Stacks Project, Tag 032O](https://stacks.math.columbia.edu/tag/032O)
+-/
+
+@[expose] public section
+
+open Polynomial
+
+
+namespace Stacks.Nagata.PolynomialAscent
+
+section IntegralClosure
+
+variable (A : Type*) (B : Type*) (L : Type*) [CommRing A] [CommRing B] [Field L]
+    [Algebra A B] [Algebra A L] [Algebra B L] [IsScalarTower A B L]
+    [IsIntegrallyClosed B] [IsFractionRing B L] [Module.Finite A B]
+
+include B in
+/-- If `B` is an integrally closed ring, module-finite over `A`, whose field of fractions is `L`,
+then the integral closure of `A` in `L` is module-finite over `A`.
+
+`B` is then itself the integral closure of `A` in `L`: it is integral over `A` and integrally
+closed in `L`. -/
+private theorem module_finite_integralClosure_of_isIntegrallyClosed :
+    Module.Finite A (integralClosure A L) := by
+  have h1 : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
+  have h2 : IsIntegrallyClosedIn B L := (isIntegrallyClosed_iff_isIntegrallyClosedIn L).1 ‹_›
+  have h3 : IsIntegralClosure B A L := IsIntegralClosure.of_isIntegrallyClosedIn
+  exact Module.Finite.equiv (IsIntegralClosure.equiv A B L (integralClosure A L)).toLinearEquiv
+
+end IntegralClosure
+
+section Expand
+
+variable (R S : Type*) [CommRing R] [CommRing S] [Algebra R S]
+
+/-- Along the map `R[X] → S[X]`, `X ↦ X ^ q`, the ring `S[X]` is a finite `R[X]`-module as soon as
+`S` is a finite `R`-module and `q ≠ 0`: it is generated by the products `s · X ^ i` with `s`
+running through generators of `S` over `R` and `i < q`, since `X` is a root of the monic polynomial
+`T ^ q - X` over `R[X]`.
+
+The `R[X]`-algebra structure meant here is not the one induced by `R → S`, so it is a parameter,
+its structure map described by `halg`; in the intended application `S[X]` is `R'[x^{1/q}]` and the
+map is the inclusion of `R[x]`. -/
+private theorem module_finite_polynomial_of_expand [Module.Finite R S] (q : ℕ) (hq : q ≠ 0)
+    [Algebra R[X] S[X]]
+    (halg : (algebraMap R[X] S[X])
+      = (Polynomial.expand S q).toRingHom.comp (Polynomial.mapRingHom (algebraMap R S))) :
+    Module.Finite R[X] S[X] := by
+  classical
+  obtain ⟨G, hG⟩ := Module.finite_def.mp ‹Module.Finite R S›
+  have hCcomp : (algebraMap R[X] S[X]).comp (C : R →+* R[X])
+      = (C : S →+* S[X]).comp (algebraMap R S) := by
+    ext r
+    simp [halg, Polynomial.expand_C]
+  have hX : algebraMap R[X] S[X] X = X ^ q := by simp [halg, Polynomial.expand_X]
+  set s : Set S[X] := insert X ((C : S → S[X]) '' (G : Set S)) with hs
+  have hXs : (X : S[X]) ∈ s := Set.mem_insert _ _
+  have hCs : ∀ i ∈ G, (C i : S[X]) ∈ s := fun i hi => Set.mem_insert_of_mem _ ⟨i, hi, rfl⟩
+  have hfin : s.Finite := Set.Finite.insert _ (Set.Finite.image _ G.finite_toSet)
+  have hint : ∀ x ∈ s, IsIntegral R[X] x := by
+    intro x hx
+    rw [hs] at hx
+    simp only [Set.mem_insert_iff, Set.mem_image] at hx
+    rcases hx with rfl | ⟨g, hg, rfl⟩
+    · exact ⟨X ^ q - C X, monic_X_pow_sub_C _ hq, by simp [hX]⟩
+    · obtain ⟨P, hPm, hP⟩ := IsIntegral.of_finite R g
+      refine ⟨P.map (C : R →+* R[X]), hPm.map _, ?_⟩
+      rw [eval₂_map, hCcomp, ← Polynomial.hom_eval₂]
+      simp [hP]
+  -- the constants of `S[X]` lie in the subalgebra generated by `s`
+  have hCmem : ∀ g : S, (C g : S[X]) ∈ Algebra.adjoin R[X] s := by
+    intro g
+    have hg : g ∈ Submodule.span R (G : Set S) := by simp [hG]
+    obtain ⟨c, -, hc⟩ := Submodule.mem_span_finset.mp hg
+    rw [← hc, map_sum]
+    refine sum_mem fun i hi => ?_
+    have h2 : (C (c i • i) : S[X]) = algebraMap R[X] S[X] (C (c i)) * C i := by
+      simp [Algebra.smul_def, halg, Polynomial.expand_C]
+    rw [h2]
+    exact mul_mem (Subalgebra.algebraMap_mem _ _) (Algebra.subset_adjoin (hCs i hi))
+  have htop : Algebra.adjoin R[X] s = ⊤ := by
+    refine le_antisymm le_top fun f _ => ?_
+    refine Polynomial.induction_on' f (fun p q hp hq => add_mem hp hq) fun n a => ?_
+    rw [← Polynomial.C_mul_X_pow_eq_monomial]
+    exact mul_mem (hCmem a) (pow_mem (Algebra.subset_adjoin hXs) n)
+  refine Module.finite_def.mpr ?_
+  have hfg := fg_adjoin_of_finite hfin hint
+  rwa [htop, Algebra.top_toSubmodule] at hfg
+
+/-- The integral closure of `R[X]` in the field of fractions `F` of `S[X]` is a finite
+`R[X]`-module, for `S` an integrally closed domain that is a finite `R`-module and `S[X]` viewed as
+an `R[X]`-algebra along `X ↦ X ^ q`.
+
+It *is* `S[X]`: the latter is integrally closed, has `Frac(S[X])` as its field of fractions, and is
+integral over `R[X]`. In the intended application this is the source's computation of the integral
+closure of `R[x]` in `L'(x^{1/q})` as `R'[x^{1/q}]`. -/
+private theorem module_finite_integralClosure_of_expand [IsDomain S] [IsIntegrallyClosed S]
+    [Module.Finite R S] (q : ℕ) (hq : q ≠ 0) [Algebra R[X] S[X]]
+    (halg : (algebraMap R[X] S[X])
+      = (Polynomial.expand S q).toRingHom.comp (Polynomial.mapRingHom (algebraMap R S)))
+    (F : Type*) [Field F] [Algebra S[X] F] [IsFractionRing S[X] F] [Algebra R[X] F]
+    [IsScalarTower R[X] S[X] F] :
+    Module.Finite R[X] (integralClosure R[X] F) := by
+  have : Module.Finite R[X] S[X] := module_finite_polynomial_of_expand R S q hq halg
+  exact module_finite_integralClosure_of_isIntegrallyClosed R[X] S[X] F
+
+end Expand
+
+section Reduction
+
+/-- Let `C` be an integrally closed domain, module-finite over a Noetherian ring `A`, embedded in
+a field `Ω` over `A`, and let `L` be a field over `A` inside `Ω` whose image lies in the field of
+fractions of `C` inside `Ω`. Then the integral closure of `A` in `L` is module-finite over `A`.
+
+The image of the integral closure of `A` in `L` lands in `C`: such an element is integral over
+`C`, it lies in `Frac C`, and `C` is integrally closed. It is then a submodule of the image of
+`C`, which is a finite `A`-module, and `A` is Noetherian. -/
+private theorem module_finite_integralClosure_of_mem_lift_range
+    (A : Type*) [CommRing A] [IsNoetherianRing A]
+    (C : Type*) [CommRing C] [IsDomain C] [IsIntegrallyClosed C] [Algebra A C] [Module.Finite A C]
+    (Ω : Type*) [Field Ω] [Algebra A Ω] [Algebra C Ω] [IsScalarTower A C Ω]
+    (hC : Function.Injective (algebraMap C Ω))
+    (L : Type*) [Field L] [Algebra A L] [Algebra L Ω] [IsScalarTower A L Ω]
+    (hL : ∀ α : L, ∃ β : FractionRing C, IsFractionRing.lift hC β = algebraMap L Ω α) :
+    Module.Finite A (integralClosure A L) := by
+  classical
+  have : Module.Finite A ↥(LinearMap.range (IsScalarTower.toAlgHom A C Ω).toLinearMap) :=
+    Module.Finite.of_surjective ((IsScalarTower.toAlgHom A C Ω).toLinearMap.rangeRestrict)
+      (LinearMap.surjective_rangeRestrict _)
+  let Λ : FractionRing C →ₐ[C] Ω :=
+    { IsFractionRing.lift hC with commutes' := IsFractionRing.lift_algebraMap hC }
+  have hΛinj : Function.Injective Λ := fun a b hab => (IsFractionRing.lift hC).injective hab
+  have hmemN : ∀ z : ↥(integralClosure A L), algebraMap L Ω (z : L) ∈
+      LinearMap.range (IsScalarTower.toAlgHom A C Ω).toLinearMap := by
+    intro z
+    obtain ⟨β, hβ⟩ := hL (z : L)
+    have h2 : IsIntegral C (algebraMap L Ω (z : L)) :=
+      (z.2.map (IsScalarTower.toAlgHom A L Ω)).tower_top
+    have h3 : IsIntegral C β := (isIntegral_algHom_iff Λ hΛinj).mp (by
+      show IsIntegral C (IsFractionRing.lift hC β)
+      rwa [hβ])
+    obtain ⟨c, hc⟩ := IsIntegrallyClosed.isIntegral_iff.mp h3
+    refine LinearMap.mem_range.mpr ⟨c, ?_⟩
+    show algebraMap C Ω c = algebraMap L Ω (z : L)
+    rw [← IsFractionRing.lift_algebraMap (K := FractionRing C) hC c, hc, hβ]
+  have hginj : Function.Injective
+      ((IsScalarTower.toAlgHom A L Ω).toLinearMap.comp (integralClosure A L).val.toLinearMap) :=
+    fun a b hab => Subtype.ext ((algebraMap L Ω).injective hab)
+  exact Module.Finite.of_injective (LinearMap.codRestrict _ _ hmemN)
+    fun a b hab => hginj (congrArg Subtype.val hab)
+
+end Reduction
+
+section Generators
+
+/-- A subring of `Ω` that contains the image of `F` and the images of a set of generators of the
+`F`-algebra `L` contains the image of all of `L`. -/
+private theorem mem_of_adjoin_eq_top {F L Ω : Type*} [Field F] [CommRing L] [Field Ω] [Algebra F L]
+    (f : L →+* Ω) (V : Subring Ω) (hF : ∀ c : F, f (algebraMap F L c) ∈ V) {t : Set L}
+    (ht : Algebra.adjoin F t = ⊤) (htV : ∀ α ∈ t, f α ∈ V) (α : L) : f α ∈ V := by
+  have hle : (⊤ : Subalgebra F L) ≤ { (V.comap f).toSubsemiring with algebraMap_mem' := hF } :=
+    ht ▸ Algebra.adjoin_le htV
+  exact hle Algebra.mem_top
+
+/-- `eval₂ ρ y g` lies in any subring containing `y` and the `ρ`-images of the coefficients
+of `g`. -/
+private theorem eval₂_mem_of_coeffs {R Ω : Type*} [CommRing R] [CommRing Ω] (ρ : R →+* Ω) (y : Ω)
+    (T : Subring Ω) (hy : y ∈ T) {g : R[X]} (hg : ∀ c ∈ g.coeffs, ρ c ∈ T) :
+    Polynomial.eval₂ ρ y g ∈ T := by
+  rw [Polynomial.eval₂_eq_sum, Polynomial.sum_def]
+  exact sum_mem fun i hi =>
+    mul_mem (hg _ (Polynomial.coeff_mem_coeffs (Polynomial.mem_support_iff.mp hi))) (pow_mem hy i)
+
+end Generators
+
+section PurelyInseparable
+
+set_option maxHeartbeats 1600000 in
+-- The inseparable N-2 ascent requires an enlarged budget for its integral-closure calculation.
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **The inseparable step of the N-2 ascent.** Let `R` be a Noetherian N-2 domain, `F` a field of
+fractions of `R[X]`, and `L/F` a finite purely inseparable extension, all inside an algebraically
+closed field `Ω` of exponential characteristic `p`. Then the integral closure of `R[X]` in `L` is
+a finite `R[X]`-module.
+
+This is the substance of the source's characteristic-`p` argument, and, taking `p = 1`, of its
+characteristic-zero one as well. Let `q = p ^ e` be an exponent for `L/F`, so `L ^ q ⊆ F`. Taking
+`q`-th roots in the perfect field `Ω` gives a ring map `τ : Ω → Ω` with `τ z ^ q = z`; write
+`y = τ x` for `x` the image of `X`, and `Θ = eval₂ (τ ∘ algebraMap R Ω) y : R[X] → Ω` for the
+coefficientwise `q`-th root, so that `Θ g ^ q = g` in `Ω`. Each `α : L` satisfies
+`α ^ q = a / b` with `a, b : R[X]`, whence `α = Θ a / Θ b` in `Ω` by uniqueness of `q`-th roots.
+
+Choosing generators of `L` over `F` and letting `L'` be the subextension of `Ω` generated over
+`Frac R` by the `q`-th roots of the (finitely many) coefficients occurring in the corresponding
+`a`, `b`, the whole of `L` lands in the fraction field of `R'[y]`, where `R'` is the integral
+closure of `R` in `L'` — finite over `R` because `R` is N-2, and integrally closed. The ring
+`R'[y]` is a copy of the polynomial ring `R'[X]`, viewed as an `R[X]`-algebra along `X ↦ X ^ q`,
+so it is a finite `R[X]`-module; `module_finite_integralClosure_of_mem_lift_range` concludes.
+
+The source leaves the choice of `L'` to "some details omitted". It cannot be made intrinsically
+inside `L(y)`: for `K = 𝔽_p(s, t)`, `R = K`, `L = K(x)(β)` with `β ^ p = s + t x ^ p` and `y ^ p =
+x`, the element `s ^ (1/p)` needed as a coefficient does not lie in `L(y)`. -/
+@[ega "II 6.3.10" "special case"]
+private theorem module_finite_integralClosure_of_isPurelyInseparable
+    (R : Type u) [CommRing R] [IsDomain R] [IsNoetherianRing R] (h : IsJapaneseRing R)
+    (F : Type u) [Field F] [Algebra R[X] F] [IsFractionRing R[X] F]
+    (L : Type u) [Field L] [Algebra F L] [Algebra R[X] L] [IsScalarTower R[X] F L]
+    [FiniteDimensional F L] [IsPurelyInseparable F L]
+    (Ω : Type u) [Field Ω] [IsAlgClosed Ω] [Algebra L Ω] [Algebra R Ω] [Algebra R[X] Ω]
+    [Algebra (FractionRing R) Ω] [IsScalarTower R (FractionRing R) Ω] [IsScalarTower R R[X] Ω]
+    [IsScalarTower R[X] L Ω] (p : ℕ) [ExpChar F p] [ExpChar Ω p] :
+    Module.Finite R[X] (integralClosure R[X] L) := by
+  classical
+  -- the structure map `R[X] → Ω` is the composite through `F` and `L`, and is injective
+  have hcomp : ∀ g : R[X],
+      algebraMap R[X] Ω g = algebraMap L Ω (algebraMap F L (algebraMap R[X] F g)) := fun g => by
+    rw [← IsScalarTower.algebraMap_apply R[X] F L, ← IsScalarTower.algebraMap_apply R[X] L Ω]
+  have hinj : Function.Injective (algebraMap R[X] Ω) := fun a b hab =>
+    IsFractionRing.injective R[X] F ((algebraMap F L).injective
+      ((algebraMap L Ω).injective (by rwa [← hcomp, ← hcomp])))
+  -- evaluating a polynomial over `R` at the image of `X` is the structure map of `R[X]`
+  have hΩX : (Polynomial.eval₂RingHom (algebraMap R Ω) (algebraMap R[X] Ω X))
+      = (algebraMap R[X] Ω : R[X] →+* Ω) :=
+    Polynomial.ringHom_ext
+      (fun a => by simp [IsScalarTower.algebraMap_apply R R[X] Ω]) (by simp)
+  have haeval : ∀ g : R[X],
+      Polynomial.eval₂ (algebraMap R Ω) (algebraMap R[X] Ω X) g = algebraMap R[X] Ω g := fun g =>
+    DFunLike.congr_fun hΩX g
+  -- so the image of `X` is transcendental over `R`, hence over `Frac R`
+  have htr : Transcendental R (algebraMap R[X] Ω X) := by
+    rw [transcendental_iff_injective]
+    intro a b hab
+    simp only [Polynomial.aeval_def, haeval] at hab
+    exact hinj hab
+  have htrK : Transcendental (FractionRing R) (algebraMap R[X] Ω X) := fun hAlg =>
+    htr ((IsFractionRing.isAlgebraic_iff R (FractionRing R) Ω).mpr hAlg)
+  -- an exponent for the purely inseparable extension `L/F`
+  obtain ⟨e, hexp⟩ : ∃ e : ℕ, ∀ α : L, ∃ f : F, algebraMap F L f = α ^ p ^ e :=
+    ⟨IsPurelyInseparable.exponent F L, fun α =>
+      RingHom.mem_range.mp (IsPurelyInseparable.exponent_def' F p α)⟩
+  obtain ⟨q, hq0, hfrob, hexpq⟩ : ∃ q : ℕ, q ≠ 0 ∧
+      (∀ z : Ω, iterateFrobenius Ω p e z = z ^ q) ∧ ∀ α : L, ∃ f : F, algebraMap F L f = α ^ q :=
+    ⟨p ^ e, pow_ne_zero _ (expChar_pos F p).ne', fun z => iterateFrobenius_def p e z, hexp⟩
+  have hpowinj : ∀ a b : Ω, a ^ q = b ^ q → a = b := fun a b hab =>
+    (iterateFrobenius Ω p e).injective (by rw [hfrob, hfrob, hab])
+  -- `q`-th roots in the perfect field `Ω`
+  obtain ⟨τ, hτ⟩ : ∃ τ : Ω →+* Ω, ∀ z : Ω, (τ z) ^ q = z := by
+    refine ⟨(iterateFrobeniusEquiv Ω p e).symm.toRingHom, fun z => ?_⟩
+    show ((iterateFrobeniusEquiv Ω p e).symm z) ^ q = z
+    rw [← hfrob, ← iterateFrobeniusEquiv_apply]
+    exact (iterateFrobeniusEquiv Ω p e).apply_symm_apply z
+  set x : Ω := algebraMap R[X] Ω X
+  set y : Ω := τ x
+  have hyq : y ^ q = x := hτ x
+  set ρ : R →+* Ω := τ.comp (algebraMap R Ω)
+  have hρq : ∀ c : R, (ρ c) ^ q = algebraMap R Ω c := fun c => hτ _
+  set Θ : R[X] →+* Ω := Polynomial.eval₂RingHom ρ y with hΘdef
+  have hΘq : ∀ g : R[X], (Θ g) ^ q = algebraMap R[X] Ω g := by
+    intro g
+    have hcompρ : (iterateFrobenius Ω p e).comp ρ = algebraMap R Ω := by
+      ext c
+      simp only [RingHom.coe_comp, Function.comp_apply, hfrob]
+      exact hρq c
+    have hy' : iterateFrobenius Ω p e y = x := by rw [hfrob]; exact hyq
+    calc (Θ g) ^ q = iterateFrobenius Ω p e (Θ g) := (hfrob _).symm
+      _ = Polynomial.eval₂ ((iterateFrobenius Ω p e).comp ρ) (iterateFrobenius Ω p e y) g :=
+          Polynomial.hom_eval₂ g ρ (iterateFrobenius Ω p e) y
+      _ = Polynomial.eval₂ (algebraMap R Ω) x g := by rw [hcompρ, hy']
+      _ = algebraMap R[X] Ω g := haeval g
+  -- the image in `Ω` of an element of `F` is a ratio of images of elements of `R[X]`
+  have hFΩ : ∀ f : F, ∃ a b : R[X], algebraMap R[X] Ω b ≠ 0 ∧
+      algebraMap L Ω (algebraMap F L f) = algebraMap R[X] Ω a / algebraMap R[X] Ω b := by
+    intro f
+    obtain ⟨a, b, hb, hfab⟩ := IsFractionRing.div_surjective (A := R[X]) f
+    exact ⟨a, b, fun h0 => (mem_nonZeroDivisors_iff_ne_zero.mp hb) (hinj (by rw [h0, map_zero])),
+      by rw [← hfab, map_div₀, map_div₀, hcomp a, hcomp b]⟩
+  -- every element of `L` is a ratio of coefficientwise `q`-th roots
+  have hab : ∀ α : L, ∃ a b : R[X], Θ b ≠ 0 ∧ algebraMap L Ω α * Θ b = Θ a := by
+    intro α
+    obtain ⟨f, hf⟩ := hexpq α
+    obtain ⟨a, b, hbΩ, hfab⟩ := hFΩ f
+    have hΘb : Θ b ≠ 0 := fun h0 => hbΩ (by rw [← hΘq b, h0, zero_pow hq0])
+    refine ⟨a, b, hΘb, hpowinj _ _ ?_⟩
+    have h1 : algebraMap L Ω (α ^ q) = algebraMap R[X] Ω a / algebraMap R[X] Ω b := by
+      rw [← hf, hfab]
+    rw [mul_pow, ← map_pow, h1, hΘq a, hΘq b, div_mul_cancel₀ _ hbΩ]
+  choose aa bb hbb habe using hab
+  obtain ⟨t, ht⟩ : ∃ t : Finset L, Algebra.adjoin F (↑t : Set L) = ⊤ :=
+    (Module.Finite.finiteType (R := F) L).out
+  -- the finite extension `L'` of `Frac R` carrying the `q`-th roots of the coefficients needed
+  set W : Finset R := t.biUnion (fun α => (aa α).coeffs ∪ (bb α).coeffs)
+  have hρint : ∀ c : R, IsIntegral R (ρ c) := fun c => by
+    refine ⟨X ^ q - Polynomial.C c, Polynomial.monic_X_pow_sub_C _ hq0, ?_⟩
+    simp only [Polynomial.eval₂_sub, Polynomial.eval₂_X_pow, Polynomial.eval₂_C]
+    rw [hρq c, sub_self]
+  have hSint : ∀ z ∈ ρ '' (↑W : Set R), IsIntegral (FractionRing R) z := by
+    rintro z ⟨c, -, rfl⟩
+    exact (hρint c).tower_top
+  have : Finite (ρ '' (↑W : Set R)) := (W.finite_toSet.image _).to_subtype
+  obtain ⟨L', hWL', hL'fd⟩ : ∃ L' : IntermediateField (FractionRing R) Ω,
+      (∀ c ∈ W, ρ c ∈ L') ∧ FiniteDimensional (FractionRing R) L' :=
+    ⟨IntermediateField.adjoin (FractionRing R) (ρ '' (↑W : Set R)),
+      fun c hc => IntermediateField.subset_adjoin _ _ ⟨c, hc, rfl⟩,
+      IntermediateField.finiteDimensional_adjoin hSint⟩
+  have := hL'fd
+  have : IsScalarTower R ↥L' Ω := IsScalarTower.of_algebraMap_eq fun _ => rfl
+  -- the integral closure `R'` of `R` in `L'` is finite over `R` and integrally closed
+  have hfinR' : Module.Finite R ↥(integralClosure R ↥L') := h.finite ↥L'
+  have hicR' : IsIntegrallyClosed ↥(integralClosure R ↥L') :=
+    integralClosure.isIntegrallyClosedOfFiniteExtension (R := R) (FractionRing R) (L := ↥L')
+  -- `R'[y] ≅ R'[X]`, an `R[X]`-algebra along `X ↦ X ^ q`, is a finite `R[X]`-module
+  let algC : Algebra R[X] (Polynomial ↥(integralClosure R ↥L')) :=
+    ((Polynomial.expand ↥(integralClosure R ↥L') q).toRingHom.comp
+      (Polynomial.mapRingHom (algebraMap R ↥(integralClosure R ↥L')))).toAlgebra
+  have : Module.Finite R[X] (Polynomial ↥(integralClosure R ↥L')) :=
+    module_finite_polynomial_of_expand R ↥(integralClosure R ↥L') q hq0 rfl
+  set v : ↥(integralClosure R ↥L') →+* ↥L' := (integralClosure R ↥L').val.toRingHom with hvdef
+  have hvinj : Function.Injective v := Subtype.coe_injective
+  let algCΩ : Algebra (Polynomial ↥(integralClosure R ↥L')) Ω :=
+    (Polynomial.eval₂RingHom ((algebraMap ↥L' Ω).comp v) y).toAlgebra
+  have hΨ : ∀ f : Polynomial ↥(integralClosure R ↥L'),
+      algebraMap (Polynomial ↥(integralClosure R ↥L')) Ω f
+        = Polynomial.eval₂ ((algebraMap ↥L' Ω).comp v) y f := fun _ => rfl
+  -- the structure map of `R'[y]` over `R[X]` is the one of `Ω`
+  have hσR : ((algebraMap ↥L' Ω).comp v).comp (algebraMap R ↥(integralClosure R ↥L'))
+      = algebraMap R Ω := by
+    ext r
+    show algebraMap ↥L' Ω (v (algebraMap R ↥(integralClosure R ↥L') r)) = algebraMap R Ω r
+    rw [hvdef]
+    show algebraMap ↥L' Ω
+      ((integralClosure R ↥L').val (algebraMap R ↥(integralClosure R ↥L') r)) = algebraMap R Ω r
+    rw [AlgHom.commutes, ← IsScalarTower.algebraMap_apply R ↥L' Ω]
+  have hcommR : ∀ g : R[X],
+      algebraMap (Polynomial ↥(integralClosure R ↥L')) Ω (algebraMap R[X] _ g)
+        = algebraMap R[X] Ω g := by
+    intro g
+    rw [hΨ]
+    show Polynomial.eval₂ ((algebraMap ↥L' Ω).comp v) y
+      (Polynomial.expand _ q (Polynomial.map (algebraMap R ↥(integralClosure R ↥L')) g)) = _
+    rw [Polynomial.expand_eq_comp_X_pow, Polynomial.eval₂_comp]
+    simp only [Polynomial.eval₂_X_pow]
+    rw [hyq, Polynomial.eval₂_map, hσR]
+    exact haeval g
+  have : IsScalarTower R[X] (Polynomial ↥(integralClosure R ↥L')) Ω :=
+    IsScalarTower.of_algebraMap_eq fun g => (hcommR g).symm
+  -- `y` is transcendental over `L'`, so `R'[y]` really is a polynomial ring
+  have hytr : Transcendental ↥L' y := by
+    intro hAlg
+    refine htrK.extendScalars (S := ↥L') ?_
+    rw [← hyq]
+    exact isAlgebraic_iff_isIntegral.mpr ((isAlgebraic_iff_isIntegral.mp hAlg).pow q)
+  have hΨinj : Function.Injective
+      (algebraMap (Polynomial ↥(integralClosure R ↥L')) Ω) := by
+    intro f g hfg
+    rw [hΨ, hΨ, ← Polynomial.eval₂_map, ← Polynomial.eval₂_map] at hfg
+    refine Polynomial.map_injective v hvinj ?_
+    exact (transcendental_iff_injective.mp hytr) (by
+      simpa only [Polynomial.aeval_def] using hfg)
+  -- every element of `L` lands in the fraction field of `R'[y]`
+  set V : Subring Ω :=
+    (IsFractionRing.lift (K := FractionRing (Polynomial ↥(integralClosure R ↥L'))) hΨinj).range
+  have hVΨ : ∀ f : Polynomial ↥(integralClosure R ↥L'),
+      algebraMap (Polynomial ↥(integralClosure R ↥L')) Ω f ∈ V := fun f =>
+    ⟨algebraMap _ (FractionRing _) f, IsFractionRing.lift_algebraMap hΨinj f⟩
+  have hVRX : ∀ g : R[X], algebraMap R[X] Ω g ∈ V := fun g => hcommR g ▸ hVΨ _
+  have hVy : y ∈ V := by
+    have : algebraMap (Polynomial ↥(integralClosure R ↥L')) Ω X = y := by
+      rw [hΨ]
+      simp
+    exact this ▸ hVΨ X
+  have hVρ : ∀ c ∈ W, ρ c ∈ V := by
+    intro c hc
+    have hmem : ρ c ∈ L' := hWL' c hc
+    have hint : IsIntegral R (⟨ρ c, hmem⟩ : ↥L') := by
+      exact (isIntegral_algHom_iff (IsScalarTower.toAlgHom R ↥L' Ω)
+        Subtype.coe_injective).mp (hρint c)
+    have : algebraMap (Polynomial ↥(integralClosure R ↥L')) Ω
+        (Polynomial.C (⟨⟨ρ c, hmem⟩, hint⟩ : ↥(integralClosure R ↥L'))) = ρ c := by
+      rw [hΨ]
+      simp [hvdef]
+    exact this ▸ hVΨ _
+  have hΘV : ∀ g : R[X], (∀ c ∈ g.coeffs, c ∈ W) → Θ g ∈ V := by
+    intro g hg
+    rw [hΘdef]
+    exact eval₂_mem_of_coeffs ρ y V hVy fun c hc => hVρ c (hg c hc)
+  have hVdiv : ∀ z u w : Ω, u ∈ V → w ∈ V → z = u / w → z ∈ V := by
+    rintro z _ _ ⟨βa, rfl⟩ ⟨βb, rfl⟩ rfl
+    exact ⟨βa / βb, map_div₀ _ _ _⟩
+  have hVL : ∀ α : L, algebraMap L Ω α ∈ V := by
+    refine mem_of_adjoin_eq_top (F := F) _ V (fun c => ?_) ht (fun α hα => ?_)
+    · obtain ⟨a, b, -, heq⟩ := hFΩ c
+      exact hVdiv _ _ _ (hVRX a) (hVRX b) heq
+    · exact hVdiv _ _ _
+        (hΘV (aa α) fun c hc => Finset.mem_biUnion.mpr ⟨α, hα, Finset.mem_union_left _ hc⟩)
+        (hΘV (bb α) fun c hc => Finset.mem_biUnion.mpr ⟨α, hα, Finset.mem_union_right _ hc⟩)
+        (eq_div_of_mul_eq (hbb α) (habe α))
+  exact module_finite_integralClosure_of_mem_lift_range R[X]
+    (Polynomial ↥(integralClosure R ↥L')) Ω hΨinj L hVL
+
+end PurelyInseparable
+
+section Ascent
+
+attribute [local instance] Polynomial.algebra
+
+/-- **N-1 ascends to a polynomial ring.** If the integral closure of a domain `R` in `Frac(R)` is
+a finite `R`-module, then so is the integral closure of `R[X]` in `Frac(R[X])`.
+
+The integral closure of `R[X]` in `Frac(R[X])` is the image of `R'[X]`, for `R'` the integral
+closure of `R` in `Frac(R)`. -/
+private theorem isN1_polynomial (R : Type u) [CommRing R] [IsDomain R] (h : IsN1 R) :
+    IsN1 (Polynomial R) := by
+  classical
+  set K := FractionRing R
+  set R' := integralClosure R K
+  set L := FractionRing (Polynomial R)
+  -- `K[X]` is the localization of `R[X]` at the image of the nonzero elements of `R`.
+  have hCle : ((nonZeroDivisors R).map (C : R →+* Polynomial R)) ≤
+      nonZeroDivisors (Polynomial R) := by
+    rintro x ⟨r, hr, rfl⟩
+    simp only [SetLike.mem_coe, mem_nonZeroDivisors_iff_ne_zero] at hr
+    rw [mem_nonZeroDivisors_iff_ne_zero]
+    simpa using hr
+  have hloc : IsLocalization ((nonZeroDivisors R).map (C : R →+* Polynomial R)) (Polynomial K) :=
+    Polynomial.isLocalization (nonZeroDivisors R) K
+  have hunit : ∀ y : ((nonZeroDivisors R).map (C : R →+* Polynomial R)),
+      IsUnit (algebraMap (Polynomial R) L y) := fun y =>
+    IsLocalization.map_units L ⟨(y : Polynomial R), hCle y.2⟩
+  -- hence the structure map `R[X] → L` extends to an injective map `Φ : K[X] → L`.
+  set Φ : Polynomial K →+* L := IsLocalization.lift hunit with hΦ
+  have hΦeq : ∀ x, Φ (algebraMap (Polynomial R) (Polynomial K) x) =
+      algebraMap (Polynomial R) L x := fun x => IsLocalization.lift_eq hunit x
+  have hmapinj : Function.Injective (algebraMap (Polynomial R) (Polynomial K)) :=
+    Polynomial.map_injective _ (IsFractionRing.injective R K)
+  have hΦinj : Function.Injective Φ := by
+    rw [hΦ, IsLocalization.lift_injective_iff]
+    intro x y
+    exact ⟨fun hxy => by rw [hmapinj hxy],
+      fun hxy => congrArg _ (IsFractionRing.injective (Polynomial R) L hxy)⟩
+  let algKL : Algebra (Polynomial K) L := Φ.toAlgebra
+  have towKL : IsScalarTower (Polynomial R) (Polynomial K) L :=
+    IsScalarTower.of_algebraMap_eq fun x => (hΦeq x).symm
+  let algR'L : Algebra (Polynomial R') L :=
+    (Φ.comp (Polynomial.mapRingHom (algebraMap R' K))).toAlgebra
+  have hR'Kinj : Function.Injective (algebraMap R' K) := Subtype.coe_injective
+  have towR'L : IsScalarTower (Polynomial R) (Polynomial R') L := by
+    refine IsScalarTower.of_algebraMap_eq fun x => ?_
+    show algebraMap (Polynomial R) L x = Φ (Polynomial.map (algebraMap R' K)
+      (Polynomial.map (algebraMap R R') x))
+    rw [Polynomial.map_map]
+    have hc : (algebraMap R' K).comp (algebraMap R R') = algebraMap R K :=
+      IsScalarTower.algebraMap_eq R R' K ▸ rfl
+    rw [hc, ← hΦeq x]
+    rfl
+  -- `R'`, and hence `R'[X]`, is integrally closed.
+  have hicR' : IsIntegrallyClosed R' :=
+    integralClosure.isIntegrallyClosedOfFiniteExtension (K := K) (L := K)
+  have hicR'X : IsIntegrallyClosed (Polynomial R') := inferInstance
+  -- `R'[X]` is module-finite over `R[X]`.
+  have towRR' : IsScalarTower R (Polynomial R) (Polynomial R') :=
+    IsScalarTower.of_algebraMap_eq fun x => (Polynomial.map_C _).symm
+  have hftR' : Algebra.FiniteType R R' := Module.Finite.finiteType R'
+  have hftR'X : Algebra.FiniteType R (Polynomial R') := inferInstance
+  have hft : Algebra.FiniteType (Polynomial R) (Polynomial R') :=
+    Algebra.FiniteType.of_restrictScalars_finiteType R (Polynomial R) (Polynomial R')
+  have hintR' : Algebra.IsIntegral R R' := Algebra.IsIntegral.of_finite R R'
+  have hintR'X : Algebra.IsIntegral (Polynomial R) (Polynomial R') := inferInstance
+  have hfinPoly : Module.Finite (Polynomial R) (Polynomial R') := Algebra.IsIntegral.finite
+  -- the image of `R'[X]` in `L` is the integral closure of `R[X]` in `L`.
+  set ψ := IsScalarTower.toAlgHom (Polynomial R) (Polynomial R') L
+  have hψinj : Function.Injective ψ := hΦinj.comp (Polynomial.map_injective _ hR'Kinj)
+  let e : Polynomial R' ≃ₐ[Polynomial R] ψ.range := AlgEquiv.ofInjective ψ hψinj
+  have hic : IsIntegrallyClosed ψ.range := IsIntegrallyClosed.of_equiv e.toRingEquiv
+  have hfinrange : Module.Finite (Polynomial R) ψ.range := Module.Finite.equiv e.toLinearEquiv
+  exact module_finite_integralClosure_of_isIntegrallyClosed (Polynomial R) ψ.range L
+
+/-- **N-2 ascends to a polynomial ring.** For a Noetherian domain `R` that is N-2, the polynomial
+ring `R[X]` is N-2.
+
+The route. Write `K = Frac(R)`. By Tag 032N it suffices to bound the integral closure of `R[X]`
+in a finite *purely inseparable* extension `L/K(X)`. The source first reduces to a normal `R`,
+using the descent of N-2 along a finite extension of domains (Tag 032K); that reduction is not
+needed, and is not made here: normality is used below only for the integral closure `R'` of `R` in
+`L'`, which is integrally closed however `R` was chosen. In characteristic zero the only such `L`
+is `K(X)` itself and the claim is N-1 for
+`R[X]`, which is `isN1_polynomial` (equivalently, Tag 032M). In characteristic `p > 0` there are a
+finite purely inseparable `L'/K` and a `q = p^e` with `L ⊆ L'(X^{1/q})`; the integral closure of
+`R[X]` in `L'(X^{1/q})` is `R'[X^{1/q}]`, with `R'` the integral closure of `R` in `L'`, finite
+over `R` because `R` is N-2, so `R'[X^{1/q}] = ⊕_{i<q} R'[X]·X^{i/q}` is a finite `R[X]`-module;
+finally `R[X]` is Noetherian, so the integral closure of `R[X]` in the intermediate field `L` is a
+submodule of a finite module. -/
+private theorem isJapaneseRing_polynomial (R : Type u) [CommRing R] [IsDomain R]
+    [IsNoetherianRing R] (h : IsJapaneseRing R) : IsJapaneseRing (Polynomial R) := by
+  rw [isJapaneseRing_iff_finite_integralClosure_isPurelyInseparable]
+  intro L _ _ _ _ _ _
+  have hRXL : Function.Injective (algebraMap (Polynomial R) L) := by
+    rw [IsScalarTower.algebraMap_eq (Polynomial R) (FractionRing (Polynomial R)) L]
+    exact (algebraMap (FractionRing (Polynomial R)) L).injective.comp
+      (IsFractionRing.injective _ _)
+  have hRXΩ : Function.Injective (algebraMap (Polynomial R) (AlgebraicClosure L)) := by
+    rw [IsScalarTower.algebraMap_eq (Polynomial R) L (AlgebraicClosure L)]
+    exact (algebraMap L _).injective.comp hRXL
+  let : Algebra R (AlgebraicClosure L) :=
+    ((algebraMap (Polynomial R) (AlgebraicClosure L)).comp
+      (algebraMap R (Polynomial R))).toAlgebra
+  have : IsScalarTower R (Polynomial R) (AlgebraicClosure L) :=
+    IsScalarTower.of_algebraMap_eq fun _ => rfl
+  have hRΩ : Function.Injective (algebraMap R (AlgebraicClosure L)) :=
+    fun a b hab => Polynomial.C_injective (hRXΩ hab)
+  let : Algebra (FractionRing R) (AlgebraicClosure L) := (IsFractionRing.lift hRΩ).toAlgebra
+  have : IsScalarTower R (FractionRing R) (AlgebraicClosure L) :=
+    IsScalarTower.of_algebraMap_eq fun r => (IsFractionRing.lift_algebraMap hRΩ r).symm
+  obtain ⟨p, hp⟩ : ∃ p : ℕ, ExpChar (FractionRing (Polynomial R)) p :=
+    ⟨ringExpChar _, ringExpChar.expChar _⟩
+  have := hp
+  have : ExpChar (AlgebraicClosure L) p :=
+    expChar_of_injective_ringHom
+      ((algebraMap L (AlgebraicClosure L)).comp
+        (algebraMap (FractionRing (Polynomial R)) L)).injective p
+  exact module_finite_integralClosure_of_isPurelyInseparable R h
+    (FractionRing (Polynomial R)) L (AlgebraicClosure L) p
+
+end Ascent
+
+/-- The proof of `Polynomial.isN1_and_isJapaneseRing`: N-1 passes from a domain `R` to `R[X]`,
+and so does N-2 when `R` is Noetherian. -/
+public theorem solution (R : Type u) [CommRing R] [IsDomain R] :
+    (IsN1 R → IsN1 (Polynomial R)) ∧
+      (IsNoetherianRing R → IsJapaneseRing R → IsJapaneseRing (Polynomial R)) :=
+  ⟨isN1_polynomial R, fun _ h => isJapaneseRing_polynomial R h⟩
+
+end Stacks.Nagata.PolynomialAscent
+
+end
+
+/-!
+# N-1 and N-2 ascend to a polynomial ring
+
+Let `R` be a domain with field of fractions `K = Frac(R)`, so that `Frac(R[x]) = K(x)`. Both
+finiteness conditions of Tag 032F pass from `R` to `R[x]`.
+
+For N-1 the mechanism is a computation of the integral closure. Write `R'` for the integral
+closure of `R` in `K`. Then `R'` is integrally closed, hence so is `R'[x]`, and `R'[x]` has
+fraction field `K(x)`; since `R'[x]` is integral over `R[x]`, the integral closure of `R[x]` in
+`K(x)` is exactly `R'[x]`. It is a finite `R[x]`-module as soon as `R'` is a finite `R`-module, a
+generating set of `R'` over `R` generating `R'[x]` over `R[x]`.
+
+For N-2 the same reduction applies — `R'[x]` is finite over `R[x]`, so it suffices to treat a
+normal N-2 domain `R` (Tag 032K) — but the inseparable extensions of `K(x)` now have to be
+controlled. In characteristic zero N-1 already gives N-2 (Tag 032M). In characteristic `p > 0` it
+suffices, by Tag 032N, to bound the integral closure in a finite purely inseparable extension
+`L/K(x)`, and such an `L` is contained in `L'(x^{1/q})` for a finite purely inseparable `L'/K` and
+some `q = p^e`; there the integral closure of `R[x]` is `R'[x^{1/q}]` with `R'` the integral
+closure of `R` in `L'`, finite over `R` because `R` is N-2.
+
+## Main results
+
+* `Polynomial.isN1_and_isJapaneseRing`: for a domain `R`, the polynomial ring `R[x]` is N-1 if `R`
+  is, and — when `R` is Noetherian — N-2 if `R` is.
+
+## Implementation notes
+
+Both conditions are those of Tag 032F, `IsN1` and `IsJapaneseRing`, so the statement is about
+`Polynomial R` for the `R` of that development rather than about an abstract `K(x)`. The universes
+match without a hypothesis: `Polynomial R` lies in the universe of `R`, which is where
+`IsJapaneseRing` takes its test extensions.
+
+The two assertions of the tag are the two conjuncts of a single theorem, each carrying its own
+hypotheses. The N-1 conjunct is stated without a Noetherian hypothesis, which the argument above
+never uses: `IsIntegrallyClosed (integralClosure R K)` holds for any domain
+(`integralClosure.isIntegrallyClosedOfFiniteExtension` with `L = K`), `IsIntegrallyClosed R'[x]`
+follows for any integrally closed domain (`instIsIntegrallyClosedPolynomialOfIsDomain`), and
+transitivity of integrality identifies the integral closure of `R[x]` with `R'[x]`. That
+generalization is not vacuous: every integrally closed domain is N-1, so the Noetherian-free
+conjunct says in particular that `R[x]` is normal when `R` is, for instance for a non-Noetherian
+valuation ring. The N-2 conjunct keeps `IsNoetherianRing R`, which its route uses through Tags
+032K, 032M and 032N; it appears as a hypothesis of that conjunct rather than as a binder of the
+theorem so that the N-1 conjunct is not weakened by it.
+
+`IsN1 R` is an `abbrev` for a `Module.Finite` statement and hence class-valued, so a caller with
+it available as an instance can discharge the first conjunct's premise by `inferInstance`;
+`IsJapaneseRing R` is a class too, but one that quantifies over extensions, so it is passed
+explicitly here rather than as an instance binder.
+
+Faithfulness.
+1. Every hypothesis is used: `[IsDomain R]` makes `Frac(R)` a field and `Polynomial R` a domain, so
+   that both conclusions are about the domain `R[x]` the source names; the remaining hypotheses are
+   the source's N-1, N-2 and Noetherian assumptions, each attached to the conjunct whose route uses
+   it.
+2. The scalars and base are the source's: the conclusions assert finiteness over `R[x]` of the
+   integral closure of `R[x]` — not finiteness over `R`, nor over `K(x)`, and not of `K[x]` — and
+   the field of fractions in question is that of `R[x]`, not `Frac(R)`.
+3. The ring extension is pinned rather than assumed to exist: the polynomial ring is `Polynomial R`
+   with its canonical `R`-algebra structure, and the integral closures are taken in `FractionRing`
+   of the ring in question, along the localization map, exactly as `IsN1` and `IsJapaneseRing` fix
+   them. In `IsJapaneseRing (Polynomial R)` the `R[x]`-algebra structure on a test field `L` is
+   tied to the composite `R[x] → K(x) → L` by `IsScalarTower`.
+4. The instantiation is not degenerate: a field `k` is a Noetherian N-2 domain, so both conjuncts
+   apply to it and give that `k[x]` is N-1 and N-2; iterating the first gives N-1 for
+   `k[x₁, …, xₙ]`, whose integral closure computation is not formal. The N-1 premise holds for
+   every integrally closed domain and the N-2 premise for every Noetherian normal domain of
+   characteristic zero, so neither conjunct is empty.
+
+## References
+
+* [Stacks Project, Tag 032O](https://stacks.math.columbia.edu/tag/032O)
+-/
+
+@[expose] public section
+
+
+/-- **N-1 and N-2 ascend to a polynomial ring.** Let `R` be a domain. If the integral closure of
+`R` in `Frac(R)` is a finite `R`-module, then the integral closure of `R[x]` in `Frac(R[x])` is a
+finite `R[x]`-module; and if `R` is Noetherian and N-2 (Japanese), then `R[x]` is N-2.
+
+The Noetherian hypothesis of Tag 032O is attached to the N-2 conjunct only, the N-1 conjunct not
+using it; see the module docstring. -/
+@[stacks 032O]
+public theorem Polynomial.isN1_and_isJapaneseRing (R : Type u) [CommRing R] [IsDomain R] :
+    (IsN1 R → IsN1 (Polynomial R)) ∧
+      (IsNoetherianRing R → IsJapaneseRing R → IsJapaneseRing (Polynomial R)) :=
+  Stacks.Nagata.PolynomialAscent.solution R
+
+end

@@ -1,0 +1,200 @@
+module
+
+public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SymmetricPowerComparison
+public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SymmetricPowerIsSheafification
+public import StacksFrontier.AlgebraicGeometry.Divisors.NormalCone.ConormalPowerChart
+public import StacksFrontier.AlgebraicGeometry.Divisors.NormalCone.NormalConeInNormalBundle
+public import StacksFrontier.AlgebraicGeometry.SymmetricSituation.DegreeOneGeneration
+
+/-!
+# The canonical map out of the symmetric algebra, over a principal nonzerodivisor chart
+
+Let `i : Z ⟶ X` be an immersion and `U` an affine chart of `X` on which `i` restricts to a closed
+immersion and on which the chart ideal is `ℐ(U) = (f)` for a nonzerodivisor `f`. Over the chart
+`Stacks.Conormal.ConormalPowerChart` identifies the degree-`n` piece `ℐⁿ/ℐⁿ⁺¹` of the conormal
+algebra as free of rank one on the class of `fⁿ`. This file does the matching computation on the
+*source* of the canonical map `Sym*(𝒞_{Z/X}) ⟶ 𝒞_{Z/X,*}` of [Stacks, Tag 0632]:
+
+* the degree-`n` sections of `Symⁿ(𝒞_{Z/X})` over the chart which come from the sectionwise
+  symmetric power are all multiples of the `n`-fold product of the degree-one generator attached
+  to the class of `f`;
+* and the canonical map carries that `n`-fold product to the class of `fⁿ`.
+
+Together with the torsion-freeness of that class these say that the canonical map is *injective*
+on the sections coming from the sectionwise symmetric power, which is the local half of
+injectivity in degrees `≥ 2`.
+
+## Main results
+
+* `Stacks.Conormal.homogeneousProd_localMap_eq_localMap_pow`: **the `n`-fold product of the
+  degree-one class of `f` in the conormal algebra is the class of `fⁿ`.**
+* `Stacks.Conormal.exists_smul_symmetricAlgebraProd`: **over a principal chart every section of
+  the sectionwise degree-`n` symmetric power of `𝒞_{Z/X}` is a multiple of the `n`-fold product of
+  the degree-one class of `f`.**
+* `Stacks.Conormal.conormalSymmetricHom_app_sheafifyUnit_prod`: **the canonical map carries the
+  sheafification unit of that `n`-fold product to the class of `fⁿ`.**
+
+## Implementation notes
+
+`AlgebraicGeometry.Scheme.Modules.symmetricAlgebra Z F` and
+`SheafOfModules.sheafifiedSymmetricAlgebra (Opens.grothendieckTopology ↥Z) F` are the same term,
+as are their degree-one generators, and both have the presheaves `PresheafOfModules.symPowInt` of
+sectionwise symmetric powers as the presheaves they sheafify; each of those equalities holds by
+`rfl` (checked). That is what lets `SheafOfModules.sheafifyUnit_prod_ι` and
+`PresheafOfModules.mem_span_range_symmetricAlgebraProd`, which are stated for the second
+spelling, be used here for the first, and it is why no comparison isomorphism appears below.
+
+The generator over the chart is `D.localMap U hU 1 ⟨f ^ 1, _⟩` rather than `⟨f, _⟩`, so that the
+same `Stacks.Conormal.chartIdealPowGen` serves in every degree and the induction step is the
+identity `fⁿ⁺¹ = fⁿ · f¹`.
+
+## References
+
+* [Stacks Project, Tag 0632](https://stacks.math.columbia.edu/tag/0632)
+* [Stacks Project, Tag 0630](https://stacks.math.columbia.edu/tag/0630)
+* [Stacks Project, Tag 01CG](https://stacks.math.columbia.edu/tag/01CG)
+-/
+
+@[expose] public noncomputable section
+
+open AlgebraicGeometry CategoryTheory Opposite TopologicalSpace
+
+universe u
+
+namespace Stacks.Conormal
+
+variable {Z X : Scheme.{u}}
+
+/-! ### The product of the degree-one classes -/
+
+/-- **The `n`-fold product of the degree-one class of `f` in the conormal algebra is the class of
+`fⁿ`.** The multiplication of the conormal algebra is multiplication of representatives, so this
+is the identity `fⁿ⁺¹ = fⁿ · f¹` read through the local presentations. -/
+theorem homogeneousProd_localMap_eq_localMap_pow {i : Z ⟶ X} [IsImmersion i]
+    (D : ConormalAlgebraData i) (U : X.affineOpens)
+    (hU : IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl)) {f : Γ(X, U.1)}
+    (hf : chartIdeal i U = Ideal.span {f}) (n : ℕ) :
+    D.algebra.toPresheafGradedAlgebra.homogeneousProd (op (i ⁻¹ᵁ U.1)) n
+        (fun _ => D.localMap U hU 1 (chartIdealPowGen i U hf 1)) =
+      D.localMap U hU n (chartIdealPowGen i U hf n) := by
+  induction n with
+  | zero =>
+    exact (D.localMap_one U hU (chartIdealPowGen i U hf 0) (by simp)).symm
+  | succ n ih =>
+    show (D.algebra.mul (n : ℤ) 1).app (op (i ⁻¹ᵁ U.1))
+        (D.algebra.toPresheafGradedAlgebra.homogeneousProd (op (i ⁻¹ᵁ U.1)) n
+          (fun _ => D.localMap U hU 1 (chartIdealPowGen i U hf 1)))
+        (D.localMap U hU 1 (chartIdealPowGen i U hf 1)) = _
+    rw [ih]
+    exact (D.localMap_mul U hU n 1 (chartIdealPowGen i U hf n) (chartIdealPowGen i U hf 1)
+      (chartIdealPowGen i U hf (n + 1)) (by simp [pow_succ])).symm
+
+/-! ### Generation of the sectionwise symmetric powers by one generator -/
+
+namespace PresheafOfModulesAux
+
+variable {C : Type u} [Category.{u} C] {O : Cᵒᵖ ⥤ CommRingCat.{u}}
+
+/-- **If a module of local sections is generated by one element, its sectionwise degree-`n`
+symmetric power is generated by the `n`-fold ordered product of that element.** The symmetric
+power is spanned by the ordered products of `n` sections
+(`PresheafOfModules.mem_span_range_symmetricAlgebraProd`), each factor of such a product is a
+multiple of the generator, and an ordered product of multiples is the product of the multipliers
+times the ordered product of the generators.
+
+It is stated at a variable presheaf of commutative rings on purpose: only one spelling of the
+ring of sections occurs in it, so no instance search has to cross the two spellings of the
+functions on a chart that the application below meets. -/
+theorem exists_smul_symmetricAlgebraProd_const
+    (F : PresheafOfModules.{u} (O ⋙ forget₂ CommRingCat RingCat)) (Y : Cᵒᵖ) (g : F.obj Y)
+    (hg : ∀ m : F.obj Y, ∃ r : (O ⋙ forget₂ CommRingCat RingCat).obj Y, r • g = m) (n : ℕ)
+    (a : (PresheafOfModules.symPowInt (n : ℤ) F).obj Y) :
+    ∃ r : (O ⋙ forget₂ CommRingCat RingCat).obj Y,
+      r • F.symmetricAlgebraProd n Y (fun _ => g) = a := by
+  refine Submodule.mem_span_singleton.1
+    (Submodule.span_le.2 ?_ (F.mem_span_range_symmetricAlgebraProd n Y a))
+  rintro - ⟨t, rfl⟩
+  choose r hr using fun k : Fin n => hg (t k)
+  refine Submodule.mem_span_singleton.2 ⟨∏ k : Fin n, r k, ?_⟩
+  refine PresheafOfModules.symPowIntVal_injective (n : ℤ) F ?_
+  have hval : PresheafOfModules.symPowIntVal
+      ((∏ k : Fin n, r k) • F.symmetricAlgebraProd n Y (fun _ => g)) =
+      (∏ k : Fin n, r k) • ∏ _k : Fin n,
+        SymmetricAlgebra.ι ((O ⋙ forget₂ CommRingCat RingCat).obj Y) (F.obj Y) g := rfl
+  rw [hval, PresheafOfModules.symPowIntVal_prod]
+  simp only [← hr, map_smul, Algebra.smul_def, Finset.prod_mul_distrib, map_prod]
+
+end PresheafOfModulesAux
+
+/-! ### Generation of the sectionwise symmetric powers over the chart -/
+
+/-- Over a principal chart, the `n`-fold ordered product of the degree-one class of `f`, as a
+section of the sectionwise degree-`n` symmetric power of the conormal sheaf. -/
+def chartSymmetricProd (i : Z ⟶ X) [IsImmersion i] (U : X.affineOpens)
+    (hU : IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl)) {f : Γ(X, U.1)}
+    (hf : chartIdeal i U = Ideal.span {f}) (n : ℕ) :
+    (PresheafOfModules.symPowInt (n : ℤ)
+      (conormalSheafDegreeOne i).val).obj (op (i ⁻¹ᵁ U.1)) :=
+  (conormalSheafDegreeOne i).val.symmetricAlgebraProd n (op (i ⁻¹ᵁ U.1))
+    fun _ => (conormalAlgebra i).localMap U hU 1 (chartIdealPowGen i U hf 1)
+
+/-- **Over a principal chart every section of the sectionwise degree-`n` symmetric power of the
+conormal sheaf is a multiple of the `n`-fold product of the degree-one class of `f`.** The
+conormal sheaf is generated over the chart by that degree-one class
+(`Stacks.Conormal.ConormalAlgebraData.exists_smul_localMap_pow` in degree one), and
+`Stacks.Conormal.PresheafOfModulesAux.exists_smul_symmetricAlgebraProd_const` passes that to the
+symmetric powers. -/
+theorem exists_smul_chartSymmetricProd (i : Z ⟶ X) [IsImmersion i] (U : X.affineOpens)
+    (hU : IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl)) {f : Γ(X, U.1)}
+    (hf : chartIdeal i U = Ideal.span {f}) (n : ℕ)
+    (a : (PresheafOfModules.symPowInt (n : ℤ)
+      (conormalSheafDegreeOne i).val).obj (op (i ⁻¹ᵁ U.1))) :
+    ∃ r : (Z.sheaf.obj ⋙ forget₂ CommRingCat RingCat).obj (op (i ⁻¹ᵁ U.1)),
+      r • chartSymmetricProd i U hU hf n = a :=
+  PresheafOfModulesAux.exists_smul_symmetricAlgebraProd_const (conormalSheafDegreeOne i).val
+    (op (i ⁻¹ᵁ U.1)) ((conormalAlgebra i).localMap U hU 1 (chartIdealPowGen i U hf 1))
+    (fun m => (conormalAlgebra i).exists_smul_localMap_pow U hU hf 1 m) n a
+
+/-! ### The canonical map on the product -/
+
+/-- **The canonical map `Sym*(𝒞_{Z/X}) ⟶ 𝒞_{Z/X,*}` carries the sheafification unit of the
+`n`-fold product of the degree-one class of `f` to the class of `fⁿ`.** The unit of an ordered
+product of degree-one generators is the ordered product of their images
+(`SheafOfModules.sheafifyUnit_prod_ι`), a unital homomorphism preserves ordered products
+(`SheafOfModules.GradedAlgebra.UnitalHom.app_homogeneousProd`), the canonical map is the identity
+on degree-one generators, and the `n`-fold product of the degree-one class of `f` in the conormal
+algebra is the class of `fⁿ`. -/
+theorem conormalSymmetricHom_app_sheafifyUnit_prod (i : Z ⟶ X) [IsImmersion i]
+    (U : X.affineOpens) (hU : IsClosedImmersion (i.resLE U.1 (i ⁻¹ᵁ U.1) le_rfl))
+    {f : Γ(X, U.1)} (hf : chartIdeal i U = Ideal.span {f}) (n : ℕ) :
+    PresheafOfModules.Hom.app ((conormalSymmetricHom i).app (n : ℤ)).val (op (i ⁻¹ᵁ U.1))
+        (PresheafOfModules.Hom.app
+          (PresheafOfModules.sheafifyUnit (𝟙 Z.ringCatSheaf.obj)
+            (PresheafOfModules.symPowInt (n : ℤ) (conormalSheafDegreeOne i).val))
+          (op (i ⁻¹ᵁ U.1)) (chartSymmetricProd i U hU hf n)) =
+      (conormalAlgebra i).localMap U hU n (chartIdealPowGen i U hf n) := by
+  have h1 : PresheafOfModules.Hom.app
+        (PresheafOfModules.sheafifyUnit (𝟙 Z.ringCatSheaf.obj)
+          (PresheafOfModules.symPowInt (n : ℤ) (conormalSheafDegreeOne i).val))
+        (op (i ⁻¹ᵁ U.1)) (chartSymmetricProd i U hU hf n) =
+      (conormalSymmetricAlgebra i).toPresheafGradedAlgebra.homogeneousProd
+        (op (i ⁻¹ᵁ U.1)) n (fun _ =>
+          PresheafOfModules.Hom.app
+            (Scheme.Modules.symmetricAlgebraGen Z (conormalSheafDegreeOne i)).val
+            (op (i ⁻¹ᵁ U.1))
+            ((conormalAlgebra i).localMap U hU 1 (chartIdealPowGen i U hf 1))) :=
+    SheafOfModules.sheafifyUnit_prod_ι (Opens.grothendieckTopology (Z : TopCat))
+      (Osharp := Z.sheaf) (conormalSheafDegreeOne i) n (op (i ⁻¹ᵁ U.1))
+      (fun _ => (conormalAlgebra i).localMap U hU 1 (chartIdealPowGen i U hf 1))
+  refine Eq.trans (congrArg (PresheafOfModules.Hom.app
+    ((conormalSymmetricHom i).app (n : ℤ)).val (op (i ⁻¹ᵁ U.1))) h1) ?_
+  refine Eq.trans (SheafOfModules.GradedAlgebra.UnitalHom.app_homogeneousProd
+    (conormalSymmetricHom i) (op (i ⁻¹ᵁ U.1)) n _) ?_
+  refine Eq.trans (congrArg
+    ((conormalAlgebra i).algebra.toPresheafGradedAlgebra.homogeneousProd (op (i ⁻¹ᵁ U.1)) n)
+    (funext fun _ => conormalSymmetricHom_app_one_symmetricAlgebraGen i (i ⁻¹ᵁ U.1) _)) ?_
+  exact homogeneousProd_localMap_eq_localMap_pow (conormalAlgebra i) U hU hf n
+
+end Stacks.Conormal
+
+end

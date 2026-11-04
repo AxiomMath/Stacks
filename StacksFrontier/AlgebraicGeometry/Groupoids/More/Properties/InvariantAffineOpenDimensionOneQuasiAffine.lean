@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Groupoids.More.Properties.InvariantAffineOpenDimensionOneQuasiAffine.InvariantCore
+public import StacksFrontier.AlgebraicGeometry.Groupoids.More.Properties.InvariantAffineOpenDimensionOneQuasiAffine.DenseFlatOpen
+public import StacksFrontier.AlgebraicGeometry.Groupoids.More.Properties.InvariantAffineOpenDimensionOneQuasiAffine.NoetherianQuasiAffine

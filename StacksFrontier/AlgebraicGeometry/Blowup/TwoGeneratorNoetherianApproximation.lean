@@ -1,0 +1,181 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.ModuleLimits.FiniteLocallyFreeUnconditional
+public import StacksFrontier.AlgebraicGeometry.Morphisms.Fibres.EventualFibreDimension
+
+/-!
+# Noetherian approximation of the base of the two-generator almost blowup square
+
+Let `A` be a commutative ring and `f₁, f₂ ∈ A`, the data of [Stacks, Example 0EVH]. The proof of
+[Stacks, Tag 0EXD] opens with a reduction the source itself asks the reader to skip: *"By Limits,
+Lemma 0B8W we can find a finitely generated `𝐅_p`-subalgebra `A₀ ⊆ A` containing `f₁` and `f₂`
+such that the triple `(ℱ, 𝒢, φ)` descends to `X₀ = Spec(A₀)`, …  Thus we may assume our schemes
+are Noetherian."*
+
+This file supplies the index system that reduction runs over, and carries out the descent on the
+base `X = Spec A` itself.
+
+`Stacks.AlmostBlowUp.noetherianStage A f₁ f₂ i`, for `i` a finite subset of `A`, is the subring
+`ℤ[i ∪ {f₁, f₂}] ⊆ A`. The family is monotone in `i`, every element of `A` lies in one of its
+members, each member contains `f₁` and `f₂`, and each member is of finite type over `ℤ`, hence
+**Noetherian** by Hilbert's basis theorem. So `Spec A` is the cofiltered limit of the spectra of
+the Noetherian stages, with affine transition morphisms and quasi-compact quasi-separated
+stages — exactly the shape [Stacks, Tag 0B8W] consumes — and
+`Stacks.AlmostBlowUp.exists_noetherianStage_isFiniteLocallyFree_pullback_iso` is that tag applied
+to it.
+
+The source says `𝐅_p`-subalgebra because it works in characteristic `p`; nothing here needs a
+characteristic hypothesis, and `ℤ[…]` is the stronger statement — when `p` vanishes in `A` the
+stage *is* an `𝐅_p`-subalgebra of finite type, since `ℤ → A` factors through `𝐅_p`.
+
+## Main definitions
+
+* `Stacks.AlmostBlowUp.noetherianStage`: the subring `ℤ[i ∪ {f₁, f₂}] ⊆ A`.
+* `Stacks.AlmostBlowUp.noetherianStageSpecDiagram`: `i ↦ Spec (noetherianStage A f₁ f₂ i)`, a
+  cofiltered diagram indexed by `(Finset A)ᵒᵖ`.
+* `Stacks.AlmostBlowUp.noetherianStageSpecCone` and
+  `Stacks.AlmostBlowUp.isLimit_noetherianStageSpecCone`: `Spec A` is its limit.
+
+## Main results
+
+* `Stacks.AlmostBlowUp.isNoetherianRing_noetherianStage`: every stage is Noetherian.
+* `Stacks.AlmostBlowUp.mem_noetherianStage_left`,
+  `Stacks.AlmostBlowUp.mem_noetherianStage_right`: every stage contains `f₁` and `f₂`.
+* `Stacks.AlmostBlowUp.exists_noetherianStage_isFiniteLocallyFree_pullback_iso`:
+  **[Stacks, Tag 0B8W] (1) at this system** — a finite locally free `𝒪_{Spec A}`-module is the
+  pullback of a finite locally free module over a Noetherian stage containing `f₁` and `f₂`.
+
+## Implementation notes
+
+**This is the base corner only.** The reduction [Stacks, Tag 0EXD] performs descends a *triple*
+`(ℱ, 𝒢, φ)` living on `Z = Spec(A/(f₁,f₂))`, on `X' = Proj(A[T₀,T₁]/(f₂T₀ - f₁T₁))` and on
+`E = 𝐏¹_Z`. Those three corners are the base changes of the corresponding corners over a stage —
+the square is built functorially out of `(A, f₁, f₂)` — so the system below is the right index
+system for all of them. The identification of each corner over `A` with the base change of the
+corner over the initial stage is
+`StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorCoefficientBaseChange.lean`, and the limit cones
+it produces, together with [Stacks, Tag 0B8W] applied at each corner, are
+`StacksFrontier/AlgebraicGeometry/Blowup/TwoGeneratorNoetherianCorners.lean`. No `@[stacks 0EXD]`
+attribute appears anywhere: the reduction is the opening of the proof, not the tag.
+
+**No `@[stacks 0B8W]` attribute either**: the tag is already registered, unconditionally, on
+`Stacks.AlgebraicGeometry.ModuleLimits.exists_isFiniteLocallyFree_pullback_iso`
+(`StacksFrontier/AlgebraicGeometry/ModuleLimits/FiniteLocallyFreeUnconditional.lean`), and the last
+result below is that declaration instantiated, not a second proof of it.
+
+The stages are `EventualFibreDimension.coefficientSubalgebra (RingHom.id A) {f₁, f₂}`, the
+coefficient subalgebras already in the tree, so that their monotonicity and finite generation are
+the lemmas already proved there; the limit of the spectra is
+`EventualFibreDimension.subringSpecIsLimit`, which is `Spec` — a right adjoint — applied to the
+filtered colimit of a directed family of subrings whose union is the whole ring.
+
+## References
+
+* [Stacks Project, Tag 0B8W](https://stacks.math.columbia.edu/tag/0B8W)
+* [Stacks Project, Tag 0EVH](https://stacks.math.columbia.edu/tag/0EVH)
+* [Stacks Project, Tag 0EXD](https://stacks.math.columbia.edu/tag/0EXD)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry
+open EventualFibreDimension
+
+universe u
+
+namespace Stacks.AlmostBlowUp
+
+variable (A : Type u) [CommRing A] (f₁ f₂ : A)
+
+/-! ### The Noetherian stages -/
+
+/-- **A Noetherian stage of `A` for the data of [Stacks, Example 0EVH]**: for `i` a finite subset
+of `A`, the subring `ℤ[i ∪ {f₁, f₂}] ⊆ A` generated by `i` together with the two distinguished
+elements. -/
+public abbrev noetherianStage (i : Finset A) : Subring A :=
+  (coefficientSubalgebra (RingHom.id A) {f₁, f₂} i).toSubring
+
+/-- The stages grow with the index. -/
+public theorem monotone_noetherianStage : Monotone (noetherianStage A f₁ f₂) := fun _ _ h =>
+  coefficientSubalgebra_mono (RingHom.id A) {f₁, f₂} h
+
+/-- Every stage contains `f₁`. -/
+public theorem mem_noetherianStage_left (i : Finset A) : f₁ ∈ noetherianStage A f₁ f₂ i :=
+  Algebra.subset_adjoin (Or.inr (by simp))
+
+/-- Every stage contains `f₂`. -/
+public theorem mem_noetherianStage_right (i : Finset A) : f₂ ∈ noetherianStage A f₁ f₂ i :=
+  Algebra.subset_adjoin (Or.inr (by simp))
+
+/-- The stages exhaust `A`: every element lies in the stage indexed by its own singleton. -/
+public theorem exists_mem_noetherianStage (r : A) :
+    ∃ i : Finset A, r ∈ noetherianStage A f₁ f₂ i := by
+  classical
+  exact ⟨{r}, Algebra.subset_adjoin (Or.inl ⟨r, by simp, rfl⟩)⟩
+
+/-- **Every stage is Noetherian.** A stage is of finite type over `ℤ`, and `ℤ` is Noetherian, so
+Hilbert's basis theorem applies. This is what the reduction of [Stacks, Tag 0EXD] is for. -/
+public instance isNoetherianRing_noetherianStage (i : Finset A) :
+    IsNoetherianRing (noetherianStage A f₁ f₂ i) := by
+  have hfg : (coefficientSubalgebra (RingHom.id A) ({f₁, f₂} : Set A) i).FG :=
+    coefficientSubalgebra_fg (RingHom.id A) (Set.toFinite _) i
+  have : Algebra.FiniteType ℤ (coefficientSubalgebra (RingHom.id A) ({f₁, f₂} : Set A) i) :=
+    ⟨(Subalgebra.fg_top _).mpr hfg⟩
+  exact Algebra.FiniteType.isNoetherianRing ℤ _
+
+/-! ### `Spec A` as the limit of the spectra of the stages -/
+
+/-- **The diagram of the spectra of the Noetherian stages**, indexed by `(Finset A)ᵒᵖ`, which is
+cofiltered. Its transition morphisms are `Spec` of the inclusions of stages, hence affine. -/
+public abbrev noetherianStageSpecDiagram : (Finset A)ᵒᵖ ⥤ Scheme.{u} :=
+  (subringDiagram (noetherianStage A f₁ f₂) (monotone_noetherianStage A f₁ f₂)).op ⋙ Scheme.Spec
+
+/-- **The cone over the stages with vertex `Spec A`.** -/
+public abbrev noetherianStageSpecCone : Cone (noetherianStageSpecDiagram A f₁ f₂) :=
+  Scheme.Spec.mapCone
+    (subringCocone (noetherianStage A f₁ f₂) (monotone_noetherianStage A f₁ f₂)).op
+
+/-- The vertex of the cone is `Spec A` on the nose. -/
+public theorem noetherianStageSpecCone_pt :
+    (noetherianStageSpecCone A f₁ f₂).pt = Spec (CommRingCat.of A) := rfl
+
+/-- **`Spec A` is the cofiltered limit of the spectra of its Noetherian stages.** `A` is the
+filtered colimit of the stages and `Spec` is a right adjoint. -/
+public def isLimit_noetherianStageSpecCone : IsLimit (noetherianStageSpecCone A f₁ f₂) :=
+  subringSpecIsLimit (noetherianStage A f₁ f₂) (monotone_noetherianStage A f₁ f₂)
+    (exists_mem_noetherianStage A f₁ f₂)
+
+/-- A stage's spectrum is quasi-compact, being affine. -/
+public instance compactSpace_noetherianStageSpecDiagram_obj (i : (Finset A)ᵒᵖ) :
+    CompactSpace ((noetherianStageSpecDiagram A f₁ f₂).obj i) :=
+  inferInstanceAs (CompactSpace (Spec (CommRingCat.of (noetherianStage A f₁ f₂ i.unop))))
+
+/-- A stage's spectrum is quasi-separated, being affine. -/
+public instance quasiSeparatedSpace_noetherianStageSpecDiagram_obj (i : (Finset A)ᵒᵖ) :
+    QuasiSeparatedSpace ((noetherianStageSpecDiagram A f₁ f₂).obj i) :=
+  inferInstanceAs (QuasiSeparatedSpace (Spec (CommRingCat.of (noetherianStage A f₁ f₂ i.unop))))
+
+/-! ### Descending a vector bundle on the base to a Noetherian stage -/
+
+/-- **[Stacks, Tag 0B8W] (1) for the base of [Stacks, Example 0EVH].** Every finite locally free
+`𝒪_{Spec A}`-module is the pullback of a finite locally free module over `Spec A₀` for some
+Noetherian stage `A₀ = ℤ[i ∪ {f₁, f₂}] ⊆ A` containing `f₁` and `f₂`.
+
+This is `Stacks.AlgebraicGeometry.ModuleLimits.exists_isFiniteLocallyFree_pullback_iso`, which
+carries the tag, applied to the limit presentation above; the Noetherianity of the stage one
+lands on is `Stacks.AlmostBlowUp.isNoetherianRing_noetherianStage` and its containing `f₁` and
+`f₂` is `Stacks.AlmostBlowUp.mem_noetherianStage_left` and `…_right`. -/
+public theorem exists_noetherianStage_isFiniteLocallyFree_pullback_iso
+    (E : (Spec (CommRingCat.of A)).Modules)
+    (hE : SheafOfModules.IsFiniteLocallyFree.{u, u, u} E) :
+    ∃ (i : (Finset A)ᵒᵖ) (Eᵢ : ((noetherianStageSpecDiagram A f₁ f₂).obj i).Modules),
+      SheafOfModules.IsFiniteLocallyFree.{u, u, u} Eᵢ ∧
+        Nonempty (E ≅
+          (Scheme.Modules.pullback ((noetherianStageSpecCone A f₁ f₂).π.app i)).obj Eᵢ) :=
+  Stacks.AlgebraicGeometry.ModuleLimits.exists_isFiniteLocallyFree_pullback_iso
+    (noetherianStageSpecDiagram A f₁ f₂) (noetherianStageSpecCone A f₁ f₂)
+    (isLimit_noetherianStageSpecCone A f₁ f₂) E hE
+
+end Stacks.AlmostBlowUp
+
+end

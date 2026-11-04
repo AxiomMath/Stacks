@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.GroupScheme.Examples.MultiplicativeDeformation.CoordinateRing
+public import StacksFrontier.AlgebraicGeometry.GroupScheme.Examples.MultiplicativeDeformation.Exactness
+public import StacksFrontier.AlgebraicGeometry.GroupScheme.Examples.MultiplicativeDeformation.GroupSchemes

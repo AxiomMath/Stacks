@@ -1,0 +1,7 @@
+module
+
+public import StacksFrontier.RingTheory.DiscreteValuationRing.SeparableSolution.LocalCriteria
+public import StacksFrontier.RingTheory.DiscreteValuationRing.SeparableSolution.AdjoinRootOrders
+public import StacksFrontier.RingTheory.DiscreteValuationRing.SeparableSolution.LinearPerturbation
+public import StacksFrontier.RingTheory.DiscreteValuationRing.SeparableSolution.LocalFormalSmoothness
+public import StacksFrontier.RingTheory.DiscreteValuationRing.SeparableSolution.InseparableStep

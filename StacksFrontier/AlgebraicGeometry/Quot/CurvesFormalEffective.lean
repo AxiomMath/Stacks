@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesFormalEffective.Rebase
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesFormalEffective.RebasedLevels
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesFormalEffective.LevelRepresentability
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesFormalEffective.Effectivity

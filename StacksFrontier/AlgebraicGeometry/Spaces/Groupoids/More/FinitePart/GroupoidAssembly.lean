@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.More.FinitePart.GroupoidAssembly.ArrowComposition
+public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.More.FinitePart.GroupoidAssembly.TargetIdentities
+public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.More.FinitePart.GroupoidAssembly.SectionGroupoid

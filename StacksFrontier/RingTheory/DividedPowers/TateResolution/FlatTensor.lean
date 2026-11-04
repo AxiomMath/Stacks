@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.FlatTensor.EvenSubalgebra
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.FlatTensor.EvenDividedPowers
+public import StacksFrontier.RingTheory.DividedPowers.TateResolution.FlatTensor.DividedPowerStructure

@@ -1,0 +1,1182 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Etale.FiniteSupport
+public import Mathlib.Algebra.DirectSum.Basic
+public import Mathlib.AlgebraicGeometry.AlgClosed.Basic
+public import Mathlib.CategoryTheory.Filtered.FinallySmall
+
+/-!
+# The germ decomposition of the stalk of the finite-support direct image
+
+Let `f : X ⟶ Y` be a locally quasi-finite morphism of a big étale site and let `ȳ` be a geometric
+point of `Y`. A geometric point of `X` over `ȳ` is a lift of `ȳ` through `f`, and for every étale
+neighbourhood `(V, v̄)` of `ȳ` such a lift determines, by the universal property of the fibre
+product, a lift of the pair to `X_V = V ×_Y X`. Pairing that lift with a section supported on a
+support finite over `V` produces a germ at the geometric point of `X`, zero whenever the lift
+misses the canonical open on which the supported section lives. Only finitely many points of the
+geometric fibre lie in a support finite over `V`, so these germs assemble into an element of the
+direct sum `⊕_{f(x̄) = ȳ} F_x̄`, and compatibly with both colimits defining the stalk of the
+finite-support direct image. This file constructs the resulting canonical map
+`(f_{p!}F)_ȳ ⟶ ⊕_{f(x̄) = ȳ} F_x̄` and pins it down on the generators of the double colimit; this
+is the construction step of Stacks 0F6P, whose remaining content — that the map is an isomorphism
+— is not proved here. What is proved of that content is the concrete description of the elements
+of a stalk, a germ being zero, and two germs agreeing, and the consequent reduction of
+surjectivity of the map to its geometric input.
+
+## Main definitions
+
+* `AlgebraicGeometry.SmallEtale.etaleGerm` — the germ at a geometric point of a section over an
+  object of the small étale site carrying a lift of it, with
+  `AlgebraicGeometry.SmallEtale.openObjectLift` the lift to a Zariski open containing it.
+* `AlgebraicGeometry.SmallEtale.GeometricFiberPoint` — a geometric point of `X` over the fixed
+  geometric point of `Y`, with `GeometricFiberPoint.toGeometricPoint` the underlying geometric
+  point of `X` and `AlgebraicGeometry.SmallEtale.fiberStalks` the direct sum of the stalks over
+  those points.
+* `AlgebraicGeometry.SmallEtale.fiberPointLift` and
+  `AlgebraicGeometry.SmallEtale.fiberPointElement` — the lift of a point of the geometric fibre to
+  the base change `X_V` determined by a lift of the geometric point of `Y` to `V`.
+* `AlgebraicGeometry.SmallEtale.fiberStalkComponent`,
+  `AlgebraicGeometry.SmallEtale.fiberStalkSum` and
+  `AlgebraicGeometry.SmallEtale.fiberStalkHom` — the germ decomposition of a section supported on a
+  support finite over `V`.
+* `AlgebraicGeometry.SmallEtale.finiteSupportSectionsToFiberStalks` and
+  `AlgebraicGeometry.SmallEtale.finiteSupportStalkToFiberStalks` — the germ decomposition of the
+  finite-support sections over an étale neighbourhood, and of the stalk of the finite-support
+  direct image, obtained from the cocones
+  `AlgebraicGeometry.SmallEtale.fiberStalkCocone` and
+  `AlgebraicGeometry.SmallEtale.finiteSupportStalkCocone`.
+* `AlgebraicGeometry.SmallEtale.fiberStalksMap` — the induced map of direct sums of stalks.
+
+## Main results
+
+* `AlgebraicGeometry.SmallEtale.finite_mem_of_isFiniteSupport` — only finitely many points of the
+  geometric fibre lift into a support finite over the étale neighbourhood. This is what makes the
+  germs a *finite* family, and is the one genuinely geometric input: the geometric fibre of the
+  subscheme realizing the support is a scheme finite over an algebraically closed field.
+* `AlgebraicGeometry.SmallEtale.etaleGerm_eq_zero_of_notMem_supportSection` and
+  `AlgebraicGeometry.SmallEtale.fiberStalkComponent_eq_zero_of_notMem` — a germ vanishes at a lift
+  lying outside the support.
+* `AlgebraicGeometry.SmallEtale.fiberStalkComponent_supportedSectionsMap` and
+  `AlgebraicGeometry.SmallEtale.fiberStalkComponent_baseChange` — the germ decomposition is
+  unchanged by enlarging the support and by shrinking the étale neighbourhood, which is what makes
+  the two cocones cocones.
+* `AlgebraicGeometry.SmallEtale.exists_etaleGerm_eq`,
+  `AlgebraicGeometry.SmallEtale.etaleGerm_eq_zero_iff` and
+  `AlgebraicGeometry.SmallEtale.etaleGerm_eq_iff` — every element of a stalk is a germ, a germ
+  vanishes exactly when the section already restricts to zero on a smaller étale neighbourhood,
+  and two germs agree exactly when the sections already agree on a common one. These rest on
+  `AlgebraicGeometry.SmallEtale.preservesColimit_etaleStalkDiagram`, the one point needing an
+  argument: the neighbourhood category is filtered but not small, so preservation of the colimit
+  by the forgetful functor has to be routed through the small cofinal neighbourhood basis.
+* `AlgebraicGeometry.SmallEtale.surjective_finiteSupportStalkToFiberStalks_of_exists_preimage` —
+  surjectivity of the decomposition map follows from the single-summand case, the direct sum being
+  generated by its summands.
+* `AlgebraicGeometry.SmallEtale.finiteSupportStalkToFiberStalks_germ`,
+  `AlgebraicGeometry.SmallEtale.finiteSupportStalkToFiberStalks_zero_of_no_open_lift` and
+  `AlgebraicGeometry.SmallEtale.finiteSupportStalkToFiberStalks_natural` — the three properties
+  characterizing the map on the generators of the double colimit: its component at a lift is the
+  germ computed through any étale neighbourhood of the lift mapping into the canonical
+  support-open, it is zero when no such neighbourhood exists, and it is natural in the sheaf.
+
+## Implementation notes
+
+The germ is taken at an element of the category of elements of
+`AlgebraicGeometry.geometricPointFiber`, which is the étale neighbourhood together with its chosen
+lift; this is the form in which the colimit defining `AlgebraicGeometry.etaleStalk` is indexed, so
+no choice of representative intervenes, and compatibility of germs under a morphism of étale
+neighbourhoods is exactly `CategoryTheory.Limits.colimit.w`.
+
+The lift of a point of the geometric fibre to `X_V` is *not* chosen: it is the morphism the
+universal property of the fibre product produces from the lift of the geometric point of `Y` and
+the point of the geometric fibre. Consequently the component of the decomposition at a point of the
+geometric fibre is determined, and the case distinction in
+`AlgebraicGeometry.SmallEtale.fiberStalkComponent` is on the single question of whether that lift
+meets the canonical support-open.
+
+Finiteness of the family of germs is obtained by base-changing the subscheme realizing the support
+along the lift of the geometric point: the result is finite over the spectrum of an algebraically
+closed field, hence has finitely many points, and
+`AlgebraicGeometry.pointEquivClosedPoint` identifies the lifts with those points.
+
+## References
+
+* [Stacks Project, Tag 0F6P](https://stacks.math.columbia.edu/tag/0F6P)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits Opposite
+open scoped DirectSum
+
+universe u v
+
+namespace AlgebraicGeometry.SmallEtale
+
+section Germ
+
+variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (t : GeometricPoint S)
+  (P : (SmallEtale B S hS)ᵒᵖ ⥤ AddCommGrpCat.{v})
+
+/-- The diagram whose colimit is the stalk at a geometric point. -/
+public abbrev etaleStalkDiagram :
+    (geometricPointFiber B S hS t).Elementsᵒᵖ ⥤ AddCommGrpCat.{v} :=
+  (CategoryOfElements.π (geometricPointFiber B S hS t)).op ⋙ P
+
+/-- The germ at a geometric point of a section over an object of the small étale site together
+with a chosen lift of the geometric point to it. -/
+public def etaleGerm [HasColimit (etaleStalkDiagram B S hS t P)] (W : SmallEtale B S hS)
+    (q : (geometricPointFiber B S hS t).obj W) (a : P.obj (op W)) :
+    ↑(etaleStalk B S hS t P) :=
+  colimit.ι (etaleStalkDiagram B S hS t P) (op ⟨W, q⟩) a
+
+/-- The germ of a section is unchanged by restricting along a morphism of the small étale site
+which carries one chosen lift to the other. -/
+public theorem etaleGerm_map [HasColimit (etaleStalkDiagram B S hS t P)]
+    {W W' : SmallEtale B S hS} (j : W' ⟶ W)
+    (q : (geometricPointFiber B S hS t).obj W)
+    (q' : (geometricPointFiber B S hS t).obj W')
+    (hq : (geometricPointFiber B S hS t).map j q' = q) (a : P.obj (op W)) :
+    etaleGerm B S hS t P W' q' (P.map j.op a) = etaleGerm B S hS t P W q a := by
+  let A : (geometricPointFiber B S hS t).Elements := ⟨W', q'⟩
+  let A' : (geometricPointFiber B S hS t).Elements := ⟨W, q⟩
+  let m : A ⟶ A' := ⟨j, hq⟩
+  have hw := ConcreteCategory.congr_hom (colimit.w (etaleStalkDiagram B S hS t P) m.op) a
+  rw [ConcreteCategory.comp_apply] at hw
+  exact hw
+
+/-- A lift of a geometric point whose image lies in a Zariski open of its étale neighbourhood
+lifts to the object of the small étale site given by that open. -/
+public def openObjectLift (W : SmallEtale B S hS) (q : (geometricPointFiber B S hS t).obj W)
+    (W₀ : ((SmallEtale.toScheme B S hS).obj W).Opens)
+    (hq : q.1.base default ∈ (W₀ : Set ((SmallEtale.toScheme B S hS).obj W))) :
+    (geometricPointFiber B S hS t).obj (openObject B S hS W W₀) :=
+  have hr : Set.range q.1.base ⊆ Set.range W₀.ι.base := by
+    rintro _ ⟨z, rfl⟩
+    rw [Subsingleton.elim z default, Scheme.Opens.range_ι]
+    exact hq
+  ⟨IsOpenImmersion.lift W₀.ι q.1 hr, by
+    calc IsOpenImmersion.lift W₀.ι q.1 hr ≫
+          B.inclusion.map (openObject B S hS W W₀).obj.hom
+        = IsOpenImmersion.lift W₀.ι q.1 hr ≫
+            ((SmallEtale.toScheme B S hS).map (openObjectι B S hS W W₀) ≫
+              B.inclusion.map W.obj.hom) := by
+          rw [SmallEtale.toScheme_map_comp]
+      _ = (IsOpenImmersion.lift W₀.ι q.1 hr ≫ W₀.ι) ≫ B.inclusion.map W.obj.hom := by
+          rw [openObjectι_map, Category.assoc]
+      _ = t.hom := by
+          rw [IsOpenImmersion.lift_fac]
+          exact q.2⟩
+
+/-- The lift to a Zariski open is carried to the original lift by the open inclusion. -/
+@[simp]
+public theorem openObjectLift_map (W : SmallEtale B S hS)
+    (q : (geometricPointFiber B S hS t).obj W)
+    (W₀ : ((SmallEtale.toScheme B S hS).obj W).Opens)
+    (hq : q.1.base default ∈ (W₀ : Set ((SmallEtale.toScheme B S hS).obj W))) :
+    (geometricPointFiber B S hS t).map (openObjectι B S hS W W₀)
+      (openObjectLift B S hS t W q W₀ hq) = q := by
+  apply Subtype.ext
+  show (openObjectLift B S hS t W q W₀ hq).1 ≫
+    (SmallEtale.toScheme B S hS).map (openObjectι B S hS W W₀) = q.1
+  rw [openObjectι_map]
+  exact IsOpenImmersion.lift_fac _ _ _
+
+/-- The germ of a section restricted to a Zariski open containing the lift is its germ. -/
+public theorem etaleGerm_openObjectLift [HasColimit (etaleStalkDiagram B S hS t P)]
+    (W : SmallEtale B S hS) (q : (geometricPointFiber B S hS t).obj W)
+    (W₀ : ((SmallEtale.toScheme B S hS).obj W).Opens)
+    (hq : q.1.base default ∈ (W₀ : Set ((SmallEtale.toScheme B S hS).obj W)))
+    (a : P.obj (op W)) :
+    etaleGerm B S hS t P (openObject B S hS W W₀) (openObjectLift B S hS t W q W₀ hq)
+        (P.map (openObjectι B S hS W W₀).op a) = etaleGerm B S hS t P W q a :=
+  etaleGerm_map B S hS t P _ q _ (openObjectLift_map B S hS t W q W₀ hq) a
+
+/-- The lift to a Zariski open composes with the open immersion to the original lift. -/
+@[simp]
+public theorem openObjectLift_comp_ι (W : SmallEtale B S hS)
+    (q : (geometricPointFiber B S hS t).obj W)
+    (W₀ : ((SmallEtale.toScheme B S hS).obj W).Opens)
+    (hq : q.1.base default ∈ (W₀ : Set ((SmallEtale.toScheme B S hS).obj W))) :
+    (openObjectLift B S hS t W q W₀ hq).1 ≫ W₀.ι = q.1 :=
+  IsOpenImmersion.lift_fac _ _ _
+
+/-- Two lifts of a geometric point to a Zariski open agree as soon as they agree in the ambient
+étale neighbourhood. -/
+public theorem openObjectLift_ext (W : SmallEtale B S hS)
+    (W₀ : ((SmallEtale.toScheme B S hS).obj W).Opens)
+    (p p' : (geometricPointFiber B S hS t).obj (openObject B S hS W W₀))
+    (h : p.1 ≫ W₀.ι = p'.1 ≫ W₀.ι) : p = p' :=
+  Subtype.ext ((cancel_mono W₀.ι).1 h)
+
+/-- A morphism into a Zariski open object carries one lift to another as soon as they agree after
+composing with the open immersion. -/
+private theorem map_eq_of_comp_ι (W : SmallEtale B S hS)
+    (W₀ : ((SmallEtale.toScheme B S hS).obj W).Opens) {W' : SmallEtale B S hS}
+    (j : W' ⟶ openObject B S hS W W₀) (p : (geometricPointFiber B S hS t).obj W')
+    (p' : (geometricPointFiber B S hS t).obj (openObject B S hS W W₀))
+    (h : p.1 ≫ (SmallEtale.toScheme B S hS).map j ≫ W₀.ι = p'.1 ≫ W₀.ι) :
+    (geometricPointFiber B S hS t).map j p = p' :=
+  openObjectLift_ext B S hS t W W₀ _ _ ((Category.assoc _ _ _).trans h)
+
+/-- The germ of a sum is the sum of the germs. -/
+public theorem etaleGerm_add [HasColimit (etaleStalkDiagram B S hS t P)] (W : SmallEtale B S hS)
+    (q : (geometricPointFiber B S hS t).obj W) (a b : P.obj (op W)) :
+    etaleGerm B S hS t P W q (a + b) =
+      etaleGerm B S hS t P W q a + etaleGerm B S hS t P W q b :=
+  (colimit.ι (etaleStalkDiagram B S hS t P) (op ⟨W, q⟩)).hom.map_add a b
+
+/-- The germ of the zero section is zero. -/
+public theorem etaleGerm_zero [HasColimit (etaleStalkDiagram B S hS t P)] (W : SmallEtale B S hS)
+    (q : (geometricPointFiber B S hS t).obj W) :
+    etaleGerm B S hS t P W q 0 = 0 :=
+  (colimit.ι (etaleStalkDiagram B S hS t P) (op ⟨W, q⟩)).hom.map_zero
+
+/-- The germ at a geometric point of a multiple of a section is that multiple of its germ. -/
+public theorem etaleGerm_nsmul_of_hasColimit [HasColimit (etaleStalkDiagram B S hS t P)]
+    (W : SmallEtale B S hS)
+    (q : (geometricPointFiber B S hS t).obj W) (n : ℕ) (a : P.obj (op W)) :
+    etaleGerm B S hS t P W q (n • a) = n • etaleGerm B S hS t P W q a := by
+  induction n with
+  | zero => rw [zero_nsmul, zero_nsmul, etaleGerm_zero]
+  | succ k ih => rw [succ_nsmul, succ_nsmul, etaleGerm_add, ih]
+
+variable (F : Sheaf (SmallEtale.topology B S hS) AddCommGrpCat.{v})
+
+/-- A germ vanishes at a lift whose image lies outside the support of the section. -/
+public theorem etaleGerm_eq_zero_of_notMem_supportSection
+    [HasColimit (etaleStalkDiagram B S hS t F.obj)]
+    (W : SmallEtale B S hS) (q : (geometricPointFiber B S hS t).obj W)
+    (a : F.obj.obj (op W))
+    (hq : q.1.base default ∉ supportSection B S hS F W a) :
+    etaleGerm B S hS t F.obj W q a = 0 := by
+  have hmem : q.1.base default ∈
+      (zeroOpen B S hS F W a : Set ((SmallEtale.toScheme B S hS).obj W)) := by
+    simpa only [supportSection, Set.mem_compl_iff, not_not] using hq
+  have hzero : F.obj.map (openObjectι B S hS W (zeroOpen B S hS F W a)).op a = 0 :=
+    (map_eq_zero_iff_le_zeroOpen B S hS F W a _
+      (openObjectι B S hS W (zeroOpen B S hS F W a))).2
+      (le_of_eq (openObjectι_opensRange B S hS W (zeroOpen B S hS F W a)))
+  rw [← etaleGerm_openObjectLift B S hS t F.obj W q (zeroOpen B S hS F W a) hmem a, hzero]
+  exact map_zero _
+
+end Germ
+
+section GermColimit
+
+variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (t : GeometricPoint S)
+
+/-- The forgetful functor to sets preserves the colimit of abelian groups defining a stalk on the
+small étale site at a geometric point.
+
+The category of étale neighbourhoods of the geometric point is filtered, but it is not small: its
+objects live one universe above the schemes. The forgetful functor of `AddCommGrpCat` is only
+known to preserve filtered colimits of small shape, so the statement is obtained from the small
+cofinal neighbourhood basis `AlgebraicGeometry.geometricPointFiber_initiallySmall` through
+`CategoryTheory.FinallySmall.preservesColimitsOfShape_of_isFiltered`, which replaces a locally
+small filtered finally small shape by a small filtered one. This is what makes the concrete
+description of the elements of a stalk available. -/
+public instance preservesColimit_etaleStalkDiagram [UnivLE.{u, v}]
+    (P : (SmallEtale B S hS)ᵒᵖ ⥤ AddCommGrpCat.{v}) :
+    PreservesColimit (etaleStalkDiagram B S hS t P) (forget AddCommGrpCat.{v}) :=
+  haveI : PreservesFilteredColimitsOfSize.{u, u} (forget AddCommGrpCat.{v}) :=
+    preservesFilteredColimitsOfSize_of_univLE.{v, v, u, u} _
+  haveI := FinallySmall.preservesColimitsOfShape_of_isFiltered.{u}
+    (geometricPointFiber B S hS t).Elementsᵒᵖ (forget AddCommGrpCat.{v})
+  inferInstance
+
+variable [UnivLE.{u, v}] (P : (SmallEtale B S hS)ᵒᵖ ⥤ AddCommGrpCat.{v})
+  [HasColimit (etaleStalkDiagram B S hS t P)]
+
+/-- Every element of a stalk is the germ of a section over some étale neighbourhood of the
+geometric point. -/
+public theorem exists_etaleGerm_eq (g : ↑(etaleStalk B S hS t P)) :
+    ∃ (W : SmallEtale B S hS) (q : (geometricPointFiber B S hS t).obj W) (a : P.obj (op W)),
+      etaleGerm B S hS t P W q a = g := by
+  obtain ⟨j, y, hy⟩ := Concrete.colimit_exists_rep (etaleStalkDiagram B S hS t P) g
+  exact ⟨j.unop.1, j.unop.2, y, hy⟩
+
+/-- A germ vanishes in the stalk exactly when the section already restricts to zero on some
+smaller étale neighbourhood of the geometric point. -/
+public theorem etaleGerm_eq_zero_iff (W : SmallEtale B S hS)
+    (q : (geometricPointFiber B S hS t).obj W) (a : P.obj (op W)) :
+    etaleGerm B S hS t P W q a = 0 ↔
+      ∃ (W' : SmallEtale B S hS) (j : W' ⟶ W) (q' : (geometricPointFiber B S hS t).obj W'),
+        (geometricPointFiber B S hS t).map j q' = q ∧ P.map j.op a = 0 := by
+  constructor
+  · intro ha
+    obtain ⟨k, m, m', hm⟩ := (Concrete.colimit_rep_eq_iff_exists
+      (etaleStalkDiagram B S hS t P)
+      (i := op (⟨W, q⟩ : (geometricPointFiber B S hS t).Elements))
+      (j := op (⟨W, q⟩ : (geometricPointFiber B S hS t).Elements))
+      a (0 : P.obj (op W))).1 (ha.trans (etaleGerm_zero B S hS t P W q).symm)
+    exact ⟨k.unop.1, m.unop.1, k.unop.2, m.unop.2, hm.trans (map_zero _)⟩
+  · rintro ⟨W', j, q', hq, hzero⟩
+    rw [← etaleGerm_map B S hS t P j q q' hq a, hzero, etaleGerm_zero]
+
+/-- Two germs at a geometric point agree exactly when the two sections already agree on a common
+étale neighbourhood of it. -/
+public theorem etaleGerm_eq_iff (W W' : SmallEtale B S hS)
+    (q : (geometricPointFiber B S hS t).obj W) (q' : (geometricPointFiber B S hS t).obj W')
+    (a : P.obj (op W)) (b : P.obj (op W')) :
+    etaleGerm B S hS t P W q a = etaleGerm B S hS t P W' q' b ↔
+      ∃ (W'' : SmallEtale B S hS) (j : W'' ⟶ W) (j' : W'' ⟶ W')
+        (q'' : (geometricPointFiber B S hS t).obj W''),
+        (geometricPointFiber B S hS t).map j q'' = q ∧
+          (geometricPointFiber B S hS t).map j' q'' = q' ∧
+          P.map j.op a = P.map j'.op b := by
+  constructor
+  · intro h
+    obtain ⟨k, m, m', hm⟩ := (Concrete.colimit_rep_eq_iff_exists
+      (etaleStalkDiagram B S hS t P)
+      (i := op (⟨W, q⟩ : (geometricPointFiber B S hS t).Elements))
+      (j := op (⟨W', q'⟩ : (geometricPointFiber B S hS t).Elements)) a b).1 h
+    exact ⟨k.unop.1, m.unop.1, m'.unop.1, k.unop.2, m.unop.2, m'.unop.2, hm⟩
+  · rintro ⟨W'', j, j', q'', hj, hj', hab⟩
+    rw [← etaleGerm_map B S hS t P j q q'' hj a,
+      ← etaleGerm_map B S hS t P j' q' q'' hj' b, hab]
+
+end GermColimit
+
+section FiberPoints
+
+variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y) (s : GeometricPoint Y.obj)
+
+/-- A geometric point of `X` lying over the fixed geometric point of `Y`, namely
+a lift of it through `f`. -/
+public abbrev GeometricFiberPoint :=
+  {p : s.source ⟶ X.obj // p ≫ B.inclusion.map f = s.hom}
+
+/-- The geometric point of `X` underlying a point of the geometric fibre. -/
+public abbrev GeometricFiberPoint.toGeometricPoint (x : GeometricFiberPoint B f s) :
+    GeometricPoint X.obj :=
+  { residueField := s.residueField, hom := x.1 }
+
+/-- The direct sum of the stalks of an abelian sheaf on the small étale site of
+`X` over the geometric fibre of the fixed geometric point. -/
+public abbrev fiberStalks
+    (F : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{max u v}) :=
+  ⨁ x : GeometricFiberPoint B f s,
+    ↑(etaleStalk B X.obj X.property (x.toGeometricPoint B f s) F.obj)
+
+/-- The lift of a point of the geometric fibre to the base change `X_V` determined by a chosen
+lift of the geometric point of `Y` to `V`. -/
+public def fiberPointLift (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (x : GeometricFiberPoint B f s) :
+    s.source ⟶ (SmallEtale.toScheme B X.obj X.property).obj (baseChange B f V) :=
+  ((IsPullback.of_hasPullback V.obj.hom f).map B.inclusion).lift u.1 x.1 (by rw [u.2, x.2])
+
+/-- The lift of a point of the geometric fibre to `X_V`, followed by the first projection, is the
+given lift of the geometric point of `Y` to `V`. -/
+@[simp]
+public theorem fiberPointLift_comp_fst (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (x : GeometricFiberPoint B f s) :
+    fiberPointLift B f s V u x ≫ B.inclusion.map (pullback.fst V.obj.hom f) = u.1 :=
+  ((IsPullback.of_hasPullback V.obj.hom f).map B.inclusion).lift_fst _ _ _
+
+/-- The lift of a point of the geometric fibre to `X_V`, followed by the second projection, is
+the point of the geometric fibre itself. -/
+@[simp]
+public theorem fiberPointLift_comp_snd (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (x : GeometricFiberPoint B f s) :
+    fiberPointLift B f s V u x ≫ B.inclusion.map (pullback.snd V.obj.hom f) = x.1 :=
+  ((IsPullback.of_hasPullback V.obj.hom f).map B.inclusion).lift_snd _ _ _
+
+/-- A lift to `X_V` is the lift of the point of the geometric fibre as soon as its projections
+are. -/
+private theorem eq_fiberPointLift (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (x : GeometricFiberPoint B f s)
+    (p : s.source ⟶ (SmallEtale.toScheme B X.obj X.property).obj (baseChange B f V))
+    (h₁ : p ≫ B.inclusion.map (pullback.fst V.obj.hom f) = u.1)
+    (h₂ : p ≫ B.inclusion.map (pullback.snd V.obj.hom f) = x.1) :
+    p = fiberPointLift B f s V u x :=
+  ((IsPullback.of_hasPullback V.obj.hom f).map B.inclusion).hom_ext
+    (h₁.trans (fiberPointLift_comp_fst B f s V u x).symm)
+    (h₂.trans (fiberPointLift_comp_snd B f s V u x).symm)
+
+/-- Base change of an object of the small étale site of `Y` commutes with the first projection. -/
+public theorem toScheme_baseChange_comp_fst (V V' : SmallEtale B Y.obj Y.property) (g : V' ⟶ V) :
+    (SmallEtale.toScheme B X.obj X.property).map ((smallEtaleBaseChange B f).map g) ≫
+        B.inclusion.map (pullback.fst V.obj.hom f) =
+      B.inclusion.map (pullback.fst V'.obj.hom f) ≫
+        (SmallEtale.toScheme B Y.obj Y.property).map g := by
+  have h : ((Over.pullback f).map ((SmallEtale.inclusion B Y.obj Y.property).map g)).left ≫
+      pullback.fst V.obj.hom f =
+      pullback.fst V'.obj.hom f ≫ ((SmallEtale.inclusion B Y.obj Y.property).map g).left := by
+    simp [Over.pullback_map_left, pullback.lift_fst]
+  have h2 := congrArg B.inclusion.map h
+  rw [Functor.map_comp, Functor.map_comp] at h2
+  exact h2
+
+/-- The lift of a point of the geometric fibre is compatible with shrinking the étale
+neighbourhood of the geometric point of `Y`. -/
+public theorem fiberPointLift_comp_baseChange (V V' : SmallEtale B Y.obj Y.property) (g : V' ⟶ V)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V)
+    (u' : (geometricPointFiber B Y.obj Y.property s).obj V')
+    (hu : (geometricPointFiber B Y.obj Y.property s).map g u' = u)
+    (x : GeometricFiberPoint B f s) :
+    fiberPointLift B f s V' u' x ≫
+        (SmallEtale.toScheme B X.obj X.property).map ((smallEtaleBaseChange B f).map g) =
+      fiberPointLift B f s V u x := by
+  refine eq_fiberPointLift B f s V u x _ ?_ ?_
+  · rw [Category.assoc, toScheme_baseChange_comp_fst]
+    exact (Category.assoc _ _ _).symm.trans
+      ((congrArg (· ≫ _) (fiberPointLift_comp_fst B f s V' u' x)).trans (congrArg Subtype.val hu))
+  · rw [Category.assoc]
+    exact (congrArg _ (SmallEtale.toScheme_map_comp B X.obj X.property
+      ((smallEtaleBaseChange B f).map g))).trans (fiberPointLift_comp_snd B f s V' u' x)
+
+/-- The lift of a point of the geometric fibre to `X_V`, as a lift of the corresponding geometric
+point of `X` in the category of elements indexing its stalk. -/
+public def fiberPointElement (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (x : GeometricFiberPoint B f s) :
+    (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).obj
+      (baseChange B f V) :=
+  ⟨fiberPointLift B f s V u x, fiberPointLift_comp_snd B f s V u x⟩
+
+/-- Only finitely many points of the geometric fibre lift into a support finite
+over the étale neighbourhood: such a support carries a subscheme finite over the neighbourhood, so
+its own geometric fibre is a scheme finite over an algebraically closed field, which has finitely
+many points, and the lifts are distinguished by the points they hit. -/
+public theorem finite_mem_of_isFiniteSupport [LocallyOfFiniteType (B.inclusion.map f)]
+    (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V) :
+    {x : GeometricFiberPoint B f s |
+      (fiberPointLift B f s V u x).base default ∈ E.1}.Finite := by
+  obtain ⟨Z, i, hi, hfin, hrange⟩ := E.property
+  have : IsImmersion i := hi
+  have hsq : IsPullback (B.inclusion.map (pullback.fst V.obj.hom f))
+      (B.inclusion.map (pullback.snd V.obj.hom f)) (B.inclusion.map V.obj.hom)
+      (B.inclusion.map f) := (IsPullback.of_hasPullback V.obj.hom f).map B.inclusion
+  have hpVft : LocallyOfFiniteType (B.inclusion.map (pullback.fst V.obj.hom f)) :=
+    MorphismProperty.of_isPullback hsq.flip inferInstance
+  have hRsq : IsPullback (pullback.fst (B.inclusion.map (pullback.fst V.obj.hom f)) u.1)
+      (pullback.snd (B.inclusion.map (pullback.fst V.obj.hom f)) u.1)
+      (B.inclusion.map (pullback.fst V.obj.hom f)) u.1 := IsPullback.of_hasPullback _ _
+  have hg₂ft : LocallyOfFiniteType
+      (pullback.snd (B.inclusion.map (pullback.fst V.obj.hom f)) u.1) :=
+    MorphismProperty.of_isPullback hRsq hpVft
+  have hbig : IsPullback
+      (pullback.fst i (pullback.fst (B.inclusion.map (pullback.fst V.obj.hom f)) u.1))
+      (pullback.snd i (pullback.fst (B.inclusion.map (pullback.fst V.obj.hom f)) u.1) ≫
+        pullback.snd (B.inclusion.map (pullback.fst V.obj.hom f)) u.1)
+      (i ≫ B.inclusion.map (pullback.fst V.obj.hom f)) u.1 :=
+    (IsPullback.of_hasPullback _ _).paste_vert hRsq
+  have : IsFinite
+      (pullback.snd i (pullback.fst (B.inclusion.map (pullback.fst V.obj.hom f)) u.1) ≫
+        pullback.snd (B.inclusion.map (pullback.fst V.obj.hom f)) u.1) :=
+    MorphismProperty.of_isPullback hbig hfin
+  have hfinite : Finite
+      ↥(pullback i (pullback.fst (B.inclusion.map (pullback.fst V.obj.hom f)) u.1)) := by
+    have h := Scheme.Hom.finite_preimage_singleton
+      (pullback.snd i (pullback.fst (B.inclusion.map (pullback.fst V.obj.hom f)) u.1) ≫
+        pullback.snd (B.inclusion.map (pullback.fst V.obj.hom f)) u.1)
+      (IsLocalRing.closedPoint s.residueField)
+    refine Set.finite_univ_iff.mp (h.subset fun z _ => ?_)
+    exact Subsingleton.elim _ _
+  have hfr : (Set.range (pullback.snd i
+      (pullback.fst (B.inclusion.map (pullback.fst V.obj.hom f)) u.1)).base).Finite :=
+    Set.finite_range _
+  have hlift : ∀ x : GeometricFiberPoint B f s,
+      fiberPointLift B f s V u x ≫ B.inclusion.map (pullback.fst V.obj.hom f) =
+        𝟙 s.source ≫ u.1 := by
+    intro x
+    rw [fiberPointLift_comp_fst, Category.id_comp]
+  refine Set.Finite.of_finite_image (f := fun x =>
+    (hRsq.lift (fiberPointLift B f s V u x) (𝟙 s.source) (hlift x)).base
+      (IsLocalRing.closedPoint s.residueField))
+    (hfr.subset ?_) ?_
+  · rintro _ ⟨x, hx, rfl⟩
+    have he : (pullback.fst (B.inclusion.map (pullback.fst V.obj.hom f)) u.1).base
+        ((hRsq.lift (fiberPointLift B f s V u x) (𝟙 s.source) (hlift x)).base
+          (IsLocalRing.closedPoint s.residueField)) =
+        (fiberPointLift B f s V u x).base (default : ↥s.source) :=
+      (congrArg (fun m => m.base (IsLocalRing.closedPoint s.residueField))
+          (hRsq.lift_fst (fiberPointLift B f s V u x) (𝟙 s.source) (hlift x))).trans
+        (congrArg (fun z => (fiberPointLift B f s V u x).base z) (Subsingleton.elim _ _))
+    obtain ⟨z, hz⟩ := hrange.symm.subset hx
+    obtain ⟨w, -, hw⟩ := Scheme.Pullback.exists_preimage_pullback
+      (f := i) (g := pullback.fst (B.inclusion.map (pullback.fst V.obj.hom f)) u.1) z
+      ((hRsq.lift (fiberPointLift B f s V u x) (𝟙 s.source) (hlift x)).base
+        (IsLocalRing.closedPoint s.residueField)) (hz.trans he.symm)
+    exact ⟨w, hw⟩
+  · intro x _ y _ hxy
+    have heq := ext_of_apply_closedPoint_eq
+      (pullback.snd (B.inclusion.map (pullback.fst V.obj.hom f)) u.1)
+      (hRsq.lift_snd (fiberPointLift B f s V u x) (𝟙 s.source) (hlift x))
+      (hRsq.lift_snd (fiberPointLift B f s V u y) (𝟙 s.source) (hlift y)) hxy
+    have h2 : fiberPointLift B f s V u x = fiberPointLift B f s V u y :=
+      (hRsq.lift_fst (fiberPointLift B f s V u x) (𝟙 s.source) (hlift x)).symm.trans
+        ((congrArg (fun m => m ≫ pullback.fst
+            (B.inclusion.map (pullback.fst V.obj.hom f)) u.1) heq).trans
+          (hRsq.lift_fst (fiberPointLift B f s V u y) (𝟙 s.source) (hlift y)))
+    exact Subtype.ext ((fiberPointLift_comp_snd B f s V u x).symm.trans
+      ((congrArg (fun m => m ≫ B.inclusion.map (pullback.snd V.obj.hom f)) h2).trans
+        (fiberPointLift_comp_snd B f s V u y)))
+
+end FiberPoints
+
+section Component
+
+variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y) (s : GeometricPoint Y.obj)
+  (F : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{max u v})
+
+/-- The canonical open of `X_V` on which the sections supported on a finite support live. -/
+public abbrev finiteSupportOpen (V : SmallEtale B Y.obj Y.property)
+    (E : FiniteSupport B f V) :
+    ((SmallEtale.toScheme B X.obj X.property).obj (baseChange B f V)).Opens :=
+  supportOpen B X.obj X.property (baseChange B f V) E.1
+    (finiteSupport_isLocallyClosed B f V E)
+
+/-- The canonical open of `X_V` for a finite support, as an object of the small étale site. -/
+public abbrev finiteSupportOpenObject (V : SmallEtale B Y.obj Y.property)
+    (E : FiniteSupport B f V) : SmallEtale B X.obj X.property :=
+  openObject B X.obj X.property (baseChange B f V) (finiteSupportOpen B f V E)
+
+/-- A point of the geometric fibre lifts into the canonical open of a finite support. -/
+public def HasFiberLift (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (x : GeometricFiberPoint B f s) : Prop :=
+  (fiberPointLift B f s V u x).base default ∈
+    (finiteSupportOpen B f V E :
+      Set ((SmallEtale.toScheme B X.obj X.property).obj (baseChange B f V)))
+
+/-- The lift to the canonical open of a finite support, followed by the open immersion, is the lift
+to `X_V`. -/
+private theorem openObjectLift_comp_ι_finiteSupportOpen (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (x : GeometricFiberPoint B f s) (h : HasFiberLift B f s V u E x) :
+    (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V)
+      (fiberPointElement B f s V u x) (finiteSupportOpen B f V E) h).1 ≫
+        (finiteSupportOpen B f V E).ι = fiberPointLift B f s V u x :=
+  openObjectLift_comp_ι B X.obj X.property (x.toGeometricPoint B f s) _ _ _ h
+
+open Classical in
+/-- The germ at a point of the geometric fibre of a section supported on a finite support: the
+germ of the section itself where the lift meets the canonical open, and zero otherwise. -/
+public def fiberStalkComponent (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E))
+    (x : GeometricFiberPoint B f s) :
+    ↑(etaleStalk B X.obj X.property (x.toGeometricPoint B f s) F.obj) :=
+  if h : HasFiberLift B f s V u E x then
+    etaleGerm B X.obj X.property (x.toGeometricPoint B f s) F.obj
+      (finiteSupportOpenObject B f V E)
+      (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V)
+        (fiberPointElement B f s V u x) (finiteSupportOpen B f V E) h)
+      a.val
+  else 0
+
+/-- When the lift of a point of the geometric fibre lands in the canonical open of the support,
+the germ decomposition at that point is the germ of the section through that open. -/
+public theorem fiberStalkComponent_of_hasFiberLift (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E))
+    (x : GeometricFiberPoint B f s) (h : HasFiberLift B f s V u E x) :
+    fiberStalkComponent B f s F V u E a x =
+      etaleGerm B X.obj X.property (x.toGeometricPoint B f s) F.obj
+        (finiteSupportOpenObject B f V E)
+        (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V)
+          (fiberPointElement B f s V u x) (finiteSupportOpen B f V E) h)
+        a.val :=
+  dite_eq_left h
+
+/-- When the lift of a point of the geometric fibre misses the canonical open of the support,
+the germ decomposition at that point is zero. -/
+public theorem fiberStalkComponent_of_not_hasFiberLift (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E))
+    (x : GeometricFiberPoint B f s) (h : ¬ HasFiberLift B f s V u E x) :
+    fiberStalkComponent B f s F V u E a x = 0 :=
+  dite_eq_right h
+
+/-- The germ at a point of the geometric fibre vanishes unless the lift lands in the support. -/
+public theorem fiberStalkComponent_eq_zero_of_notMem (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E))
+    (x : GeometricFiberPoint B f s)
+    (hx : (fiberPointLift B f s V u x).base default ∉ E.1) :
+    fiberStalkComponent B f s F V u E a x = 0 := by
+  by_cases h : HasFiberLift B f s V u E x
+  · rw [fiberStalkComponent_of_hasFiberLift B f s F V u E a x h]
+    refine etaleGerm_eq_zero_of_notMem_supportSection B X.obj X.property
+      (x.toGeometricPoint B f s) F _ _ a.val fun hmem => hx ?_
+    exact congrArg (fun m => m.base (default : ↥s.source))
+      (openObjectLift_comp_ι_finiteSupportOpen B f s V u E x h) ▸ a.property hmem
+  · exact fiberStalkComponent_of_not_hasFiberLift B f s F V u E a x h
+
+/-- The germ at a point of the geometric fibre vanishes if the lift landing in the support forces
+a property that fails. -/
+private theorem fiberStalkComponent_eq_zero_of_mem_imp (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E))
+    (x : GeometricFiberPoint B f s) {P : Prop} (hP : ¬ P)
+    (himp : (fiberPointLift B f s V u x).base default ∈ E.1 → P) :
+    fiberStalkComponent B f s F V u E a x = 0 := by
+  by_cases hE : HasFiberLift B f s V u E x
+  · exact fiberStalkComponent_eq_zero_of_notMem B f s F V u E a x fun hmem => hP (himp hmem)
+  · exact fiberStalkComponent_of_not_hasFiberLift B f s F V u E a x hE
+
+/-- The germ decomposition of the zero section vanishes at every point of the geometric
+fibre. -/
+public theorem fiberStalkComponent_zero (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (x : GeometricFiberPoint B f s) :
+    fiberStalkComponent B f s F V u E 0 x = 0 := by
+  by_cases h : HasFiberLift B f s V u E x
+  · rw [fiberStalkComponent_of_hasFiberLift B f s F V u E 0 x h]
+    exact etaleGerm_zero B X.obj X.property (x.toGeometricPoint B f s) F.obj _ _
+  · exact fiberStalkComponent_of_not_hasFiberLift B f s F V u E 0 x h
+
+/-- The germ decomposition at a point of the geometric fibre is additive in the section. -/
+public theorem fiberStalkComponent_add (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a b : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E))
+    (x : GeometricFiberPoint B f s) :
+    fiberStalkComponent B f s F V u E (a + b) x =
+      fiberStalkComponent B f s F V u E a x + fiberStalkComponent B f s F V u E b x := by
+  by_cases h : HasFiberLift B f s V u E x
+  · rw [fiberStalkComponent_of_hasFiberLift B f s F V u E (a + b) x h,
+      fiberStalkComponent_of_hasFiberLift B f s F V u E a x h,
+      fiberStalkComponent_of_hasFiberLift B f s F V u E b x h]
+    exact etaleGerm_add B X.obj X.property (x.toGeometricPoint B f s) F.obj _ _ a.val b.val
+  · rw [fiberStalkComponent_of_not_hasFiberLift B f s F V u E (a + b) x h,
+      fiberStalkComponent_of_not_hasFiberLift B f s F V u E a x h,
+      fiberStalkComponent_of_not_hasFiberLift B f s F V u E b x h, add_zero]
+
+/-- The decomposition of a section supported on a finite support into its germs
+at the points of the geometric fibre: only finitely many of them are nonzero. -/
+public def fiberStalkSum [LocallyOfFiniteType (B.inclusion.map f)]
+    (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E)) :
+    fiberStalks B f s F :=
+  ⟨fun x => fiberStalkComponent B f s F V u E a x,
+    Trunc.mk ⟨(finite_mem_of_isFiniteSupport B f s V u E).toFinset.val, fun x => by
+      by_cases hx : (fiberPointLift B f s V u x).base default ∈ E.1
+      · exact Or.inl ((Set.Finite.mem_toFinset _).2 hx)
+      · exact Or.inr (fiberStalkComponent_eq_zero_of_notMem B f s F V u E a x hx)⟩⟩
+
+/-- The component of `fiberStalkSum` at a point of the geometric fibre is the germ
+decomposition at that point. -/
+@[simp]
+public theorem fiberStalkSum_apply [LocallyOfFiniteType (B.inclusion.map f)]
+    (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E)) (x : GeometricFiberPoint B f s) :
+    fiberStalkSum B f s F V u E a x = fiberStalkComponent B f s F V u E a x := rfl
+
+/-- The decomposition into germs at the points of the geometric fibre, as a morphism of abelian
+groups out of the group of sections supported on a finite support. -/
+public def fiberStalkHom [LocallyOfFiniteType (B.inclusion.map f)]
+    (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V) :
+    (finiteSupportDiagram B f F V).obj E ⟶ AddCommGrpCat.of (fiberStalks B f s F) :=
+  AddCommGrpCat.ofHom
+    { toFun := fiberStalkSum B f s F V u E
+      map_zero' := DFinsupp.ext fun x => fiberStalkComponent_zero B f s F V u E x
+      map_add' := fun a b => DFinsupp.ext fun x =>
+        fiberStalkComponent_add B f s F V u E a b x }
+
+/-- The morphism `fiberStalkHom` sends a supported section to its family of germs
+`fiberStalkSum`. -/
+@[simp]
+public theorem fiberStalkHom_apply [LocallyOfFiniteType (B.inclusion.map f)]
+    (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E)) :
+    fiberStalkHom B f s F V u E a = fiberStalkSum B f s F V u E a := rfl
+
+/-- The germ decomposition is unchanged by enlarging the support, so the germs
+assemble into a cocone on the diagram of supported sections. -/
+public theorem fiberStalkComponent_supportedSectionsMap (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E E' : FiniteSupport B f V)
+    (h : E ≤ E')
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E))
+    (x : GeometricFiberPoint B f s) :
+    fiberStalkComponent B f s F V u E'
+        (supportedSectionsMap B X.obj X.property F (baseChange B f V) E.1 E'.1
+          (finiteSupport_isLocallyClosed B f V E)
+          (finiteSupport_isLocallyClosed B f V E') h
+          (finiteSupport_closedWithin B f V E E' h) a) x =
+      fiberStalkComponent B f s F V u E a x := by
+  have hanti := supportOpen_antitone B X.obj X.property (baseChange B f V) E.1 E'.1
+    (finiteSupport_isLocallyClosed B f V E) (finiteSupport_isLocallyClosed B f V E') h
+    (finiteSupport_closedWithin B f V E E' h)
+  by_cases h' : HasFiberLift B f s V u E' x
+  · have hE : HasFiberLift B f s V u E x := hanti h'
+    rw [fiberStalkComponent_of_hasFiberLift B f s F V u E' _ x h',
+      fiberStalkComponent_of_hasFiberLift B f s F V u E a x hE]
+    have hj : (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).map
+        (openObjectHomOfLE B X.obj X.property (baseChange B f V) hanti)
+        (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V)
+          (fiberPointElement B f s V u x) (finiteSupportOpen B f V E') h') =
+        openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V)
+          (fiberPointElement B f s V u x) (finiteSupportOpen B f V E) hE := by
+      refine map_eq_of_comp_ι B X.obj X.property (x.toGeometricPoint B f s) _ _ _ _ _ ?_
+      rw [openObjectHomOfLE_map, Scheme.homOfLE_ι, openObjectLift_comp_ι_finiteSupportOpen,
+        openObjectLift_comp_ι_finiteSupportOpen]
+    rw [← etaleGerm_map B X.obj X.property (x.toGeometricPoint B f s) F.obj _ _ _ hj a.val]
+    exact congrArg _ (supportedSectionsMap_apply B X.obj X.property F (baseChange B f V)
+      E.1 E'.1 (finiteSupport_isLocallyClosed B f V E)
+      (finiteSupport_isLocallyClosed B f V E') h
+      (finiteSupport_closedWithin B f V E E' h) a)
+  · rw [fiberStalkComponent_of_not_hasFiberLift B f s F V u E' _ x h']
+    exact (fiberStalkComponent_eq_zero_of_mem_imp B f s F V u E a x h' fun hmem =>
+      subset_supportOpen B X.obj X.property (baseChange B f V) E'.1
+        (finiteSupport_isLocallyClosed B f V E') (h hmem)).symm
+
+/-- The germ decomposition is compatible with base change of the étale
+neighbourhood of the geometric point of `Y`, so the germs assemble into a cocone on the stalk
+diagram of the finite-support direct image. -/
+public theorem fiberStalkComponent_baseChange (V V' : SmallEtale B Y.obj Y.property) (g : V' ⟶ V)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V)
+    (u' : (geometricPointFiber B Y.obj Y.property s).obj V')
+    (hu : (geometricPointFiber B Y.obj Y.property s).map g u' = u)
+    (E : FiniteSupport B f V) (d : FiniteSupportBaseChange B f F g E)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E))
+    (x : GeometricFiberPoint B f s) :
+    fiberStalkComponent B f s F V' u' d.support (d.sectionsMap a) x =
+      fiberStalkComponent B f s F V u E a x := by
+  have hlift : fiberPointLift B f s V' u' x ≫
+      (SmallEtale.toScheme B X.obj X.property).map ((smallEtaleBaseChange B f).map g) =
+      fiberPointLift B f s V u x :=
+    fiberPointLift_comp_baseChange B f s V V' g u u' hu x
+  have hpt : ((SmallEtale.toScheme B X.obj X.property).map
+        ((smallEtaleBaseChange B f).map g)).base
+        ((fiberPointLift B f s V' u' x).base (default : ↥s.source)) =
+      (fiberPointLift B f s V u x).base (default : ↥s.source) :=
+    congrArg (fun m => m.base (default : ↥s.source)) hlift
+  by_cases h' : HasFiberLift B f s V' u' d.support x
+  · have hE : HasFiberLift B f s V u E x :=
+      Set.mem_of_eq_of_mem hpt.symm
+        (supportOpen_preimage_subset B f g E d.support d.support_eq h')
+    rw [fiberStalkComponent_of_hasFiberLift B f s F V' u' d.support (d.sectionsMap a) x h',
+      fiberStalkComponent_of_hasFiberLift B f s F V u E a x hE]
+    have hj : (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).map d.openMap
+        (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V')
+          (fiberPointElement B f s V' u' x) (finiteSupportOpen B f V' d.support) h') =
+        openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V)
+          (fiberPointElement B f s V u x) (finiteSupportOpen B f V E) hE := by
+      refine map_eq_of_comp_ι B X.obj X.property (x.toGeometricPoint B f s) _ _ _ _ _ ?_
+      rw [d.openMap_commutes, ← Category.assoc, openObjectLift_comp_ι_finiteSupportOpen,
+        openObjectLift_comp_ι_finiteSupportOpen, hlift]
+    exact (congrArg (fun z => etaleGerm B X.obj X.property (x.toGeometricPoint B f s) F.obj
+        (finiteSupportOpenObject B f V' d.support)
+        (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V')
+          (fiberPointElement B f s V' u' x) (finiteSupportOpen B f V' d.support) h') z)
+        (d.sectionsMap_apply a)).trans
+      (etaleGerm_map B X.obj X.property (x.toGeometricPoint B f s) F.obj d.openMap _ _ hj a.val)
+  · rw [fiberStalkComponent_of_not_hasFiberLift B f s F V' u' d.support (d.sectionsMap a) x h']
+    refine (fiberStalkComponent_eq_zero_of_mem_imp B f s F V u E a x h' fun hmem => ?_).symm
+    have hmem' : ((SmallEtale.toScheme B X.obj X.property).map
+        ((smallEtaleBaseChange B f).map g)).base
+        ((fiberPointLift B f s V' u' x).base (default : ↥s.source)) ∈ E.1 :=
+      Set.mem_of_eq_of_mem hpt hmem
+    exact subset_supportOpen B X.obj X.property (baseChange B f V') d.support.1
+      (finiteSupport_isLocallyClosed B f V' d.support)
+      (d.support_eq.symm.subset hmem')
+
+end Component
+
+section Assembly
+
+variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y)
+  [LocallyOfFiniteType (B.inclusion.map f)] (s : GeometricPoint Y.obj)
+  (F : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{max u v})
+
+/-- The cocone of germ decompositions on the diagram of supported sections over an étale
+neighbourhood of the geometric point of `Y`. -/
+public def fiberStalkCocone (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) :
+    Cocone (finiteSupportDiagram B f F V) where
+  pt := AddCommGrpCat.of (fiberStalks B f s F)
+  ι :=
+    { app := fun E => fiberStalkHom B f s F V u E
+      naturality := by
+        intro E E' k
+        exact AddCommGrpCat.hom_ext <| AddMonoidHom.ext fun a => DFinsupp.ext fun x =>
+          fiberStalkComponent_supportedSectionsMap B f s F V u E E' (leOfHom k) a x }
+
+/-- The germ decomposition of the sections with finite support over an étale
+neighbourhood of the geometric point of `Y`. -/
+public def finiteSupportSectionsToFiberStalks (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) :
+    finiteSupportSections B f F V ⟶ AddCommGrpCat.of (fiberStalks B f s F) :=
+  colimit.desc (finiteSupportDiagram B f F V) (fiberStalkCocone B f s F V u)
+
+/-- On the sections supported on a given finite support, the germ decomposition of the
+finite-support sections is `fiberStalkHom`. -/
+@[simp]
+public theorem colimit_ι_comp_finiteSupportSectionsToFiberStalks
+    (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V) :
+    colimit.ι (finiteSupportDiagram B f F V) E ≫
+        finiteSupportSectionsToFiberStalks B f s F V u = fiberStalkHom B f s F V u E :=
+  colimit.ι_desc _ _
+
+variable [LocallyQuasiFinite (B.inclusion.map f)]
+
+/-- The cocone of germ decompositions on the stalk diagram of the finite-support direct
+image. -/
+public def finiteSupportStalkCocone
+    (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V)) :
+    Cocone (etaleStalkDiagram B Y.obj Y.property s
+      ((finiteSupportPushforward B f hsmall).1.obj F)) where
+  pt := AddCommGrpCat.of (fiberStalks B f s F)
+  ι :=
+    { app := fun U =>
+        eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F U.unop.1) ≫
+          finiteSupportSectionsToFiberStalks B f s F U.unop.1 U.unop.2
+      naturality := by
+        intro U U' m
+        have hU := (finiteSupportPushforward B f hsmall).2.obj_eq F U.unop.1
+        have hU' := (finiteSupportPushforward B f hsmall).2.obj_eq F U'.unop.1
+        refine (cancel_epi (eqToHom hU.symm)).1 ?_
+        refine colimit.hom_ext fun E => ?_
+        have hmr := (finiteSupportPushforward B f hsmall).2.map_restrict F m.unop.1 E
+        have hkey : AddCommGrpCat.ofHom (finiteSupportBaseChange B f F m.unop.1 E).sectionsMap ≫
+            fiberStalkHom B f s F U'.unop.1 U'.unop.2
+              (finiteSupportBaseChange B f F m.unop.1 E).support =
+            fiberStalkHom B f s F U.unop.1 U.unop.2 E :=
+          AddCommGrpCat.hom_ext <| AddMonoidHom.ext fun a => DFinsupp.ext fun x =>
+            fiberStalkComponent_baseChange B f s F U.unop.1 U'.unop.1 m.unop.1 U.unop.2 U'.unop.2
+              m.unop.2 E _ a x
+        have hmr2 : colimit.ι (finiteSupportDiagram B f F U.unop.1) E ≫
+              eqToHom hU.symm ≫ (etaleStalkDiagram B Y.obj Y.property s
+                ((finiteSupportPushforward B f hsmall).1.obj F)).map m ≫ eqToHom hU' =
+            AddCommGrpCat.ofHom (finiteSupportBaseChange B f F m.unop.1 E).sectionsMap ≫
+              colimit.ι (finiteSupportDiagram B f F U'.unop.1)
+                (finiteSupportBaseChange B f F m.unop.1 E).support := hmr
+        have h1 := congrArg (fun z => z ≫
+          finiteSupportSectionsToFiberStalks B f s F U'.unop.1 U'.unop.2) hmr2
+        simp only [Category.assoc] at h1
+        have h2 : (AddCommGrpCat.ofHom (finiteSupportBaseChange B f F m.unop.1 E).sectionsMap ≫
+              colimit.ι (finiteSupportDiagram B f F U'.unop.1)
+                (finiteSupportBaseChange B f F m.unop.1 E).support) ≫
+              finiteSupportSectionsToFiberStalks B f s F U'.unop.1 U'.unop.2 =
+            fiberStalkHom B f s F U.unop.1 U.unop.2 E :=
+          (Category.assoc _ _ _).trans
+            ((congrArg (fun z => AddCommGrpCat.ofHom
+                (finiteSupportBaseChange B f F m.unop.1 E).sectionsMap ≫ z)
+              (colimit_ι_comp_finiteSupportSectionsToFiberStalks B f s F U'.unop.1 U'.unop.2
+                (finiteSupportBaseChange B f F m.unop.1 E).support)).trans hkey)
+        have hL := h1.trans h2
+        have hR : colimit.ι (finiteSupportDiagram B f F U.unop.1) E ≫
+              eqToHom hU.symm ≫ (eqToHom hU ≫
+                finiteSupportSectionsToFiberStalks B f s F U.unop.1 U.unop.2) ≫
+              ((Functor.const (geometricPointFiber B Y.obj Y.property s).Elementsᵒᵖ).obj
+                (AddCommGrpCat.of (fiberStalks B f s F))).map m =
+            fiberStalkHom B f s F U.unop.1 U.unop.2 E := by
+          rw [Functor.const_obj_map, Category.comp_id, eqToHom_trans_assoc, eqToHom_refl,
+            Category.id_comp]
+          exact colimit_ι_comp_finiteSupportSectionsToFiberStalks B f s F U.unop.1 U.unop.2 E
+        exact hL.trans hR.symm }
+
+/-- The canonical map from the stalk of the finite-support direct image to the
+direct sum of the stalks over the geometric fibre: a section supported on a support finite over
+an étale neighbourhood goes to the family of its germs. -/
+public def finiteSupportStalkToFiberStalks
+    (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V)) :
+    etaleStalk B Y.obj Y.property s ((finiteSupportPushforward B f hsmall).1.obj F) ⟶
+      AddCommGrpCat.of (fiberStalks B f s F) :=
+  colimit.desc (etaleStalkDiagram B Y.obj Y.property s
+    ((finiteSupportPushforward B f hsmall).1.obj F))
+    (finiteSupportStalkCocone B f s F hsmall)
+
+/-- On the finite-support sections over an étale neighbourhood, the germ decomposition of the
+stalk is the germ decomposition of those sections. -/
+@[simp]
+public theorem colimit_ι_comp_finiteSupportStalkToFiberStalks
+    (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V))
+    (U : (geometricPointFiber B Y.obj Y.property s).Elements) :
+    colimit.ι (etaleStalkDiagram B Y.obj Y.property s
+          ((finiteSupportPushforward B f hsmall).1.obj F)) (op U) ≫
+        finiteSupportStalkToFiberStalks B f s F hsmall =
+      eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F U.1) ≫
+        finiteSupportSectionsToFiberStalks B f s F U.1 U.2 :=
+  colimit.ι_desc _ _
+
+/-- On a generator of the double colimit, the germ decomposition map is the germ
+decomposition of the supported section. -/
+public theorem finiteSupportStalkToFiberStalks_generator
+    (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V))
+    (U : (geometricPointFiber B Y.obj Y.property s).Elements) (E : FiniteSupport B f U.1) :
+    colimit.ι (finiteSupportDiagram B f F U.1) E ≫
+        eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F U.1).symm ≫
+        colimit.ι (etaleStalkDiagram B Y.obj Y.property s
+          ((finiteSupportPushforward B f hsmall).1.obj F)) (op U) ≫
+        finiteSupportStalkToFiberStalks B f s F hsmall =
+      fiberStalkHom B f s F U.1 U.2 E := by
+  rw [colimit_ι_comp_finiteSupportStalkToFiberStalks, eqToHom_trans_assoc, eqToHom_refl,
+    Category.id_comp]
+  exact colimit_ι_comp_finiteSupportSectionsToFiberStalks B f s F U.1 U.2 E
+
+/-- The germ characterization of the decomposition map: on each summand it
+sends a supported section on a finite support to its germ at the chosen lift, computed through
+any map of an étale neighbourhood of the lift into the canonical support-open. -/
+public theorem finiteSupportStalkToFiberStalks_germ
+    (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V))
+    (x : GeometricFiberPoint B f s)
+    (U : (geometricPointFiber B Y.obj Y.property s).Elements) (E : FiniteSupport B f U.1)
+    (V : (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).Elements)
+    (t : V.1 ⟶ finiteSupportOpenObject B f U.1 E)
+    (hU : V.2.1 ≫ (SmallEtale.toScheme B X.obj X.property).map t ≫
+        (finiteSupportOpen B f U.1 E).ι ≫
+        B.inclusion.map (pullback.fst U.1.obj.hom f) = U.2.1)
+    (hX : V.2.1 ≫ (SmallEtale.toScheme B X.obj X.property).map t ≫
+        (finiteSupportOpen B f U.1 E).ι ≫
+        B.inclusion.map (pullback.snd U.1.obj.hom f) = x.1)
+    (a : (finiteSupportDiagram B f F U.1).obj E) :
+    ((colimit.ι (finiteSupportDiagram B f F U.1) E ≫
+        eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F U.1).symm ≫
+        colimit.ι (etaleStalkDiagram B Y.obj Y.property s
+          ((finiteSupportPushforward B f hsmall).1.obj F)) (op U) ≫
+        finiteSupportStalkToFiberStalks B f s F hsmall) a : fiberStalks B f s F) x =
+      (F.obj.map t.op ≫
+        colimit.ι (etaleStalkDiagram B X.obj X.property (x.toGeometricPoint B f s) F.obj)
+          (op V)) a.val := by
+  have hlift : V.2.1 ≫ (SmallEtale.toScheme B X.obj X.property).map t ≫
+      (finiteSupportOpen B f U.1 E).ι = fiberPointLift B f s U.1 U.2 x := by
+    refine eq_fiberPointLift B f s U.1 U.2 x _ ?_ ?_
+    · simpa only [Category.assoc] using hU
+    · simpa only [Category.assoc] using hX
+  have hmem : HasFiberLift B f s U.1 U.2 E x :=
+    (Scheme.Opens.range_ι (finiteSupportOpen B f U.1 E)).subset
+      ⟨(V.2.1 ≫ (SmallEtale.toScheme B X.obj X.property).map t).base (default : ↥s.source),
+        congrArg (fun m => m.base (default : ↥s.source)) ((Category.assoc _ _ _).trans hlift)⟩
+  have hq : (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).map t V.2 =
+      openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f U.1)
+          (fiberPointElement B f s U.1 U.2 x) (finiteSupportOpen B f U.1 E) hmem :=
+    map_eq_of_comp_ι B X.obj X.property (x.toGeometricPoint B f s) _ _ _ _ _
+      (hlift.trans (openObjectLift_comp_ι_finiteSupportOpen B f s U.1 U.2 E x hmem).symm)
+  rw [finiteSupportStalkToFiberStalks_generator]
+  show fiberStalkComponent B f s F U.1 U.2 E a x = _
+  rw [fiberStalkComponent_of_hasFiberLift B f s F U.1 U.2 E a x hmem]
+  exact (etaleGerm_map B X.obj X.property (x.toGeometricPoint B f s) F.obj t
+    (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f U.1)
+          (fiberPointElement B f s U.1 U.2 x) (finiteSupportOpen B f U.1 E) hmem) V.2 hq a.val).symm
+
+/-- A supported section contributes zero at a point of the geometric fibre
+having no étale neighbourhood mapping into the canonical open of the support. -/
+public theorem finiteSupportStalkToFiberStalks_zero_of_no_open_lift
+    (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V))
+    (x : GeometricFiberPoint B f s)
+    (U : (geometricPointFiber B Y.obj Y.property s).Elements) (E : FiniteSupport B f U.1)
+    (hno : ¬ ∃ (V : (geometricPointFiber B X.obj X.property
+        (x.toGeometricPoint B f s)).Elements)
+        (t : V.1 ⟶ finiteSupportOpenObject B f U.1 E),
+      (V.2.1 ≫ (SmallEtale.toScheme B X.obj X.property).map t ≫
+          (finiteSupportOpen B f U.1 E).ι ≫
+          B.inclusion.map (pullback.fst U.1.obj.hom f) = U.2.1) ∧
+      (V.2.1 ≫ (SmallEtale.toScheme B X.obj X.property).map t ≫
+          (finiteSupportOpen B f U.1 E).ι ≫
+          B.inclusion.map (pullback.snd U.1.obj.hom f) = x.1))
+    (a : (finiteSupportDiagram B f F U.1).obj E) :
+    ((colimit.ι (finiteSupportDiagram B f F U.1) E ≫
+        eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F U.1).symm ≫
+        colimit.ι (etaleStalkDiagram B Y.obj Y.property s
+          ((finiteSupportPushforward B f hsmall).1.obj F)) (op U) ≫
+        finiteSupportStalkToFiberStalks B f s F hsmall) a : fiberStalks B f s F) x = 0 := by
+  rw [finiteSupportStalkToFiberStalks_generator]
+  show fiberStalkComponent B f s F U.1 U.2 E a x = 0
+  refine fiberStalkComponent_of_not_hasFiberLift B f s F U.1 U.2 E a x fun hmem => hno ?_
+  refine ⟨⟨finiteSupportOpenObject B f U.1 E,
+    openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f U.1)
+      (fiberPointElement B f s U.1 U.2 x) (finiteSupportOpen B f U.1 E) hmem⟩, 𝟙 _, ?_, ?_⟩
+  · rw [CategoryTheory.Functor.map_id, Category.id_comp, ← Category.assoc,
+      openObjectLift_comp_ι_finiteSupportOpen, fiberPointLift_comp_fst]
+  · rw [CategoryTheory.Functor.map_id, Category.id_comp, ← Category.assoc,
+      openObjectLift_comp_ι_finiteSupportOpen, fiberPointLift_comp_snd]
+
+open Classical in
+/-- The germ decomposition map is surjective as soon as each single-summand element given by the
+germ of a section over an étale neighbourhood of a point of the geometric fibre is in its image.
+
+The direct sum is generated by those elements and the image of an additive map is a subgroup, so
+surjectivity of the decomposition map carries no content beyond the single-summand case; and by
+`AlgebraicGeometry.SmallEtale.exists_etaleGerm_eq` every element of a stalk of `F` is such a
+germ. This is the reduction of the surjectivity half of Stacks 0F6P to its geometric content:
+producing, from an étale neighbourhood of a point of the geometric fibre, an étale neighbourhood
+of the geometric point of `Y` carrying a support finite over it on which the section is
+represented, and which meets the geometric fibre in that point alone. -/
+public theorem surjective_finiteSupportStalkToFiberStalks_of_exists_preimage
+    (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V))
+    (hgen : ∀ (x : GeometricFiberPoint B f s) (W : SmallEtale B X.obj X.property)
+      (q : (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).obj W)
+      (a : F.obj.obj (op W)),
+      ∃ z, finiteSupportStalkToFiberStalks B f s F hsmall z =
+        DirectSum.of _ x
+          (etaleGerm B X.obj X.property (x.toGeometricPoint B f s) F.obj W q a)) :
+    Function.Surjective (finiteSupportStalkToFiberStalks B f s F hsmall) := by
+  intro w
+  induction w using DirectSum.induction_on with
+  | zero => exact ⟨0, (finiteSupportStalkToFiberStalks B f s F hsmall).hom.map_zero⟩
+  | of i x =>
+      obtain ⟨W, q, a, rfl⟩ := exists_etaleGerm_eq B X.obj X.property
+        (i.toGeometricPoint B f s) F.obj x
+      exact hgen i W q a
+  | add w w' hw hw' =>
+      obtain ⟨z, hz⟩ := hw
+      obtain ⟨z', hz'⟩ := hw'
+      refine ⟨z + z', ?_⟩
+      rw [(finiteSupportStalkToFiberStalks B f s F hsmall).hom.map_add, hz, hz']
+
+end Assembly
+
+section Naturality
+
+variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y) (s : GeometricPoint Y.obj)
+  {F G : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{max u v}}
+
+/-- The map on the direct sums of stalks over the geometric fibre induced by a morphism of
+abelian sheaves on the small étale site of `X`. -/
+public def fiberStalksMap (φ : F ⟶ G) : fiberStalks B f s F →+ fiberStalks B f s G :=
+  DirectSum.map fun x =>
+    (colim.map (Functor.whiskerLeft
+      (CategoryOfElements.π
+        (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op φ.1)).hom
+
+/-- The germ decomposition commutes with a morphism of abelian sheaves. -/
+public theorem fiberStalkComponent_sheafMap (φ : F ⟶ G) (V : SmallEtale B Y.obj Y.property)
+    (u : (geometricPointFiber B Y.obj Y.property s).obj V) (E : FiniteSupport B f V)
+    (a : supportedSections B X.obj X.property F (baseChange B f V) E.1
+      (finiteSupport_isLocallyClosed B f V E))
+    (x : GeometricFiberPoint B f s) :
+    fiberStalkComponent B f s G V u E
+        (supportedSectionsSheafMap B X.obj X.property φ (baseChange B f V) E.1
+          (finiteSupport_isLocallyClosed B f V E) a) x =
+      (colim.map (Functor.whiskerLeft
+        (CategoryOfElements.π
+          (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op φ.1)).hom
+        (fiberStalkComponent B f s F V u E a x) := by
+  by_cases h : HasFiberLift B f s V u E x
+  · rw [fiberStalkComponent_of_hasFiberLift B f s G V u E _ x h,
+      fiberStalkComponent_of_hasFiberLift B f s F V u E a x h]
+    have h2 := ConcreteCategory.congr_hom (colimit.ι_map (Functor.whiskerLeft
+      (CategoryOfElements.π
+        (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s))).op φ.1)
+      (op (⟨finiteSupportOpenObject B f V E,
+        openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f V)
+          (fiberPointElement B f s V u x) (finiteSupportOpen B f V E) h⟩ :
+        (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).Elements)))
+      a.val
+    rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at h2
+    exact h2.symm
+  · rw [fiberStalkComponent_of_not_hasFiberLift B f s G V u E _ x h,
+      fiberStalkComponent_of_not_hasFiberLift B f s F V u E a x h]
+    exact (map_zero _).symm
+
+variable [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)]
+
+/-- The form of `colimit_ι_comp_finiteSupportStalkToFiberStalks` indexed by an object of the
+opposite category of elements. -/
+@[simp]
+public theorem colimit_ι_unop_comp_finiteSupportStalkToFiberStalks
+    (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V))
+    (U : (geometricPointFiber B Y.obj Y.property s).Elementsᵒᵖ) :
+    colimit.ι (etaleStalkDiagram B Y.obj Y.property s
+          ((finiteSupportPushforward B f hsmall).1.obj F)) U ≫
+        finiteSupportStalkToFiberStalks B f s F hsmall =
+      eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F U.unop.1) ≫
+        finiteSupportSectionsToFiberStalks B f s F U.unop.1 U.unop.2 :=
+  colimit.ι_desc _ _
+
+/-- The germ decomposition map commutes with maps of abelian sheaves. -/
+public theorem finiteSupportStalkToFiberStalks_natural
+    (hsmall : ∀ V : SmallEtale B Y.obj Y.property, Small.{max u v} (FiniteSupport B f V))
+    (φ : F ⟶ G) :
+    colim.map (Functor.whiskerLeft
+      (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+      ((finiteSupportPushforward B f hsmall).1.map φ)) ≫
+      finiteSupportStalkToFiberStalks B f s G hsmall =
+      finiteSupportStalkToFiberStalks B f s F hsmall ≫
+        AddCommGrpCat.ofHom (fiberStalksMap B f s φ) := by
+  refine colimit.hom_ext fun U => ?_
+  have hUF := (finiteSupportPushforward B f hsmall).2.obj_eq F U.unop.1
+  have hUG := (finiteSupportPushforward B f hsmall).2.obj_eq G U.unop.1
+  have hLHS : colimit.ι (etaleStalkDiagram B Y.obj Y.property s
+          ((finiteSupportPushforward B f hsmall).1.obj F)) U ≫
+        (colim.map (Functor.whiskerLeft
+          (CategoryOfElements.π (geometricPointFiber B Y.obj Y.property s)).op
+          ((finiteSupportPushforward B f hsmall).1.map φ)) ≫
+          finiteSupportStalkToFiberStalks B f s G hsmall) =
+      (Functor.whiskerLeft (CategoryOfElements.π
+          (geometricPointFiber B Y.obj Y.property s)).op
+          ((finiteSupportPushforward B f hsmall).1.map φ)).app U ≫
+        (eqToHom hUG ≫ finiteSupportSectionsToFiberStalks B f s G U.unop.1 U.unop.2) :=
+    (Category.assoc _ _ _).symm.trans
+      (((congrArg (fun z => z ≫ finiteSupportStalkToFiberStalks B f s G hsmall)
+        (colimit.ι_map (Functor.whiskerLeft (CategoryOfElements.π
+          (geometricPointFiber B Y.obj Y.property s)).op
+          ((finiteSupportPushforward B f hsmall).1.map φ)) U)).trans
+        (Category.assoc _ _ _)).trans
+        (congrArg (fun z => (Functor.whiskerLeft (CategoryOfElements.π
+            (geometricPointFiber B Y.obj Y.property s)).op
+            ((finiteSupportPushforward B f hsmall).1.map φ)).app U ≫ z)
+          (colimit_ι_unop_comp_finiteSupportStalkToFiberStalks B f s (F := G) hsmall U)))
+  have hRHS : colimit.ι (etaleStalkDiagram B Y.obj Y.property s
+          ((finiteSupportPushforward B f hsmall).1.obj F)) U ≫
+        (finiteSupportStalkToFiberStalks B f s F hsmall ≫
+          AddCommGrpCat.ofHom (fiberStalksMap B f s φ)) =
+      (eqToHom hUF ≫ finiteSupportSectionsToFiberStalks B f s F U.unop.1 U.unop.2) ≫
+        AddCommGrpCat.ofHom (fiberStalksMap B f s φ) :=
+    (Category.assoc _ _ _).symm.trans
+      (congrArg (fun z => z ≫ AddCommGrpCat.ofHom (fiberStalksMap B f s φ))
+        (colimit_ι_unop_comp_finiteSupportStalkToFiberStalks B f s (F := F) hsmall U))
+  refine hLHS.trans (Eq.trans ?_ hRHS.symm)
+  refine (cancel_epi (eqToHom hUF.symm)).1 ?_
+  refine colimit.hom_ext fun E => ?_
+  simp only [Category.assoc]
+  have hms : colimit.ι (finiteSupportDiagram B f F U.unop.1) E ≫ eqToHom hUF.symm ≫
+        ((finiteSupportPushforward B f hsmall).1.map φ).app (op U.unop.1) ≫ eqToHom hUG =
+      AddCommGrpCat.ofHom (supportedSectionsSheafMap B X.obj X.property φ
+        (baseChange B f U.unop.1) E.1 (finiteSupport_isLocallyClosed B f U.unop.1 E)) ≫
+        colimit.ι (finiteSupportDiagram B f G U.unop.1) E :=
+    (finiteSupportPushforward B f hsmall).2.map_sheaf φ U.unop.1 E
+  have hkey : AddCommGrpCat.ofHom (supportedSectionsSheafMap B X.obj X.property φ
+        (baseChange B f U.unop.1) E.1 (finiteSupport_isLocallyClosed B f U.unop.1 E)) ≫
+        fiberStalkHom B f s G U.unop.1 U.unop.2 E =
+      fiberStalkHom B f s F U.unop.1 U.unop.2 E ≫
+        AddCommGrpCat.ofHom (fiberStalksMap B f s φ) :=
+    AddCommGrpCat.hom_ext <| AddMonoidHom.ext fun a => DFinsupp.ext fun x =>
+      fiberStalkComponent_sheafMap B f s φ U.unop.1 U.unop.2 E a x
+  have h1 := congrArg (fun z => z ≫
+    finiteSupportSectionsToFiberStalks B f s G U.unop.1 U.unop.2) hms
+  simp only [Category.assoc] at h1
+  have h2 : (AddCommGrpCat.ofHom (supportedSectionsSheafMap B X.obj X.property φ
+        (baseChange B f U.unop.1) E.1 (finiteSupport_isLocallyClosed B f U.unop.1 E)) ≫
+        colimit.ι (finiteSupportDiagram B f G U.unop.1) E) ≫
+        finiteSupportSectionsToFiberStalks B f s G U.unop.1 U.unop.2 =
+      fiberStalkHom B f s F U.unop.1 U.unop.2 E ≫
+        AddCommGrpCat.ofHom (fiberStalksMap B f s φ) :=
+    (Category.assoc _ _ _).trans
+      ((congrArg (fun z => AddCommGrpCat.ofHom (supportedSectionsSheafMap B X.obj X.property φ
+          (baseChange B f U.unop.1) E.1 (finiteSupport_isLocallyClosed B f U.unop.1 E)) ≫ z)
+        (colimit_ι_comp_finiteSupportSectionsToFiberStalks B f s G U.unop.1 U.unop.2
+          E)).trans hkey)
+  have hL := h1.trans h2
+  have hR : colimit.ι (finiteSupportDiagram B f F U.unop.1) E ≫ eqToHom hUF.symm ≫
+        eqToHom hUF ≫ finiteSupportSectionsToFiberStalks B f s F U.unop.1 U.unop.2 ≫
+        AddCommGrpCat.ofHom (fiberStalksMap B f s φ) =
+      fiberStalkHom B f s F U.unop.1 U.unop.2 E ≫
+        AddCommGrpCat.ofHom (fiberStalksMap B f s φ) := by
+    rw [eqToHom_trans_assoc, eqToHom_refl, Category.id_comp, ← Category.assoc,
+      colimit_ι_comp_finiteSupportSectionsToFiberStalks]
+  exact hL.trans hR.symm
+
+end Naturality
+
+end AlgebraicGeometry.SmallEtale
+
+end

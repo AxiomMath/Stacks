@@ -1,0 +1,451 @@
+module
+
+public import Mathlib.RingTheory.IntegralClosure.Algebra.Basic
+public import Mathlib.RingTheory.TensorProduct.Finite
+public import Mathlib.RingTheory.TensorProduct.Quotient
+public import StacksFrontier.RingTheory.FibreProduct
+public import StacksFrontier.RingTheory.LocalRing.CotangentQuotient
+
+/-!
+# The fibre product that squeezes a closed fibre to one point
+
+Let `R → C` be a ring map, let `l` be an `R`-algebra whose structure map is surjective (so
+`l = R/J` for `J = ker(R → l)`, the residue field of a closed point `v` of `Spec R` when `J`
+is maximal), and let `T` be an `R`-algebra receiving `φ : l → T` and a *surjection*
+`ψ : C → T`.  The fibre product
+
+`C' = l ×_T C`
+
+is then an instance of `RingFibreProduct.Situation`, which is More on Algebra,
+Situation 15.6.1 (Tag 08KH), under the identification `(A, A', B, B') = (T, C, l, C')`.
+
+This file proves three ring-theoretic facts about `C'`:
+
+* `C'` is integral over `R`, and — when `φ` is injective — an `R`-subalgebra of `C`;
+* `Spec C'` has exactly one point over `v`, and its residue field is `l`;
+* `C'` is of finite type over `R` when `R` is Noetherian and `R → C` is finite.
+
+The shape `T = C ⊗_R l` of the geometric application is the final section: for `l = R ⧸ J`
+the map `ψ` is `Algebra.TensorProduct.includeLeft`, which is surjective with kernel `J·C`.
+
+## Main definitions
+
+* `RingFibreProduct.fibrePoint` is the kernel of the first projection `C' → l`.  It is the
+  prime of `C'` that the construction creates over `v`.
+
+## Main results
+
+* `RingFibreProduct.situation_of_surjective`: the data above is an instance of Situation
+  15.6.1 (Tag 08KH), so Tags 0B7J and 0E1S apply to it.
+* `RingFibreProduct.isIntegral_pullback`: `C'` is integral over `R`.  Unconditional on the
+  injectivity of `φ`.
+* `RingFibreProduct.injective_pullbackSnd`,
+  `RingFibreProduct.injective_pullbackSnd_of_isField` and
+  `RingFibreProduct.pullbackEquivRangeSnd`: when `φ` is injective — for instance when `l` is a
+  field and `T` is nonzero — the second projection `C' → C` is injective and presents `C'` as
+  an `R`-subalgebra of `C`.
+* `RingFibreProduct.isMaximal_fibrePoint` and `RingFibreProduct.quotientFibrePointEquiv`: the
+  distinguished prime is maximal with residue field `l`, and
+  `RingFibreProduct.comap_fibrePoint` says it lies over `v`.
+* `RingFibreProduct.map_le_ker` and `RingFibreProduct.mem_map_of_fst_eq_zero`: the ideal `J·C`
+  is killed by `ψ`, and the square of the distinguished prime lies in `J·C'`.
+* `RingFibreProduct.existsUnique_isPrime_comap_eq`: it is the *only* prime of `C'` over `v`.
+* `RingFibreProduct.finiteType_pullback`: finite type over a Noetherian base, from Tag 00IT.
+* `RingFibreProduct.surjective_tensorIncludeLeft`,
+  `RingFibreProduct.ker_tensorIncludeLeft` and
+  `RingFibreProduct.finite_tensorIncludeRight`: the hypotheses on `ψ` and `φ` hold for
+  `T = C ⊗_R (R ⧸ J)`.
+* `RingFibreProduct.isIntegral_tensorPullback`,
+  `RingFibreProduct.existsUnique_isPrime_tensorPullback` and
+  `RingFibreProduct.finiteType_tensorPullback`: the three results above in the shape the
+  source states them, for `l = R ⧸ J` and `T = C ⊗_R l`.
+
+## Implementation notes
+
+**Relation to Tag 0EDM.**  Tag 0EDM is a statement about algebraic spaces: for an integral
+morphism `f : X → Y` of algebraic spaces and a point `y ∈ |Y|` representable by a closed immersion
+`Spec k → Y`, it factors `f` as `X → X' → Y` with `X' → Y` integral, `X → X'` an isomorphism away
+from `X'_y`, and `X'_y` a single point with residue field `k`.  Its construction forms the
+quasi-coherent `𝒪_Y`-algebra `f_*𝒪_X ×_{(X_y → Y)_*𝒪_{X_y}} y_*𝒪_{Spec k}` and takes its
+*relative spectrum*.  On an affine étale chart `V = Spec R` of `Y` meeting `y` in a single closed
+point `v = Spec l`, with `V ×_Y X = Spec C`, that algebra is `C' = l ×_{C ⊗_R l} C`, and the three
+facts above are what the source reads off More on Algebra, Situation 15.6.1: the statements here
+are the affine-local clauses of Tag 0EDM.
+
+**Why integrality is proved without injectivity.**  The source argues that `C'` is integral
+over `R` because `C' ⊂ C`.  That inclusion needs `φ : l → C ⊗_R l` to be injective, which
+fails when `C ⊗_R l = 0`, i.e. when the fibre is empty.  The conclusion survives: `C'` is a
+subalgebra of `l × C`, and `l × C` is integral over `R` because each factor is.  So
+`isIntegral_pullback` is unconditional and `injective_pullbackSnd` is separate.
+
+**Why the unique prime is proved from the kernel of `ψ` rather than from Tag 0B7J.**
+Tag 0B7J, `RingFibreProduct.primeSpectrum_isPushout`, identifies `Spec C'` with the pushout
+`Spec l ∐_{Spec T} Spec C` in `TopCat`, which is a statement about the underlying topological
+space only; residue fields are not visible in it, and extracting the fibre over `v` from a
+`CategoryTheory.IsPushout` is not shorter than the direct argument.  The direct argument needs
+one piece of information that no general `φ, ψ` supply, namely that `ker ψ` is generated by
+the image of `J = ker(R → l)`; that is the hypothesis `hker`, and the last section discharges
+it for `T = C ⊗_R l`.  Given it, the square of the distinguished prime lands in `J·C'`, hence
+in any prime over `v`, which forces that prime to contain — and then, `l` being a field, to
+equal — the distinguished one.
+
+**Why `IsField l` and not `[Field l]`.**  The results about the distinguished point are stated
+with `IsField l` as a hypothesis rather than with a `Field l` instance, although the geometric
+application has an honest field.  With `[CommRing l]` already in scope — it is needed to form
+`AlgHom.pullback φ ψ` as a subalgebra of `l × C` — adding `[Field l]` creates an instance
+diamond on `AddCommMagma l`, `Distrib l` and a dozen more, which the overlapping-instances
+linter flags; and specializing such a statement to `l = R ⧸ J` then has to reconcile the
+`CommRing (R ⧸ J)` coming from `Ideal.Quotient.field` with the quotient's own, which exceeded
+the default heartbeat budget.  `IsField` is a `Prop` and carries no data, so neither happens.
+
+**The universe restriction of Tag 0B7J.** `RingFibreProduct.Situation` is stated at
+independent universes, but `RingFibreProduct.Situation.pullbackCone` and therefore Tags 0B7J
+and 0E1S are restricted to a single universe, because the cartesian square is Mathlib's
+concrete pullback cone in `CommRingCat`.  `situation_of_surjective` is universe polymorphic;
+its consumers in `TopCat` are not.
+
+## References
+
+* [Stacks Project, Tag 0EDM](https://stacks.math.columbia.edu/tag/0EDM)
+* [Stacks Project, Tag 08KH](https://stacks.math.columbia.edu/tag/08KH)
+* [Stacks Project, Tag 0B7J](https://stacks.math.columbia.edu/tag/0B7J)
+* [Stacks Project, Tag 00IT](https://stacks.math.columbia.edu/tag/00IT)
+-/
+
+@[expose] public section
+
+open TensorProduct
+
+namespace RingFibreProduct
+
+/-! ### The fibre product `C' = l ×_T C` -/
+
+section General
+
+variable {R l C T : Type*} [CommRing R] [CommRing l] [CommRing C] [CommRing T]
+  [Algebra R l] [Algebra R C] [Algebra R T] (φ : l →ₐ[R] T) (ψ : C →ₐ[R] T)
+
+/-- **Stacks 08KH for `C' = l ×_T C`.** A surjection `ψ : C → T` together with any
+`φ : l → T` is an instance of Situation 15.6.1, with the kernel of `ψ` as its named ideal. -/
+theorem situation_of_surjective (hψ : Function.Surjective ψ) :
+    Situation (φ : l →+* T) (ψ : C →+* T) (RingHom.ker (ψ : C →+* T)) where
+  surjective_surjection := hψ
+  ker_surjection := rfl
+
+/-- Swapping the two factors identifies `l ×_T C` with `C ×_T l`.  The two orderings are both
+in use: Situation 15.6.1 puts the surjection second, Tag 00IT puts it first. -/
+def pullbackComm : AlgHom.pullback φ ψ ≃ₐ[R] AlgHom.pullback ψ φ where
+  toFun x := ⟨(x.1.2, x.1.1), by simpa using x.2.symm⟩
+  invFun y := ⟨(y.1.2, y.1.1), by simpa using y.2.symm⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
+  map_mul' _ _ := rfl
+  map_add' _ _ := rfl
+  commutes' _ := rfl
+
+/-! ### Integrality -/
+
+/-- `C' = l ×_T C` is integral over `R` as soon as both `l` and `C` are: it is a subalgebra of
+`l × C`.  This is clause (1) of Stacks 0EDM in its local form, and unlike the source's
+argument it does not require `C'` to inject into `C`. -/
+theorem isIntegral_pullback [Algebra.IsIntegral R l] [Algebra.IsIntegral R C] :
+    Algebra.IsIntegral R (AlgHom.pullback φ ψ) :=
+  Algebra.IsIntegral.of_injective (AlgHom.pullback φ ψ).val Subtype.val_injective
+
+/-- An `R`-algebra whose structure map is surjective is integral over `R`. -/
+theorem isIntegral_of_surjective_algebraMap (h : Function.Surjective (algebraMap R l)) :
+    Algebra.IsIntegral R l :=
+  Algebra.IsIntegral.of_surjective (Algebra.ofId R l) h
+
+/-- **Clause (1) of Stacks 0EDM, locally.**  If `R → l` is surjective and `R → C` is integral
+then `C' = l ×_T C` is integral over `R`. -/
+theorem isIntegral_pullback_of_surjective_algebraMap
+    (h : Function.Surjective (algebraMap R l)) [Algebra.IsIntegral R C] :
+    Algebra.IsIntegral R (AlgHom.pullback φ ψ) :=
+  let := isIntegral_of_surjective_algebraMap (R := R) (l := l) h
+  isIntegral_pullback φ ψ
+
+/-! ### `C'` as a subalgebra of `C` -/
+
+/-- The second projection `C' → C` is injective when `φ : l → T` is.  This is the source's
+`C' ⊂ C`. -/
+theorem injective_pullbackSnd (hφ : Function.Injective φ) :
+    Function.Injective (AlgHom.pullbackSnd φ ψ) := by
+  intro x y h
+  have hx : φ (x : l × C).1 = ψ (x : l × C).2 := x.2
+  have hy : φ (y : l × C).1 = ψ (y : l × C).2 := y.2
+  have h2 : (x : l × C).2 = (y : l × C).2 := h
+  exact Subtype.ext (Prod.ext (hφ (by rw [hx, hy, h2])) h2)
+
+/-- **`C'` is an `R`-subalgebra of `C`.**  When `φ` is injective the fibre product is
+isomorphic, as an `R`-algebra, to the image of its second projection in `C`. -/
+noncomputable def pullbackEquivRangeSnd (hφ : Function.Injective φ) :
+    AlgHom.pullback φ ψ ≃ₐ[R] (AlgHom.pullbackSnd φ ψ).range :=
+  AlgEquiv.ofInjective _ (injective_pullbackSnd φ ψ hφ)
+
+/-! ### The distinguished prime over `v` -/
+
+/-- The kernel of the first projection `C' → l`.  When `ψ` is surjective this is the unique
+prime of `C'` lying over the point `v` of `Spec R` cut out by `ker(R → l)`, and its residue
+field is `l`. -/
+abbrev fibrePoint : Ideal (AlgHom.pullback φ ψ) := RingHom.ker (AlgHom.pullbackFst φ ψ)
+
+/-- The distinguished prime lies over the point `v = ker(R → l)` of `Spec R`. -/
+theorem comap_fibrePoint :
+    (fibrePoint φ ψ).comap (algebraMap R (AlgHom.pullback φ ψ))
+      = RingHom.ker (algebraMap R l) := by
+  ext r
+  simp only [Ideal.mem_comap, RingHom.mem_ker]
+  rw [show AlgHom.pullbackFst φ ψ (algebraMap R (AlgHom.pullback φ ψ) r) = algebraMap R l r from
+    (AlgHom.pullbackFst φ ψ).commutes r]
+
+/-- **The residue field at the distinguished prime is `l`.**  This is clause (3) of
+Stacks 0EDM in its local form. -/
+noncomputable def quotientFibrePointEquiv (hψ : Function.Surjective ψ) :
+    (AlgHom.pullback φ ψ ⧸ fibrePoint φ ψ) ≃ₐ[R] l :=
+  Ideal.quotientKerAlgEquivOfSurjective
+    (AlgHom.surjective_pullbackFst_of_surjective φ ψ hψ)
+
+/-- Any element of `C` killed by `ψ` pairs with `0 : l` to give an element of `C'`. -/
+theorem mk_mem_pullback {c : C} (hc : ψ c = 0) : ((0 : l), c) ∈ AlgHom.pullback φ ψ := by
+  simp [hc]
+
+/-- An element of `C'` whose `l`-component vanishes has its `C`-component killed by `ψ`. -/
+theorem apply_eq_zero_of_fst_eq_zero {w : AlgHom.pullback φ ψ} (hw : (w : l × C).1 = 0) :
+    ψ (w : l × C).2 = 0 := by
+  have h : φ (w : l × C).1 = ψ (w : l × C).2 := w.2
+  rw [← h, hw, map_zero]
+
+include φ in
+/-- The ideal of `C` generated by `J = ker(R → l)` is killed by `ψ`, because `ψ` is a map of
+`R`-algebras and `φ` kills the image of `J` in `l`. -/
+theorem map_le_ker :
+    Ideal.map (algebraMap R C) (RingHom.ker (algebraMap R l)) ≤ RingHom.ker (ψ : C →+* T) := by
+  refine Ideal.map_le_iff_le_comap.2 fun a ha => ?_
+  have ha0 : algebraMap R l a = 0 := ha
+  have hcomm : ψ (algebraMap R C a) = φ (algebraMap R l a) := by
+    rw [AlgHom.commutes, AlgHom.commutes]
+  rw [Ideal.mem_comap, RingHom.mem_ker]
+  show ψ (algebraMap R C a) = 0
+  rw [hcomm, ha0, map_zero]
+
+/-- The key computation behind uniqueness.  If `x` lies in the ideal `J·C` of `C` generated by
+`J = ker(R → l)`, and `w` is an element of `C'` whose `l`-component vanishes, then the element
+of `C'` with components `(0, x · w₂)` lies in the ideal of `C'` generated by `J`. -/
+theorem mem_map_of_fst_eq_zero {x : C}
+    (hx : x ∈ Ideal.map (algebraMap R C) (RingHom.ker (algebraMap R l)))
+    (w z : AlgHom.pullback φ ψ) (hw : (w : l × C).1 = 0)
+    (hz : (z : l × C) = (0, x * (w : l × C).2)) :
+    z ∈ Ideal.map (algebraMap R (AlgHom.pullback φ ψ)) (RingHom.ker (algebraMap R l)) := by
+  have hm : ∀ (w : AlgHom.pullback φ ψ) y, ψ y * ψ (w : l × C).2 = 0 →
+      ((0 : l), y * (w : l × C).2) ∈ AlgHom.pullback φ ψ :=
+    fun w y hy => mk_mem_pullback φ ψ (by rwa [map_mul])
+  induction hx using Submodule.span_induction generalizing w z with
+  | mem a ha =>
+    obtain ⟨b, hb, rfl⟩ := ha
+    have hzeq : z = algebraMap R (AlgHom.pullback φ ψ) b * w := by
+      refine Subtype.ext ?_
+      rw [hz]
+      refine Prod.ext_iff.mpr ⟨?_, rfl⟩
+      simp [Algebra.algebraMap_eq_smul_one, Prod.smul_def, hw]
+    rw [hzeq]
+    exact Ideal.mul_mem_right _ _ (Ideal.mem_map_of_mem _ hb)
+  | zero =>
+    have hzeq : z = 0 := Subtype.ext (by rw [hz]; simp)
+    rw [hzeq]
+    exact Ideal.zero_mem _
+  | add u v hu hv Pu Pv =>
+    have hmu := hm w u (by simp [show ψ u = 0 from map_le_ker φ ψ hu])
+    have hmv := hm w v (by simp [show ψ v = 0 from map_le_ker φ ψ hv])
+    have hzeq : z = (⟨_, hmu⟩ : AlgHom.pullback φ ψ) + ⟨_, hmv⟩ :=
+      Subtype.ext (by rw [hz]; simp [add_mul])
+    rw [hzeq]
+    exact Ideal.add_mem _ (Pu w ⟨_, hmu⟩ hw rfl) (Pv w ⟨_, hmv⟩ hw rfl)
+  | smul d u _ Pu =>
+    refine Pu ⟨_, hm w d (by simp [apply_eq_zero_of_fst_eq_zero φ ψ hw])⟩ z rfl ?_
+    rw [hz]
+    refine Prod.ext_iff.mpr ⟨rfl, ?_⟩
+    simp [smul_eq_mul, mul_left_comm, mul_assoc]
+
+/-- **Every prime of `C'` over `v` contains the distinguished one.**  The hypothesis `hker`
+says that `ker ψ` is contained in the ideal generated by `J = ker(R → l)`, which is what holds
+for `T = C ⊗_R l`. -/
+theorem fibrePoint_le_of_comap_eq
+    (hker : RingHom.ker (ψ : C →+* T)
+      ≤ Ideal.map (algebraMap R C) (RingHom.ker (algebraMap R l)))
+    {q : Ideal (AlgHom.pullback φ ψ)} (hq : q.IsPrime)
+    (hcomap : q.comap (algebraMap R (AlgHom.pullback φ ψ)) = RingHom.ker (algebraMap R l)) :
+    fibrePoint φ ψ ≤ q := by
+  have hmap : Ideal.map (algebraMap R (AlgHom.pullback φ ψ)) (RingHom.ker (algebraMap R l)) ≤ q :=
+    Ideal.map_le_iff_le_comap.2 hcomap.ge
+  intro z hz
+  have hz1 : (z : l × C).1 = 0 := hz
+  have hsq : z * z ∈ q :=
+    hmap (mem_map_of_fst_eq_zero φ ψ (hker (apply_eq_zero_of_fst_eq_zero φ ψ hz1)) z (z * z) hz1
+      (by rw [Submonoid.coe_mul, Prod.mk_mul_mk]; exact Prod.ext_iff.mpr ⟨by simp [hz1], rfl⟩))
+  exact (hq.mem_or_mem hsq).elim id id
+
+/-! ### Finite type -/
+
+/-- **The "moreover" clause of Stacks 0EDM, locally.**  Over a Noetherian ring, with `ψ`
+surjective and `T` finite as an `l`-module, the fibre product `C' = l ×_T C` is of finite type
+over `R`.  This is Stacks 00IT read through the swap of the two factors. -/
+theorem finiteType_pullback [IsNoetherianRing R] [Algebra.FiniteType R l]
+    [Algebra.FiniteType R C] (hψ : Function.Surjective ψ) (hφ : φ.Finite) :
+    Algebra.FiniteType R (AlgHom.pullback φ ψ) :=
+  Algebra.FiniteType.equiv (Algebra.FiniteType.pullback ψ φ hψ hφ) (pullbackComm ψ φ)
+
+/-! ### The distinguished point when `l` is a field -/
+
+/-- When `l` is a field and `T` is nonzero, `φ : l → T` is injective. -/
+theorem injective_of_isField (hl : IsField l) [Nontrivial T] : Function.Injective φ := by
+  intro a b hab
+  by_contra hne
+  obtain ⟨c, hc⟩ := hl.mul_inv_cancel (sub_ne_zero_of_ne hne)
+  have h0 : φ (a - b) = 0 := by rw [map_sub, hab, sub_self]
+  have hone : (1 : T) = 0 := by rw [← map_one φ, ← hc, map_mul, h0, zero_mul]
+  exact one_ne_zero hone
+
+/-- When `l` is a field and `T` is nonzero, the fibre product injects into `C`.  This is the
+source's `C' ⊂ C`. -/
+theorem injective_pullbackSnd_of_isField (hl : IsField l) [Nontrivial T] :
+    Function.Injective (AlgHom.pullbackSnd φ ψ) :=
+  injective_pullbackSnd φ ψ (injective_of_isField φ hl)
+
+/-- The distinguished prime is a maximal ideal when `l` is a field and `ψ` is surjective: the
+quotient by it is `l`. -/
+theorem isMaximal_fibrePoint (hl : IsField l) (hψ : Function.Surjective ψ) :
+    (fibrePoint φ ψ).IsMaximal :=
+  Ideal.Quotient.maximal_of_isField _
+    (MulEquiv.isField hl (quotientFibrePointEquiv φ ψ hψ).toRingEquiv.toMulEquiv)
+
+/-- The distinguished prime is prime. -/
+theorem isPrime_fibrePoint (hl : IsField l) (hψ : Function.Surjective ψ) :
+    (fibrePoint φ ψ).IsPrime :=
+  (isMaximal_fibrePoint φ ψ hl hψ).isPrime
+
+/-- **Uniqueness.**  When `l` is a field and `ψ` is surjective, the distinguished prime is the
+only prime of `C'` lying over `v`. -/
+theorem eq_fibrePoint_of_comap_eq (hl : IsField l) (hψ : Function.Surjective ψ)
+    (hker : RingHom.ker (ψ : C →+* T)
+      ≤ Ideal.map (algebraMap R C) (RingHom.ker (algebraMap R l)))
+    {q : Ideal (AlgHom.pullback φ ψ)} (hq : q.IsPrime)
+    (hcomap : q.comap (algebraMap R (AlgHom.pullback φ ψ)) = RingHom.ker (algebraMap R l)) :
+    q = fibrePoint φ ψ := by
+  have hle : fibrePoint φ ψ ≤ q := fibrePoint_le_of_comap_eq φ ψ hker hq hcomap
+  refine le_antisymm (fun z hz => ?_) hle
+  by_contra hzp
+  have hzp' : AlgHom.pullbackFst φ ψ z ≠ 0 := hzp
+  obtain ⟨c, hc⟩ := hl.mul_inv_cancel hzp'
+  obtain ⟨u, hu⟩ := AlgHom.surjective_pullbackFst_of_surjective φ ψ hψ c
+  have hone : AlgHom.pullbackFst φ ψ (z * u - 1) = 0 := by
+    rw [map_sub, map_mul, map_one, hu, hc, sub_self]
+  have h1 : (1 : AlgHom.pullback φ ψ) ∈ q := by
+    simpa using Ideal.sub_mem q (Ideal.mul_mem_right u q hz) (hle hone)
+  exact hq.ne_top (Ideal.eq_top_of_unit_mem q 1 1 h1 (one_mul 1))
+
+/-- **Clause (3) of Stacks 0EDM, locally.**  `Spec C'` has exactly one point over the point
+`v = ker(R → l)` of `Spec R`.  Its residue field is `l` by
+`RingFibreProduct.quotientFibrePointEquiv`. -/
+theorem existsUnique_isPrime_comap_eq (hl : IsField l) (hψ : Function.Surjective ψ)
+    (hker : RingHom.ker (ψ : C →+* T)
+      ≤ Ideal.map (algebraMap R C) (RingHom.ker (algebraMap R l))) :
+    ∃! q : Ideal (AlgHom.pullback φ ψ), q.IsPrime ∧
+      q.comap (algebraMap R (AlgHom.pullback φ ψ)) = RingHom.ker (algebraMap R l) :=
+  ⟨fibrePoint φ ψ, ⟨isPrime_fibrePoint φ ψ hl hψ, comap_fibrePoint φ ψ⟩,
+    fun _ hq => eq_fibrePoint_of_comap_eq φ ψ hl hψ hker hq.1 hq.2⟩
+
+end General
+
+/-! ### The shape of the geometric application: `T = C ⊗_R l` -/
+
+section Tensor
+
+variable {R C : Type*} [CommRing R] [CommRing C] [Algebra R C] (J : Ideal R)
+
+/-- `ψ : C → C ⊗_R (R ⧸ J)`, the map whose fibre product with `R ⧸ J → C ⊗_R (R ⧸ J)` is the
+algebra `C'` of Stacks 0EDM. -/
+abbrev tensorIncludeLeft : C →ₐ[R] C ⊗[R] (R ⧸ J) := Algebra.TensorProduct.includeLeft
+
+/-- `φ : R ⧸ J → C ⊗_R (R ⧸ J)`, the other leg of the fibre product of Stacks 0EDM. -/
+abbrev tensorIncludeRight : (R ⧸ J) →ₐ[R] C ⊗[R] (R ⧸ J) := Algebra.TensorProduct.includeRight
+
+/-- `C → C ⊗_R (R ⧸ J)` is surjective, because `R → R ⧸ J` is.  This is the hypothesis `hψ`
+of the previous section in the geometric application. -/
+theorem surjective_tensorIncludeLeft :
+    Function.Surjective (tensorIncludeLeft (R := R) (C := C) J) := by
+  intro t
+  induction t using TensorProduct.induction_on with
+  | zero => exact ⟨0, map_zero _⟩
+  | tmul c x =>
+    obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
+    refine ⟨r • c, ?_⟩
+    rw [Algebra.TensorProduct.includeLeft_apply, TensorProduct.smul_tmul]
+    congr 1
+    rw [Algebra.smul_def, mul_one]
+    rfl
+  | add a b ha hb =>
+    obtain ⟨x, rfl⟩ := ha
+    obtain ⟨y, rfl⟩ := hb
+    exact ⟨x + y, map_add _ _ _⟩
+
+/-- The kernel of `C → C ⊗_R (R ⧸ J)` is `J·C`.  This is the hypothesis `hker` of the previous
+section in the geometric application; it holds with equality, not merely containment. -/
+theorem ker_tensorIncludeLeft :
+    RingHom.ker (tensorIncludeLeft (R := R) (C := C) J : C →+* C ⊗[R] (R ⧸ J))
+      = Ideal.map (algebraMap R C) J := by
+  ext c
+  show Algebra.TensorProduct.quotIdealMapEquivTensorQuot C J
+      (Ideal.Quotient.mk (Ideal.map (algebraMap R C) J) c) = 0 ↔ _
+  rw [map_eq_zero_iff _ (Algebra.TensorProduct.quotIdealMapEquivTensorQuot C J).injective,
+    Ideal.Quotient.eq_zero_iff_mem]
+
+/-- `C ⊗_R (R ⧸ J)` is a finite `R ⧸ J`-module when `C` is a finite `R`-module: it is finite
+over `R` by base change, and its `R`-action factors through `R ⧸ J`. -/
+theorem finite_tensorIncludeRight [Module.Finite R C] :
+    (tensorIncludeRight (R := R) (C := C) J).Finite := by
+  rw [AlgHom.Finite, RingHom.Finite]
+  let : Algebra (R ⧸ J) (C ⊗[R] (R ⧸ J)) :=
+    (tensorIncludeRight (R := R) (C := C) J).toRingHom.toAlgebra
+  have : IsScalarTower R (R ⧸ J) (C ⊗[R] (R ⧸ J)) :=
+    IsScalarTower.of_algebraMap_eq fun r => ((tensorIncludeRight (C := C) J).commutes r).symm
+  exact Module.Finite.of_restrictScalars_finite R (R ⧸ J) (C ⊗[R] (R ⧸ J))
+
+/-- **Clause (1) of Stacks 0EDM in the source's shape.**  For `R → C` integral, the fibre
+product `C' = (R ⧸ J) ×_{C ⊗_R (R ⧸ J)} C` is integral over `R`. -/
+theorem isIntegral_tensorPullback [Algebra.IsIntegral R C] :
+    Algebra.IsIntegral R (AlgHom.pullback (tensorIncludeRight (R := R) (C := C) J)
+      (tensorIncludeLeft (R := R) (C := C) J)) :=
+  isIntegral_pullback_of_surjective_algebraMap _ _ (IsLocalRing.surjective_algebraMap_quotient J)
+
+/-- The hypothesis `hker` of `RingFibreProduct.existsUnique_isPrime_comap_eq` in the source's
+shape: the kernel of `C → C ⊗_R (R ⧸ J)` is the ideal generated by `ker(R → R ⧸ J)`. -/
+theorem ker_tensorIncludeLeft_le :
+    RingHom.ker (tensorIncludeLeft (R := R) (C := C) J : C →+* C ⊗[R] (R ⧸ J))
+      ≤ Ideal.map (algebraMap R C) (RingHom.ker (algebraMap R (R ⧸ J))) := by
+  rw [ker_tensorIncludeLeft, IsLocalRing.ker_algebraMap_quotient]
+
+/-- **Clause (3) of Stacks 0EDM in the source's shape.**  For `J` maximal, `Spec C'` has
+exactly one point over the closed point `J = ker(R → R ⧸ J)` of `Spec R`; its residue field is
+`R ⧸ J` by `RingFibreProduct.quotientFibrePointEquiv`. -/
+theorem existsUnique_isPrime_tensorPullback [J.IsMaximal] :
+    ∃! q : Ideal (AlgHom.pullback (tensorIncludeRight (R := R) (C := C) J)
+      (tensorIncludeLeft (R := R) (C := C) J)), q.IsPrime ∧
+      q.comap (algebraMap R _) = RingHom.ker (algebraMap R (R ⧸ J)) :=
+  existsUnique_isPrime_comap_eq _ _
+    ((Ideal.Quotient.maximal_ideal_iff_isField_quotient J).mp inferInstance)
+    (surjective_tensorIncludeLeft J) (ker_tensorIncludeLeft_le J)
+
+/-- **The "moreover" clause of Stacks 0EDM in the source's shape.**  For `R` Noetherian and
+`R → C` finite, the fibre product `C' = (R ⧸ J) ×_{C ⊗_R (R ⧸ J)} C` is of finite type
+over `R`. -/
+theorem finiteType_tensorPullback [IsNoetherianRing R] [Module.Finite R C] :
+    Algebra.FiniteType R (AlgHom.pullback (tensorIncludeRight (R := R) (C := C) J)
+      (tensorIncludeLeft (R := R) (C := C) J)) :=
+  finiteType_pullback _ _ (surjective_tensorIncludeLeft J) (finite_tensorIncludeRight J)
+
+end Tensor
+
+end RingFibreProduct
+
+end

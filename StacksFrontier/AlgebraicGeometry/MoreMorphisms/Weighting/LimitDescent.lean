@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.Weighting.LimitDescent.ConstructibleFibreSum
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.Weighting.LimitDescent.UniversalFiniteOpen
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.Weighting.LimitDescent.FiniteStage

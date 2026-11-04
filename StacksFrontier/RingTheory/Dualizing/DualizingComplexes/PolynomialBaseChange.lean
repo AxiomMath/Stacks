@@ -1,0 +1,11 @@
+module
+
+public import StacksFrontier.RingTheory.Dualizing.DualizingComplexes.PolynomialBaseChange.FiniteInjectiveDimension
+public import StacksFrontier.RingTheory.Dualizing.DualizingComplexes.PolynomialBaseChange.Homothety
+public import StacksFrontier.RingTheory.Dualizing.DualizingComplexes.PolynomialBaseChange.EndomorphismUnit
+public import StacksFrontier.RingTheory.Dualizing.DualizingComplexes.PolynomialBaseChange.IsDualizingComplex
+import all StacksFrontier.RingTheory.Dualizing.DualizingComplexes.PolynomialBaseChange.FiniteInjectiveDimension
+import all StacksFrontier.RingTheory.Dualizing.DualizingComplexes.PolynomialBaseChange.Homothety
+import all StacksFrontier.RingTheory.Dualizing.DualizingComplexes.PolynomialBaseChange.EndomorphismUnit
+
+/-! # Dualizing complexes over polynomial rings -/

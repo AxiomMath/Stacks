@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.RingTheory.FinitePresentation.ModuleDescent.ModuleColimit
+public import StacksFrontier.RingTheory.FinitePresentation.ModuleDescent.ColimitRing
+public import StacksFrontier.RingTheory.FinitePresentation.ModuleDescent.LinearMapDescent
+public import StacksFrontier.RingTheory.FinitePresentation.ModuleDescent.SubringDescent

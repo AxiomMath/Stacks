@@ -1,0 +1,176 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FourierDeligne.LaumonFourierLineAbsIrrInputCharNe
+public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.LaumonFourierEquinormStableGeneric
+
+/-!
+# Equal absolute values of the Fourier family from L6 for `ℓ ≠ p`
+
+The first half of Laumon's purity of the two-parameter Fourier family
+([Tag 03VH](https://stacks.math.columbia.edu/tag/03VH); Kedlaya, *Fourier transforms and p-adic
+Weil II*, Theorem 6.4), `Stacks.EtaleCohomology.LaumonFourierEquinormStableInput`, as in
+`Stacks.EtaleCohomology.laumonFourierEquinormStableInput_of_inputs''`, from the absolute
+irreducibility of the Fourier transform only for `ℓ` prime to the characteristic,
+`Stacks.EtaleCohomology.LaumonFourierLineAbsIrrInput'`. The input
+`Stacks.EtaleCohomology.LaumonFourierEquinormStableInput` carries `ℓ ≠ p`, and the Fourier family
+is formed over finite extensions `k'` of `k`, of the same characteristic `p`, so L6 is only ever
+needed for `ℓ ≠ p`.
+
+## Main results
+
+* `Stacks.EtaleCohomology.laumonFourierEquinormStableInput_of_absIrr'`.
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory AlgebraicGeometry AlgebraicGeometry.SmallEtale Matrix Stacks.Frobenius
+
+universe u
+
+namespace Stacks.EtaleCohomology
+
+/-- **Equal absolute values of the Fourier family for `σ` which stays absolutely irreducible,
+from the generic lisse locus** (Laumon; Kedlaya, *Fourier transforms and p-adic Weil II*,
+Theorem 6.4, first half; [Tag 03VH](https://stacks.math.columbia.edu/tag/03VH)), off the curve
+`a · h₁ · h₂ = 0`, from the generic lisseness of the family
+(`Stacks.EtaleCohomology.LaumonFourierLineLisseFibreInput`, used for `σ` and for `σ^∨`), the
+absolute irreducibility of the Fourier transform for `ℓ ≠ p` (L6,
+`Stacks.EtaleCohomology.LaumonFourierLineAbsIrrInput'`) and the identification of the fibres
+(`Stacks.EtaleCohomology.LaumonFourierFamilyFibreInput`,
+`Stacks.EtaleCohomology.LaumonFourierFamilyFieldExtensionInput`). The real partner is
+`Stacks.EtaleCohomology.laumonFourierFamilyConjugateWildInput_of_inputs`, `E`-linear proper base
+change at the stalks is `Stacks.EtaleCohomology.coefficientHigherDirectImageStalkLinearInput`.
+
+This is the proof of `Stacks.EtaleCohomology.laumonFourierEquinormStableInput_of_inputs''`, whose
+only use of L6 is at the prime `ℓ` and the characteristic `p` of the input, where `ℓ ≠ p`. -/
+public theorem laumonFourierEquinormStableInput_of_absIrr'
+    (hL6' : LaumonFourierLineAbsIrrInput'.{u}) (hlis : LaumonFourierLineLisseFibreInput.{u})
+    (hfib : LaumonFourierFamilyFibreInput.{u}) (hext : LaumonFourierFamilyFieldExtensionInput.{u}) :
+    LaumonFourierEquinormStableInput.{u} := by
+  intro B U ℓ _ _ _ _ _ _ k _ _ f _ _ _ _ _ e _ _ he j kbar _ _ _ _ p n _ _ hcard hℓp x E _ _ _ d b
+    m σ hσ K _ _ _ hirr hst hζ ι' β _ hpure ψ hψ
+  -- the hypotheses on `σ` hold for `σ^∨`, with weight `-β`
+  have hσd := continuous_restrictScalarsRep_contragredient b hσ
+  have hVd : FiniteDimensional ℚ_[ℓ] (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B
+      U ℓ f j kbar (LAdicSheaf.representationSheaf B U x (restrictScalarsRep b (contragredient σ))
+        hσd) 1) :=
+    (LAdicSheaf.finiteCompactSupportCohomologyInput B ℓ k kbar p n hcard hℓp U f j _ 1).1
+  have hpured : ∀ (y : closedPoints U.1) (z : ℂ),
+      (((contragredient σ) (geometricFrobeniusFamily f x y)).val.charpoly.map ι').IsRoot z →
+      ‖z‖ = ((p ^ n : ℕ) : ℝ) ^ (((residueDegree f y.1 : ℤ) * ((-β : ℤ) : ℝ) : ℝ) / 2) :=
+    fun y => norm_eq_rpow_mul_neg_of_isRoot_contragredient σ ι' (geometricFrobeniusFamily f x y)
+      (p ^ n) (residueDegree f y.1) β (hpure y)
+  obtain ⟨N₁, hN₁⟩ := hlis B U ℓ k f e he j kbar p n hcard hℓp x E b σ hσ K hirr hst hζ ι' β hpure
+    ψ hψ
+  obtain ⟨N₂, hN₂⟩ := hlis B U ℓ k f e he j kbar p n hcard hℓp x E b (contragredient σ) hσd K
+    (forall_eq_bot_or_eq_top_contragredient σ K hirr) (laumonStablyAbsIrr_contragredient hst) hζ
+    ι' (-β) hpured ψ⁻¹ (inv_ne_one.2 hψ)
+  obtain ⟨N₃, hN₃⟩ := laumonFourierFamilyConjugateWildInput_of_inputs hext B U ℓ k f e he j kbar p n
+    hcard hℓp x E b σ hσ K hirr hst hζ ι' β hpure ψ hψ
+  refine ⟨max N₁ (max N₂ N₃), fun n₀ hn₀ hpn₀ => ?_⟩
+  -- the generic lisse loci `h₁ ≠ 0` of the family of `σ` and `h₂ ≠ 0` of that of `σ^∨` (`m = 0`)
+  obtain ⟨h₁, hh₁, hl₁⟩ := hN₁ n₀ (by omega) hpn₀ 0 (Or.inl rfl)
+  obtain ⟨h₂, hh₂, hl₂⟩ := hN₂ n₀ (by omega) hpn₀ 0 (Or.inl rfl)
+  refine ⟨MvPolynomial.X 0 * h₁ * h₂, mul_ne_zero (mul_ne_zero (MvPolynomial.X_ne_zero 0)
+    fun h => hh₁ (h ▸ dvd_zero _)) fun h => hh₂ (h ▸ dvd_zero _), ?_⟩
+  intro k' _ _ _ hX' _ _ x' hx' a c hac p₀ hτ₀ _ _ _ j' kbar' _ _ _ p' n' _ _ hcard' hV'
+  simp only [map_mul] at hac
+  have ha : a ≠ 0 := by
+    simpa only [MvPolynomial.map_X, MvPolynomial.eval_X, Matrix.cons_val_zero] using
+      left_ne_zero_of_mul (left_ne_zero_of_mul hac)
+  obtain rfl : p = p' := CharP.eq k'
+    (charP_of_injective_algebraMap (algebraMap k k').injective p) ‹CharP k' p'›
+  classical
+  -- a point `z̄` of the `(x, t)`-plane over `x̄'` and the pullback `σ₁` of `σ` to `𝔸¹_{k'}`
+  have hS : schemeSizeBelow B.cutoff (Spec (.of (Polynomial (Polynomial k')))) :=
+    schemeSizeBelow_spec_polynomial_of_spec B hX'
+  let zz : GeometricPoint (Spec (.of (Polynomial (Polynomial k')))) :=
+    x'.map (Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (Polynomial.X : Polynomial k'))))
+  have hz : (zz.map (laumonFamilyPr₁ k')).map (Spec.map (CommRingCat.ofHom
+      (Polynomial.mapRingHom (algebraMap k k'))) ≫ inv e) = x := by
+    rwa [show zz.map (laumonFamilyPr₁ k') = x' from laumonFamilyPr₁_map_specMap_evalRingHom_X x']
+  obtain ⟨pz⟩ := Stacks.ArtinSchreier.nonempty_finiteEtaleFiber_cover k'
+    (laumonFourierKernel k' n₀ a) zz
+  have hσ₁ := continuous_restrictScalarsRep_comp_etaleFundamentalGroupMap
+    (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k k'))) ≫ inv e)
+    (zz.map (laumonFamilyPr₁ k')) hz b σ hσ
+  have hσ₂ := continuous_restrictScalarsRep_comp_etaleFundamentalGroupMap
+    (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k k'))) ≫ inv e)
+    (zz.map (laumonFamilyPr₁ k')) hz b (contragredient σ) hσd
+  -- the open `V' = D(h₁(a, t) h₂(a, t))` of the `t`-line, over which both families are lisse
+  let P (h : MvPolynomial (Fin 2) k) := MvPolynomial.eval₂ (Polynomial.C.comp (algebraMap k k'))
+    ![Polynomial.C a, Polynomial.X] h
+  have hPc : (P h₁ * P h₂).eval c ≠ 0 := by
+    rw [Polynomial.eval_mul, laumonFourier_eval_eval₂, laumonFourier_eval_eval₂]
+    exact mul_ne_zero (right_ne_zero_of_mul (left_ne_zero_of_mul hac))
+      (right_ne_zero_of_mul hac)
+  have hP : P h₁ * P h₂ ≠ 0 := fun h => hPc (by rw [h, Polynomial.eval_zero])
+  refine laumonLineBasicOpen_elim k' B hS hX' hP _ ?_
+  intro V' U' _ _ _ _ _ jV' jU g' _ _ _ jg' fV _ _ _ _ jfV hjV' hrange hfV hpb hconn
+  have hr : ∀ P' : Polynomial k', P' ∣ P h₁ * P h₂ → Set.range (B.inclusion.map jV') ⊆
+      (PrimeSpectrum.basicOpen P' : Set (PrimeSpectrum (Polynomial k'))) := fun P' h =>
+    hrange.trans_subset (SetLike.coe_subset_coe.2 (basicOpen_le_of_dvd h))
+  have hlisse := hl₁ k' a (by rw [map_zero]) hS hX' zz hz pz hσ₁ V' U' jV' jU g' jg' hjV'
+    (hr _ (dvd_mul_right _ _)) hpb
+  have hlis₂ := hl₂ k' a (by rw [map_zero]) hS hX' zz hz pz hσ₂ V' U' jV' jU g' jg' hjV'
+    (hr _ (dvd_mul_left _ _)) hpb
+  -- the rational point `v` of `V'` over `t = c`
+  obtain ⟨v, hvcl, hbij, hvX⟩ := exists_laumonPoint_of_eval_ne_zero jV' hjV' _ hrange c hPc
+  let xV : GeometricPoint V'.1 := geometricPointAt V'.1 v
+  -- the representation `τ` of the lisse family `G_V`
+  obtain ⟨r, ρ, hρ, φ, ψ₀, N', hφψ, hψφ, mτ, τ, P, Q, hτc, hPQ, hQP, hα, hτ⟩ :=
+    exists_restrictScalarsRep_of_isLisse B V' xV _ E
+      (algebraMap_conjIntegralSubring_algebraMap _ _) b hlisse
+  -- `τ` is absolutely irreducible (L6)
+  obtain ⟨p₁⟩ := Stacks.ArtinSchreier.nonempty_finiteEtaleFiber_cover k'
+    (Polynomial.C a * Polynomial.X ^ n₀) (zz.map (laumonFamilyPr₁ k'))
+  have hirr₁ : ∀ (K' : Type) [Field K'] [IsAlgClosed K'] [Algebra E K']
+      (W : Submodule K' (Fin m → K')),
+      (∀ g, ∀ w ∈ W, (characterTwist (σ.comp (hz ▸ (etaleFundamentalGroupMap
+        (Spec.map (CommRingCat.ofHom (Polynomial.mapRingHom (algebraMap k k'))) ≫ inv e)
+          (zz.map (laumonFamilyPr₁ k'))).toMonoidHom))
+        (Stacks.ArtinSchreier.artinSchreierCharacter k' (Polynomial k')
+          (Polynomial.C a * Polynomial.X ^ n₀)
+          (ψ.compAddMonoidHom (Algebra.trace k k').toAddMonoidHom) (zz.map (laumonFamilyPr₁ k'))
+          p₁) g).val.map (algebraMap E K') *ᵥ w ∈ W) → W = ⊥ ∨ W = ⊤ :=
+    fun K' _ _ _ => (forall_eq_bot_or_eq_top_characterTwist_iff _ _ K').2
+      (hst k' (zz.map (laumonFamilyPr₁ k')) hz K')
+  have hτirr := hL6' B ℓ k' p hℓp E b (ψ.compAddMonoidHom (Algebra.trace k k').toAddMonoidHom)
+    (Stacks.FourierDeligne.traceChar_ne_one ψ k' hψ) hζ n₀ a hS hX' zz pz _ hσ₁ p₁ hirr₁ V' U'
+    jV' jU g' jg' hjV' hpb xV ρ hρ φ ψ₀ N' hφψ hψφ τ P Q hPQ hα hτ hQP
+  -- a real partner (the dual family twisted by an unramified character), and Weil II 1.5.1
+  obtain ⟨r', τ', hτ', hreal⟩ := hN₃ n₀ (by omega) hpn₀ k' a ha hS hX' zz hz pz hσ₁ hσ₂ V' U' jV'
+    jU g' jg' fV hjV' hfV hpb hlis₂ xV ρ hρ φ ψ₀ N' hφψ hψφ τ P Q hPQ hα hτ hQP
+  have := hconn (AlgebraicClosure k')
+  obtain ⟨β', -, hβ'⟩ := exists_norm_eq_pow_of_isIotaRealizable_curve B V' ℓ fV jfV
+    (AlgebraicClosure k') p n' hcard' hℓp xV E b τ hτc τ' hτ' ι' hreal hτirr
+  refine ⟨β' ^ residueDegree fV v, fun z hz' => ?_⟩
+  -- the fibre characteristic polynomial is that of `τ(F_v)`
+  let vc : closedPoints V'.1 := ⟨v, hvcl⟩
+  have : Finite (V'.1.residueField v) := finite_residueField fV v hvcl
+  let : Fintype (V'.1.residueField v) := Fintype.ofFinite _
+  have : CharP (V'.1.residueField v) p := charP_of_injective_ringHom hbij.injective p
+  have hcardv : Fintype.card (V'.1.residueField v) = p ^ (n' * residueDegree fV v) := by
+    rw [← Nat.card_eq_fintype_card, natCard_residueField_eq_pow_residueDegree fV v, hcard',
+      pow_mul]
+  have hcharv := charpoly_rationalStalkFrobenius_eq_restrictScalarsRep_family B V' xV _ ρ hρ φ ψ₀ N'
+    hφψ hψφ E (algebraMap_conjIntegralSubring_algebraMap _ _) b fV τ P Q hPQ hα hτ hQP vc
+  have hfinS := finite_rationalStalkLeft_of_isogeny B V' xV _ ρ hρ φ ψ₀ N' hφψ hψφ
+    (geometricPointAt V'.1 v)
+  refine coefficientHigherDirectImageStalkLinearInput B ℓ k' U' V' g' jg' fV vc
+    (AlgebraicClosure (V'.1.residueField v)) p (n' * residueDegree fV v) hcardv _ ?_
+  intro Y _ i fY _ _ _ hpbY jY hY
+  have : IsNoetherian (Stacks.ArtinSchreier.specObject (Polynomial (Polynomial k')) B hS).1 :=
+    inferInstanceAs (IsNoetherian (Spec (.of (Polynomial (Polynomial k')))))
+  obtain ⟨hfinY, heqb⟩ := hY (LAdicSheaf.CoefficientSheaf.inverseImage jU
+    (laumonFourierFamilySheaf k' B hS b (ψ.compAddMonoidHom (Algebra.trace k k').toAddMonoidHom)
+      n₀ a zz pz _ hσ₁)) 1 E (algebraMap_conjIntegralSubring_algebraMap _ _)
+  have heqc := hfib B U ℓ k e x E b σ ψ n₀ k' a hS hX' zz hz pz hσ₁ V' U' jV' jU g' hjV' hpb v Y i
+    fY hpbY jY (AlgebraicClosure (V'.1.residueField v)) p (n' * residueDegree fV v) hcardv c hbij
+    hvX hX' x' hx' p₀ hτ₀ j' kbar' p n' hcard'
+  rw [← hcharv.symm.trans (heqb.trans heqc)] at hz'
+  exact hβ' vc z hz'
+
+end Stacks.EtaleCohomology
+
+end

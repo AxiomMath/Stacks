@@ -1,0 +1,191 @@
+module
+
+public import Mathlib.RingTheory.DualNumber
+public import Mathlib.RingTheory.Flat.EquationalCriterion
+public import Mathlib.RingTheory.Flat.Tensor
+
+/-!
+# Flatness over the dual numbers
+
+Let `K` be a field and let `K[ε]` be its ring of dual numbers, so `ε² = 0`.  A `K[ε]`-module
+`M` is flat exactly when the only elements killed by `ε` are the multiples of `ε`:
+```
+Module.Flat K[ε] M  ↔  ∀ m, ε • m = 0 → ∃ m', m = ε • m'
+```
+Equivalently, writing `ε·` for multiplication by `ε` on `M`, flatness says that
+`LinearMap.ker (ε·) = LinearMap.range (ε·)`; the inclusion `range ≤ ker` always holds because
+`ε² = 0`.  Since `M ⧸ ε M` and the `ε`-torsion of `M` are then identified, this is the exactness
+of
+```
+0 → M/εM --ε--> M → M/εM → 0
+```
+which is the form in which the statement is used in deformation theory: a flat deformation of a
+`K`-algebra `P` over the dual numbers is the same thing as a square-zero extension of `P` by `P`.
+
+## Main results
+
+* `DualNumber.exists_eq_eps_smul_of_flat`: over a flat module, every `ε`-torsion element is a
+  multiple of `ε`.  Proved from Mathlib's equational criterion for flatness.
+* `DualNumber.flat_of_forall_exists_eq_eps_smul`: the converse.  Proved from the ideal criterion
+  for flatness, using that `K[ε]` has only the three ideals `⊥`, `(ε)` and `⊤`.
+* `DualNumber.flat_iff_forall_exists_eq_eps_smul`: the two directions combined.
+* `DualNumber.flat_iff_ker_lsmul_eps_eq_range`: the reformulation as `ker (ε·) = range (ε·)`.
+
+## Implementation notes
+
+This elementary statement carries no Stacks tag of its own.  The Stacks Project states it at the
+level of sheaves, as Tag 063Y (More on Morphisms) and in greater generality as Tag 08LI
+(Deformation Theory), and quotes it in the proof of Tag 0DY3 to pass from flat deformations of a
+`k`-algebra over `k[ε]` to square-zero extensions.  Neither sheaf-level tag is formalized here,
+and neither is needed for the module-theoretic statement, so the result is stated and proved
+directly over `K[ε]`.
+
+Both directions avoid the identification `(ε) ⊗_{K[ε]} M ≅ M ⧸ ε M` and the quotient-tensor
+machinery.  The forward direction instead reads the single relation `ε · m = 0` through the
+equational criterion: it factors as `m = ∑ aⱼ yⱼ` with `ε aⱼ = 0`, and each such `aⱼ` lies in
+`(ε)`.  The backward direction uses that every element of `(ε) ⊗_{K[ε]} M` is a *single* tensor
+`ε ⊗ₜ m` on the generator, which reduces injectivity of `(ε) ⊗ M → M` to the hypothesis together
+with `ε • ε = 0` inside the ideal.
+
+## References
+
+* [Stacks Project, Tag 0DY3](https://stacks.math.columbia.edu/tag/0DY3)
+* [Stacks Project, Tag 08LI](https://stacks.math.columbia.edu/tag/08LI)
+-/
+
+@[expose] public section
+
+open TensorProduct TrivSqZeroExt
+
+namespace DualNumber
+
+universe u v
+
+variable {K : Type u} [Field K] {M : Type v} [AddCommGroup M] [Module K[ε] M]
+
+/-- Multiplication by `ε` kills exactly the elements of `K[ε]` with vanishing constant term. -/
+public theorem eps_mul_eq_zero_iff (r : K[ε]) : (ε : K[ε]) * r = 0 ↔ fst r = 0 := by
+  rw [TrivSqZeroExt.ext_iff]
+  simp [TrivSqZeroExt.fst_mul]
+
+/-- Over a flat `K[ε]`-module, every element killed by `ε` is a multiple of `ε`. -/
+public theorem exists_eq_eps_smul_of_flat [Module.Flat K[ε] M] (m : M)
+    (hm : (ε : K[ε]) • m = 0) : ∃ m' : M, m = (ε : K[ε]) • m' := by
+  obtain ⟨k, a, y, hx, ha⟩ := Module.Flat.isTrivialRelation_of_sum_smul_eq_zero
+    (R := K[ε]) (M := M) (f := fun _ : Fin 1 => (ε : K[ε])) (x := fun _ : Fin 1 => m)
+    (by simpa using hm)
+  have key : ∀ j, ∃ b : K[ε], a 0 j = (ε : K[ε]) * b := fun j ↦
+    DualNumber.fst_eq_zero_iff_eps_dvd.mp ((eps_mul_eq_zero_iff _).mp (by simpa using ha j))
+  choose b hb using key
+  have hx0 : m = ∑ j, a 0 j • y j := hx 0
+  refine ⟨∑ j, b j • y j, ?_⟩
+  rw [Finset.smul_sum, hx0]
+  exact Finset.sum_congr rfl fun j _ ↦ by rw [hb j, mul_smul]
+
+section Auxiliary
+
+/-- A linear map with a linear left inverse stays injective after tensoring on the right. -/
+private lemma rTensor_injective_of_leftInverse {R : Type*} [CommRing R] (M : Type*)
+    [AddCommGroup M] [Module R M] {N P : Type*} [AddCommGroup N] [Module R N] [AddCommGroup P]
+    [Module R P] (f : N →ₗ[R] P) (g : P →ₗ[R] N) (h : g ∘ₗ f = LinearMap.id) :
+    Function.Injective (LinearMap.rTensor M f) := by
+  have hc : (LinearMap.rTensor M g) ∘ₗ (LinearMap.rTensor M f) = LinearMap.id := by
+    rw [← LinearMap.rTensor_comp, h, LinearMap.rTensor_id]
+  exact Function.LeftInverse.injective
+    (g := LinearMap.rTensor M g) fun x ↦ LinearMap.congr_fun hc x
+
+/-- The element `ε` of the maximal ideal `(ε)` of `K[ε]`, which generates it. -/
+private def epsGen (K : Type u) [Field K] : ↥(Ideal.span {(ε : K[ε])}) :=
+  ⟨ε, Ideal.mem_span_singleton_self _⟩
+
+/-- The generator is killed by `ε` already inside the ideal, because `ε² = 0`. -/
+private lemma eps_smul_epsGen : (ε : K[ε]) • epsGen K = 0 :=
+  Subtype.ext (by simp [epsGen, DualNumber.eps_mul_eps])
+
+/-- Because `(ε)` is generated by `ε`, every element of `(ε) ⊗ M` is a single tensor on the
+generator. -/
+private lemma exists_tmul_epsGen (t : ↥(Ideal.span {(ε : K[ε])}) ⊗[K[ε]] M) :
+    ∃ m : M, t = epsGen K ⊗ₜ[K[ε]] m := by
+  induction t with
+  | zero => exact ⟨0, by simp⟩
+  | tmul x m =>
+      obtain ⟨c, hc⟩ := Ideal.mem_span_singleton.mp x.2
+      refine ⟨c • m, ?_⟩
+      rw [← TensorProduct.smul_tmul]
+      exact congrArg (· ⊗ₜ[K[ε]] m) (Subtype.ext (hc.trans (mul_comm _ _)))
+  | add t₁ t₂ h₁ h₂ =>
+      obtain ⟨m₁, rfl⟩ := h₁
+      obtain ⟨m₂, rfl⟩ := h₂
+      exact ⟨m₁ + m₂, by rw [tmul_add]⟩
+
+end Auxiliary
+
+/-- A `K[ε]`-module in which every element killed by `ε` is a multiple of `ε` is flat. -/
+public theorem flat_of_forall_exists_eq_eps_smul
+    (h : ∀ m : M, (ε : K[ε]) • m = 0 → ∃ m' : M, m = (ε : K[ε]) • m') :
+    Module.Flat K[ε] M := by
+  rw [Module.Flat.iff_rTensor_injective']
+  intro I
+  rcases DualNumber.ideal_trichotomy I with rfl | rfl | rfl
+  · exact rTensor_injective_of_leftInverse M _ 0 (LinearMap.ext fun _ ↦ Subsingleton.elim _ _)
+  · intro t₁ t₂ hts
+    obtain ⟨m₁, rfl⟩ := exists_tmul_epsGen t₁
+    obtain ⟨m₂, rfl⟩ := exists_tmul_epsGen t₂
+    rw [LinearMap.rTensor_tmul, LinearMap.rTensor_tmul] at hts
+    have hsm : (ε : K[ε]) • m₁ = (ε : K[ε]) • m₂ := by
+      simpa [epsGen] using congrArg (TensorProduct.lid K[ε] M) hts
+    obtain ⟨m', hm'⟩ := h (m₁ - m₂) (by rw [smul_sub, hsm, sub_self])
+    have hm₁ : m₁ = m₂ + (ε : K[ε]) • m' := by rw [← hm']; abel
+    rw [hm₁, tmul_add, ← TensorProduct.smul_tmul, eps_smul_epsGen, zero_tmul, add_zero]
+  · exact rTensor_injective_of_leftInverse M _ Submodule.topEquiv.symm.toLinearMap
+      (LinearMap.ext fun _ ↦ rfl)
+
+/-- **Flatness criterion over the dual numbers.** A `K[ε]`-module is flat exactly when the
+elements killed by `ε` are precisely the multiples of `ε`. -/
+public theorem flat_iff_forall_exists_eq_eps_smul :
+    Module.Flat K[ε] M ↔ ∀ m : M, (ε : K[ε]) • m = 0 → ∃ m' : M, m = (ε : K[ε]) • m' :=
+  ⟨fun _ ↦ exists_eq_eps_smul_of_flat, flat_of_forall_exists_eq_eps_smul⟩
+
+/-- Multiplication by `ε` on any `K[ε]`-module squares to zero, so its range lies in its
+kernel. -/
+public theorem range_lsmul_eps_le_ker :
+    LinearMap.range (LinearMap.lsmul K[ε] M ε) ≤ LinearMap.ker (LinearMap.lsmul K[ε] M ε) := by
+  rintro m ⟨m', rfl⟩
+  simp only [LinearMap.mem_ker, LinearMap.lsmul_apply, ← mul_smul, DualNumber.eps_mul_eps]
+  exact zero_smul K[ε] m'
+
+/-- **Flatness criterion over the dual numbers, exactness form.** A `K[ε]`-module is flat exactly
+when the kernel and the range of multiplication by `ε` agree; that is, exactly when
+`0 → M/εM → M → M/εM → 0` is exact. -/
+public theorem flat_iff_ker_lsmul_eps_eq_range :
+    Module.Flat K[ε] M ↔
+      LinearMap.ker (LinearMap.lsmul K[ε] M ε) =
+        LinearMap.range (LinearMap.lsmul K[ε] M ε) := by
+  rw [flat_iff_forall_exists_eq_eps_smul]
+  exact ⟨fun h ↦ le_antisymm (fun m hm ↦ (h m hm).imp fun _ ↦ Eq.symm) range_lsmul_eps_le_ker,
+    fun h m hm ↦ (h.le hm).imp fun _ ↦ Eq.symm⟩
+
+/-- For a flat `K[ε]`-module, multiplication by `ε` induces an isomorphism `M ⧸ εM ≅ εM`.
+
+This is the datum used in deformation theory: if `Q` is a flat `K[ε]`-algebra with special fibre
+`P = Q ⧸ εQ`, then `εQ` is the kernel of `Q → P` and this equivalence identifies it with `P`, so
+that `Q` is a square-zero extension of `P` by `P`. -/
+public noncomputable def quotEpsSMulEquivEpsSMul [Module.Flat K[ε] M] :
+    (M ⧸ LinearMap.range (LinearMap.lsmul K[ε] M ε)) ≃ₗ[K[ε]]
+      ↥(LinearMap.range (LinearMap.lsmul K[ε] M ε)) :=
+  (Submodule.quotEquivOfEq _ _
+      ((flat_iff_ker_lsmul_eps_eq_range (K := K) (M := M)).mp ‹_›).symm).trans
+    (LinearMap.quotKerEquivRange (LinearMap.lsmul K[ε] M ε))
+
+/-- The equivalence `M ⧸ εM ≅ εM` of `DualNumber.quotEpsSMulEquivEpsSMul` is multiplication
+by `ε` on representatives. -/
+@[simp]
+public theorem quotEpsSMulEquivEpsSMul_mk [Module.Flat K[ε] M] (m : M) :
+    (quotEpsSMulEquivEpsSMul (K := K) (M := M)
+        (Submodule.Quotient.mk (p := LinearMap.range (LinearMap.lsmul K[ε] M ε)) m) : M) =
+      (ε : K[ε]) • m :=
+  LinearMap.quotKerEquivRange_apply_mk (LinearMap.lsmul K[ε] M ε) m
+
+end DualNumber
+
+end

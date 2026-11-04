@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Groupoids.More.EtaleLocalizationFiniteSubgroupoid.OrbitFiniteness
+public import StacksFrontier.AlgebraicGeometry.Groupoids.More.EtaleLocalizationFiniteSubgroupoid.StableOpenPieces
+public import StacksFrontier.AlgebraicGeometry.Groupoids.More.EtaleLocalizationFiniteSubgroupoid.FiniteSubgroupoid
+public import StacksFrontier.AlgebraicGeometry.Groupoids.More.EtaleLocalizationFiniteSubgroupoid.FiniteRestriction

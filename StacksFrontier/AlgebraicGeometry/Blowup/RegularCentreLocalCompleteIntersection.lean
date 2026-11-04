@@ -1,0 +1,207 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Blowup.DerivedPullbackAnnihilation
+public import StacksFrontier.AlgebraicGeometry.Blowup.ExceptionalChart
+public import StacksFrontier.AlgebraicGeometry.Descent.LocalOnSourceTopologies.LocalCompleteIntersection
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.LocalCompleteIntersection.Affine
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.LocalCompleteIntersection.SmoothComp
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.RegularIdealSheaf.ClosedBridge
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.RegularImmersion.ClosedComposition
+public import StacksFrontier.RingTheory.Koszul.BlowupRelationsKoszulRegular
+import StacksCore.Tactic.EgaSgaAttribute
+
+/-!
+# The blowup of a regular immersion is a local complete intersection morphism
+
+Let `i : Z ⟶ X` be a regular closed immersion into a locally Noetherian scheme and let
+`b : X' ⟶ X` be the blowing up of `X` with centre `Z`, the relative `Proj` of the Rees algebra of
+the ideal sheaf of `i` (`Stacks.Blowup.blowUp`). The proof of Stacks 0FVA opens with the remark
+that `b` is a local complete intersection morphism, by Stacks 0BIQ; this file proves it.
+
+Near every point of `X` the ideal of `Z` is generated, on an affine open `U = Spec A`, by an
+`H₁`-regular sequence `f₁, …, f_r` (by the regularity of `i`, or by the unit `1` off `Z`). The
+preimage of `U` in `X'` is covered by the charts `Spec A[I/f_k]`, and on such a chart `b` is
+`Spec` of the structure map `A ⟶ A[I/f_k]`, which is a local complete intersection homomorphism
+(`Koszul.isLocalCompleteIntersection_algebraMap_affineBlowup`: Stacks 0BIQ and the Koszul
+regularity of the blowup relations). Being a local complete intersection morphism is Zariski
+local on the source.
+
+## Main results
+
+* `AlgebraicGeometry.isLocalCompleteIntersectionMorphism_specMap`: the spectrum of a local
+  complete intersection homomorphism is a local complete intersection morphism.
+* `Stacks.Blowup.exists_affineOpen_ker_eq_span_isH1Regular`: the ideal of a regular closed
+  immersion into a locally Noetherian scheme is generated near every point by an `H₁`-regular
+  sequence of sections over an affine open.
+* `Stacks.Blowup.isLocalCompleteIntersectionMorphism_blowUpToBase`: the blowing up of a locally
+  Noetherian scheme along a regular closed immersion is a local complete intersection morphism.
+
+## References
+
+* [Stacks Project, Tag 0FVA](https://stacks.math.columbia.edu/tag/0FVA)
+* [Stacks Project, Tag 0BIQ](https://stacks.math.columbia.edu/tag/0BIQ)
+* [Stacks Project, Tag 0804](https://stacks.math.columbia.edu/tag/0804)
+* [Stacks Project, Tag 07D0](https://stacks.math.columbia.edu/tag/07D0)
+-/
+
+@[expose] public section
+
+open CategoryTheory Opposite TopologicalSpace
+open Stacks.AlgebraicGeometry.RegularIdealSheaf
+
+universe u
+
+namespace AlgebraicGeometry
+
+/-- **The spectrum of a local complete intersection homomorphism is a local complete intersection
+morphism.** A presentation `A[x₁, …, x_n] ⟶ B` of `φ` with Koszul-regular kernel exhibits
+`Spec B ⟶ Spec A` as a Koszul-regular closed immersion into affine space over `Spec A` followed
+by the smooth structure morphism of affine space. -/
+theorem isLocalCompleteIntersectionMorphism_specMap {A B : CommRingCat.{u}} (φ : A ⟶ B)
+    (hφ : φ.hom.IsLocalCompleteIntersection) :
+    IsLocalCompleteIntersectionMorphism (Spec.map φ) := by
+  let : Algebra A B := φ.hom.toAlgebra
+  obtain ⟨-, n, p, hp, hkerp⟩ := hφ
+  let φP : CommRingCat.of (MvPolynomial (Fin n) A) ⟶ B := CommRingCat.ofHom p.toRingHom
+  have hφP : Function.Surjective φP := fun y => hp y
+  have : IsClosedImmersion (Spec.map φP) := IsClosedImmersion.spec_of_surjective φP hφP
+  have hreg : IsKoszulRegularImmersion (Spec.map φP) :=
+    isKoszulRegularImmersion_specMap_of_surjective φP hφP (by exact hkerp)
+  let ψ : A ⟶ CommRingCat.of (MvPolynomial (Fin n) A) :=
+    CommRingCat.ofHom (algebraMap A (MvPolynomial (Fin n) A))
+  have hψsm : Smooth (Spec.map ψ) := by
+    rw [HasRingHomProperty.Spec_iff (P := @Smooth)]
+    show RingHom.Smooth (algebraMap A (MvPolynomial (Fin n) A))
+    rw [RingHom.smooth_algebraMap]
+    exact ⟨inferInstance, inferInstance⟩
+  have hcomm : ψ ≫ φP = φ := by
+    ext a
+    exact p.commutes a
+  have hfac : Spec.map φP ≫ Spec.map ψ = Spec.map φ := by
+    rw [← Spec.map_comp, hcomm]
+  have hψ : IsLocalCompleteIntersectionMorphism (Spec.map ψ) := by
+    simpa using isLocalCompleteIntersectionMorphism_comp_of_smooth (Spec.map ψ) (𝟙 _)
+      (isLocalCompleteIntersectionMorphism_of_isOpenImmersion (𝟙 _))
+  rw [← hfac]
+  exact isLocalCompleteIntersectionMorphism_comp _ _
+    (isLocalCompleteIntersectionMorphism_of_isKoszulRegularImmersion _ hreg) hψ
+
+end AlgebraicGeometry
+
+open AlgebraicGeometry
+
+namespace Stacks.Blowup
+
+/-- The structure map of an affine blowup algebra `A[I/a]` is a local complete intersection
+homomorphism as soon as `I` is generated by an `H₁`-regular sequence beginning with `a`, in a
+Noetherian ring. This is `Koszul.isLocalCompleteIntersection_algebraMap_affineBlowup`, for an
+ideal and an element given up to equality. -/
+theorem isLocalCompleteIntersection_algebraMap_affineBlowup_of_eq {A : Type u} [CommRing A]
+    [IsNoetherianRing A] {r : ℕ} (f : Fin (r + 1) → A) (hf : Koszul.IsH1Regular f) (I : Ideal A)
+    (a : A) (hI : I = Ideal.span (Set.range f)) (ha : a = f 0) :
+    (algebraMap A (affineBlowup I a)).IsLocalCompleteIntersection := by
+  subst hI ha
+  exact Koszul.isLocalCompleteIntersection_algebraMap_affineBlowup f hf
+
+/-- A weakly regular sequence in a ring is `H₁`-regular. -/
+private theorem isH1Regular_of_isWeaklyRegular {R : Type*} [CommRing R] {r : ℕ} {f : Fin r → R}
+    (h : RingTheory.Sequence.IsWeaklyRegular R (List.ofFn f)) : Koszul.IsH1Regular f :=
+  ((Koszul.isKoszulRegularOn_self_iff f).1
+    ((Koszul.isKoszulRegularOn_and_isKoszulRegular_of_regular (M := R)).1 h)).isH1Regular
+
+/-- **The ideal of a regular closed immersion is generated by `H₁`-regular sequences.** Let
+`i : Z ⟶ X` be a regular closed immersion. Every point of `X` has an affine open neighbourhood
+`U` over which the ideal of `i` is generated by an `H₁`-regular sequence of sections: near `Z`
+by the regularity of `i` (Stacks 063J), off `Z` by the unit `1`. -/
+theorem exists_affineOpen_ker_eq_span_isH1Regular {Z X : Scheme.{u}} (i : Z ⟶ X)
+    [IsClosedImmersion i] (hi : IsRegularImmersion i) (s : X) :
+    ∃ (U : X.affineOpens) (_ : s ∈ U.1) (r : ℕ) (f : Fin r → Γ(X, U.1)),
+      i.ker.ideal U = Ideal.span (Set.range f) ∧ Koszul.IsH1Regular f := by
+  by_cases hs : s ∈ Set.range i.base
+  · obtain ⟨z, rfl⟩ := hs
+    have hreg : IsRegularIdealSheaf X.toRingedSpace (definingIdealOfHom i) := by
+      have hfac : i.liftCoborder ≫ i.coborderRange.ι = i := i.liftCoborder_ι
+      have : IsClosedImmersion (i.liftCoborder ≫ i.coborderRange.ι) := by
+        rw [hfac]
+        infer_instance
+      have h := (Stacks.AlgebraicGeometry.isRegularIdealSheaf_comp_open_iff i.liftCoborder
+        i.coborderRange.ι).mpr hi
+      rwa [hfac] at h
+    obtain ⟨U, hzU, r, f, hwr, hker⟩ :=
+      Stacks.AlgebraicGeometry.exists_affine_isWeaklyRegular_generators i hreg z
+    exact ⟨U, hzU, r, f, (i.ker_apply U).trans hker, isH1Regular_of_isWeaklyRegular hwr⟩
+  · have hopen : IsOpen (Set.range i.base)ᶜ := i.isClosedEmbedding.isClosed_range.isOpen_compl
+    obtain ⟨_, ⟨U, hU, rfl⟩, hsU, hUc⟩ :=
+      X.isBasis_affineOpens.exists_subset_of_mem_open (show s ∈ (Set.range i.base)ᶜ from hs) hopen
+    have hempty : i ⁻¹ᵁ U = ⊥ := by
+      ext z
+      exact iff_of_false (fun hz => hUc hz ⟨z, rfl⟩) fun h => h
+    have hsub : Subsingleton Γ(Z, i ⁻¹ᵁ U) := by
+      rw [hempty]
+      exact CommRingCat.subsingleton_of_isTerminal Z.sheaf.isTerminalOfEmpty
+    refine ⟨⟨U, hU⟩, hsU, 1, fun _ => 1, ?_, ?_⟩
+    · rw [Scheme.Hom.ker_apply, Set.range_const, Ideal.span_singleton_one]
+      exact RingHom.ker_eq_top_of_subsingleton _
+    · refine isH1Regular_of_isWeaklyRegular ?_
+      simp only [List.ofFn_succ, List.ofFn_zero]
+      exact RingTheory.Sequence.IsWeaklyRegular.cons (IsSMulRegular.one _) (.nil _ _)
+
+variable {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] [IsLocallyNoetherian X]
+
+/-- **The blowing up along a regular closed immersion is a local complete intersection
+morphism** (the first assertion of the proof of Stacks 0FVA, by Stacks 0BIQ). Let `i : Z ⟶ X`
+be a regular closed immersion into a locally Noetherian scheme. Then the blowing up
+`b : X' ⟶ X` of `X` along `Z`, the relative `Proj` of the Rees algebra of the ideal of `i`, is a
+local complete intersection morphism (Stacks 069F). -/
+@[sga "6 VIII 4.2" "partial"]
+theorem isLocalCompleteIntersectionMorphism_blowUpToBase (hi : IsRegularImmersion i) :
+    IsLocalCompleteIntersectionMorphism (blowUpToBase i.ker) := by
+  have hchart : ∀ x : blowUp i.ker, ∃ W : (blowUp i.ker).Opens, x ∈ W ∧
+      IsLocalCompleteIntersectionMorphism (W.ι ≫ blowUpToBase i.ker) := by
+    intro x
+    obtain ⟨U, hsU, r, f, hker, hf⟩ :=
+      exists_affineOpen_ker_eq_span_isH1Regular i hi ((blowUpToBase i.ker).base x)
+    have hmem : ∀ k, f k ∈ i.ker.ideal U := fun k => hker ▸ Ideal.subset_span ⟨k, rfl⟩
+    -- `x` lies in the chart of one of the generators
+    have hxU : x ∈ blowUpToBase i.ker ⁻¹ᵁ (U : X.Opens) := hsU
+    have hcover : ⨆ k, (blowUpAffineChart i.ker U (hmem k)).opensRange =
+        blowUpToBase i.ker ⁻¹ᵁ (U : X.Opens) := by
+      rw [blowUpToBase_preimage_coe]
+      simp only [blowUpAffineChart, Scheme.Hom.opensRange_comp, ← Scheme.Hom.image_iSup,
+        iSup_opensRange_specAffineBlowupι_of_eq_span (i.ker.ideal U) hmem hker,
+        Scheme.Hom.image_top_eq_opensRange]
+    rw [← hcover] at hxU
+    obtain ⟨k, hxk⟩ := Opens.mem_iSup.mp hxU
+    obtain ⟨n, rfl⟩ : ∃ n, r = n + 1 := Nat.exists_eq_succ_of_ne_zero (Fin.pos k).ne'
+    -- the generators reordered so that `f k` comes first
+    let g : Fin (n + 1) → Γ(X, U.1) := f ∘ Equiv.swap 0 k
+    have hspan : Ideal.span (Set.range g) = Ideal.span (Set.range f) := by
+      simp only [g, Set.range_comp, Equiv.range_eq_univ, Set.image_univ]
+    have hg : Koszul.IsH1Regular g :=
+      (Koszul.regularity_of_generators_of_eq_span_range (Ideal.span (Set.range f)) g
+        hspan).2.1 ⟨f, rfl, hf⟩
+    have hg0 : f k = g 0 := by simp [g]
+    have hring :
+        (algebraMap Γ(X, U.1) (affineBlowup (i.ker.ideal U) (f k))).IsLocalCompleteIntersection :=
+      have : IsNoetherianRing Γ(X, U.1) := IsLocallyNoetherian.component_noetherian U
+      isLocalCompleteIntersection_algebraMap_affineBlowup_of_eq g hg _ _
+        (hker.trans hspan.symm) hg0
+    have hlci : IsLocalCompleteIntersectionMorphism
+        (blowUpAffineChart i.ker U (hmem k) ≫ blowUpToBase i.ker) := by
+      rw [blowUpAffineChart_blowUpToBase]
+      exact isLocalCompleteIntersectionMorphism_comp _ _
+        (isLocalCompleteIntersectionMorphism_specMap _ hring)
+        (isLocalCompleteIntersectionMorphism_of_isOpenImmersion _)
+    refine ⟨(blowUpAffineChart i.ker U (hmem k)).opensRange, hxk, ?_⟩
+    have hiso := Scheme.Hom.isoOpensRange_hom_ι (blowUpAffineChart i.ker U (hmem k))
+    rw [← Iso.eq_inv_comp] at hiso
+    rw [hiso, Category.assoc]
+    exact isLocalCompleteIntersectionMorphism_comp _ _
+      (isLocalCompleteIntersectionMorphism_of_isOpenImmersion _) hlci
+  choose W hxW hW using hchart
+  exact IsZariskiLocalAtSource.of_iSup_eq_top (P := @IsLocalCompleteIntersectionMorphism.{u}) W
+    (top_le_iff.mp fun x _ => Opens.mem_iSup.mpr ⟨x, hxW x⟩) hW
+
+end Stacks.Blowup
+
+end

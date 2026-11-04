@@ -1,0 +1,134 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.AffineCohomologyComparison.Basic
+public import StacksFrontier.AlgebraicGeometry.AffineCohomologyVanishing.CechAffineCover
+public import StacksFrontier.AlgebraicGeometry.FormalGeometry.AdicTowerIdealConormal
+public import StacksFrontier.AlgebraicGeometry.ProjectionFormula.Basic
+
+/-!
+# The obstruction groups of an adic tower vanish uniformly
+
+Let `X₀ ⟶ X₁ ⟶ ⋯` be a cartesian tower over the adic thickenings of a Noetherian ring `A` with
+`X₀` proper over `A / I` and `ℒ₀` ample on `X₀`. The obstruction to lifting a global section of
+an invertible `ℳ` on `Xₙ` to `Xₙ₊₁` lies in `H¹(Xₙ₊₁, 𝒥ₙ ⊗ ℳ)`, `𝒥ₙ = Ker(𝒪_{Xₙ₊₁} ⟶ 𝒪_{Xₙ})`.
+This file moves that group down to `X₀`: `𝒥ₙ` is the direct image of the conormal piece
+`(C_{n+1})_{n+1}` (`Stacks.AdicTower.conormalTransitionIdealIso`), the projection formula for the
+closed immersion `X₀ ⟶ Xₙ₊₁` carries the twist inside, and [Stacks, Tag 089W] identifies the
+cohomology of the direct image with the cohomology on `X₀`.
+
+## Main results
+
+* `Stacks.AdicTower.isZero_h1_transitionIdeal_of_isZero`: the comparison.
+
+## References
+
+* [Stacks Project, Tag 089A](https://stacks.math.columbia.edu/tag/089A)
+* [Stacks Project, Tag 089W](https://stacks.math.columbia.edu/tag/089W)
+-/
+
+@[expose] public noncomputable section
+
+open AlgebraicGeometry CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace
+open Stacks.Ample Stacks.RelativeVeryAmple
+
+universe u
+
+namespace Stacks.AdicTower
+
+variable {A : Type u} [CommRing A] {I : Ideal A} {Xn : ℕ → Scheme.{u}}
+  (q : ∀ n, Xn n ⟶ adicThickening A I n) (t : ∀ n, Xn n ⟶ Xn (n + 1))
+  (hcart : ∀ n, IsPullback (t n) (q n) (q (n + 1)) (adicThickeningSucc A I n))
+  [hci : ∀ k, IsClosedImmersion (incl t k)] [hct : ∀ k, IsClosedImmersion (t k)]
+
+include q hcart in
+/-- **The obstruction group on `Xₙ₊₁`, computed on `X₀`.** If `ι : X₀ ⟶ Xₙ₊₁` pulls the
+invertible `ℳ` back to `𝒩` and `H¹(X₀, (C_{n+1})_{n+1} ⊗ 𝒩) = 0`, then
+`H¹(Xₙ₊₁, 𝒥ₙ ⊗ ℳ) = 0`. -/
+theorem isZero_h1_transitionIdeal_of_isZero (n : ℕ) (M : (Xn (n + 1)).Modules)
+    (N : (Xn 0).Modules) (eM : (Scheme.Modules.pullback (incl t (n + 1))).obj M ≅ N)
+    [(tensorModules (Xn 0) ((conormalAlg t (n + 1)).piece ((n + 1 : ℕ) : ℤ)) N).IsQuasicoherent]
+    (hN : IsZero (Hgroup (Xn 0).ringCatSheaf ⊤ 1
+      (tensorModules (Xn 0) ((conormalAlg t (n + 1)).piece ((n + 1 : ℕ) : ℤ)) N))) :
+    IsZero (((AlgebraicGeometry.moduleGlobalSections (Xn (n + 1))).rightDerived 1).obj
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor
+            ⟨((Xn (n + 1)).toRingedSpace).presheaf, ((Xn (n + 1)).toRingedSpace).IsSheaf⟩).obj
+          (Stacks.ClosedImmersion.idealSheaf (t n).toLRSHom.toShHom)).obj M))) := by
+  set C := (conormalAlg t (n + 1)).piece ((n + 1 : ℕ) : ℤ)
+  set G := tensorModules (Xn 0) C N
+  have h1 : IsZero (((AlgebraicGeometry.moduleGlobalSections (Xn 0)).rightDerived 1).obj G) :=
+    Stacks.Cohomology.Affine.isZero_rightDerived_evaluation_of_isZero_Hgroup _ ⊤ 1 G hN
+  have h2 : IsZero (((AlgebraicGeometry.moduleGlobalSections (Xn (n + 1))).rightDerived 1).obj
+      ((Scheme.Modules.pushforward (incl t (n + 1))).obj G)) :=
+    ((ModuleCat.restrictScalars (incl t (n + 1)).appTop.hom).map_isZero h1).of_iso
+      (Stacks.Cohomology.AffineComparison.cohomologyIsoPushforward (incl t (n + 1)) G 1).symm
+  refine h2.of_iso
+    (((AlgebraicGeometry.moduleGlobalSections (Xn (n + 1))).rightDerived 1).mapIso ?_)
+  refine ((Stacks.SheafOfModules.Tensor.sheafTensor
+      ⟨((Xn (n + 1)).toRingedSpace).presheaf, ((Xn (n + 1)).toRingedSpace).IsSheaf⟩).mapIso
+        (conormalTransitionIdealIso q t hcart n)).app M ≪≫ ?_
+  refine Stacks.AffineProjectionFormula.closedImmersionProjectionFormulaIso (incl t (n + 1)) C M ≪≫
+    ?_
+  exact (Scheme.Modules.pushforward (incl t (n + 1))).mapIso
+    (tensorModulesMapIso (Xn 0) (Iso.refl C) eM)
+
+/-! ### The uniform vanishing -/
+
+omit [∀ k, IsClosedImmersion (incl t k)] [∀ k, IsClosedImmersion (t k)] in
+/-- The pullback of `ℒₖ` to `X₀` along the composite transition, identified with `ℒ₀` by the
+transition isomorphisms `φ`. -/
+def inclPullbackIso (L : ∀ n, (Xn n).Modules)
+    (φ : ∀ n, (Scheme.Modules.pullback (t n)).obj (L (n + 1)) ≅ L n) :
+    (k : ℕ) → (Scheme.Modules.pullback (incl t k)).obj (L k) ≅ L 0
+  | 0 => (Scheme.Modules.pullbackId (X := Xn 0)).app (L 0)
+  | k + 1 =>
+      ((Scheme.Modules.pullbackComp (incl t k) (t k)).app (L (k + 1))).symm ≪≫
+        (Scheme.Modules.pullback (incl t k)).mapIso (φ k) ≪≫ inclPullbackIso L φ k
+
+omit [∀ k, IsClosedImmersion (incl t k)] [∀ k, IsClosedImmersion (t k)] in
+include hcart in
+/-- **The obstruction groups of the tower vanish uniformly**, the second paragraph of the proof
+of [Stacks, Tag 089A]. For `A` Noetherian, `X₀` proper over `A / I` and `ℒ₀` ample, every degree
+`d₁` is exceeded by a `d` with `H¹(Xₙ₊₁, 𝒥ₙ ⊗ ℒₙ₊₁ ^⊗ d) = 0` for all `n`, where
+`𝒥ₙ = Ker(𝒪_{Xₙ₊₁} ⟶ 𝒪_{Xₙ})`.
+
+`I` is generated by finitely many `aᵢ`, so the conormal pieces `(Cₙ)ₙ` along the tower form the
+graded module `towerModule` of finite type over `𝒪_{X₀}[xᵢ]`, whose twists by `ℒ₀ ^⊗ d` have no
+higher cohomology for `d ≫ 0` uniformly in the degree (`exists_isZero_Hgroup_towerModule`);
+`isZero_h1_transitionIdeal_of_isZero` moves this vanishing up to `Xₙ₊₁`. -/
+theorem exists_isZero_h1_transitionIdeal [IsNoetherianRing A] [IsProper (q 0)]
+    (L : ∀ n, (Xn n).Modules) (hL : ∀ n, IsInvertibleModule (Xn n) (L n))
+    (φ : ∀ n, (Scheme.Modules.pullback (t n)).obj (L (n + 1)) ≅ L n)
+    (hample : letI := hL 0; IsAmple (Xn 0) (L 0)) (d₁ : ℕ) :
+    ∃ d : ℕ, d₁ ≤ d ∧ ∀ n : ℕ,
+      IsZero (((AlgebraicGeometry.moduleGlobalSections (Xn (n + 1))).rightDerived 1).obj
+        ((((Stacks.SheafOfModules.Tensor.sheafTensor
+              ⟨((Xn (n + 1)).toRingedSpace).presheaf, ((Xn (n + 1)).toRingedSpace).IsSheaf⟩).obj
+            (Stacks.ClosedImmersion.idealSheaf (t n).toLRSHom.toShHom)).obj
+          (letI := hL (n + 1); tensorPowModule (Xn (n + 1)) (L (n + 1)) (d : ℤ))))) := by
+  have : ∀ k, IsClosedImmersion (incl t k) := isClosedImmersion_incl q t hcart
+  have : ∀ k, IsClosedImmersion (t k) := isClosedImmersion_transition q t hcart
+  let := hL 0
+  obtain ⟨s, hs⟩ := (IsNoetherian.noetherian I : I.FG)
+  have ha : ∀ x : (s : Set A), (x : A) ∈ I := fun x => hs ▸ Ideal.subset_span x.2
+  have hspan : Ideal.span (Set.range (fun x : (s : Set A) => (x : A))) = I := by
+    rw [Subtype.range_coe]; exact hs
+  obtain ⟨d₀, hd₀⟩ := exists_isZero_Hgroup_towerModule q t hcart (fun x : (s : Set A) => (x : A))
+    ha hspan (L 0) hample
+  refine ⟨max d₁ d₀.toNat, le_max_left _ _, fun n => ?_⟩
+  set d := max d₁ d₀.toNat
+  have hd : d₀ ≤ (d : ℤ) := (Int.self_le_toNat d₀).trans (by exact_mod_cast le_max_right _ _)
+  let := hL (n + 1)
+  have hqc : (tensorModules (Xn 0) ((conormalAlg t (n + 1)).piece ((n + 1 : ℕ) : ℤ))
+      (tensorPowModule (Xn 0) (L 0) (d : ℤ))).IsQuasicoherent :=
+    @AlgebraicGeometry.tensorSheaf_isQuasicoherent (Xn 0).toRingedSpace _ _
+      (isQuasicoherent_towerModule q t hcart (fun x : (s : Set A) => (x : A)) ha ((n + 1 : ℕ) : ℤ))
+      (Stacks.AmpleGlobalGeneration.isQuasicoherent_tensorPowModule (L 0) (d : ℤ))
+  exact isZero_h1_transitionIdeal_of_isZero q t hcart n _ _
+    (Stacks.RelativeVeryAmple.pullbackTensorPowModuleIso (incl t (n + 1)) (L (n + 1)) d ≪≫
+      Stacks.RelativeVeryAmple.tensorPowModuleIsoOfIso (Xn 0) _ (L 0)
+        (inclPullbackIso t L φ (n + 1)) d)
+    (hd₀ d hd 1 one_pos ((n + 1 : ℕ) : ℤ))
+
+end Stacks.AdicTower
+
+end

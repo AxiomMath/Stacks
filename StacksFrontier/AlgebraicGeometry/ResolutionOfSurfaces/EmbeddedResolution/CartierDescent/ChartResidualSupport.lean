@@ -1,0 +1,359 @@
+module
+
+public import Mathlib.RingTheory.DedekindDomain.Basic
+public import Mathlib.RingTheory.FiniteType
+public import Mathlib.RingTheory.HopkinsLevitzki
+public import Mathlib.RingTheory.Ideal.GoingUp
+public import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
+public import Mathlib.RingTheory.PrincipalIdealDomain
+public import StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.EmbeddedResolution.CartierDescent.ChartFibre
+public import StacksFrontier.RingTheory.AffineBlowup.ModelComparison
+public import StacksFrontier.RingTheory.Blowup.Basic
+public import StacksFrontier.RingTheory.DedekindDomain.ClosedSubsetFinite
+
+/-!
+# The residual ideal of a standard chart is supported at finitely many closed points
+
+Let `(A, 𝔪, κ)` be a regular local ring of dimension two, let `x, y` be a regular sequence
+spanning `𝔪`, and let `B = A[𝔪/x]` be the standard affine chart of the blowup of `Spec A` at its
+closed point, with `ξ` the image of `x` in `B` — the local equation of the exceptional divisor.
+
+This file describes the closed subscheme of `Spec B` cut out by a *residual* ideal `L ⊆ B`, one
+that contains a power of `ξ` but is not contained in `(ξ)`. Geometrically `V(L)` meets the
+exceptional divisor in a proper closed subset of a line, hence in finitely many points, and it
+meets nothing else; so `V(L)` is a finite set of closed points of `Spec B`, each of which is a
+point of codimension two. This is the content of [Stacks, Tag 0AGT].
+
+## Main results
+
+* `Stacks.ResolutionOfSurfaces.CartierDescent.isPrime_span_algebraMap`: `(ξ)` is a prime ideal.
+* `Stacks.ResolutionOfSurfaces.CartierDescent.isMaximal_of_lt`: a prime strictly containing `(ξ)`
+  is maximal.
+* `Stacks.ResolutionOfSurfaces.CartierDescent.height_eq_two_of_lt`: such a prime has height two,
+  i.e. the local ring of `B` there has Krull dimension two.
+* `Stacks.ResolutionOfSurfaces.CartierDescent.finite_setOf_isPrime_le`: a residual ideal is
+  contained in only finitely many primes.
+* `Stacks.ResolutionOfSurfaces.CartierDescent.isMaximal_of_isPrime_le`: each of them is maximal.
+* `Stacks.ResolutionOfSurfaces.CartierDescent.isArtinianRing_quotient`: the quotient of `B` by a
+  residual ideal is an Artinian ring.
+
+## Implementation notes
+
+Everything is read off the fibre computation of the sibling module
+`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.EmbeddedResolution.CartierDescent.ChartFibre`,
+which identifies `B/ξB` with the polynomial ring `κ[T]`. From that identification the fibre is a
+principal ideal domain, so:
+
+* `(ξ)` is prime because the fibre is a domain, and proper because the fibre is nonzero;
+* a prime of `B` strictly containing `(ξ)` corresponds to a nonzero prime of `κ[T]`, which is
+  maximal, so the prime is maximal in `B`;
+* its height is at least two along the chain `0 ⊊ (ξ) ⊊ p` and at most two by Krull's height
+  theorem, since `p = (ξ, f)` for any `f` lifting a generator of the corresponding principal
+  prime of the fibre;
+* a residual ideal has nonzero image in the fibre, so only finitely many primes of `κ[T]` lie
+  over it (`PrimeSpectrum.finite_zeroLocus`), and every prime of `B` containing it contains `ξ`.
+
+Noetherianity of the chart is needed for Krull's height theorem and for the Artinian conclusion.
+It is derived here from `[IsNoetherianRing A]`: the chart is a finite-type `A`-algebra because
+`𝔪` is finitely generated. The two finite-type statements already in the development
+(`StacksFrontier.RingTheory.Smoothing.NeronBlowupSmooth`,
+`StacksFrontier.RingTheory.Smoothing.NeronBlowupSequence`) are `private`, hence unusable from here,
+so the argument is repeated for the `affineBlowup` spelling, reached from `affineBlowupAlgebra`
+by the model comparison `affineBlowup_eq_affineBlowupAlgebra`.
+
+The hypotheses are kept minimal rather than uniform: locality of `A` and the regular sequence are
+all that `isPrime_span_algebraMap`, `isMaximal_of_lt` and `isMaximal_of_isPrime_le` need, while
+the height and finiteness statements add `[IsDomain A]` and `[IsNoetherianRing A]`. Both extra
+hypotheses hold for the regular local surface this is applied to.
+
+## References
+
+* [Stacks Project, Tag 0AGT](https://stacks.math.columbia.edu/tag/0AGT)
+* [Stacks Project, Tag 0AGR](https://stacks.math.columbia.edu/tag/0AGR)
+-/
+
+@[expose] public noncomputable section
+
+open IsLocalRing
+
+universe u
+
+namespace Stacks.ResolutionOfSurfaces.CartierDescent
+
+/-! ### The chart is a Noetherian domain -/
+
+/-- The first element of a regular sequence in a nonzero ring is nonzero: multiplication by `0`
+is injective only on the zero ring. -/
+private lemma ne_zero_of_isRegular {A : Type u} [CommRing A] [Nontrivial A] {x y : A}
+    (hreg : RingTheory.Sequence.IsRegular A [x, y]) : x ≠ 0 := by
+  rintro rfl
+  rw [RingTheory.Sequence.isRegular_cons_iff] at hreg
+  exact one_ne_zero (hreg.1 (show (0 : A) • (1 : A) = (0 : A) • (0 : A) by simp))
+
+/-- The affine blowup algebra of a finitely generated ideal is of finite type: it is generated by
+the fractions `z/a` for `z` in a finite generating set of the ideal. -/
+private lemma finiteType_affineBlowup {A : Type u} [CommRing A] (I : Ideal A) (a : A)
+    (hI : I.FG) : Algebra.FiniteType A (affineBlowup I a) := by
+  classical
+  have key : Algebra.FiniteType A (affineBlowupAlgebra I a (Localization.Away a)) := by
+    let L := Localization.Away a
+    let f : A →ₗ[A] L :=
+      (IsLocalization.mk' L 1 ⟨a, Submonoid.mem_powers a⟩ : L) • Algebra.linearMap A L
+    have hf (z : A) : f z = IsLocalization.mk' L z ⟨a, Submonoid.mem_powers a⟩ := by
+      show IsLocalization.mk' L 1 ⟨a, Submonoid.mem_powers a⟩ * algebraMap A L z = _
+      rw [mul_comm, ← IsLocalization.mk'_eq_mul_mk'_one]
+    obtain ⟨t, ht⟩ := hI
+    refine (Subalgebra.fg_iff_finiteType _).mp (Subalgebra.fg_def.mpr
+      ⟨f '' (t : Set A), t.finite_toSet.image f, ?_⟩)
+    have hgen : {z : L | ∃ w ∈ I, z = IsLocalization.mk' L w ⟨a, Submonoid.mem_powers a⟩} =
+        (Submodule.map f I : Set L) := by
+      ext z
+      simp only [Submodule.mem_map, SetLike.mem_coe, Set.mem_ofPred_eq, hf]
+      exact ⟨fun ⟨w, hw, hz⟩ => ⟨w, hw, hz.symm⟩, fun ⟨w, hw, hz⟩ => ⟨w, hw, hz.symm⟩⟩
+    rw [affineBlowupAlgebra, hgen, ← ht, Submodule.map_span, Algebra.adjoin_span]
+  exact key.equiv
+    (Subalgebra.equivOfEq _ _ (affineBlowup_eq_affineBlowupAlgebra I a).symm)
+
+/-- The ideal spanned by a pair of elements is finitely generated. -/
+private lemma fg_span_pair {A : Type u} [CommRing A] (x y : A) :
+    (Ideal.span ({x, y} : Set A)).FG :=
+  Submodule.fg_span ((Set.finite_singleton y).insert x)
+
+/-- The standard chart of the blowup of a two-generated ideal is Noetherian when the base is. -/
+private lemma isNoetherianRing_affineBlowup {A : Type u} [CommRing A] [IsNoetherianRing A]
+    (x y : A) : IsNoetherianRing (affineBlowup (Ideal.span ({x, y} : Set A)) x) :=
+  have := finiteType_affineBlowup (Ideal.span ({x, y} : Set A)) x (fg_span_pair x y)
+  Algebra.FiniteType.isNoetherianRing A _
+
+/-- The standard chart of the blowup of a domain at a two-generated ideal is a domain, the
+denominator being nonzero. -/
+private lemma isDomain_affineBlowup {A : Type u} [CommRing A] [IsDomain A] {x y : A}
+    (hx : x ≠ 0) : IsDomain (affineBlowup (Ideal.span ({x, y} : Set A)) x) :=
+  affineBlowup_isDomain (Ideal.span ({x, y} : Set A)) x hx
+
+/-- The local equation of the exceptional divisor is nonzero in the chart: the structure map of
+the chart is the restriction of the localization map `A → A_x`, which is injective. -/
+private lemma algebraMap_ne_zero {A : Type u} [CommRing A] [IsDomain A] {x y : A} (hx : x ≠ 0) :
+    algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x ≠ 0 := by
+  intro h
+  have hcoe : algebraMap A (Localization.Away x) x = 0 := by
+    have h' := congrArg (Subalgebra.val (affineBlowup (Ideal.span ({x, y} : Set A)) x)) h
+    rwa [AlgHom.commutes, map_zero] at h'
+  refine hx (IsLocalization.injective (M := Submonoid.powers x) (Localization.Away x)
+    (Submonoid.powers_le.mpr (mem_nonZeroDivisors_of_ne_zero hx)) ?_)
+  rw [hcoe, map_zero]
+
+/-! ### The fibre is a principal ideal domain -/
+
+/-- The fibre `B/ξB` of the chart is a principal ideal ring: it is the polynomial ring `κ[T]` in
+one variable over the residue field. -/
+private lemma isPrincipalIdealRing_quotient (A : Type u) [CommRing A] [IsLocalRing A] {x y : A}
+    (hreg : RingTheory.Sequence.IsRegular A [x, y])
+    (hspan : Ideal.span ({x, y} : Set A) = IsLocalRing.maximalIdeal A) :
+    IsPrincipalIdealRing (affineBlowup (Ideal.span ({x, y} : Set A)) x ⧸
+      Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x}) := by
+  obtain ⟨e⟩ := nonempty_algEquiv_quotient_span_algebraMap_of_isRegular A hreg hspan
+  exact IsPrincipalIdealRing.of_surjective e.symm.toRingEquiv e.symm.toRingEquiv.surjective
+
+/-- Every nonzero prime of the fibre `B/ξB` is maximal: the fibre is a principal ideal domain. -/
+private lemma dimensionLEOne_quotient (A : Type u) [CommRing A] [IsLocalRing A] {x y : A}
+    (hreg : RingTheory.Sequence.IsRegular A [x, y])
+    (hspan : Ideal.span ({x, y} : Set A) = IsLocalRing.maximalIdeal A) :
+    Ring.DimensionLEOne (affineBlowup (Ideal.span ({x, y} : Set A)) x ⧸
+      Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x}) :=
+  have := isDomain_quotient_span_algebraMap_of_isRegular A hreg hspan
+  have := isPrincipalIdealRing_quotient A hreg hspan
+  inferInstance
+
+/-! ### The exceptional divisor is a prime divisor -/
+
+/-- **The local equation of the exceptional divisor generates a prime ideal of the chart.** For
+`x, y` a regular sequence spanning the maximal ideal of a local ring `A`, the ideal of the chart
+`A[𝔪/x]` generated by the image of `x` is prime, because the quotient by it is the domain
+`κ[T]`. -/
+public theorem isPrime_span_algebraMap (A : Type u) [CommRing A] [IsLocalRing A] {x y : A}
+    (hreg : RingTheory.Sequence.IsRegular A [x, y])
+    (hspan : Ideal.span ({x, y} : Set A) = IsLocalRing.maximalIdeal A) :
+    (Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x}).IsPrime :=
+  (Ideal.Quotient.isDomain_iff_prime _).mp
+    (isDomain_quotient_span_algebraMap_of_isRegular A hreg hspan)
+
+/-! ### Primes above the exceptional divisor are closed points of codimension two -/
+
+/-- **A prime of the chart strictly containing the exceptional divisor is maximal.** Such a prime
+corresponds to a nonzero prime of the fibre `κ[T]`, which is maximal since `κ[T]` is a principal
+ideal domain. -/
+public theorem isMaximal_of_lt (A : Type u) [CommRing A] [IsLocalRing A] {x y : A}
+    (hreg : RingTheory.Sequence.IsRegular A [x, y])
+    (hspan : Ideal.span ({x, y} : Set A) = IsLocalRing.maximalIdeal A)
+    {p : Ideal (affineBlowup (Ideal.span ({x, y} : Set A)) x)} (hp : p.IsPrime)
+    (hlt : Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x} < p) :
+    p.IsMaximal := by
+  have := hp
+  have := dimensionLEOne_quotient A hreg hspan
+  set K := Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x} with hK
+  have hq : (p.map (Ideal.Quotient.mk K)).IsPrime :=
+    Ideal.isPrime_map_quotientMk_of_isPrime hlt.le
+  have hne : p.map (Ideal.Quotient.mk K) ≠ ⊥ := by
+    rw [Ne, Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
+    exact fun h => absurd (hlt.trans_le h) (lt_irrefl _)
+  have : (p.map (Ideal.Quotient.mk K)).IsMaximal := hq.isMaximal hne
+  rw [← Ideal.comap_map_mk hlt.le]
+  exact Ideal.comap_isMaximal_of_surjective _ Ideal.Quotient.mk_surjective
+
+/-- **A prime of the chart strictly containing the exceptional divisor has height two**, so the
+local ring of the chart there has Krull dimension two. The chain `0 ⊊ (ξ) ⊊ p` gives the lower
+bound, and Krull's height theorem gives the upper bound, `p` being generated by `ξ` together
+with any lift of a generator of the corresponding principal prime of the fibre `κ[T]`. -/
+public theorem height_eq_two_of_lt (A : Type u) [CommRing A] [IsLocalRing A] [IsDomain A]
+    [IsNoetherianRing A] {x y : A} (hreg : RingTheory.Sequence.IsRegular A [x, y])
+    (hspan : Ideal.span ({x, y} : Set A) = IsLocalRing.maximalIdeal A)
+    {p : Ideal (affineBlowup (Ideal.span ({x, y} : Set A)) x)} (hp : p.IsPrime)
+    (hlt : Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x} < p) :
+    ringKrullDim (Localization.AtPrime p) = 2 := by
+  classical
+  have := hp
+  have hx : x ≠ 0 := ne_zero_of_isRegular hreg
+  have := isDomain_affineBlowup (x := x) (y := y) hx
+  have := isNoetherianRing_affineBlowup x y
+  have := dimensionLEOne_quotient A hreg hspan
+  have := isPrincipalIdealRing_quotient A hreg hspan
+  set ξ := algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x with hξdef
+  have hξ : ξ ≠ 0 := algebraMap_ne_zero (y := y) hx
+  have := isPrime_span_algebraMap A hreg hspan
+  have hge : (2 : ℕ∞) ≤ p.height := by
+    have h1 : 1 ≤ (Ideal.span {ξ}).height :=
+      Ideal.one_le_height_span_singleton_of_mem_nonZeroDivisors
+        (mem_nonZeroDivisors_of_ne_zero hξ)
+    calc (2 : ℕ∞) = 1 + 1 := rfl
+      _ ≤ (Ideal.span {ξ}).height + 1 := add_le_add h1 le_rfl
+      _ ≤ p.height := Ideal.height_add_one_le_of_lt_of_isPrime hlt
+  have hle : p.height ≤ 2 := by
+    have hcomap := Ideal.comap_map_mk hlt.le
+    obtain ⟨g, hg⟩ :=
+      (IsPrincipalIdealRing.principal (p.map (Ideal.Quotient.mk (Ideal.span {ξ})))).principal
+    rw [Ideal.submodule_span_eq] at hg
+    obtain ⟨f, hf⟩ := Ideal.Quotient.mk_surjective g
+    have hfp : f ∈ p := by
+      rw [← hcomap, Ideal.mem_comap, hf, hg]
+      exact Ideal.mem_span_singleton_self g
+    have hps : p = Ideal.span ({ξ, f} : Set (affineBlowup (Ideal.span ({x, y} : Set A)) x)) := by
+      refine le_antisymm (fun b hb => ?_) ?_
+      · have hmem : Ideal.Quotient.mk (Ideal.span {ξ}) b ∈ Ideal.span {g} := by
+          rw [← hg]
+          exact Ideal.mem_map_of_mem _ hb
+        obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.mp hmem
+        obtain ⟨c', hc'⟩ := Ideal.Quotient.mk_surjective c
+        have hker : b - c' * f ∈ Ideal.span {ξ} := by
+          rw [← Ideal.mk_ker (I := Ideal.span {ξ}), RingHom.mem_ker, map_sub, map_mul, hc', hf,
+            hc]
+          exact sub_self _
+        obtain ⟨u, hu⟩ := Ideal.mem_span_singleton'.mp hker
+        exact Ideal.mem_span_pair.mpr ⟨u, c', by rw [hu]; ring⟩
+      · rw [Ideal.span_le, Set.insert_subset_iff, Set.singleton_subset_iff]
+        exact ⟨hlt.le (Ideal.mem_span_singleton_self _), hfp⟩
+    have hmin : p ∈ (Ideal.span
+        ({ξ, f} : Set (affineBlowup (Ideal.span ({x, y} : Set A)) x))).minimalPrimes := by
+      rw [← hps, Ideal.minimalPrimes_eq_subsingleton_self]
+      exact Set.mem_singleton p
+    calc p.height
+        ≤ (({ξ, f} : Set (affineBlowup (Ideal.span ({x, y} : Set A)) x)).ncard : ℕ∞) :=
+          Ideal.height_le_card_of_mem_minimalPrimes_span (Set.toFinite _) hmin
+      _ ≤ 2 := by
+          refine Nat.cast_le.mpr ((Set.ncard_insert_le _ _).trans ?_)
+          simp
+  rw [IsLocalization.AtPrime.ringKrullDim_eq_height p (Localization.AtPrime p),
+    le_antisymm hle hge]
+  rfl
+
+/-! ### The support of a residual ideal -/
+
+/-- Every prime of the chart containing an ideal that contains a power of `ξ` already contains
+the exceptional divisor `(ξ)`. -/
+private lemma span_le_of_isPrime_le {A : Type u} [CommRing A] {x y : A}
+    {L p : Ideal (affineBlowup (Ideal.span ({x, y} : Set A)) x)} {k : ℕ}
+    (hxk : algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x ^ k ∈ L)
+    (hp : p.IsPrime) (hLp : L ≤ p) :
+    Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x} ≤ p := by
+  rw [Ideal.span_le, Set.singleton_subset_iff]
+  exact hp.mem_of_pow_mem k (hLp hxk)
+
+/-- A prime of the chart containing a residual ideal strictly contains the exceptional
+divisor. -/
+private lemma span_lt_of_isPrime_le {A : Type u} [CommRing A] {x y : A}
+    {L p : Ideal (affineBlowup (Ideal.span ({x, y} : Set A)) x)} {k : ℕ}
+    (hxk : algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x ^ k ∈ L)
+    (hL : ¬ L ≤ Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x})
+    (hp : p.IsPrime) (hLp : L ≤ p) :
+    Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x} < p :=
+  lt_of_le_of_ne (span_le_of_isPrime_le hxk hp hLp) fun h => hL (h ▸ hLp)
+
+/-- **A residual ideal of the chart is contained in only finitely many primes.** Let `L ⊆ B`
+contain a power of the local equation `ξ` of the exceptional divisor but not be contained in
+`(ξ)`. Then every prime containing `L` contains `ξ`, so corresponds to a prime of the fibre
+`κ[T]` above the nonzero image of `L`, and a nonzero ideal of `κ[T]` has only finitely many
+primes over it. -/
+public theorem finite_setOf_isPrime_le (A : Type u) [CommRing A] [IsLocalRing A]
+    [IsNoetherianRing A] {x y : A} (hreg : RingTheory.Sequence.IsRegular A [x, y])
+    (hspan : Ideal.span ({x, y} : Set A) = IsLocalRing.maximalIdeal A)
+    (L : Ideal (affineBlowup (Ideal.span ({x, y} : Set A)) x)) (k : ℕ)
+    (hxk : algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x ^ k ∈ L)
+    (hL : ¬ L ≤ Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x}) :
+    {p : Ideal (affineBlowup (Ideal.span ({x, y} : Set A)) x) | p.IsPrime ∧ L ≤ p}.Finite := by
+  have := isNoetherianRing_affineBlowup (A := A) x y
+  have := dimensionLEOne_quotient A hreg hspan
+  set K := Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x} with hK
+  have hLmap : L.map (Ideal.Quotient.mk K) ≠ ⊥ := by
+    rw [Ne, Ideal.map_eq_bot_iff_le_ker, Ideal.mk_ker]
+    exact hL
+  have hfin := PrimeSpectrum.finite_zeroLocus (A := (_ ⧸ K)) hLmap
+  refine Set.Finite.subset
+    ((hfin.image PrimeSpectrum.asIdeal).image (Ideal.comap (Ideal.Quotient.mk K))) ?_
+  rintro p ⟨hp, hLp⟩
+  have := hp
+  have hKp : K ≤ p := span_le_of_isPrime_le hxk hp hLp
+  have : (p.map (Ideal.Quotient.mk K)).IsPrime := Ideal.isPrime_map_quotientMk_of_isPrime hKp
+  refine ⟨p.map (Ideal.Quotient.mk K),
+    ⟨⟨p.map (Ideal.Quotient.mk K), inferInstance⟩, ?_, rfl⟩, ?_⟩
+  · rw [PrimeSpectrum.mem_zeroLocus]
+    exact SetLike.coe_subset_coe.mpr (Ideal.map_mono hLp)
+  · exact Ideal.comap_map_mk hKp
+
+/-- **Every prime of the chart containing a residual ideal is maximal**, i.e. the closed
+subscheme cut out by a residual ideal consists of closed points. -/
+public theorem isMaximal_of_isPrime_le (A : Type u) [CommRing A] [IsLocalRing A] {x y : A}
+    (hreg : RingTheory.Sequence.IsRegular A [x, y])
+    (hspan : Ideal.span ({x, y} : Set A) = IsLocalRing.maximalIdeal A)
+    (L : Ideal (affineBlowup (Ideal.span ({x, y} : Set A)) x)) (k : ℕ)
+    (hxk : algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x ^ k ∈ L)
+    (hL : ¬ L ≤ Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x})
+    {p : Ideal (affineBlowup (Ideal.span ({x, y} : Set A)) x)} (hp : p.IsPrime) (hLp : L ≤ p) :
+    p.IsMaximal :=
+  isMaximal_of_lt A hreg hspan hp (span_lt_of_isPrime_le hxk hL hp hLp)
+
+/-- **The quotient of the chart by a residual ideal is an Artinian ring.** It is Noetherian, and
+of Krull dimension zero because every prime of the chart containing a residual ideal is maximal;
+so it is Artinian by Hopkins–Levitzki. -/
+public theorem isArtinianRing_quotient (A : Type u) [CommRing A] [IsLocalRing A]
+    [IsNoetherianRing A] {x y : A} (hreg : RingTheory.Sequence.IsRegular A [x, y])
+    (hspan : Ideal.span ({x, y} : Set A) = IsLocalRing.maximalIdeal A)
+    (L : Ideal (affineBlowup (Ideal.span ({x, y} : Set A)) x)) (k : ℕ)
+    (hxk : algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x ^ k ∈ L)
+    (hL : ¬ L ≤ Ideal.span {algebraMap A (affineBlowup (Ideal.span ({x, y} : Set A)) x) x}) :
+    IsArtinianRing (affineBlowup (Ideal.span ({x, y} : Set A)) x ⧸ L) := by
+  have := isNoetherianRing_affineBlowup (A := A) x y
+  have : Ring.KrullDimLE 0 (affineBlowup (Ideal.span ({x, y} : Set A)) x ⧸ L) := by
+    refine Ring.KrullDimLE.mk₀ fun J hJ => ?_
+    have := hJ
+    have : (J.comap (Ideal.Quotient.mk L)).IsPrime := Ideal.comap_isPrime _ _
+    have hLp : L ≤ J.comap (Ideal.Quotient.mk L) := fun z hz => by
+      rw [Ideal.mem_comap, Ideal.Quotient.eq_zero_iff_mem.mpr hz]
+      exact J.zero_mem
+    exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap' (Ideal.Quotient.mk L)
+      (RingHom.isIntegral_of_surjective _ Ideal.Quotient.mk_surjective) J
+      (isMaximal_of_isPrime_le A hreg hspan L k hxk hL inferInstance hLp)
+  exact IsNoetherianRing.isArtinianRing_of_krullDimLE_zero
+
+end Stacks.ResolutionOfSurfaces.CartierDescent
+
+end

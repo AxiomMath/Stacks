@@ -1,0 +1,272 @@
+module
+
+public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent
+public import Mathlib.AlgebraicGeometry.Modules.Tilde
+public import StacksFrontier.AlgebraicGeometry.QuasicoherentBasicOpen.Basic
+
+/-!
+# Sections of a quasi-coherent module over an affine open are detected locally
+
+Let `F` be a quasi-coherent `𝒪_X`-module on a scheme `X` and let `U` be an affine open. A
+submodule `C ⊆ Γ(F, U)` is then closed under a local membership test: if a section `t` agrees,
+after restriction to a basic open around each point of `U`, with the restriction of some element
+of `C` — up to a power of the defining function — then `t` itself lies in `C`.
+
+This is the local-to-global step that every argument computing `Γ(F, U)` from local data needs,
+and the two statements below are its two independent forms: the one above, which runs through
+the localization of Tag 01P7 and takes its local input as an equality of restrictions, and
+`AlgebraicGeometry.surjective_app_of_epi_of_isAffineOpen`, which takes its local input as an
+epimorphism of quasi-coherent modules and runs through the equivalence between modules over a
+ring and quasi-coherent modules on its spectrum.
+
+## Main results
+
+* `Submodule.mem_of_span_eq_top_of_exists_pow_smul_mem`: the algebraic form, with no geometry —
+  a family generating the unit ideal, each of whose members has a power carrying `x` into a
+  submodule, carries `x` into that submodule.
+* `AlgebraicGeometry.mem_of_locally_pow_smul_restrict_mem` and
+  `AlgebraicGeometry.mem_of_locally_restrict_mem`: **the local membership test for the sections
+  over an affine open**, with and without a power of the defining function.
+* `AlgebraicGeometry.mem_of_locally_mem_span_restrict`: **the span form of that test** — the
+  section lies, around each point, in the span of the restrictions of the submodule. This is the
+  form a local-generation argument produces, since it leaves the denominators uncleared.
+* `AlgebraicGeometry.surjective_app_of_epi_of_isAffineOpen`: **an epimorphism of quasi-coherent
+  modules is surjective on the sections over an affine open.**
+
+## Main definitions
+
+* `AlgebraicGeometry.basicOpenSaturation`: the sections over a basic open that a power of the
+  defining function carries into a submodule of the sections over the affine open. It is the
+  device the span form runs through: the span of the restrictions is contained in it.
+
+## Implementation notes
+
+**The algebraic lemma takes no uniform exponent.** The exponent produced by the localization is
+one per member of the covering family, and extracting a uniform one would need the family to be
+finite. It is not needed: an ideal containing a power of each member of a family that spans the
+unit ideal has radical `⊤`, hence is `⊤` by `Ideal.radical_eq_top`. That is why the index type
+of `Submodule.mem_of_span_eq_top_of_exists_pow_smul_mem` is arbitrary.
+
+**The two forms are genuinely independent, and neither needs cohomology.** The localization form
+rests on `AlgebraicGeometry.isLocalizedModule_restrict_basicOpen` — the module half of Tag 01P7
+— together with `IsAffineOpen.self_le_iSup_basicOpen_iff`; the epimorphism form rests on
+`AlgebraicGeometry.tildeEquiv` and the fact that a faithful functor reflects epimorphisms. In
+particular surjectivity of `Γ(-, U)` on an epimorphism of quasi-coherent modules over an affine
+open needs no vanishing theorem: the equivalence carries the epimorphism to an epimorphism of
+modules over `Γ(X, U)`, which is a surjection.
+
+**`surjective_app_of_epi_of_isAffineOpen` duplicates a private declaration.** The same statement
+is `AlgebraicGeometry.epi_app_of_isAffineOpen`, `private` in
+`StacksFrontier.AlgebraicGeometry.Morphisms.WeaklyEtale.RelativeFinitePresentation.Operations`,
+where it is used for the middle term of a short exact sequence. A private declaration cannot be
+consumed, and that file belongs to another development; the statement is general infrastructure,
+so it is re-derived here under a public name. A dedup pass should delete the private copy and
+import this one.
+
+**No `@[stacks]` attribute.** Tag 01P7 is the comparison of a quasi-coherent module with the
+module of its sections on an affine, and its module half is already carried by
+`AlgebraicGeometry.isLocalizedModule_restrict_basicOpen` in
+`StacksDraft.AlgebraicGeometry.F3b.QuasicoherentBasicOpen.Basic`. Nothing here is a tag's
+content: these are the two local-to-global criteria that statement feeds.
+
+## References
+
+* [Stacks Project, Tag 01P7](https://stacks.math.columbia.edu/tag/01P7)
+* [Stacks Project, Tag 01I9](https://stacks.math.columbia.edu/tag/01I9)
+-/
+
+@[expose] public section
+
+open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite
+
+universe u
+
+/-- **Local-to-global for membership in a submodule.** If a family `s` of scalars spans the unit
+ideal and some power of each `s i` carries `x` into a submodule `C`, then `x ∈ C`.
+
+The exponents are allowed to vary with `i`: the ideal generated by the powers has the same
+radical as the one generated by the family, hence is again `⊤`. -/
+theorem Submodule.mem_of_span_eq_top_of_exists_pow_smul_mem {R M : Type*} [CommRing R]
+    [AddCommGroup M] [Module R M] (C : Submodule R M) {ι : Type*} (s : ι → R)
+    (hs : Ideal.span (Set.range s) = ⊤) (x : M)
+    (H : ∀ i, ∃ n : ℕ, s i ^ n • x ∈ C) : x ∈ C := by
+  choose n hn using H
+  refine C.mem_of_span_top_of_smul_mem (Set.range fun i => s i ^ n i) ?_ x ?_
+  · rw [← Ideal.radical_eq_top, eq_top_iff, ← hs, Ideal.span_le]
+    rintro a ⟨i, rfl⟩
+    exact ⟨n i, Ideal.subset_span ⟨i, rfl⟩⟩
+  · rintro ⟨-, i, rfl⟩
+    exact hn i
+
+namespace AlgebraicGeometry
+
+variable {X : Scheme.{u}}
+
+/-- **The local membership test for the sections over an affine open.** Let `F` be
+quasi-coherent, let `U` be affine and let `C` be a submodule of `Γ(F, U)`. If around every point
+of `U` there is a basic open on which some `g`-power multiple of `t` restricts to the
+restriction of an element of `C`, then `t ∈ C`.
+
+The power is what makes the statement usable: a local description of `t` over a basic open
+produces denominators, and clearing them is exactly multiplying by a power of `g`. -/
+theorem mem_of_locally_pow_smul_restrict_mem (F : X.Modules) [F.IsQuasicoherent]
+    {U : X.Opens} (hU : IsAffineOpen U) (C : Submodule Γ(X, U) Γ(F, U)) (t : Γ(F, U))
+    (h : ∀ x ∈ U, ∃ g : Γ(X, U), x ∈ X.basicOpen g ∧ ∃ N : ℕ, ∃ c ∈ C,
+      F.presheaf.map (homOfLE (X.basicOpen_le g)).op (g ^ N • t) =
+        F.presheaf.map (homOfLE (X.basicOpen_le g)).op c) :
+    t ∈ C := by
+  classical
+  set s : Set Γ(X, U) := {g : Γ(X, U) | ∃ N : ℕ, ∃ c ∈ C,
+    F.presheaf.map (homOfLE (X.basicOpen_le g)).op (g ^ N • t) =
+      F.presheaf.map (homOfLE (X.basicOpen_le g)).op c}
+  have hspan : Ideal.span s = ⊤ := by
+    rw [← hU.self_le_iSup_basicOpen_iff]
+    intro y hy
+    obtain ⟨g, hmem, hg⟩ := h y hy
+    exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨g, hg⟩, hmem⟩
+  refine C.mem_of_span_eq_top_of_exists_pow_smul_mem (fun g : s => (g : Γ(X, U))) ?_ t ?_
+  · simpa using hspan
+  · rintro ⟨g, N, c, hcC, hres⟩
+    have : IsLocalization (Submonoid.powers g) Γ(X, X.basicOpen g) :=
+      hU.isLocalization_basicOpen g
+    let : Module Γ(X, U) Γ(F, X.basicOpen g) :=
+      Module.compHom _ (algebraMap Γ(X, U) Γ(X, X.basicOpen g))
+    have : IsScalarTower Γ(X, U) Γ(X, X.basicOpen g) Γ(F, X.basicOpen g) :=
+      IsScalarTower.of_algebraMap_smul fun _ _ => rfl
+    let ρ : Γ(F, U) →ₗ[Γ(X, U)] Γ(F, X.basicOpen g) :=
+      { toFun a := F.presheaf.map (homOfLE (X.basicOpen_le g)).op a
+        map_add' a b := map_add _ a b
+        map_smul' r a := Scheme.Modules.map_smul F (homOfLE (X.basicOpen_le g)) r a }
+    have hloc : IsLocalizedModule (Submonoid.powers g) ρ :=
+      isLocalizedModule_restrict_basicOpen F hU g ρ fun _ => rfl
+    have hρ : ρ (g ^ N • t) = ρ c := hres
+    obtain ⟨d, hd⟩ := (IsLocalizedModule.eq_iff_exists (S := Submonoid.powers g) ρ).mp hρ
+    obtain ⟨k, hk⟩ := d.2
+    refine ⟨k + N, ?_⟩
+    have hgk : (g : Γ(X, U)) ^ k = (d : Γ(X, U)) := hk
+    have h2 : (g : Γ(X, U)) ^ k • (g ^ N • t) = (g : Γ(X, U)) ^ k • c := by
+      rw [hgk]
+      exact hd
+    rw [pow_add, mul_smul, h2]
+    exact C.smul_mem _ hcC
+
+/-- **The local membership test for the sections over an affine open**, in the form with no
+power: if around every point of `U` the section `t` restricts to the restriction of an element
+of `C`, then `t ∈ C`. -/
+theorem mem_of_locally_restrict_mem (F : X.Modules) [F.IsQuasicoherent]
+    {U : X.Opens} (hU : IsAffineOpen U) (C : Submodule Γ(X, U) Γ(F, U)) (t : Γ(F, U))
+    (h : ∀ x ∈ U, ∃ g : Γ(X, U), x ∈ X.basicOpen g ∧ ∃ c ∈ C,
+      F.presheaf.map (homOfLE (X.basicOpen_le g)).op t =
+        F.presheaf.map (homOfLE (X.basicOpen_le g)).op c) :
+    t ∈ C := by
+  refine mem_of_locally_pow_smul_restrict_mem F hU C t fun x hx => ?_
+  obtain ⟨g, hmem, c, hcC, hres⟩ := h x hx
+  exact ⟨g, hmem, 0, c, hcC, by simpa using hres⟩
+
+/-- Restriction to a basic open is semilinear over the restriction of the functions: the
+scalar action of `Γ(X, U)` on the sections over `X.basicOpen g` goes through
+`algebraMap`. -/
+theorem smul_restrict_basicOpen (F : X.Modules) {U : X.Opens} (g : Γ(X, U)) (r : Γ(X, U))
+    (x : Γ(F, U)) :
+    (algebraMap Γ(X, U) Γ(X, X.basicOpen g)) r •
+        F.presheaf.map (homOfLE (X.basicOpen_le g)).op x =
+      F.presheaf.map (homOfLE (X.basicOpen_le g)).op (r • x) :=
+  (Scheme.Modules.map_smul F (homOfLE (X.basicOpen_le g)) r x).symm
+
+/-- **The `g`-saturation of a submodule of the sections over an affine open**: the sections over
+`X.basicOpen g` that some power of `g` carries into the image of `C`.
+
+That this is a submodule over `Γ(X, X.basicOpen g)` — and not merely over `Γ(X, U)` — is where
+affineness enters: a function on the basic open is a fraction with a power of `g` for its
+denominator, by `IsAffineOpen.isLocalization_basicOpen`, so multiplying a saturated section by
+it stays saturated. -/
+def basicOpenSaturation (F : X.Modules) {U : X.Opens} (hU : IsAffineOpen U)
+    (C : Submodule Γ(X, U) Γ(F, U)) (g : Γ(X, U)) :
+    Submodule Γ(X, X.basicOpen g) Γ(F, X.basicOpen g) where
+  carrier := {u | ∃ (N : ℕ) (c : Γ(F, U)), c ∈ C ∧
+    (algebraMap Γ(X, U) Γ(X, X.basicOpen g)) g ^ N • u =
+      F.presheaf.map (homOfLE (X.basicOpen_le g)).op c}
+  zero_mem' := ⟨0, 0, C.zero_mem, by simp⟩
+  add_mem' := by
+    rintro u v ⟨N, c, hc, hu⟩ ⟨M, d, hd, hv⟩
+    refine ⟨N + M, g ^ M • c + g ^ N • d,
+      C.add_mem (C.smul_mem _ hc) (C.smul_mem _ hd), ?_⟩
+    rw [map_add, ← smul_restrict_basicOpen, ← smul_restrict_basicOpen, ← hu, ← hv,
+      map_pow, map_pow, smul_smul, smul_smul, smul_add, pow_add,
+      mul_comm ((algebraMap Γ(X, U) Γ(X, X.basicOpen g)) g ^ M)
+        ((algebraMap Γ(X, U) Γ(X, X.basicOpen g)) g ^ N)]
+  smul_mem' := by
+    rintro r u ⟨N, c, hc, hu⟩
+    have : IsLocalization (Submonoid.powers g) Γ(X, X.basicOpen g) :=
+      hU.isLocalization_basicOpen g
+    obtain ⟨⟨a, s⟩, hr⟩ := IsLocalization.surj (Submonoid.powers g) r
+    obtain ⟨M, hM₀⟩ := s.2
+    have hM : (g : Γ(X, U)) ^ M = (s : Γ(X, U)) := hM₀
+    refine ⟨M + N, a • c, C.smul_mem _ hc, ?_⟩
+    have hcalc : (algebraMap Γ(X, U) Γ(X, X.basicOpen g)) g ^ (M + N) * r =
+        (algebraMap Γ(X, U) Γ(X, X.basicOpen g)) a *
+          (algebraMap Γ(X, U) Γ(X, X.basicOpen g)) g ^ N := by
+      rw [pow_add, ← map_pow, hM, ← hr]
+      ring
+    rw [← smul_restrict_basicOpen, ← hu, smul_smul, smul_smul, hcalc]
+
+/-- **The span form of the local membership test, and the form a local-generation argument
+wants.** A submodule of the sections over an affine open contains every section that lies, around
+each point, in the `Γ(X, X.basicOpen g)`-span of the restrictions of that submodule.
+
+The denominators a local description produces need not be cleared by the caller: a section over
+the basic open is a `Γ(X, X.basicOpen g)`-multiple of a restriction, and `g` is a unit there. -/
+theorem mem_of_locally_mem_span_restrict (F : X.Modules) [F.IsQuasicoherent]
+    {U : X.Opens} (hU : IsAffineOpen U) (C : Submodule Γ(X, U) Γ(F, U)) (t : Γ(F, U))
+    (h : ∀ x ∈ U, ∃ g : Γ(X, U), x ∈ X.basicOpen g ∧
+      F.presheaf.map (homOfLE (X.basicOpen_le g)).op t ∈
+        Submodule.span Γ(X, X.basicOpen g)
+          (F.presheaf.map (homOfLE (X.basicOpen_le g)).op '' C)) :
+    t ∈ C := by
+  refine mem_of_locally_pow_smul_restrict_mem F hU C t fun x hx => ?_
+  obtain ⟨g, hmem, hspan⟩ := h x hx
+  have hle : Submodule.span Γ(X, X.basicOpen g)
+      (F.presheaf.map (homOfLE (X.basicOpen_le g)).op '' C) ≤ basicOpenSaturation F hU C g := by
+    rw [Submodule.span_le]
+    rintro - ⟨c, hc, rfl⟩
+    exact ⟨0, c, hc, by simp⟩
+  obtain ⟨N, c, hc, hNc⟩ := hle hspan
+  refine ⟨g, hmem, N, c, hc, ?_⟩
+  rw [← hNc, ← smul_restrict_basicOpen, map_pow]
+
+/-- **An epimorphism of quasi-coherent modules is surjective on the sections over an affine
+open.** No vanishing theorem is involved: restricted to the spectrum of `Γ(X, U)` the
+epimorphism lies in the full subcategory of quasi-coherent modules, which
+`AlgebraicGeometry.tildeEquiv` identifies with the modules over `Γ(X, U)`, and an equivalence
+carries it to an epimorphism of modules, which is a surjection. -/
+theorem surjective_app_of_epi_of_isAffineOpen {M N : X.Modules}
+    [M.IsQuasicoherent] [N.IsQuasicoherent] (φ : M ⟶ N) [Epi φ]
+    {U : X.Opens} (hU : IsAffineOpen U) :
+    Function.Surjective (φ.app U) := by
+  let f := hU.fromSpec
+  let φ₂ := (Scheme.Modules.restrictFunctor f).map φ
+  have hEpi₂ : Epi φ₂ := inferInstance
+  let P := SheafOfModules.isQuasicoherent (Spec (CommRingCat.of Γ(X, U))).ringCatSheaf
+  let qM : P.FullSubcategory := ⟨M.restrict f, by infer_instance⟩
+  let qN : P.FullSubcategory := ⟨N.restrict f, by infer_instance⟩
+  let φq : qM ⟶ qN := ⟨φ₂⟩
+  have hEpiQ : Epi φq :=
+    ⟨fun a b hab => ObjectProperty.hom_ext _ ((cancel_epi φ₂).mp (congrArg (fun k => k.hom) hab))⟩
+  have hEpiΓ :
+      Epi ((AlgebraicGeometry.tildeEquiv (R := CommRingCat.of Γ(X, U))).inverse.map φq) :=
+    inferInstance
+  have hs₂ : Function.Surjective (φ₂.app ⊤) := by
+    have h := (ModuleCat.epi_iff_surjective _).mp hEpiΓ
+    exact h
+  rw [← show f ''ᵁ ⊤ = U by simp [f]]
+  intro y
+  obtain ⟨x, hx⟩ := hs₂ ((N.restrictAppIso f ⊤).inv y)
+  refine ⟨(M.restrictAppIso f ⊤).hom x, ?_⟩
+  have h : (N.restrictAppIso f ⊤).hom (φ₂.app ⊤ x) =
+      φ.app (f ''ᵁ ⊤) ((M.restrictAppIso f ⊤).hom x) := rfl
+  rw [← h, hx]
+  simp
+
+end AlgebraicGeometry
+
+end

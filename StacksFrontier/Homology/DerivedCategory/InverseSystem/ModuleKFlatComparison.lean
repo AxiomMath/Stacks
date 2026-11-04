@@ -1,0 +1,5 @@
+module
+
+public import StacksFrontier.Homology.DerivedCategory.InverseSystem.ModuleKFlatComparison.TensorModel
+public import StacksFrontier.Homology.DerivedCategory.InverseSystem.ModuleKFlatComparison.KFlatHomotopyTensor
+public import StacksFrontier.Homology.DerivedCategory.InverseSystem.ModuleKFlatComparison.DerivedTensor

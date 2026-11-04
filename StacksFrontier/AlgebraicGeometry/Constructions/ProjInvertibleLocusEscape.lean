@@ -1,0 +1,423 @@
+module
+
+public import Mathlib.RingTheory.MvPolynomial.Homogeneous
+public import StacksCore.Tactic.StacksAttribute
+public import StacksFrontier.AlgebraicGeometry.CommonDegreeTwist.AffineSectionBasis
+public import StacksFrontier.AlgebraicGeometry.GoodOpenClose.Reverse
+public import StacksFrontier.AlgebraicGeometry.ProjTwistCompare.BaseMap
+public import StacksFrontier.AlgebraicGeometry.ProjTwistSectionRing.Statement
+public import StacksFrontier.RingTheory.GradedAlgebra.Examples.WeightedPolynomial
+
+/-!
+# A morphism into `Proj` whose image leaves the invertible locus of `𝒪(1)`
+
+Let `k` be a field, let `S = k[A, B, C]` be graded by `deg A = 1`, `deg B = 2`, `deg C = 3`, and
+set `X = Proj S`. Let `T = 𝐏²_k = Proj k[X₀, X₁, X₂]` with its tautological invertible sheaf
+`𝓛 = 𝒪_T(1)`, so that `𝒪_T(n) = 𝓛^{⊗ n}`, and let
+
+`φ : S → k[X₀, X₁, X₂]`,  `A ↦ X₀`,  `B ↦ X₁²`,  `C ↦ X₂³`
+
+be the degree-preserving ring homomorphism. Composing `φ` with the canonical graded ring map
+`k[X₀, X₁, X₂] → ⨁_{n ≥ 0} Γ(T, 𝒪_T(n))` of Tag 01MP gives a homomorphism of graded rings
+`ψ : S → Γ_*(T, 𝓛)`, and the associated morphism `r_{𝓛, ψ} : T → X` is the morphism induced by
+`φ` on projective spectra. Its image is **not** contained in Tag 01MU's open subset `W₁ ⊆ X`,
+the invertible locus of `𝒪_X(1)`: the point of `X` cut out by the homogeneous prime `(A, B)` lies
+in the image and outside `W₁`, because a homogeneous element of `S` not lying in `(A, B)` has
+degree divisible by `3`, so no two such elements can have degrees differing by `1`.
+
+## Main definitions
+
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.projectiveGrading`: the grading of
+  `k[X₀, X₁, X₂]` by total degree, so that its `Proj` is `𝐏²_k`.
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.coverHom`: the graded ring homomorphism
+  `φ : S → k[X₀, X₁, X₂]` sending `A, B, C` to `X₀, X₁², X₂³`.
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.psi`: the homomorphism
+  `ψ : S → Γ_*(T, 𝓛) = ⨁_{n ≥ 0} Γ(T, 𝒪_T(n))`, namely `φ` followed by the canonical graded
+  ring map of Tag 01MP.
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.collapseHom`: the graded ring homomorphism
+  `k[X₀, X₁, X₂] → k[X₀, X₁, X₂]` sending `X₀, X₁` to `0` and `X₂` to `X₂`; its kernel is the
+  homogeneous prime `(X₀, X₁)`.
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.badPoint`: the point `(X₀, X₁)` of
+  `𝐏²_k`, which is the one witnessing the failure.
+
+## Main results
+
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.mapDomain_coverHom_eq_top`: the morphism
+  induced by `φ` is defined on all of `𝐏²_k`, so it really is a morphism `T → X`.
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.psi_apply_homogeneous`: on a homogeneous
+  element of degree `d` the map `ψ` is the global section of `𝒪_T(d)` attached to the image of
+  that element under `φ`.
+* `mem_preimage_basicOpen_iff_mem_nonvanishingLocus`, in the namespace below: the morphism
+  satisfies property (1) of Tag 01NK, `r^{-1}(D₊(f)) = T_{ψ(f)}`, which is the property
+  characterizing `r_{𝓛, ψ}`.
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.whereInvertible_projectiveGrading_eq_top`:
+  on `𝐏²_k` the twists are invertible everywhere.
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.coverHom_mem_badIdeal_of_not_dvd`: a
+  homogeneous element of `S` of degree not divisible by `3` is carried by `φ` into the prime
+  `(X₀, X₁)`.
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.mapHom_badPoint_notMem_ratioLocus`: the
+  image of `badPoint` lies outside Tag 01MU's locus `W₁`.
+* `Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape.not_range_subset_whereInvertible`:
+  **Tag 01NL.** The image of the morphism is not contained in Tag 01MU's invertible locus `W₁`
+  of `𝒪_X(1)`.
+
+## Implementation notes
+
+The source's morphism `r_{𝓛, ψ}` is the morphism `U(ψ) → Proj S` of Tag 01NK attached to an
+invertible sheaf and a graded ring map into its section ring. For the present example the source
+scheme is itself a `Proj` and `𝓛` is its tautological twist, so `r_{𝓛, ψ}` coincides with the
+morphism `Stacks.AlgebraicGeometry.ProjTwistChain.mapHom` of Tag 01MY induced by the graded ring
+homomorphism `φ`, whose domain of definition is `Stacks.AlgebraicGeometry.ProjShared.mapDomain`.
+That morphism is the one used here, and `mapDomain_coverHom_eq_top` records that it is defined
+everywhere, matching the source's `r_{𝓛, ψ} : T → X`.
+
+That the morphism really is `r_{𝓛, ψ}` and not merely some morphism `T → X` is recorded by
+`mem_preimage_basicOpen_iff_mem_nonvanishingLocus`, which is property (1) of Tag 01NK: the
+inverse image of `D₊(f)` is the nonvanishing locus of the section `ψ(f)`, and that property
+determines `r_{𝓛, ψ}` up to the uniqueness clause of Tag 01NK. The section `ψ(f)` appearing
+there is the degree-`deg f` component of `ψ` as computed by `psi_apply_homogeneous`.
+
+The invertible locus is `Stacks.AlgebraicGeometry.ProjInvertibleLocus.whereInvertible S 1`, Tag
+01MU's `W₁`: the largest open of `Proj S` on which every twist `𝒪(n)` is invertible and every
+canonical multiplication map `𝒪(n) ⊗ 𝒪(m) → 𝒪(n + m)` is an isomorphism. This is the locus attached
+to `𝒪_X(1)` by Tag 01MU. It is contained in, and may a priori be smaller than, the open subset on
+which the single sheaf `𝒪_X(1)` is invertible, so the statement below refutes containment in `W₁`
+rather than in that possibly larger open subset; at the witnessing point `(A, B)` both
+multiplication-map and invertibility clauses in fact fail, the latter by the fibre-dimension
+computation of Tag 01ML.
+
+The witnessing point is produced as the kernel of a graded ring homomorphism rather than as an
+explicitly presented homogeneous prime: `collapseHom` kills `X₀` and `X₁` and fixes `X₂`, so its
+kernel is prime because the target is a domain, is homogeneous because the homomorphism is
+graded, and is relevant because `X₂` survives. Its inverse image under `φ` is the homogeneous
+prime `(A, B)` of `S`, which is where `𝒪_X(1)` fails to be invertible; `(A, B)` itself never has
+to be written down, because `Stacks.AlgebraicGeometry.ProjTwistCompare.notMem_mapHom_base_iff`
+transports non-membership across `φ`.
+
+Both gradings are carried on the same underlying ring `MvPolynomial (Fin 3) k`: the weighted one
+from `Stacks.WeightedPolynomialSituation`, which is the ambient setting of Tag 01ML, and the
+grading by total degree. The shared private lemma
+`aeval_isHomogeneous_of_mem_weightedHomogeneousSubmodule` proves that a substitution sending each
+variable to a homogeneous polynomial of its weight carries weighted homogeneous polynomials to
+homogeneous polynomials of the same degree; both graded ring homomorphisms below are instances of
+it, the second because `MvPolynomial.weightedHomogeneousSubmodule R 1 n` *is* the submodule of
+homogeneous polynomials of degree `n`.
+
+## References
+
+* [Stacks Project, Tag 01NL](https://stacks.math.columbia.edu/tag/01NL)
+* [Stacks Project, Tag 01NK](https://stacks.math.columbia.edu/tag/01NK)
+* [Stacks Project, Tag 01MY](https://stacks.math.columbia.edu/tag/01MY)
+* [Stacks Project, Tag 01MU](https://stacks.math.columbia.edu/tag/01MU)
+* [Stacks Project, Tag 01MV](https://stacks.math.columbia.edu/tag/01MV)
+* [Stacks Project, Tag 01ML](https://stacks.math.columbia.edu/tag/01ML)
+* [Stacks Project, Tag 01MP](https://stacks.math.columbia.edu/tag/01MP)
+-/
+
+@[expose] public noncomputable section
+
+open AlgebraicGeometry HomogeneousIdeal TopologicalSpace DirectSum
+open AlgebraicGeometry.ProjectiveSpectrum.Proj
+open Stacks.AlgebraicGeometry.ProjShared
+open Stacks.AlgebraicGeometry.ProjTwistSections
+open Stacks.AlgebraicGeometry.ProjTwistChain
+open Stacks.AlgebraicGeometry.ProjTwistCompare
+open Stacks.AlgebraicGeometry.ProjInvertibleLocus
+
+namespace Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape
+
+universe u
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+variable (E : Stacks.WeightedPolynomialSituation.{u})
+
+/-! ### Two gradings on one polynomial ring -/
+
+/-- The grading of `k[X₀, X₁, X₂]` by total degree, whose `Proj` is `𝐏²_k`. -/
+public abbrev projectiveGrading : ℕ → Submodule E.k E.S :=
+  MvPolynomial.homogeneousSubmodule (Fin 3) E.k
+
+/-- A substitution sending each variable to a homogeneous polynomial of the variable's weight
+carries a weighted homogeneous polynomial of weighted degree `n` to a homogeneous polynomial of
+degree `n`. -/
+private theorem aeval_isHomogeneous_of_mem_weightedHomogeneousSubmodule
+    (g : Fin 3 → E.S) (m : Fin 3 → ℕ) (hg : ∀ i, (g i).IsHomogeneous (m i)) {n : ℕ} {f : E.S}
+    (hf : f ∈ MvPolynomial.weightedHomogeneousSubmodule E.k m n) :
+    (MvPolynomial.aeval g f).IsHomogeneous n := by
+  classical
+  show MvPolynomial.aeval g f ∈ MvPolynomial.homogeneousSubmodule (Fin 3) E.k n
+  rw [MvPolynomial.as_sum f, map_sum]
+  refine Submodule.sum_mem _ fun d hd => ?_
+  have hw : Finsupp.weight m d = n := hf (MvPolynomial.mem_support_iff.mp hd)
+  have hprod : (d.prod fun i k => g i ^ k).IsHomogeneous (Finsupp.weight m d) := by
+    rw [Finsupp.prod, Finsupp.weight_apply, Finsupp.sum]
+    refine MvPolynomial.IsHomogeneous.prod d.support _ (fun i => d i • m i) fun i _ => ?_
+    simpa [smul_eq_mul, mul_comm] using (hg i).pow (d i)
+  rw [MvPolynomial.aeval_monomial, MvPolynomial.algebraMap_eq, ← hw]
+  exact hprod.C_mul _
+
+/-! ### The morphism of the example -/
+
+/-- The substitution `A ↦ X₀`, `B ↦ X₁²`, `C ↦ X₂³`, as a `k`-algebra homomorphism. -/
+public def coverAlgHom : E.S →ₐ[E.k] E.S :=
+  MvPolynomial.aeval fun i : Fin 3 => (MvPolynomial.X i : E.S) ^ E.naturalWeight i
+
+/-- The substitution `A ↦ X₀`, `B ↦ X₁²`, `C ↦ X₂³` is degree preserving from the weighting by
+`1, 2, 3` to the grading by total degree. -/
+public theorem coverAlgHom_mem_projectiveGrading {n : ℕ} {f : E.S}
+    (hf : f ∈ E.naturalGrading n) : coverAlgHom E f ∈ projectiveGrading E n :=
+  aeval_isHomogeneous_of_mem_weightedHomogeneousSubmodule E _ _
+    (fun i => MvPolynomial.isHomogeneous_X_pow i _) hf
+
+/-- The graded ring homomorphism `φ : S → k[X₀, X₁, X₂]`, `A ↦ X₀`, `B ↦ X₁²`, `C ↦ X₂³`. -/
+public def coverHom : E.naturalGrading →+*ᵍ projectiveGrading E where
+  __ := (coverAlgHom E).toRingHom
+  map_mem := coverAlgHom_mem_projectiveGrading E
+
+/-- `coverHom` acts as `coverAlgHom` on elements. -/
+@[simp]
+public theorem coverHom_apply (f : E.S) : coverHom E f = coverAlgHom E f := rfl
+
+/-! ### The point at which the invertible locus is missed -/
+
+/-- The substitution `X₀ ↦ 0`, `X₁ ↦ 0`, `X₂ ↦ X₂`, as a `k`-algebra homomorphism. -/
+public def collapseAlgHom : E.S →ₐ[E.k] E.S :=
+  MvPolynomial.aeval fun i : Fin 3 => if i = 2 then (MvPolynomial.X 2 : E.S) else 0
+
+/-- Killing two of the three variables preserves the grading by total degree. -/
+public theorem collapseAlgHom_mem_projectiveGrading {n : ℕ} {f : E.S}
+    (hf : f ∈ projectiveGrading E n) : collapseAlgHom E f ∈ projectiveGrading E n :=
+  aeval_isHomogeneous_of_mem_weightedHomogeneousSubmodule E _ 1
+    (fun i => by
+      simp only [Pi.one_apply]
+      split
+      · exact MvPolynomial.isHomogeneous_X E.k (2 : Fin 3)
+      · exact (MvPolynomial.homogeneousSubmodule (Fin 3) E.k 1).zero_mem) hf
+
+/-- The graded ring homomorphism `k[X₀, X₁, X₂] → k[X₀, X₁, X₂]` killing `X₀` and `X₁`. -/
+public def collapseHom : projectiveGrading E →+*ᵍ projectiveGrading E where
+  __ := (collapseAlgHom E).toRingHom
+  map_mem := collapseAlgHom_mem_projectiveGrading E
+
+/-- `collapseHom` acts as `collapseAlgHom` on elements. -/
+@[simp]
+public theorem collapseHom_apply (f : E.S) : collapseHom E f = collapseAlgHom E f := rfl
+
+/-- The kernel of a graded ring homomorphism is a homogeneous ideal: the homomorphism carries the
+degree-`i` component of an element to the degree-`i` component of its image. -/
+public theorem isHomogeneous_ker_collapseHom :
+    (RingHom.ker (collapseHom E : E.S →+* E.S)).IsHomogeneous (projectiveGrading E) := by
+  intro i r hr
+  show collapseHom E ((DirectSum.decompose (projectiveGrading E) r i : E.S)) = 0
+  rw [(collapseHom E).map_directSumDecompose (x := r) (i := i),
+    show collapseHom E r = 0 from hr]
+  simp
+
+/-- The homogeneous prime `(X₀, X₁)` of `k[X₀, X₁, X₂]`, presented as the kernel of
+`collapseHom`. -/
+public def badIdeal : HomogeneousIdeal (projectiveGrading E) where
+  __ := RingHom.ker (collapseHom E : E.S →+* E.S)
+  is_homogeneous' := isHomogeneous_ker_collapseHom E
+
+/-- An element lies in `badIdeal` if and only if `collapseAlgHom` sends it to zero. -/
+public theorem mem_badIdeal_iff (f : E.S) :
+    f ∈ (badIdeal E).toIdeal ↔ collapseAlgHom E f = 0 := Iff.rfl
+
+/-- The point `(X₀, X₁)` of `𝐏²_k`. -/
+public def badPoint : ProjectiveSpectrum (projectiveGrading E) where
+  asHomogeneousIdeal := badIdeal E
+  isPrime := RingHom.ker_isPrime _
+  not_irrelevant_le := by
+    intro hle
+    have hX : (MvPolynomial.X 2 : E.S) ∈ (badIdeal E).toIdeal :=
+      hle (HomogeneousIdeal.mem_irrelevant_of_mem (projectiveGrading E) Nat.one_pos
+        (MvPolynomial.isHomogeneous_X E.k (2 : Fin 3)))
+    rw [mem_badIdeal_iff] at hX
+    simp [collapseAlgHom] at hX
+
+/-! ### The arithmetic of the example -/
+
+/-- The composite `k[A, B, C] → k[X₀, X₁, X₂] → k[X₀, X₁, X₂]` sends `A` and `B` to `0` and `C`
+to `X₂³`. -/
+private theorem collapseAlgHom_comp_coverAlgHom :
+    (collapseAlgHom E).comp (coverAlgHom E) =
+      MvPolynomial.aeval fun i : Fin 3 => if i = 2 then (MvPolynomial.X 2 : E.S) ^ 3 else 0 := by
+  refine MvPolynomial.algHom_ext fun i => ?_
+  fin_cases i <;>
+    simp [coverAlgHom, collapseAlgHom, Stacks.WeightedPolynomialSituation.naturalWeight]
+
+/-- A homogeneous element of `S = k[A, B, C]`, graded by
+`deg A = 1`, `deg B = 2`, `deg C = 3`, whose degree is not divisible by `3` is carried by
+`A ↦ X₀`, `B ↦ X₁²`, `C ↦ X₂³` into the prime `(X₀, X₁)`: in a monomial surviving the
+substitution `X₀, X₁ ↦ 0` only `C` occurs, so its degree is a multiple of `3`. -/
+public theorem coverHom_mem_badIdeal_of_not_dvd {n : ℕ} (hn : ¬ (3 ∣ n)) {f : E.S}
+    (hf : f ∈ E.naturalGrading n) : coverHom E f ∈ (badIdeal E).toIdeal := by
+  classical
+  rw [mem_badIdeal_iff, coverHom_apply, ← AlgHom.comp_apply (collapseAlgHom E) (coverAlgHom E) f,
+    collapseAlgHom_comp_coverAlgHom, MvPolynomial.as_sum f, map_sum]
+  refine Finset.sum_eq_zero fun d hd => ?_
+  have hw : Finsupp.weight E.naturalWeight d = n := hf (MvPolynomial.mem_support_iff.mp hd)
+  have hex : ∃ i ∈ d.support, i ≠ 2 := by
+    by_contra hall
+    push Not at hall
+    refine hn ?_
+    rw [← hw, Finsupp.weight_apply, Finsupp.sum]
+    refine Finset.dvd_sum fun i hi => ?_
+    obtain rfl := hall i hi
+    exact Dvd.intro_left _ rfl
+  obtain ⟨i, hi, hine⟩ := hex
+  rw [MvPolynomial.aeval_monomial]
+  refine mul_eq_zero_of_right _ ?_
+  rw [Finsupp.prod]
+  refine Finset.prod_eq_zero hi ?_
+  simp [hine, Finsupp.mem_support_iff.mp hi]
+
+/-! ### The morphism is defined everywhere -/
+
+/-- The subalgebra of `k[X₀, X₁, X₂]` over the degree-zero part generated by the variables is
+everything. -/
+private theorem adjoin_range_X_eq_top :
+    Algebra.adjoin (projectiveGrading E 0) (Set.range (MvPolynomial.X : Fin 3 → E.S)) = ⊤ := by
+  refine _root_.eq_top_iff.mpr fun f _ => ?_
+  induction f using MvPolynomial.induction_on with
+  | C a =>
+    exact Subalgebra.algebraMap_mem _
+      (⟨MvPolynomial.C a, MvPolynomial.isHomogeneous_C _ a⟩ : projectiveGrading E 0)
+  | add p q hp hq => exact Subalgebra.add_mem _ (hp trivial) (hq trivial)
+  | mul_X p i hp => exact Subalgebra.mul_mem _ (hp trivial) (Algebra.subset_adjoin ⟨i, rfl⟩)
+
+/-- The morphism induced by `φ` is defined on all of `𝐏²_k`: the three standard opens
+`D₊(X₀)`, `D₊(X₁²)`, `D₊(X₂³)` already cover. -/
+public theorem mapDomain_coverHom_eq_top :
+    mapDomain E.naturalGrading (projectiveGrading E) (coverHom E) = ⊤ := by
+  refine top_le_iff.mp ?_
+  have hcov : (⨆ i : Fin 3, Proj.basicOpen (projectiveGrading E) (MvPolynomial.X i : E.S)) = ⊤ :=
+    Proj.iSup_basicOpen_eq_top' (projectiveGrading E) (fun i => (MvPolynomial.X i : E.S))
+      (fun i => ⟨1, MvPolynomial.isHomogeneous_X E.k i⟩) (adjoin_range_X_eq_top E)
+  refine hcov.ge.trans (iSup_le fun i => ?_)
+  have hXi : (MvPolynomial.X i : E.S) ∈ E.naturalGrading (E.naturalWeight i) :=
+    MvPolynomial.isWeightedHomogeneous_X E.k E.naturalWeight i
+  have hval : coverHom E (MvPolynomial.X i : E.S) =
+      (MvPolynomial.X i : E.S) ^ E.naturalWeight i := by
+    simp [coverAlgHom]
+  rw [← Proj.basicOpen_pow (projectiveGrading E) _ (E.naturalWeight i) (Nat.succ_pos _), ← hval]
+  exact basicOpen_le_mapDomain E.naturalGrading (projectiveGrading E) (coverHom E)
+    (Nat.succ_pos (i : ℕ)) hXi
+
+/-! ### The morphism is the one attached to `𝓛 = 𝒪_T(1)` and `ψ` -/
+
+/-- `k[X₀, X₁, X₂]` is generated in degree one over its degree-zero part. -/
+public theorem adjoin_degreeOne_eq_top :
+    Algebra.adjoin (projectiveGrading E 0)
+      (Set.range fun f : projectiveGrading E 1 => (f : E.S)) = ⊤ :=
+  _root_.eq_top_iff.mpr <| (adjoin_range_X_eq_top E).ge.trans <|
+    Algebra.adjoin_mono (by
+      rintro _ ⟨i, rfl⟩
+      exact ⟨⟨MvPolynomial.X i, MvPolynomial.isHomogeneous_X E.k i⟩, rfl⟩)
+
+/-- On `𝐏²_k` every twist is invertible: Tag 01MU's locus `W₁` is everything, because
+`k[X₀, X₁, X₂]` is generated in degree one. -/
+public theorem whereInvertible_projectiveGrading_eq_top :
+    whereInvertible (projectiveGrading E) 1 = ⊤ :=
+  (GoodOpenClose.whereInvertible_eq_ratioLocus (projectiveGrading E) 1).trans
+    (ProjShared.ratioLocus_eq_top_of_adjoin_degree_one (projectiveGrading E)
+      (adjoin_degreeOne_eq_top E) 1)
+
+/-- On `𝐏²_k` the global section of `𝒪(m)` attached to a homogeneous polynomial of degree `m` is
+nonvanishing exactly on the standard open of that polynomial. This is Tag 01MV, whose hypothesis
+is satisfied everywhere here. -/
+public theorem mem_nonvanishingLocus_degreeSection_iff_mem_basicOpen (m : ℕ)
+    (f : projectiveGrading E m) (x : ProjectiveSpectrum (projectiveGrading E)) :
+    x ∈ Stacks.Ample.nonvanishingLocus (X := AlgebraicGeometry.Proj (projectiveGrading E))
+        (twistingSheaf (projectiveGrading E) (m : ℤ))
+        (degreeSection (projectiveGrading E) m f) ↔
+      x ∈ AlgebraicGeometry.Proj.basicOpen (projectiveGrading E) (f : E.S) := by
+  obtain ⟨n, rfl⟩ : ∃ n : ℕ, m = n * 1 := ⟨m, (Nat.mul_one m).symm⟩
+  exact CommonDegreeTwist.mem_nonvanishingLocus_degreeSection_iff' (projectiveGrading E) 1 n f
+    (by rw [whereInvertible_projectiveGrading_eq_top E]; trivial)
+
+/-- The homomorphism `ψ : S → Γ_*(T, 𝓛) = ⨁_{n ≥ 0} Γ(𝐏²_k, 𝒪(n))` of the example: the
+degree-preserving substitution `A ↦ X₀`, `B ↦ X₁²`, `C ↦ X₂³` followed by the canonical graded
+ring map of Tag 01MP. -/
+public def psi : letI := ProjTwistSectionRing.gradedRing (projectiveGrading E)
+    E.S →+* (⨁ n : ℕ, twistGlobalSections (projectiveGrading E) n) := by
+  letI := ProjTwistSectionRing.gradedRing (projectiveGrading E)
+  exact (ProjTwistSectionRing.sectionsRingHom (projectiveGrading E)).comp
+    (coverAlgHom E).toRingHom
+
+/-- On a homogeneous element of degree `d` the homomorphism `ψ` is the section of `𝒪_T(d)`
+attached to the image of that element under `A ↦ X₀`, `B ↦ X₁²`, `C ↦ X₂³`, placed in the
+degree-`d` summand. -/
+public theorem psi_apply_homogeneous {d : ℕ} {f : E.S} (hf : f ∈ E.naturalGrading d) :
+    letI := ProjTwistSectionRing.gradedRing (projectiveGrading E)
+    psi E f = DirectSum.of (twistGlobalSections (projectiveGrading E)) d
+      (degreeSection (projectiveGrading E) d
+        ⟨coverHom E f, coverAlgHom_mem_projectiveGrading E hf⟩) :=
+  ProjTwistSectionRing.sectionsRingHom_apply_homogeneous (projectiveGrading E) d
+    ⟨coverHom E f, coverAlgHom_mem_projectiveGrading E hf⟩
+
+/-- **Property (1) of Tag 01NK for this example.** For `f` homogeneous of degree `d` in `S`, the
+inverse image of the standard open `D₊(f)` under the morphism is exactly the locus `T_{ψ(f)}` on
+which the section `ψ(f)` of `𝒪_T(d) = 𝓛^{⊗ d}` does not vanish. This is the property
+characterizing `r_{𝓛, ψ}`, so the morphism used here is that one. The positivity of `d` that the
+source assumes is carried along but not used. -/
+public theorem mem_preimage_basicOpen_iff_mem_nonvanishingLocus {d : ℕ} (_hd : 0 < d) {f : E.S}
+    (hf : f ∈ E.naturalGrading d)
+    (y : (mapDomain E.naturalGrading (projectiveGrading E) (coverHom E)).toScheme) :
+    (mapHom E.naturalGrading (projectiveGrading E) (coverHom E)).base y ∈
+        AlgebraicGeometry.Proj.basicOpen E.naturalGrading f ↔
+      (y.1 : ProjectiveSpectrum (projectiveGrading E)) ∈
+        Stacks.Ample.nonvanishingLocus (X := AlgebraicGeometry.Proj (projectiveGrading E))
+          (twistingSheaf (projectiveGrading E) (d : ℤ))
+          (degreeSection (projectiveGrading E) d
+            ⟨coverHom E f, coverAlgHom_mem_projectiveGrading E hf⟩) :=
+  ((AlgebraicGeometry.Proj.mem_basicOpen E.naturalGrading f _).trans
+      ((notMem_mapHom_base_iff E.naturalGrading (projectiveGrading E) (coverHom E) y hf).trans
+        (AlgebraicGeometry.Proj.mem_basicOpen (projectiveGrading E) _ _).symm)).trans
+    (mem_nonvanishingLocus_degreeSection_iff_mem_basicOpen E d
+      ⟨coverHom E f, coverAlgHom_mem_projectiveGrading E hf⟩ y.1).symm
+
+/-! ### The image leaves the invertible locus -/
+
+/-- The witnessing point of `𝐏²_k`, as a point of the domain of definition of the morphism. -/
+public def badPointOfDomain :
+    (mapDomain E.naturalGrading (projectiveGrading E) (coverHom E)).toScheme :=
+  ⟨badPoint E, by rw [mapDomain_coverHom_eq_top]; trivial⟩
+
+/-- The image of the witnessing point lies outside Tag 01MU's locus `W₁`: a homogeneous element
+of `S` outside the prime `(A, B)` has degree divisible by `3`, so two of them cannot have degrees
+differing by `1`. -/
+public theorem mapHom_badPoint_notMem_ratioLocus :
+    (mapHom E.naturalGrading (projectiveGrading E) (coverHom E)).base (badPointOfDomain E) ∉
+      ProjShared.ratioLocus E.naturalGrading 1 := by
+  intro hmem
+  obtain ⟨e, f, g, hf, hg, hfx, hgx⟩ := (mem_ratioLocus_iff E.naturalGrading 1 _).mp hmem
+  have hdvd : ∀ {n : ℕ} {h : E.S}, h ∈ E.naturalGrading n →
+      _ ∈ Proj.basicOpen E.naturalGrading h → 3 ∣ n := fun hh hx => of_not_not fun hnd =>
+    (notMem_mapHom_base_iff _ _ (coverHom E) (badPointOfDomain E) hh).mp hx
+      (coverHom_mem_badIdeal_of_not_dvd E hnd hh)
+  have := hdvd hf hfx
+  have := hdvd hg hgx
+  omega
+
+/-- Let `k` be a field, let `S = k[A, B, C]` be graded by
+`deg A = 1`, `deg B = 2`, `deg C = 3` and set `X = Proj S`. Let `T = 𝐏²_k = Proj k[X₀, X₁, X₂]`
+with `𝓛 = 𝒪_T(1)`, so `𝒪_T(n) = 𝓛^{⊗ n}`, and let `ψ : S → Γ_*(T, 𝓛)` be the composite of the
+degree-preserving homomorphism `A ↦ X₀`, `B ↦ X₁²`, `C ↦ X₂³` with the canonical graded ring map
+of Tag 01MP. The image of the induced morphism `r_{𝓛, ψ} : T → X` is **not** contained in the
+invertible locus `W₁` of `𝒪_X(1)` — the largest open of `X` on which all the twists `𝒪_X(n)` are
+invertible and all their multiplication maps are isomorphisms, Tag 01MU. Indeed the point of `X`
+given by the homogeneous prime `(A, B)` is in the image, and a homogeneous element of `S` outside
+`(A, B)` has degree divisible by `3`, so no two of them have degrees differing by `1`. -/
+@[stacks 01NL]
+public theorem not_range_subset_whereInvertible :
+    ¬ Set.range (mapHom E.naturalGrading (projectiveGrading E) (coverHom E)).base ⊆
+      ↑(whereInvertible E.naturalGrading 1) := fun hsub =>
+  mapHom_badPoint_notMem_ratioLocus E
+    (GoodOpenClose.whereInvertible_le_ratioLocus E.naturalGrading 1
+      (hsub ⟨badPointOfDomain E, rfl⟩))
+
+end Stacks.AlgebraicGeometry.ProjInvertibleLocusEscape
+
+end

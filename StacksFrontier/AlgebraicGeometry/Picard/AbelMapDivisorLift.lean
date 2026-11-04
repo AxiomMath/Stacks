@@ -1,0 +1,413 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Picard.AbelMapSectionLift
+public import StacksFrontier.AlgebraicGeometry.Picard.AbelMapZeroSchemeFamily
+public import StacksFrontier.AlgebraicGeometry.Picard.AbelMapFibreEuler
+public import StacksFrontier.AlgebraicGeometry.Divisors.RegularSectionCorrespondence
+public import StacksFrontier.AlgebraicGeometry.Divisors.CanonicalSectionZeroScheme
+public import StacksFrontier.AlgebraicGeometry.Divisors.EffectiveCartierAffineLocal
+public import StacksFrontier.AlgebraicGeometry.Divisors.InvertibleSheafPullback
+public import StacksFrontier.AlgebraicGeometry.Picard.DivisorsOnSmoothCurves
+public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFree.Finrank
+public import StacksFrontier.AlgebraicGeometry.TwoAffineCech.CurveCover
+public import StacksFrontier.AlgebraicGeometry.Smooth.FormallySmoothCriterion
+public import StacksFrontier.AlgebraicGeometry.DivisorFlatPullback.Basic
+public import StacksFrontier.AlgebraicGeometry.PicardScheme.CurvePicard.DegreeComponents
+public import StacksFrontier.AlgebraicGeometry.Descent.EffectiveEpi.QuasicoherentSectionsEqualizer
+public import StacksFrontier.AlgebraicGeometry.Picard.HilbertFamilyPicardClass
+public import StacksFrontier.AlgebraicGeometry.Picard.HilbertSchemeCurveSupplement
+public import StacksFrontier.AlgebraicGeometry.Picard.HilbertSchemeCurveGeometry
+
+/-!
+# Lifting a divisor along a first order thickening of the base
+
+Let `X` be a geometrically irreducible smooth proper curve over a field `k`, let `C ⟶ C'` be a
+surjection of Noetherian `k`-algebras with square-zero kernel, and let `ℒ` be an invertible module
+on `X_C` whose restriction to every fibre has vanishing `H¹`. Then every degree-`d` family `D₀` on
+`X_{C'}` with `𝒪(D₀) ≅ ℒ|_{X_{C'}}` is the restriction of a degree-`d` family `D` on `X_C` with
+`𝒪(D) ≅ ℒ`.
+
+This is the deformation-theoretic heart of the smoothness of the Abel map
+`γ_d : Hilb^d_{X/k} ⟶ Pic^d_{X/k}` for `d ≥ 2g - 1` ([Stacks, Tag 0BA0], clause (5)): the
+canonical section of `𝒪(D₀)` lifts to a section of `ℒ` (the two-term Čech differential of `ℒ` is
+onto because `H¹` vanishes on the fibres), the zero scheme of the lift is a relative effective
+Cartier divisor (it is nonzero on every fibre), and it restricts to `D₀`.
+
+## Main results
+
+* `Stacks.AbelMap.zeroScheme_hom_app`: the zero scheme of a section is unchanged by an isomorphism
+  of invertible modules.
+* `Stacks.AbelMap.exists_hilbertFamily_lift`: the lifting statement above.
+
+## References
+
+* [Stacks Project, Tag 0BA0](https://stacks.math.columbia.edu/tag/0BA0)
+-/
+
+@[expose] public noncomputable section
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry Opposite TopologicalSpace
+open Stacks.Divisors (divisorSheaf divisorSheafGlobalSection IsEffectiveCartierDivisor)
+
+universe u
+
+namespace Stacks.AbelMap
+
+/-! ### Zero schemes and isomorphisms -/
+
+/-- **The zero scheme of a section is unchanged by an isomorphism of invertible modules.** -/
+theorem zeroScheme_hom_app {X : Scheme.{u}} {M N : X.Modules}
+    [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property M]
+    [SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property N]
+    (e : M ≅ N) (s : Γ(M, ⊤)) :
+    zeroScheme X N (e.hom.app ⊤ s) = zeroScheme X M s := by
+  apply Scheme.IdealSheafData.ext
+  funext U
+  rw [zeroScheme_ideal, zeroScheme_ideal]
+  let sM : Γ(M, U.1) :=
+    (M.presheaf.map (homOfLE (show U.1 ≤ ⊤ from le_top)).op).hom s
+  let sN : Γ(N, U.1) :=
+    (N.presheaf.map (homOfLE (show U.1 ≤ ⊤ from le_top)).op).hom ((e.hom.app ⊤) s)
+  let f : Γ(M, U.1) →ₗ[Γ(X, U.1)] Γ(N, U.1) :=
+    { toFun := (e.hom.app U.1).hom
+      map_add' := map_add _
+      map_smul' := fun r x => Scheme.Modules.Hom.app_smul e.hom r x }
+  let fInv : Γ(N, U.1) →ₗ[Γ(X, U.1)] Γ(M, U.1) :=
+    { toFun := (e.inv.app U.1).hom
+      map_add' := map_add _
+      map_smul' := fun r x => Scheme.Modules.Hom.app_smul e.inv r x }
+  have hsec : sN = f sM := by
+    show (N.val.map (homOfLE (show U.1 ≤ ⊤ from le_top)).op).hom
+        ((e.hom.val.app (op ⊤)).hom s) =
+      (e.hom.val.app (op U.1)).hom
+        ((M.val.map (homOfLE (show U.1 ≤ ⊤ from le_top)).op).hom s)
+    exact (PresheafOfModules.naturality_apply e.hom.val
+      (homOfLE (show U.1 ≤ ⊤ from le_top)).op s).symm
+  have hleft : fInv.comp f = LinearMap.id := by
+    ext x
+    show (e.inv.app U.1).hom ((e.hom.app U.1).hom x) = x
+    exact congrArg (fun q : M ⟶ M => (q.app U.1).hom x) (Iso.hom_inv_id e)
+  refine le_antisymm (Ideal.span_le.mpr ?_) (Ideal.span_le.mpr ?_)
+  · rintro a ⟨φ, rfl⟩
+    exact Ideal.subset_span ⟨φ.comp f, congrArg φ hsec⟩
+  · rintro a ⟨φ, rfl⟩
+    refine Ideal.subset_span ⟨φ.comp fInv, ?_⟩
+    show φ sM = φ (fInv sN)
+    rw [hsec]
+    show φ sM = φ ((fInv.comp f) sM)
+    rw [hleft]
+    rfl
+
+/-- **An effective Cartier divisor on a nonempty scheme is not the whole scheme**: its ideal is
+locally generated by a nonzerodivisor of a nonzero ring. -/
+theorem ne_bot_of_isEffectiveCartierDivisor {X : Scheme.{u}} [Nonempty X] (I : X.IdealSheafData)
+    (hI : IsEffectiveCartierDivisor I) : I ≠ ⊥ := by
+  rintro rfl
+  obtain ⟨x⟩ := ‹Nonempty X›
+  obtain ⟨U, hU, hxU, a, ha, hspan⟩ :=
+    Stacks.Divisors.exists_affineOpen_ideal_eq_span_of_isEffectiveCartierDivisor _ hI x
+  have : Nonempty U := ⟨⟨x, hxU⟩⟩
+  have : Nontrivial Γ(X, U) := Scheme.component_nontrivial X U
+  obtain rfl : a = 0 := by
+    rw [← Ideal.span_singleton_eq_bot, ← hspan]
+    rfl
+  obtain ⟨y, z, hyz⟩ := exists_pair_ne Γ(X, U)
+  exact hyz (ha.1 (by simp : (0 : Γ(X, U)) * y = 0 * z))
+
+/-- The canonical section of `𝒪(D)`, transported along an isomorphism `𝒪(D) ≅ ℒ`, has zero scheme
+`D`. -/
+private theorem zeroScheme_hom_app_canonicalSection {Y : Scheme.{u}} (D : Y.IdealSheafData)
+    [IsEffectiveCartierDivisor D] (L : Y.Modules)
+    [SheafOfModules.IsInvertible Y.sheaf.obj Y.ringCatSheaf.property L] (e : divisorSheaf D ≅ L) :
+    Stacks.Divisors.zeroScheme Y L (e.hom.app ⊤ (divisorSheafGlobalSection D)) = D :=
+  (zeroScheme_hom_app e _).trans (Stacks.Divisors.zeroScheme_canonicalSection D)
+
+/-- **The canonical section of an effective Cartier divisor stays nonzero on a nonempty scheme
+mapping to it along which the divisor pulls back to an effective Cartier divisor**, transported
+along any isomorphism `𝒪(D) ≅ ℒ`. -/
+theorem pullbackGlobalSections_ne_zero {Y Z : Scheme.{u}} [Nonempty Z] (j : Z ⟶ Y)
+    (D : Y.IdealSheafData) [IsEffectiveCartierDivisor D]
+    (hD : IsEffectiveCartierDivisor (D.comap j)) (L : Y.Modules)
+    [SheafOfModules.IsInvertible Y.sheaf.obj Y.ringCatSheaf.property L]
+    (e : divisorSheaf D ≅ L) :
+    pullbackGlobalSections j L (e.hom.app ⊤ (divisorSheafGlobalSection D)) ≠ 0 := by
+  intro h0
+  have h := Stacks.Divisors.zeroScheme_pullback j L (e.hom.app ⊤ (divisorSheafGlobalSection D))
+  rw [h0] at h
+  have hz : Stacks.Divisors.zeroScheme Z ((Scheme.Modules.pullback j).obj L) 0 = ⊥ := by
+    refine le_antisymm (Scheme.IdealSheafData.le_def.2 fun U => ?_) bot_le
+    refine le_trans (Scheme.IdealSheafData.ideal_ofIdeals_le _ U) ?_
+    rw [Ideal.span_le]
+    rintro a ⟨φ, rfl⟩
+    simp only [map_zero, SetLike.mem_coe]
+    exact Submodule.zero_mem _
+  rw [hz] at h
+  rw [zeroScheme_hom_app_canonicalSection D L e] at h
+  exact ne_bot_of_isEffectiveCartierDivisor _ hD h.symm
+
+/-- **A section whose pullback along some map is nonzero is nonzero along every map through which
+that one factors.** If `m ≫ b = a ≫ g` and `a^* g^* s ≠ 0`, then `b^* s ≠ 0`. -/
+theorem pullbackGlobalSections_ne_zero_of_comp {Y Y' Z W : Scheme.{u}} (g : Y' ⟶ Y) (a : Z ⟶ Y')
+    (b : W ⟶ Y) (m : Z ⟶ W) (hm : m ≫ b = a ≫ g) (L : Y.Modules) (s : Γ(L, ⊤))
+    (hs : pullbackGlobalSections a ((Scheme.Modules.pullback g).obj L)
+      (pullbackGlobalSections g L s) ≠ 0) :
+    pullbackGlobalSections b L s ≠ 0 := by
+  intro h0
+  have h1 := SectionsEqualizer.pullbackGlobalSections_comp m b L s
+  rw [h0, map_zero, map_zero, hm] at h1
+  have h2 := SectionsEqualizer.pullbackGlobalSections_comp a g L s
+  rw [← h1] at h2
+  apply hs
+  have h3 := Scheme.Modules.app_inv_app ((Scheme.Modules.pullbackComp a g).app L) ⊤
+    (pullbackGlobalSections a ((Scheme.Modules.pullback g).obj L) (pullbackGlobalSections g L s))
+  change Scheme.Modules.Hom.app ((Scheme.Modules.pullbackComp a g).inv.app L) ⊤
+    (Scheme.Modules.Hom.app ((Scheme.Modules.pullbackComp a g).hom.app L) ⊤ _) = _ at h3
+  rw [← h3]
+  show Scheme.Modules.Hom.app ((Scheme.Modules.pullbackComp a g).inv.app L) ⊤
+    (((Scheme.Modules.pullbackComp a g).hom.app L).app ⊤ _) = 0
+  rw [h2, map_zero]
+
+/-- Global sections of the pullback lift along a surjective base change when the Čech differential
+is onto: the form of `Stacks.AbelMap.exists_pullbackSections_eq` with
+`AlgebraicGeometry.pullbackGlobalSections`. -/
+theorem exists_pullbackGlobalSections_eq {A A' : Type u} [CommRing A] [CommRing A']
+    (φ : A →+* A') {Y Y' : Scheme.{u}} (f : Y ⟶ Spec (.of A)) (f' : Y' ⟶ Spec (.of A'))
+    (g : Y' ⟶ Y) (hsq : IsPullback g f' f (Spec.map (CommRingCat.ofHom φ)))
+    (U : Stacks.TwoAffineCech.Cover.{u} → Y.Opens) (F : Y.Modules) [IsSeparated f]
+    [F.IsQuasicoherent] (hU : (⊤ : Y.Opens) = ⨆ i, U i) (hUaff : ∀ i, IsAffineOpen (U i))
+    (hφ : Function.Surjective φ) (hd : Function.Surjective (Stacks.TwoAffineCech.cechD f U F))
+    (s₀ : Γ((Scheme.Modules.pullback g).obj F, ⊤)) :
+    ∃ s : Γ(F, ⊤), pullbackGlobalSections g F s = s₀ := by
+  have e : g ⁻¹ᵁ ⊤ = ⊤ := Scheme.Hom.preimage_top g
+  obtain ⟨s, hs⟩ := exists_pullbackSections_eq φ f f' g hsq U F hU hUaff hφ hd
+    (((Scheme.Modules.pullback g).obj F).presheaf.map (eqToHom e).op s₀)
+  refine ⟨s, ?_⟩
+  show ((Scheme.Modules.pullback g).obj F).presheaf.map (eqToHom e.symm).op
+    (Stacks.Cech.pullbackSections g F ⊤ s) = s₀
+  rw [hs, ← ConcreteCategory.comp_apply, ← Functor.map_comp, ← op_comp,
+    Subsingleton.elim (eqToHom e.symm ≫ eqToHom e) (𝟙 _), op_id,
+    CategoryTheory.Functor.map_id, ConcreteCategory.id_apply]
+
+/-! ### Lifting a degree-`d` family along a first order thickening -/
+
+section Core
+
+variable {k : Type u} [Field k] {X : Scheme.{u}} (f : X ⟶ Spec (.of k))
+  [IsCurve k f] [GeometricallyIrreducible f] [Smooth f] [IsProper f]
+
+/-- The base change of the curve to a field is integral. -/
+theorem isIntegral_pullback_of_field {K : Type u} [Field K] (b : Spec (.of K) ⟶ Spec (.of k)) :
+    IsIntegral (pullback f b) := by
+  let : Algebra k K := (Spec.preimage b).hom.toAlgebra
+  have hb : Spec.map (CommRingCat.ofHom (algebraMap k K)) = b := Spec.map_preimage b
+  have hZ : IsPullback (pullback.fst f b) (pullback.snd f b) f
+      (Spec.map (CommRingCat.ofHom (algebraMap k K))) := by
+    rw [hb]
+    exact IsPullback.of_hasPullback _ _
+  exact isIntegral_of_isPullback f _ _ hZ
+
+/-- The fibres of the base change of the curve to an affine scheme are integral. -/
+theorem isIntegral_fiber {A : Type u} [CommRing A] (a : Spec (.of A) ⟶ Spec (.of k))
+    (t : Spec (.of A)) : IsIntegral ((pullback.snd f a).fiber t) := by
+  have hI := isIntegral_pullback_of_field f ((Spec (.of A)).fromSpecResidueField t ≫ a)
+  obtain ⟨z⟩ := hI.nonempty
+  have hne : Nonempty ((pullback.snd f a).fiber t) :=
+    ⟨(pullbackLeftPullbackSndIso f a ((Spec (.of A)).fromSpecResidueField t)).inv z⟩
+  exact @isIntegral_of_isOpenImmersion ((pullback.snd f a).fiber t) _
+    (pullbackLeftPullbackSndIso f a ((Spec (.of A)).fromSpecResidueField t)).hom
+    (@IsOpenImmersion.of_isIso _ _ _ (Iso.isIso_hom _)) hI hne
+
+variable {A A' : Type u} [CommRing A] [CommRing A'] (φ : A →+* A')
+  (a : Spec (.of A) ⟶ Spec (.of k))
+
+/-- The closed immersion `Spec A' ⟶ Spec A`, as a morphism of `k`-schemes. -/
+abbrev thickeningι :
+    (Over.mk (Spec.map (CommRingCat.ofHom φ) ≫ a) : Over (Spec (.of k))) ⟶ Over.mk a :=
+  Over.homMk (Spec.map (CommRingCat.ofHom φ))
+
+omit [GeometricallyIrreducible f] [Smooth f] [IsProper f] in
+/-- The base change `X_A` of the curve has a cover by two affine opens. -/
+private theorem exists_isAffineOpen_cover_pullback :
+    ∃ U : Stacks.TwoAffineCech.Cover.{u} → (pullback f a).Opens,
+      (⊤ : (pullback f a).Opens) = ⨆ i, U i ∧ ∀ i, IsAffineOpen (U i) := by
+  have : IsAffineHom (pullback.fst f a) :=
+    MorphismProperty.of_isPullback (IsPullback.of_hasPullback f a).flip inferInstance
+  have : X.IsSeparated := ⟨by
+    have h : f ≫ terminal.from (Spec (.of k)) = terminal.from X := terminal.comp_from _
+    have : IsSeparated (terminal.from (Spec (.of k))) :=
+      Scheme.IsSeparated.isSeparated_terminal_from
+    have : IsSeparated (f ≫ terminal.from (Spec (.of k))) := inferInstance
+    exact h ▸ this⟩
+  have : IsNoetherian X := isNoetherian_of_locallyOfFiniteType (Y := Spec (.of k)) f
+  obtain ⟨UX, hUX, hUXaff⟩ := Stacks.TwoAffineCech.exists_cover_isAffineOpen X
+    (IsCurve.topologicalKrullDim_eq_one (k := k) (f := f)).le
+  refine ⟨fun i => pullback.fst f a ⁻¹ᵁ UX i, ?_, fun i => (hUXaff i).preimage _⟩
+  simp only [← Scheme.Hom.preimage_iSup, ← hUX, Scheme.Hom.preimage_top]
+
+/-- **A lift of the canonical section of `𝒪(D₀)` is nonzero on every fibre of `X_A ⟶ Spec A`.** -/
+private theorem pullbackGlobalSections_fiberι_ne_zero (hφ : Function.Surjective φ)
+    (hφ2 : RingHom.ker φ ^ 2 = ⊥) {d : ℕ} (L : (pullback f a).Modules)
+    [SheafOfModules.IsInvertible (pullback f a).sheaf.obj (pullback f a).ringCatSheaf.property L]
+    (D₀ : Stacks.Hilbert.HilbertFamily (Over.mk f)
+      (Over.mk (Spec.map (CommRingCat.ofHom φ) ≫ a)) d)
+    (e : divisorSheaf D₀.ideal ≅ (Scheme.Modules.pullback
+      (Stacks.Hilbert.familyBaseChangeMap (Over.mk f) (thickeningι φ a))).obj L)
+    (s : Γ(L, ⊤)) (hs : pullbackGlobalSections
+      (Stacks.Hilbert.familyBaseChangeMap (Over.mk f) (thickeningι φ a)) L s =
+        e.hom.app ⊤ (divisorSheafGlobalSection D₀.ideal))
+    (t : Spec (.of A)) :
+    pullbackGlobalSections ((pullback.snd f a).fiberι t) L s ≠ 0 := by
+  let ι := thickeningι φ a
+  let b' := Spec.map (CommRingCat.ofHom φ) ≫ a
+  let g : pullback f b' ⟶ pullback f a := Stacks.Hilbert.familyBaseChangeMap (Over.mk f) ι
+  let fY : pullback f a ⟶ Spec (.of A) := pullback.snd f a
+  have : SmoothOfRelativeDimension 1 (Over.mk f).hom :=
+    Stacks.Hilbert.Curve.smoothOfRelativeDimension_one_of_isCurve f
+  have hsq : IsPullback g (pullback.snd f b') fY (Spec.map (CommRingCat.ofHom φ)) :=
+    Stacks.Hilbert.isPullback_familyBaseChangeMap (Over.mk f) ι
+  have : IsEffectiveCartierDivisor D₀.ideal := D₀.isEffectiveCartierDivisor_ideal
+  have : SheafOfModules.IsInvertible
+      ((Over.pullback (Over.mk b').hom).obj (Over.mk f)).left.sheaf.obj
+      ((Over.pullback (Over.mk b').hom).obj (Over.mk f)).left.ringCatSheaf.property
+      ((Scheme.Modules.pullback g).obj L) := Stacks.Divisors.pullback_isInvertible g L
+  obtain ⟨t', rfl⟩ := Stacks.Smooth.specMap_base_surjective (φ := CommRingCat.ofHom φ) hφ hφ2 t
+  let T₀ : Over (Spec (.of k)) :=
+    Over.mk ((Spec (.of A')).fromSpecResidueField t' ≫ b')
+  let ι₀ : T₀ ⟶ Over.mk b' := Over.homMk ((Spec (.of A')).fromSpecResidueField t')
+  let j := Stacks.Hilbert.familyBaseChangeMap (Over.mk f) ι₀
+  have hI : IsIntegral ((Over.pullback T₀.hom).obj (Over.mk f)).left :=
+    isIntegral_pullback_of_field f _
+  have : Nonempty ((Over.pullback T₀.hom).obj (Over.mk f)).left := hI.nonempty
+  have hj : IsEffectiveCartierDivisor (D₀.ideal.comap j) :=
+    (Stacks.Hilbert.baseChange (Over.mk f) ι₀ D₀).isEffectiveCartierDivisor_ideal
+  have hne := pullbackGlobalSections_ne_zero j D₀.ideal hj
+    ((Scheme.Modules.pullback g).obj L) e
+  have hw : (j ≫ g) ≫ fY = (pullback.snd f ((Spec (.of A')).fromSpecResidueField t' ≫ b') ≫
+      Spec.map ((Spec.map (CommRingCat.ofHom φ)).residueFieldMap t')) ≫
+        (Spec (.of A)).fromSpecResidueField (Spec.map (CommRingCat.ofHom φ) t') := by
+    have h1 := (Stacks.Hilbert.isPullback_familyBaseChangeMap (Over.mk f) ι₀).w
+    rw [Category.assoc, hsq.w, Category.assoc,
+      Scheme.Hom.SpecMap_residueFieldMap_fromSpecResidueField, ← Category.assoc, ← Category.assoc]
+    congr 1
+  let m : pullback f ((Spec (.of A')).fromSpecResidueField t' ≫ b') ⟶
+      fY.fiber (Spec.map (CommRingCat.ofHom φ) t') :=
+    pullback.lift (j ≫ g) _ hw
+  refine pullbackGlobalSections_ne_zero_of_comp g j (fY.fiberι _) m (pullback.lift_fst _ _ _) L
+    _ ?_
+  rwa [hs]
+
+omit [IsCurve k f] [GeometricallyIrreducible f] [Smooth f] [IsProper f] in
+/-- **A finite flat closed subscheme of `X_A` restricting to a degree-`d` family on `X_{A'}` is
+itself of degree `d`**, when `A ⟶ A'` is surjective with square-zero kernel. -/
+private theorem isFiniteLocallyFreeOfRank_of_comap_eq (hφ : Function.Surjective φ)
+    (hφ2 : RingHom.ker φ ^ 2 = ⊥) {d : ℕ}
+    (D₀ : Stacks.Hilbert.HilbertFamily (Over.mk f)
+      (Over.mk (Spec.map (CommRingCat.ofHom φ) ≫ a)) d)
+    (Z : (pullback f a).IdealSheafData)
+    (hZ : Stacks.Morphisms.IsFiniteLocallyFree (Z.subschemeι ≫ pullback.snd f a))
+    (hcomap : Z.comap (Stacks.Hilbert.familyBaseChangeMap (Over.mk f) (thickeningι φ a)) =
+      D₀.ideal) :
+    Stacks.Morphisms.IsFiniteLocallyFreeOfRank (Z.subschemeι ≫ pullback.snd f a) d := by
+  let ι := thickeningι φ a
+  let b' := Spec.map (CommRingCat.ofHom φ) ≫ a
+  let fY : pullback f a ⟶ Spec (.of A) := pullback.snd f a
+  have : IsFinite (Z.subschemeι ≫ fY) := Stacks.Morphisms.IsFiniteLocallyFree.isFinite _
+  have : Flat (Z.subschemeι ≫ fY) := Stacks.Morphisms.IsFiniteLocallyFree.flat _
+  have : IsFinite (Z.subschemeι ≫ ((Over.pullback (Over.mk a).hom).obj (Over.mk f)).hom) :=
+    ‹IsFinite (Z.subschemeι ≫ fY)›
+  have : Flat (Z.subschemeι ≫ ((Over.pullback (Over.mk a).hom).obj (Over.mk f)).hom) :=
+    ‹Flat (Z.subschemeι ≫ fY)›
+  rw [Stacks.Morphisms.isFiniteLocallyFreeOfRank_iff_forall_finrank_eq]
+  intro t
+  obtain ⟨t', rfl⟩ := Stacks.Smooth.specMap_base_surjective (φ := CommRingCat.ofHom φ) hφ hφ2 t
+  have hpb := Stacks.Hilbert.isPullback_familyBaseChangeMap_subschemeι (Over.mk f) ι Z
+  have h0 := D₀.isFiniteLocallyFreeOfRank
+  have : Stacks.Morphisms.IsFiniteLocallyFree
+      (D₀.ideal.subschemeι ≫ ((Over.pullback (Over.mk b').hom).obj (Over.mk f)).hom) :=
+    Stacks.Morphisms.IsFiniteLocallyFreeOfRank.isFiniteLocallyFree _ d
+  have : IsFinite
+      (D₀.ideal.subschemeι ≫ ((Over.pullback (Over.mk b').hom).obj (Over.mk f)).hom) :=
+    Stacks.Morphisms.IsFiniteLocallyFree.isFinite _
+  have : Flat
+      (D₀.ideal.subschemeι ≫ ((Over.pullback (Over.mk b').hom).obj (Over.mk f)).hom) :=
+    Stacks.Morphisms.IsFiniteLocallyFree.flat _
+  have h1 := (Stacks.Morphisms.isFiniteLocallyFreeOfRank_iff_forall_finrank_eq _ d).1 h0 t'
+  have h4 : ((Z.comap (Stacks.Hilbert.familyBaseChangeMap (Over.mk f) ι)).subschemeι ≫
+      ((Over.pullback (Over.mk b').hom).obj (Over.mk f)).hom).finrank t' = d := by
+    rwa [hcomap]
+  exact (Scheme.Hom.finrank_of_isPullback _ _ _ _ hpb t').symm.trans h4
+
+/-- **Lifting a degree-`d` family along a first order thickening.** Let `A ⟶ A'` be a surjection
+with square-zero kernel, `A` Noetherian, and `ℒ` an invertible module on `X_A` with vanishing `H¹`
+on every fibre. If `D₀` is a degree-`d` family on `X_{A'}` with `𝒪(D₀) ≅ ℒ|_{X_{A'}}`, then there
+is a degree-`d` family `D` on `X_A` restricting to `D₀`, with `𝒪(D) ≅ ℒ`. -/
+theorem exists_hilbertFamily_lift (hφ : Function.Surjective φ) (hφ2 : RingHom.ker φ ^ 2 = ⊥)
+    [IsNoetherianRing A] {d : ℕ} (L : (pullback f a).Modules)
+    [SheafOfModules.IsInvertible (pullback f a).sheaf.obj (pullback f a).ringCatSheaf.property L]
+    (hH1 : ∀ x : Spec (.of A), Module.finrank ((Spec (.of A)).residueField x)
+      (Stacks.FibreCohomology.fibreCohomology (pullback.snd f a) L x 1) = 0)
+    (D₀ : Stacks.Hilbert.HilbertFamily (Over.mk f)
+      (Over.mk (Spec.map (CommRingCat.ofHom φ) ≫ a)) d)
+    (e : divisorSheaf D₀.ideal ≅ (Scheme.Modules.pullback
+      (Stacks.Hilbert.familyBaseChangeMap (Over.mk f) (thickeningι φ a))).obj L) :
+    ∃ D : Stacks.Hilbert.HilbertFamily (Over.mk f) (Over.mk a) d,
+      D.ideal.comap (Stacks.Hilbert.familyBaseChangeMap (Over.mk f) (thickeningι φ a)) =
+        D₀.ideal ∧ Nonempty (divisorSheaf D.ideal ≅ L) := by
+  classical
+  let ι := thickeningι φ a
+  let b' := Spec.map (CommRingCat.ofHom φ) ≫ a
+  let g : pullback f b' ⟶ pullback f a := Stacks.Hilbert.familyBaseChangeMap (Over.mk f) ι
+  let fY : pullback f a ⟶ Spec (.of A) := pullback.snd f a
+  have hsm : SmoothOfRelativeDimension 1 f :=
+    Stacks.Hilbert.Curve.smoothOfRelativeDimension_one_of_isCurve f
+  have : SmoothOfRelativeDimension 1 (Over.mk f).hom := hsm
+  have hsq : IsPullback g (pullback.snd f b') fY (Spec.map (CommRingCat.ofHom φ)) :=
+    Stacks.Hilbert.isPullback_familyBaseChangeMap (Over.mk f) ι
+  have : SmoothOfRelativeDimension 1 fY :=
+    (smoothOfRelativeDimension_isStableUnderBaseChange 1).of_isPullback
+      (IsPullback.of_hasPullback f a) hsm
+  have : IsProper fY := MorphismProperty.of_isPullback (IsPullback.of_hasPullback f a) ‹_›
+  have : Flat fY := MorphismProperty.of_isPullback (IsPullback.of_hasPullback f a) inferInstance
+  have : LocallyOfFinitePresentation fY :=
+    MorphismProperty.of_isPullback (IsPullback.of_hasPullback f a) inferInstance
+  have : IsSeparated fY :=
+    MorphismProperty.of_isPullback (IsPullback.of_hasPullback f a) inferInstance
+  obtain ⟨U, hU, hUaff⟩ := exists_isAffineOpen_cover_pullback f a
+  have : IsEffectiveCartierDivisor D₀.ideal := D₀.isEffectiveCartierDivisor_ideal
+  have : Stacks.Ample.IsInvertibleModule (pullback f a) L :=
+    (Stacks.SheafOfModules.isInvertible_iff_algebraicGeometry (pullback f a).presheaf
+      (structureSheafRing (pullback f a).toRingedSpace).property L).2 ‹_›
+  have : L.IsQuasicoherent := Stacks.AmpleGlobalGeneration.isQuasicoherent_of_isInvertibleModule L
+  have : SheafOfModules.IsInvertible
+      ((Over.pullback (Over.mk b').hom).obj (Over.mk f)).left.sheaf.obj
+      ((Over.pullback (Over.mk b').hom).obj (Over.mk f)).left.ringCatSheaf.property
+      ((Scheme.Modules.pullback g).obj L) := Stacks.Divisors.pullback_isInvertible g L
+  obtain ⟨s, hs⟩ := exists_pullbackGlobalSections_eq φ fY (pullback.snd f b') g hsq U L hU hUaff
+    hφ (surjective_cechD_of_fibres' fY U hU hUaff L hH1)
+    (e.hom.app ⊤ (divisorSheafGlobalSection D₀.ideal))
+  let sL := Stacks.Divisors.sectionsOfTop L s
+  have hsL : sL.eval (op ⊤) = s := Stacks.Divisors.sectionsOfTop_eval_top L s
+  let Z := zeroScheme (pullback f a) L (sL.eval (op ⊤))
+  have hcomap : Z.comap g = D₀.ideal := by
+    have h1 : Z.comap g = zeroScheme (pullback f b') ((Scheme.Modules.pullback g).obj L)
+        (pullbackGlobalSections g L (sL.eval (op ⊤))) :=
+      (Stacks.Divisors.zeroScheme_pullback g L (sL.eval (op ⊤))).symm
+    rw [h1, hsL, hs]
+    exact zeroScheme_hom_app_canonicalSection D₀.ideal _ e
+  have : ∀ t : Spec (.of A), IsIntegral (fY.fiber t) := fun t => isIntegral_fiber f a t
+  have hrel : Stacks.Divisors.IsRelativeEffectiveCartierDivisor fY Z :=
+    isRelativeEffectiveCartierDivisor_zeroScheme L fY (sL.eval (op ⊤))
+      (pullbackGlobalSections_fiberι_ne_zero f φ a hφ hφ2 L D₀ e _ (by rw [hsL, hs]))
+  refine ⟨⟨Z, isFiniteLocallyFreeOfRank_of_comap_eq f φ a hφ hφ2 D₀ Z
+    ((isFiniteLocallyFree_iff_isRelativeEffectiveCartierDivisor_of_isProper fY Z).2 hrel)
+    hcomap⟩, hcomap, ?_⟩
+  have hreg := (isEffectiveCartierDivisor_zeroScheme_iff_isRegularSection
+    (X := pullback f a) L sL).1 hrel.1
+  obtain ⟨e', -, -⟩ := existsUnique_invertibleSheafIso_zeroScheme (pullback f a) L sL hreg
+  exact ⟨e'⟩
+
+end Core
+
+end Stacks.AbelMap
+
+end

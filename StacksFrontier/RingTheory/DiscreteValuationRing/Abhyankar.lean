@@ -1,0 +1,18 @@
+module
+
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.ResidueFieldTensor
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.TensorSpecialFiber
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.ReducedBranchSpecialFiber
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.AwayLocalizationField
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.NormalizationComparison
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.FiniteFractionFieldExtension
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.AdjoinRootExtensions
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.RootUniformizerSmoothness
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.UniformizerPowerSmoothness
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.AbhyankarLemma
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.TameRamificationKummer
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.UnramifiedBaseChange
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.RamificationGoesUp
+public import StacksFrontier.RingTheory.DiscreteValuationRing.Abhyankar.TameGaloisClosure
+
+/-! # Abhyankar's lemma for extensions of discrete valuation rings (re-exports its parts) -/

@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.RingTheory.FormalFibres.Examples.GeometricallyReduced
+public import StacksFrontier.RingTheory.FormalFibres.Examples.GeometricallyNormal
+public import StacksFrontier.RingTheory.FormalFibres.Examples.SerreCondition
+public import StacksFrontier.RingTheory.FormalFibres.Examples.RegularInCodimension

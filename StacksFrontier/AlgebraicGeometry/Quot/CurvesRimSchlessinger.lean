@@ -1,0 +1,6 @@
+module
+
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesRimSchlessinger.ProperFibres
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesRimSchlessinger.BoundedProperCore
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesRimSchlessinger.BaseChange
+public import StacksFrontier.AlgebraicGeometry.Quot.CurvesRimSchlessinger.PushoutEquivalence
