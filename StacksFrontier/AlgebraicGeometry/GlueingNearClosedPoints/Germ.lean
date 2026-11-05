@@ -1002,11 +1002,8 @@ public def overlapComparisonCompatible (S : Scheme.{u}) (U : S.Opens) (s : S)
     let c : (Over.pullback ((S.fromSpecStalk s) ∣_ U)).obj
         ((openComponent S U s).obj Z) ⟶
         (Over.pullback (((S.fromSpecStalk s) ⁻¹ᵁ U).ι)).obj
-          ((localComponent S U s).obj Z) := by
-      simpa [restrictOpenToPuncturedLocal, restrictLocalToPuncturedLocal,
-        finitePresentationBaseChange, openComponent, localComponent,
-        Functor.comp_obj, Comma.fst_obj, Comma.snd_obj,
-        ObjectProperty.ι_obj, ObjectProperty.lift, ObjectProperty.ι] using Z.1.hom.hom
+          ((localComponent S U s).obj Z) :=
+      Z.1.hom.hom
     let aX : (openComponent S U s).obj Z ⟶
         (Over.pullback U.ι).obj ((neighborhoodModelToAmbient S U s).obj X) := by
       simpa only [Z, Functor.comp_obj] using (a.app X).hom

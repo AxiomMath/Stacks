@@ -500,8 +500,8 @@ lemma spread_finiteEtale_hom_from_gluingData
         simpa [canonicalOverlapComparisonIso, canonicalOverlapIso] using
           (canonicalOverlapComparisonIso S U x).hom.naturality (i D).hom
       dsimp [aa, bb]
-      rw [Functor.map_comp, Category.assoc, hcan, ← Category.assoc, hD,
-        Category.assoc, ← Functor.map_comp]
+      rw [Functor.map_comp, Category.assoc, hcan, ← Category.assoc, hD]
+      erw [Category.assoc, ← Functor.map_comp]
       rfl
     exact functor_conjugate_square (Over.pullback (S.fromSpecStalk x ∣_ U))
       (Over.pullback ((S.fromSpecStalk x ⁻¹ᵁ U).ι)) aY aZ bY bZ
