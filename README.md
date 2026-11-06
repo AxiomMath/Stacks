@@ -4,11 +4,17 @@
 
 * [Website](https://stacks.axiommath.ai/)
 
-A Lean 4 (v4.34.0-rc2) formalization of [the Stacks Project](https://stacks.math.columbia.edu/), the open-source reference work on algebraic geometry, built on [Mathlib](https://github.com/leanprover-community/mathlib4). We have formalized every tag of the Stacks Project with formalizable content, and declarations are also tagged with the items of Grothendieck's *Éléments de géométrie algébrique* (EGA) and *Séminaire de géométrie algébrique* (SGA) that they prove (see §[EGA and SGA references](#ega-and-sga-references)). Examples, exercises and remarks that are not yet formalized are left as tasks for contributors (see §[Contributing](#contributing)). Lean's kernel checks every proof. There is no `sorry` and no `native_decide`.
+A Lean 4 formalization of [the Stacks Project](https://stacks.math.columbia.edu/), the open-source reference work on algebraic geometry, built on [Mathlib](https://github.com/leanprover-community/mathlib4). The compiler version is pinned in [lean-toolchain](lean-toolchain).
+
+The project's reported coverage is every Stacks tag with formalizable content; remaining examples, exercises and remarks are contributor tasks. A tag can describe a partial result, so inspect the declaration's statement and tag comment before reusing it. Declarations also carry references to Grothendieck's *Éléments de géométrie algébrique* (EGA) and *Séminaire de géométrie algébrique* (SGA).
+
+**Start here:** [find a tag](#finding-a-tag) · [choose an import](#structure) · [check a result](#checking-a-result) · [contribute](#contributing)
+
+Coverage, human review and proof certification are separate questions. The intended trust boundary is Lean's kernel with only the three standard axioms, without `sorry` or `native_decide`. Those are verification requirements, not a certificate for an arbitrary checkout; see [Checking a result](#checking-a-result).
 
 ## Structure
 
-`import Stacks` brings in both tiers. Every proof in either tier is kernel-checked; the tiers differ in who has reviewed the code.
+`import Stacks` brings in both tiers; `import StacksCore` restricts imports to the human-reviewed tier. For a focused dependency, import the individual module containing the declaration instead of either umbrella. The tiers describe review provenance, not different proof-checking standards.
 
 * [StacksCore](StacksCore/): human-reviewed formalizations, checked against the Stacks Project and brought to Mathlib standards of naming, generality and style.
 * [StacksFrontier](StacksFrontier/): formalizations written by AI agents. This is where coverage grows fastest, and where review is most needed before code moves into StacksCore.
@@ -28,9 +34,32 @@ Declarations are also tagged with the numbered items of Grothendieck's *Élémen
 
 A declaration that is only related to an item, without proving any of these, is not tagged with it. Numbers follow the original installments: Publ. Math. IHÉS for EGA, and the standard Springer Lecture Notes editions for SGA.
 
-## Axioms
+## Checking a result
 
-Proofs use only the standard axioms `propext`, `Classical.choice` and `Quot.sound`. After `import Stacks`, `#print axioms` on any declaration lists exactly what it rests on.
+Use the version in `lean-toolchain` and the dependencies in `lake-manifest.json`. Check the current source of the module you intend to consume, then use a small probe importing that module:
+
+```lean
+import StacksCore.Order.DirectedInverseSystem
+
+set_option pp.fullNames true
+#check DirectedSystem
+```
+
+Run a probe with `lake env lean path/to/Probe.lean` once its dependencies are built. `#check` confirms the imported declaration's type, not its proof dependencies. For a theorem, add `#print axioms Fully.Qualified.theoremName`, replacing the name with the exact theorem being reused, and retain the raw output together with the compiler exit status, source revision and any local modifications.
+
+### Axioms
+
+A proof-dependency receipt meets the standard-axiom requirement only when its axiom set is a subset of `propext`, `Classical.choice` and `Quot.sound`. An empty set is valid; `sorryAx`, custom axioms and native-decision trust axioms are not. A successful compiler exit alone does not establish this: Lean can accept a `sorry` with a warning. An imported compiled file alone does not certify that its current source was checked.
+
+The receipt covers the named declaration, not every tag or module. It also does not establish that the Lean statement matches the cited mathematical result: check its hypotheses, conclusion, intended objects and partial-coverage comment separately. Explicit hypotheses remain assumptions even when the axiom receipt is clean.
+
+The EGA/SGA registration utilities have a bounded native regression test, requiring only the pinned compiler (no Mathlib download or full library build):
+
+```sh
+python3 -m unittest discover -s tests -v
+```
+
+This checks reference metadata and documentation behavior, not the mathematical library's proof certification.
 
 ## Building
 

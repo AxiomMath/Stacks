@@ -70,6 +70,13 @@ def allRefs (env : Environment) : Array Ref :=
   let state := PersistentEnvExtension.getState refExt env
   state.2.flatten ++ state.1.toArray.reverse
 
+/-- Check a reference key without materializing `allRefs`. Comments are not part of the key.
+Local entries are checked first, then imported batches; enumeration order is unchanged. -/
+def hasRef (env : Environment) (decl : Name) (work : Work) (ref : String) : Bool :=
+  let state := PersistentEnvExtension.getState refExt env
+  let sameKey (r : Ref) := r.declName == decl && r.work == work && r.ref == ref
+  state.1.any sameKey || state.2.any (·.any sameKey)
+
 /-- A printed number: positive integers separated by dots, e.g. `5.8.6` or `23.1.1.2`. -/
 def isNumber (s : String) : Bool :=
   let parts := s.splitOn "."
@@ -151,16 +158,16 @@ def addRef (decl : Name) (work : Work) (ref comment : String) : CoreM Unit := do
   if comment.length > maxCommentLength then
     throwError m!"the comment \"{comment}\" is {comment.length} characters; name the clause \
       realized in at most {maxCommentLength}, e.g. \"(ii)\" or \"affine case\""
-  let oldDoc := (← findDocString? (← getEnv) decl).getD ""
+  let env ← getEnv
+  if hasRef env decl work ref then
+    logWarning m!"'{decl}' already carries this reference; skipping duplicate."
+    return
+  let oldDoc := (← findDocString? env decl).getD ""
   try
     addDocStringCore decl <|
       "\n\n".intercalate ([oldDoc, rendered ++ commentSuffix comment].filter (· != ""))
   catch _ => pure ()
-  let env ← getEnv
-  if (allRefs env).any fun r => r.declName == decl && r.work == work && r.ref == ref then
-    logWarning m!"'{decl}' already carries this reference; skipping duplicate."
-  else
-    modifyEnv (refExt.addEntry · { declName := decl, work, ref, comment })
+  modifyEnv (refExt.addEntry · { declName := decl, work, ref, comment })
 
 /-- `@[ega "IV 5.8.6" "(ii)"]`: the declaration realizes EGA IV (5.8.6). -/
 syntax (name := egaAttr) "ega " str (ppSpace str)? : attr
