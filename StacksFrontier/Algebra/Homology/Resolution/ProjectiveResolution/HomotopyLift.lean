@@ -204,102 +204,6 @@ private theorem sub_comp_d_eq_comp_sub {C : Type*} [Category C] [Abelian C]
       = P.d p (p+1) ≫ (f.f (p+1) - s ≫ K.d p (p+1)) := by
   simp [Preadditive.sub_comp]
 
-namespace ProjAcyclic
-
-variable {C : Type*} [Category C] [Abelian C]
-  (P K : CochainComplex C ℤ) (n : ℤ)
-  (hProj : ∀ i : ℤ, Projective (P.X i))
-  (hK : HomologicalComplex.Acyclic K)
-  (f : P ⟶ K)
-
-include hK in
-/-- The relevant short complex `K^{i-1} → K^i → K^{i+1}` is exact, by acyclicity. -/
-theorem exactAt (i : ℤ) : (K.sc' (i-1) i (i+1)).Exact := by
-  exact sc'_exact_of_exactAt K i (hK i)
-
-open Classical in
-/-- The homotopy map at degree `i`, built by descending recursion: it is `0` above
-the bound `n`, and below the bound it lifts `f.f i - d_P ≫ φ(i+1)` through the
-epimorphism onto the kernel using projectivity of `P.X i`. -/
-noncomputable def φ (i : ℤ) : P.X i ⟶ K.X (i-1) :=
-  if hi : n < i then 0
-  else by
-    haveI := hProj i
-    let prev : P.X (i+1) ⟶ K.X i :=
-      φ (i+1) ≫ eqToHom (by rw [show i + 1 - 1 = i from by omega])
-    let g : P.X i ⟶ K.X i := f.f i - P.d i (i+1) ≫ prev
-    exact
-      if hg2 : g ≫ K.d i (i+1) = 0 then
-        (exactAt K hK i).liftFromProjective g hg2
-      else 0
-  termination_by (n + 1 - i).toNat
-  decreasing_by omega
-
-/-- The "previous" homotopy map appearing in the recursion at degree `i`. -/
-noncomputable def prev (i : ℤ) : P.X (i+1) ⟶ K.X i :=
-  φ P K n hProj hK f (i+1) ≫ eqToHom (by rw [show i + 1 - 1 = i from by omega])
-
-/-- The map `g i := f.f i - d_P ≫ φ(i+1)`, which is the value `φ i` lifts. -/
-noncomputable def gg (i : ℤ) : P.X i ⟶ K.X i :=
-  f.f i - P.d i (i+1) ≫ prev P K n hProj hK f i
-
-/-- `φ` vanishes above the bound. -/
-lemma φ_eq_zero (i : ℤ) (hi : n < i) : φ P K n hProj hK f i = 0 := by
-  rw [φ, dite_eq_left hi]
-
-open Classical in
-/-- Unfolding `φ` below the bound. -/
-lemma φ_eq_dite (i : ℤ) (hi : ¬ n < i) :
-    φ P K n hProj hK f i =
-      (haveI := hProj i
-       if hg2 : gg P K n hProj hK f i ≫ K.d i (i+1) = 0 then
-        (exactAt K hK i).liftFromProjective (gg P K n hProj hK f i) hg2
-      else 0) := by
-  conv_lhs => rw [φ]
-  rw [dite_eq_right hi]
-  rfl
-
-/-- `prev i ≫ d_K = φ(i+1) ≫ d_K`, eliminating the `eqToHom` cast. -/
-lemma prev_comp_d (i : ℤ) :
-    prev P K n hProj hK f i ≫ K.d i (i+1)
-      = φ P K n hProj hK f (i+1) ≫ K.d ((i+1)-1) (i+1) := by
-  rw [prev, Category.assoc, HomologicalComplex.eqToHom_comp_d K (by simp) (by simp)]
-
-/-- The main homotopy identity: `φ i ≫ d_K = gg i`. Proved by descending strong
-induction on the bound. -/
-lemma phi_spec [hP : P.IsStrictlyLE n] (i : ℤ) :
-    φ P K n hProj hK f i ≫ K.d (i-1) i = gg P K n hProj hK f i := by
-  -- strong induction on the distance above i to n+1
-  suffices H : ∀ m : ℕ, ∀ j : ℤ, (n + 1 - j).toNat = m →
-      φ P K n hProj hK f j ≫ K.d (j-1) j = gg P K n hProj hK f j by
-    exact H _ i rfl
-  intro m
-  induction m using Nat.strong_induction_on with
-  | _ m IH =>
-    intro j hm
-    by_cases hj : n < j
-    · -- above the bound: both sides vanish since P.X j is zero
-      have hPzero : Limits.IsZero (P.X j) := CochainComplex.isZero_of_isStrictlyLE P n j hj
-      have h1 : φ P K n hProj hK f j ≫ K.d (j-1) j = 0 := by
-        rw [hPzero.eq_zero_of_src (φ P K n hProj hK f j), Limits.zero_comp]
-      have h2 : gg P K n hProj hK f j = 0 := hPzero.eq_zero_of_src _
-      rw [h1, h2]
-    · -- below the bound: use liftFromProjective and the inductive hypothesis at j+1
-      have hmeas : (n + 1 - (j+1)).toNat < m := by omega
-      have IH1 : φ P K n hProj hK f (j+1) ≫ K.d ((j+1)-1) (j+1)
-          = gg P K n hProj hK f (j+1) := IH _ hmeas (j+1) rfl
-      -- vanishing condition
-      have hvanish : gg P K n hProj hK f j ≫ K.d j (j+1) = 0 := by
-        rw [gg, sub_comp_d_eq_comp_sub, prev_comp_d, IH1, gg]
-        simp
-      -- now φ j is the lift
-      rw [φ_eq_dite P K n hProj hK f j hj, dite_eq_left hvanish]
-      exact (exactAt K hK j).liftFromProjective_comp (gg P K n hProj hK f j) hvanish
-
-end ProjAcyclic
-
-open CategoryTheory
-
 /-- Let `K` be an acyclic complex and `P` a bounded above complex of projective objects. Then
 every morphism of complexes `f : P ⟶ K` is homotopic to zero. -/
 @[stacks 0647,
@@ -314,39 +218,9 @@ theorem projective_into_acyclic_is_zero
     (hK : HomologicalComplex.Acyclic K)
     (f : P ⟶ K) : Nonempty (Homotopy f 0) := by
   have := hP
-  -- Assemble the homotopy from the maps φ. The homotopy map h^i : P.X i ⟶ K.X (i-1)
-  -- is φ i. In `Homotopy f 0` the field `hom i j : P.X i ⟶ K.X j` is meaningful
-  -- only when `Rel j i`, i.e. `j + 1 = i` (so `j = i - 1`); there we put
-  -- `φ i` transported along `K.X (i-1) ≅ K.X j`, and `0` otherwise.
-  refine ⟨{
-    hom := fun i j =>
-      if h : j + 1 = i then
-        ProjAcyclic.φ P K n hProj hK f i ≫ (K.XIsoOfEq (show i - 1 = j by omega)).hom
-      else 0
-    zero := fun i j h => dite_eq_right h
-    comm := fun i => by
-      -- f.f i = dNext i hom + prevD i hom + (0).f i.
-      -- dNext i hom = P.d i (i+1) ≫ hom (i+1) i ;  prevD i hom = hom i (i-1) ≫ K.d (i-1) i.
-      rw [dNext_eq _ (show (ComplexShape.up ℤ).Rel i (i+1) by simp),
-          prevD_eq _ (show (ComplexShape.up ℤ).Rel (i-1) i by simp)]
-      -- Simplify the two `hom` applications: both dite conditions hold.
-      rw [dite_eq_left (show i + 1 = i + 1 from rfl), dite_eq_left (show (i-1) + 1 = i by omega)]
-      -- Replace the `XIsoOfEq` casts with `eqToHom`.
-      simp only [HomologicalComplex.zero_f, add_zero,
-        show (K.XIsoOfEq (show (i+1) - 1 = i by omega)).hom
-            = eqToHom (by rw [show (i+1) - 1 = i by omega]) from by
-              simp [HomologicalComplex.XIsoOfEq],
-        show (K.XIsoOfEq (show i - 1 = i - 1 from rfl)).hom = 𝟙 (K.X (i-1)) from by
-              simp]
-      -- First term is `P.d i (i+1) ≫ prev i`; second is `φ i ≫ K.d (i-1) i = gg i`.
-      rw [show ProjAcyclic.φ P K n hProj hK f (i+1) ≫ eqToHom (by rw [show (i+1) - 1 = i by omega])
-            = ProjAcyclic.prev P K n hProj hK f i from rfl,
-          Category.comp_id,
-          ProjAcyclic.phi_spec P K n hProj hK f i,
-          ProjAcyclic.gg]
-      -- Now: f.f i = P.d i (i+1) ≫ prev i + (f.f i - P.d i (i+1) ≫ prev i)
-      abel
-  }⟩
+  have := hProj
+  have := CochainComplex.isKProjective_of_projective P n
+  exact CochainComplex.IsKProjective.nonempty_homotopy_zero f hK
 
 end
 
