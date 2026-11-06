@@ -35,15 +35,6 @@ namespace CochainComplex.HomComplex
 variable {S : Type*} [Ring S] {C : Type*} [Category C] [Abelian C] [Linear S C]
   [HasDerivedCategory C]
 
-omit [HasDerivedCategory C] in
-/-- The identification of cocycles of degree `n` with morphisms into the `n`-th shift is
-compatible with scalar multiplication. -/
-lemma Cocycle.equivHomShift_symm_smul {K L : CochainComplex C ℤ} {n : ℤ} (s : S)
-    (z : Cocycle K L n) :
-    Cocycle.equivHomShift.symm (s • z) = s • Cocycle.equivHomShift.symm z := by
-  ext p
-  simp [Cocycle.equivHomShift_symm_apply, Cochain.rightShift_smul]
-
 /-- The identification of the cohomology classes of the Hom complex into a K-injective complex
 with morphisms in the derived category is linear. -/
 lemma cohomologyClassAddEquivShiftedHom_mk_smul (A J : CochainComplex C ℤ) [J.IsKInjective]

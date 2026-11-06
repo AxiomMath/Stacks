@@ -80,11 +80,11 @@ variable {F : S ⥤ S'}
 /-- The isomorphism `(α, id) : (x, x, id) ≅ (x, x, id)` of `F ⊡ F` underlying `Φ (x, α)`. -/
 def toDiagonalPullbackObjIso (t : RelativeInertia F) :
     (diagonal F).obj t.obj ≅ (diagonal F).obj t.obj :=
-  CategoricalPullback.mkIso t.auto (Iso.refl t.obj) (by simp [t.cond])
+  CategoricalPullback.mkIso t.auto.asIso (Iso.refl t.obj) (by simp [t.cond])
 
 /-- The `X`-component of the isomorphism underlying `Φ (x, α)` is `α`. -/
 @[simp] lemma toDiagonalPullbackObjIso_hom_fst (t : RelativeInertia F) :
-    (toDiagonalPullbackObjIso t).hom.fst = t.auto.hom := rfl
+    (toDiagonalPullbackObjIso t).hom.fst = t.auto.asIso.hom := rfl
 
 /-- The `Y`-component of the isomorphism underlying `Φ (x, α)` is the identity. -/
 @[simp] lemma toDiagonalPullbackObjIso_hom_snd (t : RelativeInertia F) :
@@ -92,7 +92,7 @@ def toDiagonalPullbackObjIso (t : RelativeInertia F) :
 
 /-- The `X`-component of the inverse of the isomorphism underlying `Φ (x, α)` is `α⁻¹`. -/
 @[simp] lemma toDiagonalPullbackObjIso_inv_fst (t : RelativeInertia F) :
-    (toDiagonalPullbackObjIso t).inv.fst = t.auto.inv := rfl
+    (toDiagonalPullbackObjIso t).inv.fst = t.auto.asIso.inv := rfl
 
 /-- The `Y`-component of the inverse of the isomorphism underlying `Φ (x, α)` is the
 identity. -/
@@ -199,7 +199,7 @@ lemma map_fst_eq_map_snd (t : CategoricalPullback (diagonal F) (diagonal F)) :
 def fromDiagonalPullbackObj (t : CategoricalPullback (diagonal F) (diagonal F)) :
     RelativeInertia F where
   obj := t.fst
-  auto := diagonalPullbackFstIso t ≪≫ (diagonalPullbackSndIso t).symm
+  auto := .of (diagonalPullbackFstIso t ≪≫ (diagonalPullbackSndIso t).symm)
   cond := by
     have key : F.map t.iso.hom.fst = F.map t.iso.hom.snd := map_fst_eq_map_snd t
     simp only [Iso.trans_hom, Iso.symm_hom, diagonalPullbackFstIso, diagonalPullbackSndIso,
@@ -220,7 +220,7 @@ def fromDiagonalPullbackObj (t : CategoricalPullback (diagonal F) (diagonal F)) 
 /-- The automorphism attached to `Ψ (x, y, (ι, κ))` is `κ⁻¹ ∘ ι`. -/
 @[simp] lemma fromDiagonalPullbackObj_auto_hom
     (t : CategoricalPullback (diagonal F) (diagonal F)) :
-    (fromDiagonalPullbackObj t).auto.hom = t.iso.hom.fst ≫ t.iso.inv.snd := by
+    (fromDiagonalPullbackObj t).auto.asIso.hom = t.iso.hom.fst ≫ t.iso.inv.snd := by
   simp [fromDiagonalPullbackObj, diagonalPullbackFstIso, diagonalPullbackSndIso]
 
 /-- The quasi-inverse `Ψ : Δ ⊡ Δ ⥤ I_{S/S'}` of Stacks 034H (1), sending
@@ -393,7 +393,7 @@ theorem counitIso_proj_eq_id (F : S ⥤ S') (p : S ⥤ C)
 /-- For an object `(x, α)` of the relative inertia, the automorphism `α` projects to the
 identity under the structure functor `p` to `C`: indeed `p = F ⋙ p'` and `F α = 𝟙`. -/
 theorem struct_map_auto_eq_id (p : S ⥤ C) (p' : S' ⥤ C) (hF : F ⋙ p' = p)
-    (t : RelativeInertia F) : p.map t.auto.hom = 𝟙 (p.obj t.obj) := by
+    (t : RelativeInertia F) : p.map t.auto.asIso.hom = 𝟙 (p.obj t.obj) := by
   subst hF
   simp [t.cond]
 

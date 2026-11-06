@@ -91,9 +91,10 @@ private theorem mem_annihilator_end_iff
     [Preadditive C] [Linear R C] (X : C) (r : R) :
     r ∈ Module.annihilator R (End X) ↔ r • 𝟙 X = 0 := by
   rw [Module.mem_annihilator]
-  refine ⟨fun h => h (𝟙 X), ?_⟩
+  refine ⟨fun h => by simpa using congrArg End.asHom (h 1), ?_⟩
   intro h f
-  simpa using congrArg (fun g => g ≫ f) h
+  ext
+  simpa using congrArg (fun g => g ≫ f.asHom) h
 
 private theorem annihilator_end_le_map
     {R : Type u} [CommRing R] {C D : Type*} [Category* C] [Category* D]
@@ -330,14 +331,14 @@ noncomputable def rightDerivedPlusObjIsoOfInjectiveComplex
     (e : DerivedCategory.Plus.Q.obj L ≅ Y) :
     F.rightDerivedFunctorPlus.obj Y ≅
       DerivedCategory.Plus.Q.obj (F.mapCochainComplexPlus.obj L) := by
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient C).obj L)) := by
     have : ∀ i, Injective (((HomotopyCategory.Plus.quotient C).obj L).obj.as.X i) :=
       fun i => inferInstance
     infer_instance
   exact F.rightDerivedFunctorPlus.mapIso
       (e.symm ≪≫ (plusQhQuotientIso L).symm) ≪≫
-    (asIso (F.rightDerivedFunctorPlusUnit.app
+    (asIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient C).obj L))).symm ≪≫
     plusQhQuotientIso (F.mapCochainComplexPlus.obj L)
 

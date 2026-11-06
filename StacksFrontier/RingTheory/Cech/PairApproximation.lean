@@ -6,6 +6,8 @@ public import Mathlib.RingTheory.Adjoin.FG
 public import Mathlib.RingTheory.Finiteness.Ideal
 public import Mathlib.RingTheory.Ideal.Operations
 public import Mathlib.RingTheory.Noetherian.Basic
+public import Mathlib.RingTheory.PrincipalIdealDomain
+public import Mathlib.Algebra.EuclideanDomain.Int
 
 /-!
 # Approximating a pair by pairs of finite type over `ℤ`

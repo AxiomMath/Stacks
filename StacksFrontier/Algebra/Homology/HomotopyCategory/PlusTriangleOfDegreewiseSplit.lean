@@ -275,7 +275,7 @@ variable [HasDerivedCategory C] [HasDerivedCategory D] [EnoughInjectives C]
 
 attribute [local instance] Functor.commShiftRightDerivedFunctorPlus
 
-variable (F : C ⥤ D) [F.Additive] [IsIso F.rightDerivedFunctorPlusUnit] (a : ℤ)
+variable (F : C ⥤ D) [F.Additive] [IsIso F.rightDerivedFunctorPlusUnith] (a : ℤ)
   {S : ShortComplex (CochainComplex C ℤ)}
   (σ : ∀ n, (S.map (HomologicalComplex.eval C (ComplexShape.up ℤ) n)).Splitting)
   [S.X₁.IsStrictlyGE a] [S.X₂.IsStrictlyGE a] [S.X₃.IsStrictlyGE a]
@@ -295,20 +295,20 @@ def rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom :
     F.rightDerivedFunctorPlus.mapTriangle.obj
         (DerivedCategory.Plus.Qh.mapTriangle.obj (trianglehPlusOfDegreewiseSplit a S σ)) ⟶
       DerivedCategory.Plus.Qh.mapTriangle.obj (trianglehPlusOfDegreewiseSplit a S' σ') :=
-  letI : NatTrans.CommShift (asIso F.rightDerivedFunctorPlusUnit).hom ℤ :=
+  letI : NatTrans.CommShift (asIso F.rightDerivedFunctorPlusUnith).hom ℤ :=
     Functor.natTransCommShiftRightDerivedFunctorPlusUnit F
   (Functor.mapTriangleCompIso DerivedCategory.Plus.Qh F.rightDerivedFunctorPlus).inv.app _ ≫
-    (Functor.mapTriangleIso (asIso F.rightDerivedFunctorPlusUnit)).inv.app _ ≫
+    (Functor.mapTriangleIso (asIso F.rightDerivedFunctorPlusUnith)).inv.app _ ≫
       (Functor.mapTriangleCompIso F.mapHomotopyCategoryPlus DerivedCategory.Plus.Qh).hom.app _ ≫
         DerivedCategory.Plus.Qh.mapTriangle.map (trianglehPlusOfDegreewiseSplitMap F a σ σ' ψ hs hr)
 
 /-- The first and third components of the derived morphism of triangles. -/
 private theorem rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom_hom₁_and_hom₃ :
     (rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom F a σ σ' ψ hs hr).hom₁ =
-      (asIso F.rightDerivedFunctorPlusUnit).inv.app (plusHomotopyObj a S.X₁) ≫
+      (asIso F.rightDerivedFunctorPlusUnith).inv.app (plusHomotopyObj a S.X₁) ≫
         DerivedCategory.Plus.Qh.map (plusHomotopyMapHom F a ψ.τ₁) ∧
     (rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom F a σ σ' ψ hs hr).hom₃ =
-      (asIso F.rightDerivedFunctorPlusUnit).inv.app (plusHomotopyObj a S.X₃) ≫
+      (asIso F.rightDerivedFunctorPlusUnith).inv.app (plusHomotopyObj a S.X₃) ≫
         DerivedCategory.Plus.Qh.map (plusHomotopyMapHom F a ψ.τ₃) := by
   simp only [trianglehPlusOfDegreewiseSplit, rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom,
     Functor.mapTriangleCompIso, Triangle.isoMk, Functor.comp_obj, Triangle.homMk, Iso.refl_hom,
@@ -323,7 +323,7 @@ private theorem rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom_hom₁_and_h
 is the inverse of the derived-functor unit at `S.X₁` followed by the class of `ψ.τ₁`. -/
 theorem rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom_hom₁ :
     (rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom F a σ σ' ψ hs hr).hom₁ =
-      (asIso F.rightDerivedFunctorPlusUnit).inv.app (plusHomotopyObj a S.X₁) ≫
+      (asIso F.rightDerivedFunctorPlusUnith).inv.app (plusHomotopyObj a S.X₁) ≫
         DerivedCategory.Plus.Qh.map (plusHomotopyMapHom F a ψ.τ₁) :=
   (rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom_hom₁_and_hom₃ F a σ σ' ψ hs hr).1
 
@@ -331,7 +331,7 @@ theorem rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom_hom₁ :
 is the inverse of the derived-functor unit at `S.X₃` followed by the class of `ψ.τ₃`. -/
 theorem rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom_hom₃ :
     (rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom F a σ σ' ψ hs hr).hom₃ =
-      (asIso F.rightDerivedFunctorPlusUnit).inv.app (plusHomotopyObj a S.X₃) ≫
+      (asIso F.rightDerivedFunctorPlusUnith).inv.app (plusHomotopyObj a S.X₃) ≫
         DerivedCategory.Plus.Qh.map (plusHomotopyMapHom F a ψ.τ₃) :=
   (rightDerivedFunctorPlusTriangleOfDegreewiseSplitHom_hom₁_and_hom₃ F a σ σ' ψ hs hr).2
 

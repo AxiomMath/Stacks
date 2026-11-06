@@ -81,6 +81,20 @@ theorem etaleLocalRingGerm_eval_eq (X : AlgebraicSpaces B S hS)
 
 /-! ### Transporting the fibre hypothesis of Stacks 06LW -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FibreRegularSequenceBaseChange :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FibreRegularSequenceBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+
 /-- Regularity of `List.ofFn f` is unchanged under a pointwise change of `f`. -/
 private theorem isRegular_ofFn_congr {R : Type*} [CommRing R] {r : ℕ} {f g : Fin r → R}
     (h : ∀ i, f i = g i) :

@@ -264,12 +264,6 @@ public theorem depth_localized_gt_of_no_intermediate_prime
     let : Small.{u} Mq := Module.Finite.small Aq Mq
     let M₀ := Shrink.{u} Mq
     let eM : M₀ ≃ₗ[Aq] Mq := Shrink.linearEquiv Aq Mq
-    let : Module Aq (AdicCompletion Iq M₀) :=
-      Module.compHom (AdicCompletion Iq M₀) (algebraMap Aq A')
-    let : IsScalarTower Aq A' (AdicCompletion Iq M₀) := ⟨by
-      intro a b x
-      show ((algebraMap Aq A' a) * b) • x = (algebraMap Aq A' a) • (b • x)
-      exact mul_smul (algebraMap Aq A' a) b x⟩
     have hsmall : IsBaseChange A' (AdicCompletion.of Iq M₀) :=
       IsBaseChange.of_equiv (AdicCompletion.ofTensorProductEquivOfFiniteNoetherian Iq M₀)
         (by intro x

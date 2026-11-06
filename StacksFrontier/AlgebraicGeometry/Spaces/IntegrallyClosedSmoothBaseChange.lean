@@ -102,7 +102,6 @@ theorem injective_and_isIntegral_mem_range_of_tensor_equalizer
         ∀ y, γ' (eC y) = eD (LinearMap.lTensor S γ.toLinearMap y) := by
     intro γ γ' hγ y
     induction y with
-    | zero => simp
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
     | tmul s c =>
       have h1 : s ⊗ₜ[R] c = s • (1 ⊗ₜ[R] c : S ⊗[R] C) := by
@@ -116,7 +115,6 @@ theorem injective_and_isIntegral_mem_range_of_tensor_equalizer
   have hιS : ∀ w, ιS w = LinearMap.lTensor S ι.toLinearMap w := by
     intro w
     induction w with
-    | zero => simp
     | add x y hx hy => rw [map_add, map_add, hx, hy]
     | tmul s a => rfl
   have hιSinj : Function.Injective ιS := fun a b h =>
@@ -127,7 +125,6 @@ theorem injective_and_isIntegral_mem_range_of_tensor_equalizer
         w ∈ Set.range (algebraMap S (S ⊗[R] A₀)) := by
     rintro w ⟨t, rfl⟩
     induction t with
-    | zero => exact ⟨0, by simp⟩
     | add x y hx hy =>
       obtain ⟨a, ha⟩ := hx
       obtain ⟨b, hb⟩ := hy

@@ -262,10 +262,10 @@ public def liftedEtaleNeighborhood
   have hxy : x.1 ≫ B.inclusion.map f = U.2.1 ≫ B.inclusion.map U.1.obj.hom := by
     calc x.1 ≫ B.inclusion.map f = y.hom := x.2
       _ = U.2.1 ≫ B.inclusion.map U.1.obj.hom := U.2.2.symm
-  refine ⟨(smallEtaleBaseChange B f).obj U.1,
+  refine Functor.elementsMk _ ((smallEtaleBaseChange B f).obj U.1)
     ⟨((IsPullback.of_hasPullback
         (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj U.1)) f).map B.inclusion).lift
-      U.2.1 x.1 hxy.symm, ?_⟩⟩
+      U.2.1 x.1 hxy.symm, ?_⟩
   change ((IsPullback.of_hasPullback
       (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj U.1)) f).map B.inclusion).lift
     U.2.1 x.1 hxy.symm ≫ B.inclusion.map (pullback.snd U.1.obj.hom f) = x.1

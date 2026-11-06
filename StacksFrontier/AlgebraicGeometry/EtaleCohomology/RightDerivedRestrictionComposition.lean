@@ -261,7 +261,7 @@ theorem rightDerivedPlusUnitSingle_comp_rightDerivedRestrictionIso_hom_app
   have M1 := Stacks.DerivedIndexing.mapSingleFunctorCompQhIso_inv_app_eq G' X
   have hU1 : (Stacks.DerivedIndexing.rightDerivedPlusUnitSingle G').app X =
       (Functor.mapSingleFunctorCompQhIso G').inv.app X ≫
-        G'.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A' 0).obj X) ≫
+        G'.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A' 0).obj X) ≫
           G'.rightDerivedFunctorPlus.map
             ((Functor.singleFunctorPlusIsoCompQh (A := A') 0).inv.app X) := rfl
   have hU := (congrArg rM.mapDerivedCategoryPlus.map
@@ -278,14 +278,14 @@ theorem rightDerivedPlusUnitSingle_comp_rightDerivedRestrictionIso_hom_app
   have hw := map_comp_eq_id G.rightDerivedFunctorPlus _ _
     (Iso.inv_hom_id_app rA.mapDerivedCategoryPlusFactorsh sK')
   have h₄ :=
-    G.rightDerivedFunctorPlusUnit.naturality (rA.mapHomotopyCategoryPlusObjSingleIso 0 X).hom
+    G.rightDerivedFunctorPlusUnith.naturality (rA.mapHomotopyCategoryPlusObjSingleIso 0 X).hom
   have h₃ := rM.mapDerivedCategoryPlusFactorsh.hom.naturality
     ((HomotopyCategory.Plus.quotient M').map ((Stacks.DerivedIndexing.mapSinglePlus G' 0).app X))
   have hH := map_comp_three_congr DerivedCategory.Plus.Qh (single_restriction_homotopy e X)
   have hS₂ := Functor.mapDerivedCategoryPlusObjSingleIso_hom rM (G'.obj X)
   have hU₂a : (Stacks.DerivedIndexing.rightDerivedPlusUnitSingle G).app (rA.obj X) =
       (Functor.mapSingleFunctorCompQhIso G).inv.app (rA.obj X) ≫
-        G.rightDerivedFunctorPlusUnit.app
+        G.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor A 0).obj (rA.obj X)) ≫
           G.rightDerivedFunctorPlus.map
             ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app (rA.obj X)) := rfl
@@ -351,7 +351,7 @@ private lemma restriction_comp_unit
     (h : ∀ X : A', rC.map (e'.inv.app X) ≫ eG.hom.app (F'.obj X) ≫ G.map (eF.hom.app X) =
       eH.hom.app X ≫ e.inv.app (rA.obj X))
     (K : HomotopyCategory.Plus A') :
-    rC.mapDerivedCategoryPlus.map (H'.rightDerivedFunctorPlusUnit.app K) ≫
+    rC.mapDerivedCategoryPlus.map (H'.rightDerivedFunctorPlusUnith.app K) ≫
         rC.mapDerivedCategoryPlus.map
           ((Stacks.EtaleCohomology.rightDerivedFunctorPlusCompIsoOfIso F' G' H' e').hom.app
             (DerivedCategory.Plus.Qh.obj K)) ≫
@@ -359,7 +359,7 @@ private lemma restriction_comp_unit
           (F'.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) ≫
         G.rightDerivedFunctorPlus.map
           ((rightDerivedRestrictionIso F' F rA rB eF hF).hom.app (DerivedCategory.Plus.Qh.obj K)) =
-      rC.mapDerivedCategoryPlus.map (H'.rightDerivedFunctorPlusUnit.app K) ≫
+      rC.mapDerivedCategoryPlus.map (H'.rightDerivedFunctorPlusUnith.app K) ≫
         (rightDerivedRestrictionIso H' H rA rC eH hH).hom.app (DerivedCategory.Plus.Qh.obj K) ≫
         (Stacks.EtaleCohomology.rightDerivedFunctorPlusCompIsoOfIso F G H e).hom.app
           (rA.mapDerivedCategoryPlus.obj (DerivedCategory.Plus.Qh.obj K)) := by
@@ -369,22 +369,21 @@ private lemma restriction_comp_unit
       ((rC.mapDerivedCategoryPlus.map_comp _ _).trans
         (congrArg (_ ≫ ·) (rC.mapDerivedCategoryPlus.map_comp _ _))))
   have hb := (rightDerivedRestrictionIso G' G rB rC eG hG).hom.naturality
-    (F'.rightDerivedFunctorPlusUnit.app K)
+    (F'.rightDerivedFunctorPlusUnith.app K)
   have hc := map_unit_comp_rightDerivedRestrictionIso_hom_app G' G rB rC eG hG
     (F'.mapHomotopyCategoryPlus.obj K)
   rw [mapHomotopyCategoryPlusCompIso_refl_natIso_hom_app] at hc
   have hd := map_unit_comp_rightDerivedRestrictionIso_hom_app F' F rA rB eF hF K
   rw [mapHomotopyCategoryPlusCompIso_refl_natIso_hom_app] at hd
   have hd' : rB.mapDerivedCategoryPlusFactorsh.inv.app (F'.mapHomotopyCategoryPlus.obj K) ≫
-      rB.mapDerivedCategoryPlus.map (F'.rightDerivedFunctorPlusUnit.app K) ≫
+      rB.mapDerivedCategoryPlus.map (F'.rightDerivedFunctorPlusUnith.app K) ≫
       (rightDerivedRestrictionIso F' F rA rB eF hF).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((Stacks.Cohomology.BaseChange.mapPlus eF.hom).app K) ≫
-        F.rightDerivedFunctorPlusUnit.app (rA.mapHomotopyCategoryPlus.obj K) ≫
+        F.rightDerivedFunctorPlusUnith.app (rA.mapHomotopyCategoryPlus.obj K) ≫
         F.rightDerivedFunctorPlus.map (rA.mapDerivedCategoryPlusFactorsh.inv.app K) := by
     rw [hd, Iso.inv_hom_id_app_assoc]
-    rfl
   have hd'' := map_comp_three_congr G.rightDerivedFunctorPlus hd'
-  have he := G.rightDerivedFunctorPlusUnit.naturality
+  have he := G.rightDerivedFunctorPlusUnith.naturality
     ((Stacks.Cohomology.BaseChange.mapPlus eF.hom).app K)
   have hf := rC.mapDerivedCategoryPlusFactorsh.hom.naturality
     ((mapHomotopyCategoryPlusCompIso e').inv.app K)

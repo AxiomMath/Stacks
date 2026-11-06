@@ -98,11 +98,18 @@ theorem isClosedImmersion_toScheme_lift_of_isSeparated
       (g₁ ≫ f) (g₂ ≫ f) := by
     rw [h₁, h₂]
     exact (IsPullback.of_hasPullback p₁ p₂).map yoneda
+  -- instance search for pullbacks of presheaves times out: supply the ones used below
+  have : HasLimit (cospan f f) := HasLimitsOfShape.has_limit _
+  have : HasLimit (cospan g₁ g₂) := HasLimitsOfShape.has_limit _
+  have : HasLimit (cospan (g₁ ≫ f) (g₂ ≫ f)) := HasLimitsOfShape.has_limit _
+  have : HasLimit (cospan (pullback.diagonal f) (pullback.map (g₁ ≫ f) (g₂ ≫ f) f f g₁ g₂ (𝟙 _)
+      (Category.comp_id _) (Category.comp_id _))) := HasLimitsOfShape.has_limit _
   -- Mathlib's square exhibiting `pullback g₁ g₂ ⟶ pullback (g₁ ≫ f) (g₂ ≫ f)` as a base change
   -- of the diagonal of `f`
   have H' : IsPullback (yoneda.map a ≫ g₁) (yoneda.map (pullback.lift a b hab))
       (pullback.diagonal f)
-      (pullback.lift (yoneda.map (pullback.fst p₁ p₂) ≫ g₁) (yoneda.map (pullback.snd p₁ p₂) ≫ g₂)
+      (pullback.lift (f := f) (g := f) (yoneda.map (pullback.fst p₁ p₂) ≫ g₁)
+        (yoneda.map (pullback.snd p₁ p₂) ≫ g₂)
         (by rw [Category.assoc, Category.assoc]; exact hP.w)) := by
     refine (pullback_map_diagonal_isPullback g₁ g₂ f).of_iso sq.isoPullback.symm (Iso.refl _)
       hP.isoPullback.symm (Iso.refl _) ?_ ?_ ?_ ?_

@@ -109,6 +109,12 @@ open DifferentialGradedModule Stacks
 
 section HomEquiv
 
+/- Since Lean v4.35.0 instance search reaches `HasWeakSheafify J (Type u)` through the section
+variable `[HasSheafify J (Type u)]` (via `instHasWeakSheafifyOfHasSheafify`), which would make
+that variable a hypothesis of the declarations below. With the bridge erased here, the global
+instance is found instead, as before the bump. -/
+attribute [-instance] instHasWeakSheafifyOfHasSheafify
+
 variable {C : Type u} [Category.{u} C] {J : GrothendieckTopology C}
   [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [HasSheafify J AddCommGrpCat.{u}]

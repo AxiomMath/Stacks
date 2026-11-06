@@ -70,11 +70,11 @@ public def levelAbelianReduction (k : ℕ) : levelAbelian ρ hρ (k + 1) ⟶ lev
   ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := AddCommGrpCat.ofHom
         { toFun := fun y => ULift.up (levelReduction k y.down)
-          map_zero' := ULift.ext _ _ (map_zero _)
-          map_add' := fun a b => ULift.ext _ _ (map_add _ _ _) }
+          map_zero' := ULift.ext (map_zero _)
+          map_add' := fun a b => ULift.ext (map_add _ _ _) }
       comm := fun g => by
         ext y
-        exact ULift.ext _ _ (levelReduction_levelRepresentation ρ k g y.down) }))
+        exact ULift.ext (levelReduction_levelRepresentation ρ k g y.down) }))
 
 /-- Reduction intertwines multiplication by `a` on the source with multiplication by its
 reduction on the target. -/
@@ -89,7 +89,7 @@ public theorem finiteContinuousScalarFunctor_map_comp_levelAbelianReduction (k :
         (X := SingleObj.star _) (Y := SingleObj.star _) (levelRingHom k a) := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  exact ULift.ext _ _ (levelReduction_smul k a y.down)
+  exact ULift.ext (levelReduction_smul k a y.down)
 
 /-- Multiplication by `ℓ ^ k` on the level module `(ℤ/ℓ^{k+1}ℤ)^r`, a morphism of finite
 discrete `G`-modules: the scalar operation of `ℓ ^ k`. -/
@@ -103,7 +103,7 @@ public theorem levelAbelianMulPow_comp_levelAbelianReduction (k : ℕ) :
     levelAbelianMulPow ρ hρ k ≫ levelAbelianReduction ρ hρ k = 0 := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show levelReduction k (((ℓ ^ k : ℕ) : ZMod (ℓ ^ (k + 1))) • y.down) = 0
   rw [levelReduction_eq_zero_iff]
   exact ⟨y.down, by rw [Nat.cast_smul_eq_nsmul]⟩

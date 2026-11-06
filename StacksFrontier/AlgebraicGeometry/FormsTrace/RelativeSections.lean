@@ -423,7 +423,6 @@ theorem closure_smul_ιMulti_D_relative (p : ℕ) :
   convert congrArg Submodule.toAddSubgroup (Crystalline.span_range_smul_ιMulti_eq_top (R := ℤ)
     (KaehlerDifferential.D Γ(S, W) Γ(X, U))
     (KaehlerDifferential.span_range_derivation Γ(S, W) Γ(X, U)) p)
-  exact Submodule.top_toAddSubgroup.symm
 
 /-- The relative de Rham differential on an affine chart, on `b₀ · D b₁ ∧ ⋯ ∧ D b_p`: through
 the identification it is `D b₀ ∧ D b₁ ∧ ⋯ ∧ D b_p`. -/

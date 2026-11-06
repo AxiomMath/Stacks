@@ -261,10 +261,10 @@ def cechPresheafTermIsoTerm (p : ℕ) :
   hom_inv_id := by
     rw [Preadditive.comp_sum, ← sum_cechTermProj_comp_cechTermIncl X f p]
     refine Finset.sum_congr rfl fun S _ => ?_
-    rw [← Category.assoc, Pi.lift_π]
+    rw [← Category.assoc, Pi.lift_comp_π]
   inv_hom_id := by
     refine Pi.hom_ext _ _ fun T => ?_
-    rw [Category.assoc, Pi.lift_π, Category.id_comp, Preadditive.sum_comp]
+    rw [Category.assoc, Pi.lift_comp_π, Category.id_comp, Preadditive.sum_comp]
     refine (Finset.sum_eq_single_of_mem T (Finset.mem_univ T) fun S _ hST => ?_).trans ?_
     · rw [Category.assoc, cechTermIncl_comp_cechTermProj_of_ne X f p hST, comp_zero]
     · rw [Category.assoc, cechTermIncl_comp_cechTermProj_self, Category.comp_id]
@@ -277,7 +277,7 @@ theorem cechPresheafTermIsoTerm_hom_comp_pi (p : ℕ) (S : AlternatingCech.Idx r
         Pi.π (fun T : AlternatingCech.Idx r (p : ℤ) =>
           (cechSummandFunctor X f).obj T.1) S =
       cechTermProj X f p S :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- A subset of cardinality `p + 1`, with its cardinality read as `(p : ℤ) + 1` rather than as
 `((p + 1 : ℕ) : ℤ)`. The two agree, but only definitionally, and the alternating differential out
@@ -311,7 +311,7 @@ theorem cechPresheafTermIsoTermSucc_hom_comp_pi (p : ℕ)
         Pi.π (fun T : AlternatingCech.Idx r ((p : ℤ) + 1) =>
           (cechSummandFunctor X f).obj T.1) S =
       cechTermProj X f (p + 1) (cechIdxSucc p S) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **The component formula for the Čech differential**, in the spelling the alternating

@@ -203,6 +203,21 @@ theorem exists_isIso_eq_comp_of_isPullback {C : Type*} [Category C] [HasPullback
     (by rw [h₁, Category.assoc, sq.flip.isoPullback_inv_snd])
     (by rw [h₂, Category.assoc, sq.flip.isoPullback_inv_fst])⟩
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_presheaf_FormalGlueingSpacesGraphBaseChange
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (Limits.functorCategoryHasLimitsOfShape :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).has_limit _
+
+/-- Pullbacks in presheaves on `BigFppfOver B S hS`, given directly (see above). -/
+local instance (priority := high) hasPullbacks_presheaf_FormalGlueingSpacesGraphBaseChange
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 /-- The comparison `restrictionComparison D` commutes with the projections to the space being
@@ -285,7 +300,7 @@ theorem exists_isIso_overlap (D D' : FormalGlueingSituation B S hS) {q : D'.X �
     rwa [hℓYg] at h
   have hGV : G.obj.hom.left ≫ pullback.snd G.obj.right.hom D.V.ι =
       pullback.snd G.obj.left.hom (D.U.fromPreimage D.f) := by
-    simpa using Over.w G.obj.hom
+    simpa only [Over.pullback_obj_hom, Over.pullback_obj_left] using Over.w G.obj.hom
   have hkey := fst_comp_fst_eq_of_comm ((restrictionComparison D).hom.app (Over.mk q))
     (restrictionComparison_hom_app_left_fst_fst D _) G.obj.hom ψl ψr hψw
   have : IsIso G.obj.hom := G.property.1

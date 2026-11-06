@@ -80,7 +80,7 @@ indexed by the image of `i` under `f`. -/
 @[reassoc (attr := simp)]
 theorem cechNerve_map_π {n m : SimplexCategoryᵒᵖ} (f : n ⟶ m) (i : Fin (m.unop.len + 1)) :
     (cechNerve U).map f ≫ Pi.π _ i = Pi.π _ (f.unop.toOrderHom i) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-! ### The free resolution of the final object -/
 
@@ -114,7 +114,7 @@ the projection indexed by `f i`. -/
 @[reassoc (attr := simp)]
 theorem cechNerve_map_cechπ {n m : ℕ} (f : ⦋m⦌ ⟶ ⦋n⦌) (i : Fin (m + 1)) :
     (cechNerve U).map f.op ≫ cechπ U m i = cechπ U n (f.toOrderHom i) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- Prepending `g₀` to a tuple of morphisms `V ⟶ U`. -/
 noncomputable def prepend (n : ℕ) (x : V ⟶ (cechNerve U).obj (op ⦋n⦌)) :
@@ -125,13 +125,13 @@ noncomputable def prepend (n : ℕ) (x : V ⟶ (cechNerve U).obj (op ⦋n⦌)) :
 @[reassoc (attr := simp)]
 theorem prepend_π_zero (n : ℕ) (x : V ⟶ (cechNerve U).obj (op ⦋n⦌)) :
     prepend U g₀ n x ≫ cechπ U (n + 1) 0 = g₀ :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The `(i + 1)`-th component of `prepend U g₀ n x` is the `i`-th component of `x`. -/
 @[reassoc (attr := simp)]
 theorem prepend_π_succ (n : ℕ) (x : V ⟶ (cechNerve U).obj (op ⦋n⦌)) (i : Fin (n + 1)) :
     prepend U g₀ n x ≫ cechπ U (n + 1) i.succ = x ≫ cechπ U n i :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- Dropping the last component of `prepend U g₀ 0 x` leaves the morphism `V ⟶ U^1` with
 component `g₀`. -/
@@ -141,7 +141,7 @@ theorem prepend_δ_one (x : V ⟶ (cechNerve U).obj (op ⦋0⦌)) :
   refine cechNerve_hom_ext U fun i => ?_
   fin_cases i
   simp only [Category.assoc, cechNerve_map_cechπ]
-  exact (prepend_π_zero U g₀ 0 x).trans (Pi.lift_π (fun _ : Fin (⦋0⦌.len + 1) => g₀) _).symm
+  exact (prepend_π_zero U g₀ 0 x).trans (Pi.lift_comp_π (fun _ : Fin (⦋0⦌.len + 1) => g₀) _).symm
 
 /-- Dropping the first component of `prepend U g₀ n x` recovers `x`. -/
 theorem prepend_δ_zero (n : ℕ) (x : V ⟶ (cechNerve U).obj (op ⦋n⦌)) :
@@ -544,11 +544,11 @@ theorem map_eq_of_cechComplex_d_zero (M : SheafOfModules.{u} O)
   have h₀ : h ≫ (cechNerve U).map (SimplexCategory.δ (0 : Fin 2)).op = g := by
     refine cechNerve_zero_hom_ext ?_
     rw [Category.assoc, cechNerve_map_cechπ]
-    exact Pi.lift_π _ _
+    exact Pi.lift_comp_π _ _
   have h₁ : h ≫ (cechNerve U).map (SimplexCategory.δ (1 : Fin 2)).op = f := by
     refine cechNerve_zero_hom_ext ?_
     rw [Category.assoc, cechNerve_map_cechπ]
-    exact Pi.lift_π _ _
+    exact Pi.lift_comp_π _ _
   replace hx := (cechComplex_d_zero_apply U M.val.presheaf x).symm.trans hx
   rw [← h₀, ← h₁, op_comp, op_comp, M.val.map_comp_apply, M.val.map_comp_apply]
   exact congrArg (M.val.map h.op) (sub_eq_zero.mp hx).symm

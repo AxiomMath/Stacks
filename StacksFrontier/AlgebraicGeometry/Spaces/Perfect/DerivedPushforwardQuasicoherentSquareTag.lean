@@ -63,6 +63,14 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] isGrothendieckAbelian_modules enoughInjectives_modules
 
+/-- Binary products of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasBinaryProduct_presheaf_derivedPushforwardQuasicoherentSquareTag
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    (X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasLimit (pair X Y) :=
+  HasLimitsOfShape.has_limit _
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hZ : B.Contains (⊤_ Scheme.{u}))
 

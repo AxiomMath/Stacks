@@ -159,6 +159,17 @@ theorem zeroSubfunctor_baseChangeTarget (D : ModuleMapSituation.{u, u} B S hS)
 
 /-! ### The descent step -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_zeroLocusClosedEtaleLocalDescent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_zeroLocusClosedEtaleLocalDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Being represented by a morphism of the site with `Q` is read off the base change along any
 one of two equal morphisms. -/
 private theorem presheaf_pullback_snd_congr {Q : MorphismProperty Scheme.{u}}

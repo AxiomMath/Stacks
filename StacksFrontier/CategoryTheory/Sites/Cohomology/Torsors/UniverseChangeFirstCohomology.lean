@@ -116,11 +116,12 @@ public theorem subsingleton_torsorIsoClasses_of_natAddEquiv
     Subsingleton (torsorIsoClasses X) := by
   let hmul : ∀ U : Cᵒᵖ, (abelianSheafAsGroupSheaf A).presheaf.obj U ≃*
       (abelianSheafAsGroupSheaf X).presheaf.obj U :=
-    fun U => AddEquiv.toMultiplicative (e U)
+    fun U => AddEquiv.toMultiplicative (G := A.obj.obj U) (H := X.obj.obj U) (e U)
   have hmulnat {U V : Cᵒᵖ} (f : U ⟶ V) (g : (abelianSheafAsGroupSheaf A).presheaf.obj U) :
       hmul V ((abelianSheafAsGroupSheaf A).presheaf.map f g) =
         (abelianSheafAsGroupSheaf X).presheaf.map f (hmul U g) :=
-    Multiplicative.toAdd.injective (he f (Multiplicative.toAdd g))
+    (Multiplicative.toAdd (α := X.obj.obj V)).injective
+      (he f (Multiplicative.toAdd (α := A.obj.obj U) g))
   have trivialOf (F : AbelianTorsor X) :
       Quotient.mk (torsorSetoid X)
           ⟨trivialTorsor (abelianSheafAsGroupSheaf X),

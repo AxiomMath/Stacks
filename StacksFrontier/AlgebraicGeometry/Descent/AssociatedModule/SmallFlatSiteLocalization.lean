@@ -60,7 +60,7 @@ theorem _root_.CategoryTheory.Over.star_obj_hom_eq_fst {C : Type*} [Category* C]
     [HasBinaryProducts C] (X Y : C) :
     ((Over.star X).obj Y).hom = (prod.fst : X ⨯ Y ⟶ X) := by
   simp only [Over.star_obj_hom]
-  exact prod.lift_fst _ _
+  congr 1
 
 /-- The product comparison map `ι(V ×_S W) ⟶ ι V ×_S ι W` of the inclusion is an isomorphism. -/
 instance isIso_prodComparison (W : SmallFlatSite B S hS κ) :

@@ -479,9 +479,9 @@ extends to an `A`-derivation of `R`. -/
 theorem exists_derivation_extension (Q : Cᵒᵖ ⥤ CommRingCat.{max u v w}) (b : A.obj ⟶ Q)
     (c : Q ⟶ R.obj) (hbc : b ≫ c = a.hom) (hc : J.W c)
     (M : SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, max u v w} R))
-    (d : ((PresheafOfModules.restrictScalars
-      (Functor.whiskerRight c (forget₂ CommRingCat RingCat))).obj M.val).Derivation' b) :
-    ∃ D : M.val.Derivation' a.hom, ∀ U q, D.d (c.app U q) = d.d q := by
+    (d : PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
+      (Functor.whiskerRight c (forget₂ CommRingCat RingCat))).obj M.val) b) :
+    ∃ D : PresheafOfModulesOfCommRing.Derivation' M.val a.hom, ∀ U q, D.d (c.app U q) = d.d q := by
   have : Presheaf.IsLocallySurjective J c := hc.isLocallySurjective
   let dAb : Q ⋙ (forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat) ⟶
       M.val.presheaf :=
@@ -539,12 +539,12 @@ theorem exists_derivation_extension (Q : Cᵒᵖ ⥤ CommRingCat.{max u v w}) (b
 sheafification.** -/
 theorem derivation_ext_of_W (Q : Cᵒᵖ ⥤ CommRingCat.{max u v w}) (c : Q ⟶ R.obj) (hc : J.W c)
     (M : SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, max u v w} R))
-    (D E : M.val.Derivation' a.hom) (h : ∀ U q, D.d (c.app U q) = E.d (c.app U q)) :
+    (D E : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) (h : ∀ U q, D.d (c.app U q) = E.d (c.app U q)) :
     D = E := by
   let MT : Sheaf J (Type (max u v w)) := (sheafCompose J (forget AddCommGrpCat)).obj
     ((SheafOfModules.toSheaf _).obj M)
   have hct := J.W_of_preservesSheafification (forget CommRingCat) _ hc
-  let dT (D : M.val.Derivation' a.hom) : R.obj ⋙ forget _ ⟶ MT.obj :=
+  let dT (D : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) : R.obj ⋙ forget _ ⟶ MT.obj :=
     { app U := ↾D.d
       naturality {U V} g := by ext x; exact D.d_map g x }
   have hDE : dT D = dT E := (hct MT.obj MT.property).injective (by
@@ -635,10 +635,10 @@ def sectionwiseDerivation {A R B : Sheaf J CommRingCat.{max u v w}} (ε : R ⟶ 
     (hmul : ∀ U p q, d U (p * q) =
       ε.hom.app U (c.app U p) • d U q + ε.hom.app U (c.app U q) • d U p)
     (hnat : ∀ {U V} (g : U ⟶ V) p, d V (Q.map g p) = M.val.map g (d U p)) :
-    ((PresheafOfModules.restrictScalars
+    PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
       (Functor.whiskerRight c (forget₂ CommRingCat RingCat))).obj
       ((SheafOfModules.restrictScalars
-        ((sheafCompose J (forget₂ CommRingCat RingCat)).map ε)).obj M).val).Derivation' b where
+        ((sheafCompose J (forget₂ CommRingCat RingCat)).map ε)).obj M).val) b where
   d {U} := d U
   d_app {U} := hbase U
   d_mul {U} := hmul U
@@ -750,11 +750,11 @@ theorem sectionwiseCotangentTermDerivationAddHom_map (n : ℕ) (M : targetModule
 presheaves of modules out of `U ↦ L^{-n}_{B(U)/A(U)}`: precompose with `p ↦ 1 ⊗ d p`. -/
 noncomputable def sectionwiseCotangentTermDerivation (n : ℕ) (M : targetModules J B)
     (φ : sectionwiseCotangentTerm J f (-(n : ℤ)) ⟶ M.val) :
-    ((PresheafOfModules.restrictScalars
+    PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
       (Functor.whiskerRight (sectionwiseResolutionComparison J f (op ⦋n⦌))
         (forget₂ CommRingCat RingCat))).obj
       ((SheafOfModules.restrictScalars (resolutionAugmentationRing J f (op ⦋n⦌))).obj
-        M).val).Derivation' (sectionwiseResolutionBase J f (op ⦋n⦌)) :=
+        M).val) (sectionwiseResolutionBase J f (op ⦋n⦌)) :=
   sectionwiseDerivation J (resolutionAugmentation J f (op ⦋n⦌))
     (sectionwiseResolutionPresheaf J f (op ⦋n⦌)) (sectionwiseResolutionBase J f (op ⦋n⦌))
     (sectionwiseResolutionComparison J f (op ⦋n⦌)) M

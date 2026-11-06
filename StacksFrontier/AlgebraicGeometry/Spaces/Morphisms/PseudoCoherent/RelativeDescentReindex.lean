@@ -75,6 +75,8 @@ theorem isAffineHom_of_comp_of_isAffineHom {F G H : (BigFppfOver B S hS)ᵒᵖ �
   have : IsAffine (T.obj ((BigAffineFppf.inclusion B S hS).obj Z)) := Z.property
   have : AlgebraicGeometry.IsAffineHom (T.map t) :=
     AlgebraicGeometry.IsAffineHom.of_comp (T.map t) (terminal.from _)
+  haveI : HasLimit (cospan t s) :=
+    (AlgebraicGeometry.hasPullbacks_bigFppfOver B S hS).has_limit (cospan t s)
   have hP : IsAffine (T.obj (pullback t s)) :=
     IsAffine.of_isIso (PreservesPullback.iso T t s).hom
   refine ⟨⟨pullback t s, hP⟩, yoneda.map (pullback.fst t s) ≫ pF, pullback.snd t s, ?_⟩

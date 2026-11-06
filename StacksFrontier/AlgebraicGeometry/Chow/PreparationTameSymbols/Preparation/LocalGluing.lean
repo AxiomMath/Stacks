@@ -273,7 +273,7 @@ private theorem annihilated_quotient_trans_of_jacobson
     refine le_iInf fun q => ?_
     apply Ideal.map_le_iff_le_comap.mpr
     have hmax : ((q.asIdeal).under A).IsMaximal :=
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q.asIdeal
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal q.asIdeal
     show maximalIdeal A ≤ (q.asIdeal).under A
     rw [eq_maximalIdeal hmax]
   obtain ⟨n, hn⟩ := hAB
@@ -429,7 +429,7 @@ private theorem exists_preparation_of_local_preparations
         (fun i => algebraMap C (Localization.AtPrime p)
           (algebraMap A C (a i)))) := by
     have hqmax : (p.under S).IsMaximal :=
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal p
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal p
     let q : MaximalSpectrum S := ⟨p.under S, hqmax⟩
     obtain ⟨gq, hcomp, hloc⟩ := hgq q
     have hp : p.comap g = q.asIdeal := rfl

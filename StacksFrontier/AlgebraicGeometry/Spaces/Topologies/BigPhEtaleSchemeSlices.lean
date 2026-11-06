@@ -307,6 +307,7 @@ private theorem representedChartFunctor_sheafPushforward_isEquivalence (F : BigF
       (Space.SmallEtale.topology F S hSF (yoneda.obj T))
       (Space.SpacesEtale.topology F S hSF (Space.yonedaSpace F S hSF T)))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The small étale site of a scheme, inside the spaces-étale site of the algebraic space it
 represents.** For a scheme `U` of the big ph site of schemes of `P`, over `S`, there is a
 continuous and cocontinuous functor from the small étale site of `U` (in the big étale site

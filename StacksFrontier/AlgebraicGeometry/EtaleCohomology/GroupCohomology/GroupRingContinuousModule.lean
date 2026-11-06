@@ -59,7 +59,7 @@ stabiliser is open. -/
 @[sga "4 IV 2.7.2" "special case"]
 theorem isContinuous_iff_isOpen_stabilizer (Λ : Type r) [CommRing Λ] (G : Type w) [Group G]
     [TopologicalSpace G] [IsTopologicalGroup G] (X : Action (ModuleCat.{w} Λ) G) :
-    X.IsContinuous ↔ ∀ x : X.V, IsOpen {g : G | (X.ρ g).hom x = x} :=
+    X.IsContinuous ↔ ∀ x : X.V, IsOpen {g : G | (X.ρ g).asHom.hom x = x} :=
   continuousSMul_iff_stabilizer_isOpen
 
 /-- Over a finite ring, the group ring of a finite group is finite. -/
@@ -124,8 +124,8 @@ theorem isContinuous_res_of_isOpen_fiber (π : G →* K)
     ((Action.res (ModuleCat.{w} Λ) π).obj Y).IsContinuous := by
   rw [isContinuous_iff_isOpen_stabilizer]
   intro x
-  have hcov : {g : G | (((Action.res (ModuleCat.{w} Λ) π).obj Y).ρ g).hom x = x} =
-      ⋃ k ∈ {k : K | (Y.ρ k).hom x = x}, {g : G | π g = k} := by
+  have hcov : {g : G | (((Action.res (ModuleCat.{w} Λ) π).obj Y).ρ g).asHom.hom x = x} =
+      ⋃ k ∈ {k : K | (Y.ρ k).asHom.hom x = x}, {g : G | π g = k} := by
     ext g
     simp only [Set.mem_ofPred_eq, Set.mem_iUnion, exists_prop]
     refine ⟨fun hg ↦ ⟨π g, hg, rfl⟩, ?_⟩

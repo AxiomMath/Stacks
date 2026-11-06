@@ -8,6 +8,7 @@ public import Mathlib.Algebra.Category.ModuleCat.AB
 public import Mathlib.Algebra.Category.ModuleCat.FilteredColimits
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Colim
 public import Mathlib.CategoryTheory.Filtered.Basic
+public import Mathlib.CategoryTheory.Filtered.Final
 public import Mathlib.CategoryTheory.Limits.Constructions.EpiMono
 public import Mathlib.Topology.Sheaves.Module
 public import Mathlib.Topology.Sheaves.Stalks

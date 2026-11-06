@@ -91,24 +91,24 @@ instance : AddCommGroup (HomFrom O M ρ) := inferInstanceAs (AddCommGroup (O ⟶
 
 /-- The `R`-module structure `r • s = ρ r ≫ s` on `HomFrom O M ρ`. -/
 instance : Module R (HomFrom O M ρ) where
-  smul r s := mk (ρ r ≫ s.hom)
+  smul r s := mk ((ρ r).asHom ≫ s.hom)
   one_smul s := by
-    change mk (ρ 1 ≫ s.hom) = s
-    rw [map_one, End.one_def, Category.id_comp, mk_hom]
+    change mk ((ρ 1).asHom ≫ s.hom) = s
+    rw [map_one, End.one_asHom, Category.id_comp, mk_hom]
   mul_smul r t s := by
-    change mk (ρ (r * t) ≫ s.hom) = mk (ρ r ≫ ρ t ≫ s.hom)
-    rw [mul_comm, map_mul, End.mul_def, Category.assoc]
+    change mk ((ρ (r * t)).asHom ≫ s.hom) = mk ((ρ r).asHom ≫ (ρ t).asHom ≫ s.hom)
+    rw [mul_comm, map_mul, End.mul_asHom, Category.assoc]
   smul_zero r := Limits.comp_zero
   smul_add r s s' := Preadditive.comp_add _ _ _ _ _ _
   add_smul r t s := by
-    change mk (ρ (r + t) ≫ s.hom) = mk (ρ r ≫ s.hom + ρ t ≫ s.hom)
-    rw [map_add, Preadditive.add_comp]
+    change mk ((ρ (r + t)).asHom ≫ s.hom) = mk ((ρ r).asHom ≫ s.hom + (ρ t).asHom ≫ s.hom)
+    rw [map_add, End.add_asHom, Preadditive.add_comp]
   zero_smul s := by
-    change mk (ρ 0 ≫ s.hom) = 0
-    rw [map_zero, Limits.zero_comp]; rfl
+    change mk ((ρ 0).asHom ≫ s.hom) = 0
+    rw [map_zero, End.zero_asHom, Limits.zero_comp]; rfl
 
 /-- The morphism underlying `r • s` is `ρ r ≫ s`. -/
-@[simp] lemma hom_smul (r : R) (s : HomFrom O M ρ) : (r • s).hom = ρ r ≫ s.hom := rfl
+@[simp] lemma hom_smul (r : R) (s : HomFrom O M ρ) : (r • s).hom = (ρ r).asHom ≫ s.hom := rfl
 
 end HomFrom
 
@@ -118,7 +118,7 @@ def homModule (O : C) (ρ : R →+* End O) : C ⥤ ModuleCat.{v} R where
   map f := ModuleCat.ofHom
     { toFun s := HomFrom.mk (s.hom ≫ f)
       map_add' _ _ := Preadditive.add_comp _ _ _ _ _ _
-      map_smul' r s := Category.assoc (ρ r) s.hom f }
+      map_smul' r s := Category.assoc (ρ r).asHom s.hom f }
   map_id _ := ModuleCat.hom_ext (LinearMap.ext fun s => Category.comp_id s.hom)
   map_comp f g := ModuleCat.hom_ext (LinearMap.ext fun s => (Category.assoc s.hom f g).symm)
 
@@ -203,12 +203,12 @@ include hρ
 
 /-- Every element of `Hom(O, O)` is `r • 𝟙 O` for some `r`, when `ρ` is bijective. -/
 private lemma exists_smul_id_eq (s : (homModule O ρ).obj O) :
-    ∃ r : R, HomFrom.hom (ρ := ρ) s = ρ r ∧
+    ∃ r : R, HomFrom.hom (ρ := ρ) s = (ρ r).asHom ∧
       s = r • (HomFrom.mk (ρ := ρ) (𝟙 O) : (homModule O ρ).obj O) := by
-  obtain ⟨r, hr⟩ := hρ.2 (HomFrom.hom (ρ := ρ) s)
-  refine ⟨r, hr.symm, HomFrom.ext (R := R) (ρ := ρ) ?_⟩
-  change HomFrom.hom (ρ := ρ) s = ρ r ≫ 𝟙 O
-  rw [← hr, Category.comp_id]
+  obtain ⟨r, hr⟩ := hρ.2 (End.of (HomFrom.hom (ρ := ρ) s))
+  refine ⟨r, by rw [hr], HomFrom.ext (R := R) (ρ := ρ) ?_⟩
+  change HomFrom.hom (ρ := ρ) s = (ρ r).asHom ≫ 𝟙 O
+  rw [hr, Category.comp_id]
 
 /-- `homModule` is bijective on morphisms out of `O`. -/
 lemma bijective_homModule_map_self (N : C) :
@@ -228,7 +228,7 @@ lemma bijective_homModule_map_self (N : C) :
     show HomFrom.mk (ρ := ρ) (HomFrom.hom (ρ := ρ) s ≫ HomFrom.hom (ρ := ρ) (φ.hom e)) = φ.hom s
     rw [hs', key]
     apply HomFrom.ext (R := R) (ρ := ρ)
-    show (ρ r ≫ 𝟙 O) ≫ _ = ρ r ≫ _
+    show ((ρ r).asHom ≫ 𝟙 O) ≫ _ = (ρ r).asHom ≫ _
     rw [Category.comp_id]
 
 /-- `homModule` is bijective on morphisms out of a finite biproduct of copies of `O`. -/
@@ -295,12 +295,13 @@ include hρ
 /-- `Hom(O, O)` is free of rank one: `ρ` is an `R`-linear isomorphism `R ≃ Hom(O, O)`. -/
 def homModuleSelfEquiv : R ≃ₗ[R] (homModule O ρ).obj O :=
   LinearEquiv.ofBijective
-    { toFun a := HomFrom.mk (ρ := ρ) (ρ a)
-      map_add' a b := HomFrom.ext (R := R) (ρ := ρ) (map_add ρ a b)
+    { toFun a := HomFrom.mk (ρ := ρ) (ρ a).asHom
+      map_add' a b := HomFrom.ext (R := R) (ρ := ρ) (by simp [map_add])
       map_smul' r a := by
         apply HomFrom.ext (R := R) (ρ := ρ)
-        change ρ (r * a) = ρ r ≫ ρ a
-        rw [mul_comm, map_mul, End.mul_def] } hρ
+        change (ρ (r * a)).asHom = (ρ r).asHom ≫ (ρ a).asHom
+        rw [mul_comm, map_mul, End.mul_asHom] } ⟨fun a b h => hρ.1 (End.ext h),
+      fun x => (hρ.2 (End.of x)).imp fun _ h => congrArg End.asHom h⟩
 
 variable [HasFiniteBiproducts C]
 
@@ -416,22 +417,11 @@ variable {D : Type u'} [Category.{v} D] [Preadditive D] {O : C} {O' : D}
 
 /-- Conjugation `End O → End O'`, `a ↦ e⁻¹ ≫ F a ≫ e`. -/
 def endConj : End O →+* End O' where
-  toFun a := e.inv ≫ F.map (a : O ⟶ O) ≫ e.hom
-  map_one' := by
-    change e.inv ≫ F.map (𝟙 O) ≫ e.hom = 𝟙 O'
-    simp
-  map_mul' a b := by
-    change e.inv ≫ F.map ((b : O ⟶ O) ≫ (a : O ⟶ O)) ≫ e.hom =
-      (e.inv ≫ F.map (b : O ⟶ O) ≫ e.hom) ≫ e.inv ≫ F.map (a : O ⟶ O) ≫ e.hom
-    rw [F.map_comp]
-    simp only [Category.assoc, Iso.hom_inv_id_assoc]
-  map_zero' := by
-    change e.inv ≫ F.map (0 : O ⟶ O) ≫ e.hom = (0 : O' ⟶ O')
-    simp
-  map_add' a b := by
-    change e.inv ≫ F.map ((a : O ⟶ O) + b) ≫ e.hom =
-      (e.inv ≫ F.map (a : O ⟶ O) ≫ e.hom : O' ⟶ O') + e.inv ≫ F.map (b : O ⟶ O) ≫ e.hom
-    rw [F.map_add, Preadditive.add_comp, Preadditive.comp_add]
+  toFun a := .of (e.inv ≫ F.map a.asHom ≫ e.hom)
+  map_one' := by ext; simp
+  map_mul' a b := by ext; simp
+  map_zero' := by ext; simp
+  map_add' a b := by ext; simp
 
 end EndConj
 
@@ -453,8 +443,8 @@ def baseChangeRingHom : R →+* R' :=
 
 /-- `ρ' (ψ a) = e⁻¹ ≫ F (ρ a) ≫ e` for the ring map `ψ = baseChangeRingHom ρ' hρ' F e`. -/
 lemma map_baseChangeRingHom (a : R) :
-    ρ' (baseChangeRingHom (ρ := ρ) ρ' hρ' F e a) = e.inv ≫ F.map (ρ a : O ⟶ O) ≫ e.hom :=
-  (RingEquiv.ofBijective ρ' hρ').apply_symm_apply ((endConj F e).comp ρ a)
+    (ρ' (baseChangeRingHom (ρ := ρ) ρ' hρ' F e a)).asHom = e.inv ≫ F.map (ρ a).asHom ≫ e.hom :=
+  congrArg End.asHom ((RingEquiv.ofBijective ρ' hρ').apply_symm_apply ((endConj F e).comp ρ a))
 
 /-- The `ψ`-semilinear map `Hom(O, M) → Hom(O', F M)`, `s ↦ e⁻¹ ≫ F s`. -/
 def homModuleBaseChangeAux (M : C) :
@@ -469,8 +459,8 @@ def homModuleBaseChangeAux (M : C) :
         rw [F.map_add, Preadditive.comp_add]
       map_smul' r s := by
         apply HomFrom.ext (R := R') (ρ := ρ')
-        change e.inv ≫ F.map (ρ r ≫ HomFrom.hom (ρ := ρ) s) =
-          ρ' (baseChangeRingHom (ρ := ρ) ρ' hρ' F e r) ≫ e.inv ≫ F.map (HomFrom.hom (ρ := ρ) s)
+        change e.inv ≫ F.map ((ρ r).asHom ≫ HomFrom.hom (ρ := ρ) s) =
+          (ρ' (baseChangeRingHom (ρ := ρ) ρ' hρ' F e r)).asHom ≫ e.inv ≫ F.map (HomFrom.hom (ρ := ρ) s)
         rw [map_baseChangeRingHom]
         simp }
 
@@ -508,30 +498,29 @@ lemma bijective_homModuleBaseChange_app_self (hρ : Function.Bijective ρ) :
   let one : (homModule O ρ).obj O := HomFrom.mk (ρ := ρ) (𝟙 O)
   let u : (ModuleCat.extendScalars.{w, w, w + 1} ψ).obj ((homModule O ρ).obj O) :=
     (ModuleCat.extendRestrictScalarsAdj.{w + 1} ψ).unit.app _ one
-  have hβu : ∀ t : R', β.hom (t • u) = HomFrom.mk (ρ := ρ') (ρ' t ≫ e.inv) := by
+  have hβu : ∀ t : R', β.hom (t • u) = HomFrom.mk (ρ := ρ') ((ρ' t).asHom ≫ e.inv) := by
     intro t
     rw [β.hom.map_smul]
     show t • β.hom ((1 : R') ⊗ₜ[R, ψ] one) = _
     rw [homModuleBaseChange_app_tmul, one_smul]
     apply HomFrom.ext (R := R') (ρ := ρ')
-    show ρ' t ≫ e.inv ≫ F.map (𝟙 O) = ρ' t ≫ e.inv
+    show (ρ' t).asHom ≫ e.inv ≫ F.map (𝟙 O) = (ρ' t).asHom ≫ e.inv
     rw [F.map_id, Category.comp_id]
   let toR : (homModule O' ρ').obj (F.obj O) →ₗ[R'] R' :=
-    { toFun x := ρe.symm (HomFrom.hom (ρ := ρ') x ≫ e.hom)
+    { toFun x := ρe.symm (.of (HomFrom.hom (ρ := ρ') x ≫ e.hom))
       map_add' x y := by
-        show ρe.symm ((HomFrom.hom (ρ := ρ') x + HomFrom.hom (ρ := ρ') y) ≫ e.hom) = _
+        show ρe.symm (.of ((HomFrom.hom (ρ := ρ') x + HomFrom.hom (ρ := ρ') y) ≫ e.hom)) = _
         rw [Preadditive.add_comp]
         exact map_add ρe.symm _ _
       map_smul' r x := by
-        show ρe.symm ((ρ' r ≫ HomFrom.hom (ρ := ρ') x) ≫ e.hom) =
-          r * ρe.symm (HomFrom.hom (ρ := ρ') x ≫ e.hom)
-        obtain ⟨s, hs⟩ := hρ'.2 (HomFrom.hom (ρ := ρ') x ≫ e.hom)
-        have hs' : ρe s = HomFrom.hom (ρ := ρ') x ≫ e.hom := hs
-        rw [Category.assoc, ← hs', RingEquiv.symm_apply_apply]
-        apply ρe.injective
-        rw [RingEquiv.apply_symm_apply, map_mul]
-        show ρ' r ≫ ρ' s = ρ' r * ρ' s
-        rw [← End.mul_def, ← map_mul, ← map_mul, mul_comm] }
+        show ρe.symm (.of (((ρ' r).asHom ≫ HomFrom.hom (ρ := ρ') x) ≫ e.hom)) =
+          r * ρe.symm (.of (HomFrom.hom (ρ := ρ') x ≫ e.hom))
+        obtain ⟨s, hs⟩ := hρ'.2 (.of (HomFrom.hom (ρ := ρ') x ≫ e.hom))
+        have hs' : (ρe s).asHom = HomFrom.hom (ρ := ρ') x ≫ e.hom := by
+          rw [show ρe s = ρ' s from rfl, hs]
+        rw [Category.assoc, ← hs']
+        show ρe.symm (ρe s * ρe r) = r * ρe.symm (ρe s)
+        rw [← map_mul, RingEquiv.symm_apply_apply, RingEquiv.symm_apply_apply, mul_comm] }
   let Λ : (homModule O' ρ').obj (F.obj O) →ₗ[R']
       ((ModuleCat.extendScalars.{w, w, w + 1} ψ).obj ((homModule O ρ).obj O)) :=
     (LinearMap.toSpanSingleton R'
@@ -546,8 +535,8 @@ lemma bijective_homModuleBaseChange_app_self (hρ : Function.Bijective ρ) :
     rw [homModuleBaseChange_app_tmul, one_smul]
     show toR (HomFrom.mk (ρ := ρ') (e.inv ≫ F.map (HomFrom.hom (ρ := ρ) m))) • u = _
     have h1 : toR (HomFrom.mk (ρ := ρ') (e.inv ≫ F.map (HomFrom.hom (ρ := ρ) m))) = ψ a := by
-      show ρe.symm ((e.inv ≫ F.map (HomFrom.hom (ρ := ρ) m)) ≫ e.hom) =
-        ρe.symm (e.inv ≫ F.map (ρ a : O ⟶ O) ≫ e.hom)
+      show ρe.symm (.of ((e.inv ≫ F.map (HomFrom.hom (ρ := ρ) m)) ≫ e.hom)) =
+        ρe.symm (.of (e.inv ≫ F.map (ρ a).asHom ≫ e.hom))
       rw [ha, Category.assoc]
     have h3 : ψ a • u = ψ a ⊗ₜ[R, ψ] one :=
       (ModuleCat.ExtendScalars.smul_tmul ψ (ψ a) 1 one).trans (by rw [mul_one])
@@ -567,12 +556,13 @@ lemma bijective_homModuleBaseChange_app_self (hρ : Function.Bijective ρ) :
     congrArg (fun φ => (ConcreteCategory.hom φ) x) hΛ'
   refine ⟨fun x y hxy => ?_, fun x => ?_⟩
   · simpa only [hΛ] using congrArg Λ hxy
-  · obtain ⟨t, ht⟩ := hρ'.2 (HomFrom.hom (ρ := ρ') x ≫ e.hom)
+  · obtain ⟨t, ht⟩ := hρ'.2 (.of (HomFrom.hom (ρ := ρ') x ≫ e.hom))
     refine ⟨t • u, ?_⟩
     rw [hβu]
     apply HomFrom.ext (R := R') (ρ := ρ')
-    show ρ' t ≫ e.inv = HomFrom.hom (ρ := ρ') x
-    rw [ht, Category.assoc, Iso.hom_inv_id, Category.comp_id]
+    show (ρ' t).asHom ≫ e.inv = HomFrom.hom (ρ := ρ') x
+    rw [ht]
+    simp
 
 end BaseChange
 

@@ -92,7 +92,7 @@ public theorem squareZeroExtensionDerivation_liftedRelation
     (hkerφ : RingHom.ker φ.toRingHom = Ideal.span (Set.range F))
     (hrel : ∑ j, r j * F j = 0)
     (hcoeff : ∀ (j : Fin m) (e : Fin n →₀ ℕ),
-      MvPolynomial.coeff e (r j) ∈
+      (r j).coeff e ∈
         Ideal.map q (Ideal.span {f}).annihilator)
     (F' r' : Fin m → MvPolynomial (Fin n) R')
     (g : MvPolynomial (Fin n) R')

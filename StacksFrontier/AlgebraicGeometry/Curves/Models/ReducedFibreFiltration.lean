@@ -192,7 +192,7 @@ their coefficient families, since containment of closed subschemes reverses the 
 their sheaves of ideals. -/
 theorem prod_pow_le_prod_pow_of_le {a b : ι → ℕ} (h : ∀ i ∈ s, a i ≤ b i) :
     ∏ i ∈ s, C i ^ b i ≤ ∏ i ∈ s, C i ^ a i :=
-  Finset.prod_le_prod (fun _ _ => bot_le) (fun i hi => pow_le_pow_right_of_le (C i) (h i hi))
+  Finset.prod_le_prod₀ (fun _ _ => bot_le) (fun i hi => pow_le_pow_right_of_le (C i) (h i hi))
 
 /-- Increasing one coefficient by one adds the corresponding component:
 `Σ a'ⱼ Cⱼ = Σ aⱼ Cⱼ + Cᵢ` when `a'ᵢ = aᵢ + 1` and `a'` agrees with `a` elsewhere. -/

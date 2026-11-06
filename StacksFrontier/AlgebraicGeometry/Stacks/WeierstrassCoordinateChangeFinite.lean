@@ -169,7 +169,7 @@ private theorem coordinateChangeRing_map_mem {A : Type u} [CommRing A]
     | C a =>
       rw [← MvPolynomial.algebraMap_eq, ← IsScalarTower.algebraMap_apply]
       have : (algebraMap (ULift.{u} ℤ) coordinateChangeRing.{u} a) = ((a.down : ℤ) : _) := by
-        rw [show a = ((a.down : ℤ) : ULift.{u} ℤ) from ULift.ext _ _ (by simp), map_intCast]
+        rw [show a = ((a.down : ℤ) : ULift.{u} ℤ) from ULift.ext (by simp), map_intCast]
         simp
       rw [this, map_intCast]
       exact intCast_mem J _

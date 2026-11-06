@@ -149,12 +149,12 @@ variable (E : A ⥤ B) [E.Additive] [PreservesFiniteLimits E] [PreservesFiniteCo
 
 /-- The identification of the right derived functor of an exact functor with its degreewise
 action is the inverse of `Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso`: both lift
-`E.mapDerivedCategoryPlusFactorsh ≪≫ asIso E.rightDerivedFunctorPlusUnit` along the
+`E.mapDerivedCategoryPlusFactorsh ≪≫ asIso E.rightDerivedFunctorPlusUnith` along the
 localization. -/
 theorem rightDerivedFunctorPlusIsoMapDerivedCategoryPlus_eq_exact :
     E.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus =
       (Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso E).symm := by
-  have : IsIso E.rightDerivedFunctorPlusUnit :=
+  have : IsIso E.rightDerivedFunctorPlusUnith :=
     E.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   refine Iso.ext (Localization.natTrans_ext DerivedCategory.Plus.Qh
     (HomotopyCategory.Plus.quasiIso A) (fun N => ?_))

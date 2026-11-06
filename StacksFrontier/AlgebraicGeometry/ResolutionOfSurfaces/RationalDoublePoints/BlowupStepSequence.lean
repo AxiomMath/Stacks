@@ -111,7 +111,7 @@ structure PointBlowupStep (P : (Y : Scheme.{u}) → (q : Y) → Y.presheaf.stalk
     Ideal.map ((blowUpToBase d.centre).stalkMap (next d)).hom
         ((next_over d).symm ▸ maximalIdeal (d.scheme.presheaf.stalk d.point)) =
       Ideal.span {((blowUpToBase d.centre).stalkMap (next d)).hom
-        ((next_over d).symm ▸ d.elem)}
+                    ((next_over d).symm ▸ d.elem)}
   /-- The carried property holds at the chosen centre, of the image of the chosen element. -/
   next_prop : ∀ d : PointBlowupStage P, P (blowUp d.centre) (next d)
     (((blowUpToBase d.centre).stalkMap (next d)).hom ((next_over d).symm ▸ d.elem))

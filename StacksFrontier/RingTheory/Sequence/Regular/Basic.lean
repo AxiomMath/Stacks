@@ -129,7 +129,7 @@ lemma X1_notMem_span_X1_mul_one_sub_X0 (k : Type) [Field k] :
   have hsne : (Finsupp.single 0 1 : Fin 3 →₀ ℕ) ≠ 0 :=
     Finsupp.single_ne_zero.mpr one_ne_zero
   have hn := hnil (Finsupp.single 0 1) hsne
-  have hc1 : MvPolynomial.coeff (Finsupp.single 0 1) (1 - X 0 : mvPolyRingFin3 k) = (-1 : k) := by
+  have hc1 : (1 - X 0 : mvPolyRingFin3 k).coeff (Finsupp.single 0 1) = (-1 : k) := by
     rw [MvPolynomial.coeff_sub, MvPolynomial.coeff_one, MvPolynomial.coeff_X,
       ite_eq_right fun h => hsne h.symm]
     simp

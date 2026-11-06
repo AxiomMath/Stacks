@@ -168,7 +168,7 @@ public theorem val_presentationAlgHom (q : MvPolynomial (X × Y) R) :
 
 /-- A polynomial lies in a submodule if each of its monomial terms does. -/
 private theorem mem_of_monomial_mem {σ : Type*} {S : Submodule R (MvPolynomial σ R)}
-    {q : MvPolynomial σ R} (h : ∀ e ∈ q.support, monomial e (MvPolynomial.coeff e q) ∈ S) :
+    {q : MvPolynomial σ R} (h : ∀ e ∈ q.support, monomial e (q.coeff e) ∈ S) :
     q ∈ S := by
   classical
   rw [q.as_sum]
@@ -245,9 +245,9 @@ public theorem gradePiece_le_map (d : ℕ) :
   refine mem_of_monomial_mem (R := R) fun α hα => ?_
   have hne := MvPolynomial.mem_support_iff.mp hα
   obtain ⟨l, hlen, hl⟩ := exists_list_prod_eq_monomial R X Y d α (ha.1 hne) (ha.2 hne)
-  refine ⟨MvPolynomial.C (MvPolynomial.coeff α a) *
+  refine ⟨MvPolynomial.C (a.coeff α) *
     (l.map fun p => (MvPolynomial.X p : MvPolynomial (X × Y) R)).prod, ?_, ?_⟩
-  · simpa [hlen] using (MvPolynomial.isHomogeneous_C (X × Y) (MvPolynomial.coeff α a)).mul
+  · simpa [hlen] using (MvPolynomial.isHomogeneous_C (X × Y) (a.coeff α)).mul
       (isHomogeneous_list_prod_X R X Y l)
   · rw [AlgHom.toLinearMap_apply, map_mul, aeval_gen_list_prod_X, ← hl,
       MvPolynomial.aeval_C, MvPolynomial.algebraMap_eq, MvPolynomial.C_mul_monomial, mul_one]

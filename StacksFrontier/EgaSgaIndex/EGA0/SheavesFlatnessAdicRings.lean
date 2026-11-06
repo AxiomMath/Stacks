@@ -6,6 +6,7 @@ import Mathlib.Algebra.Category.ModuleCat.Sheaf.LocallyFree
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackFree
 import Mathlib.Algebra.Category.ModuleCat.Sheaf.Submodule
 import Mathlib.Algebra.Colimit.Ring
+import Mathlib.Algebra.Module.LocalizedModule.Exact
 import Mathlib.AlgebraicGeometry.Modules.Tilde
 import Mathlib.AlgebraicGeometry.Morphisms.Flat
 import Mathlib.CategoryTheory.Monoidal.Mod
@@ -18,9 +19,11 @@ import Mathlib.RingTheory.AdicCompletion.AsTensorProduct
 import Mathlib.RingTheory.AdicCompletion.LocalRing
 import Mathlib.RingTheory.AdicCompletion.Noetherian
 import Mathlib.RingTheory.DedekindDomain.Instances
+import Mathlib.RingTheory.Finiteness.Prod
 import Mathlib.RingTheory.Finiteness.Quotient
 import Mathlib.RingTheory.Flat.CategoryTheory
 import Mathlib.RingTheory.Flat.FaithfullyFlat.Descent
+import Mathlib.RingTheory.Flat.Localization
 import Mathlib.RingTheory.Flat.Rank
 import Mathlib.RingTheory.FractionalIdeal.Extended
 import Mathlib.RingTheory.Ideal.Pure
@@ -36,6 +39,7 @@ import Mathlib.Topology.Algebra.Module.FiniteDimension
 import Mathlib.Topology.Algebra.Nonarchimedean.AdicTopology
 import Mathlib.Topology.Category.UniformSpace
 import Mathlib.Topology.Sheaves.Sheafify
+import Mathlib.Topology.Sheaves.Skyscraper
 import StacksCore.RingTheory.Flat.TorsionFree
 import StacksCore.Tactic.EgaSgaAttribute
 
@@ -429,7 +433,7 @@ add_to_ega "0 6.3.2" "B = A, T = S" Module.Flat.of_isLocalizedModule
 add_to_ega "0 6.3.2" "A = B = P" RingHom.Flat.holdsForLocalizationAway
 add_to_ega "0 6.3.2" "P = B" RingHom.Flat.localRingHom
 add_to_ega "0 6.3.2" "special case" RingHom.Flat.propertyIsLocal
-add_to_ega "0 6.3.2" "Final clause with P = B" instFlatAtPrimeOfIsLiesOverAlgebra
+add_to_ega "0 6.3.2" "Final clause with P = B" instFlatAtPrimeOfIsScalarTower
 add_to_ega "0 6.3.3" "special case" IsLocalization.tensorProductEquivOfMapIncludeRight
 add_to_ega "0 6.3.3" "special case" IsLocalization.tensorProduct_tensorProduct
 add_to_ega "0 6.3.3" "special case" IsLocalization.tensorProduct_tensorProduct_right

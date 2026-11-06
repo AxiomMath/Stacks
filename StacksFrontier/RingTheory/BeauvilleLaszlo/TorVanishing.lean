@@ -661,10 +661,9 @@ public theorem isZero_Tor_one_coker_localizationMap_of_beauvilleLaszlo_shortExac
           Ideal.map φ.ulift (Ideal.span {ULift.up f}) by
       rw [pow_one, Ideal.map_span, Set.image_singleton])
     convert eS.bijective.comp (h.comp eR.bijective) using 1
-    · congr 1
-    · funext x
-      induction x using Submodule.Quotient.induction_on with
-      | H x => rfl
+    funext x
+    induction x using Submodule.Quotient.induction_on with
+    | H x => rfl
   · intro s hs
     have hs' : φ f * s.down = 0 := congrArg ULift.down hs
     let t : powerTorsion (φ f) := ⟨s.down, ⟨⟨φ f, ⟨1, pow_one _⟩⟩, hs'⟩⟩
@@ -676,10 +675,10 @@ public theorem isZero_Tor_one_coker_localizationMap_of_beauvilleLaszlo_shortExac
         change φ (f * (r : R)) = φ 0
         rw [map_mul, hrφ, hs', map_zero]
       exact congrArg Subtype.val (hpow.1 he)
-    exact ⟨ULift.up (r : R), congrArg ULift.up hfr, ULift.ext _ _ hrφ⟩
+    exact ⟨ULift.up (r : R), congrArg ULift.up hfr, ULift.ext hrφ⟩
   · intro x
     obtain ⟨n, hn⟩ := exists_pow_smul_eq_zero_coker_localizationMap f x.down
-    exact ⟨n, ULift.ext _ _ hn⟩
+    exact ⟨n, ULift.ext hn⟩
 
 end
 

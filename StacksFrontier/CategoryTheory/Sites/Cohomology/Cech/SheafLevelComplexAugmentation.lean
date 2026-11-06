@@ -189,7 +189,7 @@ theorem augmentation_comp_pi (F : SheafOfModules.{u} R)
     augmentation R E F ≫ Pi.π _ i =
       augmentationAt R F
         (((cechSimplicialObject E).obj (op (⦋0⦌ : SimplexCategory))).obj i).left :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- If `h ≫ p = k ≫ t` and `a ≫ k = b`, then `(a ≫ h) ≫ p = b ≫ t`. -/
 private theorem comp_comp_eq_of_comp_eq {𝒟 : Type*} [Category 𝒟] {A P Q M Z : 𝒟}
@@ -205,7 +205,7 @@ theorem delta_comp_pi (F : SheafOfModules.{u} R) (i : Fin 2)
       Pi.π _ (((cechSimplicialObject E).map (SimplexCategory.δ i).op).f j) ≫
         restriction R F
           (((cechSimplicialObject E).map (SimplexCategory.δ i).op).φ j).left :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- Each component of the augmentation followed by a coface map is the unit at the fibre
 product indexed by the full pair — in particular it does not depend on which of the two

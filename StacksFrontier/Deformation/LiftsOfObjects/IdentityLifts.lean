@@ -188,10 +188,11 @@ public theorem infinitesimalAutomorphisms_eq_tangentFiber
     a ∈ MonoidHom.ker (P.transportAutHom r)
   rw [mem_infinitesimalAutomorphisms_iff]
   rw [hret]
-  show a.hom.val ≫ P.map r = P.map r ↔ P.transportAutHom r a = 1
+  show a.asIso.hom.val ≫ P.map r = P.map r ↔ P.transportAutHom r a = 1
   constructor
   · intro h
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     show P.transportHom r a = 𝟙 (P.obj U₀).1
     let _ := P.map_cocartesian r
@@ -201,11 +202,11 @@ public theorem infinitesimalAutomorphisms_eq_tangentFiber
     apply Functor.IsStronglyCocartesian.ext (p := p) (f := r.right)
       (φ := P.map r) (g := 𝟙 U₀.right)
     calc
-      P.map r ≫ P.transportHom r a = a.hom.val ≫ P.map r := P.map_transportHom r a
+      P.map r ≫ P.transportHom r a = a.asIso.hom.val ≫ P.map r := P.map_transportHom r a
       _ = P.map r := h
       _ = P.map r ≫ 𝟙 (P.obj U₀).1 := (Category.comp_id _).symm
   · intro h
-    have hh := congrArg (fun z : Aut (P.obj U₀) => z.hom.val) h
+    have hh := congrArg (fun z : Aut (P.obj U₀) => z.asIso.hom.val) h
     change P.transportHom r a = 𝟙 (P.obj U₀).1 at hh
     have hsq := P.map_transportHom r a
     rw [hh, Category.comp_id] at hsq
@@ -559,7 +560,7 @@ public noncomputable def elementSliceExtract
     {C : Type u₁} [Category.{v₁} C]
     (G : C ⥤ Type u₂) {B D : C} (b : G.obj B)
     (y : (elementSliceProjection G b).Fiber D) : G.obj D := by
-  rcases y with ⟨⟨⟨A, a⟩, _, m⟩, hy⟩
+  rcases y with ⟨⟨@⟨A, a⟩, _, m⟩, hy⟩
   change A = D at hy
   cases hy
   exact a
@@ -571,12 +572,12 @@ public theorem elementSliceExtract_condition
     (hr : ∀ f : D ⟶ B, f = r)
     (y : (elementSliceProjection G b).Fiber D) :
     G.map r (elementSliceExtract G b y) = b := by
-  rcases y with ⟨⟨⟨A, a⟩, _, m⟩, hy⟩
+  rcases y with ⟨⟨@⟨A, a⟩, _, m⟩, hy⟩
   change A = D at hy
   cases hy
-  have hm := m.property
-  change G.map m.val a = b at hm
-  rw [hr m.val] at hm
+  have hm := m.map_val
+  change G.map m.hom a = b at hm
+  rw [hr m.hom] at hm
   exact hm
 
 /-- Isomorphic objects of the fibre have the same underlying element. -/
@@ -585,19 +586,20 @@ public theorem elementSliceExtract_eq_of_iso
     (G : C ⥤ Type u₂) {B D : C} (b : G.obj B)
     (y y' : (elementSliceProjection G b).Fiber D) (i : y ≅ y') :
     elementSliceExtract G b y = elementSliceExtract G b y' := by
-  rcases y with ⟨⟨⟨A, a⟩, _, m⟩, hy⟩
-  rcases y' with ⟨⟨⟨A', a'⟩, _, m'⟩, hy'⟩
+  rcases y with ⟨⟨@⟨A, a⟩, _, m⟩, hy⟩
+  rcases y' with ⟨⟨@⟨A', a'⟩, _, m'⟩, hy'⟩
   change A = D at hy
   cases hy
   change A' = D at hy'
   cases hy'
   show a = a'
   let _ := i.hom.2
-  have hbase : i.hom.val.left.val = 𝟙 D := by
+  have hbase : i.hom.val.left.hom = 𝟙 D := by
     have h := IsHomLift.fac' (elementSliceProjection G b) (𝟙 D) i.hom.val
-    simpa [elementSliceProjection, CategoryOfElements.π] using h
-  have hlabel := CategoryOfElements.map_snd i.hom.val.left
-  change G.map i.hom.val.left.val a = a' at hlabel
+    simp [elementSliceProjection, CategoryOfElements.π] at h
+    exact h.trans (eqToHom_refl _ _)
+  have hlabel := i.hom.val.left.map_val
+  change G.map i.hom.val.left.hom a = a' at hlabel
   rw [hbase] at hlabel
   simpa using hlabel
 
@@ -608,7 +610,7 @@ public noncomputable def elementSliceRepresentative
     (a : {z : G.obj D // G.map r z = b}) :
     (elementSliceProjection G b).Fiber D := by
   let x := G.elementsMk D a.1
-  let m : x ⟶ G.elementsMk B b := CategoryOfElements.homMk x _ r a.2
+  let m : x ⟶ G.elementsMk B b := Functor.Elements.homMk (x := x) r a.2
   exact ⟨Over.mk m, rfl⟩
 
 /-- When `D ⟶ B` is unique, isomorphism classes in the fibre of the slice over `D` are the
@@ -639,16 +641,16 @@ public noncomputable def elementSliceKernelEquiv
       apply Quotient.sound
       let a := toKernel y
       have hy : y = elementSliceRepresentative G b r a := by
-        rcases y with ⟨⟨⟨A, x⟩, _, m⟩, hA⟩
+        rcases y with ⟨⟨@⟨A, x⟩, _, m⟩, hA⟩
         change A = D at hA
         cases hA
         dsimp [a, toKernel, elementSliceRepresentative, elementSliceExtract]
         have hx : x = a.1 := rfl
         have h2 : G.map r x = b := by rw [hx]; exact a.2
-        have hm : m.val = r := hr m.val
-        have hm' : m = CategoryOfElements.homMk
-            (G.elementsMk D x) (G.elementsMk B b) r h2 :=
-          CategoryOfElements.ext G _ _ hm
+        have hm : m.hom = r := hr m.hom
+        have hm' : m = Functor.Elements.homMk (x := G.elementsMk D x)
+            (y := G.elementsMk B b) r h2 :=
+          Functor.Elements.hom_ext hm
         subst m
         rfl
       exact ⟨eqToIso hy.symm⟩
@@ -682,39 +684,38 @@ public theorem automorphismFunctorCategory_isCofiberedInGroupoids
     rcases x with ⟨x⟩
     change Opposite.op ((CategoryOfElements.π G).obj x) = Opposite.op U at hx
     cases hx
-    let y := G.elementsMk V (G.map f.unop x.2)
-    let g : x ⟶ y := CategoryOfElements.homMk x y f.unop rfl
+    let y := G.elementsMk V (G.map f.unop x.val)
+    let g : x ⟶ y := Functor.Elements.homMk (x := x) (y := y) f.unop rfl
     refine ⟨Opposite.op y, g.op, ?_⟩
     have hmap : (CategoryOfElements.π G).op.map g.op = f := by
       exact Quiver.Hom.opEquiv.symm.injective rfl
     rw [← hmap]
-    exact inferInstance
+    exact IsHomLift.map (p := (CategoryOfElements.π G).op) g.op
   · intro x y z φ ψ f hf
     rcases x with ⟨x⟩
     rcases y with ⟨y⟩
     rcases z with ⟨z⟩
-    have hbase : φ.unop.val ≫ f.unop = ψ.unop.val := by
-      simpa using congrArg Quiver.Hom.unop hf
-    let g : y ⟶ z := CategoryOfElements.homMk y z f.unop (by
-      calc
-        G.map f.unop y.2 = G.map f.unop (G.map φ.unop.val x.2) := by
-          rw [CategoryOfElements.map_snd]
-        _ = G.map (φ.unop.val ≫ f.unop) x.2 := by rw [Functor.map_comp_apply]
-        _ = G.map ψ.unop.val x.2 := by rw [hbase]
-        _ = z.2 := CategoryOfElements.map_snd ψ.unop)
+    have hbase : φ.unop.hom ≫ f.unop = ψ.unop.hom := by
+      exact congrArg Quiver.Hom.unop hf
+    let g : y ⟶ z := Functor.Elements.homMk (x := y) (y := z) f.unop (by
+      let f' : y.obj ⟶ z.obj := f.unop
+      have hb' : φ.unop.hom ≫ f' = ψ.unop.hom := hbase
+      have h1 := ψ.unop.map_val
+      rw [← hb', Functor.map_comp_apply, φ.unop.map_val] at h1
+      exact h1)
     refine ⟨g.op, ⟨?_, ?_⟩, ?_⟩
     · have hmap : (CategoryOfElements.π G).op.map g.op = f := by
         exact Quiver.Hom.opEquiv.symm.injective rfl
       exact hmap
     · apply Quiver.Hom.opEquiv.symm.injective
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       exact hbase
     · intro χ hχ
       apply Quiver.Hom.opEquiv.symm.injective
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       have hh := congrArg Quiver.Hom.unop hχ.1
-      change χ.unop.val = f.unop at hh
-      show χ.unop.val = f.unop
+      change χ.unop.hom = f.unop at hh
+      show χ.unop.hom = f.unop
       exact hh
 
 /-- Infinitesimal automorphisms at a residue-field object are the tangent
@@ -741,7 +742,7 @@ public noncomputable def infinitesimalAutomorphismsEquivTangentSpaceAtIdentity
     let q := CategoryOfElements.π AutFunctor
     let k₀ := residueFieldObject.{w, v, w} k k
     let identityPoint : q.Fiber k₀ :=
-      ⟨⟨k₀, (1 : Aut (P.obj (baseChange.obj k₀)))⟩, rfl⟩
+      ⟨AutFunctor.elementsMk k₀ (1 : Aut (P.obj (baseChange.obj k₀))), rfl⟩
     (infinitesimalAutomorphisms hp g e hpair (P.map j)
       (P.map_isHomLift j)) ≃
     tangentSpaceAtPoint q
@@ -757,7 +758,7 @@ public noncomputable def infinitesimalAutomorphismsEquivTangentSpaceAtIdentity
   let q := CategoryOfElements.π AutFunctor
   let k₀ := residueFieldObject.{w, v, w} k k
   let identityPoint : q.Fiber k₀ :=
-    ⟨⟨k₀, (1 : Aut (P.obj (baseChange.obj k₀)))⟩, rfl⟩
+    ⟨AutFunctor.elementsMk k₀ (1 : Aut (P.obj (baseChange.obj k₀))), rfl⟩
   let D := artinianDualNumbers.{w, w, v} k k
   let red : D ⟶ k₀ := residueFieldMorphism
   have hredUnique : ∀ f : D ⟶ k₀, f = red := fun f => eq_residueFieldMorphism f

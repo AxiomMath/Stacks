@@ -180,7 +180,7 @@ theorem satisfiesSetTheoreticCondition_of_epi_of_mono_factor
       exact (congrArg (d ≫ ·) (pullback.lift_snd _ _ _)).trans (pullback.lift_snd _ _ _)
   have hc : IsSplitEpi c := ⟨⟨d, hdc⟩⟩
   exact ⟨V, Q, G.obj V, G.obj Q, ⟨Fp.mapIso (eG.app V)⟩, ⟨Fp.mapIso (eG.app Q)⟩, e, he,
-    f₁ ≫ c, inferInstance⟩
+    f₁ ≫ c, epi_comp' hf₁ (IsSplitEpi.epi c)⟩
 
 /-- **Stacks 0AIS for the completion of a sheaf satisfying it.** Let `X` be an fppf sheaf over
 `S` satisfying the set-theoretic condition of Stacks 0AIS — a formal algebraic space, say — and

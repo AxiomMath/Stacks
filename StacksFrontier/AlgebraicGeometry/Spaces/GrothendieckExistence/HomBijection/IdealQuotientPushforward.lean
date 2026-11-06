@@ -148,7 +148,7 @@ def pushforwardIdealQuotientIso :
       (idealQuotientIsoCokernelGenerators (baseRingHom A B hA Z.1 Z.2) H g hJ) ≪≫
     PreservesCokernel.iso _ _ ≪≫
     cokernelIsoOfEq (modulePushforward_map_idealGeneratorsHom i H g) ≪≫
-    cokernelEpiComp _ _ ≪≫
+    @cokernelEpiComp _ _ _ _ _ _ _ _ (IsIso.epi_of_iso _) _ ≪≫
     (idealQuotientIsoCokernelGenerators (baseRingHom A B hA X.1 X.2) _ g hJ).symm
 
 /-- The direct image of the projection `M ⟶ M / J M` followed by `pushforwardIdealQuotientIso` is
@@ -174,6 +174,7 @@ theorem epi_pushforward_map_idealQuotientπ :
       (idealQuotientπ (baseRingHom A B hA Z.1 Z.2) H J)) := by
   rw [(Iso.eq_comp_inv _).2
     (pushforward_map_idealQuotientπ_pushforwardIdealQuotientIso_hom i hi H g hJ)]
+  have : Epi (pushforwardIdealQuotientIso i hi H g hJ).inv := IsIso.epi_of_iso _
   exact epi_comp _ _
 
 /-- The identification `i_*(M / J M) ≅ i_*M / J i_*M` is compatible with the transition maps. -/

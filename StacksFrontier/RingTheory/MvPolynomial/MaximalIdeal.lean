@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.KrullDimension.Polynomial
+public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.PicardGroup
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal

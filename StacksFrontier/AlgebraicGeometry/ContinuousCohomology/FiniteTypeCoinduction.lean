@@ -46,14 +46,15 @@ omit [IsTopologicalGroup G] [CompactSpace G] in
 /-- The action of a product on an element of a finite module with a continuous action. -/
 lemma finiteTypeContinuousModule_ρ_mul_apply (M : FiniteTypeContinuousModule.{u, v, w} R G)
     (g h : G) (m : M.obj.obj.obj.V) :
-    (M.obj.obj.obj.ρ (g * h)).hom m = (M.obj.obj.obj.ρ g).hom ((M.obj.obj.obj.ρ h).hom m) := by
+    (M.obj.obj.obj.ρ (g * h)).asHom.hom m =
+      (M.obj.obj.obj.ρ g).asHom.hom ((M.obj.obj.obj.ρ h).asHom.hom m) := by
   rw [map_mul]
   rfl
 
 omit [IsTopologicalGroup G] [CompactSpace G] in
 /-- The unit acts trivially on a finite module with a continuous action. -/
 lemma finiteTypeContinuousModule_ρ_one_apply (M : FiniteTypeContinuousModule.{u, v, w} R G)
-    (m : M.obj.obj.obj.V) : (M.obj.obj.obj.ρ 1).hom m = m := by
+    (m : M.obj.obj.obj.V) : (M.obj.obj.obj.ρ 1).asHom.hom m = m := by
   rw [map_one]
   rfl
 
@@ -78,8 +79,8 @@ lemma finiteTypeContinuousModuleCoind_obj_V (M : FiniteTypeContinuousModule.{u, 
 lemma finiteTypeContinuousModuleCoind_ρ_apply
     (M : FiniteTypeContinuousModule.{u, v, max u v} R G) (g : G)
     (f : G ⧸ (H : Subgroup G) → M.obj.obj.obj.V) (x : G ⧸ (H : Subgroup G)) :
-    (((finiteTypeContinuousModuleCoind R H).obj M).obj.obj.obj.ρ g).hom f x =
-      (M.obj.obj.obj.ρ g).hom (f (g⁻¹ • x)) :=
+    (((finiteTypeContinuousModuleCoind R H).obj M).obj.obj.obj.ρ g).asHom.hom f x =
+      (M.obj.obj.obj.ρ g).asHom.hom (f (g⁻¹ • x)) :=
   rfl
 
 /-- Coinduction on a map composes with it. -/
@@ -132,8 +133,8 @@ def finiteTypeContinuousModuleCoindEval (hφ : ∀ g, φ g ∈ H)
       (finiteTypeContinuousModuleRes R φ).obj M :=
   ObjectProperty.homMk ((homEquiv R G' _ _).symm
     ⟨LinearMap.proj ((1 : G) : G ⧸ (H : Subgroup G)), fun g f ↦ by
-      change (M.obj.obj.obj.ρ (φ g)).hom (f ((φ g)⁻¹ • ((1 : G) : G ⧸ (H : Subgroup G)))) =
-        (M.obj.obj.obj.ρ (φ g)).hom (f ((1 : G) : G ⧸ (H : Subgroup G)))
+      change (M.obj.obj.obj.ρ (φ g)).asHom.hom (f ((φ g)⁻¹ • ((1 : G) : G ⧸ (H : Subgroup G)))) =
+        (M.obj.obj.obj.ρ (φ g)).asHom.hom (f ((1 : G) : G ⧸ (H : Subgroup G)))
       rw [smul_mk_one_eq_of_mem (H.inv_mem (hφ g))]⟩)
 
 /-- Evaluation at the trivial coset sends `f` to `f(H)`. -/
@@ -168,12 +169,14 @@ lemma finiteTypeContinuousModuleCoind_hom_apply_mk
     {Q M : FiniteTypeContinuousModule.{u, v, max u v} R G}
     (a : Q ⟶ (finiteTypeContinuousModuleCoind R H).obj M) (q : Q.obj.obj.obj.V) (g : G) :
     a.hom.hom.hom.hom q (g : G ⧸ (H : Subgroup G)) =
-      (M.obj.obj.obj.ρ g).hom
-        (a.hom.hom.hom.hom ((Q.obj.obj.obj.ρ g⁻¹).hom q) ((1 : G) : G ⧸ (H : Subgroup G))) := by
+      (M.obj.obj.obj.ρ g).asHom.hom
+        (a.hom.hom.hom.hom ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q)
+          ((1 : G) : G ⧸ (H : Subgroup G))) := by
   have h := congrFun (ConcreteCategory.congr_hom (a.hom.hom.hom.comm g⁻¹) q)
     ((1 : G) : G ⧸ (H : Subgroup G))
-  change a.hom.hom.hom.hom ((Q.obj.obj.obj.ρ g⁻¹).hom q) ((1 : G) : G ⧸ (H : Subgroup G)) =
-    (M.obj.obj.obj.ρ g⁻¹).hom (a.hom.hom.hom.hom q (g⁻¹⁻¹ • ((1 : G) : G ⧸ (H : Subgroup G)))) at h
+  change a.hom.hom.hom.hom ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q) ((1 : G) : G ⧸ (H : Subgroup G)) =
+    (M.obj.obj.obj.ρ g⁻¹).asHom.hom
+      (a.hom.hom.hom.hom q (g⁻¹⁻¹ • ((1 : G) : G ⧸ (H : Subgroup G)))) at h
   rw [h, inv_inv, MulAction.Quotient.smul_mk, smul_eq_mul, mul_one,
     ← finiteTypeContinuousModule_ρ_mul_apply, mul_inv_cancel,
     finiteTypeContinuousModule_ρ_one_apply]
@@ -200,14 +203,15 @@ theorem bijective_finiteTypeContinuousModuleCoindEval_comp (hφ : ∀ g, φ g �
   · intro c
     obtain ⟨cL, hcL⟩ : ∃ cL : Q.obj.obj.obj.V →ₗ[R] M.obj.obj.obj.V,
         ∀ q, c.hom.hom.hom.hom q = cL q := ⟨c.hom.hom.hom.hom.hom, fun _ ↦ rfl⟩
-    have hc : ∀ h ∈ H, ∀ q, cL ((Q.obj.obj.obj.ρ h).hom q) = (M.obj.obj.obj.ρ h).hom (cL q) := by
+    have hc : ∀ h ∈ H, ∀ q,
+        cL ((Q.obj.obj.obj.ρ h).asHom.hom q) = (M.obj.obj.obj.ρ h).asHom.hom (cL q) := by
       intro h hh q
       obtain ⟨g, rfl⟩ := hH h hh
       exact (hcL _).symm.trans ((ConcreteCategory.congr_hom (c.hom.hom.hom.comm g) q).trans
-        (congrArg (M.obj.obj.obj.ρ (φ g)).hom (hcL q)))
+        (congrArg (M.obj.obj.obj.ρ (φ g)).asHom.hom (hcL q)))
     have hwd : ∀ q (g g' : G), g⁻¹ * g' ∈ H →
-        (M.obj.obj.obj.ρ g).hom (cL ((Q.obj.obj.obj.ρ g⁻¹).hom q)) =
-          (M.obj.obj.obj.ρ g').hom (cL ((Q.obj.obj.obj.ρ g'⁻¹).hom q)) := by
+        (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q)) =
+          (M.obj.obj.obj.ρ g').asHom.hom (cL ((Q.obj.obj.obj.ρ g'⁻¹).asHom.hom q)) := by
       intro q g g' hm
       obtain ⟨h, hh, rfl⟩ : ∃ h ∈ H, g' = g * h := ⟨g⁻¹ * g', hm, by group⟩
       rw [mul_inv_rev, finiteTypeContinuousModule_ρ_mul_apply R Q, hc h⁻¹ (H.inv_mem hh),
@@ -215,40 +219,41 @@ theorem bijective_finiteTypeContinuousModuleCoindEval_comp (hφ : ∀ g, φ g �
         mul_inv_cancel, finiteTypeContinuousModule_ρ_one_apply]
     let F : Q.obj.obj.obj.V → G ⧸ (H : Subgroup G) → M.obj.obj.obj.V := fun q ↦
       Quotient.lift (s := QuotientGroup.leftRel (H : Subgroup G))
-        (fun g ↦ (M.obj.obj.obj.ρ g).hom (cL ((Q.obj.obj.obj.ρ g⁻¹).hom q)))
+        (fun g ↦ (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q)))
         (fun g g' hgg' ↦ hwd q g g' (QuotientGroup.leftRel_apply.mp hgg'))
     let L : Q.obj.obj.obj.V →ₗ[R] (G ⧸ (H : Subgroup G) → M.obj.obj.obj.V) :=
       { toFun := F
         map_add' := fun q q' ↦ by
           funext x; induction x using QuotientGroup.induction_on with
           | H g =>
-            show (M.obj.obj.obj.ρ g).hom (cL ((Q.obj.obj.obj.ρ g⁻¹).hom (q + q'))) =
-              (M.obj.obj.obj.ρ g).hom (cL ((Q.obj.obj.obj.ρ g⁻¹).hom q)) +
-                (M.obj.obj.obj.ρ g).hom (cL ((Q.obj.obj.obj.ρ g⁻¹).hom q'))
+            show (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom (q + q'))) =
+              (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q)) +
+                (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q'))
             rw [map_add, map_add, map_add]
         map_smul' := fun r q ↦ by
           funext x; induction x using QuotientGroup.induction_on with
           | H g =>
-            show (M.obj.obj.obj.ρ g).hom (cL ((Q.obj.obj.obj.ρ g⁻¹).hom (r • q))) =
-              r • (M.obj.obj.obj.ρ g).hom (cL ((Q.obj.obj.obj.ρ g⁻¹).hom q))
+            show (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom (r • q))) =
+              r • (M.obj.obj.obj.ρ g).asHom.hom (cL ((Q.obj.obj.obj.ρ g⁻¹).asHom.hom q))
             rw [map_smul, map_smul, map_smul] }
     let a : Q ⟶ (finiteTypeContinuousModuleCoind R H).obj M :=
       ObjectProperty.homMk ((homEquiv R G _ _).symm ⟨L, fun g q ↦ by
         funext x
         induction x using QuotientGroup.induction_on with
         | H g' =>
-          show (M.obj.obj.obj.ρ g').hom
-              (cL ((Q.obj.obj.obj.ρ g'⁻¹).hom ((Q.obj.obj.obj.ρ g).hom q))) =
-            (M.obj.obj.obj.ρ g).hom ((M.obj.obj.obj.ρ (g⁻¹ * g')).hom
-              (cL ((Q.obj.obj.obj.ρ (g⁻¹ * g')⁻¹).hom q)))
+          show (M.obj.obj.obj.ρ g').asHom.hom
+              (cL ((Q.obj.obj.obj.ρ g'⁻¹).asHom.hom ((Q.obj.obj.obj.ρ g).asHom.hom q))) =
+            (M.obj.obj.obj.ρ g).asHom.hom ((M.obj.obj.obj.ρ (g⁻¹ * g')).asHom.hom
+              (cL ((Q.obj.obj.obj.ρ (g⁻¹ * g')⁻¹).asHom.hom q)))
           rw [mul_inv_rev, inv_inv, finiteTypeContinuousModule_ρ_mul_apply R Q,
             ← finiteTypeContinuousModule_ρ_mul_apply R M, mul_inv_cancel_left]⟩)
     refine ⟨a, ?_⟩
     apply ObjectProperty.hom_ext; apply ObjectProperty.hom_ext; apply ObjectProperty.hom_ext
     apply Action.hom_ext; apply ModuleCat.hom_ext; apply LinearMap.ext; intro q
     refine Eq.trans ?_ (hcL q).symm
-    show (M.obj.obj.obj.ρ 1).hom (cL ((Q.obj.obj.obj.ρ 1⁻¹).hom q)) = cL q
-    exact (congrArg (fun t : G ↦ (M.obj.obj.obj.ρ 1).hom (cL ((Q.obj.obj.obj.ρ t).hom q)))
+    show (M.obj.obj.obj.ρ 1).asHom.hom (cL ((Q.obj.obj.obj.ρ 1⁻¹).asHom.hom q)) = cL q
+    exact (congrArg
+      (fun t : G ↦ (M.obj.obj.obj.ρ 1).asHom.hom (cL ((Q.obj.obj.obj.ρ t).asHom.hom q)))
       inv_one).trans ((finiteTypeContinuousModule_ρ_one_apply R M _).trans
         (congrArg cL (finiteTypeContinuousModule_ρ_one_apply R Q q)))
 

@@ -560,6 +560,13 @@ theorem exists_affine_surjective_smallEtale_chart (X : AlgebraicSpaces B S hS)
     exists_affine_isSurjective_isEtale_of_isQuasiCompactSpace B S hS X hX
   exact ⟨⟨CostructuredArrow.mk φ, (isEtale_iff_presheaf_of_yoneda B S hS φ).1 hφe⟩, hφs, hV⟩
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_derivedPushforwardQuasicoherent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 attribute [local instance] hasRightDerivedFunctor_modulePushforward in
 /-- **The derived direct image along a quasi-compact quasi-separated morphism, restricted to an
 affine étale chart of the target, is bounded on `D_QCoh`.** -/

@@ -115,6 +115,7 @@ theorem etale_integralClosure_of_isUnramifiedWithRespectTo
     obtain ⟨he, hs⟩ := h m hm hmp
     have := hs
     apply (Algebra.isUnramifiedAt_iff_map_eq A p m).mpr
+    set_option synthInstance.maxHeartbeats 400000 in
     refine ⟨inferInstance, ?_⟩
     apply (Ideal.IsDedekindDomain.ramificationIdx'_eq_one_iff ?_ ?_).mp he
     · intro hm0

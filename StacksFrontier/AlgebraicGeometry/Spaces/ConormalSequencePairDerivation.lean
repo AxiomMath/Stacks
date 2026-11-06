@@ -68,6 +68,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of sheaves of rings on the small étale site, as a shortcut instance for
+`HasLimit (cospan f g)`. -/
+instance (priority := high) hasPullback_sheafRingCat_conormalSequencePairDerivation
+    {X : AlgebraicSpaces B S hS} {P Q R : Sheaf (SmallEtale.topology B S hS X.1) RingCat.{u}}
+    (f : P ⟶ R) (g : Q ⟶ R) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Construction
 
 variable {X X' : AlgebraicSpaces B S hS} (Z : ClosedSubspaces B S hS X.1) (g : X ⟶ X')
@@ -508,7 +515,7 @@ private theorem comp_eq_zero_of_homEquiv_comp_map_eq_zero {C D : Type*} [Categor
 theorem derivation_d_eq_zero_of_isZero_sheafOfDifferentials {T : AlgebraicSpaces B S hS}
     (q : X' ⟶ T)
     (hΩ : Limits.IsZero (sheafOfDifferentials B S hS q)) (G : Modules.{u, u} B S hS X'.1 X'.2)
-    (E : G.val.Derivation' (structureSharpInverseImage B S hS q).hom)
+    (E : PresheafOfModulesOfCommRing.Derivation' G.val (structureSharpInverseImage B S hS q).hom)
     (U : (SmallEtale B S hS X'.1)ᵒᵖ) (t : (structureRingSheaf B S hS X').obj.obj U) :
     E.d t = 0 := by
   have h := (differentialsHomEquiv B S hS q G).apply_symm_apply E

@@ -174,8 +174,8 @@ theorem Module.Projective.baseChange_of_geometricallyIntegral (R S : Type u) [Co
     (h : GeometricallyIntegral (Spec.map (ofHom (algebraMap R S)))) (I : Ideal R) :
     ∀ (A : Type u) [CommRing A] [Algebra R A], Function.Surjective (algebraMap R A) →
       RingHom.ker (algebraMap R A) = I → Module.Projective A (A ⊗[R] S) := by
-  refine IsWellFounded.induction (α := Ideal R) (· > ·)
-    (motive := fun I => ∀ (A : Type u) [CommRing A] [Algebra R A],
+  refine (wellFounded_gt (α := Ideal R)).induction
+    (C := fun I => ∀ (A : Type u) [CommRing A] [Algebra R A],
       Function.Surjective (algebraMap R A) → RingHom.ker (algebraMap R A) = I →
       Module.Projective A (A ⊗[R] S)) I ?_
   clear I

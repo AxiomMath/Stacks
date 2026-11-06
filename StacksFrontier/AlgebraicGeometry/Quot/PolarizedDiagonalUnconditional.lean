@@ -78,6 +78,19 @@ universe u
 
 namespace AlgebraicGeometry
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_polarizedDiagonalUnconditional
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_polarizedDiagonalUnconditional
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (a : P ⟶ R) (b : Q ⟶ R) :
+    HasLimit (cospan a b) :=
+  (hasPullbacks_presheaf_polarizedDiagonalUnconditional (B := B) (S := S) (hS := hS)).has_limit _
+
 variable (B : BigFppfSite.{u}) {S : Scheme.{u}} (hS : B.Contains S) (hT : IsTerminal (B.obj hS))
 
 /-- **The isomorphism sheaf of two polarized families is affine over the base.** For objects `x`,

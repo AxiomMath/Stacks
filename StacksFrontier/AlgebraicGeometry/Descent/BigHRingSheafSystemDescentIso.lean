@@ -43,7 +43,10 @@ lemma pull_map_comp_eq_of_homEquiv {U X₁ X₂ Y : BigHOver B S hS} (a : X₁ �
       (𝓡.adj b).homEquiv G M₂ e₂ ≫ 𝓡.etaG p₂ b q h₂ M₂) :
     (𝓡.pull p₁.op).map e₁ ≫ φ =
       (𝓡.compInv a p₁ q h₁ G ≫ 𝓡.compHom b p₂ q h₂ G) ≫ (𝓡.pull p₂.op).map e₂ := by
-  rw [← cancel_epi (𝓡.compHom a p₁ q h₁ G), Category.assoc, compHom_compInv_assoc]
+  have hepi : Epi (𝓡.compHom a p₁ q h₁ G) := @IsIso.epi_of_iso _ _ _ _ _
+    ⟨⟨𝓡.compInv a p₁ q h₁ G, 𝓡.compHom_compInv a p₁ q h₁ G, 𝓡.compInv_compHom a p₁ q h₁ G⟩⟩
+  rw [← @cancel_epi _ _ _ _ _ (𝓡.compHom a p₁ q h₁ G) hepi, Category.assoc,
+    compHom_compInv_assoc]
   apply ((𝓡.adj q).homEquiv _ _).injective
   have l := 𝓡.homEquiv_mapComp'_hom a p₁ q h₁ e₁ φ
   have r := 𝓡.homEquiv_mapComp'_hom b p₂ q h₂ e₂ (𝟙 _)

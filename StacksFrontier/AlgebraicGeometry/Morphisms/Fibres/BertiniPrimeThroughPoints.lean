@@ -525,13 +525,14 @@ theorem exists_integral_extension_algebraicClosure (k R : Type u) [Field k] [Com
     | add x y hx hy => exact hx.add hy
   obtain ⟨Q, -, hQ, hQR⟩ := Ideal.exists_ideal_over_prime_of_isIntegral (⊥ : Ideal R)
     (⊥ : Ideal T) (by
+      change (⊥ : Ideal T).comap (algebraMap R T) ≤ ⊥
       rw [← RingHom.ker_eq_comap_bot, (RingHom.injective_iff_ker_eq_bot _).mp hinj])
   refine ⟨T ⧸ Q, inferInstance, Ideal.Quotient.isDomain Q, inferInstance,
     Algebra.FiniteType.of_surjective (Ideal.Quotient.mkₐ K Q)
       (Ideal.Quotient.mkₐ_surjective K Q), inferInstance, inferInstance, ?_⟩
   refine (injective_iff_map_eq_zero _).mpr fun x hx => ?_
   have hx' : Ideal.Quotient.mk Q (algebraMap R T x) = 0 := hx
-  have : x ∈ Q.comap (algebraMap R T) := Ideal.mem_comap.mpr (Ideal.Quotient.eq_zero_iff_mem.mp hx')
+  have : x ∈ Q.under R := Ideal.mem_comap.mpr (Ideal.Quotient.eq_zero_iff_mem.mp hx')
   rw [hQR] at this
   exact this
 

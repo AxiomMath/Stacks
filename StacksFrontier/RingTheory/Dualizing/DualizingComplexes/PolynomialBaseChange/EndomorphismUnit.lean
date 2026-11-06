@@ -424,14 +424,15 @@ theorem isIso_canonicalHomothety_of_endomorphism_iso_unit
       map_add' := by intro a b; simp [Preadditive.add_comp]
       map_smul' := by intro r a; simp [Linear.smul_comp] }
   let e₂ := derivedUnitEndLinearEquiv (R := R)
-  let e₃ := homZeroLinearEquiv K K
+  let e₃ : (U ⟶ H) ≃ₗ[R] End K := (homZeroLinearEquiv K K).trans End.linearEquiv.symm
   let eEnd : R ≃ₗ[R] (End K) := (e₂.symm.trans e₁.symm).trans e₃
   have hb : Function.Bijective (algebraMap R (End K)) :=
     bijective_algebraMap_of_linearEquiv_self eEnd
   let c := (D.homZeroEquiv K K).symm (𝟙 K)
-  have hc : e₃ c = 𝟙 K := by
-    show D.homZeroEquiv K K c = 𝟙 K
-    exact AddEquiv.apply_symm_apply _ _
+  have hc : e₃ c = 1 := by
+    show End.linearEquiv.symm (D.homZeroEquiv K K c) = 1
+    rw [AddEquiv.apply_symm_apply]
+    rfl
   have hcomp (f : U ⟶ U) : e₃ (f ≫ c) =
       (algebraMap R (End K)) (e₂ f) := by
     have hf : f = (e₂ f) • 𝟙 U := by
@@ -444,10 +445,9 @@ theorem isIso_canonicalHomothety_of_endomorphism_iso_unit
         calc
           f ≫ c = ((e₂ f) • 𝟙 U) ≫ c := congrArg (fun t => t ≫ c) hf
           _ = (e₂ f) • c := by rw [Linear.smul_comp, Category.id_comp]
-      _ = (e₂ f) • (𝟙 K) := by rw [map_smul, hc]
+      _ = (e₂ f) • (1 : End K) := by rw [map_smul, hc]
       _ = (algebraMap R (End K)) (e₂ f) := by
         rw [Algebra.algebraMap_eq_smul_one]
-        rfl
   have hpost : Function.Bijective (fun f : U ⟶ U => f ≫ c) := by
     constructor
     · intro f g hfg

@@ -139,7 +139,6 @@ theorem injective_liftBaseChange_comp_subtype (hβ : Function.Injective (β.lift
       β.liftBaseChange C (LinearMap.lTensor C P.subtype t) := by
     intro t
     induction t with
-    | zero => simp
     | tmul a m => rfl
     | add t t' ht ht' => rw [map_add, map_add, map_add, ht, ht']
   intro t t' htt

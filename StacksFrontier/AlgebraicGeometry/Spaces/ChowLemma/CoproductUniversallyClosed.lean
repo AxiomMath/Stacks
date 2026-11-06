@@ -60,6 +60,24 @@ attribute [local instance] pointTopology AlgebraicGeometry.BigFppfOver.hasSheafi
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_coproductUniversallyClosed
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_sheaf_coproductUniversallyClosed :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
+
+private instance (priority := high) hasPullback_sheaf_coproductUniversallyClosed
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type u)} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A morphism out of a finite coproduct of algebraic spaces over `S` is closed on points as
 soon as its restrictions to the summands are.** -/
 theorem isClosedMorphism_of_isColimit_cofan {I : Type u} [Finite I]
@@ -137,8 +155,9 @@ theorem universallyClosed_of_isColimit_cofan {I : Type u} [Finite I]
     UniversallyClosed B S hS f := by
   intro Z hZ g
   let gs : (⟨Z, hZ.isSheaf⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶
-    ⟨Y, hY.isSheaf⟩ := ⟨g⟩
-  let fs : P ⟶ (⟨Y, hY.isSheaf⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u)) := ⟨f⟩
+    ⟨Y, hY.isSheaf⟩ := ObjectProperty.homMk g
+  let fs : P ⟶ (⟨Y, hY.isSheaf⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u)) :=
+    ObjectProperty.homMk f
   let t : pullback gs fs ⟶ P := pullback.snd gs fs
   have hsq : IsPullback (pullback.fst gs fs).hom t.hom g f :=
     isPullback_hom_of_sheaf (IsPullback.of_hasPullback gs fs)

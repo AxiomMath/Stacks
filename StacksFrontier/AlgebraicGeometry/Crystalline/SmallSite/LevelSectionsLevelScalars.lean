@@ -121,7 +121,7 @@ def levelSectionsScalarsAt (n : SimplexCategory) (e k : ℕ)
         DividedPowers.pAdicIdeal
             (A := ((wholeSpaceEnvelopeRing hp).obj n : Type u))
             (affineSituation S hp).p ^ k) →+*
-      ((structureSheaf S).val.obj
+      ((structureSheaf S).obj.obj
         (op (((wholeSpaceSystem S hp).obj (op n)).obj e)) : Type u) :=
   (wholeSpaceEnvelopeRingLevelEquiv hp n.len e).symm.toRingHom.comp
     (Ideal.Quotient.factor (Ideal.pow_le_pow_right hk))
@@ -164,7 +164,7 @@ theorem levelSectionsScalarsAt_restriction {n m : SimplexCategory} (φ : n ⟶ m
       DividedPowers.pAdicIdeal
           (A := ((wholeSpaceEnvelopeRing hp).obj n : Type u))
           (affineSituation S hp).p ^ k) :
-    ((structureSheaf S).val.map (((wholeSpaceSystem S hp).map φ.op).app e).op).hom
+    ((structureSheaf S).obj.map (((wholeSpaceSystem S hp).map φ.op).app e).op).hom
         (levelSectionsScalarsAt hp n e k hk s) =
       levelSectionsScalarsAt hp m e k hk
         (Ideal.quotientMap _ ((wholeSpaceEnvelopeRing hp).map φ).hom
@@ -307,7 +307,7 @@ isomorphism `ε` of [Stacks, Tag 07LF] — applicable here.  It holds because th
 over the level is restriction of scalars along `levelSectionsScalarsAt`, which at this level is
 the *inverse* of the identification by `levelSectionsScalarsAt_level`. -/
 theorem levelSections_smul_eq (n : SimplexCategory) (e : ℕ)
-    (b : ((structureSheaf S).val.obj
+    (b : ((structureSheaf S).obj.obj
       (op (((wholeSpaceSystem S hp).obj (op n)).obj e)) : Type u))
     (x : F.val.obj (op (((wholeSpaceSystem S hp).obj (op n)).obj e))) :
     b • x = wholeSpaceEnvelopeRingLevelEquiv hp n.len e b • x := by

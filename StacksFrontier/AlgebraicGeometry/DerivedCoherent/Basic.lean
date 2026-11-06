@@ -189,7 +189,7 @@ def coherentDerivedMinusComparisonIso [IsLocallyNoetherian X] :
         (DerivedCategory.Minus.ι ⋙ (coherentInQuasicoherent X).ι.mapDerivedCategory) ≅
       coherentDerivedMinusInclusion X :=
   Functor.isoWhiskerLeft DerivedCategory.Minus.ι
-    (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
       (F := (coherentToSerreSubcategoryEquivalence X).functor)
       (G := (coherentInQuasicoherent X).ι) (H := coherentToQuasicoherent X) (Iso.refl _))
 

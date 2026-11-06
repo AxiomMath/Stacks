@@ -234,10 +234,11 @@ theorem isIso_kerIdealSmulQuotientUnitMap (i : Z ⟶ X) (hi : IsClosedImmersion 
       (modulePullbackAdjunction B S hS i).unit.app (kerIdealSmulQuotient B S hS i F) := by
     refine (cancel_epi (cokernel.π (kerIdealSmul B S hS i F).ι)).1 ?_
     rw [← Category.assoc, cokernel_π_comp_kerIdealSmulQuotientUnitMap]
-    exact ((modulePullbackAdjunction B S hS i).unit.naturality
-      (cokernel.π (kerIdealSmul B S hS i F).ι)).symm
+    exact (modulePullbackAdjunction B S hS i).unit_naturality
+      (cokernel.π (kerIdealSmul B S hS i F).ι)
   have hmono : Mono (kerIdealSmulQuotientUnitMap B S hS i F) :=
-    have := hQ
+    have : Mono ((modulePullbackAdjunction B S hS i).unit.app
+        (kerIdealSmulQuotient B S hS i F)) := IsIso.mono_of_iso _
     mono_of_mono_fac hfac
   exact isIso_of_mono_of_epi _
 

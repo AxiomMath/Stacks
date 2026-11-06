@@ -87,7 +87,8 @@ private theorem quotientStage_isDerivedComplete (A : Type*) [CommRing A]
   intro a ha
   apply isDerivedCompleteAt_of_isNilpotent
   refine ⟨n + 1, ?_⟩
-  rw [smul_id_pow]
+  ext
+  rw [smul_id_pow, End.zero_asHom]
   have hM : a ^ (n + 1) • 𝟙 (quotientStage A I n) = 0 := by
     ext x
     induction x using Submodule.Quotient.induction_on with | _ x =>

@@ -431,9 +431,8 @@ theorem baseChangeMap_directedSystem
     have hmap : baseChangeMap M f i i le_rfl = LinearMap.id := by
       apply LinearMap.ext
       intro t
-      apply TensorProduct.induction_on (motive := fun t ↦
+      apply TensorProduct.inductionOn (motive := fun t ↦
           baseChangeMap M f i i le_rfl t = LinearMap.id t)
-      · simp
       · intro r y
         have hrx : r ⊗ₜ[G i] y = r • (1 : ColimitRing G φ) ⊗ₜ[G i] y := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -447,10 +446,9 @@ theorem baseChangeMap_directedSystem
         = baseChangeMap M f k i (hij.trans hjk) := by
       apply LinearMap.ext
       intro t
-      apply TensorProduct.induction_on (motive := fun t ↦
+      apply TensorProduct.inductionOn (motive := fun t ↦
           (baseChangeMap M f j i hjk).comp (baseChangeMap M f k j hij) t
             = baseChangeMap M f k i (hij.trans hjk) t)
-      · simp
       · intro r y
         have hrx : r ⊗ₜ[G k] y = r • (1 : ColimitRing G φ) ⊗ₜ[G k] y := by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -787,8 +785,7 @@ theorem colimit_flat_of_flat
   have hsq : (LinearMap.rTensor (Module.DirectLimit G f) p) ∘ₗ (e.symm : _ →ₗ[R] _) =
       (e'.symm : _ →ₗ[R] _) ∘ₗ (Module.DirectLimit.map g hg) := by
     refine LinearMap.ext fun z ↦ Module.DirectLimit.induction_on z fun i nx ↦ ?_
-    refine nx.induction_on ?_ (fun n x ↦ ?_) (fun a b ha hb ↦ ?_)
-    · simp
+    refine nx.inductionOn (fun n x ↦ ?_) (fun a b ha hb ↦ ?_)
     · have hgix : g i (n ⊗ₜ[R] x) = p n ⊗ₜ[R] x := by
         simp only [hgdef, LinearMap.rTensor_tmul]
       simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, he, he',

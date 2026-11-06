@@ -479,7 +479,7 @@ def Stage.homMk {j : I} {o o' : Stage D j} (f : o.bc ⟶ o'.bc) : o ⟶ o' := UL
 are. -/
 @[ext]
 lemma Stage.hom_ext {j : I} {o o' : Stage D j} {f g : o ⟶ o'} (h : f.down = g.down) : f = g :=
-  ULift.ext _ _ h
+  ULift.ext h
 
 omit [Nonempty I] [IsDirected I (· ≤ ·)] [∀ {a b : Iᵒᵖ} (t : a ⟶ b), IsAffineHom (D.map t)] in
 /-- The underlying morphism of `AlgebraicGeometry.LimitDescent.Stage.homMk f` is `f`. -/

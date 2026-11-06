@@ -326,7 +326,7 @@ theorem nonempty_iso_restrictPushforwardFromSpec {X : Scheme.{u}} {U : X.Opens}
     (hU : IsAffineOpen U) (K : DerivedCategory X.Modules) :
     Nonempty ((derivedPushforward hU.fromSpec).obj
         ((OpenImmersion.derivedRestrict hU.fromSpec).obj K) ≅ restrictPushforward U K) := by
-  have L := Functor.mapDerivedCategoryCompIso hU.restrictCompIso
+  have L := Functor.mapDerivedCategoryCompIsoOfCompIso hU.restrictCompIso
   have adjc := ((OpenImmersion.derivedRestrictPushforwardAdjunction U.ι).comp
     (OpenImmersion.derivedRestrictPushforwardAdjunction hU.isoSpec.inv)).ofNatIsoLeft L
   have eP := Adjunction.rightAdjointUniq

@@ -217,17 +217,17 @@ theorem systemPresheaf_isSheaf :
 /-- The sections of the glued presheaf are modules over the sections of the structure sheaf. -/
 noncomputable instance systemPresheaf_module (U : (ZariskiOpen X)ᵒᵖ) :
     Module ((Stacks.SheafOfModules.Tensor.ringSheaf
-      (zariskiRingedTopos X).O).val.obj U) ((systemPresheaf N).obj U) :=
+      (zariskiRingedTopos X).O).obj.obj U) ((systemPresheaf N).obj U) :=
   inferInstanceAs (Module Γ(X.obj (op U.unop.degree.unop), U.unop.toOpens)
     Γ(N.obj U.unop.degree.unop, U.unop.toOpens))
 
 /-- The restriction maps of the glued presheaf are semilinear over the restriction maps of the
 structure sheaf. -/
 theorem systemPresheaf_map_smul ⦃U V : (ZariskiOpen X)ᵒᵖ⦄ (f : U ⟶ V)
-    (r : (Stacks.SheafOfModules.Tensor.ringSheaf (zariskiRingedTopos X).O).val.obj U)
+    (r : (Stacks.SheafOfModules.Tensor.ringSheaf (zariskiRingedTopos X).O).obj.obj U)
     (x : (systemPresheaf N).obj U) :
     (systemPresheaf N).map f (r • x) =
-      (Stacks.SheafOfModules.Tensor.ringSheaf (zariskiRingedTopos X).O).val.map f r •
+      (Stacks.SheafOfModules.Tensor.ringSheaf (zariskiRingedTopos X).O).obj.map f r •
         (systemPresheaf N).map f x := by
   have h1 := Scheme.Modules.Hom.app_smul (systemDirectTransition N f.unop.base.unop)
     (U := U.unop.toOpens) r x

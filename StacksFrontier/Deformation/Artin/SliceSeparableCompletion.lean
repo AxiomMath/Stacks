@@ -43,7 +43,7 @@ theorem AlgHom.isMaximal_ker_of_finite {Λ R L : Type*} [CommRing Λ] [CommRing 
   have : IsScalarTower Λ R L := IsScalarTower.of_algebraMap_eq fun r => (φ.commutes r).symm
   have : Algebra.IsIntegral R L := Algebra.IsIntegral.tower_top Λ
   rw [RingHom.ker_eq_comap_bot]
-  exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := R) (⊥ : Ideal L)
+  exact Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) (⊥ : Ideal L)
 
 /-- The dimensions of the localizations of a ring at two equal prime ideals are equal. -/
 theorem ringKrullDim_localization_congr {R : Type*} [CommRing R] {I J : Ideal R} (h : I = J)
@@ -53,8 +53,7 @@ theorem ringKrullDim_localization_congr {R : Type*} [CommRing R] {I J : Ideal R}
 
 namespace Deformation.Artin.SliceTangent
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
-  CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
+attribute [local implicit_reducible] CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {V : BigFppfOver B S hS}

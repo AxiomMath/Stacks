@@ -81,6 +81,24 @@ section PartialSection
 
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_SchemeTheoreticImagePartialSection :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_SchemeTheoreticImagePartialSection
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasLimitsOfShape_discrete_presheaf_SchemeTheoreticImagePartialSection
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-- The scheme-theoretic image of a morphism depends only on the range of that morphism, being
 the infimum of the closed subspaces of the target containing it. -/
 private theorem schemeTheoreticImageSubfunctor_congr'
@@ -213,7 +231,9 @@ theorem isIso_pullback_snd_schemeTheoreticImageSubfunctor_comp_of_section
       Subfunctor.lift m hmle ≫ ((Subfunctor.range t).ι ≫ pullback.snd f V.ι) := by
     rw [← Category.assoc, hm', hmsnd]
   have : Mono (pullback.snd ((schemeTheoreticImageSubfunctor B S hS s).ι ≫ f) V.ι) := by
-    rw [hproj]; infer_instance
+    have hm1 : Mono (Subfunctor.lift m hmle) := mono_of_mono_fac hm'
+    have hm2 : Mono ((Subfunctor.range t).ι ≫ pullback.snd f V.ι) := IsIso.mono_of_iso _
+    rw [hproj]; exact @mono_comp _ _ _ _ _ _ hm1 _ hm2
   -- It is also split by the factorization of `s` through `Y'`.
   let σ : V.toFunctor ⟶ pullback ((schemeTheoreticImageSubfunctor B S hS s).ι ≫ f) V.ι :=
     pullback.lift (toSchemeTheoreticImage B S hS s) (𝟙 V.toFunctor)

@@ -110,8 +110,7 @@ theorem relocalizeYonedaFiberEquiv_map {T T' : Over U} (f : T' ⟶ T) (g : T ⟶
   have h := relocalizeFiberEquiv_map q W w hw f g ⟨yonedaEquiv s.val, hs⟩
   dsimp only [relocalizeYonedaFiberEquiv, Equiv.trans_apply, Equiv.subtypeEquiv]
   convert h using 1
-  · exact congrArg _ (Subtype.ext (yonedaEquiv_naturality s.val f).symm)
-  · rfl
+  exact congrArg _ (Subtype.ext (yonedaEquiv_naturality s.val f).symm)
 
 /-- The sections of `Λ W → Z` over `T` in the sense of
 `AlgebraicGeometry.Space.SectionsOver` are the sections of `W` over the fibre product

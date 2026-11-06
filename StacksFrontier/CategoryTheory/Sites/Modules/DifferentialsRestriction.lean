@@ -150,8 +150,8 @@ sectionwise Kähler differentials of the restricted homomorphism.** Both have `�
 as sections over `V` and restrict along `G f`; nothing happens, and the two are equal. -/
 theorem presheafPushforward_relativeDifferentials :
     (presheafPushforwardFunctor.{u} J G (Stacks.SheafOfModules.Tensor.ringSheaf O₂)).obj
-        (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom) =
-      PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) =
+      PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (restrictedCommRingMap J G φ).hom :=
   rfl
 
@@ -171,8 +171,8 @@ objects `G V`. The Leibniz rule, the compatibility with restriction and the vani
 base are the original ones, the restriction maps of the restricted presheaves being the
 restriction maps of the original ones along `G`. -/
 def restrictDerivation {M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)}
-    (d : M.val.Derivation' φ.hom) :
-    ((restrictedModules J G (O₂ := O₂)).obj M).val.Derivation'
+    (d : PresheafOfModulesOfCommRing.Derivation' M.val φ.hom) :
+    PresheafOfModulesOfCommRing.Derivation' ((restrictedModules J G (O₂ := O₂)).obj M).val
       (restrictedCommRingMap J G φ).hom where
   d {V} := d.d (X := G.op.obj V)
   d_mul a b := d.d_mul a b
@@ -184,7 +184,7 @@ omit [G.IsCocontinuous J K] [J.HasSheafCompose (forget₂ CommRingCat RingCat)]
 /-- On a section `b` over `V`, the restricted derivation `restrictDerivation J G φ d` is `d`
 evaluated at `b`, viewed as a section over `G V`. -/
 theorem restrictDerivation_d {M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)}
-    (d : M.val.Derivation' φ.hom) {V : Cᵒᵖ}
+    (d : PresheafOfModulesOfCommRing.Derivation' M.val φ.hom) {V : Cᵒᵖ}
     (b : (restrictedCommRing J G O₂).obj.obj V) :
     (restrictDerivation J G φ d).d b = d.d b :=
   rfl
@@ -203,7 +203,7 @@ def restrictedDifferentialsIso :
       moduleOfDifferentials (restrictedCommRing J G O₁) (restrictedCommRing J G O₂)
         (restrictedCommRingMap J G φ) :=
   (pushforwardSheafifyIso.{u} J G (Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)).symm
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)).symm
 
 /-- **The comparison carries the universal derivation of `G^{-1}φ` to the restriction of the
 universal derivation of `φ`**, which is the equation that pins it down: by the corepresentability
@@ -216,11 +216,11 @@ theorem restrictedDifferentialsIso_inv_universalDerivation :
   have h : PresheafOfModules.sheafificationHomEquiv
         (𝟙 (pushforwardRingSheaf J G (Stacks.SheafOfModules.Tensor.ringSheaf O₂)).obj)
         (pushforwardSheafifyHom.{u} J G (Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-          (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)) =
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)) =
       pushforwardUnit.{u} J G (Stacks.SheafOfModules.Tensor.ringSheaf O₂)
-        (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom) :=
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) :=
     Equiv.apply_symm_apply _ _
-  exact congrArg (fun m => (PresheafOfModules.DifferentialsConstruction.derivation'
+  exact congrArg (fun m => (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation'
     (restrictedCommRingMap J G φ).hom).postcomp m) h
 
 /-! ### The same, at the corepresenting-object spelling of `Ω` -/

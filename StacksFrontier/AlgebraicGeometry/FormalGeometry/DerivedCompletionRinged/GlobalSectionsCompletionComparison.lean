@@ -114,7 +114,7 @@ theorem IsDerivedCompleteAt.eq_zero_of_isIso_smul {N M : C} {b : R} [IsIso (b �
   have hΦ : Φ ≫ oneSubSmulShift M b = 0 := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
     rw [Category.assoc, oneSubSmulShift_π, Preadditive.comp_sub, Linear.comp_smul,
-      Pi.lift_π, Pi.lift_π, zero_comp]
+      Pi.lift_comp_π, Pi.lift_comp_π, zero_comp]
     show p n ≫ g - b • ((v ≫ p n) ≫ g) = 0
     rw [Category.assoc, ← Linear.smul_comp, hv, Category.id_comp, sub_self]
   rw [isDerivedCompleteAt_iff_isIso] at hM
@@ -215,11 +215,11 @@ theorem moduleGlobalSectionsOver_map_baseSmulCenter (c : A)
     ext U
     exact globalSectionVal_globalSectionOfSectionsSubring X (ρ c) U
   show x ≫ ((baseSmulCenter X A ρ c).app P ≫ 𝟙 P) =
-    (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-      ⟨(ρ c).1, (ρ c).2⟩).app _ ≫ x
+    CatCenter.app (Stacks.SheafOfModules.globalSectionToEnd
+      (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⟨(ρ c).1, (ρ c).2⟩) _ ≫ x
   rw [Category.comp_id, baseSmulCenter, hfam]
-  exact ((Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-    ⟨(ρ c).1, (ρ c).2⟩).naturality x)
+  exact CatCenter.naturality (Stacks.SheafOfModules.globalSectionToEnd
+    (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⟨(ρ c).1, (ρ c).2⟩) x
 
 omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **Derived global sections carry multiplication by `ρ c` to multiplication by `c`.** -/

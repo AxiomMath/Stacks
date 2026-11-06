@@ -52,7 +52,6 @@ attribute [local instance] Stacks.Cohomology.QuotientTowers.moduleFiltered
 
 attribute [local implicit_reducible] CategoryTheory.SingleFunctors.lift
   DerivedCategory.Plus.singleFunctors
-attribute [local implicit_reducible] DerivedCategory.Plus.Qh
 attribute [local implicit_reducible] DerivedCategory.Plus.homologyFunctor
 attribute [local implicit_reducible] HomologicalComplex.homologyFunctor
 attribute [local implicit_reducible] ComplexShape.embeddingUpNat

@@ -99,7 +99,7 @@ value over `U` is `r ↦ ψ(r)|_U`. It is the inverse construction to
 (`Stacks.TensorByBaseModule.globalSectionRingHomOfHom_coefficientMapOfGlobalSections`). -/
 def coefficientMapOfGlobalSections
     (ψ : R →+* ↥(Stacks.Cohomology.SiteModules.GlobalSectionRing (ringSheaf J O))) :
-    constantRingPresheaf (C := C) R ⟶ O.val where
+    constantRingPresheaf (C := C) R ⟶ O.obj where
   app U := CommRingCat.ofHom
     { toFun r := (ψ r).1 U
       map_one' := congrFun (congrArg Subtype.val (map_one ψ)) U
@@ -190,7 +190,7 @@ is `AlgebraicGeometry.Space.smallerBaseRingHom` on the nose
 def smallerBaseCoefficientMap :
     Stacks.TensorByBaseModule.constantRingPresheaf
         (C := (smallEtaleRingedSite B S hS Y.1 Y.2).C) k ⟶
-      (smallEtaleRingedSite B S hS Y.1 Y.2).O.val :=
+      (smallEtaleRingedSite B S hS Y.1 Y.2).O.obj :=
   Stacks.TensorByBaseModule.coefficientMapOfGlobalSections k _ _
     (smallerBaseRingHom B S hS Y k hk g φ)
 
@@ -646,7 +646,7 @@ abbrev fieldPointCoefficientMap
     (hk : B.Contains (Spec (.of k))) :
     Stacks.TensorByBaseModule.constantRingPresheaf
       (C := (smallEtaleRingedSite B S hS (D.space x₀.T).1 (D.space x₀.T).2).C) k ⟶
-        (smallEtaleRingedSite B S hS (D.space x₀.T).1 (D.space x₀.T).2).O.val :=
+        (smallEtaleRingedSite B S hS (D.space x₀.T).1 (D.space x₀.T).2).O.obj :=
   smallerBaseCoefficientMap B hS (D.space x₀.T) k hk _
     ((D.projection x₀.T).hom ≫ yoneda.map (eqToHom (fieldPoint_left_eq D iΛ x₀ hx₀ hk)))
 

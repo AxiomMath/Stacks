@@ -130,17 +130,17 @@ theorem generate_affineChartPresieve_mem (F : AlgebraicSpaces B S hS) {V : BigFp
     exact etale_comp_of_scheme B S hS (π j) A.obj.hom inferInstance A.property
   refine ⟨hV₃, ⟨_, hj⟩, hW j, k, ?_⟩
   have key : F.1.map (h ≫ g.base).op a = F.1.map (h ≫ b.base).op (yonedaEquiv A.obj.hom) := by
-    have e1 := FunctorToTypes.map_comp_apply F.1 g.base.op h.op a
-    have e2 := FunctorToTypes.map_comp_apply F.1 b.base.op h.op (yonedaEquiv A.obj.hom)
+    have e1 := Functor.map_comp_apply F.1 g.base.op h.op a
+    have e2 := Functor.map_comp_apply F.1 b.base.op h.op (yonedaEquiv A.obj.hom)
     refine e1.trans (Eq.trans ?_ e2.symm)
-    rw [← hga, hba]
+    exact congrArg _ (hga.symm.trans hba)
   show F.1.map (e₂ ≫ h ≫ g.base).op a =
     F.1.map k.op (yonedaEquiv (yoneda.map (π j) ≫ A.obj.hom))
   rw [← yonedaEquiv_naturality]
-  refine (FunctorToTypes.map_comp_apply F.1 (h ≫ g.base).op e₂.op a).trans ?_
+  refine (Functor.map_comp_apply F.1 (h ≫ g.base).op e₂.op a).trans ?_
   rw [key]
-  refine (FunctorToTypes.map_comp_apply F.1 (h ≫ b.base).op e₂.op _).symm.trans ?_
-  refine Eq.trans ?_ (FunctorToTypes.map_comp_apply F.1 (π j).op k.op _)
+  refine (Functor.map_comp_apply F.1 (h ≫ b.base).op e₂.op _).symm.trans ?_
+  refine Eq.trans ?_ (Functor.map_comp_apply F.1 (π j).op k.op _)
   show F.1.map (e₂ ≫ h ≫ b.base).op _ = F.1.map (k ≫ π j).op _
   rw [hk]; rfl
 
@@ -170,7 +170,7 @@ private theorem yoneda_map_comp_eq_of_app_eq {R U : AlgebraicSpaces B S hS} (s :
     yoneda.map (x ≫ g) ≫ w = yoneda.map m ≫ ι ≫ s.hom := by
   apply yonedaEquiv.injective
   rw [← yonedaEquiv_naturality, ← yonedaEquiv_naturality, yonedaEquiv_comp,
-    op_comp, FunctorToTypes.map_comp_apply, ← hs,
+    op_comp, Functor.map_comp_apply, ← hs,
     ← NatTrans.naturality_apply, hR, NatTrans.naturality_apply]
 
 /-- A point of `R` whose images under `s` and `t` factor through the charts `W₁` and `W₂` factors
@@ -207,16 +207,18 @@ theorem generate_twoChartPresieve_mem {R U : AlgebraicSpaces B S hS} (s t : R �
   have hι₂ : IsEtaleChart B S hS R.1 (CostructuredArrow.mk ι₂) :=
     etale_comp_of_scheme B S hS snd₂ ι₁ (W₂.property.property_snd gt) hι₁
   have hR₀ : R.1.map (e₀ ≫ h₀).op r = R.1.map (e₀ ≫ k₀).op (yonedaEquiv ι₀) := by
-    rw [op_comp, FunctorToTypes.map_comp_apply, hk₀, ← FunctorToTypes.map_comp_apply,
+    rw [op_comp, Functor.map_comp_apply, hk₀, ← Functor.map_comp_apply,
       ← op_comp]
   have hl₁ : yoneda.map (e₀ ≫ h₀ ≫ g₁) ≫ W₁.obj.hom = yoneda.map (e₀ ≫ k₀) ≫ gs := by
+    set_option synthInstance.maxHeartbeats 400000 in
     simpa using yoneda_map_comp_eq_of_app_eq B S hS s r (e₀ ≫ h₀) g₁ _ _ ι₀ hs hR₀
   let k₁ := rep₁.lift' (e₀ ≫ h₀ ≫ g₁) (e₀ ≫ k₀) hl₁
   have hk₁f : k₁ ≫ fst₁ = e₀ ≫ h₀ ≫ g₁ := rep₁.lift'_fst _ _ _
   have hk₁s : k₁ ≫ snd₁ = e₀ ≫ k₀ := rep₁.lift'_snd _ _ _
   have hR₁ : R.1.map (e₀ ≫ h₀).op r = R.1.map k₁.op (yonedaEquiv ι₁) := by
-    rw [hR₀, ← hk₁s, ← yonedaEquiv_naturality, op_comp, FunctorToTypes.map_comp_apply]
+    rw [hR₀, ← hk₁s, ← yonedaEquiv_naturality, op_comp, Functor.map_comp_apply]
   have hl₂ : yoneda.map (e₀ ≫ h₀ ≫ g₂) ≫ W₂.obj.hom = yoneda.map k₁ ≫ gt := by
+    set_option synthInstance.maxHeartbeats 400000 in
     simpa using yoneda_map_comp_eq_of_app_eq B S hS t r (e₀ ≫ h₀) g₂ _ _ ι₁ ht hR₁
   let k₂ := rep₂.lift' (e₀ ≫ h₀ ≫ g₂) k₁ hl₂
   have hk₂f : k₂ ≫ fst₂ = e₀ ≫ h₀ ≫ g₂ := rep₂.lift'_fst _ _ _
@@ -246,9 +248,9 @@ theorem generate_twoChartPresieve_mem {R U : AlgebraicSpaces B S hS} (s t : R �
   · have e1 : yonedaEquiv ι₂ = R.1.map snd₂.op (yonedaEquiv ι₁) :=
       (yonedaEquiv_naturality ι₁ snd₂).symm
     show _ = R.1.map m.op (yonedaEquiv (yoneda.map (π j) ≫ ι₂))
-    rw [← yonedaEquiv_naturality ι₂ (π j), e1, op_comp, FunctorToTypes.map_comp_apply, hR₁,
-      ← hk₂s, op_comp, FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply,
-      ← op_comp, hm, op_comp, FunctorToTypes.map_comp_apply]
+    rw [← yonedaEquiv_naturality ι₂ (π j), e1, op_comp, Functor.map_comp_apply, hR₁,
+      ← hk₂s, op_comp, Functor.map_comp_apply, ← Functor.map_comp_apply,
+      ← op_comp, hm, op_comp, Functor.map_comp_apply]
   · rw [Category.assoc, Category.assoc, ← hk₁f, ← hk₂s, ← Category.assoc, ← Category.assoc,
       hm]
     simp only [Category.assoc]

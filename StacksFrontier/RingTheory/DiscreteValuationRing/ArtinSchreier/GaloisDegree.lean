@@ -4,6 +4,8 @@ public import Mathlib.FieldTheory.Finite.GaloisField
 public import Mathlib.FieldTheory.PurelyInseparable.PerfectClosure
 public import Mathlib.NumberTheory.RamificationInertia.Valuation
 public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.RingTheory.Ideal.Quotient.Noetherian
+public import Mathlib.RingTheory.Localization.Submodule
 public import StacksCore.FieldTheory.ArtinSchreier
 public import StacksFrontier.FieldTheory.PerfectCore
 public import StacksFrontier.RingTheory.DiscreteValuationRing.BaseChangeClosure
@@ -69,6 +71,10 @@ theorem ramificationIdx_and_inertiaDeg_le_finrank
   let : Module.Finite A (integralClosure A L) :=
     IsIntegralClosure.finite A K L (integralClosure A L)
   let : m.IsPrime := hm.isPrime
+  let : IsNoetherianRing (integralClosure A L) :=
+    isNoetherianRing_iff.mpr <| isNoetherian_of_tower A inferInstance
+  let : IsNoetherianRing (Localization.AtPrime m ⧸
+      (m.under A).map (algebraMap A (Localization.AtPrime m))) := inferInstance
   obtain ⟨-, -, -, -, n, ms, hmsmax, hmsiff, -, -, hsum, -, -⟩ :=
     integralClosure_finite_dedekind_and_degree_eq_sum_ramification_inertia A K L
   obtain ⟨i₀, hi₀, -⟩ := (hmsiff m).mp hm
@@ -132,7 +138,7 @@ theorem ramification_cases_of_isGalois_of_finrank_dvd_prime
   have hOver (m : Ideal B) (hm : m.IsMaximal) : m.LiesOver mA := by
     let := hm
     exact ⟨((IsLocalRing.isMaximal_iff A).mp
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m)).symm⟩
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m)).symm⟩
   obtain ⟨e, f, he, hf, hef, hnef⟩ :=
     exists_uniform_ramificationIdx_inertiaDeg_and_finrank_eq A K L
   change (mA.primesOver B).ncard * e * f = Module.finrank K L at hnef

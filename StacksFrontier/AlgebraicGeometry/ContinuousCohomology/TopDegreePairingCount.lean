@@ -143,7 +143,7 @@ theorem ComplexPairing.d_pair_iCycles (P : ComplexPairing R φ A E G) (d : ℤ)
     congrArg (fun ψ => AddCommGrpCat.Hom.hom ψ y) ((underlyingAb R E).iCycles_d 0 (0 + 1))
   have h := P.leibniz d 0 d (d + 1) (zero_add d) rfl ((underlyingAb S A).iCycles d x)
     ((underlyingAb R E).iCycles 0 y)
-  exact eq_zero_of_eq_add_units_smul _ h (by rw [hx, map_zero]; rfl) (by rw [hy, map_zero]; rfl)
+  exact eq_zero_of_eq_add_units_smul _ h (by rw [hx, map_zero]; rfl) (by rw [hy, map_zero])
 
 end PairCycles
 

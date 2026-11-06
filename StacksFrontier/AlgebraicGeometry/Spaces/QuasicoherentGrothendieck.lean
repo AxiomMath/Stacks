@@ -111,7 +111,7 @@ theorem isZero_uliftForPresentation {M : SheafOfModules.{m} R} (hM : IsZero M) :
   rw [IsZero.iff_id_eq_zero]
   ext X x
   show x = 0
-  exact ULift.ext _ _ (eq_zero_of_isZero hM X x.down)
+  exact ULift.ext (eq_zero_of_isZero hM X x.down)
 
 /-- Restriction to a slice of the site carries a zero sheaf of modules to a zero sheaf of
 modules: it preserves the zero morphisms, hence the identity of a zero object. -/

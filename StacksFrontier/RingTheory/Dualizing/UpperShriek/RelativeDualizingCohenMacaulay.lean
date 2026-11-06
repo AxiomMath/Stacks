@@ -743,7 +743,7 @@ theorem subsingleton_and_min_two_le_moduleDepth_localizedModule_homology_upperSh
         have hjd : (j : ℕ∞) < Module.depth S₀ I₀ S₀ :=
           ENat.natCast_add_one_le_iff.mp
             (by exact_mod_cast natCast_le_of_le_add hdepth (j := j + 1) (by omega))
-        have := ModuleCat.subsingleton_ext_of_lt_depth I₀ (ModuleCat.of S₀ S₀) N
+        have := ModuleCat.subsingleton_ext_of_lt_ideal_depth I₀ (ModuleCat.of S₀ S₀) N
           (by simpa using hI₀) (k := 1) (by simpa using hNann) hjd
         exact (key i j hj).toEquiv.subsingleton_congr.mpr inferInstance
     exact (localizedModuleRestrictScalarsAddEquiv p.toRingHom p.surjective q rP rfl

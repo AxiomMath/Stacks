@@ -151,7 +151,7 @@ def homRegularLinearEquiv (P : ModuleCat.{u + 1} R) :
       (show regularModuleU.{u} R ⟶ P from f).hom ⟨x⟩
     rw [← map_smul]
     congr 1
-    exact ULift.ext _ _ (mul_one x)
+    exact ULift.ext (mul_one x)
   right_inv p := by
     change (1 : R) • p = p
     rw [one_smul]
@@ -213,9 +213,9 @@ lemma homPrecompApp_add {N₁ N₂ : ModuleCat.{u + 1} R} (u v : N₁ ⟶ N₂)
 /-- `homPrecompApp` sends the zero morphism to zero. -/
 lemma homPrecompApp_zero (N₁ N₂ : ModuleCat.{u + 1} R) (G : EtaleModules.{u, 0} R X) :
     homPrecompApp (A := A) (0 : N₁ ⟶ N₂) G = 0 := by
-  apply Sheaf.hom_ext
-  ext U f
-  exact zero_comp (Y := N₂) (Z := G.obj.obj U) (f := show N₂ ⟶ G.obj.obj U from f)
+  have h := homPrecompApp_add (A := A) (0 : N₁ ⟶ N₂) 0 G
+  rw [add_zero] at h
+  exact add_left_cancel (a := homPrecompApp (A := A) (0 : N₁ ⟶ N₂) G) (by rw [← h, add_zero])
 
 /-- `homPrecompApp` commutes with finite sums of morphisms. -/
 lemma homPrecompApp_sum {N₁ N₂ : ModuleCat.{u + 1} R} {J : Type*} (s : Finset J)

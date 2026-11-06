@@ -98,7 +98,7 @@ theorem comp_π_eq_comp_π_succ
           K.map (homOfLE (Nat.le_succ n)).op) = 0 :=
     comp_distTriang_mor_zero₁₂ _ hδ
   have h := congrArg (fun φ ↦ φ ≫ Pi.π (fun n : ℕ ↦ K.obj ⟨n⟩) n) hzero
-  simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, zero_comp, sub_eq_zero] at h
+  simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, zero_comp, sub_eq_zero] at h
   exact h
 
 variable

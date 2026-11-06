@@ -100,7 +100,7 @@ theorem subsingleton_sheafH_of_forall_stalk_isZero_of_isClosedEmbedding
     (i : Z → X) (hi : IsClosedEmbedding i) {d p : ℕ}
     (hdim : topologicalKrullDim Z ≤ (d : WithBot ℕ∞)) (hp : d < p)
     (G : Sheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u})
-    (hG : ∀ x : X, x ∉ Set.range i → IsZero (TopCat.Presheaf.stalk (X := TopCat.of X) G.val x)) :
+    (hG : ∀ x : X, x ∉ Set.range i → IsZero (TopCat.Presheaf.stalk (X := TopCat.of X) G.obj x)) :
     Subsingleton (Sheaf.H.{u} G p) := by
   obtain ⟨A, ⟨e⟩⟩ :=
     (Stacks.ClosedImmersion.essImage_closedInclusionPushforward_iff_forall_stalk_isZero
@@ -127,7 +127,7 @@ theorem subsingleton_sheafH_of_forall_stalk_isZero {X : Type u} [TopologicalSpac
     (S : Set X) (hS : IsClosed S) [NoetherianSpace S] {d p : ℕ}
     (hdim : topologicalKrullDim S ≤ (d : WithBot ℕ∞)) (hp : d < p)
     (G : Sheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u})
-    (hG : ∀ x : X, x ∉ S → IsZero (TopCat.Presheaf.stalk (X := TopCat.of X) G.val x)) :
+    (hG : ∀ x : X, x ∉ S → IsZero (TopCat.Presheaf.stalk (X := TopCat.of X) G.obj x)) :
     Subsingleton (Sheaf.H.{u} G p) :=
   subsingleton_sheafH_of_forall_stalk_isZero_of_isClosedEmbedding Subtype.val
     hS.isClosedEmbedding_subtypeVal hdim hp G

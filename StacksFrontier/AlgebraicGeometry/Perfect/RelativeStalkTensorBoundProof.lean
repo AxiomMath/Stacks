@@ -435,7 +435,7 @@ def restrictScalarsCompDerivedIso {R₁ R₂ R₃ : Type u} [Ring R₁] [Ring R�
     (ModuleCat.restrictScalars.{u} gf).mapDerivedCategory.obj N ≅
       (ModuleCat.restrictScalars.{u} f).mapDerivedCategory.obj
         ((ModuleCat.restrictScalars.{u} g).mapDerivedCategory.obj N) :=
-  ((Functor.mapDerivedCategoryCompIso
+  ((Functor.mapDerivedCategoryCompIsoOfCompIso
     (ModuleCat.restrictScalarsComp'.{u} f g gf h).symm).app N).symm
 
 /-- **The pointwise Tor bound of a composite** (the hypothesis of

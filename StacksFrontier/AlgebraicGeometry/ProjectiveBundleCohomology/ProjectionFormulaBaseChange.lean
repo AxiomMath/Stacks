@@ -821,8 +821,9 @@ private theorem pushforwardTensorRightFiniteLocallyFreeNatIso_naturality_right
           ((tensorRightInvertibleNatTrans X ((Scheme.Modules.pullback f).map γ)).app A) :=
     Cohomology.ClosedEmbeddingProjectionFormulaComplexes.projectionFormulaMap'_natural_right
       f.toLRSHom.toShHom A γ
-  rw [← cancel_mono ((Stacks.ProjectionFormula.pushforwardTensorRightFiniteLocallyFreeNatIso
-    f G').inv.app A), Category.assoc, Category.assoc, Iso.hom_inv_id_app]
+  rw [← NatIso.cancel_natIso_inv_right
+    (Stacks.ProjectionFormula.pushforwardTensorRightFiniteLocallyFreeNatIso f G'),
+    Category.assoc, Category.assoc, Iso.hom_inv_id_app]
   refine Eq.trans ?_ (Category.comp_id _).symm
   show _ ≫ (tensorRightInvertibleNatTrans S γ).app _ ≫
     (Stacks.ProjectionFormula.pushforwardTensorRightNatTrans f G').app A = _

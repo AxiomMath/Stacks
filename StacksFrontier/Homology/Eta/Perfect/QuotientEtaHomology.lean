@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
+public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 public import Mathlib.Algebra.Homology.HomologySequence
 public import Mathlib.Algebra.Homology.Linear
 public import Mathlib.Algebra.Homology.ShortComplex.Linear

@@ -168,7 +168,7 @@ public theorem map_eq_id_of_inducedInfinitesimalLinearMapOfEq_eq_zero (Φ : F �
     letI := naturalLocalizedTangentModule Q hq
     ∀ t : localizedAutomorphismFunctorTangent P,
       inducedInfinitesimalLinearMapOfEq Φ hw hp hq P Q t = 0 →
-        Φ.map (localizedTangentEquivKernel P t).1.hom.val = 𝟙 _ := by
+        Φ.map (localizedTangentEquivKernel P t).1.asIso.hom.val = 𝟙 _ := by
   subst hw
   let := naturalLocalizedTangentAddCommGroup P hp
   let := naturalLocalizedTangentModule P hp
@@ -177,7 +177,7 @@ public theorem map_eq_id_of_inducedInfinitesimalLinearMapOfEq_eq_zero (Φ : F �
   intro t ht
   have hz : inducedInfinitesimalLinearMap Φ P Q hp hq t = 0 := ht
   have hval : (localizedTangentEquivKernel Q
-      (inducedInfinitesimalLinearMap Φ P Q hp hq t)).1.hom.val = 𝟙 _ := by
+      (inducedInfinitesimalLinearMap Φ P Q hp hq t)).1.asIso.hom.val = 𝟙 _ := by
     rw [hz, localizedTangentEquivKernel_eq_one Q hq]
     rfl
   rw [inducedInfinitesimalLinearMap_apply Φ P Q hp hq t] at hval
@@ -186,10 +186,10 @@ public theorem map_eq_id_of_inducedInfinitesimalLinearMapOfEq_eq_zero (Φ : F �
   set ci := comparisonPushforwardInv Φ P Q hq.1 U
   have hcancel : ci ≫ cp = 𝟙 (Φ.obj (P.obj U).1) :=
     comparisonPushforwardInv_comp Φ P Q hq.1 U
-  calc Φ.map (localizedTangentEquivKernel P t).1.hom.val
-      = (ci ≫ cp) ≫ Φ.map (localizedTangentEquivKernel P t).1.hom.val ≫ (ci ≫ cp) := by
+  calc Φ.map (localizedTangentEquivKernel P t).1.asIso.hom.val
+      = (ci ≫ cp) ≫ Φ.map (localizedTangentEquivKernel P t).1.asIso.hom.val ≫ (ci ≫ cp) := by
         rw [hcancel, Category.id_comp, Category.comp_id]
-    _ = ci ≫ (cp ≫ Φ.map (localizedTangentEquivKernel P t).1.hom.val ≫ ci) ≫ cp := by
+    _ = ci ≫ (cp ≫ Φ.map (localizedTangentEquivKernel P t).1.asIso.hom.val ≫ ci) ≫ cp := by
         simp only [Category.assoc]
     _ = ci ≫ cp := by
         rw [hval]
@@ -222,13 +222,13 @@ public theorem injective_prod_inducedInfinitesimalLinearMapOfEq (Φ₁ : F ⥤ G
   intro t ht
   have h1 : inducedInfinitesimalLinearMapOfEq Φ₁ hw₁ hp hq₁ P Q₁ t = 0 := congrArg Prod.fst ht
   have h2 : inducedInfinitesimalLinearMapOfEq Φ₂ hw₂ hp hq₂ P Q₂ t = 0 := congrArg Prod.snd ht
-  have hg : (localizedTangentEquivKernel P t).1.hom.val = 𝟙 _ :=
+  have hg : (localizedTangentEquivKernel P t).1.asIso.hom.val = 𝟙 _ :=
     hjoint _ _
       (map_eq_id_of_inducedInfinitesimalLinearMapOfEq_eq_zero Φ₁ hw₁ hp hq₁ P Q₁ t h1)
       (map_eq_id_of_inducedInfinitesimalLinearMapOfEq_eq_zero Φ₂ hw₂ hp hq₂ P Q₂ t h2)
   apply (localizedTangentEquivKernel P).injective
   rw [localizedTangentEquivKernel_eq_one P hp]
-  exact Subtype.ext (Aut.ext (Subtype.ext hg))
+  exact Subtype.ext (Aut.ext (Iso.ext (Subtype.ext hg)))
 
 end Pair
 
@@ -398,14 +398,14 @@ public theorem inducedInfinitesimalLinearMapOfEq_spec_iso (Φ : F ⥤ G) {x₀ :
         Q.inclusion (dualNumbersUnder (p := q) (x := Φ.obj x₀)) ≫ H.hom =
           Φ.map (P.inclusion (dualNumbersUnder (p := p) (x := x₀))) ∧
         ∀ a, (localizedTangentEquivKernel Q
-            (inducedInfinitesimalLinearMapOfEq Φ hw hp hq P Q a)).1.hom.val ≫ H.hom =
-          H.hom ≫ Φ.map (localizedTangentEquivKernel P a).1.hom.val := by
+            (inducedInfinitesimalLinearMapOfEq Φ hw hp hq P Q a)).1.asIso.hom.val ≫ H.hom =
+          H.hom ≫ Φ.map (localizedTangentEquivKernel P a).1.asIso.hom.val := by
   subst hw
   have hconj : ∀ a, (localizedTangentEquivKernel Q
-      (inducedInfinitesimalLinearMap Φ P Q hp hq a)).1.hom.val ≫
+      (inducedInfinitesimalLinearMap Φ P Q hp hq a)).1.asIso.hom.val ≫
         comparisonPushforward Φ P Q (dualNumbersUnder (p := Φ ⋙ q) (x := x₀)) =
       comparisonPushforward Φ P Q (dualNumbersUnder (p := Φ ⋙ q) (x := x₀)) ≫
-        Φ.map (localizedTangentEquivKernel P a).1.hom.val := by
+        Φ.map (localizedTangentEquivKernel P a).1.asIso.hom.val := by
     intro a
     rw [inducedInfinitesimalLinearMap_apply Φ P Q hp hq a, Category.assoc, Category.assoc,
       comparisonPushforwardInv_comp, Category.comp_id]
@@ -469,10 +469,10 @@ public theorem canonicalLocalizedTangentAutomorphismLinearEquiv_spec (hp : Satis
             p.map Hε.hom ≫
               eqToHom (Q.obj
                 (dualNumbersUnder.{u, v, w, u₁, v₁} (p := p) (x := x₀))).2).hom t = t) ∧
-        (∀ a, (localizedTangentEquivKernel P a).1.hom.val ≫ Hε.hom =
+        (∀ a, (localizedTangentEquivKernel P a).1.asIso.hom.val ≫ Hε.hom =
           Hε.hom ≫ (localizedTangentEquivKernel Q
             (canonicalLocalizedTangentAutomorphismLinearEquiv.{u, v, w, u₁, v₁}
-              hp j hbase P Q a)).1.hom.val) :=
+              hp j hbase P Q a)).1.asIso.hom.val) :=
   (Classical.choose_spec
     (existsUnique_localizedTangentAutomorphismLinearEquiv.{u, v, w, u₁, v₁} hp j hbase P Q)).1
 
@@ -845,33 +845,33 @@ public theorem exact_infProjPair_infLegDiff
         (secondLegBased.{u, v, w} pF g).w hG.satisfiesRS hF.satisfiesRS QG PF') ?_ ?_
   · -- the two legs agree on the image of an infinitesimal automorphism of `𝒲`
     intro m
-    refine (localizedTangentEquivKernel PF).injective (Subtype.ext (Aut.ext (Subtype.ext ?_)))
+    refine (localizedTangentEquivKernel PF).injective (Subtype.ext (Aut.ext (Iso.ext (Subtype.ext ?_))))
     exact eq_of_conjugation hkey
-      ((localizedTangentEquivKernel PW m).1.hom.val).w (hc₃ _) (hc₁ m) (hc₄ _) (hc₂ m) (hcε _)
+      ((localizedTangentEquivKernel PW m).1.asIso.hom.val).w (hc₃ _) (hc₁ m) (hc₄ _) (hc₂ m) (hcε _)
   · -- a pair with equal images is the image of an infinitesimal automorphism of `𝒲`
     intro x y hxy
     have hA : ((localizedTangentEquivKernel PF)
           ((inducedInfinitesimalLinearMapOfEq.{u, v, w, u₁, v₁, u₃, v₃}
             (firstLegBased.{u, v, w} pF f).toFunctor (firstLegBased.{u, v, w} pF f).w
-            hH.satisfiesRS hF.satisfiesRS QH PF) x)).1.hom.val =
+            hH.satisfiesRS hF.satisfiesRS QH PF) x)).1.asIso.hom.val =
         ((localizedTangentEquivKernel PF)
           ((canonicalLocalizedTangentAutomorphismLinearEquiv.{u, v, w, u₃, v₃} hF.satisfiesRS
             w₀.iso.inv hw₀ PF' PF)
             ((inducedInfinitesimalLinearMapOfEq.{u, v, w, u₂, v₂, u₃, v₃}
               (secondLegBased.{u, v, w} pF g).toFunctor (secondLegBased.{u, v, w} pF g).w
-              hG.satisfiesRS hF.satisfiesRS QG PF') y))).1.hom.val :=
-      congrArg (fun z => ((localizedTangentEquivKernel PF) z).1.hom.val) hxy
+              hG.satisfiesRS hF.satisfiesRS QG PF') y))).1.asIso.hom.val :=
+      congrArg (fun z => ((localizedTangentEquivKernel PF) z).1.asIso.hom.val) hxy
     have hsq := square_of_conjugation hkey (hc₃ x) (hc₄ y) (hcε _) hA
     have hvβ : (f ⋙ pF).IsHomLift (𝟙 (dualNumbersUnder
       (p := TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g) (x := w₀)).right)
-        (H₁.inv ≫ (localizedTangentEquivKernel QH x).1.hom.val ≫ H₁.hom) := by
+        (H₁.inv ≫ (localizedTangentEquivKernel QH x).1.asIso.hom.val ≫ H₁.hom) := by
       rw [← hUhw]
-      exact isHomLift_id_inv_comp_comp _ H₁ _ hl₁ (localizedTangentEquivKernel QH x).1.hom.2
+      exact isHomLift_id_inv_comp_comp _ H₁ _ hl₁ (localizedTangentEquivKernel QH x).1.asIso.hom.2
     have hvγ : (g ⋙ pF).IsHomLift (𝟙 (dualNumbersUnder
       (p := TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g) (x := w₀)).right)
-        (H₂.inv ≫ (localizedTangentEquivKernel QG y).1.hom.val ≫ H₂.hom) := by
+        (H₂.inv ≫ (localizedTangentEquivKernel QG y).1.asIso.hom.val ≫ H₂.hom) := by
       rw [← hUgw]
-      exact isHomLift_id_inv_comp_comp _ H₂ _ hl₂ (localizedTangentEquivKernel QG y).1.hom.2
+      exact isHomLift_id_inv_comp_comp _ H₂ _ hl₂ (localizedTangentEquivKernel QG y).1.asIso.hom.2
     have hvτ : (TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g).IsHomLift
         (𝟙 (dualNumbersUnder
       (p := TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g) (x := w₀)).right)
@@ -885,17 +885,17 @@ public theorem exact_infProjPair_infLegDiff
           (U := (dualNumbersUnder
       (p := TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g) (x := w₀)).right)
           (H₁.symm ≪≫ Functor.Fiber.fiberInclusion.mapIso
-            (localizedTangentEquivKernel QH x).1 ≪≫ H₁)
+            (localizedTangentEquivKernel QH x).1.asIso ≪≫ H₁)
           (H₂.symm ≪≫ Functor.Fiber.fiberInclusion.mapIso
-            (localizedTangentEquivKernel QG y).1 ≪≫ H₂) hvβ hvγ hsq).hom :=
+            (localizedTangentEquivKernel QG y).1.asIso ≪≫ H₂) hvβ hvγ hsq).hom :=
       TwoFibreProductOver.structureFunctor_isHomLift _ _ hvβ
     obtain ⟨τ, hτa, hτb⟩ : ∃ τ : Aut (PW.obj (dualNumbersUnder
       (p := TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g) (x := w₀))),
-        (productFst.{u, v, w} pF f g).toFunctor.map τ.hom.val =
-            H₁.inv ≫ (localizedTangentEquivKernel QH x).1.hom.val ≫ H₁.hom ∧
-          (productSnd.{u, v, w} pF f g).toFunctor.map τ.hom.val =
-            H₂.inv ≫ (localizedTangentEquivKernel QG y).1.hom.val ≫ H₂.hom :=
-      ⟨fiberIsoOfVertical
+        (productFst.{u, v, w} pF f g).toFunctor.map τ.asIso.hom.val =
+            H₁.inv ≫ (localizedTangentEquivKernel QH x).1.asIso.hom.val ≫ H₁.hom ∧
+          (productSnd.{u, v, w} pF f g).toFunctor.map τ.asIso.hom.val =
+            H₂.inv ≫ (localizedTangentEquivKernel QG y).1.asIso.hom.val ≫ H₂.hom :=
+      ⟨Aut.of <| fiberIsoOfVertical
         (PW.obj (dualNumbersUnder
           (p := TwoFibreProductOver.structureFunctor (f ⋙ pF) (g ⋙ pF) pF f g) (x := w₀)))
         (PW.obj (dualNumbersUnder
@@ -913,14 +913,14 @@ public theorem exact_infProjPair_infLegDiff
     obtain ⟨t, ht⟩ : ∃ t, (localizedTangentEquivKernel PW) t = ⟨τ, hmem⟩ :=
       ⟨_, Equiv.apply_symm_apply _ _⟩
     refine ⟨t, ?_, ?_⟩
-    · exact (localizedTangentEquivKernel QH).injective (Subtype.ext (Aut.ext (Subtype.ext
+    · exact (localizedTangentEquivKernel QH).injective (Subtype.ext (Aut.ext (Iso.ext (Subtype.ext
         (eq_of_comp_hom_eq_of_eq_conj H₁ (hc₁ t)
-          ((congrArg (fun z => (productFst.{u, v, w} pF f g).toFunctor.map z.1.hom.val)
-            ht).trans hτa)))))
-    · exact (localizedTangentEquivKernel QG).injective (Subtype.ext (Aut.ext (Subtype.ext
+          ((congrArg (fun z => (productFst.{u, v, w} pF f g).toFunctor.map z.1.asIso.hom.val)
+            ht).trans hτa))))))
+    · exact (localizedTangentEquivKernel QG).injective (Subtype.ext (Aut.ext (Iso.ext (Subtype.ext
         (eq_of_comp_hom_eq_of_eq_conj H₂ (hc₂ t)
-          ((congrArg (fun z => (productSnd.{u, v, w} pF f g).toFunctor.map z.1.hom.val)
-            ht).trans hτb)))))
+          ((congrArg (fun z => (productSnd.{u, v, w} pF f g).toFunctor.map z.1.asIso.hom.val)
+            ht).trans hτb))))))
 
 end InfExact
 

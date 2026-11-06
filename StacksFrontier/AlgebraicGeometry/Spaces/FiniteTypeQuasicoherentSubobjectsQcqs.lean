@@ -1,6 +1,7 @@
 module
 
 public import StacksCore.Tactic.StacksAttribute
+public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SliceRestrictionFinite
 public import StacksFrontier.AlgebraicGeometry.Spaces.FiniteTypeQuasicoherentExtension
 public import StacksFrontier.AlgebraicGeometry.Spaces.FiniteTypeQuasicoherentSubobjectsDirected
 
@@ -61,6 +62,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {hX : IsAlgebraicSpace B S hS X}
     {F : Modules.{u, u} B S hS X hX}
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The submodule of `F` given by a chart submodule over the identity of `X` is a finite type
 quasi-coherent subobject of `F`: it is cartesian on affine charts, hence quasi-coherent by
 Stacks 03DX(2), and finitely generated over affine charts, hence of finite type. -/
@@ -73,11 +75,19 @@ theorem ChartSubmodule.finiteTypeQuasicoherentSubobjectProperty_mk
   have hft : (D.toSubmodule F).toSheafOfModules.IsFiniteType :=
     Stacks.SheafOfModules.isFiniteType_of_isFiniteTypeOnSite _
       (D.isFiniteTypeOnSite_toSubmodule hF)
-  exact ⟨SheafOfModules.IsQuasicoherentOnSite.of_iso (Subobject.underlyingIso _).symm hqc,
-    Stacks.SheafOfModules.isFiniteType_of_epi
-      (R := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))
-      (Subobject.underlyingIso (D.toSubmodule F).ι).inv hft⟩
+  let e := Subobject.underlyingIso (D.toSubmodule F).ι
+  have h1 : SheafOfModules.IsQuasicoherentOnSite
+      ((Subobject.mk (D.toSubmodule F).ι : Modules.{u, u} B S hS X hX)) :=
+    SheafOfModules.IsQuasicoherentOnSite.of_iso e.symm hqc
+  have he : Epi e.inv := @IsIso.epi_of_iso _ _ _ _ e.inv (Iso.isIso_inv e)
+  have h2 : SheafOfModules.IsFiniteType
+      ((Subobject.mk (D.toSubmodule F).ι : Modules.{u, u} B S hS X hX)) :=
+    Stacks.SheafOfModules.SliceFinite.isFiniteType_of_epi
+      (Rs := (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X hX).O))
+      e.inv hft
+  exact ⟨h1, h2⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0829, the colimit assertion.**  Let `X` be a quasi-compact and quasi-separated
 algebraic space over a scheme `S` and let `F` be a quasi-coherent `𝒪_X`-module.  Then `F` is the
 colimit of the canonical diagram of its finite type quasi-coherent submodules.

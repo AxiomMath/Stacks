@@ -246,7 +246,7 @@ theorem depProdGlueFamily_compatible
   have e' : g₁ ≫ (k₁ ≫ h) = g₂ ≫ (k₂ ≫ h) := by
     rw [← Category.assoc, ← Category.assoc, e]
   have hv₀ : V.map g₁.op (V.map k₁.op v) = V.map g₂.op (V.map k₂.op v) := by
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp, e]
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp, e]
   rw [depProdGlueFamily_apply, depProdGlueFamily_apply, depProdMap_valAtId, depProdMap_valAtId]
   exact depProdValAtId_congr B S hS f Y (hx g₁ g₂ hk₁' hk₂' e') hv₀
     (depProdMap_compat B S hS f Y (x (k₁ ≫ h) hk₁) g₁ (V.map k₁.op v)
@@ -308,12 +308,12 @@ theorem depProdGlueVal_naturality {A₁ A₂ : BigFppfOver B S hS} (k : A₂ ⟶
       fun A₃ m hm => ?_
   have hLHS : Y.left.map m.op (Y.left.map k.op (depProdGlueVal B S hS hYt hR x hx hw h v hv)) =
       Y.left.map (m ≫ k).op (depProdGlueVal B S hS hYt hR x hx hw h v hv) := by
-    rw [op_comp, FunctorToTypes.map_comp_apply]
+    rw [op_comp, Functor.map_comp_apply]
   rw [hLHS, depProdGlueVal_spec B S hS hYt hR x hx hw (k ≫ h) (V.map k.op v)
     (map_compat f k h hv) m hm]
   exact depProdGlueVal_restrict_eq B S hS hYt hR x hx hw h v hv (m ≫ k) (m ≫ (k ≫ h))
     (Category.assoc m k h).symm hm (V.map m.op (V.map k.op v))
-    (by rw [← FunctorToTypes.map_comp_apply, ← op_comp])
+    (by rw [← Functor.map_comp_apply, ← op_comp])
     (depProdGlueFamily_compat B S hS x hw (k ≫ h) (V.map k.op v) (map_compat f k h hv) m hm)
 
 /-- The glued value at `(h₀, v)` is the value of a section `p` at `(e, v)` as soon as the

@@ -79,7 +79,7 @@ def overProdLift {T : Scheme.{u}} {n : ℕ} {Y : Fin n → Scheme.{u}} (g : ∀ 
 theorem overProdLift_comp_π {T : Scheme.{u}} {n : ℕ} {Y : Fin n → Scheme.{u}}
     (g : ∀ i, Y i ⟶ S) (t : T ⟶ S) (f : ∀ i, T ⟶ Y i) (hf : ∀ i, f i ≫ g i = t) (i : Fin n) :
     overProdLift g t f hf ≫ overProdπ g i = f i :=
-  congrArg Over.Hom.left (Pi.lift_π _ i)
+  congrArg Over.Hom.left (Pi.lift_comp_π _ i)
 
 /-- `Stacks.Chow.overProdLift` is a morphism over the base. -/
 @[simp]

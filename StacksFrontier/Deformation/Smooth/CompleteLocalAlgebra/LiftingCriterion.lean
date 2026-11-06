@@ -49,7 +49,7 @@ private theorem restrictedCoyonedaProjection_lift_of_lift
   have hx : (restrictedCoyonedaProjection R).toFunctor.obj x = A := by
     cases hg
     rfl
-  rcases x with ⟨A', x⟩
+  rcases x with @⟨A', x⟩
   change A' = A at hx
   subst A'
   subst y
@@ -57,8 +57,8 @@ private theorem restrictedCoyonedaProjection_lift_of_lift
     cases hg
     rfl
   obtain ⟨xB, hxB⟩ := hlift x
-  let xB' : (restrictedCoyoneda R).Elements := ⟨B, xB⟩
-  let hB : xB' ⟶ ⟨A, x⟩ := CategoryOfElements.homMk _ _ f (by
+  let xB' : (restrictedCoyoneda R).Elements := (restrictedCoyoneda R).elementsMk B xB
+  let hB : xB' ⟶ (restrictedCoyoneda R).elementsMk A x := Functor.Elements.homMk f (by
       apply CompleteLocalAlgCat.Hom.ext
       have hxB' := congrArg CompleteLocalAlgCat.Hom.hom hxB
       simpa [restrictedCoyoneda, restrictedCoyoneda_map_hom] using hxB')
@@ -84,27 +84,27 @@ private theorem restrictedCoyonedaProjection_lifts
   constructor
   · intro hs B A f hf x
     let F := restrictedCoyoneda R
-    let xE : F.Elements := ⟨A, x⟩
+    let xE : F.Elements := F.elementsMk A x
     let g : B ⟶ A := f
     have hg : (BasedCategory.ofFunctor (𝟭
         (ArtinianLocalAlgCat.{u, v, w} Λ k))).p.IsHomLift f g :=
       IsHomLift.map
         (p := (BasedCategory.ofFunctor (𝟭 (ArtinianLocalAlgCat.{u, v, w} Λ k))).p) g
     obtain ⟨xE', h, a, hh, ha, htriangle⟩ := hs f hf B xE g hg
-    rcases xE' with ⟨B', y⟩
+    rcases xE' with @⟨B', y⟩
     have hB : B' = B := IsHomLift.domain_eq
       (p := (restrictedRepresentable R).p) f h
     subst B'
     have ha' : a = 𝟙 B := by
       cases ha
       rfl
-    have hval : h.val = f := by
-      change h.val = a ≫ f at htriangle
+    have hval : h.hom = f := by
+      change h.hom = a ≫ f at htriangle
       rw [ha'] at htriangle
       exact htriangle.trans (Category.id_comp f)
     refine ⟨y, ?_⟩
     apply CompleteLocalAlgCat.Hom.ext
-    have hprop := congrArg CompleteLocalAlgCat.Hom.hom h.property
+    have hprop := congrArg CompleteLocalAlgCat.Hom.hom h.map_val
     simpa [F, restrictedCoyoneda, restrictedCoyoneda_map_hom, hval] using hprop
   · intro h B A f hf y x g hg
     exact restrictedCoyonedaProjection_lift_of_lift R f (h f hf) y x g hg
@@ -142,55 +142,55 @@ private theorem restrictedCoyonedaProjection_smallLifts
       (𝓖 := BasedCategory.ofFunctor (𝟭 (ArtinianLocalAlgCat.{u, v, w} Λ k)))
       (φ := restrictedCoyonedaProjection R)
     · show IsCofiberedInGroupoids
-        (CategoryOfElements.π (restrictedCoyoneda R))
+        (Functor.Elements.π (restrictedCoyoneda R))
       show Functor.IsFiberedInGroupoids
-        (CategoryOfElements.π (restrictedCoyoneda R)).op
+        (Functor.Elements.π (restrictedCoyoneda R)).op
       constructor
       · intro V U f x hx
         rcases V with ⟨V⟩
         rcases U with ⟨U⟩
         rcases x with ⟨x⟩
-        change Opposite.op ((CategoryOfElements.π (restrictedCoyoneda R)).obj x) =
+        change Opposite.op ((Functor.Elements.π (restrictedCoyoneda R)).obj x) =
           Opposite.op U at hx
         cases hx
         let y := (restrictedCoyoneda R).elementsMk V
-          ((restrictedCoyoneda R).map f.unop x.2)
-        let g : x ⟶ y := CategoryOfElements.homMk x y f.unop rfl
+          ((restrictedCoyoneda R).map f.unop x.val)
+        let g : x ⟶ y := Functor.Elements.homMk f.unop rfl
         refine ⟨Opposite.op y, g.op, ?_⟩
-        have hmap : (CategoryOfElements.π (restrictedCoyoneda R)).op.map g.op = f := by
+        have hmap : (Functor.Elements.π (restrictedCoyoneda R)).op.map g.op = f := by
           apply Quiver.Hom.opEquiv.injective
-          simp [g, CategoryOfElements.π]
+          simp [g, Functor.Elements.π]
         rw [← hmap]
         exact inferInstance
       · intro x y z φ ψ f hf
         rcases x with ⟨x⟩
         rcases y with ⟨y⟩
         rcases z with ⟨z⟩
-        have hbase : φ.unop.val ≫ f.unop = ψ.unop.val := by
+        have hbase : φ.unop.hom ≫ f.unop = ψ.unop.hom := by
           simpa using congrArg Quiver.Hom.unop hf
-        let g : y ⟶ z := CategoryOfElements.homMk y z f.unop (by
+        let g : y ⟶ z := Functor.Elements.homMk f.unop (by
           calc
-            (restrictedCoyoneda R).map f.unop y.2 =
+            (restrictedCoyoneda R).map f.unop y.val =
                 (restrictedCoyoneda R).map f.unop
-                  ((restrictedCoyoneda R).map φ.unop.val x.2) := by
-                    rw [CategoryOfElements.map_snd]
-            _ = (restrictedCoyoneda R).map (φ.unop.val ≫ f.unop) x.2 := by
+                  ((restrictedCoyoneda R).map φ.unop.hom x.val) := by
+                    rw [Functor.Elements.Hom.map_val]
+            _ = (restrictedCoyoneda R).map (φ.unop.hom ≫ f.unop) x.val := by
                   rw [Functor.map_comp_apply]
-            _ = (restrictedCoyoneda R).map ψ.unop.val x.2 := by rw [hbase]
-            _ = z.2 := CategoryOfElements.map_snd ψ.unop)
+            _ = (restrictedCoyoneda R).map ψ.unop.hom x.val := by rw [hbase]
+            _ = z.val := Functor.Elements.Hom.map_val ψ.unop)
         refine ⟨g.op, ⟨?_, ?_⟩, ?_⟩
-        · have hmap : (CategoryOfElements.π (restrictedCoyoneda R)).op.map g.op = f := by
+        · have hmap : (Functor.Elements.π (restrictedCoyoneda R)).op.map g.op = f := by
             apply Quiver.Hom.opEquiv.injective
-            simp [g, CategoryOfElements.π]
+            simp [g, Functor.Elements.π]
           exact hmap
         · apply Quiver.Hom.opEquiv.symm.injective
-          apply CategoryOfElements.ext
+          apply Functor.Elements.hom_ext
           exact hbase
         · intro χ hχ
           apply Quiver.Hom.opEquiv.symm.injective
-          apply CategoryOfElements.ext
+          apply Functor.Elements.hom_ext
           have hh := congrArg Quiver.Hom.unop hχ.1
-          change χ.unop.val = f.unop at hh
+          change χ.unop.hom = f.unop at hh
           exact hh
     · exact hG
     · intro B A f hsmall y x g hg
@@ -246,7 +246,7 @@ private theorem formallySmoothNAdic_smallLifts
   have hfLift : Function.Surjective fLift := by
     intro a
     obtain ⟨b, hb⟩ := hf a.down
-    exact ⟨ULift.up b, ULift.ext _ _ hb⟩
+    exact ⟨ULift.up b, ULift.ext hb⟩
   let e : (E ⧸ J) ≃+* F :=
     RingHom.quotientKerEquivOfSurjective (f := fLift) hfLift
   let ψ : R →+* E ⧸ J := e.symm.toRingHom.comp (upA.comp x.hom.toRingHom)
@@ -364,7 +364,7 @@ private theorem formallySmooth_flat_specialFibre_tfae
   let : Algebra (ResidueField T) F := Algebra.TensorProduct.rightAlgebra
   let G := ResidueField T ⊗[T] R
   let : Algebra (ResidueField T) G := Algebra.TensorProduct.leftAlgebra
-  let eK : k' ≃+* ResidueField T := IsLocalization.AtPrime.equivQuotMaximalIdeal p T
+  let eK : k' ≃+* ResidueField T := (IsLocalization.AtPrime.equivQuotMaximalIdeal p T).toRingEquiv
   let : Algebra k' F := ((algebraMap (ResidueField T) F).comp eK.toRingHom).toAlgebra
   let Bbar := R ⊗[Λ] k'
   let : Algebra k' Bbar := Algebra.TensorProduct.rightAlgebra

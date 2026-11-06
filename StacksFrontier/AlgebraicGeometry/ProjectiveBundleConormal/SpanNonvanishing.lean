@@ -122,7 +122,7 @@ theorem exists_eq_smul_res_of_subset_nonvanishingLocusOn {Y : Scheme.{u}} (L : Y
     (V : Y.Opens) (hVU : V ≤ U)
     (hV : (V : Set Y) ⊆ Stacks.NonvanishingLocusRestrict.nonvanishingLocusOn L U t)
     (x : Γ(L, V)) :
-    ∃ g : Γ(Y, V), x = (L.smul g).hom (L.presheaf.map (homOfLE hVU).op t) := by
+    ∃ g : Γ(Y, V), x = (L.smul g).asHom.hom (L.presheaf.map (homOfLE hVU).op t) := by
   have hbij := Stacks.SheafOfModules.bijective_smul_of_forall_germ_notMem_maximalIdeal_smul_top
     (X := Y.toRingedSpace) L t V hVU (fun y hy hmem => (hV hy).2
       ((Stacks.NonvanishingPullback.mem_maximalSmul_iff L y _).mpr hmem))

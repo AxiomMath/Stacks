@@ -147,35 +147,35 @@ variable {Q : Type v} [Group Q] [TopologicalSpace Q] [IsTopologicalGroup Q] [Com
 
 /-- The orbit map `Q/U → J`, `qU ↦ q · x`, for `x` fixed by `U`. -/
 def orbitMap (U : OpenNormalSubgroup Q) (x : J.obj.obj.V)
-    (hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).hom x = x) :
+    (hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).asHom.hom x = x) :
     Q ⧸ (U : Subgroup Q) → J.obj.obj.V :=
-  Quotient.lift (fun q => (J.obj.obj.ρ q).hom x) (by
+  Quotient.lift (fun q => (J.obj.obj.ρ q).asHom.hom x) (by
     intro a b hab
     replace hab : a⁻¹ * b ∈ (U : Subgroup Q) := QuotientGroup.leftRel_apply.mp hab
-    change (J.obj.obj.ρ a).hom x = (J.obj.obj.ρ b).hom x
+    change (J.obj.obj.ρ a).asHom.hom x = (J.obj.obj.ρ b).asHom.hom x
     rw [show b = a * (a⁻¹ * b) by group, continuousModuleRho_mul_apply, hx _ hab])
 
 omit [IsTopologicalGroup Q] [CompactSpace Q] in
 /-- The orbit map sends the coset `qU` to `q · x`. -/
 lemma orbitMap_mk (U : OpenNormalSubgroup Q) (x : J.obj.obj.V)
-    (hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).hom x = x) (q : Q) :
-    orbitMap J U x hx (q : Q ⧸ (U : Subgroup Q)) = (J.obj.obj.ρ q).hom x := rfl
+    (hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).asHom.hom x = x) (q : Q) :
+    orbitMap J U x hx (q : Q ⧸ (U : Subgroup Q)) = (J.obj.obj.ρ q).asHom.hom x := rfl
 
 omit [IsTopologicalGroup Q] [CompactSpace Q] in
 /-- The orbit map is `Q`-equivariant. -/
 lemma orbitMap_smul (U : OpenNormalSubgroup Q) (x : J.obj.obj.V)
-    (hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).hom x = x) (q : Q) (c : Q ⧸ (U : Subgroup Q)) :
-    orbitMap J U x hx (q • c) = (J.obj.obj.ρ q).hom (orbitMap J U x hx c) := by
+    (hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).asHom.hom x = x) (q : Q) (c : Q ⧸ (U : Subgroup Q)) :
+    orbitMap J U x hx (q • c) = (J.obj.obj.ρ q).asHom.hom (orbitMap J U x hx c) := by
   induction c using QuotientGroup.induction_on with
   | H a =>
-    show (J.obj.obj.ρ (q * a)).hom x = (J.obj.obj.ρ q).hom ((J.obj.obj.ρ a).hom x)
+    show (J.obj.obj.ρ (q * a)).asHom.hom x = (J.obj.obj.ρ q).asHom.hom ((J.obj.obj.ρ a).asHom.hom x)
     exact continuousModuleRho_mul_apply ℤ J q a x
 
 /-- **An injective discrete `Q`-module is divisible.** -/
 theorem exists_zsmul_eq_of_injective [Injective J] (x : J.obj.obj.V) (m : ℤ) (hm : m ≠ 0) :
     ∃ y : J.obj.obj.V, m • y = x := by
   let U := fixingSubgroup ℤ J x
-  have hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).hom x = x :=
+  have hx : ∀ g ∈ (U : Subgroup Q), (J.obj.obj.ρ g).asHom.hom x = x :=
     mem_fixedSubmodule.mp (mem_fixedSubmodule_fixingSubgroup ℤ J x)
   let P := permutationModule.{0, v, w} ℤ U (ULift.{w} ℤ)
   let lin : (Q ⧸ (U : Subgroup Q) →₀ ULift.{w} ℤ) →+ J.obj.obj.V :=
@@ -193,9 +193,9 @@ theorem exists_zsmul_eq_of_injective [Injective J] (x : J.obj.obj.V) (m : ℤ) (
         simp only [Int.cast_id] at h
         exact h }
   have hφ : ∀ (q : Q) (f : P.obj.obj.V),
-      φlin ((P.obj.obj.ρ q).hom f) = (J.obj.obj.ρ q).hom (φlin f) := by
+      φlin ((P.obj.obj.ρ q).asHom.hom f) = (J.obj.obj.ρ q).asHom.hom (φlin f) := by
     rintro q ⟨f⟩
-    show lin (permutationRep ℤ U (ULift.{w} ℤ) q f) = (J.obj.obj.ρ q).hom (lin f)
+    show lin (permutationRep ℤ U (ULift.{w} ℤ) q f) = (J.obj.obj.ρ q).asHom.hom (lin f)
     induction f using Finsupp.induction_linear with
     | zero => simp
     | add f g hf hg => simp only [map_add, hf, hg]

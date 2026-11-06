@@ -81,7 +81,7 @@ theorem continuousModuleLevelDichotomy_lisseEtaleSheaf_of_matrix {O : Type*} [Co
     (P : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1 x))
     (e : P.obj.obj.obj.V ≃ₗ[Λ] (ι → Λ))
     (hS₀ : ∀ a ∈ S₀, ∃ g : EtaleFundamentalGroup X.1 x, ∃ c : Λˣ, ∀ v,
-      e ((P.obj.obj.obj.ρ g).hom v) = c • (a.map (algebraMap O Λ) *ᵥ e v))
+      e ((P.obj.obj.obj.ρ g).asHom.hom v) = c • (a.map (algebraMap O Λ) *ᵥ e v))
     (ℓ : O) (ℓₙ : ℕ) (hℓ : algebraMap O Λ ℓ = ℓₙ) (N c₀ : ℕ)
     (hD : ∀ S : Submodule Λ (ι → Λ), (∀ a ∈ S₀, ∀ v ∈ S, a.map (algebraMap O Λ) *ᵥ v ∈ S) →
       (∃ v ∈ S, ℓ ^ N • v ≠ 0) → ∀ w : ι → Λ, ℓ ^ c₀ • w ∈ S) (x' : GeometricPoint X.1)

@@ -124,12 +124,12 @@ chart's own scheme is an object of the big fppf site, over an affine chart it is
 spectrum is `max {ℵ₀, #R}` by `AlgebraicGeometry.Scheme.size_Spec`. -/
 theorem mk_structureSheaf_app_lt_cutoff_of_isAffine (U : SmallEtale B S hS X.1)
     (hU : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U)) :
-    Cardinal.mk ((smallEtaleRingedTopos B S hS X).O.val.obj (op U)) < B.cutoff := by
+    Cardinal.mk ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) < B.cutoff := by
   have hle : ((structureSheafChartSpec B S hS X).obj U).size ≤
       ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U).size :=
     Scheme.size_le_of_isOpenImmersion (structureSheafChartSpecIso B S hS X U hU).inv
   have hsize : ((structureSheafChartSpec B S hS X).obj U).size
-      = max ℵ₀ (Cardinal.mk ((smallEtaleRingedTopos B S hS X).O.val.obj (op U))) :=
+      = max ℵ₀ (Cardinal.mk ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U))) :=
     Scheme.size_Spec _
   exact lt_of_le_of_lt ((le_max_right _ _).trans (hsize.symm.le.trans hle))
     U.obj.left.left.property
@@ -142,14 +142,14 @@ section `s` of it embeds `𝒜(U)` into `ker(π_U) × 𝒪_X(U)` by `a ↦ (a - 
 second component determines `s(π_U a)` and the first then determines `a`. -/
 theorem mk_app_le_mul_ker_of_isAffine (U : SmallEtale B S hS X.1)
     (hU : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U)) :
-    Cardinal.mk (E.A.val.obj (op U)) ≤
+    Cardinal.mk (E.A.obj.obj (op U)) ≤
       Cardinal.mk (RingHom.ker (E.π.hom.app (op U)).hom) *
-        Cardinal.mk ((smallEtaleRingedTopos B S hS X).O.val.obj (op U)) := by
+        Cardinal.mk ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) := by
   have hsurj := SquareZeroExtension.surjective_π_app_of_isAffine B S hS E U hU
   classical
-  have hinj : Cardinal.mk (E.A.val.obj (op U)) ≤
+  have hinj : Cardinal.mk (E.A.obj.obj (op U)) ≤
       Cardinal.mk (RingHom.ker (E.π.hom.app (op U)).hom ×
-        (smallEtaleRingedTopos B S hS X).O.val.obj (op U)) := by
+        (smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) := by
     refine mk_le_of_injective (f := fun a => (⟨a - Function.surjInv hsurj
         ((E.π.hom.app (op U)).hom a), RingHom.mem_ker.mpr
         (by rw [map_sub, Function.surjInv_eq hsurj, sub_self])⟩,
@@ -183,7 +183,7 @@ theorem contains_chartSpec_obj_of_mk_ideal_lt_cutoff (U : SmallEtale B S hS X.1)
     B.Contains ((chartSpec B S hS E).obj U) := by
   have hker : Cardinal.mk (RingHom.ker (E.π.hom.app (op U)).hom) < B.cutoff :=
     (mk_congr (SquareZeroExtension.idealAddEquivKer B S hS E (op U)).toEquiv).symm.le.trans_lt hI
-  have hA : Cardinal.mk (E.A.val.obj (op U)) < B.cutoff :=
+  have hA : Cardinal.mk (E.A.obj.obj (op U)) < B.cutoff :=
     lt_of_le_of_lt (mk_app_le_mul_ker_of_isAffine B S hS E U hU)
       (Cardinal.mul_lt_of_lt B.aleph0_lt_cutoff.le hker
         (mk_structureSheaf_app_lt_cutoff_of_isAffine B S hS U hU))

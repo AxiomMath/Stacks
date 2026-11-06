@@ -79,7 +79,7 @@ private theorem characterTwistContinuousModule_one_ρ (M : ModuleCat.{u + 1} Λ)
     (g : EtaleFundamentalGroup X.1 x) :
     (characterTwistContinuousModule Λ (1 : EtaleFundamentalGroup X.1 x →* Λˣ)
       (isOpen_ker_one Λ) M).obj.obj.obj.ρ g = 1 := by
-  refine ModuleCat.hom_ext (LinearMap.ext fun v => ?_)
+  refine End.ext (ModuleCat.hom_ext (LinearMap.ext fun v => ?_))
   change (((1 : EtaleFundamentalGroup X.1 x →* Λˣ) g : Λˣ) : Λ) • v = v
   rw [MonoidHom.one_apply, Units.val_one, one_smul]
 
@@ -108,8 +108,8 @@ theorem nonempty_constantSheaf_tensor_lisseEtaleSheaf_iso
         change (c * a.down) • v = c • a.down • v
         rw [mul_smul])
   have hμ : ∀ (g : G) (a : M₁.obj.obj.obj.V) (b : Lχ.obj.obj.obj.V),
-      μ ((M₁.obj.obj.obj.ρ g).hom a) ((Lχ.obj.obj.obj.ρ g).hom b) =
-        (Mχ.obj.obj.obj.ρ g).hom (μ a b) := fun g a b => by
+      μ ((M₁.obj.obj.obj.ρ g).asHom.hom a) ((Lχ.obj.obj.obj.ρ g).asHom.hom b) =
+        (Mχ.obj.obj.obj.ρ g).asHom.hom (μ a b) := fun g a b => by
     change ((χ g : Λ) * b.down) • ((((1 : G →* Λˣ) g : Λˣ) : Λ) • (a : M)) =
       (χ g : Λ) • (b.down • (a : M))
     rw [MonoidHom.one_apply, Units.val_one, one_smul, mul_smul]

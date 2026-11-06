@@ -626,7 +626,7 @@ theorem pullbackRepresentationFibreMap_smul
   have h1 : (representationFibreEquiv B X (y.map g) Λ ρ).symm
       (finiteTypeContinuousModuleRepresentation Λ _ ρ (etaleFundamentalGroupMap g y γ) m) =
       finiteEtaleFiberProjection g y _
-        ((γ.app ((finiteEtaleBaseChange g).obj
+        ((γ.asIso.app ((finiteEtaleBaseChange g).obj
           (representationFiniteEtaleCover B X (y.map g) Λ ρ))).hom
           ((finiteEtaleFiberProjectionEquiv g y _).symm
             ((representationFibreEquiv B X (y.map g) Λ ρ).symm m))) := by
@@ -635,17 +635,17 @@ theorem pullbackRepresentationFibreMap_smul
       (etaleFundamentalGroupMap g y γ) _).symm
     rw [Equiv.apply_symm_apply]
   have hnat := ConcreteCategory.congr_hom
-    (γ.hom.naturality (pullbackRepresentationCoverFiniteEtaleHom B X g y ρ W t))
+    (γ.asIso.hom.naturality (pullbackRepresentationCoverFiniteEtaleHom B X g y ρ W t))
     ((finiteEtaleFiberProjectionEquiv g y _).symm
       ((representationFibreEquiv B X (y.map g) Λ ρ).symm m))
   rw [h1, finiteEtaleFiberProjectionEquiv_symm_projection]
   have hnat' : (finiteEtaleFiberFunctor y).map
       (pullbackRepresentationCoverFiniteEtaleHom B X g y ρ W t)
-      ((γ.app ((finiteEtaleBaseChange g).obj
+      ((γ.asIso.app ((finiteEtaleBaseChange g).obj
         (representationFiniteEtaleCover B X (y.map g) Λ ρ))).hom
         ((finiteEtaleFiberProjectionEquiv g y _).symm
           ((representationFibreEquiv B X (y.map g) Λ ρ).symm m))) =
-      (γ.app ((finiteEtaleBaseChange g).obj
+      (γ.asIso.app ((finiteEtaleBaseChange g).obj
           (representationFiniteEtaleCover B X (y.map g) (ZMod n) W))).hom
         ((finiteEtaleFiberFunctor y).map (pullbackRepresentationCoverFiniteEtaleHom B X g y ρ W t)
           ((finiteEtaleFiberProjectionEquiv g y _).symm
@@ -753,6 +753,7 @@ theorem pullbackRepresentationHomFun_injective
     pullbackRepresentationHom_app_eq B X g y Λ n W ρ φ' a]
   exact congrArg _ hc
 
+set_option maxRecDepth 8000 in
 /-- **The map `M → W` of `φ` lies in `Hom_{π₁(Y)}(M, W)`**: it is additive and invariant under the
 conjugation action of `π₁(Y, y)` on `Hom_ℤ(M, W)` (`Stacks.GroupCohomology.homDualFunctor`). -/
 theorem pullbackRepresentationHomFun_mem
@@ -902,18 +903,18 @@ theorem nat_card_pullbackRepresentationHom
             (EtaleFundamentalGroup X.1 (y.map g))).obj W.obj)).obj (op ρ)))) :=
     Equiv.subtypeEquivRight fun h => by
       refine forall_congr' fun γ => ?_
-      have hγ : ConcreteCategory.hom (N.obj.obj.obj.ρ γ) h =
+      have hγ : ConcreteCategory.hom (N.obj.obj.obj.ρ γ).asHom h =
           ConcreteCategory.hom
             (((finiteTypeContinuousModuleRes Λᵐᵒᵖ (etaleFundamentalGroupMap g y)).obj
               ((homDualFunctor Λ ((Stacks.ContinuousCohomology.continuousModuleForget (ZMod n)
                 (EtaleFundamentalGroup X.1 (y.map g))).obj W.obj)).obj (op ρ))).obj.obj.obj.ρ
-              γ) h := by
+              γ).asHom h := by
         refine AddMonoidHom.ext fun m => ?_
         let h' : ρ.obj.obj.obj.V →+ W.obj.obj.obj.V := h
-        change (W.obj.obj.obj.ρ (etaleFundamentalGroupMap g y γ)).hom
-            (h' ((ρ.obj.obj.obj.ρ (etaleFundamentalGroupMap g y γ⁻¹)).hom m)) =
-          (W.obj.obj.obj.ρ (etaleFundamentalGroupMap g y γ)).hom
-            (h' ((ρ.obj.obj.obj.ρ (etaleFundamentalGroupMap g y γ)⁻¹).hom m))
+        change (W.obj.obj.obj.ρ (etaleFundamentalGroupMap g y γ)).asHom.hom
+            (h' ((ρ.obj.obj.obj.ρ (etaleFundamentalGroupMap g y γ⁻¹)).asHom.hom m)) =
+          (W.obj.obj.obj.ρ (etaleFundamentalGroupMap g y γ)).asHom.hom
+            (h' ((ρ.obj.obj.obj.ρ (etaleFundamentalGroupMap g y γ)⁻¹).asHom.hom m))
         rw [map_inv]
       rw [hγ]
       exact Iff.rfl

@@ -593,6 +593,13 @@ section Presentation
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_SpecStalkAffineNhdsSystem
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {B S hS}
 
 /-- **Every transition morphism of a system of affine open neighbourhoods is a

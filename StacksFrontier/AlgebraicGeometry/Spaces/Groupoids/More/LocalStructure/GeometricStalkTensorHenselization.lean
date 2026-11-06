@@ -313,6 +313,13 @@ open StacksDraft
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS} (G : GroupoidInAlgebraicSpaces C S hS B)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_geometricStalkTensorHenselization
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The morphism `(e, e)` and the homomorphism it induces -/
 
 /-- The morphism `(e, e) : U ⟶ R ×_{s, U, t} R` pairing the identity arrow at an object with

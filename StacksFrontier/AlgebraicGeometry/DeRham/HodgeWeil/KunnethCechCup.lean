@@ -281,6 +281,7 @@ theorem cupProductSquareCommutes_unfolded
             (K.obj, M.obj)) :=
   Stacks.Cech.CupProductSquare.cupProductSquareCommutes S U hU (K := K) (M := M)
 
+set_option maxHeartbeats 1000000 in
 /-- `totalCupPairing_cechBaseClass` with the classes written through `cycleClass`. -/
 theorem totalCupPairing_cycleClass_cechToBaseSections
     (K M : CochainComplex.Plus
@@ -325,6 +326,7 @@ theorem totalCupPairing_cycleClass_cechToBaseSections
     (cupProductSquareCommutes_unfolded S U hU K M) z w z₀ hz₀
   exact key
 
+set_option maxHeartbeats 1000000 in
 /-- **[Stacks, Tag 0FKV] on cohomology classes.**  Let `z` and `w` be cocycles of the total Čech
 complexes `Tot(Č^•(𝒰, 𝒦^•))` and `Tot(Č^•(𝒰, ℳ^•))` of degrees `i` and `j`, and let `z₀` lift the
 tensor product of cocycles to the cocycles of `Tot(Tot(Č^•(𝒰, 𝒦^•)) ⊗ Tot(Č^•(𝒰, ℳ^•)))`. Then
@@ -537,6 +539,7 @@ open Stacks.Cohomology.CechSheaf (coverObject)
 
 variable {X : RingedSpace.{u, u}} {A : TopCat.Sheaf CommRingCat.{u} X.carrier}
 
+set_option maxHeartbeats 1000000 in
 /-- **The Čech cup product at the sheaf-tensor coefficients followed by a multiplication of
 sheaves placed in degree `0` is the Čech cup product of the bilinear map on sections** of that
 multiplication. -/
@@ -611,6 +614,7 @@ theorem cochainOfAt_eq_comp_ιTotalCechTo
           p 0 ((p : ℤ) + 0) rfl :=
   (Category.assoc _ _ _).symm
 
+set_option maxHeartbeats 1000000 in
 /-- **The cup product of two homogeneous cochains of total Čech complexes in coefficient
 degree `0`, followed by a multiplication**, is the Alexander–Whitney product of the two
 Čech cochains along the bilinear map of the multiplication. -/
@@ -733,6 +737,7 @@ open Stacks.Cohomology.CechSheaf (coverObject abSections)
 variable (S : RingedSpace.{u, u}) {I : Type u} (U : I → Opens S.carrier)
   (hU : (⊤ : Opens S.carrier) = ⨆ i, U i)
 
+set_option maxHeartbeats 1000000 in
 /-- **The cup product of the cochains attached to two Čech cocycles in degree `0`, followed by a
 multiplication**, over `Γ(S, 𝒪_S)`: the cochain attached to their Alexander–Whitney product. -/
 theorem cupPair_cochainOfAt_cechCupProductSheafTensor_comp_map
@@ -796,6 +801,7 @@ theorem cupPair_cochainOfAt_cechCupProductSheafTensor_comp_map
     (unitTensor_cechAlexanderWhitney_sliceMor β U hU c e)
   exact key.trans (cochainOfAtTo_eq_comp_ιTotalCechTo U hU _ _ _).symm
 
+set_option maxHeartbeats 1000000 in
 /-- **The Čech cup product of two Čech cocycles in degree `0`, followed by a multiplication, on
 cycles**: the cocycle of the total Čech complex of the target attached to their
 Alexander–Whitney product. -/
@@ -962,6 +968,7 @@ theorem totalCupPairing_cechBaseClass_comp_cohomologyMap_apply
     (totalCupPairing_cechBaseClass_comp_cohomologyMap S U hU K L M μ z w z₀ hz₀)
   exact Eq.trans rfl h
 
+set_option maxHeartbeats 1000000 in
 /-- **The class of the product cycle is the class of the Alexander–Whitney product of the two
 Čech cocycles.** -/
 theorem cechBaseClass_cyclesMap_cechCupProductSheafTensor_apply
@@ -1076,6 +1083,7 @@ theorem cechSheafClass_eq_cechCocycleToCycles
           ((p : ℤ) + 0)).hom 1 :=
   rfl
 
+set_option maxHeartbeats 1000000 in
 /-- The cup product of the classes of two Čech cocycles, followed by a multiplication, through
 the cycles of the total Čech complexes. -/
 theorem cohomologyMap_totalCupPairing_cechSheafClass_eq_cycles
@@ -1153,6 +1161,7 @@ theorem cohomologyMap_totalCupPairing_cechSheafClass_eq_cycles
     (Stacks.Cech.Hypercohomology.singlePlus S.sheaf H 0) μ (cechCocycleToCycles S U hU c hc)
     (cechCocycleToCycles S U hU e he) z₀ hz₀)
 
+set_option maxHeartbeats 1000000 in
 /-- The class of the product cycle of two Čech cocycles is the class of their Alexander–Whitney
 product. -/
 theorem cycles_class_eq_cechSheafClass_cechAWCochain

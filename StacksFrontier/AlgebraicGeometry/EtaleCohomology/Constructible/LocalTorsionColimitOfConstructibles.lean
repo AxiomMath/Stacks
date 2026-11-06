@@ -431,7 +431,7 @@ public theorem ind_isConstructibleAbelianSheaf_of_torsionSheafProperty
             (SmallEtale.topology B X.obj X.property) F) :=
           Stacks.Torsion.isIso_torsionFiltrationDesc _ F hF
         exact IsColimit.ofIsoColimit (colimit.isColimit _)
-          (Cocones.ext (asIso (Stacks.Torsion.torsionFiltrationDesc
+          (Cocone.ext (asIso (Stacks.Torsion.torsionFiltrationDesc
             (SmallEtale.topology B X.obj X.property) F))
             (fun j => Stacks.Torsion.ι_torsionFiltrationDesc _ F j))⟩ :
       ColimitPresentation (ULift.{u + 1, 0} ℕ) F) hstage

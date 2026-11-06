@@ -122,30 +122,33 @@ public theorem LAdicSheaf.zero_app_apply (F G : LAdicSheaf B X ℓ) (n : ℕ) (U
 
 /-- **The canonical `ℤ_ℓ`-algebra structure on `End F`**: `c ↦` multiplication by `c`. -/
 public def LAdicSheaf.scalarRingHom (F : LAdicSheaf B X ℓ) : ℤ_[ℓ] →+* End F where
-  toFun c := LAdicSheaf.scalarEnd F c
+  toFun c := End.of (LAdicSheaf.scalarEnd F c)
   map_one' := by
-    refine LAdicSheaf.hom_ext_apply (fun n U x => ?_)
+    refine End.ext (LAdicSheaf.hom_ext_apply (fun n U x => ?_))
+    change (((LAdicSheaf.scalarEnd F 1).app n).hom.app U).hom x = x
     rw [LAdicSheaf.scalarEnd_app_apply, map_one, one_smul]
-    rfl
   map_mul' c d := by
-    refine LAdicSheaf.hom_ext_apply (fun n U x => ?_)
+    refine End.ext (LAdicSheaf.hom_ext_apply (fun n U x => ?_))
+    change (((LAdicSheaf.scalarEnd F (c * d)).app n).hom.app U).hom x = _
     rw [LAdicSheaf.scalarEnd_app_apply, map_mul, mul_smul]
     change _ = (((LAdicSheaf.scalarEnd F c).app n).hom.app U).hom
       ((((LAdicSheaf.scalarEnd F d).app n).hom.app U).hom x)
     rw [LAdicSheaf.scalarEnd_app_apply, LAdicSheaf.scalarEnd_app_apply]
   map_zero' := by
-    refine LAdicSheaf.hom_ext_apply (fun n U x => ?_)
+    refine End.ext (LAdicSheaf.hom_ext_apply (fun n U x => ?_))
+    change (((LAdicSheaf.scalarEnd F 0).app n).hom.app U).hom x = 0
     rw [LAdicSheaf.scalarEnd_app_apply, map_zero, zero_smul]
-    rfl
   map_add' c d := by
-    refine LAdicSheaf.hom_ext_apply (fun n U x => ?_)
+    refine End.ext (LAdicSheaf.hom_ext_apply (fun n U x => ?_))
+    change (((LAdicSheaf.scalarEnd F (c + d)).app n).hom.app U).hom x =
+      (((LAdicSheaf.scalarEnd F c + LAdicSheaf.scalarEnd F d).app n).hom.app U).hom x
     rw [LAdicSheaf.scalarEnd_app_apply, map_add, add_smul, LAdicSheaf.add_app_apply,
       LAdicSheaf.scalarEnd_app_apply, LAdicSheaf.scalarEnd_app_apply]
 
 /-- The canonical `ℤ_ℓ`-action sends `c` to multiplication by `c`. -/
 @[simp]
 public theorem LAdicSheaf.scalarRingHom_apply (F : LAdicSheaf B X ℓ) (c : ℤ_[ℓ]) :
-    LAdicSheaf.scalarRingHom F c = LAdicSheaf.scalarEnd F c :=
+    (LAdicSheaf.scalarRingHom F c).asHom = LAdicSheaf.scalarEnd F c :=
   rfl
 
 /-- A `ℓ`-adic integer is its residue modulo `ℓⁿ⁺¹` plus a multiple of `ℓⁿ⁺¹`. -/
@@ -179,23 +182,23 @@ public theorem sheaf_natCast_nsmul_eq_zero {C : Type*} [Category C] {J : Grothen
 public theorem LAdicSheaf.eq_scalarRingHom (F : LAdicSheaf B X ℓ) (φ : ℤ_[ℓ] →+* End F) :
     φ = LAdicSheaf.scalarRingHom F := by
   ext c : 1
-  refine AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext B X ℓ fun n => ?_
+  refine End.ext (AlgebraicGeometry.SmallEtale.LAdicSheaf.Hom.ext B X ℓ fun n => ?_)
   obtain ⟨d, hd⟩ := exists_eq_toZModPow_val_add (ℓ := ℓ) c n
-  have e1 : (((PadicInt.toZModPow (n + 1) c).val : End F)).app n =
+  have e1 : (((PadicInt.toZModPow (n + 1) c).val : End F)).asHom.app n =
       (PadicInt.toZModPow (n + 1) c).val • 𝟙 (F.level n) := by
     rw [← nsmul_one]
     rfl
-  have e2 : (((ℓ : End F) ^ (n + 1) * φ d : End F)).app n = 0 := by
+  have e2 : (((ℓ : End F) ^ (n + 1) * φ d : End F)).asHom.app n = 0 := by
     rw [← Nat.cast_pow, ← nsmul_one, smul_mul_assoc, one_mul]
-    exact sheaf_natCast_nsmul_eq_zero (N := ℓ ^ (n + 1)) ((φ d).app n)
-  calc (φ c).app n
-      = (((PadicInt.toZModPow (n + 1) c).val : End F) + (ℓ : End F) ^ (n + 1) * φ d).app n := by
-        congr 1
+    exact sheaf_natCast_nsmul_eq_zero (N := ℓ ^ (n + 1)) ((φ d).asHom.app n)
+  calc (φ c).asHom.app n
+      = (((PadicInt.toZModPow (n + 1) c).val : End F) + (ℓ : End F) ^ (n + 1) * φ d).asHom.app n := by
+        refine congrArg (fun e : End F => e.asHom.app n) ?_
         conv_lhs => rw [hd]
         rw [map_add, map_mul, map_pow, map_natCast, map_natCast]
-    _ = (((PadicInt.toZModPow (n + 1) c).val : End F)).app n +
-          (((ℓ : End F) ^ (n + 1) * φ d : End F)).app n := rfl
-    _ = (LAdicSheaf.scalarRingHom F c).app n := by
+    _ = (((PadicInt.toZModPow (n + 1) c).val : End F)).asHom.app n +
+          (((ℓ : End F) ^ (n + 1) * φ d : End F)).asHom.app n := rfl
+    _ = (LAdicSheaf.scalarRingHom F c).asHom.app n := by
         rw [e1, e2, add_zero]
         rfl
 
@@ -311,8 +314,9 @@ variable {O : Type} [CommRing O] [Algebra ℤ_[ℓ] O] (F : LAdicSheaf.Coefficie
 
 /-- The action of `O` extends the canonical action of `ℤ_ℓ`. -/
 public theorem act_algebraMap (c : ℤ_[ℓ]) :
-    F.act (algebraMap ℤ_[ℓ] O c) = LAdicSheaf.scalarEnd F.toLAdicSheaf c :=
-  RingHom.congr_fun (LAdicSheaf.eq_scalarRingHom F.toLAdicSheaf (F.act.comp (algebraMap _ _))) c
+    (F.act (algebraMap ℤ_[ℓ] O c)).asHom = LAdicSheaf.scalarEnd F.toLAdicSheaf c :=
+  congrArg End.asHom
+    (RingHom.congr_fun (LAdicSheaf.eq_scalarRingHom F.toLAdicSheaf (F.act.comp (algebraMap _ _))) c)
 
 /-- The `O`-module structure on the ℓ-adic stalk, through the action of `O` on the sheaf. -/
 public instance stalkModule (s : GeometricPoint X.1) :
@@ -322,15 +326,15 @@ public instance stalkModule (s : GeometricPoint X.1) :
 /-- `o ∈ O` acts on the stalk of an `O`-sheaf as the stalk map of its action on the sheaf. -/
 public theorem smul_stalk_def (s : GeometricPoint X.1) (o : O)
     (v : LAdicSheaf.stalk B X ℓ F.toLAdicSheaf s) :
-    o • v = LAdicSheaf.stalkMap (F.act o) s v :=
+    o • v = LAdicSheaf.stalkMap (F.act o).asHom s v :=
   rfl
 
 /-- The `O`-module structure on the stalk of an `O`-sheaf extends its `ℤ_ℓ`-module structure. -/
 public instance stalk_isScalarTower (s : GeometricPoint X.1) :
     IsScalarTower ℤ_[ℓ] O (LAdicSheaf.stalk B X ℓ F.toLAdicSheaf s) where
   smul_assoc c o v := by
-    rw [smul_stalk_def, smul_stalk_def, Algebra.smul_def, map_mul, act_algebraMap]
-    change LAdicSheaf.stalkMap (F.act o ≫ LAdicSheaf.scalarEnd F.toLAdicSheaf c) s v = _
+    rw [smul_stalk_def, smul_stalk_def, Algebra.smul_def, map_mul, End.mul_asHom, act_algebraMap]
+    change LAdicSheaf.stalkMap ((F.act o).asHom ≫ LAdicSheaf.scalarEnd F.toLAdicSheaf c) s v = _
     rw [LAdicSheaf.stalkMap_comp, LinearMap.comp_apply, LAdicSheaf.stalkMap_scalarEnd]
 
 /-- **The action of an endomorphism of the geometric point (e.g. the geometric Frobenius) on the
@@ -341,7 +345,7 @@ public def stalkEnd {s : GeometricPoint X.1} (a : GeometricPoint.Hom s s) :
   map_add' := map_add _
   map_smul' o v := by
     rw [smul_stalk_def, smul_stalk_def, RingHom.id_apply]
-    exact LinearMap.congr_fun (LAdicSheaf.stalkEnd_comp_stalkMap (F.act o) a) v
+    exact LinearMap.congr_fun (LAdicSheaf.stalkEnd_comp_stalkMap (F.act o).asHom a) v
 
 /-- Restricted to `ℤ_ℓ`, the `O`-linear action of an endomorphism of the geometric point on the
 stalk is its `ℤ_ℓ`-linear action. -/
@@ -365,7 +369,7 @@ public instance compactlySupportedCohomologyModule (i : ℤ) :
 /-- `o ∈ O` acts on `Hⁱ_c(X_k̄, F)` as the map induced by its action on the sheaf. -/
 public theorem smul_compactlySupportedCohomology_def (i : ℤ) (o : O)
     (v : LAdicSheaf.geometricCompactlySupportedCohomology B X ℓ f j kbar F.toLAdicSheaf i) :
-    o • v = (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F.act o) i).hom v :=
+    o • v = (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F.act o).asHom i).hom v :=
   rfl
 
 /-- The `O`-module structure on `Hⁱ_c(X_k̄, F)` extends its `ℤ_ℓ`-module structure. -/
@@ -374,9 +378,9 @@ public instance compactlySupportedCohomology_isScalarTower (i : ℤ) :
       (LAdicSheaf.geometricCompactlySupportedCohomology B X ℓ f j kbar F.toLAdicSheaf i) where
   smul_assoc c o v := by
     rw [smul_compactlySupportedCohomology_def, smul_compactlySupportedCohomology_def,
-      Algebra.smul_def, map_mul, act_algebraMap]
+      Algebra.smul_def, map_mul, End.mul_asHom, act_algebraMap]
     change (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar
-      (F.act o ≫ LAdicSheaf.scalarEnd F.toLAdicSheaf c) i).hom v = _
+      ((F.act o).asHom ≫ LAdicSheaf.scalarEnd F.toLAdicSheaf c) i).hom v = _
     rw [LAdicSheaf.geometricCompactlySupportedCohomologyMap_comp, ModuleCat.hom_comp,
       LinearMap.comp_apply, LAdicSheaf.geometricCompactlySupportedCohomologyMap_scalarEnd]
 
@@ -393,7 +397,7 @@ public def geometricCompactlySupportedFrobenius (p q : ℕ) [Fact p.Prime] [Char
       RingHom.id_apply]
     exact ConcreteCategory.congr_hom
       (LAdicSheaf.geometricCompactlySupportedCohomologyMap_frobenius f j kbar p q hcard
-        (F.act o) i) v
+        (F.act o).asHom i) v
 
 /-- Restricted to `ℤ_ℓ`, the `O`-linear `π_X^*` on `Hⁱ_c(X_k̄, F)` is the `ℤ_ℓ`-linear one. -/
 public theorem geometricCompactlySupportedFrobenius_restrictScalars (p q : ℕ) [Fact p.Prime]
@@ -418,7 +422,7 @@ omit [Fintype ι] [DecidableEq ι] in
 /-- The components of `biproduct.matrix` on a power of one object. -/
 public theorem ι_matrix_π [Finite ι] (m : ι → ι → End A) (i k : ι) :
     biproduct.ι (fun _ : ι => A) i ≫ biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A)
-      (fun i j => m i j) ≫ biproduct.π (fun _ : ι => A) k = m i k := by
+      (fun i j => (m i j).asHom) ≫ biproduct.π (fun _ : ι => A) k = (m i k).asHom := by
   rw [biproduct.matrix_π, biproduct.ι_desc]
 
 omit [Fintype ι] [DecidableEq ι] in
@@ -433,40 +437,47 @@ public theorem pow_hom_ext [Finite ι] {F G : (⨁ fun _ : ι => A) ⟶ ⨁ fun 
 `M_ι(End A) → End(⨁_ι A)`.  `End A` multiplies by composition in the reverse order, so the matrix
 `M` acts through its transpose. -/
 public def matrixEndRingHom : Matrix ι ι (End A) →+* End (⨁ fun _ : ι => A) where
-  toFun M := biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A) fun i j => M j i
-  map_one' := pow_hom_ext A ι fun i k => by
+  toFun M := End.of
+    (biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A) fun i j => (M j i).asHom)
+  map_one' := End.ext <| pow_hom_ext A ι fun i k => by
+    dsimp only
     rw [ι_matrix_π A ι (fun i j => (1 : Matrix ι ι (End A)) j i)]
-    change (1 : Matrix ι ι (End A)) k i = biproduct.ι _ i ≫ 𝟙 (⨁ fun _ : ι => A) ≫ biproduct.π _ k
+    change ((1 : Matrix ι ι (End A)) k i).asHom =
+      biproduct.ι _ i ≫ 𝟙 (⨁ fun _ : ι => A) ≫ biproduct.π _ k
     rw [Category.id_comp, biproduct.ι_π, Matrix.one_apply]
     by_cases h : i = k
     · subst h
       rw [if_pos rfl, dif_pos rfl, eqToHom_refl]
       rfl
-    · rw [if_neg (Ne.symm h), dif_neg h]
-  map_mul' M N := pow_hom_ext A ι fun i k => by
+    · rw [if_neg (Ne.symm h), dif_neg h] <;> rfl
+  map_mul' M N := End.ext <| pow_hom_ext A ι fun i k => by
+    dsimp only
     rw [ι_matrix_π A ι (fun i j => (M * N) j i)]
     change _ = biproduct.ι _ i ≫ (biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A)
-      (fun i j => N j i) ≫ biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A)
-        (fun i j => M j i)) ≫ biproduct.π _ k
+      (fun i j => (N j i).asHom) ≫ biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A)
+        (fun i j => (M j i).asHom)) ≫ biproduct.π _ k
     rw [Category.assoc, biproduct.matrix_π, biproduct.matrix_desc, biproduct.ι_desc,
-      Matrix.mul_apply]
-    rfl
-  map_zero' := pow_hom_ext A ι fun i k => by
+      Matrix.mul_apply, End.sum_asHom] <;> rfl
+  map_zero' := End.ext <| pow_hom_ext A ι fun i k => by
+    dsimp only
     rw [ι_matrix_π A ι (fun i j => (0 : Matrix ι ι (End A)) j i)]
+    change ((0 : Matrix ι ι (End A)) k i).asHom = biproduct.ι (fun _ : ι => A) i ≫
+      (0 : (⨁ fun _ : ι => A) ⟶ ⨁ fun _ : ι => A) ≫ biproduct.π (fun _ : ι => A) k
     simp only [Limits.zero_comp, Limits.comp_zero]
     rfl
-  map_add' M N := pow_hom_ext A ι fun i k => by
+  map_add' M N := End.ext <| pow_hom_ext A ι fun i k => by
+    dsimp only
     rw [ι_matrix_π A ι (fun i j => (M + N) j i)]
     change _ = biproduct.ι _ i ≫ (biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A)
-      (fun i j => M j i) + biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A)
-        (fun i j => N j i)) ≫ biproduct.π _ k
+      (fun i j => (M j i).asHom) + biproduct.matrix (f := fun _ : ι => A) (g := fun _ : ι => A)
+        (fun i j => (N j i).asHom)) ≫ biproduct.π _ k
     rw [Preadditive.add_comp, Preadditive.comp_add, ι_matrix_π A ι (fun i j => M j i),
-      ι_matrix_π A ι (fun i j => N j i), Matrix.add_apply]
+      ι_matrix_π A ι (fun i j => N j i), Matrix.add_apply] <;> rfl
 
 /-- The components of the action of a matrix. -/
 public theorem ι_matrixEndRingHom_π (M : Matrix ι ι (End A)) (i k : ι) :
-    biproduct.ι (fun _ : ι => A) i ≫ matrixEndRingHom A ι M ≫ biproduct.π (fun _ : ι => A) k =
-      M k i :=
+    biproduct.ι (fun _ : ι => A) i ≫ (matrixEndRingHom A ι M).asHom ≫
+      biproduct.π (fun _ : ι => A) k = (M k i).asHom :=
   ι_matrix_π A ι (fun i j => M j i) i k
 
 end Matrix
@@ -493,7 +504,7 @@ public theorem extendScalars_toLAdicSheaf (F : LAdicSheaf B X ℓ) (b : Module.B
 the `(k, i)` entry of the matrix of `o`. -/
 public theorem ι_extendScalars_act_π (F : LAdicSheaf B X ℓ) (b : Module.Basis ι ℤ_[ℓ] O) (o : O)
     (i k : ι) :
-    biproduct.ι (fun _ : ι => F) i ≫ (extendScalars F b).act o ≫ biproduct.π _ k =
+    biproduct.ι (fun _ : ι => F) i ≫ ((extendScalars F b).act o).asHom ≫ biproduct.π _ k =
       LAdicSheaf.scalarEnd F (Algebra.leftMulMatrix b o k i) :=
   ι_matrixEndRingHom_π F ι _ i k
 

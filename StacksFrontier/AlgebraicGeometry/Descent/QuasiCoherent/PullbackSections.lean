@@ -246,7 +246,6 @@ private lemma pullbackSectionsMap_id {S : Scheme.{u}}
     TopologicalSpace.Opens.map_top, Functor.id_obj, Functor.op_obj, Category.id_comp]
   convert ((Scheme.Modules.pullback T.hom).obj F).presheaf.map_id
     (op (⊤ : T.left.Opens)) using 1
-  congr 1
 
 private lemma pullbackSectionsMap_comp {S : Scheme.{u}}
     (F : S.Modules) {X Y Z : Over S} (f : X ⟶ Y) (g : Y ⟶ Z) :

@@ -114,7 +114,7 @@ theorem dualNumbersUnderHom_bijective :
     exact TrivSqZeroExt.ext
       ((dualNumbersUnderRingHom_fst (p := p) (x := x) a).symm.trans
         ((congrArg TrivSqZeroExt.fst h).trans (dualNumbersUnderRingHom_fst (p := p) (x := x) b)))
-      (ULift.ext _ _ ((dualNumbersUnderRingHom_snd (p := p) (x := x) a).symm.trans
+      (ULift.ext ((dualNumbersUnderRingHom_snd (p := p) (x := x) a).symm.trans
         ((congrArg TrivSqZeroExt.snd h).trans (dualNumbersUnderRingHom_snd (p := p) (x := x) b))))
   · intro b
     let b' : TrivSqZeroExt k k := b
@@ -196,49 +196,49 @@ private theorem conj_comp_conj {X Y : E} (e : X ≅ Y) {f g : X ⟶ X} (h : f �
 identifies their automorphism groups. -/
 def fiberAutMulEquivOfIso {U V : C} {a : p.Fiber U} {b : p.Fiber V} (e : a.1 ≅ b.1) :
     Aut a ≃* Aut b where
-  toFun α :=
-    { hom := fiberEndMk (e.inv ≫ α.hom.1 ≫ e.hom) (by
+  toFun α := .of
+    { hom := fiberEndMk (e.inv ≫ α.asIso.hom.1 ≫ e.hom) (by
         rw [p.map_comp, p.map_comp, map_fiber_hom_val_eq_id, Category.id_comp, ← p.map_comp,
           e.inv_hom_id, p.map_id])
-      inv := fiberEndMk (e.inv ≫ α.inv.1 ≫ e.hom) (by
+      inv := fiberEndMk (e.inv ≫ α.asIso.inv.1 ≫ e.hom) (by
         rw [p.map_comp, p.map_comp, map_fiber_hom_val_eq_id, Category.id_comp, ← p.map_comp,
           e.inv_hom_id, p.map_id])
       hom_inv_id := Fiber.hom_ext <| by
-        exact conj_comp_conj e (congrArg Subtype.val α.hom_inv_id)
+        exact conj_comp_conj e (congrArg Subtype.val α.asIso.hom_inv_id)
       inv_hom_id := Fiber.hom_ext <| by
-        exact conj_comp_conj e (congrArg Subtype.val α.inv_hom_id) }
-  invFun β :=
-    { hom := fiberEndMk (e.hom ≫ β.hom.1 ≫ e.inv) (by
+        exact conj_comp_conj e (congrArg Subtype.val α.asIso.inv_hom_id) }
+  invFun β := .of
+    { hom := fiberEndMk (e.hom ≫ β.asIso.hom.1 ≫ e.inv) (by
         rw [p.map_comp, p.map_comp, map_fiber_hom_val_eq_id, Category.id_comp, ← p.map_comp,
           e.hom_inv_id, p.map_id])
-      inv := fiberEndMk (e.hom ≫ β.inv.1 ≫ e.inv) (by
+      inv := fiberEndMk (e.hom ≫ β.asIso.inv.1 ≫ e.inv) (by
         rw [p.map_comp, p.map_comp, map_fiber_hom_val_eq_id, Category.id_comp, ← p.map_comp,
           e.hom_inv_id, p.map_id])
       hom_inv_id := Fiber.hom_ext <| by
-        exact conj_comp_conj e.symm (congrArg Subtype.val β.hom_inv_id)
+        exact conj_comp_conj e.symm (congrArg Subtype.val β.asIso.hom_inv_id)
       inv_hom_id := Fiber.hom_ext <| by
-        exact conj_comp_conj e.symm (congrArg Subtype.val β.inv_hom_id) }
+        exact conj_comp_conj e.symm (congrArg Subtype.val β.asIso.inv_hom_id) }
   left_inv α := by
-    apply Aut.ext
+    apply Aut.ext; apply Iso.ext
     apply Fiber.hom_ext
-    change e.hom ≫ (e.inv ≫ α.hom.1 ≫ e.hom) ≫ e.inv = α.hom.1
+    change e.hom ≫ (e.inv ≫ α.asIso.hom.1 ≫ e.hom) ≫ e.inv = α.asIso.hom.1
     simp
   right_inv β := by
-    apply Aut.ext
+    apply Aut.ext; apply Iso.ext
     apply Fiber.hom_ext
-    change e.inv ≫ (e.hom ≫ β.hom.1 ≫ e.inv) ≫ e.hom = β.hom.1
+    change e.inv ≫ (e.hom ≫ β.asIso.hom.1 ≫ e.inv) ≫ e.hom = β.asIso.hom.1
     simp
   map_mul' α α' := by
-    apply Aut.ext
+    apply Aut.ext; apply Iso.ext
     apply Fiber.hom_ext
-    change e.inv ≫ (α'.hom.1 ≫ α.hom.1) ≫ e.hom =
-      (e.inv ≫ α'.hom.1 ≫ e.hom) ≫ e.inv ≫ α.hom.1 ≫ e.hom
+    change e.inv ≫ (α'.asIso.hom.1 ≫ α.asIso.hom.1) ≫ e.hom =
+      (e.inv ≫ α'.asIso.hom.1 ≫ e.hom) ≫ e.inv ≫ α.asIso.hom.1 ≫ e.hom
     simp
 
 /-- The conjugate automorphism is conjugation by the given isomorphism. -/
 @[simp]
 theorem fiberAutMulEquivOfIso_hom_val {U V : C} {a : p.Fiber U} {b : p.Fiber V} (e : a.1 ≅ b.1)
-    (α : Aut a) : (fiberAutMulEquivOfIso e α).hom.1 = e.inv ≫ α.hom.1 ≫ e.hom :=
+    (α : Aut a) : (fiberAutMulEquivOfIso e α).asIso.hom.1 = e.inv ≫ α.asIso.hom.1 ≫ e.hom :=
   rfl
 
 end FiberAut
@@ -287,9 +287,9 @@ instance isIso_residueMorphism_specialFibreUnder (x : F) :
   let := residueAlgebra (p.obj x)
   let r := residueMorphism.{u, v, w} (specialFibreUnder (p := p) (x := x)).right
   have hr (a : (specialFibreUnder (p := p) (x := x)).right) : r.hom a = ULift.up a.down :=
-    ULift.ext _ _ (residueFieldObject_residue (p.obj x) k a)
+    ULift.ext (residueFieldObject_residue (p.obj x) k a)
   refine ArtinianLocalAlgCat.isIso_of_bijective_hom r ⟨fun a b hab => ?_, fun a => ⟨⟨a.down⟩, hr _⟩⟩
-  exact ULift.ext _ _ (congrArg ULift.down ((hr a).symm.trans (hab.trans (hr b))))
+  exact ULift.ext (congrArg ULift.down ((hr a).symm.trans (hab.trans (hr b))))
 
 end ResidueFieldPoints
 

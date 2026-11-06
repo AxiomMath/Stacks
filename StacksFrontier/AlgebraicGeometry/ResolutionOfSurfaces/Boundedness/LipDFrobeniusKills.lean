@@ -140,7 +140,7 @@ abbrev smulE (c : Γ(X, ⊤)) : End (𝟭 (SheafOfModules.{u} 𝒪)) :=
 omit [IsIntegral X] [IsIntegral V.X] [IsFinite π] [Surjective π] [IsNormal X] [IsNormal V.X] in
 /-- Multiplication by a global function of `X` on sections of `π_* 𝒪_Y`. -/
 theorem toΓY_smulEnd (c : Γ(X, ⊤)) {U : X.Opens} (s : (secF 𝒪 U).obj (pushUnit V π)) :
-    toΓY V π ((secF 𝒪 U).map ((smulE X c).app _) s) =
+    toΓY V π ((secF 𝒪 U).map ((smulE X c).asHom.app _) s) =
       π.app U (X.presheaf.map (homOfLE le_top).op c) * toΓY V π s := by
   have h : (isTerminalTop.from U) = homOfLE le_top := Subsingleton.elim _ _
   rw [← h]
@@ -150,11 +150,11 @@ omit [IsIntegral X] [IsNormal X] in
 /-- Maps of `𝒪`-modules commute with multiplication by a global function on sections. -/
 theorem secF_map_smulEnd_comm (c : Γ(X, ⊤)) {A B : SheafOfModules.{u} 𝒪} (f : A ⟶ B)
     {U : X.Opens} (s : (secF 𝒪 U).obj A) :
-    (secF 𝒪 U).map f ((secF 𝒪 U).map ((smulE X c).app A) s) =
-      (secF 𝒪 U).map ((smulE X c).app B) ((secF 𝒪 U).map f s) := by
+    (secF 𝒪 U).map f ((secF 𝒪 U).map ((smulE X c).asHom.app A) s) =
+      (secF 𝒪 U).map ((smulE X c).asHom.app B) ((secF 𝒪 U).map f s) := by
   rw [← ConcreteCategory.comp_apply, ← ConcreteCategory.comp_apply, ← Functor.map_comp,
     ← Functor.map_comp]
-  have h := (smulE X c).naturality f
+  have h := (smulE X c).asHom.naturality f
   simp only [Functor.id_map] at h
   rw [h]
 
@@ -162,24 +162,24 @@ omit [IsIntegral X] [IsNormal X] in
 /-- The augmentation commutes with multiplication by a global function. -/
 theorem secF_map_ι₀_smulEnd (c : Γ(X, ⊤)) {M : SheafOfModules.{u} 𝒪}
     (I : InjectiveResolution M) {U : X.Opens} (s : (secF 𝒪 U).obj M) :
-    (secF 𝒪 U).map (ι₀ I) ((secF 𝒪 U).map ((smulE X c).app M) s) =
-      (secF 𝒪 U).map ((smulE X c).app _) ((secF 𝒪 U).map (ι₀ I) s) :=
+    (secF 𝒪 U).map (ι₀ I) ((secF 𝒪 U).map ((smulE X c).asHom.app M) s) =
+      (secF 𝒪 U).map ((smulE X c).asHom.app _) ((secF 𝒪 U).map (ι₀ I) s) :=
   secF_map_smulEnd_comm c (ι₀ I) s
 
 omit [IsIntegral X] [IsNormal X] in
 /-- The differentials commute with multiplication by a global function. -/
 theorem secF_map_d_smulEnd (c : Γ(X, ⊤)) {M : SheafOfModules.{u} 𝒪}
     (I : InjectiveResolution M) {U : X.Opens} (i j : ℕ) (s : (secF 𝒪 U).obj (I.cocomplex.X i)) :
-    (secF 𝒪 U).map (I.cocomplex.d i j) ((secF 𝒪 U).map ((smulE X c).app _) s) =
-      (secF 𝒪 U).map ((smulE X c).app _) ((secF 𝒪 U).map (I.cocomplex.d i j) s) :=
+    (secF 𝒪 U).map (I.cocomplex.d i j) ((secF 𝒪 U).map ((smulE X c).asHom.app _) s) =
+      (secF 𝒪 U).map ((smulE X c).asHom.app _) ((secF 𝒪 U).map (I.cocomplex.d i j) s) :=
   secF_map_smulEnd_comm c (I.cocomplex.d i j) s
 
 omit [IsIntegral X] [IsNormal X] in
 /-- Restriction commutes with multiplication by a global function. -/
 theorem secRestrict_smulEnd (c : Γ(X, ⊤)) {M : SheafOfModules.{u} 𝒪} {U U' : X.Opens}
     (h : U' ≤ U) (s : (secF 𝒪 U).obj M) :
-    (secRestrict 𝒪 h).app M ((secF 𝒪 U).map ((smulE X c).app M) s) =
-      (secF 𝒪 U').map ((smulE X c).app M) ((secRestrict 𝒪 h).app M s) :=
+    (secRestrict 𝒪 h).app M ((secF 𝒪 U).map ((smulE X c).asHom.app M) s) =
+      (secF 𝒪 U').map ((smulE X c).asHom.app M) ((secRestrict 𝒪 h).app M s) :=
   secRestrict_app_map 𝒪 h _ s
 
 end Frobenius
@@ -260,7 +260,7 @@ theorem sub_frobeniusCorrection (p : ℕ) [Fact p.Prime] [CharP X.functionField 
         (frobeniusCorrection V π W b β Θ u) -
       (secRestrict 𝒪 (inf_le_right : (U ⊓ W) ⊓ (U' ⊓ W) ≤ U' ⊓ W)).app _
         (frobeniusCorrection V π W b β Θ u') =
-      (secF 𝒪 _).map ((smulE X c).app (pushUnit V π)) ((secRestrict 𝒪
+      (secF 𝒪 _).map ((smulE X c).asHom.app (pushUnit V π)) ((secRestrict 𝒪
         (le_inf (inf_le_left.trans inf_le_left) (inf_le_right.trans inf_le_left) :
           (U ⊓ W) ⊓ (U' ⊓ W) ≤ U ⊓ U')).app _ t) := by
   set O := (U ⊓ W) ⊓ (U' ⊓ W)
@@ -308,21 +308,21 @@ theorem exists_d_eq_smulE_of_corrections (W : X.Opens)
     (τ : ∀ a, (secF 𝒪 (U a ⊓ W)).obj (pushUnit V π))
     (hτ : ∀ a a', (secRestrict 𝒪 (inf_le_left : (U a ⊓ W) ⊓ (U a' ⊓ W) ≤ U a ⊓ W)).app _
         (τ a) - (secRestrict 𝒪 (inf_le_right : (U a ⊓ W) ⊓ (U a' ⊓ W) ≤ U a' ⊓ W)).app _ (τ a') =
-      (secF 𝒪 _).map ((smulE X c).app (pushUnit V π)) ((secRestrict 𝒪
+      (secF 𝒪 _).map ((smulE X c).asHom.app (pushUnit V π)) ((secRestrict 𝒪
         (le_inf (inf_le_left.trans inf_le_left) (inf_le_right.trans inf_le_left) :
           (U a ⊓ W) ⊓ (U a' ⊓ W) ≤ U a ⊓ U a')).app _ (s a a'))) :
     ∃ ε : (secF 𝒪 ⊤).obj (I.cocomplex.X 0),
-      (secF 𝒪 ⊤).map (I.cocomplex.d 0 1) ε = (secF 𝒪 ⊤).map ((smulE X c).app _) z := by
+      (secF 𝒪 ⊤).map (I.cocomplex.d 0 1) ε = (secF 𝒪 ⊤).map ((smulE X c).asHom.app _) z := by
   let ce : ∀ a, (secF 𝒪 (U a)).obj (I.cocomplex.X 0) := fun a =>
-    (secF 𝒪 (U a)).map ((smulE X c).app _) (e a)
+    (secF 𝒪 (U a)).map ((smulE X c).asHom.app _) (e a)
   have hce : ∀ a, (secF 𝒪 (U a)).map (I.cocomplex.d 0 1) (ce a) =
-      (secRestrict 𝒪 (le_top : U a ≤ ⊤)).app _ ((secF 𝒪 ⊤).map ((smulE X c).app _) z) :=
+      (secRestrict 𝒪 (le_top : U a ≤ ⊤)).app _ ((secF 𝒪 ⊤).map ((smulE X c).asHom.app _) z) :=
     fun a => (secF_map_d_smulEnd c I 0 1 (e a)).trans
-      ((congrArg ((secF 𝒪 (U a)).map ((smulE X c).app _)) (he a)).trans
+      ((congrArg ((secF 𝒪 (U a)).map ((smulE X c).asHom.app _)) (he a)).trans
         (secRestrict_smulEnd c le_top z).symm)
   obtain ⟨εW, hεW⟩ := exists_d_eq_of_cech I (O := W) (fun a => U a ⊓ W) (fun a => inf_le_right)
     (fun x hx => (hU x).elim fun j hj => Opens.mem_iSup.mpr ⟨j, ⟨hj, hx⟩⟩)
-    ((secRestrict 𝒪 (le_top : W ≤ ⊤)).app _ ((secF 𝒪 ⊤).map ((smulE X c).app _) z))
+    ((secRestrict 𝒪 (le_top : W ≤ ⊤)).app _ ((secF 𝒪 ⊤).map ((smulE X c).asHom.app _) z))
     (fun a => (secRestrict 𝒪 (inf_le_left : U a ⊓ W ≤ U a)).app _ (ce a))
     (fun a => (secRestrict_app_map 𝒪 inf_le_left (I.cocomplex.d 0 1) (ce a)).symm.trans
       ((congrArg ((secRestrict 𝒪 inf_le_left).app _) (hce a)).trans
@@ -330,7 +330,7 @@ theorem exists_d_eq_smulE_of_corrections (W : X.Opens)
     τ (fun a a' => by
       refine (congrArg _ (hτ a a')).trans ?_
       refine (secF_map_ι₀_smulEnd c I _).trans ?_
-      refine (congrArg ((secF 𝒪 _).map ((smulE X c).app _))
+      refine (congrArg ((secF 𝒪 _).map ((smulE X c).asHom.app _))
         (secRestrict_app_map 𝒪 _ (ι₀ I) (s a a')).symm).trans ?_
       rw [hs, map_sub, secRestrict_app_comp, secRestrict_app_comp, map_sub]
       simp only [ce, Functor.id_obj]
@@ -338,7 +338,7 @@ theorem exists_d_eq_smulE_of_corrections (W : X.Opens)
         secRestrict_app_comp, secRestrict_app_comp])
   exact exists_d_eq_of_local_primitives_pushforward V π I W hW
     (fun o : Option J => o.elim W U) (fun x => (hU x).elim fun j hj => ⟨some j, hj⟩) none rfl
-    ((secF 𝒪 ⊤).map ((smulE X c).app _) z)
+    ((secF 𝒪 ⊤).map ((smulE X c).asHom.app _) z)
     (fun | none => εW | some a => ce a) (fun | none => hεW | some a => hce a)
 
 /-- **The core of the Frobenius argument for [Stacks, Tag 0B4U].** Let `π : Y ⟶ X` be finite and
@@ -365,7 +365,7 @@ theorem exists_d_eq_smulE_of_frobenius (p : ℕ) [Fact p.Prime] [CharP X.functio
     (I : InjectiveResolution (pushUnit V π)) (z : (secF 𝒪 ⊤).obj (I.cocomplex.X 1))
     (hz : (secF 𝒪 ⊤).map (I.cocomplex.d 1 2) z = 0) :
     ∃ ε : (secF 𝒪 ⊤).obj (I.cocomplex.X 0),
-      (secF 𝒪 ⊤).map (I.cocomplex.d 0 1) ε = (secF 𝒪 ⊤).map ((smulE X c).app _) z := by
+      (secF 𝒪 ⊤).map (I.cocomplex.d 0 1) ε = (secF 𝒪 ⊤).map ((smulE X c).asHom.app _) z := by
   classical
   have hFqc : SheafOfModules.IsQuasicoherent (R := X.ringCatSheaf) (pushUnit V π) :=
     ProperCoherentFiniteType.isQuasicoherent_pushforward π _
@@ -438,24 +438,24 @@ theorem hfunctor_map_smulE_pushUnit_eq_zero (p : ℕ) [Fact p.Prime] [CharP X.fu
         ∑ i, V.X.presheaf.germ ⊤ (genericPoint V.X) trivial (β i) *
           dominantFunctionFieldMap π (θ (X.presheaf.germ ⊤ (genericPoint X) trivial (b i) * k)))
     (y : Hgroup 𝒪 ⊤ 1 (pushUnit V π)) :
-    (Hfunctor 𝒪 ⊤ 1).map ((smulE X c).app (pushUnit V π)) y = 0 := by
+    (Hfunctor 𝒪 ⊤ 1).map ((smulE X c).asHom.app (pushUnit V π)) y = 0 := by
   let I : InjectiveResolution (pushUnit V π) := InjectiveResolution.of _
-  have hι : I.ι ≫ Stacks.Cohomology.endComplex (smulE X c) I.cocomplex =
-      (CochainComplex.single₀ _).map ((smulE X c).app _) ≫ I.ι := by
+  have hι : I.ι ≫ (Stacks.Cohomology.endComplex (smulE X c) I.cocomplex).asHom =
+      (CochainComplex.single₀ _).map ((smulE X c).asHom.app _) ≫ I.ι := by
     apply (CochainComplex.fromSingle₀Equiv _ _).injective
     apply Subtype.ext
     simp only [CochainComplex.fromSingle₀Equiv_apply_coe, HomologicalComplex.comp_f,
       Stacks.Cohomology.endComplex_f]
-    exact (smulE X c).naturality (I.ι.f 0)
-  change ((secF 𝒪 ⊤).rightDerived 1).map ((smulE X c).app _) y = 0
+    exact (smulE X c).asHom.naturality (I.ι.f 0)
+  change ((secF 𝒪 ⊤).rightDerived 1).map ((smulE X c).asHom.app _) y = 0
   refine (congrArg (fun k => (ConcreteCategory.hom k) y)
     (Functor.rightDerived_map_eq (secF 𝒪 ⊤) 1 _ (P := I) (Q := I)
-      (Stacks.Cohomology.endComplex (smulE X c) I.cocomplex) hι)).trans ?_
+      (Stacks.Cohomology.endComplex (smulE X c) I.cocomplex).asHom hι)).trans ?_
   set w := (I.isoRightDerivedObj (secF 𝒪 ⊤) 1).hom y
   obtain ⟨z, hz⟩ := (AddCommGrpCat.epi_iff_surjective
     ((secCx 𝒪 I ⊤).homologyπ 1)).mp inferInstance w
   set r := ((secF 𝒪 ⊤).mapHomologicalComplex _).map
-    (Stacks.Cohomology.endComplex (smulE X c) I.cocomplex)
+    (Stacks.Cohomology.endComplex (smulE X c) I.cocomplex).asHom
   have hπ : HomologicalComplex.homologyMap r 1 ((secCx 𝒪 I ⊤).homologyπ 1 z) =
       (secCx 𝒪 I ⊤).homologyπ 1 (HomologicalComplex.cyclesMap r 1 z) :=
     congrArg (fun k => k z) (HomologicalComplex.homologyπ_naturality r 1)
@@ -493,7 +493,7 @@ theorem smul_rightDerived_pushUnit_eq_zero (p : ℕ) [Fact p.Prime] [CharP X.fun
     c • x = 0 := by
   refine (Scheme.rightDerived_sectionsFunctor_map_smulEnd_apply X c 1 _ x).symm.trans ?_
   let F : X.Modules := pushUnit V π
-  let φ := (Scheme.smulEnd X c).app F
+  let φ := (Scheme.smulEnd X c).asHom.app F
   let e := (Stacks.Cohomology.ModuleComparison.rightDerivedEvaluationForgetIso
     X.ringCatSheaf ⊤ 1).app F
   -- the vanishing in the abelian-group model, in the `structureSheafRing` spelling

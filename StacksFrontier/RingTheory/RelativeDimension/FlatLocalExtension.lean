@@ -162,6 +162,8 @@ private theorem ringKrullDim_genericFiber_eq_trdeg
   have : Algebra.IsAlgebraic S F := IsLocalization.isAlgebraic F
     (Algebra.algebraMapSubmonoid S (nonZeroDivisors R))
   have : Algebra.IsAlgebraic R K := IsLocalization.isAlgebraic K (nonZeroDivisors R)
+  have : FaithfulSMul K F := (faithfulSMul_iff_algebraMap_injective K F).mpr
+    (algebraMap K F).injective
   have : Algebra.IsAlgebraic F (FractionRing F) :=
     IsLocalization.isAlgebraic (FractionRing F) (nonZeroDivisors F)
   rw [trdeg_eq_of_isAlgebraic_right (S := S) (A := F),

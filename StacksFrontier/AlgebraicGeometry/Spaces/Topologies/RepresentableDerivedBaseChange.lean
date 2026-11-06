@@ -195,6 +195,23 @@ open Space Stacks.Homology.DerivedSquare
 variable {V W V' W' : BigFppfOver T.fppfSite S T.fppf_mem} (m : W ⟶ V) (n : V' ⟶ V)
   (n' : W' ⟶ W) (m' : W' ⟶ V')
 
+/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site and on the
+Kan extensions along the comparison functors times out; supply them directly. -/
+set_option synthInstance.maxHeartbeats 400000 in
+local instance hasLimitsOfSize_presheaf_RepresentableDerivedBaseChange :
+    HasLimitsOfSize.{0, 0} ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance hasLimitsOfShape_presheaf_RepresentableDerivedBaseChange (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) :=
+  HasLimitsOfSize.has_limits_of_shape _
+
+set_option synthInstance.maxHeartbeats 400000 in
+local instance hasLimitsOfShape_structuredArrow_RepresentableDerivedBaseChange
+    (V₀ : BigFppfOver T.fppfSite S T.fppf_mem)
+    (Y : (SpacesEtale T.fppfSite S T.fppf_mem (yonedaSpace T.fppfSite S T.fppf_mem V₀))ᵒᵖ) :
+    HasLimitsOfShape (StructuredArrow Y (comparisonFunctor T.fppfSite S T.fppf_mem
+      (yonedaSpace T.fppfSite S T.fppf_mem V₀)).op) Ab.{u + 1} := inferInstance
+
 /-- **The cube identity at abelian coefficients.** The comparison of the two composite direct
 images of abelian sheaves around the square of represented algebraic spaces corresponds, under the
 chart restrictions, to the bounded comparison through a diagonal `Q` of the square. -/

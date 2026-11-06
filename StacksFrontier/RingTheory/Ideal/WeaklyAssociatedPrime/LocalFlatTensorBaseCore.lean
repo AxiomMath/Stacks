@@ -100,7 +100,6 @@ theorem smul_mem_smul_top_imp_of_isBaseChange (I : Ideal R) (t : A)
   have hkill : ∀ (r : R), r ∈ I → ∀ y : A' ⊗[A] (P ⧸ K), algebraMap R A' r • y = 0 := by
     intro r hr y
     induction y with
-    | zero => simp
     | add y y' hy hy' => rw [smul_add, hy, hy', add_zero]
     | tmul a p =>
         obtain ⟨p, rfl⟩ := Submodule.Quotient.mk_surjective _ p
@@ -124,7 +123,6 @@ theorem smul_mem_smul_top_imp_of_isBaseChange (I : Ideal R) (t : A)
     obtain ⟨y₀, rfl⟩ := (hex y).mp (by simpa [hπ, LinearMap.baseChange_eq_ltensor] using hy)
     clear hy
     induction y₀ with
-    | zero => simp
     | add y y' hy hy' => rw [map_add, map_add]; exact Submodule.add_mem _ hy hy'
     | tmul a k =>
         rw [LinearMap.lTensor_tmul, Submodule.subtype_apply, IsBaseChange.equiv_tmul]
@@ -154,7 +152,6 @@ theorem smul_mem_smul_top_imp_of_isBaseChange (I : Ideal R) (t : A)
   have hcomm : ∀ y : A' ⊗[A] P, π (algebraMap A A' t • y) = τ.lTensor A' (π y) := by
     intro y
     induction y with
-    | zero => simp
     | add y y' hy hy' => rw [smul_add, map_add, hy, hy', map_add, map_add]
     | tmul a p =>
         rw [smul_tmul', algebraMap_smul, smul_tmul]
@@ -245,11 +242,9 @@ theorem exists_ne_zero_pow_smul_eq_zero_of_isBaseChange_free
     have hcu : ∀ y : P' ⊗[R'] (R' ⊗[R] M), c (u.rTensor (R' ⊗[R] M) y) = t • c y := by
       intro y
       induction y with
-      | zero => simp
       | add y y' hy hy' => rw [map_add, map_add, hy, hy', map_add, smul_add]
       | tmul p z =>
           induction z with
-          | zero => simp
           | add z z' hz hz' => rw [tmul_add, map_add, map_add, hz, hz', map_add, smul_add]
           | tmul r m =>
               simp only [LinearMap.rTensor_tmul, hu, LinearMap.smul_apply, LinearMap.id_apply, c,

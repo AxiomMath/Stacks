@@ -246,7 +246,7 @@ private theorem isDomain_of_isGeometricallyUnibranch_of_normal_tensorProduct
         p.primeCompl p.primeCompl_le_nonZeroDivisors⟩
   have hRredC : IsLocalHom (algebraMap Rred C) :=
     ((local_hom_TFAE (algebraMap Rred C)).out 5 1).mp <| (maximal_ideal_unique Rred).unique
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (maximalIdeal C)) inferInstance
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := Rred) (maximalIdeal C)) inferInstance
   have hRC : IsLocalHom (algebraMap R C) := by
     rw [IsScalarTower.algebraMap_eq R Rred C]
     exact RingHom.isLocalHom_comp _ _

@@ -311,7 +311,7 @@ theorem exists_primary_completeOrthogonalIdempotents (Λ : Type r) [Ring Λ] [Fi
     have h1 : ∏ i, q i = ∏ p ∈ n.primeFactors, p ^ n.factorization p :=
       Finset.prod_coe_sort n.primeFactors (fun p => p ^ n.factorization p)
     rw [h1, ← Nat.support_factorization]
-    exact Nat.factorization_prod_pow_eq_self hn0
+    exact Nat.prod_factorization_pow_eq_self hn0
   have : CharP Λ (∏ i, q i) := by rw [hprod, hn]; exact ringChar.charP Λ
   let φ := (ZMod.prodEquivPi q hcop).symm
   let ψ : ZMod (∏ i, q i) →+* Λ := ZMod.castHom (dvd_refl _) Λ

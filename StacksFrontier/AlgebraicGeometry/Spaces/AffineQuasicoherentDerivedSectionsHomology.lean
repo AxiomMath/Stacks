@@ -176,7 +176,8 @@ theorem moduleFinite_representedAffineSections
       Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)
   let D := (representedAffineAssociated B S hS U).obj C
   let eD := representedAffineAssociatedSigmaUnitIso (B := B) (S := S) (hS := hS) (U := U) k
-  have : Epi (eD.hom ≫ φ) := epi_comp _ _
+  have : Epi (eD.hom ≫ φ) :=
+    epi_comp' (@IsIso.epi_of_iso _ _ _ _ eD.hom (Iso.isIso_hom eD)) hφ
   let eR : C ≅ (representedAffineSections B S hS U).obj D :=
     asIso ((representedAffineAssociatedAdjunction B S hS U).unit.app _)
   have : Module.Finite Γ((BigFppfOver.toScheme B S hS).obj U, ⊤) C :=

@@ -132,12 +132,12 @@ variable (K : Type u) [Field K] (n : ℕ)
 the projective space of `Fin (n + 1) → K` given by the standard basis. -/
 theorem projectiveSpaceMatrixToAut_hom_apply (M : Matrix.GeneralLinearGroup (Fin (n + 1)) K)
     (p : projectiveSpaceOverRing n (.of K)) :
-    (projectiveSpaceMatrixToAut K n M).hom p =
+    (projectiveSpaceMatrixToAut K n M).asIso.hom p =
       (projectiveSpaceOfModuleIso (Pi.basisFun K (Fin (n + 1)))).hom
         (ProjectiveSpaceOfModule.map K (Fin (n + 1) → K)
             (Matrix.GeneralLinearGroup.toLin M)⁻¹
           ((projectiveSpaceOfModuleIso (Pi.basisFun K (Fin (n + 1)))).inv p)) := by
-  rw [show (projectiveSpaceMatrixToAut K n M).hom = _ from
+  rw [show (projectiveSpaceMatrixToAut K n M).asIso.hom = _ from
       projectiveSpaceLinearToAut_hom (Pi.basisFun K (Fin (n + 1)))
         (Matrix.GeneralLinearGroup.toLin M),
     Scheme.Hom.comp_apply, Scheme.Hom.comp_apply]
@@ -172,7 +172,8 @@ private theorem matrixToAut_symm_inv_hom_apply_eq
     (h : ProjectiveSpaceOfModule.map K (Fin (n + 1) → K) g
       ((projectiveSpaceOfModuleIso (Pi.basisFun K (Fin (n + 1)))).inv p) =
       (projectiveSpaceOfModuleIso (Pi.basisFun K (Fin (n + 1)))).inv q) :
-    (projectiveSpaceMatrixToAut K n (Matrix.GeneralLinearGroup.toLin.symm g⁻¹)).hom p = q := by
+    (projectiveSpaceMatrixToAut K n (Matrix.GeneralLinearGroup.toLin.symm g⁻¹)).asIso.hom p =
+      q := by
   rw [projectiveSpaceMatrixToAut_hom_apply, MulEquiv.apply_symm_apply, inv_inv, h]
   exact projectiveSpaceOfModuleIso_hom_inv_apply K n q
 
@@ -186,8 +187,8 @@ theorem exists_matrixToAut_apply_eq_apply_eq
     (hc : IsClosed ({c} : Set _)) (hd : IsClosed ({d} : Set _))
     (hab : a ≠ b) (hcd : c ≠ d) :
     ∃ M : Matrix.GeneralLinearGroup (Fin (n + 1)) K,
-      (projectiveSpaceMatrixToAut K n M).hom a = c ∧
-        (projectiveSpaceMatrixToAut K n M).hom b = d := by
+      (projectiveSpaceMatrixToAut K n M).asIso.hom a = c ∧
+        (projectiveSpaceMatrixToAut K n M).asIso.hom b = d := by
   obtain ⟨g, hg₁, hg₂⟩ := ProjectiveSpaceOfModule.exists_map_apply_eq_apply_eq K
     (Fin (n + 1) → K)
     ⟨_, isClosed_singleton_projectiveSpaceOfModuleIso_inv K n ha⟩
@@ -207,7 +208,7 @@ theorem exists_matrixToAut_apply_eq
     (a b : projectiveSpaceOverRing n (.of K))
     (ha : IsClosed ({a} : Set _)) (hb : IsClosed ({b} : Set _)) :
     ∃ M : Matrix.GeneralLinearGroup (Fin (n + 1)) K,
-      (projectiveSpaceMatrixToAut K n M).hom a = b := by
+      (projectiveSpaceMatrixToAut K n M).asIso.hom a = b := by
   obtain ⟨g, hg⟩ := ProjectiveSpaceOfModule.exists_map_apply_eq K (Fin (n + 1) → K)
     (u := ⟨_, isClosed_singleton_projectiveSpaceOfModuleIso_inv K n hu⟩)
     (v := ⟨_, isClosed_singleton_projectiveSpaceOfModuleIso_inv K n hv⟩)
@@ -249,9 +250,9 @@ private theorem comp_matrixToAut_hom_eq_of_apply_eq (M : Matrix.GeneralLinearGro
     {a b : Spec (.of K) ⟶ projectiveSpaceOverRing n (.of K)}
     (ha : a ≫ (projectiveSpaceOverRing n (.of K) ↘ Spec (.of K)) = 𝟙 _)
     (hb : b ≫ (projectiveSpaceOverRing n (.of K) ↘ Spec (.of K)) = 𝟙 _)
-    (h : (projectiveSpaceMatrixToAut K n M).hom (a (IsLocalRing.closedPoint K)) =
+    (h : (projectiveSpaceMatrixToAut K n M).asIso.hom (a (IsLocalRing.closedPoint K)) =
       b (IsLocalRing.closedPoint K)) :
-    a ≫ (projectiveSpaceMatrixToAut K n M).hom = b :=
+    a ≫ (projectiveSpaceMatrixToAut K n M).asIso.hom = b :=
   ext_of_apply_closedPoint_eq _
     (by rw [Category.assoc, projectiveSpaceMatrixToAut_hom_comp_structureMorphism, ha]) hb
     ((Scheme.Hom.comp_apply a _ _).trans h)
@@ -270,8 +271,8 @@ theorem exists_comp_matrixToAut_hom_eq_and_eq
     (hd : d ≫ (projectiveSpaceOverRing n (.of K) ↘ Spec (.of K)) = 𝟙 _)
     (hab : a ≠ b) (hcd : c ≠ d) :
     ∃ M : Matrix.GeneralLinearGroup (Fin (n + 1)) K,
-      a ≫ (projectiveSpaceMatrixToAut K n M).hom = c ∧
-        b ≫ (projectiveSpaceMatrixToAut K n M).hom = d := by
+      a ≫ (projectiveSpaceMatrixToAut K n M).asIso.hom = c ∧
+        b ≫ (projectiveSpaceMatrixToAut K n M).asIso.hom = d := by
   obtain ⟨M, hM₁, hM₂⟩ := exists_matrixToAut_apply_eq_apply_eq K n
     (a (IsLocalRing.closedPoint K)) (b (IsLocalRing.closedPoint K))
     (c (IsLocalRing.closedPoint K)) (d (IsLocalRing.closedPoint K))
@@ -293,7 +294,7 @@ theorem exists_comp_matrixToAut_hom_eq
     (ha : a ≫ (projectiveSpaceOverRing n (.of K) ↘ Spec (.of K)) = 𝟙 _)
     (hb : b ≫ (projectiveSpaceOverRing n (.of K) ↘ Spec (.of K)) = 𝟙 _) :
     ∃ M : Matrix.GeneralLinearGroup (Fin (n + 1)) K,
-      a ≫ (projectiveSpaceMatrixToAut K n M).hom = b := by
+      a ≫ (projectiveSpaceMatrixToAut K n M).asIso.hom = b := by
   obtain ⟨M, hM⟩ := exists_matrixToAut_apply_eq K n
     (isClosed_singleton_apply_closedPoint K _ u hu)
     (isClosed_singleton_apply_closedPoint K _ v hv)

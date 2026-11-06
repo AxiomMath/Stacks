@@ -475,7 +475,7 @@ theorem properBaseChangeMap_eq_mateEquiv_inverseImageSquare (sq : IsPullback i f
       ((smallToposMorphism B S hS g).adj.comp
         (smallToposMorphism B S hS f').adj))).mpr
           (conjugateEquiv_smallEtaleInverseImageSquareIso B S hS i f' f g sq).symm
-  rw [Equiv.trans_apply, hc] at key
+  rw [hc] at key
   exact (Equiv.symm_apply_eq _).mp key
 
 /-! ### From the spaces-étale topoi to the small étale topoi -/

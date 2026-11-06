@@ -261,11 +261,10 @@ theorem isFiniteSeparable_residueField_of_mem_intersection_complementaryCurve
   have : Algebra.FiniteType k (X.residueField x) := by
     show RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
-    · rfl
-    · simp only [RingHom.algebraMap_toAlgebra]
-      show ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom = _
-      rw [← Scheme.Γevaluation_naturality]
-      simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
+    simp only [RingHom.algebraMap_toAlgebra]
+    show ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.Γevaluation x).hom = _
+    rw [← Scheme.Γevaluation_naturality]
+    simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
   exact finite_of_finite_type_of_isJacobsonRing _ _
 
 /-- **The scheme-theoretic intersection of a reduced closed subcurve with the closure of its

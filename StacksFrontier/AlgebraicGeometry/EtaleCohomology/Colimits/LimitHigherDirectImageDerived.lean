@@ -330,15 +330,15 @@ def complexPullbackComparison (i : Iᵒᵖ)
     (G : CochainComplex (Sheaf (smallEtaleTopology cX.pt) Ab.{u + 1}) ℤ) [G.IsStrictlyGE a]
     (ι : complexPullbackObj cX i F ⟶ G) :
     (derivedPullbackAb (cX.π.app i)).obj (plusComplexObj a F) ⟶ plusComplexObj a G :=
-  letI : IsIso (smallEtalePullbackAb (cX.π.app i)).rightDerivedFunctorPlusUnit :=
+  letI : IsIso (smallEtalePullbackAb (cX.π.app i)).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb (cX.π.app i)).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
-  letI : IsIso ((smallEtalePullbackAb (cX.π.app i)).rightDerivedFunctorPlusUnit.app
+  letI : IsIso ((smallEtalePullbackAb (cX.π.app i)).rightDerivedFunctorPlusUnith.app
       (plusHomotopyObj a F)) :=
     NatIso.isIso_app_of_isIso _ _
   let ι' : (smallEtalePullbackAb (cX.π.app i)).mapHomotopyCategoryPlus.obj
       (plusHomotopyObj a F) ⟶ plusHomotopyObj a G :=
     ObjectProperty.homMk ((HomotopyCategory.quotient _ _).map ι)
-  inv ((smallEtalePullbackAb (cX.π.app i)).rightDerivedFunctorPlusUnit.app
+  inv ((smallEtalePullbackAb (cX.π.app i)).rightDerivedFunctorPlusUnith.app
       (plusHomotopyObj a F)) ≫ DerivedCategory.Plus.Qh.map ι'
 
 /-- **The comparison map of Stacks 0GIV**, `h_i^{-1} R^p g_{i, *} ℱ_i^• ⟶ R^p g_* ℱ^•`, for a

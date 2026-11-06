@@ -233,10 +233,14 @@ endomorphism of the structure sheaf under `tensorPowerSquareEquivalence`. This i
 invertibility of the tensor powers is used: the equivalence is fully faithful, and it takes the
 structure sheaf to `L^{⊗ n} ⊗_O L^{⊗ n}`. -/
 noncomputable def endUnitEquiv :
-    End (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) ≃
-      End (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+    (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⟶
+      SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) ≃
+      ((((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
         ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
-          (tensorPower O hO L n)).obj (tensorPower O hO L n)) :=
+          (tensorPower O hO L n)).obj (tensorPower O hO L n)) ⟶
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w}
+        ⟨O, Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO⟩).obj
+          (tensorPower O hO L n)).obj (tensorPower O hO L n))) :=
   (tensorPowerSquareEquivalence O hO L n).fullyFaithfulFunctor.homEquiv
 
 /-- `endUnitEquiv` sends the identity to the identity. -/
@@ -246,16 +250,17 @@ theorem endUnitEquiv_id : endUnitEquiv O hO L n (𝟙 _) = 𝟙 _ :=
 
 /-- `endUnitEquiv` is compatible with composition. -/
 theorem endUnitEquiv_comp
-    (f g : End (SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
-      hO))) :
+    (f g : SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O
+      hO) ⟶ SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :
     endUnitEquiv O hO L n (f ≫ g) =
       endUnitEquiv O hO L n f ≫ endUnitEquiv O hO L n g :=
   (tensorPowerSquareEquivalence O hO L n).functor.map_comp f g
 
 /-- The scalar by which the braiding acts on `L^{⊗ n} ⊗_O L^{⊗ n}`: the unique endomorphism of
 the structure sheaf whose image under `tensorPowerSquareEquivalence` is that braiding. -/
-noncomputable def braidingScalar : End (SheafOfModules.unit
-  (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)) :=
+noncomputable def braidingScalar : SheafOfModules.unit
+    (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) ⟶
+      SheafOfModules.unit (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO) :=
   (endUnitEquiv O hO L n).symm
     (tensorSheafBraiding O hO (tensorPower O hO L n) (tensorPower O hO L n)).hom
 

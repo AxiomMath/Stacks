@@ -181,15 +181,15 @@ derived adjunction.**  The companion of
 `CategoryTheory.Adjunction.mapDerivedCategory_counit_eq`. -/
 theorem Adjunction.mapDerivedCategory_unit_eq (adj : L ⊣ R) :
     NatTrans.mapDerivedCategory adj.unit =
-      Functor.mapDerivedCategoryIdIso.hom ≫ (Adjunction.mapDerivedCategory adj).unit ≫
+      (Functor.mapDerivedCategoryIdIso _).hom ≫ (Adjunction.mapDerivedCategory adj).unit ≫
         (Functor.mapDerivedCategoryComp L R).inv := by
   refine Localization.natTrans_ext DerivedCategory.Q
     (HomologicalComplex.quasiIso C (ComplexShape.up ℤ)) fun K => ?_
-  have hA : Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Q.obj K) =
+  have hA : (Functor.mapDerivedCategoryIdIso _).hom.app (DerivedCategory.Q.obj K) =
       (𝟭 C).mapDerivedCategoryFactors.hom.app K ≫
         DerivedCategory.Q.map
-          ((Functor.mapHomologicalComplexIdIso C (ComplexShape.up ℤ)).hom.app K) := by
-    rw [← Functor.mapDerivedCategoryIdIso_hom_app_Q, Iso.hom_inv_id_app_assoc]
+          ((Functor.mapHomologicalComplexIdIso C (ComplexShape.up ℤ)).hom.app K) :=
+    Functor.mapDerivedCategoryIdIso_hom_app K
   rw [NatTrans.comp_app, NatTrans.comp_app, NatTrans.mapDerivedCategory_app_Q,
     Functor.mapDerivedCategoryComp_inv_app_Q, hA, Adjunction.mapDerivedCategory,
     Adjunction.localization_unit_app, unit_mapHomologicalComplex_key adj K]
@@ -200,7 +200,7 @@ theorem Adjunction.mapDerivedCategory_unit_eq (adj : L ⊣ R) :
 identity, the derived form of the unit, and the comparison for a composite. -/
 theorem Adjunction.mapDerivedCategory_unit_app (adj : L ⊣ R) (Z : DerivedCategory C) :
     (Adjunction.mapDerivedCategory adj).unit.app Z =
-      Functor.mapDerivedCategoryIdIso.inv.app Z ≫
+      (Functor.mapDerivedCategoryIdIso _).inv.app Z ≫
         (NatTrans.mapDerivedCategory adj.unit).app Z ≫
         (Functor.mapDerivedCategoryComp L R).hom.app Z := by
   have h := NatTrans.congr_app (Adjunction.mapDerivedCategory_unit_eq adj) Z
@@ -274,20 +274,16 @@ theorem NatTrans.inv_mapDerivedCategory {F G : C₁ ⥤ C₂} [F.Additive]
 cochain complex, is the canonical factorization of the derived functor of the identity: the
 degreewise comparison it is read through is itself an identity. -/
 theorem Functor.mapDerivedCategoryIdIso_hom_app_Q_eq (P : CochainComplex C₁ ℤ) :
-    Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Q.obj P) =
+    (Functor.mapDerivedCategoryIdIso _).hom.app (DerivedCategory.Q.obj P) =
       (𝟭 C₁).mapDerivedCategoryFactors.hom.app P := by
   have hrefl : (Functor.mapHomologicalComplexIdIso C₁ (ComplexShape.up ℤ)).hom.app P = 𝟙 _ := by
     ext i
     simp
-  have h := Functor.mapDerivedCategoryIdIso_hom_app_Q P
+  have h := Functor.mapDerivedCategoryIdIso_hom_app P
   rw [hrefl] at h
-  simp only [CategoryTheory.Functor.map_id] at h
-  calc Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Q.obj P)
-      = (𝟭 C₁).mapDerivedCategoryFactors.hom.app P ≫
-          ((𝟭 C₁).mapDerivedCategoryFactors.inv.app P ≫
-            Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Q.obj P)) := by
-        rw [Iso.hom_inv_id_app_assoc]
-    _ = _ := by rw [h]; exact Category.comp_id _
+  erw [CategoryTheory.Functor.map_id] at h
+  rw [h]
+  erw [Category.comp_id]
 
 /-- The degreewise comparison for the composite of two functors, read through the identity
 isomorphism, does not change the canonical factorization of the derived functor of the composite. -/
@@ -308,7 +304,7 @@ derived functor of `F ⋙ 𝟭` with the composite of the derived functors is th
 derived functor of the identity with the identity, whiskered by `F`. -/
 theorem Functor.whiskerLeft_mapDerivedCategoryIdIso_hom
     (F : C₁ ⥤ C₂) [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F] :
-    Functor.whiskerLeft F.mapDerivedCategory Functor.mapDerivedCategoryIdIso.hom =
+    Functor.whiskerLeft F.mapDerivedCategory (Functor.mapDerivedCategoryIdIso _).hom =
       (Functor.mapDerivedCategoryComp F (𝟭 C₂)).inv := by
   refine Localization.natTrans_ext DerivedCategory.Q
     (HomologicalComplex.quasiIso C₁ (ComplexShape.up ℤ)) fun K => ?_
@@ -322,7 +318,7 @@ theorem Functor.whiskerLeft_mapDerivedCategoryIdIso_hom
   have hfi : F.mapDerivedCategoryFactors.hom.app K ≫
       F.mapDerivedCategoryFactors.inv.app K = 𝟙 _ :=
     Iso.hom_inv_id_app F.mapDerivedCategoryFactors K
-  have hnat := Functor.mapDerivedCategoryIdIso.hom.naturality
+  have hnat := (Functor.mapDerivedCategoryIdIso _).hom.naturality
     (F.mapDerivedCategoryFactors.hom.app K)
   dsimp only [Functor.id_map, Functor.comp_obj] at hnat
   rw [htail, ← Functor.mapDerivedCategoryIdIso_hom_app_Q_eq, reassoc_of% hnat, hfi]
@@ -332,7 +328,7 @@ theorem Functor.whiskerLeft_mapDerivedCategoryIdIso_hom
 `CategoryTheory.Functor.whiskerLeft_mapDerivedCategoryIdIso_hom` for `𝟭 ⋙ G`. -/
 theorem Functor.whiskerRight_mapDerivedCategoryIdIso_hom
     (G : C₁ ⥤ C₂) [G.Additive] [PreservesFiniteLimits G] [PreservesFiniteColimits G] :
-    Functor.whiskerRight Functor.mapDerivedCategoryIdIso.hom G.mapDerivedCategory =
+    Functor.whiskerRight (Functor.mapDerivedCategoryIdIso _).hom G.mapDerivedCategory =
       (Functor.mapDerivedCategoryComp (𝟭 C₁) G).inv := by
   refine Localization.natTrans_ext DerivedCategory.Q
     (HomologicalComplex.quasiIso C₁ (ComplexShape.up ℤ)) fun K => ?_

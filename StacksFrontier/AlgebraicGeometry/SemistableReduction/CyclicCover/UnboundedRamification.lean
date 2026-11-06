@@ -280,7 +280,8 @@ theorem le_finrank_of_semistable [IsAlgClosed k] [IsProper f] [Nonempty Z] (hn :
       ramificationIdx (PowerSeries k) R' := by
     have : (IsLocalRing.maximalIdeal R').LiesOver (IsLocalRing.maximalIdeal (PowerSeries k)) :=
       ⟨((IsLocalRing.isMaximal_iff _).mp
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (IsLocalRing.maximalIdeal R'))).symm⟩
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := PowerSeries k)
+          (IsLocalRing.maximalIdeal R'))).symm⟩
     exact (Ideal.ramificationIdx'_eq_ramificationIdx _ _
       (IsDiscreteValuationRing.not_a_field (PowerSeries k))).symm
   rw [hidx, ← he'] at hle

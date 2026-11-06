@@ -290,7 +290,7 @@ theorem isIso_app_shift_singleFunctor_of_exists_shortExact (b : ℤ) (𝒞 : C �
     have := hmono M hM q s heq
     exact isIso_of_mono_of_epi _
   have hall : ∀ N : ℤ, b - 1 ≤ N → P N := fun N hN =>
-    Int.le_induction base (fun n _ hn => step n hn) N hN
+    Int.leInduction (motive := fun n _ => P n) base (fun n _ hn => step n hn) N hN
   rw [isIso_iff]
   intro q
   exact hall (max (q + s) (b - 1)) (le_max_right _ _) M hM q s (le_max_left _ _)

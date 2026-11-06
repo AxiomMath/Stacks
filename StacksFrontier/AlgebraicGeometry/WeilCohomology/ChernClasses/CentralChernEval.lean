@@ -128,23 +128,23 @@ theorem chernClassEval_mem_of_isWeightedHomogeneous {A : Type*} [Ring A]
   have hzint : ∀ z : ℤ, ((z : A)) ∈ grade 0 := fun z => by simpa using zsmul_mem hone z
   rw [MvPolynomial.as_sum Q, map_sum]
   rw [show ((∑ d ∈ Q.support, chernClassEval cA
-      (MvPolynomial.monomial d (MvPolynomial.coeff d Q)) : Subring.center A) : A) =
+      (MvPolynomial.monomial d (Q.coeff d)) : Subring.center A) : A) =
       ∑ d ∈ Q.support, ((chernClassEval cA
-        (MvPolynomial.monomial d (MvPolynomial.coeff d Q)) : Subring.center A) : A) from
+        (MvPolynomial.monomial d (Q.coeff d)) : Subring.center A) : A) from
     map_sum (Subring.center A).subtype _ _]
   refine sum_mem fun d hd => ?_
   have hw : (Finsupp.weight (fun i : ℕ+ => (i : ℕ))) d = n :=
     hQ (MvPolynomial.mem_support_iff.mp hd)
   have hev : ((chernClassEval cA
-      (MvPolynomial.monomial d (MvPolynomial.coeff d Q)) : Subring.center A) : A) =
-      ((MvPolynomial.coeff d Q : ℤ) : A) *
+      (MvPolynomial.monomial d (Q.coeff d)) : Subring.center A) : A) =
+      ((Q.coeff d : ℤ) : A) *
         ((∏ i ∈ d.support, cA i ^ d i : Subring.center A) : A) := by
     simp [chernClassEval, MvPolynomial.eval₂_monomial, Finsupp.prod]
   have hsum : ∑ i ∈ d.support, d i * (i : ℕ) = n := by
     rw [← hw, Finsupp.weight_apply, Finsupp.sum]
     exact Finset.sum_congr rfl fun i _ => (smul_eq_mul _ _)
   rw [hev]
-  simpa using hmul 0 n (hzint (MvPolynomial.coeff d Q)) (hsum ▸ hprod d d.support)
+  simpa using hmul 0 n (hzint (Q.coeff d)) (hsum ▸ hprod d d.support)
 
 end Stacks.WeilCohomology
 

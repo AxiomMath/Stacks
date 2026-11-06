@@ -291,6 +291,17 @@ def FactorizationGluingAcrossClosedSubset : Prop :=
 
 section Equalizer
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_MorphismEqualityFromCompletion :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_MorphismEqualityFromCompletion
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_MorphismEqualityFromCompletion B S hS).has_limit _
+
 variable {X W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- The final object of the big fppf category over `S`: the base `S`, presented as an object
@@ -388,6 +399,8 @@ monomorphism: it is a base change of the relative diagonal of `W`, which is a sp
 monomorphism. No separatedness of `W` is involved. -/
 theorem mono_equalizerProj (a b : X ⟶ W) : Mono (equalizerProj B S hS a b) :=
   (isPullback_equalizer B S hS a b).mono_fst_of_mono
+    (SplitMono.mono ⟨pullback.fst (toFinalSheaf B S hS W) (toFinalSheaf B S hS W),
+      pullback.diagonal_fst _⟩)
 
 /-- **Stacks 03HK, part (2), for the equalizer.** The projection from the equalizer of two
 morphisms of algebraic spaces over `S` is locally of finite type, being a base change of the

@@ -163,7 +163,7 @@ private theorem finite_residue_equivalentClosure
     local_dvr_equivalentClosure A K L B e q
   have : Algebra.IsIntegral A B := (e.isIntegral_iff).mpr inferInstance
   have hqA : (q.comap (algebraMap A B)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) q
   have hloc : (IsLocalRing.maximalIdeal (Localization.AtPrime q)).comap
       (algebraMap A (Localization.AtPrime q)) = IsLocalRing.maximalIdeal A := by
     rw [IsScalarTower.algebraMap_eq A B (Localization.AtPrime q),
@@ -694,8 +694,8 @@ theorem actual_09EM_reduced_branch_specialFiber_isField
               Irreducible π ∧
               IsLocalRing.maximalIdeal (Localization.AtPrime rRed) =
                 Ideal.span {algebraMap
-                  (Localization.AtPrime (q.comap (algebraMap A₁ B₁)))
-                  (Localization.AtPrime rRed) π}) := by
+                              (Localization.AtPrime (q.comap (algebraMap A₁ B₁)))
+                              (Localization.AtPrime rRed) π}) := by
   let S := B ⊗[A] A₁
   let I : Ideal S := (q.comap (algebraMap A₁ B₁)).map
     (Algebra.TensorProduct.includeRight (R := A) (A := B))
@@ -748,7 +748,7 @@ theorem actual_09EM_reduced_branch_specialFiber_isField
         ∃ π : Localization.AtPrime m, Irreducible π ∧
           IsLocalRing.maximalIdeal (Localization.AtPrime rRed) =
             Ideal.span {algebraMap (Localization.AtPrime m)
-              (Localization.AtPrime rRed) π} :=
+                          (Localization.AtPrime rRed) π} :=
     uniformizer_of_named_base_ideal A₁ S ι m (q.comap g) hqm rRed hPrime
       I hI hfieldRed
   refine ⟨g, hIntegral, hNil, hleft, hright, hm, ⟨hDomain, hDVR⟩,

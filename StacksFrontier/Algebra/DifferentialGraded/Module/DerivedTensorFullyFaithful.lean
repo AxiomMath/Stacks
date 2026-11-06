@@ -227,7 +227,7 @@ variable {C : Type u₁} {D : Type u₂} [Category.{v₁} C] [Category.{v₂} D]
 /-- The unit at a coproduct is the coproduct of the units followed by the comparison map. -/
 private theorem map_unit_app_comp_sigmaComparison (adj : F ⊣ G) {ι : Type w} (K : ι → D)
     [HasCoproductsOfShape ι D] :
-    Limits.Sigma.map (f := K) (g := fun i => (F ⋙ G).obj (K i))
+    Limits.Sigma.map (f := fun i => (F ⋙ G).obj (K i)) (g := K)
         (fun i => adj.unit.app (K i)) ≫
       Limits.sigmaComparison (F ⋙ G) K = adj.unit.app (∐ K) := by
   refine Limits.Sigma.hom_ext _ _ fun i => ?_

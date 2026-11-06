@@ -347,7 +347,7 @@ private theorem formallySmoothNAdic_iff_comp_ringEquiv
     simpa using RingHom.congr_fun hg (e a)
   refine ⟨key φ e, fun h => ?_⟩
   have h' := key _ e.symm h
-  rwa [RingHom.comp_assoc, ← RingEquiv.toRingHom_trans, e.symm_trans_self] at h'
+  rwa [RingHom.comp_assoc, ← RingEquiv.toRingHom_trans', e.symm_trans_self] at h'
 
 -- Transporting the lifting square elaborates several quotient ring structures.
 private theorem formallySmoothNAdic_iff_comp_codomainRingEquiv
@@ -497,7 +497,7 @@ private noncomputable def localizedSpecialFibre_algEquiv
     let F := R ⊗[T] ResidueField T
     letI : Algebra (ResidueField T) F := Algebra.TensorProduct.rightAlgebra
     let eK : (Λ ⧸ p) ≃+* ResidueField T :=
-      IsLocalization.AtPrime.equivQuotMaximalIdeal p T
+      (IsLocalization.AtPrime.equivQuotMaximalIdeal p T).toRingEquiv
     let Bbar := R ⊗[Λ] (Λ ⧸ p)
     letI : Algebra (Λ ⧸ p) F :=
       ((algebraMap (ResidueField T) F).comp eK.toRingHom).toAlgebra
@@ -510,7 +510,7 @@ private noncomputable def localizedSpecialFibre_algEquiv
   let Bbar := R ⊗[Λ] (Λ ⧸ p)
   letI : Algebra (ResidueField T) F := Algebra.TensorProduct.rightAlgebra
   let eK : (Λ ⧸ p) ≃+* ResidueField T :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal p T
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal p T).toRingEquiv
   letI : Algebra (Λ ⧸ p) F :=
     ((algebraMap (ResidueField T) F).comp eK.toRingHom).toAlgebra
   letI : Algebra (Λ ⧸ p) Bbar := Algebra.TensorProduct.rightAlgebra

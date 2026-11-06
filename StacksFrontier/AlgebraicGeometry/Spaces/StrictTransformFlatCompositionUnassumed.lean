@@ -279,8 +279,7 @@ theorem exists_strictTransformSheaf_comp_iso_unconditional (Z : ClosedSubspaces 
   have hqe : Epi (inner.inv ≫ (modulePullback B S hS
       (iteratedStrictTransformPullbackIso B S hS f b c).hom).map
         (strictTransformSheafQuotient B S hS f (c ≫ b) (Y.1.preimage (c ≫ b).hom) F)) := by
-    have := hepi
-    exact epi_comp _ _
+    exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv inner)) hepi
   -- Its target has no nonzero local section supported on that set: along the ambient
   -- identification the strict transform restricts to the strict transform of the restriction,
   -- which is a quotient by exactly the sections supported there.
@@ -375,8 +374,7 @@ theorem exists_strictTransformSheaf_comp_iso_unconditional (Z : ClosedSubspaces 
           (iteratedStrictTransformPullbackIso B S hS f b c).hom) hjcomp
         (exceptionalPreimageSet B S hS f (c ≫ b) (Y.1.preimage (c ≫ b).hom)) hmiss
         ((modulePullback B S hS (strictTransformPullbackToSource B S hS f (c ≫ b))).obj F)
-    have := hiso
-    infer_instance
+    exact @IsIso.mono_of_iso _ _ _ _ _ hiso
   have hmono2 : Mono ((modulePullback B S hS (openOffSubspaceι B S hS
         (strictTransformPullback B S hS (strictTransformPullbackToBlowUp B S hS f b) c)
         (exceptionalPreimageSet B S hS (strictTransformPullbackToBlowUp B S hS f b) c
@@ -401,7 +399,9 @@ theorem exists_strictTransformSheaf_comp_iso_unconditional (Z : ClosedSubspaces 
     (inner.inv ≫ (modulePullback B S hS
       (iteratedStrictTransformPullbackIso B S hS f b c).hom).map
         (strictTransformSheafQuotient B S hS f (c ≫ b) (Y.1.preimage (c ≫ b).hom) F))
-    (by rw [Functor.map_comp]; have := hmono2; infer_instance)
+    (by
+      rw [Functor.map_comp]
+      exact mono_comp' (@IsIso.mono_of_iso _ _ _ _ _ (Functor.map_isIso _ _)) hmono2)
   -- The universal property of the quotient by the supported sections now pins the comparison.
   obtain ⟨θ, hθ⟩ := exists_strictTransformSheafIso B S hS
     (strictTransformPullbackToBlowUp B S hS f b) c (Y.1.preimage (c ≫ b).hom)

@@ -74,6 +74,18 @@ namespace AlgebraicGeometry.FormalSpace
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_CompletionGluing :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_CompletionGluing
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The completion of a coproduct of algebraic spaces over `X`, with each summand completed
 along the inverse image of `T` under its own structure morphism, is the coproduct of the
 completions, the injections being the restriction morphisms of completions. -/
@@ -783,7 +795,7 @@ theorem isIso_pullback_snd_of_isPullback_quotient {X : (BigFppfOver B S hS)ᵒ�
     exact Sheaf.epi_of_isLocallySurjective πS
   have : Epi φS := by
     have : IsSplitEpi φS := ⟨⟨ObjectProperty.homMk σ, P.map_injective hσ⟩⟩
-    infer_instance
+    exact IsSplitEpi.epi φS
   obtain ⟨e, he⟩ := exists_iso_of_isPullback_of_epi (t' := tS) (s' := sS) πS φS
     (isPullback_sheaf_of_hom hkπ) (isPullback_sheaf_of_hom hopen)
   have hqe : qS = e.hom := by

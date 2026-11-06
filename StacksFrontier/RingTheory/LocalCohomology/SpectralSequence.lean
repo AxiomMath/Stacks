@@ -134,9 +134,8 @@ private noncomputable def mapHomotopyCategoryPlusObjSingleIso
 functor of its unit. -/
 private theorem isRightDerivedFunctor_rightDerivedFunctorPlus {A : Type u} [CommRing A]
     (F : ModuleCat.{max u v} A ⥤ ModuleCat.{max u v} A) [F.Additive] :
-    F.rightDerivedFunctorPlus.IsRightDerivedFunctor F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlus.IsRightDerivedFunctor F.rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso (ModuleCat.{max u v} A)) := by
-  dsimp only [Functor.rightDerivedFunctorPlus, Functor.rightDerivedFunctorPlusUnit]
   infer_instance
 
 /-- **Stacks 0EF6.** The Grothendieck spectral sequence for local cohomology with two
@@ -210,12 +209,12 @@ theorem exists_localCohomologySpectralSequence
     let J : InjectiveObject (ModuleCat.{max u v} A) :=
       ⟨F.obj I, (Module.injective_iff_injective_object A _).1
         (sectionsWithSupportInFunctor_map_injective A T' I)⟩
-    have hunit : IsIso (G.rightDerivedFunctorPlusUnit.app
+    have hunit : IsIso ((Gplus.totalRightDerivedUnit DerivedCategory.Plus.Qh W).app
         (((InjectiveObject.ι (ModuleCat.{max u v} A)).mapHomotopyCategoryPlus).obj
           ((HomotopyCategory.Plus.singleFunctor
-            (InjectiveObject (ModuleCat.{max u v} A)) 0).obj J))) := by
-      infer_instance
-    exact (NatTrans.isIso_app_iff_of_iso G.rightDerivedFunctorPlusUnit
+            (InjectiveObject (ModuleCat.{max u v} A)) 0).obj J))) :=
+      (HomotopyCategory.Plus.localizerMorphism_derives Gplus).isIso_of_isRightDerivedFunctor _ _
+    exact (NatTrans.isIso_app_iff_of_iso (Gplus.totalRightDerivedUnit DerivedCategory.Plus.Qh W)
       (mapHomotopyCategoryPlusObjSingleIso (InjectiveObject.ι _) 0 J)).1 hunit
   obtain ⟨K, hK, -, hRest⟩ :=
     CategoryTheory.Functor.exists_spectralSequence_rightDerivedFunctorPlus_comp F G hFG X
@@ -233,8 +232,8 @@ theorem exists_localCohomologySpectralSequence
     CategoryTheory.Functor.rightDerivedNatIso
       (F ⋙ G).rightDerivedFunctorPlus
       H.rightDerivedFunctorPlus
-      ((F ⋙ G).rightDerivedFunctorPlusUnit)
-      H.rightDerivedFunctorPlusUnit W τ
+      ((F ⋙ G).rightDerivedFunctorPlusUnith)
+      H.rightDerivedFunctorPlusUnith W τ
   refine ⟨K, fun n => ?_, hRest⟩
   obtain ⟨hn⟩ := hK n
   refine ⟨hn ≪≫ ?_⟩

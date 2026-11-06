@@ -2,6 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.FiniteType
 public import Mathlib.AlgebraicGeometry.Morphisms.QuasiCompact
+public import Mathlib.RingTheory.HopkinsLevitzki
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.EssentialFiniteness.ArtinianTarget
 

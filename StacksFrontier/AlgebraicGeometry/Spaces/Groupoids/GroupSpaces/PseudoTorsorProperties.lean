@@ -60,6 +60,28 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut under Lean v4.35.0). -/
+private instance (priority := high) hasLimitsOfShape_discrete_pseudoTorsorProperties
+    (𝒞 : BigFppfSite.{u}) (S : Scheme.{u}) (hS : 𝒞.Contains S) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut under Lean v4.35.0). -/
+private instance (priority := high) hasPullbacks_presheaf_pseudoTorsorProperties
+    (𝒞 : BigFppfSite.{u}) (S : Scheme.{u}) (hS : 𝒞.Contains S) :
+    HasPullbacks ((BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+private instance (priority := high) hasPullback_presheaf_pseudoTorsorProperties
+    {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
+    {X Y Z : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The unit pair of an action -/
 
 /-- The pair `x ↦ (1, x)` into the product with a monoid object is a base change of the
@@ -170,6 +192,7 @@ private theorem isLocallyQuasiFinite_pullbackSnd_of_isPseudoTorsor (𝒞 : BigFp
     (IsPullback.of_horiz_isIso (fst := e.inv) (snd := pC) (f := pA) (g := 𝟙 X₀)
       ⟨by simp [← he]⟩) hpA
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Local quasi-finiteness descends from the second projection of the self-fibre-product.**
 If `f : X ⟶ B` is a morphism of algebraic spaces over `S` which is locally of finite type, and
 the second projection `X ×_B X ⟶ X` is locally quasi-finite, then `f` itself is locally

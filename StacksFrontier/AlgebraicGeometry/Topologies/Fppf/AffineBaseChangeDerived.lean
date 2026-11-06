@@ -504,6 +504,10 @@ private def cohomologyRestrictionIso
     Sheaf.H' F n (f.obj U) ≅
       Sheaf.H' ((f.sheafPushforwardContinuous AddCommGrpCat.{u} J K).obj F) n U := by
   let R := f.sheafPushforwardContinuous AddCommGrpCat.{u} J K
+  have : HasBinaryProducts (Sheaf K AddCommGrpCat.{u}) := hasBinaryProducts_of_hasBinaryBiproducts
+  have : PreservesLimitsOfShape (Discrete WalkingPair) R :=
+    (Adjunction.ofIsRightAdjoint R).rightAdjoint_preservesLimits.preservesLimitsOfShape
+  have : R.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_isRightAdjoint R
   have : R.Additive := Functor.additive_of_preserves_binary_products R
   let α : R ⋙ preadditiveCoyoneda.obj (op ((presheafToSheaf J AddCommGrpCat.{u}).obj
       (yoneda.obj U ⋙ AddCommGrpCat.free))) ≅
@@ -627,9 +631,7 @@ private lemma isZero_cohomology_restriction
     (bigOverTopology B A hS)
   have : R.IsEquivalence := inferInstance
   have : PreservesFiniteColimits R := ⟨fun _ _ _ ↦ inferInstance⟩
-  have : R.PreservesInjectiveObjects :=
-    Functor.preservesInjectiveObjects_of_adjunction_of_preservesMonomorphisms
-      R.asEquivalence.symm.toAdjunction
+  have : R.PreservesInjectiveObjects := Functor.preservesInjectiveObjects_of_isEquivalence
   exact IsZero.of_iso h
     (cohomologyRestrictionIso (affineTopology B A hS) (bigOverTopology B A hS) i U n G).symm
 

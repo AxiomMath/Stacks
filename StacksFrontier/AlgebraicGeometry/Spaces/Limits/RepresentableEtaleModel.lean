@@ -131,7 +131,7 @@ theorem exists_isLimit_separated_siteSystem (Y : BigFppfOver B (⊤_ Scheme.{u})
         exact c.naturality g.left) }
   have hlim : IsLimit (G.mapCone (Cone.mk Y π)) :=
     ((Functor.Initial.isLimitWhiskerEquiv (Over.forget (OrderDual.toDual i₀)) _).symm hc).ofIsoLimit
-      (Cones.ext (Iso.refl _) (fun m => (Category.id_comp _).symm))
+      (Cone.ext (Iso.refl _) (fun m => (Category.id_comp _).symm))
   exact ⟨M, inferInstance, inferInstance, T, π, ⟨hlim⟩,
     fun g => hFaff g.left, fun m => hcY m, hsep, fun m => hFlft _⟩
 

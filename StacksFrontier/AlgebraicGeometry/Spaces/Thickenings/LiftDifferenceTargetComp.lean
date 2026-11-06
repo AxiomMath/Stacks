@@ -106,9 +106,9 @@ theorem app_pullbackRingSheafMap_eq_of_app_eq_zero
     hom_ext_sections fun X n =>
       hab X n.1 (RingHom.mem_ker.1 ((SheafOfModules.mem_kerIdeal ρ X n.1).1 n.2))
   rw [← hm]
-  exact (FunctorToTypes.map_comp_apply (Φ ⋙ sectionsFunctor J V) _ _ m).symm.trans
+  exact (Functor.map_comp_apply (Φ ⋙ sectionsFunctor J V) _ _ m).symm.trans
     ((congrArg (fun t => (Φ ⋙ sectionsFunctor J V).map t m) hset).trans
-      (FunctorToTypes.map_comp_apply (Φ ⋙ sectionsFunctor J V) _ _ m))
+      (Functor.map_comp_apply (Φ ⋙ sectionsFunctor J V) _ _ m))
 
 /-- A morphism of sheaves of modules acts on local sections through its underlying morphism of
 sheaves of sets.  Stated at an abstract site and with the module a variable, where it is
@@ -149,7 +149,7 @@ theorem map_map_app_eq_sub (Φ : Sheaf K (Type u) ⥤ Sheaf J (Type u)) [Preserv
   refine eq_sub_of_add_eq ?_
   refine Eq.trans ?_ e.symm
   exact congrArg (fun t => ringAddObj E (Φ ⋙ sectionsFunctor J V) t _)
-    (FunctorToTypes.map_comp_apply (Φ ⋙ sectionsFunctor J V) δ ι y).symm
+    (Functor.map_comp_apply (Φ ⋙ sectionsFunctor J V) δ ι y).symm
 
 /-- A functor of sheaves of sets applied to a composite of three morphisms, on a local section.
 Stated with every object a variable. -/
@@ -458,9 +458,9 @@ theorem reduction_comp_universalDerivationHom_comp_homEquiv :
       (universalDerivation B S hS (subspaceInclusion B S hS W W₀ ≫ qb)).d
         ((structureSharpRingInverseImage B S hS (subspaceInclusion B S hS W W₀)).hom.app V y) :=
     rfl
-  refine (FunctorToTypes.map_comp_apply (Sheaf.sectionsFunctor.{u} (SmallEtale.topology B S hS
+  refine (Functor.map_comp_apply (Sheaf.sectionsFunctor.{u} (SmallEtale.topology B S hS
     (⟨W₀.1.toFunctor, W₀.2.1⟩ : AlgebraicSpaces B S hS).1) V) _ _ y).trans ?_
-  refine (FunctorToTypes.map_comp_apply (Sheaf.sectionsFunctor.{u} (SmallEtale.topology B S hS
+  refine (Functor.map_comp_apply (Sheaf.sectionsFunctor.{u} (SmallEtale.topology B S hS
     (⟨W₀.1.toFunctor, W₀.2.1⟩ : AlgebraicSpaces B S hS).1) V) _ _ _).trans ?_
   rw [hz]
   refine (sectionsFunctor_map_moduleSheafFunctor_map' _ V _).trans ?_

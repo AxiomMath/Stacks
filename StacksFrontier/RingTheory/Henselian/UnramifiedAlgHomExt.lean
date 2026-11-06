@@ -5,6 +5,7 @@ public import Mathlib.RingTheory.Unramified.Finite
 public import Mathlib.RingTheory.Kaehler.Basic
 public import Mathlib.RingTheory.Jacobson.Ideal
 public import Mathlib.RingTheory.EssentialFiniteness
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

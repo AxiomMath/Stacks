@@ -98,7 +98,7 @@ private lemma mk_matrix_fin (D : Type*) [Ring D] [Algebra K D] [IsSimpleRing D]
     BrauerGroup.mk K (Matrix (Fin n) (Fin n) D) = BrauerGroup.mk K D := by
   rw [BrauerGroup.mk_eq_mk]
   exact ⟨1, n, one_ne_zero, NeZero.ne n,
-    ⟨by convert Matrix.uniqueAlgEquiv (m := Fin 1) (R := K); rfl⟩⟩
+    ⟨by convert Matrix.uniqueAlgEquiv (m := Fin 1) (R := K)⟩⟩
 
 include e in
 /-- Steps 5–6: the endomorphism algebra `B := End_E W` of the column module is a central

@@ -911,7 +911,7 @@ noncomputable def principalPartsSymbolData :
 theorem principalPartsδ_base (X : Cᵒᵖ) (a : O₁.obj.obj X) (x : F.val.obj X) :
     principalPartsδ.{v, u, w, m} φ F X ((φ.hom.app X).hom a) x = 0 := by
   have hd : (universalDerivationOfSite.{v, u, w, m} O₁ O₂ φ).d ((φ.hom.app X).hom a) = 0 :=
-    PresheafOfModules.Derivation'.d_app _ a
+    PresheafOfModulesOfCommRing.Derivation'.d_app _ a
   refine Eq.trans (congrArg
     (fun z : (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val.obj X ↦
       -(((tensorDifferentialsUnit.{v, u, w, m} φ F).app X).hom

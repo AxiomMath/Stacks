@@ -4,6 +4,7 @@ public import Mathlib.AlgebraicGeometry.Morphisms.FinitePresentation
 public import Mathlib.AlgebraicGeometry.Morphisms.FiniteType
 public import Mathlib.AlgebraicGeometry.Morphisms.IsIso
 public import Mathlib.Order.Filter.AtTopBot.Basic
+public import Mathlib.RingTheory.RingHom.FinitePresentation
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.EventualLimitProperties.Basic
 

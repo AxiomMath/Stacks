@@ -195,7 +195,7 @@ derived functors along `Qh` of the same functor `K⁺(𝒜) ⥤ D⁺(𝒜)` — 
 two being identified by the degreewise identity comparison — so the uniqueness of right derived
 functors produces the isomorphism. -/
 def rightDerivedFunctorPlusIdIsoOf : F.rightDerivedFunctorPlus ≅ 𝟭 (DerivedCategory.Plus A) :=
-  rightDerivedNatIso _ _ F.rightDerivedFunctorPlusUnit
+  rightDerivedNatIso _ _ F.rightDerivedFunctorPlusUnith
     (rightUnitor (DerivedCategory.Plus.Qh (C := A))).inv (HomotopyCategory.Plus.quasiIso A)
     (isoWhiskerRight (mapHomotopyCategoryPlusIdIsoOf F e) DerivedCategory.Plus.Qh ≪≫
       leftUnitor DerivedCategory.Plus.Qh)
@@ -205,7 +205,7 @@ transformation it is built from can be handled directly. -/
 theorem rightDerivedFunctorPlusIdIsoOf_hom :
     (rightDerivedFunctorPlusIdIsoOf F e).hom =
       rightDerivedNatTrans F.rightDerivedFunctorPlus (𝟭 (DerivedCategory.Plus A))
-        F.rightDerivedFunctorPlusUnit
+        F.rightDerivedFunctorPlusUnith
         (rightUnitor (DerivedCategory.Plus.Qh (C := A))).inv
         (HomotopyCategory.Plus.quasiIso A)
         (isoWhiskerRight (mapHomotopyCategoryPlusIdIsoOf F e) DerivedCategory.Plus.Qh ≪≫
@@ -216,7 +216,7 @@ theorem rightDerivedFunctorPlusIdIsoOf_inv :
     (rightDerivedFunctorPlusIdIsoOf F e).inv =
       rightDerivedNatTrans (𝟭 (DerivedCategory.Plus A)) F.rightDerivedFunctorPlus
         (rightUnitor (DerivedCategory.Plus.Qh (C := A))).inv
-        F.rightDerivedFunctorPlusUnit
+        F.rightDerivedFunctorPlusUnith
         (HomotopyCategory.Plus.quasiIso A)
         (isoWhiskerRight (mapHomotopyCategoryPlusIdIsoOf F e) DerivedCategory.Plus.Qh ≪≫
           leftUnitor DerivedCategory.Plus.Qh).inv := rfl
@@ -227,7 +227,7 @@ identity comparison.
 
 Since `RF` is a right derived functor with that unit, this determines the comparison. -/
 theorem rightDerivedFunctorPlusIdIsoOf_fac (N : HomotopyCategory.Plus A) :
-    F.rightDerivedFunctorPlusUnit.app N ≫
+    F.rightDerivedFunctorPlusUnith.app N ≫
         (rightDerivedFunctorPlusIdIsoOf F e).hom.app (DerivedCategory.Plus.Qh.obj N) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusIdIsoOf F e).hom.app N) := by
   rw [rightDerivedFunctorPlusIdIsoOf_hom]
@@ -241,10 +241,10 @@ positively and no invertibility of it is needed. -/
 theorem rightDerivedFunctorPlusIdIsoOf_inv_app (N : HomotopyCategory.Plus A) :
     (rightDerivedFunctorPlusIdIsoOf F e).inv.app (DerivedCategory.Plus.Qh.obj N) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusIdIsoOf F e).inv.app N) ≫
-        F.rightDerivedFunctorPlusUnit.app N := by
+        F.rightDerivedFunctorPlusUnith.app N := by
   rw [rightDerivedFunctorPlusIdIsoOf_inv]
   simpa using rightDerivedNatTrans_app (𝟭 (DerivedCategory.Plus A)) F.rightDerivedFunctorPlus
-    (rightUnitor (DerivedCategory.Plus.Qh (C := A))).inv F.rightDerivedFunctorPlusUnit
+    (rightUnitor (DerivedCategory.Plus.Qh (C := A))).inv F.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A)
     (isoWhiskerRight (mapHomotopyCategoryPlusIdIsoOf F e) DerivedCategory.Plus.Qh ≪≫
       leftUnitor DerivedCategory.Plus.Qh).inv N

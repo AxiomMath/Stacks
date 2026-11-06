@@ -226,7 +226,7 @@ add_to_sga "4 XVII 4.1.1" "(ii)" LinearMap.lTensor_injective_of_exact_of_flat
 add_to_sga "4 XVII 4.1.2" "more general"
   HomotopyCategory.Plus.instIsIsoAppOfInjectiveXIntAsHomologicalComplexUpHomotopicObjPlus
 add_to_sga "4 XVII 4.1.6" "partial" HomologicalComplex.tensorObj
-add_to_sga "4 XVII 4.1.6" "special case" PresheafOfModules.Monoidal.tensorObj
+add_to_sga "4 XVII 4.1.6" "special case" PresheafOfModulesOfCommRing.Monoidal.tensorObj
 add_to_sga "4 XVII 4.1.6" "special case" TensorProduct
 add_to_sga "4 XVII 4.2.12" "(i)" CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints.mk
 add_to_sga "4 XVII 5.5.2.2" PolynomialLaw

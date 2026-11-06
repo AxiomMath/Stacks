@@ -126,8 +126,7 @@ namespace AlgebraicGeometry
 @[simp]
 theorem absoluteFrobeniusPow_zero (X : Scheme.{u}) (p : ℕ) [Fact p.Prime]
     (hX : IsInCharacteristic X p) : absoluteFrobeniusPow X p hX 0 = 𝟙 X := by
-  simp only [pow_zero]
-  rfl
+  simp only [absoluteFrobeniusPow, pow_zero, End.one_asHom]
 
 /-- The `n + 1`-fold absolute Frobenius is the absolute Frobenius followed by the `n`-fold
 one. -/
@@ -135,7 +134,7 @@ theorem absoluteFrobeniusPow_succ_eq_comp (X : Scheme.{u}) (p : ℕ) [Fact p.Pri
     (hX : IsInCharacteristic X p) (n : ℕ) :
     absoluteFrobeniusPow X p hX (n + 1) =
       absoluteFrobenius X p hX ≫ absoluteFrobeniusPow X p hX n := by
-  simp only [pow_succ, End.mul_def]
+  simp only [absoluteFrobeniusPow, pow_succ, End.mul_asHom]
 
 /-- The `n`-fold absolute Frobenius is natural with respect to morphisms of schemes in
 characteristic `p`: the iterate of Stacks Tag 0CC7. -/

@@ -95,31 +95,31 @@ include hι₁ hne hlc h₁ h₂ h₃ in
 the gluing step). -/
 theorem exists_bandSmul_proj :
     ∃ bsmul : ∀ U : Space.SpacesEtale B S hS W, (bandRing B S hS W).obj (op U) →
-        𝒢.val.obj (op U) → 𝒢.val.obj (op U),
+        𝒢.obj.obj (op U) → 𝒢.obj.obj (op U),
       (∀ (U V : Space.SpacesEtale B S hS W) (g : V ⟶ U)
           (y : (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).Fiber V)
-          (r : (bandRing B S hS W).obj (op U)) (a : 𝒢.val.obj (op U)),
-        Functor.bandFrame θ V y (𝒢.val.map g.op (bsmul U r a)) =
+          (r : (bandRing B S hS W).obj (op U)) (a : 𝒢.obj.obj (op U)),
+        Functor.bandFrame θ V y (𝒢.obj.map g.op (bsmul U r a)) =
           frameSmul hι₁ y ((bandRing B S hS W).map g.op r)
-            (Functor.bandFrame θ V y (𝒢.val.map g.op a))) ∧
+            (Functor.bandFrame θ V y (𝒢.obj.map g.op a))) ∧
       (∀ (U : Space.SpacesEtale B S hS W) (r : (bandRing B S hS W).obj (op U))
-          (a b : 𝒢.val.obj (op U)), bsmul U r (a * b) = bsmul U r a * bsmul U r b) ∧
+          (a b : 𝒢.obj.obj (op U)), bsmul U r (a * b) = bsmul U r a * bsmul U r b) ∧
       (∀ (U : Space.SpacesEtale B S hS W) (r : (bandRing B S hS W).obj (op U)),
         bsmul U r 1 = 1) ∧
       (∀ (U : Space.SpacesEtale B S hS W) (r s : (bandRing B S hS W).obj (op U))
-          (a : 𝒢.val.obj (op U)), bsmul U (r + s) a = bsmul U r a * bsmul U s a) ∧
-      (∀ (U : Space.SpacesEtale B S hS W) (a : 𝒢.val.obj (op U)), bsmul U 0 a = 1) ∧
-      (∀ (U : Space.SpacesEtale B S hS W) (a : 𝒢.val.obj (op U)), bsmul U 1 a = a) ∧
+          (a : 𝒢.obj.obj (op U)), bsmul U (r + s) a = bsmul U r a * bsmul U s a) ∧
+      (∀ (U : Space.SpacesEtale B S hS W) (a : 𝒢.obj.obj (op U)), bsmul U 0 a = 1) ∧
+      (∀ (U : Space.SpacesEtale B S hS W) (a : 𝒢.obj.obj (op U)), bsmul U 1 a = a) ∧
       (∀ (U : Space.SpacesEtale B S hS W) (r s : (bandRing B S hS W).obj (op U))
-          (a : 𝒢.val.obj (op U)), bsmul U (r * s) a = bsmul U r (bsmul U s a)) ∧
+          (a : 𝒢.obj.obj (op U)), bsmul U (r * s) a = bsmul U r (bsmul U s a)) ∧
       (∀ (U V : Space.SpacesEtale B S hS W) (h : V ⟶ U) (r : (bandRing B S hS W).obj (op U))
-          (a : 𝒢.val.obj (op U)),
-        𝒢.val.map h.op (bsmul U r a) = bsmul V ((bandRing B S hS W).map h.op r)
-          (𝒢.val.map h.op a)) := by
+          (a : 𝒢.obj.obj (op U)),
+        𝒢.obj.map h.op (bsmul U r a) = bsmul V ((bandRing B S hS W).map h.op r)
+          (𝒢.obj.map h.op a)) := by
   have : ∀ U, IsGroupoid ((proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).Fiber U) :=
     isFiberedInGroupoids_proj.fiber_isGroupoid
   have hsh : Presieve.IsSheaf (Space.SpacesEtale.topology B S hS W)
-      (𝒢.val ⋙ forget CommGrpCat.{u + 1}) :=
+      (𝒢.obj ⋙ forget CommGrpCat.{u + 1}) :=
     (isSheaf_iff_isSheaf_of_type _ _).1
       ((Presheaf.isSheaf_iff_isSheaf_forget _ _ (forget CommGrpCat.{u + 1})).1 𝒢.2)
   exact Functor.exists_bandSmul (p := proj) (J := Space.SpacesEtale.topology B S hS W) (𝒢 := 𝒢)
@@ -138,22 +138,22 @@ include hι₁ hne hlc h₁ h₂ h₃ in
 `𝒢` over `U`, read by every frame as the module structure of its automorphism group
 (`AlgebraicGeometry.Stack.EtaleSmoothLift.exists_bandSmul_proj`). -/
 def bandSmul (U : Space.SpacesEtale B S hS W) (r : (bandRing B S hS W).obj (op U))
-    (a : 𝒢.val.obj (op U)) : 𝒢.val.obj (op U) :=
+    (a : 𝒢.obj.obj (op U)) : 𝒢.obj.obj (op U) :=
   (exists_bandSmul_proj hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).choose U r a
 
 /-- Every frame `y` over `V` reads the restriction to `V` of `r · a` as the action of the
 restriction of `r` on the restriction of `a`. -/
 theorem bandFrame_bandSmul (U V : Space.SpacesEtale B S hS W) (g : V ⟶ U)
     (y : (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).Fiber V)
-    (r : (bandRing B S hS W).obj (op U)) (a : 𝒢.val.obj (op U)) :
-    Functor.bandFrame θ V y (𝒢.val.map g.op (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a)) =
+    (r : (bandRing B S hS W).obj (op U)) (a : 𝒢.obj.obj (op U)) :
+    Functor.bandFrame θ V y (𝒢.obj.map g.op (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a)) =
       frameSmul hι₁ y ((bandRing B S hS W).map g.op r)
-        (Functor.bandFrame θ V y (𝒢.val.map g.op a)) :=
+        (Functor.bandFrame θ V y (𝒢.obj.map g.op a)) :=
   (exists_bandSmul_proj hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).choose_spec.1 U V g y r a
 
 /-- The product `r · -` is multiplicative in the section of the band. -/
 theorem bandSmul_mul (U : Space.SpacesEtale B S hS W) (r : (bandRing B S hS W).obj (op U))
-    (a b : 𝒢.val.obj (op U)) :
+    (a b : 𝒢.obj.obj (op U)) :
     bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r (a * b) =
       bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a * bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r b :=
   (exists_bandSmul_proj hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).choose_spec.2.1 U r a b
@@ -165,24 +165,24 @@ theorem bandSmul_one (U : Space.SpacesEtale B S hS W) (r : (bandRing B S hS W).o
 
 /-- The product `(r + s) · a` is `(r · a) * (s · a)`. -/
 theorem bandSmul_add (U : Space.SpacesEtale B S hS W) (r s : (bandRing B S hS W).obj (op U))
-    (a : 𝒢.val.obj (op U)) :
+    (a : 𝒢.obj.obj (op U)) :
     bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U (r + s) a =
       bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a * bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U s a :=
   (exists_bandSmul_proj hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).choose_spec.2.2.2.1 U r s a
 
 /-- The product `0 · a` is `1`. -/
-theorem bandSmul_zero (U : Space.SpacesEtale B S hS W) (a : 𝒢.val.obj (op U)) :
+theorem bandSmul_zero (U : Space.SpacesEtale B S hS W) (a : 𝒢.obj.obj (op U)) :
     bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U 0 a = 1 :=
   (exists_bandSmul_proj hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).choose_spec.2.2.2.2.1 U a
 
 /-- The product `1 · a` is `a`. -/
-theorem bandSmul_one_left (U : Space.SpacesEtale B S hS W) (a : 𝒢.val.obj (op U)) :
+theorem bandSmul_one_left (U : Space.SpacesEtale B S hS W) (a : 𝒢.obj.obj (op U)) :
     bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U 1 a = a :=
   (exists_bandSmul_proj hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).choose_spec.2.2.2.2.2.1 U a
 
 /-- The product `(r * s) · a` is `r · (s · a)`. -/
 theorem bandSmul_mul_left (U : Space.SpacesEtale B S hS W) (r s : (bandRing B S hS W).obj (op U))
-    (a : 𝒢.val.obj (op U)) :
+    (a : 𝒢.obj.obj (op U)) :
     bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U (r * s) a =
       bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U s a) :=
   (exists_bandSmul_proj hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).choose_spec.2.2.2.2.2.2.1 U r s a
@@ -190,9 +190,9 @@ theorem bandSmul_mul_left (U : Space.SpacesEtale B S hS W) (r s : (bandRing B S 
 /-- Restriction along `h : V ⟶ U` carries `r · a` to the product of the restrictions of `r` and
 `a`. -/
 theorem map_bandSmul (U V : Space.SpacesEtale B S hS W) (h : V ⟶ U)
-    (r : (bandRing B S hS W).obj (op U)) (a : 𝒢.val.obj (op U)) :
-    𝒢.val.map h.op (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a) =
-      bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ V ((bandRing B S hS W).map h.op r) (𝒢.val.map h.op a) :=
+    (r : (bandRing B S hS W).obj (op U)) (a : 𝒢.obj.obj (op U)) :
+    𝒢.obj.map h.op (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a) =
+      bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ V ((bandRing B S hS W).map h.op r) (𝒢.obj.map h.op a) :=
   (exists_bandSmul_proj hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).choose_spec.2.2.2.2.2.2.2 U V h r a
 
 section Chart
@@ -201,7 +201,7 @@ variable (B S hS W) in
 /-- **A function on an étale chart `V` of `W` as a function on the algebraic space `V`**, the
 inverse of the identification `AlgebraicGeometry.Space.comparisonStructureSheafIso`. -/
 def chartScalar (V : Space.SmallEtale B S hS W.1) :
-    (Space.structureRingSheaf B S hS W).val.obj (op V) →+*
+    (Space.structureRingSheaf B S hS W).obj.obj (op V) →+*
       (bandRing B S hS W).obj (op ((Space.comparisonFunctor B S hS W).obj V)) :=
   ((Space.comparisonStructureSheafIso B S hS W).inv.app (op V)).hom.comp
     ULift.ringEquiv.symm.toRingHom
@@ -209,10 +209,10 @@ def chartScalar (V : Space.SmallEtale B S hS W.1) :
 /-- `AlgebraicGeometry.Stack.EtaleSmoothLift.chartScalar` commutes with restriction along a
 morphism `f : V₂ ⟶ V₁` of étale charts. -/
 theorem bandRing_map_chartScalar {V₁ V₂ : Space.SmallEtale B S hS W.1} (f : V₂ ⟶ V₁)
-    (r : (Space.structureRingSheaf B S hS W).val.obj (op V₁)) :
+    (r : (Space.structureRingSheaf B S hS W).obj.obj (op V₁)) :
     ((bandRing B S hS W).map ((Space.comparisonFunctor B S hS W).map f).op).hom
         (chartScalar B S hS W V₁ r) =
-      chartScalar B S hS W V₂ (((Space.structureRingSheaf B S hS W).val.map f.op).hom r) := by
+      chartScalar B S hS W V₂ (((Space.structureRingSheaf B S hS W).obj.map f.op).hom r) := by
   have h := (Space.comparisonStructureSheafIso B S hS W).inv.naturality f.op
   have h' := congrArg (fun φ => φ.hom (ULift.up.{u + 1} r)) h
   exact h'.symm
@@ -220,8 +220,8 @@ theorem bandRing_map_chartScalar {V₁ V₂ : Space.SmallEtale B S hS W.1} (f : 
 /-- **The `Γ(V, 𝒪_V)`-module structure on the sections of the band over an étale chart `V`.** -/
 @[instance_reducible]
 def bandModuleStructure (V : Space.SmallEtale B S hS W.1) :
-    Module ((Space.structureRingSheaf B S hS W).val.obj (op V))
-      (Additive (𝒢.val.obj (op ((Space.comparisonFunctor B S hS W).obj V)))) where
+    Module ((Space.structureRingSheaf B S hS W).obj.obj (op V))
+      (Additive (𝒢.obj.obj (op ((Space.comparisonFunctor B S hS W).obj V)))) where
   smul r a := Additive.ofMul (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ _ (chartScalar B S hS W V r)
     a.toMul)
   one_smul a := by
@@ -257,18 +257,18 @@ abbrev bandAbelian : Sheaf (Space.SmallEtale.topology B S hS W.1) AddCommGrpCat.
 
 /-- **The band as a sheaf of `𝒪_W`-modules on `W_étale`** (Stacks 0CKG (2), the module). -/
 def bandModule : SheafOfModules.{u + 1} (Space.structureRingSheaf B S hS W) where
-  val := @PresheafOfModules.ofPresheaf _ _ _ (bandAbelian 𝒢).val
+  val := @PresheafOfModules.ofPresheaf _ _ _ (bandAbelian 𝒢).obj
     (fun V => bandModuleStructure hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ V.unop) (fun V₁ V₂ f r a => by
-      change Additive.ofMul (𝒢.val.map ((Space.comparisonFunctor B S hS W).map f.unop).op
+      change Additive.ofMul (𝒢.obj.map ((Space.comparisonFunctor B S hS W).map f.unop).op
           (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ _ (chartScalar B S hS W V₁.unop r) a.toMul)) =
         Additive.ofMul (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ _
-          (chartScalar B S hS W V₂.unop (((Space.structureRingSheaf B S hS W).val.map f).hom r))
-          (𝒢.val.map ((Space.comparisonFunctor B S hS W).map f.unop).op a.toMul))
+          (chartScalar B S hS W V₂.unop (((Space.structureRingSheaf B S hS W).obj.map f).hom r))
+          (𝒢.obj.map ((Space.comparisonFunctor B S hS W).map f.unop).op a.toMul))
       exact congrArg Additive.ofMul ((map_bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ _ _
         ((Space.comparisonFunctor B S hS W).map f.unop) _ _).trans
           (congrArg (fun t => bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ _ t _)
             (bandRing_map_chartScalar f.unop r))))
-  isSheaf := (bandAbelian 𝒢).cond
+  isSheaf := (bandAbelian 𝒢).property
 
 /-- **The underlying abelian sheaf of the band module is the restriction of `𝒢` to `W_étale`.** -/
 def bandModuleIso :
@@ -277,10 +277,10 @@ def bandModuleIso :
 
 /-- The scalars of the band module over an étale chart `V` act through the descended product. -/
 theorem bandModule_smul (V : Space.SmallEtale B S hS W.1)
-    (r : (Space.structureRingSheaf B S hS W).val.obj (op V))
+    (r : (Space.structureRingSheaf B S hS W).obj.obj (op V))
     (a : (bandModule hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).val.obj (op V)) :
     r • a = (Additive.ofMul (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ _ (chartScalar B S hS W V r)
-      (Additive.toMul (α := 𝒢.val.obj (op ((Space.comparisonFunctor B S hS W).obj V))) a)) :
+      (Additive.toMul (α := 𝒢.obj.obj (op ((Space.comparisonFunctor B S hS W).obj V))) a)) :
         (bandModule hι₁ hne hlc 𝒢 θ h₁ h₂ h₃).val.obj (op V)) :=
   rfl
 

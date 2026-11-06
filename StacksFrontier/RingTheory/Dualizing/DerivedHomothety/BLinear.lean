@@ -255,7 +255,7 @@ theorem exists_endAddEquiv_hom_derivedTensorUnit [IsNoetherianRing A] (f : A →
   set mb : ∀ b : B, targetSingle.{u, v} f ⟶ targetSingle.{u, v} f := fun b =>
     (DerivedCategory.singleFunctor (ModuleCat.{max v u} A) 0).map (targetMul.{u, v} f b)
     with hmb
-  refine ⟨((adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm.trans
+  refine ⟨End.addEquiv.trans ((adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm.trans
       ((precompAddEquiv θ ω).symm.trans
         ((homUnitAddEquiv d (StacksDraft.DerivedHom.derivedTensorUnit.{u, max v u} A)
             (StacksDraft.DerivedHom.derivedTensorUnitLeft.{u, max v u} A) ω D₁).symm.trans
@@ -264,10 +264,10 @@ theorem exists_endAddEquiv_hom_derivedTensorUnit [IsNoetherianRing A] (f : A →
     (Opposite.op (targetSingle.{u, v} f), ω)) with hP
   set Q := d.hom.map ((P.op, 𝟙 ω) : (Opposite.op D₁, ω) ⟶ (Opposite.op D₁, ω)) with hQ
   -- the four equivariance steps, read off the four naturality statements
-  have h₁ : (adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm (b • φ) =
+  have h₁ : (adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm (b • φ.asHom) =
       (ModuleCat.restrictScalars.{max v u} f).mapDerivedCategory.map
           (b • 𝟙 ((derivedHom.{u, v, u} f).obj ω)) ≫
-        (adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm φ := by
+        (adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm φ.asHom := by
     apply (adj.homEquiv ((derivedHom.{u, v, u} f).obj ω) ω).injective
     rw [Adjunction.homAddEquiv_symm_apply, Equiv.apply_symm_apply,
       adj.homEquiv_naturality_left, Adjunction.homAddEquiv_symm_apply,
@@ -297,8 +297,8 @@ theorem exists_endAddEquiv_hom_derivedTensorUnit [IsNoetherianRing A] (f : A →
     change θ.inv ≫ _ ≫ _ = _ ≫ θ.inv ≫ _
     rw [← Category.assoc, h₂, Category.assoc]
   dsimp only [AddEquiv.trans_apply, postcompAddEquiv, AddEquiv.coe_mk, Equiv.coe_fn_mk,
-    Iso.symm_hom]
-  rw [h₁]
+    Iso.symm_hom, End.addEquiv_apply]
+  rw [End.smul_asHom, h₁]
   change _ ≫ bid.inv = _
   rw [h₅]
   exact comp_square_right _ h₄

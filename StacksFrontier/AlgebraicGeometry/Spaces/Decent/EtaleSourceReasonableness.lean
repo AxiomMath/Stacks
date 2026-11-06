@@ -56,6 +56,12 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Fibre products of presheaves of types on `BigFppfOver B S hS`, supplied explicitly: instance
+search for them times out. -/
+local instance (priority := high) {A₁ A₂ A₃ : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g₁ : A₁ ⟶ A₃)
+    (g₂ : A₂ ⟶ A₃) : HasLimit (cospan g₁ g₂) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-- The fibre product of `φ` and `ξ` over the source of `f` is the base change of the relative
 diagonal of `f` along their fibre product over its target: `P` is the fibre product of `Q`
 and `X` over `X ×_Y X`, along the morphism `m` with components `c ≫ φ` and `d ≫ ξ`. -/
@@ -78,8 +84,12 @@ theorem isPullback_comparison_diagonal {U T P Q : (BigFppfOver B S hS)ᵒᵖ ⥤
     intro s
     have hs := s.condition
     constructor
-    · simpa [hmfst] using congrArg (fun t => t ≫ pullback.fst f f) hs
-    · simpa [hmsnd] using congrArg (fun t => t ≫ pullback.snd f f) hs
+    · have h := congrArg (fun t => t ≫ pullback.fst f f) hs
+      simp only [Category.assoc, hmfst, pullback.diagonal_fst, Category.comp_id] at h
+      simpa only [Category.assoc] using h
+    · have h := congrArg (fun t => t ≫ pullback.snd f f) hs
+      simp only [Category.assoc, hmsnd, pullback.diagonal_snd, Category.comp_id] at h
+      simpa only [Category.assoc] using h
   refine IsPullback.of_isLimit (PullbackCone.IsLimit.mk hw
     (fun s => hP.lift (s.fst ≫ c) (s.fst ≫ d) (((hcone s).1).trans ((hcone s).2).symm))
     (fun s => ?_) (fun s => ?_) (fun s n hn₁ _ => ?_))

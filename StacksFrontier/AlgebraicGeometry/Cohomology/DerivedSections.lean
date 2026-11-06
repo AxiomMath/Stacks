@@ -130,7 +130,7 @@ derived sections. -/
 def derivedSectionsUnit :
     (sectionsFunctor X U).mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⟶
       DerivedCategory.Plus.Qh ⋙ derivedSections X U :=
-  (sectionsFunctor X U).rightDerivedFunctorPlusUnit
+  (sectionsFunctor X U).rightDerivedFunctorPlusUnith
 
 /-- `Stacks.Cohomology.derivedSections` is a right derived functor of
 `Stacks.Cohomology.sectionsFunctor`, with comparison map

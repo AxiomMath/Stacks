@@ -341,8 +341,9 @@ theorem hom_eq_of_span_eq_top [IsSeparated f] [CompactSpace X] (G : X.Modules)
     (fun _ s => Stacks.Cech.inter_isAffineOpen f U hUaff s) G d
   ext x
   have hx : (show ↑((Stacks.Cech.alternatingCechModuleComplex f U G).homology d) from E.hom x) ∈
-      Submodule.span A {show ↑((Stacks.Cech.alternatingCechModuleComplex f U G).homology d) from
-        E.hom ξ} := by
+      Submodule.span A
+        {show ↑((Stacks.Cech.alternatingCechModuleComplex f U G).homology d) from
+          E.hom ξ} := by
     rw [hspan U hU hUaff]
     exact Submodule.mem_top
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 hx

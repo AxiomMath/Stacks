@@ -132,14 +132,14 @@ theorem onHomotopy_app_mapSquarePlus (K : HomotopyCategory.Plus A) :
     (onHomotopy F F' G G' τ e).app K =
       e.inv.app (F.mapHomotopyCategoryPlus.obj K) ≫
         DerivedCategory.Plus.Qh.map ((mapSquarePlus F F' G G' τ).app K) ≫
-          F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K) ≫
-            F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K) :=
+          F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K) ≫
+            F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K) :=
   (onHomotopy_app F F' G G' τ e K).trans
     (congrArg
       (fun m ↦ e.inv.app (F.mapHomotopyCategoryPlus.obj K) ≫
         DerivedCategory.Plus.Qh.map m ≫
-          F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K) ≫
-            F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K))
+          F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K) ≫
+            F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K))
       (mapSquarePlus_app F F' G G' τ K).symm)
 
 end Components
@@ -176,11 +176,11 @@ def derivedPaste :
   Functor.whiskerLeft P₀.rightDerivedFunctorPlus
       (Functor.rightDerivedFunctorPlusCompIsoOfExact U₁ U₂ U cU).inv ≫
     (Functor.associator _ _ _).inv ≫
-    Functor.whiskerRight (derived P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnit))
+    Functor.whiskerRight (derived P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnith))
       U₂.rightDerivedFunctorPlus ≫
     (Functor.associator _ _ _).hom ≫
     Functor.whiskerLeft V₁.rightDerivedFunctorPlus
-      (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnit)) ≫
+      (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnith)) ≫
     (Functor.associator _ _ _).inv ≫
     Functor.whiskerRight (Functor.rightDerivedFunctorPlusCompIsoOfExact V₁ V₂ V cV).hom
       P₂.rightDerivedFunctorPlus
@@ -192,8 +192,8 @@ theorem derivedPaste_app (M : DerivedCategory.Plus A₀) :
       (Functor.rightDerivedFunctorPlusCompIsoOfExact U₁ U₂ U cU).inv.app
           (P₀.rightDerivedFunctorPlus.obj M) ≫
         U₂.rightDerivedFunctorPlus.map
-            ((derived P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnit)).app M) ≫
-          (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnit)).app
+            ((derived P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnith)).app M) ≫
+          (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnith)).app
               (V₁.rightDerivedFunctorPlus.obj M) ≫
             P₂.rightDerivedFunctorPlus.map
               ((Functor.rightDerivedFunctorPlusCompIsoOfExact V₁ V₂ V cV).hom.app M) := by
@@ -205,21 +205,21 @@ comparison of the derived inverse images along the composite source leg into the
 comparison; here the comparison enters covariantly, so
 `CategoryTheory.Functor.rightDerivedFunctorPlusCompIsoOfExact_fac` applies directly. -/
 theorem derivedPaste_target_fac (K : HomotopyCategory.Plus A₀) :
-    P₂.rightDerivedFunctorPlusUnit.app
+    P₂.rightDerivedFunctorPlusUnith.app
           (V₂.mapHomotopyCategoryPlus.obj (V₁.mapHomotopyCategoryPlus.obj K)) ≫
         P₂.rightDerivedFunctorPlus.map
-            (V₂.rightDerivedFunctorPlusUnit.app (V₁.mapHomotopyCategoryPlus.obj K)) ≫
+            (V₂.rightDerivedFunctorPlusUnith.app (V₁.mapHomotopyCategoryPlus.obj K)) ≫
           P₂.rightDerivedFunctorPlus.map
-              (V₂.rightDerivedFunctorPlus.map (V₁.rightDerivedFunctorPlusUnit.app K)) ≫
+              (V₂.rightDerivedFunctorPlus.map (V₁.rightDerivedFunctorPlusUnith.app K)) ≫
             P₂.rightDerivedFunctorPlus.map
               ((Functor.rightDerivedFunctorPlusCompIsoOfExact V₁ V₂ V cV).hom.app
                 (DerivedCategory.Plus.Qh.obj K)) =
       DerivedCategory.Plus.Qh.map
           (P₂.mapHomotopyCategoryPlus.map
             ((Functor.mapHomotopyCategoryPlusCompIso cV).hom.app K)) ≫
-        P₂.rightDerivedFunctorPlusUnit.app (V.mapHomotopyCategoryPlus.obj K) ≫
-          P₂.rightDerivedFunctorPlus.map (V.rightDerivedFunctorPlusUnit.app K) := by
-  rw [reassoc_of% (P₂.rightDerivedFunctorPlusUnit.naturality _), ← Functor.map_comp,
+        P₂.rightDerivedFunctorPlusUnith.app (V.mapHomotopyCategoryPlus.obj K) ≫
+          P₂.rightDerivedFunctorPlus.map (V.rightDerivedFunctorPlusUnith.app K) := by
+  rw [reassoc_of% (P₂.rightDerivedFunctorPlusUnith.naturality _), ← Functor.map_comp,
     ← Functor.map_comp, ← Functor.map_comp,
     Functor.rightDerivedFunctorPlusCompIsoOfExact_fac V₁ V₂ V cV K]
   rfl
@@ -230,18 +230,18 @@ theorem onHomotopy_eq_unit_comp_derivedPaste_app
     (hτ : ∀ X, τ.app X = cU.inv.app (P₀.obj X) ≫ U₂.map (τ₁.app X) ≫
       τ₂.app (V₁.obj X) ≫ P₂.map (cV.hom.app X))
     (K : HomotopyCategory.Plus A₀) :
-    (onHomotopy P₀ P₂ U V τ (asIso U.rightDerivedFunctorPlusUnit)).app K =
-      U.rightDerivedFunctorPlus.map (P₀.rightDerivedFunctorPlusUnit.app K) ≫
+    (onHomotopy P₀ P₂ U V τ (asIso U.rightDerivedFunctorPlusUnith)).app K =
+      U.rightDerivedFunctorPlus.map (P₀.rightDerivedFunctorPlusUnith.app K) ≫
         (derivedPaste P₀ P₁ P₂ U₁ U₂ U V₁ V₂ V cU cV τ₁ τ₂).app
           (DerivedCategory.Plus.Qh.obj K) := by
   have hnat0 := (Functor.rightDerivedFunctorPlusCompIsoOfExact U₁ U₂ U cU).inv.naturality
-    (P₀.rightDerivedFunctorPlusUnit.app K)
-  have hfac1 := derived_fac_app P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnit) K
-  have hfac2 := derived_fac_app P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnit)
+    (P₀.rightDerivedFunctorPlusUnith.app K)
+  have hfac1 := derived_fac_app P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnith) K
+  have hfac2 := derived_fac_app P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnith)
     (V₁.mapHomotopyCategoryPlus.obj K)
-  have hnat2 := (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnit)).naturality
-    (V₁.rightDerivedFunctorPlusUnit.app K)
-  have hnatU := (asIso U₂.rightDerivedFunctorPlusUnit).inv.naturality
+  have hnat2 := (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnith)).naturality
+    (V₁.rightDerivedFunctorPlusUnith.app K)
+  have hnatU := (asIso U₂.rightDerivedFunctorPlusUnith).inv.naturality
     ((mapSquarePlus P₀ P₁ U₁ V₁ τ₁).app K)
   rw [onHomotopy_app_mapSquarePlus,
     mapSquarePlus_paste_app P₀ P₁ P₂ U₁ U₂ U V₁ V₂ V cU cV τ τ₁ τ₂ hτ K]
@@ -266,15 +266,15 @@ The hypothesis is exactly the underived pasting identity, evaluated at each obje
 theorem derived_eq_derivedPaste
     (hτ : ∀ X, τ.app X = cU.inv.app (P₀.obj X) ≫ U₂.map (τ₁.app X) ≫
       τ₂.app (V₁.obj X) ≫ P₂.map (cV.hom.app X)) :
-    derived P₀ P₂ U V τ (asIso U.rightDerivedFunctorPlusUnit) =
+    derived P₀ P₂ U V τ (asIso U.rightDerivedFunctorPlusUnith) =
       derivedPaste P₀ P₁ P₂ U₁ U₂ U V₁ V₂ V cU cV τ₁ τ₂ := by
   let _ : (P₀.rightDerivedFunctorPlus ⋙ U.rightDerivedFunctorPlus).IsRightDerivedFunctor
-      (Functor.whiskerRight P₀.rightDerivedFunctorPlusUnit U.rightDerivedFunctorPlus ≫
+      (Functor.whiskerRight P₀.rightDerivedFunctorPlusUnith U.rightDerivedFunctorPlus ≫
         (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso A₀) :=
     (HomotopyCategory.Plus.localizerMorphism_derives _).isRightDerivedFunctor_of_isIso _
       (fun K ↦ by dsimp; infer_instance)
   refine Functor.rightDerived_ext (P₀.rightDerivedFunctorPlus ⋙ U.rightDerivedFunctorPlus)
-    (Functor.whiskerRight P₀.rightDerivedFunctorPlusUnit U.rightDerivedFunctorPlus ≫
+    (Functor.whiskerRight P₀.rightDerivedFunctorPlusUnith U.rightDerivedFunctorPlus ≫
       (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso A₀) _ _ _ ?_
   rw [Category.assoc, derived_fac]
   refine NatTrans.ext (funext fun K => ?_)
@@ -286,12 +286,12 @@ theorem derived_eq_derivedPaste_app
     (hτ : ∀ X, τ.app X = cU.inv.app (P₀.obj X) ≫ U₂.map (τ₁.app X) ≫
       τ₂.app (V₁.obj X) ≫ P₂.map (cV.hom.app X))
     (M : DerivedCategory.Plus A₀) :
-    (derived P₀ P₂ U V τ (asIso U.rightDerivedFunctorPlusUnit)).app M =
+    (derived P₀ P₂ U V τ (asIso U.rightDerivedFunctorPlusUnith)).app M =
       (Functor.rightDerivedFunctorPlusCompIsoOfExact U₁ U₂ U cU).inv.app
           (P₀.rightDerivedFunctorPlus.obj M) ≫
         U₂.rightDerivedFunctorPlus.map
-            ((derived P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnit)).app M) ≫
-          (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnit)).app
+            ((derived P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnith)).app M) ≫
+          (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnith)).app
               (V₁.rightDerivedFunctorPlus.obj M) ≫
             P₂.rightDerivedFunctorPlus.map
               ((Functor.rightDerivedFunctorPlusCompIsoOfExact V₁ V₂ V cV).hom.app M) := by

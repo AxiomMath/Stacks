@@ -151,7 +151,7 @@ public noncomputable def twistTensorSections (n : ℕ) (m : ℤ)
   letI : MonoidalCategory
       (PresheafOfModules.{u}
         (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) :=
-    PresheafOfModules.monoidalCategory (R := O)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   exact (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO
     ((twistingSheaf 𝒮 (n : ℤ)).val ⊗ (twistSheafOfModules 𝒮 F m).val)).app (op ⊤)
       (s ⊗ₜ[(O.obj (op ⊤))] t)

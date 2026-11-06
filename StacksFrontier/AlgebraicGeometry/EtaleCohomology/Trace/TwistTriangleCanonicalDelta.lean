@@ -55,11 +55,7 @@ theorem ι_map_plusQuotientCompQhIso_hom_app {C : Type*} [Category* C] [Abelian 
     [HasDerivedCategory C] (L : CochainComplex.Plus C) :
     DerivedCategory.Plus.ι.map ((DerivedCategory.Plus.quotientCompQhIso C).hom.app L) =
       (DerivedCategory.quotientCompQhIso C).hom.app L.obj := by
-  rw [DerivedCategory.Plus.quotientCompQhIso, Functor.fullyFaithfulCancelRight_hom_app,
-    Functor.map_preimage]
-  show 𝟙 _ ≫ (DerivedCategory.Qh.map (𝟙 _) ≫
-    (DerivedCategory.quotientCompQhIso C).hom.app L.obj) = _
-  rw [Category.id_comp, CategoryTheory.Functor.map_id, Category.id_comp]
+  rfl
 
 /-- The image in `D(𝒞)` of the inverse of `DerivedCategory.Plus.quotientCompQhIso` at `L` is the
 inverse of `DerivedCategory.quotientCompQhIso` at `L.obj`. -/
@@ -67,12 +63,7 @@ theorem ι_map_plusQuotientCompQhIso_inv_app {C : Type*} [Category* C] [Abelian 
     [HasDerivedCategory C] (L : CochainComplex.Plus C) :
     DerivedCategory.Plus.ι.map ((DerivedCategory.Plus.quotientCompQhIso C).inv.app L) =
       (DerivedCategory.quotientCompQhIso C).inv.app L.obj := by
-  rw [DerivedCategory.Plus.quotientCompQhIso, Functor.fullyFaithfulCancelRight_inv_app,
-    Functor.map_preimage]
-  show ((DerivedCategory.quotientCompQhIso C).inv.app L.obj ≫
-    DerivedCategory.Qh.map (𝟙 _)) ≫ 𝟙 _ = _
-  rw [Category.comp_id, CategoryTheory.Functor.map_id]
-  exact Category.comp_id _
+  rfl
 
 /-- The two lifts to `D⁺` of `quotientCompQhIso` agree. -/
 theorem plusQuotientCompQhIso_hom_app_eq {C : Type*} [Category* C] [Abelian C]
@@ -94,6 +85,62 @@ theorem ι_map_mapCochainComplexPlusDerivedUnit_app (L : CochainComplex.Plus A) 
     ι_map_plusQuotientCompQhIso_inv_app, plusQuotientCompQhIso_hom_app_eq]
   exact whisker_eq _ (CategoryTheory.Functor.map_comp _ _ _)
 
+/-- A shift structure on `RF` for which the identity of `RF` commutes with the shifts, from
+Mathlib's shift structure to it, is Mathlib's. -/
+theorem commShift_eq_of_natTransCommShift_id (c : F.rightDerivedFunctorPlus.CommShift ℤ)
+    (h : @NatTrans.CommShift _ _ _ _ _ _ (𝟙 F.rightDerivedFunctorPlus) ℤ _ _ _
+      F.instCommShiftPlusRightDerivedFunctorPlusInt c) :
+    c = F.instCommShiftPlusRightDerivedFunctorPlusInt := by
+  have key : ∀ a : ℤ, Functor.commShiftIso (self := c) F.rightDerivedFunctorPlus a =
+      Functor.commShiftIso (self := F.instCommShiftPlusRightDerivedFunctorPlusInt)
+        F.rightDerivedFunctorPlus a := by
+    intro a
+    refine Iso.ext (NatTrans.ext (funext fun X ↦ ?_))
+    have := NatTrans.congr_app (h.shift_comm a) X
+    simp only [NatTrans.comp_app, Functor.whiskerRight_app, Functor.whiskerLeft_app,
+      NatTrans.id_app, CategoryTheory.Functor.map_id] at this
+    exact ((Category.id_comp _).symm.trans this.symm).trans (Category.comp_id _)
+  cases c with
+  | mk i z ad =>
+    have hi : i = fun a ↦ Functor.commShiftIso
+        (self := F.instCommShiftPlusRightDerivedFunctorPlusInt) F.rightDerivedFunctorPlus a :=
+      funext key
+    subst hi
+    rfl
+
+/-- A shift structure on `RF` with which the unit `rightDerivedFunctorPlusUnit` commutes is
+Mathlib's. -/
+theorem commShift_eq_of_unit [c : F.rightDerivedFunctorPlus.CommShift ℤ]
+    [hc : NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ] :
+    c = F.instCommShiftPlusRightDerivedFunctorPlusInt :=
+  commShift_eq_of_natTransCommShift_id F c
+    (@NatTrans.CommShift.of_isRightDerivedFunctor _ _ _ _ _ _
+      F.rightDerivedFunctorPlus F.rightDerivedFunctorPlus _ _ _
+      F.rightDerivedFunctorPlusUnit F.rightDerivedFunctorPlusUnit (𝟙 _)
+      (CochainComplex.Plus.quasiIso A) _ _ ℤ _ _ _ _ _ _ _ _
+      F.instCommShiftPlusRightDerivedFunctorPlusInt c
+      (Functor.instCommShiftPlusPlusRightDerivedFunctorPlusUnitInt F) hc _ (𝟙 _) (by simp))
+
+/-- A shift structure on `RF` with which the unit `rightDerivedFunctorPlusUnith` commutes is
+Mathlib's. -/
+theorem commShift_eq_of_unith [c : F.rightDerivedFunctorPlus.CommShift ℤ]
+    [hc : NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ] :
+    c = F.instCommShiftPlusRightDerivedFunctorPlusInt :=
+  commShift_eq_of_natTransCommShift_id F c
+    (@NatTrans.CommShift.of_isRightDerivedFunctor _ _ _ _ _ _
+      F.rightDerivedFunctorPlus F.rightDerivedFunctorPlus _ _ _
+      F.rightDerivedFunctorPlusUnith F.rightDerivedFunctorPlusUnith (𝟙 _)
+      (HomotopyCategory.Plus.quasiIso A) _ _ ℤ _ _ _ _ _ _ _ _
+      F.instCommShiftPlusRightDerivedFunctorPlusInt c inferInstance hc _ (𝟙 _) (by simp))
+
+/-- The unit `rightDerivedFunctorPlusUnit` commutes with any shift structure on `RF` with which
+`rightDerivedFunctorPlusUnith` commutes. -/
+theorem natTransCommShift_unit_of_unith [c : F.rightDerivedFunctorPlus.CommShift ℤ]
+    [NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ] :
+    NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ := by
+  obtain rfl := commShift_eq_of_unith F
+  infer_instance
+
 variable [F.rightDerivedFunctorPlus.CommShift ℤ]
   [NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ]
 
@@ -110,6 +157,7 @@ theorem plusδ_comp_unit (S : ShortComplex (CochainComplex.Plus A)) (hS : (toSC 
   refine Functor.mapδ_cancel DerivedCategory.Plus.ι _ _ _ _ ?_
   rw [mapδ_ι_plusδ, ι_map_mapCochainComplexPlusDerivedUnit_app,
     ι_map_mapCochainComplexPlusDerivedUnit_app, ← Functor.mapδ_comp]
+  obtain rfl := commShift_eq_of_unit F
   exact triangleOfSESδ_comp_unitD F S hS hFS
 
 end Unit
@@ -251,6 +299,8 @@ theorem twistTriangle_mor₃_eq :
     (Functor.mapδ_naturality F₁.rightDerivedFunctorPlus _ _ _ _
       (Stacks.Cech.Hypercohomology.plusδ_naturality (S := Sp) (S' := Tp) hS hT ψp))
   -- the comparison carries the connecting morphism of the image to the canonical one
+  haveI := natTransCommShift_unit_of_unith F₁
+  haveI := natTransCommShift_unit_of_unith F₂
   have hK := Functor.mapδ_naturality DerivedCategory.Plus.ι _ _ _ _
     (plusδ_comp_twistComparison F₁ F₂ Tp hT h₁T h₂T)
   rw [mapδ_ι_plusδ, ← Functor.mapδ_comp] at hK

@@ -45,7 +45,7 @@ pullback of `a`. -/
 public theorem pullbackSection_smul {X Y : Scheme.{u}} (f : Y ⟶ X) (F : X.Modules)
     (U : X.Opens) (V : Y.Opens) (h : V ≤ f ⁻¹ᵁ U) (r : Γ(X, U)) (a : Γ(F, U)) :
     pullbackSection f F U V h (r • a) =
-      (((Scheme.Modules.pullback f).obj F).smul (f.appLE U V h r)).hom
+      (((Scheme.Modules.pullback f).obj F).smul (f.appLE U V h r)).asHom.hom
         (pullbackSection f F U V h a) := by
   have hps : ∀ b : Γ(F, U), pullbackSection f F U V h b =
       ((Scheme.Modules.pullback f).obj F).presheaf.map (homOfLE h).op
@@ -114,7 +114,7 @@ theorem pullbackSection_degreeSection_eq_smul {Y : Scheme.{u}} {p q : S} (hp : p
           (degreeSection 𝒮 1 ⟨p, hp⟩)) =
       (((Scheme.Modules.pullback g).obj (O1 𝒮)).smul
             ((Stacks.AlgebraicGeometry.ProjF1DegreeOneChart.chartHomEquiv 𝒮 hq Nat.one_pos Y
-              ⟨g, hg⟩).hom (Away.mk 𝒮 hq 1 p (by simpa using hp)))).hom
+              ⟨g, hg⟩).hom (Away.mk 𝒮 hq 1 p (by simpa using hp)))).asHom.hom
         (Scheme.Modules.pullbackSection g (O1 𝒮) (AlgebraicGeometry.Proj.basicOpen 𝒮 q) ⊤ hg.ge
           ((O1 𝒮).presheaf.map
             (homOfLE (le_top (a := AlgebraicGeometry.Proj.basicOpen 𝒮 q))).op

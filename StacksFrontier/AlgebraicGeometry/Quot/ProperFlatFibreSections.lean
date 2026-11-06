@@ -386,11 +386,11 @@ theorem relativeSection_injective {U : BigFppfOver B S hS}
   dsimp only [relativeSection] at h
   injection h with _ h₂
   apply map_injective
-  refine (cancel_mono (pullIso y b).hom).mp (pullback.hom_ext ?_ ?_)
+  refine (Iso.cancel_iso_hom_right _ _ (pullIso y b)).mp (pullback.hom_ext ?_ ?_)
   · rw [Category.assoc, Category.assoc, pullIso_hom_fst, map_val_str m,
       map_val_str n]
   · rw [Category.assoc, Category.assoc, pullIso_hom_snd]
-    exact (cancel_epi (pullIso x b).inv).mp h₂
+    simpa only [Iso.cancel_iso_inv_left] using h₂
 
 /-- Attaching a relative morphism to a morphism of the fibre carries composition in the fibre to
 composition of relative morphisms. -/
@@ -495,7 +495,7 @@ theorem pullIso_restrict {U : BigFppfOver B S hS}
       map (pullMap x c) = map (pullMap x b) := by
     simpa only [Functor.map_comp] using (underlying B S hS).congr_map
       (Functor.pullbackFiberMap_fac (cartesianProperFlatProjection B S hS) x h)
-  refine (cancel_mono (pullIso x c).hom).mp ?_
+  refine (Iso.cancel_iso_hom_right _ _ (pullIso x c)).mp ?_
   rw [Category.assoc, Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id]
   refine pullback.hom_ext ?_ ?_
   · simp only [Category.assoc, pullIso_hom_fst]

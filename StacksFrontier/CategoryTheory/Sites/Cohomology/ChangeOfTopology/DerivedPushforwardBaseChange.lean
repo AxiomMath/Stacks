@@ -214,9 +214,8 @@ lemma rightAcyclic_cycles_and_preservesLeftHomologyOf_of_isStrictlyGE [EnoughInj
       have hf : (K.sc (n₀ + (0 : ℕ))).f = 0 := hz.eq_of_src _ _
       have : IsIso ((K.sc (n₀ + (0 : ℕ))).homologyπ) := ShortComplex.isIso_homologyπ _ hf
       refine ⟨?_, G.preservesLeftHomology_of_zero_f _ hf⟩
-      exact (NatTrans.isIso_app_iff_of_iso G.rightDerivedFunctorPlusUnit
-        ((HomotopyCategory.Plus.singleFunctor A 0).mapIso
-          (asIso ((K.sc (n₀ + (0 : ℕ))).homologyπ)))).mpr (hH (n₀ + (0 : ℕ)))
+      exact G.rightAcyclic.prop_of_iso (asIso ((K.sc (n₀ + (0 : ℕ))).homologyπ)).symm
+        (hH (n₀ + (0 : ℕ)))
     | succ m ih =>
       have ih := ih (by omega)
       have hp : (ComplexShape.up ℤ).prev (n₀ + (m + 1 : ℕ)) = n₀ + m := by
@@ -603,10 +602,10 @@ private lemma isIso_derivedComparisonBaseChangeOnHomotopy_app (S : CohomologyCom
   exact isIso_sixfold_of_isIso _ _ _ _ _ _
     ((overPushforward S.fineCoverage.toGrothendieck f).rightDerivedFunctorPlus.map
       (DerivedCategory.Plus.Qh.map φH))
-    ((overPushforward S.fineCoverage.toGrothendieck f).rightDerivedFunctorPlusUnit.app JH)
+    ((overPushforward S.fineCoverage.toGrothendieck f).rightDerivedFunctorPlusUnith.app JH)
     (DerivedCategory.Plus.Qh.map dd)
     (((overPushforward S.fineCoverage.toGrothendieck
-      f).rightDerivedFunctorPlusUnit.naturality φH).symm)
+      f).rightDerivedFunctorPlusUnith.naturality φH).symm)
 
 /-! ### The comparison on bounded below derived categories -/
 

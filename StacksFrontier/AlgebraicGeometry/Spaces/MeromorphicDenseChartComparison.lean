@@ -172,7 +172,7 @@ definition of `j_η` as the composite of `Spec(𝒪_{X, η}) ⟶ P.scheme` with 
 theorem isGenericChart_schematicChart : P.IsGenericChart P.schematicChart where
   mono := by
     show Mono (P.iso.hom ≫ P.sub.ι)
-    infer_instance
+    exact mono_comp' (IsIso.mono_of_iso _) (Subfunctor.instMonoFunctorTypeι _)
   factors y hy := ⟨P.specStalkToScheme hy, rfl⟩
 
 end Generic
@@ -506,7 +506,7 @@ theorem bijective_pi_genericPointComparison_app_of_isIso
     refine funext fun s => funext fun η => ?_
     have h : P.genericPointModuleComparisonPi ≫
         Pi.π (fun η : CodimensionZeroPoints B S hS X.1 => P.genericPointModule η.2) η =
-          P.genericPointModuleComparison η.2 := Pi.lift_π _ η
+          P.genericPointModuleComparison η.2 := Pi.lift_comp_π _ η
     exact congrFun (congrArg
       (fun g : meromorphicModule B S hS X ⟶ P.genericPointModule η.2 =>
         fun z => g.val.app (op U) z) h) s

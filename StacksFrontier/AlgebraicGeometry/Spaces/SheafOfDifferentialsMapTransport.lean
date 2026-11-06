@@ -191,7 +191,7 @@ theorem universalDerivation_sharpIsoInv (p : X ⟶ Y) (q : X ⟶ Z)
     (((sharpIsoInv B S hS p q e he).val.app W).hom)
         ((universalDerivation B S hS q).d x) =
       (universalDerivation B S hS p).d x :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     ((differentialsHomEquiv B S hS q (sheafOfDifferentials B S hS p)).apply_symm_apply
       ((universalDerivation B S hS p).precompBase e.hom.hom
         (sharpFactorHom B S hS p q e he))) x

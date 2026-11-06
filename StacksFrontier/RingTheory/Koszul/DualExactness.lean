@@ -52,26 +52,6 @@ open CategoryTheory
 
 universe u
 
-namespace Set.powersetCard
-
-variable {α : Type*} [DecidableEq α] [Fintype α] {m n : ℕ}
-
-/-- When the two cardinalities add up to the cardinality of the ambient type, an `m`-subset is
-disjoint from an `n`-subset exactly when it is its complement. -/
-theorem disjoint_iff_eq_compl (hm : m + n = Fintype.card α) (s : powersetCard α m)
-    (t : powersetCard α n) : Disjoint s.val t.val ↔ s = compl hm t := by
-  constructor
-  · intro h
-    apply Subtype.ext
-    change s.val = t.valᶜ
-    refine Finset.eq_of_subset_of_card_le (le_compl_iff_disjoint_right.mpr h) ?_
-    rw [Finset.card_compl, card_eq s, card_eq t]
-    omega
-  · rintro rfl
-    exact disjoint_compl_left
-
-end Set.powersetCard
-
 namespace Koszul
 
 open Set.powersetCard
@@ -168,7 +148,7 @@ theorem wedgePairing_bijective {a b : ℕ} (hab : a + b = n) :
   classical
   have hc : a + b = Fintype.card (Fin n) := by rwa [Fintype.card_fin]
   have hd : ∀ t : Set.powersetCard (Fin n) b, Disjoint (compl hc t).val t.val :=
-    fun t => (disjoint_iff_eq_compl hc _ _).2 rfl
+    fun t => (disjoint_iff_eq_compl hc).2 rfl
   let w : Set.powersetCard (Fin n) b → Rˣ := fun t =>
     Units.map (Int.castRingHom R).toMonoidHom (Equiv.Perm.sign (permOfDisjoint (hd t)))
   let B' : Module.Basis (Set.powersetCard (Fin n) b) R
@@ -185,7 +165,7 @@ theorem wedgePairing_bijective {a b : ℕ} (hab : a + b = n) :
     · subst hs
       rw [dite_eq_left (hd t), ite_eq_left rfl, mul_one]
       simp [w]
-    · rw [dite_eq_right (fun h => hs ((disjoint_iff_eq_compl hc _ _).1 h)), ite_eq_right hs,
+    · rw [dite_eq_right (fun h => hs ((disjoint_iff_eq_compl hc).1 h)), ite_eq_right hs,
         mul_zero]
   rw [key]
   exact LinearEquiv.bijective _

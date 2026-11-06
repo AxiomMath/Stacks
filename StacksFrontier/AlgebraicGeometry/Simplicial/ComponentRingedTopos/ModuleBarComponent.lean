@@ -81,7 +81,7 @@ theorem barLabel_surjective {n m : SimplexCategory} (U : S.component m)
     (a : (simplexIndices.{u, u} S n).obj (Opposite.op ((componentFunctor S m).obj U))) :
     ∃ φ : n ⟶ m, barLabel φ U = a :=
   ⟨a.down ≫ eqToHom (S.totalSimplexDegree_leftOp_obj_op_componentFunctor_obj m U),
-    ULift.ext _ _ (by simp [barLabel])⟩
+    ULift.ext (by simp [barLabel])⟩
 
 /-- Restriction along a morphism of the component of degree `m` keeps the labels. -/
 theorem simplexIndices_map_barLabel {n m : SimplexCategory} (φ : n ⟶ m)
@@ -132,7 +132,7 @@ theorem moduleBarPresheaf_map_apply_barLabel {n m : SimplexCategory} (φ : n ⟶
     (PresheafOfModules.copowerObj_map_apply M.val (simplexIndices.{u, u} S n)
       ((componentFunctor S m).map g).op y)).trans ?_
   conv_lhs => rw [← simplexIndices_map_barLabel φ g]
-  exact (Finsupp.mapDomain_apply hinj _ _).trans rfl
+  exact (Finsupp.mapDomain_apply_of_injective hinj _ _).trans rfl
 
 /-- The `φ`th summand inclusion `M|_m ⟶ B_n(M)|_m`, placing a section at the label of `φ`. -/
 def moduleBarSummand {n m : SimplexCategory} (φ : n ⟶ m) :

@@ -296,7 +296,7 @@ theorem Etale.existsUnique_lift_of_isThickening
   let cofork : Cofork sf tf := Cofork.ofπ (⟨c⟩ : UF ⟶ XF) hwc
   let dsh := hc.desc cofork
   have hfac : qf ≫ dsh = (⟨c⟩ : UF ⟶ XF) := by
-    simpa [dsh, cofork] using hc.fac cofork WalkingParallelPair.one
+    exact hc.fac cofork WalkingParallelPair.one
   have hqd : q ≫ dsh.hom = c := congrArg (fun φ ↦ φ.hom) hfac
   have hqepi : Epi qf := Cofork.IsColimit.epi hc
   -- The descended arrow solves the original lifting problem.

@@ -120,7 +120,7 @@ private theorem psi_eq_smul_away (a b : (symAlg 𝒞).sectionPieces V 1)
             ((AlgebraicGeometry.Proj.awayToSection ((symAlg 𝒞).grading V) _).hom
               (HomogeneousLocalization.Away.mk ((symAlg 𝒞).grading V)
                 ((symAlg 𝒞).of_mem_grading V b) 1 (DirectSum.of ((symAlg 𝒞).sectionPieces V) 1 a)
-                (by simp))))).hom
+                (by simp))))).asHom.hom
         (((twistData 𝒞).algebra.piece ((1 : ℕ) : ℤ)).val.map (homOfLE h).op
           (((twistData 𝒞).ψ 1).val.app (op V) b)) := by
   let := (twistData 𝒞).chartData.chart_isOpenImmersion V hV
@@ -162,7 +162,7 @@ theorem psi_restrict_openW (m : Γ(𝒞, V)) :
           ((Scheme.Modules.symmetricAlgebraGen X (module 𝒞)).val.app (op V)
             (Scheme.Modules.Hom.app (inl 𝒞) V m))) =
       ((show (relativeProj (symAlg 𝒞)).scheme.Modules from
-          (twistData 𝒞).algebra.piece ((1 : ℕ) : ℤ)).smul (coordY 𝒞 hV m)).hom
+          (twistData 𝒞).algebra.piece ((1 : ℕ) : ℤ)).smul (coordY 𝒞 hV m)).asHom.hom
         (((twistData 𝒞).algebra.piece ((1 : ℕ) : ℤ)).val.map (homOfLE (openW_le' 𝒞 hV)).op
           (((twistData 𝒞).ψ 1).val.app (op V)
             ((Scheme.Modules.symmetricAlgebraGen X (module 𝒞)).val.app (op V)
@@ -213,7 +213,7 @@ theorem psi_ratio (a b : (symAlg 𝒞).sectionPieces V 1) :
       ((show (relativeProj (symAlg 𝒞)).scheme.Modules from
           (twistData 𝒞).algebra.piece ((1 : ℕ) : ℤ)).smul
           (chartRatio 𝒞 hV ⟨_, (symAlg 𝒞).of_mem_grading V a⟩
-            ⟨_, (symAlg 𝒞).of_mem_grading V b⟩)).hom
+            ⟨_, (symAlg 𝒞).of_mem_grading V b⟩)).asHom.hom
         (((twistData 𝒞).algebra.piece ((1 : ℕ) : ℤ)).val.map
           (homOfLE (chartOpen_le 𝒞 hV ⟨_, (symAlg 𝒞).of_mem_grading V b⟩)).op
           (((twistData 𝒞).ψ 1).val.app (op V) b)) :=

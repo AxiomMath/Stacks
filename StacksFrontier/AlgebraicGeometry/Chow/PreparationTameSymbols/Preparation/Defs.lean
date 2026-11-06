@@ -296,7 +296,7 @@ private theorem local_dimension_one_of_integral
     (q : Ideal B) [q.IsMaximal] :
     ringKrullDim (Localization.AtPrime q) = 1 := by
   have hqunder : (q.under A).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal q
   have hqeq : q.under A = maximalIdeal A :=
     IsLocalRing.eq_maximalIdeal hqunder
   have haq : algebraMap A B a ∈ q := by

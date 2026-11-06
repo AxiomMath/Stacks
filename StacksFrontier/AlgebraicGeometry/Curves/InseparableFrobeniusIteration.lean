@@ -116,7 +116,7 @@ theorem exists_zeroTwistIso (S : Scheme.{u}) (p : ℕ) [Fact p.Prime]
       _ = (nFoldRelativeFrobenius S p hS 0 X).left ≫
           pullback.fst X.hom (absoluteFrobeniusPow S p hS 0) := by
         rw [nFoldRelativeFrobenius_fst]
-        simp
+        simp [absoluteFrobeniusPow]
   · calc
       ((Over.pullbackId.app X).symm ≪≫ (eqToIso h0).symm).hom.left ≫
             pullback.snd X.hom (absoluteFrobeniusPow S p hS 0) = X.hom := by

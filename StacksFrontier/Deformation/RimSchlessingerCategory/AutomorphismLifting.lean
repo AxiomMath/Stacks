@@ -452,14 +452,16 @@ private theorem associatedFiberValue_surjective
   intro a
   let d := isomorphismClassesData (BasedCategory.ofFunctor p) hp
   let T := fiberFunctor d.projection A
-  let z : Functor.Fiber (CategoryOfElements.π d.classes) A := ⟨⟨A, a⟩, rfl⟩
+  let z : Functor.Fiber (CategoryOfElements.π d.classes) A := ⟨d.classes.elementsMk A a, rfl⟩
   let : T.EssSurj := d.quotient.fiber_essSurj A
   have he : T.obj (T.objPreimage z) = z :=
     d.quotient.fiber_skeletal A ⟨T.objObjPreimageIso z⟩
   refine ⟨T.objPreimage z, ?_⟩
   show elementsFiberValue d.classes A (T.obj (T.objPreimage z)) = a
   rw [he]
-  simp [elementsFiberValue, z]
+  have hid : ∀ {B : ArtinianLocalAlgCat.{u, v, w} Λ k} (h : B = B) (y : d.classes.obj B),
+      d.classes.map (eqToHom h) y = y := fun _ _ => by simp
+  exact hid _ a
 
 private theorem elements_pullback_isLimit {𝒞 : Type u} [Category.{v} 𝒞] (G : 𝒞 ⥤ Type u₁)
     {X₁ X₂ X : 𝒞} {f₁ : X₁ ⟶ X} {f₂ : X₂ ⟶ X}
@@ -468,58 +470,58 @@ private theorem elements_pullback_isLimit {𝒞 : Type u} [Category.{v} 𝒞] (G
     (hx₁ : G.map f₁ x₁ = x) (hx₂ : G.map f₂ x₂ = x)
     (z : G.obj c.pt) (hz₁ : G.map c.fst z = x₁) (hz₂ : G.map c.snd z = x₂)
     (hinj : Function.Injective (fun z : G.obj c.pt => (G.map c.fst z, G.map c.snd z))) :
-    let e₁ : G.Elements := ⟨X₁, x₁⟩
-    let e₂ : G.Elements := ⟨X₂, x₂⟩
-    let e : G.Elements := ⟨X, x⟩
-    let a₁ : e₁ ⟶ e := CategoryOfElements.homMk e₁ e f₁ hx₁
-    let a₂ : e₂ ⟶ e := CategoryOfElements.homMk e₂ e f₂ hx₂
+    let e₁ : G.Elements := G.elementsMk X₁ x₁
+    let e₂ : G.Elements := G.elementsMk X₂ x₂
+    let e : G.Elements := G.elementsMk X x
+    let a₁ : e₁ ⟶ e := Functor.Elements.homMk (x := e₁) (y := e) f₁ hx₁
+    let a₂ : e₂ ⟶ e := Functor.Elements.homMk (x := e₂) (y := e) f₂ hx₂
     Nonempty (IsLimit (PullbackCone.mk (f := a₁) (g := a₂)
-      (CategoryOfElements.homMk ⟨c.pt, z⟩ e₁ c.fst hz₁)
-      (CategoryOfElements.homMk ⟨c.pt, z⟩ e₂ c.snd hz₂) (by
-        apply CategoryOfElements.ext
+      (Functor.Elements.homMk (x := G.elementsMk c.pt z) (y := e₁) c.fst hz₁)
+      (Functor.Elements.homMk (x := G.elementsMk c.pt z) (y := e₂) c.snd hz₂) (by
+        apply Functor.Elements.hom_ext
         change c.fst ≫ f₁ = c.snd ≫ f₂
         exact c.condition))) := by
-  let e₁ : G.Elements := ⟨X₁, x₁⟩
-  let e₂ : G.Elements := ⟨X₂, x₂⟩
-  let e : G.Elements := ⟨X, x⟩
-  let a₁ : e₁ ⟶ e := CategoryOfElements.homMk e₁ e f₁ hx₁
-  let a₂ : e₂ ⟶ e := CategoryOfElements.homMk e₂ e f₂ hx₂
-  let ez : G.Elements := ⟨c.pt, z⟩
-  let q₁ : ez ⟶ e₁ := CategoryOfElements.homMk ez e₁ c.fst hz₁
-  let q₂ : ez ⟶ e₂ := CategoryOfElements.homMk ez e₂ c.snd hz₂
+  let e₁ : G.Elements := G.elementsMk X₁ x₁
+  let e₂ : G.Elements := G.elementsMk X₂ x₂
+  let e : G.Elements := G.elementsMk X x
+  let a₁ : e₁ ⟶ e := Functor.Elements.homMk (x := e₁) (y := e) f₁ hx₁
+  let a₂ : e₂ ⟶ e := Functor.Elements.homMk (x := e₂) (y := e) f₂ hx₂
+  let ez : G.Elements := G.elementsMk c.pt z
+  let q₁ : ez ⟶ e₁ := Functor.Elements.homMk (x := ez) (y := e₁) c.fst hz₁
+  let q₂ : ez ⟶ e₂ := Functor.Elements.homMk (x := ez) (y := e₂) c.snd hz₂
   let ce : PullbackCone a₁ a₂ := PullbackCone.mk (f := a₁) (g := a₂) q₁ q₂ (by
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     show c.fst ≫ f₁ = c.snd ≫ f₂
     exact c.condition)
   let sC (s : PullbackCone a₁ a₂) : PullbackCone f₁ f₂ :=
-    PullbackCone.mk s.fst.val s.snd.val (by
-      simpa [CategoryOfElements.comp_val, a₁, a₂] using congrArg Subtype.val s.condition)
-  have key (s : PullbackCone a₁ a₂) : G.map (hc.lift (sC s)) s.pt.2 = z := by
+    PullbackCone.mk s.fst.hom s.snd.hom (by
+      simpa [Functor.Elements.comp_hom, a₁, a₂] using congrArg Functor.Elements.Hom.hom s.condition)
+  have key (s : PullbackCone a₁ a₂) : G.map (hc.lift (sC s)) s.pt.val = z := by
     refine hinj (Prod.ext ?_ ?_)
     · dsimp only
       rw [hz₁]
       erw [← Functor.map_comp_apply, hc.fac _ WalkingCospan.left]
-      exact s.fst.property
+      exact s.fst.map_val
     · dsimp only
       rw [hz₂]
       erw [← Functor.map_comp_apply, hc.fac _ WalkingCospan.right]
-      exact s.snd.property
+      exact s.snd.map_val
   refine ⟨PullbackCone.isLimitAux ce
-    (fun s => CategoryOfElements.homMk s.pt ez (hc.lift (sC s)) (key s))
+    (fun s => Functor.Elements.homMk (x := s.pt) (y := ez) (hc.lift (sC s)) (key s))
     (fun s => ?_) (fun s => ?_) (fun s mArb hw => ?_)⟩
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     exact hc.fac (sC s) WalkingCospan.left
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     exact hc.fac (sC s) WalkingCospan.right
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     refine PullbackCone.IsLimit.hom_ext hc ?_ ?_
     · have h := hw WalkingCospan.left
       change mArb ≫ ce.fst = s.fst at h
-      have hv : mArb.val ≫ c.fst = s.fst.val := congrArg Subtype.val h
+      have hv : mArb.hom ≫ c.fst = s.fst.hom := congrArg Functor.Elements.Hom.hom h
       exact hv.trans (hc.fac (sC s) WalkingCospan.left).symm
     · have h := hw WalkingCospan.right
       change mArb ≫ ce.snd = s.snd at h
-      have hv : mArb.val ≫ c.snd = s.snd.val := congrArg Subtype.val h
+      have hv : mArb.hom ≫ c.snd = s.snd.hom := congrArg Functor.Elements.Hom.hom h
       exact hv.trans (hc.fac (sC s) WalkingCospan.right).symm
 
 private theorem elements_pullback_value_unique_of_rs
@@ -534,12 +536,12 @@ private theorem elements_pullback_value_unique_of_rs
     (hz₁ : G.map c.fst z = x₁) (hz₂ : G.map c.snd z = x₂)
     (hz₁' : G.map c.fst z' = x₁) (hz₂' : G.map c.snd z' = x₂) :
     z = z' := by
-  let e₁ : G.Elements := ⟨X₁, x₁⟩
-  let e₂ : G.Elements := ⟨X₂, x₂⟩
-  let e : G.Elements := ⟨X, x⟩
-  let a₁ : e₁ ⟶ e := CategoryOfElements.homMk e₁ e f₁ hx₁
-  let a₂ : e₂ ⟶ e := CategoryOfElements.homMk e₂ e f₂ hx₂
-  obtain ⟨d, ⟨hd⟩, ⟨hdBase⟩⟩ := hRS.2 a₁ a₂ (by simpa [a₂, CategoryOfElements.π] using hf₂)
+  let e₁ : G.Elements := G.elementsMk X₁ x₁
+  let e₂ : G.Elements := G.elementsMk X₂ x₂
+  let e : G.Elements := G.elementsMk X x
+  let a₁ : e₁ ⟶ e := Functor.Elements.homMk (x := e₁) (y := e) f₁ hx₁
+  let a₂ : e₂ ⟶ e := Functor.Elements.homMk (x := e₂) (y := e) f₂ hx₂
+  obtain ⟨d, ⟨hd⟩, ⟨hdBase⟩⟩ := hRS.2 a₁ a₂ hf₂
   let u := PullbackCone.IsLimit.lift hdBase c.fst c.snd c.condition
   let v := PullbackCone.IsLimit.lift hc (d.map (CategoryOfElements.π G)).fst
     (d.map (CategoryOfElements.π G)).snd (d.map (CategoryOfElements.π G)).condition
@@ -553,41 +555,35 @@ private theorem elements_pullback_value_unique_of_rs
     PullbackCone.IsLimit.lift_snd hc _ _ (d.map (CategoryOfElements.π G)).condition
   have huv : u ≫ v = 𝟙 c.pt := by
     apply PullbackCone.IsLimit.hom_ext hc
-    · calc
-        (u ≫ v) ≫ c.fst = u ≫ (v ≫ c.fst) := Category.assoc _ _ _
-        _ = u ≫ (d.map (CategoryOfElements.π G)).fst := by rw [hv₁]
-        _ = c.fst := hu₁
-        _ = (𝟙 c.pt) ≫ c.fst := by simp
-    · calc
-        (u ≫ v) ≫ c.snd = u ≫ (v ≫ c.snd) := Category.assoc _ _ _
-        _ = u ≫ (d.map (CategoryOfElements.π G)).snd := by rw [hv₂]
-        _ = c.snd := hu₂
-        _ = (𝟙 c.pt) ≫ c.snd := by simp
+    · rw [Category.assoc, hv₁]
+      exact hu₁.trans (Category.id_comp _).symm
+    · rw [Category.assoc, hv₂]
+      exact hu₂.trans (Category.id_comp _).symm
   have hval : ∀ w : G.obj c.pt, G.map c.fst w = x₁ → G.map c.snd w = x₂ →
-      G.map u w = d.pt.2 := by
+      G.map u w = d.pt.val := by
     intro w hw₁ hw₂
-    let ew : G.Elements := ⟨c.pt, w⟩
-    let q₁ : ew ⟶ e₁ := CategoryOfElements.homMk ew e₁ c.fst hw₁
-    let q₂ : ew ⟶ e₂ := CategoryOfElements.homMk ew e₂ c.snd hw₂
+    let ew : G.Elements := G.elementsMk c.pt w
+    let q₁ : ew ⟶ e₁ := Functor.Elements.homMk (x := ew) (y := e₁) c.fst hw₁
+    let q₂ : ew ⟶ e₂ := Functor.Elements.homMk (x := ew) (y := e₂) c.snd hw₂
     let s : PullbackCone a₁ a₂ := PullbackCone.mk q₁ q₂ (by
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       exact c.condition)
-    have hm₁ : (hd.lift s).val ≫ (d.map (CategoryOfElements.π G)).fst = c.fst := by
+    have hm₁ : (hd.lift s).hom ≫ (d.map (CategoryOfElements.π G)).fst = c.fst := by
       have h := hd.fac s WalkingCospan.left
       change hd.lift s ≫ d.fst = q₁ at h
-      have hv := congrArg (fun q => q.val) h
-      change (hd.lift s).val ≫ d.fst.val = c.fst at hv
+      have hv := congrArg (fun q => q.hom) h
+      change (hd.lift s).hom ≫ d.fst.hom = c.fst at hv
       simpa [CategoryOfElements.π] using hv
-    have hm₂ : (hd.lift s).val ≫ (d.map (CategoryOfElements.π G)).snd = c.snd := by
+    have hm₂ : (hd.lift s).hom ≫ (d.map (CategoryOfElements.π G)).snd = c.snd := by
       have h := hd.fac s WalkingCospan.right
       change hd.lift s ≫ d.snd = q₂ at h
-      have hv := congrArg (fun q => q.val) h
-      change (hd.lift s).val ≫ d.snd.val = c.snd at hv
+      have hv := congrArg (fun q => q.hom) h
+      change (hd.lift s).hom ≫ d.snd.hom = c.snd at hv
       simpa [CategoryOfElements.π] using hv
-    have hm : (hd.lift s).val = u := PullbackCone.IsLimit.hom_ext hdBase
+    have hm : (hd.lift s).hom = u := PullbackCone.IsLimit.hom_ext hdBase
       (hm₁.trans hu₁.symm) (hm₂.trans hu₂.symm)
-    have hpp := (hd.lift s).property
-    change G.map (hd.lift s).val w = d.pt.2 at hpp
+    have hpp := (hd.lift s).map_val
+    change G.map (hd.lift s).hom w = d.pt.val at hpp
     rwa [hm] at hpp
   have hinj : Function.Injective (G.map u) := by
     intro a b hab
@@ -677,25 +673,27 @@ private theorem associatedSatisfiesRS_of_gluingClassesInjective
       (schlessingerConditionS1_of_satisfiesRS hp)
   refine ⟨isCofiberedInGroupoids_elementsProjection G, ?_⟩
   intro x₁ x₂ x g₁ g₂ hf
-  let H := (ArtinianLocalAlgCat.hasPullback_of_surjective g₁.val g₂.val (Or.inr hf)).1
+  let H := (ArtinianLocalAlgCat.hasPullback_of_surjective g₁.hom g₂.hom (Or.inr hf)).1
   have hP := H.isPullback
   obtain ⟨z, q₁, q₂, hq₁, hq₂, hq⟩ := completion_over_pullback π hS
-    H.fst H.snd g₁.val g₂.val hP hf ⟨x₁, rfl⟩ ⟨x₂, rfl⟩ ⟨x, rfl⟩ g₁ g₂
+    H.fst H.snd g₁.hom g₂.hom hP hf ⟨x₁, rfl⟩ ⟨x₂, rfl⟩ ⟨x, rfl⟩ g₁ g₂
     (IsHomLift.map π g₁) (IsHomLift.map π g₂)
   let a := elementsFiberValue G H.obj z
-  have ha₁ : G.map H.fst a = x₁.2 := by
-    simpa [a, elementsFiberValue] using elementsFiberValue_map G H.fst z ⟨x₁, rfl⟩ q₁ hq₁
-  have ha₂ : G.map H.snd a = x₂.2 := by
-    simpa [a, elementsFiberValue] using elementsFiberValue_map G H.snd z ⟨x₂, rfl⟩ q₂ hq₂
+  have hid : ∀ {B : ArtinianLocalAlgCat.{u, v, w} Λ k} (h : B = B) (y : G.obj B),
+      G.map (eqToHom h) y = y := fun _ _ => by simp
+  have ha₁ : G.map H.fst a = x₁.val :=
+    (elementsFiberValue_map G H.fst z ⟨x₁, rfl⟩ q₁ hq₁).trans (hid _ _)
+  have ha₂ : G.map H.snd a = x₂.val :=
+    (elementsFiberValue_map G H.snd z ⟨x₂, rfl⟩ q₂ hq₂).trans (hid _ _)
   let c : PullbackCone g₁ g₂ := PullbackCone.mk
-    (CategoryOfElements.homMk ⟨H.obj, a⟩ x₁ H.fst ha₁)
-    (CategoryOfElements.homMk ⟨H.obj, a⟩ x₂ H.snd ha₂) (by
-      apply CategoryOfElements.ext
+    (Functor.Elements.homMk (x := G.elementsMk H.obj a) (y := x₁) H.fst ha₁)
+    (Functor.Elements.homMk (x := G.elementsMk H.obj a) (y := x₂) H.snd ha₂) (by
+      apply Functor.Elements.hom_ext
       exact hP.w)
   refine ⟨c, ?_, ⟨hP.isLimit⟩⟩
   exact elements_pullback_isLimit G hP.cone hP.isLimit
-    x₁.2 x₂.2 x.2 g₁.property g₂.property a ha₁ ha₂
-    (associated_pullback_injective p hp hinj H.fst H.snd g₁.val g₂.val hP hf)
+    x₁.val x₂.val x.val g₁.map_val g₂.map_val a ha₁ ha₂
+    (associated_pullback_injective p hp hinj H.fst H.snd g₁.hom g₂.hom hP hf)
 
 /-- For a category cofibered in groupoids satisfying (RS), the associated functor of isomorphism
 classes satisfies (RS) exactly when the comparison on isomorphism classes of gluing data is

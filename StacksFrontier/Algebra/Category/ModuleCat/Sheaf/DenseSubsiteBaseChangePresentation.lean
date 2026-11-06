@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.ModuleCat.Abelian
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.DenseSubsiteBaseChange
 public import StacksFrontier.AlgebraicGeometry.SectionRingGeometric.GlobalSections
@@ -101,6 +102,11 @@ include hT in
 noncomputable def associatedSheafFreeIso (I : Type w) :
     (associatedSheaf h).obj (∐ fun _ : I ↦ ModuleCat.of ((ringRestriction J K v R).obj.obj (op X))
         ((ringRestriction J K v R).obj.obj (op X))) ≅ SheafOfModules.free I :=
+  haveI : HasCoproducts.{w} (PresheafOfModules.{w} R.obj) := fun I ↦
+    PresheafOfModules.hasColimitsOfShape (R := R.obj) (J := Discrete I)
+  haveI : HasCoproducts.{w} (SheafOfModules.{w} R) := fun I ↦
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      R (Discrete I)
   PreservesCoproduct.iso (associatedSheaf h) _ ≪≫
     Sigma.mapIso (fun _ ↦ associatedSheafUnitIso h hT)
 

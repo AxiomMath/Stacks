@@ -253,7 +253,8 @@ public theorem formallySmooth_of_indSmooth_of_formallyUnramified (A : Type u) [C
   have hcompat (x : sys.Rinf) : eB (sys.gInf x) = q.cocone.pt.hom.hom (eA x) := by
     refine Ring.DirectLimit.induction_on x fun i a => ?_
     have heA' : eA (sys.toRinf i a) = a := heA i a
-    change eB (Ring.DirectLimit.of sys.S (fun i j h => sys.fS h) i (sys.g i a)) = _
+    rw [show Ring.DirectLimit.of sys.R (fun _ _ h => sys.fR h) i a = sys.toRinf i a from rfl,
+      ← sys.toSinf_g i a]
     refine (heB i (sys.g i a)).trans ?_
     change (cB.ι.app i).hom (sys.g i a) = q.cocone.pt.hom.hom (eA (sys.toRinf i a))
     rw [heA']

@@ -98,6 +98,18 @@ universe u v
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance hasPullbacks_presheaf_syntomicSourceLocalityTransfer :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_syntomicSourceLocalityTransfer
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 041B**, the base-change clause in the orientation the source-locality transfer
 consumes: the second projections of the fibre products of a syntomic covering `{Zᵢ ⟶ X}` with a
 morphism `f : X' ⟶ X` form a syntomic covering of `X'`.
@@ -108,7 +120,7 @@ some `Zᵢ` over its image amalgamate to a point of the fibre product. -/
 theorem isSyntomicCovering_pullback_snd {I : Type v} {X X' : AlgebraicSpaces B S hS}
     (Zi : I → AlgebraicSpaces B S hS) (gi : ∀ i, Zi i ⟶ X) (f : X' ⟶ X)
     (hcover : IsSyntomicCovering B S hS (fun i => (Zi i).1) (fun i => (gi i).hom)) :
-    IsSyntomicCovering B S hS (fun i => pullback (gi i).hom f.hom)
+    IsSyntomicCovering B S hS (fun i => Limits.pullback (gi i).hom f.hom)
       (fun i => pullback.snd (gi i).hom f.hom) := by
   have hsq (i : I) : IsPullback
       (ObjectProperty.homMk (pullback.fst (gi i).hom f.hom) :

@@ -474,13 +474,13 @@ theorem exists_sectionsH1Restrict_eq_zero (U : Over d.U)
           (smallEtaleRingedTopos B S hS X).O (structureSharpInverseImage B S hS f) g.left.op z =
           0 := by
   obtain ⟨j, t, ht⟩ := Stacks.NaiveCotangent.exists_h1CotangentMapOfSquare_eq_zero_of_isColimit
-    (Functor.whiskerLeft (CategoryOfElements.π (chartStalkPoint B S hS f d p).fiber).op
+    (Functor.whiskerLeft (Functor.Elements.π (chartStalkPoint B S hS f d p).fiber).op
       (chartSharp B S hS f d))
     (colimit.isColimit _) (colimit.isColimit _)
     (((chartStalkPoint B S hS f d p).presheafFiber (A := CommRingCat.{u})).map
       (chartSharp B S hS f d))
-    (fun i => colimit.ι_desc _ _) (op ⟨U, q⟩) z hz
-  exact ⟨j.unop.1, t.unop.1, j.unop.2, t.unop.2, ht⟩
+    (fun i => colimit.ι_desc _ _) (op ((chartStalkPoint B S hS f d p).fiber.elementsMk U q)) z hz
+  exact ⟨j.unop.obj, t.unop.hom, j.unop.val, t.unop.map_val, ht⟩
 
 end Stalk
 
@@ -598,7 +598,7 @@ theorem chartTensorLiftSieve_mem (U : Over d.U)
   · rw [map_sub, sub_eq_zero] at hg₂
     rw [← chartH1Tensor_restrict, hg₂, ← Stacks.SheafOfModules.sectionsH1Restrict_comp]
     rfl
-  · rw [Over.comp_left, FunctorToTypes.map_comp_apply]
+  · rw [Over.comp_left, Functor.map_comp_apply]
     exact congrArg Subtype.val
       ((congrArg ((chartStalkPoint B S hS f d p₀).fiber.map g₁) hq₂).trans hq₁)
 

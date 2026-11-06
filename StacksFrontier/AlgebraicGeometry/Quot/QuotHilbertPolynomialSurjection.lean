@@ -257,7 +257,7 @@ theorem isRepresentedProper_hilbertPolynomialQuot_withModule_of_epi
     intro T g
     rw [D.quotSiteInclusion_map φ g.op x₀]
     show D.quotSitePresheaf.map g.op (ι.app _ x₀) = _
-    rw [hx₀, op_comp, FunctorToTypes.map_comp_apply]
+    rw [hx₀, op_comp, Functor.map_comp_apply]
   let f : ∀ T : (BigFppfOver B S hS)ᵒᵖ,
       (yoneda.obj T₀ ⋙ uliftFunctor.{u + 1, u}).obj T →
         ((D.withModule G hG).hilbertPolynomialQuot L P).toFunctor.obj T := fun T g =>
@@ -294,7 +294,7 @@ theorem isRepresentedProper_hilbertPolynomialQuot_withModule_of_epi
       show (D.withModule G hG).quotSitePresheaf.map (k.unop ≫ g).op x₀ =
         (D.withModule G hG).quotSitePresheaf.map k
           ((D.withModule G hG).quotSitePresheaf.map g.op x₀)
-      rw [op_comp, FunctorToTypes.map_comp_apply]
+      rw [op_comp, Functor.map_comp_apply]
       rfl)
   have hsi : IsClosedImmersion B S hS (yoneda.map s) :=
     (presheaf_yoneda_map_iff B S hS inferInstance s).2 hs

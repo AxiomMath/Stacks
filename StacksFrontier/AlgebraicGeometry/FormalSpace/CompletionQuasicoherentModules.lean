@@ -255,9 +255,9 @@ theorem subsingleton_hom_stage
   have hbase : φ.hom.base = ψ.hom.base := by
     have h1 : X.obj.map (φ.hom.base ≫ j B S hS f hA I n).op (σ B S hS f hA I n) =
         X.obj.map (ψ.hom.base ≫ j B S hS f hA I n).op (σ B S hS f hA I n) :=
-      (FunctorToTypes.map_comp_apply X.obj (j B S hS f hA I n).op φ.hom.base.op
+      (Functor.map_comp_apply X.obj (j B S hS f hA I n).op φ.hom.base.op
         (σ B S hS f hA I n)).trans ((hφ.symm.trans hψ).trans
-        (FunctorToTypes.map_comp_apply X.obj (j B S hS f hA I n).op ψ.hom.base.op
+        (Functor.map_comp_apply X.obj (j B S hS f hA I n).op ψ.hom.base.op
           (σ B S hS f hA I n)).symm)
     have := mono_j B S hS f hA I n
     exact (cancel_mono (j B S hS f hA I n)).1 (eq_of_map_σ B S hS f hA I h1)

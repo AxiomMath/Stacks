@@ -233,7 +233,8 @@ theorem false_of_isPullback_squaringMap_of_iso (hchar : (2 : k) ≠ 0)
       yoneda.map m ≫ coveringMorphism k B hk = yoneda.map m' ≫ coveringMorphism k B hk →
       m = m' := by
     intro Z m m' h₁ h₂
-    refine yoneda.map_injective ((cancel_mono ψ.hom).mp (hpb.hom_ext ?_ ?_))
+    refine yoneda.map_injective ((@cancel_mono _ _ _ _ _ ψ.hom (IsIso.mono_of_iso _)).mp
+      (hpb.hom_ext ?_ ?_))
     · simpa only [Category.assoc] using h₁
     · simpa only [Category.assoc, hψ] using h₂
   -- `g false` precomposed with negation lies over the squaring map

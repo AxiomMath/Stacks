@@ -44,6 +44,7 @@ public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Tactic.Polynomial.Basic
 public import Mathlib.Tactic.ReduceModChar
+public import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
 public import StacksFrontier.AlgebraicGeometry.Scheme.ResidueFieldMapFromSpec
 import StacksCore.Tactic.EgaSgaAttribute
 

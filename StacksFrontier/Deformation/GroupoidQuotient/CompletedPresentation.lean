@@ -394,7 +394,7 @@ theorem truncationTransition_naturality (n : ℕ)
   change fiberArrow _ = fiberArrow _
   rw [fiberArrow_truncationTransition_comp, fiberArrow_comp_truncationTransition,
     fiberArrow_truncationFunctor_map, fiberArrow_truncationFunctor_map]
-  exact ULift.ext _ _ ((Category.assoc _ _ _).trans
+  exact ULift.ext ((Category.assoc _ _ _).trans
     (congrArg _ (quotientProjection_transition Y.base n))).symm
 
 /-- The comparison functor `[A/B] → [A|_{𝒞_Λ}/B|_{𝒞_Λ}]^` over `𝒞^_Λ`: a point `x : A ⟶ R` goes
@@ -429,7 +429,7 @@ instance : P.completionComparison.Faithful where
   map_injective {X Y} f g hfg := by
     refine grothendieck_hom_ext_of_arrow f g (congrArg FormalObject.Hom.base hfg) ?_
     change fiberArrow f = fiberArrow g
-    refine ULift.ext _ _ (CompleteLocalAlgCat.hom_ext_of_quotientProjection fun n => ?_)
+    refine ULift.ext (CompleteLocalAlgCat.hom_ext_of_quotientProjection fun n => ?_)
     have h := congrArg fiberArrow (congrArg (fun h => FormalObject.Hom.app h n) hfg)
     change fiberArrow ((P.truncationFunctor n).map f) = fiberArrow ((P.truncationFunctor n).map g)
       at h
@@ -602,7 +602,7 @@ def rectifiedObject : Grothendieck (evaluationFunctor P.groupoidInFunctors) :=
 /-- The `n`-th target of the rectified tower is the `n`-th truncation of the rectified object. -/
 theorem rectify_fst_eq (n : ℕ) :
     (rectify hK ξ n).1 = ((P.truncationFunctor n).obj (rectifiedObject hK ξ)).fiber :=
-  ULift.ext _ _ (Classical.choose_spec (exists_rectifiedPoint hK ξ) n).symm
+  ULift.ext (Classical.choose_spec (exists_rectifiedPoint hK ξ) n).symm
 
 /-- The comparison of the transported `n`-th level with the `n`-th truncation of the rectified
 object. -/

@@ -74,7 +74,7 @@ homomorphism group out of `Ω` is taken) and as a presheaf of modules over
 `O₁ ⋙ forget₂ CommRingCat RingCat` (`pushedPresheaf`, the form in which relative derivations
 are taken). The two are the same object; the second ascription exists because the ring
 presheaf of the first is spelled `(Stacks.commRingSheafToRingSheaf O₁).obj`, which unification
-does not put into the shape `PresheafOfModules.Derivation'` matches.
+does not put into the shape `PresheafOfModulesOfCommRing.Derivation'` matches.
 
 Universes. The descent and the identification `relativeEquivDerivation` are stated in the
 file's general universes. The passage to `Ω_{O₁/O_{B₁}}` is not: `moduleOfDifferentialsOfSite`
@@ -232,7 +232,8 @@ derivation identifies the homomorphisms `Ω_{𝒪₂/𝒪₁} ⟶ ℱ` of sheave
 relative derivations of `𝒪₂` over `𝒪₁` with values in `ℱ`. -/
 public noncomputable def differentialsHomAddEquiv
     (F : _root_.SheafOfModules.{max u v w m} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
-    (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ ⟶ F) ≃+ F.val.Derivation' φ.hom where
+    (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ ⟶ F) ≃+
+      PresheafOfModulesOfCommRing.Derivation' F.val φ.hom where
   toFun f := (universalDerivationOfSite.{v, u, w, m} O₁ O₂ φ).postcomp f.val
   invFun d := (existsUnique_descDerivation.{v, u, w, m} O₁ O₂ φ F d).choose
   left_inv f :=
@@ -241,7 +242,7 @@ public noncomputable def differentialsHomAddEquiv
         f rfl).symm
   right_inv d := (existsUnique_descDerivation.{v, u, w, m} O₁ O₂ φ F d).choose_spec.1
   map_add' f g := by
-    refine PresheafOfModules.Derivation.ext ?_
+    refine PresheafOfModulesOfCommRing.Derivation.ext ?_
     exact funext fun U => AddMonoidHom.ext fun x => rfl
 
 end Differentials
@@ -417,7 +418,7 @@ kills the ideal and the reduction `𝒪'₁ ⟶ 𝒪₁` is locally surjective w
 that ideal, it descends to a relative derivation of `𝒪₁` over `𝒪_{ℬ₁}` with values in
 `g_*𝒢₂`. -/
 public noncomputable def descDerivation :
-    (pushedPresheaf D).Derivation' D.front.f.hom where
+    PresheafOfModulesOfCommRing.Derivation' (pushedPresheaf D) D.front.f.hom where
   d {U} := AddMonoidHom.mk' (descDerivationFun δ U) (descDerivationFun_add δ U)
   d_mul {U} a b := descDerivationFun_mul δ U a b
   d_map {_U _V} h s := descDerivationFun_map δ h s
@@ -433,7 +434,8 @@ derivation of `𝒪₁` over `𝒪_{ℬ₁}` with values in `g_*𝒢₂` with th
 derivation of the diagram: the Leibniz rule and the vanishing on the ideal and on the image of
 the thickened base all come from the relative derivation. -/
 public noncomputable def derivationOfRelative
-    (d : (pushedPresheaf D).Derivation' D.front.f.hom) : Derivation D.toSituation where
+    (d : PresheafOfModulesOfCommRing.Derivation' (pushedPresheaf D) D.front.f.hom) :
+    Derivation D.toSituation where
   toFun U x := d.d (D.front.reduction.hom.app U x)
   map_add' U x y := by rw [map_add, map_add]; rfl
   naturality h x := by rw [sheafHom_naturality_apply, d.d_map]; rfl
@@ -451,7 +453,8 @@ public noncomputable def derivationOfRelative
 
 /-- The value of the derivation attached to a relative derivation. -/
 @[simp]
-public theorem derivationOfRelative_toFun (d : (pushedPresheaf D).Derivation' D.front.f.hom)
+public theorem derivationOfRelative_toFun
+    (d : PresheafOfModulesOfCommRing.Derivation' (pushedPresheaf D) D.front.f.hom)
     (U : Cᵒᵖ) (x : D.front.O'.obj.obj U) :
     (derivationOfRelative d).toFun U x = d.d (D.front.reduction.hom.app U x) := rfl
 
@@ -460,11 +463,12 @@ public theorem derivationOfRelative_toFun (d : (pushedPresheaf D).Derivation' D.
 derivations of `𝒪₁` over `𝒪_{ℬ₁}` with values in `g_*𝒢₂`: composition with the reduction is a
 bijection, with inverse the descent along it. -/
 public noncomputable def relativeEquivDerivation :
-    ((pushedPresheaf D).Derivation' D.front.f.hom) ≃+ Derivation D.toSituation where
+    (PresheafOfModulesOfCommRing.Derivation' (pushedPresheaf D) D.front.f.hom) ≃+
+      Derivation D.toSituation where
   toFun := derivationOfRelative
   invFun := descDerivation
   left_inv d := by
-    refine PresheafOfModules.Derivation.ext ?_
+    refine PresheafOfModulesOfCommRing.Derivation.ext ?_
     refine funext fun U => AddMonoidHom.ext fun s => ?_
     refine (descDerivationFun_eq (derivationOfRelative d) s (d.d s) ?_).symm
     intro V h x hx

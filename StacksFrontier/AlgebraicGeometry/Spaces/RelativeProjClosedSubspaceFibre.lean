@@ -231,8 +231,10 @@ theorem isFiniteType_pointAlgebra_piece
     (hA : ∀ n : ℤ, SheafOfModules.IsFiniteType (s.algebra.piece n)) (n : ℤ) :
     SheafOfModules.IsFiniteType.{u, u, u} ((s.shrink.pointAlgebra T f).piece n) := by
   refine isFiniteType_pointAlgebra_piece_of s.shrink T f (fun m => ?_) n
-  exact Stacks.SheafOfModules.isFiniteTypeOnSite_of_isFiniteType _
-    (Stacks.SheafOfModules.isFiniteType_of_epi (s.smallAlgebraPieceIso m).symm.hom (hA m))
+  refine Stacks.SheafOfModules.isFiniteTypeOnSite_of_isFiniteType _ ?_
+  obtain ⟨σ, hσ⟩ := (hA m).exists_localGeneratorsData
+  exact ⟨Stacks.FiniteLocallyFree.localGeneratorsDataOfIsIso (s.smallAlgebraPieceIso m).inv σ,
+    inferInstance⟩
 
 variable {T f} in
 /-- **The case of schemes, Stacks 0803, on the fibre of the constructed relative Proj over an

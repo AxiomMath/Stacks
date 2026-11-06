@@ -275,12 +275,14 @@ theorem tildePullbackComplexIso_comp_hom_app (P : CochainComplex (ModuleCat.{u} 
           (ComplexShape.up ℤ)).obj P) ≫
       ((tilde.functor T).mapHomologicalComplex (ComplexShape.up ℤ)).map
         ((NatIso.mapHomologicalComplex (ModuleCat.extendScalarsComp.{u, u} f.hom g.hom)
-          (ComplexShape.up ℤ)).inv.app P) :=
-  mapHomologicalComplexCompIsoOf_comp_hom_app (pb := Scheme.Modules.pullback) (Spec.map_comp f g)
+          (ComplexShape.up ℤ)).inv.app P) := by
+  apply mapHomologicalComplexCompIsoOf_comp_hom_app (pb := Scheme.Modules.pullback)
+    (Spec.map_comp f g)
     (Scheme.Modules.pullbackCongr (Spec.map_comp f g)) (pullbackCongr_hom_app_eq _)
     (Scheme.Modules.pullbackComp (Spec.map g) (Spec.map f)) (pullbackTildeIso R S f)
     (pullbackTildeIso S T g) (pullbackTildeIso R T (f ≫ g))
     (ModuleCat.extendScalarsComp.{u, u} f.hom g.hom) (pullbackTildeIso_comp R S T f g) P
+  all_goals infer_instance
 
 /-- **The composition law of Stacks 08DW.** For ring maps `f : R ⟶ S` and `g : S ⟶ T`, the
 affine comparison for `f ≫ g` is the comparison for `f` pulled back along `Spec g`, followed by the

@@ -167,6 +167,21 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits Opposite
 
 universe u v
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) AlgebraicGeometry.Space.hasPullbacks_presheaf_groupoidComposition
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) AlgebraicGeometry.Space.hasPullback_presheaf_groupoidComposition
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (AlgebraicGeometry.Space.hasPullbacks_presheaf_groupoidComposition B S hS).has_limit _
+
 namespace AlgebraicGeometry.Space
 
 /-! ### Sections of a subfunctor

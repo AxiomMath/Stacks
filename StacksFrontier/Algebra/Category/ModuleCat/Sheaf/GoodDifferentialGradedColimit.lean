@@ -97,6 +97,14 @@ universe t m v u v₁ u₁
 
 namespace SheafOfModules
 
+/-- Coproducts of sheaves of modules, indexed in the module universe. Instance search times out
+looking for them through the `Discrete` shape, so they are taken from `HasColimitsOfSize`. -/
+local instance (priority := high) hasColimitsOfShape_discrete_GoodDifferentialGradedColimit {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
+    [HasSheafify J AddCommGrpCat.{m}] [J.WEqualsLocallyBijective AddCommGrpCat.{m}]
+    (R : Sheaf J RingCat.{t}) (K : Type m) :
+    HasColimitsOfShape (Discrete K) (SheafOfModules.{m} R) :=
+  (inferInstance : HasColimitsOfSize.{m, m} (SheafOfModules.{m} R)).has_colimits_of_shape _
+
 namespace RelativeTensor
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}

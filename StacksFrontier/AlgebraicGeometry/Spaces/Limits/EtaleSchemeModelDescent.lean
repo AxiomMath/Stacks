@@ -355,7 +355,7 @@ private theorem exists_etale_scheme_models_of_stage {I : Type u} [Preorder I]
   · -- the scheme limit
     obtain ⟨hJ, hJhom⟩ := mk_op_lt_and_mk_hom_lt B (I := J) ((mk_subtype_le _).trans_lt hI)
     have h₁ : IsLimit ((Cone.postcompose hiso.hom).obj (yoneda.mapCone (Cone.mk W πW))) :=
-      hcE.ofIsoLimit (Cones.ext ew (fun k => by simp [πW]; rfl)).symm
+      hcE.ofIsoLimit (Cone.ext ew (fun k => by simp [πW]; rfl)).symm
     exact isLimitToSchemeMapConeOfIsLimitYoneda B hZ hJ hJhom Ws
       (fun g => (hAff _).property (ws.app _) (ws.app _) (Ws.map g) (hW g).flip)
       (Cone.mk W πW) ((IsLimit.postcomposeHomEquiv hiso _) h₁)

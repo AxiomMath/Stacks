@@ -175,7 +175,7 @@ include S
 its elements, namely the product of a finite set of generators. -/
 theorem exists_mem_away_of_fg (hS : S.FG) : ∃ g ∈ S, IsLocalization.Away g A := by
   classical
-  obtain ⟨G, rfl⟩ := hS
+  obtain ⟨G, rfl⟩ := Submonoid.isMulFG_iff.mp hS
   refine ⟨∏ x ∈ G, x, Submonoid.prod_mem _ fun x hx ↦ Submonoid.mem_closure_of_mem hx, ?_⟩
   have hdvd : ∀ s ∈ Submonoid.closure (G : Set R),
       ∃ m ∈ Submonoid.powers (∏ x ∈ G, x), s ∣ m := by

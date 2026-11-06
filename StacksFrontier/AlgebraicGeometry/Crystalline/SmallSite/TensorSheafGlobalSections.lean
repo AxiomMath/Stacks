@@ -672,7 +672,7 @@ theorem surjective_restrictionFMap_app_top_tensorDifferentialFormsSheaf [IsAffin
         (op (⊤ : B.obj.thickening.target.scheme.Opens)))) := by
     intro y
     obtain ⟨x, hx⟩ := surjective_app_top_tensorRestrictionFMapSheaf F i g hF hM hg hA hB y.down
-    exact ⟨ULift.up x, ULift.ext _ _ hx⟩
+    exact ⟨ULift.up x, ULift.ext hx⟩
   refine Function.Surjective.of_comp_left (f := ConcreteCategory.hom
     ((restrictOpenTensorSheafIso A F i).hom.app _)) ?_ (hbij A _).1
   rw [← ConcreteCategory.coe_comp, key, ConcreteCategory.coe_comp]

@@ -156,7 +156,7 @@ theorem CategoryTheory.FunctorToTypes.map_op_apply_eq_of_comp_eq {C : Type*} [Ca
     (d : X₃ ⟶ X₄) {ρ : X₀ ⟶ X₄} (hρ : a ≫ b ≫ c ≫ d = ρ) (w : F.obj (Opposite.op X₄)) :
     F.map ρ.op w = F.map a.op (F.map b.op (F.map c.op (F.map d.op w))) := by
   subst hρ
-  simp only [op_comp, FunctorToTypes.map_comp_apply]
+  simp only [op_comp, Functor.map_comp_apply]
 
 namespace AlgebraicGeometry.Space
 

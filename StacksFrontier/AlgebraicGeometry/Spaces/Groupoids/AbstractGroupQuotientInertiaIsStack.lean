@@ -48,7 +48,7 @@ instance π_faithful :
   map_injective h := RelativeInertiaHom.ext h
 
 /-- The automorphism of an object of `I_{[X/G]}` lies over the identity of the site. -/
-lemma auto_base (Z : Inertia.{t} B S hS G X ρ) : Z.auto.hom.base = 𝟙 Z.obj.base := Z.cond
+lemma auto_base (Z : Inertia.{t} B S hS G X ρ) : Z.auto.asIso.hom.base = 𝟙 Z.obj.base := Z.cond
 
 /-- The structure functor of the inertia is fibred in groupoids (Stacks 042I). -/
 lemma inertia_isFiberedInGroupoids :

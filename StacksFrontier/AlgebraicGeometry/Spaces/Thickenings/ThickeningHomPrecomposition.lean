@@ -290,9 +290,9 @@ theorem comp_eq_of_thickeningChartSiteHom_of_precomp (g : T₁ ⟶ T₂)
       r₁).trans (Eq.trans ?_ (congrArg (((BigFppfOver.toScheme B S hS).map
         ((SmallEtale.toOver B S hS T₂.1).map
           (thickeningChartPrecompHom B S hS hi₀ hi₁ hi₂ htc ht W))).appTop ≫ ·) r₀).symm)
-    refine (cancel_mono ((inverseImageRingChartIso B S hS i₀ hi₀.isClosedImmersion hi₀.surjective
-      (smallEtaleRingedTopos B S hS T₀).O).hom.app
-        (op ((smallBaseChange B S hS t htc.rep).obj W)))).1 ?_
+    refine (@cancel_mono _ _ _ _ _ ((inverseImageRingChartIso B S hS i₀ hi₀.isClosedImmersion
+      hi₀.surjective (smallEtaleRingedTopos B S hS T₀).O).hom.app
+        (op ((smallBaseChange B S hS t htc.rep).obj W))) (IsIso.mono_of_iso _) _ _).1 ?_
     ext x
     have sK := inverseImageRingChartIso_hom_app_smallBaseChange_snd B S hS hi₀ hi₁ t htc.rep ht W
       ((thickeningChartRingHom B S hS hi₁ hi₂ φ).app (op W) x) ψ hψ

@@ -272,7 +272,7 @@ private lemma first_projection {A B : Rlim.InvSystemAb.{w}} (r : SequentialRep A
 private lemma second_projection {A B : Rlim.InvSystemAb.{w}} (r : SequentialRep A B) (n : ℕ) :
     r.productSecond ≫ projection B n =
       intervalSum A (r.index n) (r.index (n + 1)) ≫ r.component n := by
-  simp only [SequentialRep.productSecond, projection, Pi.lift_π, intervalSum,
+  simp only [SequentialRep.productSecond, projection, Pi.lift_comp_π, intervalSum,
     Preadditive.sum_comp]
   apply Finset.sum_congr rfl
   intro k hk
@@ -364,7 +364,7 @@ private lemma representative_refines_cokernel {A B : Rlim.InvSystemAb.{w}}
     have h2 := intervalSum_add A hn hs
     rw [Category.assoc, delta_projection, Preadditive.comp_sub,
       Preadditive.sub_comp, second_projection, second_projection, en]
-    simp only [H, projection, Pi.lift_π, Pi.lift_π_assoc]
+    simp only [H, projection, Pi.lift_comp_π, Pi.lift_comp_π_assoc]
     show _ = _ - intervalSum A (s.index n) (s.index (n + 1)) ≫ InverseSequence.tr A hn ≫
       r.component n
     rw [Category.assoc, ← representative_naturality r (Nat.le_succ n)]
@@ -574,8 +574,8 @@ private lemma representative_limit_square {A B : Rlim.InvSystemAb.{w}} (r : Sequ
     Rlim.limitToProduct A ≫ r.productFirst = r.mapLim ≫ Rlim.limitToProduct B := by
   apply product_hom_ext
   intro n
-  simp only [Category.assoc, first_projection, Rlim.limitToProduct, projection, Pi.lift_π]
-  rw [← Category.assoc, Pi.lift_π, mapLim_projection]
+  simp only [Category.assoc, first_projection, Rlim.limitToProduct, projection, Pi.lift_comp_π]
+  rw [← Category.assoc, Pi.lift_comp_π, mapLim_projection]
 
 private def stagesTransformation {A B : Rlim.InvSystemAb.{w}} (m : ℕ → ℕ)
     (hm : Monotone m) (f : ∀ n, A.obj (op (m n)) ⟶ B.obj (op n))

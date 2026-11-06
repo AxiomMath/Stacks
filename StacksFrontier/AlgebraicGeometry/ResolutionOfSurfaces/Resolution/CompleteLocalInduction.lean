@@ -252,6 +252,7 @@ theorem finrank_intermediateSubalgebra_lt [Module.Finite R A] (hbot : M ≠ ⊥)
     fun h => hbot (IntermediateField.finrank_eq_one_iff.mp h)
   have hM2 : Module.finrank M (FractionRing A) ≠ 1 :=
     fun h => htop (IntermediateField.finrank_eq_one_iff_eq_top.mp h)
+  have : Module.IsTorsionFree (FractionRing R) M := DivisionSemiring.to_moduleIsTorsionFree
   have hM1' : 0 < Module.finrank (FractionRing R) M := Module.finrank_pos
   have hM2' : 0 < Module.finrank M (FractionRing A) := Module.finrank_pos
   rw [h1, h2] at htower ⊢

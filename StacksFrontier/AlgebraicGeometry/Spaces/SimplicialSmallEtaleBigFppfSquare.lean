@@ -253,6 +253,7 @@ instance pullbackFunctor_comp_toBigFppfTotal_isContinuous :
     (topology ((SimplicialObject.const T.Spaces).obj X)) (topology U)
     (SimplicialOver.totalTopology T.topology U)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0FN1 for the square of Stacks 0DH5**: right Kan extension along the cocontinuous
 functors `V/U_n ↦ V/X` and "forget the degree" exchanges with restriction along the continuous
 functors `V/X ↦ V ×_X U_n / U_n` and `X_{spaces,étale} ⊂ (Spaces/X)_fppf`. -/

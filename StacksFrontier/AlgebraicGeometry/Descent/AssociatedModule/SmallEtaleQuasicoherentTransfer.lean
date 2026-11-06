@@ -189,7 +189,7 @@ public theorem isQuasicoherentOnSite_of_isColimit_cofan {I : Type u}
     (hF : ∀ i, (F i).IsQuasicoherentOnSite)
     {c : Cocone (Discrete.functor F)} (hc : IsColimit c) :
     c.pt.IsQuasicoherentOnSite :=
-  isQuasicoherentOnSite_of_isColimit' B S hS (fun i => hF i.as) hc
+  isQuasicoherentOnSite_of_isColimit B S hS (fun i => hF i.as) hc
 
 /-! ### Kernels and cokernels -/
 

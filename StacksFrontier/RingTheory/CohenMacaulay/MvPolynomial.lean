@@ -1388,7 +1388,6 @@ private lemma isCohenMacaulay_tensor_of_algEquiv {R P S M : Type*} [CommRing R] 
     (TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl R M)).toAddEquiv ?_ h
   intro a x
   induction x with
-  | zero => simp
   | tmul p m => simp [TensorProduct.smul_tmul']
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
 

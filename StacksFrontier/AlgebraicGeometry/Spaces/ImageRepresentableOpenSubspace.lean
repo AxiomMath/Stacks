@@ -67,6 +67,14 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves of types on the site, supplied directly: under Mathlib v4.35.0 the
+instance search for `HasPullback` there first tries `Adhesive.hasPullback_of_mono_left` and times
+out searching for `Mono`. -/
+local instance (priority := high) hasPullback_presheaf_openSubspace
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) : HasPullback f g :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Representability of the image, Stacks 03XW, for an arbitrary open subspace.** Let
 `t : T' ⟶ T` be an étale morphism of affine objects of the big fppf category over `S`, let
 `f : X ⟶ yoneda.obj T` be a separated and locally quasi-finite morphism of algebraic spaces

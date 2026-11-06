@@ -57,8 +57,7 @@ universe u w
 
 namespace AlgebraicGeometry.Stack
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
-  CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
+attribute [local implicit_reducible] CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
 
 open Deformation.Artin.SliceTangent

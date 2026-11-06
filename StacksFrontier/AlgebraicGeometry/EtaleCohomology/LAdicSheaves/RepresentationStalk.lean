@@ -72,7 +72,7 @@ public theorem canonicalFiniteLocallyConstantSetsForgetIso_hom_ρ
     ((canonicalFiniteLocallyConstantSetsForgetIso B X x).hom.app G
         (((canonicalFiniteLocallyConstantSetsEquivalence B X x).functor.obj G).obj.obj.obj.ρ g
           y)).down =
-      (g.hom.app ((finiteLocallyConstantFiniteEtaleEquivalence B X).functor.obj G))
+      (g.asIso.hom.app ((finiteLocallyConstantFiniteEtaleEquivalence B X).functor.obj G))
         ((canonicalFiniteLocallyConstantSetsForgetIso B X x).hom.app G y).down :=
   (FintypeCat.uSwitchEquiv_naturality _ y).symm.trans
     (finiteEtaleEquivalenceOfIsGaloisCategory_action X.1 x
@@ -102,14 +102,14 @@ the stalk at `s̄` is, under `finiteLocallyConstantStalkForgetIso`, the action o
 public theorem geometricPointStalkMap_finiteLocallyConstantStalkForgetIso
     {s : GeometricPoint X.1} (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x)
     (a : GeometricPoint.Hom s s) (σ : EtaleFundamentalGroup X.1 s)
-    (hσ : σ.hom = finiteEtaleFiberMap a)
+    (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (G : (isFiniteLocallyConstantSetSheaf.{u, u + 1, u + 1}
       (SmallEtale.topology B X.1 X.2)).FullSubcategory) :
     (geometricPointStalkMap B X.1 X.2 a (Type (u + 1))).app G.obj.obj ≫
         (finiteLocallyConstantStalkForgetIso B X t).hom.app G =
       (finiteLocallyConstantStalkForgetIso B X t).hom.app G ≫
-        ((canonicalFiniteLocallyConstantSetsEquivalence B X x).functor.obj G).obj.obj.obj.ρ
-          (etaleFundamentalGroupMulEquiv t σ) := by
+        (((canonicalFiniteLocallyConstantSetsEquivalence B X x).functor.obj G).obj.obj.obj.ρ
+          (etaleFundamentalGroupMulEquiv t σ)).asHom := by
   show _ ≫ ((finiteLocallyConstantStalkIso B X s).hom.app G ≫
       uliftFunctor.{u + 1}.map (t.hom.app _) ≫
       (canonicalFiniteLocallyConstantSetsForgetIso B X x).inv.app G) =
@@ -127,15 +127,15 @@ public theorem geometricPointStalkMap_finiteLocallyConstantStalkForgetIso
   show ((canonicalFiniteLocallyConstantSetsForgetIso B X x).hom.app G
       ((canonicalFiniteLocallyConstantSetsForgetIso B X x).inv.app G
         (ULift.up (t.hom.app _ ((finiteEtaleFiberMap a).app _ y))))).down =
-    (((etaleFundamentalGroupMulEquiv t) σ).hom.app _)
+    (((etaleFundamentalGroupMulEquiv t) σ).asIso.hom.app _)
       ((canonicalFiniteLocallyConstantSetsForgetIso B X x).hom.app G
         ((canonicalFiniteLocallyConstantSetsForgetIso B X x).inv.app G
           (ULift.up (t.hom.app _ y)))).down
   have hinv := ((canonicalFiniteLocallyConstantSetsForgetIso B X x).app G).inv_hom_id_apply
   refine (congrArg ULift.down (hinv _)).trans (Eq.trans ?_
-    (congrArg (fun z => (((etaleFundamentalGroupMulEquiv t) σ).hom.app _) (ULift.down z))
+    (congrArg (fun z => (((etaleFundamentalGroupMulEquiv t) σ).asIso.hom.app _) (ULift.down z))
       (hinv _)).symm)
-  show _ = t.hom.app _ (σ.hom.app _ (t.inv.app _ (t.hom.app _ y)))
+  show _ = t.hom.app _ (σ.asIso.hom.app _ (t.inv.app _ (t.hom.app _ y)))
   rw [hσ]
   have hy := (t.app ((finiteLocallyConstantFiniteEtaleEquivalence B X).functor.obj
     G)).hom_inv_id_apply
@@ -185,14 +185,14 @@ abelian sheaves is the action of an element of `π₁`**: the abelian form of
 public theorem geometricPointStalkMap_finiteLocallyConstantAbelianStalkIso
     {s : GeometricPoint X.1} (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x)
     (a : GeometricPoint.Hom s s) (σ : EtaleFundamentalGroup X.1 s)
-    (hσ : σ.hom = finiteEtaleFiberMap a)
+    (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (A : (isFiniteLocallyConstantAbelianSheaf.{u, u + 1, u + 1}
       (SmallEtale.topology B X.1 X.2)).FullSubcategory) :
     (geometricPointStalkMap B X.1 X.2 a AddCommGrpCat.{u + 1}).app A.obj.obj ≫
         (finiteLocallyConstantAbelianStalkIso B X t).hom.app A =
       (finiteLocallyConstantAbelianStalkIso B X t).hom.app A ≫
-        ((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x).functor.obj
-          A).obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ) := by
+        (((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x).functor.obj
+          A).obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom := by
   have := forget_preservesFiberColimits.{u, u + 1} B X.1 X.2 s
   have hpre := geometricPointStalkMap_preservesColimitIso B X.1 X.2
     (CategoryTheory.forget AddCommGrpCat.{u + 1}) a A.obj.obj
@@ -208,8 +208,8 @@ public theorem geometricPointStalkMap_finiteLocallyConstantAbelianStalkIso
       ((preservesColimitIso (CategoryTheory.forget AddCommGrpCat.{u + 1})
         ((CategoryOfElements.π (geometricPointFiber B X.1 X.2 s)).op ⋙ A.obj.obj)).hom
         ((geometricPointStalkMap B X.1 X.2 a AddCommGrpCat.{u + 1}).app A.obj.obj z)) =
-    ConcreteCategory.hom (((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x).functor.obj
-          A).obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ))
+    ConcreteCategory.hom ((((canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x).functor.obj
+          A).obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom)
       ((finiteLocallyConstantStalkForgetIso B X t).hom.app
           ((forgetFiniteLocallyConstantAbelianSheaf _).obj A)
         ((preservesColimitIso (CategoryTheory.forget AddCommGrpCat.{u + 1})
@@ -291,7 +291,7 @@ functor at `s̄` is precomposition with `a`, it is the level representation of t
 the path `t` transports `σ` to. -/
 public theorem representationLevelStalkIso_geometricPointStalkMap {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a) (k : ℕ)
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a) (k : ℕ)
     (y : (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ k))) AddCommGrpCat.{u + 1}).obj
         (etaleStalk B X.1 X.2 s (representationLevelSheaf B X x
           (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ k).obj)) :
@@ -316,8 +316,8 @@ public theorem representationLevelStalkIso_geometricPointStalkMap {s : Geometric
   let I2 := ConcreteCategory.hom
     ((finiteLocallyConstantAbelianStalkIso B X t).hom.app (e.inverse.obj L))
   let C := ConcreteCategory.hom (e.counitIso.hom.app L).hom.hom.hom.hom
-  let ρ1 := ConcreteCategory.hom ((e.functor.obj (e.inverse.obj L)).obj.obj.obj.ρ g)
-  let ρL := ConcreteCategory.hom (L.obj.obj.obj.ρ g)
+  let ρ1 := ConcreteCategory.hom ((e.functor.obj (e.inverse.obj L)).obj.obj.obj.ρ g).asHom
+  let ρL := ConcreteCategory.hom (L.obj.obj.obj.ρ g).asHom
   have s1 : I1 (m y) = abM (I1 y) := ConcreteCategory.congr_hom
     (geometricPointStalkMap_preservesColimitIso B X.1 X.2
       (forget₂ (ModuleCat.{u + 1} (ZMod (ℓ ^ k))) AddCommGrpCat.{u + 1}) a
@@ -463,12 +463,12 @@ of `ℱ_ρ`**: if the automorphism `σ` of the fibre functor at `s̄` is precomp
 `t` from `s̄` to `x̄` transports `σ` to. -/
 public theorem charpoly_rationalStalkEnd_representationLAdicSheaf {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a) :
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a) :
     (LAdicSheaf.rationalStalkEnd B X ℓ (representationLAdicSheaf B X x
         (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ) a).charpoly =
       (ρ (etaleFundamentalGroupMulEquiv t σ)).val.charpoly.map (algebraMap ℤ_[ℓ] ℚ_[ℓ]) :=
   (representationLevelTrivialization B X x ρ hρ t).charpoly_rationalStalkEnd a _ fun n y =>
-    congrArg ULift.down (ULift.ext _ _
+    congrArg ULift.down (ULift.ext
       (representationLevelStalkIso_geometricPointStalkMap B X x ρ hρ t a σ hσ (n + 1) y))
 
 end LAdic

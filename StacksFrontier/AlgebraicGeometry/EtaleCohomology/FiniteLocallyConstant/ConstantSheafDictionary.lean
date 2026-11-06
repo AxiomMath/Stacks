@@ -74,21 +74,23 @@ def contActionIsoV {G : Type*} [Group G] [TopologicalSpace G]
 theorem contAction_rho_eq_one_of_iso {G : Type*} [Group G] [TopologicalSpace G]
     {A A' : ContAction FintypeCat.{w} G} (e : A ≅ A')
     (h : ∀ σ : G, A.obj.ρ σ = 1) (σ : G) : A'.obj.ρ σ = 1 := by
-  have hcomm : e.hom.1.hom = e.hom.1.hom ≫ A'.obj.ρ σ := by
+  have hcomm : e.hom.1.hom = e.hom.1.hom ≫ (A'.obj.ρ σ).asHom := by
     have hc := e.hom.1.comm σ
     rw [h σ] at hc
     simpa using hc
-  have hfin : A'.obj.ρ σ = 𝟙 A'.obj.V :=
+  have hfin : (A'.obj.ρ σ).asHom = 𝟙 A'.obj.V :=
     (cancel_epi (contActionIsoV e).hom).1 (by rw [Category.comp_id]; exact hcomm.symm)
+  ext1
   simpa using hfin
 
 /-- Triviality of a continuous action survives the change of universe. -/
 theorem rho_eq_one_contActionUniverseEquivalence {G : Type*} [Group G] [TopologicalSpace G]
     (A : ContAction FintypeCat.{u} G) (h : ∀ σ : G, A.obj.ρ σ = 1) (σ : G) :
     ((contActionUniverseEquivalence.{u, w} G).functor.obj A).obj.ρ σ = 1 := by
-  have he : ((contActionUniverseEquivalence.{u, w} G).functor.obj A).obj.ρ σ =
-      FintypeCat.uSwitch.{u, w}.map (A.obj.ρ σ) := rfl
-  rw [he, h σ]
+  ext1
+  have he : (((contActionUniverseEquivalence.{u, w} G).functor.obj A).obj.ρ σ).asHom =
+      FintypeCat.uSwitch.{u, w}.map (A.obj.ρ σ).asHom := rfl
+  rw [he, h σ, End.one_asHom, End.one_asHom]
   exact FintypeCat.uSwitch.{u, w}.map_id A.obj.V
 
 end CategoryTheory
@@ -142,6 +144,8 @@ Stacks 0BND (1) to a split cover.** -/
 theorem rho_eq_one_finiteEtaleEquivalence_splitCover (σ : EtaleFundamentalGroup X.1 x) :
     ((finiteEtaleEquivalenceOfIsGaloisCategory X.1 x).functor.obj
       (Stacks.FundamentalGroup.splitCover X.1 ι)).obj.ρ σ = 1 := by
+  ext1
+  rw [End.one_asHom]
   apply FintypeCat.hom_ext
   intro y
   have h := finiteEtaleEquivalenceOfIsGaloisCategory_action X.1 x

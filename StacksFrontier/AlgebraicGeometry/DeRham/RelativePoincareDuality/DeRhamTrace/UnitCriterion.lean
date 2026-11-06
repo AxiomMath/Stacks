@@ -354,7 +354,8 @@ theorem unitToForms_comp_d : unitToForms B D ≫ (deRhamComplex B D).d 0 1 = 0 :
   have h := deRhamComplex_degreeZero B D U 1
   rw [one_smul] at h
   refine (eq_of_heq h).trans ?_
-  have h1 := (PresheafOfModules.Derivation'.app (universalDerivation.{u, u, u} φ) U).d_map 1
+  have h1 :=
+    (PresheafOfModulesOfCommRing.Derivation'.app (universalDerivation.{u, u, u} φ) U).d_map 1
   rw [map_one] at h1
   exact (congrArg (B.exteriorGenerator.val.app U) h1).trans (map_zero _)
 

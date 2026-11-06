@@ -64,6 +64,27 @@ namespace AlgebraicGeometry.Space
 variable (B B' : BigFppfSite.{u}) (h : IsContained (τ := .fppf) B B') (S : Scheme.{u})
   (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on a big fppf site, given directly: instance search for them times
+out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ChangeOfBigSiteProperties
+    (C : BigFppfSite.{u}) (T : Scheme.{u}) (hT : C.Contains T) :
+    HasPullbacks ((BigFppfOver C T hT)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ChangeOfBigSiteProperties
+    {C : BigFppfSite.{u}} {T : Scheme.{u}} {hT : C.Contains T}
+    {X Y Z : (BigFppfOver C T hT)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_ChangeOfBigSiteProperties C T hT).has_limit _
+
+/-- Pullbacks of transported morphisms, given directly: instance search does not find
+`hasPullback_presheaf_ChangeOfBigSiteProperties` for them under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_changeBigSite_map_ChangeOfBigSiteProperties
+    {X Y Z : AlgebraicSpaces B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan ((changeBigSite B B' h S hS).map f).hom
+      ((changeBigSite B B' h S hS).map g).hom) :=
+  hasPullback_presheaf_ChangeOfBigSiteProperties _ _
+
 /-! ### Transported charts -/
 
 /-- The transport of a chart followed by the transport of a morphism is the transport of the

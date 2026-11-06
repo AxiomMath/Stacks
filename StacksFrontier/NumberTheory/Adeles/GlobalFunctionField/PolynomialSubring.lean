@@ -105,16 +105,25 @@ public instance intClosure_finite : Module.Finite (polySubalg k x) (intClosure k
   exact isN2_apply_of_isFractionRing (polySubalg k x)
     (fun L _ _ _ _ _ => IsJapaneseRing.finite L) k⟮x⟯ K
 
+-- Lean v4.35.0: instance search here unfolds the `Subalgebra` carriers of `polySubalg k x`
+-- and exceeds the default budget.
+set_option synthInstance.maxHeartbeats 80000 in
 /-- The fraction field of the integral closure of `k[x]` in `K` is `K`. -/
 public instance intClosure_isFractionRing : IsFractionRing (intClosure k x) K :=
   IsIntegralClosure.isFractionRing_of_finite_extension (polySubalg k x) k⟮x⟯ K (intClosure k x)
 
+-- Lean v4.35.0: instance search here unfolds the `Subalgebra` carriers of `polySubalg k x`
+-- and exceeds the default budget.
+set_option synthInstance.maxHeartbeats 80000 in
 /-- The integral closure of `k[x]` in `K` is a Noetherian ring. -/
 public instance intClosure_isNoetherianRing : IsNoetherianRing (intClosure k x) := by
   have := intClosure_finite (k := k) x
   have : IsNoetherian (polySubalg k x) (intClosure k x) := inferInstance
   exact isNoetherianRing_iff.mpr (isNoetherian_of_tower (polySubalg k x) this)
 
+-- Lean v4.35.0: instance search here unfolds the `Subalgebra` carriers of `polySubalg k x`
+-- and exceeds the default budget.
+set_option synthInstance.maxHeartbeats 80000 in
 /-- The integral closure of `k[x]` in `K` is a Dedekind domain. -/
 public instance intClosure_isDedekindDomain : IsDedekindDomain (intClosure k x) :=
   have : IsFractionRing (intClosure k x) K := intClosure_isFractionRing x

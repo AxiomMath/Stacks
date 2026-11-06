@@ -48,6 +48,26 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {W X Y : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_EtaleRestrictionInverseImageGlobalSection
+    (Z : AlgebraicSpaces B S hS) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((smallEtaleRingedTopos B S hS Z).Cᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The terminal sheaf of sets on the small étale site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasTerminal_topos_EtaleRestrictionInverseImageGlobalSection
+    (Z : AlgebraicSpaces B S hS) : HasTerminal (smallEtaleRingedTopos B S hS Z).Topos :=
+  haveI : HasLimitsOfShape (Discrete PEmpty.{1})
+      ((SmallEtale B S hS Z.1)ᵒᵖ ⥤ Type u) :=
+    functorCategoryHasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS Z.1) (Type u))
+
 /-- **Inverse images of global sections followed by the structure maps compose**: for
 `u : W ⟶ X`, `h : X ⟶ Y` and a global section `t` of `𝒪_Y`, `(u ≫ h)^♯t = u^♯(h^♯t)` on
 underlying sheaves of sets. -/
@@ -207,6 +227,9 @@ theorem globalSectionMap_comp_smallToposMorphismTypeU_inverseImageIso_hom_app
         (smallToposMorphismTypeU_inverseImageIso B S hS a ha).hom.app F =
       (smallEtaleSetRestriction B S hS a ha).globalSectionMap σ :=
   Functor.globalSectionMap_comp_app _ σ
+
+attribute [local instance high]
+  preservesFiniteProducts_smallEtalePostcomp_AlgebraExtensionEtaleRestriction
 
 /-- The comparison `(a ≫ i)⁻¹𝒪_{X'} ≅ (i⁻¹𝒪_{X'})|_U` on underlying sheaves of sets: the
 composition law of inverse images followed by the comparison of Stacks 03LQ. -/

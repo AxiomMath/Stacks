@@ -316,7 +316,7 @@ theorem LAdicSheaf.smoothBoundaryGaloisInput : LAdicSheaf.SmoothBoundaryGaloisIn
     eqToIso (congrArg (fun f => finiteEtaleFiberFunctor (⟨Ω, f⟩ : GeometricPoint V.1)) hxg)
   obtain ⟨Θ, hΘ⟩ := exists_levelPullbackGaloisModule_addEquiv B V xbar ρ₀ hρ₀ prV hK0 B'' hK t n pth
   have hΘ' : ∀ (σ : GeometricPoint.absoluteGaloisGroup t) v,
-      Θ (((levelPullbackGaloisModule B V xbar ρ₀ hρ₀ prV hK0 B'' hK t n).obj.obj.ρ σ).hom v) =
+      Θ (((levelPullbackGaloisModule B V xbar ρ₀ hρ₀ prV hK0 B'' hK t n).obj.obj.ρ σ).asHom v) =
         (PadicInt.toZModPow (n + 1)).mapMatrix
           ((ρ₀.comp (galoisToFundamentalGroup V.1 L Ω).toMonoidHom) (ψ σ : Gal(L / K)) :
             Matrix (Fin r) (Fin r) ℤ_[ℓ]) *ᵥ Θ v := by

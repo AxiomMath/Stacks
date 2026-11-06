@@ -556,9 +556,9 @@ omit [HasCoproducts.{0} B] in
 the injective resolutions `IPlus Rs`. -/
 lemma isIso_unitWhisker :
     IsIso (Functor.whiskerLeft (IPlus Rs ⋙ HomotopyCategory.Plus.quotient A)
-      Γ.rightDerivedFunctorPlusUnit) := by
+      Γ.rightDerivedFunctorPlusUnith) := by
   have h : ∀ X : A, IsIso ((Functor.whiskerLeft (IPlus Rs ⋙ HomotopyCategory.Plus.quotient A)
-      Γ.rightDerivedFunctorPlusUnit).app X) := by
+      Γ.rightDerivedFunctorPlusUnith).app X) := by
     intro X
     dsimp only [Functor.whiskerLeft_app, Functor.comp_obj]
     infer_instance
@@ -573,7 +573,7 @@ noncomputable def unitWhiskerIso :
         DerivedCategory.Plus.Qh ⋙ Γ.rightDerivedFunctorPlus :=
   haveI := isIso_unitWhisker Γ Rs
   asIso (Functor.whiskerLeft (IPlus Rs ⋙ HomotopyCategory.Plus.quotient A)
-    Γ.rightDerivedFunctorPlusUnit)
+    Γ.rightDerivedFunctorPlusUnith)
 
 /-- `δ`: the identification of `Q(Γ(I^•))` with the right derived functor at the single
 complex, natural in the object. -/
@@ -728,7 +728,7 @@ omit [HasCoproducts.{0} B] in
 /-- At an injective object the derived functor unit is already invertible on the single
 complex. -/
 lemma isIso_unit_app_singlePlus (X : A) [Injective X] :
-    IsIso (Γ.rightDerivedFunctorPlusUnit.app
+    IsIso (Γ.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj ((singlePlus A).obj X))) := by
   have h : ∀ n : ℤ, Injective ((((singlePlus A).obj X)).obj.X n) :=
     injective_single_obj_X X
@@ -746,17 +746,17 @@ lemma isIso_psi_app (hν : ∀ X : A, QuasiIso (nucx Rs ν X)) (X : A) [Injectiv
   have hu := isIso_unit_app_singlePlus Γ X
   have hinj2 : ∀ n : ℤ, Injective (((HomotopyCategory.Plus.quotient A).obj
       ((IPlus Rs).obj X)).obj.as.X n) := fun n => ((Rs.obj X).obj.X n).2
-  have hnat := Γ.rightDerivedFunctorPlusUnit.naturality
+  have hnat := Γ.rightDerivedFunctorPlusUnith.naturality
     ((HomotopyCategory.Plus.quotient A).map (ν.app X))
   simp only [Functor.comp_map] at hnat
-  have h1 : IsIso (Γ.rightDerivedFunctorPlusUnit.app
+  have h1 : IsIso (Γ.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj ((singlePlus A).obj X)) ≫
       Γ.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map
         ((HomotopyCategory.Plus.quotient A).map (ν.app X)))) := inferInstance
   rw [← hnat] at h1
   have h2 : IsIso (DerivedCategory.Plus.Qh.map (Γ.mapHomotopyCategoryPlus.map
       ((HomotopyCategory.Plus.quotient A).map (ν.app X)))) :=
-    IsIso.of_isIso_comp_right _ (Γ.rightDerivedFunctorPlusUnit.app
+    IsIso.of_isIso_comp_right _ (Γ.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj ((IPlus Rs).obj X)))
   have h3 : IsIso (DerivedCategory.Plus.Q.map (Γ.mapCochainComplexPlus.map (ν.app X))) :=
     (isIso_PlusQ_map_iff (Γ.mapCochainComplexPlus.map (ν.app X))).2 h2

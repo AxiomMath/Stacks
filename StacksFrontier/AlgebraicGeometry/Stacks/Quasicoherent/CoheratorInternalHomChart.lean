@@ -71,8 +71,8 @@ theorem bijective_chartRingHom_app (W : (Space.SmallEtale B S hS U)ᵒᵖ) :
     dsimp only [chartRingHom, Space.etaleChartStructureHom, Functor.whiskerRight_app,
       NatTrans.op_app]
     rw [eqToHom_app, eqToHom_op, eqToHom_map]
-    generalize_proofs _ h
-    exact (eqToIso h).isIso_hom
+    rw [← eqToIso.hom]
+    exact Iso.isIso_hom _
   exact ConcreteCategory.bijective_of_isIso _
 
 /-- **The comparison map `d(Hom(F, G)) ⟶ Hom(d(F), d(G))`** of the restriction

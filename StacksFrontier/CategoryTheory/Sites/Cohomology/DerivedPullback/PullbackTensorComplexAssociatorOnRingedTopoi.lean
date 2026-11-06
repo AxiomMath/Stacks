@@ -211,6 +211,22 @@ def idCoreMonoidalSheafTensorToStrict :
 
 end Reseat
 
+/-- Weak sheafification of abelian presheaves, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`. It is made a local instance of high priority
+so that the declarations below find it rather than the section variable
+`[HasSheafify X.J AddCommGrpCat.{u}]`, and so do not depend on that variable. -/
+private abbrev hasWeakSheafifyAddCommGrpCatAssociator (X : RingedTopos.{u, u, u}) :
+    HasWeakSheafify X.J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCatAssociator
+
+/- Since Lean v4.35.0 instance search reaches `HasWeakSheafify X.J AddCommGrpCat` through the
+section variable `HasSheafify X.J AddCommGrpCat` (via `instHasWeakSheafifyOfHasSheafify`), which
+would make that variable a hypothesis of the declarations below. With the bridge erased here, the
+high-priority instance above is found instead, as before the bump. -/
+attribute [-instance] instHasWeakSheafifyOfHasSheafify
+
 /-! ## The monoidal structures on `Mod(O)` and on its cochain complexes -/
 
 section Seating

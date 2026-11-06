@@ -171,14 +171,14 @@ the strict henselization. -/
 theorem vanishingCyclesMap_eq_strictHenselizationDerivedSectionsRestriction
     (hq : q ≫ (𝟙 (strictHenselization B X hX x) ≫ strictHenselizationToBase B X hX x) =
       q ≫ strictHenselizationToBase B X hX x) :
-    (Functor.mapDerivedCategoryCompIso (etaleStalkSectionsAbIso B X hX x).symm).inv ≫
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (etaleStalkSectionsAbIso B X hX x).symm).inv ≫
         Functor.whiskerLeft
             (smallEtaleDerivedPullbackAb
               (𝟙 (strictHenselization B X hX x) ≫ strictHenselizationToBase B X hX x))
             (strictHenselizationDerivedSectionsRestriction B X hX x q) ≫
           (Functor.associator _ _ _).inv ≫
             Functor.whiskerRight
-                (Functor.mapDerivedCategoryCompIso
+                (Functor.mapDerivedCategoryCompIsoOfCompIso
                   (smallEtalePullbackAbCompIso q
                       (𝟙 (strictHenselization B X hX x) ≫
                         strictHenselizationToBase B X hX x) ≪≫
@@ -269,7 +269,7 @@ theorem isIso_vanishingCyclesMap_app_iff_of_derivedPullbackIso
       (vanishingCyclesMap_eq_strictHenselizationDerivedSectionsRestriction B X hX x q hq) M]
     simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
       Functor.associator_inv_app, Category.id_comp]
-    have : IsIso ((Functor.mapDerivedCategoryCompIso
+    have : IsIso ((Functor.mapDerivedCategoryCompIsoOfCompIso
         (smallEtalePullbackAbCompIso q
             (𝟙 (strictHenselization B X hX x) ≫ strictHenselizationToBase B X hX x) ≪≫
           eqToIso (congrArg (fun m : T ⟶ X => smallEtalePullbackAb m) hq))).hom.app M) :=

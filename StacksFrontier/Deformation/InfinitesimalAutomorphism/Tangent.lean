@@ -85,44 +85,44 @@ public abbrev infinitesimalAutomorphismKernel
 public theorem categoryOfElements_projection_isCofibered
     {C : Type u} [Category.{v} C] (F : C ⥤ Type w) :
     IsCofiberedInGroupoids (CategoryOfElements.π F) := by
-  show Functor.IsFiberedInGroupoids (CategoryOfElements.π F).op
+  show Functor.IsFiberedInGroupoids (Functor.Elements.π F).op
   constructor
   · intro V U f y hy
     rcases V with ⟨V⟩
     rcases U with ⟨U⟩
     rcases y with ⟨y⟩
-    change Opposite.op ((CategoryOfElements.π F).obj y) = Opposite.op U at hy
+    change Opposite.op ((Functor.Elements.π F).obj y) = Opposite.op U at hy
     cases hy
     let z := F.elementsMk V (F.map f.unop y.2)
-    let g : y ⟶ z := CategoryOfElements.homMk y z f.unop rfl
+    let g : y ⟶ z := Functor.Elements.homMk (x := y) (y := z) f.unop rfl
     refine ⟨Opposite.op z, g.op, ?_⟩
-    have hmap : (CategoryOfElements.π F).op.map g.op = f := by
+    have hmap : (Functor.Elements.π F).op.map g.op = f := by
       apply Quiver.Hom.opEquiv.injective
-      simp [g, CategoryOfElements.π]
+      simp [g, Functor.Elements.π]
     rw [← hmap]
     infer_instance
   · intro a b c φ ψ f hf
     rcases a with ⟨a⟩
     rcases b with ⟨b⟩
     rcases c with ⟨c⟩
-    have hbase : φ.unop.val ≫ f.unop = ψ.unop.val := by
+    have hbase : φ.unop.hom ≫ f.unop = ψ.unop.hom := by
       simpa using congrArg Quiver.Hom.unop hf
-    let g : b ⟶ c := CategoryOfElements.homMk b c f.unop (by
+    let g : b ⟶ c := Functor.Elements.homMk (x := b) (y := c) f.unop (by
       calc
-        F.map f.unop b.2 = F.map f.unop (F.map φ.unop.val a.2) := by
-          rw [CategoryOfElements.map_snd]
-        _ = F.map (φ.unop.val ≫ f.unop) a.2 := by rw [Functor.map_comp_apply]
-        _ = F.map ψ.unop.val a.2 := by rw [hbase]
-        _ = c.2 := CategoryOfElements.map_snd ψ.unop)
+        F.map f.unop b.2 = F.map f.unop (F.map φ.unop.hom a.2) := by
+          rw [Functor.Elements.Hom.map_val]
+        _ = F.map (φ.unop.hom ≫ f.unop) a.2 := by rw [Functor.map_comp_apply]
+        _ = F.map ψ.unop.hom a.2 := by rw [hbase]
+        _ = c.2 := Functor.Elements.Hom.map_val ψ.unop)
     refine ⟨g.op, ⟨?_, ?_⟩, ?_⟩
     · apply Quiver.Hom.opEquiv.injective
-      simp [g, CategoryOfElements.π]
+      simp [g, Functor.Elements.π]
     · apply Quiver.Hom.opEquiv.symm.injective
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       exact hbase
     · intro χ hχ
       apply Quiver.Hom.opEquiv.symm.injective
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       exact congrArg Quiver.Hom.unop hχ.1
 
 section OverBase
@@ -263,7 +263,10 @@ public noncomputable def identityPoint :
     letI := residueAlgebra (p.obj x)
     (CategoryOfElements.π (automorphismFunctorOverBase P)).Fiber
       (residueFieldObject.{max v w, v, w} (p.obj x) k) :=
-  ⟨⟨_, Iso.refl _⟩, rfl⟩
+  letI := residueAlgebra (p.obj x)
+  ⟨(automorphismFunctorOverBase P).elementsMk (residueFieldObject.{max v w, v, w} (p.obj x) k)
+    (1 : Aut (P.obj ((algebrasUnder (p.obj x)).obj
+      (residueFieldObject.{max v w, v, w} (p.obj x) k)))), rfl⟩
 
 /-- The accepted tangent-space construction, applied directly over `𝒞_A` at the identity. -/
 public noncomputable abbrev localizedAutomorphismFunctorTangent : Type _ :=
@@ -309,7 +312,7 @@ public theorem isPredeformationCategory_localizedAutomorphismCategory :
     IsPredeformationCategory (localizedAutomorphismCategory P).p := by
   let := residueAlgebra (p.obj x)
   exact isPredeformationCategory_objectsOverFunctor
-    (CategoryOfElements.π (automorphismFunctorOverBase P))
+    (Functor.Elements.π (automorphismFunctorOverBase P))
     (categoryOfElements_projection_isCofibered _) (identityPoint P)
 
 /-- A morphism of representatives of the dual-number fibre is the canonical `eqToHom` on the
@@ -319,10 +322,10 @@ private theorem localizedAutomorphismFiber_hom_left_val
       (localizedAutomorphismCategory P).p.Fiber
         (artinianDualNumbers.{max v w, w, v} (p.obj x) k)) (f : z ⟶ z') :
     letI := residueAlgebra (p.obj x)
-    f.1.left.val = eqToHom (z.2.trans z'.2.symm) := by
+    f.1.left.hom = eqToHom (z.2.trans z'.2.symm) := by
   let := residueAlgebra (p.obj x)
   let _ := f.2
-  have h : f.1.left.val = eqToHom z.2 ≫ 𝟙 (artinianDualNumbers.{max v w, w, v} (p.obj x) k) ≫
+  have h : f.1.left.hom = eqToHom z.2 ≫ 𝟙 (artinianDualNumbers.{max v w, w, v} (p.obj x) k) ≫
       eqToHom z'.2.symm :=
     IsHomLift.fac' (localizedAutomorphismCategory P).p
       (𝟙 (artinianDualNumbers.{max v w, w, v} (p.obj x) k))
@@ -339,7 +342,7 @@ private theorem localizedAutomorphismFiber_hom_ext
   let := residueAlgebra (p.obj x)
   apply Functor.Fiber.hom_ext
   apply Over.OverMorphism.ext
-  apply CategoryOfElements.ext
+  apply Functor.Elements.hom_ext
   exact (localizedAutomorphismFiber_hom_left_val P z z' f).trans
     (localizedAutomorphismFiber_hom_left_val P z z' g).symm
 
@@ -353,14 +356,14 @@ private theorem localizedAutomorphism_mem_ker
     (automorphismFunctorOverBase P).map (eqToHom y.2) y.1.left.2 ∈
       MonoidHom.ker (P.transportAutHom (tangentReduction (p := p) (x := x))) := by
   let := residueAlgebra (p.obj x)
-  have hhom : y.1.hom.val = eqToHom y.2 ≫
+  have hhom : y.1.hom.hom = eqToHom y.2 ≫
       residueMorphism (artinianDualNumbers.{max v w, w, v} (p.obj x) k) :=
     hom_residueFieldObject_ext _ _
   have e1 : (automorphismFunctorOverBase P).map
         (eqToHom y.2 ≫
           residueMorphism (artinianDualNumbers.{max v w, w, v} (p.obj x) k))
         y.1.left.2 =
-      (automorphismFunctorOverBase P).map y.1.hom.val y.1.left.2 := by
+      (automorphismFunctorOverBase P).map y.1.hom.hom y.1.left.2 := by
     rw [hhom]
     rfl
   have e2 : (automorphismFunctorOverBase P).map
@@ -372,7 +375,7 @@ private theorem localizedAutomorphism_mem_ker
         ((automorphismFunctorOverBase P).map (eqToHom y.2) y.1.left.2) :=
     Functor.map_comp_apply (automorphismFunctorOverBase P) _ _ _
   exact e2.symm.trans
-    (e1.trans ((CategoryOfElements.map_snd y.1.hom).trans (identityPoint_snd P)))
+    (e1.trans ((Functor.Elements.Hom.map_val y.1.hom).trans (identityPoint_snd P)))
 
 /-- The morphism of representatives built from an agreement of their automorphisms. -/
 private noncomputable def localizedAutomorphismFiberHom
@@ -384,10 +387,10 @@ private noncomputable def localizedAutomorphismFiberHom
         (automorphismFunctorOverBase P).map (eqToHom z'.2) z'.1.left.2) :
     z ⟶ z' := by
   let := residueAlgebra (p.obj x)
-  refine ⟨Over.homMk (CategoryOfElements.homMk z.1.left z'.1.left
+  refine ⟨Over.homMk (Functor.Elements.homMk (x := z.1.left) (y := z'.1.left)
     (eqToHom (z.2.trans z'.2.symm))
     (map_eqToHom_trans_apply (automorphismFunctorOverBase P) z.2 z'.2 _ _ hzz)) ?_, ?_⟩
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     exact hom_residueFieldObject_ext _ _
   · refine IsHomLift.of_fac' (localizedAutomorphismCategory P).p
       (𝟙 (artinianDualNumbers.{max v w, w, v} (p.obj x) k)) _ z.2 z'.2 ?_
@@ -421,7 +424,7 @@ private theorem localizedAutomorphism_map_eqToHom_eq_of_iso
   have hb2 := localizedAutomorphismFiber_hom_left_val P z z' e.hom
   refine map_eqToHom_apply_eq (automorphismFunctorOverBase P) z.2 z'.2 _ _ ?_
   rw [← hb2]
-  exact CategoryOfElements.map_snd _
+  exact Functor.Elements.Hom.map_val _
 
 /-- Every element of the kernel of reduction is read off some representative. -/
 private theorem exists_localizedAutomorphismFiber
@@ -439,10 +442,10 @@ private theorem exists_localizedAutomorphismFiber
       (identityPoint P).1.2 := by
     rw [identityPoint_snd P]
     exact hα
-  refine ⟨⟨Over.mk (CategoryOfElements.homMk
-    ((automorphismFunctorOverBase P).elementsMk
+  refine ⟨⟨Over.mk (Functor.Elements.homMk
+    (x := (automorphismFunctorOverBase P).elementsMk
       (artinianDualNumbers.{max v w, w, v} (p.obj x) k) α)
-    (identityPoint P).1
+    (y := (identityPoint P).1)
     (residueMorphism (artinianDualNumbers.{max v w, w, v} (p.obj x) k)) hcond), rfl⟩, ?_⟩
   show (automorphismFunctorOverBase P).map (eqToHom rfl) α = α
   rw [eqToHom_refl]

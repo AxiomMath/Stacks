@@ -62,7 +62,7 @@ universe v u v' u'
 namespace CategoryTheory.Functor
 
 /-- The right derived functor `D⁺(𝒜) ⥤ D⁺(ℬ)` of an additive functor out of an abelian category
-with enough injectives exists, with unit `Functor.rightDerivedFunctorPlusUnit`. Instance search
+with enough injectives exists, with unit `Functor.rightDerivedFunctorPlusUnith`. Instance search
 finds this from the injective derivability structure only after many steps; registering it as a
 local instance is a shortcut. -/
 @[ega "0 13.6.1" "more general"]
@@ -72,7 +72,7 @@ theorem hasRightDerivedFunctor_mapHomotopyCategoryPlus_of_enoughInjectives {A B 
     (G.mapHomotopyCategoryPlus ⋙ Plus.Qh).HasRightDerivedFunctor
       (HomotopyCategory.Plus.quasiIso A) :=
   HasRightDerivedFunctor.mk' (RF := G.rightDerivedFunctorPlus)
-    (α := G.rightDerivedFunctorPlusUnit)
+    (α := G.rightDerivedFunctorPlusUnith)
 
 end CategoryTheory.Functor
 

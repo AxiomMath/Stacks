@@ -444,9 +444,8 @@ private def cartesianSectionFunctorComp
     refine ⟨Over.isoMk d hd, ?_⟩
     apply Over.OverMorphism.ext
     change S.p.map d.hom = e.hom
-    have h : S.p.IsHomLift e.hom d.hom := by
-      dsimp [d]
-      infer_instance
+    have h : S.p.IsHomLift e.hom d.hom :=
+      Functor.IsStronglyCartesian.domainUniqueUpToIso_inv_isHomLift S.p hb _ _
     simpa using (IsHomLift.fac' S.p e.hom d.hom)
   let α (X : Over (S.p.obj (S.u.obj U'))) : (v ⋙ q).obj X ≅ t.obj X := (αdata X).1
   refine NatIso.ofComponents α (fun {X Y} f => ?_)

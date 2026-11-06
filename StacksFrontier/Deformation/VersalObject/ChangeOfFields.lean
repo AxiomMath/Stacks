@@ -81,7 +81,7 @@ representing complete local algebras preserves smoothness. -/
 private theorem isSmooth_cast_restricted
     {R R' : CompleteLocalAlgCat.{u, v, w} Λ k} (h : R = R')
     (φ : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p))
     (hφ : IsSmooth φ) : IsSmooth (h ▸ φ) := by
   cases h
@@ -102,7 +102,7 @@ private theorem cast_representableEquivalence_functor
     {R R' : CompleteLocalAlgCat.{u, v, w} Λ k} (h : R = R')
     (E : RepresentableMorphismFormalObjectEquivalence p R)
     (φ : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p)) :
     (h ▸ E).equivalence.functor.obj (h ▸ φ) = h ▸ E.equivalence.functor.obj φ := by
   cases h
@@ -115,7 +115,7 @@ private theorem isVersal_of_smooth_representable
     {R : CompleteLocalAlgCat.{u, v, w} Λ k}
     (E : RepresentableMorphismFormalObjectEquivalence p R)
     (φ : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p))
     (hφ : IsSmooth φ) :
     IsVersal hp (E.equivalence.functor.obj φ).1 := by
@@ -124,7 +124,7 @@ private theorem isVersal_of_smooth_representable
   have hξbase : ξ.base = R := ξFiber.2
   let E' : RepresentableMorphismFormalObjectEquivalence p ξ.base := hξbase.symm ▸ E
   let φ' : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda ξ.base)))
       (BasedCategory.ofFunctor p) := hξbase.symm ▸ φ
   have hφ' : IsSmooth φ' := isSmooth_cast_restricted hξbase.symm φ hφ
   have hξFiber' : E'.equivalence.functor.obj φ' =
@@ -307,39 +307,39 @@ private def pointToChangedFunctor (S : ChangeOfFieldsSituation.{u, v, w})
       pointAt C ((restrictedCoyoneda T).map g α) =
         (restrictedCoyoneda R).map ((comparisonFunctor.{u, v, w, max x v w} S).functor.map g)
           (pointAt A α)) :
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda T)))
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda T)))
       (BasedCategory.ofFunctor (changeOfFieldsProjection.{u, v, w, max x v w} S
-        (CategoryOfElements.π (restrictedCoyoneda R)))) := by
+        (Functor.Elements.π (restrictedCoyoneda R)))) := by
   let cf := comparisonFunctor.{u, v, w, max x v w} S
   let reprT := restrictedCoyoneda T
   let reprR := restrictedCoyoneda R
   refine ⟨?_, ?_⟩
   · refine {
-      obj := fun α => ⟨⟨cf.functor.obj α.1, pointAt α.1 α.2⟩, α.1, Iso.refl _⟩
+      obj := fun α => ⟨reprR.elementsMk (cf.functor.obj α.1) (pointAt α.1 α.2), α.1, Iso.refl _⟩
       map := fun {α β} g => by
-        let aR : reprR.Elements := ⟨cf.functor.obj α.1, pointAt α.1 α.2⟩
-        let bR : reprR.Elements := ⟨cf.functor.obj β.1, pointAt β.1 β.2⟩
-        let gR : aR ⟶ bR := CategoryOfElements.homMk aR bR
-          (cf.functor.map g.val) (by
-            change reprR.map (cf.functor.map g.val) (pointAt α.1 α.2) = pointAt β.1 β.2
+        let aR : reprR.Elements := reprR.elementsMk (cf.functor.obj α.1) (pointAt α.1 α.2)
+        let bR : reprR.Elements := reprR.elementsMk (cf.functor.obj β.1) (pointAt β.1 β.2)
+        let gR : aR ⟶ bR := Functor.Elements.homMk
+          (cf.functor.map g.hom) (by
+            change reprR.map (cf.functor.map g.hom) (pointAt α.1 α.2) = pointAt β.1 β.2
             calc
-              _ = pointAt β.1 (reprT.map g.val α.2) := (pointAt_natural g.val α.2).symm
-              _ = pointAt β.1 β.2 := congrArg (pointAt β.1) g.property)
-        exact ⟨gR, g.val, rfl⟩
+              _ = pointAt β.1 (reprT.map g.hom α.2) := (pointAt_natural g.hom α.2).symm
+              _ = pointAt β.1 β.2 := congrArg (pointAt β.1) g.map_val)
+        exact ⟨gR, g.hom, rfl⟩
       map_id := by
         intro α
         apply CategoricalPullback.Hom.ext
-        · apply CategoryOfElements.ext
+        · apply Functor.Elements.hom_ext
           change cf.functor.map (𝟙 α.1) = 𝟙 (cf.functor.obj α.1)
           exact cf.functor.map_id α.1
         · rfl
       map_comp := by
         intro α β γ g h
         apply CategoricalPullback.Hom.ext
-        · apply CategoryOfElements.ext
-          change cf.functor.map (g.val ≫ h.val) =
-            cf.functor.map g.val ≫ cf.functor.map h.val
-          exact cf.functor.map_comp g.val h.val
+        · apply Functor.Elements.hom_ext
+          change cf.functor.map (g.hom ≫ h.hom) =
+            cf.functor.map g.hom ≫ cf.functor.map h.hom
+          exact cf.functor.map_comp g.hom h.hom
         · rfl }
   · rfl
 
@@ -399,10 +399,11 @@ private theorem pushforward_levels (S : ChangeOfFieldsSituation.{u, v, w})
     (changeOfFieldsProjection_isCofiberedInGroupoids.{u, v, w, max x v w, y, z} S p hp) T
   -- The canonical Artinian points `T → T/𝔪^{n+1}` and their images `R → (T/𝔪^{n+1}) ×_l k`.
   let eT : ℕ → (restrictedCoyoneda T).Elements := fun n =>
-    ⟨AdicTruncation.obj T n, E.quotientPoint n⟩
+    (restrictedCoyoneda T).elementsMk (AdicTruncation.obj T n) (E.quotientPoint n)
   let αR : ℕ → (restrictedCoyoneda ξ.base).Elements := fun n =>
-    ⟨cf.functor.obj (AdicTruncation.obj T n), pointAt _ (E.quotientPoint n)⟩
-  let gT : ∀ n, eT (n + 1) ⟶ eT n := fun n => CategoryOfElements.homMk (eT (n + 1)) (eT n)
+    (restrictedCoyoneda ξ.base).elementsMk (cf.functor.obj (AdicTruncation.obj T n))
+      (pointAt _ (E.quotientPoint n))
+  let gT : ∀ n, eT (n + 1) ⟶ eT n := fun n => Functor.Elements.homMk (x := eT (n + 1)) (y := eT n)
     (AdicTruncation.transition T n) (E.projectionPoint n)
   let gR : ∀ n, αR (n + 1) ⟶ αR n := fun n => (pointToChanged.map (gT n)).fst
   -- The value of `newMap` at the canonical points, compared with the levels of `ζ`, with the
@@ -669,26 +670,26 @@ private theorem isSmooth_pointToChangedFunctor (S : ChangeOfFieldsSituation.{u, 
   let cf := comparisonFunctor.{u, v, w, max x v w} S
   let reprT := restrictedCoyoneda T
   let reprR := restrictedCoyoneda R
-  let πT := CategoryOfElements.π reprT
-  let πR := CategoryOfElements.π reprR
+  let πT := Functor.Elements.π reprT
+  let πR := Functor.Elements.π reprR
   let q := changeOfFieldsProjection.{u, v, w, max x v w} S πR
   let pointToChanged := pointToChangedFunctor.{u, v, w, x} S R T pointAt pointAt_natural
   show IsSmooth pointToChanged
   intro B A f₀ hsurj y xx g hg
   let _ : q.IsHomLift f₀ g := hg
-  rcases xx with ⟨A₀, α⟩
+  rcases xx with @⟨A₀, α⟩
   rcases y with ⟨yF, yB, yIso⟩
   have hyB : yB = B := IsHomLift.domain_eq q f₀ g
   have hxA : A₀ = A := IsHomLift.codomain_eq q f₀ g
   subst B A
   have hgf : g.snd = f₀ := IsHomLift.fac' q f₀ g
-  have hgbase : g.fst.val = yIso.hom ≫ cf.functor.map f₀ := by
+  have hgbase : g.fst.hom = yIso.hom ≫ cf.functor.map f₀ := by
     have hh := g.w
-    change g.fst.val ≫ 𝟙 _ = yIso.hom ≫ cf.functor.map g.snd at hh
+    change g.fst.hom ≫ 𝟙 _ = yIso.hom ≫ cf.functor.map g.snd at hh
     simp only [Category.comp_id] at hh
     rwa [hgf] at hh
-  have hpointHom : (pointAt A₀ α).hom = g.fst.val.hom.comp yF.2.hom := by
-    have hh := congrArg (fun zz : reprR.obj (cf.functor.obj A₀) => zz.hom) g.fst.property
+  have hpointHom : (pointAt A₀ α).hom = g.fst.hom.hom.comp yF.2.hom := by
+    have hh := congrArg (fun zz : reprR.obj (cf.functor.obj A₀) => zz.hom) g.fst.map_val
     rw [restrictedCoyoneda_map_hom] at hh
     exact hh.symm
   have hpointComp : (pointAt A₀ α).hom =
@@ -697,11 +698,11 @@ private theorem isSmooth_pointToChangedFunctor (S : ChangeOfFieldsSituation.{u, 
     exact AlgHom.comp_assoc _ _ _
   obtain ⟨α', hrep, hpointLift⟩ := exists_point_lift S fΛ hfSmooth pointAt pointAt_fst
     pointAt_snd f₀ hsurj α (reprR.map yIso.hom yF.2) hpointComp
-  let x' : reprT.Elements := ⟨yB, α'⟩
-  let h : x' ⟶ (⟨A₀, α⟩ : reprT.Elements) := CategoryOfElements.homMk x' ⟨A₀, α⟩ f₀ hrep
+  let x' : reprT.Elements := reprT.elementsMk yB α'
+  let h : x' ⟶ reprT.elementsMk A₀ α := Functor.Elements.homMk f₀ hrep
   have hhLift : (BasedCategory.ofFunctor πT).p.IsHomLift f₀ h :=
     IsHomLift.of_fac' πT f₀ h rfl rfl (by rfl)
-  let aBase : reprR.Elements := ⟨cf.functor.obj yB, pointAt yB α'⟩
+  let aBase : reprR.Elements := reprR.elementsMk (cf.functor.obj yB) (pointAt yB α')
   have hpointEq : reprR.map yIso.inv (pointAt yB α') = yF.2 := by
     apply CompleteLocalAlgCat.Hom.ext
     apply AlgHom.ext
@@ -715,7 +716,7 @@ private theorem isSmooth_pointToChangedFunctor (S : ChangeOfFieldsSituation.{u, 
     rw [hcancel]
     rfl
   let a : pointToChanged.obj x' ⟶ ⟨yF, yB, yIso⟩ :=
-    { fst := CategoryOfElements.homMk aBase yF yIso.inv hpointEq
+    { fst := Functor.Elements.homMk (x := aBase) (y := yF) yIso.inv hpointEq
       snd := 𝟙 yB
       w := by
         show yIso.inv ≫ yIso.hom = 𝟙 (πR.obj aBase) ≫ cf.functor.map (𝟙 yB)
@@ -724,8 +725,8 @@ private theorem isSmooth_pointToChangedFunctor (S : ChangeOfFieldsSituation.{u, 
         exact yIso.inv_hom_id }
   have haLift : (BasedCategory.ofFunctor q).p.IsHomLift (𝟙 yB) a := IsHomLift.map (p := q) a
   refine ⟨x', h, a, hhLift, haLift, CategoricalPullback.Hom.ext ?_ ?_⟩
-  · apply CategoryOfElements.ext reprR
-    show cf.functor.map f₀ = yIso.inv ≫ g.fst.val
+  · apply Functor.Elements.hom_ext
+    show cf.functor.map f₀ = yIso.inv ≫ g.fst.hom
     rw [hgbase]
     exact (yIso.inv_hom_id_assoc _).symm
   · show f₀ = 𝟙 yB ≫ g.snd

@@ -97,14 +97,14 @@ variable {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
 functors, read through the two derived-functor units. -/
 public theorem unit_comp_rightDerivedFunctorPlusNatIso_hom (α : G ≅ G₁)
     (M : HomotopyCategory.Plus A) :
-    G.rightDerivedFunctorPlusUnit.app M ≫
+    G.rightDerivedFunctorPlusUnith.app M ≫
         (Functor.rightDerivedFunctorPlusNatIso α).hom.app
           (DerivedCategory.Plus.Qh.obj M) =
       DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusNatIso α).hom.app M) ≫
-        G₁.rightDerivedFunctorPlusUnit.app M :=
+        G₁.rightDerivedFunctorPlusUnith.app M :=
   Functor.rightDerivedNatTrans_app G.rightDerivedFunctorPlus G₁.rightDerivedFunctorPlus
-    G.rightDerivedFunctorPlusUnit G₁.rightDerivedFunctorPlusUnit
+    G.rightDerivedFunctorPlusUnith G₁.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A)
     (Functor.isoWhiskerRight (Functor.mapHomotopyCategoryPlusNatIso α)
       DerivedCategory.Plus.Qh).hom M
@@ -112,14 +112,14 @@ public theorem unit_comp_rightDerivedFunctorPlusNatIso_hom (α : G ≅ G₁)
 /-- The inverse form of `unit_comp_rightDerivedFunctorPlusNatIso_hom`. -/
 public theorem unit_comp_rightDerivedFunctorPlusNatIso_inv (α : G ≅ G₁)
     (M : HomotopyCategory.Plus A) :
-    G₁.rightDerivedFunctorPlusUnit.app M ≫
+    G₁.rightDerivedFunctorPlusUnith.app M ≫
         (Functor.rightDerivedFunctorPlusNatIso α).inv.app
           (DerivedCategory.Plus.Qh.obj M) =
       DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusNatIso α).inv.app M) ≫
-        G.rightDerivedFunctorPlusUnit.app M :=
+        G.rightDerivedFunctorPlusUnith.app M :=
   Functor.rightDerivedNatTrans_app G₁.rightDerivedFunctorPlus G.rightDerivedFunctorPlus
-    G₁.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlusUnit
+    G₁.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A)
     (Functor.isoWhiskerRight (Functor.mapHomotopyCategoryPlusNatIso α)
       DerivedCategory.Plus.Qh).inv M
@@ -183,14 +183,14 @@ public theorem derived_transport_app (α : G ≅ G₁) (β : G' ≅ G₁')
             F'.rightDerivedFunctorPlus.map
               ((Functor.rightDerivedFunctorPlusNatIso β).inv.app
                 (DerivedCategory.Plus.Qh.obj K)) := by
-  have h₄ : F'.rightDerivedFunctorPlus.map (G₁'.rightDerivedFunctorPlusUnit.app K) ≫
+  have h₄ : F'.rightDerivedFunctorPlus.map (G₁'.rightDerivedFunctorPlusUnith.app K) ≫
       F'.rightDerivedFunctorPlus.map
         ((Functor.rightDerivedFunctorPlusNatIso β).inv.app
           (DerivedCategory.Plus.Qh.obj K)) =
       F'.rightDerivedFunctorPlus.map
           (DerivedCategory.Plus.Qh.map
             ((Functor.mapHomotopyCategoryPlusNatIso β).inv.app K)) ≫
-        F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K) := by
+        F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K) := by
     rw [← Functor.map_comp, ← Functor.map_comp,
       unit_comp_rightDerivedFunctorPlusNatIso_inv]
   have h₆ : DerivedCategory.Plus.Qh.map
@@ -209,13 +209,13 @@ public theorem derived_transport_app (α : G ≅ G₁) (β : G' ≅ G₁')
   rw [compUnit_app, derived_fac_app, onHomotopy_app]
   refine Eq.symm (transportAux
       ((Functor.rightDerivedFunctorPlusNatIso α).hom.naturality
-        (F.rightDerivedFunctorPlusUnit.app K))
+        (F.rightDerivedFunctorPlusUnith.app K))
       ((derived_fac_app F F' G₁ G₁' τ₁ (exactUnitIso G₁) K).trans
         (onHomotopy_app F F' G₁ G₁' τ₁ (exactUnitIso G₁) K))
       (rightDerivedFunctorPlusNatIso_hom_app_exactUnitIso_inv α
         (F.mapHomotopyCategoryPlus.obj K))
       h₄
-      (F'.rightDerivedFunctorPlusUnit.naturality
+      (F'.rightDerivedFunctorPlusUnith.naturality
         ((Functor.mapHomotopyCategoryPlusNatIso β).inv.app K)).symm
       h₆)
 
@@ -280,7 +280,6 @@ public lemma mateEquiv_whisker {L₁ : A ⥤ B} {R₁ : B ⥤ A} {L₂ : C ⥤ D
   refine TwoSquare.ext _ _ fun d ↦ ?_
   simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
     TwoSquare.whiskerRight, mateEquiv]
-  simp only [← Functor.map_comp, ψ.naturality]
 
 end MateForm
 

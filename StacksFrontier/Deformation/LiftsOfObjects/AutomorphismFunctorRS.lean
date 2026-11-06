@@ -221,24 +221,24 @@ public theorem automorphismFunctor_satisfiesRS
   have hcfp : IsLimit (cF.map p) := hdp.ofIsoLimit ip.symm
   let glueCondition (a₁ : Aut (P.obj A₁)) (a₂ : Aut (P.obj A₂))
       (ha : P.transportAut f₁ a₁ = P.transportAut f₂ a₂) :
-      (cF.fst ≫ a₁.hom.val) ≫ F₁ = (cF.snd ≫ a₂.hom.val) ≫ F₂ := by
+      (cF.fst ≫ a₁.asIso.hom.val) ≫ F₁ = (cF.snd ≫ a₂.asIso.hom.val) ≫ F₂ := by
     let b₁ := P.transportHom f₁ a₁
     let b₂ := P.transportHom f₂ a₂
-    have hb : b₁ = b₂ := congrArg (fun z : Aut (P.obj B) => z.hom.val) ha
+    have hb : b₁ = b₂ := congrArg (fun z : Aut (P.obj B) => z.asIso.hom.val) ha
     calc
-      (cF.fst ≫ a₁.hom.val) ≫ F₁ = cF.fst ≫ (F₁ ≫ b₁) := by
+      (cF.fst ≫ a₁.asIso.hom.val) ≫ F₁ = cF.fst ≫ (F₁ ≫ b₁) := by
         rw [Category.assoc, ← P.map_transportHom]
       _ = cF.snd ≫ (F₂ ≫ b₂) := by rw [reassoc_of% cF.condition, hb]
-      _ = (cF.snd ≫ a₂.hom.val) ≫ F₂ := by
+      _ = (cF.snd ≫ a₂.asIso.hom.val) ≫ F₂ := by
         rw [Category.assoc, ← P.map_transportHom]
   let glue (a₁ : Aut (P.obj A₁)) (a₂ : Aut (P.obj A₂))
       (ha : P.transportAut f₁ a₁ = P.transportAut f₂ a₂) : Aut (P.obj c.pt) := by
     let hcond := glueCondition a₁ a₂ ha
     let t : PullbackCone F₁ F₂ :=
-      PullbackCone.mk (cF.fst ≫ a₁.hom.val) (cF.snd ≫ a₂.hom.val) hcond
+      PullbackCone.mk (cF.fst ≫ a₁.asIso.hom.val) (cF.snd ≫ a₂.asIso.hom.val) hcond
     let z : cF.pt ⟶ cF.pt := hcf.lift t
-    have hz₁ : z ≫ cF.fst = cF.fst ≫ a₁.hom.val := hcf.fac t WalkingCospan.left
-    have hz₂ : z ≫ cF.snd = cF.snd ≫ a₂.hom.val := hcf.fac t WalkingCospan.right
+    have hz₁ : z ≫ cF.fst = cF.fst ≫ a₁.asIso.hom.val := hcf.fac t WalkingCospan.left
+    have hz₂ : z ≫ cF.snd = cF.snd ≫ a₂.asIso.hom.val := hcf.fac t WalkingCospan.right
     have haInv : P.transportAut f₁ a₁⁻¹ = P.transportAut f₂ a₂⁻¹ := by
       calc
         P.transportAut f₁ a₁⁻¹ = (P.transportAut f₁ a₁)⁻¹ :=
@@ -246,11 +246,11 @@ public theorem automorphismFunctor_satisfiesRS
         _ = (P.transportAut f₂ a₂)⁻¹ := congrArg Inv.inv ha
         _ = P.transportAut f₂ a₂⁻¹ := ((P.transportAutHom f₂).map_inv a₂).symm
     let t' : PullbackCone F₁ F₂ :=
-      PullbackCone.mk (cF.fst ≫ (a₁⁻¹).hom.val) (cF.snd ≫ (a₂⁻¹).hom.val)
+      PullbackCone.mk (cF.fst ≫ (a₁⁻¹).asIso.hom.val) (cF.snd ≫ (a₂⁻¹).asIso.hom.val)
         (glueCondition a₁⁻¹ a₂⁻¹ haInv)
     let z' : cF.pt ⟶ cF.pt := hcf.lift t'
-    have hz₁' : z' ≫ cF.fst = cF.fst ≫ (a₁⁻¹).hom.val := hcf.fac t' WalkingCospan.left
-    have hz₂' : z' ≫ cF.snd = cF.snd ≫ (a₂⁻¹).hom.val := hcf.fac t' WalkingCospan.right
+    have hz₁' : z' ≫ cF.fst = cF.fst ≫ (a₁⁻¹).asIso.hom.val := hcf.fac t' WalkingCospan.left
+    have hz₂' : z' ≫ cF.snd = cF.snd ≫ (a₂⁻¹).asIso.hom.val := hcf.fac t' WalkingCospan.right
     have hfib : ∀ {S : ArtinianLocalAlgCat.{u, v, w} Λ k} {X : p.Fiber S} (φ : X ⟶ X),
         p.map φ.val = 𝟙 (p.obj X.1) := fun {S} _ φ => by
       let _ : p.IsHomLift (𝟙 S) φ.val := φ.2
@@ -268,12 +268,12 @@ public theorem automorphismFunctor_satisfiesRS
         rw [hw, Category.id_comp, eqToHom_trans, eqToHom_refl]
         rfl
       exact IsHomLift.of_fac' p (𝟙 c.pt.right) w hT hT hfac
-    let zm : P.obj c.pt ⟶ P.obj c.pt := ⟨z, hlift z a₁.hom a₂.hom hz₁ hz₂⟩
-    let zm' : P.obj c.pt ⟶ P.obj c.pt := ⟨z', hlift z' a₁⁻¹.hom a₂⁻¹.hom hz₁' hz₂'⟩
-    have hinv : ∀ {S} {X : p.Fiber S} (a : Aut X), a.hom.val ≫ (a⁻¹).hom.val = 𝟙 X.1 :=
-      fun a => congrArg (fun g => Functor.Fiber.fiberInclusion.map g) a.hom_inv_id
-    have hinv' : ∀ {S} {X : p.Fiber S} (a : Aut X), (a⁻¹).hom.val ≫ a.hom.val = 𝟙 X.1 :=
-      fun a => congrArg (fun g => Functor.Fiber.fiberInclusion.map g) (a⁻¹).hom_inv_id
+    let zm : P.obj c.pt ⟶ P.obj c.pt := ⟨z, hlift z a₁.asIso.hom a₂.asIso.hom hz₁ hz₂⟩
+    let zm' : P.obj c.pt ⟶ P.obj c.pt := ⟨z', hlift z' a₁⁻¹.asIso.hom a₂⁻¹.asIso.hom hz₁' hz₂'⟩
+    have hinv : ∀ {S} {X : p.Fiber S} (a : Aut X), a.asIso.hom.val ≫ (a⁻¹).asIso.hom.val = 𝟙 X.1 :=
+      fun a => congrArg (fun g => Functor.Fiber.fiberInclusion.map g) a.asIso.hom_inv_id
+    have hinv' : ∀ {S} {X : p.Fiber S} (a : Aut X), (a⁻¹).asIso.hom.val ≫ a.asIso.hom.val = 𝟙 X.1 :=
+      fun a => congrArg (fun g => Functor.Fiber.fiberInclusion.map g) (a⁻¹).asIso.hom_inv_id
     have hcomp : ∀ {X : F} (w w' : cF.pt ⟶ cF.pt) (π : cF.pt ⟶ X) (b b' : X ⟶ X),
         w ≫ π = π ≫ b → w' ≫ π = π ≫ b' → b ≫ b' = 𝟙 X → (w ≫ w') ≫ π = 𝟙 cF.pt ≫ π :=
       fun w w' π b b' h h' hb => by
@@ -285,38 +285,39 @@ public theorem automorphismFunctor_satisfiesRS
     have hz'z : zm' ≫ zm = 𝟙 (P.obj c.pt) :=
       Functor.Fiber.hom_ext (PullbackCone.IsLimit.hom_ext hcf
         (hcomp z' z _ _ _ hz₁' hz₁ (hinv' a₁)) (hcomp z' z _ _ _ hz₂' hz₂ (hinv' a₂)))
-    exact ⟨zm, zm', hzz', hz'z⟩
+    exact .of ⟨zm, zm', hzz', hz'z⟩
   have glue_aux : ∀ {A' : Under (p.obj x)} (g : c.pt ⟶ A') (a' : Aut (P.obj A'))
-      (G : Aut (P.obj c.pt)), G.hom.val ≫ P.map g = P.map g ≫ a'.hom.val →
+      (G : Aut (P.obj c.pt)), G.asIso.hom.val ≫ P.map g = P.map g ≫ a'.asIso.hom.val →
       P.transportAut g G = a' := by
     intro A' g a' G h
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     let _ := P.map_cocartesian g
-    change P.transportHom g G = a'.hom.val
+    change P.transportHom g G = a'.asIso.hom.val
     let _ : p.IsHomLift (𝟙 A'.right) (P.transportHom g G) := P.transportHom_isHomLift g G
-    let _ : p.IsHomLift (𝟙 A'.right) a'.hom.val := a'.hom.2
+    let _ : p.IsHomLift (𝟙 A'.right) a'.asIso.hom.val := a'.asIso.hom.2
     apply Functor.IsStronglyCocartesian.ext p g.right (P.map g) (𝟙 A'.right)
     exact (P.map_transportHom g G).trans h
   have glue_fst (a₁ : Aut (P.obj A₁)) (a₂ : Aut (P.obj A₂))
       (ha : P.transportAut f₁ a₁ = P.transportAut f₂ a₂) :
       P.transportAut c.fst (glue a₁ a₂ ha) = a₁ :=
     glue_aux c.fst a₁ _ (by
-      simpa [glue, cF, PullbackCone.mk] using hcf.fac (PullbackCone.mk (cF.fst ≫ a₁.hom.val)
-        (cF.snd ≫ a₂.hom.val) (glueCondition a₁ a₂ ha)) WalkingCospan.left)
+      simpa [glue, cF, PullbackCone.mk] using hcf.fac (PullbackCone.mk (cF.fst ≫ a₁.asIso.hom.val)
+        (cF.snd ≫ a₂.asIso.hom.val) (glueCondition a₁ a₂ ha)) WalkingCospan.left)
   have glue_snd (a₁ : Aut (P.obj A₁)) (a₂ : Aut (P.obj A₂))
       (ha : P.transportAut f₁ a₁ = P.transportAut f₂ a₂) :
       P.transportAut c.snd (glue a₁ a₂ ha) = a₂ :=
     glue_aux c.snd a₂ _ (by
-      simpa [glue, cF, PullbackCone.mk] using hcf.fac (PullbackCone.mk (cF.fst ≫ a₁.hom.val)
-        (cF.snd ≫ a₂.hom.val) (glueCondition a₁ a₂ ha)) WalkingCospan.right)
+      simpa [glue, cF, PullbackCone.mk] using hcf.fac (PullbackCone.mk (cF.fst ≫ a₁.asIso.hom.val)
+        (cF.snd ≫ a₂.asIso.hom.val) (glueCondition a₁ a₂ ha)) WalkingCospan.right)
   have unique_aux : ∀ {A' : Under (p.obj x)} (g : c.pt ⟶ A') (a b : Aut (P.obj c.pt))
       (a' : Aut (P.obj A')), P.transportAut g a = a' → P.transportAut g b = a' →
-      a.hom.val ≫ P.map g = b.hom.val ≫ P.map g := by
+      a.asIso.hom.val ≫ P.map g = b.asIso.hom.val ≫ P.map g := by
     intro A' g a b a' ha hb
     have hab : P.transportHom g a = P.transportHom g b := by
       simpa [ChosenPushforwardsAt.transportAut] using
-        congrArg (fun q : Aut (P.obj A') => q.hom.val) (ha.trans hb.symm)
+        congrArg (fun q : Aut (P.obj A') => q.asIso.hom.val) (ha.trans hb.symm)
     exact (P.map_transportHom g a).symm.trans
       ((congrArg (P.map g ≫ ·) hab).trans (P.map_transportHom g b))
   refine ⟨?_⟩
@@ -334,6 +335,7 @@ public theorem automorphismFunctor_satisfiesRS
     apply ConcreteCategory.hom_ext
     intro z
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     apply PullbackCone.IsLimit.hom_ext hcf
     · exact unique_aux c.fst _ _ _ (congrArg (fun f => f z) hl₁)

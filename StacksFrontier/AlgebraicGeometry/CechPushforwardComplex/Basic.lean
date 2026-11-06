@@ -103,8 +103,8 @@ public noncomputable def evalOpCompHom (P : Cᵒᵖ ⥤ A) :
   naturality _ _ _ := by
     dsimp [evalOp]
     refine Pi.hom_ext _ _ (fun j ↦ ?_)
-    simp only [Category.assoc, piComparison_comp_π, piComparison_comp_π_assoc, Pi.lift_π]
-    rw [← G.map_comp, ← G.map_comp, Pi.lift_π]
+    simp only [Category.assoc, piComparison_comp_π, piComparison_comp_π_assoc, Pi.lift_comp_π]
+    rw [← G.map_comp, ← G.map_comp, Pi.lift_comp_π]
 
 /-- **The extension of a presheaf to formal coproducts commutes with a product-preserving
 functor.** -/

@@ -540,7 +540,10 @@ theorem exists_mono_smallEtalePushforward_toSheaf_injective {Y : T.Spaces}
   have := mono_smallEtaleAbelianAdjunction_unit_app_of_isSurjective T h hs A
   have : PreservesLimitsOfSize.{0, 0} (smallEtalePushforward T h) :=
     (smallEtaleAbelianAdjunction T h).rightAdjoint_preservesLimits
-  infer_instance
+  have hc : PreservesLimit (cospan i₀ i₀) (smallEtalePushforward T h) :=
+    (PreservesLimitsOfSize.preservesLimitsOfShape (J := WalkingCospan)).preservesLimit
+  have : Mono ((smallEtalePushforward T h).map i₀) := preserves_mono_of_preservesLimit _ i₀
+  exact mono_comp _ _
 
 /-- **The base change map of `f` is invertible at every sheaf killed by a positive integer `n`**,
 given a proper surjection `h : h_Z ⟶ Y` for which cohomology commutes with base change, as it

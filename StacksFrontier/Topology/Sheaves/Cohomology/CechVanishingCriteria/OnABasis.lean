@@ -105,6 +105,11 @@ namespace Stacks.Cohomology.BasisCycles
 
 noncomputable section
 
+-- Mathlib v4.35.0: instance search for `HasProducts.{u} AddCommGrpCat.{max u w}` times out in
+-- this file's environment; supply it directly from `AddCommGrpCat.hasLimitsOfShape`.
+local instance hasProductsAddCommGrpCat : HasProducts.{u} AddCommGrpCat.{max u w} :=
+  fun _ => AddCommGrpCat.hasLimitsOfShape
+
 /-! ### Restriction of sections
 
 The additivity of restriction, in the forms needed below;

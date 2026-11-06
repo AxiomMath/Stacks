@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.MvPolynomial.Basic
 public import Mathlib.AlgebraicGeometry.FunctionField
 public import Mathlib.AlgebraicGeometry.IdealSheaf.Subscheme
+public import Mathlib.AlgebraicGeometry.Morphisms.Immersion
 public import Mathlib.AlgebraicGeometry.Morphisms.SchemeTheoreticallyDominant
 public import Mathlib.AlgebraicGeometry.ValuativeCriterion
 public import StacksCore.Tactic.StacksAttribute

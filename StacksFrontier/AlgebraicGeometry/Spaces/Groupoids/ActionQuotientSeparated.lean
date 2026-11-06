@@ -88,7 +88,7 @@ variable {S : Scheme.{u}} (U : Over S) (G : Type v) [Group G] [Small.{u} G]
 
 /-- The graph relation restricted to the copy of `U` indexed by `g` is the graph of `g`. -/
 private theorem sigmaι_comp_actionRelation (g : G) :
-    Sigma.ι (fun _ : G => U) g ≫ actionRelation U G a = prod.lift (a g).hom (𝟙 U) := by
+    Sigma.ι (fun _ : G => U) g ≫ actionRelation U G a = prod.lift (a g).asIso.hom (𝟙 U) := by
   apply prod.hom_ext <;>
     simp [actionRelation, actionRelationTarget, actionRelationSource]
 
@@ -97,7 +97,7 @@ scheme with a disjoint union of copies of `U`, the morphism induced by the graph
 individual automorphisms. -/
 private theorem actionRelation_left_eq :
     (actionRelation U G a).left = (actionRelationUnderlyingIso U G).hom ≫
-      Sigma.desc fun g : G => (prod.lift (a g).hom (𝟙 U)).left := by
+      Sigma.desc fun g : G => (prod.lift (a g).asIso.hom (𝟙 U)).left := by
   let F : Discrete G ⥤ Over S := Discrete.functor fun _ : G => U
   have hcol : IsColimit ((Over.forget S).mapCocone (colimit.cocone F)) :=
     isColimitOfPreserves (Over.forget S) (colimit.isColimit F)
@@ -108,7 +108,7 @@ private theorem actionRelation_left_eq :
   change (Over.forget S).map (Sigma.ι (fun _ : G => U) g.as) ≫ (actionRelation U G a).left =
     ((Over.forget S).map (Sigma.ι (fun _ : G => U) g.as) ≫
       (actionRelationUnderlyingIso U G).hom) ≫
-      Sigma.desc fun g : G => (prod.lift (a g).hom (𝟙 U)).left
+      Sigma.desc fun g : G => (prod.lift (a g).asIso.hom (𝟙 U)).left
   rw [heι g.as, Sigma.ι_desc]
   change (Sigma.ι (fun _ : G => U) g.as).left ≫ (actionRelation U G a).left = _
   rw [← Over.comp_left, sigmaι_comp_actionRelation]
@@ -121,8 +121,7 @@ the base change of the diagonal along `(f, 1)`. -/
 private theorem graph_isClosedImmersion
     [_root_.AlgebraicGeometry.IsSeparated U.hom] (f : Aut U) :
     _root_.AlgebraicGeometry.IsClosedImmersion
-      ((Over.forget S).map (prod.lift f.hom (𝟙 U))) := by
-  change U ≅ U at f
+      ((Over.forget S).map (prod.lift f.asIso.hom (𝟙 U))) := by
   let d : U ⟶ U ⨯ U := prod.lift (𝟙 U) (𝟙 U)
   let p : (U ⨯ U).left ≅ pullback U.hom U.hom := Over.prodLeftIsoPullback U U
   have heqDiag : d.left ≫ p.hom = pullback.diagonal U.hom := by
@@ -134,8 +133,8 @@ private theorem graph_isClosedImmersion
     infer_instance
   have hd : _root_.AlgebraicGeometry.IsClosedImmersion d.left :=
     IsClosedImmersion.of_comp d.left p.hom
-  let e : U ⨯ U ≅ U ⨯ U := prod.mapIso f (Iso.refl U)
-  have heq : d ≫ e.hom = prod.lift f.hom (𝟙 U) := by
+  let e : U ⨯ U ≅ U ⨯ U := prod.mapIso f.asIso (Iso.refl U)
+  have heq : d ≫ e.hom = prod.lift f.asIso.hom (𝟙 U) := by
     rw [prod.mapIso_hom]
     apply prod.hom_ext <;> simp [d]
   rw [Over.forget_map, ← heq, Over.comp_left]
@@ -151,7 +150,7 @@ private theorem actionRelation_isClosedImmersion [Finite G]
   have hfinite : _root_.AlgebraicGeometry.IsFinite (actionRelation U G a).left := by
     rw [actionRelation_left_eq]
     have hgraph (g : G) :
-        _root_.AlgebraicGeometry.IsFinite ((prod.lift (a g).hom (𝟙 U)).left) :=
+        _root_.AlgebraicGeometry.IsFinite ((prod.lift (a g).asIso.hom (𝟙 U)).left) :=
       ((IsClosedImmersion.iff_isFinite_and_mono _).mp (graph_isClosedImmersion U (a g))).1
     infer_instance
   have := actionRelation_isEtaleEquivalenceRelation U G a ha

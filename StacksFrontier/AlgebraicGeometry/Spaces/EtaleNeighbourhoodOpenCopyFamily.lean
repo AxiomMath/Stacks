@@ -55,6 +55,15 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+local instance (priority := high) hasPullbacks_presheaf_etaleNeighbourhoodOpenCopyFamily :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_etaleNeighbourhoodOpenCopyFamily
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ R) (g : Q ⟶ R) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_etaleNeighbourhoodOpenCopyFamily B S hS).has_limit _
+
 /-- **A common refinement of finitely many pointed étale morphisms.**
 
 Let `Y` be an algebraic space over `S`, let `y` be a point of `|Y|`, and let `hᵢ : Wᵢ ⟶ Y` be
@@ -211,8 +220,9 @@ theorem exists_etale_neighbourhood_isIso_clopenSubspace_family_of_isEtaleAt
     obtain ⟨v₀, hv₀fst, hv₀snd⟩ := hpoint i
     have := hiso i
     have hveq : v = v₀ :=
-      pointsMap_injective_of_mono B S hS
+      @pointsMap_injective_of_mono B S hS _ _
         ((Subfunctor.range (pullback.lift (𝟙 U) (p i ≫ (A i).ι) (htf i))).ι ≫ pullback.fst g f)
+        (IsIso.mono_of_iso _) _ _
         (by rw [pointsMap_comp_apply, hzu, hv₀fst])
     rw [← pointsMap_comp_apply, hveq, hv₀snd]
   refine ⟨U, hU, g, u,

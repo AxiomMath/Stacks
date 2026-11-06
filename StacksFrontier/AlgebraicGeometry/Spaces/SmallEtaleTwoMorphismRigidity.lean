@@ -466,6 +466,9 @@ theorem chartFiber_ext_of_isAffine (f : X ⟶ Y) (V : SmallEtale B S hS Y.1)
   Subtype.ext <| (BigFppfOver.toScheme B S hS).map_injective <|
     AlgebraicGeometry.ext_of_isAffine <| by ext b; exact h b
 
+-- Instance search for products of sheaves of sets on the small étale site needs more than the
+-- default budget under Lean v4.35.0.
+set_option synthInstance.maxHeartbeats 400000
 
 /-- The product of copies of the structure sheaf of `X` indexed by the regular functions on an
 étale chart `V` of `Y`. -/
@@ -493,7 +496,7 @@ theorem chartCoordinateMap_π (f : X ⟶ Y) (V : SmallEtale B S hS Y.1)
             structureSetSheaf B S hS X) b) =
       chartFiberCoordinate B S hS f V b := by
   rw [chartCoordinateMap, Category.assoc, inv_piComparison_comp_map_π]
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 /-- On an affine étale chart of `Y` the coordinates of a chart map determine it, so the
 coordinate morphism is a monomorphism of presheaves. -/

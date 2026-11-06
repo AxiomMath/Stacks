@@ -166,7 +166,7 @@ identity of the base algebra. -/
 private abbrev actionEnd {Λ : Type u} {k : Type w} {Γ : Type*}
     [CommRing Λ] [Field k] [Algebra Λ k] [Group Γ]
     (X : FiniteProjectiveRepresentation.{u, v, w, m} Λ k Γ) (γ : Γ) :
-    End (forgetAction.obj X) where
+    forgetAction.obj X ⟶ forgetAction.obj X where
   base := 𝟙 X.base
   map := (X.action γ).toAddMonoidHom
   map_smul := (X.action γ).map_smul
@@ -233,7 +233,7 @@ private abbrev homOfEquivariant {Λ : Type u} {k : Type w} {Γ : Type*}
 order, is a representation. -/
 private abbrev actionOfEnds {Λ : Type u} {k : Type w} {Γ : Type*}
     [CommRing Λ] [Field k] [Algebra Λ k] [Group Γ]
-    {Y : FiniteProjectiveModule.{u, v, w, m} (Λ := Λ) (k := k)} (a : Γ → End Y)
+    {Y : FiniteProjectiveModule.{u, v, w, m} (Λ := Λ) (k := k)} (a : Γ → (Y ⟶ Y))
     (hbase : ∀ γ, (a γ).base = 𝟙 Y.base) (hone : a 1 = 𝟙 Y)
     (hmul : ∀ γ δ, a (γ * δ) = a δ ≫ a γ) : Representation Y.base Γ Y.carrier where
   toFun γ := {

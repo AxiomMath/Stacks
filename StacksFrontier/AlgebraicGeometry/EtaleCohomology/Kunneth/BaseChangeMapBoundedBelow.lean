@@ -285,11 +285,11 @@ theorem isIso_comp_rightDerivedFunctorPlusUnit_iff
       I.IsKInjective ∧ QuasiIso f)
     {P : HomotopyCategory.Plus D} (M : HomotopyCategory.Plus C)
     (x : P ⟶ F'.mapHomotopyCategoryPlus.obj M) :
-    IsIso (DerivedCategory.Plus.Qh.map x ≫ F'.rightDerivedFunctorPlusUnit.app M) ↔
+    IsIso (DerivedCategory.Plus.Qh.map x ≫ F'.rightDerivedFunctorPlusUnith.app M) ↔
       IsIso (DerivedCategory.Qh.map x.hom ≫
         α.app ((HomotopyCategory.Plus.ι C).obj M)) := by
   have e : DerivedCategory.Plus.ι.map
-      (DerivedCategory.Plus.Qh.map x ≫ F'.rightDerivedFunctorPlusUnit.app M) ≫
+      (DerivedCategory.Plus.Qh.map x ≫ F'.rightDerivedFunctorPlusUnith.app M) ≫
         (Functor.boundedDerivedIso F' RF' α hres).hom.app (DerivedCategory.Plus.Qh.obj M) =
       DerivedCategory.Qh.map x.hom ≫ α.app ((HomotopyCategory.Plus.ι C).obj M) := by
     rw [Functor.map_comp, Category.assoc, Functor.boundedDerivedIso_hom_app F' RF' α hres M]
@@ -330,7 +330,7 @@ theorem isIso_app_ι_iff_isIso_derived_app
     [PreservesFiniteLimits G'] [PreservesFiniteColimits G']
     (K : DerivedCategory.Plus A) :
     IsIso (bc.app (DerivedCategory.Plus.ι.obj K)) ↔
-      IsIso ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit)).app K) := by
+      IsIso ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith)).app K) := by
   obtain ⟨n, hn⟩ := K.property
   have : K.IsGE n := (DerivedCategory.Plus.isGE_ι_obj_iff K n).1 hn
   obtain ⟨L, _, ⟨i⟩⟩ := DerivedCategory.Plus.exists_injective_nonempty_iso K n
@@ -349,7 +349,7 @@ theorem isIso_app_ι_iff_isIso_derived_app
     ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj ((HomotopyCategory.Plus.ι A).obj Kh))
   have := hce ((HomotopyCategory.Plus.ι A).obj Kh)
   have hu := isIso_app_iff_of_unitFac (hfac ((HomotopyCategory.Plus.ι A).obj Kh))
-  have hd := isIso_derived_app_Qh_iff F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit) Kh
+  have hd := isIso_derived_app_Qh_iff F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith) Kh
     inferInstance inferInstance
   have hl := isIso_comp_rightDerivedFunctorPlusUnit_iff F' uh hres
     (G'.mapHomotopyCategoryPlus.obj Kh) ((mapPlus τ).app Kh)

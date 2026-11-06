@@ -113,8 +113,8 @@ end PullbackSection
 
 /-- Two automorphisms of a connected finite étale cover whose agreement loci meet are equal. -/
 private theorem eq_of_mem_agreeLocus_aut (A : FiniteEtaleOver X) [IsConnected A] {σ τ : Aut A}
-    (hσ : (pullback.fst A.hom A.hom ≫ σ.hom.left) ≫ A.hom = pullback.snd A.hom A.hom ≫ A.hom)
-    (hτ : (pullback.fst A.hom A.hom ≫ τ.hom.left) ≫ A.hom = pullback.snd A.hom A.hom ≫ A.hom)
+    (hσ : (pullback.fst A.hom A.hom ≫ σ.asIso.hom.left) ≫ A.hom = pullback.snd A.hom A.hom ≫ A.hom)
+    (hτ : (pullback.fst A.hom A.hom ≫ τ.asIso.hom.left) ≫ A.hom = pullback.snd A.hom A.hom ≫ A.hom)
     {z : (pullback A.hom A.hom).carrier} (hzσ : z ∈ Scheme.Hom.agreeLocus A.hom _ _ hσ)
     (hzτ : z ∈ Scheme.Hom.agreeLocus A.hom _ _ hτ) : σ = τ := by
   let O₁ := Scheme.Hom.agreeLocus A.hom _ _ hσ
@@ -137,13 +137,13 @@ theorem isIso_galoisCoverComparison_of_isGalois (A : FiniteEtaleOver X) [IsGaloi
       (((MorphismProperty.Over.forget finiteEtale ⊤ X).mapAut A).comp (autInvAction A))) := by
   let p₁ := pullback.fst A.hom A.hom
   let p₂ := pullback.snd A.hom A.hom
-  have hw : ∀ σ : Aut A, (σ⁻¹).hom.left ≫ A.hom = A.hom := fun σ => MorphismProperty.Over.w _
-  have hO : ∀ σ : Aut A, (p₁ ≫ (σ⁻¹).hom.left) ≫ A.hom = p₂ ≫ A.hom := fun σ => by
+  have hw : ∀ σ : Aut A, (σ⁻¹).asIso.hom.left ≫ A.hom = A.hom := fun σ => MorphismProperty.Over.w _
+  have hO : ∀ σ : Aut A, (p₁ ≫ (σ⁻¹).asIso.hom.left) ≫ A.hom = p₂ ≫ A.hom := fun σ => by
     rw [Category.assoc, hw, pullback.condition]
   let s : Aut A → (A.left ⟶ pullback A.hom A.hom) := fun σ =>
-    pullback.lift (𝟙 _) (σ⁻¹).hom.left (by rw [Category.id_comp, hw])
+    pullback.lift (𝟙 _) (σ⁻¹).asIso.hom.left (by rw [Category.id_comp, hw])
   have hs₁ : ∀ σ, s σ ≫ p₁ = 𝟙 _ := fun σ => pullback.lift_fst _ _ _
-  have hs₂ : ∀ σ, s σ ≫ p₂ = (σ⁻¹).hom.left := fun σ => pullback.lift_snd _ _ _
+  have hs₂ : ∀ σ, s σ ≫ p₂ = (σ⁻¹).asIso.hom.left := fun σ => pullback.lift_snd _ _ _
   have hrange (σ : Aut A) := range_eq_agreeLocus_of_pullback_section A (hO σ) (hs₁ σ) (hs₂ σ)
   have : ∀ σ, IsOpenImmersion (s σ) := fun σ =>
     isOpenImmersion_of_pullback_section A (hO σ) (hs₁ σ) (hs₂ σ)

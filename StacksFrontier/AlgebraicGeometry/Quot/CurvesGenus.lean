@@ -94,6 +94,23 @@ attribute [local instance] Space.pointTopology
 
 variable {B : BigFppfSite.{u}} {hZ : B.Contains integerBase}
 
+/-- Products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_curvesGenus (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_curvesGenus :
+    HasPullbacks ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_curvesGenus
+    {X Y Z : (BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_curvesGenus (B := B) (hZ := hZ)).has_limit _
+
 /-! ### Condition (o) relative to an open substack -/
 
 /-- **Condition (o) of Stacks 0E0E relative to an open substack.** Let `P` satisfy condition (o)

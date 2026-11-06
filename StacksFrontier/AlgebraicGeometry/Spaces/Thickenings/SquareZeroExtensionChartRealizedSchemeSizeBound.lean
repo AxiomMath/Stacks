@@ -67,7 +67,7 @@ theorem isAffineOpen_chartRealizedScheme (U : SmallEtale B S hS X.1)
 theorem contains_chartRealizedScheme_of_mk_le (U : SmallEtale B S hS X.1) {κ : Cardinal.{u}}
     (hκ : κ < B.cutoff)
     (h : ∀ V : (chartScheme U).affineOpens,
-      #(E.A.val.obj (op ((chartOpens B S hS U).obj V.1))) ≤ κ) :
+      #(E.A.obj.obj (op ((chartOpens B S hS U).obj V.1))) ≤ κ) :
     B.Contains (E.chartRealizedScheme U) := by
   have hne : Nonempty (chartScheme U).affineOpens := ⟨⟨⊥, isAffineOpen_bot _⟩⟩
   let O : (chartScheme U).affineOpens → (E.chartRealizedScheme U).Opens := fun V => V.1

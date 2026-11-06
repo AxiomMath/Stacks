@@ -246,7 +246,7 @@ abbrev actionAlg (α : ι) : Subalgebra (ZMod 2) (Module.End (ZMod 2) (Fiber T))
 /-- The subalgebra `actionAlg T α` is commutative. -/
 instance (α : ι) : IsMulCommutative (actionAlg T α) :=
   Algebra.isMulCommutative_adjoin (ZMod 2) (by
-    rintro _ ⟨g, rfl⟩ _ ⟨h, rfl⟩
+    rintro _ ⟨g, rfl⟩ _ ⟨h, rfl⟩ -
     exact genAction_comm T α g h)
 
 open scoped IsMulCommutative in

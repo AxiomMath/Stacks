@@ -53,7 +53,7 @@ theorem exists_iso_monodromyDescentSheaf
   let N₀ := N.obj.obj.obj
   have hN : ∀ σ, galoisAut x σ A = 1 → actionLinearRepr N₀ σ = 1 := fun σ hσ ↦ by
     have h1 : N₀.ρ σ = 1 := hK σ (hA hσ)
-    show ModuleCat.Hom.hom (N₀.ρ σ) = 1
+    show ModuleCat.Hom.hom (N₀.ρ σ).asHom = 1
     rw [h1]
     rfl
   have : Module.Finite Λ N₀.V := N.property
@@ -67,16 +67,16 @@ theorem exists_iso_monodromyDescentSheaf
     (ObjectProperty.isoMk _ (Action.mkIso E.toModuleIso fun σ ↦ by
       refine ModuleCat.hom_ext (LinearMap.ext fun v ↦ ?_)
       obtain ⟨d, rfl⟩ := (e.monodromyEquiv hX).surjective v
-      have h1 : (((monodromyAction x).obj D.obj).ρ σ).hom (e.monodromyEquiv hX d) =
+      have h1 : (((monodromyAction x).obj D.obj).ρ σ).asHom.hom (e.monodromyEquiv hX d) =
           e.monodromyEquiv hX
             (D.obj.map ((finiteEtaleToEtale X).map (galoisAutHom x σ A)).op d) :=
         monodromyAction_ρ_ι_apply D.obj σ (op A) d
-      show E ((((monodromyAction x).obj D.obj).ρ σ).hom (e.monodromyEquiv hX d)) =
-        (N₀.ρ σ).hom (E (e.monodromyEquiv hX d))
+      show E ((((monodromyAction x).obj D.obj).ρ σ).asHom.hom (e.monodromyEquiv hX d)) =
+        (N₀.ρ σ).asHom.hom (E (e.monodromyEquiv hX d))
       rw [h1]
       show monodromyDescentSectionsEquiv hX A N₀ hN ((e.monodromyEquiv hX).symm
           (e.monodromyEquiv hX _)) =
-        (N₀.ρ σ).hom (monodromyDescentSectionsEquiv hX A N₀ hN ((e.monodromyEquiv hX).symm
+        (N₀.ρ σ).asHom.hom (monodromyDescentSectionsEquiv hX A N₀ hN ((e.monodromyEquiv hX).symm
           (e.monodromyEquiv hX d)))
       rw [LinearEquiv.symm_apply_apply, LinearEquiv.symm_apply_apply]
       exact monodromyDescentSectionsEquiv_map hX A N₀ hN σ d)))

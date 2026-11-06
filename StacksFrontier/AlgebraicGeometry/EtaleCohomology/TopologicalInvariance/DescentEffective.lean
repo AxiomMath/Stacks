@@ -6,6 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.Topologies.Fpqc.DescentDataBridge
 public import StacksFrontier.AlgebraicGeometry.Descent.SeparatedQuasiFiniteSchemeDescent
 public import StacksFrontier.AlgebraicGeometry.Descent.EffectiveEtaleDescent
 public import StacksFrontier.AlgebraicGeometry.Descent.Scheme.DescentTransport
+public import Mathlib.CategoryTheory.Sites.EffectiveEpimorphic
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

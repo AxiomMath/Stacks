@@ -57,6 +57,7 @@ private theorem pointsMap_comp_local {S : Scheme.{u}} (hS : B.Contains S)
   induction x using Quot.inductionOn with
   | _ p => rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
 private theorem relativeDimensionLE_of_overIso {U : B.Schemes}
     {X Y : Space.FpFlatProperOver B integerBase hZ
       (siteLift B hZ U)} (e : X.obj ≅ Y.obj)

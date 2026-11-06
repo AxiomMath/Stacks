@@ -223,6 +223,25 @@ theorem presentationSpaceRelation_source :
       Over.homMk (yoneda.map P.source) (isTerminal_realizationBase_obj.hom_ext _ _) :=
   prod.lift_snd _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_quasicoherentSeparator :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_quasicoherentSeparator
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+local instance hasPullbacks_over_presheaf_quasicoherentSeparator
+    (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) : HasPullbacks (Over X) := inferInstance
+
+local instance (priority := high) hasPullback_over_presheaf_quasicoherentSeparator
+    {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {Y Z W : Over X} (f : Y ⟶ W) (g : Z ⟶ W) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The pre-relation of a presentation is an equivalence relation: its two projections are the
 kernel pair of the atlas `U ⟶ X`. -/
 instance isEquivalenceRelation_presentationSpaceRelation :

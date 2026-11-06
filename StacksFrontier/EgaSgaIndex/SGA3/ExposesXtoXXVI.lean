@@ -112,7 +112,7 @@ import Mathlib.LinearAlgebra.Eigenspace.Basic
 import Mathlib.LinearAlgebra.Eigenspace.Zero
 import Mathlib.LinearAlgebra.FreeModule.Basic
 import Mathlib.LinearAlgebra.Lagrange
-import Mathlib.LinearAlgebra.Matrix.Cartan
+import Mathlib.LinearAlgebra.Matrix.Cartan.Basic
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Coeff
 import Mathlib.LinearAlgebra.Matrix.Charpoly.LinearMap
@@ -790,9 +790,7 @@ add_to_sga "3 XXI 7.4.6" CartanMatrix.E
 add_to_sga "3 XXI 7.4.6" CartanMatrix.F₄
 add_to_sga "3 XXI 7.4.6" CartanMatrix.G₂
 add_to_sga "3 XXI 7.4.6" CoxeterMatrix.A
-add_to_sga "3 XXI 7.4.6" CoxeterMatrix.Aₙ
 add_to_sga "3 XXI 7.4.6" "partial" CoxeterMatrix.B
-add_to_sga "3 XXI 7.4.6" "partial" CoxeterMatrix.Bₙ
 add_to_sga "3 XXI 7.4.6" "E₆" CoxeterMatrix.E₆
 add_to_sga "3 XXI 7.4.6" "partial" CoxeterMatrix.F₄
 add_to_sga "3 XXI 7.4.6" "partial" CoxeterMatrix.G₂

@@ -133,7 +133,7 @@ theorem two_eq_zero_fiber :
   show (1 + 1 : Γ(Spec fieldTwo.{u}, ⊤)) = 0
   apply (Scheme.ΓSpecIso fieldTwo.{u}).commRingCatIsoToRingEquiv.injective
   rw [map_add, map_one, map_zero]
-  exact ULift.ext _ _ (by decide)
+  exact ULift.ext (by decide)
 
 /-- `Γ(Spec 𝔽₂)` is not the zero ring. -/
 theorem one_ne_zero_fiber : (1 : ringSheaf.{u, w}.obj.obj (op yF.{u, w})) ≠ 0 := by

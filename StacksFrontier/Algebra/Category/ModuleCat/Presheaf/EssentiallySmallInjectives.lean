@@ -3,6 +3,7 @@ module
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.PresheafOfModules
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
 public import StacksFrontier.Algebra.Category.ModuleCat.Presheaf.LocallySmall
+import Mathlib.CategoryTheory.Limits.FilteredColimitCommutesFiniteLimit
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

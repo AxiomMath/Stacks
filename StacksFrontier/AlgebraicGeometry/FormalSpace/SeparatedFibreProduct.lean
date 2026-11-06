@@ -162,7 +162,6 @@ private theorem tensorHom_comp {A₁ A₂ : CommRingCat.{u}} {T T' : Scheme.{u}}
     tensorHom (u ≫ h₁) (u ≫ h₂) = u.appTop.hom.comp (tensorHom h₁ h₂) := by
   refine RingHom.ext fun w ↦ ?_
   induction w with
-  | zero => simp only [map_zero]
   | tmul a b =>
     simp only [tensorHom, specHomOf, Scheme.Hom.comp_appTop, CommRingCat.hom_comp,
       AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Algebra.TensorProduct.lift_tmul,
@@ -182,7 +181,6 @@ private theorem tensorHom_comp_eq {A₁ A₂ : CommRingCat.{u}} {T T₁ T₂ : S
         (Algebra.TensorProduct.map (specHomOf k₁).hom.toIntAlgHom
           (specHomOf k₂).hom.toIntAlgHom w) := by
   induction w with
-  | zero => simp only [map_zero]
   | tmul a b =>
     simp only [tensorHom, specHomOf, Scheme.Hom.comp_appTop, CommRingCat.hom_comp,
       AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Algebra.TensorProduct.lift_tmul,

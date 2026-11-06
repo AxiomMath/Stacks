@@ -61,7 +61,7 @@ def amalgamationSieve (x : FamilyOfElements P R.arrows) : Sieve X where
   downward_closed := by
     rintro Y W h ⟨y, hy⟩ k
     refine ⟨P.map k.op y, fun Z g hg ↦ ?_⟩
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp,
+    rw [← Functor.map_comp_apply, ← op_comp,
       hy (g ≫ k) (by simpa only [Category.assoc] using hg)]
     exact congr_arrow x (Category.assoc _ _ _) _ _
 
@@ -93,18 +93,18 @@ theorem exists_isAmalgamation_of_amalgamationSieve_mem (J : GrothendieckTopology
     rw [compatible_iff_sieveCompatible]
     intro Y W h k hh
     refine (huniq (k ≫ h) _ _ (fun Z g hg ↦ ?_) (hy _ _ _)).symm
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp,
+    rw [← Functor.map_comp_apply, ← op_comp,
       hy _ h hh (g ≫ k) (by simpa only [Category.assoc] using hg)]
     exact congr_arrow x (Category.assoc _ _ _) _ _
   obtain ⟨s, hs, -⟩ := hP A hA yF hycomp
   refine ⟨s, fun Y g hg ↦ ?_⟩
   refine (hP.isSeparated _ (J.pullback_stable g hA)).ext fun W k hk ↦ ?_
   have e1 : P.map k.op (P.map g.op s) = y W (k ≫ g) hk := by
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [← Functor.map_comp_apply, ← op_comp]
     exact hs (k ≫ g) hk
   have e3 : y W (k ≫ g) hk = x (k ≫ g) (R.downward_closed hg k) := by
     have := hy W (k ≫ g) hk (𝟙 W) (by simpa using R.downward_closed hg k)
-    rw [op_id, FunctorToTypes.map_id_apply] at this
+    rw [op_id, Functor.map_id_apply] at this
     rw [this]
     exact congr_arrow x (Category.id_comp _) _ _
   rw [e1, e3, hx.to_sieveCompatible g k hg]

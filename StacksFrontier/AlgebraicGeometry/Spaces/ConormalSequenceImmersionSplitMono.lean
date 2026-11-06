@@ -105,9 +105,10 @@ include hf hg in
 `f_*f⁻¹𝒪_Y` relative to `AlgebraicGeometry.Space.kernelSplitBase`, with values in the
 coefficients `AlgebraicGeometry.Space.kernelSplitTarget`. -/
 noncomputable def kernelSplitIdealDerivation :
-    (PresheafOfModules.splitCoefficients
+    PresheafOfModulesOfCommRing.Derivation'
+      (PresheafOfModules.splitCoefficients
         (directImageStructureSharpInverseImage B S hS f).hom
-        (kernelSplitTarget B S hS f).val).Derivation'
+        (kernelSplitTarget B S hS f).val)
       (kernelSplitBase B S hS f g).hom := by
   refine PresheafOfModules.splitIdealDerivation
     (directImageStructureSharpInverseImage B S hS f).hom
@@ -137,7 +138,8 @@ include hf hg in
 `AlgebraicGeometry.Space.kernelSplitIdealDerivation` precomposed with the unit
 `η : 𝒪_Y ⟶ f_*f⁻¹𝒪_Y`, with values in the direct image `f_*f^*𝓘_f`. -/
 noncomputable def kernelSplitDerivation :
-    ((modulePushforward B S hS f).obj (kernelConormalModule B S hS f)).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
+      ((modulePushforward B S hS f).obj (kernelConormalModule B S hS f)).val
       (structureSharpInverseImage B S hS g).hom :=
   derivationTransport
     (restrictModuleAlong_moduleDirectImage B S hS f (kernelConormalModule B S hS f))

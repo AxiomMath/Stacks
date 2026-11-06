@@ -71,7 +71,7 @@ def characterContinuousModule (χ : G →* Λˣ) (hχ : IsOpen (χ.ker : Set G))
 character. -/
 theorem characterContinuousModule_ρ_hom (χ : G →* Λˣ) (hχ : IsOpen (χ.ker : Set G)) (g : G)
     (x : ULift.{u + 1} Λ) :
-    (((characterContinuousModule Λ χ hχ).obj.obj.obj.ρ g).hom x : ULift.{u + 1} Λ) =
+    (((characterContinuousModule Λ χ hχ).obj.obj.obj.ρ g).asHom.hom x : ULift.{u + 1} Λ) =
       (χ g : Λ) • x :=
   rfl
 

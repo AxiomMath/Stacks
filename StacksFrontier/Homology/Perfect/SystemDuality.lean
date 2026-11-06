@@ -136,10 +136,10 @@ private lemma isDerivedLimit_of_natIso
   have hb : b F ≫ e.hom = e.hom ≫ b G := by
     apply Pi.hom_ext
     intro n
-    simp only [Category.assoc, he, b, Pi.lift_π,
+    simp only [Category.assoc, he, b, Pi.lift_comp_π,
       Preadditive.comp_sub]
     rw [← Category.assoc e.hom, he, Category.assoc,
-      ← c.hom.naturality (homOfLE (Nat.le_succ n)).op, ← Category.assoc, Pi.lift_π,
+      ← c.hom.naturality (homOfLE (Nat.le_succ n)).op, ← Category.assoc, Pi.lift_comp_π,
       Preadditive.sub_comp, Category.assoc]
   obtain ⟨p, δ, hδ⟩ := hK
   obtain ⟨δ', hδ'⟩ := exists_distinguished_comp_iso p (b F) δ hδ e (b G) hb
@@ -219,13 +219,13 @@ private def derivedHomCoproductIso {R : Type u} [CommRing R]
         (Sigma.desc fun j ↦ homTranspose d _ (K j) E (Pi.π _ j)) ≫
         d.hom.map ((Sigma.ι K j).op, 𝟙 E) = Pi.π _ j by
       apply (homTranspose d _ (K j) E).injective
-      rw [homTranspose_naturality, AddEquiv.apply_symm_apply, Sigma.ι_desc], Pi.lift_π]
+      rw [homTranspose_naturality, AddEquiv.apply_symm_apply, Sigma.ι_desc], Pi.lift_comp_π]
     simpa only [Category.id_comp] using
       homTranspose_naturality d _ E (Sigma.ι K j) (𝟙 _)
   inv_hom_id := by
     apply Pi.hom_ext
     intro j
-    rw [Category.assoc, Pi.lift_π, Category.id_comp]
+    rw [Category.assoc, Pi.lift_comp_π, Category.id_comp]
     apply (homTranspose d _ (K j) E).injective
     rw [homTranspose_naturality, AddEquiv.apply_symm_apply, Sigma.ι_desc]
 
@@ -364,7 +364,7 @@ private lemma isDerivedLimit_hom_of_isHomotopyColimit
   have he (n : ℕ) : e.hom ≫ Pi.π (fun n : ℕ ↦ D.obj (Opposite.op n)) n =
       H.map (Sigma.ι Ksys.obj n).op := by
     show Pi.lift _ ≫ Pi.π _ n = _
-    exact Pi.lift_π _ _
+    exact Pi.lift_comp_π _ _
   have hb : H.map d.op ≫ e.hom = e.hom ≫ b := by
     apply Pi.hom_ext
     intro n
@@ -373,7 +373,7 @@ private lemma isDerivedLimit_hom_of_isHomotopyColimit
     rw [Category.assoc, he, ← H.map_comp, ← op_comp]
     dsimp only [d]
     rw [Sigma.ι_desc, op_sub, op_comp, H.map_sub, H.map_comp]
-    simp only [b, Category.assoc, Pi.lift_π, Preadditive.comp_sub, he]
+    simp only [b, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, he]
     rw [← Category.assoc, he]
     rfl
   obtain ⟨δ', hδ'⟩ := exists_distinguished_comp_iso (H.map p.op) (H.map d.op) δ hδ e b hb

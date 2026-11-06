@@ -67,7 +67,7 @@ private lemma isMaximal_comap_mapIntegralClosure
     IsScalarTower.of_algebraMap_eq fun x ↦ (f.mapIntegralClosure.commutes x).symm
   let : Algebra.IsIntegral (integralClosure A K) (integralClosure A L) :=
     Algebra.IsIntegral.tower_top A
-  exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal P
+  exact Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := integralClosure A K) P
 
 /-- The inertia group at a maximal ideal is closed in the Krull topology. -/
 private lemma inertia_isClosed

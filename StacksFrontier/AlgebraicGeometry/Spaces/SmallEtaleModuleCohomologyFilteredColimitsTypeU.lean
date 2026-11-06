@@ -13,6 +13,7 @@ public import Mathlib.CategoryTheory.Limits.Preserves.Limits
 public import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Products
 public import Mathlib.CategoryTheory.Sites.GlobalSections
 public import Mathlib.CategoryTheory.Sites.PreservesSheafification
+public import Mathlib.CategoryTheory.Sites.Limits
 public import StacksFrontier.AlgebraicGeometry.Spaces.ModulesGlobalSections
 public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleCohomologyFilteredColimits
 public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleEquiUniverseModel
@@ -149,8 +150,12 @@ theorem enoughInjectives_sheaf_essentiallySmall : EnoughInjectives (Sheaf J Ab.{
 omit [EssentiallySmall.{z} C] in
 /-- Global sections of those sheaves is an additive functor, being a right adjoint. -/
 theorem additive_globalSections_essentiallySmall [HasGlobalSectionsFunctor J Ab.{z}] :
-    (Sheaf.Γ J Ab.{z}).Additive :=
-  Functor.additive_of_preserves_binary_products _
+    (Sheaf.Γ J Ab.{z}).Additive := by
+  have : HasLimitsOfShape (Discrete WalkingPair) (Cᵒᵖ ⥤ Ab.{z}) :=
+    functorCategoryHasLimitsOfShape
+  have : HasLimitsOfShape (Discrete WalkingPair) (Sheaf J Ab.{z}) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J Ab.{z})
+  exact Functor.additive_of_preserves_binary_products _
 
 end EssentiallySmallSite
 
@@ -382,6 +387,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### Stacks 073E on the equi-universe model, at abelian coefficient universe `u` -/
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Stacks 073E on the equi-universe model of the small étale site, at abelian coefficient
 universe `u`.** On a quasi-compact and quasi-separated algebraic space, the canonical map from a
 filtered colimit of cohomology groups of abelian sheaves *with sections in the universe of the

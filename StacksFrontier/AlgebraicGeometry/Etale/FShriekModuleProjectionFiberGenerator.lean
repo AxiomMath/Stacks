@@ -164,7 +164,7 @@ public theorem stalkPullbackFiberIso_germ (s : GeometricPoint Y.obj)
     (toPresheafFiber_eqToHom B Y.obj Y.property (toGeometricPoint_map B f s x).symm G.obj V u
       (fiberBaseLift B f s x V u) (heq_fiberBaseLift B f s x V u))
     (modPullbackUnitSection_comp_toPresheafFiber B Λ f G (x.toGeometricPoint B f s) W
-      ⟨V, fiberBaseLift B f s x V u⟩ c hc)
+      (Functor.elementsMk _ V (fiberBaseLift B f s x V u)) c hc)
     (((modPullbackStalkIso.{u, v, max (u + 1) v} B Λ f
       (x.toGeometricPoint B f s)).app G).hom_inv_id)
 
@@ -333,9 +333,9 @@ public theorem modProjectionFiberSummandIso_germ (s : GeometricPoint Y.obj)
           (finiteSupport_isLocallyClosed B f V E) a) x := by
   by_cases h : HasFiberLift B f s V u E x
   · let W : (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).Elements :=
-      ⟨finiteSupportOpenObject B f V E, openObjectLift B X.obj X.property
+      Functor.elementsMk _ (finiteSupportOpenObject B f V E) (openObjectLift B X.obj X.property
         (x.toGeometricPoint B f s) (baseChange B f V) (fiberPointElement B f s V u x)
-        (finiteSupportOpen B f V E) h⟩
+        (finiteSupportOpen B f V E) h)
     let c := openObjectι B X.obj X.property (baseChange B f V) (finiteSupportOpen B f V E)
     have hc : W.2.1 ≫ (SmallEtale.toScheme B X.obj X.property).map c ≫
         B.inclusion.map (pullback.fst V.obj.hom f) = u.1 := by

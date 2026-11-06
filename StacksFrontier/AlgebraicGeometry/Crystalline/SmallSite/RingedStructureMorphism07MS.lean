@@ -199,7 +199,7 @@ theorem structureProjection_map {V₁ V₂ : S.S.scheme.Opens} (i : op V₁ ⟶ 
       (((forgetToOpens S).op.ran.obj F.obj).map
         ((((Opens.map (sourceToBase S).base).map i.unop).op ≫ j.hom)) a)
   exact congrArg (fun y ↦ ((forgetToOpens S).op.ranCounit.app F.obj).app j.right y)
-    (FunctorToTypes.map_comp_apply ((forgetToOpens S).op.ran.obj F.obj) _ j.hom a).symm
+    (((forgetToOpens S).op.ran.obj F.obj).map_comp_apply _ j.hom a).symm
 
 /-! ### The structure map on sections -/
 

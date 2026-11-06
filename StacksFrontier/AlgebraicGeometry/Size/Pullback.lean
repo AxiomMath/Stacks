@@ -9,6 +9,7 @@ import Mathlib.RingTheory.Localization.Cardinality
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 import Mathlib.AlgebraicGeometry.Morphisms.Affine
 public import Mathlib.AlgebraicGeometry.Pullbacks
+import Mathlib.AlgebraicGeometry.PullbackCarrier
 
 
 /-!

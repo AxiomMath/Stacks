@@ -197,6 +197,15 @@ section Telescope
 
 attribute [local instance] HasDerivedCategory.standard
 
+/-- Weak sheafification of abelian presheaves on the site of `X`, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`. It is made a local instance of high priority
+so that the definitions below find it rather than the section variable
+`[HasSheafify X.J AddCommGrpCat.{u}]`, and so do not depend on that variable. -/
+abbrev hasWeakSheafifyAddCommGrpCatTelescope : HasWeakSheafify X.J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCatTelescope
+
 variable [HasWeakSheafify X.J CommRingCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   (h : Presheaf.globalSections (X.O.obj ⋙ forget CommRingCat.{u}))

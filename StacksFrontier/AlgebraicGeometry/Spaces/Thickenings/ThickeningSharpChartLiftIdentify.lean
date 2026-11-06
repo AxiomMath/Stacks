@@ -62,7 +62,7 @@ theorem ringSheafHom_ext_of_cover {X : AlgebraicSpaces B S hS}
   have hGsep : Presheaf.IsSeparated (SmallEtale.topology B S hS X.1)
       (G.obj ⋙ CategoryTheory.forget RingCat.{u}) :=
     ((sheafCompose (SmallEtale.topology B S hS X.1)
-      (CategoryTheory.forget RingCat.{u})).obj G).cond.isSeparated
+      (CategoryTheory.forget RingCat.{u})).obj G).property.isSeparated
   refine Sheaf.hom_ext (NatTrans.ext (funext fun V ↦ RingCat.hom_ext (RingHom.ext fun x ↦ ?_)))
   refine hGsep V.unop (Sieve.generate fun (K : SmallEtale B S hS X.1) (_ : K ⟶ V.unop) ↦ Pp K)
     (hP V.unop _ fun {K} n hn ↦ ⟨K, 𝟙 K, n, hn, Category.id_comp n⟩) _ _ ?_

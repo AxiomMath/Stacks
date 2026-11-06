@@ -222,7 +222,7 @@ theorem pointModuleComparison_pullbackGlobalSections (h : T' ⟶ T)
     (idEtaleChart B S hS T')
   rw [pointModuleComparison, eqToHom_refl, Category.comp_id,
     pullbackGlobalSections_eq_pullbackSection]
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show ((modulePullbackCompIso B S hS (representedMap B S hS h) k).hom.app M).val.app
       (op ((chartOpens B S hS (idEtaleChart B S hS T')).obj ⊤))
       ((chartRestrictionPullbackComparison B S hS (representedMap B S hS h) (idEtaleChart B S hS T)

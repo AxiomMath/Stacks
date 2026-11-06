@@ -240,7 +240,7 @@ theorem not_isAffineAlgebraicSpaceOverBase_freeOfCutoffHomSituation
       Γ((BigFppfOver.toScheme B _ _).obj Z, ⊤)) :=
     fun J => φ (e₂ (e₁ (g J)).down.1)
   have hk : Function.Injective k := fun _ _ h =>
-    hg (e₁.injective (ULift.ext _ _ (Subtype.ext (e₂.injective (hφ h)))))
+    hg (e₁.injective (ULift.ext (Subtype.ext (e₂.injective (hφ h)))))
   have hle := mk_le_of_injective hk
   rw [mk_set, ← power_def, mk_out] at hle
   have hsections : ∀ (V : BigFppfOver B (⊤_ Scheme.{u}) B.contains_terminal)

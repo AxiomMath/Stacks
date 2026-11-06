@@ -154,7 +154,6 @@ theorem pushoutTrace_naturality {A' B' : CommRingCat.{u}} {a' : R₀ ⟶ A'} {α
   have := isScalarTower_K h
   have := isScalarTower_A (a := a) (α := α)
   induction z using (algebraIsPushout_of_isPushout h).out.inductionOn with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
   | tmul y =>
     show pushoutTrace h' ℓ hℓ (φ (β y)) = ψ (pushoutTrace h ℓ hℓ (β y))
     rw [pushoutTrace_β, ← ConcreteCategory.comp_apply, hβ, pushoutTrace_β,

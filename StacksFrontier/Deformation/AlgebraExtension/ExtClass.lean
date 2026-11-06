@@ -284,23 +284,23 @@ variable {R : Type*} [CommRing R]
 @[reducible]
 noncomputable def extOneModule (κ : R →+* End (tensorModule M)) : Module R (ExtOne a M) where
   smul r ξ := ξ ≫ ((DerivedCategory.singleFunctor
-    (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) 0).map (κ r))⟦(1 : ℤ)⟧'
+    (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) 0).map (κ r).asHom)⟦(1 : ℤ)⟧'
   one_smul ξ := by
     change ξ ≫ _ = ξ
-    rw [map_one, End.one_def, CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id,
+    rw [map_one, End.one_asHom, CategoryTheory.Functor.map_id, CategoryTheory.Functor.map_id,
       Category.comp_id]
   mul_smul r s ξ := by
     change ξ ≫ _ = (ξ ≫ _) ≫ _
-    rw [map_mul, End.mul_def, CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp,
+    rw [map_mul, End.mul_asHom, CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp,
       Category.assoc]
   smul_zero r := Limits.zero_comp
   smul_add r ξ η := Preadditive.add_comp _ _ _ _ _ _
   add_smul r s ξ := by
     change ξ ≫ _ = ξ ≫ _ + ξ ≫ _
-    rw [map_add, Functor.map_add, Functor.map_add, Preadditive.comp_add]
+    rw [map_add, End.add_asHom, Functor.map_add, Functor.map_add, Preadditive.comp_add]
   zero_smul ξ := by
     change ξ ≫ _ = 0
-    rw [map_zero, Functor.map_zero, Functor.map_zero, Limits.comp_zero]
+    rw [map_zero, End.zero_asHom, Functor.map_zero, Functor.map_zero, Limits.comp_zero]
 
 end Scalars
 

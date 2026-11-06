@@ -100,7 +100,7 @@ omit [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.
 `Stacks.Cohomology.modAbelianPresheaf` as its underlying presheaf. -/
 theorem val_functor_intModulesEquivAbelianSheaves_obj
     (A : Stacks.SheafOfModules.DerivedMonoidal.Mod.{u} (constIntCommSheaf J)) :
-    ((intModulesEquivAbelianSheaves J).functor.obj A).val = modAbelianPresheaf J A := rfl
+    ((intModulesEquivAbelianSheaves J).functor.obj A).obj = modAbelianPresheaf J A := rfl
 
 /-- Two morphisms out of a tensor product of abelian groups agree if they agree on pure tensors. -/
 private theorem uliftInt_tensor_hom_ext {P Q : Cᵒᵖ ⥤ AddCommGrpCat.{u}} {V : Cᵒᵖ}
@@ -131,8 +131,8 @@ the sections of that sheaf of commutative rings.** This is the module structure 
 modules carries, named at the sheaf of *commutative* rings rather than at the sheaf of rings
 underlying it. -/
 instance module_modAbelianPresheaf_obj (V : Cᵒᵖ) :
-    Module ((constIntCommSheaf J).val.obj V) ((modAbelianPresheaf J A).obj V) :=
-  inferInstanceAs (Module ((constIntCommSheaf J).val.obj V) (A.val.obj V))
+    Module ((constIntCommSheaf J).obj.obj V) ((modAbelianPresheaf J A).obj V) :=
+  inferInstanceAs (Module ((constIntCommSheaf J).obj.obj V) (A.val.obj V))
 
 /-- **The sections of a module over the constant sheaf of commutative rings `ℤ` are the sections
 of the module over a universe-lifted copy of `ℤ` that the transported monoidal structure on
@@ -231,8 +231,8 @@ Over `V` it is `TensorProduct.mapOfCompatibleSMul`, read through
 def modTensorComparison :
     modAbelianPresheaf J A ⊗ modAbelianPresheaf J B ⟶ modPresheafTensor J A B where
   app V := (intTensorModIso J A B V).hom ≫ AddCommGrpCat.ofHom
-    (TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).val.obj V) ℤ
-      ((constIntCommSheaf J).val.obj V) ((modAbelianPresheaf J A).obj V)
+    (TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).obj.obj V) ℤ
+      ((constIntCommSheaf J).obj.obj V) ((modAbelianPresheaf J A).obj V)
       ((modAbelianPresheaf J B).obj V)).toAddMonoidHom
   naturality V W f := by
     ext x
@@ -241,14 +241,14 @@ def modTensorComparison :
     | add x y hx hy =>
         exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
     | tmul a b =>
-        change (TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).val.obj W) ℤ
-              ((constIntCommSheaf J).val.obj W) (A.val.obj W) (B.val.obj W))
+        change (TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).obj.obj W) ℤ
+              ((constIntCommSheaf J).obj.obj W) (A.val.obj W) (B.val.obj W))
             ((intTensorModIso J A B W).hom
               ((modAbelianPresheaf J A ⊗ modAbelianPresheaf J B).map f
                 (a ⊗ₜ[AddCommGrpCat.ULiftInt.{u}] b))) =
           (modPresheafTensor J A B).map f
-            ((TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).val.obj V) ℤ
-              ((constIntCommSheaf J).val.obj V) (A.val.obj V) (B.val.obj V))
+            ((TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).obj.obj V) ℤ
+              ((constIntCommSheaf J).obj.obj V) (A.val.obj V) (B.val.obj V))
               ((intTensorModIso J A B V).hom (a ⊗ₜ[AddCommGrpCat.ULiftInt.{u}] b)))
         have h := intTensorModIso_hom_naturality_apply J A B f
           (a ⊗ₜ[AddCommGrpCat.ULiftInt.{u}] b)
@@ -262,7 +262,7 @@ theorem modTensorComparison_app_tmul (V : Cᵒᵖ)
     (a : AddCommGrpCat.uliftIntEquivalence.{u}.inverse.obj ((modAbelianPresheaf J A).obj V))
     (b : AddCommGrpCat.uliftIntEquivalence.{u}.inverse.obj ((modAbelianPresheaf J B).obj V)) :
     (modTensorComparison J A B).app V (a ⊗ₜ[AddCommGrpCat.ULiftInt.{u}] b) =
-      modSectionsCounit J A V a ⊗ₜ[(constIntCommSheaf J).val.obj V] modSectionsCounit J B V b :=
+      modSectionsCounit J A V a ⊗ₜ[(constIntCommSheaf J).obj.obj V] modSectionsCounit J B V b :=
   rfl
 
 /-! ### Local surjectivity -/
@@ -273,7 +273,7 @@ omit [HasSheafify J RingCat.{u}] [J.WEqualsLocallyBijective RingCat.{u}]
 theorem surjective_modTensorComparison_app (V : Cᵒᵖ) :
     Function.Surjective ((modTensorComparison J A B).app V) := by
   have hsurj : Function.Surjective (TensorProduct.mapOfCompatibleSMul
-      ((constIntCommSheaf J).val.obj V) ℤ ((constIntCommSheaf J).val.obj V)
+      ((constIntCommSheaf J).obj.obj V) ℤ ((constIntCommSheaf J).obj.obj V)
       ((modAbelianPresheaf J A).obj V) ((modAbelianPresheaf J B).obj V)) :=
     TensorProduct.mapOfCompatibleSMul_surjective _ _ _ _ _
   intro t
@@ -281,8 +281,8 @@ theorem surjective_modTensorComparison_app (V : Cᵒᵖ) :
   obtain ⟨x, hx⟩ :=
     (ConcreteCategory.bijective_of_isIso (intTensorModIso J A B V).hom).surjective s
   refine ⟨x, ?_⟩
-  show TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).val.obj V) ℤ
-    ((constIntCommSheaf J).val.obj V) ((modAbelianPresheaf J A).obj V)
+  show TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).obj.obj V) ℤ
+    ((constIntCommSheaf J).obj.obj V) ((modAbelianPresheaf J A).obj V)
     ((modAbelianPresheaf J B).obj V) ((intTensorModIso J A B V).hom x) = t
   rwa [hx]
 
@@ -328,10 +328,10 @@ omit [HasSheafify J RingCat.{u}] [J.WEqualsLocallyBijective RingCat.{u}]
 /-- **The restriction maps of the objectwise tensor product over `ℤ` are semilinear** over the
 restriction maps of the constant sheaf of commutative rings `ℤ`, the action being on the left
 factor. -/
-theorem intTensorRestrict_smul {V W : Cᵒᵖ} (f : V ⟶ W) (r : (constIntCommSheaf J).val.obj V)
+theorem intTensorRestrict_smul {V W : Cᵒᵖ} (f : V ⟶ W) (r : (constIntCommSheaf J).obj.obj V)
     (y : TensorProduct ℤ ((modAbelianPresheaf J A).obj V) ((modAbelianPresheaf J B).obj V)) :
     intTensorRestrict J A B f (r • y) =
-      ((constIntCommSheaf J).val.map f r) • intTensorRestrict J A B f y := by
+      ((constIntCommSheaf J).obj.map f r) • intTensorRestrict J A B f y := by
   induction y using TensorProduct.induction_on with
   | zero => rw [smul_zero, map_zero, smul_zero]
   | add x y hx hy => rw [smul_add, map_add, map_add, hx, hy, smul_add]
@@ -353,12 +353,12 @@ omit [HasSheafify J RingCat.{u}] [J.WEqualsLocallyBijective RingCat.{u}]
   [HasSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The sections of the constant sheaf of commutative rings `ℤ` are locally integers**: on the
 image sieve of a section under the unit of sheafification, its restriction is an integer. -/
-theorem exists_intCast_of_imageSieve {V : Cᵒᵖ} (a : (constIntCommSheaf J).val.obj V) {W : C}
+theorem exists_intCast_of_imageSieve {V : Cᵒᵖ} (a : (constIntCommSheaf J).obj.obj V) {W : C}
     (g : W ⟶ V.unop)
     (hg : Presheaf.imageSieve
       (toSheafify J ((Functor.const Cᵒᵖ).obj (CommRingCat.of (ULift.{u} ℤ)))) a g) :
-    ∃ z : ℤ, (constIntCommSheaf J).val.map g.op a =
-      (z : (constIntCommSheaf J).val.obj (Opposite.op W)) := by
+    ∃ z : ℤ, (constIntCommSheaf J).obj.map g.op a =
+      (z : (constIntCommSheaf J).obj.obj (Opposite.op W)) := by
   obtain ⟨t, ht⟩ := hg
   refine ⟨t.down, ?_⟩
   have h1 : t = ((t.down : ℤ) : ULift.{u} ℤ) := by cases t; rfl
@@ -373,7 +373,7 @@ omit [HasSheafify J RingCat.{u}] [J.WEqualsLocallyBijective RingCat.{u}]
 /-- **The sieve on which a generator `(a • m) ⊗ₜ n - m ⊗ₜ (a • n)` of the kernel of `τ` vanishes
 is covering.** -/
 theorem intTensorVanishingSieve_generator_mem {V : Cᵒᵖ}
-    (a : (constIntCommSheaf J).val.obj V) (m : (modAbelianPresheaf J A).obj V)
+    (a : (constIntCommSheaf J).obj.obj V) (m : (modAbelianPresheaf J A).obj V)
     (n : (modAbelianPresheaf J B).obj V) :
     intTensorVanishingSieve J A B ((a • m) ⊗ₜ[ℤ] n - m ⊗ₜ[ℤ] (a • n)) ∈ J V.unop := by
   refine J.superset_covering ?_ (Presheaf.imageSieve_mem J
@@ -381,10 +381,10 @@ theorem intTensorVanishingSieve_generator_mem {V : Cᵒᵖ}
   intro Y g hg
   obtain ⟨z, hz⟩ := exists_intCast_of_imageSieve J a g hg
   have hsmA : ((modAbelianPresheaf J A).map g.op) (a • m) =
-      ((constIntCommSheaf J).val.map g.op a) • ((modAbelianPresheaf J A).map g.op m) :=
+      ((constIntCommSheaf J).obj.map g.op a) • ((modAbelianPresheaf J A).map g.op m) :=
     A.val.map_smul g.op a m
   have hsmB : ((modAbelianPresheaf J B).map g.op) (a • n) =
-      ((constIntCommSheaf J).val.map g.op a) • ((modAbelianPresheaf J B).map g.op n) :=
+      ((constIntCommSheaf J).obj.map g.op a) • ((modAbelianPresheaf J B).map g.op n) :=
     B.val.map_smul g.op a n
   show intTensorRestrict J A B g.op ((a • m) ⊗ₜ[ℤ] n - m ⊗ₜ[ℤ] (a • n)) = 0
   rw [map_sub, intTensorRestrict_tmul, intTensorRestrict_tmul, hsmA, hsmB,
@@ -396,8 +396,8 @@ omit [HasSheafify J RingCat.{u}] [J.WEqualsLocallyBijective RingCat.{u}]
 product over the constant sheaf of commutative rings `ℤ` vanishes on a covering sieve.** -/
 theorem intTensorVanishingSieve_mem {V : Cᵒᵖ}
     (y : TensorProduct ℤ ((modAbelianPresheaf J A).obj V) ((modAbelianPresheaf J B).obj V))
-    (hy : TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).val.obj V) ℤ
-      ((constIntCommSheaf J).val.obj V) ((modAbelianPresheaf J A).obj V)
+    (hy : TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).obj.obj V) ℤ
+      ((constIntCommSheaf J).obj.obj V) ((modAbelianPresheaf J A).obj V)
       ((modAbelianPresheaf J B).obj V) y = 0) :
     intTensorVanishingSieve J A B y ∈ J V.unop := by
   refine intTensor_eq_zero_induction
@@ -421,8 +421,8 @@ theorem intTensorVanishingSieve_mem {V : Cᵒᵖ}
 instance isLocallyInjective_modTensorComparison :
     Presheaf.IsLocallyInjective J (modTensorComparison J A B) where
   equalizerSieve_mem {V} x₁ x₂ h := by
-    have key : TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).val.obj V) ℤ
-        ((constIntCommSheaf J).val.obj V) ((modAbelianPresheaf J A).obj V)
+    have key : TensorProduct.mapOfCompatibleSMul ((constIntCommSheaf J).obj.obj V) ℤ
+        ((constIntCommSheaf J).obj.obj V) ((modAbelianPresheaf J A).obj V)
         ((modAbelianPresheaf J B).obj V)
         ((intTensorModIso J A B V).hom x₁ - (intTensorModIso J A B V).hom x₂) = 0 := by
       rwa [map_sub, sub_eq_zero]

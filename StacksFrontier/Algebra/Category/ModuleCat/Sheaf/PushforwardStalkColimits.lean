@@ -112,8 +112,8 @@ def pushforwardStalkPiNatTrans :
       fun i => (pushforwardStalkNatTrans f (Φ i) Ψ (e i)).app N
   naturality N N' g := by
     refine Limits.Pi.hom_ext _ _ fun i => ?_
-    rw [Category.assoc, Category.assoc, Limits.Pi.lift_π, piObjFunctor_map, Limits.Pi.map_π,
-      Limits.Pi.lift_π_assoc]
+    rw [Category.assoc, Category.assoc, Limits.Pi.lift_comp_π, piObjFunctor_map, Limits.Pi.map_π,
+      Limits.Pi.lift_comp_π_assoc]
     exact (pushforwardStalkNatTrans f (Φ i) Ψ (e i)).naturality g
 
 /-- The `i`-th component of `pushforwardStalkPiNatTrans` is `pushforwardStalkNatTrans` at `Φ i`.
@@ -124,7 +124,7 @@ lemma pushforwardStalkPiNatTrans_app_π
     (pushforwardStalkPiNatTrans f Ψ Φ e).app N ≫
         Pi.π (fun i => (abelianStalk (Φ i) (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj N) i =
       (pushforwardStalkNatTrans f (Φ i) Ψ (e i)).app N :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 variable [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify Y.J AddCommGrpCat.{w}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{w}]

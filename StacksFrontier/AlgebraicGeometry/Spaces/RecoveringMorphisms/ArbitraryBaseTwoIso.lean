@@ -73,7 +73,7 @@ are sets of maps of presheaves, out of `g⁻¹h_V` and out of `chartFiber f V`, 
 def chartSectionEquiv (V : SmallEtale B S hS Y.1) [IsAffine (chartSch V)]
     (F : Sheaf (SmallEtale.topology B S hS X.1) (Type u)) :
     (g.toToposHom.pushforward.obj F).obj.obj (op V) ≃ ((fPush f).obj F).obj.obj (op V) :=
-  (invSectionEquiv g V F).trans (((hWb V).homEquiv F.obj F.cond).symm.trans
+  (invSectionEquiv g V F).trans (((hWb V).homEquiv F.obj F.property).symm.trans
     (sectionEquivChartFiberHom B S hS f V F).symm)
 
 /-- The defining property of `AlgebraicGeometry.Space.OverBase.chartSectionEquiv`. -/
@@ -84,7 +84,7 @@ theorem invRepComparison_comp_chartSectionEquiv (V : SmallEtale B S hS Y.1)
         sectionEquivChartFiberHom B S hS f V F (chartSectionEquiv hfb hWb V F x) =
       invSectionEquiv g V F x := by
   rw [chartSectionEquiv, Equiv.trans_apply, Equiv.trans_apply, Equiv.apply_symm_apply]
-  exact ((hWb V).homEquiv F.obj F.cond).apply_symm_apply _
+  exact ((hWb V).homEquiv F.obj F.property).apply_symm_apply _
 
 /-- `AlgebraicGeometry.Space.OverBase.chartSectionEquiv` is characterized by its defining
 property. -/
@@ -97,7 +97,7 @@ theorem chartSectionEquiv_eq_iff (V : SmallEtale B S hS Y.1) [IsAffine (chartSch
         invSectionEquiv g V F x := by
   refine ⟨fun h ↦ h ▸ invRepComparison_comp_chartSectionEquiv hfb hWb V F x, fun h ↦ ?_⟩
   apply (sectionEquivChartFiberHom B S hS f V F).injective
-  apply ((hWb V).homEquiv F.obj F.cond).injective
+  apply ((hWb V).homEquiv F.obj F.property).injective
   show invRepComparison hfb V ≫ _ = invRepComparison hfb V ≫ _
   rw [invRepComparison_comp_chartSectionEquiv, h]
 

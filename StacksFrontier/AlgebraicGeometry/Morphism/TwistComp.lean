@@ -112,10 +112,10 @@ public theorem pullback_map_eq_of_legTransport_eq (w : Z ⟶ V) {a : V ⟶ X} {b
     (h : legTransport w α hd hi = legTransport w β hd hi) :
     (Scheme.Modules.pullback w).map α = (Scheme.Modules.pullback w).map β := by
   rw [legTransport_def, legTransport_def] at h
-  replace h := (cancel_epi ((Scheme.Modules.pullbackCongr hd).inv.app M)).mp h
-  replace h := (cancel_epi ((Scheme.Modules.pullbackComp w a).inv.app M)).mp h
-  exact (cancel_mono ((Scheme.Modules.pullbackComp w b).hom.app N ≫
-    (Scheme.Modules.pullbackCongr hi).hom.app N)).mp h
+  replace h := (Iso.cancel_iso_inv_left ((Scheme.Modules.pullbackCongr hd).app M) _ _).mp h
+  replace h := (Iso.cancel_iso_inv_left ((Scheme.Modules.pullbackComp w a).app M) _ _).mp h
+  exact (Iso.cancel_iso_hom_right _ _ ((Scheme.Modules.pullbackComp w b).app N ≪≫
+    (Scheme.Modules.pullbackCongr hi).app N)).mp h
 
 /-- **The transport to a leg which is itself a composite.** Transporting to `w ≫ q` is
 transporting to `q` and then to `w`; this is

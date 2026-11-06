@@ -81,7 +81,7 @@ theorem isColimit_torsionKernelsCocone_of_hasTorsionStalksInvertibleIn {U : Sche
   let : IsGrothendieckAbelian.{u + 1} (Sheaf (smallEtaleTopology U) Ab.{u + 1}) :=
     Sheaf.isGrothendieckAbelian_of_essentiallySmall.{u + 1} (smallEtaleTopology U) Ab.{u + 1}
   have : HasFilteredColimitsOfSize.{0, 0} (Sheaf (smallEtaleTopology U) Ab.{u + 1}) :=
-    hasFilteredColimitsOfSize_shrink
+    hasFilteredColimitsOfSize_shrink.{0, 0, u + 1, u + 1}
   have : AB5OfSize.{u + 1, u + 1} (Sheaf (smallEtaleTopology U) Ab.{u + 1}) := inferInstance
   have : AB5OfSize.{0, 0} (Sheaf (smallEtaleTopology U) Ab.{u + 1}) :=
     AB5OfSize_shrink.{0, 0, u + 1, u + 1} _

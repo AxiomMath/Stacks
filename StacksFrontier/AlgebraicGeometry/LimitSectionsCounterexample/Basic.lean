@@ -204,7 +204,7 @@ theorem isZero_apex (F₀ : ((collapse.{u}).system.obj (op (collapse.{u}).base))
     [F₀.IsQuasicoherent] :
     IsZero (pullbackSectionsLimitCocone collapse.{u} F₀).pt :=
   @AddCommGrpCat.isZero_of_subsingleton _
-    ⟨fun _ _ => ULift.ext _ _ ((subsingleton_sections_limit.{u} F₀).allEq _ _)⟩
+    ⟨fun _ _ => ULift.ext ((subsingleton_sections_limit.{u} F₀).allEq _ _)⟩
 
 /-- **The colimit vanishes if the comparison map is an isomorphism.** If the canonical map out of
 the filtered colimit of the stagewise sections into the apex of the cocone

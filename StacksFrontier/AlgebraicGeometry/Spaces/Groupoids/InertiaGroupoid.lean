@@ -73,6 +73,20 @@ attribute [local implicit_reducible] toGroupoidInFunctors AlgebraicSpaces.fiberP
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this). -/
+local instance hasPullbacks_presheaf_inertiaGroupoid :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasLimit_cospan_types_inertiaGroupoid
+    {X Y Z : Type u} (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+local instance (priority := high) hasPullback_presheaf_inertiaGroupoid
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- An arrow of the inertia presentation is an arrow of the original groupoid together with a
 loop at its source: the space `R' = R ×_{s, U} G`. -/
 noncomputable abbrev inertiaArrows (G : GroupoidInAlgebraicSpaces C S hS B) :
@@ -364,7 +378,7 @@ lemma inertiaCompLeftComposable
       _ = p ≫ ((inertiaSourceMap G).hom ≫ (stabilizerToObjects G).hom) :=
         congrArg (fun k => p ≫ k) hsource.symm
       _ = q ≫ ((inertiaTargetMap G).hom ≫ (stabilizerToObjects G).hom) := by
-        simpa [Category.assoc] using hfg
+        simpa only [Category.assoc] using hfg
       _ = q ≫ (inertiaOriginalArrow G ≫ G.target.hom) :=
         congrArg (fun k => q ≫ k) htarget
       _ = g ≫ G.target.hom := by simp [g, Category.assoc]
@@ -565,8 +579,7 @@ noncomputable def inertiaMorphismFromArrow
     ((stabilizerOverBase G).obj.obj T)
     (Functor.Elements (G.toGroupoidInFunctors.loopConjugationFunctor T))
     inferInstance (stabilizerElementsEquiv G T) x y
-  refine ⟨CategoryOfElements.homMk
-    (stabilizerToElements G T x) (stabilizerToElements G T y)
+  refine ⟨Functor.Elements.homMk
     ((G.toGroupoidInFunctors.evaluationArrowEquiv T
       ((stabilizerToObjects G).hom.app T x)
       ((stabilizerToObjects G).hom.app T y)).symm ⟨r, hs, ht⟩) hloop⟩
@@ -660,8 +673,8 @@ lemma conjugateElements_eq
     (f : x ⟶ y) (g : x ⟶ z) (h : y = z)
     (hr : (K.evaluationArrowEquiv T x y f).1 =
       (K.evaluationArrowEquiv T x z g).1) :
-    (⟨y, K.conjugateLoopMap T f a⟩ : (K.loopConjugationFunctor T).Elements) =
-      ⟨z, K.conjugateLoopMap T g a⟩ := by
+    (K.loopConjugationFunctor T).elementsMk y (K.conjugateLoopMap T f a) =
+      (K.loopConjugationFunctor T).elementsMk z (K.conjugateLoopMap T g a) := by
   subst z
   have : f = g := (K.evaluationArrowEquiv T x y).injective (Subtype.ext hr)
   subst g
@@ -677,7 +690,7 @@ lemma inertiaTarget_eq_of_hom
     (q : (inertiaArrows G).obj.obj T)
     (hs : (inertiaSourceMap G).hom.app T q = x)
     (hr : (inertiaOriginalArrow G).app T q =
-      (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ f.hom.val).1) :
+      (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ f.hom.hom).1) :
     (inertiaTargetMap G).hom.app T q = y := by
   subst x
   let K := G.toGroupoidInFunctors
@@ -690,17 +703,18 @@ lemma inertiaTarget_eq_of_hom
   have hb : (stabilizerToObjects G).hom.app T z =
       (stabilizerToObjects G).hom.app T y := by
     rw [← inertiaOriginalArrow_target_at, hr]
-    exact (K.evaluationArrowEquiv T _ _ f.hom.val).2.2
+    exact (K.evaluationArrowEquiv T _ _ f.hom.hom).2.2
   apply (stabilizerElementsEquiv G T).injective
   show stabilizerToElements G T z = stabilizerToElements G T y
   calc
-    _ = ⟨(stabilizerToElements G T z).1, K.conjugateLoopMap T f₀ a⟩ :=
-      congrArg (Sigma.mk _) (inertiaConjugationMap_at G T q).symm
-    _ = ⟨(stabilizerToElements G T y).1,
-        K.conjugateLoopMap T f.hom.val a⟩ :=
-      conjugateElements_eq K T a f₀ f.hom.val hb ((congrArg Subtype.val
+    _ = (K.loopConjugationFunctor T).elementsMk (stabilizerToElements G T z).1
+        (K.conjugateLoopMap T f₀ a) :=
+      congrArg Functor.Elements.mk (inertiaConjugationMap_at G T q).symm
+    _ = (K.loopConjugationFunctor T).elementsMk (stabilizerToElements G T y).1
+        (K.conjugateLoopMap T f.hom.hom a) :=
+      conjugateElements_eq K T a f₀ f.hom.hom hb ((congrArg Subtype.val
         (Equiv.apply_symm_apply (K.evaluationArrowEquiv T _ _) _)).trans hr)
-    _ = stabilizerToElements G T y := congrArg (Sigma.mk _) f.hom.property
+    _ = stabilizerToElements G T y := congrArg Functor.Elements.mk f.hom.map_val
 
 /-- The point of `R'` given by a morphism `f : x ⟶ y` of the pointwise inertia groupoid: the arrow
 underlying `f` together with the loop `x`. -/
@@ -711,8 +725,8 @@ noncomputable def inertiaHomArrow
     (f : @Quiver.Hom _ (pointwiseInertiaGroupoid G T).toCategory.toQuiver x y) :
     (inertiaArrows G).obj.obj T :=
   (inertiaArrowObjIso G T).inv
-    ⟨((G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ f.hom.val).1, x),
-      (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ f.hom.val).2.1⟩
+    ⟨((G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ f.hom.hom).1, x),
+      (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ f.hom.hom).2.1⟩
 
 /-- The stabilizer coordinate of `inertiaHomArrow G T f` is the source of `f`. -/
 lemma inertiaHomArrow_source
@@ -730,7 +744,7 @@ lemma inertiaHomArrow_original
     {x y : (stabilizerOverBase G).obj.obj T}
     (f : @Quiver.Hom _ (pointwiseInertiaGroupoid G T).toCategory.toQuiver x y) :
     (inertiaOriginalArrow G).app T (inertiaHomArrow G T f) =
-      (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ f.hom.val).1 :=
+      (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _ f.hom.hom).1 :=
   inertiaArrowObjIso_fst G T _
 
 /-- Two points of `R'` with the same arrow coordinate and the same stabilizer coordinate are
@@ -773,7 +787,7 @@ noncomputable def inertiaHomEquiv
       exact inertiaConjugationMap_at G T q)
   left_inv f := by
     apply InducedCategory.hom_ext
-    apply Subtype.ext
+    apply Functor.Elements.hom_ext
     apply (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _).injective
     apply Subtype.ext
     exact (G.toGroupoidInFunctors.evaluationArrowEquiv_symm_val T _).trans
@@ -858,7 +872,7 @@ noncomputable def inertiaPointwiseData
     · change (inertiaOriginalArrow G).app T (inertiaHomArrow G T (g ≫ f)) = _
       rw [inertiaHomArrow_original, inertiaCompose_original]
       change (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _
-        (g.hom.val ≫ f.hom.val)).1 = _
+        (g.hom.hom ≫ f.hom.hom)).1 = _
       rw [G.toGroupoidInFunctors.evaluationArrowEquiv_comp]
       apply congrArg (G.toGroupoidInFunctors.comp.app T)
       apply Subtype.ext

@@ -159,7 +159,7 @@ theorem jacobianMinorIdealModulo_coe_eq_map_minorIdeal {n m : ℕ}
       (minorIdeal (Matrix.of fun (i : Fin n) (j : Fin m) => pderiv i (f j)) r).map
         ((Ideal.Quotient.mk I).comp (MvPolynomial.coeToMvPowerSeries.ringHom (R := k))) := by
   have hmat : (fun (i : Fin n) (j : Fin m) =>
-        MvPowerSeries.pderiv k i ((f j : MvPowerSeries (Fin n) k))) =
+        MvPowerSeries.pderiv i ((f j : MvPowerSeries (Fin n) k))) =
       (Matrix.of fun (i : Fin n) (j : Fin m) => pderiv i (f j)).map
         (MvPolynomial.coeToMvPowerSeries.ringHom (R := k)) := by
     funext i j
@@ -262,7 +262,7 @@ theorem idealOfVars_eq_ker_aeval_zero (n : ℕ) :
     intro x hx
     have hx0 : x = 0 := (Finsupp.degree_eq_zero_iff x).1 (by omega)
     subst hx0
-    have hval : (aeval (0 : Fin n → k)) q = MvPolynomial.coeff 0 q := by
+    have hval : (aeval (0 : Fin n → k)) q = q.coeff 0 := by
       rw [MvPolynomial.aeval_zero]
       simp [MvPolynomial.constantCoeff_eq]
     rwa [← hval]

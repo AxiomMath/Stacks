@@ -147,7 +147,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 section Bridge
 
 variable (f : X' ⟶ X) (M : Modules.{u, u} B S hS X'.1 X'.2)
-  (D : ((modulePushforward B S hS f).obj M).val.Derivation'
+  (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS f).obj M).val
     (structureSharpInverseImage B S hS b).hom)
 
 /-- **The transpose of a derivation kills the sections read from the base**, at the
@@ -185,7 +185,7 @@ section Descent
 
 variable (Z : ClosedSubspaces B S hS X.1)
   (M : Modules.{u, u} B S hS Z.1.toFunctor Z.2.1)
-  (D : ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val.Derivation'
+  (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val
     (structureSharpInverseImage B S hS b).hom)
   (hvanish : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
     (x : (definingIdealSheaf B S hS X Z).toSheafOfModules.val.obj U), D.d x.1 = 0)
@@ -255,7 +255,7 @@ surjectivity is the instance
 and `AlgebraicGeometry.Space.descend_inverseImageQuotientDerivation_eq_zero` above is the
 vanishing on the base that `AlgebraicGeometry.Space.descendedDerivation` asks for. -/
 noncomputable abbrev conormalDescendedDerivation :
-    M.val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' M.val
       (structureSharpInverseImage B S hS (subspaceInclusion B S hS X Z ≫ b)).hom :=
   descendedDerivation B S hS (subspaceInclusion B S hS X Z ≫ b)
     (inverseImageQuotientDerivation B S hS Z b M D hvanish)
@@ -350,7 +350,7 @@ theorem conormalPushforwardDerivation_conormalDescendedDerivation :
           (inverseImageQuotientDerivation B S hS Z b M D hvanish)
           (descend_inverseImageQuotientDerivation_eq_zero B S hS b Z M D hvanish)) =
       D := by
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext U t
   exact congrArg
     (fun m : Sheaf.ringSheaf.{u, u, u + 1} (structureRingSheaf B S hS X) ⟶
@@ -377,11 +377,11 @@ The witness is `AlgebraicGeometry.Space.conormalDescendedDerivation` and the ide
 `AlgebraicGeometry.Space.conormalPushforwardDerivation_conormalDescendedDerivation`. -/
 theorem exists_conormalPushforwardDerivation_eq
     (M : Modules.{u, u} B S hS Z.1.toFunctor Z.2.1)
-    (D : ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj M).val
       (structureSharpInverseImage B S hS b).hom)
     (hvanish : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (x : (definingIdealSheaf B S hS X Z).toSheafOfModules.val.obj U), D.d x.1 = 0) :
-    ∃ D' : M.val.Derivation'
+    ∃ D' : PresheafOfModulesOfCommRing.Derivation' M.val
         (structureSharpInverseImage B S hS (subspaceInclusion B S hS X Z ≫ b)).hom,
       conormalPushforwardDerivation B S hS Z b M D' = D :=
   ⟨conormalDescendedDerivation B S hS b Z M D hvanish,

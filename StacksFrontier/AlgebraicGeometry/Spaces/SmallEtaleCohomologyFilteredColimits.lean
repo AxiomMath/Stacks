@@ -138,7 +138,7 @@ lemma whiskeringRight_preservesInjectiveObjects
       (evaluationAdjunctionLeft A c).counit.app (Injective.under (F.obj c)) =
         Injective.ι (F.obj c) := by
     rw [← Category.assoc]
-    have hh := congrArg (fun k : F ⟶ Q c ↦ k.app c) (Pi.lift_π a c)
+    have hh := congrArg (fun k : F ⟶ Q c ↦ k.app c) (Pi.lift_comp_π a c)
     change i.app c ≫ (Pi.π Q c).app c = (a c).app c at hh
     rw [hh]
     show ((evaluationAdjunctionLeft A c).homEquiv F _).symm (a c) =
@@ -489,6 +489,18 @@ private lemma spacesEtale_hom_ext
     (h : f.hom.left.hom = g.hom.left.hom) : f = g :=
   ObjectProperty.hom_ext _ (Over.OverMorphism.ext (ObjectProperty.hom_ext _ h))
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance hasPullbacks_presheaf (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Two morphisms of the site of algebraic spaces étale over `X` with a common quasi-separated
 target, out of quasi-compact and quasi-separated sources, have a fibre product in that site
 which is again quasi-compact and quasi-separated; this is Stacks 073B, part (3). -/
@@ -664,6 +676,7 @@ private lemma isIso_colimit_post_rightDerived_spacesGlobalSections
       (Sheaf.ΓNatIsoSheafSections (SpacesEtale.topology B S hS X)
         Ab.{u + 1} (spacesTerminal_isTerminal B S hS X)).symm p)
 
+set_option maxHeartbeats 1000000 in
 /-- Stacks 073E on the small étale site of schemes étale over `X`: that site is a dense
 subsite of the site of algebraic spaces étale over `X` by Stacks 03G1, so the two categories of
 abelian sheaves are equivalent compatibly with global sections. -/

@@ -518,7 +518,7 @@ lemma exists_eq_single_zero (m : Fin 1 →₀ ℕ) : ∃ k, m = Finsupp.single 0
 /-- In one variable, the degree `n` homogeneous component of `f` is the single monomial
 `aₙ Xⁿ`. -/
 lemma homogeneousComponent_fin_one (n : ℕ) (f : MvPolynomial (Fin 1) R) :
-    homogeneousComponent n f = C (coeff (Finsupp.single 0 n) f) * X 0 ^ n := by
+    homogeneousComponent n f = C (f.coeff (Finsupp.single 0 n)) * X 0 ^ n := by
   ext m
   obtain ⟨k, rfl⟩ := exists_eq_single_zero m
   rw [C_mul_X_pow_eq_monomial, coeff_homogeneousComponent, coeff_monomial, Finsupp.degree_single]
@@ -546,7 +546,7 @@ lemma X_notMem_projectiveSpectrum (p : ProjectiveSpectrum (grading R)) :
 /-- A point of `Proj(R[X])` contains a polynomial if and only if it contains all of its
 coefficients. -/
 lemma C_coeff_mem_iff (p : ProjectiveSpectrum (grading R)) (f : MvPolynomial (Fin 1) R) :
-    (∀ m, C (coeff m f) ∈ p.asHomogeneousIdeal.toIdeal) ↔ f ∈ p.asHomogeneousIdeal.toIdeal := by
+    (∀ m, C (f.coeff m) ∈ p.asHomogeneousIdeal.toIdeal) ↔ f ∈ p.asHomogeneousIdeal.toIdeal := by
   refine ⟨fun h => ?_, fun hf m => ?_⟩
   · rw [mem_iff_homogeneousComponent_mem p.asHomogeneousIdeal.isHomogeneous]
     intro n
@@ -579,7 +579,7 @@ noncomputable def specToProj (q : PrimeSpectrum R) : ProjectiveSpectrum (grading
 
 /-- A polynomial lies in `specToProj q` if and only if all of its coefficients lie in `q`. -/
 lemma mem_specToProj_iff (q : PrimeSpectrum R) (f : MvPolynomial (Fin 1) R) :
-    f ∈ (specToProj q).asHomogeneousIdeal.toIdeal ↔ ∀ m, coeff m f ∈ q.asIdeal :=
+    f ∈ (specToProj q).asHomogeneousIdeal.toIdeal ↔ ∀ m, f.coeff m ∈ q.asIdeal :=
   mem_map_C_iff
 
 /-- The prime `projToSpec R p` of `R` is the contraction of `p` along `C`. -/
@@ -611,7 +611,7 @@ lemma continuous_projToSpec : Continuous (projToSpec R) :=
 lemma continuous_specToProj : Continuous (specToProj (R := R)) := by
   refine continuous_iff_isClosed.2 fun Z hZ => ?_
   obtain ⟨s, rfl⟩ := (ProjectiveSpectrum.isClosed_iff_zeroLocus (grading R) Z).1 hZ
-  convert PrimeSpectrum.isClosed_zeroLocus {a | ∃ f ∈ s, ∃ m, coeff m f = a} using 1
+  convert PrimeSpectrum.isClosed_zeroLocus {a | ∃ f ∈ s, ∃ m, f.coeff m = a} using 1
   ext q
   simp only [Set.mem_preimage, ProjectiveSpectrum.mem_zeroLocus, PrimeSpectrum.mem_zeroLocus]
   refine ⟨fun h => ?_, fun h f hf => (mem_specToProj_iff q f).2 fun m => h ⟨f, hf, m, rfl⟩⟩

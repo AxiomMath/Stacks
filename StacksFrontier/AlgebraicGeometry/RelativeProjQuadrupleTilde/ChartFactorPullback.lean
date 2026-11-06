@@ -41,8 +41,8 @@ theorem pullbackIsoOfRestrictIso_comp (f : Y ⟶ S) [IsOpenImmersion f] {N : S.M
       (pullback k).map ((pullbackComp g f).inv.app N) ≫
         (pullbackComp k g).hom.app ((pullback f).obj N) =
       eqToHom (by rw [Category.assoc]) ≫ (pullbackComp (k ≫ g) f).inv.app N := by
-    rw [← cancel_mono ((pullbackComp (k ≫ g) f).hom.app N)]
-    simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
+    rw [← Iso.cancel_iso_hom_right _ _ ((pullbackComp (k ≫ g) f).app N)]
+    simp only [Iso.app_hom, Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
     exact hassoc
   set φ := (((restrictFunctorIsoPullback f).app N).symm ≪≫ e).hom with hφ
   have hnat := (pullbackComp k g).hom.naturality φ

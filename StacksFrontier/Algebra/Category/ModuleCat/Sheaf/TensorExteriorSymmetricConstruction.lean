@@ -606,6 +606,12 @@ theorem symmetricPiece_eq_zero_of_neg_sheafifiedSymmetricAlgebra (n : ℤ) (hn :
 
 /-! ### The direct-sum comparison -/
 
+/-- Sheaves of modules on `toRingCat J Osharp` have `ℕ`-indexed coproducts, from the presheaf
+case; instance search alone exhausts its budget here. -/
+noncomputable instance : HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} (toRingCat J Osharp)) :=
+  @SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    _ _ _ (toRingCat J Osharp) _ _ _ _ (PresheafOfModules.hasColimitsOfShape _ _)
+
 /-- **The underlying sheaf of modules of `T(F)` is the direct sum of the tensor powers**, by the
 homogeneous identifications summand by summand. -/
 noncomputable def sheafifiedTensorDirectSumIso :

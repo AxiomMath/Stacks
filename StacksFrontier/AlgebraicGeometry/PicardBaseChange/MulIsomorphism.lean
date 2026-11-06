@@ -142,11 +142,11 @@ theorem Module.surjective_lTensor_of_pairing
     rw [hcompat]
     exact Submodule.subset_span ⟨(s, t), rfl⟩
   have hright : ∀ (s : M) (n : N'), ν (ρM s ⊗ₜ[S] n) ∈ I := fun s n =>
-    hN.inductionOn n _ (by simp) (fun t => hgen s t)
+    hN.inductionOn (motive := fun n => ν (ρM s ⊗ₜ[S] n) ∈ I) n (fun t => hgen s t)
       (fun a n h => by rw [TensorProduct.tmul_smul, map_smul]; exact I.smul_mem _ h)
       (fun n₁ n₂ h₁ h₂ => by rw [TensorProduct.tmul_add, map_add]; exact I.add_mem h₁ h₂)
   have hall : ∀ (m : M') (n : N'), ν (m ⊗ₜ[S] n) ∈ I := fun m n =>
-    hM.inductionOn m _ (by simp) (fun s => hright s n)
+    hM.inductionOn (motive := fun m => ν (m ⊗ₜ[S] n) ∈ I) m (fun s => hright s n)
       (fun a m h => by rw [← TensorProduct.smul_tmul', map_smul]; exact I.smul_mem _ h)
       (fun m₁ m₂ h₁ h₂ => by rw [TensorProduct.add_tmul, map_add]; exact I.add_mem h₁ h₂)
   have hone' : (1 : S) ∈ I := hone ▸ hall m₀ n₀

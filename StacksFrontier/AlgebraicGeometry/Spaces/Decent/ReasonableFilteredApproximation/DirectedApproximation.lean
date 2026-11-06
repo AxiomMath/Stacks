@@ -81,6 +81,7 @@ theorem isQuasiSeparatedOver_of_retract {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
     (g : F ⟶ G) (p : G ⟶ F) (hgp : g ≫ p = 𝟙 F)
     (hG : IsQuasiSeparatedOver B S hS G) : IsQuasiSeparatedOver B S hS F := by
   have _ : IsSplitMono g := IsSplitMono.mk' ⟨p, hgp⟩
+  have _ : Mono g := IsSplitMono.mono g
   exact isQuasiSeparatedOver_of_mono B S hS g hG
 
 variable (hZ : B.Contains (⊤_ Scheme.{u}))

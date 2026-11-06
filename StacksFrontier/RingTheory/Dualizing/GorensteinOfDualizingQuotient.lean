@@ -121,7 +121,6 @@ omit [IsDomain A] [IsDomain C] in
 theorem algebraMap_smul_eq_idealTensorMul_tmul (J : Ideal A) (j₀ : J) (z : C ⊗[A] J) :
     algebraMap A C j₀ • z = idealTensorMul J z ⊗ₜ j₀ := by
   induction z with
-  | zero => simp
   | tmul c j =>
     rw [idealTensorMul_tmul, TensorProduct.smul_tmul', smul_eq_mul]
     have e1 : (algebraMap A C (j₀ : A) * c) ⊗ₜ[A] j = c ⊗ₜ[A] ((j₀ : A) • j) := by
@@ -163,7 +162,6 @@ theorem range_idealTensorMul (J : Ideal A) :
   apply le_antisymm
   · rintro _ ⟨z, rfl⟩
     induction z with
-    | zero => simp
     | tmul c j =>
       rw [idealTensorMul_tmul]
       exact Ideal.mul_mem_left _ c (Ideal.mem_map_of_mem _ j.2)

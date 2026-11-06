@@ -67,7 +67,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
 /-- **`ψ ∘ o ∘ φ` is the endomorphism of `ℱ_ρ` induced by its matrix.** -/
 public theorem isogenyCoefficientEnd_eq_representationLAdicSheafMap (o : O) :
     haveI := compactSpace_etaleFundamentalGroup X.1 x
-    isogenyCoefficientEnd B X x F ρ hρ φ ψ o =
+    (isogenyCoefficientEnd B X x F ρ hρ φ ψ o).asHom =
       representationLAdicSheafMap B X x
         (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x)
         (continuous_integralModel ρ hρ) (continuous_integralModel ρ hρ)
@@ -148,7 +148,8 @@ public def CurveSpecializationMapInput : Prop :=
     -- a sheaf `F_V` on `V` with an `O`-compatible morphism `χ : G|_V → F_V`
     (FV : LAdicSheaf.CoefficientSheaf B V ℓ O)
     (χ : (G.inverseImage (ObjectProperty.homMk jW : V ⟶ W)).toLAdicSheaf ⟶ FV.toLAdicSheaf)
-    (_ : ∀ o : O, (G.inverseImage (ObjectProperty.homMk jW : V ⟶ W)).act o ≫ χ = χ ≫ FV.act o)
+    (_ : ∀ o : O, ((G.inverseImage (ObjectProperty.homMk jW : V ⟶ W)).act o).asHom ≫ χ =
+      χ ≫ (FV.act o).asHom)
     -- the representation of `F_V` (the data of `exists_restrictScalarsRep_of_isLisse`)
     (r : ℕ) (ρ : EtaleFundamentalGroup V.1 ((algebraicClosureGeometricPoint
       (V.1.residueField (genericPoint V.1)) Ω).map (V.1.fromSpecResidueField (genericPoint V.1)))
@@ -273,37 +274,39 @@ theorem curveSpecializationMapInput : CurveSpecializationMapInput.{u} := by
   have := G.rationalStalkModule_isScalarTower s E hOE
   have hact : ∀ (o : O) (v : LAdicSheaf.stalk B W ℓ G.toLAdicSheaf s),
       algebraMap O E o • ((1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ]] v) =
-        (1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ]] LAdicSheaf.stalkMap (G.act o) s v := by
+        (1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ]] LAdicSheaf.stalkMap (G.act o).asHom s v := by
     intro o v
     change G.rationalStalkRingHom s E (algebraMap O E o) ((1 : ℚ_[ℓ]) ⊗ₜ[ℤ_[ℓ]] v) = _
     rw [G.rationalStalkRingHom_algebraMap_apply]
     exact LinearMap.baseChange_tmul _ _ _
   have hO : ∀ (o : O) (v : LAdicSheaf.stalk B W ℓ G.toLAdicSheaf s),
-      (ℓ ^ N : ℤ_[ℓ]) • sI (LAdicSheaf.stalkMap (G.act o) s v) =
+      (ℓ ^ N : ℤ_[ℓ]) • sI (LAdicSheaf.stalkMap (G.act o).asHom s v) =
         isogenyCoefficientMatrix B V x FV ρ hρ φ ψ o *ᵥ sI v := by
     intro o v
     rw [← map_smul, LAdicSheaf.stalkLevelLimitMap_eq_iff]
     intro n
     let w := v.1 n
-    let θ := isogenyCoefficientEnd B V x FV ρ hρ φ ψ o
-    have hθ : (χ' ≫ φ) ≫ θ = (ℓ ^ N) • (χ' ≫ FV.act o ≫ φ) := by
-      change (χ' ≫ φ) ≫ ψ ≫ FV.act o ≫ φ = _
+    let θ := (isogenyCoefficientEnd B V x FV ρ hρ φ ψ o).asHom
+    have hθ : (χ' ≫ φ) ≫ θ = (ℓ ^ N) • (χ' ≫ (FV.act o).asHom ≫ φ) := by
+      change (χ' ≫ φ) ≫ ψ ≫ (FV.act o).asHom ≫ φ = _
       rw [Category.assoc, ← Category.assoc φ, hφψ', Preadditive.nsmul_comp, Category.id_comp,
         Preadditive.comp_nsmul]
-    have hsrc : AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageMap jV (G.act o) ≫ χ' ≫ φ =
-        χ' ≫ FV.act o ≫ φ := by
-      have h : AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageMap jV (G.act o) ≫ χ' =
-          χ' ≫ FV.act o := hχ o
+    have hsrc :
+        AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageMap jV (G.act o).asHom ≫ χ' ≫ φ =
+        χ' ≫ (FV.act o).asHom ≫ φ := by
+      have h : AlgebraicGeometry.SmallEtale.LAdicSheaf.inverseImageMap jV (G.act o).asHom ≫ χ' =
+          χ' ≫ (FV.act o).asHom := hχ o
       rw [← Category.assoc, h, Category.assoc]
     have e1 : (levelAdjunctPadicStalkMap jV s G.toLAdicSheaf ℱ (χ' ≫ φ) n).hom
-        ((finiteLevelStalkMap (G.act o) s n).hom w) =
-        (levelAdjunctPadicStalkMap jV s G.toLAdicSheaf ℱ (χ' ≫ FV.act o ≫ φ) n).hom w := by
+        ((finiteLevelStalkMap (G.act o).asHom s n).hom w) =
+        (levelAdjunctPadicStalkMap jV s G.toLAdicSheaf ℱ (χ' ≫ (FV.act o).asHom ≫ φ) n).hom w := by
       rw [← hsrc]
-      exact (levelAdjunctPadicStalkMap_inverseImageMap_comp jV s (G.act o) (χ' ≫ φ) n w).symm
-    have e2a := levelAdjunctPadicStalkMap_nsmul jV s G.toLAdicSheaf ℱ (χ' ≫ FV.act o ≫ φ) n
+      exact (levelAdjunctPadicStalkMap_inverseImageMap_comp jV s (G.act o).asHom (χ' ≫ φ) n w).symm
+    have e2a := levelAdjunctPadicStalkMap_nsmul jV s G.toLAdicSheaf ℱ (χ' ≫ (FV.act o).asHom ≫ φ) n
       (ℓ ^ N) w
     have e2b : (levelAdjunctPadicStalkMap jV s G.toLAdicSheaf ℱ ((χ' ≫ φ) ≫ θ) n).hom w =
-        (levelAdjunctPadicStalkMap jV s G.toLAdicSheaf ℱ ((ℓ ^ N) • (χ' ≫ FV.act o ≫ φ)) n).hom w :=
+        (levelAdjunctPadicStalkMap jV s G.toLAdicSheaf ℱ
+          ((ℓ ^ N) • (χ' ≫ (FV.act o).asHom ≫ φ)) n).hom w :=
       congrArg (fun c => (levelAdjunctPadicStalkMap jV s G.toLAdicSheaf ℱ c n).hom w) hθ
     have e3 := levelAdjunctPadicStalkMap_comp jV s G.toLAdicSheaf (χ' ≫ φ) θ n w
     have heq := isogenyCoefficientEnd_eq_representationLAdicSheafMap B V x FV ρ hρ φ ψ o
@@ -340,7 +343,7 @@ theorem curveSpecializationMapInput : CurveSpecializationMapInput.{u} := by
     LAdicSheaf.rationalStalkEnd_tmul B W ℓ G.toLAdicSheaf
       (Stacks.Frobenius.frobeniusPointHom W.1 y) 1 v
   exact exists_linearMap_invariants_of_integral b hOE
-    (fun o => LAdicSheaf.stalkMap (G.act o) s) hact sI (M + N) hker' N
+    (fun o => LAdicSheaf.stalkMap (G.act o).asHom s) hact sI (M + N) hker' N
     (fun o => isogenyCoefficientMatrix B V x FV ρ hρ φ ψ o) hO Pm Qm hPQ hα'
     (fun g => (ρ₀ g).val) τ hτ' (Stacks.FundamentalGroup.curvePointInertia V.1 L Ω A P) hinv
     Fs gF hF (G.rationalStalkFrobenius E y hyf) hFE

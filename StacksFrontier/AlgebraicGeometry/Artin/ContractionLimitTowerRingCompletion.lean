@@ -322,7 +322,7 @@ theorem towerComparison_map (x : AdicCompletion I Γ((BigFppfOver.toScheme B S h
   have e₁ := fibreFunctionsTowerOf_apply V I (spaceHom V g) hf _ (n + 1) _ hm
   have hx : x = algebraMap _ _ a + (x - algebraMap _ _ a) := (add_sub_cancel _ _).symm
   have e₂ : alphaComp I g n x = alphaComp I g n (algebraMap _ _ a) :=
-    ((congrArg (alphaComp I g n) hx).trans (map_add (alphaComp I g n) _ _)).trans
+    ((congrArg (alphaComp I g n) hx).trans ((alphaComp I g n).map_add _ _)).trans
       ((congrArg (_ + ·) (alphaComp_eq_zero g ha)).trans (add_zero _))
   refine e₁.trans (Eq.trans ?_ ((alphaComp_algebraMap I g n a).symm.trans e₂.symm))
   exact congrArg (globalSectionsRingHomSite B S hS (fibreInclusion V I (spaceHom V g) (n + 1)))

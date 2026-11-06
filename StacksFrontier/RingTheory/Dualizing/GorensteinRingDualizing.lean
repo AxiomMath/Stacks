@@ -107,6 +107,7 @@ private theorem hasFiniteInjectiveDimension_single_of_exists_hasInjectiveDimensi
 
 end InjectiveDimension
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The homothety condition of [Stacks, Tag 0A7B] holds for the ring in degree zero over any
 commutative ring: on a bounded injective representative it is the scalar action on the identity
 cochain, which computes the derived endomorphisms of the ring. -/

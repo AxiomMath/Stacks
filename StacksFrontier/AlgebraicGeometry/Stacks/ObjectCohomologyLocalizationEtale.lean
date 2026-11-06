@@ -336,10 +336,10 @@ def objectSmallEtaleRestriction :
       (Presheaf.isSheaf_of_iso_iff ((objectInverseImageSmallEtaleIso B S hS p hp x).app F)).1
         ((objectInverseImage B S hS p B.etaleTopology x ⋙
           smallEtaleSheafRestriction.{u, max v w} B (p.obj x).left.1
-            (toBigEtaleSite_contains_left B S hS p x)).obj F).cond⟩
-    map f := ⟨Functor.whiskerLeft ((smallEtaleInclusion B B.toBigEtaleSite rfl (p.obj x).left.1
+            (toBigEtaleSite_contains_left B S hS p x)).obj F).property⟩
+    map f := ObjectProperty.homMk (Functor.whiskerLeft ((smallEtaleInclusion B B.toBigEtaleSite rfl (p.obj x).left.1
       (toBigEtaleSite_contains_left B S hS p x)).op ⋙
-        (Over.post (X := x) (p ⋙ Over.forget (B.obj hS))).inv.op ⋙ (Over.forget x).op) f.hom⟩ }
+        (Over.post (X := x) (p ⋙ Over.forget (B.obj hS))).inv.op ⋙ (Over.forget x).op) f.hom) }
 
 /-- The restriction of `x^{-1}F` to the small étale site of `U` is the restriction
 `F|_{U_{étale}}` of Stacks 06W1, naturally in the abelian sheaf `F`. -/

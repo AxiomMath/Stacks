@@ -10,6 +10,7 @@ public import Mathlib.RingTheory.LocalProperties.Reduced
 public import Mathlib.RingTheory.MvPowerSeries.Rename
 public import Mathlib.RingTheory.PowerSeries.Ideal
 public import Mathlib.Topology.Connected.Separation
+public import Mathlib.RingTheory.Flat.Localization
 public import StacksFrontier.RingTheory.Flat.NonZeroDivisors
 public import StacksFrontier.RingTheory.MvPowerSeries.Noetherian
 import StacksCore.Tactic.EgaSgaAttribute

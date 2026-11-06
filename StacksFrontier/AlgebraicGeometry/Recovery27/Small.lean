@@ -113,6 +113,14 @@ public theorem small_points (X : Scheme.{u}) (k n : ℕ) :
   obtain ⟨R, _, hRP, hPR⟩ := ObjectProperty.EssentiallySmall.exists_small_le
     (fun M : X.Modules ↦
       SheafOfModules.IsFiniteLocallyFreeOfRank (R := X.ringCatSheaf) M (n - k))
+  have : Small.{u} (StructuredArrow
+      (SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin n))) R.ι) :=
+    small_of_surjective (f := fun (f : Σ (Y : R.FullSubcategory),
+        SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin n)) ⟶ R.ι.obj Y) ↦
+        StructuredArrow.mk f.2)
+      (fun f ↦ by
+        obtain ⟨Y, f, rfl⟩ := f.mk_surjective
+        exact ⟨⟨Y, f⟩, rfl⟩)
   exact small_of_surjective (surjective_mk_structuredArrow X k n R hRP hPR)
 
 end AlgebraicGeometry.Grassmannian

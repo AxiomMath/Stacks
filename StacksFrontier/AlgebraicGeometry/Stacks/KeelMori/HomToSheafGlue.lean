@@ -215,7 +215,7 @@ theorem glueSection_naturality {x' x : 𝒳.val.obj} (m₀ : x' ⟶ x) :
   obtain ⟨i, y, m, hm⟩ := (hg x').choose_spec.2 hk₁
   have hm₀ : 𝒳.val.p.IsHomLift (𝒳.val.p.map m₀) m₀ := IsHomLift.map _ _
   have hcomp : 𝒳.val.p.IsHomLift (k ≫ 𝒳.val.p.map m₀) (m ≫ m₀) := inferInstance
-  rw [map_glueSection hE hg hφ hk₁ m hm, ← FunctorToTypes.map_comp_apply, ← op_comp,
+  rw [map_glueSection hE hg hφ hk₁ m hm, ← Functor.map_comp_apply, ← op_comp,
     map_glueSection hE hg hφ hk₂ (m ≫ m₀) hcomp]
 
 /-- **The glued 1-morphism.** -/

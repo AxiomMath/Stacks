@@ -137,17 +137,17 @@ public theorem rightDerivedPlusUnitSingle_comp_compTrans (G : C) :
   have hnat := (rightDerivedPlusCompTrans P Q).naturality
     ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app G)
   have hfac :
-      (P ⋙ Q).rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj G) ≫
+      (P ⋙ Q).rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj G) ≫
       (rightDerivedPlusCompTrans P Q).app
         ((HomotopyCategory.Plus.singleFunctor C 0 ⋙ DerivedCategory.Plus.Qh).obj G) =
-    Q.rightDerivedFunctorPlusUnit.app
+    Q.rightDerivedFunctorPlusUnith.app
         (P.mapHomotopyCategoryPlus.obj ((HomotopyCategory.Plus.singleFunctor C 0).obj G)) ≫
       Q.rightDerivedFunctorPlus.map
-        (P.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj G)) :=
+        (P.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj G)) :=
     (rightDerivedPlusCompTrans_fac_app P Q
       ((HomotopyCategory.Plus.singleFunctor C 0).obj G)).trans
     (rightDerivedPlusCompUnit_app P Q ((HomotopyCategory.Plus.singleFunctor C 0).obj G))
-  have hu := Q.rightDerivedFunctorPlusUnit.naturality
+  have hu := Q.rightDerivedFunctorPlusUnith.naturality
     ((HomotopyCategory.Plus.quotient D).map ((mapSinglePlus P 0).app G))
   simp only [Functor.comp_map] at hnat hu
   simp only [rightDerivedPlusUnitSingle_app, Category.assoc]

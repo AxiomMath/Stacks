@@ -302,7 +302,7 @@ theorem exists_isColimitPresentation [Small.{u + 1} I]
   exact isColimitPresentation_of_isColimit
     (IsCompatibleFamily.comp (isCompatibleFamily_cocone_ι F t) e.inv.f)
     (IsColimit.ofIsoColimit (colimit.isColimit _)
-      (Cocones.ext e.symm fun i => Karoubi.hom_ext _ _ rfl))
+      (Cocone.ext e.symm fun i => Karoubi.hom_ext _ _ rfl))
 
 /-! ### A levelwise monomorphism induces a monomorphism of the presenting sheaves -/
 

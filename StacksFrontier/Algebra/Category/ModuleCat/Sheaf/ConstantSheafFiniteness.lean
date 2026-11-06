@@ -8,6 +8,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Sheafification
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent
 public import Mathlib.CategoryTheory.Sites.ConstantSheaf
 public import Mathlib.CategoryTheory.Sites.EpiMono
+public import Mathlib.CategoryTheory.Adjunction.Limits
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SliceRestrictionFinite
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.TensorExactnessSheafify
 public import StacksFrontier.CategoryTheory.Sites.Modules.Colimits
@@ -361,9 +362,12 @@ private lemma free_underlying_presheaf_locally_surjective
   have : PreservesColimitsOfShape (Discrete I) L := inferInstance
   let K : Discrete I ⥤ PresheafOfModules.{w} S.obj :=
     Discrete.functor (fun _ : I => (SheafOfModules.unit S).val)
+  have : HasColimitsOfShape (Discrete I) AddCommGrpCat.{w} := AddCommGrpCat.hasColimitsOfShape
   have : PreservesColimitsOfShape (Discrete I) (PresheafOfModules.toPresheaf S.obj) :=
     PresheafOfModules.toPresheaf_preservesColimitsOfShape S.obj (Discrete I)
-  have : PreservesColimitsOfShape (Discrete I) G := inferInstance
+  have : PreservesColimitsOfShape (Discrete I) (presheafToSheaf J AddCommGrpCat.{w}) :=
+    (sheafificationAdjunction J AddCommGrpCat.{w}).leftAdjoint_preservesColimits.preservesColimitsOfShape
+  have : PreservesColimitsOfShape (Discrete I) G := Limits.comp_preservesColimitsOfShape _ _
   have : PreservesColimit K (L.comp (SheafOfModules.toSheaf S)) :=
     Limits.preservesColimit_of_natIso K isoG.symm
   have : IsIso adj.counit := inferInstance
@@ -1061,6 +1065,19 @@ sheaf functor because `I` is finite. -/
 noncomputable def freeIsoConstantModuleSheaf (I : Type w) [Fintype I] [DecidableEq I] :
     SheafOfModules.free (R := (constantSheaf J RingCat.{w}).obj (RingCat.of R)) I ≅
       constantModuleSheaf J (∐ (fun _ : I => ModuleCat.of R R)) :=
+  letI : HasColimitsOfShape (Discrete I) AddCommGrpCat.{w} := AddCommGrpCat.hasColimitsOfShape
+  letI : HasColimitsOfShape (Discrete I)
+      (PresheafOfModules.{w} ((constantSheaf J RingCat.{w}).obj (RingCat.of R)).obj) :=
+    PresheafOfModules.hasColimitsOfShape _ _
+  letI : HasColimitsOfShape (Discrete I)
+      (SheafOfModules.{w} ((constantSheaf J RingCat.{w}).obj (RingCat.of R))) :=
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
+  letI : HasColimitsOfShape (Discrete I) (PresheafOfModules.{w}
+      ((presheafToSheaf J RingCat.{w}).obj ((Functor.const Cᵒᵖ).obj (RingCat.of R))).obj) :=
+    PresheafOfModules.hasColimitsOfShape _ _
+  letI : HasColimitsOfShape (Discrete I) (SheafOfModules.{w}
+      ((presheafToSheaf J RingCat.{w}).obj ((Functor.const Cᵒᵖ).obj (RingCat.of R)))) :=
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
   letI e1 : SheafOfModules.free (R := (constantSheaf J RingCat.{w}).obj (RingCat.of R)) I ≅
       ∐ (fun _ : I => constantModuleSheaf J (ModuleCat.of R R)) :=
     HasColimit.isoOfNatIso (Discrete.natIso (fun _ => unitIsoConstantModuleSheaf J (R := R)))

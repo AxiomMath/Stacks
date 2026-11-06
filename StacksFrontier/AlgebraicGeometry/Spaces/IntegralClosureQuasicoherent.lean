@@ -84,7 +84,6 @@ theorem coe_toIntegralClosure (z : S ⊗[R] integralClosure R M) :
     ((TensorProduct.toIntegralClosure R S M z : integralClosure S (S ⊗[R] M)) : S ⊗[R] M) =
       LinearMap.lTensor S (integralClosure R M).val.toLinearMap z := by
   induction z with
-  | zero => simp
   | add x y hx hy => rw [map_add, map_add, ← hx, ← hy]; rfl
   | tmul t a => rfl
 
@@ -178,8 +177,7 @@ theorem bijective_of_isIntegral_range {T D P Q : Type*}
     Function.Bijective l := by
   have hl : ∀ z, ιQ (l z) = g (LinearMap.lTensor T ιP z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z with
     | add x y hx hy => simp [hx, hy]
     | tmul t p => simpa using hl t p
   refine ⟨fun z z' h => ?_, fun q => ?_⟩
@@ -258,8 +256,7 @@ theorem chartSectionsBaseChangeAlgHom_apply (A : AlgebraSheaf.{u, u} B S hS F hF
   let _ := chartSectionsAlgebra A U
   let _ := chartSectionsAlgebra A V
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => exact (map_zero _).trans (map_zero _).symm
+  induction z with
   | add x y hx hy =>
       exact (map_add _ x y).trans ((congrArg₂ (· + ·) hx hy).trans (map_add _ x y).symm)
   | tmul b x => exact (chartBaseChange_tmul A.underlyingModule f b x).symm

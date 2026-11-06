@@ -307,8 +307,7 @@ theorem flat_baseChangeTensorRingMap_representedAffineStalk :
           (geometricPointMap (representedSpaceMap B S hS g).hom y))
         Γ((BigFppfOver.toScheme B S hS).obj V', ⊤)).toRingHom := by
     refine RingHom.ext fun t => ?_
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t with
     | add a b ha hb => simp only [map_add] at ha hb ⊢; rw [ha, hb]
     | tmul a r =>
       rw [RingTheory.TorIndependence.baseChangeTensorRingMap_tmul, RingHom.comp_apply]

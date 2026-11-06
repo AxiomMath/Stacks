@@ -399,7 +399,7 @@ private lemma constructibleFunctionQuotient_toSheafify_injective (X : Scheme.{u}
     (toSheafify Scheme.etaleTopology
       (constructibleFunctionQuotientPresheaf ⋙ AddCommGrpCat.uliftFunctor.{u + 1})) a b hab
   obtain ⟨𝒰, h𝒰⟩ := Scheme.mem_grothendieckTopology_iff.mp hS
-  refine ULift.ext _ _ (sub_eq_zero.mp (constructibleFunctionQuotient_eq_zero_of_cover 𝒰.f
+  refine ULift.ext (sub_eq_zero.mp (constructibleFunctionQuotient_eq_zero_of_cover 𝒰.f
     (fun i => (𝒰.f i).isOpenMap) 𝒰.exists_eq _ fun i => ?_))
   exact (map_sub (constructibleFunctionQuotientPullback (𝒰.f i)) a.down b.down).trans
     (sub_eq_zero.mpr (congrArg ULift.down (h𝒰 _ _ ⟨i⟩)))

@@ -9,6 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.CategoryTheory.Adjunction.Triple
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
+public import Mathlib.CategoryTheory.Sites.LeftExact
 public import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.Quiver.ReflQuiver

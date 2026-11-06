@@ -82,7 +82,7 @@ theorem generate_isAffine_chart_mem (V : SmallEtale B S hS X.1) :
 
 variable {U₀ : SmallEtale B S hS X.1} (hU₀ : IsTerminal U₀) (R : Type u) [CommRing R]
   (𝓕 : Modules.{u, u} B S hS X.1 X.2)
-  (α : R →+* (structureSheaf B S hS X.1 X.2).val.obj (op U₀))
+  (α : R →+* (structureSheaf B S hS X.1 X.2).obj.obj (op U₀))
 
 /-- **Gluing over the affine charts.**  On the small étale site of an algebraic space carrying a
 terminal chart, a comparison out of the presheaf `U ↦ 𝓕(U) ⊗_R M` which is bijective on the

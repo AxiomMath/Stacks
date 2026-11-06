@@ -85,7 +85,6 @@ independently, as in `CategoryTheory.Sheaf.cotangentComplex`.
 
 open CategoryTheory CategoryTheory.Limits Opposite Simplicial
 
-attribute [local implicit_reducible] CategoryTheory.Under.post
 
 namespace CategoryTheory
 

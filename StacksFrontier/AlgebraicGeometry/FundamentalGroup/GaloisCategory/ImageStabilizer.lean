@@ -170,10 +170,11 @@ covers. -/
 private theorem app_map_apply {X : Scheme.{u}} [ConnectedSpace X] {x : GeometricPoint X}
     (σ : EtaleFundamentalGroup X x) {V W : FiniteEtaleOver X} (φ : V ⟶ W)
     (g : (finiteEtaleFiberFunctor x).obj V) :
-    ConcreteCategory.hom (σ.hom.app W) (ConcreteCategory.hom ((finiteEtaleFiberFunctor x).map φ) g)
+    ConcreteCategory.hom (σ.asIso.hom.app W)
+        (ConcreteCategory.hom ((finiteEtaleFiberFunctor x).map φ) g)
       = ConcreteCategory.hom ((finiteEtaleFiberFunctor x).map φ)
-          (ConcreteCategory.hom (σ.hom.app V) g) :=
-  NatTrans.naturality_apply σ.hom φ g
+          (ConcreteCategory.hom (σ.asIso.hom.app V) g) :=
+  NatTrans.naturality_apply σ.asIso.hom φ g
 
 /-- **The stabilizer of the chosen point preserves the fibres over `T`.** If a natural
 automorphism `σ` of the fibre functor at `t.map f` fixes the point of the fibre of `T ⟶ S` given
@@ -183,9 +184,9 @@ theorem comp_finiteEtaleComposeFiberInclusion_of_mem_stabilizer
     (σ : EtaleFundamentalGroup S (t.map f))
     (hσ : σ • finiteEtaleOverSourcePoint hf t = finiteEtaleOverSourcePoint hf t)
     (W : FiniteEtaleOver T) (g : (finiteEtaleFiberFunctor t).obj W) :
-    ((σ.app ((finiteEtaleCompose hf).obj W)).hom
+    ((σ.asIso.app ((finiteEtaleCompose hf).obj W)).hom
         (finiteEtaleComposeFiberInclusion hf t W g)).1 ≫ W.hom = t.hom := by
-  have hσ' : ConcreteCategory.hom (σ.hom.app (finiteEtaleOverSource hf))
+  have hσ' : ConcreteCategory.hom (σ.asIso.hom.app (finiteEtaleOverSource hf))
       (finiteEtaleOverSourcePoint hf t) = finiteEtaleOverSourcePoint hf t := hσ
   have h := app_map_apply σ (finiteEtaleOverSourceProj hf W)
     (finiteEtaleComposeFiberInclusion hf t W g)
@@ -202,7 +203,7 @@ def finiteEtaleFiberRestrict
       (finiteEtaleOverSourcePoint hf t))
     (W : FiniteEtaleOver T) (g : (finiteEtaleFiberFunctor t).obj W) :
     (finiteEtaleFiberFunctor t).obj W :=
-  ⟨(((σ : EtaleFundamentalGroup S (t.map f)).app ((finiteEtaleCompose hf).obj W)).hom
+  ⟨(((σ : EtaleFundamentalGroup S (t.map f)).asIso.app ((finiteEtaleCompose hf).obj W)).hom
       (finiteEtaleComposeFiberInclusion hf t W g)).1,
     comp_finiteEtaleComposeFiberInclusion_of_mem_stabilizer hf t _ σ.2 W g⟩
 
@@ -214,19 +215,19 @@ theorem finiteEtaleFiberRestrict_inv_finiteEtaleFiberRestrict
     finiteEtaleFiberRestrict hf t σ⁻¹ W (finiteEtaleFiberRestrict hf t σ W g) = g := by
   refine Subtype.ext ?_
   have hinc : finiteEtaleComposeFiberInclusion hf t W (finiteEtaleFiberRestrict hf t σ W g)
-      = ((σ : EtaleFundamentalGroup S (t.map f)).app ((finiteEtaleCompose hf).obj W)).hom
+      = ((σ : EtaleFundamentalGroup S (t.map f)).asIso.app ((finiteEtaleCompose hf).obj W)).hom
           (finiteEtaleComposeFiberInclusion hf t W g) := Subtype.ext rfl
-  show (((σ⁻¹ : EtaleFundamentalGroup S (t.map f)).app
+  show (((σ⁻¹ : EtaleFundamentalGroup S (t.map f)).asIso.app
       ((finiteEtaleCompose hf).obj W)).hom
       (finiteEtaleComposeFiberInclusion hf t W (finiteEtaleFiberRestrict hf t σ W g))).1 = g.1
   rw [hinc]
-  have hinv : ((σ⁻¹ : EtaleFundamentalGroup S (t.map f)).app
+  have hinv : ((σ⁻¹ : EtaleFundamentalGroup S (t.map f)).asIso.app
       ((finiteEtaleCompose hf).obj W)).hom
-      (((σ : EtaleFundamentalGroup S (t.map f)).app
+      (((σ : EtaleFundamentalGroup S (t.map f)).asIso.app
         ((finiteEtaleCompose hf).obj W)).hom
         (finiteEtaleComposeFiberInclusion hf t W g))
       = finiteEtaleComposeFiberInclusion hf t W g :=
-    ((σ : EtaleFundamentalGroup S (t.map f)).app
+    ((σ : EtaleFundamentalGroup S (t.map f)).asIso.app
       ((finiteEtaleCompose hf).obj W)).hom_inv_id_apply _
   rw [hinv]
   rfl
@@ -246,11 +247,11 @@ theorem finiteEtaleFiberRestrict_naturality
         ((finiteEtaleFiberFunctor t).map φ g) := Subtype.ext rfl
   rw [hL] at h
   refine Subtype.ext ?_
-  have h2 : (((σ : EtaleFundamentalGroup S (t.map f)).app
+  have h2 : (((σ : EtaleFundamentalGroup S (t.map f)).asIso.app
         ((finiteEtaleCompose hf).obj W')).hom
         (finiteEtaleComposeFiberInclusion hf t W'
           ((finiteEtaleFiberFunctor t).map φ g))).1
-      = (((σ : EtaleFundamentalGroup S (t.map f)).app
+      = (((σ : EtaleFundamentalGroup S (t.map f)).asIso.app
           ((finiteEtaleCompose hf).obj W)).hom
           (finiteEtaleComposeFiberInclusion hf t W g)).1 ≫ φ.left :=
     congrArg Subtype.val h
@@ -276,7 +277,7 @@ def etaleFundamentalGroupOfStabilizer
     (σ : MulAction.stabilizer (EtaleFundamentalGroup S (t.map f))
       (finiteEtaleOverSourcePoint hf t)) :
     EtaleFundamentalGroup T t :=
-  NatIso.ofComponents (fun W ↦ Equiv.toIso (finiteEtaleFiberRestrictEquiv hf t σ W))
+  Aut.of <| NatIso.ofComponents (fun W ↦ Equiv.toIso (finiteEtaleFiberRestrictEquiv hf t σ W))
     (fun φ ↦ by
       ext g
       exact finiteEtaleFiberRestrict_naturality hf t σ φ g)
@@ -287,7 +288,7 @@ omit [ConnectedSpace S] in
 of the terminal cover under the diagonal of `f`. -/
 theorem app_symm_finiteEtaleFiberProjectionEquiv_finiteEtaleOverSourcePoint
     (τ : EtaleFundamentalGroup T t) :
-    (τ.app ((finiteEtaleBaseChange f).obj (finiteEtaleOverSource hf))).hom
+    (τ.asIso.app ((finiteEtaleBaseChange f).obj (finiteEtaleOverSource hf))).hom
         ((finiteEtaleFiberProjectionEquiv f t (finiteEtaleOverSource hf)).symm
           (finiteEtaleOverSourcePoint hf t))
       = (finiteEtaleFiberProjectionEquiv f t (finiteEtaleOverSource hf)).symm
@@ -309,7 +310,7 @@ theorem app_symm_finiteEtaleFiberProjectionEquiv_finiteEtaleOverSourcePoint
       ((pullback.lift_snd _ _ _).trans (hcomp (pullback.diagonal_snd f)).symm))
   have hnat := app_map_apply τ Δ u
   rw [hp]
-  rw [show ConcreteCategory.hom (τ.hom.app (finiteEtaleOverTerminal T)) u = u from
+  rw [show ConcreteCategory.hom (τ.asIso.hom.app (finiteEtaleOverTerminal T)) u = u from
     (subsingleton_finiteEtaleFiber_finiteEtaleOverTerminal t).allEq _ _] at hnat
   exact hnat
 
@@ -321,11 +322,11 @@ theorem etaleFundamentalGroupMap_etaleFundamentalGroupOfStabilizer_apply
     (V : FiniteEtaleOver S)
     (p : (finiteEtaleFiberFunctor t).obj ((finiteEtaleBaseChange f).obj V)) :
     finiteEtaleFiberProjection f t V
-        (((etaleFundamentalGroupOfStabilizer hf t σ).app
+        (((etaleFundamentalGroupOfStabilizer hf t σ).asIso.app
           ((finiteEtaleBaseChange f).obj V)).hom p)
       = ConcreteCategory.hom
           ((finiteEtaleFiberFunctor (t.map f)).map (finiteEtaleComposeBaseChangeProj hf V))
-          (ConcreteCategory.hom ((σ : EtaleFundamentalGroup S (t.map f)).hom.app
+          (ConcreteCategory.hom ((σ : EtaleFundamentalGroup S (t.map f)).asIso.hom.app
               ((finiteEtaleCompose hf).obj ((finiteEtaleBaseChange f).obj V)))
             (finiteEtaleComposeFiberInclusion hf t ((finiteEtaleBaseChange f).obj V) p)) :=
   Subtype.ext rfl

@@ -94,6 +94,15 @@ theorem overPullback_pullback_hom_ext {C : Type w} [Category.{v} C] [HasPullback
 /-! ### The bijection of glueing-data morphisms -/
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_presheaf_FormalGlueingSpacesHomSheafBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (Limits.functorCategoryHasLimitsOfShape :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).has_limit _
+
 variable {D D' : FormalGlueingSituation B S hS} (c : CartesianMap D D') (G : glueingData D)
 
 /-- `A ×_{X'} U' = A ×_X U`, for `A` over `X'`. -/
@@ -266,7 +275,7 @@ theorem CartesianMap.w_iff (A : Over D'.X)
     have h' := congrArg (fun k => k.left ≫ pullback.fst (pullback.snd G.obj.right.hom c.gY)
       D'.V.ι ≫ pullback.fst G.obj.right.hom c.gY) h
     simp only [Over.comp_left, Category.assoc] at h' ⊢
-    refine (cancel_epi (c.isoOverlap A).hom).1 ?_
+    refine (Iso.cancel_iso_hom_left (c.isoOverlap A) _ _).1 ?_
     rwa [← hl, ← hr]
   · refine overPullback_pullback_hom_ext _ _ ?_
     have e1 : ((Over.pullback (D'.U.fromPreimage D'.f)).map l' ≫

@@ -60,6 +60,8 @@ attribute [local instance] isContinuous_levelEtale isContinuous_levelToLimit
   isIso_limitAdj_counit additive_limitAdj_left preservesFiniteLimits_limitAdj_left
   preservesFiniteColimits_limitAdj_left
 
+attribute [local instance high] hasSheafify_smallEtaleTopology_succ
+
 /-- The arrow `a : j ⟶ k` as an object of `Over k`. -/
 abbrev overOf {j k : (sys D c B hD hX hc).I} (a : j ⟶ k) : Over k := Over.mk a
 
@@ -293,7 +295,7 @@ theorem nonempty_isColimit_stageExtCocone (i₀ : (sys D c B hD hX hc).I)
         (levelSystem (affineEtaleSiteColimit D c B hD hX hc) d 𝓜)
         (levelLegSite D c B hD hX hc d p hp 𝓜) n
         (isColimitPresentation_levelLegSite D c B hD hX hc d p hp 𝓜).1 :=
-    Cocones.ext (limitExtCompareIso D c B hD hX hc d p hp (constZ.{v, u} d.pt) 𝓜 n).symm
+    Cocone.ext (limitExtCompareIso D c B hD hX hc d p hp (constZ.{v, u} d.pt) 𝓜 n).symm
       (fun A => by
         ext x
         have key :=

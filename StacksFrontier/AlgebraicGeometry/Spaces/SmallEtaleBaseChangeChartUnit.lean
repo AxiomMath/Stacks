@@ -225,6 +225,8 @@ end Stacks.ChartUnit
 universe u
 
 attribute [local instance] AlgebraicGeometry.Space.isContinuous_smallBaseChange
+attribute [local instance]
+  AlgebraicGeometry.Space.preservesFiniteProducts_smallBaseChange_sheafPushforwardContinuous
 
 namespace AlgebraicGeometry.Space
 

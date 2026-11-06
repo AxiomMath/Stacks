@@ -91,7 +91,7 @@ theorem injective_etaleModuleRestrictionDirectImageAdj_unit_app {Y V : Scheme.{u
 restriction along `U ×_Y V ⟶ U`. -/
 theorem etaleModuleRestrictionDirectImageAdj_unit_app_hom_app_eq {Y V : Scheme.{u}} (jV : V ⟶ Y)
     [Etale jV] (H : EtaleModules.{u, 0} Λ Y) (U : Y.Etale) :
-    H.val.map ((Scheme.Etale.smallEtaleComposeBaseChangeAdj jV).counit.app U).op =
+    H.obj.map ((Scheme.Etale.smallEtaleComposeBaseChangeAdj jV).counit.app U).op =
       ((etaleModuleRestrictionDirectImageAdj.{u, 0} Λ jV).unit.app H).hom.app (op U) :=
   rfl
 
@@ -125,9 +125,9 @@ theorem isClosed_etaleModule_zeroLocus {Y V : Scheme.{u}} [IsIntegral Y] [IsNorm
     (hloc : Stacks.ConstantSheaf.IsLocallyConstantWith Λ V.smallEtaleTopology Q
       ((etaleModuleInverseImage.{u, 0} Λ jV).obj H))
     (hη : Mono ((etaleModuleInverseImageAdj.{u, 0} Λ jV).unit.app H))
-    (W : Y.Etale) (h : H.val.obj (op W)) :
+    (W : Y.Etale) (h : H.obj.obj (op W)) :
     IsClosed {w : W.left | ∃ (W' : Y.Etale) (q : W' ⟶ W), w ∈ Set.range q.left ∧
-      H.val.map q.op h = 0} := by
+      H.obj.map q.op h = 0} := by
   rw [← closure_subset_iff_isClosed]
   intro w hw
   have : Etale W.hom := W.prop
@@ -147,8 +147,8 @@ theorem isClosed_etaleModule_zeroLocus {Y V : Scheme.{u}} [IsIntegral Y] [IsNorm
     rw [← MorphismProperty.Over.w q, ← Category.assoc, ← pullback.condition, Category.assoc])
     trivial
   have hq₀ : q₀ ≫ r = s ≫ q := MorphismProperty.Over.Hom.ext pullback.condition
-  let h₀ := H.val.map r.op h
-  have h₀W'' : H.val.map q₀.op h₀ = 0 := map_map_eq_zero_of_comp_eq H.val hq₀ hq
+  let h₀ := H.obj.map r.op h
+  have h₀W'' : H.obj.map q₀.op h₀ = 0 := map_map_eq_zero_of_comp_eq H.obj hq₀ hq
   have : Nonempty W''.left :=
     ⟨(Scheme.Pullback.exists_preimage_pullback (f := i) (g := q.left) z₀ w' hw'.symm).choose⟩
   let B := smallEtaleBaseChange jV
@@ -166,10 +166,10 @@ theorem isClosed_etaleModule_zeroLocus {Y V : Scheme.{u}} [IsIntegral Y] [IsNorm
         nonempty_smallEtaleBaseChange_obj_left jV hdense W₀
       exact (pullback.fst (i ≫ W.hom) jV).isOpenEmbedding.irreducibleSpace
     infer_instance
-  have hs₀ : M'.val.map (B.map q₀).op (H.val.map (ε.app W₀).op h₀) = 0 := by
-    show H.val.map ((Scheme.Etale.smallEtaleCompose jV).map (B.map q₀)).op
-      (H.val.map (ε.app W₀).op h₀) = 0
-    exact map_map_eq_zero_of_comp_eq H.val (ε.naturality q₀) h₀W''
+  have hs₀ : M'.obj.map (B.map q₀).op (H.obj.map (ε.app W₀).op h₀) = 0 := by
+    show H.obj.map ((Scheme.Etale.smallEtaleCompose jV).map (B.map q₀)).op
+      (H.obj.map (ε.app W₀).op h₀) = 0
+    exact map_map_eq_zero_of_comp_eq H.obj (ε.naturality q₀) h₀W''
   exact ⟨W₀, r, hwZ, injective_etaleModuleRestrictionDirectImageAdj_unit_app Λ jV H hη W₀
     ((eq_zero_of_map_eq_zero_of_isLocallyConstantWith Λ Q M' hM' (B.map q₀) _ hs₀).trans
       (map_zero _).symm)⟩
@@ -235,7 +235,7 @@ theorem injective_etaleModuleRestrictionDirectImageAdj_unit_app_inverseImage {X 
       rw [Ψ.inv_hom_id]
       rfl
     rw [this, ht', map_zero]
-  show Function.Injective (G.val.map (ε.app U).op)
+  show Function.Injective (G.obj.map (ε.app U).op)
   rw [injective_iff_map_eq_zero]
   exact hres'
 

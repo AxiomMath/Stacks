@@ -217,7 +217,7 @@ kernel is presented over each object by `N` through an injection `ιN` into `A`,
 coefficients obtained from `N` by a semilinear natural `ν`, the family
 `x ↦ ν (ιN⁻¹ (x - sec (π x)))` is a `ψ`-relative derivation of `A` with values in the
 coefficients. -/
-noncomputable def splitIdealDerivation : (splitCoefficients π W).Derivation' ψ :=
+noncomputable def splitIdealDerivation : PresheafOfModulesOfCommRing.Derivation' (splitCoefficients π W) ψ :=
   splitSurjectionDerivation π sec _
     (idealCoefficient π sec W Nty iota hsec hrange nu nadd hinj hiotaAdd hnuAdd) hsec ψ
     (fun U x hx m ↦ by

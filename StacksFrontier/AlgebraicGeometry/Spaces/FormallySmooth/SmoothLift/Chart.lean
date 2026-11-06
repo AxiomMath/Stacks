@@ -921,8 +921,8 @@ theorem Framing.pushDer_apply (δ : Fr.Der) (a : F.PW) :
 theorem Framing.chi_eMap (δ : Fr.Der) :
     Fr.chi δ ≫ CommRingCat.ofHom (eMap D.C h) = (Fr.pull h).chi (Fr.pushDer h δ) := by
   ext x
-  · simp [Framing.chi, Fr.pull_lS]
-  · simp [Framing.chi, Framing.pushDer_apply]
+  · simp [Framing.chi, Fr.pull_lS, -map_add]
+  · simp [Framing.chi, Framing.pushDer_apply, -map_add]
 
 /-- `tauHom` of the pushforward of `δ` is `tauHom δ` precomposed with `mOₑ h`. -/
 theorem Framing.mOₑ_tauHom (δ : Fr.Der) :

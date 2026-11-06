@@ -84,7 +84,7 @@ theorem ind_etale_presheafFiber {X₀ : C} (x₀ : Φ.fiber.obj X₀)
         hS ▸ Ideal.subset_span (S.equivFin.symm k).2), map_zero])
   -- Refine to an étale neighbourhood.
   obtain ⟨X₃, g₃, x₃, hx₃, het⟩ := hgood X₂ (g₂ ≫ g₁) x₂ (by
-    rw [FunctorToTypes.map_comp_apply, hx₂, hx₁])
+    rw [Functor.map_comp, types_comp_apply, hx₂, hx₁])
   let σ₃ : MvPolynomial (Fin n) (P.obj (op X₀)) →+* P.obj (op X₃) :=
     (P.map g₃.op).hom.comp ((P.map g₂.op).hom.comp σ₁)
   have hker : RingHom.ker π.toRingHom ≤ RingHom.ker σ₃ := by
@@ -108,7 +108,7 @@ theorem ind_etale_presheafFiber {X₀ : C} (x₀ : Φ.fiber.obj X₀)
   · show P.map k₃.op ≫ Φ.toPresheafFiber X₃ x₃ P = Φ.toPresheafFiber X₀ x₀ P
     rw [Point.toPresheafFiber_w]
     congr
-    simp only [k₃, FunctorToTypes.map_comp_apply, hx₃, hx₂, hx₁]
+    simp only [k₃, Functor.map_comp, types_comp_apply, hx₃, hx₂, hx₁]
   · refine Under.UnderMorphism.ext (CommRingCat.hom_ext (RingHom.ext fun a => ?_))
     obtain ⟨p, rfl⟩ := hπ a
     show Φ.toPresheafFiber X₃ x₃ P (ψ (π p)) = f.right (π p)

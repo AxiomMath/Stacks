@@ -220,6 +220,20 @@ private theorem isIso_of_isReduced_of_isBirational_of_isNormal
 
 /-! ### Transporting birationality to the underlying morphism of schemes -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+instance hasPullbacks_presheaf_IntegralBirationalOverNormal
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Shortcut for pullbacks of presheaves on the big fppf site. -/
+instance (priority := high) hasPullback_presheaf_IntegralBirationalOverNormal
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Birationality of a morphism of algebraic spaces with representable target and with source
 identified with a representable presheaf descends to the underlying morphism of schemes.
 
@@ -344,6 +358,7 @@ private theorem isBirational_toScheme_map_of_yonedaIso
       hfiniteF hfiniteV f (eSource x) hxF hyF
     have hformula := hgeneric.choose_spec c d g hcommCharts hpoint
     have hIsoφ : IsIso hgeneric.choose := by
+      set_option synthInstance.maxHeartbeats 400000 in
       simpa [Space.genericLocalRingMap] using hstalkAlg (eSource x) hxF
     rw [hformula] at hIsoφ
     let _ := hIsoφ

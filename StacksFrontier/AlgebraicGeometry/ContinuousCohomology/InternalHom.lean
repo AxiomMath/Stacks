@@ -192,7 +192,7 @@ variable (M N : Stacks.Injectives.ContinuousModule.{u, v, w} R G)
 private theorem isContinuous_of_isLocallyConstant {X : Action (ModuleCat.{w} R) G}
     (h : ∀ x : (forget₂ (Action (ModuleCat.{w} R) G) TopCat).obj X,
       IsLocallyConstant fun g : G =>
-        ((X.ρ g).hom x : (forget₂ (Action (ModuleCat.{w} R) G) TopCat).obj X)) :
+        ((X.ρ g).asHom.hom x : (forget₂ (Action (ModuleCat.{w} R) G) TopCat).obj X)) :
     Action.IsContinuous X := by
   rw [Action.isContinuous_def, continuous_prod_of_discrete_right]
   let _ : TopologicalSpace X.V := ⊥

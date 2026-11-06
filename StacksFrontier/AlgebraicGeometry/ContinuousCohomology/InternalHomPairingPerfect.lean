@@ -193,7 +193,7 @@ theorem quasiIso_internalHomComplexOfPairing_of_coeffacement {ι : Type*}
           |>.mapHomologicalComplexHomologyFunctorIso m).app (A i))).isoZero
     · exact (isZero_homology_internalHomComplex_traceTarget.{v, w} R φ d (E i) m
         (hE i m hm)).isoZero
-  · induction m, hm using Int.le_induction_down with
+  · induction m, hm using Int.leInductionDown with
     | base => exact hbase
     | pred n hn ih =>
       intro i

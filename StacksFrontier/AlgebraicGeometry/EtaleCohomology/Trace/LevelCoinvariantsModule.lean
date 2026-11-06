@@ -87,7 +87,7 @@ theorem isContinuous_levelCoinvariantsRepresentation (k : ℕ) :
     have hfix : ∀ h : G, levelRepresentation ρ k h v = v →
         levelCoinvariantsRepresentation H ρ k h (ULift.up (Coinvariants.mk _ v)) =
           ULift.up (Coinvariants.mk _ v) := fun h hh =>
-      ULift.ext _ _ ((levelCoinvariantsRepresentation_mk H ρ k h v).trans (congrArg _ hh))
+      ULift.ext ((levelCoinvariantsRepresentation_mk H ρ k h v).trans (congrArg _ hh))
     have hsub : (g * ·) '' {h : G | levelRepresentation ρ k h v = v} ⊆
         {g' : G | levelCoinvariantsRepresentation H ρ k g' (ULift.up (Coinvariants.mk _ v)) =
           ULift.up (Coinvariants.mk _ v)} := by
@@ -112,11 +112,11 @@ def levelCoinvariantsQuotient (k : ℕ) [NeZero (ℓ ^ k)] :
   ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ModuleCat.ofHom
         { toFun := fun y => ULift.up (Coinvariants.mk _ y.down)
-          map_add' := fun a b => ULift.ext _ _ (map_add _ _ _)
-          map_smul' := fun a b => ULift.ext _ _ (map_smul _ _ _) }
+          map_add' := fun a b => ULift.ext (map_add _ _ _)
+          map_smul' := fun a b => ULift.ext (map_smul _ _ _) }
       comm := fun g => by
         ext y
-        exact ULift.ext _ _ rfl }))
+        exact ULift.ext rfl }))
 
 /-- The quotient map sends `v` to its class in the level coinvariants. -/
 theorem levelCoinvariantsQuotient_apply (k : ℕ) [NeZero (ℓ ^ k)]
@@ -128,7 +128,7 @@ theorem levelCoinvariantsQuotient_apply (k : ℕ) [NeZero (ℓ ^ k)]
 theorem surjective_levelCoinvariantsQuotient (k : ℕ) [NeZero (ℓ ^ k)] :
     Function.Surjective (levelCoinvariantsQuotient H ρ hρ k).hom.hom.hom.hom.hom := fun x => by
   obtain ⟨v, hv⟩ := Coinvariants.mk_surjective _ x.down
-  exact ⟨ULift.up v, ULift.ext _ _ hv⟩
+  exact ⟨ULift.up v, ULift.ext hv⟩
 
 omit [TopologicalSpace G] [IsTopologicalGroup G] in
 /-- **`H` acts trivially on the level coinvariants.** -/
@@ -137,7 +137,7 @@ theorem levelCoinvariantsRepresentation_eq_of_mem (k : ℕ) {h : G} (hh : h ∈ 
     levelCoinvariantsRepresentation H ρ k h x = x := by
   obtain ⟨x⟩ := x
   obtain ⟨v, rfl⟩ := Coinvariants.mk_surjective _ x
-  exact ULift.ext _ _ ((levelCoinvariantsRepresentation_mk H ρ k h v).trans
+  exact ULift.ext ((levelCoinvariantsRepresentation_mk H ρ k h v).trans
     (Coinvariants.mk_self_apply ((levelRepresentation ρ k).comp H.subtype) ⟨h, hh⟩ v))
 
 omit [TopologicalSpace G] [IsTopologicalGroup G] in

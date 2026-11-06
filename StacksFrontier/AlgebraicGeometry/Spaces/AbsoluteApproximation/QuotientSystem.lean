@@ -92,6 +92,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_QuotientSystem
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section
 
 variable [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
@@ -323,9 +330,9 @@ theorem isPullback_limitLift_of_cartesian (Q : I ⥤ (BigFppfOver B S hS)ᵒᵖ 
     (hα : ∀ {i j : I} (g : i ⟶ j),
       IsPullback (α.app i) (yoneda.map (P.map g)) (Q.map g) (α.app j))
     (c : Cone P) (hc : IsLimit c) (j : I) :
-    IsPullback (limit.lift Q ((Cones.postcompose α).obj (yoneda.mapCone c)))
+    IsPullback (limit.lift Q ((Cone.postcompose α).obj (yoneda.mapCone c)))
       (yoneda.map (c.π.app j)) (limit.π Q j) (α.app j) := by
-  let φ : yoneda.obj c.pt ⟶ limit Q := limit.lift Q ((Cones.postcompose α).obj (yoneda.mapCone c))
+  let φ : yoneda.obj c.pt ⟶ limit Q := limit.lift Q ((Cone.postcompose α).obj (yoneda.mapCone c))
   have hφ : ∀ k, φ ≫ limit.π Q k = yoneda.map (c.π.app k) ≫ α.app k := fun k => limit.lift_π _ _
   -- the limit cone of `P ⋙ yoneda`, restricted to the stages over `j`
   have hc' : IsLimit ((yoneda.mapCone c).whisker (Over.forget j)) :=
@@ -461,7 +468,7 @@ variable [IsCofiltered J] (cV : Cone E.obj) (hV : IsLimit cV) (cR : Cone E.rel)
 
 /-- The map from the limit of the objects to the limit of the quotient system. -/
 noncomputable def limitToQuotient : yoneda.obj cV.pt ⟶ limit E.quotient :=
-  limit.lift E.quotient ((Cones.postcompose E.toQuotient).obj (yoneda.mapCone cV))
+  limit.lift E.quotient ((Cone.postcompose E.toQuotient).obj (yoneda.mapCone cV))
 
 omit [IsCofiltered J] in
 /-- The `j`-th component of `limitToQuotient` is the projection `cV.pt ⟶ obj_j` followed by the

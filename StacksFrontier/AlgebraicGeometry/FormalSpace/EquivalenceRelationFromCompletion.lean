@@ -118,6 +118,14 @@ theorem exists_factorization_diagonal {C : Type*} [Category C] {A P W : C} (j : 
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_equivalenceRelationFromCompletion
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-! ### Factorizations through the subspace cut out by a set of points -/
 
 /-- A morphism all of whose points lie in `W` factors through the subspace of `F` cut out by

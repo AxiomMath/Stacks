@@ -52,7 +52,7 @@ variable {G} (V : OpenSubgroup G)
 def coindRep (M : Stacks.Injectives.ContinuousModule.{u, v, w} R G) :
     Representation R G (G ⧸ (V : Subgroup G) → M.obj.obj.V) where
   toFun g :=
-    { toFun := fun f x ↦ (M.obj.obj.ρ g).hom (f (g⁻¹ • x))
+    { toFun := fun f x ↦ (M.obj.obj.ρ g).asHom.hom (f (g⁻¹ • x))
       map_add' := fun f f' ↦ funext fun x ↦ map_add _ _ _
       map_smul' := fun r f ↦ funext fun x ↦ map_smul _ _ _ }
   map_one' := by
@@ -66,7 +66,7 @@ def coindRep (M : Stacks.Injectives.ContinuousModule.{u, v, w} R G) :
 @[simp]
 lemma coindRep_apply (M : Stacks.Injectives.ContinuousModule.{u, v, w} R G) (g : G)
     (f : G ⧸ (V : Subgroup G) → M.obj.obj.V) (x : G ⧸ (V : Subgroup G)) :
-    coindRep R V M g f x = (M.obj.obj.ρ g).hom (f (g⁻¹ • x)) :=
+    coindRep R V M g f x = (M.obj.obj.ρ g).asHom.hom (f (g⁻¹ • x)) :=
   rfl
 
 variable [IsTopologicalGroup G] [CompactSpace G]
@@ -103,7 +103,7 @@ lemma isContinuous_coindRep (M : Stacks.Injectives.ContinuousModule.{u, v, w} R 
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply] }
   change IsOpen (S : Set G)
   let W : Set G := ⋂ x : G ⧸ (V : Subgroup G),
-    ({g : G | g • x = x} ∩ {g : G | (M.obj.obj.ρ g).hom (f x) = f x})
+    ({g : G | g • x = x} ∩ {g : G | (M.obj.obj.ρ g).asHom.hom (f x) = f x})
   have hW : IsOpen W := isOpen_iInter_of_finite fun x ↦
     (isOpen_setOf_smul_eq V x).inter (Stacks.GroupCohomology.isOpen_stabilizer R G M (f x))
   have h1 : (1 : G) ∈ W := by simp [W]
@@ -292,11 +292,11 @@ lemma exists_map_coindUnit_eq_zero_one
     ∃ V : OpenSubgroup G, ((invariantsDelta.{u, v, w} R (G := G)).functor (0 + 1)).map
       (coindUnit.{u, v, w} R V S.X₁) ((invariantsDelta.{u, v, w} R (G := G)).δ hS 0 q) = 0 := by
   have hmul : ∀ (a b : G) (y : S.X₂.obj.obj.V),
-      (S.X₂.obj.obj.ρ (a * b)).hom y = (S.X₂.obj.obj.ρ a).hom ((S.X₂.obj.obj.ρ b).hom y) := by
+      (S.X₂.obj.obj.ρ (a * b)).asHom.hom y = (S.X₂.obj.obj.ρ a).asHom.hom ((S.X₂.obj.obj.ρ b).asHom.hom y) := by
     intro a b y
     rw [map_mul]
     rfl
-  have hone : ∀ y : S.X₂.obj.obj.V, (S.X₂.obj.obj.ρ 1).hom y = y := by
+  have hone : ∀ y : S.X₂.obj.obj.V, (S.X₂.obj.obj.ρ 1).asHom.hom y = y := by
     intro y
     rw [map_one]
     rfl
@@ -307,7 +307,7 @@ lemma exists_map_coindUnit_eq_zero_one
   let q0 := e0.hom.app _ q
   obtain ⟨x, hx⟩ := (epi_iff_surjective R S.g).1 hS.epi_g q0.1
   let V : OpenSubgroup G :=
-    { carrier := {g | (S.X₂.obj.obj.ρ g).hom x = x}
+    { carrier := {g | (S.X₂.obj.obj.ρ g).asHom.hom x = x}
       one_mem' := by simp
       mul_mem' := fun {a b} ha hb ↦ by
         simp only [Set.mem_setOf_eq] at ha hb ⊢
@@ -319,15 +319,15 @@ lemma exists_map_coindUnit_eq_zero_one
       isOpen' := Stacks.GroupCohomology.isOpen_stabilizer R G _ x }
   refine ⟨V, ?_⟩
   have hwd : ∀ a b : G, QuotientGroup.leftRel (V : Subgroup G) a b →
-      (S.X₂.obj.obj.ρ a).hom x = (S.X₂.obj.obj.ρ b).hom x := by
+      (S.X₂.obj.obj.ρ a).asHom.hom x = (S.X₂.obj.obj.ρ b).asHom.hom x := by
     intro a b hab
-    have hab' : (S.X₂.obj.obj.ρ (a⁻¹ * b)).hom x = x :=
+    have hab' : (S.X₂.obj.obj.ρ (a⁻¹ * b)).asHom.hom x = x :=
       QuotientGroup.leftRel_apply.1 hab
     have : b = a * (a⁻¹ * b) := by rw [mul_inv_cancel_left]
     rw [this, hmul, hab']
   let f : G ⧸ (V : Subgroup G) → S.X₂.obj.obj.V := fun z ↦
-    Quotient.liftOn' z (fun y ↦ (S.X₂.obj.obj.ρ y).hom x) hwd
-  have hf : ∀ y : G, f y = (S.X₂.obj.obj.ρ y).hom x := fun _ ↦ rfl
+    Quotient.liftOn' z (fun y ↦ (S.X₂.obj.obj.ρ y).asHom.hom x) hwd
+  have hf : ∀ y : G, f y = (S.X₂.obj.obj.ρ y).asHom.hom x := fun _ ↦ rfl
   have hfinv : ∀ g : G, coindRep R V S.X₂ g f = f := by
     intro g
     funext z
@@ -349,8 +349,8 @@ lemma exists_map_coindUnit_eq_zero_one
       rw [hf]
       have hcomm := ConcreteCategory.congr_hom (S.g.hom.hom.comm y) x
       change S.g.hom.hom.hom.hom
-          ((S.X₂.obj.obj.ρ y).hom x) =
-        (S.X₃.obj.obj.ρ y).hom
+          ((S.X₂.obj.obj.ρ y).asHom.hom x) =
+        (S.X₃.obj.obj.ρ y).asHom.hom
           (S.g.hom.hom.hom.hom x) at hcomm
       rw [hcomm, show S.g.hom.hom.hom.hom x = q0.1 from hx]
       exact q0.2 y

@@ -307,7 +307,7 @@ def unitULiftSectionsEquiv (R : Sheaf J RingCat.{r}) :
     exact congrArg ULift.down ((unitULift.{u, v, r, w} R).val.sections_property s f)⟩
   invFun s := ⟨fun U => ULift.up (s.1 U), by
     intro _ _ f
-    exact ULift.ext _ _ (s.2 f)⟩
+    exact ULift.ext (s.2 f)⟩
   left_inv _ := rfl
   right_inv _ := rfl
 

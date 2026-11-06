@@ -149,7 +149,7 @@ theorem postcomp_sharpIsoInv_d (p : U ⟶ Y) (q : U ⟶ V)
     {W : (SmallEtale B S hS U.1)ᵒᵖ} (x : (structureRingSheaf B S hS U).obj.obj W) :
     ((universalDerivation B S hS q).postcomp (sharpIsoInv B S hS p q e he).val).d x =
       (universalDerivation B S hS p).d x :=
-  PresheafOfModules.Derivation.congr_d (postcomp_sharpIsoInv B S hS p q e he) x
+  PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_sharpIsoInv B S hS p q e he) x
 
 /-! ### The composite -/
 

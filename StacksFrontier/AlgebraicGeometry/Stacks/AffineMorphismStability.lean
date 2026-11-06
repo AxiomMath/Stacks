@@ -101,6 +101,13 @@ namespace Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_AffineMorphismStability
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Affineness of a morphism of algebraic spaces over `S` (Stacks 03WF) as a property of
 morphisms in the category of algebraic spaces over `S`. This is the bundled form that the
 relative-property statements of Stacks 03YK and Stacks 045B are stated at. -/

@@ -210,7 +210,7 @@ the structure presheaf of rings; this exists because the base ring presheaf is
 of the form `O_X ⋙ forget₂ CommRingCat RingCat`. -/
 noncomputable instance monoidalPresheafModules :
     MonoidalCategory (PresheafOfModules ((ringSheaf X).obj)) :=
-  PresheafOfModules.monoidalCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
 
 variable {X}
 
@@ -548,7 +548,7 @@ theorem ptsFwd_phiU_compat (M N : OXModule X) (x : X.carrier)
             (map_add (ptsFwd_phiU M N x U hxU) left right).symm))
   | tmul left right =>
       exact (congrArg (ptsFwd_phiU M N x V hxV)
-        (PresheafOfModules.Monoidal.tensorObj_map_tmul (M₁ := M.val) (M₂ := N.val)
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul (M₁ := M.val) (M₂ := N.val)
           (homOfLE hVU).op left right)).trans
             (congrArg₂ (fun (leftGerm : M.stalk x) (rightGerm : N.stalk x) =>
               leftGerm ⊗ₜ[X.presheaf.stalk x] rightGerm)

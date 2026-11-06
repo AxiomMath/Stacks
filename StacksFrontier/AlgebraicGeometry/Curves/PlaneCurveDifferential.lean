@@ -213,8 +213,6 @@ instance isCurve_structureMap : IsCurve k C.structureMap := by
     RingHom.finiteType_algebraMap.mpr inferInstance
   have hfinite : (algebraMap k A).FiniteType := by
     convert RingHom.FiniteType.comp_surjective hfinitePoly hq using 1
-    ext r
-    exact q.commutes' r
   have hvariety : IsVariety k C.structureMap :=
     { toIsIntegral := inferInstance
       toIsSeparated := inferInstance
@@ -237,10 +235,10 @@ private theorem pderiv_totalDegree_lt (f : MvPolynomial (Fin 2) k) (i : Fin 2)
     exact h rfl
   apply (Finset.sup_lt_iff hpos).mpr
   intro m hm
-  have hc : MvPolynomial.coeff m (MvPolynomial.pderiv i f) ≠ 0 :=
+  have hc : (MvPolynomial.pderiv i f).coeff m ≠ 0 :=
     MvPolynomial.mem_support_iff.mp hm
   rw [MvPolynomial.coeff_pderiv] at hc
-  have hc' : MvPolynomial.coeff (m + Finsupp.single i 1) f ≠ 0 := by
+  have hc' : f.coeff (m + Finsupp.single i 1) ≠ 0 := by
     intro hz
     simp [hz] at hc
   have hs : m + Finsupp.single i 1 ∈ f.support := MvPolynomial.mem_support_iff.mpr hc'
@@ -255,8 +253,8 @@ private theorem natCast_exponent_eq_zero_of_pderiv_eq_zero
     (hderiv : MvPolynomial.pderiv i f = 0) (m : Fin 2 →₀ ℕ)
     (hm : m ∈ f.support) : (m i : k) = 0 := by
   by_cases hpos : 0 < m i
-  · have hz : MvPolynomial.coeff (m - Finsupp.single i 1)
-        (MvPolynomial.pderiv i f) = 0 := by simp [hderiv]
+  · have hz : (MvPolynomial.pderiv i f).coeff
+        (m - Finsupp.single i 1) = 0 := by simp [hderiv]
     have hidx : m - Finsupp.single i 1 + Finsupp.single i 1 = m :=
       Finsupp.sub_add_single_one_cancel (ne_of_gt hpos)
     have hcastEq : ((m i - 1 : ℕ) : k) + 1 = (m i : k) := by
@@ -305,14 +303,14 @@ private theorem pderivs_not_both_zero [PerfectField k] {f : MvPolynomial (Fin 2)
       fin_cases i
       · exact exponent_eq_zero_of_pderiv_eq_zero f 0 hdx m hm
       · exact exponent_eq_zero_of_pderiv_eq_zero f 1 hdy m hm
-    have hfC : f = MvPolynomial.C (MvPolynomial.coeff 0 f) := by
+    have hfC : f = MvPolynomial.C (f.coeff 0) := by
       ext m
       by_cases hm0 : m = 0
       · subst m
         simp
       · rw [MvPolynomial.notMem_support_iff.mp fun hm => hm0 (hconstant m hm),
           MvPolynomial.coeff_C_of_ne_zero hm0]
-    have hc : MvPolynomial.coeff 0 f ≠ 0 := fun hz => hf.ne_zero (by rw [hfC, hz, map_zero])
+    have hc : f.coeff 0 ≠ 0 := fun hz => hf.ne_zero (by rw [hfC, hz, map_zero])
     exact hf.not_isUnit (by
       rw [hfC]
       exact (isUnit_iff_ne_zero.mpr hc).map (MvPolynomial.C : k →+* MvPolynomial (Fin 2) k))
@@ -324,7 +322,7 @@ private theorem pderivs_not_both_zero [PerfectField k] {f : MvPolynomial (Fin 2)
       fin_cases i
       · exact exponent_dvd_of_pderiv_eq_zero f 0 hdx m hm
       · exact exponent_dvd_of_pderiv_eq_zero f 1 hdy m hm
-    let root (m : Fin 2 →₀ ℕ) := (frobeniusEquiv k p).symm (MvPolynomial.coeff m f)
+    let root (m : Fin 2 →₀ ℕ) := (frobeniusEquiv k p).symm (f.coeff m)
     let g : MvPolynomial (Fin 2) k :=
       ∑ m ∈ f.support, MvPolynomial.monomial (divideExponent p m) (root m)
     have hg : g ^ p = f := by

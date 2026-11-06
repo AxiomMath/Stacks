@@ -335,6 +335,7 @@ theorem isZero_obj_iff_isParasitic_of_isCartesianAlongFlatAffine (F : fppfModule
     (isIso_modulePullback_map_counit_app_of_isCartesianAlongFlatAffine B S hS 𝒳 adj F hF)).trans
     (FlatFppf.isParasitic_iff_isZero_modulePullback B S hS 𝒳 F).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0779** (2), the kernel, for a module cartesian along flat arrows between affine
 objects: the kernel of the counit `Q(𝓕) ⟶ 𝓕` is parasitic. -/
 theorem isParasitic_kernel_counit_of_isCartesianAlongFlatAffine (F : fppfModules B S hS 𝒳)
@@ -345,6 +346,7 @@ theorem isParasitic_kernel_counit_of_isCartesianAlongFlatAffine (F : fppfModules
     ((isZero_kernel_of_mono _).of_iso
       (PreservesKernel.iso (FlatFppf.modulePullback B S hS 𝒳) (adj.counit.app F)))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0779** (2), the cokernel, for a module cartesian along flat arrows between affine
 objects: the cokernel of the counit `Q(𝓕) ⟶ 𝓕` is parasitic. -/
 theorem isParasitic_cokernel_counit_of_isCartesianAlongFlatAffine (F : fppfModules B S hS 𝒳)

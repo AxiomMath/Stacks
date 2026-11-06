@@ -373,7 +373,6 @@ theorem exists_lift_of_cech_of_mul_self_eq_zero
     convert hβ using 2
     · ext x
       simp [inl]
-    · rfl
   obtain ⟨c₀, hc₀, hc₀'⟩ := (Ideal.mem_map_iff_of_surjective πC hπC).1 hβ'
   have hc₀μ : p₁ μ * c₀ = 0 := RingHom.mul_eq_zero_of_mem_map_annihilator p₁ hc₀
   have hker : c - (p₁ b' - p₂ b') - c₀ ∈ Ideal.span {p₁ μ} := by

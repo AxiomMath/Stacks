@@ -365,12 +365,12 @@ private lemma exists_point_comparison
     {P : ChosenPushforwards p} (φ : AssociatedMorphism ξ P)
     {X : FormalObject p} {A : ArtinianLocalAlgCat.{u, v, w} Λ k}
     (hX : X.base = artinianToComplete.obj A) (a : ξ ⟶ X)
-    (n : ℕ) (hn : φ.level ⟨A, a.base ≫ eqToHom hX⟩ ≤ n) :
-    ∃ c : φ.toBasedFunctor.obj ⟨A, a.base ≫ eqToHom hX⟩ ⟶ X.level n,
+    (n : ℕ) (hn : φ.level (.mk (obj := A) (a.base ≫ eqToHom hX)) ≤ n) :
+    ∃ c : φ.toBasedFunctor.obj (.mk (obj := A) (a.base ≫ eqToHom hX)) ⟶ X.level n,
       p.IsHomLift (artinianQuotientTo hX n) c ∧
-      (transitionTo ξ hn ≫ φ.pointInclusion ⟨A, a.base ≫ eqToHom hX⟩) ≫ c =
+      (transitionTo ξ hn ≫ φ.pointInclusion (.mk (obj := A) (a.base ≫ eqToHom hX))) ≫ c =
         a.app n := by
-  let α : (restrictedCoyoneda ξ.base).Elements := ⟨A, a.base ≫ eqToHom hX⟩
+  let α : (restrictedCoyoneda ξ.base).Elements := (.mk (obj := A) (a.base ≫ eqToHom hX))
   obtain ⟨t, ht, hi⟩ := point_lift ξ (φ.factor_spec α).2.2
     (φ.pointInclusion α) (pointInclusion_lift ξ φ α) hn
   have := all_cocartesian hp t (transitionTo ξ hn ≫ φ.pointInclusion α)
@@ -445,8 +445,8 @@ private def artinianRepresentable (B : ArtinianLocalAlgCat.{u, v, w} Λ k) :
       (BasedCategory.ofFunctor (CategoryOfElements.π
         (restrictedCoyoneda (artinianToComplete.obj B))))
       (BasedCategory.ofFunctor (CategoryOfElements.π (coyoneda.obj (Opposite.op B)))) where
-  obj α := ⟨α.1, artinianMap α.2⟩
-  map f := ⟨f.val, ArtinianLocalAlgCat.hom_ext (congrArg CompleteLocalAlgCat.Hom.hom f.property)⟩
+  obj α := .mk (obj := α.obj) (artinianMap α.val)
+  map f := ⟨f.hom, ArtinianLocalAlgCat.hom_ext (congrArg CompleteLocalAlgCat.Hom.hom f.map_val)⟩
   map_id _ := rfl
   map_comp _ _ := rfl
   w := rfl
@@ -469,7 +469,7 @@ private lemma exists_formal_over
     (artinianToComplete.obj B)
   let Y := E.equivalence.functor.obj φ
   let α : (restrictedCoyoneda (artinianToComplete.obj B)).Elements :=
-    ⟨_, E.quotientPoint n⟩
+    .mk (E.quotientPoint n)
   let i := (P (artinianMap α.2)).inclusion ⟨y, hy⟩
   have hi := (P (artinianMap α.2)).cocartesian ⟨y, hy⟩ |>.toIsHomLift
   have he : artinianMap α.2 = artinianAdicQuotient B n :=
@@ -539,10 +539,10 @@ private lemma exists_point_comparison_lift
     (hX : X.base = artinianToComplete.obj A)
     (α : (restrictedCoyoneda ξ.base).obj A) (a : ξ ⟶ X)
     (ha : (FormalObject.projection (p := p)).IsHomLift α a)
-    (n : ℕ) (hn : φ.level ⟨A, α⟩ ≤ n) :
-    ∃ c : φ.toBasedFunctor.obj ⟨A, α⟩ ⟶ X.level n,
+    (n : ℕ) (hn : φ.level (.mk (obj := A) α) ≤ n) :
+    ∃ c : φ.toBasedFunctor.obj (.mk (obj := A) α) ⟶ X.level n,
       p.IsHomLift (artinianQuotientTo hX n) c ∧
-      (transitionTo ξ hn ≫ φ.pointInclusion ⟨A, α⟩) ≫ c = a.app n := by
+      (transitionTo ξ hn ≫ φ.pointInclusion (.mk (obj := A) α)) ≫ c = a.app n := by
   have he : α = a.base ≫ eqToHom hX := by
     simpa only [eqToHom_refl, Category.id_comp, FormalObject.projection_map] using
       IsHomLift.fac (FormalObject.projection (p := p)) α a
@@ -585,7 +585,7 @@ private lemma lifts_artinian_of_smooth
   have hY : Y.base = artinianToComplete.obj B :=
     IsHomLift.domain_eq q (artinianToComplete.map f) g
   obtain ⟨n, hA, hB⟩ := common_nilpotence A B
-  let α : (restrictedCoyoneda ξ.base).Elements := ⟨A, a.base ≫ eqToHom hX⟩
+  let α : (restrictedCoyoneda ξ.base).Elements := (.mk (obj := A) (a.base ≫ eqToHom hX))
   have hnα : φ.level α ≤ n := (φ.factor_spec α).2.1 n hA
   obtain ⟨c, hc, hac⟩ := exists_point_comparison hp ξ φ hX a n hnα
   have hQA := artinianQuotientTo_isIso hX n hA
@@ -608,10 +608,10 @@ private lemma lifts_artinian_of_smooth
   obtain ⟨β, h, t, hh, ht, hht⟩ := hφ f hf y α g₀ hg₀
   have hh' : (CategoryOfElements.π (restrictedCoyoneda ξ.base)).IsHomLift f h := hh
   have hβ : β.1 = B := IsHomLift.domain_eq (CategoryOfElements.π (restrictedCoyoneda ξ.base)) f h
-  rcases β with ⟨B', β⟩
+  rcases β with @⟨B', β⟩
   dsimp at hβ
   subst B'
-  have hnβ : φ.level ⟨B, β⟩ ≤ n := (φ.factor_spec ⟨B, β⟩).2.1 n hB
+  have hnβ : φ.level (.mk (obj := B) β) ≤ n := (φ.factor_spec (.mk (obj := B) β)).2.1 n hB
   obtain ⟨Z, i, hi⟩ := exists_pushforward hq β ξ rfl
   have hZ : Z.base = artinianToComplete.obj B := IsHomLift.codomain_eq q β i
   obtain ⟨d, hd, hid⟩ := exists_point_comparison_lift hp ξ φ hZ β i hi n hnβ
@@ -622,11 +622,11 @@ private lemma lifts_artinian_of_smooth
   show (i.app n ≫ k.app n) ≫ g.app n = a.app n
   rw [hk, ← hid]
   calc
-    (((transitionTo ξ hnβ ≫ φ.pointInclusion ⟨B, β⟩) ≫ d) ≫
+    (((transitionTo ξ hnβ ≫ φ.pointInclusion (.mk (obj := B) β)) ≫ d) ≫
         (inv d ≫ t ≫ j)) ≫ g.app n =
-      (transitionTo ξ hnβ ≫ φ.pointInclusion ⟨B, β⟩) ≫
+      (transitionTo ξ hnβ ≫ φ.pointInclusion (.mk (obj := B) β)) ≫
         (t ≫ g₀) ≫ c := by simp [g₀, Category.assoc]
-    _ = (transitionTo ξ hnβ ≫ φ.pointInclusion ⟨B, β⟩) ≫
+    _ = (transitionTo ξ hnβ ≫ φ.pointInclusion (.mk (obj := B) β)) ≫
         φ.toBasedFunctor.map h ≫ c := by rw [hht]
     _ = a.app n := by
       rw [← Category.assoc, pointInclusion_naturality_at ξ φ h hnβ hnα]
@@ -645,7 +645,7 @@ private lemma smooth_of_lifts_artinian
   have hg' : p.IsHomLift f g := hg
   have hα : α.1 = A := (φ.toBasedFunctor.w_obj α).symm.trans
     (IsHomLift.codomain_eq p f g)
-  rcases α with ⟨A', α⟩
+  rcases α with @⟨A', α⟩
   dsimp at hα
   subst A'
   have hy : p.obj y = B := IsHomLift.domain_eq p f g
@@ -654,7 +654,7 @@ private lemma smooth_of_lifts_artinian
   obtain ⟨n, hA, hB⟩ := common_nilpotence A B
   obtain ⟨X, i, hi⟩ := exists_pushforward hq α ξ rfl
   have hX : X.base = artinianToComplete.obj A := IsHomLift.codomain_eq q α i
-  have hnα : φ.level ⟨A, α⟩ ≤ n := (φ.factor_spec ⟨A, α⟩).2.1 n hA
+  have hnα : φ.level (.mk (obj := A) α) ≤ n := (φ.factor_spec (.mk (obj := A) α)).2.1 n hA
   obtain ⟨cx, hcx, hicx⟩ := exists_point_comparison_lift hp ξ φ hX α i hi n hnα
   obtain ⟨Y, hY, cy, hcy⟩ := exists_formal_over hp y hy n
   have hQA := artinianQuotientTo_isIso hX n hA
@@ -675,7 +675,7 @@ private lemma smooth_of_lifts_artinian
   have hGlift : q.IsHomLift (artinianToComplete.map f) G :=
     IsHomLift.of_fac' q _ G hY hX hbaseG
   obtain ⟨b, hb⟩ := H f hf G hGlift i
-  let β : (restrictedCoyoneda ξ.base).Elements := ⟨B, b.base ≫ eqToHom hY⟩
+  let β : (restrictedCoyoneda ξ.base).Elements := (.mk (obj := B) (b.base ≫ eqToHom hY))
   have hpoint : (b.base ≫ eqToHom hY) ≫ artinianToComplete.map f = α := by
     have he : b.base ≫ G.base = i.base := congrArg FormalObject.Hom.base hb
     have hi' : i.base ≫ eqToHom hX = α := by
@@ -683,7 +683,7 @@ private lemma smooth_of_lifts_artinian
         (IsHomLift.fac q α i).symm
     rw [← hi', ← he, hbaseG]
     simp [baseG, Category.assoc]
-  let h : β ⟶ ⟨A, α⟩ := ⟨f, hpoint⟩
+  let h : β ⟶ (.mk (obj := A) α) := ⟨f, hpoint⟩
   have hh : (CategoryOfElements.π (restrictedCoyoneda ξ.base)).IsHomLift f h :=
     IsHomLift.map _ h
   have hnβ : φ.level β ≤ n := (φ.factor_spec β).2.1 n hB

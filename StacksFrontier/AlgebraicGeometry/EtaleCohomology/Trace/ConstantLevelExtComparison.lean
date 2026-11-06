@@ -94,8 +94,8 @@ def unitReductionLinearMap :
   ModuleCat.ofHom (Y := (ModuleCat.restrictScalars.{u + 1} ρ).obj
       (ModuleCat.of Λ' (ULift.{u + 1} Λ')))
     ({ toFun := fun x => ULift.up (ρ x.down)
-       map_add' := fun x y => ULift.ext _ _ (map_add ρ x.down y.down)
-       map_smul' := fun a x => ULift.ext _ _ (map_mul ρ a x.down) } :
+       map_add' := fun x y => ULift.ext (map_add ρ x.down y.down)
+       map_smul' := fun a x => ULift.ext (map_mul ρ a x.down) } :
       ULift.{u + 1} Λ →ₗ[Λ]
         (ModuleCat.restrictScalars.{u + 1} ρ).obj (ModuleCat.of Λ' (ULift.{u + 1} Λ')))
 
@@ -189,11 +189,11 @@ theorem function_exact_unitReductionLinearMap :
   constructor
   · intro hy
     obtain ⟨z, hz⟩ := (hker y.down).1 (congrArg ULift.down hy)
-    refine ⟨ULift.up z, ULift.ext _ _ ?_⟩
+    refine ⟨ULift.up z, ULift.ext ?_⟩
     show d • z = y.down
     rw [hz, nsmul_eq_mul]
   · rintro ⟨x, rfl⟩
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     show ρ (d • x.down) = 0
     exact (hker _).2 ⟨x.down, nsmul_eq_mul _ _⟩
 
@@ -240,7 +240,7 @@ theorem bijective_unitReduction_comp_map (G : EtaleModules.{u, 0} Λ' Y) :
     (function_exact_unitReductionLinearMap d hker)
   have hepi : Epi Sm.g := (ModuleCat.epi_iff_surjective _).2 fun y => by
     obtain ⟨x, hx⟩ := hρ y.down
-    exact ⟨ULift.up x, ULift.ext _ _ hx⟩
+    exact ⟨ULift.up x, ULift.ext hx⟩
   have hepiC : Epi (Sm.map C).g := by
     show Epi (C.map Sm.g)
     infer_instance

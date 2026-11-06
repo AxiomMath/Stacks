@@ -117,6 +117,7 @@ theorem sum_algebraMap_mul_mk_X_eq_zero (i : Fin n) :
   simp only [← map_mul, ← map_sum]
   exact Ideal.Quotient.eq_zero_iff_mem.mpr (Ideal.subset_span ⟨i, rfl⟩)
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The coordinates of a point of the kernel scheme lying over `t` satisfy the equations of the
 kernel of `b`, read through `t`. -/
 theorem sum_appTop_mul_appTop_kernelSchemeCoord {f : Y ⟶ Spec (.of (kernelCoordRing b))}

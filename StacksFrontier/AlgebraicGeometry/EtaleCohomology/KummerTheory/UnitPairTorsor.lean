@@ -203,7 +203,7 @@ endomorphism of a sheaf of modules on a ringed site. -/
 def scalarEndOfTerminal {T : X.C} (hT : IsTerminal T)
     (r : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op T))
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) : M ⟶ M :=
-  (terminalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O) T hT r).app M
+  (terminalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O) T hT r).asHom.app M
 
 omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify X.J AddCommGrpCat.{w}] in
 /-- On sections it is multiplication by the restricted scalar. -/

@@ -117,7 +117,7 @@ theorem blowupPairing_blowupHomOfUnit {E H : (blowupScheme I).Modules} (φ : E �
 /-- `φ ↦ (𝒪_X ⟶ SheafHom(E, H))` is injective. -/
 theorem blowupHomOfUnit_injective {E H : (blowupScheme I).Modules} :
     Function.Injective (blowupHomOfUnit I (E := E) (H := H)) := fun _ _ h =>
-  (cancel_epi (λ_ E).hom).1 ((blowupCurry I).injective h)
+  ((λ_ E).cancel_iso_hom_left _ _).1 ((blowupCurry I).injective h)
 
 /-- `φ ↦ (𝒪_X ⟶ SheafHom(E, H))` is additive. -/
 theorem blowupHomOfUnit_add {E H : (blowupScheme I).Modules} (φ ψ : E ⟶ H) :

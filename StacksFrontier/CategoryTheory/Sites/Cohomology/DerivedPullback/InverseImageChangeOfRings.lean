@@ -273,8 +273,22 @@ def InverseImagePreservesShortExact (f : AlgebraicGeometry.RingedToposSiteHom X 
     ∀ T : ShortComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O)),
       T.ShortExact → (T.map (auxHomG f).pullbackTopos).ShortExact
 
-omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [HasSheafify Y.J AddCommGrpCat.{u}] in
+end Reduction
+
+/- The reduction of 0G6R, in a section without the variables `[Y.J.HasSheafCompose _]` and
+`[HasSheafify Y.J _]`: Lean 4.35 lets instance search see a section variable even under `omit`,
+so the `HasSheafify Y.J` its statement needs would be the section variable rather than the
+global `Stacks.SheafOfModules.coefficientSheafification`. -/
+section ReductionOfZeroG6R
+
+open StacksPullbackFactorization
+
+variable {X Y : AlgebraicGeometry.RingedTopos.{u, u, u}}
+  [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
+  [HasSheafify X.J AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+
 /-- **Stacks 0G6R for `f` follows from Stacks 05VD at `X'` together with exactness of `g^*`.**
 
 The three steps of the source's proof: `g^*T` is short exact because `g^*` is exact (04JC, the
@@ -295,7 +309,7 @@ theorem pullbackPreservesShortExact_of_auxHomG
   exact shortExact_map_pullbackTopos_auxHomH f (T.map (auxHomG f).pullbackTopos)
     (hg hmos T hT) (hpf hmos T.X₃ hflat)
 
-end Reduction
+end ReductionOfZeroG6R
 
 /-! ### The universally quantified form of Stacks 05VD -/
 

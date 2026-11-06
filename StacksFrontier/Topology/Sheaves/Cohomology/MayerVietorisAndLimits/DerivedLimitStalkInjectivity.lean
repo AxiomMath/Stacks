@@ -212,7 +212,7 @@ private theorem mono_stalkFunctor_map_sheafifyMap {X : TopCat.{u}} (x : X)
   have hnat := congrArg S.map (CategoryTheory.toSheafify_naturality J f)
   simp only [Functor.map_comp] at hnat
   rw [← mono_comp_iff_of_isIso (S.map (CategoryTheory.toSheafify J F)), ← hnat]
-  infer_instance
+  exact @mono_comp _ _ _ _ _ _ hf _ (IsIso.mono_of_iso _)
 
 /-! ### Tag 0D61 -/
 
@@ -622,17 +622,17 @@ theorem exists_presented_derivedLimit_truncGETower {X : TopCat.{u}}
       Pi.π (fun n : ℕ ↦ tower.obj ⟨n⟩) (n + 1) ≫ tower.map (homOfLE (Nat.le_succ n)).op
   let T := Triangle.mk pr diff δ
   have hq (n : ℕ) : q ≫ Pi.π (fun n : ℕ ↦ tower.obj ⟨n⟩) n =
-      (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app E := Pi.lift_π _ n
+      (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app E := Pi.lift_comp_π _ n
   have hzero : q ≫ T.mor₂ = 0 := by
     show q ≫ diff = 0
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, hq n, ← Category.assoc, hq (n + 1),
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hq n, ← Category.assoc, hq (n + 1),
       Stacks.DerivedLimit.truncGETower_map_homOfLE_succ, zero_comp]
     exact sub_eq_zero_of_eq
       (DerivedCategory.TStructure.t.π_natTransTruncGEOfLE_app _ _ (by omega) E).symm
   obtain ⟨c, hc⟩ := T.coyoneda_exact₂ hT q hzero
   change q = c ≫ pr at hc
-  exact ⟨hprod, L, c, pr, ⟨δ, hT⟩, fun n ↦ by rw [← Category.assoc, ← hc]; exact Pi.lift_π _ n⟩
+  exact ⟨hprod, L, c, pr, ⟨δ, hT⟩, fun n ↦ by rw [← Category.assoc, ← hc]; exact Pi.lift_comp_π _ n⟩
 
 /-- **Stacks Project, Tag 08U2**, in the form the source states it: the canonical map
 `E ⟶ R lim τ_{≥ -n} E` *is* an isomorphism. The derived limit and the canonical map are

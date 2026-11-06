@@ -200,7 +200,7 @@ structure sheaf this is `AlgebraicGeometry.RingedSite.koszulScalar`. -/
 def koszulScalarOn (e : Fin r → ℕ)
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) : M ⟶ M :=
   (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf X.O)
-    (koszulFamily X f e)).app M
+    (koszulFamily X f e)).asHom.app M
 
 /-- On sections over `U`, `koszulScalarOn` is scalar multiplication by `∏_i f_i^{e_i}`. -/
 theorem koszulScalarOn_app (e : Fin r → ℕ)

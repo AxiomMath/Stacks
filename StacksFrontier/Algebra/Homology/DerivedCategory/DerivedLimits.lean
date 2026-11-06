@@ -379,7 +379,7 @@ the projections of the limit, the second by `(xₙ) ↦ (xₙ - fₙ₊₁(xₙ�
     Pi.π (fun n : ℕ ↦ 𝓘.obj ⟨n⟩) (n + 1) ≫ tow 𝓘 n
   zero := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    simp only [zero_comp, assoc, Pi.lift_π, Preadditive.comp_sub, Pi.lift_π_assoc]
+    simp only [zero_comp, assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π_assoc]
     rw [sub_eq_zero]
     exact (limit.w 𝓘 (homOfLE (Nat.le_succ n)).op).symm
 
@@ -535,13 +535,13 @@ private noncomputable def towerSplitting (𝓘 : ℕᵒᵖ ⥤ CochainComplex A 
     exact hy n
   have hf : ∀ n : ℕ, (Pi.lift fun n : ℕ ↦ limit.π 𝓘 ⟨n⟩).f i ≫
       (Pi.π (fun n : ℕ ↦ 𝓘.obj ⟨n⟩) n).f i = (limit.π 𝓘 ⟨n⟩).f i := fun n ↦ by
-    rw [← HomologicalComplex.comp_f, Pi.lift_π]
+    rw [← HomologicalComplex.comp_f, Pi.lift_comp_π]
   have hg : ∀ n : ℕ, (Pi.lift fun n : ℕ ↦ Pi.π (fun n : ℕ ↦ 𝓘.obj ⟨n⟩) n -
         Pi.π (fun n : ℕ ↦ 𝓘.obj ⟨n⟩) (n + 1) ≫ tow 𝓘 n).f i ≫
       (Pi.π (fun n : ℕ ↦ 𝓘.obj ⟨n⟩) n).f i
       = (Pi.π (fun n : ℕ ↦ 𝓘.obj ⟨n⟩) n).f i
         - (Pi.π (fun n : ℕ ↦ 𝓘.obj ⟨n⟩) (n + 1)).f i ≫ (tow 𝓘 n).f i := fun n ↦ by
-    rw [← HomologicalComplex.comp_f, Pi.lift_π]
+    rw [← HomologicalComplex.comp_f, Pi.lift_comp_π]
     simp
   have hfg : (Pi.lift fun n : ℕ ↦ limit.π 𝓘 ⟨n⟩).f i ≫
       (Pi.lift fun n : ℕ ↦ Pi.π (fun n : ℕ ↦ 𝓘.obj ⟨n⟩) n -
@@ -610,7 +610,7 @@ private theorem exists_hasProduct_isKInjective_and_distTriang
   have h1 : limPi 𝓘 ≫ e.inv = Q.map ((towerShortComplex 𝓘).f) := by
     have h : Q.map (Pi.lift fun n : ℕ ↦ limit.π 𝓘 ⟨n⟩) ≫ e.hom = limPi 𝓘 := by
       refine Pi.hom_ext _ _ fun n ↦ ?_
-      rw [Category.assoc, he n, ← Q.map_comp, Pi.lift_π, limPi, Pi.lift_π]
+      rw [Category.assoc, he n, ← Q.map_comp, Pi.lift_comp_π, limPi, Pi.lift_comp_π]
     rw [hSf, ← h, Category.assoc, e.hom_inv_id, Category.comp_id]
   have h2 : diffMap (𝓘 ⋙ Q) ≫ e.inv = e.inv ≫ Q.map ((towerShortComplex 𝓘).g) := by
     refine Fan.IsLimit.hom_ext hfan _ _ fun n ↦ ?_
@@ -619,14 +619,14 @@ private theorem exists_hasProduct_isKInjective_and_distTriang
         = Pi.π (fun n : ℕ ↦ (𝓘 ⋙ Q).obj ⟨n⟩) n -
           Pi.π (fun n : ℕ ↦ (𝓘 ⋙ Q).obj ⟨n⟩) (n + 1) ≫
             (𝓘 ⋙ Q).map (homOfLE (Nat.le_succ n)).op := by
-      rw [← Q.map_comp, hSg, Pi.lift_π, Q.map_sub, Q.map_comp, Preadditive.comp_sub,
+      rw [← Q.map_comp, hSg, Pi.lift_comp_π, Q.map_sub, Q.map_comp, Preadditive.comp_sub,
         he' n, ← Category.assoc, he' (n + 1)]
       rfl
     have hLl : diffMap (𝓘 ⋙ Q) ≫ Pi.π (fun n : ℕ ↦ (𝓘 ⋙ Q).obj ⟨n⟩) n
         = Pi.π (fun n : ℕ ↦ (𝓘 ⋙ Q).obj ⟨n⟩) n -
           Pi.π (fun n : ℕ ↦ (𝓘 ⋙ Q).obj ⟨n⟩) (n + 1) ≫
             (𝓘 ⋙ Q).map (homOfLE (Nat.le_succ n)).op := by
-      rw [Pi.lift_π]
+      rw [Pi.lift_comp_π]
     simp only [Fan.proj, Fan.mk_π_app, Category.assoc, he' n]
     rw [hLl, hR]
   have h1' : limPi 𝓘 ≫ e.inv
@@ -714,7 +714,7 @@ private lemma isIso_iff_quasiIso (𝓘 : ℕᵒᵖ ⥤ CochainComplex A ℤ) [Ha
     exact isIso_iff_isIso_of_comp_isIso _ _
   have e1 := aux c (p ≫ Pi.π (fun n : ℕ ↦ (𝓘 ⋙ Q).obj ⟨n⟩) n) (hc n)
   have e2 := aux (Q.map γ) (limPi 𝓘 ≫ Pi.π (fun n : ℕ ↦ (𝓘 ⋙ Q).obj ⟨n⟩) n)
-    (by rw [limPi, Pi.lift_π, ← Q.map_comp, hγ n])
+    (by rw [limPi, Pi.lift_comp_π, ← Q.map_comp, hγ n])
   have e3 : IsIso ((DerivedCategory.homologyFunctor A i).map
         (p ≫ Pi.π (fun n : ℕ ↦ (𝓘 ⋙ Q).obj ⟨n⟩) n)) ↔
       IsIso ((DerivedCategory.homologyFunctor A i).map
@@ -765,7 +765,7 @@ public theorem isKInjective_limit_and_isDerivedLimit_of_isSplitEpi
   · intro h
     rw [← DerivedCategory.isIso_Q_map_iff_quasiIso]
     refine h (Q.obj (limit 𝓘)) (Q.map γ) (limPi 𝓘) δ₀ h₀ fun n ↦ ?_
-    rw [limPi, Pi.lift_π, ← Q.map_comp, hγ n]
+    rw [limPi, Pi.lift_comp_π, ← Q.map_comp, hγ n]
 
 end
 
@@ -788,8 +788,8 @@ private theorem isSplitEpi_pi_lift_sub (V : ℕ → A) [HasProduct V]
     (t : ∀ n, V (n + 1) ⟶ V n) (σ : ∀ n, V n ⟶ V (n + 1)) (hσ : ∀ n, σ n ≫ t n = 𝟙 (V n)) :
     IsSplitEpi (Pi.lift fun n => Pi.π V n - Pi.π V (n + 1) ≫ t n) :=
   IsSplitEpi.mk' ⟨Pi.lift (towerW V (Pi.π V) σ), Pi.hom_ext _ _ fun n ↦ by
-    rw [Category.assoc, Pi.lift_π, Category.id_comp, Preadditive.comp_sub, Pi.lift_π,
-      ← Category.assoc, Pi.lift_π,
+    rw [Category.assoc, Pi.lift_comp_π, Category.id_comp, Preadditive.comp_sub, Pi.lift_comp_π,
+      ← Category.assoc, Pi.lift_comp_π,
       show towerW V (Pi.π V) σ (n + 1) = (towerW V (Pi.π V) σ n - Pi.π V n) ≫ σ n from rfl,
       Category.assoc, hσ n, Category.comp_id, sub_sub_cancel]⟩
 
@@ -799,7 +799,7 @@ private theorem pi_lift_comp_pi_lift_sub (V : ℕ → A) [HasProduct V] (t : ∀
     {W : A} (u : ∀ n, W ⟶ V n) (hu : ∀ n, u (n + 1) ≫ t n = u n) :
     Pi.lift u ≫ (Pi.lift fun n => Pi.π V n - Pi.π V (n + 1) ≫ t n) = 0 := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
-  rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, Pi.lift_π, ← Category.assoc, Pi.lift_π,
+  rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π, ← Category.assoc, Pi.lift_comp_π,
     hu n, sub_self, zero_comp]
 
 /-- An inverse system `V : ℕ → A` indexed by `ℕ` which is zero below some `N` and constant equal to
@@ -821,7 +821,7 @@ private noncomputable def isLimitKernelForkPiLift (V : ℕ → A) [HasProduct V]
   · have hk' : ∀ n : ℕ, k ≫ Pi.π V n = k ≫ Pi.π V (n + 1) ≫ t n := by
       intro n
       have h := congrArg (fun x ↦ x ≫ Pi.π V n) hk
-      simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, zero_comp] at h
+      simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, zero_comp] at h
       exact sub_eq_zero.mp h
     have key : ∀ n : ℕ, N ≤ n → k ≫ Pi.π V n = k ≫ Pi.π V N ≫ inv (u N) ≫ u n := by
       intro n hn
@@ -833,11 +833,11 @@ private noncomputable def isLimitKernelForkPiLift (V : ℕ → A) [HasProduct V]
             Category.assoc, hu n, ← hk' n]
           exact ih
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, Pi.lift_π]
+    rw [Category.assoc, Pi.lift_comp_π]
     rcases lt_or_ge n N with h | h
     · exact (hzero n h).eq_of_tgt _ _
     · rw [Category.assoc, Category.assoc]; exact (key n h).symm
-  · have h : m ≫ u N = k ≫ Pi.π V N := by rw [← hm, Category.assoc, Pi.lift_π]
+  · have h : m ≫ u N = k ≫ Pi.π V N := by rw [← hm, Category.assoc, Pi.lift_comp_π]
     rw [← Category.assoc, ← h, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
 
 end Tower
@@ -891,7 +891,7 @@ public theorem map_pi_lift_comp_piComparison (H : D ⥤ A) (X : ℕ → D) [HasP
     [HasProduct fun n => H.obj (X n)] {Y : D} (w : ∀ n, Y ⟶ X n) :
     H.map (Pi.lift w) ≫ piComparison H X = Pi.lift fun n => H.map (w n) := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
-  rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_π, Pi.lift_π]
+  rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_comp_π, Pi.lift_comp_π]
 
 /-- The comparison morphism `H(∏ Xₙ) ⟶ ∏ H(Xₙ)` conjugates the map `1 - shift` of an inverse
 system into the map `1 - shift` of the inverse system of the images. -/
@@ -902,7 +902,7 @@ public theorem map_pi_lift_sub_comp_piComparison (H : D ⥤ A) [H.Additive] (X :
         Pi.π (fun n => H.obj (X n)) (n + 1) ≫ H.map (τ n) := by
   rw [map_pi_lift_comp_piComparison]
   refine Pi.hom_ext _ _ fun n ↦ ?_
-  rw [Pi.lift_π, Category.assoc, Pi.lift_π, Preadditive.comp_sub, piComparison_comp_π,
+  rw [Pi.lift_comp_π, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, piComparison_comp_π,
     H.map_sub, H.map_comp, ← Category.assoc, piComparison_comp_π]
 
 variable (H : D ⥤ A) [H.Additive] (X : ℕ → D) [HasProduct X] [HasProduct fun n => H.obj (X n)]
@@ -1047,7 +1047,7 @@ theorem isIso_of_isDerivedLimit_of_quasiIso_truncGE
   refine isIso_of_isDerivedLimit_of_eventually_isIso_homologyMap
     (fun n : ℕ ↦ (𝓘 ⋙ Q).obj ⟨n⟩) (fun n ↦ (𝓘 ⋙ Q).map (homOfLE (Nat.le_succ n)).op)
     (fun n : ℕ ↦ Q.map (K.πTruncGE (-(n : ℤ)) ≫ f n)) hv c p δ hT
-    (Pi.hom_ext _ _ fun n ↦ by rw [Category.assoc, Pi.lift_π]; exact hc n)
+    (Pi.hom_ext _ _ fun n ↦ by rw [Category.assoc, Pi.lift_comp_π]; exact hc n)
     (fun r ↦ (-r).toNat) (fun r n hn ↦ ?_) (fun r n hn ↦ ?_)
   · have := hf n
     exact isZero_homologyFunctor_obj_of_quasiIso (f n) (by omega)

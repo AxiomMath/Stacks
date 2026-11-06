@@ -533,7 +533,6 @@ theorem chartTwistCompareEquiv_tmul (ha : a ∈ 𝒜 d) (hd : 0 < d) (n : ℤ)
         ((1 : Away (grading 𝒜 S) ((1 : S) ⊗ₜ[R] a)) ⊗ₜ t) := by
   let := isPushout_chart 𝒜 S ha
   induction q using (isPushout_chart 𝒜 S ha).out.inductionOn with
-  | zero => rw [TensorProduct.zero_tmul, map_zero, zero_smul]
   | tmul p =>
       have h1 : algebraMap (Away 𝒜 a) (Away (grading 𝒜 S) ((1 : S) ⊗ₜ[R] a)) p ⊗ₜ[Away 𝒜 a] t =
           (1 : Away (grading 𝒜 S) ((1 : S) ⊗ₜ[R] a)) ⊗ₜ (p • t) := by

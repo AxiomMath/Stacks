@@ -50,7 +50,7 @@ theorem multMap_comp_frobenius (V : X.Opens) (c : Γ(pullback (pullback.snd (�
       frobeniusMap.{u, 0} S hp hS ≫ multMap f V (c ^ p) := by
   apply Sheaf.hom_ext
   refine NatTrans.ext (funext fun T => ?_)
-  refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun b => ULift.ext _ _ ?_)
+  refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun b => ULift.ext ?_)
   exact (multFun_pow f V c T.unop.hom b.down).symm
 
 section Cochain

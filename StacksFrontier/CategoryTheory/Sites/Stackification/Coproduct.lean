@@ -238,7 +238,7 @@ theorem exists_isEquivalenceOver_stackCoproduct (hq : q.IsFiberedInGroupoids) (h
     intro U a b
     refine ⟨isLocallyInjective_morPresheafMap hF'1 (fun {a b} u u' huu => ?_) U a b,
       isLocallySurjective_morPresheafMap hF'1 (fun {a b} G => ?_) U a b⟩
-    · have : u = u' := ULift.ext _ _ (sigma_desc_map_injective F u.down u'.down huu)
+    · have : u = u' := ULift.ext (sigma_desc_map_injective F u.down u'.down huu)
       subst this
       exact ⟨rfl, ⊤, J.top_mem _, fun _ _ _ => rfl⟩
     · rcases sigma_desc_full_or F (fun a _ => (⊥ : Sieve ((sigmaProj (fun i => F i ⋙ q)).obj a)) ∈

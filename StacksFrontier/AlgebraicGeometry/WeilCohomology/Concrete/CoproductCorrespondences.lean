@@ -546,6 +546,7 @@ theorem diagonalCorr_eq_sum [QuasiCompact sX] {D : Finset ℕ}
   rw [diagonalBlock, graphCorrespondence, cycleAssociatedToClosedSubscheme_eq_zero_of_isEmpty,
     QuotientAddGroup.mk_zero, TensorProduct.tmul_zero, map_zero, map_zero]
 
+set_option synthInstance.maxHeartbeats 200000 in
 omit [Smooth sP] [Smooth sZ] [IsSeparated sP] [IsSeparated sZ] in
 /-- Transport of a sum of diagonal blocks along an equality of degrees is blockwise. -/
 theorem corrCongr_sum_diagonalBlock {r : ℤ} (h : 0 = r) (D : Finset ℕ) :
@@ -564,6 +565,8 @@ private theorem graphBlock_eq_zero_of_ne (k : Type u) [Field k] {X P : Scheme.{u
     ((isClopenDecomposition_dimPart sX).eq_of_mem hx
       ((mem_dimPart_iff_of_isOpenImmersion sX sP f hf d x).2 hfx))
 
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **`[Γ_f] ∘ [Γ_fᵗ] = [Δ_X]`** for an open immersion `f : X ⟶ P` of schemes smooth and
 separated over `k`, with `P` proper and `X` quasi-compact, the degrees `0 + 0` and `0` being
 identified. -/
@@ -580,7 +583,7 @@ theorem comp_cographCorr_graphCorr_self [IsProper sP] [QuasiCompact sX] (f : X �
     graphCorr_eq_sum k sP sX f hf (D := D) (E := D) (fun d ⟨x, hx⟩ ↦ hmem d ⟨x,
       (mem_dimPart_iff_of_isOpenImmersion sX sP f hf d x).2 hx⟩) hmem,
     map_sum (comp k sX sP sX (canonicalDiagonalClassFamily k) 0 0), LinearMap.sum_apply,
-    diagonalCorr, map_sum]
+    diagonalCorr, map_sum (corrCongr k sX sX (add_zero (0 : ℤ)).symm)]
   refine Finset.sum_congr rfl fun d hd ↦ ?_
   rw [comp_lof_lof_sum_sum k sX sP sX _ 0 0 d d _ hd D, Finset.sum_eq_single_of_mem d hd,
     composition_cographBlock_graphBlock_self k sX sP f hf d, diagonalBlock, corrCongr_lof_lof]
@@ -723,6 +726,7 @@ theorem cographHom_comp_graph_self (f : X ⟶ P) [IsOpenImmersion f.hom.left] :
     ← comp_cographCorr_graphCorr_self k X.obj.hom P.obj.hom f.hom.left (Over.w f.hom)]
   rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **`[Γ_g] ∘ [Γ_fᵗ] = 0`** in the category of correspondences, for `f : X ⟶ P` and
 `g : Z ⟶ P` with disjoint images. -/
 theorem cographHom_comp_graph_of_disjoint (f : X ⟶ P) (g : Z ⟶ P)

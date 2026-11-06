@@ -399,6 +399,9 @@ private theorem eq_id_of_comp_algebraMap_eq
     ψ = RingHom.id _ := by
   let : UniformSpace (A₁ ⊗[A₀] A) :=
     TopologicalRing.tensorProductUniformSpace (R := A₀) (M := A₁) (N := A)
+  have : T2Space (TopologicalRing.CompletedTensorProduct (R := A₀) (M := A₁) (N := A)) :=
+    @T25Space.t2Space _ _ (@T3Space.t25Space _ _
+      (@instT3Space _ _ (UniformSpace.Completion.t0Space _) UniformSpace.to_regularSpace))
   refine RingHom.ext fun x => ?_
   refine UniformSpace.Completion.induction_on x (isClosed_eq hψ continuous_id) ?_
   intro z

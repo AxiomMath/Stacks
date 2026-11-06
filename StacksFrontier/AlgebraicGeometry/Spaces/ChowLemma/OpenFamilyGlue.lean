@@ -156,7 +156,7 @@ theorem glueYonedaHom_of_ofArrows_mem_topology (j : ∀ i, U i ⟶ Z)
   refine ⟨ψ, fun i ↦ ?_, fun ψ' hψ' ↦ huniq ψ' fun i ↦ ?_⟩
   · rw [← yonedaRangeFamilyIso_hom_comp_ι B S hS j hj i, Category.assoc, hψ i,
       Iso.hom_inv_id_assoc]
-  · refine (cancel_epi (yonedaRangeFamilyIso B S hS j hj i).hom).1 ?_
+  · refine ((yonedaRangeFamilyIso B S hS j hj i).cancel_iso_hom_left _ _).1 ?_
     rw [Iso.hom_inv_id_assoc, ← Category.assoc,
       yonedaRangeFamilyIso_hom_comp_ι B S hS j hj i, hψ' i]
 

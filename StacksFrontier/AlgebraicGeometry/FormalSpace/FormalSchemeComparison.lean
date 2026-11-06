@@ -117,7 +117,7 @@ theorem isSeparatedFor_comp_uliftFunctor {P : Cᵒᵖ ⥤ Type w} {X : C} {R : P
     (hP : Presieve.IsSeparatedFor P R) :
     Presieve.IsSeparatedFor (P ⋙ uliftFunctor.{w', w}) R := by
   intro x t₁ t₂ h₁ h₂
-  refine ULift.ext _ _ (hP (fun _ f hf => (x f hf).down) t₁.down t₂.down ?_ ?_)
+  refine ULift.ext (hP (fun _ f hf => (x f hf).down) t₁.down t₂.down ?_ ?_)
   · exact fun _ f hf => congrArg ULift.down (h₁ f hf)
   · exact fun _ f hf => congrArg ULift.down (h₂ f hf)
 

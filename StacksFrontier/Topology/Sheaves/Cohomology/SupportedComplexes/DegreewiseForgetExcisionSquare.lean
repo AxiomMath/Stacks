@@ -57,22 +57,15 @@ through `DerivedCategory.Q`, where each is the three canonical factorizations wi
 comparison at two different signatures; this is what lets the composition and isomorphism laws
 proved for the second be used for the first. -/
 theorem mapDerivedCategoryCompIso_hom_eq (e : F ⋙ G ≅ H) :
-    (Functor.mapDerivedCategoryCompIso e).hom =
+    (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom =
       (Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso F G).inv ≫
-        (Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso (F ⋙ G) H e).hom := by
-  refine Localization.natTrans_ext DerivedCategory.Q
-    (HomologicalComplex.quasiIso C₁ (ComplexShape.up ℤ)) fun P => ?_
-  dsimp only [NatTrans.comp_app]
-  rw [Functor.mapDerivedCategoryCompIso_hom_app_Q,
-    Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso_inv_app_Q,
-    Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso_hom_app_Q]
-  simp only [Category.assoc, Iso.inv_hom_id_app_assoc]
+        (Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso (F ⋙ G) H e).hom :=
   rfl
 
 /-- **The composition comparison at an object placed in degree `n`.** -/
 theorem mapDerivedCategorySingleFunctor_compIso (e : F ⋙ G ≅ H) (n : ℤ) :
     Functor.whiskerLeft (DerivedCategory.singleFunctor C₁ n)
-          (Functor.mapDerivedCategoryCompIso e).hom ≫
+          (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom ≫
         (H.mapDerivedCategorySingleFunctor n).hom =
       Functor.whiskerRight (F.mapDerivedCategorySingleFunctor n).hom G.mapDerivedCategory ≫
         Functor.whiskerLeft F (G.mapDerivedCategorySingleFunctor n).hom ≫
@@ -86,7 +79,7 @@ theorem mapDerivedCategorySingleFunctor_compIso (e : F ⋙ G ≅ H) (n : ℤ) :
 
 /-- **The composition comparison on degree-`n` cohomology.** -/
 theorem mapDerivedCategoryHomologyIso_compIso (e : F ⋙ G ≅ H) (n : ℤ) :
-    Functor.whiskerRight (Functor.mapDerivedCategoryCompIso e).hom
+    Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom
           (DerivedCategory.homologyFunctor C₃ n) ≫
         (H.mapDerivedCategoryHomologyIso n).hom =
       Functor.whiskerLeft F.mapDerivedCategory (G.mapDerivedCategoryHomologyIso n).hom ≫
@@ -141,8 +134,8 @@ the two composition comparisons agrees, on an object placed in degree `0`, with 
 crossing `e₁ ≪≫ e₂.symm`. -/
 theorem crossingPair_single :
     Functor.whiskerLeft (DerivedCategory.singleFunctor C₁ 0)
-          (Functor.mapDerivedCategoryCompIso e₁ ≪≫
-            (Functor.mapDerivedCategoryCompIso e₂).symm).hom ≫
+          (Functor.mapDerivedCategoryCompIsoOfCompIso e₁ ≪≫
+            (Functor.mapDerivedCategoryCompIsoOfCompIso e₂).symm).hom ≫
         Functor.whiskerRight (F₂.mapDerivedCategorySingleFunctor 0).hom G₂.mapDerivedCategory ≫
           Functor.whiskerLeft F₂ (G₂.mapDerivedCategorySingleFunctor 0).hom =
       Functor.whiskerRight (F.mapDerivedCategorySingleFunctor 0).hom G.mapDerivedCategory ≫
@@ -163,8 +156,8 @@ theorem crossingPair_single :
 companion of `crossingPair_single`, for the other end of the chain. -/
 theorem crossingPair_homology (n : ℤ) :
     Functor.whiskerRight
-          (Functor.mapDerivedCategoryCompIso e₁ ≪≫
-            (Functor.mapDerivedCategoryCompIso e₂).symm).hom
+          (Functor.mapDerivedCategoryCompIsoOfCompIso e₁ ≪≫
+            (Functor.mapDerivedCategoryCompIsoOfCompIso e₂).symm).hom
           (DerivedCategory.homologyFunctor C₃ n) ≫
         Functor.whiskerLeft F₂.mapDerivedCategory (G₂.mapDerivedCategoryHomologyIso n).hom ≫
           Functor.whiskerRight (F₂.mapDerivedCategoryHomologyIso n).hom G₂ =

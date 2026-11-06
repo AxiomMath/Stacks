@@ -320,12 +320,12 @@ theorem isLE_derivedEpsilonPushforward_obj
   let qmap : L ⟶ ∏ᶜ fun n : ℕ ↦ tower.obj ⟨n⟩ :=
     Pi.lift (fun n ↦ (t.truncGEπ (-(n : ℤ))).app L)
   have hq (n : ℕ) : qmap ≫ Pi.π (fun n : ℕ ↦ tower.obj ⟨n⟩) n =
-      (t.truncGEπ (-(n : ℤ))).app L := Pi.lift_π _ n
+      (t.truncGEπ (-(n : ℤ))).app L := Pi.lift_comp_π _ n
   have hzero : qmap ≫ T.mor₂ = 0 := by
     show qmap ≫ diff = 0
     apply Pi.hom_ext
     intro n
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, hq n, ← Category.assoc, hq (n + 1),
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hq n, ← Category.assoc, hq (n + 1),
       Stacks.DerivedLimit.truncGETower_map_homOfLE_succ, zero_comp]
     exact sub_eq_zero_of_eq (t.π_natTransTruncGEOfLE_app _ _ (by omega) L).symm
   obtain ⟨c, hc⟩ := T.coyoneda_exact₂ hT qmap hzero

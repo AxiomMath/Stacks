@@ -238,14 +238,14 @@ theorem imgTargetLin_eq_gradedClass (f : Fin c → R) (e : Fin c →₀ ℕ) (a 
 noncomputable def gradedTerm (f : Fin c → R) (p : MvPolynomial (Fin c) R) (d : ℕ)
     (e : Fin c →₀ ℕ) : JpowM R f d :=
   if h : qrMdeg e = d then
-    ⟨fpow f e * MvPolynomial.coeff e p, by
+    ⟨fpow f e * p.coeff e, by
       rw [← h, ← smul_eq_mul]; exact fpow_smul_mem f e _⟩
   else 0
 
 /-- In degree `|e|`, the contribution of the monomial indexed by `e` is `f^e · (coeff e p)`. -/
 theorem gradedTerm_of_eq (f : Fin c → R) (p : MvPolynomial (Fin c) R) (e : Fin c →₀ ℕ) :
     gradedTerm f p (qrMdeg e) e
-      = ⟨fpow f e * MvPolynomial.coeff e p, by rw [← smul_eq_mul]; exact fpow_smul_mem f e _⟩ := by
+      = ⟨fpow f e * p.coeff e, by rw [← smul_eq_mul]; exact fpow_smul_mem f e _⟩ := by
   rw [gradedTerm, dite_eq_left rfl]
 
 /-- The degree-`d` part of a polynomial `p` with coefficients in `R`, evaluated at `f`, as an
@@ -262,7 +262,7 @@ noncomputable def gradedPartOn (f : Fin c → R) (p : MvPolynomial (Fin c) R)
 /-- The degree-`d` part is the sum `∑_{e ∈ S, |e| = d} f^e · (coeff e p)`. -/
 theorem gradedPartOn_eq_sum (f : Fin c → R) (p : MvPolynomial (Fin c) R)
     (S : Finset (Fin c →₀ ℕ)) (d : ℕ) :
-    gradedPartOn f p S d = ∑ e ∈ S with qrMdeg e = d, fpow f e * MvPolynomial.coeff e p := by
+    gradedPartOn f p S d = ∑ e ∈ S with qrMdeg e = d, fpow f e * p.coeff e := by
   rw [gradedPartOn, gradedPartSub, AddSubmonoidClass.coe_finsetSum]
   refine Finset.sum_congr rfl fun e he => ?_
   rw [gradedTerm, dite_eq_left (Finset.mem_filter.mp he).2]
@@ -286,7 +286,7 @@ theorem associatedGradedMap_map_eq_zero_iff (f : Fin c → R) (p : MvPolynomial 
       = ∑ d ∈ T, gradedClass f d (gradedPartSub f p S d) := by
     have hsum : MvPolynomial.map (Ideal.Quotient.mk (Jid f)) p
         = ∑ e ∈ S, MvPolynomial.monomial e
-            (Ideal.Quotient.mk (Jid f) (MvPolynomial.coeff e p)) := by
+            (Ideal.Quotient.mk (Jid f) (p.coeff e)) := by
       conv_lhs => rw [MvPolynomial.as_sum p]
       rw [map_sum, Finset.sum_subset hS]
       · exact Finset.sum_congr rfl fun e _ => MvPolynomial.map_monomial _ _ _
@@ -296,7 +296,7 @@ theorem associatedGradedMap_map_eq_zero_iff (f : Fin c → R) (p : MvPolynomial 
     rw [hsum, map_sum,
       Finset.sum_congr rfl (fun e _ => associatedGradedMap_monomial f e _),
       Finset.sum_congr rfl (fun e (_ : e ∈ S) => by
-        rw [imgTargetLin_eq_gradedClass f e (MvPolynomial.coeff e p), ← gradedTerm_of_eq f p e]),
+        rw [imgTargetLin_eq_gradedClass f e (p.coeff e), ← gradedTerm_of_eq f p e]),
       ← Finset.sum_fiberwise_of_maps_to hmapsto]
     refine Finset.sum_congr rfl fun d _ => ?_
     rw [gradedPartSub, gradedClass_sum]

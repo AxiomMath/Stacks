@@ -99,44 +99,45 @@ an étale neighbourhood of the image of `p` in `X`, keeping the lift. -/
 public def liftNeighborhoods (p : GeometricPoint U.obj.left.1) :
     (geometricPointFiber B U.obj.left.1 U.obj.left.property p).Elements ⥤
       (geometricPointFiber B X hX (p.map (B.inclusion.map U.obj.hom))).Elements where
-  obj W := ⟨(smallEtalePostcompose B X hX U).obj W.1, W.2.1, by
-    change W.2.1 ≫ B.inclusion.map ((smallEtalePostcompose B X hX U).obj W.1).obj.hom =
+  obj W := Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj W.obj) ⟨W.val.1, by
+    change W.val.1 ≫ B.inclusion.map ((smallEtalePostcompose B X hX U).obj W.obj).obj.hom =
       p.hom ≫ B.inclusion.map U.obj.hom
     calc
-      _ = W.2.1 ≫ (B.inclusion.map W.1.obj.hom ≫ B.inclusion.map U.obj.hom) := by
+      _ = W.val.1 ≫ (B.inclusion.map W.obj.obj.hom ≫ B.inclusion.map U.obj.hom) := by
         simp [smallEtalePostcompose]
-      _ = (W.2.1 ≫ B.inclusion.map W.1.obj.hom) ≫ B.inclusion.map U.obj.hom :=
+      _ = (W.val.1 ≫ B.inclusion.map W.obj.obj.hom) ≫ B.inclusion.map U.obj.hom :=
         (Category.assoc _ _ _).symm
-      _ = p.hom ≫ B.inclusion.map U.obj.hom := by rw [W.2.2]⟩
-  map {W W'} f := ⟨(smallEtalePostcompose B X hX U).map f.1, by
+      _ = p.hom ≫ B.inclusion.map U.obj.hom := by rw [W.val.2]⟩
+  map {W W'} f := Functor.Elements.homMk ((smallEtalePostcompose B X hX U).map f.hom) (by
     apply Subtype.ext
-    change W.2.1 ≫ (SmallEtale.toScheme B X hX).map
-      ((smallEtalePostcompose B X hX U).map f.1) = W'.2.1
-    exact congrArg Subtype.val f.2⟩
+    change W.val.1 ≫ (SmallEtale.toScheme B X hX).map
+      ((smallEtalePostcompose B X hX U).map f.hom) = W'.val.1
+    exact congrArg Subtype.val f.map_val)
   map_id _ := rfl
   map_comp _ _ := rfl
 
 /-- The functor on neighbourhoods is composition with `U ⟶ X` on underlying objects. -/
 public theorem liftNeighborhoods_comp_π (p : GeometricPoint U.obj.left.1) :
     liftNeighborhoods B X hX U p ⋙
-        CategoryOfElements.π (geometricPointFiber B X hX
+        Functor.Elements.π (geometricPointFiber B X hX
           (p.map (B.inclusion.map U.obj.hom))) =
-      CategoryOfElements.π (geometricPointFiber B U.obj.left.1 U.obj.left.property p) ⋙
+      Functor.Elements.π (geometricPointFiber B U.obj.left.1 U.obj.left.property p) ⋙
         smallEtalePostcompose B X hX U :=
   rfl
 
 private instance liftNeighborhoods_faithful (p : GeometricPoint U.obj.left.1) :
     (liftNeighborhoods B X hX U p).Faithful where
   map_injective {_ _} _ _ h :=
-    Subtype.ext ((smallEtalePostcompose B X hX U).map_injective (congrArg Subtype.val h))
+    Functor.Elements.hom_ext ((smallEtalePostcompose B X hX U).map_injective
+      (congrArg Functor.Elements.Hom.hom h))
 
 private instance liftNeighborhoods_full [IsOpenImmersion (B.inclusion.map U.obj.hom)]
     (p : GeometricPoint U.obj.left.1) : (liftNeighborhoods B X hX U p).Full where
   map_surjective {W W'} f := by
     have : Mono U.obj.hom := B.inclusion.mono_of_mono_map inferInstance
-    obtain ⟨g, hg⟩ := (smallEtalePostcompose B X hX U).map_surjective f.1
-    refine ⟨⟨g, Subtype.ext ?_⟩, Subtype.ext hg⟩
-    have h := congrArg Subtype.val f.2
+    obtain ⟨g, hg⟩ := (smallEtalePostcompose B X hX U).map_surjective f.hom
+    refine ⟨Functor.Elements.homMk g (Subtype.ext ?_), Functor.Elements.hom_ext hg⟩
+    have h := congrArg Subtype.val f.map_val
     rwa [← hg] at h
 
 /-- An étale neighbourhood of a geometric point of `X` which lifts to the open subscheme `U` is
@@ -148,15 +149,15 @@ private theorem exists_liftNeighborhoods_refinement
     ∃ W, Nonempty ((liftNeighborhoods B X hX U p).obj W ⟶ V) := by
   let _ := hasPullbacks_bigEtaleSite B
   let _ := preservesPullbacks_bigEtaleSiteInclusion B
-  let W := (smallEtaleBaseChange B U.obj.hom).obj V.1
-  let pb := (IsPullback.of_hasPullback V.1.obj.hom U.obj.hom).map B.inclusion
-  have compat : V.2.1 ≫ B.inclusion.map V.1.obj.hom =
-      p.hom ≫ B.inclusion.map U.obj.hom := V.2.2
+  let W := (smallEtaleBaseChange B U.obj.hom).obj V.obj
+  let pb := (IsPullback.of_hasPullback V.obj.obj.hom U.obj.hom).map B.inclusion
+  have compat : V.val.1 ≫ B.inclusion.map V.obj.obj.hom =
+      p.hom ≫ B.inclusion.map U.obj.hom := V.val.2
   let P : (geometricPointFiber B U.obj.left.1 U.obj.left.property p).Elements :=
-    ⟨W, pb.lift V.2.1 p.hom compat, pb.lift_snd V.2.1 p.hom compat⟩
-  exact ⟨P, ⟨⟨ObjectProperty.homMk (Over.homMk
-    (pullback.fst V.1.obj.hom U.obj.hom) pullback.condition),
-    Subtype.ext (pb.lift_fst V.2.1 p.hom compat)⟩⟩⟩
+    Functor.elementsMk _ W ⟨pb.lift V.val.1 p.hom compat, pb.lift_snd V.val.1 p.hom compat⟩
+  exact ⟨P, ⟨Functor.Elements.homMk (ObjectProperty.homMk (Over.homMk
+    (pullback.fst V.obj.obj.hom U.obj.hom) pullback.condition))
+    (Subtype.ext (pb.lift_fst V.val.1 p.hom compat))⟩⟩
 
 /-- Composition with an open immersion is an initial functor on étale neighbourhoods: it is
 fully faithful, the neighbourhoods of a geometric point are cofiltered, and every neighbourhood
@@ -180,7 +181,7 @@ public def postcomposeStalkIso [IsOpenImmersion (B.inclusion.map U.obj.hom)]
   haveI := liftNeighborhoods_initial B X hX U p
   Functor.isoWhiskerLeft
     ((Functor.whiskeringLeft _ _ AddCommGrpCat.{u + 1}).obj
-      (CategoryOfElements.π (geometricPointFiber B X hX
+      (Functor.Elements.π (geometricPointFiber B X hX
         (p.map (B.inclusion.map U.obj.hom)))).op)
     (Functor.Final.colimIso (liftNeighborhoods B X hX U p).op)
 

@@ -3,6 +3,7 @@ module
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.ModulesOnACategory.BrownRepresentabilityFromSizeBound
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.ModulesOnACategory.CartesianEnlargementExists
 public import StacksFrontier.CategoryTheory.Triangulated.BrownRepresentability
+import Mathlib.CategoryTheory.Limits.FullSubcategory
 import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -85,8 +86,18 @@ universe w u v r
 
 variable {C : Type u} [Category.{v} C] {O : Cᵒᵖ ⥤ RingCat.{r}}
 
+/-- The inclusion `QC(O) ⥤ D(O)` preserves direct sums, `QC(O)` being closed under them
+(Stacks 0GYW). Supplied explicitly: instance search times out finding it. -/
+private lemma qcι_preservesColimitsOfShape_discrete (bc : BaseChangeData.{w} O) (J : Type*)
+    [HasColimitsOfShape (Discrete J) (DMod.{w} O)] :
+    PreservesColimitsOfShape (Discrete J) (QCι.{w} bc) :=
+  preservesColimitOfShape_of_createsColimitsOfShape_and_hasColimitsOfShape _
+
+attribute [local instance] qcι_preservesColimitsOfShape_discrete
+
 /-! ### Stacks 0GYZ with the direct sums formed in `QC(O)` -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0GYZ, with the direct sums of conclusion (2) formed in `QC(O)`.** There is a cardinal
 `κ` such that every nonzero cartesian object receives a nonzero morphism from a cartesian object
 of size at most `κ`, and every morphism `E ⟶ ⨁_n K_n` of `QC(O)` with `|E| ≤ κ` factors through a
@@ -203,6 +214,7 @@ variable {D : Type*} [Category.{max u v r w} D]
   [HasZeroObject D] [Preadditive D] [HasShift D ℤ]
   [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulated D]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0GZ0, assertion (3).** Let `C` be a category, regarded as a site with the chaotic
 topology, and let `O` be a presheaf of commutative rings on `C`. Every exact functor
 `F : QC(O) ⥤ D` of triangulated categories which transforms direct sums into direct sums has a

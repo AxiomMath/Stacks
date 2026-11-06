@@ -147,7 +147,7 @@ def flatPullbackComparison (g : X ⟶ Y) (hg : AlgebraicGeometry.IsFlat g) :
   have := preservesFiniteLimits_modulePullback_of_isFlat g hg
   have := preservesFiniteColimits_modulePullback g
   have := Stacks.Cohomology.BaseChange.exactUnit_isIso (modulePullback g)
-  asIso (modulePullback g).rightDerivedFunctorPlusUnit
+  asIso (modulePullback g).rightDerivedFunctorPlusUnith
 
 end Pullback
 
@@ -220,7 +220,7 @@ unit, this equation determines the base change map; it is the sense in which the
 source is canonical rather than merely existing. -/
 @[stacks 02N7 "canonical characterization"]
 theorem baseChangeMap_fac :
-    Functor.whiskerRight (modulePushforward f).rightDerivedFunctorPlusUnit
+    Functor.whiskerRight (modulePushforward f).rightDerivedFunctorPlusUnith
         (flatPullback g hg) ≫
       (Functor.associator _ _ _).hom ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh (baseChangeMap f f' g g' comm hg hg') =

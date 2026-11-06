@@ -302,7 +302,6 @@ theorem chartSectionsRestrictionAlgHom_siteBaseChangeHom_apply
     intro t
     rw [hcomp, ← Functor.map_comp, hbc, siteBaseChangeHom_comp_snd]
   induction x with
-  | zero => simp
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul t c =>
     rw [Algebra.TensorProduct.map_tmul, AlgHom.coe_id, id_eq,

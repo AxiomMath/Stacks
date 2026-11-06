@@ -160,6 +160,11 @@ section Complexes
 variable {ι : Type w} [LinearOrder ι] (V : ι → A.obj.thickening.target.scheme.Opens)
   (F : (CrystallineThickening S)ᵒᵖ ⥤ AddCommGrpCat.{max w w'})
 
+/-- The products indexed by `Type w` in `AddCommGrpCat.{max w w'}`, supplied directly: instance
+search for them times out. -/
+local instance : HasProducts.{w} AddCommGrpCat.{max w w'} := fun _ =>
+  AddCommGrpCat.hasLimitsOfSize.{w, max w w', w}.has_limits_of_shape _
+
 /-- **The full Čech cochain complex of a restriction cover of an object of `Cris(X/S)`**: in
 degree `p` the product, over all `(p+1)`-tuples `t` of indices, of the sections of `F` over
 `A|_{V_{t_0} ∩ ⋯ ∩ V_{t_p}}`, with the alternating sum of the restrictions as differential. -/

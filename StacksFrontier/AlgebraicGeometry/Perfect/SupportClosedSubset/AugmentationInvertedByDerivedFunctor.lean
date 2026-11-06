@@ -216,6 +216,27 @@ public theorem isTriangulated_of_isRightDerivedFunctor
     hc J (Stacks.Injectives.kInjectiveResolutionFunctor_obj_isKInjective A _), hc L hL,
     ⟨Arrow.isoMk eI eJ (by simp [hg])⟩⟩
 
+/-- The unit of `F.rightDerivedFunctorPlus` is invertible wherever the unit of the total right
+derived functor is: both functors are right derived functors of the same functor. -/
+private theorem isIso_rightDerivedFunctorPlusUnith_app
+    [EnoughInjectives A] (F : A ⥤ B) [F.Additive]
+    [(F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasRightDerivedFunctor
+      (HomotopyCategory.Plus.quasiIso A)] (J : HomotopyCategory.Plus A)
+    (h : IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app J)) :
+    IsIso (F.rightDerivedFunctorPlusUnith.app J) := by
+  rw [← Functor.rightDerived_fac_app _
+    ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith J]
+  have : IsIso (Functor.rightDerivedDesc _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus
+        F.rightDerivedFunctorPlusUnith) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  infer_instance
+
 /-- The value of a total right derived functor on a bounded-below object agrees with the value of
 the bounded-below right derived functor, up to isomorphism. -/
 public theorem nonempty_obj_iso_rightDerivedFunctorPlus
@@ -240,7 +261,7 @@ public theorem nonempty_obj_iso_rightDerivedFunctorPlus
       (asIso (DerivedCategory.Q.map f)).symm ≪≫ e.symm
   let eP : DerivedCategory.Plus.Qh.obj J ≅ E := DerivedCategory.Plus.ι.preimageIso eI
   exact ⟨R.mapIso eI.symm ≪≫ (asIso (β.app J.obj)).symm ≪≫
-    DerivedCategory.Plus.ι.mapIso (asIso (F.rightDerivedFunctorPlusUnit.app J)) ≪≫
+    DerivedCategory.Plus.ι.mapIso (asIso (F.rightDerivedFunctorPlusUnith.app J)) ≪≫
     DerivedCategory.Plus.ι.mapIso (F.rightDerivedFunctorPlus.mapIso eP)⟩
 
 /-- A total right derived functor kills a bounded-below complex all of whose terms are right
@@ -281,10 +302,11 @@ public theorem isZero_obj_of_plus_of_rightAcyclic
   have hsource : IsZero ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).obj J) :=
     Functor.map_isZero DerivedCategory.Plus.Qh
       ((HomotopyCategory.Plus.quotient B).map_isZero hFKplus)
-  have hunit : IsIso (F.rightDerivedFunctorPlusUnit.app J) :=
-    Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic F K ⟨a, ha⟩ hacyclic
+  have hunit : IsIso (F.rightDerivedFunctorPlusUnith.app J) :=
+    isIso_rightDerivedFunctorPlusUnith_app F J
+      (Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic F K ⟨a, ha⟩ hacyclic)
   have hRFplus : IsZero (F.rightDerivedFunctorPlus.obj E) :=
-    IsZero.of_iso hsource (asIso (F.rightDerivedFunctorPlusUnit.app J)).symm
+    IsZero.of_iso hsource (asIso (F.rightDerivedFunctorPlusUnith.app J)).symm
   exact ((DerivedCategory.Plus.ι.map_isZero hRFplus).of_iso e).of_iso (R.mapIso eK).symm
 
 /-- If a total right derived functor kills an object placed in degree zero, that object is right
@@ -315,12 +337,13 @@ public theorem rightAcyclic_and_isZero_of_isZero_obj_single
       ‹PreservesFiniteLimits F›).2 fun i _ =>
         (DerivedCategory.Plus.homologyFunctor B i).map_isZero hRF
   let J := (HomotopyCategory.Plus.singleFunctor A 0).obj M
-  have hunit : IsIso (F.rightDerivedFunctorPlusUnit.app J) := hacyclic
+  have hunit : IsIso (F.rightDerivedFunctorPlusUnith.app J) :=
+    isIso_rightDerivedFunctorPlusUnith_app F J hacyclic
   have hRFJ : IsZero ((DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus).obj J) :=
     IsZero.of_iso hRF (F.rightDerivedFunctorPlus.mapIso
       ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).app M)).symm
   have hsource : IsZero ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).obj J) :=
-    IsZero.of_iso hRFJ (asIso (F.rightDerivedFunctorPlusUnit.app J))
+    IsZero.of_iso hRFJ (asIso (F.rightDerivedFunctorPlusUnith.app J))
   have hsingle : IsZero ((DerivedCategory.Plus.singleFunctor B 0).obj (F.obj M)) :=
     IsZero.of_iso hsource ((Functor.mapSingleFunctorCompQhIso F).app M).symm
   refine ⟨hacyclic, ?_⟩

@@ -521,13 +521,13 @@ theorem mem_smul_top_of_map_eq_zero (ε : A →ₐ[k] k) (I : Ideal A)
   classical
   rw [g.as_sum]
   refine Submodule.sum_mem _ fun m _ => ?_
-  have hc : MvPolynomial.coeff m g ∈ I := by
+  have hc : g.coeff m ∈ I := by
     refine hεI _ ?_
     have hcm := MvPolynomial.coeff_map (ε : A →+* k) g m
-    rw [hg, MvPolynomial.coeff_zero] at hcm
+    rw [hg, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at hcm
     exact hcm.symm
-  have hmono : (MvPolynomial.monomial m) (MvPolynomial.coeff m g) =
-      MvPolynomial.coeff m g • (MvPolynomial.monomial m) (1 : A) := by
+  have hmono : (MvPolynomial.monomial m) (g.coeff m) =
+      g.coeff m • (MvPolynomial.monomial m) (1 : A) := by
     rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
   rw [hmono]
   exact Submodule.smul_mem_smul hc Submodule.mem_top

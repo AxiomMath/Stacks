@@ -141,7 +141,6 @@ theorem restrictSection_notMem_range_of_ker_eq [IsNoetherianRing A] (p : Ideal A
   have hker : ∀ w' : Γ(natTensorPow (E.baseChange φ).zeroSheaf m, ⊤), Λ (fK w') = 0 := by
     intro w'
     induction w' using hbc.inductionOn with
-    | zero => rw [map_zero, map_zero]
     | tmul v =>
       refine (congrArg Λ (hmul v).symm).trans ?_
       rw [hΛ]

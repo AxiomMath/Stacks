@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Ext.IntoField
+import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughInjectives
 
 /-!
 # Maps into an injective single complex, at an arbitrary model of the derived category

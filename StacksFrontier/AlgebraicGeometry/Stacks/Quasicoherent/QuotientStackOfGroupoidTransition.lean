@@ -135,7 +135,8 @@ theorem pointEval_targetComparison_chartSection (V : Space.SmallEtale C S hS G.a
     (pointwiseArrow_chartDiagramPoint G G.target.hom V W.obj k hk) W.obj (𝟙 _)
     (chartPoint_comm G W.obj) hk' x
   have hk1 : V.1.hom ≫ G.target.hom = yoneda.map (k ≫ 𝟙 _) ≫ W.obj.1.hom := by
-    simpa using hk
+    rw [Category.comp_id]
+    exact hk
   have h4 := pointSectionRestrict_arrowChart G M V W.obj (k ≫ 𝟙 _) hk1 gt hb harr hk' x
   have h5 := Space.modulePullbackChartSection_congr C S hS G.target M.F.obj hk1 hk
     (Category.comp_id k) x

@@ -264,7 +264,6 @@ theorem smulTmulLift_includeLeft_mul (b : B) (z : B ⊗[A] A')
       smulTmulLift z (toRestrictScalars (algebraMap A B)
         (b • ofRestrictScalars (algebraMap A B) n)) := by
   induction z with
-  | zero => simp
   | tmul b₀ a' =>
       rw [Algebra.TensorProduct.includeLeftRingHom_apply,
         Algebra.TensorProduct.tmul_mul_tmul, one_mul]
@@ -296,7 +295,7 @@ theorem tensorCancel_tmulB_includeRight (a' : A') (y : M) :
 private theorem addMonoidHom_apply_eq_self_of_tmul {R M N : Type*} [CommSemiring R]
     [AddCommMonoid M] [AddCommMonoid N] [Module R M] [Module R N] (f : M ⊗[R] N →+ M ⊗[R] N)
     (h : ∀ (x : M) (y : N), f (x ⊗ₜ y) = x ⊗ₜ y) (z : M ⊗[R] N) : f z = z :=
-  TensorProduct.induction_on z (map_zero f) h fun u v hu hv => by rw [map_add, hu, hv]
+  TensorProduct.inductionOn z h fun u v hu hv => by rw [map_add, hu, hv]
 
 /-! ### Bijectivity of the comparison -/
 
@@ -338,7 +337,6 @@ include hΘ in
 theorem apply_tensorCancel_tmulB (w : B ⊗[A] A') (y : M) :
     Θ.hom (tensorCancel (M := M) (tmulB w y)) = tmulB w y := by
   induction w with
-  | zero => rw [tmulB_zero_left, map_zero (tensorCancel (M := M))]; exact map_zero Θ.hom
   | tmul b a' => rw [tensorCancel_tmulB, apply_tmulA Θ hΘ, ← tmulB_tmul_mul, ← tmulB_smul]
   | add w₁ w₂ h₁ h₂ =>
       rw [tmulB_add_left, map_add, map_add]

@@ -340,15 +340,15 @@ def actionOfEndos {T : Scheme.{u}} (V : FiniteEtaleOver T) {G : Type v} [Group G
     (hmul : ∀ x y, χ (x * y) = χ y ≫ χ x) : G →* Aut V :=
   (Aut.unitsEndEquivAut V).toMonoidHom.comp
     (MonoidHom.toHomUnits
-      { toFun := fun x ↦ MorphismProperty.Over.homMk (χ x) (hw x) trivial
-        map_one' := MorphismProperty.Over.Hom.ext h1
-        map_mul' := fun x y ↦ MorphismProperty.Over.Hom.ext (hmul x y) })
+      { toFun := fun x ↦ End.of (MorphismProperty.Over.homMk (χ x) (hw x) trivial)
+        map_one' := End.ext (MorphismProperty.Over.Hom.ext h1)
+        map_mul' := fun x y ↦ End.ext (MorphismProperty.Over.Hom.ext (hmul x y)) })
 
 /-- The automorphism `actionOfEndos V χ hw h1 hmul x` has underlying morphism `χ x`. -/
 theorem actionOfEndos_hom_left {T : Scheme.{u}} (V : FiniteEtaleOver T) {G : Type v} [Group G]
     (χ : G → (V.left ⟶ V.left)) (hw : ∀ x, χ x ≫ V.hom = V.hom) (h1 : χ 1 = 𝟙 _)
     (hmul : ∀ x y, χ (x * y) = χ y ≫ χ x) (x : G) :
-    (actionOfEndos V χ hw h1 hmul x).hom.left = χ x :=
+    (actionOfEndos V χ hw h1 hmul x).asIso.hom.left = χ x :=
   rfl
 
 omit [∀ i, QuasiSeparatedSpace (F.obj i)] in
@@ -514,11 +514,11 @@ private theorem exists_torsor_model_of_endos (ha : IsLimit a) {G : Type v} [Grou
     (χT : Gᵐᵒᵖ → (pullback (F.map eT) v ⟶ pullback (F.map eT) v))
     (hχT₁ : ∀ g, χT g ≫ pullback.fst (F.map eT) v = pullback.fst (F.map eT) v)
     (hTone : χT 1 = 𝟙 _) (hTmul : ∀ x y, χT (x * y) = χT y ≫ χT x)
-    (hactT : ∀ g, (aZ g).hom.left ≫ stageLift F a eT v P Z.hom hP.w =
+    (hactT : ∀ g, (aZ g).asIso.hom.left ≫ stageLift F a eT v P Z.hom hP.w =
       stageLift F a eT v P Z.hom hP.w ≫ χT g) :
     ∃ (i : K) (V : FiniteEtaleOver (F.obj i)) (act : Gᵐᵒᵖ →* Aut V) (P : Z.left ⟶ V.left),
       IsPullback P Z.hom V.hom (a.π.app i) ∧
-        (∀ g, (aZ g).hom.left ≫ P = P ≫ (act g).hom.left) ∧
+        (∀ g, (aZ g).asIso.hom.left ≫ P = P ≫ (act g).asIso.hom.left) ∧
         IsIso (Stacks.Descent.galoisCoverComparison V.hom
           (((MorphismProperty.Over.forget finiteEtale ⊤ _).mapAut V).comp act)) := by
   let VT : FiniteEtaleOver (F.obj T) :=
@@ -548,12 +548,12 @@ private theorem exists_torsor_model_of_endos (ha : IsLimit a) {G : Type v} [Grou
   let act₂ := actionOfEndos V₂ χ₂ hχ₂₁ h2one h2mul
   let a₂ : Gᵐᵒᵖ →* Aut (Over.mk V₂.hom) :=
     ((MorphismProperty.Over.forget finiteEtale ⊤ _).mapAut V₂).comp act₂
-  have htr (g : Gᵐᵒᵖ) : (a₂ g).hom.left ≫ stageTransfer F eT e₂ g₂ rfl v =
-      stageTransfer F eT e₂ g₂ rfl v ≫ (aT g).hom.left :=
+  have htr (g : Gᵐᵒᵖ) : (a₂ g).asIso.hom.left ≫ stageTransfer F eT e₂ g₂ rfl v =
+      stageTransfer F eT e₂ g₂ rfl v ≫ (aT g).asIso.hom.left :=
     laterEndo_stageTransfer F eT e₂ g₂ rfl v (χT g) (hχT₁ g)
   exact ⟨T₂, V₂, act₂, stageLift F a e₂ v P Z.hom hP.w, isPullback_stageLift F a e₂ v P Z.hom hP,
-    fun g ↦ stageLift_laterEndo F a eT e₂ g₂ rfl v P Z.hom hP.w (aZ g).hom.left
-      (MorphismProperty.Over.w (aZ g).hom) (χT g) (hχT₁ g) (hactT g),
+    fun g ↦ stageLift_laterEndo F a eT e₂ g₂ rfl v P Z.hom hP.w (aZ g).asIso.hom.left
+      (MorphismProperty.Over.w (aZ g).asIso.hom) (χT g) (hχT₁ g) (hactT g),
     (isIso_galoisCoverComparison_iff_isIso_pullback_map
       (isPullback_stageTransfer F eT e₂ g₂ rfl v) aT a₂ htr).mpr hiso⟩
 
@@ -568,7 +568,7 @@ theorem exists_torsor_model (ha : IsLimit a) {G : Type v} [Group G] [Finite G]
       (((MorphismProperty.Over.forget finiteEtale ⊤ _).mapAut Z).comp aZ))] :
     ∃ (i : K) (V : FiniteEtaleOver (F.obj i)) (act : Gᵐᵒᵖ →* Aut V) (P : Z.left ⟶ V.left),
       IsPullback P Z.hom V.hom (a.π.app i) ∧
-        (∀ g, (aZ g).hom.left ≫ P = P ≫ (act g).hom.left) ∧
+        (∀ g, (aZ g).asIso.hom.left ≫ P = P ≫ (act g).asIso.hom.left) ∧
         IsIso (Stacks.Descent.galoisCoverComparison V.hom
           (((MorphismProperty.Over.forget finiteEtale ⊤ _).mapAut V).comp act)) := by
   obtain ⟨l, B, ⟨eB⟩⟩ := exists_finiteEtale_model F a ha Z
@@ -587,15 +587,15 @@ theorem exists_torsor_model (ha : IsLimit a) {G : Type v} [Group G] [Finite G]
     rw [hP₀def, Category.assoc, pullback.condition, ← Category.assoc, heL]
   have hP₀ : IsPullback P₀ Z.hom B.hom (a.π.app l) :=
     IsPullback.of_iso_pullback ⟨hP₀w⟩ eL rfl heL
-  have hZ1 : (aZ 1).hom.left = 𝟙 _ := by
+  have hZ1 : (aZ 1).asIso.hom.left = 𝟙 _ := by
     rw [map_one]
     rfl
-  have hZmul (x y : Gᵐᵒᵖ) : (aZ (x * y)).hom.left = (aZ y).hom.left ≫ (aZ x).hom.left := by
+  have hZmul (x y : Gᵐᵒᵖ) : (aZ (x * y)).asIso.hom.left = (aZ y).asIso.hom.left ≫ (aZ x).asIso.hom.left := by
     rw [map_mul]
     rfl
   have : Finite Gᵐᵒᵖ := Finite.of_equiv G MulOpposite.opEquiv
   obtain ⟨T, eT, χT, hχT₁, hTone, hTmul, hactT⟩ := exists_endos_descent F a ha l B.hom P₀ Z.hom
-    hP₀ (fun g ↦ (aZ g).hom.left) (fun g ↦ MorphismProperty.Over.w (aZ g).hom) hZ1 hZmul
+    hP₀ (fun g ↦ (aZ g).asIso.hom.left) (fun g ↦ MorphismProperty.Over.w (aZ g).asIso.hom) hZ1 hZmul
   exact exists_torsor_model_of_endos F a ha Z aZ B.hom P₀ hP₀ eT χT hχT₁ hTone hTmul hactT
 
 /-- **Finite étale Galois covers of a limit come from a stage.** Over the limit of a cofiltered
@@ -607,7 +607,7 @@ theorem exists_galoisCover_model (ha : IsLimit a)
     {G : Type v} [Group G] [Finite G] (Z : FiniteEtaleGaloisCover a.pt G) :
     ∃ (i : K) (V : FiniteEtaleGaloisCover (F.obj i) G) (P : Z.obj.left ⟶ V.obj.left),
       IsPullback P Z.obj.hom V.obj.hom (a.π.app i) ∧
-        ∀ g, (Z.action g).hom.left ≫ P = P ≫ (V.action g).hom.left := by
+        ∀ g, (Z.action g).asIso.hom.left ≫ P = P ≫ (V.action g).asIso.hom.left := by
   obtain ⟨i, V, act, P, hP, hact, hiso⟩ := exists_torsor_model F a ha Z.obj Z.action
   have hPs : Surjective P := MorphismProperty.of_isPullback hP.flip inferInstance
   have hconn : ConnectedSpace V.left :=

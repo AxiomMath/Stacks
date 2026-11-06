@@ -71,15 +71,16 @@ theorem ΓRes_relativeGlobalSectionsMap {X Y Z : Scheme.{u}} (f : Y ⟶ X) (g : 
         (((smallEtaleInverseImage g).obj ((smallEtaleInverseImage f).obj F)).obj.map k.op
           (smallEtaleSectionPullback.{u, v} g ((smallEtaleInverseImage f).obj F)
             (Scheme.Etale.mk (𝟙 Y))
-            (Sheaf.ΓRes ((smallEtaleInverseImage f).obj F) (op (Scheme.Etale.mk (𝟙 Y))) σ))) := by
+            (Sheaf.ΓRes ((smallEtaleInverseImage.{u, v} f).obj F) (op (Scheme.Etale.mk (𝟙 Y)))
+              σ))) := by
   have hr : relativeGlobalSectionsMap.{u, v} f g p hp F σ =
       (etaleGlobalSections.{u, v} Z).map ((etalePullbackCompIso f g p hp).hom.app F)
         (etaleGlobalPullback g ((smallEtaleInverseImage f).obj F) σ) := by
     rw [relativeGlobalSectionsMap, ConcreteCategory.comp_apply]
   rw [hr]
   have h := ConcreteCategory.congr_hom (Sheaf.ΓRes_naturality
-    ((etalePullbackCompIso f g p hp).hom.app F) (op V))
-    (etaleGlobalPullback g ((smallEtaleInverseImage f).obj F) σ)
+    ((etalePullbackCompIso.{u, v} f g p hp).hom.app F) (op V))
+    (etaleGlobalPullback.{u, v} g ((smallEtaleInverseImage.{u, v} f).obj F) σ)
   rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at h
   rw [h]
   refine congrArg (((etalePullbackCompIso f g p hp).hom.app F).hom.app (op V)) ?_

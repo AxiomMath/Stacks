@@ -75,8 +75,8 @@ theorem exists_finiteEtaleOver_transitive_stabilizer_le
   have hψ : ∀ (σ : G) (w : (finiteEtaleFiberFunctor x).obj W), ψ (σ • w) = σ • ψ w := by
     intro σ w
     have h : ConcreteCategory.hom c.hom.hom.hom
-        (ConcreteCategory.hom ((E.functor.obj W).obj.ρ σ) w) =
-          ConcreteCategory.hom (Q.obj.ρ σ) (ConcreteCategory.hom c.hom.hom.hom w) :=
+        (ConcreteCategory.hom ((E.functor.obj W).obj.ρ σ).asHom w) =
+          ConcreteCategory.hom (Q.obj.ρ σ).asHom (ConcreteCategory.hom c.hom.hom.hom w) :=
       ConcreteCategory.congr_hom (c.hom.hom.comm σ) w
     rwa [finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply] at h
   have htransQ : MulAction.IsPretransitive G Q.obj.V := by
@@ -86,7 +86,7 @@ theorem exists_finiteEtaleOver_transitive_stabilizer_le
     exact pretransitive_uSwitch (A := Q0.obj)
   have hstabQ : ∀ σ : G, σ • q₀ = q₀ → σ ∈ H := by
     intro σ hσ
-    have h0 : (FintypeCat.uSwitch.map (Q0.obj.ρ σ)) q₀ = q₀ := hσ
+    have h0 : (FintypeCat.uSwitch.map (Q0.obj.ρ σ).asHom) q₀ = q₀ := hσ
     have h1 := congrArg e h0
     rw [← FintypeCat.uSwitchEquiv_naturality] at h1
     have hq : e q₀ = (⟦1⟧ : G ⧸ H.toSubgroup) := Equiv.apply_symm_apply _ _
@@ -131,7 +131,7 @@ def finiteTypeContinuousModuleTrivialIsoRes {G H : Type (u + 1)} [Group G] [Topo
     ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
       { hom := 𝟙 _
         comm := fun g ↦ by
-          change 𝟙 _ ≫ 𝟙 _ = 𝟙 _ ≫ M.obj.obj.obj.ρ (φ g)
+          change 𝟙 _ ≫ 𝟙 _ = 𝟙 _ ≫ (M.obj.obj.obj.ρ (φ g)).asHom
           rw [hM g]
           rfl }))
   haveI : IsIso f := isIso_of_bijective Λ G f Function.bijective_id

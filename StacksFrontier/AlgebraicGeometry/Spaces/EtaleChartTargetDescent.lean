@@ -38,6 +38,10 @@ universe u
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (P : MorphismProperty Scheme.{u}) {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+-- Instance search for pullbacks of presheaves times out under Lean v4.35.0: use the shortcuts
+-- declared in `Spaces.Morphisms.Unramified`.
+attribute [local instance high] hasPullbacks_presheaf_Unramified hasPullback_presheaf_Unramified
+
 /-- If `P` is étale local on the source and target, `a : h_T ⟶ G` is a surjective étale chart of
 the target of a morphism `f : F ⟶ G` of algebraic spaces over `S`, and `P` holds on every étale
 chart of the base change of `f` along `a`, then `P` holds on every étale chart of `f`. -/

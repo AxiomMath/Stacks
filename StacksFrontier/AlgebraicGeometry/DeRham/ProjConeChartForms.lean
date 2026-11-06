@@ -136,7 +136,7 @@ theorem transportedForms_surjective {V : X.Opens} (hV : IsAffineOpen V) {C : Typ
 theorem transportedForms_zero {V : X.Opens} (hV : IsAffineOpen V) {C : Type u} [CommRing C]
     [Algebra R C] (e : C ≃+* Γ(X, V)) (h) (p : ℕ) : transportedForms q hV e h p 0 = 0 := by
   unfold transportedForms
-  rw [map_zero, map_zero]
+  rw [AddEquiv.map_zero, AddEquiv.map_zero]
 
 /-- The transport of relative forms to Kähler forms of `C` is additive. -/
 theorem transportedForms_add {V : X.Opens} (hV : IsAffineOpen V) {C : Type u} [CommRing C]
@@ -144,7 +144,7 @@ theorem transportedForms_add {V : X.Opens} (hV : IsAffineOpen V) {C : Type u} [C
     transportedForms q hV e h p (ω + ω') =
       transportedForms q hV e h p ω + transportedForms q hV e h p ω' := by
   unfold transportedForms
-  rw [map_add, map_add]
+  rw [AddEquiv.map_add, AddEquiv.map_add]
 
 /-- **Transported forms commute with restriction**, for any scheme over `Spec R` and any two
 affine opens `V' ≤ V` whose rings are identified with `R`-algebras `C₂`, `C₁` compatibly with a

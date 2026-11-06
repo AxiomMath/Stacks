@@ -38,6 +38,17 @@ universe u r
 namespace Stacks.EtaleCohomology
 
 attribute [local instance] HasDerivedCategory.standard moduleCat_hasLimitsOfSize
+-- the structure projections of `Stacks.Models.RegularModelSituation` are global instances whose
+-- conclusions match every goal and send instance search astray; they are irrelevant here
+attribute [-instance] Stacks.Models.RegularModelSituation.commRingR
+  Stacks.Models.RegularModelSituation.isDomainR
+  Stacks.Models.RegularModelSituation.isDiscreteValuationRingR
+  Stacks.Models.RegularModelSituation.fieldK Stacks.Models.RegularModelSituation.algebraRK
+  Stacks.Models.RegularModelSituation.isFractionRingRK Stacks.Models.RegularModelSituation.fieldk
+  Stacks.Models.RegularModelSituation.algebraRk Stacks.Models.RegularModelSituation.isCurve
+  Stacks.Models.RegularModelSituation.smooth Stacks.Models.RegularModelSituation.flat
+  Stacks.Models.RegularModelSituation.locallyOfFiniteType
+  Stacks.Models.RegularModelSituation.quasiCompact
 
 /-- **Every sheaf of modules on the small étale site of an empty scheme is zero**: every object of
 the site is empty, hence covered by the empty family, and a sheaf takes a terminal value on an
@@ -111,6 +122,15 @@ theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySuppo
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F i) :=
     ModuleCat.isZero_iff_subsingleton.1 (isZero_rationalLim_of_forall_isZero _ h)
   exact isCharpolyNormMixedOfWeightLE_of_subsingleton _
+
+/-- A closed immersion followed by a morphism locally of finite type is locally of finite type;
+stated directly since instance search for it times out here. -/
+local instance (priority := high) locallyOfFiniteType_comp_surjectiveClosedImmersionWeights
+    {S₁ S₂ S₃ : Scheme.{u}} (g : S₁ ⟶ S₂) (h : S₂ ⟶ S₃) [IsClosedImmersion g]
+    [LocallyOfFiniteType h] : LocallyOfFiniteType (g ≫ h) :=
+  have hg : LocallyOfFiniteType g := ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType g).mp
+    ((IsClosedImmersion.iff_isFinite_and_mono g).mp ‹_›).1).2
+  @locallyOfFiniteType_comp _ _ _ g h hg ‹_›
 
 /-- **Weights of `Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)` from a surjective closed subscheme.**  If `i : Z ⟶ X` is a
 surjective closed immersion, compactified by the compactification induced by `j`, and the complex
@@ -221,6 +241,9 @@ theorem LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySuppo
     fun y => by
       have h := (B.inclusion.map iZ).isClosedEmbedding.isClosedMap _ y.2
       rwa [Set.image_singleton] at h
+  -- instance search for this times out (Lean v4.35.0): supply Mathlib's instance directly
+  have : LocallyOfFiniteType (B.inclusion.map iZ) :=
+    AlgebraicGeometry.instLocallyOfFiniteTypeOfIsClosedImmersion _
   refine LAdicSheaf.isCharpolyNormMixedOfWeightLE_rationalGeometricCompactlySupportedFrobenius_of_surjective
     B ℓ f j kbar p q hcard F i iZ hsurj ?_
   exact

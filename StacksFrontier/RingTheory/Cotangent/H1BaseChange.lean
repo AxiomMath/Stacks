@@ -51,7 +51,6 @@ lemma isBaseChange_of_isBaseChange_of_isPushout
   have key : ∀ x : R' ⊗[R] M, f.liftBaseChange S' (e.symm x) = hf.equiv x := by
     intro x
     induction x with
-    | zero => simp
     | tmul r' m =>
         rw [he, Algebra.IsPushout.cancelBaseChange_symm_tmul, hf.equiv_tmul]
         simp [algebraMap_smul]

@@ -184,7 +184,7 @@ private theorem exists_iso_prod_yoneda_projectiveSpaceSiteObject
     BinaryFan.isLimitCompLeftIso _ eL.inv
       (mapIsLimitOfPreservesOfIsLimit yoneda _ _ (prodIsProd _ _))
   refine ⟨IsLimit.conePointUniqueUpToIso (prodIsProd L (yoneda.obj V)) hyfan, ?_⟩
-  simpa using IsLimit.conePointUniqueUpToIso_hom_comp
+  exact IsLimit.conePointUniqueUpToIso_hom_comp
     (prodIsProd L (yoneda.obj V)) hyfan ⟨WalkingPair.right⟩
 
 /-- **A projective space over an affine part of the base, mapping into something finite over

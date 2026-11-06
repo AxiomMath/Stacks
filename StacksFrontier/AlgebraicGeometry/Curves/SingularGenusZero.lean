@@ -131,10 +131,9 @@ theorem finite_residueField_over_field_of_isClosed [LocallyOfFiniteType f] (x : 
   have : Algebra.FiniteType k (X.residueField x) := by
     show RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
-    · rfl
-    · simp only [RingHom.algebraMap_toAlgebra]
-      rw [← Scheme.Γevaluation_naturality]
-      simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
+    simp only [RingHom.algebraMap_toAlgebra]
+    rw [← Scheme.Γevaluation_naturality]
+    simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
   exact finite_of_finite_type_of_isJacobsonRing _ _
 
 /-- **A point with residue field `k` is a `k`-rational point.** If the residue field of `X` at `x`

@@ -120,15 +120,15 @@ private lemma monomial_mem_A_of_even (d : Fin 2 →₀ ℕ) (c : ℂ)
         (A.pow_mem hyy l)
 
 private lemma flip_coeff (d : Fin 2 →₀ ℕ) (p : B) :
-    MvPolynomial.coeff d (flip p) =
-      (-1 : ℂ) ^ (d 0 + d 1) * MvPolynomial.coeff d p := by
+    (flip p).coeff d =
+      (-1 : ℂ) ^ (d 0 + d 1) * p.coeff d := by
   induction p using MvPolynomial.induction_on' with
   | monomial e c =>
       rw [flip_monomial]
       simp only [MvPolynomial.coeff_smul, MvPolynomial.coeff_monomial]
       split_ifs <;> simp [*]
   | add p q hp hq =>
-      simp only [map_add, MvPolynomial.coeff_add, hp, hq]
+      simp only [map_add, AddMonoidAlgebra.coeff_add, Finsupp.coe_add, Pi.add_apply, hp, hq]
       ring
 
 private lemma flip_comp_flip : flip.comp flip = AlgHom.id ℂ B := by
@@ -209,7 +209,7 @@ theorem mem_A_iff_flip_eq (p : B) : p ∈ A ↔ flip p = p := by
     | mul q r hq hr ihq ihr => rw [map_mul, ihq, ihr]
   · intro hfix
     have hcoeffzero (d : Fin 2 →₀ ℕ) (hd : Odd (d 0 + d 1)) :
-        MvPolynomial.coeff d p = 0 := by
+        p.coeff d = 0 := by
       have h := flip_coeff d p
       rw [hfix] at h
       rcases hd with ⟨k, hk⟩
@@ -217,10 +217,10 @@ theorem mem_A_iff_flip_eq (p : B) : p ∈ A ↔ flip p = p := by
         rw [hk, pow_add]
         simp
       rw [hpow] at h
-      have hzero : (2 : ℂ) * MvPolynomial.coeff d p = 0 := by linear_combination h
+      have hzero : (2 : ℂ) * p.coeff d = 0 := by linear_combination h
       exact (mul_eq_zero.mp hzero).resolve_left (by norm_num)
     have hmono (d : Fin 2 →₀ ℕ) (hd : d ∈ p.support) :
-        MvPolynomial.monomial d (MvPolynomial.coeff d p) ∈ A :=
+        MvPolynomial.monomial d (p.coeff d) ∈ A :=
       monomial_mem_A_of_even d _ ((Nat.even_or_odd _).resolve_right
         fun ho => MvPolynomial.mem_support_iff.mp hd (hcoeffzero d ho))
     rw [p.as_sum]
@@ -290,13 +290,13 @@ theorem two_mul_x_dy_not_mem_span :
   have hy := congrArg (fun f : Fin 2 →₀ B => f 1) hcoord
   rw [diffBasis_repr_D_xx, diffBasis_repr_D_xy, diffBasis_repr_D_yy,
     diffBasis_repr_two_x_dy] at hx hy
-  have hc0 : MvPolynomial.coeff 0 b = 0 := by
-    have h := congrArg (MvPolynomial.coeff (Finsupp.single 1 1)) hx
-    simpa [MvPolynomial.coeff_add, MvPolynomial.coeff_mul_X',
+  have hc0 : b.coeff 0 = 0 := by
+    have h := congrArg (fun q : B => q.coeff (Finsupp.single 1 1)) hx
+    simpa [AddMonoidAlgebra.coeff_add, Pi.add_apply, MvPolynomial.coeff_mul_X',
       MvPolynomial.coeff_X_mul', x, y] using h
-  have h := congrArg (MvPolynomial.coeff (Finsupp.single 0 1)) hy
-  have h' : MvPolynomial.coeff 0 b = 1 + 1 := by
-    simpa [MvPolynomial.coeff_add, MvPolynomial.coeff_mul_X',
+  have h := congrArg (fun q : B => q.coeff (Finsupp.single 0 1)) hy
+  have h' : b.coeff 0 = 1 + 1 := by
+    simpa [AddMonoidAlgebra.coeff_add, Pi.add_apply, MvPolynomial.coeff_mul_X',
       MvPolynomial.coeff_X_mul', x, y] using h
   rw [hc0] at h'
   norm_num at h'

@@ -64,9 +64,10 @@ theorem Ideal.isMaximal_of_radical_map_isMaximal_le {C A : Type*} [CommRing C] [
     [p.IsPrime] (hp : (m.map (algebraMap C A)).radical ≤ p) : p.IsMaximal := by
   have := hm
   rw [Ideal.IsPrime.radical_le_iff ‹p.IsPrime›, Ideal.map_le_iff_le_comap] at hp
-  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap p
-    (hm.eq_of_le (fun htop => ‹p.IsPrime›.ne_top (by simpa [Ideal.comap_eq_top_iff] using htop))
-      hp ▸ hm)
+  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := C) p
+    (show (p.comap (algebraMap C A)).IsMaximal from
+      (hm.eq_of_le (fun htop => ‹p.IsPrime›.ne_top (by simpa [Ideal.comap_eq_top_iff] using htop))
+        hp ▸ hm))
 
 /-- **The bijectivity hypothesis of
 `exists_algEquiv_prod_of_etale_of_isIntegral_of_henselianLocal_of_le`, from the fibre.**

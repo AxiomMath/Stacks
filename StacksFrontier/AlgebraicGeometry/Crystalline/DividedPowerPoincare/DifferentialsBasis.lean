@@ -45,6 +45,27 @@ attribute [local instance low] indexedDividedPowerPolynomialFinsuppModule
 attribute [local instance low] indexedDividedPowerPolynomialFinsuppModuleOp
 attribute [local instance low] indexedDividedPowerPolynomialFinsuppCentral
 
+/-- The `P`-module structure on `Ω¹_{P/A,δ}` for `P = A⟨x_w : w ∈ W⟩`, stated on the underlying
+divided power algebra so that instance search finds it without unfolding the bundled ring. -/
+private noncomputable instance dividedPowerDifferentialsPolynomialModule :
+    Module (DividedPowerAlgebra (↑(coefficientDividedPowerRing A))
+      (W →₀ ↑(coefficientDividedPowerRing A)))
+      (dividedPowerDifferentials (A := A)
+        (setIndexedDividedPowerPolynomialDividedPowerRing
+          (coefficientDividedPowerRing A) W).dividedPowers) :=
+  inferInstanceAs (Module ↑(setIndexedDividedPowerPolynomialDividedPowerRing
+    (coefficientDividedPowerRing A) W) _)
+
+/-- The same module structure, with the coefficient ring `coefficientDividedPowerRing A` unfolded
+to `A`. -/
+private noncomputable instance dividedPowerDifferentialsPolynomialModule' :
+    Module (DividedPowerAlgebra A (W →₀ A))
+      (dividedPowerDifferentials (A := A)
+        (setIndexedDividedPowerPolynomialDividedPowerRing
+          (coefficientDividedPowerRing A) W).dividedPowers) :=
+  inferInstanceAs (Module ↑(setIndexedDividedPowerPolynomialDividedPowerRing
+    (coefficientDividedPowerRing A) W) _)
+
 private theorem dividedPowerDifferential_span
     {R : Type*} [CommRing R] {S : DividedPowerRing} [Algebra R S] :
     Submodule.span (↑S) (Set.range

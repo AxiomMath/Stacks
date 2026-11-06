@@ -26,8 +26,8 @@ the infimum being taken in `ℕ∞`, so that it is `⊤` when every such `Ext` v
 
 * `Module.natCast_le_depth_iff_subsingleton_ext` — Rees' theorem for `Module.depth`, the
   degenerate branch included.
-* `ModuleCat.subsingleton_ext_of_lt_depth` — `Ext^i_R(N, M)` vanishes below the `I`-depth of `M`
-  for every finite `N` annihilated by a power of `I`.
+* `ModuleCat.subsingleton_ext_of_lt_ideal_depth` — `Ext^i_R(N, M)` vanishes below the `I`-depth
+  of `M` for every finite `N` annihilated by a power of `I`.
 * `Module.depth_eq_sInf_nontrivial_ext` — the `I`-depth is the least degree in which `Ext` from
   `R ⧸ I` is nontrivial.
 
@@ -128,8 +128,8 @@ the depth into an `M`-regular sequence in `I` long enough to kill `Ext^i_R(N, M)
   sga "2 III 2.4" "(4)⇒(2)",
   sga "2 III 2.8" "Ext^i(k",
   sga "2 IV 5.3" "Ext^i_A(k, special case"]
-theorem ModuleCat.subsingleton_ext_of_lt_depth [IsNoetherianRing R] [Small.{v} R] (I : Ideal R)
-    (M N : ModuleCat.{v} R) [Module.Finite R M] [Module.Finite R N]
+theorem ModuleCat.subsingleton_ext_of_lt_ideal_depth [IsNoetherianRing R] [Small.{v} R]
+    (I : Ideal R) (M N : ModuleCat.{v} R) [Module.Finite R M] [Module.Finite R N]
     (hIM : I • (⊤ : Submodule R M) ≠ ⊤) {k : ℕ} (hk : I ^ k ≤ Module.annihilator R N) {i : ℕ}
     (hi : (i : ℕ∞) < Module.depth R I M) :
     Subsingleton (Ext N M i) := by

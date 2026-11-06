@@ -153,8 +153,9 @@ private theorem connectedComponent_preimage_of_isPullback_over_fields
   let l : Spec (.of K) ⟶ P :=
     pullback.lift (b ≫ sI) t (by rw [Category.assoc, hfac, hcompat])
   have hmem : y ∈ Set.range j := ⟨l zK, by
-    simpa [y, Scheme.Hom.comp_apply] using
-      congrArg (fun m : Spec (.of K) ⟶ Y => m zK) (pullback.lift_snd _ _ _ : l ≫ j = t)⟩
+    have h := congrArg (fun m : Spec (.of K) ⟶ Y => m zK) (pullback.lift_snd _ _ _ : l ≫ j = t)
+    simp only [Scheme.Hom.comp_apply] at h
+    exact h⟩
   have hrange : Set.range j = a ⁻¹' connectedComponent x := by
     rw [Scheme.Pullback.range_snd, Scheme.IdealSheafData.range_subschemeι, hI]
     rfl

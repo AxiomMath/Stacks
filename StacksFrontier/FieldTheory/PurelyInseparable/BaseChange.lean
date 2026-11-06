@@ -806,8 +806,7 @@ private lemma exists_pow_eq_one_tmul (k F K : Type*) [Field k] [Field F] [CommRi
     [Algebra k F] [Algebra k K] [Module.Finite k F] [IsPurelyInseparable k F]
     (q : ℕ) [ExpChar k q] [ExpChar (F ⊗[k] K) q] (x : F ⊗[k] K) :
     ∃ c : K, x ^ q ^ IsPurelyInseparable.exponent k F = (1 : F) ⊗ₜ[k] c := by
-  refine TensorProduct.induction_on x ⟨0, ?_⟩ (fun a b => ?_) (fun x y hx hy => ?_)
-  · rw [zero_pow (pow_ne_zero _ (expChar_pos k q).ne'), TensorProduct.tmul_zero]
+  refine TensorProduct.inductionOn x (fun a b => ?_) (fun x y hx hy => ?_)
   · obtain ⟨d, hd⟩ := IsPurelyInseparable.exponent_def' k q a
     exact ⟨d • b ^ q ^ IsPurelyInseparable.exponent k F, by
       rw [Algebra.TensorProduct.tmul_pow, ← hd, Algebra.algebraMap_eq_smul_one,
@@ -846,7 +845,7 @@ private lemma isSeparablyGenerated_of_ringEquiv {L L' E : Type*} [Field L] [Fiel
     [Algebra L E] [Algebra L' E] (i : L ≃+* L')
     (hi : (algebraMap L E : L → E) = (algebraMap L' E) ∘ i)
     [h : Algebra.IsSeparablyGenerated L E] : Algebra.IsSeparablyGenerated L' E := by
-  obtain ⟨s, hs, hsep⟩ := h.exists_isTranscendenceBasis_and_isSeparable
+  obtain ⟨s, hs, hsep⟩ := h.isSeparable
   let _ : Algebra L' L := (i.symm : L' →+* L).toAlgebra
   have hmap : (algebraMap L' L : L' → L) = i.symm := rfl
   have : IsScalarTower L' L E := IsScalarTower.of_algebraMap_eq fun x => by rw [hmap, hi]; simp
@@ -863,7 +862,7 @@ private lemma isSeparablyGenerated_of_ringEquiv {L L' E : Type*} [Field L] [Fiel
 /-- A separably generated extension is separable in the sense of [stacks, 030O](2). -/
 private lemma isSeparableExtension_of_isSeparablyGenerated (F E : Type*) [Field F] [Field E]
     [Algebra F E] (h : Algebra.IsSeparablyGenerated F E) : Algebra.IsSeparableExtension F E := by
-  obtain ⟨s, hs, hsep⟩ := h.exists_isTranscendenceBasis_and_isSeparable
+  obtain ⟨s, hs, hsep⟩ := h.isSeparable
   refine ⟨fun L _ => ⟨?_⟩⟩
   obtain ⟨t, ht, htsep⟩ :=
     exists_isTranscendenceBasis_and_isSeparable_of_isSeparable_adjoin_of_essFiniteType
@@ -951,7 +950,7 @@ public theorem solution (k K Ω : Type*) [Field k] [Field K] [Field Ω] [Algebra
   have : Algebra.EssFiniteType ↥k' ↥K' := .of_comp k ↥k' ↥K'
   obtain ⟨s, hs, hsep⟩ :=
     (isSeparablyGenerated_of_ringEquiv (E := ↥K₁) e.toRingEquiv
-      (funext fun x => Subtype.ext (hev x).symm)).exists_isTranscendenceBasis_and_isSeparable
+      (funext fun x => Subtype.ext (hev x).symm)).isSeparable
   obtain ⟨t, ht, htsep⟩ :=
     @exists_isTranscendenceBasis_and_isSeparable_of_isSeparable_adjoin_of_essFiniteType
       ↥k' ↥K₁ ↥K' _ _ _ _ _ _ htower _ s hs hsep

@@ -307,7 +307,7 @@ noncomputable def xi : FormalObject quotCat where
   level n := Functor.elementsMk quotFun (AdicTruncation.obj dualBase n)
     (Quotient.mk (orbitSetoid _) (canonicalQuotientPoint dualBase n))
   level_eq _ := rfl
-  transition n := CategoryOfElements.homMk _ _ (AdicTruncation.transition dualBase n)
+  transition n := Functor.Elements.homMk (AdicTruncation.transition dualBase n)
     (congrArg (Quotient.mk (orbitSetoid _)) (canonicalQuotientPoint_transition dualBase n))
   transition_lift _ := CategoryTheory.IsHomLift.of_fac quotCat _ _ rfl rfl rfl
 
@@ -440,7 +440,7 @@ attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
 /-- The fibre value of the element `⟨A, x⟩` over `A` is `x`. -/
 theorem elementsFiberValue_mk (A : ArtinianLocalAlgCat.{0, 0, 0} Lam Kay)
     (x : quotFun.obj A) :
-    elementsFiberValue quotFun A ⟨⟨A, x⟩, rfl⟩ = x := by
+    elementsFiberValue quotFun A ⟨quotFun.elementsMk A x, rfl⟩ = x := by
   change (ConcreteCategory.hom (quotFun.map (eqToHom rfl))) x = x
   rw [eqToHom_refl]
   exact Functor.map_id_apply quotFun A x
@@ -458,13 +458,13 @@ theorem associatedMorphism_value (P : ChosenPushforwards quotCat)
     (alpha : (restrictedCoyoneda dualBase).obj A) :
     elementsFiberValue quotFun A
         ⟨(associatedMorphism quotCat_isPredeformationCategory.cofibered xi P).toBasedFunctor.obj
-            ⟨A, alpha⟩,
+            ((restrictedCoyoneda dualBase).elementsMk A alpha),
           (associatedMorphism quotCat_isPredeformationCategory.cofibered
-            xi P).toBasedFunctor.w_obj ⟨A, alpha⟩⟩ =
+            xi P).toBasedFunctor.w_obj ((restrictedCoyoneda dualBase).elementsMk A alpha)⟩ =
       Quotient.mk (orbitSetoid A) alpha := by
   set M := associatedMorphism quotCat_isPredeformationCategory.cofibered xi P
-  let n := M.level ⟨A, alpha⟩
-  let m := M.factor ⟨A, alpha⟩
+  let n := M.level ⟨alpha⟩
+  let m := M.factor ⟨alpha⟩
   let src : Functor.Fiber quotCat (AdicTruncation.obj dualBase n) := ⟨xi.level n, xi.level_eq n⟩
   let tgt : Functor.Fiber quotCat A := (P m).obj src
   have hval : (ConcreteCategory.hom (quotFun.map m))
@@ -472,35 +472,37 @@ theorem associatedMorphism_value (P : ChosenPushforwards quotCat)
       elementsFiberValue quotFun A tgt :=
     elementsFiberValue_map quotFun m src tgt ((P m).inclusion src)
       ((P m).cocartesian src).toIsHomLift
-  rw [elementsFiberValue_xi_level n] at hval
+  rw [show elementsFiberValue quotFun (AdicTruncation.obj dualBase n) src = _ from
+    elementsFiberValue_xi_level n] at hval
   have hval2 : Quotient.mk (orbitSetoid A)
       (canonicalQuotientPoint dualBase n ≫ artinianToComplete.map m) =
       elementsFiberValue quotFun A tgt := hval
   have hcomp : canonicalQuotientPoint dualBase n ≫ artinianToComplete.map m = alpha := by
     apply CompleteLocalAlgCat.Hom.ext
     rw [CompleteLocalAlgCat.comp_hom, canonicalQuotientPoint_hom]
-    exact (M.factor_spec ⟨A, alpha⟩).2.2
-  have hobj : (⟨M.toBasedFunctor.obj ⟨A, alpha⟩, M.toBasedFunctor.w_obj ⟨A, alpha⟩⟩ :
-      Functor.Fiber quotCat A) = tgt := Subtype.ext (M.obj_eq ⟨A, alpha⟩)
-  rw [hobj, ← hval2, hcomp]
+    exact (M.factor_spec ⟨alpha⟩).2.2
+  have hobj : (⟨M.toBasedFunctor.obj ⟨alpha⟩, M.toBasedFunctor.w_obj ⟨alpha⟩⟩ :
+      Functor.Fiber quotCat A) = tgt := Subtype.ext (M.obj_eq ⟨alpha⟩)
+  refine (congrArg (elementsFiberValue quotFun A) hobj).trans ?_
+  rw [← hval2, hcomp]
 
 /-- An element over `A` with fibre value `v` is the element `⟨A, v⟩`. -/
 theorem elements_eq_of_value {A : ArtinianLocalAlgCat.{0, 0, 0} Lam Kay}
     (z : quotFun.Elements) (h : quotCat.obj z = A) (v : quotFun.obj A)
-    (hv : elementsFiberValue quotFun A ⟨z, h⟩ = v) : z = ⟨A, v⟩ := by
-  obtain ⟨z1, z2⟩ := z
+    (hv : elementsFiberValue quotFun A ⟨z, h⟩ = v) : z = quotFun.elementsMk A v := by
+  obtain @⟨z1, z2⟩ := z
   obtain rfl : z1 = A := h
   rw [elementsFiberValue_mk] at hv
-  exact congrArg (fun w => (⟨_, w⟩ : quotFun.Elements)) hv
+  exact congrArg (fun w => (⟨w⟩ : quotFun.Elements)) hv
 
 /-- The associated morphism of `xi` sends a point to its orbit class. -/
 theorem associatedMorphism_obj (P : ChosenPushforwards quotCat)
     (X : (restrictedCoyoneda dualBase).Elements) :
     (associatedMorphism quotCat_isPredeformationCategory.cofibered xi P).toBasedFunctor.obj X =
-      ⟨X.1, Quotient.mk (orbitSetoid X.1) X.2⟩ :=
+      quotFun.elementsMk X.obj (Quotient.mk (orbitSetoid X.obj) X.val) :=
   elements_eq_of_value _
     ((associatedMorphism quotCat_isPredeformationCategory.cofibered xi P).toBasedFunctor.w_obj X)
-    _ (associatedMorphism_value P X.1 X.2)
+    _ (associatedMorphism_value P X.obj X.val)
 
 /-- The associated morphism of `xi` is the functor of elements induced by `toQuot`. -/
 theorem associatedMorphism_eq (P : ChosenPushforwards quotCat) :
@@ -511,11 +513,11 @@ theorem associatedMorphism_eq (P : ChosenPushforwards quotCat) :
         (elementsBasedFunctor toQuot).obj X := fun X => associatedMorphism_obj P X
   refine BasedCategory.BasedFunctor.ext' (CategoryTheory.Functor.ext hobj ?_)
   intro X Y h
-  apply CategoryOfElements.ext
+  apply Functor.Elements.hom_ext
   have hlift : (BasedCategory.ofFunctor
-      (CategoryOfElements.π (restrictedCoyoneda xi.base))).p.IsHomLift h.1 h :=
-    IsHomLift.of_fac _ h.1 h rfl rfl rfl
-  have hfac := IsHomLift.fac' (BasedCategory.ofFunctor quotCat).p h.1
+      (CategoryOfElements.π (restrictedCoyoneda xi.base))).p.IsHomLift h.hom h :=
+    IsHomLift.of_fac _ h.hom h rfl rfl rfl
+  have hfac := IsHomLift.fac' (BasedCategory.ofFunctor quotCat).p h.hom
     ((associatedMorphism quotCat_isPredeformationCategory.cofibered xi P).toBasedFunctor.map h)
   change (BasedCategory.ofFunctor quotCat).p.map
       ((associatedMorphism quotCat_isPredeformationCategory.cofibered xi P).toBasedFunctor.map h) =
@@ -573,17 +575,17 @@ theorem map_classOf_point (P : ChosenPushforwards quotCat)
         (associatedMorphism hpre.cofibered xi P).toBasedFunctor dualPt
         (classOf (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda xi.base)))
           (categoryOfElements_projection_isCofibered (restrictedCoyoneda xi.base))
-          ⟨⟨dualPt, alpha⟩, rfl⟩) =
+          ⟨(restrictedCoyoneda xi.base).elementsMk dualPt alpha, rfl⟩) =
       classOf (BasedCategory.ofFunctor quotCat) hpre.cofibered
-        ⟨⟨dualPt, Quotient.mk (orbitSetoid dualPt) alpha⟩, rfl⟩ := by
+        ⟨quotFun.elementsMk dualPt (Quotient.mk (orbitSetoid dualPt) alpha), rfl⟩ := by
   refine (mapIsomorphismClasses_classOf
     (𝓕 := BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda xi.base)))
     (categoryOfElements_projection_isCofibered (restrictedCoyoneda xi.base))
     (𝓖 := BasedCategory.ofFunctor quotCat) hpre.cofibered
     (associatedMorphism hpre.cofibered xi P).toBasedFunctor
-    (A := dualPt) ⟨⟨dualPt, alpha⟩, rfl⟩).trans ?_
+    (A := dualPt) ⟨(restrictedCoyoneda xi.base).elementsMk dualPt alpha, rfl⟩).trans ?_
   exact congrArg (classOf (BasedCategory.ofFunctor quotCat) hpre.cofibered)
-    (Subtype.ext (associatedMorphism_obj P ⟨dualPt, alpha⟩))
+    (Subtype.ext (associatedMorphism_obj P ⟨alpha⟩))
 
 /-- If a point `alpha` of the dual numbers has derivation `D`, then the class of its orbit lies
 on the graph of the differential at `D`. -/
@@ -592,7 +594,7 @@ theorem graph_of_point (P : ChosenPushforwards quotCat)
     (hD : ∀ r : xi.base, (alpha.hom r).snd.down = D r) :
     derivationDifferentialGraph.{0, 0, 0} quotCat hpre xi D
       (classOf (BasedCategory.ofFunctor quotCat) hpre.cofibered
-        ⟨⟨dualPt, Quotient.mk (orbitSetoid dualPt) alpha⟩, rfl⟩) :=
+        ⟨quotFun.elementsMk dualPt (Quotient.mk (orbitSetoid dualPt) alpha), rfl⟩) :=
   ⟨P, alpha, hD, map_classOf_point P alpha⟩
 
 /-- A tangent vector on the graph of the differential at `D` is the class of the orbit of a
@@ -603,7 +605,7 @@ theorem point_of_graph (D : Derivations xi.base Kay)
     ∃ alpha : (restrictedCoyoneda xi.base).obj dualPt,
       (∀ r : xi.base, (alpha.hom r).snd.down = D r) ∧
         classOf (BasedCategory.ofFunctor quotCat) hpre.cofibered
-          ⟨⟨dualPt, Quotient.mk (orbitSetoid dualPt) alpha⟩, rfl⟩ = y := by
+          ⟨quotFun.elementsMk dualPt (Quotient.mk (orbitSetoid dualPt) alpha), rfl⟩ = y := by
   obtain ⟨P, alpha, hD, hcl⟩ := hy
   exact ⟨alpha, hD, (map_classOf_point P alpha).symm.trans hcl⟩
 
@@ -613,14 +615,14 @@ theorem exists_graph (y : predeformationTangentSpace.{0, 0, 0} quotCat hpre) :
     ∃ D : Derivations xi.base Kay,
       derivationDifferentialGraph.{0, 0, 0} quotCat hpre xi D y := by
   obtain ⟨x, hx⟩ := classOf_surjective (BasedCategory.ofFunctor quotCat) hpre.cofibered dualPt y
-  obtain ⟨⟨A, v⟩, hA⟩ := x
+  obtain ⟨@⟨A, v⟩, hA⟩ := x
   have hA' : A = dualPt := hA
   subst hA'
   obtain ⟨alpha, halpha⟩ := Quotient.exists_rep v
   let : Algebra xi.base Kay := (residueHom xi.base).toRingHom.toAlgebra
   refine ⟨standardToDerivation xi (tangentSpaceDerivationsLinearEquiv xi.base alpha), ?_⟩
   have hcl : classOf (BasedCategory.ofFunctor quotCat) hpre.cofibered
-      ⟨⟨dualPt, Quotient.mk (orbitSetoid dualPt) alpha⟩, rfl⟩ = y := by
+      ⟨quotFun.elementsMk dualPt (Quotient.mk (orbitSetoid dualPt) alpha), rfl⟩ = y := by
     rw [halpha]
     exact hx
   rw [← hcl]

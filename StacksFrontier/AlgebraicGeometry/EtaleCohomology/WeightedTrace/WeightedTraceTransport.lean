@@ -272,13 +272,13 @@ public theorem etaleStalkSmallEtalePullObjIso_hom_eq_modPullbackStalk
       (x.map (B.inclusion.map f))).toPresheafFiber V v F.obj :=
     (Category.assoc _ _ _).trans
       (etaleStalkSmallEtalePullObjIso_germ B f x AddCommGrpCat.{max (u + 1) v} F
-        ⟨(smallEtaleBaseChange B f).obj V, geometricPointFiberBaseChangeEquiv B f x V v⟩
-        ⟨V, v⟩ (𝟙 _) ha)
+        (Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V) (geometricPointFiberBaseChangeEquiv B f x V v))
+        (Functor.elementsMk _ V v) (𝟙 _) ha)
   have hmd := etaleStalkSmallEtalePullObjIso_germ B f x
     (ModuleCat.{max (u + 1) v} (AddCommGrpCat.ULiftInt.{max (u + 1) v}))
     ((intModuleSheaf.{u, v} B Y).obj F)
-    ⟨(smallEtaleBaseChange B f).obj V, geometricPointFiberBaseChangeEquiv B f x V v⟩
-    ⟨V, v⟩ (𝟙 _) ha
+    (Functor.elementsMk _ ((smallEtaleBaseChange B f).obj V) (geometricPointFiberBaseChangeEquiv B f x V v))
+    (Functor.elementsMk _ V v) (𝟙 _) ha
   have hA := comp_inv_eq_of_comp_hom_eq
     (etaleStalkSmallEtalePullObjIso B f x AddCommGrpCat.{max (u + 1) v} F) hab
   have hB := (geometricPointSitePoint B X.obj X.property x).toPresheafFiber_naturality

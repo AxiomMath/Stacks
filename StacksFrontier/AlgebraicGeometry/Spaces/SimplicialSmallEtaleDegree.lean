@@ -79,6 +79,7 @@ theorem ranBaseChange_unit_comp_eq {P₁ : D₁ᵒᵖ ⥤ A} {P₂ : D₂ᵒᵖ 
 end Generic
 
 variable (X) in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Right Kan extensions along the inclusion of a degree exist. -/
 instance hasPointwiseRightKanExtension_degreeInclusion (n : SimplexCategory)
     (G : (SpacesEtale B S hS (X.obj (op n)))ᵒᵖ ⥤ Type (u + 1)) :

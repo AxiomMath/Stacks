@@ -249,7 +249,7 @@ theorem map_val_eq_levelValue (x : (S.levelSectionsFunctor he).obj N) {Z : Thick
           (S.bigModuleTypes N).map g.op (x.val (op B))) hf
     _ = (S.bigModuleTypes N).map (Z.levelLiftViaIso S he _ hφ).inv.op
           ((S.bigModuleTypes N).map ((S.levelChangeBase he).map (Z.levelLiftOfHomHom S he f)).op
-            (x.val (op B))) := FunctorToTypes.map_comp_apply _ _ _ _
+            (x.val (op B))) := Functor.map_comp_apply _ _ _ _
     _ = _ := congrArg ((S.bigModuleTypes N).map (Z.levelLiftViaIso S he _ hφ).inv.op)
           (x.2 (Z.levelLiftOfHomHom S he f).op)
 
@@ -310,8 +310,8 @@ theorem levelValue_levelSectionsTransition {m e : ℕ} (hm : S.IsLevel m) (he : 
           (F.map ((S.levelStepCompIso hm he hme).inv.app L).op y)) e₁
     _ = F.map ((Z.levelLiftViaIso S hm φ hφ).inv ≫ (S.levelStepCompIso hm he hme).inv.app L ≫
           (S.levelChangeBase he).map j).op (x.val (op L')) :=
-        ((FunctorToTypes.map_comp_apply F _ _ _).trans
-          (congrArg _ (FunctorToTypes.map_comp_apply F _ _ _))).symm
+        ((Functor.map_comp_apply F _ _ _).trans
+          (congrArg _ (Functor.map_comp_apply F _ _ _))).symm
     _ = _ := congrArg (fun g : Z ⟶ (S.levelChangeBase he).obj L' => F.map g.op (x.val (op L')))
           e₂
 

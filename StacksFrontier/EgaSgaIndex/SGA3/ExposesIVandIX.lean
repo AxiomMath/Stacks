@@ -95,7 +95,7 @@ import Mathlib.CategoryTheory.Subterminal
 import Mathlib.CategoryTheory.Types.Epimorphisms
 import Mathlib.CategoryTheory.Yoneda
 import Mathlib.Data.Quot
-import Mathlib.Data.Setoid.Basic
+import Mathlib.Order.Setoid.Basic
 import Mathlib.Data.Subtype
 import Mathlib.FieldTheory.PurelyInseparable.Basic
 import Mathlib.GroupTheory.Congruence.Basic
@@ -491,7 +491,7 @@ add_to_sga "3 IV 4.3.14" "partial" CategoryTheory.sheafToPresheaf_isRightAdjoint
 add_to_sga "3 IV 4.3.15" CategoryTheory.presheafToSheaf
 add_to_sga "3 IV 4.3.15" CategoryTheory.sheafify
 add_to_sga "3 IV 4.3.16" "more general"
-  CategoryTheory.GrothendieckTopology.preserveFiniteLimits_plusFunctor
+  CategoryTheory.GrothendieckTopology.preservesFiniteLimits_plusFunctor
 add_to_sga "3 IV 4.3.16" "more general"
   CategoryTheory.GrothendieckTopology.preservesFiniteLimits_sheafification
 add_to_sga "3 IV 4.3.16" "more general" CategoryTheory.preservesFiniteLimits_presheafToSheaf

@@ -310,8 +310,8 @@ noncomputable def filteredRightDerivedFunctorGrPIso (T : A ⥤ B) [T.Additive]
   let eT : H ⋙ T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       H ⋙ DerivedCategory.Plus.Qh ⋙ T.rightDerivedFunctorPlus :=
     NatIso.ofComponents
-      (fun X => asIso (T.rightDerivedFunctorPlusUnit.app (H.obj X)))
-      (fun f => T.rightDerivedFunctorPlusUnit.naturality (H.map f))
+      (fun X => asIso (T.rightDerivedFunctorPlusUnith.app (H.obj X)))
+      (fun f => T.rightDerivedFunctorPlusUnith.naturality (H.map f))
   let e : E ⋙ (filteredRightDerivedFunctor T ⋙ grB) ≅ E ⋙ (grA ⋙ T.rightDerivedFunctorPlus) :=
     Functor.isoWhiskerRight (filteredRightDerivedFunctorComparison T) grB ≪≫ eB ≪≫ eT ≪≫
       Functor.isoWhiskerRight eA.symm T.rightDerivedFunctorPlus

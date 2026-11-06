@@ -434,7 +434,7 @@ lemma good_stratification_induction {X : Type u}
     (hQfin : Q.IsFinite) :
     ∃ Q' : TopPartitionOpenCover.{u, u} ↥F.carrier,
       Q'.IsFinite ∧ Q'.IsGood ∧ Q'.Refines Q := by
-  apply (TopologicalSpace.instWellFoundedLTClosedsOfNoetherianSpace (α := X)).wf.induction
+  apply WellFounded.induction (TopologicalSpace.instWellFoundedLTClosedsOfNoetherianSpace (α := X))
     (C := fun F => ∀ (Q : TopPartitionOpenCover.{u, u} ↥F.carrier),
       Q.IsFinite →
       ∃ Q' : TopPartitionOpenCover.{u, u} ↥F.carrier,

@@ -6,6 +6,7 @@ public import StacksFrontier.RingTheory.Spectrum.Prime.Integral
 public import Mathlib.FieldTheory.FinTrdeg
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.ReduceModChar
+public import Mathlib.RingTheory.KrullDimension.Field
 public import StacksCore.LinearAlgebra.Matrix.CommSemiring
 import StacksCore.Tactic.EgaSgaAttribute
 

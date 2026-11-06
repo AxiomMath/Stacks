@@ -128,7 +128,6 @@ its bijectivity comes from. -/
 theorem zeroBaseChange_eq_toBaseChange (u : S ⊗[R] ↥(𝒜 0)) :
     zeroBaseChange 𝒜 S u = (𝒜 0).toBaseChange S u := by
   induction u with
-  | zero => rw [map_zero, map_zero]
   | tmul s y =>
       refine Subtype.ext ?_
       rw [Submodule.coe_toBaseChange_tmul]

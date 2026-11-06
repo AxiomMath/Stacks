@@ -130,6 +130,7 @@ theorem finiteDimensional_localizedAutomorphismFunctorTangent_of_faithful
     intro a b hab
     apply (localizedTangentEquivKernel P).injective
     apply Subtype.ext
+    apply Aut.ext
     apply Iso.ext
     apply Functor.Fiber.hom_ext
     apply Φ.map_injective

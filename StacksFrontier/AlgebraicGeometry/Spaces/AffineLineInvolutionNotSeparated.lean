@@ -104,7 +104,7 @@ theorem left_coprod_inr {S : Scheme.{u}} (X Y : Over S) (P : MorphismProperty Sc
   have : IsIso (coprodComparison (Over.forget S) X Y) :=
     (PreservesColimitPair.iso (Over.forget S) X Y).isIso_hom
   haveI := hP
-  of_comp_isIso_eq (coprodComparison_inr (Over.forget S)) h
+  of_comp_isIso_eq (coprodComparison_inr (Over.forget S) X Y) h
 
 namespace AffineLineInvolution
 

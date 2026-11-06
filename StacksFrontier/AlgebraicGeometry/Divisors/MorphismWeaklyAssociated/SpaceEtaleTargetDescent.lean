@@ -44,6 +44,13 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y Y' : AlgebraicSpaces B S hS}
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_spaceEtaleTargetDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- For `ψ : Y' ⟶ Y` étale and a field-valued point `p` of `Y`, the projection of the fibre of
 `ψ` over `p` to the spectrum of the field is étale. -/
 theorem isEtale_pullback_snd_fieldMorphism (ψ : Y' ⟶ Y) (hψ : IsEtale B S hS ψ.hom)

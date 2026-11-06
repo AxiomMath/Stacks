@@ -96,7 +96,7 @@ private lemma isBaseChange_quotient {p : A →ₐ[k] B} (hp : IsBaseChange k' p.
 private lemma sub_algebraMap_mem_map_ker (μ : A →ₐ[k] k) (μ' : B →ₐ[k'] k') {p : A →ₐ[k] B}
     (hp : IsBaseChange k' p.toLinearMap) (hcomm : ∀ a, μ' (p a) = algebraMap k k' (μ a)) (y : B) :
     y - algebraMap k' B (μ' y) ∈ (RingHom.ker μ).map p := by
-  refine hp.inductionOn y _ (by simp) (fun a => ?_) (fun s n hn => ?_) fun n₁ n₂ h₁ h₂ => ?_
+  refine hp.inductionOn y (fun a => ?_) (fun s n hn => ?_) fun n₁ n₂ h₁ h₂ => ?_
   · show p a - algebraMap k' B (μ' (p a)) ∈ _
     rw [hcomm a, ← IsScalarTower.algebraMap_apply k k' B, ← p.commutes, ← map_sub]
     exact Ideal.mem_map_of_mem _ (by simp [RingHom.mem_ker])
@@ -159,7 +159,6 @@ private lemma mulT_pmap (a : S ⊗[R] S) :
     mulT (pmap (R := R) (S := S) (S' := S') a) =
       algebraMap S S' (Algebra.TensorProduct.lmul'' R a) := by
   induction a with
-  | zero => simp
   | tmul a b => simp [pmap, qmap, mulT, Algebra.TensorProduct.lmul'']
   | add a b ha hb => simp [ha, hb]
 
@@ -192,7 +191,6 @@ private lemma swapEquiv_algebraMap (t : S ⊗[R] S') :
     swapEquiv (algebraMap (S ⊗[R] S') ((S ⊗[R] S') ⊗[S] S') t) =
       qmapSwap (R := R) (S := S) (S' := S') t := by
   induction t with
-  | zero => simp
   | tmul s y =>
       simp [swapEquiv, qmapSwap, Algebra.TensorProduct.algebraMap_apply, Algebra.smul_def]
   | add t u ht hu => simp only [map_add, ht, hu]
@@ -214,7 +212,6 @@ private lemma formallyEtale_qmap [Algebra.FormallyEtale S S'] :
           ((Algebra.TensorProduct.comm R S' S).toRingEquiv.toRingHom)) := by
     refine RingHom.ext fun t => ?_
     induction t with
-    | zero => simp
     | tmul x b => simp [qmap, qmapSwap]
     | add t u ht hu => simp only [map_add, ht, hu]
   rw [hfactor]
@@ -357,7 +354,6 @@ private lemma quotEquiv_pmapQuot [Algebra.FormallyEtale S S'] (n : ℕ)
     quotEquiv (R := R) (S := S) (S' := S') n (pmapQuot n y) = φ y := by
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective y
   induction a with
-  | zero => simp
   | tmul a b =>
       rw [pmapQuot_mk, quotEquiv_mk, hφ a b]
       exact congrArg (Ideal.Quotient.mk (KaehlerDifferential.ideal R S' ^ n))

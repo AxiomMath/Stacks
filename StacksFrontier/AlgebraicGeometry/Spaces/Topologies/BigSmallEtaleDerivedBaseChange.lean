@@ -84,6 +84,16 @@ variable {S : Scheme.{u}} (T : BigEtaleSpaceSite S)
 
 attribute [local instance] HasDerivedCategory.standard
 
+/- Lean v4.35.0: instance search for limits on presheaves of the big fppf site times out;
+supply them directly. -/
+set_option synthInstance.maxHeartbeats 400000 in
+local instance hasLimitsOfSize_presheaf_BigSmallEtaleDerivedBaseChange :
+    HasLimitsOfSize.{0, 0} ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance hasLimitsOfShape_presheaf_BigSmallEtaleDerivedBaseChange (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) :=
+  HasLimitsOfSize.has_limits_of_shape _
+
 /-- Inverse image of abelian sheaves along the big étale morphism `g_big` of `g : X' ⟶ X`:
 restriction of a sheaf on the big étale site of `X` along composition with `g`. -/
 abbrev bigEtalePullback {X X' : T.Spaces} (g : X' ⟶ X) :

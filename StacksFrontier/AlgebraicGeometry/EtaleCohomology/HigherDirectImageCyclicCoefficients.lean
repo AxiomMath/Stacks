@@ -52,7 +52,7 @@ instance : IsDirected (FGAddSubgroup M) (· ≤ ·) where
   directed S T := ⟨⟨S.1 ⊔ T.1, S.2.sup T.2⟩, le_sup_left (a := S.1), le_sup_right (a := S.1)⟩
 
 /-- The trivial subgroup is finitely generated. -/
-instance : Nonempty (FGAddSubgroup M) := ⟨⟨⊥, ⟨∅, by simp⟩⟩⟩
+instance : Nonempty (FGAddSubgroup M) := ⟨⟨⊥, AddSubgroup.FG.bot⟩⟩
 
 /-- The diagram of finitely generated subgroups of an abelian group and their inclusions. -/
 def fgAddSubgroupDiagram : FGAddSubgroup M ⥤ AddCommGrpCat.{u + 1} where
@@ -71,8 +71,8 @@ def isColimitFGAddSubgroupCocone : IsColimit (fgAddSubgroupCocone M) := by
   refine isColimitOfReflects (forget AddCommGrpCat.{u + 1})
     (Types.FilteredColimit.isColimitOf _ _ (fun x ↦ ?_) (fun i j xi xj hij ↦ ?_))
   · let y : M := x
-    refine ⟨⟨AddSubgroup.zmultiples y, ⟨({y} : Finset M), by
-      rw [Finset.coe_singleton, AddSubgroup.zmultiples_eq_closure]⟩⟩,
+    refine ⟨⟨AddSubgroup.zmultiples y, (AddSubgroup.fg_iff _).2
+      ⟨{y}, (AddSubgroup.zmultiples_eq_closure y).symm, Set.finite_singleton y⟩⟩,
       ⟨y, AddSubgroup.mem_zmultiples y⟩, rfl⟩
   · refine ⟨⟨i.1 ⊔ j.1, i.2.sup j.2⟩,
       homOfLE (show i.1 ≤ i.1 ⊔ j.1 from le_sup_left),

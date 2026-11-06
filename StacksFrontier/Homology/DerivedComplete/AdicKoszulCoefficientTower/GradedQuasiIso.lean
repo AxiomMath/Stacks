@@ -238,7 +238,7 @@ private theorem gradedProjection_f_proj {r : ℕ} {f : Fin r → A} (h : Formula
     (h.gradedProjection p hp n K).f t ≫ (gradedTermIso r p K t).hom ≫
       ModuleCat.ofHom (LinearMap.proj S) = gradedComponentTerm p hp K S t := by
   rw [gradedTermIso_hom_proj, ← HomologicalComplex.comp_f]
-  simp only [FormulaLaws.gradedProjection, Limits.Pi.lift_π]
+  simp only [FormulaLaws.gradedProjection, Limits.Pi.lift_comp_π]
 
 private def gradedTermSection {r : ℕ} (p : ℤ) (hp : p ≤ 0)
     (K : CochainComplex (ModuleCat.{v} A) ℤ) (t : ℤ) :
@@ -366,7 +366,7 @@ private def gradedShortComplex {r : ℕ} {f : Fin r → A} (h : FormulaLaws.{u, 
     (h.gradedProjection p hp n K) (by
       apply Limits.Pi.hom_ext
       intro S
-      rw [Category.assoc, FormulaLaws.gradedProjection, Limits.Pi.lift_π, zero_comp]
+      rw [Category.assoc, FormulaLaws.gradedProjection, Limits.Pi.lift_comp_π, zero_comp]
       exact HomologicalComplex.hom_ext _ _ (h.graded_vanish p hp K S))
 
 private theorem gradedShortComplex_shortExact {r : ℕ} {f : Fin r → A}

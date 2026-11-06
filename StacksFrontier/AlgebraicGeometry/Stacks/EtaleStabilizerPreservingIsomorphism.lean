@@ -249,7 +249,7 @@ theorem isEquivalence_of_isEtale_of_universallyInjective_of_isSurjective (f : �
         (isAlgebraicSpace_yoneda B S hS (Over.mk U.hom)) _
         (het U y hy F hF hrepr) (hui' U y hy F hF hrepr) (hsu' U y hy F hF hrepr)
   obtain ⟨hfull, hfaith⟩ := full_and_faithful_homFunctor_of_mono_representingMaps B S hS f.hom
-    hrep fun U y hy F hF hrepr => have := hiso U y hy F hF hrepr; inferInstance
+    hrep fun U y hy F hF hrepr => have := hiso U y hy F hF hrepr; IsIso.mono_of_iso _
   have hess : (CatFiberedInGroupoids.homFunctor f.hom).EssSurj := by
     refine ⟨fun y₀ => ?_⟩
     let U : BigFppfOver B S hS := 𝒴.val.val.p.obj y₀

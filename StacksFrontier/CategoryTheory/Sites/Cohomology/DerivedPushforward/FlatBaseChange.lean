@@ -102,7 +102,7 @@ def flatPullbackComparison (g : AlgebraicGeometry.RingedToposHom X Y) (hg : g.Is
   have := hex.2
   have := Stacks.Cohomology.BaseChange.exactUnit_isIso
     (g.toRingedToposModulesHom.pullbackModules)
-  asIso (g.toRingedToposModulesHom.pullbackModules).rightDerivedFunctorPlusUnit
+  asIso (g.toRingedToposModulesHom.pullbackModules).rightDerivedFunctorPlusUnith
 
 end Pullback
 
@@ -193,7 +193,7 @@ comparison `baseChangeOnHomotopyCategory` on the bounded below homotopy category
 @[stacks 0736 "canonical characterization"]
 theorem baseChangeMap_fac :
     Functor.whiskerRight
-        (pushforwardModules f.toRingedToposModulesHom).rightDerivedFunctorPlusUnit
+        (pushforwardModules f.toRingedToposModulesHom).rightDerivedFunctorPlusUnith
         (flatPullback g hg) ≫
       (Functor.associator _ _ _).hom ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh (baseChangeMap f f' g g' comm hg hg') =

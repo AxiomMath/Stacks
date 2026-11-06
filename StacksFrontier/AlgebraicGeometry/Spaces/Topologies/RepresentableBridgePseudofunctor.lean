@@ -367,6 +367,7 @@ theorem representedPushforwardSquare_id (X : BigFppfOver B S hS) :
   rw [← M.obj.map_comp]
   exact congrArg (fun k => M.obj.map k.op) (representedChartBaseChangeIso_id_app X U.unop)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The comparison of the two pseudofunctors of inverse images on representable algebraic
 spaces**: a strong transformation from the spaces-étale one to the small étale one, whose
 components are the restrictions along the chart functors and whose naturality constraints are
@@ -396,6 +397,7 @@ theorem representedComparison_app (V : BigFppfOver B S hS) :
   rfl
 
 variable (B S hS) in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Descent along proper surjections of representable algebraic spaces is fully faithful, as
 soon as it is for schemes.** If, for every proper surjection of schemes `h` of a big étale site,
 the functor sending a small étale sheaf to its canonical descent datum along `h` is fully

@@ -214,7 +214,7 @@ def smallerBaseULiftYonedaOverIso {U : BigFppfOver B S hS} (ψ : U ⟶ Over.mk g
         (uliftYoneda.{u + 1}.obj (Over.mk ψ.left : BigFppfOver B V hV)) ≅
       uliftYoneda.{u + 1}.obj U :=
   NatIso.ofComponents (fun T => (smallerBaseULiftYonedaOverEquiv B V S hV hS g ψ (unop T)).toIso)
-    (fun _ => by ext; exact ULift.ext _ _ (Over.OverMorphism.ext rfl))
+    (fun _ => by ext; exact ULift.ext (Over.OverMorphism.ext rfl))
 
 /-- The fppf sheaf `h_U` over `V`, through a factorization `ψ : U ⟶ (V ⟶ S)`, is attached to the
 representable sheaf of `U`. -/
@@ -233,7 +233,7 @@ theorem smallerBaseYonedaIso_hom_comp {U : BigFppfOver B S hS} (ψ : U ⟶ Over.
         (BigFppfOver.topology B S hS).uliftYoneda.{u + 1}.map ψ =
       smallerBaseStr B V S hV hS g _ := by
   ext T p
-  exact ULift.ext _ _ (Over.OverMorphism.ext (Over.w p.2.down))
+  exact ULift.ext (Over.OverMorphism.ext (Over.w p.2.down))
 
 /-- The isomorphisms `smallerBaseYonedaIso` are natural in a morphism `a : U ⟶ U'` together with a
 morphism `k` over `V` lying over it. -/
@@ -246,7 +246,7 @@ theorem smallerBaseYonedaIso_hom_naturality {U U' : BigFppfOver B S hS} (ψ : U 
       (smallerBaseYonedaIso B V S hV hS g ψ).hom ≫
         (BigFppfOver.topology B S hS).uliftYoneda.{u + 1}.map a := by
   ext T p
-  exact ULift.ext _ _ (Over.OverMorphism.ext (by
+  exact ULift.ext (Over.OverMorphism.ext (by
     show p.2.down.left ≫ k.left = p.2.down.left ≫ a.left
     rw [hk]))
 
@@ -260,7 +260,7 @@ def smallerBaseSheafFunctorYonedaIso :
       (smallerBaseULiftYonedaIso B V S hV hS g X))
     (fun {X X'} m => by
       ext T p
-      exact ULift.ext _ _ (Over.OverMorphism.ext rfl))
+      exact ULift.ext (Over.OverMorphism.ext rfl))
 
 /-- On sheafified representable sheaves the attached sheaf is the sheafified representable sheaf
 of the object viewed over `S`. -/

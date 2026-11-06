@@ -157,7 +157,7 @@ public theorem infAutRestrict_trans {M N Q : SiteModule A B} (f : M ⟶ N) (g : 
       infAutRestrict A B S hS toS hA p x hx hp g
         (infAutRestrict A B S hS toS hA p x hx hp f θ) :=
   (infAutSetFunctor_map_eq' A B S hS toS hA p x hx hp (f ≫ g) θ).symm.trans
-    ((FunctorToTypes.map_comp_apply
+    ((Functor.map_comp_apply
         (infinitesimalAutomorphismSetFunctor A B S hS toS hA p x hx hp) f g θ).trans
       ((infAutSetFunctor_map_eq' A B S hS toS hA p x hx hp g _).trans
         (congrArg (infAutRestrict A B S hS toS hA p x hx hp g)
@@ -169,8 +169,8 @@ public theorem infAutRestrict_id {M : SiteModule A B}
       trivialDeformation A B S hS toS hA p x hx hp M) :
     infAutRestrict A B S hS toS hA p x hx hp (𝟙 M) θ = θ :=
   (infAutSetFunctor_map_eq' A B S hS toS hA p x hx hp (𝟙 M) θ).symm.trans
-    (FunctorToTypes.map_id_apply
-      (infinitesimalAutomorphismSetFunctor A B S hS toS hA p x hx hp) θ)
+    (Functor.map_id_apply
+      (infinitesimalAutomorphismSetFunctor A B S hS toS hA p x hx hp) M θ)
 
 /-- **The transition map along a zero module map is trivial**, for a zero map between any two
 modules: it factors through the zero endomorphism of the source. -/

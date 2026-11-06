@@ -1213,7 +1213,7 @@ theorem isN1_atPrime_of_exists_monic {A C K : Type u} [CommRing A] [IsDomain A]
         Algebra.IsIntegral.of_finite _ _
       have hmax : (𝔫.comap (algebraMap (Localization.AtPrime 𝔪)
           (Localization (Algebra.algebraMapSubmonoid C' 𝔪.primeCompl)))).IsMaximal :=
-        Ideal.isMaximal_comap_of_isIntegral_of_isMaximal 𝔫
+        Ideal.isMaximal_under_of_isIntegral_of_isMaximal 𝔫
       have hq𝔪 : (𝔫.comap (algebraMap C' (Localization (Algebra.algebraMapSubmonoid C'
           𝔪.primeCompl)))).comap (algebraMap C C') = 𝔪 := by
         rw [Ideal.comap_comap, hcomp, ← Ideal.comap_comap, IsLocalRing.eq_maximalIdeal hmax]
@@ -1360,7 +1360,7 @@ theorem isN1_atPrime_of_exists_monic {A C K : Type u} [CommRing A] [IsDomain A]
                   ({algebraMap C L y} : Set L)) ⟨r.1, hroot r.1 r.2⟩)
             = algebraMap C L y - r.1 := by
         intro r
-        rw [map_sub]
+        rw [RingHom.map_sub]
         rfl
       calc algebraMap ↥(Algebra.adjoin ↥(integralClosure A L) ({algebraMap C L y} : Set L)) L
             (algebraMap C ↥(Algebra.adjoin ↥(integralClosure A L)

@@ -83,7 +83,7 @@ variable {R G M}
 omit [TopologicalSpace G] in
 /-- The action of a group element on an element of `M` is the value of the representation. -/
 lemma actionOfRepresentation_ρ_hom (ρ : Representation R G M) (g : G) (x : M) :
-    ((actionOfRepresentation R G M ρ).ρ g).hom x = ρ g x := rfl
+    ((actionOfRepresentation R G M ρ).ρ g).asHom.hom x = ρ g x := rfl
 
 /-- **The action of `G` on a discrete `R`-module is continuous exactly when the stabilizers are
 open.** This is the standard reformulation of the continuity condition defining an
@@ -110,7 +110,7 @@ def ofRepresentation (ρ : Representation R G M)
 /-- The action on `Stacks.GroupCohomology.ofRepresentation` is the given representation. -/
 @[simp] lemma ofRepresentation_ρ_hom (ρ : Representation R G M)
     (h : (actionOfRepresentation R G M ρ).IsContinuous) (g : G) (x : M) :
-    (((ofRepresentation ρ h).obj.obj.ρ g).hom x : M) = ρ g x := rfl
+    (((ofRepresentation ρ h).obj.obj.ρ g).asHom.hom x : M) = ρ g x := rfl
 
 variable (R G)
 
@@ -118,7 +118,7 @@ variable (R G)
 continuous and the module is discrete. -/
 @[sga "4 IV 2.7.2" "partial"]
 theorem isOpen_stabilizer (X : Stacks.Injectives.ContinuousModule.{u, v, w} R G)
-    (x : X.obj.obj.V) : IsOpen {g : G | (X.obj.obj.ρ g).hom x = x} := by
+    (x : X.obj.obj.V) : IsOpen {g : G | (X.obj.obj.ρ g).asHom.hom x = x} := by
   have hc : ContinuousSMul G
       ((forget₂ (Action (ModuleCat.{w} R) G) TopCat).obj X.obj.obj) := X.obj.property
   have hd : DiscreteTopology
@@ -131,7 +131,7 @@ map. -/
 @[stacks 04JP "morphisms of R-G-modules"]
 def homEquiv (X Y : Stacks.Injectives.ContinuousModule.{u, v, w} R G) :
     (X ⟶ Y) ≃ {f : X.obj.obj.V →ₗ[R] Y.obj.obj.V // ∀ (g : G) (x : X.obj.obj.V),
-      f ((X.obj.obj.ρ g).hom x) = (Y.obj.obj.ρ g).hom (f x)} where
+      f ((X.obj.obj.ρ g).asHom.hom x) = (Y.obj.obj.ρ g).asHom.hom (f x)} where
   toFun f := ⟨f.hom.hom.hom.hom, fun g x => ConcreteCategory.congr_hom (f.hom.hom.comm g) x⟩
   invFun f := ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ModuleCat.ofHom f.1
@@ -184,7 +184,7 @@ def ofDistribMulAction (h : (actionOfDistribMulAction G M).IsContinuous) :
 
 /-- The action on `Stacks.GroupCohomology.ofDistribMulAction` is the given one. -/
 @[simp] lemma ofDistribMulAction_ρ_hom (h : (actionOfDistribMulAction G M).IsContinuous)
-    (g : G) (x : M) : (((ofDistribMulAction h).obj.obj.ρ g).hom x : M) = g • x := rfl
+    (g : G) (x : M) : (((ofDistribMulAction h).obj.obj.ρ g).asHom.hom x : M) = g • x := rfl
 
 variable (G)
 
@@ -193,7 +193,7 @@ abelian groups. -/
 @[stacks 04JP "morphisms of G-modules"]
 def gModuleHomEquiv (X Y : Stacks.Injectives.ContinuousModule.{0, v, w} ℤ G) :
     (X ⟶ Y) ≃ {f : X.obj.obj.V →+ Y.obj.obj.V // ∀ (g : G) (x : X.obj.obj.V),
-      f ((X.obj.obj.ρ g).hom x) = (Y.obj.obj.ρ g).hom (f x)} where
+      f ((X.obj.obj.ρ g).asHom.hom x) = (Y.obj.obj.ρ g).asHom.hom (f x)} where
   toFun f := ⟨f.hom.hom.hom.hom.toAddMonoidHom,
     fun g x => ConcreteCategory.congr_hom (f.hom.hom.comm g) x⟩
   invFun f := ObjectProperty.homMk (ObjectProperty.homMk

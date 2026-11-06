@@ -204,7 +204,6 @@ omit [Module.FaithfullyFlat R S] in
 lemma coaction_mulMap (σ : N →ₗ[S] S ⊗[R] N) (y : S ⊗[R] N) :
     σ (mulMap (R := R) y) = mulLeftMap ((σ.restrictScalars R).lTensor S y) := by
   induction y with
-  | zero => simp
   | add y z hy hz => rw [map_add, map_add, hy, hz, map_add, map_add]
   | tmul s n => simp
 
@@ -213,7 +212,6 @@ omit [Module S N] [IsScalarTower R S N] [Module.FaithfullyFlat R S] in
 lemma mulLeftMap_lTensor_mk (y : S ⊗[R] N) :
     mulLeftMap ((TensorProduct.mk R S N 1).lTensor S y) = y := by
   induction y with
-  | zero => simp
   | add y z hy hz => rw [map_add, map_add, hy, hz]
   | tmul s n => simp [TensorProduct.smul_tmul']
 
@@ -237,7 +235,6 @@ theorem bijective_liftBaseChange_coinvariants (σ : N →ₗ[S] S ⊗[R] N)
       mulMap (R := R) ((coinvariants σ).subtype.lTensor S x) := by
     intro x
     induction x with
-    | zero => simp
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
     | tmul s n => simp
   have hcounit := mulMap_coaction σ hcoassoc hgen
@@ -333,7 +330,6 @@ theorem bijective_liftBaseChange_kerLinearMap (hqB : Function.Surjective qB) (hf
       TensorProduct.rid B E ((RingHom.ker qB).subtype.lTensor E x) := by
     intro x
     induction x with
-    | zero => simp
     | add x y hx hy => rw [map_add, Submodule.coe_add, hx, hy, map_add, map_add]
     | tmul e j =>
       rw [LinearMap.liftBaseChange_tmul, LinearMap.lTensor_tmul, TensorProduct.rid_tmul,
@@ -372,7 +368,6 @@ theorem bijective_liftBaseChange_kerLinearMap (hqB : Function.Surjective qB) (hf
       gB.liftBaseChange E x := by
     intro x
     induction x with
-    | zero => simp
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
     | tmul e j =>
       show (kerLinearMap hK hg hJs hKs hqB).liftBaseChange E₀ (qE e ⊗ₜ j) = _
@@ -381,7 +376,6 @@ theorem bijective_liftBaseChange_kerLinearMap (hqB : Function.Surjective qB) (hf
   have hπs : Function.Surjective π := by
     intro y
     induction y with
-    | zero => exact ⟨0, map_zero π⟩
     | add y z hy hz =>
       obtain ⟨x, rfl⟩ := hy
       obtain ⟨x', rfl⟩ := hz
@@ -429,7 +423,6 @@ theorem bijective_of_isPushout_of_bijective_liftBaseChange (h : S →+* Y₀)
       ((Algebra.IsPushout.cancelBaseChange R S X₀ Y₀ N).symm x) := by
     intro x
     induction x with
-    | zero => simp
     | add x y hx hy => rw [map_add, hx, hy, map_add, map_add]
     | tmul s n =>
       rw [hF, Algebra.IsPushout.cancelBaseChange_symm_tmul, LinearMap.liftBaseChange_tmul]
@@ -498,7 +491,6 @@ theorem ker_eq_map_of_comp_eq (hqB : Function.Surjective qB) :
   have key : ∀ t, (N.subtype.liftBaseChange B₀ t : B) ∈ Ideal.map A.subtype (RingHom.ker ψ) := by
     intro t
     induction t with
-    | zero => simp
     | add x y hx hy =>
       rw [map_add, Submodule.coe_add]
       exact Ideal.add_mem _ hx hy
@@ -633,7 +625,6 @@ lemma β_tmul (s : B₀) (j : RingHom.ker qB) :
 lemma β_smul (s : B₀) (x : B₀ ⊗[A₀] RingHom.ker qB) :
     β hqB hJs hKs hAC hd₁ hC (s • x) = d₀' s • β hqB hJs hKs hAC hd₁ hC x := by
   induction x with
-  | zero => simp
   | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
   | tmul t j => rw [TensorProduct.smul_tmul', β_tmul, β_tmul, smul_eq_mul, map_mul, mul_smul]
 
@@ -642,7 +633,6 @@ lemma β_lTensor_smul (s : B₀) (x : B₀ ⊗[A₀] RingHom.ker qB) :
     β hqB hJs hKs hAC hd₁ hC (((LinearMap.lsmul B₀ (RingHom.ker qB) s).restrictScalars A₀).lTensor
       B₀ x) = d₁' s • β hqB hJs hKs hAC hd₁ hC x := by
   induction x with
-  | zero => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, smul_add]
   | tmul t j =>
     rw [LinearMap.lTensor_tmul, β_tmul, β_tmul, LinearMap.restrictScalars_apply,
@@ -746,7 +736,6 @@ lemma γ_lTensor_σ (x : B₀ ⊗[A₀] RingHom.ker qB) :
       ((σ hqB hJs hKs hAC hd₀ hd₁ hC hβ).restrictScalars A₀ |>.lTensor B₀ x) =
       ε he₀ (β hqB hJs hKs hAC hd₁ hC x) := by
   induction x with
-  | zero => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul s j =>
     simp only [γ, AddMonoidHom.coe_comp, Function.comp_apply, LinearMap.toAddMonoidHom_coe,
@@ -762,7 +751,6 @@ lemma γ_lTensor_mk (x : B₀ ⊗[A₀] RingHom.ker qB) :
       ε he₁ (β hqB hJs hKs hAC hd₁ hC x) := by
   have h : e₀'.comp d₀' = e₁'.comp d₀' := comp_eq_of_comp_eq hqB h01 hd₀ he₀ he₁
   induction x with
-  | zero => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   | tmul s j =>
     simp only [γ, AddMonoidHom.coe_comp, Function.comp_apply, LinearMap.toAddMonoidHom_coe,
@@ -837,7 +825,6 @@ theorem span_σ_eq_top (hK₀ : RingHom.ker qC = Ideal.map d₀ (RingHom.ker qB)
   have key : ∀ x, ∃ y ∈ G, β hqB hJs hKs hAC hd₁ hC y = α hqB hJs hKs hd₀ hC x := by
     intro x
     induction x with
-    | zero => exact ⟨0, G.zero_mem, by simp⟩
     | add x x' hx hx' =>
       obtain ⟨y, hy, h⟩ := hx
       obtain ⟨y', hy', h'⟩ := hx'

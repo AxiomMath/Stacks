@@ -292,7 +292,7 @@ abbrev proetalePointFiber : S.ProEt ⥤ Type u :=
 /-- The stalk of a presheaf on the small pro-étale site of `S` at a geometric point: the colimit
 of its sections over the category of pro-étale neighbourhoods of the point. -/
 abbrev proetaleStalk (F : (S.ProEt)ᵒᵖ ⥤ Type (max (u + 1) v)) : Type (max (u + 1) v) :=
-  colimit ((CategoryOfElements.π (proetalePointFiber S s)).op ⋙ F)
+  colimit ((Functor.Elements.π (proetalePointFiber S s)).op ⋙ F)
 
 /-- The strict henselization with its canonical lift, as a pro-étale neighbourhood of the
 geometric point. -/
@@ -306,7 +306,8 @@ its canonical lift, is an initial pro-étale neighbourhood of that point: every 
 neighbourhood receives a unique morphism from it over `S` and under the geometric point. -/
 def isInitial_strictHenselizationPoint :
     IsInitial (C := (proetalePointFiber S s).Elements)
-      ⟨strictHenselizationProEt B S hS s, strictHenselizationPoint B S hS s⟩ := by
+      ((proetalePointFiber S s).elementsMk (strictHenselizationProEt B S hS s)
+        (strictHenselizationPoint B S hS s)) := by
   have hp : geometricPointToStrictHenselization B S hS s (closedPoint s.residueField) =
       closedPoint (CommRingCat.of ↥(etaleLocalRing B S hS s)) := by
     let : IsLocalHom
@@ -314,19 +315,19 @@ def isInitial_strictHenselizationPoint :
       isLocalHom_structureSheafStalkToGeometricField B S hS s
     exact Spec_closedPoint
   have h (U : (proetalePointFiber S s).Elements) :
-      ∃! q : strictHenselization B S hS s ⟶ U.1.left,
-        q ≫ U.1.hom = strictHenselizationToBase B S hS s ∧
-          geometricPointToStrictHenselization B S hS s ≫ q = U.2.left :=
-    exists_lift_of_strictlyHenselian_of_weaklyEtale U.1.hom
+      ∃! q : strictHenselization B S hS s ⟶ U.obj.left,
+        q ≫ U.obj.hom = strictHenselizationToBase B S hS s ∧
+          geometricPointToStrictHenselization B S hS s ≫ q = U.val.left :=
+    exists_lift_of_strictlyHenselian_of_weaklyEtale U.obj.hom
       (strictHenselizationToBase B S hS s) (geometricPointToStrictHenselization B S hS s) hp
-      U.2.left <| (Over.w U.2).trans (geometricPointToStrictHenselization_comp B S hS s).symm
+      U.val.left <| (Over.w U.val).trans (geometricPointToStrictHenselization_comp B S hS s).symm
   let q (U : (proetalePointFiber S s).Elements) :
       (proetalePointFiber S s).elementsMk (strictHenselizationProEt B S hS s)
         (strictHenselizationPoint B S hS s) ⟶ U :=
     ⟨MorphismProperty.Over.homMk (h U).choose (h U).choose_spec.1.1,
       Over.OverMorphism.ext (h U).choose_spec.1.2⟩
-  exact IsInitial.ofUniqueHom q fun U m => Subtype.ext <| MorphismProperty.Over.Hom.ext <|
-    (h U).choose_spec.2 _ ⟨MorphismProperty.Over.w m.val, congrArg (fun f => f.left) m.property⟩
+  exact IsInitial.ofUniqueHom q fun U m => Functor.Elements.hom_ext <| MorphismProperty.Over.Hom.ext <|
+    (h U).choose_spec.2 _ ⟨MorphismProperty.Over.w m.hom, congrArg (fun f => f.left) m.map_val⟩
 
 /-- **Stacks Project, Tag 0993.** Sections of a presheaf on the small pro-étale site over the
 strict henselization at a geometric point are canonically the stalk of the presheaf at that
@@ -335,10 +336,11 @@ geometric point. -/
 def strictHenselizationSectionsEquivStalk (F : (S.ProEt)ᵒᵖ ⥤ Type (max (u + 1) v)) :
     F.obj (op (strictHenselizationProEt B S hS s)) ≃ proetaleStalk S s F :=
   Equiv.ofBijective
-    (colimit.ι ((CategoryOfElements.π (proetalePointFiber S s)).op ⋙ F)
-      (op ⟨strictHenselizationProEt B S hS s, strictHenselizationPoint B S hS s⟩))
+    (colimit.ι ((Functor.Elements.π (proetalePointFiber S s)).op ⋙ F)
+      (op ((proetalePointFiber S s).elementsMk (strictHenselizationProEt B S hS s)
+        (strictHenselizationPoint B S hS s))))
     ((ConcreteCategory.isIso_iff_bijective _).1 <|
-      (colimit.isColimit ((CategoryOfElements.π (proetalePointFiber S s)).op ⋙ F))
+      (colimit.isColimit ((Functor.Elements.π (proetalePointFiber S s)).op ⋙ F))
         |>.isIso_ι_app_of_isTerminal _ (isInitial_strictHenselizationPoint B S hS s).op)
 
 /-- **Stacks Project, Tag 0993.** The comparison of sections over the strict henselization with
@@ -349,8 +351,9 @@ theorem strictHenselizationSectionsEquivStalk_apply
     (F : (S.ProEt)ᵒᵖ ⥤ Type (max (u + 1) v))
     (x : F.obj (op (strictHenselizationProEt B S hS s))) :
     strictHenselizationSectionsEquivStalk B S hS s F x =
-      colimit.ι ((CategoryOfElements.π (proetalePointFiber S s)).op ⋙ F)
-        (op ⟨strictHenselizationProEt B S hS s, strictHenselizationPoint B S hS s⟩) x :=
+      colimit.ι ((Functor.Elements.π (proetalePointFiber S s)).op ⋙ F)
+        (op ((proetalePointFiber S s).elementsMk (strictHenselizationProEt B S hS s)
+        (strictHenselizationPoint B S hS s))) x :=
   rfl
 
 /-- **Stacks Project, Tag 0993.** The comparison of sections over the strict henselization with
@@ -361,12 +364,13 @@ theorem strictHenselizationSectionsEquivStalk_natural
     (x : F.obj (op (strictHenselizationProEt B S hS s))) :
     strictHenselizationSectionsEquivStalk B S hS s G
         (α.app (op (strictHenselizationProEt B S hS s)) x) =
-      colim.map (Functor.whiskerLeft (CategoryOfElements.π (proetalePointFiber S s)).op α)
+      colim.map (Functor.whiskerLeft (Functor.Elements.π (proetalePointFiber S s)).op α)
         (strictHenselizationSectionsEquivStalk B S hS s F x) := by
   rw [strictHenselizationSectionsEquivStalk_apply, strictHenselizationSectionsEquivStalk_apply]
   exact (ConcreteCategory.congr_hom
-    (colimit.ι_map (Functor.whiskerLeft (CategoryOfElements.π (proetalePointFiber S s)).op α)
-      (op ⟨strictHenselizationProEt B S hS s, strictHenselizationPoint B S hS s⟩)) x).symm
+    (colimit.ι_map (Functor.whiskerLeft (Functor.Elements.π (proetalePointFiber S s)).op α)
+      (op ((proetalePointFiber S s).elementsMk (strictHenselizationProEt B S hS s)
+        (strictHenselizationPoint B S hS s)))) x).symm
 
 end AlgebraicGeometry
 

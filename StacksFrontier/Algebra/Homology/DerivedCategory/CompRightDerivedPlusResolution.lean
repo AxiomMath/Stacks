@@ -58,7 +58,7 @@ attribute [local instance 2000] HomotopyCategory.Plus.instHasPointwiseRightDeriv
 private theorem isIso_rightDerivedFunctorPlusUnit_app_of_exact {A B : Type*} [Category* A]
     [Category* B] [Abelian A] [Abelian B] [EnoughInjectives A] [EnoughInjectives B] (F : A ⥤ B)
     [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F]
-    (T : HomotopyCategory.Plus A) : IsIso (F.rightDerivedFunctorPlusUnit.app T) :=
+    (T : HomotopyCategory.Plus A) : IsIso (F.rightDerivedFunctorPlusUnith.app T) :=
   have : F.PreservesHomology := Functor.preservesHomologyOfExact F
   have := isIso_rightDerivedFunctorPlusUnit_of_preservesHomology F
   NatIso.isIso_app_of_isIso _ _
@@ -79,16 +79,16 @@ lemma isIso_rightDerivedFunctorPlusComp_app_Qh_of_rightAcyclic (T : HomotopyCate
     (hT₁ : ∀ n : ℤ, (F ⋙ H).rightAcyclic (T.obj.as.X n))
     (hT₂ : ∀ n : ℤ, H.rightAcyclic (F.obj (T.obj.as.X n))) :
     IsIso ((rightDerivedFunctorPlusComp F H).app (DerivedCategory.Plus.Qh.obj T)) := by
-  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnit.app T) :=
+  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnith.app T) :=
     isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic (F ⋙ H) T hT₁
   have hF := isIso_rightDerivedFunctorPlusUnit_app_of_exact F T
-  have hH : IsIso (H.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj T)) :=
+  have hH : IsIso (H.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj T)) :=
     isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic H _ hT₂
-  have : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnit.app T ≫
+  have : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnith.app T ≫
       (rightDerivedFunctorPlusComp F H).app (DerivedCategory.Plus.Qh.obj T)) := by
     rw [unit_comp_rightDerivedFunctorPlusComp_app F H T]
     exact @IsIso.comp_isIso _ _ _ _ _ _ _ hH (Functor.map_isIso _ _)
-  exact IsIso.of_isIso_comp_left ((F ⋙ H).rightDerivedFunctorPlusUnit.app T) _
+  exact IsIso.of_isIso_comp_left ((F ⋙ H).rightDerivedFunctorPlusUnith.app T) _
 
 /-- **The composition comparison at `M[0]`, from an acyclic resolution of `M`.** If `M` has a
 resolution `M[0] ⟶ T` by a bounded below complex whose terms are acyclic for `F ⋙ H` and have
@@ -225,20 +225,20 @@ theorem quasiIso_map_of_injective_of_isStrictlyGE (K : CochainComplex A ℤ) (n 
           (DerivedCategory.homologyFunctorFactors A q).app K
       exact (NatTrans.isIso_app_iff_of_iso η
         ((DerivedCategory.Plus.singleFunctor A 0).mapIso e)).2 (hK q)
-  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnit.app Kp) :=
+  have hFH : IsIso ((F ⋙ H).rightDerivedFunctorPlusUnith.app Kp) :=
     isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic (F ⋙ H) Kp
       fun i => Functor.rightAcyclic_of_injective (F ⋙ H) (K.X i)
   have hF := isIso_rightDerivedFunctorPlusUnit_app_of_exact F Kp
-  have hH : IsIso (H.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj Kp)) := by
-    have : IsIso (H.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj Kp) ≫
-        H.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app Kp)) := by
+  have hH : IsIso (H.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj Kp)) := by
+    have : IsIso (H.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj Kp) ≫
+        H.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app Kp)) := by
       rw [← unit_comp_rightDerivedFunctorPlusComp_app F H Kp]
       exact @IsIso.comp_isIso _ _ _ _ _ _ _ hFH hη
     exact IsIso.of_isIso_comp_right _ (H.rightDerivedFunctorPlus.map
-      (F.rightDerivedFunctorPlusUnit.app Kp))
+      (F.rightDerivedFunctorPlusUnith.app Kp))
   let sp : F.mapHomotopyCategoryPlus.obj Kp ⟶ Jp :=
     ObjectProperty.homMk ((HomotopyCategory.quotient B (ComplexShape.up ℤ)).map s)
-  have hJ : IsIso (H.rightDerivedFunctorPlusUnit.app Jp) :=
+  have hJ : IsIso (H.rightDerivedFunctorPlusUnith.app Jp) :=
     isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic H Jp
       fun i => Functor.rightAcyclic_of_injective H (J.X i)
   have hsp : HomotopyCategory.Plus.quasiIso B sp := by
@@ -247,14 +247,14 @@ theorem quasiIso_map_of_injective_of_isStrictlyGE (K : CochainComplex A ℤ) (n 
     have : IsIso (DerivedCategory.Plus.Qh.map sp) :=
       Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso B) sp hsp
     infer_instance
-  have hn := H.rightDerivedFunctorPlusUnit.naturality sp
+  have hn := H.rightDerivedFunctorPlusUnith.naturality sp
   dsimp only [Functor.comp_map] at hn
   have h₁ : IsIso (DerivedCategory.Plus.Qh.map (H.mapHomotopyCategoryPlus.map sp)) := by
     have : IsIso (DerivedCategory.Plus.Qh.map (H.mapHomotopyCategoryPlus.map sp) ≫
-        H.rightDerivedFunctorPlusUnit.app Jp) := by
+        H.rightDerivedFunctorPlusUnith.app Jp) := by
       rw [hn]
       infer_instance
-    exact IsIso.of_isIso_comp_right _ (H.rightDerivedFunctorPlusUnit.app Jp)
+    exact IsIso.of_isIso_comp_right _ (H.rightDerivedFunctorPlusUnith.app Jp)
   have h₂ : IsIso (DerivedCategory.Qh.map
       ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).map
         ((H.mapHomologicalComplex (ComplexShape.up ℤ)).map s))) :=

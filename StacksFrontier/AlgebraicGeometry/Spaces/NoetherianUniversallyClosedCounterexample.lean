@@ -226,11 +226,11 @@ theorem not_valuativeCriterion_existence_of_mem_maximalIdeal
     exact (lineCoord_comp k (F.map wc) (F.map ℓ)).trans
       (Scheme.fromSpecResidueField_appTop_apply u' A)
   have e2 : lineCoord k (F.map (wK ≫ e.genericOver ≫ a) ≫
-      (translationAction k (Multiplicative.ofAdd n)).hom) =
+      (translationAction k (Multiplicative.ofAdd n)).asIso.hom) =
       (Scheme.ΓSpecIso (C.residueField u')).inv (ψ' (φ (algebraMap R K t)⁻¹) + n) := by
     refine (lineCoord_comp k _ _).trans ?_
     show (F.map (wK ≫ e.genericOver ≫ a)).left.appTop
-      (((translationAction k (Multiplicative.ofAdd n)).hom.left).appTop
+      (((translationAction k (Multiplicative.ofAdd n)).asIso.hom.left).appTop
         (AffineSpace.coord (Spec (.of k)) PUnit.unit)) = _
     rw [translationAction_apply]
     refine ((F.map (wK ≫ e.genericOver ≫ a)).left.appTop.hom.map_add _ _).trans ?_
@@ -324,6 +324,14 @@ end AlgebraicGeometry.AffineLineTranslation
 namespace AlgebraicGeometry.Space
 
 open AffineLineTranslation Stacks.Examples.NonSeparatedGroupSpace
+
+/-- Pullbacks of presheaves on a big fppf site (instance search times out without this
+shortcut). -/
+instance (priority := high) hasPullback_presheaf_noetherianUniversallyClosedCounterexample
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 /-- **Universal closedness does not give the existence part of the valuative criterion over a
 locally Noetherian base.** There is a universally closed morphism `f : X ⟶ Y` of finite type of

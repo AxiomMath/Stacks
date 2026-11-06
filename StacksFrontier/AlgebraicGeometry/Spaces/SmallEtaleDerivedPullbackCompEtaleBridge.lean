@@ -246,12 +246,12 @@ computed by `CategoryTheory.Functor.mapDerivedCategoryCompIso_hom_app_Qh`, which
 comparison with the derived-pullback pseudofunctor needs. -/
 theorem edsDerivedRestrictCompOpen_eq_mapDerivedCategoryCompIso :
     edsDerivedRestrictCompOpen B S hS hsq =
-      Functor.mapDerivedCategoryCompIso (edsFactorIsoOpen B S hS hsq) := by
+      Functor.mapDerivedCategoryCompIsoOfCompIso (edsFactorIsoOpen B S hS hsq) := by
   rw [← edsDerivedRestrictCompOpen_eq]
   refine Iso.ext ?_
   show (Functor.mapDerivedCategoryComp (edsRestrictOpen B S hS hsq)
       (edsRestrictFst B S hS hsq)).inv ≫ _ = _
-  rw [Functor.mapDerivedCategoryComp_eq, Functor.mapDerivedCategoryCompIso, Iso.trans_hom,
+  rw [Functor.mapDerivedCategoryComp_eq, Functor.mapDerivedCategoryCompIsoOfCompIso, Iso.trans_hom,
     Iso.symm_hom, Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso_hom]
   rfl
 
@@ -259,12 +259,12 @@ theorem edsDerivedRestrictCompOpen_eq_mapDerivedCategoryCompIso :
 canonical degreewise descent of the underived comparison of Stacks 03LU.** -/
 theorem edsDerivedRestrictCompEtale_eq_mapDerivedCategoryCompIso :
     edsDerivedRestrictCompEtale B S hS hsq =
-      Functor.mapDerivedCategoryCompIso (edsFactorIsoEtale B S hS hsq) := by
+      Functor.mapDerivedCategoryCompIsoOfCompIso (edsFactorIsoEtale B S hS hsq) := by
   rw [← edsDerivedRestrictCompEtale_eq]
   refine Iso.ext ?_
   show (Functor.mapDerivedCategoryComp (edsRestrictEtale B S hS hsq)
       (edsRestrictSnd B S hS hsq)).inv ≫ _ = _
-  rw [Functor.mapDerivedCategoryComp_eq, Functor.mapDerivedCategoryCompIso, Iso.trans_hom,
+  rw [Functor.mapDerivedCategoryComp_eq, Functor.mapDerivedCategoryCompIsoOfCompIso, Iso.trans_hom,
     Iso.symm_hom, Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso_hom]
   rfl
 

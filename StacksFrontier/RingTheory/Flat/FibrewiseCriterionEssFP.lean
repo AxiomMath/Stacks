@@ -53,7 +53,6 @@ private lemma ker_productMap_toAlgHom_id {R A C : Type*} [CommRing R] [CommRing 
   have key : ∀ y : A ⊗[R] C, y - 1 ⊗ₜ π y ∈ J := by
     intro y
     induction y with
-    | zero => simp
     | tmul a c =>
         have hval : π (a ⊗ₜ c) = algebraMap A C a * c := by simp [hπ]
         have hfac : a ⊗ₜ[R] c - 1 ⊗ₜ (algebraMap A C a * c)
@@ -167,7 +166,6 @@ private theorem isLocalization_algebraMapSubmonoid_baseChange
     (AlgEquiv.ofRingEquiv (f := e) ?_)
   intro x
   induction x with
-  | zero => simp
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul s b =>
       show e (1 ⊗ₜ (s ⊗ₜ b)) = _

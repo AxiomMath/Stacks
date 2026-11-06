@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Noetherian
+public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.KrullDimension.Polynomial
 public import Mathlib.RingTheory.RegularLocalRing.Polynomial
 public import StacksFrontier.AlgebraicGeometry.Properties.Dimension
@@ -39,7 +40,7 @@ theorem isRegular_Spec_mvPolynomial (k : Type u) [Field k] (n : ℕ) :
 theorem topologicalKrullDim_Spec_mvPolynomial (k : Type u) [Field k] (n : ℕ) :
     topologicalKrullDim ↥(Spec (CommRingCat.of (MvPolynomial (Fin n) k))) = n := by
   refine (PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim (MvPolynomial (Fin n) k)).trans ?_
-  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field]
+  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite, ringKrullDim_eq_zero_of_field]
   simp
 
 /-- Over any field and for every `n` there is a Noetherian scheme that is regular and of

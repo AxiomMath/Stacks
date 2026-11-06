@@ -91,7 +91,7 @@ variable {k : Type u} [Field k] [Fintype k] (kbar : Type u) [Field kbar] [IsAlgC
 endomorphism of the cover. -/
 theorem finiteFieldFrobenius_hom_app (z : GeometricPoint (Spec (.of k)))
     (V : FiniteEtaleOver (Spec (.of k))) :
-    (finiteFieldFrobenius p q hcard z).hom.app V =
+    (finiteFieldFrobenius p q hcard z).asIso.hom.app V =
       (finiteEtaleFiberFunctor z).map (frobeniusCoverEnd p q hcard V 1) := by
   ext w
   apply Subtype.ext
@@ -105,11 +105,12 @@ theorem etaleFundamentalGroupMulEquiv_finiteFieldFrobenius {z z' : GeometricPoin
     (t : finiteEtaleFiberFunctor z ≅ finiteEtaleFiberFunctor z') :
     etaleFundamentalGroupMulEquiv t (finiteFieldFrobenius p q hcard z) =
       finiteFieldFrobenius p q hcard z' := by
+  apply Aut.ext
   apply Iso.ext
   apply NatTrans.ext
   funext V
-  show t.inv.app V ≫ (finiteFieldFrobenius p q hcard z).hom.app V ≫ t.hom.app V =
-    (finiteFieldFrobenius p q hcard z').hom.app V
+  show t.inv.app V ≫ (finiteFieldFrobenius p q hcard z).asIso.hom.app V ≫ t.hom.app V =
+    (finiteFieldFrobenius p q hcard z').asIso.hom.app V
   rw [finiteFieldFrobenius_hom_app, finiteFieldFrobenius_hom_app, t.hom.naturality,
     Iso.inv_hom_id_app_assoc]
 
@@ -122,16 +123,16 @@ abbrev baseFieldGeometricPoint : GeometricPoint (Spec (.of k)) :=
 /-- **The inverse of the Frobenius of `k` is precomposition with `Spec(σ⁻¹)`**, `σ` the arithmetic
 Frobenius of `k̄`. -/
 theorem inv_finiteFieldFrobenius_hom :
-    ((finiteFieldFrobenius p q hcard (baseFieldGeometricPoint kbar))⁻¹).hom =
+    ((finiteFieldFrobenius p q hcard (baseFieldGeometricPoint kbar))⁻¹).asIso.hom =
       finiteEtaleFiberMap (galoisPointHom kbar (arithmeticFrobenius k kbar p q hcard).symm
         (𝟙 (Spec (.of k)))) := by
   set σ := finiteFieldFrobenius p q hcard (baseFieldGeometricPoint kbar)
   apply NatTrans.ext
   funext V
   ext w
-  have hinv' : ∀ v, σ.inv.app V (σ.hom.app V v) = v := fun v =>
-    ConcreteCategory.congr_hom (σ.app V).hom_inv_id v
-  show σ.inv.app V w = (finiteEtaleFiberMap _).app V w
+  have hinv' : ∀ v, σ.asIso.inv.app V (σ.asIso.hom.app V v) = v := fun v =>
+    ConcreteCategory.congr_hom (σ.asIso.app V).hom_inv_id v
+  show σ.asIso.inv.app V w = (finiteEtaleFiberMap _).app V w
   rw [← hinv' ((finiteEtaleFiberMap (galoisPointHom kbar (arithmeticFrobenius k kbar p q hcard).symm
     (𝟙 (Spec (.of k))))).app V w)]
   congr 1
@@ -187,7 +188,7 @@ theorem exists_iso_rationalPointSections_lisseEtaleSheaf :
       (rationalPointFrobeniusEndo (ZMod m) (Over.mk (𝟙 (Spec (.of k)))) kbar (𝟙 _)
           (baseFieldOver_id_comp_hom k) p q hcard).app
             ((lisseEtaleSheaf B (BigEtaleSite.specField B U k) z' (ZMod m)).obj P) ≫ W.hom =
-        W.hom ≫ P.obj.obj.obj.ρ (finiteFieldFrobenius p q hcard z')⁻¹ := by
+        W.hom ≫ (P.obj.obj.obj.ρ (finiteFieldFrobenius p q hcard z')⁻¹).asHom := by
   obtain ⟨t⟩ := nonempty_finiteEtaleFiberFunctorIso (Spec (.of k))
     (baseFieldGeometricPoint (k := k) kbar) z'
   have R1 : (rationalPointFrobeniusEndo (ZMod m) (Over.mk (𝟙 (Spec (.of k)))) kbar (𝟙 _)
@@ -563,7 +564,7 @@ theorem exists_isIso_twist_lisseEtaleSheaf_baseField (φ : EtaleFundamentalGroup
           ((etaleModuleInverseImage.{u, 0} (ZMod m)
             (fieldBaseChangeProj (Over.mk (𝟙 (Spec (.of k)))) kbar)).map
             ((constantSheaf (Spec (.of k)).smallEtaleTopology (ModuleCat.{u + 1} (ZMod m))).map
-              (Q.obj.obj.obj.ρ φ))) ≫
+              (Q.obj.obj.obj.ρ φ).asHom)) ≫
         (etaleModuleDirectImage.{u, 0} (ZMod m)
           (geometricFrobeniusBaseChange (Over.mk (𝟙 (Spec (.of k)))) kbar p q hcard)).map u₀ := by
   have : CharP kbar p := charP_of_injective_algebraMap (algebraMap k kbar).injective p
@@ -571,7 +572,7 @@ theorem exists_isIso_twist_lisseEtaleSheaf_baseField (φ : EtaleFundamentalGroup
     (x.map f) (lisseBaseFieldModule B U k f x hs (ZMod m) Q hQ)
   have hB : (lisseBaseFieldModule B U k f x hs (ZMod m) Q hQ).obj.obj.obj.ρ
       (finiteFieldFrobenius p q hcard (x.map f))⁻¹ = Q.obj.obj.obj.ρ φ := by
-    refine ModuleCat.hom_ext (LinearMap.ext fun v => ?_)
+    refine End.ext (ModuleCat.hom_ext (LinearMap.ext fun v => ?_))
     rw [← hφ]
     exact lisseBaseFieldModule_ρ_apply B U k f x hs (ZMod m) Q hQ φ v
   rw [hB] at hW

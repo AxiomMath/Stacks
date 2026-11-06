@@ -133,26 +133,26 @@ underlying arrows. -/
 def autFiberBaseMulEquiv {Aε : ArtinianLocalAlgCat.{u, u, u} Λ k}
     (xε : (schemeDeformationCategoryProjection (Λ := Λ) (k := k) X).Fiber Aε) :
     Aut xε ≃* Aut (deformationFiberObj xε.1) where
-  toFun a :=
-    { hom := ⟨a.hom.val, deformationFiberHom_isHomLift a.hom.val
-        (schemeDeformationFiberAut_base_eq_id a.hom)⟩
-      inv := ⟨a.inv.val, deformationFiberHom_isHomLift a.inv.val
-        (schemeDeformationFiberAut_base_eq_id a.inv)⟩
+  toFun a := .of
+    { hom := ⟨a.asIso.hom.val, deformationFiberHom_isHomLift a.asIso.hom.val
+        (schemeDeformationFiberAut_base_eq_id a.asIso.hom)⟩
+      inv := ⟨a.asIso.inv.val, deformationFiberHom_isHomLift a.asIso.inv.val
+        (schemeDeformationFiberAut_base_eq_id a.asIso.inv)⟩
       hom_inv_id := Functor.Fiber.hom_ext
-        (congrArg (fun b : xε ⟶ xε => b.val) a.hom_inv_id)
+        (congrArg (fun b : xε ⟶ xε => b.val) a.asIso.hom_inv_id)
       inv_hom_id := Functor.Fiber.hom_ext
-        (congrArg (fun b : xε ⟶ xε => b.val) a.inv_hom_id) }
-  invFun a :=
-    { hom := ⟨a.hom.val, IsHomLift.of_fac' _ (𝟙 Aε) a.hom.val xε.2 xε.2
-        (schemeDeformationFiberAut_fac xε (deformationFiberHom_base a.hom))⟩
-      inv := ⟨a.inv.val, IsHomLift.of_fac' _ (𝟙 Aε) a.inv.val xε.2 xε.2
-        (schemeDeformationFiberAut_fac xε (deformationFiberHom_base a.inv))⟩
+        (congrArg (fun b : xε ⟶ xε => b.val) a.asIso.inv_hom_id) }
+  invFun a := .of
+    { hom := ⟨a.asIso.hom.val, IsHomLift.of_fac' _ (𝟙 Aε) a.asIso.hom.val xε.2 xε.2
+        (schemeDeformationFiberAut_fac xε (deformationFiberHom_base a.asIso.hom))⟩
+      inv := ⟨a.asIso.inv.val, IsHomLift.of_fac' _ (𝟙 Aε) a.asIso.inv.val xε.2 xε.2
+        (schemeDeformationFiberAut_fac xε (deformationFiberHom_base a.asIso.inv))⟩
       hom_inv_id := Functor.Fiber.hom_ext
         (congrArg (fun b : deformationFiberObj xε.1 ⟶ deformationFiberObj xε.1 => b.val)
-          a.hom_inv_id)
+          a.asIso.hom_inv_id)
       inv_hom_id := Functor.Fiber.hom_ext
         (congrArg (fun b : deformationFiberObj xε.1 ⟶ deformationFiberObj xε.1 => b.val)
-          a.inv_hom_id) }
+          a.asIso.inv_hom_id) }
   left_inv _ := rfl
   right_inv _ := rfl
   map_mul' _ _ := rfl
@@ -189,13 +189,13 @@ theorem infinitesimalAutomorphisms_schemeDeformation_eq_top
     (schemeDeformationCategoryProjection_cofiberedInGroupoids X) g e hpair.split i hi).1 with hr
   have hrs : x₀.1.specialMap ≫ r.map = xε.1.specialMap := r.special_compat
   apply SchemeDeformationCategory.Hom.ext
-  · show a.hom.val.base ≫ r.base = r.base
-    rw [schemeDeformationFiberAut_base_eq_id a.hom, Category.id_comp]
-  · show r.map ≫ a.hom.val.map = r.map
+  · show a.asIso.hom.val.base ≫ r.base = r.base
+    rw [schemeDeformationFiberAut_base_eq_id a.asIso.hom, Category.id_comp]
+  · show r.map ≫ a.asIso.hom.val.map = r.map
     refine (cancel_epi x₀.1.specialMap).mp ?_
-    calc x₀.1.specialMap ≫ r.map ≫ a.hom.val.map
-        = xε.1.specialMap ≫ a.hom.val.map := by rw [← Category.assoc, hrs]
-      _ = xε.1.specialMap := a.hom.val.special_compat
+    calc x₀.1.specialMap ≫ r.map ≫ a.asIso.hom.val.map
+        = xε.1.specialMap ≫ a.asIso.hom.val.map := by rw [← Category.assoc, hrs]
+      _ = xε.1.specialMap := a.asIso.hom.val.special_compat
       _ = x₀.1.specialMap ≫ r.map := hrs.symm
 
 /-! ### `Inf(𝓓_X)` as a group of self-maps -/

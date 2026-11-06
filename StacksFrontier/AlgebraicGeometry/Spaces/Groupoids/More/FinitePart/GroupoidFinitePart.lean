@@ -99,6 +99,21 @@ open CategoryTheory CategoryTheory.Limits Opposite
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) AlgebraicGeometry.Space.hasPullbacks_presheaf_groupoidFinitePart
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) AlgebraicGeometry.Space.hasPullback_presheaf_groupoidFinitePart
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (AlgebraicGeometry.Space.hasPullbacks_presheaf_groupoidFinitePart B S hS).has_limit _
+
 namespace AlgebraicGeometry.Space
 
 /-- The pair of Stacks 04PC named by a morphism from an algebraic space `T` into the finite part
@@ -177,8 +192,8 @@ theorem containsSection_of_pointwise (B : BigFppfSite.{u}) (S : Scheme.{u})
       rw [Category.assoc, hjsnd, hlsnd, hbase V.unop g, Category.assoc]
     have hm : (l ≫ j) ≫ p.subspace.ι = g ≫ s := by
       apply pullback.hom_ext
-      · simpa [hsfst] using hfst
-      · simpa [hssnd] using hsnd
+      · rw [Category.assoc, hfst, Category.assoc, hsfst, Category.comp_id]
+      · rw [Category.assoc, hsnd, Category.assoc, hssnd]
     have hgoal : s.app V z = yonedaEquiv (g ≫ s) := by rw [yonedaEquiv_comp, hz]
     rw [hgoal.trans (congrArg yonedaEquiv hm).symm]
     exact (yonedaEquiv (l ≫ j)).2

@@ -589,7 +589,7 @@ theorem isIso_derivedEtaleModuleLowerShriekAdjunction_unit :
       (etaleModulePullback.{u, u} B S hS j (isEtale_of_isOpenImmersion B S hS hj))).symm ≪≫
       asIso (NatTrans.mapDerivedCategory (asIso (etaleModuleLowerShriekAdjunction B S hS j
         (isEtale_of_isOpenImmersion B S hS hj)).unit).inv) ≪≫
-      Functor.mapDerivedCategoryIdIso)
+      Functor.mapDerivedCategoryIdIso _)
 
 /-- **The counit of a right adjoint of derived restriction along an open immersion is
 invertible.**  Let `j : U ⟶ X` be an open immersion of algebraic spaces and let `R` be a right

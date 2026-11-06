@@ -83,7 +83,7 @@ theorem isIso_toposModuleDerivedBaseChangeMap_app_single_of_affine
     Stacks.Cohomology.RightDerivedCoEdge.isIso_derived_app_single_of_quasiIso_baseChangeComplexMap
       (toposModulePushforward D.f) (toposModulePushforward D.f') (modulePullback B S hS D.g)
       (modulePullback B S hS D.g') (toposModuleBaseChangeMap D.f D.g D.f' D.g' D.isPullback.w)
-      (asIso (modulePullback B S hS D.g).rightDerivedFunctorPlusUnit)
+      (asIso (modulePullback B S hS D.g).rightDerivedFunctorPlusUnith)
       (modulePullbackAdjunction B S hS D.g) (modulePullbackAdjunction B S hS D.g')
       (modulePushforwardSquareComparisonIso D.f D.g D.f' D.g' D.isPullback.w)
       (toposModulePushforwardIsoModulePushforward D.f)

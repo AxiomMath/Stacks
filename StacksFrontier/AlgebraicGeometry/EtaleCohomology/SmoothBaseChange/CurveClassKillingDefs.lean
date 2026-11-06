@@ -123,7 +123,7 @@ theorem isGaloisCover_id {Z : Scheme.{u}} [ConnectedSpace Z] : IsGaloisCover (�
 /-- The identity of a scheme, as an object over that scheme, has exactly one automorphism. -/
 theorem natCard_aut_id (Z : Scheme.{u}) : Nat.card (Aut (Over.mk (𝟙 Z))) = 1 := by
   have : Subsingleton (Aut (Over.mk (𝟙 Z))) :=
-    ⟨fun σ τ => Iso.ext ((Over.mkIdTerminal (X := Z)).hom_ext _ _)⟩
+    ⟨fun σ τ => Aut.ext (Iso.ext ((Over.mkIdTerminal (X := Z)).hom_ext _ _))⟩
   have : Unique (Aut (Over.mk (𝟙 Z))) := ⟨⟨1⟩, fun _ => Subsingleton.elim _ _⟩
   exact Nat.card_unique
 

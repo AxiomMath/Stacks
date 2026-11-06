@@ -106,9 +106,9 @@ def freeSectionsIso (V' : S.Etale) (r : ℕ) :
         ((Stacks.Eta.DeterminantalIdeal.baseChangeTermEquiv V'.hom.appTop.hom r).symm b.down)
       invFun := fun w => ULift.up
         ((Stacks.Eta.DeterminantalIdeal.baseChangeTermEquiv V'.hom.appTop.hom r) w.down)
-      left_inv := fun _ => ULift.ext _ _ (LinearEquiv.apply_symm_apply _ _)
-      right_inv := fun _ => ULift.ext _ _ (LinearEquiv.symm_apply_apply _ _)
-      map_add' := fun b b' => ULift.ext _ _ (map_add _ b.down b'.down) }
+      left_inv := fun _ => ULift.ext (LinearEquiv.apply_symm_apply _ _)
+      right_inv := fun _ => ULift.ext (LinearEquiv.symm_apply_apply _ _)
+      map_add' := fun b b' => ULift.ext (map_add _ b.down b'.down) }
 
 /-- The sections over `V'` of the presheaf `V ↦ f_*(ι_{V,*} 𝐆_{a,V})` are the `Γ(V')`-modules
 `Γ((V' ×_S X) ×_X V)`. -/
@@ -205,7 +205,7 @@ theorem sections_basisMapDeg_comp (V' : S.Etale) [IsAffine ((𝟭 Scheme.{u}).ob
     congr 1
     rw [h3, ← Functor.map_comp, Category.assoc, h4, ← Category.assoc, ← Functor.map_comp]
   refine eL.trans (Eq.trans ?_ eR.symm)
-  refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun b => ULift.ext _ _ ?_)
+  refine AddCommGrpCat.hom_ext (AddMonoidHom.ext fun b => ULift.ext ?_)
   exact (basisMapDeg_comp_π_app f U z x V' b).trans
     (moduleBasisMapDeg_comp_π_fibreBaseChange_apply f V'.hom U z x b.down).symm
 

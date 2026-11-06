@@ -48,7 +48,8 @@ theorem bijective_verticalAutMap_iff_of_iso (F F' : X ⥤ Y) (hF : F ⋙ pY = pX
     funext α
     apply Subtype.ext
     apply Aut.ext
-    show F'.map (α : Aut a).hom = (ι.app a).inv ≫ F.map (α : Aut a).hom ≫ (ι.app a).hom
+    apply Iso.ext
+    show F'.map (α : Aut a).asIso.hom = (ι.app a).inv ≫ F.map (α : Aut a).asIso.hom ≫ (ι.app a).hom
     rw [Iso.app_inv, Iso.app_hom, ι.hom.naturality, ← Category.assoc, ← NatTrans.comp_app,
       ι.inv_hom_id, NatTrans.id_app, Category.id_comp]
   rw [key]

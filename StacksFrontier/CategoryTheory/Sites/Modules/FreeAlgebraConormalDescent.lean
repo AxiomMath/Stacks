@@ -126,10 +126,10 @@ theorem ker_mvPolynomialMap {R S : Type*} [CommRing R] [CommRing S] (f : R →+*
     RingHom.ker (MvPolynomial.map (σ := σ) f) =
       Ideal.span (MvPolynomial.C '' (RingHom.ker f : Set R)) := by
   refine le_antisymm (fun p hp ↦ ?_) ?_
-  · have hcoeff : ∀ s : σ →₀ ℕ, f (MvPolynomial.coeff s p) = 0 := by
+  · have hcoeff : ∀ s : σ →₀ ℕ, f (p.coeff s) = 0 := by
       intro s
       rw [← MvPolynomial.coeff_map, show MvPolynomial.map f p = 0 from hp,
-        MvPolynomial.coeff_zero]
+        AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
     rw [p.as_sum]
     refine Ideal.sum_mem _ fun s _ ↦ ?_
     rw [MvPolynomial.monomial_eq]

@@ -59,8 +59,8 @@ theorem exists_extension_of_genericFiber_of_isNoetherian
     (hz : z ≫ Z.obj.hom = genericFiberSection f σ hσ) :
     ∃ (Y : FiniteEtaleGaloisCover X G)
       (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-        e.hom = e.hom ≫ (Z.action g).hom :=
+      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
+        e.hom = e.hom ≫ (Z.action g).asIso.hom :=
   exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian
     purityAtRegularLocalRings
     Stacks.FundamentalGroup.pulledBackCover_isTamelyRamifiedInCodimensionOne

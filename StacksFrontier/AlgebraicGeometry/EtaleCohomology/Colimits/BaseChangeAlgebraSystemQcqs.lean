@@ -478,7 +478,7 @@ theorem etaleCohomology_specBaseChange_colimit (A : CommRingCat.{u}) (I : Type u
   have hc : IsLimit (Cone.mk (Spec cB.pt.right) c) :=
     IsLimit.ofIsoLimit (isLimitOfPreserves Scheme.Spec
       (isColimitOfPreserves (Under.forget A) hcB).op)
-      (Cones.ext (Iso.refl _) (fun _ => (Category.id_comp _).symm))
+      (Cone.ext (Iso.refl _) (fun _ => (Category.id_comp _).symm))
   obtain ⟨h₁, h₂⟩ := etaleCohomologyBaseChangeColimit (Spec A) I D s (Spec cB.pt.right) c hc
     (Spec.map cB.pt.hom)
     (fun i => by

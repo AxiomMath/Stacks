@@ -213,6 +213,20 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, stated once: instance search for them
+times out at the default heartbeat limit under Mathlib v4.35.0. -/
+local instance hasPullbacks_presheaf_universallyClosed :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+/-- Every cospan of presheaves on `BigFppfOver B S hS` has a limit, found directly from
+`hasPullbacks_presheaf_universallyClosed` ahead of the slower general search. -/
+local instance (priority := high) hasPullback_presheaf_universallyClosed
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (a : P ⟶ R) (b : Q ⟶ R) :
+    HasLimit (cospan a b) :=
+  HasLimitsOfShape.has_limit (cospan a b)
+
 /-! ### Transport of closedness along a commuting square over the target -/
 
 /-- Let `f : X ⟶ Y` and let `D ⟶ Z ⟶ Y` and `D ⟶ V ⟶ Y` be two factorisations of one morphism
@@ -1079,6 +1093,9 @@ private theorem eq_univ_of_isClosed_of_forall_int_translate_mem {K : Type u} [Fi
 
 variable (k : Type u) [Field k] (B : BigFppfSite.{u}) (hS : B.Contains (Spec (.of k)))
 
+attribute [local instance] Space.hasPullbacks_presheaf_universallyClosed
+attribute [local instance high] Space.hasPullback_presheaf_universallyClosed
+
 /-! #### The affine line as the spectrum of a polynomial algebra over a field point -/
 
 /-- The object of the big fppf site over `Spec k` given by the spectrum of a field `K` of the
@@ -1203,7 +1220,7 @@ private theorem polynomialEvaluation_comp_polynomialToLine {K : Type u} [Field K
           (a.left.hom.appTop (AffineSpace.coord (Spec (.of k)) PUnit.unit)) + n) ≫
         polynomialToLine k B hS hU hK b) =
       (Over.post B.inclusion).map a ≫
-        (translationAction k (Multiplicative.ofAdd n)).hom := by
+        (translationAction k (Multiplicative.ofAdd n)).asIso.hom := by
   apply Over.OverMorphism.ext
   apply AffineSpace.hom_ext
   · exact (Over.w _).trans (Over.w _).symm
@@ -1217,7 +1234,7 @@ private theorem polynomialEvaluation_comp_polynomialToLine {K : Type u} [Field K
         (Spec.map (CommRingCat.ofHom (Polynomial.C : K →+* Polynomial K)) ≫ b)
         (fun _ ↦ (Scheme.ΓSpecIso (.of (Polynomial K))).inv Polynomial.X)).appTop
           (AffineSpace.coord (Spec (.of k)) PUnit.unit) =
-      (f ≫ (translationAction k (Multiplicative.ofAdd n)).hom.left).appTop
+      (f ≫ (translationAction k (Multiplicative.ofAdd n)).asIso.hom.left).appTop
         (AffineSpace.coord (Spec (.of k)) PUnit.unit)
     simp only [Scheme.Hom.comp_appTop, CommRingCat.comp_apply,
       AffineSpace.homOfVector_appTop_coord]
@@ -1294,13 +1311,13 @@ namely the first one read in the copy of the affine line indexed by that integer
 private theorem translationChart_app_eq_of_translate
     {T : BigFppfOver B (Spec (.of k)) hS} (f g : T ⟶ siteAffineLine k B hS hU) (n : ℤ)
     (hg : (Over.post B.inclusion).map g = (Over.post B.inclusion).map f ≫
-      (translationAction k (Multiplicative.ofAdd n)).hom) :
+      (translationAction k (Multiplicative.ofAdd n)).asIso.hom) :
     (translationChart k B hS hU).app (Opposite.op T) g =
       (translationChart k B hS hU).app (Opposite.op T) f := by
   have ht : Sigma.ι (fun _ : Multiplicative ℤ ↦
         Space.underlyingOver B hS (siteAffineLine k B hS hU)) (Multiplicative.ofAdd n) ≫
       (siteTranslationRelation k B hS hU).target =
-        (translationAction k (Multiplicative.ofAdd n)).hom := by
+        (translationAction k (Multiplicative.ofAdd n)).asIso.hom := by
     dsimp only [siteTranslationRelation, Space.actionRelation, PreRelation.target,
       Space.actionRelationTarget]
     rw [prod.lift_fst]

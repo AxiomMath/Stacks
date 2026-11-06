@@ -152,6 +152,16 @@ def RelativeAmpleEtaleDescentOfSchemes : Prop :=
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instance. -/
+private instance (priority := high) hasPullbacks_presheaf_relativeAmpleEtaleBaseChange :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+private instance (priority := high) hasPullback_presheaf_relativeAmpleEtaleBaseChange
+    {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W) (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 /-- **Stacks 0D35, (2) implies (1).** Let `g : V ⟶ U` be a morphism of algebraic spaces which are
 the schemes `V₀` and `U₀`, induced by a surjective étale `h₀ : V₀ ⟶ U₀`, let `f : X ⟶ U` be a
 morphism of algebraic spaces, let `L` be an invertible `𝒪_X`-module, and let `pr : Y ⟶ X`,
@@ -201,7 +211,8 @@ theorem isRelativelyAmple_of_baseChange_etale
       (yoneda.map (yoneda.preimage (X.1.reprW.hom ≫ f.hom ≫ eU.hom))) (yoneda.map h₀) :=
     hpre.of_iso eY.symm X.1.reprW.symm eV eU
       (by simp) (by simp) (by simp) hg
-  have hsq₂ := IsPullback.of_map yoneda (yoneda.map_injective (by simpa using hsq₁.w)) hsq₁
+  have hsq₂ := IsPullback.of_map yoneda
+    (yoneda.map_injective (by simpa only [Functor.map_comp] using hsq₁.w)) hsq₁
   obtain ⟨e⟩ := nonempty_baseChangeModule_baseChange_of_isInvertible L hLinv X.1.reprX Y₀
     X.1.reprW.hom (yoneda.preimage (eY.hom ≫ pr.hom ≫ X.1.reprW.inv))
   rw [hpr] at e

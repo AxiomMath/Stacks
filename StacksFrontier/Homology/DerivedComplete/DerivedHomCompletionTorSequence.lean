@@ -566,7 +566,7 @@ private def firstDerivedInverseLimitIso
     intro F G α
     apply Pi.hom_ext
     intro n
-    simp only [Category.assoc, Pi.map_π, Pi.lift_π_assoc, Pi.lift_π, Preadditive.sub_comp,
+    simp only [Category.assoc, Pi.map_π, Pi.lift_comp_π_assoc, Pi.lift_comp_π, Preadditive.sub_comp,
       Preadditive.comp_sub, Pi.map_π_assoc]
     rw [α.naturality]
   refine
@@ -999,10 +999,10 @@ private theorem isDerivedLimit_reflect_of_equivalence
   have hd : U.map dF ≫ e.hom = e.hom ≫ dG := by
     apply Pi.hom_ext
     intro n
-    rw [Category.assoc, he n, Category.assoc, Pi.lift_π,
+    rw [Category.assoc, he n, Category.assoc, Pi.lift_comp_π,
       Preadditive.comp_sub, he n, ← Category.assoc, he (n + 1)]
     dsimp only [p, dF]
-    rw [← U.map_comp, Pi.lift_π, U.map_sub, U.map_comp]
+    rw [← U.map_comp, Pi.lift_comp_π, U.map_sub, U.map_comp]
     rfl
   let f : X ⟶ P := U.preimage (a ≫ e.inv)
   have hf : U.map f ≫ e.hom = a := by

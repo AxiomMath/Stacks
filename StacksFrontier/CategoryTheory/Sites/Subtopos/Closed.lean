@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Sites.Limits
 public import StacksFrontier.CategoryTheory.Sites.Subtopos.Defs
 import StacksCore.Tactic.EgaSgaAttribute
 

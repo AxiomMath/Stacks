@@ -203,7 +203,7 @@ theorem differentialMap_comp_d (ι : O₁ ⟶ O₂) (ι' : O₁' ⟶ O₂') (φ 
     ((differentialMap ι ι' φ ψ hcomm).val.app U).hom
         ((Differentials.universalDerivation O₁ O₂ ι).d a)
       = (Differentials.universalDerivation O₁' O₂' ι').d ((φ.hom.app U).hom a) :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (universalDerivation_postcomp_differentialMap ι ι' φ ψ hcomm) a
 
 /-- Uniqueness: a morphism of sheaves of modules satisfying the characterizing property of
@@ -218,7 +218,7 @@ theorem differentialMap_unique (ι : O₁ ⟶ O₂) (ι' : O₁' ⟶ O₂') (φ 
       = (Differentials.universalDerivation O₁' O₂' ι').d ((φ.hom.app U).hom a)) :
     β = differentialMap ι ι' φ ψ hcomm := by
   refine (Exists.choose_spec (existsUnique_differentialMap ι ι' φ ψ hcomm)).2 β ?_
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext U a
   exact hβ a
 

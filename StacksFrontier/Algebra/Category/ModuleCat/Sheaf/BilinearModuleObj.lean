@@ -142,11 +142,15 @@ theorem isBilinear_iff (f : F ⊗ G ⟶ H) :
   · have := h₃ (fst (R ⊗ F) G ≫ fst R F) (fst (R ⊗ F) G ≫ snd R F) (snd (R ⊗ F) G)
     simp only [Hom.smul_def] at this
     convert! this using 2
-    cat_disch
+    refine hom_ext _ _ ?_ ?_
+    · rw [whiskerRight_fst, lift_fst, ← comp_lift, lift_fst_snd, Category.comp_id]; rfl
+    · rw [whiskerRight_snd, lift_snd]; rfl
   · have := h₄ (snd F (R ⊗ G) ≫ fst R G) (fst F (R ⊗ G)) (snd F (R ⊗ G) ≫ snd R G)
     simp only [Hom.smul_def] at this
     convert! this using 2
-    cat_disch
+    refine hom_ext _ _ ?_ ?_
+    · rw [whiskerLeft_fst, lift_fst]; rfl
+    · rw [whiskerLeft_snd, lift_snd, ← comp_lift, lift_fst_snd, Category.comp_id]; rfl
 
 end ModuleObj
 

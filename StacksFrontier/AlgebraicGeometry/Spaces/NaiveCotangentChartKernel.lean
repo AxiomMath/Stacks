@@ -91,7 +91,7 @@ def chartH1Inclusion :
 
 /-- The inclusion `H ⟶ I/I²` read over `Γ` is injective. -/
 theorem injective_chartH1Inclusion : Function.Injective (chartH1Inclusion B S hS f d) :=
-  fun _ _ h => ULift.ext _ _ (Extension.h1Cotangentι_injective (congrArg ULift.down h))
+  fun _ _ h => ULift.ext (Extension.h1Cotangentι_injective (congrArg ULift.down h))
 
 /-- The inclusion `H ⟶ I/I²` followed by the differential is zero. -/
 theorem chartH1Inclusion_comp_nlModD :
@@ -111,7 +111,7 @@ theorem chartH1ShortComplex_exact : (chartH1ShortComplex B S hS f d).Exact := by
     ⟨fun hy => ?_, by rintro ⟨x, rfl⟩; exact congrArg ULift.up (chartH1Down B S hS f d x).2⟩
   obtain ⟨x, hx⟩ := (Extension.exact_hCotangentι_cotangentComplex (ULift.down y)).1
     (congrArg ULift.down hy)
-  exact ⟨ULift.up x, ULift.ext _ _ hx⟩
+  exact ⟨ULift.up x, ULift.ext hx⟩
 
 /-! ### `M ↦ M ⊗_Γ 𝒪` preserves kernels -/
 

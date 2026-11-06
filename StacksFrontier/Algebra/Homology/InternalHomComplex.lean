@@ -186,7 +186,7 @@ def internalHomd (K L : CochainComplex A ℤ) (n m : ℤ) :
 lemma internalHomd_π (K L : CochainComplex A ℤ) (n m : ℤ) (h : n + 1 = m) (p : ℤ) :
     internalHomd K L n m ≫ internalHomπ K L m p =
       internalHomD₁ K L n m p + (m.negOnePow : ℤˣ) • internalHomD₂ K L n m p h := by
-  rw [internalHomd, dite_eq_left h, Pi.lift_π]
+  rw [internalHomd, dite_eq_left h, Pi.lift_comp_π]
 
 /-- The differential of the internal Hom complex vanishes between non-consecutive degrees. -/
 lemma internalHomd_eq_zero (K L : CochainComplex A ℤ) (n m : ℤ) (h : ¬ n + 1 = m) :
@@ -517,7 +517,7 @@ lemma uncurry_curryHomX_π (K L M : CochainComplex A ℤ) (f : K ⊗ L ⟶ M) (p
       ((p * q).negOnePow : ℤˣ) • curryComp K L M f p q := by
   have hπ : curryHomX K L M f q ≫ internalHomComplexπ K M q p =
       ((p * q).negOnePow : ℤˣ) • curry (curryComp K L M f p q) :=
-    Pi.lift_π (fun p => ((p * q).negOnePow : ℤˣ) • curry (curryComp K L M f p q)) p
+    Pi.lift_comp_π (fun p => ((p * q).negOnePow : ℤˣ) • curry (curryComp K L M f p q)) p
   rw [hπ, uncurry_units_smul, uncurry_curry]
 
 /-- The curried family of a morphism out of `K ⊗ L` commutes with the Koszul differential: this

@@ -225,6 +225,8 @@ private theorem isConstructibleEtaleAbelianSheaf_of_iso'
     {F G : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}} (e : F ≅ G)
     (hF : _root_.Stacks.EtaleCohomology.IsConstructibleSmallEtaleAbelianSheaf.{u, 0} F) :
     _root_.Stacks.EtaleCohomology.IsConstructibleSmallEtaleAbelianSheaf.{u, 0} G :=
+  have := fun S T f ↦
+    isRightAdjoint_sheafPushforwardContinuous_addCommGrpCat_containing.{u, 0} X S T f
   isConstructibleAbelianSheaf_congr _ _
     ((SmallEtale.sheafEquiv (BigEtaleSite.containing X) X (BigEtaleSite.contains_containing X)
       AddCommGrpCat.{u + 1}).inverse.mapIso e) hF

@@ -148,7 +148,7 @@ abbrev BilinHomPi (G : PresheafOfModules.{w} (O ⋙ forget₂ CommRingCat RingCa
 
 /-- The families `BilinHomPi G P U` form a module over the sections of the base over `U`, a scalar
 `r` acting on the component at `f : U ⟶ V` through its restriction along `f`. -/
-instance (U : Cᵒᵖ) :
+noncomputable instance (U : Cᵒᵖ) :
     Module ((O ⋙ forget₂ CommRingCat RingCat).obj U) (BilinHomPi G P U) where
   smul r φ := fun V f => AddMonoidHom.mk'
     (fun y => (O ⋙ forget₂ CommRingCat RingCat).map f r • φ V f y)

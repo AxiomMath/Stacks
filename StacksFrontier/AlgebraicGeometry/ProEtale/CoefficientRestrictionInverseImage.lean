@@ -134,7 +134,7 @@ instance isIso_modulePresheafOverConstantCoefficientsRestrictionUnit
   have hP : Presheaf.IsSheaf (Scheme.ProEt.topology X)
       ((modulePresheafOverConstantCoefficientsFunctor.{u, r, w} X Λ).obj P).presheaf :=
     ((sheafCompose _ (forget₂ (ModuleCat.{max (u + 1) r w} Λ) AddCommGrpCat.{max (u + 1) r w})).obj
-      P).cond
+      P).property
   have : IsIso (toSheafify (Scheme.ProEt.topology X)
       ((modulePresheafOverConstantCoefficientsFunctor.{u, r, w} X Λ).obj P).presheaf) :=
     isIso_toSheafify _ hP

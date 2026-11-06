@@ -207,7 +207,7 @@ theorem pairLift_comp_pi_zero (hX : IsTerminal X) {W : C} {i₀ : E.I₀} (q : W
     pairLift E hX q x ≫ Pi.π _ 0 =
       Over.homMk (prod.fst ≫ (Pi.π (fun a : Fin 1 ↦ Over.mk (E.f (x a))) 0).left)
         (hX.hom_ext _ _) :=
-  Pi.lift_π _ 0
+  Pi.lift_comp_π _ 0
 
 omit [HasFiniteProducts C] in
 /-- The component of `Stacks.CechSite.SheafLevel.pairLift` at a successor index is `q` after the
@@ -216,7 +216,7 @@ theorem pairLift_comp_pi_succ (hX : IsTerminal X) {W : C} {i₀ : E.I₀} (q : W
     (x : Fin 1 → E.I₀) (a : Fin 1) :
     pairLift E hX q x ≫ Pi.π _ a.succ =
       Over.homMk (V := Over.mk (E.f i₀)) (prod.snd ≫ q) (hX.hom_ext _ _) :=
-  Pi.lift_π _ a.succ
+  Pi.lift_comp_π _ a.succ
 
 omit [HasBinaryProducts C] [HasFiniteProducts C] in
 /-- **The face maps of the Čech simplicial object are the lifts of the reindexed projections.**
@@ -241,7 +241,7 @@ theorem pairLift_comp_faceOne (hX : IsTerminal X) {W : C} {i₀ : E.I₀} (q : W
     (face_eq E (1 : Fin 2) (Fin.cons i (fun _ ↦ i₀)))).trans (Pi.hom_ext _ _ fun a ↦ ?_)
   obtain rfl : a = 0 := Fin.fin_one_eq_zero a
   exact (Category.assoc _ _ _).trans
-    ((congrArg (fun z ↦ pairLift E hX q _ ≫ z) (Pi.lift_π _ (0 : Fin 1))).trans
+    ((congrArg (fun z ↦ pairLift E hX q _ ≫ z) (Pi.lift_comp_π _ (0 : Fin 1))).trans
       (pairLift_comp_pi_zero E hX q _))
 
 /-- **The degree-zero diagonal, as a morphism of `Over X`.**  This is the morphism underlying
@@ -257,7 +257,7 @@ theorem degreeZeroLift_comp_pi (hX : IsTerminal X) {W : C} {i₀ : E.I₀} (q : 
     (a : Fin 1) :
     degreeZeroLift E hX q ≫ Pi.π _ a =
       Over.homMk (V := Over.mk (E.f i₀)) q (hX.hom_ext _ _) :=
-  Pi.lift_π _ a
+  Pi.lift_comp_π _ a
 
 omit [HasBinaryProducts C] [HasFiniteProducts C] in
 /-- The degree-zero diagonal is the image of `Stacks.CechSite.SheafLevel.degreeZeroLift`. -/
@@ -282,7 +282,7 @@ theorem pairLift_comp_faceZero (hX : IsTerminal X) {W : C} {i₀ : E.I₀} (q : 
   refine (congrArg (fun z ↦ pairLift E hX q _ ≫ z)
     (face_eq E (0 : Fin 2) (Fin.cons i (fun _ ↦ i₀)))).trans (Pi.hom_ext _ _ fun a ↦ ?_)
   refine (Category.assoc _ _ _).trans
-    ((congrArg (fun z ↦ pairLift E hX q _ ≫ z) (Pi.lift_π _ a)).trans ?_)
+    ((congrArg (fun z ↦ pairLift E hX q _ ≫ z) (Pi.lift_comp_π _ a)).trans ?_)
   refine (pairLift_comp_pi_succ E hX q _ a).trans ?_
   refine ((Category.assoc _ _ _).trans
     (congrArg (fun z ↦ overSnd hX (((cechSimplicialObject E).obj

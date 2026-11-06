@@ -168,7 +168,8 @@ theorem flattensByBlowup_of_iso {A A₂ X : AlgebraicSpaces B S hS} (e : A ≅ A
       rw [← Subfunctor.preimage_comp, Category.assoc, ← ObjectProperty.FullSubcategory.comp_hom,
         e.inv_hom_id]
       simp
-    have : Mono e.inv.hom := inferInstance
+    have : Mono e.inv.hom :=
+      @IsIso.mono_of_iso _ _ _ _ e.inv.hom (Iso.isIso_inv ((ObjectProperty.ι _).mapIso e))
     exact isFlat_and_isLocallyOfFinitePresentation_strictTransform_of_etaleCover f
       (b₂ ≫ e.inv) (f ≫ e.hom) b₂ e.inv (𝟙 X : X ⟶ X) (isEtale_of_isIso B S hS (𝟙 X.1))
       (isSurjective_id B S hS X.1) (by simp) rfl (preimageClosedSubspace (b₂ ≫ e.inv)

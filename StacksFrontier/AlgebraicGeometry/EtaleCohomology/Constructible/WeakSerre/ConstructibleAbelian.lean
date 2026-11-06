@@ -133,6 +133,18 @@ attribute [local instance] SmallEtale.isRightAdjoint_overPost_addCommGrp
 
 variable (B : BigEtaleSite.{u}) (X : B.Scheme)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pushforward of abelian sheaves along small étale base change, with coefficients in
+`AddCommGrpCat.{max (u + 1) w}`, is a right adjoint. Supplied locally because instance search
+for it exceeds the default heartbeat budget. -/
+theorem SmallEtale.isRightAdjoint_baseChange_addCommGrp (S T : B.Scheme) (f : T ⟶ S) :
+    ((smallEtaleBaseChange B f).sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) w}
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint :=
+  inferInstance
+
+attribute [local instance] SmallEtale.isRightAdjoint_baseChange_addCommGrp
+
 /-- **The zero abelian sheaf is constructible.** Its restriction to the single stratum of
 `AlgebraicGeometry.ConstructibleStratification.singleReduced` is zero, and the zero sheaf is
 finite locally constant by `Stacks.ConstantSheaf.isFiniteLocallyConstant_zero`.

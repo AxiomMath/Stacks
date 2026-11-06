@@ -297,6 +297,9 @@ def isLimitFanUnitPushforwardPushforwardAdj (M : SheafOfModules.{v} R)
       (pushforwardPushforwardAdj.{v} (adj k) (φ k) (ψ k) (H₁ k) (H₂ k)).unit.app M) := by
   have : ReflectsLimitsOfShape (Discrete ι) (SheafOfModules.toSheaf.{v} R) :=
     reflectsLimitsOfShape_of_reflectsIsomorphisms
+  have : HasProducts.{v} (Dᵒᵖ ⥤ AddCommGrpCat.{v}) := fun _ => functorCategoryHasLimitsOfShape
+  have : HasLimitsOfShape (Discrete ι) (Sheaf K AddCommGrpCat.{v}) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf K AddCommGrpCat.{v})
   have : ReflectsLimitsOfShape (Discrete ι) (sheafToPresheaf K AddCommGrpCat.{v}) :=
     reflectsLimitsOfShape_of_reflectsIsomorphisms
   refine isLimitOfReflects (SheafOfModules.toSheaf.{v} R ⋙ sheafToPresheaf K AddCommGrpCat.{v}) ?_

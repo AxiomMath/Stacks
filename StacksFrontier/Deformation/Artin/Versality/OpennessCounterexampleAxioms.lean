@@ -774,8 +774,8 @@ public theorem finiteDimensional_tangentSpace_infinitesimalAutomorphisms_artinAx
         (artinianTangentSpace Λ K (isomorphismClasses 𝓕 hD.predeformation.cofibered)) :=
       hcl _
     infer_instance
-  · have : Subsingleton (Aut zε) := ⟨fun a b => Iso.ext
-      ((subsingleton_fiber_hom_of_faithful D.projection zε zε).elim _ _)⟩
+  · have : Subsingleton (Aut zε) := ⟨fun a b => Aut.ext (Iso.ext
+      ((subsingleton_fiber_hom_of_faithful D.projection zε zε).elim _ _))⟩
     have : Subsingleton ↥(infinitesimalAutomorphismsAlongSplitPair
         hD.predeformation.cofibered g e hge i hi) :=
       ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩

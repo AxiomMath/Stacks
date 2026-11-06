@@ -159,6 +159,18 @@ namespace FormalGlueingSituation
 
 variable {B S hS}
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_formalGlueingSpacesGraph
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S`. -/
+private instance hasPullbacks_presheaf_formalGlueingSpacesGraph :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-- The restriction functor preserves fibre products: given a pair of morphisms
 `u : G ⟶ F X₁`, `v : G ⟶ F X₂` of glueing data out of a common source, and a fibre product
 `X₁ ×_X X₂` of the two spaces over `X`, there is a morphism `G ⟶ F (X₁ ×_X X₂)` with components

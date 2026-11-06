@@ -115,14 +115,14 @@ public instance smallEtaleBaseChange_isCoverDense {Z X : B.Scheme} (i : Z ⟶ X)
   set s := geometricPointOfEtalePoint B Z.1 Z.property U y
   set p := geometricPointOfEtalePointLift B Z.1 Z.property U y
   obtain ⟨A⟩ := ((pullbackNeighborhoodFunctor_initial B i s).out
-    (⟨U, p⟩ : (geometricPointFiber B Z.1 Z.property s).Elements)).is_nonempty
-  refine ⟨(smallEtaleBaseChange B i).obj A.left.1, A.hom.1,
-    ⟨⟨A.left.1, 𝟙 _, A.hom.1, Category.id_comp _⟩⟩, ?_⟩
-  have hfac : ((pullbackNeighborhoodFunctor B i s).obj A.left).2.1 ≫
-      (SmallEtale.toScheme B Z.1 Z.property).map A.hom.1 = p.1 :=
-    congrArg Subtype.val A.hom.2
-  exact ⟨(((pullbackNeighborhoodFunctor B i s).obj A.left).2.1).base default,
-    geometricPointOfEtalePointLift_base_of_comp_eq B Z.property y A.hom.1 _ hfac⟩
+    ((geometricPointFiber B Z.1 Z.property s).elementsMk U p)).is_nonempty
+  refine ⟨(smallEtaleBaseChange B i).obj A.left.obj, A.hom.hom,
+    ⟨⟨A.left.obj, 𝟙 _, A.hom.hom, Category.id_comp _⟩⟩, ?_⟩
+  have hfac : ((pullbackNeighborhoodFunctor B i s).obj A.left).val.1 ≫
+      (SmallEtale.toScheme B Z.1 Z.property).map A.hom.hom = p.1 :=
+    congrArg Subtype.val A.hom.map_val
+  exact ⟨(((pullbackNeighborhoodFunctor B i s).obj A.left).val.1).base default,
+    geometricPointOfEtalePointLift_base_of_comp_eq B Z.property y A.hom.hom _ hfac⟩
 
 section LocallyFull
 
@@ -135,11 +135,12 @@ private def liftAlongBaseChange (W : SmallEtale B X.1 X.property)
       ((smallEtaleBaseChange B i).obj W))
     (hq : q ≫ B.inclusion.map (pullback.snd W.obj.hom i) = s.hom) :
     (geometricPointFiber B X.1 X.property (s.map (B.inclusion.map i))).Elements :=
-  ⟨W, ⟨q ≫ B.inclusion.map (pullback.fst W.obj.hom i), by
+  (geometricPointFiber B X.1 X.property (s.map (B.inclusion.map i))).elementsMk W
+    ⟨q ≫ B.inclusion.map (pullback.fst W.obj.hom i), by
     have h : B.inclusion.map (pullback.fst W.obj.hom i) ≫ B.inclusion.map W.obj.hom =
         B.inclusion.map (pullback.snd W.obj.hom i) ≫ B.inclusion.map i := by
       rw [← Functor.map_comp, ← Functor.map_comp, pullback.condition]
-    exact (Category.assoc _ _ _).trans ((congrArg (q ≫ ·) h).trans ((reassoc_of% hq) _))⟩⟩
+    exact (Category.assoc _ _ _).trans ((congrArg (q ≫ ·) h).trans ((reassoc_of% hq) _))⟩
 
 /-- Base change of the lift produced by `AlgebraicGeometry.liftAlongBaseChange` recovers the
 original lift. -/
@@ -147,15 +148,15 @@ private lemma liftAlongBaseChange_baseChange (W : SmallEtale B X.1 X.property)
     (q : s.source ⟶ (SmallEtale.toScheme B Z.1 Z.property).obj
       ((smallEtaleBaseChange B i).obj W))
     (hq : q ≫ B.inclusion.map (pullback.snd W.obj.hom i) = s.hom) :
-    ((pullbackNeighborhoodFunctor B i s).obj (liftAlongBaseChange B i s W q hq)).2.1 = q := by
+    ((pullbackNeighborhoodFunctor B i s).obj (liftAlongBaseChange B i s W q hq)).val.1 = q := by
   have hobj : ((pullbackNeighborhoodFunctor B i s).obj
-      (liftAlongBaseChange B i s W q hq)).2 =
-      geometricPointFiberBaseChangeEquiv B i s W (liftAlongBaseChange B i s W q hq).2 := rfl
+      (liftAlongBaseChange B i s W q hq)).val =
+      geometricPointFiberBaseChangeEquiv B i s W (liftAlongBaseChange B i s W q hq).val := rfl
   rw [hobj]
   exact ((IsPullback.of_hasPullback W.obj.hom i).map B.inclusion).hom_ext
-    (geometricPointFiberBaseChangeEquiv_val_fst B i s W (liftAlongBaseChange B i s W q hq).2)
+    (geometricPointFiberBaseChangeEquiv_val_fst B i s W (liftAlongBaseChange B i s W q hq).val)
     ((geometricPointFiberBaseChangeEquiv_val_snd B i s W
-      (liftAlongBaseChange B i s W q hq).2).trans hq.symm)
+      (liftAlongBaseChange B i s W q hq).val).trans hq.symm)
 
 /-- Cofilteredness of the comma categories of the initial functor `pullbackNeighborhoodFunctor`:
 a morphism between two base changes of pointed étale neighbourhoods becomes the base change of a
@@ -207,29 +208,29 @@ public instance smallEtaleBaseChange_isLocallyFull [IsClosedImmersion (B.inclusi
   set Ua := liftAlongBaseChange B i t U p.1 hpU
   set Va := liftAlongBaseChange B i t V
     (p.1 ≫ (SmallEtale.toScheme B Z.1 Z.property).map f) hpV
-  have hU2 : ((pullbackNeighborhoodFunctor B i t).obj Ua).2.1 = p.1 :=
+  have hU2 : ((pullbackNeighborhoodFunctor B i t).obj Ua).val.1 = p.1 :=
     liftAlongBaseChange_baseChange B i t U p.1 hpU
-  have hV2 : ((pullbackNeighborhoodFunctor B i t).obj Va).2.1 =
+  have hV2 : ((pullbackNeighborhoodFunctor B i t).obj Va).val.1 =
       p.1 ≫ (SmallEtale.toScheme B Z.1 Z.property).map f :=
     liftAlongBaseChange_baseChange B i t V _ hpV
   let f' : (pullbackNeighborhoodFunctor B i t).obj Ua ⟶
       (pullbackNeighborhoodFunctor B i t).obj Va := ⟨f, by
     apply Subtype.ext
-    change ((pullbackNeighborhoodFunctor B i t).obj Ua).2.1 ≫
+    change ((pullbackNeighborhoodFunctor B i t).obj Ua).val.1 ≫
       (SmallEtale.toScheme B Z.1 Z.property).map f =
-      ((pullbackNeighborhoodFunctor B i t).obj Va).2.1
+      ((pullbackNeighborhoodFunctor B i t).obj Va).val.1
     rw [hU2, hV2]
     rfl⟩
   obtain ⟨W, a, b, hab⟩ := pullbackNeighborhoodFunctor_exists_map_comp_eq B i t f'
-  have hlift : (smallEtaleBaseChange B i).map a.1 ≫ f = (smallEtaleBaseChange B i).map b.1 :=
-    congrArg Subtype.val hab
-  refine ⟨(smallEtaleBaseChange B i).obj W.1, (smallEtaleBaseChange B i).map a.1,
-    ⟨W.1, a.1, 𝟙 _, ⟨b.1, hlift.symm⟩, (Category.id_comp _).symm⟩, ?_⟩
-  have hfac : ((pullbackNeighborhoodFunctor B i t).obj W).2.1 ≫
-      (SmallEtale.toScheme B Z.1 Z.property).map ((smallEtaleBaseChange B i).map a.1) =
-      ((pullbackNeighborhoodFunctor B i t).obj Ua).2.1 :=
-    congrArg Subtype.val ((pullbackNeighborhoodFunctor B i t).map a).2
-  exact ⟨(((pullbackNeighborhoodFunctor B i t).obj W).2.1).base default,
+  have hlift : (smallEtaleBaseChange B i).map a.hom ≫ f = (smallEtaleBaseChange B i).map b.hom :=
+    congrArg Functor.Elements.Hom.hom hab
+  refine ⟨(smallEtaleBaseChange B i).obj W.obj, (smallEtaleBaseChange B i).map a.hom,
+    ⟨W.obj, a.hom, 𝟙 _, ⟨b.hom, hlift.symm⟩, (Category.id_comp _).symm⟩, ?_⟩
+  have hfac : ((pullbackNeighborhoodFunctor B i t).obj W).val.1 ≫
+      (SmallEtale.toScheme B Z.1 Z.property).map ((smallEtaleBaseChange B i).map a.hom) =
+      ((pullbackNeighborhoodFunctor B i t).obj Ua).val.1 :=
+    congrArg Subtype.val ((pullbackNeighborhoodFunctor B i t).map a).map_val
+  exact ⟨(((pullbackNeighborhoodFunctor B i t).obj W).val.1).base default,
     geometricPointOfEtalePointLift_base_of_comp_eq B Z.property y _ _ (hfac.trans hU2)⟩
 
 end LocallyFull

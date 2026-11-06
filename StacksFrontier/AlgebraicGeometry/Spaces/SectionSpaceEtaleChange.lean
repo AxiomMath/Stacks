@@ -179,7 +179,7 @@ noncomputable def point :
     change W.map (coverPair Z a (f.unop ≫ z)).op σ.1 =
       W.map ((Over.map a).map f.unop).op (W.map (coverPair Z a z).op σ.1)
     rw [coverPair_comp, op_comp]
-    exact FunctorToTypes.map_comp_apply W _ _ σ.1
+    exact Functor.map_comp_apply W _ _ σ.1
 
 /-- **The presheaf `W'_σ = W' ×_{W, σ} Z_T`** on the big fppf site of `T`: a section over `Y` is a
 section of `W'` over `Y` together with a morphism `Y ⟶ Z_T`, whose images in `W` agree. -/
@@ -194,14 +194,14 @@ noncomputable def total : (BigFppfOver B A hA)ᵒᵖ ⥤ Type u where
     ext x
     · change W'.map ((Over.map a).map (𝟙 _)).op x.1.1 = x.1.1
       rw [(Over.map a).map_id, op_id]
-      exact FunctorToTypes.map_id_apply W' x.1.1
+      exact W'.map_id_apply _ x.1.1
     · simp
   map_comp {Y Y' Y''} f g := by
     ext x
     · change W'.map ((Over.map a).map (g.unop ≫ f.unop)).op x.1.1 =
         W'.map ((Over.map a).map g.unop).op (W'.map ((Over.map a).map f.unop).op x.1.1)
       rw [(Over.map a).map_comp, op_comp]
-      exact FunctorToTypes.map_comp_apply W' _ _ x.1.1
+      exact Functor.map_comp_apply W' _ _ x.1.1
     · simp
 
 /-- The structure morphism `W'_σ ⟶ h_{Z_T}`. -/
@@ -274,11 +274,9 @@ theorem isPullback_prodComparison (Y : BigFppfOver B A hA) :
       ((Over.map a).map (prod.snd : cover Z a ⨯ Y ⟶ Y)).left Z.hom (Y.hom ≫ a) := by
   have h₀ := (IsPullback.of_isLimit_binaryFan_of_isTerminal (prodIsProd (cover Z a) Y)
       Over.mkIdTerminal).map (Over.forget _)
-  have e₁ : (Over.forget _).map (Over.mkIdTerminal.from ((pair (cover Z a) Y).obj
-      ⟨WalkingPair.left⟩)) = (cover Z a).hom := by
+  have e₁ : (Over.forget _).map (Over.mkIdTerminal.from (cover Z a)) = (cover Z a).hom := by
     simp
-  have e₂ : (Over.forget _).map (Over.mkIdTerminal.from ((pair (cover Z a) Y).obj
-      ⟨WalkingPair.right⟩)) = Y.hom := by
+  have e₂ : (Over.forget _).map (Over.mkIdTerminal.from Y) = Y.hom := by
     simp
   rw [e₁, e₂] at h₀
   have h₁ : IsPullback (prod.fst : cover Z a ⨯ Y ⟶ _).left (prod.snd : cover Z a ⨯ Y ⟶ Y).left
@@ -318,7 +316,7 @@ theorem map_prodComparison_mem (x : W'.obj (op (Z ⨯ (Over.map a).obj Y)))
     (hx : p.app _ x = W.map (prod.map (𝟙 Z) (overMapTautHom a Y)).op s₀) :
     p.app _ (W'.map (prodComparison Z a Y).op x) = W.map (coverPair Z a prod.fst).op s₀ := by
   rw [NatTrans.naturality_apply, hx, ← prodComparison_comp_prodMap_overMapTautHom, op_comp,
-    FunctorToTypes.map_comp_apply]
+    Functor.map_comp_apply]
 
 /-- If the image under `p` of a section `x` of `W'` over `Z_T × Y` is the restriction of `s₀`
 along `coverPair Z a prod.fst`, then the image under `p` of the restriction of `x` along the
@@ -328,8 +326,8 @@ theorem map_inv_prodComparison_mem (x : W'.obj (op ((Over.map a).obj (cover Z a 
     p.app _ (W'.map (inv (prodComparison Z a Y)).op x) =
       W.map (prod.map (𝟙 Z) (overMapTautHom a Y)).op s₀ := by
   rw [NatTrans.naturality_apply, hx, ← prodComparison_comp_prodMap_overMapTautHom, op_comp,
-    FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
-    IsIso.inv_hom_id, op_id, FunctorToTypes.map_id_apply]
+    Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
+    IsIso.inv_hom_id, op_id, Functor.map_id_apply]
 
 include hp in
 /-- If `s₀` lies over the first projection and the image under `p` of a section `x` of `W'` over
@@ -349,15 +347,15 @@ theorem map_inv_prodComparison_over (hs₀ : w.app _ s₀ = prod.fst)
 section. -/
 theorem map_inv_map_prodComparison (x : W'.obj (op (Z ⨯ (Over.map a).obj Y))) :
     W'.map (inv (prodComparison Z a Y)).op (W'.map (prodComparison Z a Y).op x) = x := by
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp, IsIso.inv_hom_id, op_id,
-    FunctorToTypes.map_id_apply]
+  rw [← Functor.map_comp_apply, ← op_comp, IsIso.inv_hom_id, op_id,
+    Functor.map_id_apply]
 
 /-- Restricting a section of `W'` along the inverse of `prodComparison` and then along
 `prodComparison` gives back the section. -/
 theorem map_map_inv_prodComparison (x : W'.obj (op ((Over.map a).obj (cover Z a ⨯ Y)))) :
     W'.map (prodComparison Z a Y).op (W'.map (inv (prodComparison Z a Y)).op x) = x := by
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp, IsIso.hom_inv_id, op_id,
-    FunctorToTypes.map_id_apply]
+  rw [← Functor.map_comp_apply, ← op_comp, IsIso.hom_inv_id, op_id,
+    Functor.map_id_apply]
 
 /-- Restriction of sections of `W'` along `prodComparison` is natural in the object `Y` of the
 site of `T`. -/
@@ -365,7 +363,7 @@ theorem map_prodComparison_naturality {Y' : BigFppfOver B A hA} (f : Y' ⟶ Y)
     (x : W'.obj (op (Z ⨯ (Over.map a).obj Y))) :
     W'.map (prodComparison Z a Y').op (W'.map (prod.map (𝟙 Z) ((Over.map a).map f)).op x) =
       W'.map ((Over.map a).map (prod.map (𝟙 _) f)).op (W'.map (prodComparison Z a Y).op x) := by
-  rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
+  rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
     prodComparison_naturality]
 
 end Elements
@@ -441,6 +439,17 @@ end Relocalize
 /-! ### The fibres of the morphism of spaces of sections -/
 
 section Fibres
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `U` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_SectionSpaceEtaleChange :
+    HasPullbacks ((BigFppfOver B U hU)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_SectionSpaceEtaleChange
+    {X Y Z : (BigFppfOver B U hU)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 variable {Z : BigFppfOver B U hU} {W W' : (BigFppfOver B U hU)ᵒᵖ ⥤ Type u}
   {w : W ⟶ yoneda.obj Z} {w' : W' ⟶ yoneda.obj Z} (p : W' ⟶ W) (hp : p ≫ w = w')

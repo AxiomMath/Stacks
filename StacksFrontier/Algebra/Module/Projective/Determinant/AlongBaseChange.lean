@@ -128,7 +128,6 @@ theorem span_range_eq_top_of_isBaseChange {φ : M →ₗ[R] N} (h : IsBaseChange
   rw [eq_top_iff]
   rintro n -
   induction n using h.inductionOn with
-  | zero => exact Submodule.zero_mem _
   | tmul m => exact Submodule.subset_span ⟨m, rfl⟩
   | smul s n hn => exact Submodule.smul_mem _ s hn
   | add a b ha hb => exact Submodule.add_mem _ ha hb

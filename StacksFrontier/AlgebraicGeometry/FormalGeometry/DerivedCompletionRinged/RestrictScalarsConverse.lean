@@ -175,9 +175,9 @@ theorem isDerivedCompleteAtSection_image (α : O ⟶ O')
     (fun Z => by
       refine HomologicalComplex.hom_ext _ _ fun n => ?_
       show AU.map ((Stacks.SheafOfModules.terminalSectionToEnd R' (Over.mk (𝟙 U))
-            Over.mkIdTerminal (φ.hom.app (op (Over.mk (𝟙 U))) f)).app (Z.X n) ≫ 𝟙 (Z.X n)) =
+            Over.mkIdTerminal (φ.hom.app (op (Over.mk (𝟙 U))) f)).asHom.app (Z.X n) ≫ 𝟙 (Z.X n)) =
           (Stacks.SheafOfModules.terminalSectionToEnd R (Over.mk (𝟙 U)) Over.mkIdTerminal
-            f).app (AU.obj (Z.X n)) ≫ 𝟙 (AU.obj (Z.X n))
+            f).asHom.app (AU.obj (Z.X n)) ≫ 𝟙 (AU.obj (Z.X n))
       refine (congrArg (fun g => AU.map g) (Category.comp_id _)).trans ?_
       exact (RingedSite.restrictScalars_map_terminalSectionToEnd φ
         (Over.mk (𝟙 U)) Over.mkIdTerminal f (Z.X n)).trans (Category.comp_id _).symm)

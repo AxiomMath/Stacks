@@ -42,9 +42,10 @@ theorem isMaximal_comap_of_integral_square
   have hp : (q.comap g).under A = IsLocalRing.maximalIdeal A := by
     show (q.comap g).comap (algebraMap A C) = _
     rw [Ideal.comap_comap, h, ← Ideal.comap_comap,
-      IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q),
+      IsLocalRing.eq_maximalIdeal (show (q.comap (algebraMap B D)).IsMaximal from
+        Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) q),
       IsLocalRing.maximalIdeal_comap]
-  apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) (q.comap g)
+  apply Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) (q.comap g)
   show (Ideal.under A (q.comap g)).IsMaximal
   rw [hp]
   infer_instance

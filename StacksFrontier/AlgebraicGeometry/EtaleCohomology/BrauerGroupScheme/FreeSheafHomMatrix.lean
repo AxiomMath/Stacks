@@ -71,14 +71,15 @@ over `End (𝟙_ C)`.** This is `CategoryTheory.Limits.biproduct.matrixEquiv`, r
 cannot see either through the bare function type `biproduct.matrixEquiv` is stated at. -/
 def unitHomMatrixEquiv (I K : Type) [Finite I] [Finite K] :
     ((⨁ fun _ : I => 𝟙_ C) ⟶ ⨁ fun _ : K => 𝟙_ C) ≃ Matrix I K (End (𝟙_ C)) :=
-  biproduct.matrixEquiv
+  biproduct.matrixEquiv.trans
+    (Equiv.piCongrRight fun _ => Equiv.piCongrRight fun _ => End.homEquiv.symm)
 
 omit [MonoidalPreadditive C] in
 /-- The `(i, k)` entry of the matrix of `F` is the `(i, k)` component of `F` as a morphism of
 biproducts. -/
 lemma unitHomMatrixEquiv_apply (I K : Type) [Finite I] [Finite K]
     (F : (⨁ fun _ : I => 𝟙_ C) ⟶ ⨁ fun _ : K => 𝟙_ C) (i : I) (k : K) :
-    unitHomMatrixEquiv I K F i k = biproduct.components F i k := rfl
+    unitHomMatrixEquiv I K F i k = End.of (biproduct.components F i k) := rfl
 
 omit [MonoidalPreadditive C] in
 /-- **Composition goes to the matrix product, in the same order.** -/
@@ -92,7 +93,9 @@ theorem unitHomMatrixEquiv_comp (I K L : Type) [Finite I] [Fintype K] [Finite L]
     rw [← CategoryTheory.SimplicialObject.EilenbergMacLane.biproduct_matrix_comp,
       biproduct.components_matrix, biproduct.components_matrix]
   funext i l
-  rw [unitHomMatrixEquiv_apply, h, biproduct.matrix_components, Matrix.mul_apply]
+  ext
+  simp only [unitHomMatrixEquiv_apply, h, biproduct.matrix_components, Matrix.mul_apply,
+    End.sum_asHom, End.mul_asHom]
   exact Finset.sum_congr rfl fun k _ => comp_comm_unitEnd _ _
 
 omit [MonoidalPreadditive C] in
@@ -102,8 +105,9 @@ theorem unitHomMatrixEquiv_add (I K : Type) [Finite I] [Finite K]
     unitHomMatrixEquiv I K (F + G) =
       unitHomMatrixEquiv I K F + unitHomMatrixEquiv I K G := by
   funext i k
+  ext
   simp only [unitHomMatrixEquiv_apply, Matrix.add_apply, biproduct.components,
-    Preadditive.comp_add, Preadditive.add_comp]
+    Preadditive.comp_add, Preadditive.add_comp, End.add_asHom]
 
 end CategoryTheory.MonoidalCategory
 

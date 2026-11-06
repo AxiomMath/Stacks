@@ -210,12 +210,12 @@ variable (K) in
 /-- An idele with divisor `D`: `ϖ_v ^ D(v)` at every place. -/
 public def idelOfDiv (D : Place K →₀ ℤ) : (AdeleRing K)ˣ where
   val := ⟨fun v => v.coeRingHom (v.unif ^ D v), Filter.eventually_cofinite.2
-    (D.finite_support.subset fun v hv => by
+    ((show (Function.support D).Finite from D.hasFiniteSupport).subset fun v hv => by
       by_contra h
       have hD : D v = 0 := Function.notMem_support.1 h
       exact hv (by simp only [hD, zpow_zero, map_one]; exact v.integers.one_mem))⟩
   inv := ⟨fun v => v.coeRingHom (v.unif ^ (-D v)), Filter.eventually_cofinite.2
-    (D.finite_support.subset fun v hv => by
+    ((show (Function.support D).Finite from D.hasFiniteSupport).subset fun v hv => by
       by_contra h
       have hD : D v = 0 := Function.notMem_support.1 h
       exact hv (by simp only [hD, neg_zero, zpow_zero, map_one]; exact v.integers.one_mem))⟩

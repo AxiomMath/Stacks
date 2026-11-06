@@ -72,8 +72,8 @@ theorem formallyEtale_whiskerRight_uliftFunctor {F G : (BigFppfOver B S hS)ᵒ�
     FormallyEtale (Functor.whiskerRight a uliftFunctor.{w}) := by
   intro T T' hT hT' i hi x y hxy
   obtain ⟨z, hz, hu⟩ := ha T T' hT hT' i hi x.down y.down (congrArg ULift.down hxy)
-  refine ⟨ULift.up z, ⟨ULift.ext _ _ hz.1, ULift.ext _ _ hz.2⟩, fun w hw => ?_⟩
-  exact ULift.ext _ _ (hu w.down ⟨congrArg ULift.down hw.1, congrArg ULift.down hw.2⟩)
+  refine ⟨ULift.up z, ⟨ULift.ext hz.1, ULift.ext hz.2⟩, fun w hw => ?_⟩
+  exact ULift.ext (hu w.down ⟨congrArg ULift.down hw.1, congrArg ULift.down hw.2⟩)
 
 /-- **An étale morphism from an algebraic space to a represented presheaf is formally étale**,
 with values in `Type (u + 1)`. The algebraic space is the universe lift of one with values in

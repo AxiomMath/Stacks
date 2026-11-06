@@ -684,7 +684,7 @@ private def baseChangedArrowIso
     Algebra.algebra_ext _ _ fun _ => rfl
   let e := tensorProductAlgEquivOfAlgebraEq
     (ULift.{v} R) (ULift.{max u v} A) (ULift.{u} A)
-    (CommRingCat.instAlgebraCarrierRight
+    (show Algebra (ULift.{v} R) (ULift.{u} A) from CommRingCat.instAlgebraCarrierRight
       (Under.mk (CommRingCat.ofHom
         (algebraMap (ULift.{v} R) (ULift.{u} A)))))
     (ULift.algebra' R (ULift.{u} A)) hAlg

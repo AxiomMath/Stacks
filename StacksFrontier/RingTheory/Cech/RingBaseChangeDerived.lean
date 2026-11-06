@@ -324,7 +324,6 @@ theorem termBaseChange_comp_termBaseChangeInv (p : ℕ) :
     ⟨(modBaseChangeEquiv f B s.1).symm y, (modBaseChangeEquiv f B s.1).apply_symm_apply y⟩
   rw [termBaseChangeInv_lof, (modBaseChangeEquiv f B s.1).symm_apply_apply]
   induction z with
-  | zero => simp
   | tmul b x =>
       rw [LinearMap.baseChange_tmul, modBaseChangeEquiv_apply, modBaseChange_tmul,
         TensorProduct.tmul_eq_smul_one_tmul, map_smul, termBaseChange_one_tmul_lof, map_smul]

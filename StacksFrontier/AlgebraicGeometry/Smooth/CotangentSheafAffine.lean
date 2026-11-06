@@ -150,7 +150,7 @@ theorem universalD_mul (b₁ b₂ : Γ(X, W)) :
 
 /-- The universal differential of the unit section vanishes. -/
 theorem universalD_one : universalD f W 1 = 0 :=
-  PresheafOfModules.Derivation.d_one _ (op W)
+  PresheafOfModulesOfCommRing.Derivation.d_one _ (op W)
 
 /-- The unit of the adjunction `f⁻¹ ⊣ f_*` between sheaves of commutative rings, at the
 structure sheaf of `S`. -/
@@ -198,7 +198,7 @@ theorem universalD_appLE (hWV : W ≤ f ⁻¹ᵁ V) (r : Γ(S, V)) :
   rw [show universalD f W ((f.appLE V W hWV).hom r)
       = (universalDerivation (ringedSpaceHom f)).d ((f.appLE V W hWV).hom r) from rfl,
     ← inverseImageStructureMap_inverseImageSection f W hWV r]
-  exact PresheafOfModules.Derivation'.d_app (universalDerivation (ringedSpaceHom f)) _
+  exact PresheafOfModulesOfCommRing.Derivation'.d_app (universalDerivation (ringedSpaceHom f)) _
 
 end Universal
 

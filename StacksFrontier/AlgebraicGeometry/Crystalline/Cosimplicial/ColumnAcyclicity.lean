@@ -359,8 +359,13 @@ private theorem powMapₛₗ_comp_eq_self {R S : Type*} [CommRing R] [CommRing S
 theorem columnFormsShapeMapₛₗ'_columnFormsShapeMapₛₗ (a : ℕ) (n : SimplexCategory)
     (x : (envelopeDPAlgebra s f).formsShape s.p a n.len) :
     columnFormsShapeMapₛₗ' s f hf a n (columnFormsShapeMapₛₗ s f hf a n x) = x :=
-  adicCompletionMapₛₗ_comp_eq_self _ _ _ _
-    (powMapₛₗ_comp_eq_self a _ _ (fun _ => rfl) (fun _ => rfl)) x
+  adicCompletionMapₛₗ_comp_eq_self
+    (ExteriorAlgebra.powMapₛₗ a (columnRingHom s f hf n) (columnDifferentialsHom s f hf n))
+    (ExteriorAlgebra.powMapₛₗ a (columnRingHom' s f hf n) (columnDifferentialsHom' s f hf n))
+    (map_pAdicIdeal_le s.p (columnRingHom s f hf n))
+    (map_pAdicIdeal_le s.p (columnRingHom' s f hf n))
+    (powMapₛₗ_comp_eq_self a (columnDifferentialsHom s f hf n)
+      (columnDifferentialsHom' s f hf n) (fun _ => rfl) (fun _ => rfl)) x
 
 /-- **The comparison of the two spellings of the forms is invertible**, the other way round. -/
 theorem columnFormsShapeMapₛₗ_columnFormsShapeMapₛₗ' (a : ℕ) (n : SimplexCategory)
@@ -368,8 +373,13 @@ theorem columnFormsShapeMapₛₗ_columnFormsShapeMapₛₗ' (a : ℕ) (n : Simp
       (((exteriorPowerFunctor (cosimplicialEnvelopeRing s f hf) a).functor.obj
         (cosimplicialEnvelopeDifferentials s f hf)).obj (op (op n)))) :
     columnFormsShapeMapₛₗ s f hf a n (columnFormsShapeMapₛₗ' s f hf a n y) = y :=
-  adicCompletionMapₛₗ_comp_eq_self _ _ _ _
-    (powMapₛₗ_comp_eq_self a _ _ (fun _ => rfl) (fun _ => rfl)) y
+  adicCompletionMapₛₗ_comp_eq_self
+    (ExteriorAlgebra.powMapₛₗ a (columnRingHom' s f hf n) (columnDifferentialsHom' s f hf n))
+    (ExteriorAlgebra.powMapₛₗ a (columnRingHom s f hf n) (columnDifferentialsHom s f hf n))
+    (map_pAdicIdeal_le s.p (columnRingHom' s f hf n))
+    (map_pAdicIdeal_le s.p (columnRingHom s f hf n))
+    (powMapₛₗ_comp_eq_self a (columnDifferentialsHom' s f hf n)
+      (columnDifferentialsHom s f hf n) (fun _ => rfl) (fun _ => rfl)) y
 
 /-- **The change of spelling of the forms is natural in the cosimplicial direction.**
 

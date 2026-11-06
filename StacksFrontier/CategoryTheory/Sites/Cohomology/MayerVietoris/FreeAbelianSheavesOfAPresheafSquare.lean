@@ -7,6 +7,7 @@ public import Mathlib.CategoryTheory.Abelian.Injective.Basic
 public import Mathlib.CategoryTheory.Limits.Constructions.EpiMono
 public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 public import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Square
+public import Mathlib.CategoryTheory.Preadditive.Yoneda.Limits
 public import Mathlib.CategoryTheory.Sites.Abelian
 public import Mathlib.CategoryTheory.Sites.Adjunction
 public import Mathlib.CategoryTheory.Sites.PreservesSheafification

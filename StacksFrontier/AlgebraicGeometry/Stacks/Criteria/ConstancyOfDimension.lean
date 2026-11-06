@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Noetherian
+public import Mathlib.AlgebraicGeometry.Properties
 public import Mathlib.AlgebraicGeometry.Stalk
 public import Mathlib.Topology.JacobsonSpace
 public import StacksCore.Tactic.StacksAttribute

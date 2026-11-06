@@ -218,7 +218,6 @@ theorem length_atPrime_algClosedTensor_eq_finInsepDegree
       χ (Algebra.TensorProduct.mapOfCompatibleSMul F k F K L r) = τ r := by
     intro r
     induction r with
-    | zero => simp
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
     | tmul a b =>
       have h : (a ⊗ₜ[k] b : K ⊗[k] L) =

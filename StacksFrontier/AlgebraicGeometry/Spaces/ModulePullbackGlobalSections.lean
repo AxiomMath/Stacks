@@ -64,17 +64,19 @@ theorem baseChangeRingHom_modulePullback (d : ChartDiagram B S hS X'.1 X.1 h.hom
     exact key
   let e := modulePullbackUnitIso B S hS h
   let ρ := Stacks.SheafOfModules.unitEndRingHom.{u} (structureSheaf B S hS X.1 X.2) hT
-  have key : (e.inv ≫ (modulePullback B S hS h).map (ρ a) ≫ e.hom).val.app (op d.U)
+  have key : (e.inv ≫ (modulePullback B S hS h).map (ρ a).asHom ≫ e.hom).val.app (op d.U)
       (1 : (structureRingSheaf B S hS X').obj.obj (op d.U)) =
         chartDiagramPullback B S hS h d a := by
-    have h1 := comp_val_app_apply B S hS e.inv ((modulePullback B S hS h).map (ρ a) ≫ e.hom)
+    have h1 := comp_val_app_apply B S hS e.inv
+      ((modulePullback B S hS h).map (ρ a).asHom ≫ e.hom)
       (op d.U) (1 : (structureRingSheaf B S hS X').obj.obj (op d.U))
-    have h2 := comp_val_app_apply B S hS ((modulePullback B S hS h).map (ρ a)) e.hom (op d.U)
+    have h2 := comp_val_app_apply B S hS ((modulePullback B S hS h).map (ρ a).asHom) e.hom
+      (op d.U)
       (e.inv.val.app (op d.U) (1 : (structureRingSheaf B S hS X').obj.obj (op d.U)))
     have h3 := modulePullbackUnitIso_inv_val_app_one B S hS h d
-    have h4 := modulePullbackChartSection_map B S hS h _ (ρ a) d
+    have h4 := modulePullbackChartSection_map B S hS h _ (ρ a).asHom d
       (1 : (structureRingSheaf B S hS X).obj.obj (op d.V))
-    have hρa : (ρ a).val.app (op d.V) (1 : (structureRingSheaf B S hS X).obj.obj (op d.V)) =
+    have hρa : (ρ a).asHom.val.app (op d.V) (1 : (structureRingSheaf B S hS X).obj.obj (op d.V)) =
         (show (structureRingSheaf B S hS X).obj.obj (op d.V) from a) := by
       have := Stacks.SheafOfModules.unit_app_eq.{u} (structureSheaf B S hS X.1 X.2) (T := d.V)
         (ρ a) 1
@@ -108,7 +110,7 @@ theorem baseChangeRingHom_modulePullback (d : ChartDiagram B S hS X'.1 X.1 h.hom
           e.inv_hom_id)
     refine h1.trans (h2.trans ?_)
     refine (congrArg (fun x => e.hom.val.app (op d.U)
-      (((modulePullback B S hS h).map (ρ a)).val.app (op d.U) x)) h3).trans ?_
+      (((modulePullback B S hS h).map (ρ a).asHom).val.app (op d.U) x)) h3).trans ?_
     refine (congrArg (fun x => e.hom.val.app (op d.U) x) h4).trans ?_
     refine (congrArg (fun x => e.hom.val.app (op d.U) (modulePullbackChartSection B S hS h
       (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf
@@ -130,7 +132,7 @@ theorem baseChangeRingHom_modulePullback (d : ChartDiagram B S hS X'.1 X.1 h.hom
     (modulePullback B S hS h) (hF := modulePullback_additive h) e a
   exact ((Stacks.SheafOfModules.unitEndRingEquiv.{u} (structureSheaf B S hS X'.1 X'.2)
     hT').apply_symm_apply _).symm.trans ((congrArg (Stacks.SheafOfModules.unitEndRingEquiv.{u}
-      (structureSheaf B S hS X'.1 X'.2) hT') hm).trans key)
+      (structureSheaf B S hS X'.1 X'.2) hT') (End.ext (y := End.of _) hm)).trans key)
 
 end AlgebraicGeometry.Space
 

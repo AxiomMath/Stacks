@@ -59,7 +59,7 @@ variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C}
 /-- **The universe lift of a sheaf of commutative rings**: `U ↦ ULift (O(U))`. -/
 abbrev sheafRingULift (O : Sheaf J CommRingCat.{r}) : Sheaf J CommRingCat.{max r z} :=
   ⟨O.obj ⋙ AlgebraicGeometry.SheafOfModules.commRingCatULift.{r, z},
-    isSheaf_comp_commRingCatULift _ O.cond⟩
+    isSheaf_comp_commRingCatULift _ O.property⟩
 
 /-- **Sheaves of modules over a sheaf of commutative rings are sheaves of modules over its
 universe lift**, by restriction of scalars along `ULift.ringEquiv`; the sections and the

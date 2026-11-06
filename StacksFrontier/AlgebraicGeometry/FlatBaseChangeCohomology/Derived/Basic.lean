@@ -84,9 +84,30 @@ theorem preservesFiniteLimits_pullback {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f]
 
 /-- The unit of the derived pullback along a flat morphism of schemes is invertible. -/
 private theorem isIso_rightDerivedFunctorPlusUnit_modulePullback {A B : Scheme.{u}} (h : A ⟶ B)
-    [Flat h] : IsIso (modulePullback h.toLRSHom.toShHom).rightDerivedFunctorPlusUnit :=
+    [Flat h] : IsIso (modulePullback h.toLRSHom.toShHom).rightDerivedFunctorPlusUnith :=
   (Stacks.Cohomology.FlatBaseChange.flatPullbackComparison h.toLRSHom.toShHom
     (isFlat_toShHom h)).isIso_hom
+
+/-- The unit of `RG` (Mathlib's `rightDerivedFunctorPlusUnith`, whose definition is not exposed)
+is invertible at `K` exactly when the unit of `Functor.totalRightDerived` is: both are units of
+right derived functors of the same functor. -/
+private lemma isIso_rightDerivedFunctorPlusUnith_app_iff {D : Type*} {E : Type*}
+    [Category* D] [Category* E] [Abelian D] [Abelian E] [HasDerivedCategory D]
+    [HasDerivedCategory E] (G : D ⥤ E) [G.Additive]
+    [EnoughInjectives D] (K : HomotopyCategory.Plus D) :
+    IsIso (G.rightDerivedFunctorPlusUnith.app K) ↔
+      IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app K) := by
+  have : IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso D) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  rw [← Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso D) _
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)) K]
+  exact (isIso_comp_right_iff _ _).symm
 
 section Square
 
@@ -166,7 +187,7 @@ end Square
 
 /-- The unit of the derived pullback along a flat morphism is invertible. -/
 theorem isIso_pullbackUnit {A B : Scheme.{u}} (h : A ⟶ B) [Flat h] :
-    IsIso (modulePullback h.toLRSHom.toShHom).rightDerivedFunctorPlusUnit :=
+    IsIso (modulePullback h.toLRSHom.toShHom).rightDerivedFunctorPlusUnith :=
   isIso_rightDerivedFunctorPlusUnit_modulePullback h
 
 /-- A complex concentrated in degree zero has a zero term in every nonzero degree. -/
@@ -189,16 +210,18 @@ theorem isIso_schemeBaseChange_of_isAffineHom {X X' S S' : Scheme.{u}} {f : X �
   refine Stacks.Cohomology.RestrictionCover.isIso_app_of_iso _
     ((Functor.singleFunctorPlusIsoCompQh 0).app F) ?_
   have := isIso_pullbackUnit g'
-  have hF : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app K) :=
-    Stacks.AffineHigherDirectImage.rightAcyclic_pushforward f F
-  have hF'₀ : IsIso ((modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app
+  have hF : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app K) :=
+    (isIso_rightDerivedFunctorPlusUnith_app_iff _ _).2
+      (Stacks.AffineHigherDirectImage.rightAcyclic_pushforward f F)
+  have hF'₀ : IsIso ((modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor _ 0).obj
         ((modulePullback g'.toLRSHom.toShHom).obj F))) := by
     have : ((Scheme.Modules.pullback g').obj F).IsQuasicoherent :=
       Stacks.AlgebraicGeometry.AffineBaseChange.isQuasicoherent_pullback g' F
-    exact Stacks.AffineHigherDirectImage.rightAcyclic_pushforward f'
-      ((Scheme.Modules.pullback g').obj F)
-  have hF' : IsIso ((modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app
+    exact (isIso_rightDerivedFunctorPlusUnith_app_iff _ _).2
+      (Stacks.AffineHigherDirectImage.rightAcyclic_pushforward f'
+        ((Scheme.Modules.pullback g').obj F))
+  have hF' : IsIso ((modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app
       ((modulePullback g'.toLRSHom.toShHom).mapHomotopyCategoryPlus.obj K)) :=
     Stacks.Cohomology.RestrictionCover.isIso_app_of_iso _
       ((Functor.mapHomotopyCategoryPlusSingleFunctor (modulePullback g'.toLRSHom.toShHom) 0).app F)

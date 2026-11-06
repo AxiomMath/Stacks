@@ -290,7 +290,7 @@ lemma structureMapSquare_fSharpOfEq [u.IsContinuous J K] [u'.IsContinuous J' K']
     ranAdjunction_unit_app_ranπ u'.op _ _ _
   rw [a1, a2]
   simp only [eqToHom_app, squareIndex, StructuredArrow.mk_hom_eq_self, Functor.map_comp,
-    Category.assoc, TwoSquare.natTrans_op, NatTrans.op_app, eqToHom_op, eqToHom_map,
+    Category.assoc, NatTrans.op_app, eqToHom_op, eqToHom_map,
     eqToHom_trans]
   rfl
 

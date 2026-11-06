@@ -73,7 +73,7 @@ its values lifted to the coefficient-module universe `max u u₁ v₁ v`. -/
 abbrev objectwiseDifferentials :
     PresheafOfModules.{max u u₁ v₁ v} (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj :=
   liftPresheaf.{v, v₁, u, u₁}
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
 
 /-- The comparison morphism from the objectwise Kähler differentials to the sheaf of relative
 differentials `Ω_{O₂/O₁}`: it sends `d b` to the universal derivation of `Ω_{O₂/O₁}` at `b`. -/
@@ -97,7 +97,7 @@ theorem objectwiseDifferentialsToSheaf_d (X : Cᵒᵖ) (b : O₂.obj.obj X) :
     ((objectwiseDifferentialsToSheaf.{v} O₁ O₂ φ).app X).hom
         ((liftedDiffDerivation.{v₁, u, u₁, v} φ.hom).d b) =
       (universalDerivationOfSite.{v₁, u₁, u, v} O₁ O₂ φ).d b :=
-  PresheafOfModules.Derivation.congr_d (objectwiseDifferentialsToSheaf_postcomp O₁ O₂ φ) b
+  PresheafOfModulesOfCommRing.Derivation.congr_d (objectwiseDifferentialsToSheaf_postcomp O₁ O₂ φ) b
 
 section Sheafification
 
@@ -138,14 +138,15 @@ theorem isIso_objectwiseDifferentialsSheafificationHom :
   let sh := (PresheafOfModules.sheafification.{max u u₁ v₁ v} (𝟙 R.obj)).obj Q
   let Ω := moduleOfDifferentialsOfSite.{v₁, u₁, u, v} O₁ O₂ φ
   let η := (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).unit.app Q
-  let dQ : Q.Derivation' φ.hom := liftedDiffDerivation.{v₁, u, u₁, v} φ.hom
+  let dQ : PresheafOfModulesOfCommRing.Derivation' Q φ.hom :=
+    liftedDiffDerivation.{v₁, u, u₁, v} φ.hom
   let eQ := liftedDiffUniversal.{max u u₁ v₁ v, v₁, u, u₁} φ.hom
   let dΩ := universalDerivationOfSite.{v₁, u₁, u, v} O₁ O₂ φ
   let μ : Q ⟶ Ω.val := objectwiseDifferentialsToSheaf.{v} O₁ O₂ φ
   let μ' : sh ⟶ Ω := objectwiseDifferentialsSheafificationHom.{v} O₁ O₂ φ
   have hμ : η ≫ μ'.val = μ := objectwiseDifferentialsSheafificationHom_fac.{v} O₁ O₂ φ
   have hdμ : dQ.postcomp μ = dΩ := objectwiseDifferentialsToSheaf_postcomp.{v} O₁ O₂ φ
-  let D : sh.val.Derivation' φ.hom := dQ.postcomp η
+  let D : PresheafOfModulesOfCommRing.Derivation' sh.val φ.hom := dQ.postcomp η
   obtain ⟨χ, hχ, -⟩ := existsUnique_descDerivation.{v₁, u₁, u, v} O₁ O₂ φ sh D
   have hdμ' : D.postcomp μ'.val = dΩ := by
     rw [← hdμ, ← hμ]

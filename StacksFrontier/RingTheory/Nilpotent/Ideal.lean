@@ -17,6 +17,7 @@ public import Mathlib.NumberTheory.Height.Projectivization
 public import Mathlib.NumberTheory.LucasLehmer
 public import Mathlib.NumberTheory.SelbergSieve
 public import Mathlib.RingTheory.Henselian
+public import Mathlib.RingTheory.Noetherian.Nilpotent
 public import Mathlib.RingTheory.Radical.NatInt
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal

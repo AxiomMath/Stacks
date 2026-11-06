@@ -99,7 +99,7 @@ public theorem hasTorAmplitudeCanonical_restrictScalars_comp_ringEquiv_iff
   have ei : (ModuleCat.restrictScalars ρ).mapDerivedCategory.obj N ≅
       (ModuleCat.restrictScalars e.toRingHom).mapDerivedCategory.obj
         ((ModuleCat.restrictScalars σ).mapDerivedCategory.obj N) :=
-    ((Functor.mapDerivedCategoryCompIso
+    ((Functor.mapDerivedCategoryCompIsoOfCompIso
       (ModuleCat.restrictScalarsComp'.{u} e.toRingHom σ ρ h).symm).app N).symm
   refine (hasTorAmplitudeCanonical_iff_of_iso ei a b).trans ?_
   exact Stacks.Thickenings.hasTorAmplitudeCanonical_restrictScalars_ringEquiv_iff' e _ a b

@@ -141,15 +141,15 @@ theorem inertiaPullbackComparison_isEquivalenceOver_of_isRepresentable
   refine nonempty_inertiaPullbackComparison_isEquivalenceOver_of_reflects_lifts pX pY F hF
     (fun A B m hm => F.map_injective (by rw [F.map_comp, F.map_comp]; exact hm)) ?_
   intro x β hβ
-  have hβ' : pY.IsHomLift (𝟙 (pX.obj x)) β.hom := by
+  have hβ' : pY.IsHomLift (𝟙 (pX.obj x)) β.asIso.hom := by
     refine IsHomLift.of_fac' pY _ _ (Functor.congr_obj hF x) (Functor.congr_obj hF x) ?_
     rw [hβ]
     simp
   obtain ⟨α, hα, hFα⟩ := exists_map_eq_of_isUnramified_of_isRepresentable B S hS f hrep hu hauto
-    x β.hom hβ'
+    x β.asIso.hom hβ'
   have _ : IsIso α := Functor.isIso_of_fiber_isGroupoid
     (𝒳.val.isFiberedInGroupoids.fiber_isGroupoid _) α hα
-  refine ⟨asIso α, ?_, hFα⟩
+  refine ⟨Aut.of (asIso α), ?_, hFα⟩
   show pX.map α = _
   rw [IsHomLift.fac' pX (𝟙 (pX.obj x)) α]
   simp

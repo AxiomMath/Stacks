@@ -443,7 +443,7 @@ theorem exists_iso_of_sectionOfInvertibleQuotient_eq [Epi q]
         ((Category.assoc _ _ _).symm.trans
           (congrArg (fun z => z ≫ (quadrupleOfQuotient X E L' q').oneIso.hom) hkey)))
   rw [quotientGenerator_comp_oneIso_hom, quotientGenerator_comp_oneIso_hom] at hkey2
-  exact (cancel_epi ((Scheme.Modules.pullbackId X).hom.app E)).mp
+  exact (Iso.cancel_iso_hom_left ((Scheme.Modules.pullbackId X).app E) _ _).mp
     ((Category.assoc _ _ _).symm.trans hkey2)
 
 end SectionOfQuotient

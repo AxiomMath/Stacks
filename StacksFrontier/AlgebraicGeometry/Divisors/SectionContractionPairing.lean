@@ -80,7 +80,7 @@ attribute [local instance] monoidalCategoryStructureSheaf
 /-- That monoidal structure is symmetric, because `O` is commutative. -/
 local instance symmetricCategoryStructureSheaf :
     SymmetricCategory (_root_.PresheafOfModules.{w} (structureSheaf O hO).obj) :=
-  _root_.PresheafOfModules.symmetricCategory (R := O)
+  _root_.PresheafOfModulesOfCommRing.symmetricCategory (R := O)
 
 /-! ### The coherence constraints of the sheaf tensor product on pure tensors -/
 

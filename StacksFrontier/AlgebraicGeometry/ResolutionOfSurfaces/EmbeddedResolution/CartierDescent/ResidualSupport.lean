@@ -575,8 +575,8 @@ public lemma span_pow_mul_ideal_comap_chart (A : Type u) [CommRing A] [IsLocalRi
       (idealSheafOf A L).comap (Stacks.Blowup.blowUpToBase (centre A)))
     {a : Γ(Spec (CommRingCat.of A), ⊤)}
     (ha : a ∈ (centre A).ideal ⟨⊤, isAffineOpen_top _⟩) :
-    Ideal.span {algebraMap Γ(Spec (CommRingCat.of A), ⊤)
-          (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a ^ d} *
+    Ideal.span {(algebraMap Γ(Spec (CommRingCat.of A), ⊤)
+                  (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a ^ d)} *
         Ideal.map (Scheme.ΓSpecIso (CommRingCat.of
             (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a))).hom.hom
           ((J'.comap (Stacks.Blowup.blowUpAffineChart (centre A)
@@ -619,8 +619,8 @@ public lemma exists_pow_mem_ideal_comap_chart (A : Type u) [CommRing A] [IsRegul
   have hnu := not_isUnit_algebraMap' hreg' hspan' _ hI'
   have hmem : algebraMap Γ(Spec (CommRingCat.of A), ⊤)
         (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a ^ n ∈
-      Ideal.span {algebraMap Γ(Spec (CommRingCat.of A), ⊤)
-          (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a ^ d} *
+      Ideal.span {(algebraMap Γ(Spec (CommRingCat.of A), ⊤)
+          (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a ^ d)} *
         Ideal.map (Scheme.ΓSpecIso (CommRingCat.of
             (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a))).hom.hom
           ((J'.comap (Stacks.Blowup.blowUpAffineChart (centre A)
@@ -651,8 +651,8 @@ public lemma not_ideal_comap_chart_le_span (A : Type u) [CommRing A] [IsRegularL
           (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a))).hom.hom
         ((J'.comap (Stacks.Blowup.blowUpAffineChart (centre A)
           ⟨⊤, isAffineOpen_top _⟩ ha)).ideal ⟨⊤, isAffineOpen_top _⟩) ≤
-      Ideal.span {algebraMap Γ(Spec (CommRingCat.of A), ⊤)
-        (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a} := by
+      Ideal.span {(algebraMap Γ(Spec (CommRingCat.of A), ⊤)
+        (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a)} := by
   have := isRegularLocalRing_sections A
   have : IsDomain Γ(Spec (CommRingCat.of A), ⊤) := IsRegularLocalRing.isDomain _
   have h := chart_parameters_data A hdim hspan (x := x) (y := y) hax
@@ -662,8 +662,8 @@ public lemma not_ideal_comap_chart_le_span (A : Type u) [CommRing A] [IsRegularL
   have hdvd : Ideal.map (algebraMap Γ(Spec (CommRingCat.of A), ⊤)
         (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a))
       (Ideal.map (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom L) ≤
-      Ideal.span {algebraMap Γ(Spec (CommRingCat.of A), ⊤)
-        (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a ^ (d + 1)} :=
+      Ideal.span {(algebraMap Γ(Spec (CommRingCat.of A), ⊤)
+        (affineBlowup ((centre A).ideal ⟨⊤, isAffineOpen_top _⟩) a) a ^ (d + 1))} :=
     (le_of_eq (span_pow_mul_ideal_comap_chart A hfac ha).symm).trans
       (mul_le_span_pow_succ hle)
   have hmapL : Ideal.map (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom L ≤

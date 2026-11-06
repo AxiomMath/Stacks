@@ -144,7 +144,7 @@ theorem exists_solution_of_covers_of_compactSpace (S : LocallyGiven X)
   have hcompact : IsCompactElement (⊤ : Opens X.carrier) :=
     (Opens.isCompactElement_iff ⊤).mpr (by simpa using isCompact_univ)
   obtain ⟨t, hts, htsup⟩ :=
-    (CompleteLattice.isCompactElement_iff_exists_le_sSup_of_le_sSup _ _).mp hcompact S.opens
+    (isCompactElement_iff_exists_le_sSup_of_le_sSup _).mp hcompact S.opens
       (le_of_eq hcover.symm)
   rcases t.eq_empty_or_nonempty with rfl | ht
   · have hbot : (⊥ : Opens X.carrier) = ⊤ := by simpa using top_le_iff.mp htsup

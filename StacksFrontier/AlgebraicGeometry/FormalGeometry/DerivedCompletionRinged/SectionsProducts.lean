@@ -143,7 +143,7 @@ theorem moduleSectionsOver_map_terminalSectionToEnd (hT : IsTerminal U) (a : A)
     (M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
     (moduleSectionsOver X U ρ).map
         ((Stacks.SheafOfModules.terminalSectionToEnd
-          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U hT (ρ a)).app M) =
+          ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U hT (ρ a)).asHom.app M) =
       a • 𝟙 ((moduleSectionsOver X U ρ).obj M) := by
   have key :
       ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.map (hT.from U).op (ρ a) = ρ a := by

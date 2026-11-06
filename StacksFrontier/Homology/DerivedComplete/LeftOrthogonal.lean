@@ -56,8 +56,8 @@ theorem eq_zero_of_isDerivedCompleteAt_of_bijective {E M : D} {f : A}
   have hzero : Pi.lift ψ ≫ oneSubSmulShift E f = 0 := by
     apply Limits.Pi.hom_ext
     intro n
-    rw [Category.assoc, oneSubSmulShift_π, Preadditive.comp_sub, Linear.comp_smul, Pi.lift_π,
-      Pi.lift_π, zero_comp, ← hψ n, Linear.smul_comp, Category.id_comp, sub_self]
+    rw [Category.assoc, oneSubSmulShift_π, Preadditive.comp_sub, Linear.comp_smul, Pi.lift_comp_π,
+      Pi.lift_comp_π, zero_comp, ← hψ n, Linear.smul_comp, Category.id_comp, sub_self]
   have : IsIso (oneSubSmulShift E f) := hE
   have hlift : Pi.lift ψ = 0 := by
     rw [← cancel_mono (oneSubSmulShift E f), hzero, zero_comp]

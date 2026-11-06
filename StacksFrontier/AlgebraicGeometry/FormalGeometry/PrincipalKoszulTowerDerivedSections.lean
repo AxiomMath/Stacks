@@ -225,32 +225,20 @@ variable (X : RingedSpace.{u, u}) (a : End (𝟭 (SheafOfModules.{u} (structureS
 /-- Multiplication by a global section is natural in the complex. -/
 lemma smulComplex_naturality {C D : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ}
     (g : C ⟶ D) :
-    (smulComplex X a C : C ⟶ C) ≫ g = g ≫ (smulComplex X a D : D ⟶ D) := by
+    (smulComplex X a C).asHom ≫ g = g ≫ (smulComplex X a D).asHom := by
   apply HomologicalComplex.hom_ext
   intro i
-  simpa using (a.naturality (g.f i)).symm
+  simpa using (a.asHom.naturality (g.f i)).symm
 
 /-- Powers of multiplication by a global section are natural in the complex. -/
 lemma smulComplex_pow_naturality
     {C D : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ} (g : C ⟶ D) (n : ℕ) :
-    ((smulComplex X a C ^ n : End C) : C ⟶ C) ≫ g =
-      g ≫ ((smulComplex X a D ^ n : End D) : D ⟶ D) := by
+    (smulComplex X a C ^ n).asHom ≫ g = g ≫ (smulComplex X a D ^ n).asHom := by
   induction n with
   | zero => simp
   | succ n ih =>
-    rw [pow_succ, pow_succ]
-    show ((smulComplex X a C : C ⟶ C) ≫ (smulComplex X a C ^ n : End C)) ≫ g =
-      g ≫ ((smulComplex X a D : D ⟶ D) ≫ (smulComplex X a D ^ n : End D))
-    calc ((smulComplex X a C : C ⟶ C) ≫ (smulComplex X a C ^ n : End C)) ≫ g
-        = (smulComplex X a C : C ⟶ C) ≫ ((smulComplex X a C ^ n : End C) ≫ g) := by
-          rw [Category.assoc]
-      _ = (smulComplex X a C : C ⟶ C) ≫ (g ≫ (smulComplex X a D ^ n : End D)) := by rw [ih]
-      _ = ((smulComplex X a C : C ⟶ C) ≫ g) ≫ (smulComplex X a D ^ n : End D) := by
-          rw [Category.assoc]
-      _ = (g ≫ (smulComplex X a D : D ⟶ D)) ≫ (smulComplex X a D ^ n : End D) := by
-          rw [smulComplex_naturality X a g]
-      _ = g ≫ ((smulComplex X a D : D ⟶ D) ≫ (smulComplex X a D ^ n : End D)) := by
-          rw [Category.assoc]
+    rw [pow_succ, pow_succ, End.mul_asHom, End.mul_asHom, Category.assoc, ih,
+      ← Category.assoc, smulComplex_naturality X a g, Category.assoc]
 
 /-- **A map of complexes induces a map of `f`-power Koszul towers.** On the `n`-th term it is the
 cone map of the square expressing that the given map commutes with multiplication by
@@ -277,7 +265,7 @@ instance isIso_whiskerRight_koszulComplexTowerMap
       IsIso ((Functor.whiskerRight (koszulComplexTowerMap X a g) DerivedCategory.Q).app n) := by
     refine isIso₃_of_isIso₁₂ (DerivedCategory.Q.mapTriangle.map
         (CochainComplex.mappingCone.triangleMap
-          (smulComplex X a C ^ (n.unop + 1)) (smulComplex X a D ^ (n.unop + 1)) g g
+          (smulComplex X a C ^ (n.unop + 1)).asHom (smulComplex X a D ^ (n.unop + 1)).asHom g g
             (smulComplex_pow_naturality X a g (n.unop + 1))))
       (DerivedCategory.mappingCone_triangle_distinguished _)
       (DerivedCategory.mappingCone_triangle_distinguished _) ?_ ?_
@@ -336,9 +324,9 @@ variable (X : RingedSpace.{u, u}) {A : Type u} [CommRing A]
 /-- **Sections over the base ring are `A`-linear.** Multiplication by the image of `f` in
 `Γ(X, 𝒪_X)` on a sheaf of modules becomes multiplication by `f` on its `A`-module of sections. -/
 lemma sectionsOver_map_baseSmul (M : SheafOfModules.{u} (structureSheafRing X)) :
-    (sectionsOver X ρ).map ((baseSmul X ρ f).app M) = f • 𝟙 ((sectionsOver X ρ).obj M) := by
+    (sectionsOver X ρ).map ((baseSmul X ρ f).asHom.app M) = f • 𝟙 ((sectionsOver X ρ).obj M) := by
   ext (x : M.val.obj (op ⊤))
-  show ((baseSmul X ρ f).app M).val.app (op ⊤) x = _
+  show ((baseSmul X ρ f).asHom.app M).val.app (op ⊤) x = _
   rw [Stacks.SheafOfModules.terminalSectionToEnd_apply]
   show (structureSheafRing X).obj.map (isTerminalTop.from ⊤).op (ρ f) • x = ρ f • x
   have h : (isTerminalTop.from (⊤ : Opens X.carrier)).op = 𝟙 (op (⊤ : Opens X.carrier)) :=
@@ -351,7 +339,7 @@ sheaves of modules to multiplication by `f` on the complex of sections. -/
 lemma mapHomologicalComplex_map_smulComplex
     (C : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ) :
     ((sectionsOver X ρ).mapHomologicalComplex (ComplexShape.up ℤ)).map
-        (smulComplex X (baseSmul X ρ f) C) =
+        (smulComplex X (baseSmul X ρ f) C).asHom =
       f • 𝟙 (((sectionsOver X ρ).mapHomologicalComplex (ComplexShape.up ℤ)).obj C) := by
   exact HomologicalComplex.hom_ext _ _ fun i => sectionsOver_map_baseSmul X ρ f (C.X i)
 
@@ -360,16 +348,13 @@ to the powers of multiplication by `f`. -/
 lemma mapHomologicalComplex_map_smulComplex_pow
     (C : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ) (n : ℕ) :
     ((sectionsOver X ρ).mapHomologicalComplex (ComplexShape.up ℤ)).map
-        (smulComplex X (baseSmul X ρ f) C ^ n : End C) =
+        (smulComplex X (baseSmul X ρ f) C ^ n).asHom =
       f ^ n • 𝟙 (((sectionsOver X ρ).mapHomologicalComplex (ComplexShape.up ℤ)).obj C) := by
   induction n with
   | zero => simp
   | succ n ih =>
-    rw [pow_succ]
-    show ((sectionsOver X ρ).mapHomologicalComplex (ComplexShape.up ℤ)).map
-      ((smulComplex X (baseSmul X ρ f) C : C ⟶ C) ≫
-        (smulComplex X (baseSmul X ρ f) C ^ n : End C)) = _
-    rw [Functor.map_comp, ih, mapHomologicalComplex_map_smulComplex, pow_succ]
+    rw [pow_succ, End.mul_asHom, Functor.map_comp, ih, mapHomologicalComplex_map_smulComplex,
+      pow_succ]
     simp only [Linear.comp_smul, Category.comp_id, smul_smul, mul_comm]
 
 /-- The levelwise comparison of `sectionsKoszulComplexTowerIso`: termwise sections of the cone of
@@ -391,7 +376,7 @@ lemma sectionsKoszulComplexTowerObjIso_hom
     (C : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ) (n : ℕ) :
     (sectionsKoszulComplexTowerObjIso X ρ f C n).hom =
       (CochainComplex.mappingCone.mapHomologicalComplexIso
-          (smulComplex X (baseSmul X ρ f) C ^ (n + 1)) (sectionsOver X ρ)).hom ≫
+          (smulComplex X (baseSmul X ρ f) C ^ (n + 1)).asHom (sectionsOver X ρ)).hom ≫
         (CochainComplex.mappingCone.isoOfEq
           (mapHomologicalComplex_map_smulComplex_pow X ρ f C (n + 1))).hom := rfl
 
@@ -413,7 +398,7 @@ def sectionsKoszulComplexTowerMap
     refine Eq.trans (CochainComplex.mappingCone.mapHomologicalComplexIso_hom_map_assoc
       (sectionsOver X ρ) _ _ _ _ _ _) ?_
     exact Eq.trans (congrArg (fun t ↦ (CochainComplex.mappingCone.mapHomologicalComplexIso
-          (smulComplex X (baseSmul X ρ f) C ^ (n + 1 + 1)) (sectionsOver X ρ)).hom ≫ t)
+          (smulComplex X (baseSmul X ρ f) C ^ (n + 1 + 1)).asHom (sectionsOver X ρ)).hom ≫ t)
         (CochainComplex.mappingCone.map_comp_map_eq _ _ _ _ _ _ _ _
           (by rw [comp_id, id_comp, mapHomologicalComplex_map_smulComplex]) (by simp)))
       (Category.assoc _ _ _).symm)
@@ -591,13 +576,13 @@ variable (X : RingedSpace.{u, u}) (a : End (𝟭 (SheafOfModules.{u} (structureS
 /-- Multiplication by a global section on a sheaf of modules placed in cohomological degree zero
 is multiplication by that section on the single complex. -/
 lemma smulComplex_single (M : SheafOfModules.{u} (structureSheafRing X)) :
-    (smulComplex X a (sgl.obj M) : sgl.obj M ⟶ sgl.obj M) = sgl.map (a.app M) := by
+    (smulComplex X a (sgl.obj M)).asHom = sgl.map (a.asHom.app M) := by
   apply HomologicalComplex.hom_ext
   intro i
   by_cases h : i = 0
   · subst h
     simp only [smulComplex_f, HomologicalComplex.single_map_f_self, Functor.id_obj]
-    have hn := a.naturality
+    have hn := a.asHom.naturality
       (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) (0 : ℤ) M).hom
     simp only [Functor.id_map, Functor.id_obj] at hn
     rw [← Category.assoc, hn, Category.assoc, Iso.hom_inv_id, Category.comp_id]
@@ -606,23 +591,17 @@ lemma smulComplex_single (M : SheafOfModules.{u} (structureSheafRing X)) :
 /-- The single-complex functor carries the `n`-fold composite of multiplication by a global
 section to the `n`-th power of multiplication by that section on the single complex. -/
 lemma single_map_iterate (M : SheafOfModules.{u} (structureSheafRing X)) (n : ℕ) :
-    sgl.map (iterate (a.app M) n) =
-      ((smulComplex X a (sgl.obj M) ^ n : End (sgl.obj M)) : sgl.obj M ⟶ sgl.obj M) := by
+    sgl.map (iterate (a.asHom.app M) n) = (smulComplex X a (sgl.obj M) ^ n).asHom := by
   induction n with
   | zero => simp
   | succ n ih =>
-    rw [iterate_succ, Functor.map_comp, ih, pow_succ]
-    show sgl.map (a.app M) ≫ ((smulComplex X a (sgl.obj M) ^ n : End (sgl.obj M)) :
-        sgl.obj M ⟶ sgl.obj M) =
-      (smulComplex X a (sgl.obj M) : sgl.obj M ⟶ sgl.obj M) ≫
-        ((smulComplex X a (sgl.obj M) ^ n : End (sgl.obj M)) : sgl.obj M ⟶ sgl.obj M)
-    rw [smulComplex_single]
+    rw [iterate_succ, Functor.map_comp, ih, pow_succ, End.mul_asHom, smulComplex_single]
 
 /-- **The Koszul tower of a sheaf of modules in degree zero.** The inverse system `Ksys` of cones
 of the iterated multiplication by a global section on a sheaf of modules is the `f`-power Koszul
 tower of that sheaf placed in cohomological degree zero. -/
 def ksysMap (M : SheafOfModules.{u} (structureSheafRing X)) :
-    Ksys (a.app M) ⟶ principalKoszulComplexTower X a (sgl.obj M) ⋙ DerivedCategory.Q :=
+    Ksys (a.asHom.app M) ⟶ principalKoszulComplexTower X a (sgl.obj M) ⋙ DerivedCategory.Q :=
   NatTrans.ofOpSequence
     (fun n ↦ DerivedCategory.Q.map
       (CochainComplex.mappingCone.isoOfEq (single_map_iterate X a M (n + 1))).hom) (by
@@ -646,7 +625,7 @@ instance isIso_ksysMap (M : SheafOfModules.{u} (structureSheafRing X)) : IsIso (
 
 /-- **The Koszul tower of a sheaf of modules in degree zero**, as an isomorphism. -/
 def ksysIso (M : SheafOfModules.{u} (structureSheafRing X)) :
-    Ksys (a.app M) ≅ principalKoszulComplexTower X a (sgl.obj M) ⋙ DerivedCategory.Q :=
+    Ksys (a.asHom.app M) ≅ principalKoszulComplexTower X a (sgl.obj M) ⋙ DerivedCategory.Q :=
   asIso (ksysMap X a M)
 
 end Single

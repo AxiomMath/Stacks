@@ -451,7 +451,12 @@ theorem exists_comp_fieldMorphism_eq_of_range_pointsMap_subset_singleton
   have : (strat.stratum n).toFunctor.IsRepresentable := strat.isRepresentable_stratum n
   refine exists_comp_fieldMorphism_eq_of_yoneda_factorization B S hS hX hY hred f x hf p hpx
     hmono (strat.stratum n).toFunctor.reprX ((strat.stratum n).toFunctor.reprW.hom ≫
-      (strat.stratum n).ι ≫ (strat.openPart n).ι ≫ V.ι) (by infer_instance)
+      (strat.stratum n).ι ≫ (strat.openPart n).ι ≫ V.ι) (by
+        have h1 : Mono (strat.stratum n).ι := inferInstance
+        have h2 : Mono (strat.openPart n).ι := inferInstance
+        have h3 : Mono V.ι := inferInstance
+        have h0 : Mono (strat.stratum n).toFunctor.reprW.hom := IsIso.mono_of_iso _
+        exact mono_comp' h0 (mono_comp' h1 (mono_comp' h2 h3)))
     (gT ≫ (strat.stratum n).toFunctor.reprW.inv) ?_
     (pT ≫ (strat.stratum n).toFunctor.reprW.inv) ?_
   · simp only [Category.assoc, Iso.inv_hom_id_assoc]

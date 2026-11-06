@@ -404,7 +404,7 @@ def isColimitFractionCocone : IsColimit fractionCocone.{u} := by
     refine ⟨i, 𝟙 i, ?_⟩
     have hab' : ULift.down (uHom.{u} (toFraction i.unop.ne_zero) a) =
         ULift.down (uHom.{u} (toFraction i.unop.ne_zero) b) := congrArg ULift.down hab
-    have : a = b := ULift.ext _ _ (toFraction_injective i.unop.ne_zero hab')
+    have : a = b := ULift.ext (toFraction_injective i.unop.ne_zero hab')
     rw [this]
 
 end AlgebraicGeometry.QuotientFunctorCounterexample

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.Grp.Zero
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.PushforwardContinuous
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Cech.VanishingOnCofinalCoverings
 public import StacksFrontier.CategoryTheory.Sites.Continuous.CoveringPullbacks

@@ -83,7 +83,7 @@ variable {C : Type u₁} [Category.{v₁} C] {S : Type u₂} [Category.{v₂} S]
 /-- The automorphism `α ∘ β⁻¹ ∘ α' ∘ β` of `x` is killed by `F`, because `α` and `α'` are and
 the two copies of `β` cancel. -/
 theorem map_conjugateAuto_eq_id (F : S ⥤ S') {X Y : RelativeInertia F} (i : X.obj ≅ Y.obj) :
-    F.map (i.hom ≫ Y.auto.hom ≫ i.inv ≫ X.auto.hom) = 𝟙 (F.obj X.obj) := by
+    F.map (i.hom ≫ Y.auto.asIso.hom ≫ i.inv ≫ X.auto.asIso.hom) = 𝟙 (F.obj X.obj) := by
   rw [F.map_comp, F.map_comp, F.map_comp, Y.cond, X.cond, Category.comp_id,
     Category.id_comp, ← F.map_comp, i.hom_inv_id, F.map_id]
 
@@ -93,8 +93,8 @@ one comparison isomorphism to the other. -/
 theorem conjugateAuto_comm (F : S ⥤ S') {X₁ Y₁ X₂ Y₂ : RelativeInertia F}
     (i₁ : X₁.obj ≅ Y₁.obj) (i₂ : X₂.obj ≅ Y₂.obj) (a : X₁ ⟶ X₂) (b : Y₁ ⟶ Y₂)
     (hw : a.hom ≫ i₂.hom = i₁.hom ≫ b.hom) :
-    a.hom ≫ i₂.hom ≫ Y₂.auto.hom ≫ i₂.inv ≫ X₂.auto.hom =
-      (i₁.hom ≫ Y₁.auto.hom ≫ i₁.inv ≫ X₁.auto.hom) ≫ a.hom := by
+    a.hom ≫ i₂.hom ≫ Y₂.auto.asIso.hom ≫ i₂.inv ≫ X₂.auto.asIso.hom =
+      (i₁.hom ≫ Y₁.auto.asIso.hom ≫ i₁.inv ≫ X₁.auto.asIso.hom) ≫ a.hom := by
   have hb : b.hom ≫ i₂.inv = i₁.inv ≫ a.hom := by
     rw [Iso.comp_inv_eq, Category.assoc, hw, Iso.inv_hom_id_assoc]
   simp only [Category.assoc]
@@ -110,7 +110,7 @@ def composition (F : S ⥤ S') (p : S ⥤ C) :
         (RelativeInertia.π F) (RelativeInertia.π F) ⥤ RelativeInertia F where
   obj A :=
     { obj := A.x.obj
-      auto := A.iso ≪≫ A.y.auto ≪≫ A.iso.symm ≪≫ A.x.auto
+      auto := .of (A.iso ≪≫ A.y.auto.asIso ≪≫ A.iso.symm ≪≫ A.x.auto.asIso)
       cond := map_conjugateAuto_eq_id F A.iso }
   map {A D} φ :=
     { hom := φ.a.hom
@@ -131,8 +131,8 @@ theorem composition_obj_obj (F : S ⥤ S') (p : S ⥤ C)
 theorem composition_obj_auto_hom (F : S ⥤ S') (p : S ⥤ C)
     (A : TwoFibreProductOver (RelativeInertia.π F ⋙ p) (RelativeInertia.π F ⋙ p) p
       (RelativeInertia.π F) (RelativeInertia.π F)) :
-    ((composition F p).obj A).auto.hom =
-      A.iso.hom ≫ A.y.auto.hom ≫ A.iso.inv ≫ A.x.auto.hom := rfl
+    ((composition F p).obj A).auto.asIso.hom =
+      A.iso.hom ≫ A.y.auto.asIso.hom ≫ A.iso.inv ≫ A.x.auto.asIso.hom := rfl
 
 /-- On morphisms the composition law is the first projection. -/
 @[simp]

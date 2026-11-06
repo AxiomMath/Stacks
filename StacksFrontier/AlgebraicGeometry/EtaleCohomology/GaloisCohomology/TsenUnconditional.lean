@@ -156,9 +156,9 @@ theorem exists_nonzero_common_zero_of_isHomogeneous_mvPolynomial
   refine ⟨fun l => MvPolynomial.map (MvPolynomial.eval a) (β l), ?_, fun i => ?_⟩
   · obtain ⟨⟨i₀, b₀⟩, hib⟩ := Function.ne_iff.mp ha0
     intro hcon
-    have h2 := congrArg (MvPolynomial.coeff (boxExponent b₀)) (congrFun hcon i₀)
+    have h2 := congrArg (fun p : MvPolynomial _ _ => p.coeff (boxExponent b₀)) (congrFun hcon i₀)
     simp only [hβ, MvPolynomial.coeff_map, coeff_genericBoundedPolynomial, MvPolynomial.eval_X,
-      Pi.zero_apply, MvPolynomial.coeff_zero] at h2
+      Pi.zero_apply, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h2
     exact hib h2
   · have hCid : ((MvPolynomial.eval a).comp cc) = RingHom.id k := by
       rw [hcc]
@@ -173,7 +173,7 @@ theorem exists_nonzero_common_zero_of_isHomogeneous_mvPolynomial
     rw [hcomp, MvPolynomial.eval₂_id] at hcl
     have hzero : MvPolynomial.map (MvPolynomial.eval a) (g i) = 0 := by
       refine MvPolynomial.ext _ _ fun ν => ?_
-      rw [MvPolynomial.coeff_map, MvPolynomial.coeff_zero]
+      rw [MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
       by_cases hν : (g i).coeff ν = 0
       · simp [hν]
       · obtain ⟨w, rfl⟩ := hsupp i ν hν

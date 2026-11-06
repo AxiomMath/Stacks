@@ -156,7 +156,7 @@ theorem isDisjointCover_sigmaι :
   · refine isEmpty_of_commSq_sigmaι_of_ne
       (g := fun k ↦ (BigFppfOver.toScheme B S hS).obj (sigmaFam Y k))
       (a := (BigFppfOver.toScheme B S hS).map a) (b := (BigFppfOver.toScheme B S hS).map b) ⟨?_⟩
-      (fun h ↦ hjj' (ULift.ext _ _ h))
+      (fun h ↦ hjj' (ULift.ext h))
     rw [← cancel_mono (sigmaCmp Y), Category.assoc, Category.assoc, ← toScheme_map_sigma_ι,
       ← toScheme_map_sigma_ι, ← Functor.map_comp, ← Functor.map_comp]
     exact congrArg _ hab
@@ -245,24 +245,24 @@ theorem isSheafFor_ofArrows
         P.presheaf.map (pbSnd (pbFst p₁ (sigmaι Y j.down) ≫ p₂) (sigmaι Y l.down)).op
           (s l.down) := by
       rw [← ht₀ l]
-      simp only [← FunctorToTypes.map_comp_apply, ← op_comp] at e₁ ⊢
+      simp only [← Functor.map_comp_apply, ← op_comp] at e₁ ⊢
       rw [e₁]
     have hR : P.presheaf.map (pbFst (pbFst p₁ (sigmaι Y j.down) ≫ p₂) (sigmaι Y l.down)).op
         (P.presheaf.map (pbFst p₁ (sigmaι Y j.down)).op (P.presheaf.map p₁.op t₀)) =
         P.presheaf.map (pbFst (pbFst p₁ (sigmaι Y j.down) ≫ p₂) (sigmaι Y l.down) ≫
           pbSnd p₁ (sigmaι Y j.down)).op (s j.down) := by
       rw [← ht₀ j]
-      simp only [← FunctorToTypes.map_comp_apply, ← op_comp, Category.assoc]
+      simp only [← Functor.map_comp_apply, ← op_comp, Category.assoc]
       rw [e₂]
     exact hR.trans (hcomp.trans hL.symm)
   obtain ⟨s₀, hs₀⟩ := P.exists_map_eq_of_fppf harr hi ko hkf hks hkp p₁ p₂ hp hpb t₀ hclaim
   refine ⟨s₀, fun k ↦ ?_, fun s₁ hs₁ ↦ ?_⟩
-  · rw [← hιk k, op_comp, FunctorToTypes.map_comp_apply, hs₀]
+  · rw [← hιk k, op_comp, Functor.map_comp_apply, hs₀]
     exact ht₀ ⟨k⟩
   · refine P.injective_map_of_fppf harr hi ko hkf hks hkp ?_
     obtain ⟨_, -, huniq⟩ := hV (fun j ↦ s j.down)
     refine (huniq _ fun j ↦ ?_).trans (huniq _ fun j ↦ ?_).symm
-    · rw [← FunctorToTypes.map_comp_apply, ← op_comp, hιk]
+    · rw [← Functor.map_comp_apply, ← op_comp, hιk]
       exact hs₁ j.down
     · rw [hs₀]
       exact ht₀ j

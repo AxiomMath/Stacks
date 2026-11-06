@@ -38,12 +38,13 @@ public theorem geometricPointStalkMap_app_eq_id {S : Scheme.{u}} (hS : B.Contain
     (geometricPointStalkMap B S hS a (ModuleCat.{u + 1} Λ)).app P = 𝟙 _ := by
   refine colimit.hom_ext fun U => ?_
   have hU : (neighborhoodFunctor B S hS a).op.obj U = U := by
-    refine congrArg op (Sigma.ext rfl (heq_of_eq (Subtype.ext ?_)))
-    show a.hom ≫ U.unop.2.1 = U.unop.2.1
+    refine congrArg op (Functor.Elements.ext _ _ rfl ?_)
+    refine Subtype.ext ?_
+    show a.hom ≫ U.unop.val.1 = U.unop.val.1
     rw [ha, Category.id_comp]
-  refine (colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P)
+  refine (colimit.ι_pre ((Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P)
     (neighborhoodFunctor B S hS a).op U).trans (Eq.trans ?_ (Category.comp_id _).symm)
-  let D := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ P
+  let D := (Functor.Elements.π (geometricPointFiber B S hS s)).op ⋙ P
   refine Eq.trans ?_ (colimit.w D (eqToHom hU.symm))
   simp only [D, eqToHom_map]
   exact (Category.id_comp _).symm

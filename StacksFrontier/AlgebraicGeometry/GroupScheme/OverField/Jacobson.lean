@@ -5,6 +5,7 @@ public import Mathlib.AlgebraicGeometry.Limits
 public import Mathlib.AlgebraicGeometry.Pullbacks
 public import Mathlib.AlgebraicGeometry.ResidueField
 public import Mathlib.Topology.JacobsonSpace
+public import Mathlib.RingTheory.Spectrum.Prime.Jacobson
 public import StacksFrontier.AlgebraicGeometry.Size.Basic
 public import StacksFrontier.RingTheory.Jacobson.Nullstellensatz
 

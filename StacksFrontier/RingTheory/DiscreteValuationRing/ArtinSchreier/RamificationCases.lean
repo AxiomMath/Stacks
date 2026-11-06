@@ -62,7 +62,7 @@ private theorem liesOver_maximalIdeal_of_isMaximal
     [Algebra.IsIntegral A B] (m : Ideal B) [m.IsMaximal] :
     m.LiesOver (IsLocalRing.maximalIdeal A) :=
   ⟨((IsLocalRing.isMaximal_iff A).mp
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m)).symm⟩
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m)).symm⟩
 
 /-- A surjective algebra map between fields forces the extension to have degree one. -/
 private theorem finrank_eq_one_of_surjective_algebraMap
@@ -591,7 +591,9 @@ theorem natDegree_dvd_ramificationIdx_of_coprime_pole
     rw [← IsDedekindDomain.HeightOneSpectrum.valuation_liesOver L vA vB ξ,
       hvξ, ← WithZero.exp_nsmul]
     congr 1
-    simp [Nat.cast_mul, mul_comm, vA, vB]
+    simp only [Nat.cast_mul, mul_comm, vA, vB]
+    rw [Ideal.ramificationIdx'_eq_ramificationIdx mA m (IsDiscreteValuationRing.not_a_field A)]
+    simp [mul_comm]
   have he : 0 < mA.ramificationIdx' m :=
     Nat.pos_iff_ne_zero.mpr
       (Ideal.IsDedekindDomain.ramificationIdx'_ne_zero_of_liesOver m

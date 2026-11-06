@@ -243,7 +243,7 @@ theorem representationFibreEquiv_smul
     (γ : EtaleFundamentalGroup X.1 x)
     (v : finiteEtaleFiber x (representationFiniteEtaleCover B X x Λ ρ)) :
     representationFibreEquiv B X x Λ ρ
-        ((γ.app (representationFiniteEtaleCover B X x Λ ρ)).hom v) =
+        ((γ.asIso.app (representationFiniteEtaleCover B X x Λ ρ)).hom v) =
       finiteTypeContinuousModuleRepresentation Λ _ ρ γ (representationFibreEquiv B X x Λ ρ v) := by
   obtain ⟨a, rfl⟩ :=
     (geometricFibreSetEquiv B X x ((representationSetSheaf B X x Λ).obj ρ)).surjective v

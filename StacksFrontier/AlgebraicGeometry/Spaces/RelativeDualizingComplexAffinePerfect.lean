@@ -83,6 +83,7 @@ theorem isPerfectRelativeToCanonical_affineRightAdjoint {X Y : AlgebraicSpaces B
     rw [← he, Iso.inv_hom_id_assoc]
   have w : e.inv.hom ≫ (relocalizeHom B hA hS g (toFinalHom B hA XA)).hom =
       f.hom ≫ eY.hom.hom ≫ inv rb.hom := by
+    have : Mono rb.hom := IsIso.mono_of_iso _
     rw [← cancel_mono rb.hom, Category.assoc, Category.assoc, Category.assoc, IsIso.inv_hom_id,
       Category.comp_id]
     exact congrArg (fun φ => φ.hom) w₀

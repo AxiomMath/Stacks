@@ -120,7 +120,7 @@ theorem subsingleton_sheafH_constant_fixedField_of_forall (hH : IsClosed (H : Se
   let M := (Stacks.GroupCohomology.coinduction.{u, max (u + 1) v} H).obj
     (Stacks.GroupCohomology.trivialGModule H (ULift.{max (u + 1) v} (ZMod ℓ)))
   have hM : ∀ x : M.obj.obj.V, ℓ • x = 0 := fun x ↦ Subtype.ext (funext fun g ↦
-    ULift.ext _ _ (show ℓ • ((x : Stacks.GroupCohomology.coinductionCarrier H _).1 g).down = 0
+    ULift.ext (show ℓ • ((x : Stacks.GroupCohomology.coinductionCarrier H _).1 g).down = 0
       by simp))
   have h := hK _ (nsmul_id_fieldEtaleSheafEquiv_inverse_eq_zero.{v} K Ksep M hM)
   rw [subsingleton_sheafH_iff.{v} K Ksep] at h

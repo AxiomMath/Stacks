@@ -654,7 +654,7 @@ theorem bijective_scalarExtensionMap_of (hB : W.KunnethIsomorphism) :
   · exact Subtype.ext ((AlgHom.congr_fun hmul z).trans hε.1)
   · show W.restrictPair (BinaryCofan.mk (comparison k π hπ (k'' := k''))
       (baseChangeComplementι k π hπ)) (W.kunnethH0 _ _ _) = _
-    rw [← AlgHom.comp_apply, hact]
+    rw [← AlgHom.comp_apply (W.kunnethH0 (ofOver k π hπ) (spec k k'')), hact]
     show (W.pull (comparison k π hπ) (W.pull (productHom k π hπ) (κT z)),
       W.pull (baseChangeComplementι k π hπ) (W.pull (productHom k π hπ) (κT z))) = _
     rw [← W.pull_apply_comp, ← W.pull_apply_comp, comparison_productHom,

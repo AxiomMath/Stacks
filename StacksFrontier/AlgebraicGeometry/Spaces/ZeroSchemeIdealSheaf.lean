@@ -109,10 +109,9 @@ theorem Ideal.mem_map_span_range_dual {A C M : Type*} [CommRing A] [CommRing C]
   set I : Ideal A := Ideal.span (Set.range fun l : Module.Dual A M => l x)
   have hbc := Module.FinitePresentation.isBaseChange_map A M A C
   have key := hbc.inductionOn
-    ((TensorProduct.AlgebraTensorModule.rid A C C).symm.toLinearMap ∘ₗ lam)
-    (fun ψ => (TensorProduct.AlgebraTensorModule.rid A C C) (ψ (1 ⊗ₜ[A] x)) ∈
+    (motive := fun ψ => (TensorProduct.AlgebraTensorModule.rid A C C) (ψ (1 ⊗ₜ[A] x)) ∈
       Ideal.map (algebraMap A C) I)
-    (by simp)
+    ((TensorProduct.AlgebraTensorModule.rid A C C).symm.toLinearMap ∘ₗ lam)
     (fun l => by
       have hl : l x ∈ I := Ideal.subset_span (Set.mem_range_self l)
       have h2 := Ideal.mem_map_of_mem (algebraMap A C) hl

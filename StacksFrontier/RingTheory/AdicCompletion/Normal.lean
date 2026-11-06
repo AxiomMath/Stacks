@@ -113,7 +113,7 @@ private theorem exists_faithfullyFlat_localization_of_isNormalRing
     intro x hx
     by_contra hx'
     have hxq : algebraMap R S x ∈ q := by
-      show x ∈ q.comap (algebraMap R S)
+      show x ∈ q.under R
       rwa [hqR]
     have hxunit : IsUnit (algebraMap S (Localization.AtPrime q) (algebraMap R S x)) := hx
     exact (IsLocalization.AtPrime.isUnit_to_map_iff _ q _).mp hxunit hxq

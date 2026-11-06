@@ -331,7 +331,6 @@ theorem isWeaklyAssociatedPrime_comap_tensorProduct_of_fg
         (LinearMap.lTensor N φ x) i = ((i : R) ^ k (i : R)) • x := by
     intro x i
     induction x with
-    | zero => simp
     | tmul a m => simp [hφ, TensorProduct.smul_tmul']
     | add x₁ x₂ h₁ h₂ => simp [h₁, h₂, smul_add]
   have hzφ : LinearMap.lTensor N φ (y • z) = 0 := by

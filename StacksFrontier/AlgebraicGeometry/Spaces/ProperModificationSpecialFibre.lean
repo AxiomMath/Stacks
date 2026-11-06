@@ -178,6 +178,13 @@ theorem subfunctor_eq_top_of_factorsThrough_closedPoint
   change (k.app U f).val = f at heq
   exact heq ▸ (k.app U f).property
 
+/-- Pullbacks of presheaves on the big fppf site over `Spec A` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_properModificationSpecialFibre
+    {X Y Z : (BigFppfOver B (Spec (.of A)) hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable [IsNoetherianRing A]
 
 /-- **Stacks 0AGM.** Let `(A, 𝔪, κ)` be a Noetherian local ring and let `g : X ⟶ Y` be a

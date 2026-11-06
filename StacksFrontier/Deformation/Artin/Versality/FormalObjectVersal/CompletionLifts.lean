@@ -45,7 +45,6 @@ namespace Deformation.Artin
 universe u v w
 
 attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
-attribute [local implicit_reducible] CategoryTheory.Functor.Elements
 attribute [local implicit_reducible] Deformation.Artin.baseOver
 attribute [local implicit_reducible] Deformation.Artin.truncationOver
 
@@ -214,7 +213,6 @@ private theorem exists_unique_completedLocalRing_lift
     rw [heψ, he]
     rw [← Spec.map_comp_assoc] at heψ'
     convert heψ' using 1
-    congr 2
 
 /-- The canonical morphism out of a presentation of the completed local ring sends the
 closed point to `x`. -/

@@ -131,25 +131,26 @@ public theorem isLocallySurjective_of_surjective_etaleStalkMap [UnivLE.{u, v}] (
   replace hz : (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber W y F.obj c) =
       Φ.toPresheafFiber V p G.obj b := hz
   rw [Φ.toPresheafFiber_naturality_apply α.hom] at hz
-  let ZW : Φ.fiber.Elements := ⟨W, y⟩
-  let ZV : Φ.fiber.Elements := ⟨V, p⟩
+  let ZW : Φ.fiber.Elements := Φ.fiber.elementsMk W y
+  let ZV : Φ.fiber.Elements := Φ.fiber.elementsMk V p
   let Z : Φ.fiber.Elements := IsCofiltered.min ZW ZV
   let l : Z ⟶ ZW := IsCofiltered.minToLeft ZW ZV
   let r : Z ⟶ ZV := IsCofiltered.minToRight ZW ZV
-  have hZ {Z' : Φ.fiber.Elements} (m : Z ⟶ Z') (d : G.obj.obj (op Z'.1)) :
-      Φ.toPresheafFiber Z.1 Z.2 G.obj (G.obj.map m.1.op d) =
-        Φ.toPresheafFiber Z'.1 Z'.2 G.obj d := by
-    have := ConcreteCategory.congr_hom (Φ.toPresheafFiber_w m.1 Z.2 G.obj) d
-    rwa [m.2] at this
+  have hZ {Z' : Φ.fiber.Elements} (m : Z ⟶ Z') (d : G.obj.obj (op Z'.obj)) :
+      Φ.toPresheafFiber Z.obj Z.val G.obj (G.obj.map m.hom.op d) =
+        Φ.toPresheafFiber Z'.obj Z'.val G.obj d := by
+    have := ConcreteCategory.congr_hom (Φ.toPresheafFiber_w m.hom Z.val G.obj) d
+    rwa [m.map_val] at this
   obtain ⟨Y, f, y', hy', heq⟩ :=
-    (Φ.toPresheafFiber_eq_iff' Z.1 Z.2 (G.obj.map l.1.op (α.hom.app (op W) c))
-      (G.obj.map r.1.op b)).1 ((hZ l _).trans (hz.trans (hZ r b).symm))
-  refine ⟨Y, f ≫ r.1, ⟨F.obj.map (f ≫ l.1).op c, ?_⟩, ?_⟩
+    (Φ.toPresheafFiber_eq_iff' Z.obj Z.val (G.obj.map l.hom.op (α.hom.app (op W) c))
+      (G.obj.map r.hom.op b)).1 ((hZ l _).trans (hz.trans (hZ r b).symm))
+  refine ⟨Y, f ≫ r.hom, ⟨F.obj.map (f ≫ l.hom).op c, ?_⟩, ?_⟩
   · rwa [NatTrans.naturality_apply, op_comp, op_comp, G.obj.map_comp, G.obj.map_comp,
       ConcreteCategory.comp_apply, ConcreteCategory.comp_apply]
-  · have h1 : y'.1 ≫ (SmallEtale.toScheme B X hX).map f = Z.2.1 := congrArg Subtype.val hy'
-    have h2 : Z.2.1 ≫ (SmallEtale.toScheme B X hX).map r.1 = p.1 := congrArg Subtype.val r.2
-    refine mem_range_of_lift B X hX (f ≫ r.1) x y'.1 ?_
+  · have h1 : y'.1 ≫ (SmallEtale.toScheme B X hX).map f = Z.val.1 := congrArg Subtype.val hy'
+    have h2 : Z.val.1 ≫ (SmallEtale.toScheme B X hX).map r.hom = p.1 :=
+      congrArg Subtype.val r.map_val
+    refine mem_range_of_lift B X hX (f ≫ r.hom) x y'.1 ?_
     rw [Functor.map_comp]
     exact (Category.assoc _ _ _).symm.trans ((congrArg (· ≫ _) h1).trans h2)
 

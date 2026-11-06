@@ -279,7 +279,7 @@ private def productTransition {i j : Iᵒᵖ} (a : i ⟶ j) :
 private lemma productTransition_π {i j : Iᵒᵖ} (a : i ⟶ j) (d : Option (Incoming i)) :
     productTransition D A N a ≫ Pi.π (incomingFactor D A N i) d =
       productTransitionComponent D A N a d :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- **The product system satisfies the cocycle condition of [Stacks, Tag 0EZL].** Factorwise this
 is `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.incomingRestriction_comp` at the factors
@@ -343,7 +343,7 @@ private def envelopeMap (i : Iᵒᵖ) :
 private lemma envelopeMap_π (i : Iᵒᵖ) (d : Option (Incoming i)) :
     envelopeMap D A F i ≫ Pi.π (incomingFactor D A (injectiveEnvelope D A F) i) d =
       envelopeComponent D A F i d :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The component of the embedding at the composite arrow `β ≫ a`, expressed through the
 component at `β` and the transition along `a`. This is where the cocycle condition of `F` is

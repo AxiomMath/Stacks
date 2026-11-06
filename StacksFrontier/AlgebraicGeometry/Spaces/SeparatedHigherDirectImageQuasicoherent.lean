@@ -76,6 +76,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_SeparatedHigherDirectImageQuasicoherent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A base change of a separated morphism of algebraic spaces is separated (Stacks 03KL,
 part (1)), for an arbitrary cartesian square of algebraic spaces. -/
 theorem isSeparated_of_isPullback_algebraicSpaces {P X Y Z : AlgebraicSpaces B S hS}

@@ -44,6 +44,13 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {O₀ W₀ : BigFppfOver B S hS} (x₀ : yoneda.obj O₀ ⟶ X) (ι₀ : W₀ ⟶ W) (c₀ : W₀ ⟶ O₀)
   (hsq₀ : IsPullback (yoneda.map ι₀) (yoneda.map c₀) w x₀)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS` (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_chartIsoAlongThinChart
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ R) (g : Q ⟶ R) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The morphism `O₀ ⟶ Y` underlying `x₀ ≫ φ`. -/
 def thinBase : O₀ ⟶ Y := yoneda.preimage (x₀ ≫ φ)
 

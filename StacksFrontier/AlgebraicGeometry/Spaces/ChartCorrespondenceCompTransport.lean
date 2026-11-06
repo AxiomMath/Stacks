@@ -131,7 +131,7 @@ theorem inverseImageSectionTransport_chartDiagramSection
   refine (fMapEquivPushforwardHom_ringUniverse_symm_comp_app B S hS f P
     (J.yonedaEquiv.symm x) (𝟙 _) d (J.yonedaEquiv (𝟙 _))).trans ?_
   have hx : (J.yonedaEquiv.symm x).hom.app (op d.V) (J.yonedaEquiv (𝟙 _)) = x :=
-    FunctorToTypes.map_id_apply (g.toToposHom.pushforward.obj P).obj x
+    Functor.map_id_apply (g.toToposHom.pushforward.obj P).obj _ x
   rw [hx, fMapEquivPushforwardHom_ringUniverse_eq_fmapDirectImageEquiv]
   rfl
 

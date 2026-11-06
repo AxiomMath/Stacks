@@ -499,15 +499,15 @@ theorem eq_zero_of_aeval_eq_zero (D : Data 𝒜 3) {x y : A} (hx : x ∈ 𝒜 1)
     (hr : ∀ s ∈ r.support, s 0 ≤ 2) (h : aeval ![x, y, D.Z] r = 0) : r = 0 := by
   classical
   have hli := linearIndependent_iff'.1 (linearIndependent_aeval_monomial D hx hxo hy hyo)
-    (r.support.subtype fun s ↦ s 0 ≤ 2) (fun s ↦ coeff s.1 r) (by
-      rw [Finset.sum_subtype_of_mem (fun s ↦ coeff s r • aeval ![x, y, D.Z] (monomial s (1 : k)))
+    (r.support.subtype fun s ↦ s 0 ≤ 2) (fun s ↦ r.coeff s.1) (by
+      rw [Finset.sum_subtype_of_mem (fun s ↦ r.coeff s • aeval ![x, y, D.Z] (monomial s (1 : k)))
         hr, ← h]
       conv_rhs => rw [r.as_sum]
       rw [map_sum]
       refine Finset.sum_congr rfl fun s _ ↦ ?_
       rw [← map_smul, smul_monomial, smul_eq_mul, mul_one])
   ext s
-  rw [coeff_zero]
+  rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   by_contra hs
   exact hs (hli ⟨s, hr s (mem_support_iff.2 hs)⟩ (Finset.mem_subtype.2 (mem_support_iff.2 hs)))
 

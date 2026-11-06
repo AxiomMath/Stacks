@@ -331,10 +331,10 @@ def representedGlobalSectionsLinearMap
           ((BigFppfOver.toScheme B (Spec (.of A)) hA).obj U) U.left.property).obj M)) where
   toFun s := ULift.up (M.val.presheaf.map (representedTopToIdChart A B hA U).op
     (s.eval (op (idChart B (Spec (.of A)) hA U))))
-  map_add' s t := ULift.ext _ _
+  map_add' s t := ULift.ext
     (map_add (M.val.presheaf.map (representedTopToIdChart A B hA U).op).hom
       (s.eval (op (idChart B (Spec (.of A)) hA U))) (t.eval (op (idChart B (Spec (.of A)) hA U))))
-  map_smul' a _ := ULift.ext _ _
+  map_smul' a _ := ULift.ext
     ((PresheafOfModules.map_smul _ _ _ _).trans
       (congrArg (· • _) (map_representedTopToIdChart_baseRingHom A B hA U a)))
 
@@ -347,7 +347,7 @@ theorem bijective_representedGlobalSectionsLinearMap
   have hev := Stacks.Cohomology.SiteModules.bijective_globalSectionsEval
     (representedStructureRingSheaf B (Spec (.of A)) hA U) (isTerminal_idChart B (Spec (.of A)) hA U)
     ((representedSmallEtaleModuleEquivalence B (Spec (.of A)) hA U).functor.obj M)
-  refine ⟨fun s t h => hev.1 (ULift.ext _ _ ?_), fun y => ?_⟩
+  refine ⟨fun s t h => hev.1 (ULift.ext ?_), fun y => ?_⟩
   · have h' : M.val.presheaf.map (representedIdChartToTop A B hA U).op
           (M.val.presheaf.map (representedTopToIdChart A B hA U).op
             (s.eval (op (idChart B (Spec (.of A)) hA U)))) =
@@ -359,7 +359,7 @@ theorem bijective_representedGlobalSectionsLinearMap
       (h'.trans (map_representedIdChartToTop_map_representedTopToIdChart M _))
   · obtain ⟨s, hs⟩ := hev.2 (ULift.up (M.val.presheaf.map (representedIdChartToTop A B hA U).op
       (ULift.down y)))
-    refine ⟨s, ULift.ext _ _ ?_⟩
+    refine ⟨s, ULift.ext ?_⟩
     have hs' : s.eval (op (idChart B (Spec (.of A)) hA U)) =
         M.val.presheaf.map (representedIdChartToTop A B hA U).op (ULift.down y) :=
       congrArg ULift.down hs
@@ -384,7 +384,7 @@ def representedGlobalSectionsIso :
       (bijective_representedGlobalSectionsLinearMap A B hA U M)).toModuleIso)
     (fun {_ _} φ => by
       ext s
-      exact ULift.ext _ _ (PresheafOfModules.naturality_apply φ.val
+      exact ULift.ext (PresheafOfModules.naturality_apply φ.val
         (representedTopToIdChart A B hA U).op (s.eval (op (idChart B (Spec (.of A)) hA U)))).symm)
 
 /-- Isomorphic additive functors have isomorphic right derived functors. -/

@@ -191,9 +191,9 @@ private noncomputable def finiteEtaleBaseChangeCompIso {X Y Z : Scheme.{u}} (f :
 private theorem fiberFunctor_map_apply_app {X : Scheme.{u}} [ConnectedSpace X]
     {x : GeometricPoint X} (σ : EtaleFundamentalGroup X x) {U V : FiniteEtaleOver X} (m : U ⟶ V)
     (q : finiteEtaleFiber x U) :
-    (finiteEtaleFiberFunctor x).map m ((σ.app U).hom q) =
-      (σ.app V).hom ((finiteEtaleFiberFunctor x).map m q) :=
-  (congrArg (fun k => k q) (σ.hom.naturality m)).symm
+    (finiteEtaleFiberFunctor x).map m ((σ.asIso.app U).hom q) =
+      (σ.asIso.app V).hom ((finiteEtaleFiberFunctor x).map m q) :=
+  (congrArg (fun k => k q) (σ.asIso.hom.naturality m)).symm
 
 /-- The fibre projections of Stacks 0BQA are compatible with composition, once a point of the
 fibre over the composite is transported through `finiteEtaleBaseChangeCompIso`. -/
@@ -244,31 +244,31 @@ theorem etaleFundamentalGroupMap_comp {X Y Z : Scheme.{u}} [ConnectedSpace X] [C
   let p₀ := (finiteEtaleFiberProjectionEquiv (f ≫ g) x V).symm p
   let p₁ := (finiteEtaleFiberFunctor x).map (e.hom.app V) p₀
   let p₂ := finiteEtaleFiberProjection f x (BCg.obj V) p₁
-  have hnat : (finiteEtaleFiberFunctor x).map (e.hom.app V) (((σ.app (BCfg.obj V)).hom) p₀) =
-      (σ.app ((BCg ⋙ BCf).obj V)).hom p₁ :=
+  have hnat : (finiteEtaleFiberFunctor x).map (e.hom.app V) (((σ.asIso.app (BCfg.obj V)).hom) p₀) =
+      (σ.asIso.app ((BCg ⋙ BCf).obj V)).hom p₁ :=
     fiberFunctor_map_apply_app σ (e.hom.app V) p₀
   have hf := etaleFundamentalGroupMap_finiteEtaleFiberProjection f x (BCg.obj V) σ p₁
   have hg := etaleFundamentalGroupMap_finiteEtaleFiberProjection g (x.map f) V α p₂
-  have hpc := finiteEtaleFiberProjection_comp f g x V (((σ.app (BCfg.obj V)).hom) p₀)
+  have hpc := finiteEtaleFiberProjection_comp f g x V (((σ.asIso.app (BCfg.obj V)).hom) p₀)
   rw [hnat] at hpc
   have hcomp := etaleFundamentalGroupMap_finiteEtaleFiberProjection (f ≫ g) x V σ p₀
-  have hβ : (β.app V).hom p =
+  have hβ : (β.asIso.app V).hom p =
       finiteEtaleFiberProjection g (x.map f) V
         (finiteEtaleFiberProjection f x (BCg.obj V)
-          (((σ.app ((BCg ⋙ BCf).obj V)).hom) p₁)) := by
-    calc (β.app V).hom p
-        = (β.app V).hom (finiteEtaleFiberProjection g (x.map f) V p₂) := by
+          (((σ.asIso.app ((BCg ⋙ BCf).obj V)).hom) p₁)) := by
+    calc (β.asIso.app V).hom p
+        = (β.asIso.app V).hom (finiteEtaleFiberProjection g (x.map f) V p₂) := by
           congr 1
           exact ((finiteEtaleFiberProjectionEquiv (f ≫ g) x V).apply_symm_apply p).symm.trans
             (finiteEtaleFiberProjection_comp f g x V p₀).symm
-      _ = finiteEtaleFiberProjection g (x.map f) V ((α.app (BCg.obj V)).hom p₂) := hg.symm
+      _ = finiteEtaleFiberProjection g (x.map f) V ((α.asIso.app (BCg.obj V)).hom p₂) := hg.symm
       _ = finiteEtaleFiberProjection g (x.map f) V
             (finiteEtaleFiberProjection f x (BCg.obj V)
-              (((σ.app ((BCg ⋙ BCf).obj V)).hom) p₁)) := by
+              (((σ.asIso.app ((BCg ⋙ BCf).obj V)).hom) p₁)) := by
           congr 1
           exact hf.symm
-  have hδ : finiteEtaleFiberProjection (f ≫ g) x V (((σ.app (BCfg.obj V)).hom) p₀) =
-      (δ.app V).hom p := by
+  have hδ : finiteEtaleFiberProjection (f ≫ g) x V (((σ.asIso.app (BCfg.obj V)).hom) p₀) =
+      (δ.asIso.app V).hom p := by
     rw [hcomp]
     congr 1
     exact (finiteEtaleFiberProjectionEquiv (f ≫ g) x V).apply_symm_apply p
@@ -367,10 +367,10 @@ theorem subsingleton_etaleFundamentalGroup_of_isSepClosed_residueField (R : Type
   let q : finiteEtaleFiber x T := ⟨x.hom, by
     change x.hom ≫ 𝟙 _ = x.hom
     exact Category.comp_id _⟩
-  have hT : (σ.app T).hom q = (τ.app T).hom q := by
+  have hT : (σ.asIso.app T).hom q = (τ.asIso.app T).hom q := by
     refine Subtype.ext ?_
-    have hs : ((σ.app T).hom q).1 ≫ 𝟙 _ = x.hom := ((σ.app T).hom q).property
-    have ht : ((τ.app T).hom q).1 ≫ 𝟙 _ = x.hom := ((τ.app T).hom q).property
+    have hs : ((σ.asIso.app T).hom q).1 ≫ 𝟙 _ = x.hom := ((σ.asIso.app T).hom q).property
+    have ht : ((τ.asIso.app T).hom q).1 ≫ 𝟙 _ = x.hom := ((τ.asIso.app T).hom q).property
     simpa using hs.trans ht.symm
   let m : T ⟶ Y := MorphismProperty.Over.homMk sec hsec
   have hmap : (finiteEtaleFiberFunctor x).map m q = p := Subtype.ext hfactor

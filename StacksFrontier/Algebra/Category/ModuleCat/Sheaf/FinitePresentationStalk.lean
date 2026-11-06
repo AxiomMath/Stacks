@@ -138,7 +138,6 @@ lemma contract_mem_smul (Θ : M ⊗[R] P ≃ₗ[R] R) (I : Ideal R) (s : M)
     (hs : ∀ n : P, Θ (s ⊗ₜ n) ∈ I) (ξ : M ⊗[R] P) :
     tensorContract Θ (s ⊗ₜ ξ) ∈ I • (⊤ : Submodule R M) := by
   induction ξ with
-  | zero => simp
   | tmul b c => rw [tensorContract_apply]; exact Submodule.smul_mem_smul (hs c) Submodule.mem_top
   | add y z hy hz =>
       rw [TensorProduct.tmul_add, map_add]

@@ -277,9 +277,10 @@ private lemma finiteFree_mem_retractClosure {R : Type u} [Ring R] (n : ℕ) :
       (ModuleCat.of R (Fin n → R)) := by
   cases n with
   | zero =>
+      have hz : IsZero (ModuleCat.of R (Fin 0 → R)) :=
+        ModuleCat.isZero_iff_subsingleton.mpr inferInstance
       exact ObjectProperty.prop_retractClosure
-        regularModule_mem_binaryProductsClosure
-        ((ModuleCat.isZero_iff_subsingleton.mpr inferInstance).retract _)
+        regularModule_mem_binaryProductsClosure (hz.retract _)
   | succ n =>
       apply ObjectProperty.le_retractClosure
       exact positiveFiniteFree_mem_binaryProductsClosure n
@@ -499,7 +500,6 @@ theorem isWeakTriangulatedGenerator_single_of_projective_separator
       apply (cancel_mono (L.iCycles n)).1
       simp [φ, HomologicalComplex.cyclesMap_i,
         HomologicalComplex.singleObjCyclesSelfIso_hom, Category.assoc]
-      rfl
     have hg : (HomologicalComplex.singleObjCyclesSelfIso (.up ℤ) n P).hom ≫ g = 0 := by
       rw [← Projective.factorThru_comp g (L.homologyπ n), ← Category.assoc,
         ← hc, ← HomologicalComplex.homologyπ_naturality,

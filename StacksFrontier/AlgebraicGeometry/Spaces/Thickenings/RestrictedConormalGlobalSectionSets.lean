@@ -87,6 +87,34 @@ open Stacks.Sheaves.RingedToposModules Stacks.SheafOfModules.ChangeOfRings
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_RestrictedConormalGlobalSectionSets
+    (Z : AlgebraicSpaces B S hS) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((smallEtaleRingedTopos B S hS Z).Cᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+/-- The terminal sheaf of sets on the small étale site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasTerminal_topos_RestrictedConormalGlobalSectionSets
+    (Z : AlgebraicSpaces B S hS) : HasTerminal (smallEtaleRingedTopos B S hS Z).Topos :=
+  haveI : HasLimitsOfShape (Discrete PEmpty.{1})
+      ((SmallEtale B S hS Z.1)ᵒᵖ ⥤ Type u) :=
+    functorCategoryHasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS Z.1) (Type u))
+
+/-- The terminal sheaf of sets on the small étale site, stated on sheaves (instance search times
+out without this shortcut). -/
+local instance (priority := high) hasTerminal_sheaf_RestrictedConormalGlobalSectionSets
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasTerminal (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
+  haveI : HasLimitsOfShape (Discrete PEmpty.{1}) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+    functorCategoryHasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS F) (Type u))
+
 /-- **The unit of extension of scalars followed by Stacks 03LW is the comparison of Stacks 03LQ**,
 on underlying sheaves of sets. -/
 theorem moduleSheafFunctor_map_extendScalarsFSharpAdjunction_unit_comp_modulePullbackIsoEtaleModulePullback

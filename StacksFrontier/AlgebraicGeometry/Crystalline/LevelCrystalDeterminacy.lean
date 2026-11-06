@@ -204,7 +204,8 @@ theorem moduleRestrictionSheafMap_eq_of_hom
     {B T : CrystallineThickening S} (g : B ⟶ T)
     (h : moduleRestrictionSheafMap psi T = moduleRestrictionSheafMap chi T) :
     moduleRestrictionSheafMap psi B = moduleRestrictionSheafMap chi B := by
-  have := hF B T g
+  have hiso := hF B T g
+  have : Epi (moduleComparisonSheaf F g) := @IsIso.epi_of_iso _ _ _ _ _ hiso
   have h1 := moduleComparisonSheaf_naturality psi g
   have h2 := moduleComparisonSheaf_naturality chi g
   rw [h] at h1

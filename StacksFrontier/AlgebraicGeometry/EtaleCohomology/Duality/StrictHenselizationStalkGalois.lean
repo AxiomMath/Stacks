@@ -171,8 +171,8 @@ theorem nsmul_homology_strictHenselization_one_eq_zero (B : BigEtaleSite.{u}) {U
         ((smallEtaleSheafRestriction B' K hK).obj
           ((smallEtalePullbackAb (e.inv ≫ strictHenselizationBaseChangeToSource B hS j s)).obj F)));
       ∀ γ : GeometricPoint.absoluteGaloisGroup sbar → M.obj.obj.V, IsLocallyConstant γ →
-        (∀ g₁ g₂, γ (g₁ * g₂) = (M.obj.obj.ρ g₁).hom (γ g₂) + γ g₁) →
-        ∃ x : M.obj.obj.V, ∀ g, (M.obj.obj.ρ g).hom x - x = c • γ g)
+        (∀ g₁ g₂, γ (g₁ * g₂) = (M.obj.obj.ρ g₁).asHom.hom (γ g₂) + γ g₁) →
+        ∃ x : M.obj.obj.V, ∀ g, (M.obj.obj.ρ g).asHom.hom x - x = c • γ g)
     (z : (DerivedCategory.homologyFunctor Ab.{u + 1} ((1 : ℕ) : ℤ)).obj
         ((smallEtaleDerivedGlobalSections (strictHenselizationBaseChange B hS j s)).obj
           ((smallEtaleDerivedPullbackAb (strictHenselizationBaseChangeToSource B hS j s)).obj
@@ -197,7 +197,7 @@ theorem nsmul_homology_strictHenselization_zero_eq_zero (B : BigEtaleSite.{u}) {
     (hM : let M := ((etaleContinuousGModuleEquivalence.{u, u + 1} B' K hK sbar).functor.obj
         ((smallEtaleSheafRestriction B' K hK).obj
           ((smallEtalePullbackAb (e.inv ≫ strictHenselizationBaseChangeToSource B hS j s)).obj F)));
-      ∀ v : M.obj.obj.V, (∀ g, (M.obj.obj.ρ g).hom v = v) → c • v = 0)
+      ∀ v : M.obj.obj.V, (∀ g, (M.obj.obj.ρ g).asHom.hom v = v) → c • v = 0)
     (z : (DerivedCategory.homologyFunctor Ab.{u + 1} ((0 : ℕ) : ℤ)).obj
         ((smallEtaleDerivedGlobalSections (strictHenselizationBaseChange B hS j s)).obj
           ((smallEtaleDerivedPullbackAb (strictHenselizationBaseChangeToSource B hS j s)).obj
@@ -243,7 +243,7 @@ def GaloisModuleInvariantsKilledBy (B : BigEtaleSite.{u}) {U S : Scheme.{u}} (hS
     ((smallEtaleSheafRestriction B' K hK).obj
       ((smallEtalePullbackAb (e.inv ≫ strictHenselizationBaseChangeToSource B hS j s)).obj
         ((etaleModuleForgetAb.{u, 0} Λ U).obj G))))
-  ∀ v : M.obj.obj.V, (∀ g, (M.obj.obj.ρ g).hom v = v) → c • v = 0
+  ∀ v : M.obj.obj.V, (∀ g, (M.obj.obj.ρ g).asHom.hom v = v) → c • v = 0
 
 /-- **`c` bounds the Galois cocycles of `G` over `K`.** In the setting of
 `Stacks.EtaleCohomology.GaloisModuleInvariantsKilledBy`: `c` times every locally constant
@@ -259,8 +259,8 @@ def GaloisModuleCocyclesKilledBy (B : BigEtaleSite.{u}) {U S : Scheme.{u}} (hS :
       ((smallEtalePullbackAb (e.inv ≫ strictHenselizationBaseChangeToSource B hS j s)).obj
         ((etaleModuleForgetAb.{u, 0} Λ U).obj G))))
   ∀ γ : GeometricPoint.absoluteGaloisGroup sbar → M.obj.obj.V, IsLocallyConstant γ →
-    (∀ g₁ g₂, γ (g₁ * g₂) = (M.obj.obj.ρ g₁).hom (γ g₂) + γ g₁) →
-    ∃ x : M.obj.obj.V, ∀ g, (M.obj.obj.ρ g).hom x - x = c • γ g
+    (∀ g₁ g₂, γ (g₁ * g₂) = (M.obj.obj.ρ g₁).asHom.hom (γ g₂) + γ g₁) →
+    ∃ x : M.obj.obj.V, ∀ g, (M.obj.obj.ρ g).asHom.hom x - x = c • γ g
 
 /-- **The stalk of `j_* G` at `s̄` from the Galois invariants over `K`.** For
 `j : U ⟶ S` quasi-compact and quasi-separated, a sheaf `G` of `Λ`-modules on `U_étale` and

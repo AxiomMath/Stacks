@@ -156,9 +156,9 @@ lemma secVAddEquiv_naturality (V : Site A B hX) {H H' : Mod A B hX} (f : H ⟶ H
 
 /-- The structure morphism of `Over.star V` at `⊤` is the first projection. -/
 lemma star_obj_top_hom (V : Site A B hX) :
-    ((Over.star V).obj (top A B hX)).hom = prod.fst := by
+    ((Over.star V).obj (top A B hX)).hom = (prod.fst : V ⨯ top A B hX ⟶ V) := by
   simp only [Over.star_obj_hom]
-  exact prod.lift_fst _ _
+  rfl
 
 /-- **Morphisms out of the restriction of `ε^*T M` to `V` are `A`-linear maps out of `M`.** For an
 `A`-module `M`, an `𝒪_étale`-module `H` and an object `V` of the small étale site, morphisms

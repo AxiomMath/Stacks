@@ -336,7 +336,9 @@ public theorem exists_completedTensorProductRingEquivQuotientLimit :
     exact continuous_pi fun p => continuous_sourceProjection I J bI bJ p.1 p.2
   have hind : Topology.IsInducing
       (sourceToQuotientLimit (B := B) (A := A) (C := C) I J) := by
-    apply IsTopologicalAddGroup.isInducing_iff_nhds_zero.mpr
+    apply (IsTopologicalAddGroup.isInducing_iff_nhds_zero (G := A ⊗[B] C)
+      (H := quotientLimit (B := B) I J)
+      (f := sourceToQuotientLimit (B := B) (A := A) (C := C) I J)).mpr
     apply le_antisymm
     · apply Filter.tendsto_iff_comap.mp
       simpa using hcont.continuousAt (x := (0 : A ⊗[B] C)) |>.tendsto

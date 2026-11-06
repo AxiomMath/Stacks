@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
 public import StacksFrontier.AlgebraicGeometry.Flatness.StalkIdealSheaf
 public import StacksFrontier.AlgebraicGeometry.RegularImmersion.BaseChange
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.RegularIdealSheaf.ClosedBridge

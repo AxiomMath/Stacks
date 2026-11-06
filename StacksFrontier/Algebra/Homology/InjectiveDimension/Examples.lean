@@ -4,7 +4,9 @@ public import StacksFrontier.Algebra.Module.TorsionFree
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Ext.Basic
 public import StacksFrontier.RingTheory.GlobalDimension.Cyclic
 public import Mathlib.Algebra.Module.FinitePresentation
+public import Mathlib.Algebra.Category.ModuleCat.Ext.HasExt
 public import Mathlib.Algebra.Category.ModuleCat.InjectiveDimension
+public import Mathlib.Algebra.Category.ModuleCat.Projective
 public import Mathlib.Algebra.Category.ModuleCat.ProjectiveDimension
 public import Mathlib.Algebra.Homology.DerivedCategory.Basic
 public import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
@@ -406,11 +408,8 @@ private theorem periodicQ_quasiIso (k : Type u) [Field k] :
         apply (ModuleCat.epi_iff_surjective _).mpr
         exact Submodule.mkQ_surjective _
     · simp [periodicK, CochainComplex.of.d, periodicD]
-      rfl
     · simp
-      rfl
     · simp
-      rfl
   · exact (quasiIsoAt_iff_exactAt' (periodicQ k) i
       (HomologicalComplex.exactAt_single_obj _ _ _ _ hi)).2
       ((lt_or_gt_of_ne hi).elim (periodicExactAt k i) (periodicExactAt_pos k i))

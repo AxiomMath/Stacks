@@ -14,17 +14,17 @@ localization functors: `CategoryTheory.Functor.mapDerivedCategoryFactors` over
 `DerivedCategory.Q`, and `CategoryTheory.Functor.mapDerivedCategoryFactorsh` over
 `DerivedCategory.Qh`. The isomorphism
 
-`CategoryTheory.Functor.mapDerivedCategoryCompIso :
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso :
   F.mapDerivedCategory ⋙ G.mapDerivedCategory ≅ H.mapDerivedCategory`
 
 attached to an isomorphism `e : F ⋙ G ≅ H` of exact functors is built over `DerivedCategory.Q`,
 by lifting through that localization. A proof that identifies a transformation of derived
 categories with a right derived functor of a functor on the *homotopy* category — the situation of
 `Stacks.DerivedFunctor.exactDerivedDesc`, whose defining factorization is stated at an object
-`DerivedCategory.Qh.obj J` — therefore cannot use `mapDerivedCategoryCompIso` directly: the two
+`DerivedCategory.Qh.obj J` — therefore cannot use `mapDerivedCategoryCompIsoOfCompIso` directly: the two
 constructions live over different localization functors, and nothing relates them.
 
-This file relates them. It evaluates `mapDerivedCategoryCompIso` at an object of the derived
+This file relates them. It evaluates `mapDerivedCategoryCompIsoOfCompIso` at an object of the derived
 category coming from the homotopy category, in the vocabulary of `mapDerivedCategoryFactorsh` and
 of `CategoryTheory.Functor.mapHomotopyCategoryCompIso`, and it records the companion statement for
 the degreewise transformation `Stacks.DerivedFunctor.mapHomotopyCategoryOfComp`: the degreewise
@@ -76,7 +76,7 @@ single spelling, and only afterwards are the conjugated factors recognised as th
 definitional equality and so is indifferent to the spelling.
 
 The two declarations compared here are not in Mathlib:
-`CategoryTheory.Functor.mapDerivedCategoryCompIso` is stated in
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` is stated in
 `StacksFrontier.AlgebraicGeometry.PseudoCoherent.PushforwardClosedImmersion` and
 `Stacks.DerivedFunctor.mapHomotopyCategoryOfComp` in
 `StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedEtale`, which is why a file about general
@@ -131,7 +131,7 @@ attached to `e`. The composition isomorphism is the untwisted comparison followe
 degreewise change of functor, and this is the composite of the two values already recorded on the
 image of `DerivedCategory.Q`, the two copies of the comparison for `F ⋙ G` cancelling. -/
 theorem mapDerivedCategoryCompIso_hom_app_Q (e : F ⋙ G ≅ H) (K : CochainComplex C₁ ℤ) :
-    (Functor.mapDerivedCategoryCompIso e).hom.app (DerivedCategory.Q.obj K) =
+    (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom.app (DerivedCategory.Q.obj K) =
       G.mapDerivedCategory.map (F.mapDerivedCategoryFactors.hom.app K) ≫
         G.mapDerivedCategoryFactors.hom.app
             ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) ≫
@@ -155,7 +155,7 @@ quotient of a cochain complex: `mapDerivedCategoryCompIso_hom_app_Q` conjugated 
 comparisons over `DerivedCategory.Qh`. -/
 private lemma mapDerivedCategoryCompIso_hom_app_Qh_quotient_obj (e : F ⋙ G ≅ H)
     (K : CochainComplex C₁ ℤ) :
-    (Functor.mapDerivedCategoryCompIso e).hom.app
+    (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom.app
         (DerivedCategory.Qh.obj ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).obj K)) =
       G.mapDerivedCategory.map (F.mapDerivedCategoryFactorsh.hom.app
           ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).obj K)) ≫
@@ -167,18 +167,18 @@ private lemma mapDerivedCategoryCompIso_hom_app_Qh_quotient_obj (e : F ⋙ G ≅
                 ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).obj K)) ≫
             H.mapDerivedCategoryFactorsh.inv.app
               ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ)).obj K) := by
-  have hL : (Functor.mapDerivedCategoryCompIso e).hom.app
+  have hL : (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom.app
         ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).obj K) =
       G.mapDerivedCategory.map (F.mapDerivedCategory.map
           ((DerivedCategory.quotientCompQhIso C₁).hom.app K)) ≫
-        ((Functor.mapDerivedCategoryCompIso e).hom.app (DerivedCategory.Q.obj K) ≫
+        ((Functor.mapDerivedCategoryCompIsoOfCompIso e).hom.app (DerivedCategory.Q.obj K) ≫
           H.mapDerivedCategory.map ((DerivedCategory.quotientCompQhIso C₁).inv.app K)) := by
-    have nat := (Functor.mapDerivedCategoryCompIso e).hom.naturality
+    have nat := (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom.naturality
       ((DerivedCategory.quotientCompQhIso C₁).hom.app K)
     simp only [Functor.comp_map] at nat
     rw [← Category.assoc, nat, Category.assoc, ← CategoryTheory.Functor.map_comp,
       Iso.hom_inv_id_app, CategoryTheory.Functor.map_id, Category.comp_id]
-  have hExp : (Functor.mapDerivedCategoryCompIso e).hom.app
+  have hExp : (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom.app
         ((HomotopyCategory.quotient C₁ (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).obj K) =
       G.mapDerivedCategory.map
           (F.mapDerivedCategory.map ((DerivedCategory.quotientCompQhIso C₁).hom.app K) ≫
@@ -231,7 +231,7 @@ on the homotopy category, such as `Stacks.DerivedFunctor.exactDerivedDesc`, whos
 factorization `Stacks.DerivedFunctor.exactDerivedDesc_fac_app` is stated at such an object. -/
 theorem mapDerivedCategoryCompIso_hom_app_Qh (e : F ⋙ G ≅ H)
     (J : HomotopyCategory C₁ (ComplexShape.up ℤ)) :
-    (Functor.mapDerivedCategoryCompIso e).hom.app (DerivedCategory.Qh.obj J) =
+    (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom.app (DerivedCategory.Qh.obj J) =
       G.mapDerivedCategory.map (F.mapDerivedCategoryFactorsh.hom.app J) ≫
         G.mapDerivedCategoryFactorsh.hom.app
             ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj J) ≫
@@ -245,14 +245,14 @@ category of cochain complexes under `DerivedCategory.Qh`: the inverse of the com
 `mapDerivedCategoryCompIso_hom_app_Qh`, factor by factor in the opposite order. -/
 theorem mapDerivedCategoryCompIso_inv_app_Qh (e : F ⋙ G ≅ H)
     (J : HomotopyCategory C₁ (ComplexShape.up ℤ)) :
-    (Functor.mapDerivedCategoryCompIso e).inv.app (DerivedCategory.Qh.obj J) =
+    (Functor.mapDerivedCategoryCompIsoOfCompIso e).inv.app (DerivedCategory.Qh.obj J) =
       H.mapDerivedCategoryFactorsh.hom.app J ≫
         DerivedCategory.Qh.map
             ((Functor.mapHomotopyCategoryCompIso e (ComplexShape.up ℤ)).inv.app J) ≫
           G.mapDerivedCategoryFactorsh.inv.app
               ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj J) ≫
             G.mapDerivedCategory.map (F.mapDerivedCategoryFactorsh.inv.app J) := by
-  have hiso : (Functor.mapDerivedCategoryCompIso e).app (DerivedCategory.Qh.obj J) =
+  have hiso : (Functor.mapDerivedCategoryCompIsoOfCompIso e).app (DerivedCategory.Qh.obj J) =
       G.mapDerivedCategory.mapIso (F.mapDerivedCategoryFactorsh.app J) ≪≫
         G.mapDerivedCategoryFactorsh.app ((F.mapHomotopyCategory (ComplexShape.up ℤ)).obj J) ≪≫
           DerivedCategory.Qh.mapIso

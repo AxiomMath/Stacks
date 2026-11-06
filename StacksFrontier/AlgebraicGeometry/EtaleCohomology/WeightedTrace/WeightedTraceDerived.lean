@@ -570,7 +570,7 @@ public theorem derivedWeightedTrace_eq :
           modPull (fShriekMod.{u, v, r} B Λ f)).inv ≫
         NatTrans.mapDerivedCategory
           (weightedTraceModNatTrans.{u, v, r} B Λ f modPull hpull w τ hτ) ≫
-        Functor.mapDerivedCategoryIdIso.hom :=
+        (Functor.mapDerivedCategoryIdIso _).hom :=
   rfl
 
 /-- **The derived trace at a complex of sheaves is the localization of the degreewise trace.**
@@ -589,7 +589,7 @@ public theorem derivedWeightedTrace_app_Q
                 (weightedTraceModNatTrans.{u, v, r} B Λ f modPull hpull w τ hτ)
                 (ComplexShape.up ℤ)).app P) ≫
             (𝟭 (ModuleSheaf.{u, v, r} B Y Λ)).mapDerivedCategoryFactors.inv.app P) ≫
-          Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Q.obj P) :=
+          (Functor.mapDerivedCategoryIdIso _).hom.app (DerivedCategory.Q.obj P) :=
   NatTrans.mapDerivedCategoryCompToId_app_Q modPull (fShriekMod.{u, v, r} B Λ f) _ P
 
 end Derived
@@ -800,7 +800,7 @@ public theorem derivedWeightedTrace_spec
               modPullF (fShriekMod.{u, v, r} B Λ f)).inv ≫
             NatTrans.mapDerivedCategory
               (weightedTraceModNatTrans.{u, v, r} B Λ f modPullF hpullF w τ hτ) ≫
-            Functor.mapDerivedCategoryIdIso.hom) ∧
+            (Functor.mapDerivedCategoryIdIso _).hom) ∧
       (∀ M : ModuleSheaf.{u, v, r} B Y Λ,
           (weightedTraceModNatTrans.{u, v, r} B Λ f modPullF hpullF w τ hτ).app M = τ M) ∧
       (NatTrans.mapDerivedCategory
@@ -1174,7 +1174,7 @@ public theorem derivedWeightedTrace_spec_of_lifts
               modPullF (fShriekMod.{u, u + 1, u} B Λ f)).inv ≫
             NatTrans.mapDerivedCategory
               (weightedTraceModNatTrans.{u, u + 1, u} B Λ f modPullF hpullF w τ hτ) ≫
-            Functor.mapDerivedCategoryIdIso.hom) ∧
+            (Functor.mapDerivedCategoryIdIso _).hom) ∧
       (∀ M : ModuleSheaf.{u, u + 1, u} B Y Λ,
           (weightedTraceModNatTrans.{u, u + 1, u} B Λ f modPullF hpullF w τ hτ).app M = τ M) ∧
       (NatTrans.mapDerivedCategory

@@ -514,7 +514,6 @@ private theorem siteSpecMap_transport_left
         eqToHom (congrArg Over.left haPost).symm := by
     simp only [Over.eqToHom_left]
     rw [hbTransportForward, haTransportBackward]
-    cat_disch
   exact h1.trans h2
 
 /-- The left component of the arrow of a deformation lies over the residue map. -/
@@ -737,8 +736,14 @@ public theorem predeformationCategory_isPredeformationCategory
                 rw [hmid]
                 cat_disch
           _ = B.inclusion.map (Over.Hom.left (p.map d.arrow)) := by
+            have hh : ∀ {𝒟 : Type (u + 1)} [Category.{u} 𝒟] {P : ObjectProperty 𝒟}
+                {a b : P.FullSubcategory} (h : a = b),
+                (eqToHom h).hom = eqToHom (congrArg (·.obj) h) := by
+              intro _ _ _ a b h; subst h; rfl
             convert harrow.symm using 1
-            cat_disch
+            all_goals first
+              | rfl
+              | (simp only [Over.eqToHom_left, hh]; rfl)
       obtain ⟨χ, ⟨hχmap, hχcomp⟩, hχuniq⟩ :=
         hp.unique_lift ψ d.arrow r' hcomm
       let e := deformationObjectOfLift B hS iΛ p x₀ hx₀ V.unop hA' χ hySite hχmap

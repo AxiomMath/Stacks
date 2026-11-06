@@ -165,7 +165,7 @@ lemma cofinalColimit
     ext x
     simp only [RingHom.comp_apply]
     show eR (ιe (Ring.DirectLimit.of Robj' fR' i x)) = eR (Ring.DirectLimit.of Robj _ i.val x)
-    congr 1
+    exact congrArg eR (hι_of i x)
   exact ⟨ιe.trans eR, fun i => hcomp i ▸ heR i.val, hcomp⟩
 
 /-- Every element of the colimit ring lifts to an element of some stage. -/
@@ -222,7 +222,7 @@ theorem descendRelations
   set ρ : ∀ i, Robj i →+* R := fun i => (eR.toRingHom).comp (Ring.DirectLimit.of Robj _ i) with hρ
   -- the finite set of all coefficients of the relations
   set C : Finset R :=
-    G.biUnion (fun p => Finset.image (fun s => MvPolynomial.coeff s p) p.support) with hC
+    G.biUnion (fun p => Finset.image (fun s => p.coeff s) p.support) with hC
   -- each element of R lifts to some stage of the colimit (via `eR.symm` and `exists_of`)
   have key : ∀ c : R, ∃ (i : Λ) (x : Robj i), ρ i x = c := exists_eq_comp_of eR
   choose stage pre hpre using key
@@ -245,9 +245,9 @@ theorem descendRelations
       simpa only [hρ, RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingHom.coe_coe] using
         hpre c
   -- the section recovers every coefficient of every relation
-  have hsecP : ∀ p ∈ G, ∀ s, ρ lam0 (sec (MvPolynomial.coeff s p)) = MvPolynomial.coeff s p := by
+  have hsecP : ∀ p ∈ G, ∀ s, ρ lam0 (sec (p.coeff s)) = p.coeff s := by
     intro p hp s
-    by_cases hz : MvPolynomial.coeff s p = 0
+    by_cases hz : p.coeff s = 0
     · rw [hz, hsec0, map_zero]
     · refine hsecC _ ?_
       rw [hC, Finset.mem_biUnion]
@@ -264,15 +264,9 @@ theorem descendRelations
   have hmap : ∀ j, MvPolynomial.map (ρ lam0) (frel j) = frelR j := by
     refine fun j => MvPolynomial.ext _ _ fun s => ?_
     rw [MvPolynomial.coeff_map]
-    show ρ lam0 (MvPolynomial.coeff s
-        (AddMonoidAlgebra.ofCoeff (Finsupp.mapRange sec hsec0 (AddMonoidAlgebra.coeff (frelR j)))))
-      = MvPolynomial.coeff s (frelR j)
-    rw [show MvPolynomial.coeff s
-        (AddMonoidAlgebra.ofCoeff (Finsupp.mapRange sec hsec0 (AddMonoidAlgebra.coeff (frelR j))) :
-          MvPolynomial (Fin n) (Robj lam0))
-      = sec (MvPolynomial.coeff s (frelR j)) by
-        simp only [MvPolynomial.coeff]
-        rw [Finsupp.mapRange_apply]]
+    show ρ lam0 ((Finsupp.mapRange sec hsec0 (AddMonoidAlgebra.coeff (frelR j))) s)
+      = (frelR j).coeff s
+    rw [Finsupp.mapRange_apply]
     exact hsecP _ (e.symm j).property _
   -- hence the range of the pushed relations is exactly `↑G`
   have hrange : Set.range (fun j => MvPolynomial.map (ρ lam0) (frel j))
@@ -565,7 +559,7 @@ lemma RtoR_ker_descent
   classical
   have hcoeff : ∀ v, RtoR fR eR j (D.coeff v) = 0 := by
     intro v
-    rw [← MvPolynomial.coeff_map, hD, MvPolynomial.coeff_zero]
+    rw [← MvPolynomial.coeff_map, hD, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   choose! jv hjv hjva using fun (v : Fin n →₀ ℕ) =>
     RtoR_ker_elt fR eR hRdir j (D.coeff v) (hcoeff v)
   obtain ⟨J, hJ⟩ := (D.support.image jv).exists_le

@@ -154,7 +154,7 @@ public theorem isGeometricallyReduced_of_isSeparablyGenerated (k : Type u) (K : 
     [Field K] [Algebra k K] [Algebra.IsSeparablyGenerated k K] :
     Algebra.IsGeometricallyReduced k K := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := K)
   have := Algebra.IsGeometricallyReduced.of_isSeparable (IntermediateField.adjoin k s) K
   have := Stacks.GeometricallyReduced.TestFields.isReduced_tensorProduct_fractionRing_mvPolynomial
     k (s : Type v) (AlgebraicClosure k)

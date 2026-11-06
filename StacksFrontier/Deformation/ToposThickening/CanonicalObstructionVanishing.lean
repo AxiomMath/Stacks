@@ -515,7 +515,8 @@ private lemma curvatureCorrection_homotopy_equation
           ((h.hom (n + 1) n ≫
             (Q.shiftFunctorObjXIso 2 n ((n + 1) + 1) (by omega)).hom).hom)
             (P.d n (n + 1) (L.reduction n x)) := by
-    simpa only [ModuleCat.comp_apply, ModuleCat.hom_add, LinearMap.add_apply, add_comm] using hcomm
+    simpa only [ModuleCat.comp_apply, ModuleCat.hom_add, LinearMap.add_apply] using
+      hcomm.trans (add_comm _ _)
   rw [← hsq', ← (c.kernelEmbedding ((n + 1) + 1)).map_add, hcomponent]
   have hsum := congrArg (c.kernelEmbedding ((n + 1) + 1)) hcommEval.symm
   rwa [hshift] at hsum

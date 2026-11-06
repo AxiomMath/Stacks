@@ -112,7 +112,7 @@ theorem epi_twistMap_of_cover
     (twistingSheaf 𝒜 ((1 : ℕ) : ℤ))
   set s₀ := pullbackGlobalSections (AlgebraicGeometry.Proj.map φ hφ)
     (twistingSheaf 𝒜 ((1 : ℕ) : ℤ)) (degreeSection 𝒜 1 a)
-  refine ⟨V, hVU, ⟨hx, ha⟩, (M.smul r).hom (M.val.map (homOfLE (le_top : V ≤ ⊤)).op s₀), ?_⟩
+  refine ⟨V, hVU, ⟨hx, ha⟩, (M.smul r).asHom.hom (M.val.map (homOfLE (le_top : V ≤ ⊤)).op s₀), ?_⟩
   refine (Stacks.AlgebraicGeometry.RelativeProjDegreeOne.app_smul_map
     (Stacks.ProjTwistComparison.twistMap φ hφ ((1 : ℕ) : ℤ)) (le_top : V ≤ ⊤) s₀ r).trans ?_
   rwa [twistMap_degreeSection]

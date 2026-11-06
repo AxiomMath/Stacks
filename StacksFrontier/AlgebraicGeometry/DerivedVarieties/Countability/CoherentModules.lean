@@ -144,7 +144,6 @@ theorem span_restrict_eq_top (M : X.Modules) [M.IsQuasicoherent] {O W : X.Opens}
   suffices h : ∀ x, x ∈ S from eq_top_iff.mpr fun x _ => h x
   intro x
   induction x using hbc.inductionOn with
-  | zero => exact S.zero_mem
   | tmul m => exact hres m
   | smul s y hy => exact S.smul_mem s hy
   | add y z hy hz => exact S.add_mem hy hz

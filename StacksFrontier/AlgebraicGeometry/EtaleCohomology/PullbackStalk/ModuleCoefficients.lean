@@ -117,28 +117,28 @@ public theorem isLocallySurjective_of_surjective_etaleStalkMapOfCoefficients
   replace hz : Φ.presheafFiber.map α.hom (Φ.toPresheafFiber W y F.obj c) =
       Φ.toPresheafFiber V q G.obj b := hz
   rw [Φ.toPresheafFiber_naturality_apply α.hom] at hz
-  let ZW : Φ.fiber.Elements := ⟨W, y⟩
-  let ZV : Φ.fiber.Elements := ⟨V, q⟩
+  let ZW : Φ.fiber.Elements := Φ.fiber.elementsMk W y
+  let ZV : Φ.fiber.Elements := Φ.fiber.elementsMk V q
   let Z : Φ.fiber.Elements := IsCofiltered.min ZW ZV
   let l : Z ⟶ ZW := IsCofiltered.minToLeft ZW ZV
   let r : Z ⟶ ZV := IsCofiltered.minToRight ZW ZV
-  have hl : Φ.toPresheafFiber Z.1 Z.2 G.obj (G.obj.map l.1.op (α.hom.app (op W) c)) =
+  have hl : Φ.toPresheafFiber Z.obj Z.val G.obj (G.obj.map l.hom.op (α.hom.app (op W) c)) =
       Φ.toPresheafFiber W y G.obj (α.hom.app (op W) c) := by
-    simpa only [ConcreteCategory.comp_apply, l.2] using
-      ConcreteCategory.congr_hom (Φ.toPresheafFiber_w l.1 Z.2 G.obj) (α.hom.app (op W) c)
-  have hr : Φ.toPresheafFiber Z.1 Z.2 G.obj (G.obj.map r.1.op b) =
+    simpa only [ConcreteCategory.comp_apply, l.map_val] using
+      ConcreteCategory.congr_hom (Φ.toPresheafFiber_w l.hom Z.val G.obj) (α.hom.app (op W) c)
+  have hr : Φ.toPresheafFiber Z.obj Z.val G.obj (G.obj.map r.hom.op b) =
       Φ.toPresheafFiber V q G.obj b := by
-    simpa only [ConcreteCategory.comp_apply, r.2] using
-      ConcreteCategory.congr_hom (Φ.toPresheafFiber_w r.1 Z.2 G.obj) b
+    simpa only [ConcreteCategory.comp_apply, r.map_val] using
+      ConcreteCategory.congr_hom (Φ.toPresheafFiber_w r.hom Z.val G.obj) b
   obtain ⟨Y, g, y', hy', heq⟩ :=
-    (Φ.toPresheafFiber_eq_iff' Z.1 Z.2 (G.obj.map l.1.op (α.hom.app (op W) c))
-      (G.obj.map r.1.op b)).1 (hl.trans (hz.trans hr.symm))
-  refine ⟨Y, g ≫ r.1, ⟨F.obj.map (g ≫ l.1).op c, ?_⟩, y', ?_⟩
+    (Φ.toPresheafFiber_eq_iff' Z.obj Z.val (G.obj.map l.hom.op (α.hom.app (op W) c))
+      (G.obj.map r.hom.op b)).1 (hl.trans (hz.trans hr.symm))
+  refine ⟨Y, g ≫ r.hom, ⟨F.obj.map (g ≫ l.hom).op c, ?_⟩, y', ?_⟩
   · rwa [NatTrans.naturality_apply, op_comp, op_comp, G.obj.map_comp, G.obj.map_comp,
       ConcreteCategory.comp_apply, ConcreteCategory.comp_apply]
-  · show Φ.fiber.map (g ≫ r.1) y' = q
+  · show Φ.fiber.map (g ≫ r.hom) y' = q
     rw [Functor.map_comp_apply, hy']
-    exact r.2
+    exact r.map_val
 
 end Coefficients
 

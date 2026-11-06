@@ -309,7 +309,7 @@ theorem vanishingCyclesMap_id_comp_derivedSectionsRestriction_specializationMorp
               (smallEtaleDerivedPullbackAb (specializationMorphism B S hS s t))
               (smallEtaleDerivedGlobalSections (strictHenselization B S hS
                 (t.map (strictHenselizationToBase B S hS s))))).inv ≫
-            Functor.whiskerRight (Functor.mapDerivedCategoryCompIso
+            Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso
                 (smallEtalePullbackAbCompIso (specializationMorphism B S hS s t)
                     (𝟙 (strictHenselization B S hS s) ≫
                       strictHenselizationToBase B S hS s) ≪≫
@@ -468,7 +468,7 @@ public theorem existsUnique_specializationMorphism_and_specialization_eq_pullbac
                     (smallEtaleDerivedPullbackAb (specializationMorphism B S hS s t))
                     (smallEtaleDerivedGlobalSections (strictHenselization B S hS
                       (t.map (strictHenselizationToBase B S hS s))))).inv ≫
-                  Functor.whiskerRight (Functor.mapDerivedCategoryCompIso
+                  Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso
                       (smallEtalePullbackAbCompIso (specializationMorphism B S hS s t)
                           (𝟙 (strictHenselization B S hS s) ≫
                             strictHenselizationToBase B S hS s) ≪≫

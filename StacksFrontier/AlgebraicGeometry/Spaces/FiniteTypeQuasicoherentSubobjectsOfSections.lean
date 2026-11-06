@@ -99,6 +99,8 @@ theorem nonempty_isColimit_finiteTypeQuasicoherentSubobjectCocone_of_forall_isAf
       ∀ s : H.val.obj (op W), s ∈ LinearMap.range (T.arrow.val.app (op W)).hom := by
     intro W hW s
     obtain ⟨K, hKq, hKf, hs⟩ := h W hW s
+    have : Epi (Subobject.underlyingIso K.ι).inv :=
+      @IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv (Subobject.underlyingIso K.ι))
     let GK : FiniteTypeQuasicoherentSubobject B S hS X hX H :=
       ⟨Subobject.mk K.ι, SheafOfModules.IsQuasicoherentOnSite.of_iso
         (Subobject.underlyingIso K.ι).symm hKq,

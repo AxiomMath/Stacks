@@ -72,6 +72,17 @@ universe u w
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 variable {ℬ ℬ' 𝒴' 𝒳' : AlgebraicStacks.{u, w} B S hS}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ThickeningEtaleChartTower :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ThickeningEtaleChartTower
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_ThickeningEtaleChartTower B S hS).has_limit _
+
 /-- A tower of charts of a 1-morphism over a base whose top comparison is étale. For
 1-morphisms `f' : 𝒳' ⟶ 𝒴'` and `pY' : 𝒴' ⟶ ℬ'` of algebraic stacks over `S`: algebraic spaces
 `U'`, `V'`, `W'` with 1-morphisms to `ℬ'`, `𝒴'`, `𝒳'`, morphisms `g' : V' ⟶ U'` and

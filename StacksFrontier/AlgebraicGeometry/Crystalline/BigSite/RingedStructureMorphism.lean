@@ -340,7 +340,7 @@ noncomputable def zariskiOverStructureSheaf (Z : Scheme.{u}) :
 
 @[simp]
 theorem zariskiOverStructureSheaf_val (Z : Scheme.{u}) :
-    (zariskiOverStructureSheaf Z).val = zariskiOverStructurePresheaf Z := rfl
+    (zariskiOverStructureSheaf Z).obj = zariskiOverStructurePresheaf Z := rfl
 
 /-- **The big Zariski topos of a scheme as a ringed topos,** [Stacks, Tag 07IE]: the site
 `(Sch/Z)_Zar` together with its structure sheaf `T ↦ Γ(T, 𝒪_T)`. -/

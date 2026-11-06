@@ -207,6 +207,13 @@ theorem exists_isPullback_totalProj (R : (SchemesOver Y)ᵒᵖ ⥤ Type u) (V : 
 
 /-! ### Step (G) -/
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_AffineFinitePresentationGluing
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Step (G) of the proof of Stacks 0DLC, part (3)**: being an algebraic space affine and of
 finite presentation over `Y` can be checked on the affine test schemes over `Y`, for an fppf sheaf
 over `Y`. -/

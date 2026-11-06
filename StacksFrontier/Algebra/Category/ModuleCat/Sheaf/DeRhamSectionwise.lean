@@ -188,7 +188,7 @@ end RestrictScalars
 
 section DeRham
 
-open DifferentialsConstruction
+open PresheafOfModulesOfCommRing.DifferentialsConstruction
 
 variable {C : Type u} [Category.{v} C] {R R' : Cᵒᵖ ⥤ CommRingCat.{w}} (φ : R ⟶ R')
 

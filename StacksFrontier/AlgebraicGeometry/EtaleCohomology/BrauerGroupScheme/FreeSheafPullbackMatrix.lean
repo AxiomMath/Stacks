@@ -169,26 +169,32 @@ It is multiplicative because the multiplication of `End (𝟙_ C)` is compositio
 comparison cancel, and additive by `additive_modulePullback`. This is the ring homomorphism the
 matrix dictionary of a finite free sheaf of modules base changes along. -/
 def unitEndPullbackHom (ρ : V ⟶ T) : R₀ T →+* R₀ V where
-  toFun a := Functor.LaxMonoidal.ε (modulePullback ρ) ≫ (modulePullback ρ).map a ≫
-    (Functor.Monoidal.εIso (modulePullback ρ)).inv
-  map_one' :=
-    CategoryTheory.MonoidalCategory.epsilon_comp_map_id_comp_epsilonIso_inv (modulePullback ρ)
+  toFun a := End.of (Functor.LaxMonoidal.ε (modulePullback ρ) ≫ (modulePullback ρ).map a.asHom ≫
+    (Functor.Monoidal.εIso (modulePullback ρ)).inv)
+  map_one' := End.ext
+    (CategoryTheory.MonoidalCategory.epsilon_comp_map_id_comp_epsilonIso_inv (modulePullback ρ))
   map_mul' a b := by
-    simp only [CategoryTheory.MonoidalCategory.unitEnd_mul_eq_comp, Functor.map_comp,
-      Functor.Monoidal.εIso_inv, Category.assoc, Functor.Monoidal.η_ε_assoc]
+    rw [CategoryTheory.MonoidalCategory.unitEnd_mul_eq_comp,
+      CategoryTheory.MonoidalCategory.unitEnd_mul_eq_comp]
+    refine End.ext ?_
+    simp only [Functor.map_comp, Functor.Monoidal.εIso_inv, Category.assoc,
+      Functor.Monoidal.η_ε_assoc]
   map_zero' := by
     let := additive_modulePullback ρ
-    simp only [Functor.map_zero, Limits.zero_comp, Limits.comp_zero]
-  map_add' a b :=
+    refine End.ext ?_
+    simp only [End.zero_asHom, Functor.map_zero, Limits.zero_comp, Limits.comp_zero]
+  map_add' a b := by
     letI := additive_modulePullback ρ
-    CategoryTheory.MonoidalCategory.epsilon_comp_map_add_comp_epsilonIso_inv
-      (modulePullback ρ) a b
+    refine End.ext ?_
+    simpa only [End.add_asHom] using
+      CategoryTheory.MonoidalCategory.epsilon_comp_map_add_comp_epsilonIso_inv
+        (modulePullback ρ) a.asHom b.asHom
 
 /-- `unitEndPullbackHom` is conjugation of the pullback by the comparison at the unit, by
 definition. -/
 theorem unitEndPullbackHom_apply (ρ : V ⟶ T) (a : R₀ T) :
-    unitEndPullbackHom ρ a = Functor.LaxMonoidal.ε (modulePullback ρ) ≫
-      (modulePullback ρ).map a ≫ (Functor.Monoidal.εIso (modulePullback ρ)).inv :=
+    unitEndPullbackHom ρ a = End.of (Functor.LaxMonoidal.ε (modulePullback ρ) ≫
+      (modulePullback ρ).map a.asHom ≫ (Functor.Monoidal.εIso (modulePullback ρ)).inv) :=
   rfl
 
 /-! ### The tautological dual basis under pullback -/
@@ -241,10 +247,10 @@ theorem modulePullbackFreeIso_inv_comp_map_freeProj (ρ : V ⟶ T) (I : Type u) 
       = freeProj (S := V) j := by
   refine freeModule_hom_ext_inj fun i => ?_
   rw [freeInj_comp_modulePullbackFreeIso_inv_assoc, ← Functor.map_comp_assoc,
-    freeInj_comp_freeProj, freeInj_comp_freeProj, ← unitEndPullbackHom_apply]
+    freeInj_comp_freeProj, freeInj_comp_freeProj]
   split_ifs with h
-  · exact map_one (unitEndPullbackHom ρ)
-  · exact map_zero (unitEndPullbackHom ρ)
+  · exact congrArg End.asHom (map_one (unitEndPullbackHom ρ))
+  · exact congrArg End.asHom (map_zero (unitEndPullbackHom ρ))
 
 /-- `modulePullbackFreeIso_inv_comp_map_freeProj` with the identification of the pullback of the
 free sheaf moved to the other side: the identification followed by the tautological coordinate of
@@ -274,7 +280,7 @@ theorem freeDualMatrix_conj_modulePullbackFreeIso (ρ : V ⟶ T) {I : Type u} [F
     freeDualMatrix ((modulePullbackFreeIso ρ I).inv ≫ (modulePullback ρ).map g ≫
         (modulePullbackFreeIso ρ I).hom)
       = (freeDualMatrix g).map (unitEndPullbackHom ρ) := by
-  ext a b
+  refine Matrix.ext fun a b => End.ext ?_
   show freeInj (S := V) a ≫ ((modulePullbackFreeIso ρ I).inv ≫ (modulePullback ρ).map g ≫
         (modulePullbackFreeIso ρ I).hom) ≫ freeProj (S := V) b
       = Functor.LaxMonoidal.ε (modulePullback ρ) ≫
@@ -297,7 +303,7 @@ theorem conj_modulePullbackFreeIso_altProjFree (ρ : V ⟶ T) (d : ℕ) :
       = altProjFree V d := by
   refine freeDualMatrix_injective ?_
   rw [freeDualMatrix_conj_modulePullbackFreeIso]
-  ext k l
+  refine Matrix.ext fun k l => ?_
   rw [Matrix.map_apply, freeDualMatrix_altProjFree, freeDualMatrix_altProjFree]
   exact congrFun (congrFun (Matrix.map_altProj (n := Fin d) (unitEndPullbackHom ρ)) k.down) l.down
 

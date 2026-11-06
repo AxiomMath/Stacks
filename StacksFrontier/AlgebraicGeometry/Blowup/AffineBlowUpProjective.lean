@@ -51,7 +51,7 @@ theorem polynomialComparison_inv_over (n : ℕ) :
   have hC : (MvPolynomial.C r : MvPolynomial (Fin (n + 1)) R) ∈
       Stacks.AlgebraicGeometry.ProjPolyChart.polyGrading R n 0 :=
     MvPolynomial.isHomogeneous_C _ r
-  refine congrArg (MvPolynomial.coeff m) ?_
+  refine congrArg (fun p : MvPolynomial (Fin (n + 1)) R => p.coeff m) ?_
   show ((GradedRing.projZeroRingHom (Stacks.AlgebraicGeometry.ProjPolyChart.polyGrading R n)
       (MvPolynomial.C r) : MvPolynomial (Fin (n + 1)) R)) =
     ((algebraMap R (MvPolynomial.homogeneousSubmodule (Fin (n + 1)) R 0) r :

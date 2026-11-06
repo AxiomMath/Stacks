@@ -207,7 +207,8 @@ object of the category of correspondences: the complement of an idempotent is id
 `Stacks.WeilCohomology.mul_self_of_add_eq_one` at the endomorphism ring of the object. -/
 theorem lefschetzProjector_idem (hsum : c₀ + c₂ = 𝟙 (Obj.mk Q : S.Obj))
     (h₀ : c₀ ≫ c₀ = c₀) : c₂ ≫ c₂ = c₂ :=
-  mul_self_of_add_eq_one (A := End (Obj.mk Q : S.Obj)) hsum h₀
+  congrArg End.asHom (mul_self_of_add_eq_one (c₀ := End.of c₀) (c₂ := End.of c₂)
+    (End.ext hsum) (End.ext h₀))
 
 /-- **Stacks Project, Tag 0FG6.** The composition rule `c₀ ∘ c₂ = 0`, for endomorphisms of an
 object of the category of correspondences: an idempotent and its complement are orthogonal. This
@@ -215,14 +216,16 @@ is `Stacks.WeilCohomology.mul_eq_zero_of_add_eq_one'` at the endomorphism ring o
 product of the endomorphism ring being composition in the other order. -/
 theorem comp_lefschetzProjector (hsum : c₀ + c₂ = 𝟙 (Obj.mk Q : S.Obj))
     (h₀ : c₀ ≫ c₀ = c₀) : c₀ ≫ c₂ = 0 :=
-  mul_eq_zero_of_add_eq_one' (A := End (Obj.mk Q : S.Obj)) hsum h₀
+  congrArg End.asHom (mul_eq_zero_of_add_eq_one' (c₀ := End.of c₀) (c₂ := End.of c₂)
+    (End.ext hsum) (End.ext h₀))
 
 /-- **Stacks Project, Tag 0FG6.** The composition rule `c₂ ∘ c₀ = 0`, for endomorphisms of an
 object of the category of correspondences. This is
 `Stacks.WeilCohomology.mul_eq_zero_of_add_eq_one` at the endomorphism ring of the object. -/
 theorem lefschetzProjector_comp (hsum : c₀ + c₂ = 𝟙 (Obj.mk Q : S.Obj))
     (h₀ : c₀ ≫ c₀ = c₀) : c₂ ≫ c₀ = 0 :=
-  mul_eq_zero_of_add_eq_one (A := End (Obj.mk Q : S.Obj)) hsum h₀
+  congrArg End.asHom (mul_eq_zero_of_add_eq_one (c₀ := End.of c₀) (c₂ := End.of c₂)
+    (End.ext hsum) (End.ext h₀))
 
 /-! ### The Lefschetz motive -/
 

@@ -239,6 +239,15 @@ private lemma isFiniteType_biprod {M N : SheafOfModules.{u} R} [HasBinaryBiprodu
     have : sM.IsFiniteType := ⟨by change Finite (p.generators i).I; infer_instance⟩
     have : sN.IsFiniteType := ⟨by change Finite (q.generators j).I; infer_instance⟩
     let Rw := R.over Z
+    haveI : ∀ J : Type u, HasColimitsOfShape (Discrete J) (PresheafOfModules.{u} Rw.obj) :=
+      fun J => PresheafOfModules.hasColimitsOfShape _ _
+    haveI : HasColimitsOfSize.{u, u} (PresheafOfModules.{u} Rw.obj) := inferInstance
+    haveI : HasColimitsOfSize.{u, u} (SheafOfModules.{u} Rw) := inferInstance
+    haveI : HasCoproducts.{u} (SheafOfModules.{u} Rw) :=
+      fun J => HasColimitsOfSize.has_colimits_of_shape (Discrete J)
+    haveI : HasCountableCoproducts (SheafOfModules.{u} Rw) :=
+      hasCountableCoproducts_of_hasCoproducts _
+    haveI : HasFiniteCoproducts (SheafOfModules.{u} Rw) := hasFiniteCoproducts_of_hasCoproducts _
     let E := SheafOfModules.overFunctor R Z
     have : E.PreservesZeroMorphisms := ⟨fun _ _ => rfl⟩
     haveI : PreservesLimit (pair M N) E := overFunctor_preservesLimit_pair Z
@@ -420,6 +429,7 @@ lemma isQuasicoherentOnSite_image {M N : Modules.{u, u} B S hS X hX}
   exact ObjectProperty.prop_of_iso _
     ((Abelian.imageIsoImage f).trans (imageSubobjectIso f).symm) hk
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The image of a morphism out of an `𝒪_F`-module of finite type is of finite type: it is a
 quotient of the source. -/
 private lemma isFiniteType_imageSubobject {M N : Modules.{u, u} B S hS X hX} (f : M ⟶ N)

@@ -110,7 +110,7 @@ theorem exists_zeta_roots_of_isCurve
   set deg := Stacks.Picard.picardDegree g (topologicalKrullDim_le_one g)
   set P := Stacks.Picard.schemePullbackClassHom Ψ.hom
   -- the powers of `Ψ`
-  set Ψm : ℕ → (C ≅ C) := fun m => (show Aut C from Ψ) ^ m
+  set Ψm : ℕ → (C ≅ C) := fun m => ((Aut.of Ψ) ^ m).asIso
   have hΨm : ∀ m, (Ψm m).hom ≫ g =
       g ≫ Spec.map (CommRingCat.ofHom (iterateFrobenius Ω p (f * m))) :=
     aut_pow_hom_comp g p f Ψ hΨ

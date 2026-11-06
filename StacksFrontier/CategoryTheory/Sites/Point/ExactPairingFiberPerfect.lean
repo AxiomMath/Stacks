@@ -102,7 +102,7 @@ theorem bijective_curry_evaluation_of_exactPairing (M M' : ModuleCat.{max v u} R
       | tmul a b =>
         show e ((d (l a)) • b) m' = l ((d (e b m')) • a)
         rw [map_smul, LinearMap.smul_apply, map_smul]
-        refine ULift.ext _ _ ?_
+        refine ULift.ext ?_
         show (d (l a)) * (e b m').down = (d (e b m')) * (l a).down
         exact mul_comm _ _
       | add a b ha hb =>

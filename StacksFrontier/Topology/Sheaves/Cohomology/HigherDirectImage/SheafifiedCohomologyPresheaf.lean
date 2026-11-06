@@ -233,7 +233,7 @@ theorem ι_map_mapHomotopyCategoryPlusIsoOfIso_hom_app
     {F G : A ⥤ B} [F.Additive] [G.Additive] (e : F ≅ G) :
     F.rightDerivedFunctorPlus ≅ G.rightDerivedFunctorPlus :=
   Functor.rightDerivedNatIso F.rightDerivedFunctorPlus G.rightDerivedFunctorPlus
-    F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A)
     (Functor.isoWhiskerRight (mapHomotopyCategoryPlusIsoOfIso e)
       DerivedCategory.Plus.Qh)
@@ -253,12 +253,12 @@ theorem rightDerivedFunctorPlusNatIsoOfIso_fac_app
     {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
     [HasDerivedCategory A] [HasDerivedCategory B] [EnoughInjectives A]
     {F G : A ⥤ B} [F.Additive] [G.Additive] (e : F ≅ G) (K : HomotopyCategory.Plus A) :
-    F.rightDerivedFunctorPlusUnit.app K ≫
+    F.rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedFunctorPlusNatIsoOfIso e).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusIsoOfIso e).hom.app K) ≫
-        G.rightDerivedFunctorPlusUnit.app K :=
+        G.rightDerivedFunctorPlusUnith.app K :=
   Functor.rightDerivedNatTrans_app F.rightDerivedFunctorPlus G.rightDerivedFunctorPlus
-    F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A)
     (Functor.isoWhiskerRight (mapHomotopyCategoryPlusIsoOfIso e)
       DerivedCategory.Plus.Qh).hom K
@@ -293,7 +293,7 @@ theorem rightDerivedFunctorPlusNatIsoOfIso_hom_eq_id
       rw [ι_map_mapHomotopyCategoryPlusIsoOfIso_hom_app]
       exact (he K).trans
         ((HomotopyCategory.Plus.ι B).map_id (F.mapHomotopyCategoryPlus.obj K)).symm
-  refine Functor.rightDerived_ext F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
+  refine Functor.rightDerived_ext F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A) _ _ _ (NatTrans.ext (funext fun K => ?_))
   have h := rightDerivedFunctorPlusNatIsoOfIso_fac_app e K
   rw [hid K, DerivedCategory.Plus.Qh.map_id, Category.id_comp] at h
@@ -581,7 +581,7 @@ noncomputable def derivedPlusResolutionHomologyIso
           ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I))) :=
   (DerivedCategory.Plus.homologyFunctor B (n : ℤ)).mapIso
     (F.rightDerivedFunctorPlus.mapIso (resolutionDerivedIso I) ≪≫
-      (asIso (F.rightDerivedFunctorPlusUnit.app
+      (asIso (F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I)))).symm)
 
 /-- The derived-category and injective-resolution definitions of cohomology agree on objects,
@@ -691,14 +691,14 @@ private theorem derivedPlusToStandardObjOfResolution_naturality_aux
       reassoc_of% hε]
     congr 2
     exact hq.symm
-  let uI := F.rightDerivedFunctorPlusUnit.app
+  let uI := F.rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I))
-  let uJ := F.rightDerivedFunctorPlusUnit.app
+  let uJ := F.rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus J))
   have hu : F.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map qφ) ≫ inv uJ =
       inv uI ≫ (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map qφ := by
     rw [IsIso.comp_inv_eq, Category.assoc, IsIso.eq_inv_comp]
-    exact (F.rightDerivedFunctorPlusUnit.naturality qφ).symm
+    exact (F.rightDerivedFunctorPlusUnith.naturality qφ).symm
   have hmid := congrArg (DerivedCategory.Plus.homologyFunctor B (n : ℤ)).map
     (show F.rightDerivedFunctorPlus.map ((DerivedCategory.Plus.singleFunctor A 0).map f) ≫
         (F.rightDerivedFunctorPlus.map (resolutionDerivedIso J).hom ≫ inv uJ) =
@@ -884,7 +884,7 @@ theorem derivedPlusToStandardObjOfResolution_comp_isoRightDerivedObj_naturality
     homotopyHomology F i ⟶ DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus ⋙
       DerivedCategory.Plus.homologyFunctor B i :=
   (homotopyHomologyIso F i).hom ≫
-    Functor.whiskerRight F.rightDerivedFunctorPlusUnit
+    Functor.whiskerRight F.rightDerivedFunctorPlusUnith
       (DerivedCategory.Plus.homologyFunctor B i)
 
 /-- After postcomposition with an arbitrary functor `G`, the cohomology of the total right
@@ -966,7 +966,7 @@ private theorem homologyDerivedUnit_isDerived
     F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.homologyFunctor B i ⟶
       G.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.homologyFunctor B i :=
   Functor.whiskerRight
-    (Functor.rightDerivedNatTrans _ _ F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlusUnit
+    (Functor.rightDerivedNatTrans _ _ F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso A)
       (Functor.whiskerRight (mapPlusNatTrans α) DerivedCategory.Plus.Qh))
     (DerivedCategory.Plus.homologyFunctor B i)
@@ -989,8 +989,8 @@ private theorem homologyDerivedUnit_naturality
         (derivedHomologyMap α i) =
       homotopyHomologyMap α i ≫ homologyDerivedUnit G i := by
   ext K
-  have h := Functor.rightDerivedNatTrans_app _ _ F.rightDerivedFunctorPlusUnit
-    G.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso A)
+  have h := Functor.rightDerivedNatTrans_app _ _ F.rightDerivedFunctorPlusUnith
+    G.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A)
     (Functor.whiskerRight (mapPlusNatTrans α) DerivedCategory.Plus.Qh) K
   have h' := congrArg ((DerivedCategory.Plus.homologyFunctor B i).map) h
   have hnat := (DerivedCategory.homologyFunctorFactorsh B i).inv.naturality
@@ -1003,12 +1003,12 @@ private theorem homologyDerivedUnit_naturality
       ((F.mapHomotopyCategory (.up ℤ)).obj K.obj) ≫
       (DerivedCategory.homologyFunctor B i).map
         (DerivedCategory.Qh.map ((α.mapHomotopyCategory (.up ℤ)).app K.obj)) ≫
-      (DerivedCategory.Plus.homologyFunctor B i).map (G.rightDerivedFunctorPlusUnit.app K) =
+      (DerivedCategory.Plus.homologyFunctor B i).map (G.rightDerivedFunctorPlusUnith.app K) =
     (HomotopyCategory.homologyFunctor B (.up ℤ) i).map
       ((α.mapHomotopyCategory (.up ℤ)).app K.obj) ≫
       (DerivedCategory.homologyFunctorFactorsh B i).inv.app
         ((G.mapHomotopyCategory (.up ℤ)).obj K.obj) ≫
-      (DerivedCategory.Plus.homologyFunctor B i).map (G.rightDerivedFunctorPlusUnit.app K)
+      (DerivedCategory.Plus.homologyFunctor B i).map (G.rightDerivedFunctorPlusUnith.app K)
   dsimp only [Functor.comp_map] at hnat
   have hnat' := reassoc_of% hnat
   exact (hnat' _).symm
@@ -1242,8 +1242,8 @@ public noncomputable def hypercohomologyRestrict
   Functor.whiskerRight
       ((secF R V).rightDerivedFunctorPlus.rightDerivedNatTrans
         (secF R U).rightDerivedFunctorPlus
-        (secF R V).rightDerivedFunctorPlusUnit
-        (secF R U).rightDerivedFunctorPlusUnit
+        (secF R V).rightDerivedFunctorPlusUnith
+        (secF R U).rightDerivedFunctorPlusUnith
         (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} R))
         (Functor.whiskerRight aPlus DerivedCategory.Plus.Qh))
       (DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} i)

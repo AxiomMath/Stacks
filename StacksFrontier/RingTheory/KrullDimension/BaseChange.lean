@@ -152,7 +152,9 @@ private theorem ringKrullDim_eq_natCard_of_aeval_injective_finite {σ : Type*} [
   have : Module.Flat (MvPolynomial σ k) (MvPolynomial σ K) :=
     flat_of_isPushout k (MvPolynomial σ k) K (MvPolynomial σ K)
   rw [← ringKrullDim_eq_of_isPushout (MvPolynomial σ k) (MvPolynomial σ K) S T,
-    MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add]
+    MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add,
+    ENat.card_eq_coe_natCard]
+  rfl
 
 /-- **Stacks 00P3.** Let `k` be a field, let `S` be a `k`-algebra of finite type and let `K/k` be
 a field extension. Then `S` and its base change `T = K ⊗_k S` have the same Krull dimension. -/

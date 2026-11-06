@@ -145,7 +145,7 @@ site.**  An equality, not merely an isomorphism: the two sides are the same comp
 `AlgebraicGeometry.quasiCoherentPresheafFunctor` with a forgetful functor, by
 `AlgebraicGeometry.SmallEtale.toOver_eq_toEtaleSite_comp_forget`. -/
 public theorem associatedModulePresheaf_restriction_eq :
-    (toEtaleSite B S hS).op ⋙ (smallEtaleAssociatedSheaf S F).val =
+    (toEtaleSite B S hS).op ⋙ (smallEtaleAssociatedSheaf S F).obj =
       (toOver B S hS).op ⋙ quasiCoherentPresheafFunctor S F :=
   rfl
 
@@ -156,7 +156,7 @@ associated-module functor, composed with the equality
 `AlgebraicGeometry.SmallEtale.associatedModulePresheaf_restriction_eq`. -/
 public def associatedModulePresheafIsoRestriction :
     ((associatedModule B S hS).obj F).val.presheaf ≅
-      (toEtaleSite B S hS).op ⋙ (smallEtaleAssociatedSheaf S F).val :=
+      (toEtaleSite B S hS).op ⋙ (smallEtaleAssociatedSheaf S F).obj :=
   associatedModulePresheafIso B S hS F ≪≫
     eqToIso (associatedModulePresheaf_restriction_eq B S hS F).symm
 
@@ -216,9 +216,9 @@ on the size-bounded site by
 public def cechComplexIsoImageToEtaleSite {T : SmallEtale B S hS}
     (𝒱 : PreZeroHypercover.{u} T) :
     Stacks.CechSite.cechComplex 𝒱
-        ((toEtaleSite B S hS).op ⋙ (smallEtaleAssociatedSheaf S F).val) ≅
+        ((toEtaleSite B S hS).op ⋙ (smallEtaleAssociatedSheaf S F).obj) ≅
       Stacks.CechSite.cechComplex (𝒱.map (toEtaleSite B S hS))
-        (smallEtaleAssociatedSheaf S F).val :=
+        (smallEtaleAssociatedSheaf S F).obj :=
   (Stacks.CechSite.cechComplexIsoOfFunctor (toEtaleSite B S hS) 𝒱
     (smallEtaleAssociatedSheaf S F).obj
     (fun n i ↦ isIso_cechProductMapOfFunctor_toEtaleSite B S hS 𝒱 n i)).symm

@@ -211,9 +211,9 @@ theorem pushforward_iteratedSlice_map_terminalSectionToEnd {C : Type u} [Categor
     (SheafOfModules.pushforward.{w} (F := (Over.iteratedSliceEquiv W).functor)
           (𝟙 ((R.over U).over W))).map
         ((Stacks.SheafOfModules.terminalSectionToEnd (R.over W.left) (Over.mk (𝟙 W.left))
-            Over.mkIdTerminal g).app M) =
+            Over.mkIdTerminal g).asHom.app M) =
       (Stacks.SheafOfModules.terminalSectionToEnd ((R.over U).over W) (Over.mk (𝟙 W))
-            Over.mkIdTerminal g).app
+            Over.mkIdTerminal g).asHom.app
         ((SheafOfModules.pushforward.{w} (F := (Over.iteratedSliceEquiv W).functor)
             (𝟙 ((R.over U).over W))).obj M) :=
   Stacks.SheafOfModules.map_globalSectionToEnd
@@ -238,10 +238,10 @@ theorem sliceModulesEquiv_functor_map_terminalSectionToEnd
           X U W).functor.map
         ((Stacks.SheafOfModules.terminalSectionToEnd
             (((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).over W.left)
-            (Over.mk (𝟙 W.left)) Over.mkIdTerminal g).app M) =
+            (Over.mk (𝟙 W.left)) Over.mkIdTerminal g).asHom.app M) =
       (Stacks.SheafOfModules.terminalSectionToEnd
             ((((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).over U).over W)
-            (Over.mk (𝟙 W)) Over.mkIdTerminal g).app
+            (Over.mk (𝟙 W)) Over.mkIdTerminal g).asHom.app
         ((Stacks.SheafOfModules.InternalHom.sliceModulesEquiv.{u, v, max u v, max u v}
             X U W).functor.obj M) :=
   pushforward_iteratedSlice_map_terminalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))
@@ -368,7 +368,7 @@ theorem restrict_isDerivedComplete
   let aW : CatCenter AW :=
     Stacks.SheafOfModules.terminalSectionToEnd RW (Over.mk (𝟙 W)) Over.mkIdTerminal g
   -- the scalars agree already on sheaves of modules: both restrict `g` along the same arrow
-  have hmap : ∀ M : AL, Φ.map (aL.app M) = aW.app (Φ.obj M) :=
+  have hmap : ∀ M : AL, Φ.map (aL.asHom.app M) = aW.asHom.app (Φ.obj M) :=
     sliceModulesEquiv_functor_map_terminalSectionToEnd X U W g
   -- `aL • 𝟙 M` of the `Linear` structure of Tag 0999 is `aL.app M ≫ 𝟙 M`, so this is `hmap`
   have hsmulD : ∀ L : DerivedCategory AL,
@@ -376,8 +376,8 @@ theorem restrict_isDerivedComplete
     fun L => Stacks.SheafOfModules.DerivedRestrictScalars.mapDerivedCategory_map_smul_id
       Φ aL aW
       (fun Z => Stacks.SemilinearFunctor.map_smul_id_mapHomologicalComplex Φ aL aW
-        (fun M => (congrArg Φ.map (Category.comp_id (aL.app M))).trans
-          ((hmap M).trans (Category.comp_id (aW.app (Φ.obj M))).symm))
+        (fun M => (congrArg Φ.map (Category.comp_id (aL.asHom.app M))).trans
+          ((hmap M).trans (Category.comp_id (aW.asHom.app (Φ.obj M))).symm))
         (ComplexShape.up ℤ) Z) L
   -- restricting to `W.left` and transporting is restricting to `U` and then to `W`
   let i₁ := Stacks.SheafOfModules.DerivedRestrictScalars.mapDerivedCategoryCompIso

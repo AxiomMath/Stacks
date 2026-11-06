@@ -73,12 +73,12 @@ variable (X : AlgebraicGeometry.RingedSpace.{u, u})
 structure. It is definitionally `Stacks.SheafOfModules.TensorStalkRingedSpace.presheafTensor`. -/
 noncomputable local instance presheafOfModulesMonoidal :
     MonoidalCategory (PresheafOfModules.{u} (O X)) :=
-  PresheafOfModules.monoidalCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
 
 /-- The objectwise tensor product of presheaves of `O_X`-modules is symmetric. -/
 noncomputable local instance presheafOfModulesSymmetric :
     SymmetricCategory (PresheafOfModules.{u} (O X)) :=
-  PresheafOfModules.symmetricCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.symmetricCategory (R := X.presheaf)
 
 /-- **The same two structures, at the spelling `F.val` carries.** A sheaf of modules over
 `structureSheafRing X` has `F.val : PresheafOfModules (structureSheafRing X).obj`, and a goal is
@@ -90,12 +90,12 @@ rings are equal by `rfl`. -/
 @[instance_reducible]
 noncomputable local instance presheafOfModulesMonoidal' :
     MonoidalCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
-  PresheafOfModules.monoidalCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
 
 @[instance_reducible]
 noncomputable local instance presheafOfModulesSymmetric' :
     SymmetricCategory (PresheafOfModules.{u} (structureSheafRing X).obj) :=
-  PresheafOfModules.symmetricCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.symmetricCategory (R := X.presheaf)
 
 /-- The symmetry of the tensor product of modules on a ringed space, obtained by sheafifying
 the braiding of the objectwise tensor product of presheaves of modules. -/

@@ -79,6 +79,17 @@ namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_InvariantStabilizerLocus :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_InvariantStabilizerLocus
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Units, inverses and precomposition for composition of generalized arrows -/
 
 section Composition
@@ -362,13 +373,13 @@ variable (G : GroupoidInAlgebraicSpaces C S hS B)
 object space: the structure morphism is the second projection out of the fibre product of
 `(t, s)` with the diagonal of the object space. -/
 noncomputable def stabilizerToObjects : stabilizerOverBase G ⟶ G.objects :=
-  ObjectProperty.homMk (pullback.snd (sourceTarget G).hom (diagonal G).hom)
+  ObjectProperty.homMk (stabilizer G).hom
 
 /-- The arrow of the groupoid underlying a generalized point of the stabilizer, read on the
 stabilizer as an algebraic space over the object space. -/
 private noncomputable def stabilizerLoop :
     (stabilizerOverBase G).obj ⟶ G.arrows.obj :=
-  pullback.fst (sourceTarget G).hom (diagonal G).hom
+  stabilizerArrow G
 
 /-- The arrow underlying a generalized point of the stabilizer has as source the point of the
 object space that point lies over. -/

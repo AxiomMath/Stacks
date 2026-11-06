@@ -126,7 +126,7 @@ def pushforwardToDerived (K : CochainComplex.Plus (AbelianSheaf X'.toRingedSpace
         (DerivedCategory.Plus.Q.obj K) :=
   (plusQIsoOn X ((abelianPushforward.{u, u} f.base).mapCochainComplexPlus.obj K)).inv ≫
     DerivedCategory.Plus.Qh.map (pushforwardQuotIso f K).inv ≫
-    (abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnit.app
+    (abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient (AbelianSheaf X'.toRingedSpace.carrier)).obj K) ≫
     (abelianPushforward.{u, u} f.base).rightDerivedFunctorPlus.map
       (plusQIsoOn X' K).hom
@@ -170,14 +170,9 @@ theorem plusQIsoOn_eq (Y : Scheme.{u})
       (DerivedCategory.Plus.quotientCompQhIso
         (AbelianSheaf Y.toRingedSpace.carrier)).app L := by
   refine Iso.ext ?_
-  show DerivedCategory.Plus.ι.preimage _ = DerivedCategory.Plus.ι.preimage _
-  congr 1
-  show (DerivedCategory.quotientCompQhIso
-        (AbelianSheaf Y.toRingedSpace.carrier)).hom.app L.obj =
-      𝟙 _ ≫ DerivedCategory.Qh.map (𝟙 _) ≫
-        (DerivedCategory.quotientCompQhIso
-          (AbelianSheaf Y.toRingedSpace.carrier)).hom.app L.obj
-  rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.id_comp]
+  ext
+  simp only [plusQIsoOn, Functor.preimageIso_hom, DerivedCategory.Plus.quotientCompQhIso_hom_app_hom, Iso.app_hom]
+  exact DerivedCategory.Plus.ι.map_preimage _
 
 /-- **The direct image of a complex and the direct image of its homotopy class agree on the
 nose**: the comparison `AlgebraicGeometry.Scheme.Hom.pushforwardQuotIso` is the identity,
@@ -200,7 +195,7 @@ theorem pushforwardToDerived_eq
     pushforwardToDerived f K =
       (Functor.mapCochainComplexPlusDerivedUnit
         (abelianPushforward.{u, u} f.base)).app K := by
-  set w := (abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnit.app
+  set w := (abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient (AbelianSheaf X'.toRingedSpace.carrier)).obj K) ≫
     (abelianPushforward.{u, u} f.base).rightDerivedFunctorPlus.map
       (plusQIsoOn X' K).hom with hw

@@ -213,9 +213,9 @@ theorem isAffineAlmostBlowUpFamilyDetecting_generator_fppfTopology :
                 centerIso := hZ
                 isPullback := hSquare.flip
                 isGeneratorModel := hshape }).flip
-  have hzar := isZariskiSheaf_of_isFppfSheaf B S hS F.obj F.cond
-  have hflat := isAffineFlatProperFinitePresentationSheaf_of_isFppfSheaf B S hS F.obj F.cond
-  refine isSheaf_of_isFppfSheaf_of_isAffineAlmostBlowUpSheaf B S hS F.obj F.cond
+  have hzar := isZariskiSheaf_of_isFppfSheaf B S hS F.obj F.property
+  have hflat := isAffineFlatProperFinitePresentationSheaf_of_isFppfSheaf B S hS F.obj F.property
+  refine isSheaf_of_isFppfSheaf_of_isAffineAlmostBlowUpSheaf B S hS F.obj F.property
     (generatorAlmostBlowUpSquaresSuffice B S hS F.obj hzar hflat ?_ ?_) <;>
   exact fun X X' Z E b z p e I _ hb hZ hSquare hshape ↦
     key X X' Z E b z p e I hb hZ hSquare (by tauto)

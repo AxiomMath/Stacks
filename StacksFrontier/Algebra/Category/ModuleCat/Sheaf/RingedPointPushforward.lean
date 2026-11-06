@@ -319,6 +319,9 @@ theorem pushforwardModules_exact
   have : PreservesZeroMorphisms G := preservesZeroMorphisms_of_preserves_terminal_object
   have : G.Additive := additive_of_preserves_binary_products G
   have : PreservesHomology G := Functor.preservesHomology_of_preservesEpis_and_kernels G
+  have : ∀ J : Type w, HasColimitsOfShape (Discrete J)
+      (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf s.point.O).obj) :=
+    fun _ => PresheafOfModules.hasColimitsOfShape _ _
   have : PreservesFiniteColimits G := Functor.preservesFiniteColimits_of_preservesHomology G
   rw [exactFunctor_iff]
   exact ⟨hlim, preservesFiniteColimits_of_reflects_of_preserves F V⟩

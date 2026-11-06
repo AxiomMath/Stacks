@@ -121,7 +121,7 @@ theorem catCenter_eq_one_of_app_unit_eq_id
   have hr1 : r = 1 := by
     have := congrArg (fun φ : ModuleCat.of Γ(W, ⊤) Γ(W, ⊤) ⟶ ModuleCat.of Γ(W, ⊤) Γ(W, ⊤) =>
       ConcreteCategory.hom φ (1 : Γ(W, ⊤))) hmap
-    simpa [← hr, CategoryTheory.Linear.toCatCenter_apply_app] using this
+    simpa [← hr, CategoryTheory.Linear.toCatCenter_apply_asHom_app] using this
   rw [← hw, ← hr, hr1, map_one, CatCenter.transport_one]
 
 end AlgebraicGeometry

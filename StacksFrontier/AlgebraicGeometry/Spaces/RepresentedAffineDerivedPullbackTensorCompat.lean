@@ -345,7 +345,7 @@ theorem derivedPullback_compQFactors_flatPullbackIso {A A' : Type u} [CommRing A
           (Functor.mapHomologicalComplexCompIso (Iso.refl
             (ModuleCat.extendScalars.{u, u, u} φ ⋙ G')) (ComplexShape.up ℤ)).symm).hom.app K) := by
         rw [Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app, CategoryTheory.Functor.map_comp]
-        exact Category.assoc _ _ _
+        first | rfl | (simp only [asIso_hom, Iso.app_hom]; done) | (simp only [asIso_hom, Iso.app_hom]; rfl)
     _ = (Stacks.Cohomology.DerivedPullbackOfToposHom.derivedPullbackComparison f).app
           ((HomotopyCategory.quotient _ _).obj
               ((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj K)) ≫

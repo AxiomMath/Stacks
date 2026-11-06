@@ -6,6 +6,7 @@ public import Mathlib.AlgebraicGeometry.Morphisms.QuasiSeparated
 public import Mathlib.AlgebraicGeometry.Morphisms.Separated
 public import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Over
 public import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Products
+public import Mathlib.Data.Fintype.Shrink
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.GroupActionRelation
 public import StacksFrontier.AlgebraicGeometry.GroupScheme.Relations.PreRelations
@@ -59,7 +60,7 @@ holds for the underlying morphism of the graph `prod.lift f.hom (𝟙 U)` of an 
 `f` of `U` over `S`. -/
 theorem property_graph (U : Over S) (P : MorphismProperty Scheme.{u}) [P.RespectsIso]
     (hP : P (pullback.diagonal U.hom)) (f : Aut U) :
-    P ((prod.lift f.hom (𝟙 U) : U ⟶ U ⨯ U).left) := by
+    P ((prod.lift f.asIso.hom (𝟙 U) : U ⟶ U ⨯ U).left) := by
   let d : U ⟶ U ⨯ U := prod.lift (𝟙 U) (𝟙 U)
   let p : (U ⨯ U).left ≅ pullback U.hom U.hom := Over.prodLeftIsoPullback U U
   have hfst : d.left ≫ p.hom ≫ pullback.fst U.hom U.hom = 𝟙 U.left := by
@@ -70,9 +71,8 @@ theorem property_graph (U : Over S) (P : MorphismProperty Scheme.{u}) [P.Respect
     simp [d]
   have heqDiag : d.left ≫ p.hom = pullback.diagonal U.hom :=
     pullback.hom_ext (by simpa using hfst) (by simpa using hsnd)
-  change U ≅ U at f
-  let e : U ⨯ U ≅ U ⨯ U := prod.mapIso f (Iso.refl U)
-  have heq : d ≫ e.hom = prod.lift f.hom (𝟙 U) := by
+  let e : U ⨯ U ≅ U ⨯ U := prod.mapIso f.asIso (Iso.refl U)
+  have heq : d ≫ e.hom = prod.lift f.asIso.hom (𝟙 U) := by
     rw [prod.mapIso_hom]
     apply prod.hom_ext <;> simp [d]
   have : IsIso e.hom.left := inferInstanceAs (IsIso ((Over.forget S).map e.hom))
@@ -85,14 +85,14 @@ underlying schemes. -/
 theorem isClosedImmersion_autGraph (U : Over S) [_root_.AlgebraicGeometry.IsSeparated U.hom]
     (f : Aut U) :
     _root_.AlgebraicGeometry.IsClosedImmersion
-      ((prod.lift f.hom (𝟙 U) : U ⟶ U ⨯ U).left) :=
+      ((prod.lift f.asIso.hom (𝟙 U) : U ⟶ U ⨯ U).left) :=
   property_graph U (@_root_.AlgebraicGeometry.IsClosedImmersion.{u} :
     MorphismProperty Scheme.{u}) inferInstance f
 
 /-- The graph of an automorphism of a quasi-separated `S`-scheme is quasi-compact on
 underlying schemes. -/
 theorem quasiCompact_graph (U : Over S) [QuasiSeparated U.hom] (f : Aut U) :
-    QuasiCompact ((prod.lift f.hom (𝟙 U) : U ⟶ U ⨯ U).left) := by
+    QuasiCompact ((prod.lift f.asIso.hom (𝟙 U) : U ⟶ U ⨯ U).left) := by
   have : MorphismProperty.RespectsIso (@QuasiCompact.{u} : MorphismProperty Scheme.{u}) :=
     MorphismProperty.respectsIso_of_isStableUnderComposition fun _ _ _ _ => inferInstance
   exact property_graph U (@QuasiCompact.{u} : MorphismProperty Scheme.{u}) inferInstance f
@@ -168,7 +168,7 @@ theorem quasiCompact_sigmaDesc_of_finite {ι : Type u} [Finite ι] {Y : ι → S
 the graph of the automorphism `g` acts by. -/
 theorem ι_comp_actionRelation (U : Over S) (G : Type v) [Group G] [Small.{u} G]
     (a : G →* Aut U) (g : G) :
-    Sigma.ι (fun _ : G => U) g ≫ actionRelation U G a = prod.lift (a g).hom (𝟙 U) := by
+    Sigma.ι (fun _ : G => U) g ≫ actionRelation U G a = prod.lift (a g).asIso.hom (𝟙 U) := by
   apply prod.hom_ext <;>
     simp [actionRelation, actionRelationTarget, actionRelationSource]
 

@@ -99,7 +99,7 @@ theorem exists_desc_yoneda_of_iso_sigma
       simp only [Functor.map_comp] at hab'
       have : IsEmpty ((BigFppfOver.toScheme B S hS).obj Y) := by
         refine ⟨fun y => ?_⟩
-        refine Set.disjoint_left.1 (hdisj (fun h => hij (ULift.ext _ _ h)))
+        refine Set.disjoint_left.1 (hdisj (fun h => hij (ULift.ext h)))
           ⟨(BigFppfOver.toScheme B S hS).map a y, rfl⟩ ?_
         refine ⟨(BigFppfOver.toScheme B S hS).map b y, ?_⟩
         rw [← Scheme.Hom.comp_apply, ← Scheme.Hom.comp_apply]

@@ -91,6 +91,13 @@ namespace AlgebraicGeometry.Space
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site of `S`, supplied directly: since Lean v4.35.0
+instance search times out finding them through the functor-category limit instances. -/
+local instance (priority := high) hasLimit_cospan_presheaf_RegularImmersionFlatBaseChange (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S) {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-- **The chart condition of Stacks 06BM is stable under flat base change.** Let `P` be a
 property of morphisms of schemes which is étale local on the target and transfers along a flat
 base change of schemes. Let `i : Z ⟶ X` be a relatively representable morphism of presheaves
@@ -164,7 +171,8 @@ theorem forall_etale_chart_of_isPullback_of_isFlat (B : BigFppfSite.{u}) (S : Sc
   let e := yoneda.preimageIso eW
   have he : e.hom ≫ pullback.snd (hi'.snd q') π = pullback.snd (hi.snd q) r := by
     apply yoneda.map_injective
-    simpa [e] using heW
+    rw [Functor.map_comp, Functor.preimageIso_hom, Functor.map_preimage]
+    exact heW
   let eSch := Functor.mapIso T e
   have heSch : eSch.hom ≫ T.map (pullback.snd (hi'.snd q') π) =
       T.map (pullback.snd (hi.snd q) r) := by

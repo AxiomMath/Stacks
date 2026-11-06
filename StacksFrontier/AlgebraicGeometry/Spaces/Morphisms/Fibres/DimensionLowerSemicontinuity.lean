@@ -61,6 +61,13 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site exist; stated directly since instance search
+through the functor category times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_DimensionLowerSemicontinuity
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-- For a morphism `h` of the big fppf site over `S` whose represented morphism of algebraic
 spaces is of finite type, the fibre dimension at a field-valued point of the target is the
 dimension of the scheme-theoretic fibre of the underlying morphism of schemes over the

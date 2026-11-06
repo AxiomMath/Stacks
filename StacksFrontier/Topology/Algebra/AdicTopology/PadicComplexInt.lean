@@ -49,6 +49,12 @@ namespace PadicComplexInt
 
 variable (p : ℕ) [Fact (Nat.Prime p)]
 
+/-- The value group of the valuation of `ℂ_[p]` is archimedean, as it embeds into `ℝ≥0`. -/
+private instance mulArchimedean_valueGroup₀ :
+    MulArchimedean (MonoidWithZeroHom.ValueGroup₀ (.ofClass (PadicComplex.valued p).v)) :=
+  MulArchimedean.comap (RankLeOne.hom' (PadicComplex.valued p).v).toMonoidHom
+    (RankLeOne.strictMono' (v := (PadicComplex.valued p).v))
+
 /-- An element of the ring of integers of `ℂ_[p]` lies in the `n`-th power of the ideal `(p)`
 exactly when its valuation is at most the `n`-th power of the valuation of `p`. -/
 private theorem mem_span_p_pow_iff_valuation_le (n : ℕ) (x : PadicComplexInt p) :
@@ -111,11 +117,11 @@ theorem isAdic_span_p :
       exact (Valued.hasBasis_nhds_zero (ℂ_[p]) ℝ≥0).comap
         (Subtype.val : PadicComplexInt p → ℂ_[p])
     obtain ⟨γ, -, hγ⟩ := hbasis.mem_iff.mp hU
-    obtain ⟨n, hn⟩ := exists_pow_lt hqult γ
-    have hnval : (qu ^ n : MonoidWithZeroHom.ValueGroup₀ (.ofClass v)) < γ.1 := hn
+    obtain ⟨n, hn⟩ := @exists_pow_lt _ _ _ _
+      (Units.instMulArchimedean (MonoidWithZeroHom.ValueGroup₀ (.ofClass v))) _ hqult γ
+    have hnval : (qu ^ n).1 < γ.1 := hn
     refine ⟨n, fun x hx => ?_⟩
-    have hxle : v.restrict (x : ℂ_[p]) ≤ (qu ^ n :
-        MonoidWithZeroHom.ValueGroup₀ (.ofClass v)) := by
+    have hxle : v.restrict (x : ℂ_[p]) ≤ (qu ^ n).1 := by
       simpa [qu, q] using (mem_span_p_pow_iff_valuation_le p n x).1 hx
     exact hγ (hxle.trans_lt hnval)
 
@@ -172,7 +178,8 @@ theorem radical_span_p :
       let xu := Units.mk0 (v.restrict (x : ℂ_[p])) hq0
       let pu := Units.mk0 (v.restrict (p : ℂ_[p])) (restrict_natCast_ne_zero p)
       have hxult : xu < 1 := restrict_lt_one_of_lt_one p hxv
-      obtain ⟨n, hn⟩ := exists_pow_lt hxult pu
+      obtain ⟨n, hn⟩ := @exists_pow_lt _ _ _ _
+        (Units.instMulArchimedean (MonoidWithZeroHom.ValueGroup₀ (.ofClass v))) _ hxult pu
       have hpow : v.restrict (x : ℂ_[p]) ^ n < v.restrict (p : ℂ_[p]) := hn
       refine ⟨n, ?_⟩
       simpa only [pow_one] using (mem_span_p_pow_iff_valuation_le p 1 (x ^ n)).2

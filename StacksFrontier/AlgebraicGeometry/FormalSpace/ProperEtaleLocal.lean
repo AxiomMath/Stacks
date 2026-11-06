@@ -106,7 +106,7 @@ theorem isProper_of_forall_surjective_etale_cover {X Y : FppfSheaf B S hS} (f : 
     have hU'L : Space.IsAlgebraicSpaceULift.{u + 1} B S hS ((uliftYoneda.{u + 1}).obj U') :=
       Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS U'
     have hsheaf : Presheaf.IsSheaf (BigFppfOver.topology B S hS) (pullback ξ f.hom) :=
-      Presheaf.isSheaf_pullback _ ξ f.hom hUL.isSheaf X.cond Y.cond
+      Presheaf.isSheaf_pullback _ ξ f.hom hUL.isSheaf X.property Y.property
     -- the base change along `q` of the base change along `ξ`
     have halg2 : Space.IsAlgebraicSpaceULift.{u + 1} B S hS
         (pullback ((uliftYoneda.{u + 1}).map q) (pullback.fst ξ f.hom)) :=

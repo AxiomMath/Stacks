@@ -388,7 +388,8 @@ theorem esymRec_two_tensor_of_closure (x y w : ℕ → R) (G : Set R)
         + (r.choose 2 : ℤ) • (∑ j ∈ range s, y j) ^ 2
         + ((r : ℤ) * s - 1) • ((∑ i ∈ range r, x i) * ∑ j ∈ range s, y j)
         + (s.choose 2 : ℤ) • (∑ i ∈ range r, x i) ^ 2 := by
-  have : IsMulCommutative (Subring.closure G) := Subring.isMulCommutative_closure hG
+  have : IsMulCommutative (Subring.closure G) :=
+    Subring.isMulCommutative_closure fun a ha b hb _ => hG a ha b hb
   have hw' : ∀ i, i < r → ∀ j, j < s →
       (fun k => (⟨w k, hwS k⟩ : Subring.closure G)) (i * s + j)
         = (fun i => (⟨x i, hx i⟩ : Subring.closure G)) i

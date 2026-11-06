@@ -121,7 +121,6 @@ theorem mixedTmulMap_smul (s : R₂) (t : H ⊗[R₁] G) :
     mixedTmulMap R₁ R₂ R₁' R₂' p q hsq H H' G G' ψ hψ φ hφ (s • t) =
       q s • mixedTmulMap R₁ R₂ R₁' R₂' p q hsq H H' G G' ψ hψ φ hφ t := by
   induction t with
-  | zero => simp
   | add a b ha hb => simp [ha, hb, smul_add]
   | tmul a x =>
     rw [TensorProduct.smul_tmul', mixedTmulMap_tmul, mixedTmulMap_tmul, hψ,
@@ -277,8 +276,7 @@ theorem mixedObj_hom_ext {X : Cᵒᵖ} {P : ModuleCat ((ringPresheaf O₂).obj X
   let R : (H.obj X ⊗[O₁.obj X] G.obj X) →+ P := v.hom.toAddMonoidHom
   have key : ∀ t : H.obj X ⊗[O₁.obj X] G.obj X, L t = R t := by
     intro t
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add c d hc hd => rw [map_add, map_add, hc, hd]
     | tmul a x => exact hpure a x
   exact ModuleCat.hom_ext (LinearMap.ext key)

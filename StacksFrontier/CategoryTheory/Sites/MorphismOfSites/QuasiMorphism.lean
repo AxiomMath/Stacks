@@ -2,6 +2,7 @@ module
 
 public import Mathlib.CategoryTheory.Comma.StructuredArrow.Small
 public import Mathlib.CategoryTheory.Limits.Constructions.LimitsOfProductsAndEqualizers
+public import Mathlib.CategoryTheory.Sites.LeftExact
 public import Mathlib.CategoryTheory.Sites.Pullback
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Order.CompletePartialOrder

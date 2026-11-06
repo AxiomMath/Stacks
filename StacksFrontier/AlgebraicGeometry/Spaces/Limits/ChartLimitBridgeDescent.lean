@@ -56,6 +56,19 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] MorphismProperty.relative_isStableUnderBaseChange
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_chartLimitBridgeDescent
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_chartLimitBridgeDescent
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ R) (g : Q ⟶ R) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_chartLimitBridgeDescent B S hS).has_limit _
+
 /-! ### Charts of a base change -/
 
 /-- **A square of charts base changes along a cartesian square.** Let `X' = Y' ×_{Y₀} X₀` be a

@@ -109,7 +109,7 @@ variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (s : Geomet
 /-- The diagram of étale neighborhoods of a geometric point, sending a neighborhood to its
 underlying scheme. -/
 abbrev etaleNeighborhoodDiagram : (geometricPointFiber B S hS s).Elements ⥤ Scheme.{u} :=
-  CategoryOfElements.π (geometricPointFiber B S hS s) ⋙ SmallEtale.toScheme B S hS
+  Functor.Elements.π (geometricPointFiber B S hS s) ⋙ SmallEtale.toScheme B S hS
 
 /-- The diagram of rings of global functions on the étale neighborhoods of a geometric point.
 Its colimit is the étale local ring. -/
@@ -122,7 +122,8 @@ abbrev etaleNeighborhoodSections :
 /-- The base, with its identity structure morphism and the geometric point itself as the chosen
 lift, as an étale neighborhood of that point. -/
 def geometricPointBaseNeighborhood : (geometricPointFiber B S hS s).Elements :=
-  ⟨⟨Over.mk (𝟙 (B.obj S hS)), (inferInstance : Etale (𝟙 S))⟩, ⟨s.hom, by simp⟩⟩
+  Functor.elementsMk (geometricPointFiber B S hS s)
+    ⟨Over.mk (𝟙 (B.obj S hS)), (inferInstance : Etale (𝟙 S))⟩ ⟨s.hom, by simp⟩
 
 /-- The underlying scheme of the base neighborhood is the base. -/
 theorem etaleNeighborhoodDiagram_obj_geometricPointBaseNeighborhood :
@@ -135,7 +136,7 @@ def isTerminal_geometricPointBaseNeighborhood :
     IsTerminal (geometricPointBaseNeighborhood B S hS s) := by
   refine IsTerminal.ofUniqueHom (fun U => ⟨ObjectProperty.homMk
     (Over.homMk U.1.obj.hom (Category.comp_id _)), Subtype.ext U.2.2⟩) (fun U f => ?_)
-  apply Subtype.ext
+  apply Functor.Elements.hom_ext
   apply ObjectProperty.hom_ext
   apply Over.OverMorphism.ext
   exact Over.w ((SmallEtale.inclusion B S hS).map f.1)
@@ -164,7 +165,7 @@ theorem exists_affine_etaleNeighborhood (U : (geometricPointFiber B S hS s).Elem
   have hyS : y ≫ j ≫ B.inclusion.map U.1.obj.hom = s.hom := by
     rw [← Category.assoc, hy]
     exact U.2.2
-  refine ⟨⟨V, ⟨y, hyS⟩⟩, (inferInstance : IsAffine (Spec R)), ⟨⟨ObjectProperty.homMk
+  refine ⟨Functor.elementsMk (geometricPointFiber B S hS s) V ⟨y, hyS⟩, (inferInstance : IsAffine (Spec R)), ⟨⟨ObjectProperty.homMk
     (Over.homMk (ObjectProperty.homMk j) ?_), Subtype.ext hy⟩⟩⟩
   apply ObjectProperty.hom_ext
   rfl

@@ -430,8 +430,7 @@ private theorem cusp_not_integrallyClosed (p : ℕ) [Fact p.Prime]
       rintro a (rfl : a = f)
       exact hev)
   have hx : g x = 0 := by
-    dsimp [x]
-    rw [map_sub]
+    rw [show g x = g (q (MvPolynomial.X 0)) - g (q (MvPolynomial.C c)) from map_sub g _ _]
     show ev (MvPolynomial.X (0 : Fin 2)) - ev (MvPolynomial.C c) = 0
     rw [hevX, hevC]
     simp

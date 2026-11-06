@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.Limits.FormalCoproducts.Cech
+public import Mathlib.CategoryTheory.Limits.Constructions.Over.Products
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicTopology.SimplicialObject.Coskeletal
 public import StacksFrontier.CategoryTheory.Sites.CoveringPermanence

@@ -1564,8 +1564,8 @@ private theorem exists_exceptionalIdeal_stalk_generator_on_affine
     ∃ a : I.ideal U,
       IdealSheafData.stalk (AlgebraicGeometry.exceptionalIdeal I) x =
         Ideal.span {((AlgebraicGeometry.blowUpToBase I).stalkMap x)
-          (X.presheaf.germ U.1 ((AlgebraicGeometry.blowUpToBase I) x) hx
-            (a : X.presheaf.obj (.op U.1)))} := by
+                      (X.presheaf.germ U.1 ((AlgebraicGeometry.blowUpToBase I) x) hx
+                        (a : X.presheaf.obj (.op U.1)))} := by
   have hcover : x ∈ ((AlgebraicGeometry.blowUpToBase I) ⁻¹ᵁ U.1).1 := hx
   rw [← AlgebraicGeometry.blownUpAffine_chart_cover I U] at hcover
   obtain ⟨a, ha⟩ := Set.mem_iUnion.mp hcover

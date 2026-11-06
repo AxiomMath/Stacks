@@ -101,6 +101,32 @@ universe w' w u v₁ u₁
 
 open CategoryTheory Limits CategoryTheory.Sheaf
 
+/-- Coproducts of presheaves of modules indexed by a `Small.{u}` type, named outright: since
+Lean v4.35.0 instance search for them exceeds its budget in this import closure. -/
+instance (priority := high) presheafOfModules_hasColimitsOfShape_discrete
+    {D : Type u₁} [Category.{v₁} D] {S : Dᵒᵖ ⥤ RingCat.{u}} (ι : Type w') [Small.{u} ι] :
+    HasColimitsOfShape (Discrete ι) (PresheafOfModules.{u} S) :=
+  haveI : HasColimitsOfShape (Discrete ι) AddCommGrpCat.{u} := inferInstance
+  PresheafOfModules.hasColimitsOfShape S (Discrete ι)
+
+/-- Coproducts of sheaves of modules indexed by a `Small.{u}` type, from the presheaf case;
+instance search alone exceeds its budget here since Lean v4.35.0. -/
+instance (priority := high) sheafOfModules_hasColimitsOfShape_discrete
+    {D : Type u₁} [Category.{v₁} D] {K : GrothendieckTopology D} {S : Sheaf K RingCat.{u}}
+    [HasWeakSheafify K AddCommGrpCat.{u}] [K.WEqualsLocallyBijective AddCommGrpCat.{u}]
+    (ι : Type w') [Small.{u} ι] :
+    HasColimitsOfShape (Discrete ι) (SheafOfModules.{u} S) :=
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    S (Discrete ι)
+
+/-- A coproduct of sheaves of modules indexed by a `Small.{u}` type exists; see
+`sheafOfModules_hasColimitsOfShape_discrete`. -/
+instance (priority := high) sheafOfModules_hasColimit_discrete
+    {D : Type u₁} [Category.{v₁} D] {K : GrothendieckTopology D} {S : Sheaf K RingCat.{u}}
+    [HasWeakSheafify K AddCommGrpCat.{u}] [K.WEqualsLocallyBijective AddCommGrpCat.{u}]
+    {ι : Type w'} [Small.{u} ι] (F : Discrete ι ⥤ SheafOfModules.{u} S) : HasColimit F :=
+  (sheafOfModules_hasColimitsOfShape_discrete ι).has_colimit F
+
 namespace SheafOfModules
 
 variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {R : Sheaf J RingCat.{u}}

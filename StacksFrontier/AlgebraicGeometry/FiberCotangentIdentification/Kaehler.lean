@@ -44,11 +44,11 @@ the square formed by `A → A ⧸ I`, `A → B` and the two quotient maps is a p
 base change `B ⊗[A] A ⧸ I`. -/
 public theorem isPushout_quotient {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
     (I : Ideal A) : Algebra.IsPushout A (A ⧸ I) B (B ⧸ I.map (algebraMap A B)) := by
-  refine Algebra.IsPushout.symm ⟨IsBaseChange.of_equiv (Ideal.qoutMapEquivTensorQout B).symm ?_⟩
+  refine Algebra.IsPushout.symm ⟨IsBaseChange.of_equiv (Ideal.quotMapEquivTensorQuot B).symm ?_⟩
   intro y
   obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective y
   rw [LinearEquiv.symm_apply_eq]
-  simp [Ideal.qoutMapEquivTensorQout, LinearEquiv.eq_symm_apply, Algebra.smul_def]
+  simp [Ideal.quotMapEquivTensorQuot, LinearEquiv.eq_symm_apply, Algebra.smul_def]
 
 variable (A B A' B' κ : Type*) [CommRing A] [CommRing B] [CommRing A'] [CommRing B'] [CommRing κ]
   [Algebra A B] [Algebra A A'] [Algebra A' B'] [Algebra B B'] [Algebra A B']

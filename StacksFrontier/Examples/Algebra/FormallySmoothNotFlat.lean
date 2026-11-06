@@ -186,7 +186,7 @@ private lemma augmentation_ulift_formallySmooth :
   have hsurj : Function.Surjective fU := by
     intro y
     obtain ⟨x, hx⟩ := augmentation_surjective y.down
-    exact ⟨ULift.up x, ULift.ext _ _ (by simp [fU, RingHom.ulift_apply, hx])⟩
+    exact ⟨ULift.up x, ULift.ext (by simp [fU, RingHom.ulift_apply, hx])⟩
   let : Algebra (ULift.{u, 0} rationalGroupAlgebra) (ULift.{v, 0} charTwoField) := fU.toAlgebra
   have hsurjA : Function.Surjective
       (algebraMap (ULift.{u, 0} rationalGroupAlgebra) (ULift.{v, 0} charTwoField)) := hsurj

@@ -232,6 +232,13 @@ private theorem pointsMap_class_eq_of_hom
   exact eqToHom (associatedMap_spaceFieldValuedPoint a p).symm ≫
     (associatedMap C S hS a).1.hom.map f ≫ eqToHom h ≫ g
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, supplied directly: instance search
+for them now times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_QuotientStackPoints
+    {Z₁ Z₂ Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    Limits.HasLimit (Limits.cospan g f) :=
+  @Limits.HasLimitsOfShape.has_limit _ _ _ _ Limits.functorCategoryHasLimitsOfShape _
+
 private theorem exists_arrow_of_vertical_iso
     (G : GroupoidInAlgebraicSpaces C S hS B)
     (base : BigFppfOver C S hS)

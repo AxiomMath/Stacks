@@ -108,11 +108,11 @@ variable (R : Type u) [Ring R] {Q : Type v} [Group Q] [TopologicalSpace Q]
 
 /-- A submodule stable under `Q`. -/
 def IsStableSubmodule (S : Submodule R V.obj.obj.V) : Prop :=
-  ∀ (q : Q), ∀ s ∈ S, (V.obj.obj.ρ q).hom s ∈ S
+  ∀ (q : Q), ∀ s ∈ S, (V.obj.obj.ρ q).asHom.hom s ∈ S
 
 /-- **The `R`-span of the orbit of `v`.** -/
 def orbitSpan (v : V.obj.obj.V) : Submodule R V.obj.obj.V :=
-  Submodule.span R (Set.range fun q : Q ↦ (V.obj.obj.ρ q).hom v)
+  Submodule.span R (Set.range fun q : Q ↦ (V.obj.obj.ρ q).asHom.hom v)
 
 /-- An element lies in the span of its orbit. -/
 lemma mem_orbitSpan_self (v : V.obj.obj.V) : v ∈ orbitSpan R V v :=
@@ -128,7 +128,7 @@ private theorem congr_fun_orbitSpan {A : Type*} [AddZeroClass A] {v : V.obj.obj.
 lemma isStableSubmodule_orbitSpan (v : V.obj.obj.V) :
     IsStableSubmodule R V (orbitSpan R V v) := by
   intro q s hs
-  have hle : (orbitSpan R V v).map (V.obj.obj.ρ q).hom ≤ orbitSpan R V v := by
+  have hle : (orbitSpan R V v).map (V.obj.obj.ρ q).asHom.hom ≤ orbitSpan R V v := by
     rw [orbitSpan, Submodule.map_span_le]
     rintro _ ⟨q', rfl⟩
     exact Submodule.subset_span ⟨q * q', continuousModuleRho_mul_apply R V q q' v⟩
@@ -156,18 +156,18 @@ instance finite_orbitSpan (v : V.obj.obj.V) : Finite (orbitSpan R V v) := by
   obtain ⟨U, hU⟩ := exists_mem_fixedSubmodule R V v
   haveI : Finite (Q ⧸ (U.toOpenSubgroup : Subgroup Q)) := inferInstance
   let f : Q ⧸ (U.toOpenSubgroup : Subgroup Q) → V.obj.obj.V := fun c ↦
-    Quotient.liftOn' c (fun q ↦ (V.obj.obj.ρ q).hom v) fun a b hab ↦ by
+    Quotient.liftOn' c (fun q ↦ (V.obj.obj.ρ q).asHom.hom v) fun a b hab ↦ by
       rw [QuotientGroup.leftRel_apply] at hab
       have hb : b = a * (a⁻¹ * b) := by group
       rw [hb, continuousModuleRho_mul_apply, hU _ hab]
-  have hrange : (Set.range fun q : Q ↦ (V.obj.obj.ρ q).hom v) = Set.range f := by
+  have hrange : (Set.range fun q : Q ↦ (V.obj.obj.ρ q).asHom.hom v) = Set.range f := by
     ext x
     constructor
     · rintro ⟨q, rfl⟩; exact ⟨QuotientGroup.mk q, rfl⟩
     · rintro ⟨c, rfl⟩
       induction c using QuotientGroup.induction_on with
       | H q => exact ⟨q, rfl⟩
-  have hfin : (Set.range fun q : Q ↦ (V.obj.obj.ρ q).hom v).Finite := by
+  have hfin : (Set.range fun q : Q ↦ (V.obj.obj.ρ q).asHom.hom v).Finite := by
     rw [hrange]; exact Set.finite_range f
   haveI : Module.Finite R (orbitSpan R V v) :=
     Module.Finite.iff_fg.mpr (Submodule.fg_span hfin)
@@ -186,25 +186,25 @@ variable (R : Type u) [Ring R] {Q : Type v} [Group Q] [TopologicalSpace Q]
 /-- `q⁻¹` acting on a stable submodule, as an `R`-linear map. -/
 def stableRestrict {S : Submodule R V.obj.obj.V} (hS : IsStableSubmodule R V S) (q : Q) :
     S →ₗ[R] S :=
-  LinearMap.restrict (V.obj.obj.ρ q).hom fun s hs ↦ hS q s hs
+  LinearMap.restrict (V.obj.obj.ρ q).asHom.hom fun s hs ↦ hS q s hs
 
 /-- Conjugation by `q` on `Hom_ℤ(S, W)`: `φ ↦ q · φ(q⁻¹ · -)`. -/
 def restrictedHomConj {S : Submodule R V.obj.obj.V} (hS : IsStableSubmodule R V S) (q : Q) :
     (S →+ W.obj.obj.V) →ₗ[Rᵐᵒᵖ] (S →+ W.obj.obj.V) where
-  toFun φ := (W.obj.obj.ρ q).hom.toAddMonoidHom.comp
+  toFun φ := (W.obj.obj.ρ q).asHom.hom.toAddMonoidHom.comp
     (φ.comp (stableRestrict R V hS q⁻¹).toAddMonoidHom)
   map_add' φ ψ := AddMonoidHom.ext fun s ↦
-    map_add (W.obj.obj.ρ q).hom (φ (stableRestrict R V hS q⁻¹ s)) (ψ (stableRestrict R V hS q⁻¹ s))
+    map_add (W.obj.obj.ρ q).asHom.hom (φ (stableRestrict R V hS q⁻¹ s)) (ψ (stableRestrict R V hS q⁻¹ s))
   map_smul' r φ := AddMonoidHom.ext fun s ↦ by
-    change (W.obj.obj.ρ q).hom (φ (r.unop • (stableRestrict R V hS q⁻¹ s))) =
-      (W.obj.obj.ρ q).hom (φ (stableRestrict R V hS q⁻¹ (r.unop • s)))
+    change (W.obj.obj.ρ q).asHom.hom (φ (r.unop • (stableRestrict R V hS q⁻¹ s))) =
+      (W.obj.obj.ρ q).asHom.hom (φ (stableRestrict R V hS q⁻¹ (r.unop • s)))
     rw [LinearMap.map_smul]
 
 /-- `(q · φ)(s) = q · φ(q⁻¹ · s)`. -/
 lemma restrictedHomConj_apply {S : Submodule R V.obj.obj.V} (hS : IsStableSubmodule R V S)
     (q : Q) (φ : S →+ W.obj.obj.V) (s : S) :
     restrictedHomConj R V W hS q φ s =
-      (W.obj.obj.ρ q).hom (φ ⟨(V.obj.obj.ρ q⁻¹).hom s, hS _ _ s.2⟩) :=
+      (W.obj.obj.ρ q).asHom.hom (φ ⟨(V.obj.obj.ρ q⁻¹).asHom.hom s, hS _ _ s.2⟩) :=
   rfl
 
 /-- **The conjugation action of `Q` on `Hom_ℤ(S, W)`**: `(q · φ)(s) = q · φ(q⁻¹ · s)`. -/
@@ -213,28 +213,28 @@ def restrictedHomRep {S : Submodule R V.obj.obj.V} (hS : IsStableSubmodule R V S
   toFun q := restrictedHomConj R V W hS q
   map_one' := by
     refine LinearMap.ext fun φ ↦ AddMonoidHom.ext fun s ↦ ?_
-    change (W.obj.obj.ρ 1).hom (φ (stableRestrict R V hS 1⁻¹ s)) = φ s
+    change (W.obj.obj.ρ 1).asHom.hom (φ (stableRestrict R V hS 1⁻¹ s)) = φ s
     rw [continuousModuleRho_one_apply]
     congr 1
     apply Subtype.ext
-    change (V.obj.obj.ρ 1⁻¹).hom s.1 = s.1
+    change (V.obj.obj.ρ 1⁻¹).asHom.hom s.1 = s.1
     rw [inv_one, continuousModuleRho_one_apply]
   map_mul' g h := by
     refine LinearMap.ext fun φ ↦ AddMonoidHom.ext fun s ↦ ?_
-    change (W.obj.obj.ρ (g * h)).hom (φ (stableRestrict R V hS (g * h)⁻¹ s)) =
-      (W.obj.obj.ρ g).hom ((W.obj.obj.ρ h).hom
+    change (W.obj.obj.ρ (g * h)).asHom.hom (φ (stableRestrict R V hS (g * h)⁻¹ s)) =
+      (W.obj.obj.ρ g).asHom.hom ((W.obj.obj.ρ h).asHom.hom
         (φ (stableRestrict R V hS h⁻¹ (stableRestrict R V hS g⁻¹ s))))
     rw [continuousModuleRho_mul_apply]
     congr 3
     apply Subtype.ext
-    change (V.obj.obj.ρ (g * h)⁻¹).hom s.1 = (V.obj.obj.ρ h⁻¹).hom ((V.obj.obj.ρ g⁻¹).hom s.1)
+    change (V.obj.obj.ρ (g * h)⁻¹).asHom.hom s.1 = (V.obj.obj.ρ h⁻¹).asHom.hom ((V.obj.obj.ρ g⁻¹).asHom.hom s.1)
     rw [mul_inv_rev, continuousModuleRho_mul_apply]
 
 /-- `(q · φ)(s) = q · φ(q⁻¹ · s)`. -/
 lemma restrictedHomRep_apply {S : Submodule R V.obj.obj.V} (hS : IsStableSubmodule R V S)
     (q : Q) (φ : S →+ W.obj.obj.V) (s : S) :
     restrictedHomRep R V W hS q φ s =
-      (W.obj.obj.ρ q).hom (φ ⟨(V.obj.obj.ρ q⁻¹).hom s, hS _ _ s.2⟩) :=
+      (W.obj.obj.ρ q).asHom.hom (φ ⟨(V.obj.obj.ρ q⁻¹).asHom.hom s, hS _ _ s.2⟩) :=
   restrictedHomConj_apply R V W hS q φ s
 
 open scoped Stacks.DiscreteModuleTopology in
@@ -259,8 +259,8 @@ lemma isContinuous_restrictedHomRep [IsTopologicalGroup Q] {S : Submodule R V.ob
         conv_lhs => rw [← (show restrictedHomRep R V W hS a φ = φ from ha)]
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one]; rfl }
   change IsOpen (H : Set Q)
-  let O : Set Q := ⋂ s : S, ({q | (V.obj.obj.ρ q).hom s = s} ∩
-    {q | (W.obj.obj.ρ q).hom (φ s) = φ s})
+  let O : Set Q := ⋂ s : S, ({q | (V.obj.obj.ρ q).asHom.hom s = s} ∩
+    {q | (W.obj.obj.ρ q).asHom.hom (φ s) = φ s})
   have hO : IsOpen O := isOpen_iInter_of_finite fun s ↦
     (Stacks.GroupCohomology.isOpen_stabilizer R Q V s).inter
       (Stacks.GroupCohomology.isOpen_stabilizer ℤ Q W (φ s))
@@ -272,10 +272,10 @@ lemma isContinuous_restrictedHomRep [IsTopologicalGroup Q] {S : Submodule R V.ob
   change restrictedHomRep R V W hS q φ = φ
   ext s
   rw [restrictedHomRep_apply]
-  have hinv : (V.obj.obj.ρ q⁻¹).hom s = s := by
+  have hinv : (V.obj.obj.ρ q⁻¹).asHom.hom s = s := by
     conv_lhs => rw [← (hq' s).1]
     rw [← continuousModuleRho_mul_apply, inv_mul_cancel, continuousModuleRho_one_apply]
-  have hs : (⟨(V.obj.obj.ρ q⁻¹).hom s, hS _ _ s.2⟩ : S) = s := Subtype.ext hinv
+  have hs : (⟨(V.obj.obj.ρ q⁻¹).asHom.hom s, hS _ _ s.2⟩ : S) = s := Subtype.ext hinv
   rw [hs]
   exact (hq' s).2
 
@@ -475,7 +475,7 @@ theorem internalHom_smul_apply_of_mem {S : Submodule R V.obj.obj.V}
 /-- **A group element acts by conjugation**: `(q • φ)(v) = q · φ(q⁻¹ · v)`. -/
 theorem internalHom_of_smul_apply (q : Q) (φ : V.obj.obj.V →+ W.obj.obj.V) (v : V.obj.obj.V) :
     (letI := internalHomModule R V W; CompletedGroupAlgebra.of (Λ := Rᵐᵒᵖ) q • φ) v =
-      (W.obj.obj.ρ q).hom (φ ((V.obj.obj.ρ q⁻¹).hom v)) :=
+      (W.obj.obj.ρ q).asHom.hom (φ ((V.obj.obj.ρ q⁻¹).asHom.hom v)) :=
   congr_fun_orbitSpan R V (restrictedSMul_of R V W (isStableSubmodule_orbitSpan R V v) q
     (φ.comp (orbitSpan R V v).subtype.toAddMonoidHom))
 
@@ -511,7 +511,7 @@ lemma internalHom_postcomp_smul_of_addMonoidHom
     (V : Stacks.Injectives.ContinuousModule.{u, v, w} R Q)
     {W : Stacks.Injectives.ContinuousModule.{0, v, w'} ℤ Q}
     {W' : Stacks.Injectives.ContinuousModule.{0, v, w''} ℤ Q} (g : W.obj.obj.V →+ W'.obj.obj.V)
-    (hg : ∀ (q : Q) (a : W.obj.obj.V), g ((W.obj.obj.ρ q).hom a) = (W'.obj.obj.ρ q).hom (g a))
+    (hg : ∀ (q : Q) (a : W.obj.obj.V), g ((W.obj.obj.ρ q).asHom.hom a) = (W'.obj.obj.ρ q).asHom.hom (g a))
     (x : CompletedGroupAlgebra Rᵐᵒᵖ Q) (φ : V.obj.obj.V →+ W.obj.obj.V) :
     g.comp (internalHomSMul R V W x φ) = internalHomSMul R V W' x (g.comp φ) := by
   refine AddMonoidHom.ext fun v ↦ ?_
@@ -527,7 +527,7 @@ lemma internalHom_postcomp_smul_of_addMonoidHom
     from discreteSMul_map_linear Rᵐᵒᵖ Q (N := restrictedHomObj R V W hS)
       (N' := restrictedHomObj R V W' hS) post
       (fun q (ψ : orbitSpan R V v →+ W.obj.obj.V) ↦ AddMonoidHom.ext fun s ↦
-        hg q (ψ ⟨(V.obj.obj.ρ q⁻¹).hom s, hS _ _ s.2⟩)) x _)
+        hg q (ψ ⟨(V.obj.obj.ρ q⁻¹).asHom.hom s, hS _ _ s.2⟩)) x _)
 
 /-- Postcomposition with a morphism `W ⟶ W'` commutes with the action. -/
 lemma internalHom_postcomp_smul (V : Stacks.Injectives.ContinuousModule.{u, v, w} R Q)
@@ -567,8 +567,8 @@ lemma internalHom_precomp_smul {V V' : Stacks.Injectives.ContinuousModule.{u, v,
           change ψ (r.unop • fS s) = ψ (fS (r.unop • s))
           rw [LinearMap.map_smul] }
       fun q ψ ↦ AddMonoidHom.ext fun s ↦ by
-        change (W.obj.obj.ρ q).hom (ψ (stableRestrict R V' hS' q⁻¹ (fS s))) =
-          (W.obj.obj.ρ q).hom (ψ (fS (stableRestrict R V hS q⁻¹ s)))
+        change (W.obj.obj.ρ q).asHom.hom (ψ (stableRestrict R V' hS' q⁻¹ (fS s))) =
+          (W.obj.obj.ρ q).asHom.hom (ψ (fS (stableRestrict R V hS q⁻¹ s)))
         congr 2
         exact Subtype.ext (ConcreteCategory.congr_hom (f.hom.hom.comm q⁻¹) s.1).symm
   exact congr_fun_orbitSpan R V (show ((restrictedSMul R V' W hS' x

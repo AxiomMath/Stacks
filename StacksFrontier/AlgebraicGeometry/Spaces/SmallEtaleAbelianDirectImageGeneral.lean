@@ -55,6 +55,20 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {W X Y Z : AlgebraicSpaces B S hS}
 
+/-- Left Kan extensions of abelian presheaves along the opposite of spaces-étale base change
+exist; instance search does not find the universally quantified hypothesis on its own. -/
+instance hasLeftKanExtension_spacesBaseChange_functor_op (f : Y ⟶ X)
+    (F : (SpacesEtale B S hS X)ᵒᵖ ⥤ AddCommGrpCat.{u + 1}) :
+    (spacesBaseChange B S hS f).functor.op.HasLeftKanExtension F :=
+  inferInstance
+
+/-- Restriction of abelian sheaves along spaces-étale base change has a left adjoint, built from
+left Kan extension and sheafification. -/
+instance isRightAdjoint_spacesBaseChange_sheafPushforwardContinuous (f : Y ⟶ X) :
+    ((spacesBaseChange B S hS f).functor.sheafPushforwardContinuous AddCommGrpCat.{u + 1}
+      (SpacesEtale.topology B S hS X) (SpacesEtale.topology B S hS Y)).IsRightAdjoint :=
+  (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous _ _ _ _).isRightAdjoint
+
 /-- **The direct image of abelian sheaves on the small étale sites along an arbitrary morphism
 `f : Y ⟶ X` of algebraic spaces over `S`**: the spaces-étale direct image of Stacks 03G2,
 part (1), conjugated by the comparison equivalences of Stacks 03G1. -/

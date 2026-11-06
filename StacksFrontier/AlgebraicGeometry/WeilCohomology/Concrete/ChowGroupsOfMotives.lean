@@ -187,11 +187,13 @@ theorem totalChowEquiv_totalPushforward (X Y : (SmoothProjectiveScheme k).FullSu
     totalChowEquiv Y (totalPushforward X Y a x) =
       (canonicalCorrespondenceCompositionData k).compLinear _ X Y (totalChowEquiv X x) a := by
   induction a using DirectSum.induction_on with
-  | zero => simp
+  | zero =>
+    simp only [LinearMap.map_zero, LinearMap.zero_apply, LinearEquiv.map_zero]
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
   | of r c =>
     induction x using DirectSum.induction_on with
-    | zero => simp
+    | zero =>
+      simp only [LinearMap.map_zero, LinearMap.zero_apply, LinearEquiv.map_zero]
     | add x y hx hy => simp only [map_add, LinearMap.add_apply, hx, hy]
     | of i α =>
       rw [totalPushforward_of_of, totalChowEquiv_of, totalChowEquiv_of,

@@ -154,7 +154,7 @@ theorem algebraMap_notMem_maximalIdeal_pow {A : Type u} [CommRing A] [IsDedekind
       (Module.finrank K L + 1)]
     exact Module.length_le_of_surjective (Submodule.factor hmap)
       (Submodule.factor_surjective hmap)
-  have hepos : 0 < q.ramificationIdx A := Ideal.ramificationIdx_pos q A
+  have hepos : 0 < q.ramificationIdx A := Ideal.ramificationIdx_pos A q
   have hge : Module.finrank K L + 1 ≤ q.ramificationIdx A := by
     rw [Ideal.ramificationIdx_def] at hepos ⊢
     have hne : Module.length (Localization.AtPrime q)

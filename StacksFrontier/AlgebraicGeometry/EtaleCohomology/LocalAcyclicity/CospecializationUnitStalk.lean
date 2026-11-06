@@ -197,8 +197,9 @@ theorem isIso_pullback_cospecializationUnit_of_derivedPushforwardStalkFormula
   have hY := contains_strictHenselizationBaseChange B hS hX f s
   refine isIso_of_forall_isIso_smallEtaleDerivedStalkAb _ fun x => ?_
   -- the stalk of `i⁻¹β` at `x` is the stalk of `β` at the image `y` of `x` (Tag 03Q1)
-  refine (NatIso.isIso_map_iff (Functor.mapDerivedCategoryCompIso (smallEtaleStalkPullbackAbIso
-    (geometricFibreToStrictHenselizationBaseChange B hS f s) x.hom)) _).2 ?_
+  refine (NatIso.isIso_map_iff (Functor.mapDerivedCategoryCompIsoOfCompIso
+    (smallEtaleStalkPullbackAbIso (geometricFibreToStrictHenselizationBaseChange B hS f s)
+      x.hom)) _).2 ?_
   set y := x.map (geometricFibreToStrictHenselizationBaseChange B hS f s)
   set h := cospecializationFibreToBaseChange B hS f s t
   set M := (smallEtaleDerivedPullbackAb (strictHenselizationBaseChangeToSource B hS f s)).obj K

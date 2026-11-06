@@ -79,16 +79,16 @@ omit [PerfectRing A p] in
 /-- The coefficient of `X^{pγ + α}` in `∑_α c_α^p X^α` is `(coeff_γ c_α)^p`. -/
 theorem coeff_frobeniusCoordinateMap (c : (Fin n → Fin p) → MvPolynomial (Fin n) A)
     (α : Fin n → Fin p) (γ : Fin n →₀ ℕ) :
-    coeff (p • γ + Finsupp.equivFunOnFinite.symm (fun j ↦ (α j : ℕ)))
-        (frobeniusCoordinateMap p A c) = coeff γ (c α) ^ p := by
+    (frobeniusCoordinateMap p A c).coeff
+        (p • γ + Finsupp.equivFunOnFinite.symm (fun j ↦ (α j : ℕ))) = (c α).coeff γ ^ p := by
   classical
   have hpow : ∀ f : MvPolynomial (Fin n) A,
-      f ^ p = ∑ δ ∈ f.support, MvPolynomial.monomial (p • δ) (coeff δ f ^ p) := by
+      f ^ p = ∑ δ ∈ f.support, MvPolynomial.monomial (p • δ) (f.coeff δ ^ p) := by
     intro f
     conv_lhs => rw [f.as_sum]
     rw [sum_pow_char]
     exact Finset.sum_congr rfl fun δ _ ↦ by rw [MvPolynomial.monomial_pow]
-  show coeff _ (∑ α', c α' ^ p * monomial X (fun j ↦ (α' j : ℕ))) = _
+  show (∑ α', c α' ^ p * monomial X (fun j ↦ (α' j : ℕ))).coeff _ = _
   rw [coeff_sum, Finset.sum_eq_single α]
   · rw [hpow, monomial_X, Finset.sum_mul, coeff_sum]
     simp only [MvPolynomial.monomial_mul_monomial, mul_one, coeff_monomial]
@@ -137,10 +137,11 @@ theorem isFrobeniusCoordinates_mvPolynomial :
     funext α
     ext γ
     have h := coeff_frobeniusCoordinateMap p A c α γ
-    rw [hc, coeff_zero] at h
+    rw [hc, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h
     apply (PerfectRing.bijective_frobenius (R := A) (p := p)).1
     beta_reduce
-    rw [Pi.zero_apply, coeff_zero, ← h, zero_pow hp.out.ne_zero]
+    rw [Pi.zero_apply, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply, ← h,
+      zero_pow hp.out.ne_zero]
   · intro f
     show f ∈ (frobeniusCoordinateMap p A (n := n)).range
     induction f using MvPolynomial.induction_on' with

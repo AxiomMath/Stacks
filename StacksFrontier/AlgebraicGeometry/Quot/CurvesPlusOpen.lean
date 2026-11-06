@@ -152,6 +152,17 @@ namespace CurveFamily
 
 attribute [local instance] Space.pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B integerBase hZ`, given directly: instance search
+for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_CurvesPlusOpen :
+    HasPullbacks ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_CurvesPlusOpen
+    {X Y Z : (BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_CurvesPlusOpen B hZ).has_limit _
+
 /-- The set of points of the base of a family of curves over which the set of points of the
 total space at which the structure morphism is not smooth is finite. -/
 def finiteNonSmoothBaseLocus (X : CurveFamily B hZ) :
@@ -273,7 +284,8 @@ theorem preimage_finiteNonSmoothBaseLocus {X Y : CurveFamily B hZ} (φ : X ⟶ Y
   have : Mono (pullback.snd ι φ.totalMap).hom := by
     have : Mono ι.hom := inferInstanceAs (Mono Z.ι)
     rw [← sq₁'.isoPullback_hom_snd]
-    infer_instance
+    have := pullback.snd_of_mono (f := ι.hom) (g := φ.totalMap.hom)
+    exact mono_comp' (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom _)) this
   -- the points of the base change of `Z` are exactly the non-smooth points of `X`
   have hrange' : Set.range (Space.pointsMap B integerBase hZ _ (pullback.snd ι φ.totalMap).hom) =
       {x | ¬ Space.IsSmoothAt B integerBase hZ X.toBase.hom x} := by

@@ -84,6 +84,13 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y : AlgebraicSpaces B S hS}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_SpaceRelativeWeakAssassinTFAE
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### A monomorphic representative of the image point -/
 
 /-- **Stacks 0AC8 at a monomorphic representative.** If `Spec(k₀) ⟶ Y` is a monomorphism
@@ -468,6 +475,8 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y : AlgebraicSpaces B S hS}
+
+attribute [local instance high] hasPullback_presheaf_SpaceRelativeWeakAssassinTFAE
 
 /-- In an étale chart square over a point of `Y` above which the fibre of `f` is locally
 Noetherian, the fibre `U_v` of `α : U ⟶ V` over the image `v` of a point of `U` above `x` is

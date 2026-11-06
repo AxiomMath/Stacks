@@ -140,7 +140,7 @@ noncomputable def meromorphicSectionPresheaf (hF : IsAlgebraicSpace B S hS F)
         (ULift.{u + 1} (hP.obj U)))
   exact PresheafOfModules.ofPresheaf
     (hP.presheaf ⋙ AddCommGrpCat.uliftFunctor.{u + 1}) fun _ _ f r m =>
-      ULift.ext _ _ (hP.map_smul f r m.down)
+      ULift.ext (hP.map_smul f r m.down)
 
 /-- The sheaf `𝒦_F(M)` of *meromorphic sections* of a sheaf of `𝒪_F`-modules `M`: the extension
 of scalars of `M` along `𝒪_F ⟶ 𝒦_F`, sheafified. -/

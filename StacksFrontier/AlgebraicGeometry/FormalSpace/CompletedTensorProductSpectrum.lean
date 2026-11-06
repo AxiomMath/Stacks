@@ -318,6 +318,11 @@ theorem exists_formalSpectrum_completedTensorProduct_iso_snd
       rw [← Category.assoc, formalSpectrumMap_comp_eq, h, hγC]
       simp
   have hτσ : τ.toRingHom.comp σ = RingHom.id T := by
+    have : T2Space (TopologicalRing.CompletedTensorProduct (R := R) (M := A) (N := C)) :=
+      @T25Space.t2Space _ _ (@T3Space.t25Space _ _ (@instT3Space _ _
+        (@UniformSpace.Completion.t0Space _
+          (TopologicalRing.tensorProductUniformSpace (R := R) (M := A) (N := C)))
+        UniformSpace.to_regularSpace))
     refine TopologicalRing.completedTensorProduct_ringHom_ext (τ.continuous.comp hσ)
       continuous_id ?_ ?_
     · rw [RingHom.comp_assoc, hσA, hτA]; rfl

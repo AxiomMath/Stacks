@@ -151,7 +151,6 @@ private theorem targetAction_smul (a b : A) (y : A ⊗[R] restrictModule R A D.m
     targetAction D ((a ⊗ₜ[R] b) • y) =
       restrictedScalarAction R A D.module (a * b) (targetAction D y) := by
   induction y with
-  | zero => simp only [smul_zero, map_zero]
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
   | tmul c m =>
     rw [targetTensor_smul_tmul, targetAction_tmul, targetAction_tmul,
@@ -194,7 +193,6 @@ private theorem rightComm_tmul_one (v : A ⊗[R] restrictModule R A D.module) :
     TensorProduct.rightComm R A (restrictModule R A D.module) A (v ⊗ₜ[R] (1 : A)) =
       middleUnitTarget D v := by
   induction v with
-  | zero => simp only [zero_tmul, map_zero]
   | add x y hx hy => simp only [add_tmul, map_add, hx, hy]
   | tmul c m => rfl
 
@@ -204,7 +202,6 @@ private theorem transition02_middleUnitInsertion (x : restrictModule R A D.modul
     transition02 R A D.module D.transition (middleUnitInsertion R A D x) =
       middleUnitTarget D (D.transition x) := by
   induction x with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul n b =>
     change TensorProduct.rightComm R A (restrictModule R A D.module) A
@@ -241,7 +238,6 @@ private theorem inverseTransition_rTensor_transition01
     (inverseTransition R A D).toLinearMap.rTensor A
         (transition01 R A D.module D.transition y) = y := by
   induction y with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul x b =>
     change (inverseTransition R A D).toLinearMap.rTensor A
@@ -292,7 +288,6 @@ private theorem lTensor_targetAction_transition12_tmul_one
           (transition12 R A D.module D.transition (v ⊗ₜ[R] (1 : A)))) =
       (diagonalEndo D).lTensor A v := by
   induction v with
-  | zero => simp only [zero_tmul, map_zero]
   | add x y hx hy => simp only [add_tmul, map_add, hx, hy]
   | tmul c m =>
     change (targetAction D).lTensor A
@@ -309,7 +304,6 @@ private theorem lTensor_targetAction_middleUnitTarget (v : A ⊗[R] restrictModu
     (targetAction D).lTensor A
         (TensorProduct.assoc R A A (restrictModule R A D.module) (middleUnitTarget D v)) = v := by
   induction v with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul c m =>
     change (targetAction D).lTensor A
@@ -336,7 +330,6 @@ private theorem lTensor_diagonalEndo_smul (a b : A) (y : A ⊗[R] restrictModule
     (diagonalEndo D).lTensor A ((a ⊗ₜ[R] b) • y) =
       (a ⊗ₜ[R] b) • (diagonalEndo D).lTensor A y := by
   induction y with
-  | zero => simp only [smul_zero, map_zero]
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
   | tmul c m =>
     rw [targetTensor_smul_tmul, LinearMap.lTensor_tmul, LinearMap.lTensor_tmul,
@@ -345,7 +338,6 @@ private theorem lTensor_diagonalEndo_smul (a b : A) (y : A ⊗[R] restrictModule
 private theorem lTensor_diagonalEndo_transition (x : restrictModule R A D.module ⊗[R] A) :
     (diagonalEndo D).lTensor A (D.transition x) = D.transition x := by
   induction x with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul n b =>
     rw [tmul_eq_smul_tmul_one, LinearEquiv.map_smul, lTensor_diagonalEndo_smul,
@@ -361,7 +353,6 @@ private theorem diagonalEndo_eq (m : restrictModule R A D.module) : diagonalEndo
 private theorem targetAction_transition (x : restrictModule R A D.module ⊗[R] A) :
     targetAction D (D.transition x) = actionRetraction R A D x := by
   induction x with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul n b =>
     rw [tmul_eq_smul_tmul_one, LinearEquiv.map_smul, targetAction_smul, one_mul,
@@ -379,7 +370,6 @@ theorem actionRetraction_inverseTransitionUnit (n : restrictModule R A D.module)
 theorem multiplyLastSection_middleUnitInsertion (x : restrictModule R A D.module ⊗[R] A) :
     multiplyLastSection R A D (middleUnitInsertion R A D x) = x := by
   induction x with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul n b =>
     change (LinearMap.mul' R A).lTensor _
@@ -390,7 +380,6 @@ theorem multiplyLastSection_middleUnitInsertion (x : restrictModule R A D.module
 private theorem multiplyLastSection_tmul (v : restrictModule R A D.module ⊗[R] A) (b : A) :
     multiplyLastSection R A D (v ⊗ₜ[R] b) = ((1 : A) ⊗ₜ[R] b) • v := by
   induction v with
-  | zero => simp only [zero_tmul, map_zero, smul_zero]
   | add x y hx hy => simp only [add_tmul, map_add, smul_add, hx, hy]
   | tmul n a =>
     change (LinearMap.mul' R A).lTensor _
@@ -404,7 +393,6 @@ theorem multiplyLastSection_inverseTransition01AfterUnit
     multiplyLastSection R A D (inverseTransition01AfterUnit R A D x) =
       inverseTransitionUnit R A D (actionRetraction R A D x) := by
   induction x with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul n b =>
     change multiplyLastSection R A D ((inverseTransition R A D).toLinearMap.rTensor A
@@ -471,7 +459,6 @@ theorem rTensor_lastFactorAction {X Y : Type*} [AddCommGroup X] [Module R X] [Ad
     [Module R Y] (g : X →ₗ[R] Y) (a : A) (x : X ⊗[R] A) :
     g.rTensor A (lastFactorAction R A X a x) = lastFactorAction R A Y a (g.rTensor A x) := by
   induction x with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul x b => rfl
 
@@ -491,7 +478,6 @@ variable (D : DescentData.{u, v, w} R A)
 theorem one_tmul_smul (a : A) (y : restrictModule R A D.module ⊗[R] A) :
     ((1 : A) ⊗ₜ[R] a) • y = lastFactorAction R A _ a y := by
   induction y with
-  | zero => simp only [smul_zero, map_zero]
   | add x y hx hy => simp only [smul_add, map_add, hx, hy]
   | tmul n b =>
     rw [sourceTensor_smul_tmul, restrictedScalarAction_one, lastFactorAction_tmul]
@@ -516,7 +502,6 @@ theorem actionRetraction_lastFactorAction (a : A)
     actionRetraction R A D (lastFactorAction R A _ a x) =
       restrictedScalarAction R A D.module a (actionRetraction R A D x) := by
   induction x with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul n b =>
     rw [lastFactorAction_tmul]
@@ -528,7 +513,6 @@ theorem multiplyLastSection_lastFactorAction (a : A)
     multiplyLastSection R A D (lastFactorAction R A _ a x) =
       lastFactorAction R A _ a (multiplyLastSection R A D x) := by
   induction x with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul v b =>
     rw [lastFactorAction_tmul, multiplyLastSection_tmul, multiplyLastSection_tmul,

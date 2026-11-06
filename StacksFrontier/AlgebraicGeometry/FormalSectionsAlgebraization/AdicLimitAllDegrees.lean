@@ -93,13 +93,13 @@ theorem nonempty_isLimit_mapCone_of_iso {J C E : Type*} [Category J] [Category C
     (w : ∀ j, c.π.app j ≫ α.hom.app j = e.hom ≫ c'.π.app j) (H : C ⥤ E)
     (h : Nonempty (IsLimit (H.mapCone c'))) : Nonempty (IsLimit (H.mapCone c)) := by
   obtain ⟨h⟩ := h
-  let i : c ≅ (Cones.postcompose α.inv).obj c' := Cones.ext e fun j => by
+  let i : c ≅ (Cone.postcompose α.inv).obj c' := Cone.ext e fun j => by
     show c.π.app j = e.hom ≫ c'.π.app j ≫ α.inv.app j
     rw [← Category.assoc, ← w, Category.assoc, α.hom_inv_id_app, Category.comp_id]
-  have h' : IsLimit (H.mapCone ((Cones.postcompose α.inv).obj c')) :=
+  have h' : IsLimit (H.mapCone ((Cone.postcompose α.inv).obj c')) :=
     IsLimit.ofIsoLimit ((IsLimit.postcomposeHomEquiv (Functor.isoWhiskerRight α.symm H) _).symm h)
       (Functor.mapConePostcompose H).symm
-  exact ⟨IsLimit.ofIsoLimit h' ((Cones.functoriality _ H).mapIso i).symm⟩
+  exact ⟨IsLimit.ofIsoLimit h' ((Cone.functoriality _ H).mapIso i).symm⟩
 
 /-! ### The adic limit of the cohomology of one open, in terms of local cohomology -/
 
@@ -381,7 +381,7 @@ theorem isIso_nearVanishingCocone_ι_app (V : OpensNearVanishing A I a)
     (asIso (Functor.whiskerLeft D r)).symm
   have hlim : IsLimit (nearVanishingCone A I a F p V) :=
     IsLimit.ofIsoLimit ((IsLimit.postcomposeHomEquiv β _).symm h)
-      (Cones.ext (Iso.refl _) fun n => by
+      (Cone.ext (Iso.refl _) fun n => by
         show (complementOpenCohomology A a V.openSet p).map
             (adicProj (idealSheafNearVanishing A I a) F n) ≫ β.hom.app n =
           𝟙 _ ≫ (complementOpenCohomology A a V.openSet p).map

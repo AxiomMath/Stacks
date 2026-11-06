@@ -211,7 +211,7 @@ lemma map_piπ_map_factorizationContract (k : Fin l)
   (Functor.map_comp_apply (sectionsFunctor J X) (factorizationContract R M n l)
       (Limits.Pi.π (fun _ : Fin l => ringSheaf R) k) p).symm.trans
     (congrArg (fun m => (sectionsFunctor J X).map m p)
-      (Limits.Pi.lift_π (factorizationRow R M n l) k))
+      (Limits.Pi.lift_comp_π (factorizationRow R M n l) k))
 
 /-- The `k`-th component in `Rˡ` of the value of the zero morphism at a section of
 `Rⁿ ⨯ (Mˡ ⨯ (Rⁿ)ˡ)` is zero. -/
@@ -222,7 +222,7 @@ lemma map_piπ_map_factorizationZero (k : Fin l)
   ((Functor.map_comp_apply (sectionsFunctor J X) (factorizationZero R M n l)
         (Limits.Pi.π (fun _ : Fin l => ringSheaf R) k) p).symm.trans
       (congrArg (fun m => (sectionsFunctor J X).map m p)
-        (Limits.Pi.lift_π
+        (Limits.Pi.lift_comp_π
           (fun _ : Fin l => (0 : factorizationAmbient R M n l ⟶ ringSheaf R)) k))).trans
     (sectionsFunctor_map_hom_ringZero X p)
 

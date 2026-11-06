@@ -53,6 +53,7 @@ section Sup
 
 variable {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {hX : IsAlgebraicSpace B S hS X}
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The subobject defined by a finite type quasi-coherent submodule is a finite type
 quasi-coherent subobject. -/
 theorem finiteTypeQuasicoherentSubobjectProperty_mk {H : Modules.{u, u} B S hS X hX}
@@ -62,6 +63,7 @@ theorem finiteTypeQuasicoherentSubobjectProperty_mk {H : Modules.{u, u} B S hS X
   ⟨SheafOfModules.IsQuasicoherentOnSite.of_iso (Subobject.underlyingIso K.ι).symm hK.1,
     Stacks.SheafOfModules.isFiniteType_of_epi (Subobject.underlyingIso K.ι).inv hK.2⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The submodule attached to a finite type quasi-coherent subobject is a finite type
 quasi-coherent submodule. -/
 theorem isQuasicoherentOnSite_isFiniteType_monoRangeSubmodule {H : Modules.{u, u} B S hS X hX}
@@ -84,6 +86,7 @@ def submoduleInclusion {M : Modules.{u, u} B S hS X hX} {N₁ N₂ : M.Submodule
 theorem submoduleInclusion_ι {M : Modules.{u, u} B S hS X hX} {N₁ N₂ : M.Submodule}
     (h : N₁ ≤ N₂) : submoduleInclusion B S hS h ≫ N₂.ι = N₁.ι := rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The least upper bound of two finite type quasi-coherent submodules.**  For two finite type
 quasi-coherent submodules `K₁, K₂` of a quasi-coherent `𝒪_X`-module `ℋ`, the image of
 `K₁ ⊕ K₂ ⟶ ℋ` is a finite type quasi-coherent submodule containing both, and it is contained in

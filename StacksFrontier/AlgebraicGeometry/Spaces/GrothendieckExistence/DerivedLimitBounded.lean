@@ -268,8 +268,8 @@ theorem isDerivedLimit_of_iso {F F' : ℕᵒᵖ ⥤ C} (e : F ≅ F')
   refine Triangle.isoMk _ _ (Iso.refl _) eP.symm eP.symm (by simp) ?_ (by simp)
   dsimp only [Triangle.mk_obj₂, Triangle.mk_obj₃, Triangle.mk_mor₂, Iso.symm_hom]
   refine Limits.Pi.hom_ext _ _ fun n => ?_
-  simp only [eP, Category.assoc, Pi.lift_π, Limits.Pi.map_π, Preadditive.comp_sub,
-    Preadditive.sub_comp, Pi.lift_π_assoc, Limits.Pi.map_π_assoc]
+  simp only [eP, Category.assoc, Pi.lift_comp_π, Limits.Pi.map_π, Preadditive.comp_sub,
+    Preadditive.sub_comp, Pi.lift_comp_π_assoc, Limits.Pi.map_π_assoc]
   congr 1
   have h := e.inv.naturality (homOfLE (Nat.le_succ n)).op
   simp only [Iso.app_inv] at h ⊢

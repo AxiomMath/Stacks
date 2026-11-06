@@ -1050,7 +1050,7 @@ private lemma naturality_iff (h : ∀ n : SimplexCategory, K.obj (op n) → (U.o
     U.map f ≫ Pi.lift (h m) = Pi.lift (h n) ≫ (V.power K).map f ↔
       ∀ α : K.obj (op m), U.map f ≫ h m α = h n (K.map f.op α) ≫ V.map f :=
   Pi.hom_ext_iff.trans <| forall_congr' fun α =>
-    Eq.congr ((Category.assoc ..).trans (whisker_eq _ (Pi.lift_π ..)))
+    Eq.congr ((Category.assoc ..).trans (whisker_eq _ (Pi.lift_comp_π ..)))
       ((Category.assoc ..).trans (lift_comp_power_map_π V K (h n) f α))
 
 /-- **Stacks 07KB**.
@@ -1134,7 +1134,7 @@ private lemma forall_app_π_const_iff {H : U ⟶ V.power Δ[1]}
     (g : ∀ n : SimplexCategory, U.obj n ⟶ V.obj n) :
     (∀ n : SimplexCategory, H.app n ≫ Pi.π _ (stdSimplex.const 1 i (op n)) = g n) ↔
       ∀ n : SimplexCategory, h n (stdSimplex.const 1 i (op n)) = g n :=
-  forall_congr' fun n => Eq.congr_left ((hH n) ▸ Pi.lift_π ..)
+  forall_congr' fun n => Eq.congr_left ((hH n) ▸ Pi.lift_comp_π ..)
 
 /-- **Stacks 0FKJ**.
 A *homotopy from `a` to `b`*, for `a b : U ⟶ V` morphisms of cosimplicial objects of a category `C`

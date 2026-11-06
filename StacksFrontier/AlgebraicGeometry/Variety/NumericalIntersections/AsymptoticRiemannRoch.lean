@@ -153,7 +153,7 @@ private theorem sumSubst_eval (d : ℕ) (p : Polynomial ℚ) (hp : p.natDegree <
   exact Finset.sum_congr rfl fun j _ => by simp
 
 private theorem sumSubst_coeff (d : ℕ) (p : Polynomial ℚ) :
-    MvPolynomial.coeff (Finsupp.equivFunOnFinite.symm fun _ : Fin d => 1) (sumSubst d p) =
+    (sumSubst d p).coeff (Finsupp.equivFunOnFinite.symm fun _ : Fin d => 1) =
       (d.factorial : ℚ) * p.coeff d := by
   classical
   set m : Fin d →₀ ℕ := Finsupp.equivFunOnFinite.symm fun _ : Fin d => 1 with hmdef

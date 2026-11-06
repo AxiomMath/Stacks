@@ -114,22 +114,25 @@ public theorem shiftSubMul_isIso_of_pow_smul_id_eq_zero {A : Type u} [CommRing A
     [HasProductsOfShape ℕ (DerivedCategory (ModuleCat.{max u v} A))]
     (K : DerivedCategory (ModuleCat.{max u v} A)) (f : A) (e : ℕ)
     (he : f ^ e • 𝟙 K = (0 : K ⟶ K)) : IsIso (shiftSubMul K f) := by
-  let S : End (∏ᶜ fun _ : ℕ => K) :=
+  let S : (∏ᶜ fun _ : ℕ => K) ⟶ ∏ᶜ fun _ : ℕ => K :=
     Pi.lift (fun n : ℕ ↦ f • Pi.π (fun _ : ℕ => K) (n + 1))
+  let S' : End (∏ᶜ fun _ : ℕ => K) := End.of S
   have hSpi (m : ℕ) : S ≫ Pi.π (fun _ : ℕ => K) m =
       f • Pi.π (fun _ : ℕ => K) (m + 1) := by
     simp [S]
-  have key : ∀ (k n : ℕ), (S ^ k) ≫ Pi.π (fun _ : ℕ => K) n =
+  have key : ∀ (k n : ℕ), (S' ^ k).asHom ≫ Pi.π (fun _ : ℕ => K) n =
       f ^ k • Pi.π (fun _ : ℕ => K) (n + k) := by
     intro k
     induction k with
     | zero => intro n; simp
     | succ k ih =>
       intro n
-      rw [show (S ^ (k + 1) : End _) = S ≫ S ^ k by rw [pow_succ]; rfl,
+      rw [show (S' ^ (k + 1)).asHom = S ≫ (S' ^ k).asHom by rw [pow_succ]; rfl,
         Category.assoc, ih n, Linear.comp_smul, hSpi, smul_smul, pow_succ]
       rfl
-  have hSe : (S ^ e : End (∏ᶜ fun _ : ℕ => K)) = 0 := by
+  have hSe : (S' ^ e : End (∏ᶜ fun _ : ℕ => K)) = 0 := by
+    apply End.ext
+    show (S' ^ e).asHom = (0 : (∏ᶜ fun _ : ℕ => K) ⟶ ∏ᶜ fun _ : ℕ => K)
     apply Limits.limit.hom_ext
     intro j
     rw [key e j.as]
@@ -139,15 +142,16 @@ public theorem shiftSubMul_isIso_of_pow_smul_id_eq_zero {A : Type u} [CommRing A
             rw [Linear.comp_smul, Category.comp_id]
       _ = 0 := by rw [he, comp_zero]
     simp only [zero_comp]
-  have hsplit : shiftSubMul K f = (1 : End (∏ᶜ fun _ : ℕ => K)) - S := by
+  have hsplit : shiftSubMul K f = ((1 : End (∏ᶜ fun _ : ℕ => K)) - S').asHom := by
+    have h1 : ((1 : End (∏ᶜ fun _ : ℕ => K)) - S').asHom = 𝟙 _ - S := rfl
+    rw [h1]
     apply Limits.limit.hom_ext
     intro j
-    have h1 : (1 : End (∏ᶜ fun _ : ℕ => K)) = 𝟙 _ := rfl
-    rw [shiftSubMul, Pi.lift_π, Preadditive.sub_comp, h1, Category.id_comp, hSpi]
-  have hunit : IsUnit ((1 : End (∏ᶜ fun _ : ℕ => K)) - S) :=
-    (show IsNilpotent S from ⟨e, hSe⟩).isUnit_one_sub
-  rw [← hsplit] at hunit
-  exact (CategoryTheory.isUnit_iff_isIso (shiftSubMul K f)).mp hunit
+    rw [shiftSubMul, Pi.lift_comp_π, Preadditive.sub_comp, Category.id_comp, hSpi]
+  have hunit : IsUnit ((1 : End (∏ᶜ fun _ : ℕ => K)) - S') :=
+    (show IsNilpotent S' from ⟨e, hSe⟩).isUnit_one_sub
+  rw [hsplit]
+  exact (CategoryTheory.isUnit_iff_isIso _).mp hunit
 
 /-- If `shiftSubMul (D n) f` is an isomorphism for every `n`, then so is
 `shiftSubMul (∏ᶜ D) f`. -/
@@ -188,7 +192,7 @@ public theorem oneSubSmulShift_eq_shiftSubMul {A : Type u} [CommRing A]
     oneSubSmulShift K f = shiftSubMul K f := by
   apply Pi.hom_ext
   intro n
-  rw [oneSubSmulShift_π, shiftSubMul, Pi.lift_π]
+  rw [oneSubSmulShift_π, shiftSubMul, Pi.lift_comp_π]
 
 private theorem isDerivedComplete_of_milnor {A : Type u} [CommRing A]
     [HasProductsOfShape ℕ (DerivedCategory (ModuleCat.{max u v} A))]
@@ -230,10 +234,10 @@ private theorem isDerivedComplete_of_milnor {A : Type u} [CommRing A]
             (shiftFunctor _ (1 : ℤ)).map (shiftSubMul K f) ≫ pc := by
           apply Pi.hom_ext
           intro m
-          rw [Category.assoc, shiftSubMul, Pi.lift_π, Preadditive.comp_sub,
+          rw [Category.assoc, shiftSubMul, Pi.lift_comp_π, Preadditive.comp_sub,
             Linear.comp_smul, piComparison_comp_π, piComparison_comp_π,
             Category.assoc, piComparison_comp_π, shiftSubMul, ← Functor.map_comp,
-            Pi.lift_π, Functor.map_sub, Functor.Linear.map_smul]
+            Pi.lift_comp_π, Functor.map_sub, Functor.Linear.map_smul]
         have hshift' : shiftSubMul ((shiftFunctor _ (1 : ℤ)).obj K) f ≫ inv pc =
             inv pc ≫ (shiftFunctor _ (1 : ℤ)).map (shiftSubMul K f) := by
           rw [IsIso.comp_inv_eq, Category.assoc, IsIso.eq_inv_comp]

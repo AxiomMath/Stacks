@@ -104,7 +104,7 @@ public noncomputable def galoisActionOnBaseChange
     Action Scheme (MulOpposite (S ≃ₐ[R] S)) where
   V := SchemeOver.baseChange R S X
   ρ :=
-    { toFun := fun σ =>
+    { toFun := fun σ => End.of <|
         pullback.map X.hom
           (Spec.map (CommRingCat.ofHom (algebraMap R S))) X.hom
           (Spec.map (CommRingCat.ofHom (algebraMap R S)))
@@ -112,8 +112,9 @@ public noncomputable def galoisActionOnBaseChange
           (𝟙 (Spec (.of R))) (by simp)
           (by simp)
       map_one' := by
-        simp
+        ext1; simp
       map_mul' := fun σ τ => by
+        ext1
         symm
         simpa [specMapAlgAut_mul] using
           (pullback.map_comp (f := X.hom)
@@ -138,7 +139,7 @@ public noncomputable def irreducibleComponentsAction {G : Type u} [Group G]
   let : MulAction G ↥(irreducibleComponents X.V) :=
     { smul g Z :=
         ⟨(fun x => g • x) '' Z.1, by
-          let e := TopCat.homeoOfIso (X.ρAut g)
+          let e := TopCat.homeoOfIso (X.ρAut g).asIso
           exact image_mem_irreducibleComponents_of_isPreirreducible_fiber e e.continuous
             e.isOpenMap
             (fun x => (Set.subsingleton_singleton.preimage e.injective).isPreirreducible)
@@ -172,8 +173,8 @@ public theorem galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe
     (X : Over (Spec (.of R))) (σ : MulOpposite (S ≃ₐ[R] S))
     (Z : (galoisActionOnGeometricIrreducibleComponents R S X).V) :
     (ConcreteCategory.hom
-      ((galoisActionOnGeometricIrreducibleComponents R S X).ρ σ) Z).1 =
-      (fun x => Scheme.forget.map ((galoisActionOnBaseChange R S X).ρ σ) x) '' Z.1 :=
+      ((galoisActionOnGeometricIrreducibleComponents R S X).ρ σ).asHom Z).1 =
+      (fun x => Scheme.forget.map ((galoisActionOnBaseChange R S X).ρ σ).asHom x) '' Z.1 :=
   rfl
 
 /-- The canonical projection from the base change along `R → T` to the base change along
@@ -204,13 +205,13 @@ private theorem baseChangeComparison_naturality
     [IsSepClosure k ksep] [IsSepClosure k' ksep']
     (X : Scheme.{u}) (f : X ⟶ Spec (.of k))
     (σ : ksep' ≃ₐ[k'] ksep') :
-    (galoisActionOnBaseChange k ksep' (Over.mk f)).ρ
-        (MulOpposite.op (AlgEquiv.restrictScalars k σ)) ≫
+    ((galoisActionOnBaseChange k ksep' (Over.mk f)).ρ
+        (MulOpposite.op (AlgEquiv.restrictScalars k σ))).asHom ≫
       baseChangeComparison k ksep ksep' X f =
     baseChangeComparison k ksep ksep' X f ≫
-      (galoisActionOnBaseChange k ksep (Over.mk f)).ρ
+      ((galoisActionOnBaseChange k ksep (Over.mk f)).ρ
         (MulOpposite.op ((AlgEquiv.restrictNormalHom ksep)
-          (AlgEquiv.restrictScalars k σ))) := by
+          (AlgEquiv.restrictScalars k σ)))).asHom := by
   have hspec :
       specMapAlgAut k ksep' (AlgEquiv.restrictScalars k σ) ≫
           Spec.map (CommRingCat.ofHom (algebraMap ksep ksep')) =
@@ -254,12 +255,12 @@ public theorem galoisActionOnGeometricIrreducibleComponents_equivariant
     (Z : (galoisActionOnGeometricIrreducibleComponents k ksep' (Over.mk f)).V) :
     e (ConcreteCategory.hom
         ((galoisActionOnGeometricIrreducibleComponents k ksep' (Over.mk f)).ρ
-          (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))) Z) =
+          (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))).asHom Z) =
       ConcreteCategory.hom
         ((galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).ρ
             (MulOpposite.op
               ((AlgEquiv.restrictNormalHom ksep)
-                (AlgEquiv.restrictScalars k σ.unop))))
+                (AlgEquiv.restrictScalars k σ.unop)))).asHom
         (e Z) := by
   have hrightAction :=
     galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe k ksep (Over.mk f)
@@ -268,12 +269,12 @@ public theorem galoisActionOnGeometricIrreducibleComponents_equivariant
   apply Subtype.ext
   have hleft := he (ConcreteCategory.hom
     ((galoisActionOnGeometricIrreducibleComponents k ksep' (Over.mk f)).ρ
-      (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))) Z)
+      (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))).asHom Z)
   rw [hleft, galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe, hrightAction]
   show (baseChangeComparison k ksep ksep' X f).base ''
       ((fun x => Scheme.forget.map
         ((galoisActionOnBaseChange k ksep' (Over.mk f)).ρ
-          (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))) x) '' Z.1) = _
+          (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))).asHom x) '' Z.1) = _
   rw [he Z]
   ext x
   constructor
@@ -284,7 +285,7 @@ public theorem galoisActionOnGeometricIrreducibleComponents_equivariant
   · rintro ⟨_, ⟨z, hz, rfl⟩, rfl⟩
     refine ⟨Scheme.forget.map
       ((galoisActionOnBaseChange k ksep' (Over.mk f)).ρ
-        (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))) z, ⟨z, hz, rfl⟩, ?_⟩
+        (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))).asHom z, ⟨z, hz, rfl⟩, ?_⟩
     simpa [TopCat.coe_comp] using congrArg (fun q => q.base z)
       (baseChangeComparison_naturality k k' ksep ksep' X f σ.unop)
 

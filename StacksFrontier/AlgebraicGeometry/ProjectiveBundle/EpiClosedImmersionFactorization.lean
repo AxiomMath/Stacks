@@ -82,8 +82,8 @@ theorem overBase_comp_coherence (g : T ⟶ X) (π : P ⟶ X) (π' : P' ⟶ X) (i
     rw [← Functor.map_comp, lu']
   rw [e]
   simp only [eqToHom_map, eqToHom_trans] at hA ⊢
-  refine (cancel_mono ((Scheme.Modules.pullbackComp h π').hom.app M)).1 ?_
-  simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
+  refine (((Scheme.Modules.pullbackComp h π').app M).cancel_iso_hom_right _ _).1 ?_
+  simp only [Iso.app_hom, Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
   have hA' := hA =≫ eqToHom (congrArg (fun k => (Scheme.Modules.pullback k).obj M) hh.symm)
   simp only [Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id] at hA'
   rw [hA']
@@ -165,7 +165,9 @@ theorem pullback_map_eq_zero_of_comp_projectiveBundleMapOfEpi {N : X.Modules} (�
   have n := (Scheme.Modules.pullbackComp h (projectiveBundleMapOfEpi u)).hom.naturality
     ((Scheme.Modules.pullback (projectiveBundleToBase X F)).map σ ≫ tautologicalDatumUniv F)
   simp only [Functor.comp_map] at n
-  rw [← cancel_epi ((Scheme.Modules.pullbackComp h (projectiveBundleMapOfEpi u)).hom.app _),
+  rw [← ((Scheme.Modules.pullbackComp h (projectiveBundleMapOfEpi u)).app
+      ((Scheme.Modules.pullback (projectiveBundleToBase X F)).obj N)).cancel_iso_hom_left,
+    Iso.app_hom,
     ← n, h0, Functor.map_zero, zero_comp, comp_zero]
 
 /-- A morphism along which the hyperplane section pulls back to zero factors through the closed

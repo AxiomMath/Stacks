@@ -77,7 +77,7 @@ def constantHomAddEquivSections {J : GrothendieckTopology C} (R : Sheaf J RingCa
     change n • φ.app X (ULift.up 1) = φ.app X (ULift.up n)
     rw [← map_zsmul]
     congr 1
-    exact ULift.ext _ _ (by simp)
+    exact ULift.ext (by simp)
   right_inv s := by
     refine Subtype.ext ?_
     funext X

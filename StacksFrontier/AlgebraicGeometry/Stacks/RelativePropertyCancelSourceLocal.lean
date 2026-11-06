@@ -61,6 +61,19 @@ namespace AlgebraicGeometry.Stack
 
 open Opposite
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_relativePropertyCancelSourceLocal
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    Limits.HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_relativePropertyCancelSourceLocal
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  (hasPullbacks_presheaf_relativePropertyCancelSourceLocal B S hS).has_limit _
+
 /- The arguments below reason about the fibre categories of the structure functors `𝒳.based.p`
 and about 2-fibre products over them. Those spellings are built from definitions that the
 `implicit` transparency level does not unfold -- `InducedBicategory`, so that the underlying

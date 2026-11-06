@@ -223,7 +223,7 @@ theorem shiftedHomDescent_of_extendRestrict_id
     ((Dualizing.mapDerivedCategoryNatIso _ _
       (etaleModuleExtendRestrictIdIso B S hS D.initialSource h)).app K₀ ≪≫
       (Functor.mapDerivedCategoryIdIso
-        (C := Modules.{u, u} B S hS D.X₀ D.initial_isAlgebraicSpace)).app K₀) hK
+        (C₁ := Modules.{u, u} B S hS D.X₀ D.initial_isAlgebraicSpace)).app K₀) hK
 
 end RelativeDescentSituation
 

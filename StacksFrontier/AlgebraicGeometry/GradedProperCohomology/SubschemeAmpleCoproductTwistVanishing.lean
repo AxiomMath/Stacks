@@ -118,10 +118,10 @@ theorem smul_coprod_sections_eq_zero {X : Scheme.{u}} {ι : Type} (N : ι → X.
     (coproductIsCoproduct N)).some
   have hcol2 := isColimitOfPreserves
     (forget₂ (ModuleCat.{u} ↥(X.ringCatSheaf.obj.obj (op U))) AddCommGrpCat.{u}) hcol
-  have h0 : (∐ N).smul (U := U) a = 0 := by
+  have h0 : ((∐ N).smul (U := U) a).asHom = 0 := by
     refine hcol2.hom_ext ?_
     intro j
-    show (Sigma.ι N j.as).app U ≫ (∐ N).smul a = (Sigma.ι N j.as).app U ≫ 0
+    show (Sigma.ι N j.as).app U ≫ ((∐ N).smul a).asHom = (Sigma.ι N j.as).app U ≫ 0
     rw [comp_zero]
     ext x
     show a • ((Sigma.ι N j.as).app U x) = 0

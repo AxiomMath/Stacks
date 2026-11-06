@@ -36,14 +36,14 @@ private theorem algHom_card_eq_residueField_of_finite
     intro hom
     let : (RingHom.ker hom.toRingHom).IsPrime := RingHom.ker_isPrime _
     let : (RingHom.ker hom.toRingHom).IsMaximal :=
-      Ideal.isMaximal_of_isIntegral_of_isMaximal_comap
+      Ideal.isMaximal_of_isIntegral_of_isMaximal_under
         (R := F) (RingHom.ker hom.toRingHom) (by
           have hbot : (RingHom.ker hom.toRingHom).comap (algebraMap F B) = ⊥ := by
             ext element
             show hom (algebraMap F B element) = 0 ↔ element = 0
             rw [hom.commutes]
             exact map_eq_zero (algebraMap F K)
-          rw [hbot]
+          rw [Ideal.under_def, hbot]
           infer_instance)
     have hker : RingHom.ker hom.toRingHom = maximalIdeal B :=
       eq_maximalIdeal inferInstance
@@ -410,7 +410,7 @@ private theorem weightedFiberSum_of_finite_pi
     rw [show (projection element).toRingHom.comp (algebraMap R B) =
       algebraMap R (factors element) from by ext value; exact (projection element).commutes value]
     exact PrimeSpectrum.ext (eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (maximalIdeal (factors element))))
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) (maximalIdeal (factors element))))
   have hinjective : Function.Injective point := by
     intro first second heq
     have heq' : PrimeSpectrum.sigmaToPi factors ⟨first, closedPoint (factors first)⟩ =
@@ -432,8 +432,8 @@ private theorem weightedFiberSum_of_finite_pi
       rw [← hprimeTarget] at htarget
       simpa [Ideal.comap_comap, AlgHom.comp_algebraMap, closedPoint] using htarget
     have hmaximal : prime.asIdeal.IsMaximal :=
-      Ideal.isMaximal_of_isIntegral_of_isMaximal_comap prime.asIdeal
-        (by rw [hcomap]; infer_instance)
+      Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) prime.asIdeal
+        (by rw [Ideal.under_def, hcomap]; infer_instance)
     have heqprime : prime = closedPoint (factors element) :=
       PrimeSpectrum.ext (eq_maximalIdeal hmaximal)
     refine ⟨element, ?_⟩
@@ -693,7 +693,7 @@ private theorem weightedFiberSum_eq_of_affine_strictHenselization
         IsScalarTower.algebraMap_eq A Rsh factor, ← Ideal.comap_comap]
       have hmax : (maximalIdeal factor).comap (algebraMap Rsh factor) =
           maximalIdeal Rsh := eq_maximalIdeal
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (maximalIdeal factor))
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := Rsh) (maximalIdeal factor))
       rw [hmax]
       exact congrArg PrimeSpectrum.asIdeal hclosed
     show genericSeparableDegree original hY point = _

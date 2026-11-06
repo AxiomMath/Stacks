@@ -102,14 +102,14 @@ theorem exists_mem_singleDegreeFreePoints_of_isZero_homModule_homology
       (modulePullbackUnitIso B S hS bm)
   have hψ : ∀ t, ψ t = ((BigFppfOver.toScheme B S hS).map N.point).appTop t :=
     baseChangeRingHom_representedSpaceMap B S hS (T' := K) (T := TV) N.point
-  let : Field (OK.val.obj (op (idChart B S hS K))) :=
+  let : Field (OK.obj.obj (op (idChart B S hS K))) :=
     (isField_structureSheaf_idChart B S hS p.val).toField
   let ebc := homModuleBaseChangeComplexIso (ρ := ρV) ρK hρK (modulePullback B S hS bm)
     (hF := modulePullback_additive bm) (modulePullbackUnitIso B S hS bm) hρV A hAret
-  let n : ℕ := Module.finrank (OK.val.obj (op (idChart B S hS K)))
+  let n : ℕ := Module.finrank (OK.obj.obj (op (idChart B S hS K)))
     ((((ModuleCat.extendScalars.{u, u, u + 1} ψ).mapHomologicalComplex
       (ComplexShape.up ℤ)).obj L).homology i)
-  have hdim : ∀ j, Module.finrank (OK.val.obj (op (idChart B S hS K)))
+  have hdim : ∀ j, Module.finrank (OK.obj.obj (op (idChart B S hS K)))
       ((((ModuleCat.extendScalars.{u, u, u + 1} ψ).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj L).homology j) = if j = i then n else 0 := fun j ↦ by
     split_ifs with hj

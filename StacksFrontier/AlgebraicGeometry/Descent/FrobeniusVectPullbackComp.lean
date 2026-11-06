@@ -110,6 +110,11 @@ theorem modulesPullbackTriangleIso_pentagon_app (f : W ⟶ X) (g : X ⟶ Y) (h :
     (Scheme.Modules.pseudofunctor_associativity (f := f) (g := g) (h := h)) M
   have hmap := map_inv_app_comp_map_hom_app (Scheme.Modules.pullback f)
     (Scheme.Modules.pullbackComp g h) M
+  have hepi : Epi ((Scheme.Modules.pullbackComp f (g ≫ h)).inv.app M ≫
+      (Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g h).inv.app M)) :=
+    epi_comp' (IsIso.epi_of_iso ((Scheme.Modules.pullbackComp f (g ≫ h)).app M).inv)
+      (IsIso.epi_of_iso ((Scheme.Modules.pullback f).mapIso
+        ((Scheme.Modules.pullbackComp g h).app M)).inv)
   apply (cancel_epi ((Scheme.Modules.pullbackComp f (g ≫ h)).inv.app M ≫
     (Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g h).inv.app M))).1
   simp only [modulesPullbackTriangleIso, Scheme.Modules.pullbackCongr, eqToIso.hom,

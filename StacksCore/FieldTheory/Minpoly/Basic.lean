@@ -21,7 +21,6 @@ theorem minpoly_smul {K A : Type*} [Field K] [Ring A] [Algebra K A]
     · simp [degree_eq_natDegree (minpoly.ne_zero hx)]
     · convert (linearIndependent_pow (K := K) x).units_smul fun i ↦ .mk0 _ hc ^ i.1 using 2
       · simp [Units.smul_def, smul_pow]
-      · rfl
   · have hcx : ¬IsIntegral K (c • x) := fun hcx ↦ hx <| by
       convert hcx.smul c⁻¹; simp [hc]
     rw [minpoly.eq_zero hx, minpoly.eq_zero hcx, zero_scaleRoots]

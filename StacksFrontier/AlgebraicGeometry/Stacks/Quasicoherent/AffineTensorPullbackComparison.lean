@@ -402,7 +402,7 @@ theorem pointRingHom_chartPointIso_apply (hU : IsAffineOver B S hS U) (a : schem
 sheaf of rings. -/
 theorem pointRingHom_chartPointIso_eq (hU : IsAffineOver B S hS U) :
     (pointRingHom B S hS 𝒳 (g.hom.hom.toFunctor.obj (siteTop.{u, w} U)) (chartPointIso g hU) :
-      schemeGlobalRing U →+* (AlgebraicStacks.fppfStructureRingSheaf B S hS 𝒳).val.obj
+      schemeGlobalRing U →+* (AlgebraicStacks.fppfStructureRingSheaf B S hS 𝒳).obj.obj
         (op (g.hom.hom.toFunctor.obj (siteTop.{u, w} U)))) =
       ((pullbackRingHom g).hom.app (op (siteTop.{u, w} U))).hom :=
   RingHom.ext (pointRingHom_chartPointIso_apply g hU)

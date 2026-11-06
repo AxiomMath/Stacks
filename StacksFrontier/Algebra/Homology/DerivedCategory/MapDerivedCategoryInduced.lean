@@ -11,7 +11,7 @@ An exact functor `F` of abelian categories induces `F.mapDerivedCategory` on unb
 categories, factoring through the localization `DerivedCategory.Q` along
 `CategoryTheory.Functor.mapDerivedCategoryFactors`. This file records that the comparisons
 `CategoryTheory.Functor.mapDerivedCategoryCongr` and
-`CategoryTheory.Functor.mapDerivedCategoryCompIso` attached to isomorphisms of exact functors
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` attached to isomorphisms of exact functors
 are induced, in the sense of `CategoryTheory.NatTrans.IsInducedBy`, by the corresponding
 comparisons of the functors on cochain complexes.
 
@@ -56,7 +56,7 @@ theorem mapDerivedCategoryCompIso_isInducedBy
     (e : F ⋙ G ≅ H) :
     NatTrans.IsInducedBy
       (Functor.compFactorization F.mapDerivedCategoryFactors G.mapDerivedCategoryFactors)
-      H.mapDerivedCategoryFactors (Functor.mapDerivedCategoryCompIso e).hom
+      H.mapDerivedCategoryFactors (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom
       (Functor.mapHomologicalComplexCompIso e (ComplexShape.up ℤ)).hom := fun K => by
   rw [mapDerivedCategoryCompIso_hom_app_Q, Functor.compFactorization_hom_app]
   simp

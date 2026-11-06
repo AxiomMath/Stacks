@@ -136,7 +136,7 @@ theorem abGamma_eq_of_eq_on_topOneHypercover (h : IsTopOneHypercover JA W P p₁
     (𝒢 : Sheaf JA Ab.{w}) {s s' : (Sheaf.Γ JA Ab.{w}).obj 𝒢}
     (hss : ∀ k, Sheaf.ΓRes 𝒢 (op (W k)) s = Sheaf.ΓRes 𝒢 (op (W k)) s') : s = s' :=
   (abGammaEquivSections JA 𝒢).injective
-    (sections_eq_of_eq_on_topOneHypercover h (forgetSheaf JA 𝒢).cond fun k => by
+    (sections_eq_of_eq_on_topOneHypercover h (forgetSheaf JA 𝒢).property fun k => by
       rw [abGammaEquivSections_val, abGammaEquivSections_val]
       exact hss k)
 
@@ -151,7 +151,7 @@ theorem existsUnique_abGamma_of_matching (h : IsTopOneHypercover JA W P p₁ p�
     (hx : ∀ k l m, (𝒢.obj ⋙ forget Ab.{w}).map (p₁ k l m).op (x k) =
       (𝒢.obj ⋙ forget Ab.{w}).map (p₂ k l m).op (x l)) :
     ∃! s : (Sheaf.Γ JA Ab.{w}).obj 𝒢, ∀ k, Sheaf.ΓRes 𝒢 (op (W k)) s = x k := by
-  obtain ⟨t, ht, -⟩ := existsUnique_sections_of_matching h (forgetSheaf JA 𝒢).cond x hx
+  obtain ⟨t, ht, -⟩ := existsUnique_sections_of_matching h (forgetSheaf JA 𝒢).property x hx
   have key := fun k => ΓRes_abGammaEquivSections_symm JA 𝒢 t (op (W k))
   exact ⟨(abGammaEquivSections JA 𝒢).symm t, fun k => (key k).trans (ht k),
     fun s hs => abGamma_eq_of_eq_on_topOneHypercover JA h 𝒢

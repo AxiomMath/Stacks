@@ -374,7 +374,7 @@ theorem rangeIdeal_degree (g : M₂ →ₗ[R] M₁) {z : SymmetricAlgebra R M₁
     refine ⟨?_, ?_⟩
     · rw [map_add, Polynomial.coeff_add, ihx.left, ihy.left, add_zero]
     · intro d
-      rw [map_add, Polynomial.coeff_add]
+      rw [map_add degreeMap, Polynomial.coeff_add]
       exact Submodule.add_mem _ (ihx.right d) (ihy.right d)
   | smul a x hx ih =>
     rw [smul_eq_mul, map_mul]
@@ -871,13 +871,13 @@ theorem rangeIdeal_degree (g : M₂ →ₗ[R] M₁) {z : ExteriorAlgebra R M₁}
     refine ⟨?_, ?_⟩
     · rw [map_add, Polynomial.coeff_add, ihx.left, ihy.left, add_zero]
     · intro d
-      rw [map_add, Polynomial.coeff_add]
+      rw [map_add degreeMap, Polynomial.coeff_add]
       exact Submodule.add_mem _ (ihx.right d) (ihy.right d)
   | neg x hx ih =>
     refine ⟨?_, ?_⟩
     · rw [map_neg, Polynomial.coeff_neg, ih.left, neg_zero]
     · intro d
-      rw [map_neg, Polynomial.coeff_neg]
+      rw [map_neg degreeMap, Polynomial.coeff_neg]
       exact Submodule.neg_mem _ (ih.right d)
   | left_absorb a x hx ih =>
     rw [map_mul]

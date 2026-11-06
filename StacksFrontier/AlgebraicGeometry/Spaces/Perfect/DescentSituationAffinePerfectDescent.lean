@@ -132,7 +132,7 @@ theorem exists_isPerfect_derivedPullback_iso_of_isAffineSpace
   have hsurj : IsSurjective B S hS f₀ := isSurjective_of_isIso B S hS f₀
   have hpb : IsPullback (𝟙 _) (yoneda.map (𝟙 ((BigAffineFppf.inclusion B S hS).obj U₀))) f₀ f₀ := by
     rw [yoneda.map_id]
-    exact IsKernelPair.id_of_mono f₀
+    exact @IsKernelPair.id_of_mono _ _ _ _ f₀ (IsIso.mono_of_iso f₀)
   have hcol := L.isStagesColimit_globalFunctions_of_chartsBounded (U₀ := U₀) (R₀ := U₀) hX hb hf₀
     hsurj hpb
   -- the colimit of rings

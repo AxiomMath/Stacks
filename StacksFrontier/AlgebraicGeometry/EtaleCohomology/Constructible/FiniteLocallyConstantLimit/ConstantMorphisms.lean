@@ -467,6 +467,10 @@ section LocallyConstantInstances
 
 variable (B : BigEtaleSite.{u})
 
+/- `Stacks.ConstantSheaf.hasSheafify_moduleCat` at `ModuleCat.{max u v x}` leaves the universe
+constraint `u + 1 = max (u + 1) u ?x` unsolved; the `UnivLE` form is tried first. -/
+attribute [local instance high] Stacks.ConstantSheaf.hasSheafify_moduleCat_of_univLE
+
 /-- Direct image of sheaves of sets along small étale base change is a right adjoint. Stated for
 an arbitrary morphism so that it can serve as a local instance: typeclass inference does not
 produce the family `∀ S T f, _` that `AlgebraicGeometry.smallEtaleConstantPullbackIso` takes. -/
@@ -593,6 +597,10 @@ end LocallyConstantInstances
 section Faithful
 
 variable (B : BigEtaleSite.{u}) (S : B.Scheme)
+
+/- `Stacks.ConstantSheaf.hasSheafify_moduleCat` at `ModuleCat.{max u v x}` leaves the universe
+constraint `u + 1 = max (u + 1) u ?x` unsolved; the `UnivLE` form is tried first. -/
+attribute [local instance high] Stacks.ConstantSheaf.hasSheafify_moduleCat_of_univLE
 
 /-- **Faithfulness of constant sheaves of sets on a nonempty scheme.** -/
 public theorem smallEtale_constantSheaf_map_injective_type (hne : Nonempty S.obj)

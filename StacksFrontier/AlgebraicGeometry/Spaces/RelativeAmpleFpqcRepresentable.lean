@@ -57,6 +57,13 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] Stacks.SheafInternalHom.monoidalCategory
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_relativeAmpleFpqc
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The members of a finite affine fpqc covering are flat and jointly surjective. -/
 theorem surjective_and_flat_of_mem_fpqcPrecoverage (T : BigAffineFppf B S hS)
     (𝒰 : PreZeroHypercover.{u + 1} T)
@@ -222,7 +229,8 @@ theorem isAmple_baseChangeModule_of_isAmpleOnBaseChange {X Y Z : AlgebraicSpaces
 /-- If the fibre product of `f : X ⟶ Y` with a point `g : h_T ⟶ Y` is representable, then there
 is a scheme `U` over `T` with a cartesian square `h_U ⟶ X` over `h_T ⟶ Y`. -/
 theorem exists_isPullback_of_isRepresentable_pullback {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
-    {T : BigFppfOver B S hS} (g : yoneda.obj T ⟶ Y.1) [(pullback f.hom g).IsRepresentable] :
+    {T : BigFppfOver B S hS} (g : yoneda.obj T ⟶ Y.1)
+    [(@Limits.pullback _ _ _ _ _ f.hom g (HasLimitsOfShape.has_limit _)).IsRepresentable] :
     ∃ (U : BigFppfOver B S hS) (q : U ⟶ T) (p : yoneda.obj U ⟶ X.1),
       IsPullback p (yoneda.map q) f.hom g := by
   refine ⟨(pullback f.hom g).reprX,

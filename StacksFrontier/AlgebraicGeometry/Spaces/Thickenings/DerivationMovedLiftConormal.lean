@@ -234,7 +234,8 @@ theorem exists_derivation_of_conormalMap_eq (c c' : X ⟶ W)
     (hc' : subspaceInclusion B S hS X Z ≫ c' = e₀ ≫ subspaceInclusion B S hS W W₀)
     (p : X ⟶ T) (hcq : c ≫ q = p) (hcq' : c' ≫ q = p)
     (hcon : conormalMap B S hS Z W₀ c e₀ hc = conormalMap B S hS Z W₀ c' e₀ hc') :
-    ∃ D : ((modulePushforward B S hS e₀).obj (conormalModule B S hS X Z)).val.Derivation'
+    ∃ D : PresheafOfModulesOfCommRing.Derivation'
+        ((modulePushforward B S hS e₀).obj (conormalModule B S hS X Z)).val
         (structureSharpInverseImage B S hS (subspaceInclusion B S hS W W₀ ≫ q)).hom,
       ∀ (V : (SmallEtale B S hS (⟨W₀.1.toFunctor, W₀.2.1⟩ : AlgebraicSpaces B S hS).1)ᵒᵖ)
         (x : ToType ((structureRingSheafInverseImage B S hS (subspaceInclusion B S hS W

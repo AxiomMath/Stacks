@@ -116,6 +116,13 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Shortcut instance: instance search for products of presheaves on the big fppf site times
+out in Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_thickeningPushforwardExact
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### The direct image along a dense-subsite chart base change -/

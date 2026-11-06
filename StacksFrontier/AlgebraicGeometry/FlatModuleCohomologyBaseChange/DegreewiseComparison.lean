@@ -132,9 +132,9 @@ def baseCoefficientsDerivedIso (g : S' ⟶ S)
       DerivedCategory.Plus.Qh ⋙ (baseCoefficients g G).rightDerivedFunctorPlus :=
   letI := preservesFiniteLimits_baseCoefficients g G hG
   letI := preservesFiniteColimits_baseCoefficients g G hG
-  letI : IsIso (baseCoefficients g G).rightDerivedFunctorPlusUnit :=
+  letI : IsIso (baseCoefficients g G).rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso (baseCoefficients g G)
-  asIso (baseCoefficients g G).rightDerivedFunctorPlusUnit
+  asIso (baseCoefficients g G).rightDerivedFunctorPlusUnith
 
 /-- **The derived comparison** `RΦ ∘ Rf_* ⟶ Rf'_* ∘ RΨ` on bounded below derived categories:
 the descent of the underived comparison along the derived-functor unit of `Rf_*`, which
@@ -167,7 +167,7 @@ functor of `f_* ⋙ Φ` with that unit, this equation determines the derived com
 theorem derivedComparison_fac (w : g' ≫ f = f' ≫ g)
     (hG : AlgebraicGeometry.IsFlatOver g.toLRSHom.toShHom G) :
     Functor.whiskerRight
-        (modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit
+        (modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith
         (baseCoefficients g G).rightDerivedFunctorPlus ≫
       (Functor.associator _ _ _).hom ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh (derivedComparison G w hG) =

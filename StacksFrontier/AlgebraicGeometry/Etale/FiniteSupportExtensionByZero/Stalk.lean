@@ -91,7 +91,8 @@ public def liftedElement (x : GeometricFiberPoint B U.obj.hom s)
     (q : (geometricPointFiber B U.obj.left.1 U.obj.left.property
       (x.toGeometricPoint B U.obj.hom s)).obj W) :
     (geometricPointFiber B X hX s).Elements :=
-  ⟨(smallEtalePostcompose B X hX U).obj W, liftedPoint B X hX U s x W q⟩
+  ((geometricPointFiber B X hX s).elementsMk ((smallEtalePostcompose B X hX U).obj W)
+      (liftedPoint B X hX U s x W q))
 
 /-- A morphism of étale neighbourhoods of a point of the geometric fibre, viewed as a morphism
 of étale neighbourhoods of the geometric point of `X` below it. -/
@@ -204,11 +205,12 @@ private theorem etaleFiniteSupportStalkMap_graph
     exact q.2
   have h := finiteSupportStalkToFiberStalks_germ.{u, u + 1} B U.obj.hom s F
     (small_finiteSupport_smallEtale B X hX U) x
-    ⟨(smallEtalePostcompose B X hX U).obj W, liftedPoint B X hX U s x W q⟩
-    (etaleGraphFiniteSupport B X hX U W) ⟨W, q⟩ (etaleGraphIntoSupportOpen B X hX U W)
+    ((geometricPointFiber B X hX s).elementsMk ((smallEtalePostcompose B X hX U).obj W)
+      (liftedPoint B X hX U s x W q))
+    (etaleGraphFiniteSupport B X hX U W) (Functor.elementsMk _ W q)
+    (etaleGraphIntoSupportOpen B X hX U W)
     hfst hsnd (etaleGraphSection B X hX U F W a)
-  refine h.trans ?_
-  rw [ConcreteCategory.comp_apply]
+  refine h.trans ((ConcreteCategory.comp_apply _ _ _).trans ?_)
   exact congrArg _ (etaleGraphSection_restrict B X hX U F W a)
 
 /-- On every other summand the germ decomposition kills the germ of a graph generator: a point
@@ -244,7 +246,8 @@ private theorem etaleFiniteSupportStalkMap_graph_ne
   · obtain ⟨V, t, hfst, hsnd⟩ := h
     have hg := finiteSupportStalkToFiberStalks_germ.{u, u + 1} B U.obj.hom s F
       (small_finiteSupport_smallEtale B X hX U) y
-      ⟨(smallEtalePostcompose B X hX U).obj W, liftedPoint B X hX U s x W q⟩
+      ((geometricPointFiber B X hX s).elementsMk ((smallEtalePostcompose B X hX U).obj W)
+      (liftedPoint B X hX U s x W q))
       (etaleGraphFiniteSupport B X hX U W) V t hfst hsnd
       (etaleGraphSection B X hX U F W a)
     refine hg.trans ?_
@@ -289,10 +292,10 @@ private theorem etaleFiniteSupportStalkMap_graph_ne
         refine hxy (Subtype.ext ?_)
         rw [← hsndL, he, ← Category.assoc, hfstL]
         exact q.2)
-    let hk : V ⟶ (⟨finiteSupportOpenObject B U.obj.hom
+    let hk : V ⟶ (Functor.elementsMk _ (finiteSupportOpenObject B U.obj.hom
         ((smallEtalePostcompose B X hX U).obj W)
-        (etaleGraphFiniteSupport B X hX U W),
-        ⟨V.2.1 ≫ (SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map t, hw⟩⟩ :
+        (etaleGraphFiniteSupport B X hX U W))
+        ⟨V.2.1 ≫ (SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map t, hw⟩ :
           (geometricPointFiber B U.obj.left.1 U.obj.left.property
             (y.toGeometricPoint B U.obj.hom s)).Elements) := ⟨t, rfl⟩
     exact (ConcreteCategory.congr_hom (colimit.w (etaleStalkDiagram B U.obj.left.1
@@ -300,7 +303,8 @@ private theorem etaleFiniteSupportStalkMap_graph_ne
         (etaleGraphSection B X hX U F W a).val).trans hzero
   · exact finiteSupportStalkToFiberStalks_zero_of_no_open_lift.{u, u + 1} B U.obj.hom s F
       (small_finiteSupport_smallEtale B X hX U) y
-      ⟨(smallEtalePostcompose B X hX U).obj W, liftedPoint B X hX U s x W q⟩
+      ((geometricPointFiber B X hX s).elementsMk ((smallEtalePostcompose B X hX U).obj W)
+      (liftedPoint B X hX U s x W q))
       (etaleGraphFiniteSupport B X hX U W) h (etaleGraphSection B X hX U F W a)
 
 /-- Two maps out of the stalk of the presheaf extension by zero agree as soon as they agree on
@@ -313,11 +317,11 @@ private theorem etaleExtensionStalk_hom_ext {T : AddCommGrpCat.{u + 1}}
       ((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj).app (op W) ≫
           colimit.ι (etaleStalkDiagram B X hX s
             ((abelianPresheafExtensionByZero B X hX U).obj F))
-            (op ⟨(smallEtalePostcompose B X hX U).obj W, q⟩) ≫ a =
+            (op ((geometricPointFiber B X hX s).elementsMk _ q)) ≫ a =
         ((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj).app (op W) ≫
           colimit.ι (etaleStalkDiagram B X hX s
             ((abelianPresheafExtensionByZero B X hX U).obj F))
-            (op ⟨(smallEtalePostcompose B X hX U).obj W, q⟩) ≫ b) :
+            (op ((geometricPointFiber B X hX s).elementsMk _ q)) ≫ b) :
     a = b := by
   have hlke : ((abelianPresheafExtensionByZero B X hX U).obj F).IsLeftKanExtension
       ((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj) := by
@@ -332,15 +336,16 @@ private theorem etaleExtensionStalk_hom_ext {T : AddCommGrpCat.{u + 1}}
   intro W f
   have hw := colimit.w (etaleStalkDiagram B X hX s
     ((abelianPresheafExtensionByZero B X hX U).obj F))
-      (Quiver.Hom.op (⟨f.unop, rfl⟩ : N.unop ⟶ ⟨(smallEtalePostcompose B X hX U).obj W.unop,
-        (geometricPointFiber B X hX s).map f.unop N.unop.2⟩))
+      (Quiver.Hom.op (⟨f.unop, rfl⟩ : N.unop ⟶ (geometricPointFiber B X hX s).elementsMk
+        ((smallEtalePostcompose B X hX U).obj W.unop)
+        ((geometricPointFiber B X hX s).map f.unop N.unop.2)))
   change ((abelianPresheafExtensionByZero B X hX U).obj F).map f ≫
     colimit.ι (etaleStalkDiagram B X hX s
       ((abelianPresheafExtensionByZero B X hX U).obj F)) N =
       colimit.ι (etaleStalkDiagram B X hX s
         ((abelianPresheafExtensionByZero B X hX U).obj F))
-        (op ⟨(smallEtalePostcompose B X hX U).obj W.unop,
-          (geometricPointFiber B X hX s).map f.unop N.unop.2⟩) at hw
+        (op ((geometricPointFiber B X hX s).elementsMk ((smallEtalePostcompose B X hX U).obj W.unop)
+          ((geometricPointFiber B X hX s).map f.unop N.unop.2))) at hw
   show ((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj).app W ≫
       (((abelianPresheafExtensionByZero B X hX U).obj F).map f ≫
         colimit.ι (etaleStalkDiagram B X hX s
@@ -369,9 +374,10 @@ private theorem comparisonStalkMap_etaleGerm (V : SmallEtale B X hX)
         (((etaleExtensionToFiniteSupport B X hX U).app F).app (op V) t) :=
   (ConcreteCategory.comp_apply _ _ t).symm.trans
     ((ConcreteCategory.congr_hom
-      (colimit.ι_map (Functor.whiskerLeft (CategoryOfElements.π
+      (colimit.ι_map (Functor.whiskerLeft (Functor.Elements.π
         (geometricPointFiber B X hX s)).op
-        ((etaleExtensionToFiniteSupport B X hX U).app F)) (op ⟨V, q⟩)) t).trans
+        ((etaleExtensionToFiniteSupport B X hX U).app F))
+        (op ((geometricPointFiber B X hX s).elementsMk V q))) t).trans
       (ConcreteCategory.comp_apply _ _ t))
 
 /-- The germ map out of the stalk of `F` at a point of the geometric fibre sends the germ of a
@@ -388,7 +394,7 @@ public theorem liftedStalkToExtension_etaleGerm (x : GeometricFiberPoint B U.obj
         ((smallEtalePostcompose B X hX U).obj W) (liftedPoint B X hX U s x W q)
         (((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj).app (op W) t) := by
   have hm : colimit.ι (etaleStalkDiagram B U.obj.left.1 U.obj.left.property
-        (x.toGeometricPoint B U.obj.hom s) F.obj) (op ⟨W, q⟩) ≫
+        (x.toGeometricPoint B U.obj.hom s) F.obj) (op (Functor.elementsMk _ W q)) ≫
       liftedStalkToExtension B X hX U s F x =
       ((smallEtalePostcompose B X hX U).op.lanUnit.app F.obj).app (op W) ≫
         colimit.ι (etaleStalkDiagram B X hX s

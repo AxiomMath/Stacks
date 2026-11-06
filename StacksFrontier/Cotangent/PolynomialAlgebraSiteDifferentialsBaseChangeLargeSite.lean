@@ -113,7 +113,7 @@ naturality square, so restricting it along a functor returns the presheaf of rel
 differentials of the restricted map of presheaves of rings, on the nose. -/
 abbrev resolutionPolynomialSiteDifferentials :
     Stacks.SimplicialModules.SMod (resolutionPolynomialSiteRing A B) :=
-  PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
     (Functor.whiskerLeft (standardResolutionPolynomialSiteCosimplicialObject A B).op
       (polynomialBaseStructureHom A B).hom)
 

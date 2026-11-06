@@ -50,7 +50,7 @@ noncomputable abbrev uliftRing (X : RingedSite.{u, v, r}) : RingedSite.{u, v, ma
   C := X.C
   J := X.J
   O := ⟨X.O.obj ⋙ AlgebraicGeometry.SheafOfModules.commRingCatULift.{r, z},
-    Stacks.UniverseLift.isSheaf_comp_commRingCatULift _ X.O.cond⟩
+    Stacks.UniverseLift.isSheaf_comp_commRingCatULift _ X.O.property⟩
 
 end AlgebraicGeometry.RingedSite
 

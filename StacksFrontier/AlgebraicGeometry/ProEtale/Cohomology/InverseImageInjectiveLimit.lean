@@ -70,7 +70,7 @@ private def isLimit_mapCone_whisker_overForget {J C D : Type*} [Category J] [Cat
     [Category D] [IsCofiltered J] (j : J) (F : C ⥤ D) {K : J ⥤ C} (c : Cone K)
     (hc : IsLimit (F.mapCone c)) : IsLimit (F.mapCone (c.whisker (Over.forget j))) :=
   IsLimit.ofIsoLimit ((Functor.Initial.isLimitWhiskerEquiv (Over.forget j) (F.mapCone c)).symm hc)
-    (Cones.ext (Iso.refl _) fun _ ↦ (Category.id_comp _).symm)
+    (Cone.ext (Iso.refl _) fun _ ↦ (Category.id_comp _).symm)
 
 /-- **A cofiltered limit of affine objects of `X_étale` is ind-étale over each of them.** Let
 `V = lim V_a` be the limit, on underlying schemes, of a cofiltered system of objects of `X_étale`

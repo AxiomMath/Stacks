@@ -96,7 +96,7 @@ theorem exists_derivedChowDatum_of_affine_chart (X : AlgebraicSpaces B (Spec (.o
       (OverShriek.restrictYonedaIso g W₀).symm ≪≫ yoneda.mapIso φ
   have hp : yoneda.map φ.hom ≫ p = (OverShriek.restrictYonedaIso g W₀).hom ≫
       (OverShriek.relocalizeRestrict g).map q ≫ eX.inv := by
-    rw [← cancel_mono eX.hom, Category.assoc, heX, Category.assoc, Category.assoc,
+    rw [← Iso.cancel_iso_hom_right _ _ eX, Category.assoc, heX, Category.assoc, Category.assoc,
       Iso.inv_hom_id, Category.comp_id, ← Functor.map_comp_assoc, Iso.hom_inv_id,
       yoneda.map_id, Category.id_comp]
   have hιW : ιW.hom ≫ p = (overOpenι (DerivedChowDatum.bcI g D₀ eX) (DerivedChowDatum.bcV g D₀) ≫

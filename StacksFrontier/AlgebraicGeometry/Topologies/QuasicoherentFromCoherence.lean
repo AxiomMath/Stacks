@@ -4,6 +4,7 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PowerPresentationS
 public import StacksFrontier.AlgebraicGeometry.Topologies.ModuleTypesOnSite
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.LocalOnCover.Quasicoherence
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PowerPresentationSequences
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.EpiMono
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

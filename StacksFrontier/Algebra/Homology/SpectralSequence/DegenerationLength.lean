@@ -262,7 +262,7 @@ lemma length_page_succ_le_of_additive (r : ℤ) (hr : r₀ ≤ r) (pq : ℤ × �
 /-- Lengths do not increase along the pages of a spectral sequence. -/
 lemma length_page_le_of_additive (r r' : ℤ) (hr : r₀ ≤ r) (hrr' : r ≤ r') (pq : ℤ × ℤ) :
     ℓ ((E.page r' (by omega)).X pq) ≤ ℓ ((E.page r).X pq) := by
-  induction r', hrr' using Int.le_induction with
+  induction r', hrr' using Int.leInduction with
   | base => exact le_rfl
   | succ r' hr' ih => exact (E.length_page_succ_le_of_additive hℓ hℓ0 r' (by omega) pq).trans ih
 
@@ -323,7 +323,7 @@ theorem degeneratesFrom_iff_length_eq_finsum {H : ℤ → C} (hE : E.AbutsTo H)
     have hconst : ∀ r (hr : r₁ ≤ r),
         ℓ ((E.page r (by omega)).X (p, n - p)) = ℓ ((E.page r₁).X (p, n - p)) := by
       intro r hr
-      induction r, hr using Int.le_induction with
+      induction r, hr using Int.leInduction with
       | base => rfl
       | succ r hr ih =>
         rw [← ih, ← length_eq_of_iso hℓ hℓ0 (E.iso r (r + 1) (p, n - p))]

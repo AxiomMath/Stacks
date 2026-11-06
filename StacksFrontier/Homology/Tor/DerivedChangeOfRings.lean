@@ -248,7 +248,7 @@ functor of the same functor on complexes. -/
 public instance isLeftDerived_compositeCounit (T : DerivedTensorChangeOfRings f N) :
     (T.B ⋙ T.G).IsLeftDerivedFunctor T.compositeCounit
       (HomologicalComplex.quasiIso (ModuleCat.{max v uR uA} R) (ComplexShape.up ℤ)) :=
-  (Functor.isLeftDerivedFunctor_iff_of_iso (T.B ⋙ T.G) T.F T.directCounit T.compositeCounit
+  (Functor.isLeftDerivedFunctor_iff_of_iso T.directCounit T.compositeCounit
     (HomologicalComplex.quasiIso (ModuleCat.{max v uR uA} R) (ComplexShape.up ℤ))
     T.changeOfRings T.changeOfRings_fac).mp inferInstance
 

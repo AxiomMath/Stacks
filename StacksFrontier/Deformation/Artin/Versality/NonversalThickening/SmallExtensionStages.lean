@@ -38,7 +38,6 @@ namespace Deformation.Artin
 universe u v w
 
 attribute [local implicit_reducible] Functor.Fiber Functor.Fiber.fiberInclusion
-attribute [local instance_reducible] CategoryTheory.Over.post
 attribute [local instance] Deformation.Artin.residueFieldAlgebra
 attribute [local instance_reducible] AlgebraicGeometry.Scheme.residueField
 

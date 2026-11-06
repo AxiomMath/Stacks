@@ -370,9 +370,8 @@ private theorem unitToHomology_bijective
   have h' := ((LinearMap.ringLmapEquivSelf S S M).bijective.comp
     (ModuleCat.homLinearEquiv (M := ModuleCat.of S S) (N := M) (S := S)).bijective).comp h
   convert h' using 1
-  · rfl
-  · funext f
-    rfl
+  funext f
+  rfl
 
 /-! ## The degree-zero clause -/
 

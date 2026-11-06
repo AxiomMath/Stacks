@@ -54,6 +54,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_QuasiAffineStableOpenSchematicLocus :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_QuasiAffineStableOpenSchematicLocus
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The points of a stable quasi-affine open of a flat chart lie in the schematic locus.**
 Let `G` be an algebraic space over `S` with `π : G ⟶ h_u`, let `w : a ⟶ u` be an open immersion
 with `a` affine, and let `g : h_V ⟶ G` be the base change along `π` of `q ≫ w`, for a
@@ -137,7 +148,7 @@ theorem image_pointsMap_subset_schematicLocus_of_isQuasiAffine
     (r := yoneda.map i ≫ yoneda.map ρ)
     hGTsub.1.isSheaf_fpqc (isAlgebraicSpace_yoneda B S hS u).isSheaf_fpqc inferInstance
     inferInstance inferInstance inferInstance inferInstance sqF hr
-  have _hrep : (pullback ((openSubspaceOfPoints B S hS G W).ι ≫ π)
+  have _hrep : (Limits.pullback ((openSubspaceOfPoints B S hS G W).ι ≫ π)
       (yoneda.map w)).IsRepresentable :=
     Functor.isRepresentable_of_relativelyRepresentable_of_target_isRepresentable _ hpb.rep
   -- the open immersion of the base change to `h_a` into `G`

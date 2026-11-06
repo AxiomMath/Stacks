@@ -305,7 +305,7 @@ theorem shiftAmb_apply (i : I) (a : I →₀ ℚ) (m : (I →₀ ℚ) →₀ V S
   congr 1
   have h : c = (c - a) + a := (sub_add_cancel c a).symm
   conv_lhs => rw [h]
-  exact Finsupp.mapDomain_apply (add_left_injective a) m (c - a)
+  exact Finsupp.mapDomain_apply_of_injective (add_left_injective a) m (c - a)
 
 /-- A nonnegative exponent. -/
 abbrev Nonneg (a : I →₀ ℚ) : Prop := ∀ l, 0 ≤ a l

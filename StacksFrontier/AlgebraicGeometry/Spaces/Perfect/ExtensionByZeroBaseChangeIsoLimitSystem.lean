@@ -156,6 +156,17 @@ private theorem bijective_localizationHom_of_isPullback {T T' U Z : AlgebraicSpa
   (DerivedPullbackComposition.canonical B S hS).bijective_localizationHom u' t t' u hu hu' sq.w
     A K
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_ExtensionByZeroBaseChangeIsoLimitSystem :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ExtensionByZeroBaseChangeIsoLimitSystem
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace DescentSituation
 
 variable {hZ : B.Contains (⊤_ Scheme.{u})} {I : Type v} [Preorder I] [IsDirected I (· ≤ ·)]

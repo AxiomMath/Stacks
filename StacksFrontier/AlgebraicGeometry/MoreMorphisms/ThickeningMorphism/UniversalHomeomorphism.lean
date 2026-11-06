@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.MorphismProperty.Limits
+public import Mathlib.AlgebraicGeometry.PullbackCarrier
 public import StacksFrontier.AlgebraicGeometry.Morphisms.UniversalHomeomorphism.Defs.Basic
 public import StacksFrontier.AlgebraicGeometry.Thickenings
 

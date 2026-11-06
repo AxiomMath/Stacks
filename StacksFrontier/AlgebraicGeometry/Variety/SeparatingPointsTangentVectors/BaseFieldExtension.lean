@@ -143,7 +143,8 @@ theorem isClosedImmersion_of_pinned_of_span_of_surjectsOnDegreeTwo_baseChange {k
       (ConcreteCategory.bijective_of_isIso
         ((Scheme.ΓSpecIso (.of K)).inv ≫ (φ' ≫ qK).appTop)).2
     intro σ
-    refine hbc.inductionOn σ _ (Submodule.zero_mem _) (fun m => ?_) (fun a n hn => ?_)
+    refine hbc.inductionOn σ (motive := (· ∈ Submodule.span K (Set.range t'))) (fun m => ?_)
+      (fun a n hn => ?_)
       (fun _ _ => Submodule.add_mem _)
     · induction (hspan m) using Submodule.span_induction with
       | mem x hx => obtain ⟨i, rfl⟩ := hx; exact Submodule.subset_span ⟨i, rfl⟩

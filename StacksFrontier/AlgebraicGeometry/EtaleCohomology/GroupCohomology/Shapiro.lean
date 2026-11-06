@@ -59,7 +59,7 @@ def trivialGModule (A : Type w) [AddCommGroup A] : ContinuousGModule.{v, w} G :=
 /-- Every element of `G` acts as the identity on `trivialGModule G A`. -/
 @[simp]
 lemma trivialGModule_ρ (A : Type w) [AddCommGroup A] (g : G) (a : A) :
-    ((trivialGModule G A).obj.obj.ρ g).hom a = a := rfl
+    ((trivialGModule G A).obj.obj.ρ g).asHom.hom a = a := rfl
 
 variable {G} {G' : Type v'} [Group G'] [TopologicalSpace G']
 

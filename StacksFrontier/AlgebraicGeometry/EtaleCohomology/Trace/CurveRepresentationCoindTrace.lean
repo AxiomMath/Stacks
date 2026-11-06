@@ -73,8 +73,8 @@ theorem exists_finiteEtaleOver_transitive_stabilizer_eq
   have hψ : ∀ (σ : G) (w : (finiteEtaleFiberFunctor x).obj W), ψ (σ • w) = σ • ψ w := by
     intro σ w
     have h : ConcreteCategory.hom c.hom.hom.hom
-        (ConcreteCategory.hom ((E.functor.obj W).obj.ρ σ) w) =
-          ConcreteCategory.hom (Q.obj.ρ σ) (ConcreteCategory.hom c.hom.hom.hom w) :=
+        (ConcreteCategory.hom ((E.functor.obj W).obj.ρ σ).asHom w) =
+          ConcreteCategory.hom (Q.obj.ρ σ).asHom (ConcreteCategory.hom c.hom.hom.hom w) :=
       ConcreteCategory.congr_hom (c.hom.hom.comm σ) w
     rwa [finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply] at h
   have hψ' : ∀ (σ : G) q, σ • ψ' q = ψ' (σ • q) := fun σ q ↦ by
@@ -88,7 +88,7 @@ theorem exists_finiteEtaleOver_transitive_stabilizer_eq
   have hstabQ : ∀ σ : G, σ • q₀ = q₀ ↔ σ ∈ H := by
     intro σ
     have key : σ • q₀ = q₀ ↔ σ • (⟦1⟧ : G ⧸ H.toSubgroup) = ⟦1⟧ := by
-      show (FintypeCat.uSwitch.map (Q0.obj.ρ σ)) q₀ = q₀ ↔ _
+      show (FintypeCat.uSwitch.map (Q0.obj.ρ σ).asHom) q₀ = q₀ ↔ _
       rw [← e.apply_eq_iff_eq, ← FintypeCat.uSwitchEquiv_naturality, hq]
       rfl
     rw [key, MulAction.Quotient.smul_mk, smul_eq_mul, mul_one, QuotientGroup.eq]

@@ -174,16 +174,16 @@ private theorem isIso_smallEtaleDerivedBaseChangeAb_of_isPullback (e : Y ⟶ T) 
     [Etale e] [Etale f] :
     IsIso (smallEtaleDerivedBaseChangeAb f g h e w) := by
   have := isIso_smallEtaleBaseChangeAb_of_isPullback e h g f w sq
-  have : IsIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnit :=
+  have : IsIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso (smallEtalePullbackAb e)
-  have : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit :=
+  have : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso (smallEtalePullbackAb f)
   exact Stacks.Cohomology.ProperBaseChange.isIso_baseChangeDerived
     (smallEtalePushforwardAb g) (smallEtalePushforwardAb h)
     (smallEtalePullbackAb f) (smallEtalePullbackAb e)
     (smallEtaleBaseChangeAb f g h e w)
     (fun M _ => inferInstance)
-    (asIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit)
+    (asIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith)
     fun M hM => rightAcyclic_of_injective (smallEtalePushforwardAb h) _
       (injective_smallEtalePullbackAb_obj e M hM)
 

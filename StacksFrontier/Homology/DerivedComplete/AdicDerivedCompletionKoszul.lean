@@ -82,8 +82,8 @@ private theorem scalarDifference_shift (K : DerivedCategory (ModuleCat.{v} A))
   intro n
   dsimp only [e, scalarDifference]
   rw [Category.assoc, PreservesProduct.iso_hom, piComparison_comp_π,
-    ← F.map_comp, Pi.lift_π, F.map_sub, F.map_comp,
-    Category.assoc, Pi.lift_π, Preadditive.comp_sub, piComparison_comp_π,
+    ← F.map_comp, Pi.lift_comp_π, F.map_sub, F.map_comp,
+    Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, piComparison_comp_π,
     ← Category.assoc, piComparison_comp_π]
   simp [F]
 /-- A scalar Milnor fiber vanishes on every shift of a derived-complete coefficient complex. -/
@@ -192,7 +192,7 @@ public def coefficientKoszulFiltrationSequence {r : ℕ} (f : Fin r → A)
       apply Pi.hom_ext
       intro S
       change _ ≫ (canonicalFormulaLaws f).1.gradedProjection p hp n.unop K ≫ _ = _
-      rw [FormulaLaws.gradedProjection, Pi.lift_π]
+      rw [FormulaLaws.gradedProjection, Pi.lift_comp_π]
       simp only [NatTrans.app_zero, zero_comp]
       apply HomologicalComplex.hom_ext
       intro t
@@ -257,7 +257,7 @@ public def coefficientKoszulGradedTowerIso {r : ℕ} (f : Fin r → A) (p : ℤ)
       erw [piComparison_comp_π]
       change (a ≫ Pi.π (coefficientKoszulScalarTower f p K) S).app n = _
       dsimp only [a]
-      rw [Pi.lift_π]
+      rw [Pi.lift_comp_π]
       rfl
     have h' : a.app n = e.inv := by
       rw [← Category.comp_id (a.app n), ← e.hom_inv_id, ← Category.assoc, h,
@@ -281,7 +281,7 @@ towers. -/
     (coefficientKoszulGradedTowerIso f p K).hom ≫
       Pi.π (coefficientKoszulScalarTower f p K) S = coefficientKoszulGradedTowerπ f p K S := by
   show Pi.lift _ ≫ _ = _
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 /-- `coefficientKoszulGradedMilnorIso` is compatible with the projections to the scalar
 factors. -/
 @[reassoc] public theorem coefficientKoszulGradedMilnorIso_hom_π {r : ℕ} (f : Fin r → A) (p : ℤ)
@@ -476,12 +476,12 @@ public theorem constantTower_augmentation_quasiIso
     apply Pi.hom_ext
     intro stage
     simp only [Preadditive.add_comp, Category.assoc, Category.id_comp]
-    simp only [inclusion, TowerAugmentation.productLift, Pi.lift_π,
+    simp only [inclusion, TowerAugmentation.productLift, Pi.lift_comp_π,
       constantTowerAugmentation, Category.comp_id]
     simp only [sectionMap]
-    simp only [oneMinusShift, Pi.lift_π, tower, Functor.const_obj_obj,
+    simp only [oneMinusShift, Pi.lift_comp_π, tower, Functor.const_obj_obj,
       Functor.const_obj_map, Category.comp_id]
-    simp only [Preadditive.comp_neg, Preadditive.comp_sum, Pi.lift_π]
+    simp only [Preadditive.comp_neg, Preadditive.comp_sum, Pi.lift_comp_π]
     rw [telescoping]
     dsimp [retraction]
     abel

@@ -119,6 +119,8 @@ public theorem pullback_map_injective_of_annihilated {M N : X.Modules}
   have := isIso_unit_app_of_idealPowerMultiple_ker_eq_bot i N hN
   have hf := (Scheme.Modules.pullbackPushforwardAdjunction i).unit.naturality f
   have hg := (Scheme.Modules.pullbackPushforwardAdjunction i).unit.naturality g
+  have : Mono ((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app N) :=
+    IsIso.mono_of_iso _
   refine (cancel_mono ((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app N)).1 ?_
   dsimp only [Functor.id_map, Functor.comp_map] at hf hg
   rw [hf, hg, h]
@@ -146,6 +148,8 @@ public theorem exists_pullback_map_eq_of_annihilated {M N : X.Modules}
       (Scheme.Modules.pushforward i).map g ≫
         inv ((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app N))
   dsimp only [Functor.id_map, Functor.comp_map, Functor.id_obj] at hnat
+  have : Epi ((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app M) :=
+    IsIso.epi_of_iso _
   refine (cancel_epi ((Scheme.Modules.pullbackPushforwardAdjunction i).unit.app M)).1 ?_
   rw [← hnat, Category.assoc, Category.assoc, IsIso.inv_hom_id, Category.comp_id]
 

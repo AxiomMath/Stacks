@@ -123,7 +123,7 @@ theorem exists_divisorPicardClass_eq_of_genus_le [IsCurve E f] (z : ofScheme Z)
   have hRR := finrank_cohomologyOverField_zero_sub_one_eq E f hdim M hM
   have hO := zero_lt_finrank_cohomologyOverField_zero_unit E f
   have hdeg : @invertibleCurveDegree E _ Z f _ hdim M hM = picardDegree f hdim z := rfl
-  have hpos : 0 < Module.finrank E (cohomologyOverField E f M 0) := by lia
+  have hpos : 0 < Module.finrank E (cohomologyOverField E f M 0) := by omega
   obtain ⟨s, hs⟩ := exists_section_of_finrank_pos E f M hpos
   have hne := nonempty_nonvanishingLocus_of_eval_top_ne_zero M s hs
   have heq : Stacks.NonvanishingTrivialize.nonvanishingLocus Z.toRingedSpace M s =

@@ -64,8 +64,8 @@ theorem exists_hom_finiteEtaleOver_of_stabilizer_le (V W : FiniteEtaleOver X)
     { hom := FintypeCat.homMk t
       comm := fun τ ↦ by
         ext z
-        show t (ConcreteCategory.hom ((E.functor.obj V).obj.ρ τ) z) =
-          ConcreteCategory.hom ((E.functor.obj W).obj.ρ τ) (t z)
+        show t (ConcreteCategory.hom ((E.functor.obj V).obj.ρ τ).asHom z) =
+          ConcreteCategory.hom ((E.functor.obj W).obj.ρ τ).asHom (t z)
         exact (congrArg t (finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply x _ τ z)).trans
           ((ht τ z).trans (finiteEtaleEquivalenceOfIsGaloisCategory_rho_apply x W τ (t z)).symm) }
   let f := E.functor.preimage (ObjectProperty.homMk hAct)

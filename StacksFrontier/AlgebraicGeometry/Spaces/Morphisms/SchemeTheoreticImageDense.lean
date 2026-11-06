@@ -51,6 +51,12 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on the big fppf site, supplied directly: instance search for
+`HasLimit (cospan f g)` in this functor category times out under Lean v4.35.0. -/
+local instance (priority := high) {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ R)
+    (g : Q ⟶ R) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (self := functorCategoryHasLimitsOfShape) (cospan f g)
+
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- The set of points of the scheme-theoretic image of `f : X ⟶ Y` misses the image of the

@@ -133,8 +133,10 @@ theorem isConstructibleEtaleModule_etaleModuleULiftIntEquivalence_inverse_obj
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})
     (hF : _root_.Stacks.EtaleCohomology.IsConstructibleSmallEtaleAbelianSheaf.{u, 0} F) :
     IsConstructibleEtaleModule (ULift.{u + 1} ℤ)
-      ((etaleModuleULiftIntEquivalence.{0} X).inverse.obj F) :=
-  isConstructibleModuleSheaf_uliftIntEquivalence _ _ _ hF
+      ((etaleModuleULiftIntEquivalence.{0} X).inverse.obj F) := by
+  have := fun S T f ↦
+    isRightAdjoint_sheafPushforwardContinuous_addCommGrpCat_containing.{u, 0} X S T f
+  exact isConstructibleModuleSheaf_uliftIntEquivalence _ _ _ hF
 
 /-- A sheaf of `ULift ℤ`-modules is constructible iff its image under the equivalence with abelian
 sheaves and back is. -/
@@ -170,6 +172,8 @@ theorem isConstructibleEtaleAbelianSheaf_etaleModuleForget_uliftInt
         (SmallEtale.topology B S.obj S.property)
         (SmallEtale.topology B T.obj T.property)).IsRightAdjoint := fun _ _ f ↦
     SmallEtale.isRightAdjointPushforward_moduleCat.{u, 0, 0} B ℤ f
+  have := fun S T f ↦
+    isRightAdjoint_sheafPushforwardContinuous_addCommGrpCat_containing.{u, 0} X S T f
   have : ∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
       HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
         (ModuleCat.{u + 1} ℤ) := fun T V ↦
@@ -190,6 +194,8 @@ theorem torsionSheafProperty_of_isConstructibleEtaleAbelianSheaf
   let B := BigEtaleSite.containing X
   let hX : B.Contains X := BigEtaleSite.contains_containing X
   let e := SmallEtale.sheafEquiv B X hX AddCommGrpCat.{u + 1}
+  have := fun S T f ↦
+    isRightAdjoint_sheafPushforwardContinuous_addCommGrpCat_containing.{u, 0} X S T f
   exact (Stacks.Torsion.torsionSheafProperty _).prop_of_iso (e.counitIso.app F)
     (SmallEtale.torsionSheafProperty_sheafEquiv_functor_obj B (B.obj X hX) _
       (torsionSheafProperty_of_isConstructibleAbelianSheaf B (B.obj X hX) _ hF))

@@ -495,7 +495,7 @@ private theorem finitePushforwardStalkComponent_surjective_of_partitions_general
     exact ⟨⟨x⟩, hx⟩
   have hmono (i : E.I₀) : Mono (E.f i) := Q.mono_toBase i.down
   obtain ⟨s', hs'⟩ := exists_section_of_disjoint_cover_general B X.1 X.property F _ E hE
-    (fun i j hij => Q.disjoint (fun he => hij (ULift.ext _ _ he)))
+    (fun i j hij => Q.disjoint (fun he => hij (ULift.ext he)))
     (fun i => F.obj.map (Q.toNeighborhood i.down).1.op (s i.down))
   let D' := (CategoryOfElements.π
     (geometricPointFiber B Y.1 Y.property y)).op ⋙

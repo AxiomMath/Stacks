@@ -42,6 +42,25 @@ universe u
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X : AlgebraicSpaces B S hS} {T : BigFppfOver B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_GlobalFunctionsOfMapGlobalSectionSets
+    (Z : AlgebraicSpaces B S hS) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((smallEtaleRingedTopos B S hS Z).Cᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The terminal sheaf of sets on the small étale site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasTerminal_topos_GlobalFunctionsOfMapGlobalSectionSets
+    (Z : AlgebraicSpaces B S hS) : HasTerminal (smallEtaleRingedTopos B S hS Z).Topos :=
+  haveI : HasLimitsOfShape (Discrete PEmpty.{1})
+      ((SmallEtale B S hS Z.1)ᵒᵖ ⥤ Type u) :=
+    functorCategoryHasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS Z.1) (Type u))
+
 /-- **Multiplication by a pulled-back function is the pullback of multiplication**: for
 `g : X ⟶ T` and `a ∈ Γ(T, 𝒪_T)`, the pullback along `g` of the section `a` of `𝒪_T`, followed by
 `g^*𝒪_T ≅ 𝒪_X`, is multiplication by `g^♯a`. -/

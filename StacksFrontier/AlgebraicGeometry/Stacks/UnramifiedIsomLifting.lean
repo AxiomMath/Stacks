@@ -89,6 +89,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_UnramifiedIsomLifting :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_UnramifiedIsomLifting
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Two morphisms into a presheaf over `Z` whose relative diagonal is an open immersion are equal
 as soon as they agree at every field-valued point of their source. -/
 theorem eq_of_isOpenImmersion_diagonal_of_forall_fieldValuedPoint
@@ -356,8 +367,8 @@ theorem bijective_automorphismGroupMap_of_isFieldObject (f : 𝒳 ⟶ 𝒴)
 /-- An invertible endomorphism lying over an identity of the base is a vertical automorphism. -/
 private theorem asIso_mem_verticalAut {𝒞 𝒜 : Type*} [Category 𝒞] [Category 𝒜] {p : 𝒜 ⥤ 𝒞}
     {V : 𝒞} {s : 𝒜} (a : s ⟶ s) [IsIso a] (h : p.IsHomLift (𝟙 V) a) :
-    (asIso a : Aut s) ∈ p.verticalAut s := by
-  refine (Functor.mem_verticalAut_iff p (asIso a)).mpr ?_
+    Aut.of (asIso a) ∈ p.verticalAut s := by
+  refine (Functor.mem_verticalAut_iff p (Aut.of (asIso a))).mpr ?_
   change p.map a = _
   rw [IsHomLift.fac' p (𝟙 V) a]
   simp
@@ -373,11 +384,11 @@ private theorem eq_id_of_isFieldObject_of_map_eq_id (f : 𝒳 ⟶ 𝒴)
   have hV' : 𝒳.val.val.p.obj s = V := IsHomLift.domain_eq _ (𝟙 V) a
   have _ : IsIso a := Functor.isIso_of_fiber_isGroupoid
     (𝒳.val.isFiberedInGroupoids.fiber_isGroupoid V) a inferInstance
-  have hone : (⟨asIso a, asIso_mem_verticalAut a hav⟩ : 𝒳.val.val.p.verticalAut s) = 1 :=
+  have hone : (⟨Aut.of (asIso a), asIso_mem_verticalAut a hav⟩ : 𝒳.val.val.p.verticalAut s) = 1 :=
     (bijective_automorphismGroupMap_of_isFieldObject B S hS f hauto s (hV' ▸ hV)).1 <| by
       rw [map_one]
-      exact Subtype.ext (Aut.ext ha)
-  exact congrArg (fun z : 𝒳.val.val.p.verticalAut s => (z : Aut s).hom) hone
+      exact Subtype.ext (Aut.ext (Iso.ext ha))
+  exact congrArg (fun z : 𝒳.val.val.p.verticalAut s => (z : Aut s).asIso.hom) hone
 
 /-- If `f` induces isomorphisms between automorphism groups, the restriction to an object over a
 field of an endomorphism which `f` sends to an identity is an identity. -/
@@ -542,17 +553,17 @@ theorem exists_map_eq_of_isUnramified_of_isRepresentable (f : 𝒳 ⟶ 𝒴)
   have hV' : pX.obj s₁' = V := IsHomLift.domain_eq pX t m₁
   have _ : IsIso β' := Functor.isIso_of_fiber_isGroupoid (hq.fiber_isGroupoid V) β' inferInstance
   obtain ⟨α', hα'⟩ := (bijective_automorphismGroupMap_of_isFieldObject B S hS f hauto s₁'
-    (hV' ▸ hV)).2 ⟨asIso β', asIso_mem_verticalAut (V := V) β' inferInstance⟩
-  have hFα : F.map (α' : Aut s₁').hom = β' :=
-    congrArg (fun z : pY.verticalAut (F.obj s₁') => (z : Aut (F.obj s₁')).hom) hα'
-  have hα'v : pX.IsHomLift (𝟙 V) (α' : Aut s₁').hom := by
+    (hV' ▸ hV)).2 ⟨Aut.of (asIso β'), asIso_mem_verticalAut (V := V) β' inferInstance⟩
+  have hFα : F.map (α' : Aut s₁').asIso.hom = β' :=
+    congrArg (fun z : pY.verticalAut (F.obj s₁') => (z : Aut (F.obj s₁')).asIso.hom) hα'
+  have hα'v : pX.IsHomLift (𝟙 V) (α' : Aut s₁').asIso.hom := by
     refine IsHomLift.of_fac' pX _ _ hV' hV' ?_
     rw [Functor.verticalAut.cond α']
     simp [pX]
   have _ : pX.IsHomLift (𝟙 V) δ := inferInstance
-  refine ⟨(α' : Aut s₁').hom ≫ δ, ?_, ?_⟩
-  · simpa using IsHomLift.comp pX (𝟙 V) (𝟙 V) (α' : Aut s₁').hom δ
-  · show F.map ((α' : Aut s₁').hom ≫ δ) ≫ F.map m₂ = F.map m₁ ≫ β
+  refine ⟨(α' : Aut s₁').asIso.hom ≫ δ, ?_, ?_⟩
+  · simpa using IsHomLift.comp pX (𝟙 V) (𝟙 V) (α' : Aut s₁').asIso.hom δ
+  · show F.map ((α' : Aut s₁').asIso.hom ≫ δ) ≫ F.map m₂ = F.map m₁ ≫ β
     rw [F.map_comp, Category.assoc, ← F.map_comp, hδ, hFα, hβ']
 
 end AlgebraicStacks

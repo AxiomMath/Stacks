@@ -5,6 +5,7 @@ public import Mathlib.Data.Nat.Factorization.Induction
 public import Mathlib.Data.ZMod.Basic
 public import Mathlib.GroupTheory.OrderOfElement
 public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic.Subgroup
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.GroupHomology.CompletedGroupAlgebra
 
 /-!

@@ -164,13 +164,13 @@ abbrev ThinData : Prop :=
 
 /-- The automorphism of `X R.x` attached to an object of the self-intersection. -/
 def auto (sep : SeparationData p𝒰 p𝒳 X) (R : Relation p𝒰 p𝒳 X) : Aut (X.obj R.x) :=
-  R.iso ≪≫ (X.mapIso (sep R).1).symm
+  .of (R.iso ≪≫ (X.mapIso (sep R).1).symm)
 
 /-- The automorphism attached to an object of the self-intersection lies over an identity: both
 of its factors do. -/
 lemma isHomLift_auto_hom (hX : X ⋙ p𝒳 = p𝒰) (sep : SeparationData p𝒰 p𝒳 X)
     (R : Relation p𝒰 p𝒳 X) :
-    p𝒳.IsHomLift (𝟙 R.base) (auto p𝒰 p𝒳 X sep R).hom := by
+    p𝒳.IsHomLift (𝟙 R.base) (auto p𝒰 p𝒳 X sep R).asIso.hom := by
   have h₁ : p𝒳.IsHomLift (𝟙 R.base) R.iso.hom := R.vertical
   have h₂ : p𝒰.IsHomLift (𝟙 R.base) (sep R).1.inv :=
     isHomLift_inv p𝒰 (sep R).1 (sep R).2
@@ -212,8 +212,8 @@ def toInertiaBase (hX : X ⋙ p𝒳 = p𝒰) (sep : SeparationData p𝒰 p𝒳 X
       a :=
         { hom := X.map h.a
           comm := by
-            change X.map h.a ≫ (auto p𝒰 p𝒳 X sep T).hom
-              = (auto p𝒰 p𝒳 X sep R).hom ≫ X.map h.a
+            change X.map h.a ≫ (auto p𝒰 p𝒳 X sep T).asIso.hom
+              = (auto p𝒰 p𝒳 X sep R).asIso.hom ≫ X.map h.a
             have key : h.b ≫ (sep T).1.inv = (sep R).1.inv ≫ h.a := by
               refine thin h.hbase _ _ ?_ ?_
               · exact isHomLift_comp_vertical p𝒰 h.hbase h.b (sep T).1.inv h.hb
@@ -321,7 +321,7 @@ abbrev ofInertiaBase (P : InertiaBase p𝒰 p𝒳 X) : Relation p𝒰 p𝒳 X wh
   y := P.y
   hx := P.hy
   hy := P.hy
-  iso := P.iso.symm ≪≫ P.x.auto ≪≫ P.iso
+  iso := P.iso.symm ≪≫ P.x.auto.asIso ≪≫ P.iso
   vertical := isHomLift_vertical_comp p𝒳 (𝟙 P.base) _ _ (isHomLift_inv p𝒳 P.iso P.vertical)
     (isHomLift_vertical_comp p𝒳 (𝟙 P.base) _ _ (isHomLift_of_map_eq_id p𝒳 _ P.x.cond P.hx)
       P.vertical)
@@ -344,11 +344,11 @@ include thin in
 /-- At the object attached to an object `P` of the base change of the inertia, the automorphism
 of the comparison is the automorphism of `P` conjugated by the comparison isomorphism of `P`. -/
 lemma auto_ofInertiaBase (P : InertiaBase p𝒰 p𝒳 X) :
-    (auto p𝒰 p𝒳 X sep (ofInertiaBase P)).hom
-      = P.iso.inv ≫ P.x.auto.hom ≫ P.iso.hom := by
-  show (P.iso.inv ≫ P.x.auto.hom ≫ P.iso.hom)
+    (auto p𝒰 p𝒳 X sep (ofInertiaBase P)).asIso.hom
+      = P.iso.inv ≫ P.x.auto.asIso.hom ≫ P.iso.hom := by
+  show (P.iso.inv ≫ P.x.auto.asIso.hom ≫ P.iso.hom)
       ≫ X.map (sep (ofInertiaBase P)).1.inv
-    = P.iso.inv ≫ P.x.auto.hom ≫ P.iso.hom
+    = P.iso.inv ≫ P.x.auto.asIso.hom ≫ P.iso.hom
   rw [sep_ofInertiaBase_inv sep thin P, X.map_id, Category.comp_id]
 
 /-- The comparison 1-morphism out of the object attached to `P`. -/
@@ -356,10 +356,10 @@ def essSurjHom (P : InertiaBase p𝒰 p𝒳 X) :
     (toInertiaBase p𝒰 p𝒳 X hX sep thin).obj (ofInertiaBase P) ⟶ P := by
   refine { hbase := 𝟙 P.base, a := ⟨P.iso.inv, ?_⟩, b := 𝟙 P.y,
            ha := ?_, hb := isHomLift_id_y P, w := ?_ }
-  · change P.iso.inv ≫ P.x.auto.hom
-      = (auto p𝒰 p𝒳 X sep (ofInertiaBase P)).hom ≫ P.iso.inv
+  · change P.iso.inv ≫ P.x.auto.asIso.hom
+      = (auto p𝒰 p𝒳 X sep (ofInertiaBase P)).asIso.hom ≫ P.iso.inv
     rw [auto_ofInertiaBase sep thin P]
-    exact isoCancelLeft P.iso P.x.auto.hom
+    exact isoCancelLeft P.iso P.x.auto.asIso.hom
   · exact isHomLift_inertiaHom _ (isHomLift_inv p𝒳 P.iso P.vertical)
   · change P.iso.inv ≫ P.iso.hom = 𝟙 (X.obj P.y) ≫ X.map (𝟙 P.y)
     rw [X.map_id, Category.id_comp]
@@ -370,10 +370,10 @@ def essSurjInv (P : InertiaBase p𝒰 p𝒳 X) :
     P ⟶ (toInertiaBase p𝒰 p𝒳 X hX sep thin).obj (ofInertiaBase P) := by
   refine { hbase := 𝟙 P.base, a := ⟨P.iso.hom, ?_⟩, b := 𝟙 P.y,
            ha := ?_, hb := isHomLift_id_y P, w := ?_ }
-  · change P.iso.hom ≫ (auto p𝒰 p𝒳 X sep (ofInertiaBase P)).hom
-      = P.x.auto.hom ≫ P.iso.hom
+  · change P.iso.hom ≫ (auto p𝒰 p𝒳 X sep (ofInertiaBase P)).asIso.hom
+      = P.x.auto.asIso.hom ≫ P.iso.hom
     rw [auto_ofInertiaBase sep thin P]
-    exact isoCancelRight P.iso P.x.auto.hom
+    exact isoCancelRight P.iso P.x.auto.asIso.hom
   · exact isHomLift_inertiaHom _ P.vertical
   · change P.iso.hom ≫ 𝟙 (X.obj P.y) = P.iso.hom ≫ X.map (𝟙 P.y)
     rw [X.map_id]

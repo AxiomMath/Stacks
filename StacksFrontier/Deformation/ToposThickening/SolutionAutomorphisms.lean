@@ -418,14 +418,14 @@ group of section-wise derivations of the solution rather than Ext⁰_O(L_f, G); 
 identification is not proved, as in the library's Stacks 08UG and Stacks 08UK"]
 public noncomputable def autEquivDerivation (P : S.CompatibleFirstOrderThickening) :
     P.AutomorphismGroup ≃ Derivation P :=
-  (Groupoid.isoEquivHom P P).trans
+  Aut.isoEquiv.trans <| (Groupoid.isoEquivHom P P).trans
     ((isoEquivHom P P).trans (homEquivDerivation (Hom.id P)).symm)
 
 /-- The value of the bijection of `autEquivDerivation` on sections. -/
 public theorem incl_autEquivDerivation_toFun (P : S.CompatibleFirstOrderThickening)
     (a : P.AutomorphismGroup) (U : X.Cᵒᵖ) (x : P.extension.obj.obj U) :
-    P.incl ((autEquivDerivation P a).toFun U x) = a.hom.hom.hom.hom.app U x - x :=
-  incl_diff (Hom.id P) (Iso.toHom a.hom) U x
+    P.incl ((autEquivDerivation P a).toFun U x) = a.asIso.hom.hom.hom.hom.app U x - x :=
+  incl_diff (Hom.id P) (Iso.toHom a.asIso.hom) U x
 
 omit [X.J.HasSheafCompose (forget CommRingCat.{w})]
   [(forget CommRingCat.{w}).ReflectsIsomorphisms] in
@@ -433,8 +433,8 @@ omit [X.J.HasSheafCompose (forget CommRingCat.{w})]
 actions. -/
 public theorem autMul_apply (P : S.CompatibleFirstOrderThickening)
     (a b : P.AutomorphismGroup) (U : X.Cᵒᵖ) (x : P.extension.obj.obj U) :
-    (a * b).hom.hom.hom.hom.app U x =
-      a.hom.hom.hom.hom.app U (b.hom.hom.hom.hom.app U x) := rfl
+    (a * b).asIso.hom.hom.hom.hom.app U x =
+      a.asIso.hom.hom.hom.hom.app U (b.asIso.hom.hom.hom.hom.app U x) := rfl
 
 /-- **Stacks Project, Tag 08V5, clause (3).** The canonical bijection between the automorphisms
 of a solution and the derivations of that solution is an isomorphism of groups: composition of
@@ -450,12 +450,13 @@ public theorem autEquivDerivation_mul (P : S.CompatibleFirstOrderThickening)
   rw [Derivation.add_toFun, P.incl_add, incl_autEquivDerivation_toFun P a U x,
     incl_autEquivDerivation_toFun P b U x, incl_autEquivDerivation_toFun P (a * b) U x,
     autMul_apply P a b U x]
-  have hb : b.hom.hom.hom.hom.app U x = x + P.incl ((autEquivDerivation P b).toFun U x) := by
+  have hb : b.asIso.hom.hom.hom.hom.app U x =
+      x + P.incl ((autEquivDerivation P b).toFun U x) := by
     rw [incl_autEquivDerivation_toFun]
     abel
   rw [hb, map_add]
-  have hker := a.hom.kernel_comm U ((autEquivDerivation P b).toFun U x)
-  change a.hom.hom.hom.hom.app U (P.incl ((autEquivDerivation P b).toFun U x)) =
+  have hker := a.asIso.hom.kernel_comm U ((autEquivDerivation P b).toFun U x)
+  change a.asIso.hom.hom.hom.hom.app U (P.incl ((autEquivDerivation P b).toFun U x)) =
     P.incl ((autEquivDerivation P b).toFun U x) at hker
   rw [hker, incl_autEquivDerivation_toFun P b U x]
   abel

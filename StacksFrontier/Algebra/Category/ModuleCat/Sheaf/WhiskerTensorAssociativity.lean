@@ -224,6 +224,7 @@ public theorem sheafificationUnit_comp_whiskerRight_val
       (whiskerRight_eq_sheafify_map O hO f Z)).trans
     (sheafificationUnit_naturality_sheafify O hO (f.val ▷ Z.val))
 
+set_option maxHeartbeats 1000000 in
 /-- **The associativity constraint of the tensor product sheaf, read through the sheafification
 units of the objectwise tensor products.**
 

@@ -173,8 +173,7 @@ lemma pullback_lift_eq {X Y : TopCat.{u}} (f : X ⟶ Y)
       (((sheafificationAdjunction (Opens.grothendieckTopology X) RingCat).homEquiv _ _).symm
         (((TopCat.Presheaf.pullbackPushforwardAdjunction RingCat f).homEquiv _ _).symm g.hom)))
     (Adjunction.homEquiv_leftAdjointUniq_hom_app
-      ((Opens.map f).sheafAdjunctionContinuous RingCat
-        (Opens.grothendieckTopology Y) (Opens.grothendieckTopology X))
+      (TopCat.Sheaf.pullbackPushforwardAdjunction RingCat f)
       (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous (Opens.map f) RingCat
         (Opens.grothendieckTopology Y) (Opens.grothendieckTopology X)) O)).symm
   refine Eq.trans ?_ (Adjunction.homEquiv_unit ..)

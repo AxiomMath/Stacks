@@ -201,7 +201,7 @@ lemma quotient_monomial_normal (k : Type u) [CommRing k] (d : Fin 3 →₀ ℕ) 
 /-- The canonical representative of a polynomial modulo the relation. -/
 def normalizePolynomial (k : Type u) [CommRing k] (p : MvPolynomial (Fin 3) k) :
     MvPolynomial (Fin 3) k :=
-  ∑ d ∈ p.support, MvPolynomial.monomial (normalizedExponent d) (MvPolynomial.coeff d p)
+  ∑ d ∈ p.support, MvPolynomial.monomial (normalizedExponent d) (p.coeff d)
 
 /-- Modulo the relation, a polynomial equals its canonical representative. -/
 lemma quotient_mk_normalize (k : Type u) [CommRing k] (p : MvPolynomial (Fin 3) k) :
@@ -209,7 +209,7 @@ lemma quotient_mk_normalize (k : Type u) [CommRing k] (p : MvPolynomial (Fin 3) 
       Ideal.Quotient.mk (cubicRelationIdeal k) (normalizePolynomial k p) := by
   conv_lhs => rw [p.as_sum]
   simp only [normalizePolynomial, map_sum]
-  exact Finset.sum_congr rfl fun d _ => quotient_monomial_normal k d (MvPolynomial.coeff d p)
+  exact Finset.sum_congr rfl fun d _ => quotient_monomial_normal k d (p.coeff d)
 
 /-- Every monomial of the canonical representative of a polynomial is canonical: it is not
 divisible by both `X₀` and `X₂`. -/
@@ -217,7 +217,7 @@ lemma normalizePolynomial_canonical (k : Type u) [CommRing k]
     (p : MvPolynomial (Fin 3) k) (d : Fin 3 →₀ ℕ)
     (hd : d ∈ (normalizePolynomial k p).support) : d 0 = 0 ∨ d 2 = 0 := by
   have hd' : d ∈ p.support.biUnion fun e =>
-      (MvPolynomial.monomial (normalizedExponent e) (MvPolynomial.coeff e p)).support :=
+      (MvPolynomial.monomial (normalizedExponent e) (p.coeff e)).support :=
     MvPolynomial.support_sum hd
   rcases Finset.mem_biUnion.mp hd' with ⟨e, _, hde⟩
   have hde' : d = normalizedExponent e :=
@@ -234,7 +234,7 @@ private theorem eq_zero_of_map_monomial_of_injOn {k σ τ : Type*} [CommRing k]
   classical
   ext d
   by_cases hd : d ∈ p.support
-  · have hcoeff : MvPolynomial.coeff (g d) (f p) = MvPolynomial.coeff d p := by
+  · have hcoeff : (f p).coeff (g d) = p.coeff d := by
       conv_lhs => rw [p.as_sum]
       rw [map_sum, MvPolynomial.coeff_sum, Finset.sum_eq_single d]
       · simp [hf, MvPolynomial.coeff_monomial]
@@ -461,13 +461,13 @@ lemma degreeZeroCoefficient (E : WeightedPolynomialSituation) (p : E.naturalGrad
   have hq : q ∈ E.naturalGrading 0 := p.property
   have hh : q.IsWeightedHomogeneous E.naturalWeight 0 :=
     (MvPolynomial.mem_weightedHomogeneousSubmodule _ _ _ q).mp hq
-  refine ⟨MvPolynomial.coeff 0 q, ?_⟩
+  refine ⟨q.coeff 0, ?_⟩
   apply MvPolynomial.ext
   intro d
   by_cases hd : d = 0
   · subst d
     simp [q]
-  · have hcoeff : MvPolynomial.coeff d q = 0 := by
+  · have hcoeff : q.coeff d = 0 := by
       by_contra hc
       have hw := hh hc
       have hw' : d 0 + 2 * d 1 + 3 * d 2 = 0 := by

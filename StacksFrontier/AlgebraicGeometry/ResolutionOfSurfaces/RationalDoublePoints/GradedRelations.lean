@@ -253,7 +253,7 @@ public theorem aeval_sub_mem_of_map_eq (hx : ∀ i, x i ∈ maximalIdeal A) {n :
   have hc : ∀ c, (P - Q).coeff c ∈ maximalIdeal A ^ 1 := by
     intro c
     rw [pow_one, ← IsLocalRing.residue_eq_zero_iff]
-    have hcc := congrArg (fun z => MvPolynomial.coeff c z) h
+    have hcc := congrArg (fun z : MvPolynomial (Fin d) _ => z.coeff c) h
     simp only [MvPolynomial.coeff_map] at hcc
     rw [MvPolynomial.coeff_sub, map_sub, hcc, sub_self]
   have hmem := aeval_mem_pow_add (x := x) (maximalIdeal A) hx hsub hc

@@ -216,6 +216,8 @@ theorem exists_pow_comp_cokernel_eq_zero (hI : IsFiniteTypeQuasicoherentIdeal B 
   have := isClosedUnderKernels_quasicoherentSheaves_schemeUniverse B S hS Y.1 Y.2
   have := isClosedUnderCokernels_quasicoherentSheaves B S hS Y.1 Y.2
   let c := complementSection B S hS Y I G s ≫ cokernel.π (complementUnit B S hS Y I G)
+  haveI : Epi (Abelian.factorThruImage c) := Abelian.instEpiFactorThruImage c
+  haveI : Mono (Abelian.image.ι c) := equalizer.ι_mono
   have hH := isQuasicoherentOnSite_complementPushPull B S hS Y I hZ hYqs hUqc G hG
   have hC : (cokernel (complementUnit B S hS Y I G)).IsQuasicoherentOnSite :=
     ObjectProperty.prop_cokernel _ _ hG hH
@@ -233,6 +235,8 @@ theorem exists_pow_comp_cokernel_eq_zero (hI : IsFiniteTypeQuasicoherentIdeal B 
       ((modulePullbackIsoEtaleModulePullback B S hS (idealComplementι B S hS Y I) hι).app _).symm
   have := preservesFiniteLimits_restrictToIdealComplement B S hS Y I
   have := preservesMonomorphisms_restrictToIdealComplement B S hS Y I
+  haveI : Mono ((restrictToIdealComplement B S hS Y I).map (Abelian.image.ι c)) :=
+    Functor.map_mono _ _
   have hRM : IsZero ((restrictToIdealComplement B S hS Y I).obj (Abelian.image c)) :=
     IsZero.of_mono ((restrictToIdealComplement B S hS Y I).map (Abelian.image.ι c)) hRC
   obtain ⟨n, hn⟩ := exists_smul_eq_zero_of_isZero_restrictToIdealComplement B S hS Y hYqc I hI
@@ -271,7 +275,7 @@ theorem exists_pullback_stage {G H D : Modules.{u, u} B S hS Y.1 Y.2}
   obtain ⟨t', ht'⟩ : ∃ t' : D ⟶ Abelian.image η, t' = kernel.lift (cokernel.π η) t ht := ⟨_, rfl⟩
   have hefac : e ≫ Abelian.image.ι η = η := by rw [he]; exact Abelian.image.fac η
   have htfac : t' ≫ Abelian.image.ι η = t := by rw [ht']; exact kernel.lift_ι (cokernel.π η) t ht
-  have : Epi e := by rw [he]; infer_instance
+  have : Epi e := by rw [he]; exact Abelian.instEpiFactorThruImage η
   have hIm : (Abelian.image η).IsQuasicoherentOnSite :=
     ObjectProperty.prop_kernel _ _ hH (ObjectProperty.prop_cokernel _ η hG hH)
   have hP : (pullback e t').IsQuasicoherentOnSite :=

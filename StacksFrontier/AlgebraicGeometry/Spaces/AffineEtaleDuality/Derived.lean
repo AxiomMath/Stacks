@@ -74,6 +74,7 @@ scoped instance up_preservesFiniteLimits : PreservesFiniteLimits (Up A B hX) :=
 scoped instance up_preservesFiniteColimits : PreservesFiniteColimits (Up A B hX) :=
   Stacks.SheafOfModules.preservesFiniteColimits_moduleULift _
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The universe lift `Up A B hX` is additive. -/
 scoped instance up_additive : (Up A B hX).Additive :=
   Functor.additive_of_preserves_binary_products _

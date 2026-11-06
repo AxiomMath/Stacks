@@ -71,7 +71,7 @@ definition an `f♯`-derivation, that is, a derivation of `𝒪_C` relative to t
 form `f♯ : f⁻¹𝒪_D ⟶ 𝒪_C` of the structure map. -/
 @[stacks 04BQ "a Y-derivation is an f♯-derivation", ega "IV 16.5.1" "more general"]
 abbrev Derivation (F : Sheaf.targetModules.{u, v, w} X.J X.O) :=
-  F.val.Derivation' f.fSharpInverseImage.hom
+  PresheafOfModulesOfCommRing.Derivation' F.val f.fSharpInverseImage.hom
 
 /-- **Stacks 04BQ, part (2).** The sheaf of differentials `Ω_{X/Y} = Ω_f = Ω_{𝒪_C/f⁻¹𝒪_D}` of a
 morphism of ringed topoi `(f, f♯) : (Sh(C), 𝒪_C) ⟶ (Sh(D), 𝒪_D)`: the sheaf of differentials of

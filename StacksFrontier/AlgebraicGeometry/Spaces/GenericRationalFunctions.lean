@@ -780,7 +780,7 @@ private theorem exists_chart_data (hX : IsAlgebraicSpace B S hS X)
           genericPoint B S hS hX hInt ∧
         IsIntegral ((BigFppfOver.toScheme B S hS).obj C) ∧
         closure ({(BigFppfOver.toScheme B S hS).map g
-            (IsLocalRing.closedPoint p.carrier)} :
+                    (IsLocalRing.closedPoint p.carrier)} :
           Set ((BigFppfOver.toScheme B S hS).obj C)) = Set.univ := by
   obtain ⟨H, hH, hHU, hHrep⟩ := exists_isDenseOpenSubspace_isRepresentable_le B S hS hX hInt hU
   have hrep : H.toFunctor.IsRepresentable := hHrep

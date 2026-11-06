@@ -350,13 +350,13 @@ private theorem Algebra.exists_finite_syntomic_lift_of_square_presentation
     obtain ⟨cf, -, hcf⟩ := hx
     choose cl hcl using fun b => hsurj (cf b)
     have hx0 : φ (∑ b ∈ sB, cl b • lf b) = φ x := by
-      rw [map_sum, ← hcf]
+      set_option synthInstance.maxHeartbeats 200000 in rw [map_sum φ, ← hcf]
       refine Finset.sum_congr rfl fun b _ => ?_
       rw [hsmul, hcl b, hlf b]
     have hd : x - ∑ b ∈ sB, cl b • lf b ∈
         I • (⊤ : Submodule C' (MvPolynomial (Fin n) C' ⧸ J')) := by
       have hmem : x - ∑ b ∈ sB, cl b • lf b ∈ RingHom.ker φ := by
-        rw [RingHom.mem_ker, map_sub, hx0, sub_self]
+        rw [RingHom.mem_ker, RingHom.map_sub φ, hx0, sub_self]
       rw [hkerφ] at hmem
       have hsm := Ideal.smul_top_eq_map (R := C') (S := MvPolynomial (Fin n) C' ⧸ J') I
       rw [hsm]

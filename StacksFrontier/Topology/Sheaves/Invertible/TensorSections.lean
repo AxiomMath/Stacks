@@ -65,7 +65,7 @@ noncomputable def tensorSectionsOver (U : Cᵒᵖ)
         (F)).obj (G))).val.obj U := by
   letI : MonoidalCategory (PresheafOfModules.{w}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) :=
-    PresheafOfModules.monoidalCategory (R := O)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   exact (Stacks.SheafOfModules.TensorSheafification.toSheafify O hO (F.val ⊗ G.val)).app U
     (s ⊗ₜ[O.obj U] t)
 

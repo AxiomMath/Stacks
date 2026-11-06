@@ -4,6 +4,7 @@ public import Mathlib.Algebra.Category.Grp.Colimits
 public import Mathlib.Algebra.Category.Grp.FilteredColimits
 public import Mathlib.Algebra.Category.Grp.Limits
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
+public import Mathlib.CategoryTheory.Preadditive.Injective.LiftingProperties
 public import Mathlib.CategoryTheory.Sites.LeftExact
 public import Mathlib.Topology.Sheaves.AddCommGrpCat
 public import StacksFrontier.CategoryTheory.Preadditive.Injective.Basic

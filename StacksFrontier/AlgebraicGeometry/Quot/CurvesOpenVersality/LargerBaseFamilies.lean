@@ -69,6 +69,19 @@ attribute [local instance] AlgebraicGeometry.BigFppfSite.hasPullbacks_schemes
 attribute [local instance] MorphismProperty.IsMultiplicative.toContainsIdentities
 attribute [local instance] relocalizePreservesPullbacks
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search
+for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_largerBaseFamilies
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_largerBaseFamilies
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_largerBaseFamilies (B := B) (S := S) (hS := hS)).has_limit _
+
 private theorem locallyFinitePresentation_of_largerBase
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S S' : Scheme.{u})
     (hS : B.Contains S) (hS' : B.Contains S')
@@ -562,7 +575,7 @@ private theorem equivalence_map_inverse_map_comp_unitInv
     e.functor.map (e.inverse.map f ≫ e.unitIso.inv.app Y) =
       e.counitIso.hom.app X ≫ f := by
   rw [Functor.map_comp, e.fun_inv_map]
-  simp only [Category.assoc, e.counitIso_functor_comp, Category.comp_id]
+  simp only [Category.assoc, e.counitInv_functor_comp, Category.comp_id]
 
 private noncomputable def spaceFamilyOfLargerBase
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S S' : Scheme.{u})

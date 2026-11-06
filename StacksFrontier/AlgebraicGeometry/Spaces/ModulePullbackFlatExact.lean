@@ -202,8 +202,8 @@ theorem preservesFiniteLimits_modulePullback_of_isFlat_hom (g : X' ⟶ X)
     have h₂ := preservesFiniteColimits_modulePullback_comp_stalk B S hS g x
     refine ((T.map (structureModuleStalkFunctor B S hS X' x)).exact_iff_mono
       ((structureModuleStalkFunctor B S hS X' x).map_zero _ _)).2 ?_
-    exact inferInstanceAs (Mono
-      ((modulePullback B S hS g ⋙ structureModuleStalkFunctor B S hS X' x).map σ.f))
+    exact preserves_mono_of_preservesLimit
+      (modulePullback B S hS g ⋙ structureModuleStalkFunctor B S hS X' x) σ.f
 
 /-- **The inverse image of modules along a flat morphism of algebraic spaces preserves
 kernels.**  For a flat morphism `g : X' ⟶ X` of algebraic spaces and a map `v : M ⟶ N` of

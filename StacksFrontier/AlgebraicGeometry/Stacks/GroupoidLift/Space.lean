@@ -222,7 +222,7 @@ theorem map_baseMap_v₀_eq_vₗ (hA : Cardinal.mk A' < κ) (x : X.obj (red I (b
         (N' := nerve (A' := A') hκ C' hC 0) (Algebra.ofId A' C')) ≫ _
     rw [SmallAlg.homMk_comp, SmallAlg.homMk_comp, redMap_comp, redMap_comp]
     exact congrArg (fun f ↦ SmallAlg.homMk (redMap I f)) (Subsingleton.elim _ _)
-  rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, h]
+  rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, h]
 
 /-- **The lifting step for a sheaf with a formally étale chart.** Let `X` be a functor on the
 `κ`-small `A'`-algebras satisfying the sheaf condition for the faithfully flat `A' → C'` and
@@ -257,8 +257,8 @@ theorem exists_lift_of_chart_of_isSheaf (ha : a.IsFormallyEtale) [Algebra.Formal
   obtain ⟨x', hx'⟩ := hsheaf (a.app _ u) (by rwa [a.natural, a.natural])
   refine ⟨x', hsep _ _ ?_⟩
   have hx'' : X.map (baseThk hκ hC hI hA).top x' = a.app _ u := hx'
-  rw [← FunctorToTypes.map_comp_apply, ← (baseThk hκ hC hI hA).w,
-    FunctorToTypes.map_comp_apply, hx'', ← hubar, a.natural, hu]
+  rw [← Functor.map_comp_apply, ← (baseThk hκ hC hI hA).w,
+    Functor.map_comp_apply, hx'', ← hubar, a.natural, hu]
 
 end AlgebraicGeometry.Stack.GroupoidLift
 

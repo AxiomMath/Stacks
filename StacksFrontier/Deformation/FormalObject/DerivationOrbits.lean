@@ -90,7 +90,7 @@ public noncomputable def derivationDifferentialGraph
           (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
           (categoryOfElements_projection_isCofibered
             (restrictedCoyoneda ξ.base))
-          ⟨⟨dual, α⟩, rfl⟩ : source.obj dual) = y
+          ⟨(restrictedCoyoneda ξ.base).elementsMk dual α, rfl⟩ : source.obj dual) = y
 
 /-- **Stacks Project, Tag 06T6,** the condition itself. The differential of a formal object is a
 well-defined, equivariant map from derivations of its underlying algebra to the tangent space,

@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.FieldTheory.KummerExtension
+import Mathlib.RingTheory.Norm.Basic
 import Mathlib.Tactic.Continuity.Init
 import StacksCore.Algebra.Polynomial.Expand
 import StacksCore.FieldTheory.IntermediateField.Adjoin.Basic
@@ -85,7 +86,8 @@ theorem IntermediateField.adjoin_pow_finrank_eq_of_forall_pow_eq_one
     rw [← pow_mul, mul_comm, pow_mul]
     simpa using congr_arg ((↑) : F → L) h
   have hmem : z ^ d ∈ F := by
-    have hNz : ((Algebra.norm F z : F) : L) ≠ 0 := by simpa using hz0
+    have hNz : ((Algebra.norm F z : F) : L) ≠ 0 := by
+      rw [ne_eq, ZeroMemClass.coe_eq_zero]; exact Algebra.norm_ne_zero_iff.mpr hz0
     have hζ := hK _ <| hroots (Algebra.norm F z / z ^ d) <| by
       rw [div_pow, hN, div_self (pow_ne_zero _ (pow_ne_zero _ hz0))]
     rw [show z ^ d = Algebra.norm F z / (Algebra.norm F z / z ^ d) by field_simp]

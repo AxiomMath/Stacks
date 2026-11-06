@@ -4,6 +4,7 @@ public import StacksFrontier.RingTheory.Flat.UniversalInjectivity05U9
 public import StacksFrontier.RingTheory.GeometricallyNormal.Separable
 public import StacksFrontier.RingTheory.GeometricallyNormal.TensorProduct
 public import StacksFrontier.RingTheory.FormallySmooth.Field
+public import Mathlib.RingTheory.Noetherian.Nilpotent
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

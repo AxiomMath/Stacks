@@ -115,6 +115,17 @@ end BaseChangeSnd
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_AffineMorphism :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_AffineMorphism
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **An algebraic space affine over an affine algebraic space is affine.** If `f : F ⟶ G` is
 affine and `G` is an affine algebraic space, then so is `F`. -/
 theorem isAffineSpace_source_of_isAffineHom {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {f : F ⟶ G}
@@ -257,6 +268,7 @@ theorem isAffineSpace_limitBaseChange_of_isAffineHom_mapLimit (hb : IsSiteSmall 
       (D.isPullback_chartSquare v (limit.π D.base (op D.initial))) hf)
     (D.isAffineSpace_limitChartTarget v hb hV₀)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- If `v : V₀ ⟶ Y₀` is surjective and étale with `V₀` affine, and the base change
 `B_i ×_{B₀} (X₀ ×_{Y₀} V₀)` is an affine algebraic space, then `f_i` is affine. -/
 theorem isAffineHom_mapAt_of_isAffineSpace_baseChange

@@ -80,7 +80,7 @@ theorem existsUnique_hom_of_compatible_siteChange [IsNoetherianRing R] [IsAdicCo
   have hepi : ∀ n, Epi (Ψ.map (u n)) := fun n => by
     rw [hu n]
     have : Epi (p n) := coequalizer.π_epi
-    exact epi_comp _ _
+    exact @epi_comp _ _ _ _ _ _ this _ (IsIso.epi_of_iso _)
   have hκt : ∀ n, (κ (n + 1)).hom ≫ idealPowerQuotientMapOfLE B (Spec (.of R)) hR
       (siteChangeSpace B X π).1 (siteChangeSpace B X π).2 𝓘 (Nat.le_succ (n + 1)) (Ψ.obj N) =
       Ψ.map (t n) ≫ (κ n).hom := fun n => by

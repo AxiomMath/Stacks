@@ -53,7 +53,7 @@ theorem perfectDerivedTrace_pow_canonicalCompactSupportFrobenius_eq (m : ℕ) (h
           (((End.of (DerivedCategory.Plus.ι.map
             (canonicalCompactSupportFrobenius.{u, 0} Λ f j kbar p q hcard K))) ^ m :
               End (DerivedCategory.Plus.ι.obj
-                (compactSupportFrobeniusCohomology.{u, 0} Λ f j kbar K)))) =
+                (compactSupportFrobeniusCohomology.{u, 0} Λ f j kbar K))).asHom) =
         perfectDerivedTrace Λ ⟨_, hperf'⟩ (DerivedCategory.Plus.ι.map
           (canonicalCompactSupportFrobenius.{u, 0} Λ (pullback.snd f (specAlgebraMap k k'))
             (compactificationFieldBaseChange f j k') kbar p (q * m) hcard'
@@ -68,9 +68,9 @@ theorem perfectDerivedTrace_pow_canonicalCompactSupportFrobenius_eq (m : ℕ) (h
   refine ((DerivedCategory.Plus.ι.map_comp _ _).symm.trans hc).trans
     ((DerivedCategory.Plus.ι.map_comp _ _).trans ?_)
   congr 1
-  exact map_pow (DerivedCategory.Plus.ι.mapEnd
+  exact congrArg End.asHom (map_pow (DerivedCategory.Plus.ι.mapEnd
     (compactSupportFrobeniusCohomology.{u, 0} Λ f j kbar K))
-    (End.of (canonicalCompactSupportFrobenius.{u, 0} Λ f j kbar p q hcard K)) (n + 1)
+    (End.of (canonicalCompactSupportFrobenius.{u, 0} Λ f j kbar p q hcard K)) (n + 1))
 
 /-- **A finite projective representative of an endomorphism of a perfect complex.** An
 endomorphism `φ` of a perfect complex `K` is represented by a chain endomorphism of a bounded

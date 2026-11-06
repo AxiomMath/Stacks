@@ -66,7 +66,7 @@ theorem isSmooth_groupoidOfAction (B : AlgebraicSpaces C S hS) (G X : Over B.obj
     GroupoidInAlgebraicSpaces.IsSmooth C S hS (groupoidOfAction B G X hG hX).groupoid := by
   have hprod : IsAlgebraicSpace C S hS (pullback G.hom X.hom) :=
     isAlgebraicSpace_pullback C S hS G.hom X.hom hG hX B.property
-  have hsnd : IsSmooth C S hS (snd G X).left :=
+  have hsnd : IsSmooth C S hS (CartesianMonoidalCategory.snd G X).left :=
     (smoothMorphismProperty C S hS).of_isPullback
       (AlgebraicSpaces.isPullback_fiberProduct C S hS
         (ObjectProperty.homMk G.hom : (⟨G.left, hG⟩ : AlgebraicSpaces C S hS) ⟶ B)
@@ -83,7 +83,7 @@ theorem isSmooth_groupoidOfAction (B : AlgebraicSpaces C S hS) (G X : Over B.obj
       (isSmooth_of_isIso C S hS hprod hprod _) hsnd
   have hars := (congrArg (·.obj) (groupoidOfAction B G X hG hX).arrows_eq).symm
   have hobj := (congrArg (·.obj) (groupoidOfAction B G X hG hX).objects_eq).symm
-  exact ⟨isSmooth_of_heq _ (snd G X).left hars hobj
+  exact ⟨isSmooth_of_heq _ (CartesianMonoidalCategory.snd G X).left hars hobj
       (groupoidOfAction B G X hG hX).source_eq hsnd,
     isSmooth_of_heq _ (γ[G, X] : G ⊗ X ⟶ X).left hars hobj
       (groupoidOfAction B G X hG hX).target_eq htgt⟩

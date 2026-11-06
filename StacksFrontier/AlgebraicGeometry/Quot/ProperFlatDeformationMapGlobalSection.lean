@@ -30,6 +30,10 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.Sheaf Deformation
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
+-- Lean v4.35.0: `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`)
+-- exceeds the default typeclass budget.
+set_option synthInstance.maxHeartbeats 400000
+
 universe u
 
 namespace Deformation.AlgebraExtension
@@ -87,6 +91,64 @@ open Deformation.Artin
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_ProperFlatDeformationMapGlobalSection
+    (Z : AlgebraicSpaces B S hS) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((smallEtaleRingedTopos B S hS Z).Cᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The terminal sheaf of sets on the small étale site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_pEmpty_topos_ProperFlatDeformationMapGlobalSection
+    (Z : AlgebraicSpaces B S hS) :
+    HasLimitsOfShape (Discrete PEmpty.{1}) (smallEtaleRingedTopos B S hS Z).Topos :=
+  haveI : HasLimitsOfShape (Discrete PEmpty.{1})
+      ((SmallEtale B S hS Z.1)ᵒᵖ ⥤ Type u) :=
+    functorCategoryHasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS Z.1) (Type u))
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discreteF_ProperFlatDeformationMapGlobalSection
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
+search times out without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete₀_ProperFlatDeformationMapGlobalSection
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of sheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasDiscreteLimits_topos_ProperFlatDeformationMapGlobalSection
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
+  letI : HasLimitsOfShape (Discrete J) (Type u) := inferInstance
+  letI : HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+    hasLimitsOfShape_discrete₀_ProperFlatDeformationMapGlobalSection B S hS F J
+  letI : CreatesLimitsOfShape (Discrete J)
+      (sheafToPresheaf (SmallEtale.topology B S hS F) (Type u)) :=
+    Sheaf.createsLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS F) (Type u))
+
+/-- The terminal sheaf of sets on the small étale site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasTerminal_topos_ProperFlatDeformationMapGlobalSection
+    (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasTerminal (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
+  hasDiscreteLimits_topos_ProperFlatDeformationMapGlobalSection B S hS F PEmpty
+
 /-- **Pulling back a function along a composite `X ⟶ T ⟶ T'`**: the pullback of `a ∈ Γ(T', 𝒪)`
 along `f ≫ j` is the pullback along `f` of its pullback along `j`. -/
 theorem globalFunctionsOfMap_comp {X : AlgebraicSpaces B S hS} {T T' : BigFppfOver B S hS}
@@ -105,6 +167,26 @@ variable {Λ k : Type u} [CommRing Λ] [Field k] [Algebra Λ k] {iΛ : Spec (.of
   {y₀ : CartesianProperFlatSpaces B S hS}
   {hy₀ : (cartesianProperFlatProjection B S hS ⋙ Over.post B.inclusion).obj y₀ =
     Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ)}
+
+/-- Postcomposition with the isomorphism `deformationThickeningIso` is continuous for the small
+étale topologies on the two fibres. -/
+local instance (x : DeformationObject iΛ (cartesianProperFlatProjection B S hS ⋙
+    Over.post B.inclusion) y₀ hy₀) (hsq : RingHom.ker (residueMap x.algebra) ^ 2 = ⊥) :
+    (smallEtalePostcomp B S hS (deformationThickeningIso B S hS x hsq).hom
+    (isEtale_hom_of_iso B S hS (deformationThickeningIso B S hS x hsq))).IsContinuous
+    (SmallEtale.topology B S hS y₀.obj.obj.left.1)
+    (SmallEtale.topology B S hS (deformationFibreSpace B S hS x hsq).1) :=
+  smallEtalePostcomp_isContinuous B S hS _ _
+
+/-- Postcomposition with the isomorphism `deformationThickeningIso` is cocontinuous for the small
+étale topologies on the two fibres. -/
+local instance (x : DeformationObject iΛ (cartesianProperFlatProjection B S hS ⋙
+    Over.post B.inclusion) y₀ hy₀) (hsq : RingHom.ker (residueMap x.algebra) ^ 2 = ⊥) :
+    (smallEtalePostcomp B S hS (deformationThickeningIso B S hS x hsq).hom
+    (isEtale_hom_of_iso B S hS (deformationThickeningIso B S hS x hsq))).IsCocontinuous
+    (SmallEtale.topology B S hS y₀.obj.obj.left.1)
+    (SmallEtale.topology B S hS (deformationFibreSpace B S hS x hsq).1) :=
+  smallEtalePostcomp_isCocontinuous B S hS _ _
 
 /-- **The global section of the middle term of a deformation given by a function of its base**:
 for `a ∈ Γ(Spec A)`, the étale restriction to `X₀ ≅ Z` of the inverse image along `i : Z ⟶ X'` of
@@ -129,26 +211,6 @@ variable {x x' : DeformationObject iΛ (cartesianProperFlatProjection B S hS ⋙
     y₀ hy₀ x x')
   (hsq : RingHom.ker (residueMap x.algebra) ^ 2 = ⊥)
   (hsq' : RingHom.ker (residueMap x'.algebra) ^ 2 = ⊥)
-
-/-- Postcomposition with the isomorphism `deformationThickeningIso` is continuous for the small
-étale topologies on the two fibres. -/
-local instance (x : DeformationObject iΛ (cartesianProperFlatProjection B S hS ⋙
-    Over.post B.inclusion) y₀ hy₀) (hsq : RingHom.ker (residueMap x.algebra) ^ 2 = ⊥) :
-    (smallEtalePostcomp B S hS (deformationThickeningIso B S hS x hsq).hom
-    (isEtale_hom_of_iso B S hS (deformationThickeningIso B S hS x hsq))).IsContinuous
-    (SmallEtale.topology B S hS y₀.obj.obj.left.1)
-    (SmallEtale.topology B S hS (deformationFibreSpace B S hS x hsq).1) :=
-  smallEtalePostcomp_isContinuous B S hS _ _
-
-/-- Postcomposition with the isomorphism `deformationThickeningIso` is cocontinuous for the small
-étale topologies on the two fibres. -/
-local instance (x : DeformationObject iΛ (cartesianProperFlatProjection B S hS ⋙
-    Over.post B.inclusion) y₀ hy₀) (hsq : RingHom.ker (residueMap x.algebra) ^ 2 = ⊥) :
-    (smallEtalePostcomp B S hS (deformationThickeningIso B S hS x hsq).hom
-    (isEtale_hom_of_iso B S hS (deformationThickeningIso B S hS x hsq))).IsCocontinuous
-    (SmallEtale.topology B S hS y₀.obj.obj.left.1)
-    (SmallEtale.topology B S hS (deformationFibreSpace B S hS x hsq).1) :=
-  smallEtalePostcomp_isCocontinuous B S hS _ _
 
 /-- The global section of the middle term given by a function `a` of the base, read through
 `(e ≫ i)⁻¹𝒪_{X'} ≅ (i⁻¹𝒪_{X'})|_{X₀}`. -/

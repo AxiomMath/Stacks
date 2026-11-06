@@ -411,10 +411,10 @@ end
 variable (F : C ⥤ D) [F.Additive] [HasDerivedCategory C] [HasDerivedCategory D]
 
 instance isIso_whiskerLeft_resPlus_unit :
-    IsIso (Functor.whiskerLeft resPlus F.rightDerivedFunctorPlusUnit) :=
+    IsIso (Functor.whiskerLeft resPlus F.rightDerivedFunctorPlusUnith) :=
   have : ∀ X : C,
-      IsIso ((Functor.whiskerLeft resPlus F.rightDerivedFunctorPlusUnit).app X) :=
-    fun X ↦ inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnit.app (resPlus.obj X)))
+      IsIso ((Functor.whiskerLeft resPlus F.rightDerivedFunctorPlusUnith).app X) :=
+    fun X ↦ inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnith.app (resPlus.obj X)))
   NatIso.isIso_of_isIso_app _
 
 /-- On the extended injective resolutions the unit of the right derived functor is invertible:
@@ -422,7 +422,7 @@ instance isIso_whiskerLeft_resPlus_unit :
 noncomputable def resDerivedIso :
     resPlus ⋙ F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
       resPlus ⋙ DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus :=
-  asIso (Functor.whiskerLeft resPlus F.rightDerivedFunctorPlusUnit)
+  asIso (Functor.whiskerLeft resPlus F.rightDerivedFunctorPlusUnith)
 
 /-- `F.mapHomotopyCategoryPlus` is induced by `F.mapHomotopyCategory`. -/
 noncomputable def mapPlusCompιIso :
@@ -645,17 +645,17 @@ natural transformation of additive functors. It is the transformation produced b
 property of right derivation from `τ` applied degreewise. -/
 noncomputable def rightDerivedFunctorPlusNatTrans :
     F₁.rightDerivedFunctorPlus ⟶ F₂.rightDerivedFunctorPlus :=
-  Functor.rightDerivedNatTrans _ _ F₁.rightDerivedFunctorPlusUnit
-    F₂.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C)
+  Functor.rightDerivedNatTrans _ _ F₁.rightDerivedFunctorPlusUnith
+    F₂.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C)
     (Functor.whiskerRight (Functor.mapHomotopyCategoryPlusNatTrans τ) DerivedCategory.Plus.Qh)
 
 /-- The defining equation of `rightDerivedFunctorPlusNatTrans`: it is compatible with the units
 of right derivation and with `τ` applied degreewise. -/
 theorem rightDerivedFunctorPlusNatTrans_app (P : HomotopyCategory.Plus C) :
-    F₁.rightDerivedFunctorPlusUnit.app P ≫
+    F₁.rightDerivedFunctorPlusUnith.app P ≫
         (rightDerivedFunctorPlusNatTrans τ).app (DerivedCategory.Plus.Qh.obj P) =
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatTrans τ).app P) ≫
-        F₂.rightDerivedFunctorPlusUnit.app P :=
+        F₂.rightDerivedFunctorPlusUnith.app P :=
   Functor.rightDerivedNatTrans_app _ _ _ _ _ _ P
 
 /-- **The `ℤ`-indexed counterpart of `CategoryTheory.NatTrans.rightDerived`**: the morphism

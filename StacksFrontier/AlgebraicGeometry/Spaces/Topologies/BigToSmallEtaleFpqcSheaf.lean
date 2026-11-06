@@ -301,12 +301,33 @@ instance chartToBig_isContinuous :
       (Space.yonedaSpace T.fppfSite S T.fppf_mem A))
     (T.bigEtaleTopology (Space.yonedaSpace T.fppfSite S T.fppf_mem A))
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The direct image along the chart functor `chartToBig T A` has a left adjoint, the sheaf
+pullback built from the left Kan extension. -/
+instance chartToBig_sheafPushforwardContinuous_isRightAdjoint :
+    ((chartToBig T A).sheafPushforwardContinuous (Type (u + 1))
+      (SmallEtale.topology (associatedBigEtaleSite T.fppfSite) A.left.obj A.left.property)
+      (T.bigEtaleTopology ((schemeInclusion T).obj A))).IsRightAdjoint :=
+  (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous (chartToBig T A) (Type (u + 1))
+    (SmallEtale.topology (associatedBigEtaleSite T.fppfSite) A.left.obj A.left.property)
+    (T.bigEtaleTopology ((schemeInclusion T).obj A))).isRightAdjoint
+
 /-- The chart functor of the represented algebraic space is the restriction of the inclusion of
 schemes over `A` to the étale ones. -/
 def chartToBigIso :
     SmallEtale.inclusion (associatedBigEtaleSite T.fppfSite) A.left.obj A.left.property ⋙
         overSchemeInclusion T A ≅ chartToBig T A :=
   NatIso.ofComponents (fun _ ↦ Iso.refl _) (by intros; rfl)
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Right Kan extensions along the inclusion of schemes over `A` into spaces over `h_A` exist
+pointwise. -/
+instance overSchemeInclusion_hasLimit_bigToSmallEtaleFpqcSheaf
+    (F : (BigEtaleOver (associatedBigEtaleSite T.fppfSite) A.left.obj A.left.property)ᵒᵖ ⥤
+      Type (u + 1))
+    (Y : (Over ((schemeInclusion T).obj A))ᵒᵖ) :
+    HasLimit (StructuredArrow.proj Y (overSchemeInclusion T A).op ⋙ F) :=
+  inferInstance
 
 /-- **The inverse image `π_A⁻¹` of the scheme `A`, through the spaces over `A`.** The inverse
 image from the small étale topos of the scheme `A` to its big étale topos is the sheaf pullback

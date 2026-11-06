@@ -202,7 +202,7 @@ def frobAlpha : (D.baseTorsor hζ fS π).1.presheaf ⟶
   app U := ↾ fun s => ULift.up (D.frobSection π σ hσπ U.unop s.down)
   naturality U W g := by
     ext s
-    exact ULift.ext _ _ (D.frobSection_comp π σ hσπ g.unop s.down)
+    exact ULift.ext (D.frobSection_comp π σ hσπ g.unop s.down)
 
 omit [ConnectedSpace Y.left] in
 include hζ hσπ in
@@ -305,7 +305,7 @@ theorem frobAlpha_app_act (q m : ℕ)
             (rootsOfUnityInverseImageComparison.{u, 0} σ n ≫
               (m • 𝟙 (rootsOfUnitySheaf.{u, 0} S n)))).hom.app U h))
         ((D.frobAlpha hζ fS π σ hσπ).app U s) := by
-  refine ULift.ext _ _ (MorphismProperty.Over.Hom.ext ?_)
+  refine ULift.ext (MorphismProperty.Over.Hom.ext ?_)
   refine D.frobSection_rootSMul_eq hζ fS π σ hσπ q m hσζ hqm U.unop _ (sectionRootVal_pow _ _)
     s.down.left (MorphismProperty.Over.w s.down) _ (sectionRootVal_pow _ _) ?_
   exact (congrArg Units.val

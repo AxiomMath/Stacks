@@ -110,7 +110,7 @@ theorem isRepresentableByAlgebraicSpaces_secondDiagonal_iff_automorphism
           IsAlgebraicSpace B U.left.1 U.left.2 F ∧
             (∀ a, Subsingleton (F.obj a)) ∧
             ∀ a, Nonempty (F.obj (op a)) ↔
-              (diagonalAut (Functor.comp_id 𝒳.val.p) (Y.obj a)).hom = 𝟙 (Y.obj a).x := by
+              (diagonalAut (Functor.comp_id 𝒳.val.p) (Y.obj a)).asIso.hom = 𝟙 (Y.obj a).x := by
   rw [isRepresentableByAlgebraicSpaces_relativeDiagonal_iff B S hS 𝒳
     (CatFiberedInGroupoids.product 𝒳 𝒳) (diagonalBasedFunctor B S hS 𝒳)]
   constructor

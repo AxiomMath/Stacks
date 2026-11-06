@@ -300,7 +300,7 @@ theorem kernel_ι_comp_eq_zero_of_epi (α : E ⟶ E') (hα : Epi α) (n : ℕ)
   obtain ⟨c, hc⟩ := stableKernelImageLimitπ_eventually_isIso B S hS F hF 𝓘 hZ hN hIcart α n
   have _hiso := hc (n + c) le_rfl
   have _hepiπ : Epi (stableKernelImageLimitπ B S hS F hF 𝓘 hZ hN hIcart α n (n + c)) :=
-    inferInstance
+    @IsIso.epi_of_iso _ _ _ _ _ _hiso
   have hnm : n ≤ n + c := Nat.le_add_right n c
   have _hepi : Epi (stableKernelImageToLevelwiseKernel B S hS F hF 𝓘 hZ hN hIcart α n (n + c)
       hnm) :=

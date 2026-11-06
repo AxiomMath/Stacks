@@ -146,9 +146,7 @@ theorem ker_comp_cokernel_π_idealPowerMultiple {M N : Modules.{u, u} B S hS F h
   · have hkP : (SheafOfModules.Submodule.ker a).ι ≫ cokernel.π P.ι = 0 :=
       ι_comp_cokernel_π_eq_zero_of_le le_sup_left
     have hz : kernel.ι a ≫ cokernel.π P.ι = 0 := by
-      rw [← SheafOfModules.Submodule.kerIsoKernel_hom_comp_ι a] at hkP
-      have := congrArg (fun φ => (SheafOfModules.Submodule.kerIsoKernel a).inv ≫ φ) hkP
-      simpa using this
+      rw [← SheafOfModules.Submodule.kerIsoKernel_inv_comp_ι a, Category.assoc, hkP, comp_zero]
     have hg₁ : a ≫ Abelian.epiDesc a (cokernel.π P.ι) hz = cokernel.π P.ι :=
       Abelian.comp_epiDesc _ _ _
     have h2 : (idealPowerMultiple B S hS F hF 𝓘 n N).ι ≫ Abelian.epiDesc a (cokernel.π P.ι) hz =

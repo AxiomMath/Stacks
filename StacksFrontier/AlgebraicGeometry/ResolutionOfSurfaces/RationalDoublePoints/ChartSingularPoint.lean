@@ -130,10 +130,10 @@ private theorem comap_map_mk_span_singleton_eq
     (hx : ∀ i, x i ∈ maximalIdeal A) (M : Ideal (affineBlowupAlgebra (maximalIdeal A) (x 0) S))
     (hle : Ideal.map (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))
       (maximalIdeal A) ≤ M) :
-    (M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-      (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
-        (Ideal.Quotient.mk (Ideal.span {algebraMap A
-          (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)})) = M :=
+    (M.map (Ideal.Quotient.mk (Ideal.span
+      {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
+        (Ideal.Quotient.mk (Ideal.span
+          {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)})) = M :=
   Ideal.comap_map_mk ((Ideal.span_singleton_le_iff_mem M).mpr (hle (Ideal.mem_map_of_mem _ (hx 0))))
 
 /-- **A non-singular point of the exceptional curve gives a regular point of the chart.** Let
@@ -146,8 +146,8 @@ theorem spanFinrank_maximalIdeal_localization_le_two_of_notMem_sq
     (hle : Ideal.map (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))
       (maximalIdeal A) ≤ M)
     {f : MvPolynomial (Fin 2) (ResidueField A)} (hf : f ∈ RingHom.ker (chartPresentation S hx))
-    (hf2 : f ∉ ((M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-      (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
+    (hf2 : f ∉ ((M.map (Ideal.Quotient.mk (Ideal.span
+      {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
         (chartPresentation S hx)) ^ 2) :
     (maximalIdeal (Localization.AtPrime M)).spanFinrank ≤ 2 := by
   classical
@@ -210,8 +210,8 @@ theorem dehomogenizeFirst_quadraticFormPoly_mem_sq_of_not_isRegularLocalRing
     (hdim : ringKrullDim (Localization.AtPrime M) = 2)
     (hsing : ¬ IsRegularLocalRing (Localization.AtPrime M)) :
     dehomogenizeFirst (ResidueField A) 2 (quadraticFormPoly fun p r => residue A (a p r)) ∈
-      ((M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-        (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
+      ((M.map (Ideal.Quotient.mk (Ideal.span
+        {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
           (chartPresentation S hx)) ^ 2 := by
   by_contra h
   refine hsing (IsRegularLocalRing.of_spanFinrank_maximalIdeal_le _ ?_)
@@ -230,8 +230,8 @@ theorem surjective_algebraMap_quotient_of_surjective_chartPoint
       (maximalIdeal A) ≤ M)
     (hsurj : Function.Surjective (algebraMap (ResidueField A)
       (MvPolynomial (Fin 2) (ResidueField A) ⧸
-        ((M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-          (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
+        ((M.map (Ideal.Quotient.mk (Ideal.span
+          {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
             (chartPresentation S hx))))) :
     Function.Surjective ((Ideal.Quotient.mk M).comp
       (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))) := by
@@ -271,8 +271,8 @@ theorem surjective_algebraMap_quotient_of_not_isScalarSqLinear_of_mem_sq
     (hle : Ideal.map (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))
       (maximalIdeal A) ≤ M)
     (hmem : dehomogenizeFirst (ResidueField A) 2 (quadraticFormPoly fun p r => residue A (a p r)) ∈
-      ((M.map (Ideal.Quotient.mk (Ideal.span {algebraMap A
-        (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
+      ((M.map (Ideal.Quotient.mk (Ideal.span
+        {algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0)}))).comap
           (chartPresentation S hx)) ^ 2) :
     Function.Surjective ((Ideal.Quotient.mk M).comp
       (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))) := by

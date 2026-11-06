@@ -1,12 +1,14 @@
 module
 
 public import Mathlib.Algebra.Category.Grp.Abelian
+import Mathlib.CategoryTheory.Adjunction.Additive
 import Mathlib.CategoryTheory.Adjunction.PartialAdjoint
 import Mathlib.CategoryTheory.EffectiveEpi.Comp
 import Mathlib.CategoryTheory.ExtremalEpi
 import Mathlib.CategoryTheory.Limits.Preserves.Opposites
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
 public import Mathlib.CategoryTheory.ObjectProperty.Orthogonal
+public import Mathlib.CategoryTheory.Preadditive.Yoneda.Basic
 import Mathlib.CategoryTheory.Preadditive.Yoneda.Limits
 public import Mathlib.CategoryTheory.Triangulated.Adjunction
 import Mathlib.CategoryTheory.Triangulated.Yoneda

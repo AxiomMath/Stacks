@@ -146,10 +146,8 @@ public noncomputable def isColimitCoforkOfLocallySurjective
   refine Cofork.isColimitOfIsos _ hcof _ (Iso.refl _) (Iso.refl _) (Iso.refl _) ?_ ?_ ?_
   · simp only [PullbackCone.mk_fst, Iso.refl_hom, Category.id_comp, Category.comp_id,
       Functor.map_comp]
-    rfl
   · simp only [PullbackCone.mk_snd, Iso.refl_hom, Category.id_comp, Category.comp_id,
       Functor.map_comp]
-    rfl
   · exact terminal.hom_ext _ _
 
 end LocallySurjective

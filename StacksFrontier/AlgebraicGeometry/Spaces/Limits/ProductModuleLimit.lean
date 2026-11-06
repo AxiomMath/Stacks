@@ -384,6 +384,13 @@ theorem exists_homTransport_productSpaceMap_eq_of_kernelPair [IsCofiltered I]
       (productChartConeSpacePairMap_comp_chart X₀ T i₀ a₀ t₀ a₁ ht c).symm)
     (isPullback_productChartSpacePairMap X₀ T i₀ a₀ a₁ hk hs ht) hG hGfp hH hHfp φ
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_productModuleLimit
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A morphism of inverse images to the limit of base changes descends to a stage** (the
 fullness clause of Stacks 07V7, for the limit situation `h_{T j} ⨯ X₀` with `h_{T i₀} ⨯ X₀`
 quasi-compact and quasi-separated): a morphism `φ` between the inverse images to

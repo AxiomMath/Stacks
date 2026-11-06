@@ -54,7 +54,7 @@ lemma homFunctor_obj (P : ModuleCat.{w} R) :
   rfl
 
 lemma homFunctor_smul_apply {P : ModuleCat.{w} R} (l : Λ) (f : (homFunctor X ρ).obj P) :
-    (l • f : (homFunctor X ρ).obj P) = ((ρ l).unop ≫ (show X ⟶ P from f) : X ⟶ P) :=
+    (l • f : (homFunctor X ρ).obj P) = ((ρ l).unop.asHom ≫ (show X ⟶ P from f) : X ⟶ P) :=
   rfl
 
 lemma homFunctor_map_apply {P Q : ModuleCat.{w} R} (g : P ⟶ Q) (f : (homFunctor X ρ).obj P) :

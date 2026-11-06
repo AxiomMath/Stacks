@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Module.SpanRank
+public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
 public import Mathlib.RingTheory.KrullDimension.Regular
 public import Mathlib.RingTheory.LocalRing.MaximalIdeal.Basic
@@ -115,7 +116,7 @@ public theorem isRegularLocalRing_mvPowerSeries (k : Type*) [Field k] (n : ℕ) 
       Set.ncard_image_le (f := (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) k))
         Set.finite_univ
   have hdim : (n : WithBot ℕ∞) ≤ ringKrullDim (MvPowerSeries (Fin n) k) := by
-    simpa using ringKrullDim_add_le_mvPowerSeries k n
+    simpa [ringKrullDim_eq_zero_of_field] using ringKrullDim_add_le_mvPowerSeries k n
   refine IsRegularLocalRing.of_spanFinrank_maximalIdeal_le _ (le_trans ?_ hdim)
   exact_mod_cast hspan
 

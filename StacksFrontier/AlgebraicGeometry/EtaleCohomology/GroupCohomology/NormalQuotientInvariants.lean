@@ -77,19 +77,20 @@ variable (M : ContinuousGModule.{u, v} Γ)
 /-- The action of a product of group elements on a discrete module is the composite of the two
 actions. -/
 private lemma rho_mul (g h : Γ) (x : M.obj.obj.V) :
-    (M.obj.obj.ρ (g * h)).hom x = (M.obj.obj.ρ g).hom ((M.obj.obj.ρ h).hom x) := by
+    (M.obj.obj.ρ (g * h)).asHom.hom x =
+      (M.obj.obj.ρ g).asHom.hom ((M.obj.obj.ρ h).asHom.hom x) := by
   rw [map_mul]
   rfl
 
 /-- The submodule of elements of a discrete `Γ`-module fixed by a subgroup `N`, that is
 `H⁰(N, M)`. -/
 def normalInvariants : Submodule ℤ M.obj.obj.V :=
-  ⨅ g : N, LinearMap.eqLocus (M.obj.obj.ρ (g : Γ)).hom LinearMap.id
+  ⨅ g : N, LinearMap.eqLocus (M.obj.obj.ρ (g : Γ)).asHom.hom LinearMap.id
 
 /-- An element of a discrete `Γ`-module is `N`-invariant exactly when every element of `N`
 fixes it. -/
 lemma mem_normalInvariants {x : M.obj.obj.V} :
-    x ∈ normalInvariants N M ↔ ∀ g ∈ N, (M.obj.obj.ρ g).hom x = x := by
+    x ∈ normalInvariants N M ↔ ∀ g ∈ N, (M.obj.obj.ρ g).asHom.hom x = x := by
   rw [normalInvariants, Submodule.mem_iInf]
   exact ⟨fun h g hg ↦ h ⟨g, hg⟩, fun h g ↦ h g.1 g.2⟩
 
@@ -99,8 +100,8 @@ lemma map_mem_normalInvariants {M M' : ContinuousGModule.{u, v} Γ} (f : M ⟶ M
     f.hom.hom.hom.hom x ∈ normalInvariants N M' := by
   rw [mem_normalInvariants] at hx ⊢
   intro g hg
-  have h : f.hom.hom.hom.hom ((M.obj.obj.ρ g).hom x) =
-      (M'.obj.obj.ρ g).hom (f.hom.hom.hom.hom x) :=
+  have h : f.hom.hom.hom.hom ((M.obj.obj.ρ g).asHom.hom x) =
+      (M'.obj.obj.ρ g).asHom.hom (f.hom.hom.hom.hom x) :=
     ConcreteCategory.congr_hom (f.hom.hom.comm g) x
   rw [← h, hx g hg]
 
@@ -109,7 +110,7 @@ variable [N.Normal]
 /-- The invariants under a normal subgroup are preserved by the action of the whole group. -/
 lemma rho_mem_normalInvariants (γ : Γ) {x : M.obj.obj.V}
     (hx : x ∈ normalInvariants N M) :
-    (M.obj.obj.ρ γ).hom x ∈ normalInvariants N M := by
+    (M.obj.obj.ρ γ).asHom.hom x ∈ normalInvariants N M := by
   rw [mem_normalInvariants] at hx ⊢
   intro g hg
   have hconj : γ⁻¹ * g * γ ∈ N := by
@@ -119,18 +120,18 @@ lemma rho_mem_normalInvariants (γ : Γ) {x : M.obj.obj.V}
 
 /-- The action of `Γ` on the `N`-invariants of a discrete `Γ`-module. -/
 def normalInvariantsRepresentation : Representation ℤ Γ (normalInvariants N M) where
-  toFun γ := LinearMap.restrict (M.obj.obj.ρ γ).hom
+  toFun γ := LinearMap.restrict (M.obj.obj.ρ γ).asHom.hom
     fun _ hx ↦ rho_mem_normalInvariants N M γ hx
   map_one' := by
     ext x
-    exact congrFun (congrArg (fun f ↦ (ModuleCat.Hom.hom f).toFun) (map_one M.obj.obj.ρ)) x
+    exact congrFun (congrArg (fun f ↦ (ModuleCat.Hom.hom f.asHom).toFun) (map_one M.obj.obj.ρ)) x
   map_mul' g h := by
     ext x
     exact rho_mul M g h x
 
 /-- The action of `Γ` on the `N`-invariants is the restriction of its action on the module. -/
 @[simp] lemma normalInvariantsRepresentation_apply (γ : Γ) (x : normalInvariants N M) :
-    (normalInvariantsRepresentation N M γ x : M.obj.obj.V) = (M.obj.obj.ρ γ).hom x := rfl
+    (normalInvariantsRepresentation N M γ x : M.obj.obj.V) = (M.obj.obj.ρ γ).asHom.hom x := rfl
 
 /-- The action of `Γ ⧸ N` on the `N`-invariants of a discrete `Γ`-module: the subgroup `N` acts
 trivially on them, so its action factors through the quotient. -/
@@ -144,7 +145,7 @@ def normalInvariantsQuotientRepresentation :
 @[simp] lemma normalInvariantsQuotientRepresentation_mk (γ : Γ)
     (x : normalInvariants N M) :
     (normalInvariantsQuotientRepresentation N M (QuotientGroup.mk γ) x : M.obj.obj.V) =
-      (M.obj.obj.ρ γ).hom x := rfl
+      (M.obj.obj.ρ γ).asHom.hom x := rfl
 
 variable [IsTopologicalGroup Γ]
 
@@ -160,7 +161,7 @@ lemma isContinuous_normalInvariantsQuotientRepresentation :
     normalInvariantsQuotientRepresentation N M (QuotientGroup.mk γ) x = x}
   have hpre : {γ : Γ |
         normalInvariantsQuotientRepresentation N M (QuotientGroup.mk γ) x = x} =
-      {γ : Γ | (M.obj.obj.ρ γ).hom (x : M.obj.obj.V) = (x : M.obj.obj.V)} :=
+      {γ : Γ | (M.obj.obj.ρ γ).asHom.hom (x : M.obj.obj.V) = (x : M.obj.obj.V)} :=
     Set.ext fun _ ↦ Subtype.ext_iff
   rw [hpre]
   exact isOpen_stabilizer ℤ Γ M _

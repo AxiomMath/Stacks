@@ -132,7 +132,7 @@ def rootsOfUnityContinuousGModule : ContinuousGModule.{_, _} Gal(Ω/K) :=
 action on the roots of unity. -/
 @[simp] theorem rootsOfUnityContinuousGModule_ρ_hom (g : Gal(Ω/K))
     (ζ : Additive ↥(rootsOfUnity n Ω)) :
-    ((((rootsOfUnityContinuousGModule K Ω n).obj.obj.ρ g).hom ζ :
+    ((((rootsOfUnityContinuousGModule K Ω n).obj.obj.ρ g).asHom.hom ζ :
         Additive ↥(rootsOfUnity n Ω))) =
       Additive.ofMul (rootsOfUnityGalHom K Ω n g ζ.toMul) := rfl
 

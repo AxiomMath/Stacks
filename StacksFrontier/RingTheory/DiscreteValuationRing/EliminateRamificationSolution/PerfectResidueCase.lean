@@ -99,7 +99,7 @@ theorem formallySmoothNAdic_localRingHom_of_ringEquiv_left.{u, w, z}
       (Localization.localRingHom (q.comap f') q f' rfl)
       (IsLocalRing.maximalIdeal (Localization.AtPrime q)) := by
   apply formallySmoothNAdic_localRingHom_of_ringEquiv f f' eR (RingEquiv.refl S)
-    (by simpa only [RingEquiv.toRingHom_refl, RingHom.id_comp] using he) q
+    (he.trans (RingHom.id_comp f).symm) q
   convert! h using 1
 
 /-- Localizing the target away from a maximal ideal preserves its local smoothness assertion. -/

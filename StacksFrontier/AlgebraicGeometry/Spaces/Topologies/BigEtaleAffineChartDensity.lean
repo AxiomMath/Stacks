@@ -142,6 +142,7 @@ theorem isIso_of_isIso_smallEtaleRestriction_map_of_affineThroughEtaleChart {X :
   refine @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ fun V ↦ ?_
   exact isIso_app_of_isIso_smallEtaleRestriction_map T ψ V.unop.obj (h V.unop.obj V.unop.property)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Isomorphisms of the derived category of the big étale site of `X` are detected on the
 spaces-étale sites of the affine charts through étale charts.** -/
 theorem isIso_of_isIso_mapDerivedCategory_affineThroughEtaleChart {X : T.Spaces}

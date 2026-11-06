@@ -37,15 +37,15 @@ theorem exists_finiteEtaleGaloisCover_of_fullyFaithful {S T : Scheme.{u}} (q : T
     (G : Type v) [Group G] [Finite G] (Y : FiniteEtaleOver S) (hY : ConnectedSpace Y.left)
     (Z : FiniteEtaleGaloisCover T G) (e : (finiteEtaleBaseChange q).obj Y ≅ Z.obj) :
     ∃ (Y' : FiniteEtaleGaloisCover S G) (e : (finiteEtaleBaseChange q).obj Y'.obj ≅ Z.obj),
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange q).map (Y'.action g).hom ≫ e.hom =
-        e.hom ≫ (Z.action g).hom := by
+      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange q).map (Y'.action g).asIso.hom ≫ e.hom =
+        e.hom ≫ (Z.action g).asIso.hom := by
   let F := finiteEtaleBaseChange q
   let act : Gᵐᵒᵖ →* Aut Y := ((hff.autMulEquivOfFullyFaithful Y).symm.toMonoidHom).comp
     ((e.symm.conjAut.toMonoidHom).comp Z.action)
-  have hequiv : ∀ g, F.map (act g).hom ≫ e.hom = e.hom ≫ (Z.action g).hom := by
+  have hequiv : ∀ g, F.map (act g).asIso.hom ≫ e.hom = e.hom ≫ (Z.action g).asIso.hom := by
     intro g
-    show F.map (hff.preimage (e.symm.conjAut (Z.action g)).hom) ≫ e.hom = _
-    rw [hff.map_preimage, Iso.conjAut_hom, Iso.conj_apply]
+    show F.map (hff.preimage (e.symm.conjAut (Z.action g)).asIso.hom) ≫ e.hom = _
+    rw [hff.map_preimage, Iso.conjAut_hom, Iso.conj_apply_asHom]
     simp
   let aY : Gᵐᵒᵖ →* Aut (Over.mk Y.hom) := ((MorphismProperty.Over.forget _ ⊤ S).mapAut Y).comp act
   let aZ : Gᵐᵒᵖ →* Aut (Over.mk Z.obj.hom) :=
@@ -62,21 +62,26 @@ theorem exists_finiteEtaleGaloisCover_of_fullyFaithful {S T : Scheme.{u}} (q : T
       exact (MorphismProperty.Over.w e.hom).symm
     · simp
     · simp
-  have hab : ∀ g, (aZ g).hom.left ≫ p = p ≫ (aY g).hom.left := by
+  have hab : ∀ g, (aZ g).asIso.hom.left ≫ p = p ≫ (aY g).asIso.hom.left := by
     intro g
-    have h1 : e.inv ≫ F.map (act g).hom = (Z.action g).hom ≫ e.inv := by
+    have h1 : e.inv ≫ F.map (act g).asIso.hom = (Z.action g).asIso.hom ≫ e.inv := by
       rw [Iso.eq_comp_inv, Category.assoc, hequiv, Iso.inv_hom_id_assoc]
-    have h2 : e.inv.left ≫ (F.map (act g).hom).left = (Z.action g).hom.left ≫ e.inv.left :=
+    have h2 : e.inv.left ≫ (F.map (act g).asIso.hom).left =
+        (Z.action g).asIso.hom.left ≫ e.inv.left :=
       congrArg (fun φ ↦ φ.left) h1
-    show (Z.action g).hom.left ≫ e.inv.left ≫ pullback.fst Y.hom q =
-      (e.inv.left ≫ pullback.fst Y.hom q) ≫ (act g).hom.left
-    have h3 := finiteEtaleBaseChange_map_left_fst q (act g).hom
-    calc (Z.action g).hom.left ≫ e.inv.left ≫ pullback.fst Y.hom q
-        = ((Z.action g).hom.left ≫ e.inv.left) ≫ pullback.fst Y.hom q := (Category.assoc _ _ _).symm
-      _ = (e.inv.left ≫ (F.map (act g).hom).left) ≫ pullback.fst Y.hom q := by rw [h2]
-      _ = e.inv.left ≫ ((F.map (act g).hom).left ≫ pullback.fst Y.hom q) := Category.assoc _ _ _
-      _ = e.inv.left ≫ (pullback.fst Y.hom q ≫ (act g).hom.left) := congrArg (e.inv.left ≫ ·) h3
-      _ = (e.inv.left ≫ pullback.fst Y.hom q) ≫ (act g).hom.left := (Category.assoc _ _ _).symm
+    show (Z.action g).asIso.hom.left ≫ e.inv.left ≫ pullback.fst Y.hom q =
+      (e.inv.left ≫ pullback.fst Y.hom q) ≫ (act g).asIso.hom.left
+    have h3 := finiteEtaleBaseChange_map_left_fst q (act g).asIso.hom
+    calc (Z.action g).asIso.hom.left ≫ e.inv.left ≫ pullback.fst Y.hom q
+        = ((Z.action g).asIso.hom.left ≫ e.inv.left) ≫ pullback.fst Y.hom q :=
+          (Category.assoc _ _ _).symm
+      _ = (e.inv.left ≫ (F.map (act g).asIso.hom).left) ≫ pullback.fst Y.hom q := by rw [h2]
+      _ = e.inv.left ≫ ((F.map (act g).asIso.hom).left ≫ pullback.fst Y.hom q) :=
+          Category.assoc _ _ _
+      _ = e.inv.left ≫ (pullback.fst Y.hom q ≫ (act g).asIso.hom.left) :=
+          congrArg (e.inv.left ≫ ·) h3
+      _ = (e.inv.left ≫ pullback.fst Y.hom q) ≫ (act g).asIso.hom.left :=
+          (Category.assoc _ _ _).symm
   have : IsFinite Y.hom := Y.prop.1
   have : Etale Y.hom := Y.prop.2
   let A : FiniteEtaleOver S := MorphismProperty.Over.mk ⊤ (Limits.Sigma.desc fun _ : G ↦ Y.hom)

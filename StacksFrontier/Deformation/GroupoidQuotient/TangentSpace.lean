@@ -66,14 +66,14 @@ open CategoryTheory
 /-- An element of a set-valued functor, as an object of the strict fibre of its category of
 elements. This is a section of `Deformation.elementsFiberValue`. -/
 public def objectFiber {C : Type*} [Category C] {F : C ⥤ Type*} (A : C)
-    (x : F.obj A) : Functor.Fiber (CategoryOfElements.π F) A :=
-  ⟨⟨A, x⟩, rfl⟩
+    (x : F.obj A) : Functor.Fiber (Functor.Elements.π F) A :=
+  ⟨F.elementsMk A x, rfl⟩
 
 /-- Every object of the strict fibre of a category of elements is of this form. -/
 public theorem objectFiber_surjective {C : Type*} [Category C] {F : C ⥤ Type*} (A : C)
-    (X : Functor.Fiber (CategoryOfElements.π F) A) :
+    (X : Functor.Fiber (Functor.Elements.π F) A) :
     ∃ x, X = objectFiber A x := by
-  rcases X with ⟨⟨B, x⟩, rfl⟩
+  rcases X with ⟨⟨x⟩, rfl⟩
   exact ⟨x, rfl⟩
 
 /-- An object of the groupoid over `A`, as an object of the strict fibre of the quotient
@@ -147,8 +147,8 @@ public noncomputable def quotientTangentEquiv
     (hG : GroupoidInFunctors.IsSmooth G)
     (hU : IsDeformationFunctor G.objects)
     (hR : IsDeformationFunctor G.arrows) :
-    let 𝓡 := BasedCategory.ofFunctor (CategoryOfElements.π G.arrows)
-    let 𝓤 := BasedCategory.ofFunctor (CategoryOfElements.π G.objects)
+    let 𝓡 := BasedCategory.ofFunctor (Functor.Elements.π G.arrows)
+    let 𝓤 := BasedCategory.ofFunctor (Functor.Elements.π G.objects)
     let 𝓠 := BasedCategory.ofFunctor (Grothendieck.forget (evaluationFunctor G))
     let h𝓡 := ((isDeformationCategory_iff G.arrows).2 hR).predeformation
     let h𝓤 := ((isDeformationCategory_iff G.objects).2 hU).predeformation
@@ -187,8 +187,8 @@ public noncomputable def quotientTangentEquiv
     { e : (TU ⧸ LinearMap.range (ds - dt)) ≃ₗ[k] TQ //
       ∀ x : TU, e (Submodule.Quotient.mk x) = dq x } := by
   classical
-  let 𝓡 := BasedCategory.ofFunctor (CategoryOfElements.π G.arrows)
-  let 𝓤 := BasedCategory.ofFunctor (CategoryOfElements.π G.objects)
+  let 𝓡 := BasedCategory.ofFunctor (Functor.Elements.π G.arrows)
+  let 𝓤 := BasedCategory.ofFunctor (Functor.Elements.π G.objects)
   let 𝓠 := BasedCategory.ofFunctor (Grothendieck.forget (evaluationFunctor G))
   let h𝓡 := ((isDeformationCategory_iff G.arrows).2 hR).predeformation
   let h𝓤 := ((isDeformationCategory_iff G.objects).2 hU).predeformation

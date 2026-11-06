@@ -179,7 +179,8 @@ private theorem hasInvertibleFiltration_one {X : Scheme.{u}} (M : X.Modules)
     HasInvertibleFiltration X M 1 := by
   have hS : (ShortComplex.mk (0 : (0 : X.Modules) ⟶ M) (𝟙 M) (by simp)).ShortExact :=
     ShortComplex.ShortExact.mk'
-      ((ShortComplex.exact_iff_mono _ rfl).2 inferInstance) inferInstance inferInstance
+      ((ShortComplex.exact_iff_mono _ rfl).2 inferInstance)
+      ⟨fun _ _ _ => (isZero_zero _).eq_of_tgt _ _⟩ inferInstance
   exact HasInvertibleFiltration.step (0 : (0 : X.Modules) ⟶ M) (𝟙 M) (by simp) hS
     (@Stacks.InvertibleRankOneIff.isInvertible_of_isFiniteLocallyFreeOfRank_one
       X.toRingedSpace M hM) hM.isFiniteLocallyFree

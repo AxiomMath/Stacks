@@ -27,7 +27,7 @@ what is used is local triviality. The argument has four steps, each a declaratio
    whole of the commutativity of the ring of sections, and it is why the structure sheaf being
    a sheaf of *commutative* rings is indispensable.
 2. `braiding_comp_toSheafify`: the braiding of a presheaf of modules is sectionwise that
-   transposition (Mathlib's `PresheafOfModules.braiding_hom_app`), so for a presheaf whose
+   transposition (Mathlib's `PresheafOfModulesOfCommRing.braiding_hom_app`), so for a presheaf whose
    sections are cyclic on a covering sieve of every object — the predicate `IsLocallyCyclic` —
    the braiding becomes the identity after the sheafification unit, by separatedness of a sheaf.
    The braiding itself is **not** the identity at the presheaf level: the sections of an
@@ -221,8 +221,8 @@ is the identity: the braiding of presheaves of modules is sectionwise the braidi
 theorem braiding_app_eq_id (P : PresheafOfModulesOfCommRing.{w} 𝒪) (U : Cᵒᵖ)
     (e : P.obj U) (he : ∀ m : P.obj U, ∃ r : 𝒪.obj U, m = r • e) :
     (β_ P P).hom.app U = 𝟙 ((P ⊗ P).obj U) := by
-  rw [PresheafOfModules.braiding_hom_app]
-  exact braiding_eq_id_of_cyclic (R := 𝒪.obj U) (P.obj U) e he
+  exact (PresheafOfModulesOfCommRing.braiding_hom_app P P U).trans
+    (braiding_eq_id_of_cyclic (R := 𝒪.obj U) (P.obj U) e he)
 
 end
 

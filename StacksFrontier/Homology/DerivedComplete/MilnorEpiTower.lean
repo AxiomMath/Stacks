@@ -259,7 +259,7 @@ theorem epi_pi_sub_shift_of_epi (X : ℕ → ModuleCat.{v} A) (t : ∀ n, X (n +
   funext n
   show ((Pi.lift (fun n ↦ Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ Pi.π X n)
     ((ModuleCat.piIsoPi X).inv x)) = _
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
   show (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
     (t n) ((Pi.π X (n + 1)) ((ModuleCat.piIsoPi X).inv x)) =
       (ModuleCat.piIsoPi X).hom y n
@@ -285,7 +285,7 @@ theorem epi_oneMinusShift (F : Tower.{u, v} (A := A))
     show (G.map (oneMinusShift F) ≫ piComparison G X) ≫ Pi.π _ n =
       (piComparison G X ≫ d') ≫ Pi.π _ n
     rw [Category.assoc, piComparison_comp_π, ← G.map_comp, oneMinusShift_π]
-    simp only [d', Pi.lift_π, G.map_sub, G.map_comp, Category.assoc,
+    simp only [d', Pi.lift_comp_π, G.map_sub, G.map_comp, Category.assoc,
       Preadditive.comp_sub, piComparison_comp_π_assoc, piComparison_comp_π, X, t]
   have : Epi (G.map (oneMinusShift F) ≫ e.hom) := by
     rw [hd]
@@ -314,7 +314,7 @@ def isLimitKernelForkOfCone {F : Tower.{u, v} (A := A)} (s : Cone F) (hs : IsLim
     have := hs.fac (coneOfKernel t) ⟨n⟩
     change (hs.lift (coneOfKernel t) ≫ Pi.lift (fun n => s.π.app ⟨n⟩)) ≫ Pi.π _ n =
       t.ι ≫ Pi.π _ n
-    rw [Category.assoc, Pi.lift_π]
+    rw [Category.assoc, Pi.lift_comp_π]
     exact this
   · intro t m hm
     apply hs.hom_ext
@@ -324,7 +324,7 @@ def isLimitKernelForkOfCone {F : Tower.{u, v} (A := A)} (s : Cone F) (hs : IsLim
     change (m ≫ Pi.lift (fun n => s.π.app ⟨n⟩)) ≫ Pi.π _ n.unop =
       t.ι ≫ Pi.π _ n.unop at h
     have e : (Pi.lift fun n ↦ s.π.app (Opposite.op n)) ≫
-        Pi.π (fun n ↦ F.obj (Opposite.op n)) n.unop = s.π.app n := Pi.lift_π _ _
+        Pi.π (fun n ↦ F.obj (Opposite.op n)) n.unop = s.π.app n := Pi.lift_comp_π _ _
     rw [this]
     exact (congrArg (m ≫ ·) e).symm.trans ((Category.assoc _ _ _).symm.trans h)
 

@@ -358,7 +358,7 @@ public noncomputable def homIntegralCechComplexIso
           Category.assoc _ _ _
         _ = (e F n).hom ≫ (Pi.π Pn (h.f k) ≫ ψ k) :=
           congrArg (fun t ↦ (e F n).hom ≫ t)
-            (Pi.lift_π (fun k ↦ Pi.π Pn (h.f k) ≫ ψ k) k)
+            (Pi.lift_comp_π (fun k ↦ Pi.π Pn (h.f k) ≫ ψ k) k)
     have h₂ :
         (e F n).hom ≫ (Pi.π Pn (h.f k) ≫ ψ k) =
           (preadditiveYoneda.obj F).map R.op ≫ ((e F m).hom ≫ Pi.π Pm k) := by

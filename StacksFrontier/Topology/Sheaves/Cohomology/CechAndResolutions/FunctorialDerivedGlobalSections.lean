@@ -76,7 +76,7 @@ noncomputable def derivedPushforwardSingleNatTrans [EnoughInjectives (Modules X)
         (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlus :=
   (RingedSpaceModuleAdjunction.modulePushforward f).mapSingleFunctorPlusCompQhIso.inv ≫
     Functor.whiskerLeft (HomotopyCategory.Plus.singleFunctor (Modules X) 0)
-      (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnit ≫
+      (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlusUnith ≫
     Functor.whiskerRight (DerivedCategory.Plus.singleFunctorIsoCompQh (Modules X) 0).inv
       (RingedSpaceModuleAdjunction.modulePushforward f).rightDerivedFunctorPlus
 

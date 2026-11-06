@@ -134,6 +134,14 @@ namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_groupoidSpacesDerealization
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A presentation of a groupoid in algebraic spaces by schemes of the site.**  A scheme of
 objects and a scheme of arrows which the site contains, together with identifications of the
 object and arrow presheaves of the groupoid with the presheaves those schemes represent. -/
@@ -232,7 +240,7 @@ noncomputable def pairComparison (P : SchemePresentation G) :
         (yoneda.map (Space.schemeSiteMap C hS P.containsArrows P.containsObjects P.target)) ≫
       P.arrowsIso.inv)
     (by
-      refine (cancel_mono P.objectsIso.hom).1 ?_
+      refine (@cancel_mono _ _ _ _ _ P.objectsIso.hom (IsIso.mono_of_iso _) _ _).1 ?_
       have h : pullback.fst
           (yoneda.map (Space.schemeSiteMap C hS P.containsArrows P.containsObjects P.source))
           (yoneda.map (Space.schemeSiteMap C hS P.containsArrows P.containsObjects P.target)) ≫

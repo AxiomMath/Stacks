@@ -257,7 +257,7 @@ lemma coord_piLiftSingle (M : ι → SheafOfModules.{u} R)
       ((g k).f 0).val.app V ((Pi.π M k).val.app V x) :=
   congrArg (fun φ : (HomologicalComplex.single (SheafOfModules.{u} R) (ComplexShape.up ℤ) 0).obj
       (∏ᶜ M) ⟶ K k ↦ (φ.f 0).val.app V x)
-    (Pi.lift_π (fun k ↦ (HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map (Pi.π M k) ≫ g k)
+    (Pi.lift_comp_π (fun k ↦ (HomologicalComplex.single _ (ComplexShape.up ℤ) 0).map (Pi.π M k) ≫ g k)
       k)
 
 /-- Degree zero of `quasiIso_piLiftSingle`: the product module is the kernel of the first

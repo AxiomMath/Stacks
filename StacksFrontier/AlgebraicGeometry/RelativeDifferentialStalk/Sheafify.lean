@@ -60,7 +60,7 @@ public theorem toPresheaf_map_toSectionwiseDifferentialsSheaf :
       hasSheafifyEssentiallySmallSite.{_, _, _, _, u} _ _
     (PresheafOfModules.toPresheaf _).map (toSectionwiseDifferentialsSheaf.{u, u} φ) =
       CategoryTheory.toSheafify (Opens.grothendieckTopology X)
-        (DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf :=
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf :=
   rfl
 
 /-- **Sheafifying the presheaf of sectionwise differentials does not change its stalks.** -/
@@ -73,7 +73,7 @@ public theorem isIso_stalkFunctor_map_toSectionwiseDifferentialsSheaf (x : X) :
     hasSheafifyEssentiallySmallSite.{_, _, _, _, u} _ _
   rw [toPresheaf_map_toSectionwiseDifferentialsSheaf φ]
   exact TopCat.Presheaf.stalkFunctor_map_unit_toSheafify_isIso x AddCommGrpCat.{u}
-    (DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf
 
 /-- A morphism of presheaves of modules whose induced map of stalks at `x` is an isomorphism
 gives a linear equivalence of those stalks over the stalk of the ring presheaf. -/
@@ -110,7 +110,7 @@ public noncomputable def stalkSectionwiseLinearEquiv (x : X) :
     letI : HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u} :=
       hasSheafifyEssentiallySmallSite.{_, _, _, _, u} _ _
     ToType (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u})
-        (DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf x)
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf x)
       ≃ₗ[ToType (O₂.presheaf.stalk x)]
       ToType (TopCat.Presheaf.stalk (C := AddCommGrpCat.{u})
         (sectionwiseDifferentialsSheaf.{u, u} φ).val.presheaf x) := by
@@ -176,10 +176,10 @@ public theorem stalkLinearEquivOfIsIso_germ {R : X.Presheaf CommRingCat.{u}}
 its sheafification carries the germ of a section to the germ of its image under the unit of
 sheafification. -/
 public theorem stalkSectionwiseLinearEquiv_germ (x : X) (U : Opens X) (hx : x ∈ U)
-    (m : (DifferentialsConstruction.relativeDifferentials' φ.hom).obj (op U)) :
+    (m : (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom).obj (op U)) :
     stalkSectionwiseLinearEquiv φ x
         (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
-          (DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf U x hx m) =
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf U x hx m) =
       TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
         (sectionwiseDifferentialsSheaf.{u, u} φ).val.presheaf U x hx
         (((toSectionwiseDifferentialsSheaf.{u, u} φ).app (op U)).hom m) :=
@@ -234,8 +234,8 @@ public theorem stalkModuleOfDifferentialsKaehlerLinearEquiv_germ_d (x : X)
   let := algebraStalk φ.hom x
   have hfwd : stalkSectionwiseLinearEquiv φ x
         (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
-          (DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf (nhdOpen i) x
-          (mem_nhdOpen i) ((DifferentialsConstruction.derivation' φ.hom).d a)) =
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom).presheaf (nhdOpen i) x
+          (mem_nhdOpen i) ((PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d a)) =
       stalkModuleOfDifferentialsLinearEquiv φ x
         (TopCat.Presheaf.germ (C := AddCommGrpCat.{u})
           (moduleOfDifferentials.{u, u, u} φ).val.presheaf (nhdOpen i) x (mem_nhdOpen i)

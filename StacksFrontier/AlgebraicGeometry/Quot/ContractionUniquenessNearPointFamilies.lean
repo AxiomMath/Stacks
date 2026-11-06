@@ -193,7 +193,7 @@ theorem exists_iso_near_point_of_isPullback_fibres (Q : BigFppfOver B integerBas
         φ'.hom =
       pullback.map f (yoneda.map (Space.pointFieldMap Q s)) g₂
         (yoneda.map (Space.pointFieldMap Q s)) c₂ (𝟙 _) (𝟙 _) (by simp [hc₂]) (by simp) := by
-    rw [← cancel_epi sX.isoPullback.hom, ← reassoc_of% ha₁, ← ha₂, ← hφa]
+    rw [← Iso.cancel_iso_hom_left sX.isoPullback, ← reassoc_of% ha₁, ← ha₂, ← hφa]
     simp [φ']
   obtain ⟨W, j, hj, hs, ψ, -, hψs, hψc, -⟩ := Space.exists_iso_near_point_of_iso_fibre Q s hX hY₁
     hY₂ f g₁ g₂ hfl hpr hfp hd hfl₁ hpr₁ hfp₁ hd₁ hfl₂ hpr₂ hfp₂ hd₂ c₁ c₂ hc₁ hc₂ sX.isoPullback

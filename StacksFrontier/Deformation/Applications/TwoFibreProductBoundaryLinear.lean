@@ -266,12 +266,12 @@ public noncomputable def boundaryObjectHom
       map_comp_boundaryCompareFst_hom.{u, v, w} f PH PF hcofF φ
     have hc : PF.map ψ ≫ cN.hom = cM.hom ≫ g.map (PG.map ρ) :=
       map_comp_boundaryCompareSnd_hom.{u, v, w} f g hzy hcmp PG PF hcofF φ
-    have hα : PF.map ψ ≫ (PF.transportAut ψ α).hom.val = α.hom.val ≫ PF.map ψ :=
+    have hα : PF.map ψ ≫ (PF.transportAut ψ α).asIso.hom.val = α.asIso.hom.val ≫ PF.map ψ :=
       PF.map_transportHom ψ α
     have hbinv : f.map (PH.map ψ) ≫ bN.inv = bM.inv ≫ PF.map ψ := by
       rw [Iso.comp_inv_eq, Category.assoc, hb, Iso.inv_hom_id_assoc]
-    change f.map (PH.map ψ) ≫ bN.inv ≫ (PF.transportAut ψ α).hom.val ≫ cN.hom =
-      (bM.inv ≫ α.hom.val ≫ cM.hom) ≫ g.map (PG.map ρ)
+    change f.map (PH.map ψ) ≫ bN.inv ≫ (PF.transportAut ψ α).asIso.hom.val ≫ cN.hom =
+      (bM.inv ≫ α.asIso.hom.val ≫ cM.hom) ≫ g.map (PG.map ρ)
     simp only [Category.assoc]
     rw [reassoc_of% hbinv, reassoc_of% hα, hc]
 

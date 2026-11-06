@@ -146,7 +146,8 @@ lemma isAlgebraicSpace_limit_dominantSystem : IsAlgebraicSpace B S hS (limit D.d
 scheme-theoretic image of each is the whole stage. -/
 lemma schemeTheoreticImageSubfunctor_limit_π_dominantSystem (j : Iᵒᵖ) :
     schemeTheoreticImageSubfunctor B S hS (limit.π D.dominantSystem j) = ⊤ := by
-  rw [← dominantLimitIso_inv_π, schemeTheoreticImageSubfunctor_comp_of_epi]
+  rw [← dominantLimitIso_inv_π,
+    @schemeTheoreticImageSubfunctor_comp_of_epi _ _ _ _ _ _ _ (IsIso.epi_of_iso _)]
   exact schemeTheoreticImageSubfunctor_coneImageCone_π _ _ j
 
 /-- **The dominant system has limit bridges** along all affine points, with no condition on the
@@ -225,7 +226,7 @@ theorem nonempty_goodDiagram_of_noetherianApproximation
     IsPullback.of_isLimit (PullbackCone.isLimitOfCompMono _ _ ιk _ h₀.isLimit)
   have hP : IsPullback f' (φl.hom ≫ pullback.fst _ _) (D.limitCone.π.app k) (Yk.hom ≫ ιk) := by
     refine h₁.flip.of_iso φl.symm e.symm (Iso.refl _) (Iso.refl _) ?_ ?_ ?_ ?_
-    · rw [← cancel_epi φl.hom, ← Category.assoc, hφ, Iso.symm_hom, Iso.symm_hom,
+    · rw [← Iso.cancel_iso_hom_left φl, ← Category.assoc, hφ, Iso.symm_hom, Iso.symm_hom,
         Category.assoc, e.hom_inv_id, Category.comp_id, φl.hom_inv_id_assoc]
     · simp
     · simp [D.limitCone_π_eq k, e, ιk]

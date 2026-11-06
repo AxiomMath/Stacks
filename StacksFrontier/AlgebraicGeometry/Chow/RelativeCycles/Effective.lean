@@ -425,12 +425,12 @@ theorem relativeDimension_comap_genericPoint_eq_add (C : ChowSituation.{u}) {T Y
     have himg := (Scheme.IdealSheafData.vanishingIdeal
       (Closeds.closure ({y} : Set Y))).subschemeι.isClosedEmbedding.closure_image_eq
         ({genericPoint (Scheme.IdealSheafData.vanishingIdeal
-          (Closeds.closure ({y} : Set Y))).subscheme} : Set _)
+            (Closeds.closure ({y} : Set Y))).subscheme} : Set _)
     rw [genericPoint_spec _] at himg
     have hgen : closure ({(Scheme.IdealSheafData.vanishingIdeal
-        (Closeds.closure ({y} : Set Y))).subschemeι.base
-          (genericPoint (Scheme.IdealSheafData.vanishingIdeal
-            (Closeds.closure ({y} : Set Y))).subscheme)} : Set Y) =
+                              (Closeds.closure ({y} : Set Y))).subschemeι.base
+                            (genericPoint (Scheme.IdealSheafData.vanishingIdeal
+                              (Closeds.closure ({y} : Set Y))).subscheme)} : Set Y) =
         closure ({y} : Set Y) := by
       simpa [Set.image_univ, hrange] using himg
     exact IsGenericPoint.eq hgen isGenericPoint_closure

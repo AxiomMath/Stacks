@@ -59,7 +59,7 @@ variable {C : Type u₁} [Category.{u₂} C] [GaloisCategory C] (X : C) [IsConne
 
 /-- The action of a subgroup `H` of `Aut X` on `X`, as a diagram indexed by `H`. -/
 abbrev subgroupQuotientDiagram : SingleObj H ⥤ C :=
-  SingleObj.functor ((Aut.toEnd X).comp H.subtype)
+  SingleObj.functor ((Aut.toEnd (X := X)).comp H.subtype)
 
 /-- **The quotient `X/H`** of a connected object of a Galois category by a subgroup of its
 automorphism group. -/
@@ -72,7 +72,7 @@ abbrev subgroupQuotientι : X ⟶ subgroupQuotient X H :=
 
 /-- The quotient map is invariant under `H`. -/
 theorem hom_comp_subgroupQuotientι (h : H) :
-    (h : Aut X).hom ≫ subgroupQuotientι X H = subgroupQuotientι X H :=
+    (h : Aut X).asIso.hom ≫ subgroupQuotientι X H = subgroupQuotientι X H :=
   colimit.w (subgroupQuotientDiagram X H) (h : SingleObj.star H ⟶ SingleObj.star H)
 
 variable (F : C ⥤ FintypeCat.{w}) [FiberFunctor F]
@@ -110,7 +110,7 @@ private theorem exists_equiv_orbitRel :
 `H`-orbit.** -/
 theorem exists_eq_of_map_subgroupQuotientι_eq {a b : F.obj X}
     (hab : F.map (subgroupQuotientι X H) a = F.map (subgroupQuotientι X H) b) :
-    ∃ h : H, F.map (h : Aut X).hom a = b := by
+    ∃ h : H, F.map (h : Aut X).asIso.hom a = b := by
   obtain ⟨e, he⟩ := exists_equiv_orbitRel X H F
   have h1 : (⟦b⟧ : MulAction.orbitRel.Quotient H
       ((subgroupQuotientDiagram X H ⋙ F ⋙ FintypeCat.incl).obj (SingleObj.star H))) = ⟦a⟧ :=
@@ -133,10 +133,11 @@ theorem natCard_fiber_subgroupQuotient [IsGalois X] :
   let q := F.map (subgroupQuotientι X H)
   let sec := Function.surjInv (surjective_map_subgroupQuotientι X H F)
   have hsec : ∀ t, q (sec t) = t := Function.surjInv_eq (surjective_map_subgroupQuotientι X H F)
-  have hq : ∀ (h : H) (y : F.obj X), q (F.map (h : Aut X).hom y) = q y := fun h y ↦ by
-    show (F.map (h : Aut X).hom ≫ F.map (subgroupQuotientι X H)) y = _
+  have hq : ∀ (h : H) (y : F.obj X), q (F.map (h : Aut X).asIso.hom y) = q y := fun h y ↦ by
+    show (F.map (h : Aut X).asIso.hom ≫ F.map (subgroupQuotientι X H)) y = _
     rw [← F.map_comp, hom_comp_subgroupQuotientι]
-  let φ : F.obj (subgroupQuotient X H) × H → F.obj X := fun p ↦ F.map (p.2 : Aut X).hom (sec p.1)
+  let φ : F.obj (subgroupQuotient X H) × H → F.obj X :=
+    fun p ↦ F.map (p.2 : Aut X).asIso.hom (sec p.1)
   have hφ : Function.Bijective φ := by
     refine ⟨fun p p' hpp' ↦ ?_, fun y ↦ ?_⟩
     · have ht : p.1 = p'.1 := (hsec p.1).symm.trans ((hq p.2 _).symm.trans
@@ -193,7 +194,7 @@ every point.** -/
 theorem exists_mem_agreeLocus_subgroupQuotientι {W : Scheme.{u}} (a b : W ⟶ A.obj.left)
     (hab : a ≫ (subgroupQuotientι A.obj H).left = b ≫ (subgroupQuotientι A.obj H).left)
     (w : W) :
-    ∃ (h : H) (hw : (a ≫ (h : Aut A.obj).hom.left) ≫ (subgroupQuotientι A.obj H).left =
+    ∃ (h : H) (hw : (a ≫ (h : Aut A.obj).asIso.hom.left) ≫ (subgroupQuotientι A.obj H).left =
         b ≫ (subgroupQuotientι A.obj H).left),
       w ∈ Scheme.Hom.agreeLocus (subgroupQuotientι A.obj H).left _ _ hw := by
   have hab' : a ≫ A.obj.hom = b ≫ A.obj.hom := by
@@ -212,11 +213,11 @@ theorem exists_mem_agreeLocus_subgroupQuotientι {W : Scheme.{u}} (a b : W ⟶ A
     rw [Category.assoc, Category.assoc]
     exact congrArg ((W.algClosedPoint w).hom ≫ ·) hab
   obtain ⟨h, hh⟩ := exists_eq_of_map_subgroupQuotientι_eq A.obj H F hq
-  have hτ' : (W.algClosedPoint w).hom ≫ a ≫ (h : Aut A.obj).hom.left =
+  have hτ' : (W.algClosedPoint w).hom ≫ a ≫ (h : Aut A.obj).asIso.hom.left =
       (W.algClosedPoint w).hom ≫ b := by
     rw [← finiteEtaleFiberFintypeFunctor_map_fiberPointOfComp]
     exact congrArg Subtype.val hh
-  have hw : (a ≫ (h : Aut A.obj).hom.left) ≫ (subgroupQuotientι A.obj H).left =
+  have hw : (a ≫ (h : Aut A.obj).asIso.hom.left) ≫ (subgroupQuotientι A.obj H).left =
       b ≫ (subgroupQuotientι A.obj H).left := by
     rw [Category.assoc]
     exact (congrArg (a ≫ ·) (congrArg (fun k : A.obj ⟶ subgroupQuotient A.obj H ↦ k.left)
@@ -233,7 +234,7 @@ covering of its quotient `A/H` with group `H`.** -/
 def PointedGaloisCover.subgroupQuotientCovering :
     EtaleGaloisCovering (subgroupQuotient A.obj H).left H where
   cover := Scheme.Etale.mk (subgroupQuotientι A.obj H).left
-  act h := (h : Aut A.obj).hom.left
+  act h := (h : Aut A.obj).asIso.hom.left
   act_comp_hom h :=
     congrArg (fun k : A.obj ⟶ subgroupQuotient A.obj H ↦ k.left)
       (hom_comp_subgroupQuotientι A.obj H h)

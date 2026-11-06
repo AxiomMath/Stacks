@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Homology.DerivedCategory.DerivabilityStructureInjectives
 public import Mathlib.Algebra.Homology.DerivedCategory.Ext.Map
+import all Mathlib.Algebra.Homology.DerivedCategory.RightDerivedFunctorPlus
 public import StacksFrontier.Algebra.Homology.DerivedCategory.ExactFunctorBoundedBelow
 public import StacksFrontier.Algebra.Homology.DerivedCategory.RightDerivedFunctorInjective
 import StacksFrontier.Algebra.Homology.DerivedCategory.RightDerivedFunctorPlusResolution
@@ -89,11 +90,11 @@ variable [HasDerivedCategory.{w₁} A] [HasDerivedCategory.{w₂} B]
 
 /-- The functor `K⁺(B) ⥤ D⁺(A)` induced by `R` has a right derived functor with respect to
 quasi-isomorphisms, namely `Functor.rightDerivedFunctorPlus` with unit
-`Functor.rightDerivedFunctorPlusUnit`. -/
+`Functor.rightDerivedFunctorPlusUnith`. -/
 local instance : (R.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasRightDerivedFunctor
     (HomotopyCategory.Plus.quasiIso B) :=
   Functor.HasRightDerivedFunctor.mk' (RF := R.rightDerivedFunctorPlus)
-    (α := R.rightDerivedFunctorPlusUnit)
+    (α := R.rightDerivedFunctorPlusUnith)
 
 /-- **The derived unit on the image of a complex.** For `X ∈ K⁺(A)`, the unit of the derived
 adjunction `RL ⊣ RR` at the image of `X` in `D⁺(A)`, followed by `RR` of the comparison
@@ -102,17 +103,17 @@ adjunction `RL ⊣ RR` at the image of `X` in `D⁺(A)`, followed by `RR` of the
 theorem rightDerivedFunctorPlus_unit_app_Qh_obj_fac (X : HomotopyCategory.Plus A) :
     letI := L.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
     adj.rightDerivedFunctorPlus.unit.app (DerivedCategory.Plus.Qh.obj X) ≫
-        R.rightDerivedFunctorPlus.map ((asIso L.rightDerivedFunctorPlusUnit).inv.app X) =
+        R.rightDerivedFunctorPlus.map ((asIso L.rightDerivedFunctorPlusUnith).inv.app X) =
       DerivedCategory.Plus.Qh.map (adj.mapHomotopyCategoryPlus.unit.app X) ≫
-        R.rightDerivedFunctorPlusUnit.app (L.mapHomotopyCategoryPlus.obj X) := by
+        R.rightDerivedFunctorPlusUnith.app (L.mapHomotopyCategoryPlus.obj X) := by
   let := L.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have : (L.rightDerivedFunctorPlus ⋙ R.rightDerivedFunctorPlus).IsLeftDerivedFunctor
       ((Functor.associator _ _ _).inv ≫
-        Functor.whiskerRight (asIso L.rightDerivedFunctorPlusUnit).inv R.rightDerivedFunctorPlus)
+        Functor.whiskerRight (asIso L.rightDerivedFunctorPlusUnith).inv R.rightDerivedFunctorPlus)
       (HomotopyCategory.Plus.quasiIso A) :=
     Functor.isLeftDerivedFunctor_of_inverts _ _
       ((Functor.associator _ _ _).symm ≪≫
-        Functor.isoWhiskerRight (asIso L.rightDerivedFunctorPlusUnit).symm _)
+        Functor.isoWhiskerRight (asIso L.rightDerivedFunctorPlusUnith).symm _)
   exact adj.mapHomotopyCategoryPlus.derivedη_fac_app (HomotopyCategory.Plus.quasiIso A) _ _ X
 
 /-- The derived unit at the image of a complex `X` is an isomorphism exactly when the canonical
@@ -120,10 +121,10 @@ map `R(L X) ⟶ RR(L X)` is, provided the unit of `adj` is an isomorphism. -/
 theorem isIso_rightDerivedFunctorPlus_unit_app_Qh_obj_iff [IsIso adj.unit]
     (X : HomotopyCategory.Plus A) :
     IsIso (adj.rightDerivedFunctorPlus.unit.app (DerivedCategory.Plus.Qh.obj X)) ↔
-      IsIso (R.rightDerivedFunctorPlusUnit.app (L.mapHomotopyCategoryPlus.obj X)) := by
+      IsIso (R.rightDerivedFunctorPlusUnith.app (L.mapHomotopyCategoryPlus.obj X)) := by
   let := L.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   rw [← isIso_comp_right_iff _
-    (R.rightDerivedFunctorPlus.map ((asIso L.rightDerivedFunctorPlusUnit).inv.app X)),
+    (R.rightDerivedFunctorPlus.map ((asIso L.rightDerivedFunctorPlusUnith).inv.app X)),
     adj.rightDerivedFunctorPlus_unit_app_Qh_obj_fac X, isIso_comp_left_iff]
 
 /-- **The derived unit is an isomorphism** ([Stacks, Tag 099V]). Let `L ⊣ R` be an adjunction
@@ -160,7 +161,7 @@ theorem rightAcyclic_obj_of_isIso_unit [IsIso adj.unit]
   have := adj.isIso_rightDerivedFunctorPlus_unit h
   have hX := (adj.isIso_rightDerivedFunctorPlus_unit_app_Qh_obj_iff
     ((HomotopyCategory.Plus.singleFunctor A 0).obj F)).1 inferInstance
-  show IsIso (R.rightDerivedFunctorPlusUnit.app
+  show IsIso (R.rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.singleFunctor B 0).obj (L.obj F)))
   exact (NatTrans.isIso_app_iff_of_iso _ ((L.mapSinglePlusIso).app F)).1 hX
 

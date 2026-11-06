@@ -41,7 +41,7 @@ def familyImageSieve {X : Cᵒᵖ ⥤ Type w} {ι : Type*} {W : ι → Cᵒᵖ �
   downward_closed := by
     rintro T' T'' f ⟨i, t, ht⟩ g
     refine ⟨i, (W i).map g.op t, ?_⟩
-    rw [NatTrans.naturality_apply, ht, ← FunctorToTypes.map_comp_apply]
+    rw [NatTrans.naturality_apply, ht, ← Functor.map_comp_apply]
     rfl
 
 /-- **A morphism of sheaves of sets over `X` is an isomorphism if it is one over a locally

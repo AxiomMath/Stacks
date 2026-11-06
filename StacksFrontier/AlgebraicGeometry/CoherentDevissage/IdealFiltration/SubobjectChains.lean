@@ -124,7 +124,7 @@ def cokernelPullbackIso {C : Type u} [Category C] [Abelian C]
     simp [e, pD]
   have hproj : Epi pD := by
     rw [← heq]
-    infer_instance
+    exact epi_comp' (IsIso.epi_of_iso e.hom) ‹_›
   have hcomp : cokernel.π t ≫ β = pD ≫ cokernel.π v := by
     change cokernel.π t ≫ cokernel.desc t (pD ≫ cokernel.π v) _ = pD ≫ cokernel.π v
     exact cokernel.π_desc _ _ _

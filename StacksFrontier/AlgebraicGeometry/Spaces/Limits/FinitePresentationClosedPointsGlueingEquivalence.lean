@@ -125,6 +125,9 @@ theorem full_comparisonFunctor_peel {n : ℕ} {D : ClosedPointsGlueingData B S h
             (baseChange B S hS (D.overlapToLocal (Fin.last n))).map b' := by
       simp only [a', b', Functor.map_comp, Category.assoc]
       rw [CB Y', reassoc_of% (hw (Fin.last n))]
+      haveI : Epi ((baseChange B S hS (D.overlapToOpen (Fin.last n))).map (Fo.hom.app Y)) :=
+        @IsIso.epi_of_iso _ _ _ _ _
+          (Functor.map_isIso (baseChange B S hS (D.overlapToOpen (Fin.last n))) (Fo.app Y).hom)
       rw [← cancel_epi ((baseChange B S hS (D.overlapToOpen (Fin.last n))).map (Fo.hom.app Y)),
         reassoc_of% (CB Y)]
       exact (Iso.map_hom_inv_id_assoc (Fo.app Y) _ _).trans

@@ -95,7 +95,7 @@ theorem abelianEtaleStalkGerm_eq_toPresheafFiber
     (U : SmallEtale B (Spec (.of K)) hK)
     (p : (geometricPointFiber B (Spec (.of K)) hK sbar).obj U)
     (t : ((sheafToPresheaf _ _).obj F).obj (op U)) :
-    abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar F ⟨U, p⟩ t =
+    abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar F ⟨p⟩ t =
       ConcreteCategory.hom ((fieldSitePoint B K hK sbar).toPresheafFiber U p
         ((sheafToPresheaf _ _).obj F)) t := rfl
 
@@ -106,7 +106,7 @@ theorem multiplicativeStalkToUnits_abelianEtaleStalkGerm (U : SmallEtale B (Spec
     (t : ((multiplicativeSheafRestriction B K hK).obj.obj (op U) : _)) :
     ConcreteCategory.hom (multiplicativeStalkToUnits B K hK sbar)
         (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-          (multiplicativeSheafRestriction B K hK) ⟨U, p⟩ t) =
+          (multiplicativeSheafRestriction B K hK) ⟨p⟩ t) =
       ConcreteCategory.hom (multiplicativeSectionEval B K hK sbar U p) t :=
   ConcreteCategory.congr_hom
     (toPresheafFiber_comp_multiplicativeStalkToUnits B K hK sbar U p) t
@@ -132,17 +132,17 @@ theorem multiplicativeStalkToUnits_rho_abelianEtaleStalkGerm
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
           (multiplicativeSheafRestriction B K hK)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-              (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ)
+              (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ).asHom
             ((etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
                 (multiplicativeSheafRestriction B K hK)).symm
               (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-                (multiplicativeSheafRestriction B K hK) ⟨U, p⟩ t)))) =
+                (multiplicativeSheafRestriction B K hK) ⟨p⟩ t)))) =
       ConcreteCategory.hom (sepClosureUnitsSmul K sbar σ)
         (ConcreteCategory.hom (multiplicativeStalkToUnits B K hK sbar)
           (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-            (multiplicativeSheafRestriction B K hK) ⟨U, p⟩ t)) := by
+            (multiplicativeSheafRestriction B K hK) ⟨p⟩ t)) := by
   rw [etaleGaloisModuleAddEquivStalk_rho_abelianEtaleStalkGerm.{u, u + 1} B K hK sbar
-      (multiplicativeSheafRestriction B K hK) σ ⟨U, p⟩ t,
+      (multiplicativeSheafRestriction B K hK) σ ⟨p⟩ t,
     multiplicativeStalkToUnits_abelianEtaleStalkGerm,
     multiplicativeStalkToUnits_abelianEtaleStalkGerm,
     multiplicativeSectionEval_galoisFiberAction]
@@ -158,7 +158,7 @@ theorem multiplicativeStalkToUnits_rho_symm
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
           (multiplicativeSheafRestriction B K hK)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-              (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ)
+              (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ).asHom
             ((etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
               (multiplicativeSheafRestriction B K hK)).symm y))) =
       ConcreteCategory.hom (sepClosureUnitsSmul K sbar σ)
@@ -178,7 +178,7 @@ theorem multiplicativeStalkToUnits_etaleGaloisModule_rho
         (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
           (multiplicativeSheafRestriction B K hK)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-            (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ) x)) =
+            (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ).asHom x)) =
       ConcreteCategory.hom (sepClosureUnitsSmul K sbar σ)
         (ConcreteCategory.hom (multiplicativeStalkToUnits B K hK sbar)
           (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
@@ -189,7 +189,7 @@ theorem multiplicativeStalkToUnits_etaleGaloisModule_rho
           (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
             (multiplicativeSheafRestriction B K hK)
             (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-              (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ) z)))
+              (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ).asHom z)))
       ((etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
         (multiplicativeSheafRestriction B K hK)).symm_apply_apply x)).symm.trans
     (multiplicativeStalkToUnits_rho_symm B K hK sbar σ
@@ -199,8 +199,8 @@ theorem multiplicativeStalkToUnits_etaleGaloisModule_rho
 /-- The Galois equivariance of `multiplicativeGaloisModuleIsoUnits`, as a commuting square of
 morphisms of abelian groups. -/
 theorem multiplicativeGaloisModuleIsoUnits_comm (σ : GeometricPoint.absoluteGaloisGroup sbar) :
-    (etaleGaloisModule.{u, u + 1} B K hK sbar
-          (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ ≫
+    ((etaleGaloisModule.{u, u + 1} B K hK sbar
+          (multiplicativeSheafRestriction B K hK)).obj.obj.ρ σ).asHom ≫
         (multiplicativeGaloisModuleIsoUnits B K hK sbar).hom =
       (multiplicativeGaloisModuleIsoUnits B K hK sbar).hom ≫ sepClosureUnitsSmul K sbar σ :=
   AddCommGrpCat.hom_ext (AddMonoidHom.ext

@@ -58,6 +58,20 @@ lemma isAffineHom_limitCone_π_of_algebraicLimit {hZ : B.Contains (⊤_ Scheme.{
 
 end Helpers
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ImageConeLimitOfAlgebraicLimit {B : BigFppfSite.{u}}
+    {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ImageConeLimitOfAlgebraicLimit
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+
 namespace GoodDiagram
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -156,7 +170,8 @@ lemma schemeTheoreticImage_chartLimitChart_eq_preimage_stageImage
   have hrange : Subfunctor.range
       (yoneda.map (G.isClosedImmersion.rep.snd (chartLimitChart G a L) ≫ L.cone.π.app j)) =
       Subfunctor.range (pullback.snd (stageMap G j) (stageChart G a j)) := by
-    rw [← hpb.isoPullback_hom_snd, Subfunctor.range_comp, Subfunctor.range_eq_top,
+    rw [← hpb.isoPullback_hom_snd, Subfunctor.range_comp,
+      (Subfunctor.epi_iff_range_eq_top hpb.isoPullback.hom).1 (IsIso.epi_of_iso _),
       Subfunctor.image_top]
   rw [schemeTheoreticImageSubfunctor_congr_range' B S hS _ _
       (isAlgebraicSpace_yoneda B S hS _) hrange,

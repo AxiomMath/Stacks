@@ -1,5 +1,7 @@
 module
 
+public import Mathlib.Algebra.Homology.CommSq
+public import Mathlib.CategoryTheory.Abelian.CommSq
 public import StacksFrontier.AlgebraicGeometry.ClosedImmersionTFAE.Basic
 public import StacksFrontier.AlgebraicGeometry.Curves.ContractingRationalBridges.StructureDirectImage
 public import StacksFrontier.AlgebraicGeometry.Duality.AffinePushforwardQcohExact

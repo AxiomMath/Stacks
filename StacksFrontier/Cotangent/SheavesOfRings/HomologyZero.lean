@@ -286,9 +286,9 @@ variable {J f} {M : targetModules J B} (D : resolutionDerivations J f (op ⦋0�
 /-- A derivation of `P₀` with values in a `B`-module `M`, as a derivation with values in the
 restriction of scalars of `M` along the augmentation `P₀ ⟶ B`. -/
 noncomputable def restrictedDerivation :
-    ((PresheafOfModules.restrictScalars
+    PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
       (Functor.whiskerRight (resolutionAugmentation J f (op ⦋0⦌)).hom
-        (forget₂ CommRingCat.{max u v w} RingCat.{max u v w}))).obj M.val).Derivation'
+        (forget₂ CommRingCat.{max u v w} RingCat.{max u v w}))).obj M.val)
       (resolutionBase J f (op ⦋0⦌)).hom := D
 
 /-- The derivation `restrictedDerivation D` has the same underlying map as `D`. -/
@@ -320,7 +320,7 @@ noncomputable def descendHom (U : Cᵒᵖ) : B.obj.obj U →+ M.val.obj U where
     rw [augSections_add, augSections_augSection, augSections_augSection]
 
 /-- A derivation of `P₀` equalising the two faces descends along the augmentation `P₀ ⟶ B`. -/
-noncomputable def descendDerivation : M.val.Derivation' f.hom where
+noncomputable def descendDerivation : PresheafOfModulesOfCommRing.Derivation' M.val f.hom where
   d {U} := descendHom D hD U
   d_mul {U} a b := by
     have e₁ := presheafRestrictScalars_smul (resolutionAugmentation J f (op ⦋0⦌)).hom M.val U
@@ -357,10 +357,11 @@ theorem descendDerivation_aug (U : Cᵒᵖ) (p : (resolutionTerm J f (op ⦋0⦌
 end Descent
 
 /-- Two derivations of `B` agreeing after the augmentation `P₀ ⟶ B` are equal. -/
-theorem derivation_ext_of_aug {M : targetModules J B} (D₁ D₂ : M.val.Derivation' f.hom)
+theorem derivation_ext_of_aug {M : targetModules J B}
+    (D₁ D₂ : PresheafOfModulesOfCommRing.Derivation' M.val f.hom)
     (h : ∀ (U : Cᵒᵖ) (p : (resolutionTerm J f (op ⦋0⦌)).obj.obj U),
       D₁.d (augSections J f U p) = D₂.d (augSections J f U p)) : D₁ = D₂ := by
-  refine PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext fun b => ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext fun b => ?_)
   simpa only [augSections_augSection] using h U (augSection J f U b)
 
 
@@ -484,19 +485,22 @@ theorem derivationEquiv_faceSections (M : targetModules J B) (k : Fin 2)
   (cotangentSimplicialModule J f).simplex_naturality (SimplexCategory.δ k).op M h U x
 
 /-- An `A`-derivation of `B` restricts along the augmentation to an `A`-derivation of `P₀`. -/
-noncomputable def precompAug {F : targetModules J B} (D : F.val.Derivation' f.hom) :
+noncomputable def precompAug {F : targetModules J B}
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val f.hom) :
     resolutionDerivations J f (op ⦋0⦌) F :=
-  D.precomp (resolutionAugmentation J f (op ⦋0⦌)).hom
+  PresheafOfModules.Derivation'.precomp (resolutionAugmentation J f (op ⦋0⦌)).hom D
     (congrArg (fun (t : A ⟶ B) => t.hom) ((standardResolution J f).hom.app (op ⦋0⦌)).w)
 
 /-- The restricted derivation differentiates a local section of `P₀` through the augmentation. -/
 @[simp]
-theorem precompAug_d {F : targetModules J B} (D : F.val.Derivation' f.hom) (U : Cᵒᵖ)
+theorem precompAug_d {F : targetModules J B}
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val f.hom) (U : Cᵒᵖ)
     (p : (resolutionTerm J f (op ⦋0⦌)).obj.obj U) :
     (precompAug J f D).d p = D.d (augSections J f U p) := rfl
 
 /-- A derivation restricted along the augmentation equalises the two faces. -/
-theorem precompAug_faceSections {F : targetModules J B} (D : F.val.Derivation' f.hom)
+theorem precompAug_faceSections {F : targetModules J B}
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val f.hom)
     (U : Cᵒᵖ) (x : (resolutionTerm J f (op ⦋1⦌)).obj.obj U) :
     (precompAug J f D).d (faceSections J f 0 U x) =
       (precompAug J f D).d (faceSections J f 1 U x) := by
@@ -505,7 +509,7 @@ theorem precompAug_faceSections {F : targetModules J B} (D : F.val.Derivation' f
 /-- The universal `A`-derivation of `B` with values in the zeroth homology of the cotangent
 complex. -/
 noncomputable def homologyZeroDerivation :
-    ((cotangentComplex J f).homology 0).val.Derivation' f.hom :=
+    PresheafOfModulesOfCommRing.Derivation' ((cotangentComplex J f).homology 0).val f.hom :=
   descendDerivation
     ((cotangentSimplicialModule J f).derivationEquiv (op ⦋0⦌)
       ((cotangentComplex J f).homology 0) (homologyZeroProj J f))
@@ -537,7 +541,7 @@ theorem postcomp_homologyZeroDerivation_aug {F : targetModules J B}
 /-- Every `A`-derivation of `B` factors uniquely through `homologyZeroDerivation`, the universal
 derivation with values in the zeroth homology of the cotangent complex. -/
 theorem homologyZeroDerivation_universal (F : targetModules J B)
-    (D : F.val.Derivation' f.hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val f.hom) :
     ∃! φ : (cotangentComplex J f).homology 0 ⟶ F,
       (homologyZeroDerivation J f).postcomp φ.val = D := by
   set g := ((cotangentSimplicialModule J f).derivationEquiv (op ⦋0⦌) F).symm
@@ -547,7 +551,7 @@ theorem homologyZeroDerivation_universal (F : targetModules J B)
   have hg : (cotangentSimplicialModule J f).object.δ 0 ≫ g =
       (cotangentSimplicialModule J f).object.δ 1 ≫ g := by
     refine ((cotangentSimplicialModule J f).derivationEquiv (op ⦋1⦌) F).injective
-      (PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext fun x => ?_))
+      (PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext fun x => ?_))
     rw [derivationEquiv_faceSections, derivationEquiv_faceSections, hgd]
     exact precompAug_faceSections J f D U x
   obtain ⟨φ, hφ, huniq⟩ := existsUnique_homologyZeroDesc J f g hg
@@ -555,7 +559,7 @@ theorem homologyZeroDerivation_universal (F : targetModules J B)
   · refine derivation_ext_of_aug J f _ _ (fun U p => ?_)
     rw [postcomp_homologyZeroDerivation_aug, hφ, hgd, precompAug_d]
   · refine huniq ψ (((cotangentSimplicialModule J f).derivationEquiv (op ⦋0⦌) F).injective ?_)
-    refine Eq.trans (PresheafOfModules.Derivation.ext
+    refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.ext
       (funext fun U => AddMonoidHom.ext fun p => ?_)) hgd.symm
     rw [← postcomp_homologyZeroDerivation_aug, hψ]
     rfl

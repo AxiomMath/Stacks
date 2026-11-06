@@ -342,9 +342,9 @@ def stalkRightDerivedDirectImageIsoOnSupported (f : Y ⟶ X) (i : Z ⟶ X)
     Functor.isoWhiskerLeft (P.ι ⋙ V.mapDerivedCategory)
       ((Functor.associator _ _ _).symm ≪≫
         Functor.isoWhiskerRight eL Sx.mapDerivedCategory ≪≫
-        Functor.mapDerivedCategoryCompIso (Iso.refl (H ⋙ Sx)) ≪≫
+        Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl (H ⋙ Sx)) ≪≫
         Functor.mapDerivedCategoryCongr Φ ≪≫
-        (Functor.mapDerivedCategoryCompIso (Iso.refl (Pi' ⋙ Sy))).symm) ≪≫
+        (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl (Pi' ⋙ Sy))).symm) ≪≫
     (Functor.isoWhiskerRight η Sy.mapDerivedCategory).symm
 
 /-- **Stacks 0AEQ.** Let `f : Y ⟶ X` be a morphism of algebraic spaces over a scheme `S`, let

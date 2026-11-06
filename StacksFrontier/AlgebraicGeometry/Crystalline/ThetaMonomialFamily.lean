@@ -91,7 +91,7 @@ theorem thetaSubmonoid_isMulCommutative
     (hcomm : ∀ i j, theta i ∘ theta j = theta j ∘ theta i) :
     IsMulCommutative (thetaSubmonoid theta) := by
   refine Submonoid.isMulCommutative_closure _ ?_
-  rintro a ⟨i, rfl⟩ b ⟨j, rfl⟩
+  rintro a ⟨i, rfl⟩ b ⟨j, rfl⟩ -
   exact hcomm i j
 
 /-- **The composite coordinate operators `θ_K = ∏_i θ_i^{k_i}` exist as soon as the `θ_i`

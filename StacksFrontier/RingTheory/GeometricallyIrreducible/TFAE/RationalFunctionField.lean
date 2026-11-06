@@ -304,9 +304,9 @@ lemma geomIrred_lemmaX_subF
     (AddMonoidAlgebra.coeffLinearEquiv L).symm.toLinearMap ∘ₗ
       Finsupp.mapRange.linearMap f ∘ₗ (AddMonoidAlgebra.coeffLinearEquiv L).toLinearMap
   have hcoeff : ∀ (p : MvPolynomial σ E) (m : σ →₀ ℕ),
-      MvPolynomial.coeff m (F p) = f (MvPolynomial.coeff m p) := by
+      (F p).coeff m = f (p.coeff m) := by
     intro p m
-    simp only [F, LinearMap.comp_apply, LinearEquiv.coe_coe, MvPolynomial.coeff,
+    simp only [F, LinearMap.comp_apply, LinearEquiv.coe_coe,
       AddMonoidAlgebra.coeffLinearEquiv_apply, AddMonoidAlgebra.coeffLinearEquiv_symm_apply,
       AddMonoidAlgebra.coeff_ofCoeff, Finsupp.mapRange.linearMap_apply, Finsupp.mapRange_apply]
   have hC : ∀ e : E, F (MvPolynomial.C e) = MvPolynomial.C (f e) := by
@@ -454,10 +454,10 @@ lemma geomIrred_lemmaX_viaSubF
     apply MvPolynomial.ext
     intro m
     rw [MvPolynomial.coeff_map]
-    have hcm : MvPolynomial.coeff m η₀
-        = Function.invFun (algebraMap L E) (MvPolynomial.coeff m η) := by
+    have hcm : η₀.coeff m
+        = Function.invFun (algebraMap L E) (η.coeff m) := by
       rw [hη₀def]
-      simp only [MvPolynomial.coeff, Finsupp.mapRange_apply]
+      simp only [AddMonoidAlgebra.coeff_ofCoeff, Finsupp.mapRange_apply]
     rw [hcm]
     exact Function.invFun_eq (hr m)
   -- ιE η = φ (ιL η₀) by hφ.

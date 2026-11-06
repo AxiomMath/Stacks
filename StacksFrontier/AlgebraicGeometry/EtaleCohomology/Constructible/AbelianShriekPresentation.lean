@@ -142,7 +142,7 @@ public instance epi_uliftIntToZMod (N : ℕ) : Epi (uliftIntToZMod.{w} N) := by
   rw [AddCommGrpCat.epi_iff_surjective]
   intro y
   obtain ⟨z, hz⟩ := ZMod.intCast_surjective y.down
-  exact ⟨ULift.up z, ULift.ext _ _ hz⟩
+  exact ⟨ULift.up z, ULift.ext hz⟩
 
 /-- Multiplication by `N` on `ULift ℤ`, followed by reduction modulo `N`, is zero. -/
 public theorem nsmul_id_comp_uliftIntToZMod (N : ℕ) :
@@ -166,7 +166,7 @@ public def cokernelNsmulUliftIntIso (N : ℕ) :
         have hz : N • k.hom (ULift.up (1 : ℤ)) = 0 := by
           simpa using ConcreteCategory.congr_hom w (ULift.up (1 : ℤ))
         have hup : (ULift.up ((N : ℕ) : ℤ) : ULift.{w} ℤ) = N • (ULift.up (1 : ℤ)) := by
-          refine ULift.ext _ _ ?_
+          refine ULift.ext ?_
           show ((N : ℕ) : ℤ) = N • (1 : ℤ)
           simp
         have hf : (k.hom.comp (AddEquiv.ulift (α := ℤ)).symm.toAddMonoidHom)

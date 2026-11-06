@@ -137,7 +137,7 @@ theorem IsLisseAdicModuleSheaf.of_iso [IsNoetherianRing Λ] {X : Scheme.{u}}
     (hF : IsLisseAdicModuleSheaf.{w} X Λ I F) : IsLisseAdicModuleSheaf.{w} X Λ I F' := by
   obtain ⟨Q, q, ⟨hlim⟩, hQ⟩ := hF
   refine ⟨Q, (Functor.const ℕᵒᵖ).map e.inv ≫ q, ⟨?_⟩, fun n => ⟨?_, (hQ n).2⟩⟩
-  · exact IsLimit.ofIsoLimit hlim (Cones.ext e (fun _ => by simp))
+  · exact IsLimit.ofIsoLimit hlim (Cone.ext e (fun _ => by simp))
   · exact Stacks.ModuleSheaf.isQuotientBy_of_iso e.symm (hQ n).1
 
 /-- **A lisse constructible `Λ`-sheaf restricts to one on an open subscheme.** Inverse image along

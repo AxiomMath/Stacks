@@ -178,7 +178,7 @@ variable (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y)
   {F : SheafOfModules.{u} (structureSheaf B X.obj X.property)}
   {R : (SmallEtale B X.obj X.property)ᵒᵖ ⥤ CommRingCat.{u}}
   {ψ : R ⟶ (commRingStructureSheaf B X.obj X.property).obj}
-  (D : PresheafOfModules.Derivation'
+  (D : PresheafOfModulesOfCommRing.Derivation'
     (R := (commRingStructureSheaf B X.obj X.property).obj) F.val ψ)
 
 /-- A derivation of `𝒪_{X_étale}`, read as a morphism of the underlying sheaves of sets.  This
@@ -377,7 +377,7 @@ the same values, with only the Leibniz rule recorded.  This is the form in which
 `AlgebraicGeometry.SmallEtale.existsUnique_postcomp_associatedDerivation` consumes it. -/
 public noncomputable def ofEtaleDerivation
     {F : SheafOfModules.{u} (structureSheaf B X.obj X.property)} (D : EtaleDerivation B f F) :
-    PresheafOfModules.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
       (R := (commRingStructureSheaf B X.obj X.property).obj) F.val
       (siteConstIntMap B X.property _) where
   d := D.d
@@ -404,8 +404,8 @@ public noncomputable def etaleAssociatedDerivation :
 /-- Two derivations with the same values on every section are equal. -/
 private theorem derivation_ext_of_d_eq {C : Type*} [Category C] {S R : Cᵒᵖ ⥤ CommRingCat.{u}}
     {M : PresheafOfModules (R ⋙ forget₂ CommRingCat RingCat)} {φ : S ⟶ R}
-    {d d' : M.Derivation' φ} (h : ∀ {V : Cᵒᵖ} (a : R.obj V), d.d a = d'.d a) : d = d' :=
-  PresheafOfModules.Derivation.ext (funext fun _ => AddMonoidHom.ext h)
+    {d d' : PresheafOfModulesOfCommRing.Derivation' M φ} (h : ∀ {V : Cᵒᵖ} (a : R.obj V), d.d a = d'.d a) : d = d' :=
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ => AddMonoidHom.ext h)
 
 /-- **`(Ω_{X/Y})^a` with `d^a` corepresents the `Y_étale`-derivations of `𝒪_{X_étale}`.**
 
@@ -423,11 +423,11 @@ public theorem existsUnique_postcomp_etaleAssociatedDerivation
       ((etaleAssociatedDerivation B f).postcomp g.val = D ↔
         (associatedDerivation B X.property (schemeHom B f)).postcomp g.val =
           ofEtaleDerivation B f D) := by
-    exact fun g => ⟨fun h => derivation_ext_of_d_eq (PresheafOfModules.Derivation.congr_d h),
-      fun h => derivation_ext_of_d_eq (PresheafOfModules.Derivation.congr_d h)⟩
+    exact fun g => ⟨fun h => derivation_ext_of_d_eq (PresheafOfModulesOfCommRing.Derivation.congr_d h),
+      fun h => derivation_ext_of_d_eq (PresheafOfModulesOfCommRing.Derivation.congr_d h)⟩
   obtain ⟨g, hg, hu⟩ := existsUnique_postcomp_associatedDerivation B X.property (schemeHom B f)
     (ofEtaleDerivation B f D)
-    (d_pullbackSection_eq_zero B f D (fun V s => PresheafOfModules.Derivation'.d_app D s))
+    (d_pullbackSection_eq_zero B f D (fun V s => PresheafOfModulesOfCommRing.Derivation'.d_app D s))
   exact ⟨g, (key g).2 hg, fun g' hg' => hu g' ((key g').1 hg')⟩
 
 /-- `(Ω_{X/Y})^a` corepresents the functor of `Y_étale`-derivations, in the form
@@ -483,7 +483,7 @@ public theorem universalDerivation_pullbackSection_eq_zero (W : Y.obj.Opens) (b 
     (ofEtaleDerivation B f (universalDerivation B f)).d
         (pullbackSection B X.property (schemeHom B f) W b) = 0 :=
   d_pullbackSection_eq_zero B f (universalDerivation B f)
-    (fun _ s => PresheafOfModules.Derivation'.d_app (universalDerivation B f) s) W b
+    (fun _ s => PresheafOfModulesOfCommRing.Derivation'.d_app (universalDerivation B f) s) W b
 
 /-- **The comparison map `c'' : (Ω_{X/Y})^a ⟶ Ω_{X_étale/Y_étale}` of the source's proof**:
 `AlgebraicGeometry.SmallEtale.differentialsComparison` at the universal `Y_étale`-derivation of
@@ -504,7 +504,7 @@ public theorem differentialsIso_hom_eq :
     (ofEtaleDerivation B f (universalDerivation B f))
     (universalDerivation_pullbackSection_eq_zero B f)).unique ?_ ?_
   · exact derivation_ext_of_d_eq
-      (PresheafOfModules.Derivation.congr_d (postcomp_differentialsIso_hom B f))
+      (PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_differentialsIso_hom B f))
   · exact associatedDerivation_postcomp_differentialsComparison B X.property (schemeHom B f)
       (ofEtaleDerivation B f (universalDerivation B f))
       (universalDerivation_pullbackSection_eq_zero B f)

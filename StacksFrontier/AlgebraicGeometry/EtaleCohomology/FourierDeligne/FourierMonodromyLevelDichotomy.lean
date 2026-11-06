@@ -134,7 +134,7 @@ theorem fourier_monodromy_level_dichotomy (hψ : ∑ a : k, ψ a = 0)
     (W : Submodule Λ ((finiteTypeLocallyConstantModuleSheafEquivalenceEtaleSite B VB v
       Λ).functor.obj ⟨_, hG⟩).obj.obj.obj.V)
     (hW : ∀ h, ∀ x ∈ W, (((finiteTypeLocallyConstantModuleSheafEquivalenceEtaleSite B VB v
-      Λ).functor.obj ⟨_, hG⟩).obj.obj.obj.ρ h).hom x ∈ W) :
+      Λ).functor.obj ⟨_, hG⟩).obj.obj.obj.ρ h).asHom.hom x ∈ W) :
     (∀ x ∈ W, ℓ ^ N • x = 0) ∨ (∀ x, ℓ ^ c₀ • x ∈ W) := by
   obtain ⟨A, Q, α, β, w, hS, hA, hQ, hQm, h₁, h₂⟩ :=
     exists_shortExact_of_monodromy_submodule B VB jV v _ hG W hW

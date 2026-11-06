@@ -483,7 +483,7 @@ private theorem principalProductShiftMap_difference
   intro n
   rw [Category.assoc, principalProductShiftMap_π, ← Category.assoc,
     ← Functor.map_comp]
-  simp only [CompletionSequences.complexDifference, Pi.lift_π, Functor.map_sub,
+  simp only [CompletionSequences.complexDifference, Pi.lift_comp_π, Functor.map_sub,
     Functor.map_comp, sub_comp, comp_sub, Category.assoc]
   rw [← Category.assoc (principalProductShiftMap f C m),
     principalProductShiftMap_π, principalProductShiftMap_π]
@@ -667,7 +667,6 @@ private theorem singleHomology_shift_complex
   simp [CochainComplex.singleFunctors, HomologicalComplex.singleObjXSelf,
     CochainComplex.shiftShortComplexFunctorIso_hom_app_τ₂,
     HomologicalComplex.singleObjXIsoOfEq, HomologicalComplex.XIsoOfEq]
-  rfl
 set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
 private theorem singleHomology_shift

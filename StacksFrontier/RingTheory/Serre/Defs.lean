@@ -7,6 +7,8 @@ import Mathlib.Tactic.Polynomial.Basic
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.RingTheory.KrullDimension.Module
+public import Mathlib.RingTheory.Ideal.Height
+import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.RingTheory.SimpleRing.Principal

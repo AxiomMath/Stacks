@@ -176,7 +176,7 @@ theorem isFlat_reindexMod_inverse_obj
   CochainComplex.KFlatBifunctor.exactFunctor_flip_obj_inverse_of_equivalence
     (Tensor.sheafTensor.{u, v, w} O)
     (Tensor.sheafTensor.{u', v', w} (reindexCommRingGeneral J' e O)) (reindexMod J' e O)
-    (TensorPower.whiskerTensorSheafIso (J' := J') O.val (Tensor.ringSheaf.{u, v, w} O).cond
+    (TensorPower.whiskerTensorSheafIso (J' := J') O.obj (Tensor.ringSheaf.{u, v, w} O).property
       e.functor)
     (fun f N => reindexTensorIso_naturality_left J' e O f N) M hM
 
@@ -206,7 +206,7 @@ theorem kFlat_reindexMod_inverse_mapHomologicalComplex
       (((reindexMod J' e O).inverse.mapHomologicalComplex (ComplexShape.up ℤ)).obj K) :=
   CochainComplex.KFlatBifunctor.kFlat_map_inverse_of_equivalence (Tensor.sheafTensor.{u, v, w} O)
     (Tensor.sheafTensor.{u', v', w} (reindexCommRingGeneral J' e O)) (reindexMod J' e O)
-    (TensorPower.whiskerTensorSheafIso (J' := J') O.val (Tensor.ringSheaf.{u, v, w} O).cond
+    (TensorPower.whiskerTensorSheafIso (J' := J') O.obj (Tensor.ringSheaf.{u, v, w} O).property
       e.functor)
     (fun f N => reindexTensorIso_naturality_left J' e O f N)
     (fun M {_ _} g => reindexTensorIso_naturality_right J' e O M g) K hK

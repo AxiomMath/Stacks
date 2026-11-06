@@ -157,13 +157,13 @@ public theorem w_presheafPushoutCompare : J.W (presheafPushoutCompare φ B) := b
       rw [← inl_presheafPushoutCompare φ B, Category.assoc, Category.assoc, hg]
     have e₂ : (pushout.inr B.hom φ).hom ≫ g₁ = (pushout.inr B.hom φ).hom ≫ g₂ := by
       rw [← inr_presheafPushoutCompare φ B, Category.assoc, Category.assoc, hg]
-    have h₁ : pushout.inl B.hom φ ≫ (Sheaf.Hom.mk g₁ : pushout B.hom φ ⟶ Zs) =
-        pushout.inl B.hom φ ≫ Sheaf.Hom.mk g₂ := Sheaf.hom_ext e₁
-    have h₂ : pushout.inr B.hom φ ≫ (Sheaf.Hom.mk g₁ : pushout B.hom φ ⟶ Zs) =
-        pushout.inr B.hom φ ≫ Sheaf.Hom.mk g₂ := Sheaf.hom_ext e₂
+    have h₁ : pushout.inl B.hom φ ≫ (ObjectProperty.homMk g₁ : pushout B.hom φ ⟶ Zs) =
+        pushout.inl B.hom φ ≫ ObjectProperty.homMk g₂ := Sheaf.hom_ext e₁
+    have h₂ : pushout.inr B.hom φ ≫ (ObjectProperty.homMk g₁ : pushout B.hom φ ⟶ Zs) =
+        pushout.inr B.hom φ ≫ ObjectProperty.homMk g₂ := Sheaf.hom_ext e₂
     exact congrArg (fun t : (pushout B.hom φ ⟶ Zs) => t.hom) (pushout.hom_ext h₁ h₂)
-  · have hcomm : B.hom ≫ (Sheaf.Hom.mk (pushout.inl B.hom.hom φ.hom ≫ h) : B.right ⟶ Zs) =
-        φ ≫ Sheaf.Hom.mk (pushout.inr B.hom.hom φ.hom ≫ h) := by
+  · have hcomm : B.hom ≫ (ObjectProperty.homMk (pushout.inl B.hom.hom φ.hom ≫ h) : B.right ⟶ Zs) =
+        φ ≫ ObjectProperty.homMk (pushout.inr B.hom.hom φ.hom ≫ h) := by
       refine Sheaf.hom_ext ?_
       show B.hom.hom ≫ pushout.inl B.hom.hom φ.hom ≫ h =
         φ.hom ≫ pushout.inr B.hom.hom φ.hom ≫ h

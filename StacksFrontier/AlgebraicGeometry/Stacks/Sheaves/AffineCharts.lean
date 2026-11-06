@@ -216,7 +216,7 @@ noncomputable def affineChartModule (x : AffineCategory B S hS p)
     (F : PresheafOfModules.{u} (affineStructurePresheaf B S hS p)) :
     PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
       (smallAffineEtaleRingedSite E (p.obj x.obj).left.1
-        (contains_base B E h S hS p x.obj)).O).val :=
+        (contains_base B E h S hS p x.obj)).O).obj :=
   (PresheafOfModules.restrictScalars (Functor.whiskerLeft (SmallAffineEtale.inclusion E _ _).op
     (localStructurePresheafIso B E h S hS p hp x.obj (etaleTopology B)
       (etaleTopology_le_topology B)).hom)).obj

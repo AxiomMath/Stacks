@@ -113,8 +113,7 @@ theorem tensorAlgebraPieceMul_app_bijective (i j k : ℕ) (h : i + j = k) (X : C
     (M := F.obj X) h
   have key : ∀ z, Hom.app (tensorAlgebraPieceMul F i j k h) X z = e z := by
     intro z
-    refine TensorProduct.induction_on z ?_ ?_ ?_
-    · exact map_zero _
+    refine TensorProduct.inductionOn z ?_ ?_
     · exact fun u v => Subtype.ext rfl
     · exact fun u v hu hv =>
         (map_add _ u v).trans ((congrArg₂ (· + ·) hu hv).trans (map_add e u v).symm)

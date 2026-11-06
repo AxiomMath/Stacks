@@ -130,6 +130,14 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on a big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_geometricallyReducedLocus
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 private theorem class_schemePointRepresentative (U : BigFppfOver B S hS)
     (x : (BigFppfOver.toScheme B S hS).obj U) :
     (schemePointRepresentative B S hS U x).class B S hS (yoneda.obj U) =

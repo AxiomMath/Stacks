@@ -162,8 +162,8 @@ theorem bijOn_affineLineGenerator :
       obtain ⟨hgm, -, hgspan⟩ := affineLineGenerator_spec _ hne
       have hspan : Ideal.span {p} =
           Ideal.span {affineLineGenerator
-            (⟨Ideal.span {p}, (Ideal.span_singleton_prime hpi.ne_zero).2 hpi.prime⟩ :
-              Spec (.of (Polynomial k)))} := hgspan
+                        (⟨Ideal.span {p}, (Ideal.span_singleton_prime hpi.ne_zero).2 hpi.prime⟩ :
+                          Spec (.of (Polynomial k)))} := hgspan
       refine Polynomial.eq_of_monic_of_associated hgm hpm (associated_of_dvd_dvd ?_ ?_)
       · exact Ideal.span_singleton_le_span_singleton.1 hspan.le
       · exact Ideal.span_singleton_le_span_singleton.1 hspan.ge

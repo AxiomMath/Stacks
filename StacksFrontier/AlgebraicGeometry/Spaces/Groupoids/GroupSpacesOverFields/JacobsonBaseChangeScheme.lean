@@ -68,6 +68,12 @@ namespace AlgebraicGeometry.Space.GroupOverField
 
 attribute [local instance] pointTopology Over.cartesianMonoidalCategory
 
+/-- Products of presheaves (instance search times out without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_JacobsonBaseChangeScheme
+    {D : Type (u + 1)} [Category.{u} D] (J : Type) :
+    HasLimitsOfShape (Discrete J) (Dᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 variable (K : Type u) [Field K] (C : BigFppfSite.{u}) (hK : C.Contains (Spec (.of K)))
 
 /-- **The base change of a represented product, represented.** If `ζ₀` represents `h_{E₀} × V`
@@ -83,7 +89,7 @@ noncomputable def pullbackProdIso {D : Type (u + 1)} [Category.{u} D] [HasPullba
     let hpb := (IsPullback.of_hasPullback q (yoneda.preimage (ζ₀.hom ≫ prod.fst))).map yoneda
     apply hpb.hom_ext
     · rw [Category.assoc, hpb.lift_fst, Category.id_comp, prod.lift_fst]
-    · rw [Category.assoc, hpb.lift_snd, Category.id_comp, ← cancel_mono ζ₀.hom]
+    · rw [Category.assoc, hpb.lift_snd, Category.id_comp, ← Iso.cancel_iso_hom_right _ _ ζ₀]
       simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
       apply prod.hom_ext
       · simp only [Category.assoc, prod.map_fst, prod.lift_fst_assoc]
@@ -446,6 +452,7 @@ theorem exists_finiteSubextension_representation
   have hprodqs : IsQuasiSeparatedOver C _ hK (yoneda.obj EE ⨯ V) :=
     isQuasiSeparatedOver_of_isQuasiSeparated C _ hK (isAlgebraicSpace_prod_yoneda_obj EE hV)
       hVqs hsnd
+  have : Mono (yoneda.obj EE ⨯ V).reprW.hom := IsIso.mono_of_iso _
   have hZqs : IsQuasiSeparatedOver C _ hK (yoneda.obj Z₀) :=
     isQuasiSeparatedOver_of_mono C _ hK (yoneda.obj EE ⨯ V).reprW.hom hprodqs
   have hterm : IsTerminal (yoneda.obj (Over.mk (𝟙 (C.obj hK)))) :=
@@ -523,6 +530,7 @@ private theorem exists_pointsMap_snd_eq_class_ptOf (Ω : Type u) [Field Ω] [Alg
   rw [h1, ← Function.comp_apply (f := pointsMap C _ hK _ prod.snd), ← pointsMap_comp,
     pointsMap_class, ptOf_map, Category.id_comp, Category.assoc]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **An affine open of `H_Ω` descends to a finite stage.** If `H` is a quasi-separated algebraic
 space over `K` with `h_Y ≅ h_Ω × H`, then an affine open `U` of the scheme of `Y` maps into an
 affine open subspace of `h_E × H` for a finite subextension `E` of `Ω/K`. -/

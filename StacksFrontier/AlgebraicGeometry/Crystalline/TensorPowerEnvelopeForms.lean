@@ -207,6 +207,7 @@ public theorem tensorEnvelopeFormsSymmAlgHom_isDPMorphism (n : ℕ) :
 
 /-! ### The comparison of completed forms -/
 
+set_option maxHeartbeats 1000000 in
 /-- **The comparison `Ω^a_{D(b)} → Ω̂^a_{D_{P,γ}(J)⟨ξ_i(j)⟩}` of completed divided power
 forms**, semilinear over the identification of the rings. -/
 public noncomputable def tensorEnvelopeFormsMap (n a : ℕ) :
@@ -216,6 +217,7 @@ public noncomputable def tensorEnvelopeFormsMap (n a : ℕ) :
     ((envelopeDPAlgebra s f).dividedPowers n) (envelopeVariableDividedPowers s f n)
     (tensorEnvelopeFormsAlgHom s f n) (tensorEnvelopeFormsAlgHom_isDPMorphism s f n) a
 
+set_option maxHeartbeats 1000000 in
 /-- **The comparison in the other direction.** -/
 public noncomputable def tensorEnvelopeFormsSymmMap (n a : ℕ) :
     envelopeVariableForms s f n a →ₛₗ[(tensorEnvelopeFormsSymmAlgHom s f n).toRingHom]

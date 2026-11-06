@@ -304,13 +304,13 @@ theorem differentialsMapPush_naturality {U V : (Opens X)ᵒᵖ} (i : U ⟶ V)
             (CommRingCat.KaehlerDifferential.d (f := a₁.hom.app U) s))
       have h₁ : (differentialsPresheaf a₁.hom).map i (CommRingCat.KaehlerDifferential.d s) =
           CommRingCat.KaehlerDifferential.d (f := a₁.hom.app V) ((A₁.obj.map i).hom s) :=
-        PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d a₁.hom i s
+        PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a₁.hom i s
       have h₂ : (differentialsPresheaf a₂.hom).map ((Opens.map f).op.map i)
             (CommRingCat.KaehlerDifferential.d (f := a₂.hom.app ((Opens.map f).op.obj U))
               ((sectionsMapAlong f ψ U).hom s)) =
           CommRingCat.KaehlerDifferential.d (f := a₂.hom.app ((Opens.map f).op.obj V))
             ((A₂.obj.map ((Opens.map f).op.map i)).hom ((sectionsMapAlong f ψ U).hom s)) :=
-        PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d a₂.hom
+        PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a₂.hom
           ((Opens.map f).op.map i) _
       rw [h₁, differentialsMapPush_d, differentialsMapPush_d, h₂]
       exact congrArg CommRingCat.KaehlerDifferential.d (sectionsMapAlong_naturality f ψ i s)

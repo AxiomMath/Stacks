@@ -260,7 +260,7 @@ theorem localizedTangentEquivSelfMaps_smul_comp
   -- `map_transportHom`, read on total spaces
   rw [show (localizedTangentEquivSelfMaps hp P (c • a)).1 = (P.transportHom (tangentScaling c)
     (localizedTangentEquivKernel P a).1).map from
-    congrArg (·.hom.val.map) ((naturalLocalizedTangentModule_spec P hrs).2 c a)]
+    congrArg (·.asIso.hom.val.map) ((naturalLocalizedTangentModule_spec P hrs).2 c a)]
   exact congrArg (·.map) (P.map_transportHom (tangentScaling c) (localizedTangentEquivKernel P a).1)
 
 end Deformation.Examples

@@ -231,14 +231,14 @@ public theorem subsingleton_cokernel_val_obj_of_surjective
         ∀ ⦃Z⦄ (f : Z ⟶ Y), R f → Q Z)
     (hψ : ∀ Y, Q Y → Function.Surjective (ψ.hom.app (op Y)))
     (X : C) (hX : Q X) :
-    Subsingleton ((cokernel ψ).val.obj (op X)) := by
-  have hzeroComp : ∀ (Z : C) (v : A₁.val.obj (op Z)),
+    Subsingleton ((cokernel ψ).obj.obj (op X)) := by
+  have hzeroComp : ∀ (Z : C) (v : A₁.obj.obj (op Z)),
       (cokernel.π ψ).hom.app (op Z) (ψ.hom.app (op Z) v) = 0 := by
     intro Z v
     have h0 : (sheafToPresheaf J AddCommGrpCat.{u}).map ψ ≫
         (sheafToPresheaf J AddCommGrpCat.{u}).map (cokernel.π ψ) = 0 := by
       rw [← Functor.map_comp, cokernel.condition, Functor.map_zero]
-    have h1 := congrArg (fun α : A₁.val ⟶ (cokernel ψ).val => α.app (op Z)) h0
+    have h1 := congrArg (fun α : A₁.obj ⟶ (cokernel ψ).obj => α.app (op Z)) h0
     simp only [NatTrans.comp_app] at h1
     simpa using ConcreteCategory.congr_hom h1 v
   have hsurj : Sheaf.IsLocallySurjective (cokernel.π ψ) := by
@@ -252,7 +252,7 @@ public theorem subsingleton_cokernel_val_obj_of_surjective
   rintro Y f ⟨Z, g, h, hh, rfl⟩
   obtain ⟨t, ht⟩ := hRle _ _ hh
   obtain ⟨v, hv⟩ := hψ Z (hRQ h hh) t
-  have hzero : (cokernel ψ).val.map h.op s = 0 := by
+  have hzero : (cokernel ψ).obj.map h.op s = 0 := by
     rw [← ht, ← hv, hzeroComp]
   simp only [op_comp, Functor.map_comp, ConcreteCategory.comp_apply, hzero, map_zero]
 
@@ -300,7 +300,7 @@ private theorem subsingleton_cokernel_val_obj (φ : F ⟶ G)
       LocallyOfFinitePresentation ((Over.post B.inclusion).obj X).hom) :
     Subsingleton ((cokernel φ).val.obj (op X)) := by
   have habelian :
-      Subsingleton ((cokernel ((SheafOfModules.toSheaf 𝒪).map φ)).val.obj (op X)) := by
+      Subsingleton ((cokernel ((SheafOfModules.toSheaf 𝒪).map φ)).obj.obj (op X)) := by
     refine subsingleton_cokernel_val_obj_of_surjective ((SheafOfModules.toSheaf 𝒪).map φ)
       (fun Y ↦ Flat ((Over.post B.inclusion).obj Y).hom ∧
         LocallyOfFinitePresentation ((Over.post B.inclusion).obj Y).hom)
@@ -309,7 +309,7 @@ private theorem subsingleton_cokernel_val_obj (φ : F ⟶ G)
     have := hφ Y hY.1 hY.2
     exact (ConcreteCategory.bijective_of_isIso (φ.val.app (op Y))).surjective
   have hiso : (sectionsFunctor B S hS X).obj (cokernel φ) ≅
-      (cokernel ((SheafOfModules.toSheaf 𝒪).map φ)).val.obj (op X) :=
+      (cokernel ((SheafOfModules.toSheaf 𝒪).map φ)).obj.obj (op X) :=
     (sheafToPresheaf (AlgebraicGeometry.BigFppfOver.topology B S hS) AddCommGrpCat.{u} ⋙
       (evaluation (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ
         AddCommGrpCat.{u}).obj (op X)).mapIso

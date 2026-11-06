@@ -38,6 +38,15 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). Public, not private: the public statement of
+`isPullback_relocalizeHom_fiberProduct` needs it, and a private instance is not usable there. -/
+instance (priority := high) hasPullback_presheaf_relativeHomRelocalizeSituation
+    {B : BigFppfSite.{u}} {W : Scheme.{u}} {hW : B.Contains W}
+    {X Y Z : (BigFppfOver B W hW)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (B : BigFppfSite.{u}) (W S : Scheme.{u}) (hW : B.Contains W) (hS : B.Contains S)
   (h : B.obj hW ⟶ B.obj hS)
 

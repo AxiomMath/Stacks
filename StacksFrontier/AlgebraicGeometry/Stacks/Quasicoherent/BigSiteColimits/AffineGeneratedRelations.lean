@@ -182,8 +182,6 @@ theorem mem_range_of_forall_mem_range_of_liftBaseChange
     EN.injective (funext fun i => hN i (congrFun hzz' i))
   have hsqS : ∀ z, fS (eP z) = eN (LinearMap.lTensor (∀ i, Bi i) bT z) := fun z => by
     induction z with
-    | zero =>
-      rw [map_zero eP, map_zero fS, map_zero (LinearMap.lTensor (∀ i, Bi i) bT), map_zero eN]
     | add z z' hz hz' =>
       rw [map_add eP, map_add fS, hz, hz', map_add (LinearMap.lTensor (∀ i, Bi i) bT),
         map_add eN]

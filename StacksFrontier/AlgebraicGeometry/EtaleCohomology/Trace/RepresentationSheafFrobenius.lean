@@ -63,7 +63,7 @@ the arithmetic Frobenius of `ȳ`. -/
 public theorem localElement_app_coe
     (t : finiteEtaleFiberFunctor (geometricPointAt X y.1) ≅ finiteEtaleFiberFunctor base)
     (V : FiniteEtaleOver X) (q : finiteEtaleFiber (geometricPointAt X y.1) V) :
-    (((frobeniusDataOfPath base y t).localElement.app V).hom q).1 =
+    (((frobeniusDataOfPath base y t).localElement.asIso.app V).hom q).1 =
       Spec.map (CommRingCat.ofHom (residueGeometricFrobenius X y.1).symm.toAlgHom.toRingHom) ≫
         q.1 := by
   let : Fintype (X.residueField y.1) := Fintype.ofFinite _
@@ -107,16 +107,16 @@ omit [ConnectedSpace X] in
 Frobenius has inverse acting by precomposition with the geometric Frobenius. -/
 public theorem inv_hom_eq_finiteEtaleFiberMap_frobeniusPointHom
     (σ : Aut (finiteEtaleFiberFunctor (geometricPointAt X y.1)))
-    (hσ : ∀ V q, ((σ.hom.app V) q).1 =
+    (hσ : ∀ V q, ((σ.asIso.hom.app V) q).1 =
       Spec.map (CommRingCat.ofHom (residueGeometricFrobenius X y.1).symm.toAlgHom.toRingHom) ≫
         q.1) :
-    σ⁻¹.hom = finiteEtaleFiberMap (frobeniusPointHom X y.1) := by
+    σ⁻¹.asIso.hom = finiteEtaleFiberMap (frobeniusPointHom X y.1) := by
   apply NatTrans.ext
   funext V
   ext q
-  have hinv' : ∀ z, σ.inv.app V (σ.hom.app V z) = z := fun z =>
-    ConcreteCategory.congr_hom (σ.app V).hom_inv_id z
-  show σ.inv.app V q = (finiteEtaleFiberMap (frobeniusPointHom X y.1)).app V q
+  have hinv' : ∀ z, σ.asIso.inv.app V (σ.asIso.hom.app V z) = z := fun z =>
+    ConcreteCategory.congr_hom (σ.asIso.app V).hom_inv_id z
+  show σ.asIso.inv.app V q = (finiteEtaleFiberMap (frobeniusPointHom X y.1)).app V q
   rw [← hinv' ((finiteEtaleFiberMap (frobeniusPointHom X y.1)).app V q)]
   congr 1
   apply Subtype.ext
@@ -134,7 +134,7 @@ geometric fibres by precomposition with the geometric Frobenius `frobeniusPointH
 `ȳ`. -/
 public theorem inv_localElement_hom
     (t : finiteEtaleFiberFunctor (geometricPointAt X y.1) ≅ finiteEtaleFiberFunctor base) :
-    ((frobeniusDataOfPath base y t).localElement⁻¹).hom =
+    ((frobeniusDataOfPath base y t).localElement⁻¹).asIso.hom =
       finiteEtaleFiberMap (frobeniusPointHom X y.1) :=
   inv_hom_eq_finiteEtaleFiberMap_frobeniusPointHom y _ (localElement_app_coe base y t)
 
@@ -158,6 +158,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
   [IsNoetherian X.1]
   (ρ : EtaleFundamentalGroup X.1 x →* GL (Fin r) ℚ_[ℓ]) (hρ : Continuous ρ)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The geometric Frobenius on the stalk of `ℱ_ρ` at a closed point `y` with finite residue
 field has the characteristic polynomial of `ρ(F_y)`**, where `F_y` is the geometric Frobenius
 element (the inverse of the arithmetic Frobenius element `FrobeniusData.element`) determined by
@@ -221,6 +222,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
   {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
   (ρ : EtaleFundamentalGroup X.1 x →* GL (Fin r) ℚ_[ℓ]) (hρ : Continuous ρ)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The geometric Frobenius `π_y^*` on the rational stalk of `ℱ_ρ` at a closed point `y` has the
 characteristic polynomial of `ρ(F_y)`**, for the geometric Frobenius elements
 `Stacks.EtaleCohomology.geometricFrobeniusFamily`. -/
@@ -231,6 +233,7 @@ public theorem charpoly_rationalStalkFrobenius_representationSheaf_eq (y : close
   have := finite_residueField f y.1 y.2
   charpoly_rationalStalkFrobenius_representationSheaf B X x ρ hρ y _
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The geometric Frobenius on the stalk of the dual sheaf `ℱ_{ρ^∨}`**, the sheaf of the
 contragredient `ρ^∨`, has the dual characteristic polynomial of `ρ(F_y)`: its eigenvalues are the
 inverses of those of `π_y^*` on `ℱ_ρ`. -/

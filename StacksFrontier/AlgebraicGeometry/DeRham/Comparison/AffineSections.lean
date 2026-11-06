@@ -107,7 +107,7 @@ theorem surjective_algebraMap_int_Γ_specZ :
   obtain ⟨y, rfl⟩ :=
     (Scheme.ΓSpecIso (.of (ULift.{u} ℤ))).commRingCatIsoToRingEquiv.symm.surjective x
   refine ⟨y.down, ?_⟩
-  have hy : y = ((y.down : ℤ) : ULift.{u} ℤ) := ULift.ext _ _ (by simp)
+  have hy : y = ((y.down : ℤ) : ULift.{u} ℤ) := ULift.ext (by simp)
   rw [algebraMap_int_eq, eq_intCast]
   conv_rhs => rw [hy]
   rw [map_intCast]

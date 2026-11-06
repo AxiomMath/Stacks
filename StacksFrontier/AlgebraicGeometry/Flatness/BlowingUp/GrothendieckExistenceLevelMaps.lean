@@ -83,7 +83,7 @@ theorem levelMap_comp_map (d : S.DerivedLimitQCoh)
   have h0 := comp_distTriang_mor_zero₁₂ _ h
   have h1 := congrArg (fun g => g ≫ Pi.π _ n) h0
   simp only [Triangle.mk_obj₁, Triangle.mk_mor₁, Triangle.mk_mor₂, Category.assoc,
-    Pi.lift_π, Preadditive.comp_sub, zero_comp] at h1
+    Pi.lift_comp_π, Preadditive.comp_sub, zero_comp] at h1
   simp only [levelMap, Category.assoc]
   rw [sub_eq_zero] at h1
   rw [h1]

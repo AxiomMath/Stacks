@@ -235,7 +235,8 @@ theorem smallEtalePullbackStalkIsoTypeU_inv_germ_apply
         ((((smallEtaleBaseChange B a).sheafAdjunctionContinuous (Type u)
           (SmallEtale.topology B Y.obj Y.property)
           (SmallEtale.topology B X.obj X.property)).unit.app F).hom.app (op U) t) :=
-  ConcreteCategory.congr_hom (smallEtalePullbackStalkIsoTypeU_inv_germ B a x F ⟨U, z⟩) t
+  ConcreteCategory.congr_hom (smallEtalePullbackStalkIsoTypeU_inv_germ B a x F
+    ((geometricPointFiber B Y.obj Y.property (x.map (B.inclusion.map a))).elementsMk U z)) t
 
 attribute [irreducible] smallEtalePullbackStalkIsoTypeU
 
@@ -461,8 +462,8 @@ theorem etaleStalkCmp_fSharpSet
         (SmallEtale.structureSheaf B X.obj X.property).obj
         (((structureSharpRing B a).app (op U)).hom s) :=
     ConcreteCategory.congr_hom (etaleLocalRingMap_ι B a x
-      (op (⟨U, z⟩ : (geometricPointFiber B Y.obj Y.property
-        (x.map (B.inclusion.map a))).Elements))) s
+      (op ((geometricPointFiber B Y.obj Y.property
+        (x.map (B.inclusion.map a))).elementsMk U z))) s
   rw [smallEtalePullbackStalkIsoTypeU_inv_germ_apply B a x _ U z s,
     etaleStalkCmp_germ B Y.obj Y.property (x.map (B.inclusion.map a)) U z s, hι]
   exact (congrArg (etaleStalkCmp B X.obj X.property x)

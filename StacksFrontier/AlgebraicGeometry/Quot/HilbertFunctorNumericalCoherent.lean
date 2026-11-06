@@ -53,6 +53,12 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {X Y : AlgebraicSpaces B S hS}
   (f : X ⟶ Y)
 
+/-- Products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_hilbertFunctorNumericalCoherent
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-- A family over a scheme `T` over `Y`, read over the scheme of the site underlying `T`. -/
 abbrev HilbertFamily.toOver {T : SchemesOverPresheaf B S hS Y} (z : HilbertFamily f T) :
     HilbertFamilyOver f T.left :=

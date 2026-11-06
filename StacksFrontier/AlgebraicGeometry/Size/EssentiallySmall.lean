@@ -2,6 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Sites.SmallAffineZariski
 public import Mathlib.Algebra.Ring.TransferInstance
+public import Mathlib.CategoryTheory.Comma.CardinalArrow
 public import Mathlib.CategoryTheory.ObjectProperty.ColimitsCardinalClosure
 public import StacksFrontier.AlgebraicGeometry.Size.Basic
 public import StacksFrontier.AlgebraicGeometry.Topologies.Etale

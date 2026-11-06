@@ -297,10 +297,12 @@ public theorem rationalIntegralRingHom_algebraMap (c : ℤ_[ℓ]) :
   refine Eq.trans ?_ (extendScalarsEndRingHom_smul_one _ c)
   show extendScalarsEndRingHom _ (LAdicSheaf.geometricCompactlySupportedCohomologyEndRingHom f j
     kbar F.toLAdicSheaf i (F.act (algebraMap ℤ_[ℓ] O c))) = _
-  rw [LAdicSheaf.CoefficientSheaf.act_algebraMap]
   congr 1
-  exact LinearMap.ext fun v =>
-    LAdicSheaf.geometricCompactlySupportedCohomologyMap_scalarEnd f j kbar _ i c v
+  refine LinearMap.ext fun v => ?_
+  show (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar
+    (F.act (algebraMap ℤ_[ℓ] O c)).asHom i).hom v = c • v
+  rw [LAdicSheaf.CoefficientSheaf.act_algebraMap]
+  exact LAdicSheaf.geometricCompactlySupportedCohomologyMap_scalarEnd f j kbar _ i c v
 
 /-- The geometric Frobenius commutes with the action of `O`. -/
 public theorem commute_rationalIntegralRingHom (p q : ℕ) [Fact p.Prime] [CharP k p]
@@ -310,9 +312,9 @@ public theorem commute_rationalIntegralRingHom (p q : ℕ) [Fact p.Prime] [CharP
       (F.rationalIntegralRingHom f j kbar i o) := by
   show extendScalarsEndRingHom _ (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p
       q hcard F.toLAdicSheaf i).hom * extendScalarsEndRingHom _
-      (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F.act o) i).hom =
+      (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar (F.act o).asHom i).hom =
     extendScalarsEndRingHom _ (LAdicSheaf.geometricCompactlySupportedCohomologyMap f j kbar
-        (F.act o) i).hom *
+        (F.act o).asHom i).hom *
       extendScalarsEndRingHom _ (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q
         hcard F.toLAdicSheaf i).hom
   rw [← map_mul, ← map_mul]
@@ -330,8 +332,8 @@ public def rationalAlgebra : Subalgebra ℚ_[ℓ] (Module.End ℚ_[ℓ]
 public instance rationalAlgebra.isMulCommutative :
     IsMulCommutative (F.rationalAlgebra f j kbar i) :=
   Algebra.isMulCommutative_adjoin ℚ_[ℓ] (by
-    rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩
-    rw [← map_mul, mul_comm, map_mul])
+    rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩ -
+    rw [Commute, SemiconjBy, ← map_mul, mul_comm, map_mul])
 
 /-- The action of `O` with values in the commutative subalgebra it generates. -/
 public def rationalIntegralRingHom' : O →+* F.rationalAlgebra f j kbar i :=

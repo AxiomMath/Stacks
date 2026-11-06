@@ -101,7 +101,7 @@ private lemma eq_zero_of_smul_succ
       Pi.π (fun _ : ℕ => K) n - f • Pi.π (fun _ : ℕ => K) (n + 1)) = 0 := by
     apply Limits.Pi.hom_ext
     intro n
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, Linear.comp_smul,
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Linear.comp_smul,
       zero_comp, q]
     exact sub_eq_zero.mpr (hv n)
   have hqzero : q = 0 := by
@@ -109,7 +109,7 @@ private lemma eq_zero_of_smul_succ
       Pi.π (fun _ : ℕ => K) n - f • Pi.π (fun _ : ℕ => K) (n + 1))]
     rw [hq, zero_comp]
   have hvzero : v 0 = 0 := by
-    rw [← Pi.lift_π v 0]
+    rw [← Pi.lift_comp_π v 0]
     show q ≫ Pi.π (fun _ : ℕ => K) 0 = 0
     rw [hqzero, zero_comp]
   have hevzero : ev 0 = 0 := by

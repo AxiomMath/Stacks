@@ -697,7 +697,8 @@ theorem squareCondition_iff {Z' U' M₁ M₂ N₁ N₂ : BigFppfOver B S hS} {jU
               (baseChange B S hS iW₂).map b₂) ≫
             (baseChangeSquareIso B S hS c₂).hom.app ((baseChange B S hS jW₂).obj Y) := by
       rw [hI, hII, reassoc_of% h]
-    exact (cancel_mono _).mp ((cancel_epi _).mp key)
+    exact (Iso.cancel_iso_hom_right _ _ ((baseChangeSquareIso B S hS c₂).app _)).mp
+      ((Iso.cancel_iso_hom_left ((baseChangeFactorIso B S hS c₁).app _) _ _).mp key)
   · intro h
     have key : (baseChange B S hS iU₁).map a ≫ (baseChangeSquareIso B S hS w₁).hom.app Y ≫
           (baseChange B S hS iW₁).map ((baseChangeFactorIso B S hS c₃).hom.app Y) =
@@ -705,7 +706,8 @@ theorem squareCondition_iff {Z' U' M₁ M₂ N₁ N₂ : BigFppfOver B S hS} {jU
           (baseChange B S hS iW₁).map ((baseChangeFactorIso B S hS c₃).hom.app Y) := by
       rw [← hI, ← hII, h]
     rw [← Category.assoc, ← Category.assoc] at key
-    exact (cancel_mono _).mp key
+    exact (Iso.cancel_iso_hom_right _ _
+      ((baseChange B S hS iW₁).mapIso ((baseChangeFactorIso B S hS c₃).app Y))).mp key
 
 /-- **The square condition of the `2`-fibre product for a morphism to an arbitrary glueing
 datum descends from a stage.** The hypothesis `hrel` says that the comparison `φ` of the datum
@@ -825,7 +827,8 @@ theorem full_glueingFunctor_of_colimit :
   rw [glueingFunctor_map_hom_right]
   have hnat := (coneIso B S hS M W pM k).hom.naturality f
   simp only [Functor.comp_map] at hnat
-  refine (cancel_mono ((coneIso B S hS M W pM k).hom.app Y)).mp ?_
+  refine (Iso.cancel_iso_hom_right _ _ ((coneIso B S hS M W pM k).app Y)).mp ?_
+  change _ ≫ (coneIso B S hS M W pM k).hom.app Y = _ ≫ (coneIso B S hS M W pM k).hom.app Y
   rw [hnat, hright]
   exact hrepk
 

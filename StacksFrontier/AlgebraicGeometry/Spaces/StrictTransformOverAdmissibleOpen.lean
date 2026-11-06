@@ -58,6 +58,19 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+instance (priority := high) hasPullbacks_presheaf_StrictTransformOverAdmissibleOpen
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+instance (priority := high) hasPullback_presheaf_StrictTransformOverAdmissibleOpen
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 variable {A X A' : AlgebraicSpaces B S hS} (f : X ⟶ A) (b : A' ⟶ A)
 
@@ -109,7 +122,7 @@ theorem range_pullbackFst_preimage_le_strictTransform (Z : ClosedSubspaces B S h
   have h2 := ConcreteCategory.congr_hom (NatTrans.congr_app (congrArg InducedCategory.Hom.hom hw) T)
     ((pullback.fst (strictTransformPullbackToBlowUp B S hS f b).hom
       (U.1.preimage b.hom).ι).app T y)
-  simp only [FunctorToTypes.comp] at h1 h2
+  simp only [NatTrans.comp_app_apply] at h1 h2
   show f.hom.app T ((pullback.fst f.hom b.hom).app T _) ∈ U.1.obj T
   rw [show f.hom.app T ((pullback.fst f.hom b.hom).app T ((pullback.fst
       (strictTransformPullbackToBlowUp B S hS f b).hom (U.1.preimage b.hom).ι).app T y)) =

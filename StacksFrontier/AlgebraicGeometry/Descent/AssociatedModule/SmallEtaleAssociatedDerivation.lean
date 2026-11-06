@@ -115,7 +115,7 @@ compatibility with restriction of those values.
 The base recorded here is the constant presheaf `ℤ`; the vanishing over `f⁻¹𝒪_Y` is proved
 separately, by restricting this derivation to the small Zariski site of `X`. -/
 public noncomputable def associatedSectionsDerivation :
-    PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj)
+    PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj)
       (associatedSectionsSheaf B X hX (Scheme.Hom.relativeDifferentials f)).val
       (siteConstIntMap B hX _) where
   d {V} := etaleAssociatedDerivation f (objHom B X hX V.unop)
@@ -159,7 +159,7 @@ of `AlgebraicGeometry.SmallEtale.associatedSectionsDerivation`, carried from the
 of the associated module to the associated module itself along the isomorphism of
 Stacks 070S (2). -/
 public noncomputable def associatedDerivation :
-    PresheafOfModules.Derivation' (R := (commRingStructureSheaf B X hX).obj)
+    PresheafOfModulesOfCommRing.Derivation' (R := (commRingStructureSheaf B X hX).obj)
       (associatedRelativeDifferentials B hX f).val (siteConstIntMap B hX _) :=
   (associatedSectionsDerivation B hX f).postcomp
     (associatedModuleIsoSectionsSheaf B X hX (Scheme.Hom.relativeDifferentials f)).inv.val

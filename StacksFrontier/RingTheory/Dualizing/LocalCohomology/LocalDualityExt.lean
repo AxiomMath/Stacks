@@ -175,8 +175,24 @@ private noncomputable def homologyDerivedHomLinearEquiv {A : Type u} [CommRing A
   let eHC := homComplexRHomologyAddEquiv L J i
   let eClassHom := CochainComplex.HomComplex.CohomologyClass.homAddEquiv
     (K := L) (L := J) (n := i)
-  letI : Module A (CochainComplex.HomComplex.CohomologyClass L J i) := eClassHom.module A
-  let eClassLinear := eClassHom.linearEquiv A
+  let eClassLinear : CochainComplex.HomComplex.CohomologyClass L J i ≃ₗ[A] _ :=
+    eClassHom.toLinearEquiv (by
+      intro r x
+      obtain ⟨z, rfl⟩ := x.mk_surjective
+      rw [← CochainComplex.HomComplex.CohomologyClass.mk_smul]
+      change CochainComplex.HomComplex.CohomologyClass.toHom
+          (CochainComplex.HomComplex.CohomologyClass.mk (r • z)) =
+        r • CochainComplex.HomComplex.CohomologyClass.toHom
+          (CochainComplex.HomComplex.CohomologyClass.mk z)
+      rw [CochainComplex.HomComplex.CohomologyClass.toHom_mk,
+        CochainComplex.HomComplex.CohomologyClass.toHom_mk,
+        ← Functor.map_smul]
+      have hshift : CochainComplex.HomComplex.Cocycle.equivHomShift.symm (r • z) =
+          r • CochainComplex.HomComplex.Cocycle.equivHomShift.symm z := by
+        apply CochainComplex.HomComplex.Cocycle.equivHomShift.injective
+        ext p q hpq x
+        rfl
+      rw [hshift])
   let eHCLinear : H.homology i ≃ₗ[A]
       CochainComplex.HomComplex.CohomologyClass L J i :=
     eHC.toLinearEquiv (by
@@ -213,26 +229,8 @@ private noncomputable def homologyDerivedHomLinearEquiv {A : Type u} [CommRing A
         rw [hi z, hi (r • z), CochainComplex.HomComplex.Cocycle.coe_smul]
         rfl
       have hmk : r • CochainComplex.HomComplex.CohomologyClass.mk z =
-          CochainComplex.HomComplex.CohomologyClass.mk (r • z) := by
-        apply eClassHom.injective
-        have heq := eClassLinear.map_smul r
-          (CochainComplex.HomComplex.CohomologyClass.mk z)
-        change eClassHom (r • CochainComplex.HomComplex.CohomologyClass.mk z) =
-          r • eClassHom (CochainComplex.HomComplex.CohomologyClass.mk z) at heq
-        rw [heq]
-        change r • CochainComplex.HomComplex.CohomologyClass.toHom
-            (CochainComplex.HomComplex.CohomologyClass.mk z) =
-          CochainComplex.HomComplex.CohomologyClass.toHom
-            (CochainComplex.HomComplex.CohomologyClass.mk (r • z))
-        rw [CochainComplex.HomComplex.CohomologyClass.toHom_mk,
-          CochainComplex.HomComplex.CohomologyClass.toHom_mk,
-          ← Functor.map_smul]
-        have hshift : CochainComplex.HomComplex.Cocycle.equivHomShift.symm (r • z) =
-            r • CochainComplex.HomComplex.Cocycle.equivHomShift.symm z := by
-          apply CochainComplex.HomComplex.Cocycle.equivHomShift.injective
-          ext p q hpq x
-          rfl
-        rw [← hshift]
+          CochainComplex.HomComplex.CohomologyClass.mk (r • z) :=
+        (CochainComplex.HomComplex.CohomologyClass.mk_smul r z).symm
       have hrep := homComplexRHomologyAddEquiv_cyclesMk L J i (r • z)
       have hrep' : eHC (H.homologyπ i
           (H.cyclesMk (r • z).val (i + 1) (by simp)

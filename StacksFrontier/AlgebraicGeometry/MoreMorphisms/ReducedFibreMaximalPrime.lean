@@ -65,7 +65,7 @@ the localization of `T` at a prime `q` is a domain and not a field, then `q` is 
 The localization has a prime strictly below its maximal ideal, which contracts to a prime
 `q₀ < q` of `T`; by `Ideal.comap_lt_comap_of_integral_mem_sdiff` the contractions of `q₀` and `q`
 to `O` are then distinct, so the contraction of `q` is nonzero, hence maximal, and
-`Ideal.isMaximal_of_isIntegral_of_isMaximal_comap` carries that back up to `q`. -/
+`Ideal.isMaximal_of_isIntegral_of_isMaximal_under` carries that back up to `q`. -/
 theorem Ideal.isMaximal_of_isIntegral_of_isDomain_localizationAtPrime {O : Type u} [CommRing O]
     [IsDomain O] [Ring.DimensionLEOne O] {T : Type v} [CommRing T] [Algebra O T]
     [Algebra.IsIntegral O T] (q : Ideal T) [q.IsPrime] [IsDomain (Localization.AtPrime q)]
@@ -92,8 +92,8 @@ theorem Ideal.isMaximal_of_isIntegral_of_isDomain_localizationAtPrime {O : Type 
   have hcomaplt : q₀.comap (algebraMap O T) < q.comap (algebraMap O T) :=
     Ideal.comap_lt_comap_of_integral_mem_sdiff (I := q₀) (J := q) hle ⟨hxq, hxq₀⟩
       (Algebra.IsIntegral.isIntegral x)
-  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap q
-    (Ring.DimensionLEOne.maximalOfPrime (fun h => absurd (h ▸ hcomaplt) not_lt_bot)
+  exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := O) q
+    (Ring.DimensionLEOne.maximalOfPrime (fun h => absurd (hcomaplt.trans_le h.le) not_lt_bot)
       (Ideal.IsPrime.comap _))
 
 /-- **A prime of an integral extension whose localization is a discrete valuation ring is

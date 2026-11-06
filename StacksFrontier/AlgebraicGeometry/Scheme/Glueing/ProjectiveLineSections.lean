@@ -146,7 +146,6 @@ private lemma projectiveLineChart_overlap (s : Γ(projectiveLine k, ⊤)) :
           ((Scheme.ΓSpecIso (.of (Polynomial k))).hom
             ((projectiveLineYChart k).appTop s)))
       convert congrArg LaurentPolynomial.invert (hT ((projectiveLineYChart k).appTop s)) using 1
-      · rfl
 
 end Helpers
 

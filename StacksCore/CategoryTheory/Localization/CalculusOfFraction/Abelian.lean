@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Homology.ShortComplex.ExactFunctor
 public import Mathlib.CategoryTheory.Localization.CalculusOfFractions.Fractions
+public import Mathlib.CategoryTheory.Preadditive.LeftExact
 
 /-!
 # Localizations of abelian categories are abelian

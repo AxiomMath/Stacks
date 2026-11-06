@@ -36,7 +36,7 @@ indexed by `Fin 1 → E.I₀` and its value at `l` is a section over the *one-me
 `∏ᶜ (fun _ : Fin 1 ↦ Over.mk (E.f (l 0)))` rather than over the member itself. The two are
 identified by `Stacks.CechSite.singletonProjection`, which is an isomorphism, and the
 degree-zero differential formula is obtained by composing the face projections with that
-isomorphism, which `Limits.Pi.lift_π` does in one step.
+isomorphism, which `Limits.Pi.lift_comp_π` does in one step.
 
 ## References
 
@@ -143,7 +143,7 @@ lemma cechDifferential_zero_famCochain (t : ∀ i, F.obj (op (E.X i))) (k : Fin 
     fun m ↦ by
       rw [← Functor.map_comp_apply, ← op_comp, ← Over.comp_left]
       rw [show faceProjection E k m ≫
-        Pi.π (fun j : Fin 1 ↦ Over.mk (E.f (k (m.succAbove j)))) 0 = _ from Pi.lift_π _ _]
+        Pi.π (fun j : Fin 1 ↦ Over.mk (E.f (k (m.succAbove j)))) 0 = _ from Pi.lift_comp_π _ _]
   rw [cechDifferential_zero_apply]
   exact congrArg₂ (· - ·) (key 0) (key 1)
 

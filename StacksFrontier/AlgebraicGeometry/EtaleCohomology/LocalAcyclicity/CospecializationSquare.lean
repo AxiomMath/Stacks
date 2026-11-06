@@ -585,7 +585,8 @@ def cospecializationMapOfIsIso [IsIso (cospecializationUnitOnClosedFibre B hS f 
     (smallEtaleDerivedGlobalSections (geometricFibre f s)).map
       (inv (cospecializationUnitOnClosedFibre B hS f s t K)) ≫
     (smallEtaleDerivedGlobalSections (geometricFibre f s)).map
-      ((Functor.mapDerivedCategoryCompIso (geometricFibrePullbackAbCompIso B hS f s)).hom.app K)
+      ((Functor.mapDerivedCategoryCompIsoOfCompIso
+        (geometricFibrePullbackAbCompIso B hS f s)).hom.app K)
 
 /-- Pullback of cohomology along `h : X_t ⟶ Y`, written as derived global sections on `Y` of
 `β_{K,s,t}` followed by `RΓ(Y, Rh_* -) ≅ RΓ(X_t, -)`. -/
@@ -612,7 +613,7 @@ theorem cospecializationRestriction_comp_cospecializationMapOfIsIso
     (geometricFibreToStrictHenselizationBaseChange B hS f s)).naturality, Functor.comp_map,
     Category.assoc, ← Functor.map_comp_assoc, IsIso.hom_inv_id, CategoryTheory.Functor.map_id,
     Category.id_comp]
-  simp [strictHenselizationSectionsToFibreSections]
+  rw [fibreSections_app]
 
 /-- The rearrangement behind
 `AlgebraicGeometry.specializationStalk_comp_baseChange_comp_cospecializationMapGeometricFibre`,
@@ -703,7 +704,7 @@ abbrev cospecializationFibrePullbackIso :=
     (cospecializationFibreIso_hom_comp_comp B hS f s t)
     (smallEtaleDerivedPullbackAbCompIsoQhLift
       (strictHenselizationBaseChangeSpecializationPullbackAbCompIso B hS f s t))
-    (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
       (geometricFibrePullbackAbCompIso B hS f (t.map (strictHenselizationToBase B S hS s))))
     (smallEtaleDerivedPullbackAbCompIsoQhLift
       (smallEtalePullbackAbCompIso (cospecializationFibreToBaseChange B hS f s t)
@@ -727,6 +728,22 @@ def cospecializationFibreSections :
     Functor.whiskerRight (cospecializationFibrePullbackIso B hS f s t).hom
       (smallEtaleDerivedGlobalSections (cospecializationFibre B hS f s t))
 
+/-- `AlgebraicGeometry.fibreSections_app` as an identity of transformations. -/
+private theorem strictHenselizationSectionsToFibreSections_eq (s : GeometricPoint S) :
+    strictHenselizationSectionsToFibreSections B hS f s =
+      Functor.whiskerLeft
+          (smallEtaleDerivedPullbackAb (strictHenselizationBaseChangeToSource B hS f s))
+          (smallEtaleDerivedGlobalSectionsRestriction
+            (geometricFibreToStrictHenselizationBaseChange B hS f s)) ≫
+        (Functor.associator _ _ _).inv ≫
+        Functor.whiskerRight
+          (Functor.mapDerivedCategoryCompIsoOfCompIso
+            (geometricFibrePullbackAbCompIso B hS f s)).hom
+          (smallEtaleDerivedGlobalSections (geometricFibre f s)) := by
+  ext K
+  rw [fibreSections_app]
+  simp
+
 /-- Pulling back cohomology along `id_X × c`, then to the geometric fibre at the specialized
 point, then to the model `Y ×_{Spec 𝒪^{sh}_{S,s}} t` of that fibre, is pulling back cohomology
 along `h : X_t ⟶ Y`. -/
@@ -743,8 +760,9 @@ theorem sectionsSpecialization_comp_fibreSections_comp_cospecializationFibreSect
         Functor.whiskerRight (smallEtaleDerivedPullbackAbCompIsoQhLift
             (smallEtalePullbackAbCompIso (cospecializationFibreToBaseChange B hS f s t)
               (strictHenselizationBaseChangeToSource B hS f s))).hom
-          (smallEtaleDerivedGlobalSections (cospecializationFibre B hS f s t)) :=
-  smallEtaleDerivedGlobalSectionsRestriction_transport _ _ _ _ _ _ _ _ _ _ _
+          (smallEtaleDerivedGlobalSections (cospecializationFibre B hS f s t)) := by
+  rw [strictHenselizationSectionsToFibreSections_eq]
+  exact smallEtaleDerivedGlobalSectionsRestriction_transport _ _ _ _ _ _ _ _ _ _ _
 
 /-- Pulling back cohomology along `h : X_t ⟶ Y` is `RΓ(Y, β_{K,s,t})` followed by
 `RΓ(Y, Rh_* -) ≅ RΓ(X_t, -)`. -/

@@ -239,7 +239,6 @@ public lemma tensorRightMap_smul (a : k) (f : V →ₗ[k] V') :
     tensorRightMap (k := k) P (a • f) = algebraMap k P a • tensorRightMap P f := by
   refine LinearMap.ext fun x => ?_
   induction x with
-  | zero => simp
   | tmul p v =>
       show p ⊗ₜ[k] (a • f v) = algebraMap k P a • (p ⊗ₜ[k] f v)
       rw [← TensorProduct.smul_tmul, Algebra.smul_def, ← smul_eq_mul,

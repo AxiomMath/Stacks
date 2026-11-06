@@ -58,6 +58,18 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 local notation "𝒯" => BigFppfOver.toScheme B S hS
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_SeparatedFinitePresentationOfAffine :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Shortcut for pullbacks of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_SeparatedFinitePresentationOfAffine
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Representing a base change over every object of the site, from the affine objects**, for a
 property `Q` of morphisms of schemes which is Zariski local on the target and implies local
 finite type and quasi-compactness. If every base change of `a : F ⟶ G` along a morphism

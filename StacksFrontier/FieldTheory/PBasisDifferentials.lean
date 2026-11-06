@@ -1149,7 +1149,7 @@ private lemma mem_range_mapMap_iff
     {R S σ τ : Type*} [CommRing R] [CommRing S] (f : R →+* S)
     (g : MvPolynomial τ (MvPowerSeries σ S)) :
     g ∈ (MvPolynomial.map (MvPowerSeries.map f)).range ↔
-      ∀ d e, MvPowerSeries.coeff e (MvPolynomial.coeff d g) ∈ f.range := by
+      ∀ d e, MvPowerSeries.coeff e (g.coeff d) ∈ f.range := by
   classical
   constructor
   · rintro ⟨g, rfl⟩ d e
@@ -1203,7 +1203,7 @@ private lemma mem_frobenius_range_of_mem_expandMap_ranges
   have hg : H g = f := by
     rw [expandMap_eq_comp_map, RingHom.comp_apply] at hq
     exact hq
-  have hc : ∀ d e, MvPowerSeries.coeff e (MvPolynomial.coeff d g) ∈
+  have hc : ∀ d e, MvPowerSeries.coeff e (g.coeff d) ∈
       (frobenius k p).fieldRange := by
     intro d e
     rw [hS]
@@ -1215,7 +1215,7 @@ private lemma mem_frobenius_range_of_mem_expandMap_ranges
       rw [expandMap_eq_comp_map, RingHom.comp_apply] at hq'
       exact hq'.trans hg.symm
     rw [← heq, MvPolynomial.coeff_map, MvPowerSeries.coeff_map]
-    exact (MvPowerSeries.coeff e (MvPolynomial.coeff d q')).property
+    exact (MvPowerSeries.coeff e (q'.coeff d)).property
   obtain ⟨a, ha⟩ := (mem_range_mapMap_iff (frobenius k p) g).mpr hc
   refine ⟨a, ?_⟩
   rw [← expandMap_frobenius p a, expandMap_eq_comp_map, RingHom.comp_apply, ha]

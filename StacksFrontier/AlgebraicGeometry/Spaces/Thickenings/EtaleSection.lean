@@ -140,6 +140,8 @@ theorem existsUnique_section_of_isThickening
   have hw : ((Subfunctor.range (Subfunctor.lift σ' hle)).ι ≫ G.fromPreimage p) ≫ G.ι =
       a ≫ Z.ι ≫ p := hpaste.w.symm
   have hrestrict : G.ι ≫ inv (Z.ι ≫ p) ≫ Z.ι = σ' := by
+    have _ : Epi ((Subfunctor.range (Subfunctor.lift σ' hle)).ι ≫ G.fromPreimage p) :=
+      IsIso.epi_of_iso _
     rw [← cancel_epi ((Subfunctor.range (Subfunctor.lift σ' hle)).ι ≫ G.fromPreimage p),
       ← Category.assoc, hw, Category.assoc, IsIso.hom_inv_id_assoc, hsq.w, hπeq,
       ← cancel_epi (Subfunctor.toRange (Subfunctor.lift σ' hle)), IsIso.hom_inv_id_assoc,

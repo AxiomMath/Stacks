@@ -98,7 +98,6 @@ theorem exists_tmul_one_eq_basis (B : Type u) [CommRing B] (N : Type v) [AddComm
   have hspan : Submodule.span K (Set.range fun y : N => (1 : K) ⊗ₜ[B] y) = ⊤ := by
     refine Submodule.eq_top_iff'.2 fun y => ?_
     induction y with
-    | zero => exact zero_mem _
     | tmul c z =>
         rw [show c ⊗ₜ[B] z = c • ((1 : K) ⊗ₜ[B] z) by
           rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]]

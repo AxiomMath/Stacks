@@ -379,8 +379,8 @@ noncomputable def derivedCompositionUnit :
         (Iso.refl (SheafOfModules.toSheaf (structureSheafRing X) ⋙
           abelianPushforward f))).inv DerivedCategory.Plus.Qh ≫
     Functor.whiskerLeft (SheafOfModules.toSheaf (structureSheafRing X)).mapHomotopyCategoryPlus
-      (abelianPushforward f).rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnit
+      (abelianPushforward f).rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnith
       (abelianPushforward f).rightDerivedFunctorPlus
 
 /-- The canonical comparison `R(f_* ∘ forget) ⟶ Rf_* ∘ R(forget)` of Stacks 05T2, obtained from
@@ -391,7 +391,7 @@ noncomputable def derivedComposition :
         (abelianPushforward f).rightDerivedFunctorPlus :=
   Functor.rightDerivedDesc _
     (SheafOfModules.toSheaf (structureSheafRing X) ⋙
-      abelianPushforward f).rightDerivedFunctorPlusUnit
+      abelianPushforward f).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso _) _ (derivedCompositionUnit f)
 
 /-- **The canonical comparison is invertible.**  Stacks 015M: it is invertible exactly when the
@@ -411,13 +411,13 @@ noncomputable def toSheafSingleFunctorIso :
       SheafOfModules.toSheaf (structureSheafRing X) ⋙
         DerivedCategory.Plus.singleFunctor
           (Sheaf (Opens.grothendieckTopology X.carrier) AddCommGrpCat.{u}) 0 :=
-  have : IsIso (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnit :=
+  have : IsIso (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.HigherDirectImage.isIso_rightDerivedFunctorPlusUnit _
   Functor.isoWhiskerRight (Functor.singleFunctorPlusIsoCompQh 0)
       (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlus ≪≫
     Functor.isoWhiskerLeft
       (HomotopyCategory.Plus.singleFunctor (SheafOfModules.{u} (structureSheafRing X)) 0)
-      (asIso (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnit).symm ≪≫
+      (asIso (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnith).symm ≪≫
     Functor.mapSingleFunctorCompQhIso (SheafOfModules.toSheaf (structureSheafRing X))
 
 /-- **The forgetful functor commutes with deriving the abelian pushforward.**  This is the

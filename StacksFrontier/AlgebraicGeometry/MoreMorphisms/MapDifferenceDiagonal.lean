@@ -157,7 +157,6 @@ theorem appTop_comm_diagonalPairAppTop (q : Y ⟶ S) (ha' : a' ≫ q = p) (hb' :
   let := appTopAlgebra p
   intro z
   induction z with
-  | zero => rw [map_zero, map_zero, map_zero, map_zero]
   | tmul x y =>
       rw [diagonalPairAppTop_tmul, map_mul, appTop_comm_of_comm comm_a, appTop_comm_of_comm comm_b,
         Algebra.TensorProduct.lmul'_apply_tmul, map_mul]

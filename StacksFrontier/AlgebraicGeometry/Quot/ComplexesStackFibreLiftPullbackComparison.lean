@@ -615,19 +615,19 @@ the comparison of `φ`, is the derived pullback along `X_φ` of the automorphism
 theorem fibreDataPullbackComparison_aut (hK : DerivedCategory.TStructure.t.minus x₀.E)
     (α : Aut (fibreDataDerivedLift (hDer := hDV) AV mV tV hbtV hbV hTV hβV hK).K.obj) :
     φ.fibre ≫ (fibreDataComplexAut (hDer := hDW) AW mW tW hbtW hbW hTW hβW hK
-        ((fibreDataPullbackComparison f AV AW mW mV φ hb tV tW hbtV hbV hTV hβV hbtW hbW hTW hβW htφ
-            hφ).symm ≪≫
+        (Aut.of ((fibreDataPullbackComparison f AV AW mW mV φ hb tV tW hbtV hbV hTV hβV hbtW hbW hTW
+            hβW htφ hφ).symm ≪≫
           (derivedExtensionOfScalars.{d, d} (coefficientRingMap
-              (fieldPointCoefficientMap D iΛ x₀ hx₀ hk) f)).mapIso α ≪≫
+              (fieldPointCoefficientMap D iΛ x₀ hx₀ hk) f)).mapIso α.asIso ≪≫
           fibreDataPullbackComparison f AV AW mW mV φ hb tV tW hbtV hbV hTV hβV hbtW hbW hTW hβW htφ
-              hφ)).hom =
+              hφ))).hom =
       ((smallEtaleDerivedPullbackData B S hS).pull (D.relativeMap φ.base)).map
           (fibreDataComplexAut (hDer := hDV) AV mV tV hbtV hbV hTV hβV hK α).hom ≫ φ.fibre :=
   Functor.pullbackComparison_aut_eq _ _ _ _
       (fibreDataPullbackNaturality f AV AW mW mV φ hb tV tW hbtV hbV hTV hβV hbtW hbW hTW hβW htφ
       hφ) _ _ φ.fibre φ.isIso_fibre _
     (fibreDataPullbackComparison_hom_map f AV AW mW mV φ hb tV tW hbtV hbV hTV hβV hbtW hbW hTW hβW
-        htφ hφ) α
+        htφ hφ) α.asIso
 
 
 

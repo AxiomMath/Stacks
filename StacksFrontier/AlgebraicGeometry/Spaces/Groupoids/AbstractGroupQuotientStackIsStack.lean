@@ -206,7 +206,7 @@ theorem totalToTarget_totalSmul (A : AbstractGroupQuotientStack.{t} B S hS G X �
     (V : (BigFppfOver B S hS)ᵒᵖ) (g : G) (p : A.Total V) :
     A.totalToTarget V
         (A.totalSmul (constantSheafOfGroupsUnit (BigFppfOver.topology B S hS) G V g) p) =
-      (ρ g).hom.app V (A.totalToTarget V p) :=
+      (ρ g).asIso.hom.app V (A.totalToTarget V p) :=
   A.toTarget_equivariant (op (Over.mk p.1)) g p.2
 
 /-- An object of `[[X/G]]` presented by a torsor `T` under the constant sheaf of groups with
@@ -218,7 +218,7 @@ def ofTotal (T : SheafOfGroups.Torsors.{t} (bigConstantGroupSheaf B S hS G))
       τ V' (T.totalMap h p) = X.map h (τ V p))
     (hτG : ∀ (V : (BigFppfOver B S hS)ᵒᵖ) (g : G) (p : T.Total V),
       τ V (T.totalSmul (constantSheafOfGroupsUnit (BigFppfOver.topology B S hS) G V g) p) =
-        (ρ g).hom.app V (τ V p)) :
+        (ρ g).asIso.hom.app V (τ V p)) :
     AbstractGroupQuotientStack.{t} B S hS G X ρ where
   base := T.base
   torsor := T.torsor
@@ -687,9 +687,9 @@ theorem forget_hglue (hX : Presheaf.IsSheaf (BigFppfOver.topology B S hS) X)
   have hequiv : ∀ (V' : (BigFppfOver B S hS)ᵒᵖ) (g : G) (q : (y.pullback h).Total V'),
       ψ.app V' ((y.pullback h).totalSmul
           (constantSheafOfGroupsUnit (BigFppfOver.topology B S hS) G V' g) q) =
-        (ρ g).hom.app V' (ψ.app V' q) := by
+        (ρ g).asIso.hom.app V' (ψ.app V' q) := by
     intro V' g q
-    have key : totalPresheafSmul (y.pullback h) g ≫ ψ = ψ ≫ (ρ g).hom := by
+    have key : totalPresheafSmul (y.pullback h) g ≫ ψ = ψ ≫ (ρ g).asIso.hom := by
       refine Space.hom_ext_of_familyImage_cover (BigFppfOver.topology B S hS)
         (fun i : (W : BigFppfOver B S hS) × {g : W ⟶ V // R.arrows g} =>
           totalPresheafMap (cc i.1 i.2.1 i.2.2)) hcover hX _ _ ?_
@@ -697,12 +697,12 @@ theorem forget_hglue (hX : Presheaf.IsSheaf (BigFppfOver.topology B S hS) X)
       ext V'' uu
       show ψ.app V'' ((y.pullback h).totalSmul _
           (SheafOfGroups.Torsors.Hom.map (cc i.1 i.2.1 i.2.2) V'' uu)) =
-        (ρ g).hom.app V'' (ψ.app V'' (SheafOfGroups.Torsors.Hom.map
+        (ρ g).asIso.hom.app V'' (ψ.app V'' (SheafOfGroups.Torsors.Hom.map
           (cc i.1 i.2.1 i.2.2) V'' uu))
       rw [← SheafOfGroups.Torsors.Hom.map_equivariant (cc i.1 i.2.1 i.2.2) V'' _ uu]
       exact (hψ' i V'' _).trans
         (((xs i.2.1 i.2.2).totalToTarget_totalSmul V'' g uu).trans
-          (congrArg (fun zz => (ρ g).hom.app V'' zz) (hψ' i V'' uu).symm))
+          (congrArg (fun zz => (ρ g).asIso.hom.app V'' zz) (hψ' i V'' uu).symm))
     exact ConcreteCategory.congr_hom (NatTrans.congr_app key V') q
   refine ⟨ofTotal (y.pullback h) (fun V' q => ψ.app V' q)
       (fun hh q => ConcreteCategory.congr_hom (ψ.naturality hh) q) hequiv,

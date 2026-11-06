@@ -95,7 +95,7 @@ private theorem actionRelationSiteι_comp_target
     (a : G →* Aut ((Over.post B.inclusion).obj V)) (g : G) :
     actionRelationSiteι B S hS V G hR g ≫
         AlgebraicGeometry.Space.siteActionRelationTarget G B hS V hR a =
-      (Over.post B.inclusion).preimage (a g).hom := by
+      (Over.post B.inclusion).preimage (a g).asIso.hom := by
   apply (Over.post B.inclusion).map_injective
   rw [Functor.map_comp, post_map_actionRelationSiteι,
     post_map_siteActionRelationTarget, Functor.map_preimage]
@@ -154,7 +154,7 @@ private theorem yoneda_comp_siteActionRelation_eq
       ((Over.post B.inclusion).obj V) G).left)
     (w : yoneda.obj V ⟶ X)
     (hw : ∀ g : G,
-      yoneda.map ((Over.post B.inclusion).preimage (a g).hom) ≫ w = w) :
+      yoneda.map ((Over.post B.inclusion).preimage (a g).asIso.hom) ≫ w = w) :
     yoneda.map (AlgebraicGeometry.Space.siteActionRelationSource G B hS V hR) ≫ w =
       yoneda.map (AlgebraicGeometry.Space.siteActionRelationTarget G B hS V hR a) ≫ w := by
   classical
@@ -193,7 +193,7 @@ theorem existsUnique_descent_of_actionRelation
         r ≫ AlgebraicGeometry.Space.siteActionRelationTarget G B hS V hR a = p₂)
     (w : yoneda.obj V ⟶ X)
     (hw : ∀ g : G,
-      yoneda.map ((Over.post B.inclusion).preimage (a g).hom) ≫ w = w) :
+      yoneda.map ((Over.post B.inclusion).preimage (a g).asIso.hom) ≫ w = w) :
     ∃! w' : yoneda.obj Q ⟶ X, yoneda.map q ≫ w' = w := by
   have hinv := yoneda_comp_siteActionRelation_eq B S hS V G hX a hR w hw
   have hx : ∀ {Z : AlgebraicGeometry.BigFppfOver B S hS} (p₁ p₂ : Z ⟶ V),
@@ -248,6 +248,23 @@ theorem exists_actionRelation_lift
     exact hpb.lift_fst _ _ _
 
 end ActionRelationDescent
+
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_ActionRelationDescent
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_ActionRelationDescent
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {J : Type} :
+    HasLimitsOfShape (Discrete J) ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
 
 theorem isOpen_range_pointsMap_of_openSubspace
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -478,7 +495,7 @@ theorem exists_perm_or_distinctFiberPower_succ
       yoneda.map (b ≫ opensSiteObjectInclusion B S hS (fiberPower f hf n).1
         (distinctFiberPowerLocus B S hS f hf ho hc n)) ≫ (fiberPower f hf n).2) :
     (∃ σ : Equiv.Perm (Fin (n + 1)),
-      a ≫ distinctFiberPowerSiteAction B S hS f hf ho hc n σ = b) ∨
+      a ≫ (distinctFiberPowerSiteAction B S hS f hf ho hc n σ).asHom = b) ∨
     ∃ l : T ⟶ opensSiteObject B S hS (fiberPower f hf (n + 1)).1
         (distinctFiberPowerLocus B S hS f hf ho hc (n + 1)),
       yoneda.map (l ≫ opensSiteObjectInclusion B S hS (fiberPower f hf (n + 1)).1
@@ -507,7 +524,7 @@ theorem exists_perm_or_distinctFiberPower_succ
       exact Functor.mono_of_mono_map (AlgebraicGeometry.BigFppfOver.toScheme B S hS)
         inferInstance
     apply (cancel_mono i).mp
-    have hact : (a ≫ distinctFiberPowerSiteAction B S hS f hf ho hc n σ.symm) ≫ i =
+    have hact : (a ≫ (distinctFiberPowerSiteAction B S hS f hf ho hc n σ.symm).asHom) ≫ i =
         (a ≫ i) ≫ fiberPowerPermute f hf n σ := by
       show (a ≫ openSubschemeMap B S hS _ _
         (fiberPowerPermute f hf n σ.symm.symm)

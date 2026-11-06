@@ -3,6 +3,7 @@ module
 import StacksCore.RingTheory.Nakayama
 public import StacksFrontier.RingTheory.Module.LocallyFree.FiniteProjective
 import StacksCore.Tactic.EgaSgaAttribute
+import Mathlib.LinearAlgebra.Dimension.OrzechProperty
 
 @[expose] public section
 

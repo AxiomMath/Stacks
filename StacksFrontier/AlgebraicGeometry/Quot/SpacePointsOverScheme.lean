@@ -103,12 +103,12 @@ def overSchemePointsRelocalizeEquiv (T : (BigFppfOver B S hS)ᵒᵖ) :
     apply Subtype.ext
     refine Eq.trans ?_ (OverShriek.sigmaMk_eq_self _ s e rfl)
     refine congrArg (Sigma.mk _) (Subtype.ext ?_)
-    refine (FunctorToTypes.map_comp_apply H.1 fh.op _ s.1).symm.trans
+    refine (Functor.map_comp_apply H.1 fh.op _ s.1).symm.trans
       (congrArg (fun k => H.1.map k s.1) (Quiver.Hom.unop_inj (Over.OverMorphism.ext ?_)))
     rfl
   right_inv := by
     intro t
-    refine (FunctorToTypes.map_comp_apply H.1
+    refine (Functor.map_comp_apply H.1
       (smallerBaseFactorHomInv B U.left.1 S U.left.2 hS U.hom (Over.w (p.hom.app T t))).op _
         t).symm.trans ?_
     have : smallerBaseFactorHom B U.left.1 S U.left.2 hS U.hom (Over.w (p.hom.app T t)) ≫
@@ -119,7 +119,7 @@ def overSchemePointsRelocalizeEquiv (T : (BigFppfOver B S hS)ᵒᵖ) :
         (smallerBaseFactorHom B U.left.1 S U.left.2 hS U.hom (Over.w (p.hom.app T t))).op =
           𝟙 _ := by
       rw [← op_comp, this, op_id]
-    exact (congrArg (fun k => H.1.map k t) hop).trans (FunctorToTypes.map_id_apply _ _)
+    exact (congrArg (fun k => H.1.map k t) hop).trans (Functor.map_id_apply _ _ _)
 
 /-- **The lower-shriek extension to `S` of the points of `H` over `U` is `H`**, through the
 bijections `AlgebraicGeometry.Space.overSchemePointsRelocalizeEquiv`. -/
@@ -129,8 +129,8 @@ def overSchemePointsRelocalizeIso :
     (by
       intro T T' f
       ext ⟨⟨ψ, s⟩, hψ⟩
-      refine (FunctorToTypes.map_comp_apply H.1 _ _ s.1).symm.trans
-        (Eq.trans ?_ (FunctorToTypes.map_comp_apply H.1 _ f s.1))
+      refine (Functor.map_comp_apply H.1 _ _ s.1).symm.trans
+        (Eq.trans ?_ (Functor.map_comp_apply H.1 _ f s.1))
       refine congrArg (fun k => H.1.map k s.1) (Quiver.Hom.unop_inj ?_)
       refine Over.OverMorphism.ext ?_
       change 𝟙 _ ≫ f.unop.left = f.unop.left ≫ 𝟙 _

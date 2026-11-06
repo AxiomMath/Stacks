@@ -108,7 +108,7 @@ image of `g`. -/
 def restrictDerivation (f : X' ⟶ X) (p : X ⟶ Y) (p' : X' ⟶ Y') (q : Y' ⟶ Y)
     (hcomm : f ≫ p = p' ≫ q) (C : Modules.{u, u} B S hS X'.1 X'.2)
     (g : sheafOfDifferentials B S hS p' ⟶ C) :
-    ((modulePushforward B S hS f).obj C).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS f).obj C).val
       (structureSharpInverseImage B S hS p).hom :=
   (pushforwardUniversalDerivation B S hS f p p' q hcomm).postcomp
     ((modulePushforward B S hS f).map g).val
@@ -125,8 +125,9 @@ theorem postcomp_homEquiv_sheafOfDifferentialsMap (f : X' ⟶ X) (p : X ⟶ Y) (
           (sheafOfDifferentials B S hS p')
           (sheafOfDifferentialsMap B S hS f p p' q hcomm)).val) =
       pushforwardUniversalDerivation B S hS f p p' q hcomm :=
-  PresheafOfModules.Derivation.ext (funext fun U ↦ AddMonoidHom.ext fun t ↦
-    isSheafOfDifferentialsMap_sheafOfDifferentialsMap B S hS f p p' q hcomm U t)
+  by
+    ext U t
+    exact isSheafOfDifferentialsMap_sheafOfDifferentialsMap B S hS f p p' q hcomm U t
 
 /-- **Restriction of derivations along `f` is precomposition with the comparison map of
 Stacks 04CX**, read through Equation 0619.

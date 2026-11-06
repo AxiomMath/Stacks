@@ -528,11 +528,26 @@ private lemma isIso_evaluation_tensorComplexCounit (A : ℕᵒᵖ ⥤ CommRingCa
       (A ⋙ forget₂ CommRingCat RingCat) (op n)).mapDerivedCategory.map
         (((tensorComplexCounit A).app M).app N)) := by
   have := isIso_evaluation_tensorHomotopyCounit A M N n hM
-  dsimp only [tensorComplexCounit, NatTrans.comp_app, Iso.trans_hom,
-    Functor.whiskeringLeft₂, Functor.whiskeringLeft, Functor.whiskeringRight,
-    Functor.mapIso, Iso.app, NatTrans.hcomp_app, Functor.whiskerLeft_app,
-    Functor.whiskerRight_app, Functor.comp_map, Functor.comp_obj]
-  simp only [Functor.map_comp]
+  -- Unfold at the level of `Modules A` only, so that the target derived category of the
+  -- evaluation keeps its syntactic form (its `Category` instance is not re-synthesizable
+  -- after `Functor.comp_obj` rewrites the ring).
+  have key : ((tensorComplexCounit A).app M).app N =
+      (((tensorOnDerivedSystems A).map
+          ((DerivedCategory.quotientCompQhIso (Modules.{u, t} A)).symm.hom.app M)).app
+            (DerivedCategory.Q.obj N) ≫
+        ((tensorOnDerivedSystems A).obj (DerivedCategory.Qh.obj
+          ((HomotopyCategory.quotient (Modules.{u, t} A) (.up ℤ)).obj M))).map
+            ((DerivedCategory.quotientCompQhIso (Modules.{u, t} A)).symm.hom.app N)) ≫
+      ((tensorHomotopyCounit A).app
+          ((HomotopyCategory.quotient (Modules.{u, t} A) (.up ℤ)).obj M)).app
+            ((HomotopyCategory.quotient (Modules.{u, t} A) (.up ℤ)).obj N) ≫
+        (DerivedCategory.quotientCompQhIso (Modules.{u, t} A)).hom.app
+          (((totalTensorSystem A).obj M).obj N) := by
+    dsimp only [tensorComplexCounit, NatTrans.comp_app, Iso.trans_hom,
+      Functor.whiskeringLeft₂, Functor.whiskeringLeft, Functor.whiskeringRight,
+      Functor.mapIso, Iso.app, NatTrans.hcomp_app, Functor.whiskerLeft_app,
+      Functor.whiskerRight_app, Functor.comp_map, Functor.comp_obj]
+  rw [key, Functor.map_comp, Functor.map_comp, Functor.map_comp]
   infer_instance
 
 /-- Evaluation of total tensor is a natural isomorphism of bifunctors. -/

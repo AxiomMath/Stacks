@@ -175,7 +175,7 @@ theorem exists_isUnit_det_transpose_mul_mul_eq_smul_of_forall_zmodPow
   rw [Set.mem_iInter] at hJ
   refine ⟨J, PadicInt.isUnit_iff.2 (hJ 0).2, ?_⟩
   rw [← sub_eq_zero, Nat.cast_smul_eq_nsmul]
-  ext i j
+  ext i j : 1
   show E J i j = 0
   rw [← PadicInt.ext_of_toZModPow]
   intro n

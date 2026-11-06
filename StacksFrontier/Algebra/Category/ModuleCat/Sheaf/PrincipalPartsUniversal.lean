@@ -127,7 +127,8 @@ noncomputable abbrev moduleOfDifferentialsOfSite :
   ega "IV 16.3.6" "dt",
   ega "IV 16.5.3" "(i)"]
 noncomputable def universalDerivationOfSite :
-    (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val.Derivation' φ.hom :=
+    PresheafOfModulesOfCommRing.Derivation' (moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ).val
+      φ.hom :=
   (derivationsFunctor.{m} O₁ O₂ φ).coreprx
 
 /-- **Stacks 04BL**, in unique-factorization form: every relative derivation with values in a
@@ -136,7 +137,7 @@ modules. -/
 @[stacks 04BL "unique-factorization form, on an arbitrary site"]
 theorem existsUnique_descDerivation
     (F : _root_.SheafOfModules.{max u v w m} (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
-    (D : F.val.Derivation' φ.hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val φ.hom) :
     ∃! f : moduleOfDifferentialsOfSite.{v, u, w, m} O₁ O₂ φ ⟶ F,
       (universalDerivationOfSite.{v, u, w, m} O₁ O₂ φ).postcomp f.val = D := by
   set e := (derivationsFunctor.{m} O₁ O₂ φ).corepresentableBy

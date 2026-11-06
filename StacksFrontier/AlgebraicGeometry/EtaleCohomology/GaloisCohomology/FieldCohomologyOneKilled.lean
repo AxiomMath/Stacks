@@ -50,8 +50,8 @@ theorem nsmul_smallEtaleSheafH_one_eq_zero (B : BigEtaleSite.{u}) (K : Type u) [
     (hM : let M := ((etaleContinuousGModuleEquivalence.{u, u + 1} B K hK sbar).functor.obj
         ((smallEtaleSheafRestriction B K hK).obj F));
       ∀ c : GeometricPoint.absoluteGaloisGroup sbar → M.obj.obj.V, IsLocallyConstant c →
-        (∀ g₁ g₂, c (g₁ * g₂) = (M.obj.obj.ρ g₁).hom (c g₂) + c g₁) →
-        ∃ x : M.obj.obj.V, ∀ g, (M.obj.obj.ρ g).hom x - x = e • c g)
+        (∀ g₁ g₂, c (g₁ * g₂) = (M.obj.obj.ρ g₁).asHom.hom (c g₂) + c g₁) →
+        ∃ x : M.obj.obj.V, ∀ g, (M.obj.obj.ρ g).asHom.hom x - x = e • c g)
     (x : Sheaf.H.{u + 1, u + 1} F 1) : e • x = 0 := by
   let φ := smallEtaleSheafCohomologyAddEquivContinuousGroupCohomology B K hK sbar F 1
   have h := Stacks.GroupCohomology.nsmul_id_continuousGroupCohomology_one_eq_zero.{u, u + 1}

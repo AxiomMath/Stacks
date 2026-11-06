@@ -105,8 +105,8 @@ theorem exists_connected_primeToEll_finiteEtale_relSeries_constantRankOneStep {�
       exact h⟩
     exact connectedSpace_left_of_isConnected T
       (CategoryTheory.isConnected_of_fiber_pretransitive (finiteEtaleFiberFintypeFunctor S s) T)
-  have hfixs : ∀ τ : EtaleFundamentalGroup S s, (τ.app T).hom y₀ = y₀ → ∃ k : ℕ,
-      ∀ q : (finiteEtaleFiberFunctor s).obj Xc, ((τ ^ (ℓ ^ k)).app Xc).hom q = q := by
+  have hfixs : ∀ τ : EtaleFundamentalGroup S s, (τ.asIso.app T).hom y₀ = y₀ → ∃ k : ℕ,
+      ∀ q : (finiteEtaleFiberFunctor s).obj Xc, ((τ ^ (ℓ ^ k)).asIso.app Xc).hom q = q := by
     intro τ hτ
     obtain ⟨k, hk⟩ := H.isPGroup' ⟨rb τ, hstab τ hτ⟩
     refine ⟨k, fun q ↦ ?_⟩
@@ -120,8 +120,8 @@ theorem exists_connected_primeToEll_finiteEtale_relSeries_constantRankOneStep {�
     rw [y₀.2]
     rfl
   have key : ∀ (s' : GeometricPoint S) (h : s = s') (τ : EtaleFundamentalGroup S s'),
-      (τ.app T).hom (h ▸ y₀) = h ▸ y₀ → ∃ k : ℕ,
-        ∀ q : (finiteEtaleFiberFunctor s').obj Xc, ((τ ^ (ℓ ^ k)).app Xc).hom q = q :=
+      (τ.asIso.app T).hom (h ▸ y₀) = h ▸ y₀ → ∃ k : ℕ,
+        ∀ q : (finiteEtaleFiberFunctor s').obj Xc, ((τ ^ (ℓ ^ k)).asIso.app Xc).hom q = q :=
     fun s' h ↦ by subst h; exact hfixs
   have hval : ∀ (s₁ s₂ : GeometricPoint S) (h : s₁ = s₂) (y : (finiteEtaleFiberFunctor s₁).obj T),
       HEq (h ▸ y : (finiteEtaleFiberFunctor s₂).obj T).1 y.1 :=

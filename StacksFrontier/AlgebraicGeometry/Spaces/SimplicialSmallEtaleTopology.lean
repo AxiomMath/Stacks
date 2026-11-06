@@ -141,7 +141,7 @@ theorem compatiblePreserving_degreeInclusion (n : SimplexCategory) :
       Hom.ext (Category.id_comp _).symm (pullback.lift_fst _ _ _).symm
     have h₂ : f₂ = ℓ ≫ (degreeInclusion X n).map q₂ :=
       Hom.ext (hb.symm.trans (Category.id_comp _).symm) (pullback.lift_snd _ _ _).symm
-    rw [h₁, h₂, op_comp, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply]
+    rw [h₁, h₂, op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
     exact congrArg (ℱ.obj.map ℓ.op)
       (hx q₁ q₂ hg₁ hg₂ (ObjectProperty.hom_ext _ (Over.OverMorphism.ext pullback.condition)))
 

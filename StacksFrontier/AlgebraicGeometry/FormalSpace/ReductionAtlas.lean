@@ -246,7 +246,7 @@ presheaves. -/
 theorem mono_uliftYoneda_map {V W : BigFppfOver B S hS} (p : V ⟶ W) (hp : Mono p) :
     Mono ((uliftYoneda.{u + 1}).map p) :=
   (NatTrans.mono_iff_mono_app _).2 fun _ ↦ (mono_iff_injective _).2 fun _ _ hs ↦
-    ULift.ext _ _ ((cancel_mono p).mp (congrArg ULift.down hs))
+    ULift.ext ((cancel_mono p).mp (congrArg ULift.down hs))
 
 end AlgebraicGeometry.FormalSpace
 

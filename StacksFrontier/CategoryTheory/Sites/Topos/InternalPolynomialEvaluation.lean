@@ -197,7 +197,7 @@ noncomputable def evalSystemHom (κ : Type*) [HasProduct fun _ : κ => R] {ν : 
 lemma evalSystemHom_comp_π (κ : Type*) [HasProduct fun _ : κ => R] {ν : Type*}
     [HasProduct fun _ : ν => R] (P : ν → MvPolynomial κ Γ) (j : ν) :
     evalSystemHom R c κ P ≫ Pi.π (fun _ : ν => R) j = evalPowRingHom R c κ (P j) :=
-  Pi.lift_π _ j
+  Pi.lift_comp_π _ j
 
 /-- The zero arrow from the `κ`-fold power of `R` to its `ν`-fold power, written as the tuple of
 the zero generalized elements. The ambient category need not have zero morphisms: the zero here is
@@ -211,7 +211,7 @@ noncomputable def zeroSystemHom (κ : Type*) [HasProduct fun _ : κ => R] (ν : 
 lemma zeroSystemHom_comp_π (κ : Type*) [HasProduct fun _ : κ => R] (ν : Type*)
     [HasProduct fun _ : ν => R] (j : ν) :
     zeroSystemHom R κ ν ≫ Pi.π (fun _ : ν => R) j = 0 :=
-  Pi.lift_π _ j
+  Pi.lift_comp_π _ j
 
 end CommRingObj
 

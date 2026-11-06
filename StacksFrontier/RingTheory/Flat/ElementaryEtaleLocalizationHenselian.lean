@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.Flat.ElementaryEtaleNeighborhood
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import StacksFrontier.RingTheory.Henselian.EtaleLifting
 
 /-!

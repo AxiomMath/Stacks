@@ -191,6 +191,27 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   (F : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp))
 
+/-- Countable coproducts of sheaves of modules, stated directly: instance search for
+`HasColimit (Discrete.functor _)` in `SheafOfModules` times out under Lean v4.35.0. -/
+local instance : HasColimitsOfShape (Discrete ℕ)
+    (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)) :=
+  haveI := PresheafOfModules.hasColimitsOfShape
+    (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj (Discrete ℕ)
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    (Stacks.SheafOfModules.Tensor.ringSheaf Osharp) (Discrete ℕ)
+
+local instance (priority := high)
+    (K : Discrete ℕ ⥤ SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp)) :
+    HasColimit K :=
+  HasColimitsOfShape.has_colimit K
+
+local instance (priority := high)
+    (K : Discrete ℕ ⥤ SheafOfModules.{w} (toRingCat J Osharp)) : HasColimit K :=
+  haveI := PresheafOfModules.hasColimitsOfShape (toRingCat J Osharp).obj (Discrete ℕ)
+  haveI := SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    (toRingCat J Osharp) (Discrete ℕ)
+  HasColimitsOfShape.has_colimit K
+
 /-- The generator-packaged form of `SheafOfModules.TensorExteriorSymmetricAlgebras`: the same
 twenty-four fields under the same names, with the three degree-one generators packaged as
 `SheafOfModules.GradedAlgebra.Generator` records, the three universal properties taken in

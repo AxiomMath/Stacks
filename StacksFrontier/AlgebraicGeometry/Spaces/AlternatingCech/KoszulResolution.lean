@@ -219,7 +219,7 @@ theorem presheafKoszulAugmentation_surjective_app (V : Cᵒᵖ) {e : F.obj V}
   rw [presheafKoszulAugmentation_app_apply, LinearEquiv.apply_symm_apply]
   have h : presheafDual ε V (z.down • e) = z.down := by
     rw [map_zsmul, he, smul_eq_mul, mul_one]
-  exact ULift.ext _ _ h
+  exact ULift.ext h
 
 end AddCommGrpCat
 

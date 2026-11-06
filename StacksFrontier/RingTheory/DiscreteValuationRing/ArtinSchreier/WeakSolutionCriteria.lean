@@ -123,7 +123,7 @@ private theorem ramificationIndex_eq_prime_of_artinSchreier_pole
   let := hm
   let : m.LiesOver (IsLocalRing.maximalIdeal B) :=
     ⟨(IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := B) m)).symm⟩
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) m)).symm⟩
   exact hind m hm inferInstance
 
 set_option backward.isDefEq.respectTransparency false in
@@ -237,7 +237,7 @@ theorem exists_isWeakSolution_of_fieldFactor_ramification
   have hcontr : (IsLocalRing.maximalIdeal Q).under C = IsLocalRing.maximalIdeal C := by
     rw [← Ideal.under_under (B := S), IsLocalization.AtPrime.under_maximalIdeal Q q]
     exact IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := C) q)
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := C) q)
   let : IsExtension C Q := isExtension_of_injective_of_under_eq hCQ hcontr
   obtain ⟨algMF, towerCMF, f, hf, hfs, hfinF⟩ :=
     exists_fieldFactor_of_integralClosure_localization C M R S Q q.primeCompl hCQ
@@ -343,7 +343,7 @@ theorem isWeakSolution_of_constant_artinSchreier_parameter
     simpa only [IsScalarTower.algebraMap_apply A K E] using he
   let : IsExtension A A₁ := isExtension_of_injective_of_under_eq hAA
     (IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) (IsLocalRing.maximalIdeal A₁)))
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (IsLocalRing.maximalIdeal A₁)))
   have hAindex : ramificationIndex A A₁ = p :=
     ramificationIndex_eq_prime_of_artinSchreier_pole A A₁ K E p hp _ w hw hwgen
       π hπ n hn hpn a 0 ha (by rw [map_zero, add_zero])
@@ -586,7 +586,6 @@ private theorem exists_integralClosure_embedding_into_dvr
   have hc : ((IsLocalRing.maximalIdeal Q).comap f.toRingHom).IsMaximal := by
     apply Ideal.IsIntegral.isMaximal_of_isMaximal_comap (R := B)
     have hcomp : f.toRingHom.comp (algebraMap B R) = algebraMap B Q := f.comp_algebraMap
-    rw [Ideal.comap_comap]
     change (Ideal.comap (f.toRingHom.comp (algebraMap B R)) (IsLocalRing.maximalIdeal Q)).IsMaximal
     rw [hcomp, IsLocalRing.maximalIdeal_comap]
     infer_instance

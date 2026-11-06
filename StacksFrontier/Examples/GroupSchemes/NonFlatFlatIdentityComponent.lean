@@ -378,7 +378,7 @@ public theorem exists_groupScheme_flat_identityComponent_not_flat :
   have hf : Function.Surjective f := by
     intro x
     obtain ⟨n, hn⟩ := ZMod.intCast_surjective x.down
-    exact ⟨⟨n⟩, ULift.ext _ _ hn⟩
+    exact ⟨⟨n⟩, ULift.ext hn⟩
   have : IsClosedImmersion i := IsClosedImmersion.spec_of_surjective _ hf
   have hi : ¬ Flat i := by
     rw [Flat.SpecMap_iff]

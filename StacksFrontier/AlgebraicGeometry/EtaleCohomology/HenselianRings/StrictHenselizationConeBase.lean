@@ -162,6 +162,7 @@ theorem strictHenselizationConeToBase_eq :
     rw [strictHenselizationCone_π_appTop,
       structureSheafStalkFromLocalRing_open_germ B S hS s U hxU
         ((CommRingCat.Hom.hom U.topIso.hom) b), hb]
+    rfl
   have e2 : (Spec.map (S.presheaf.germ U (s.hom (closedPoint s.residueField)) hxU ≫
         CommRingCat.ofHom (structureSheafStalkFromLocalRing B S hS s)) ≫ hU.isoSpec.inv).appTop =
       U.topIso.hom ≫ (S.presheaf.germ U (s.hom (closedPoint s.residueField)) hxU ≫

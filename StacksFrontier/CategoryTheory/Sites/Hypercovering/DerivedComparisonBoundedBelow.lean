@@ -424,7 +424,7 @@ lemma isIso_hypercoverAug_app (hK : IsHypercovering J K)
 def derivedSectionsToHypercoverRightDerived (hK : IsHypercovering J K) :
     (sheafSectionsFunctor J U).rightDerivedFunctorPlus ⟶ hypercoverRightDerived J U K :=
   ((sheafSectionsFunctor J U).rightDerivedFunctorPlus).rightDerivedDesc
-    ((sheafSectionsFunctor J U).rightDerivedFunctorPlusUnit)
+    ((sheafSectionsFunctor J U).rightDerivedFunctorPlusUnith)
     (HomotopyCategory.Plus.quasiIso (Sheaf J.toGrothendieck AddCommGrpCat.{max u v w}))
     (hypercoverRightDerived J U K)
     (hypercoverAug J U K hK ≫ hypercoverRightDerivedUnit J U K)
@@ -438,7 +438,7 @@ Stacks 01GY down: in degree zero it is the canonical identification. -/
 lemma rightDerivedFunctorPlusUnit_comp_derivedSectionsToHypercoverRightDerived
     (hK : IsHypercovering J K)
     (X : HomotopyCategory.Plus (Sheaf J.toGrothendieck AddCommGrpCat.{max u v w})) :
-    (sheafSectionsFunctor J U).rightDerivedFunctorPlusUnit.app X ≫
+    (sheafSectionsFunctor J U).rightDerivedFunctorPlusUnith.app X ≫
         (derivedSectionsToHypercoverRightDerived J U K hK).app
           (DerivedCategory.Plus.Qh.obj X) =
       (hypercoverAug J U K hK).app X ≫ (hypercoverRightDerivedUnit J U K).app X :=
@@ -458,7 +458,7 @@ instance isIso_derivedSectionsToHypercoverRightDerived_app (hK : IsHypercovering
   change IsIso ((derivedSectionsToHypercoverRightDerived J U K hK).app
     (DerivedCategory.Plus.Qh.obj ((InjectiveObject.ι _).mapHomotopyCategoryPlus.obj Z)))
   have h₃ := isIso_hypercoverAug_app J U K hK Z
-  have hcomp : IsIso ((sheafSectionsFunctor J U).rightDerivedFunctorPlusUnit.app
+  have hcomp : IsIso ((sheafSectionsFunctor J U).rightDerivedFunctorPlusUnith.app
       ((InjectiveObject.ι _).mapHomotopyCategoryPlus.obj Z) ≫
         (derivedSectionsToHypercoverRightDerived J U K hK).app
           (DerivedCategory.Plus.Qh.obj
@@ -466,7 +466,7 @@ instance isIso_derivedSectionsToHypercoverRightDerived_app (hK : IsHypercovering
     rw [rightDerivedFunctorPlusUnit_comp_derivedSectionsToHypercoverRightDerived]
     infer_instance
   exact IsIso.of_isIso_comp_left
-    ((sheafSectionsFunctor J U).rightDerivedFunctorPlusUnit.app
+    ((sheafSectionsFunctor J U).rightDerivedFunctorPlusUnith.app
       ((InjectiveObject.ι _).mapHomotopyCategoryPlus.obj Z)) _
 
 end Comparison
@@ -528,7 +528,7 @@ functor of sections. This is the normalisation of the comparison `RΓ(X, -) ⟶ 
 comparison inverted. -/
 lemma hypercoverAug_comp_hypercoverRightDerivedToDerivedSections (hK : IsHypercovering J K) :
     hypercoverAug J U K hK ≫ hypercoverRightDerivedToDerivedSections J U K hK =
-      (sheafSectionsFunctor J U).rightDerivedFunctorPlusUnit := by
+      (sheafSectionsFunctor J U).rightDerivedFunctorPlusUnith := by
   ext X
   rw [NatTrans.comp_app, hypercoverRightDerivedToDerivedSections, NatTrans.comp_app,
     Functor.whiskerLeft_app, NatIso.isIso_inv_app, ← Category.assoc,
@@ -570,7 +570,7 @@ This equation is what pins the comparison down — the mere existence of a natur
 `s(F(K)) ⟶ RΓ(X, F)` says nothing, being witnessed by the zero map. -/
 theorem hypercoverAugDerivedSections_comp_hypercoverComparisonMap (hK : IsHypercovering J K) :
     hypercoverAugDerivedSections J U K hK ≫ hypercoverComparisonMap J U K hK =
-      Functor.whiskerLeft _ (sheafSectionsFunctor J U).rightDerivedFunctorPlusUnit ≫
+      Functor.whiskerLeft _ (sheafSectionsFunctor J U).rightDerivedFunctorPlusUnith ≫
         Functor.whiskerRight (Functor.singleFunctorPlusIsoCompQh
           (A := Sheaf J.toGrothendieck AddCommGrpCat.{max u v w}) 0).inv
           (sheafSectionsFunctor J U).rightDerivedFunctorPlus := by

@@ -21,8 +21,6 @@ universe w v u q d e
 
 open CategoryTheory CategoryTheory.Limits Opposite
 
-attribute [local implicit_reducible] CategoryTheory.SimplicialObject.truncation
-
 namespace Stacks.CategoryTheory.Hypercovering
 
 attribute [local implicit_reducible] mapFormalCoproduct

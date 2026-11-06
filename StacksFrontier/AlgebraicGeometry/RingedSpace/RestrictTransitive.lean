@@ -6,6 +6,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Sheaf.PushforwardContinuous
 public import Mathlib.Topology.Sheaves.SheafCondition.Sites
 public import StacksFrontier.CategoryTheory.Sites.Modules.OverFunctorExact
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Slice.RestrictionOfComplexes
+import Mathlib.CategoryTheory.Functor.ReflectsIso.Balanced
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

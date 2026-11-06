@@ -190,7 +190,7 @@ theorem of_finite {A : Type u} [CommRing A] [IsLocalRing A] [IsNoetherianRing A]
   have : IsLocalHom (algebraMap A B) :=
     ((IsLocalRing.local_hom_TFAE (algebraMap A B)).out 5 1).mp
       (IsLocalRing.eq_maximalIdeal
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (maximalIdeal B)))
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (maximalIdeal B)))
   obtain ⟨e⟩ := AdicCompletion.nonempty_algEquiv_tensorProduct_of_isLocalRing A B
   exact of_finite_of_algEquiv hA e
 

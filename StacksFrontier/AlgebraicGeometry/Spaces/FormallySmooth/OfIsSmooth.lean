@@ -215,7 +215,8 @@ theorem exists_lift_specOver_of_isSmooth (hX : IsAlgebraicSpace B S hS X)
   let T₀ := specOver B S hS s₀ A' hA'
   -- the base change of `f` along `y`
   let yT : yoneda.obj T₀ ⟶ Y := yonedaEquiv.symm y
-  set X' := pullback f yT
+  have : HasLimit (cospan f yT) := HasLimitsOfShape.has_limit _
+  set X':= pullback f yT
   set p : X' ⟶ yoneda.obj T₀ := pullback.snd f yT
   have hX' : IsAlgebraicSpace B S hS X' :=
     isAlgebraicSpace_pullback B S hS f yT hX (isAlgebraicSpace_yoneda B S hS T₀) hY

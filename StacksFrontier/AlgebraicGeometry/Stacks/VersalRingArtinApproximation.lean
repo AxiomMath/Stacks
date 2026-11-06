@@ -362,7 +362,6 @@ theorem schemeMap_post_eq_left_hom {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 
   rw [schemeMap_rfl_rfl]
   simp only [Functor.comp_map, Over.post_map, ObjectProperty.ι_map, Over.homMk_left,
     eqToHom_refl, Category.id_comp]
-  rfl
 
 
 /-- The residue field map of a local homomorphism from the local ring at a point to a complete

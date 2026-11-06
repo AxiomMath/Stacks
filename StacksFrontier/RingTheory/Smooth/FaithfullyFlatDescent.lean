@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.Etale.Descent
+public import Mathlib.RingTheory.Extension.Cotangent.BaseChange
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.Flat.FaithfullyFlat.Projective
 

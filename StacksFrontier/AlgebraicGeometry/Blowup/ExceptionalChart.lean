@@ -200,9 +200,9 @@ of `a`.** This is the computation `ℐ(U)·Γ(S, U)[ℐ(U)/a] = a·Γ(S, U)[ℐ(
 theorem ideal_comap_exceptionalIdeal_blowUpAffineChart (U : S.affineOpens) {a : Γ(S, U.1)}
     (ha : a ∈ ℐ.ideal U) :
     ((exceptionalIdeal ℐ).comap (blowUpAffineChart ℐ U ha)).ideal ⟨⊤, isAffineOpen_top _⟩
-      = Ideal.span {(Scheme.ΓSpecIso
+      = Ideal.span {((Scheme.ΓSpecIso
             (CommRingCat.of (affineBlowup (ℐ.ideal U) a))).inv.hom
-          (algebraMap Γ(S, U.1) (affineBlowup (ℐ.ideal U) a) a)} := by
+          (algebraMap Γ(S, U.1) (affineBlowup (ℐ.ideal U) a) a))} := by
   have h0 := Scheme.IdealSheafData.comap_comp ℐ (blowUpAffineChart ℐ U ha) (blowUpToBase ℐ)
   have h1 := congrArg (fun f : Spec (CommRingCat.of (affineBlowup (ℐ.ideal U) a)) ⟶ S =>
     ℐ.comap f) (blowUpAffineChart_blowUpToBase ℐ U ha)

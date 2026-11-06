@@ -134,7 +134,7 @@ theorem spec_laurent_appTop (n : ℤ) :
 translation of the affine line. -/
 theorem genericPointMap_translation (n : ℤ) :
     (genericPointTranslationIso k n).hom ≫ genericPointMap k =
-      genericPointMap k ≫ (translationAction k (Multiplicative.ofAdd n)).hom := by
+      genericPointMap k ≫ (translationAction k (Multiplicative.ofAdd n)).asIso.hom := by
   ext
   apply AffineSpace.hom_ext
   · simp only [Over.comp_left]
@@ -145,9 +145,9 @@ theorem genericPointMap_translation (n : ℤ) :
           rw [Category.assoc, (genericPointMap k).w]
       _ = (genericPointOver k).hom := (genericPointTranslationIso k n).hom.w
       _ = (Over.Hom.left (genericPointMap k) ≫
-          Over.Hom.left ((translationAction k (Multiplicative.ofAdd n)).hom)) ≫
+          Over.Hom.left ((translationAction k (Multiplicative.ofAdd n)).asIso.hom)) ≫
             (affineLine k).hom := by
-          rw [Category.assoc, ((translationAction k (Multiplicative.ofAdd n)).hom).w,
+          rw [Category.assoc, ((translationAction k (Multiplicative.ofAdd n)).asIso.hom).w,
             (genericPointMap k).w]
   · intro i
     obtain rfl : i = PUnit.unit := Subsingleton.elim _ _
@@ -159,7 +159,7 @@ theorem genericPointMap_translation (n : ℤ) :
         ((Scheme.ΓSpecIso (.of (RatFunc k))).inv RatFunc.X) =
       (AffineSpace.homOfVector (genericPointOver k).hom
         (fun _ : PUnit.{u + 1} => (Scheme.ΓSpecIso (.of (RatFunc k))).inv RatFunc.X)).appTop
-        (((translationAction k (Multiplicative.ofAdd n)).hom.left).appTop
+        (((translationAction k (Multiplicative.ofAdd n)).asIso.hom.left).appTop
           (AffineSpace.coord (Spec (.of k)) PUnit.unit))
     rw [spec_laurent_appTop, translationAction_apply]
     simp only [map_add, AffineSpace.homOfVector_appTop_coord, map_intCast]
@@ -243,11 +243,11 @@ abbrev genericPointCopies : Over (Spec (.of k)) :=
 point itself: the translation automorphism is a section of both projections. -/
 def genericPointTranslationFiberIso (n : ℤ) :
     genericPointOver k ≅ pullback (genericPointMap k)
-      (genericPointMap k ≫ (translationAction k (Multiplicative.ofAdd n)).hom) := by
+      (genericPointMap k ≫ (translationAction k (Multiplicative.ofAdd n)).asIso.hom) := by
   have : Mono (genericPointMap k).left := genericPointMap_mono k
   have : Mono (genericPointMap k) := Over.mono_of_mono_left _
   have hpb : IsPullback (𝟙 (genericPointOver k)) (genericPointTranslationIso k n).hom
-      (genericPointMap k ≫ (translationAction k (Multiplicative.ofAdd n)).hom)
+      (genericPointMap k ≫ (translationAction k (Multiplicative.ofAdd n)).asIso.hom)
       (genericPointMap k) :=
     IsPullback.of_horiz_isIso_mono
       (show CommSq _ _ _ _ from ⟨(genericPointMap_translation k n).symm⟩)
@@ -302,7 +302,7 @@ def genericPointRelationFiberIso :
   have hu : IsUniversalColimit c :=
     (isUniversalColimit_sigmaCofanOver fun _ : Multiplicative ℤ => genericPointOver k).of_iso ec
   let f : ∀ _ : Multiplicative ℤ, genericPointOver k ⟶ affineLine k :=
-    fun n => genericPointMap k ≫ (translationAction k n).hom
+    fun n => genericPointMap k ≫ (translationAction k n).asIso.hom
   have huι (n : Multiplicative ℤ) : c.inj n ≫ φ = f n := by
     change (Sigma.ι (fun _ : Multiplicative ℤ => genericPointOver k) n ≫
       (genericPointSourceFiberIso k).hom ≫

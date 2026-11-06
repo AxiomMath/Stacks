@@ -269,7 +269,7 @@ lemma isInCharacteristic_spec_primeField :
     IsInCharacteristic (Spec (.of (ULift.{u} (ZMod p)))) p := by
   show (p : Γ(Spec (.of (ULift.{u} (ZMod p))), ⊤)) = 0
   rw [← map_natCast (Scheme.ΓSpecIso (.of (ULift.{u} (ZMod p)))).inv.hom p,
-    show ((p : ℕ) : ULift.{u} (ZMod p)) = 0 from ULift.ext _ _ (by simp), map_zero]
+    show ((p : ℕ) : ULift.{u} (ZMod p)) = 0 from ULift.ext (by simp), map_zero]
 
 open ResidueFieldSpreading in
 /-- **Stacks Tag 0EXH, essential-image half: reduction to a base of finite type over a field.**

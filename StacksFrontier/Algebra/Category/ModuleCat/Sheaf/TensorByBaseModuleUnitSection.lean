@@ -55,7 +55,7 @@ reads like a malformed goal and is not one.
 
 *Why the unit section is written through the adjunction unit* rather than as `1 ⊗ₜ 1`.  The
 sections of `𝟙_ (PMod O)` carry no `OfNat … 1` instance, so `1` does not elaborate there; and
-writing the element as `1 ⊗ₜ[R] 1` forces a choice between the `Algebra R (O.val.obj X)` instance
+writing the element as `1 ⊗ₜ[R] 1` forces a choice between the `Algebra R (O.obj.obj X)` instance
 of `Stacks.TensorByBaseModule.coefficientAlgebraOfHom` and the
 `(θ.app X).hom.toAlgebra` of `changeOfRingsAdjunction_unit_app_apply`, which are the same instance
 by different routes and do not unify during elaboration.  Stating the element as the image of `1`
@@ -75,10 +75,10 @@ presheaf-level `s ↦ s ⊗ m`, namely
 goal in exactly four factors applied to `s`:
 
 ```
-(ρ_ (𝓕.val.obj X)).inv ≫
-  𝓕.val.obj X ◁ (changeOfRingsUnitIso R J O θ).inv.app X ≫
-  𝓕.val.obj X ◁ ((changeOfRings θ).map (isoMk (fun _ ↦ Iso.refl _) _).inv).app X ≫
-  𝓕.val.obj X ◁ ((changeOfRings θ).map
+(ρ_ (𝓕.obj.obj X)).inv ≫
+  𝓕.obj.obj X ◁ (changeOfRingsUnitIso R J O θ).inv.app X ≫
+  𝓕.obj.obj X ◁ ((changeOfRings θ).map (isoMk (fun _ ↦ Iso.refl _) _).inv).app X ≫
+  𝓕.obj.obj X ◁ ((changeOfRings θ).map
     ((constantModulePresheaf R).map (ModuleCat.ofHom (LinearMap.toSpanSingleton R M m)))).app X
 ```
 
@@ -147,7 +147,7 @@ variable {C : Type u₂} [Category.{v₂} C] (R : Type w₂) [CommRing R]
   (J : GrothendieckTopology C)
   [J.HasSheafCompose (forget₂ CommRingCat.{w₂} RingCat.{w₂})]
   (O : Sheaf J CommRingCat.{w₂})
-  (θ : constantRingPresheaf (C := C) R ⟶ O.val)
+  (θ : constantRingPresheaf (C := C) R ⟶ O.obj)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- **The unitor `O(U) ⊗_R R ≅ O(U)` carries the unit section forward to `1`.**  This is
@@ -161,7 +161,7 @@ theorem changeOfRingsUnitIso_hom_app_unit_app_one (X : Cᵒᵖ) :
         (Hom.app ((changeOfRingsAdjunction θ).unit.app
           (unit (ringPresheaf (constantRingPresheaf (C := C) R)))) X
             (1 : (ringPresheaf (constantRingPresheaf (C := C) R)).obj X)) =
-      (1 : O.val.obj X) :=
+      (1 : O.obj.obj X) :=
   unitComparison_app_unit_app_one _ (changeOfRingsAdjunction θ) X
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
@@ -175,7 +175,7 @@ Nothing about the inverse is used: the statement follows from the forward descri
 makes it available at all — the inverse is produced by `isIso_iff_coyoneda_map_bijective` and has
 no formula. -/
 theorem changeOfRingsUnitIso_inv_app_one (X : Cᵒᵖ) :
-    Hom.app (changeOfRingsUnitIso R J O θ).inv X (1 : O.val.obj X) =
+    Hom.app (changeOfRingsUnitIso R J O θ).inv X (1 : O.obj.obj X) =
       Hom.app ((changeOfRingsAdjunction θ).unit.app
         (unit (ringPresheaf (constantRingPresheaf (C := C) R)))) X
           (1 : (ringPresheaf (constantRingPresheaf (C := C) R)).obj X) := by

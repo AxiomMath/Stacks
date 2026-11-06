@@ -157,7 +157,8 @@ theorem isDerivedComplete_derivedReductionTower_obj
     IsDerivedComplete I ((derivedReductionTower J Λ I K).obj n) := by
   intro f hf
   refine isDerivedCompleteAt_of_isNilpotent ⟨n.unop, ?_⟩
-  rw [smul_id_pow]
+  ext
+  rw [smul_id_pow, End.zero_asHom]
   show f ^ n.unop • 𝟙 (K ⊗ (quotientPowerTower J Λ I).obj (Opposite.op n.unop)) = 0
   rw [← derived_whiskerLeft_smul_id, pow_smul_id_quotientPowerTower_obj J Λ I hf,
     ← zero_smul Λ (𝟙 ((quotientPowerTower J Λ I).obj (Opposite.op n.unop))),

@@ -84,6 +84,27 @@ namespace AlgebraicGeometry.Space.FormalGlueingSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instance. -/
+private instance (priority := high) hasPullbacks_presheaf
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+private instance (priority := high) hasPullback_presheaf
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf B S hS).has_limit _
+
+private instance (priority := high) hasPullbacksAlong_presheaf
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y) :
+    HasPullbacksAlong f :=
+  fun h ↦ hasPullback_presheaf h f
+
+set_option synthInstance.maxHeartbeats 400000
+
 /-- Algebraic spaces over the ambient space `X`. -/
 abbrev spacesOverX (D : FormalGlueingSituation B S hS) :=
   (show ObjectProperty (Over D.X) from
@@ -101,9 +122,13 @@ noncomputable def restrictionComparison (D : FormalGlueingSituation B S hS) :
     Over.pullback D.U.ι ⋙ Over.pullback (D.U.fromPreimage D.f) ≅
       Over.pullback D.f ⋙ Over.pullback D.V.ι :=
   (Over.pullbackComp (D.U.fromPreimage D.f) D.U.ι).symm ≪≫
-    eqToIso (congrArg (fun g : D.V.toFunctor ⟶ D.X ↦ Over.pullback g)
-      (Subfunctor.fromPreimage_ι D.U D.f)) ≪≫ Over.pullbackComp D.V.ι D.f
+    eqToIso (by
+      have key : ∀ (g g' : D.V.toFunctor ⟶ D.X) [HasPullbacksAlong g] [HasPullbacksAlong g'],
+          g = g' → Over.pullback g = Over.pullback g' := by
+        rintro g _ _ _ rfl; rfl
+      exact key _ _ (Subfunctor.fromPreimage_ι D.U D.f)) ≪≫ Over.pullbackComp D.V.ι D.f
 
+set_option maxHeartbeats 2000000 in
 /-- The presheaf-level diagram obtained by restricting a space over `X`
 to `U` and `Y`. -/
 noncomputable def restrictionDiagram (D : FormalGlueingSituation B S hS) :

@@ -45,6 +45,44 @@ variable (X : (BigFppfOver B (Spec (.of Λ)) hΛ)ᵒᵖ ⥤ Type u)
   (hX : IsAlgebraicSpace B (Spec (.of Λ)) hΛ X)
   (toK : X ⟶ yoneda.obj (spaceBaseOver B hΛ hSpec (residueFieldBase Λ k)))
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_SpacesTangentSpaceSurjectiveClassComparison
+    {S : Scheme.{u}} {hS : B.Contains S} (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits indexed by `Type` of presheaves of sets on the small étale site (instance
+search times out without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete₀_SpacesTangentSpaceSurjectiveClassComparison
+    {S : Scheme.{u}} {hS : B.Contains S} (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of sheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasDiscreteLimits_topos_SpacesTangentSpaceSurjectiveClassComparison
+    {S : Scheme.{u}} {hS : B.Contains S} (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) (J : Type) :
+    HasLimitsOfShape (Discrete J) (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
+  letI : HasLimitsOfShape (Discrete J) (Type u) := inferInstance
+  letI : HasLimitsOfShape (Discrete J) ((SmallEtale B S hS F)ᵒᵖ ⥤ Type u) :=
+    hasLimitsOfShape_discrete₀_SpacesTangentSpaceSurjectiveClassComparison B F J
+  letI : CreatesLimitsOfShape (Discrete J)
+      (sheafToPresheaf (SmallEtale.topology B S hS F) (Type u)) :=
+    Sheaf.createsLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (SmallEtale.topology B S hS F) (Type u))
+
+/-- The terminal sheaf of sets on the small étale site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasTerminal_topos_SpacesTangentSpaceSurjectiveClassComparison
+    {S : Scheme.{u}} {hS : B.Contains S} (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasTerminal (Sheaf (SmallEtale.topology B S hS F) (Type u)) :=
+  hasDiscreteLimits_topos_SpacesTangentSpaceSurjectiveClassComparison B F PEmpty
+
 /-- The maps `(u ≫ h)⁻¹𝒪_Y ⟶ u⁻¹𝒪_X` along equal morphisms agree, read through the
 identifications of the inverse images along equal morphisms. -/
 theorem _root_.AlgebraicGeometry.Space.eqToHom_inverseImageStructureSheafMap_eqToHom

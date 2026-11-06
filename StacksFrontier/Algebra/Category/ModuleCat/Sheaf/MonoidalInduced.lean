@@ -80,7 +80,8 @@ attribute [local implicit_reducible] MonoidalCategoryStruct.tensorObj
   ConcreteCategory.hom ConcreteCategory.ofHom HasForget₂.forget₂
   monoidalCategoryPresheafOfModules Tensor.sheafTensor
   TensorSheafification.sheafify _root_.PresheafOfModules.tensorObj
-  _root_.PresheafOfModules.Monoidal.tensorObj _root_.PresheafOfModules.Monoidal.tensorObjMap
+  _root_.PresheafOfModulesOfCommRing.Monoidal.tensorObj
+  _root_.PresheafOfModulesOfCommRing.Monoidal.tensorObjMap
   _root_.PresheafOfModules.restrictₛₗ ModuleCat.tensorRestrictMap
   ModuleCat.MonoidalCategory.tensorLift ModuleCat.restrictScalars ModuleCat.RestrictScalars.obj'
 
@@ -187,6 +188,7 @@ theorem tensorObjIso_naturality
       (Localization.Monoidal.toMonoidalCategory (sheafifyFunctor O hO)
         (localIso (J := J) O) (sheafifyUnitIso O hO)) f.val g.val)
 
+set_option maxHeartbeats 1000000 in
 /-- The comparison carries the localized associator to the fixed associativity constraint of the
 sheaf tensor product. -/
 theorem tensorObjIso_associativity

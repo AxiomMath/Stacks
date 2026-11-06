@@ -237,6 +237,9 @@ theorem pullbackObjIsDefined_eq_top_of_univLE :
   simp only [Pi.top_apply, Prop.top_eq_true, iff_true]
   apply Functor.leftAdjointObjIsDefined_of_isColimit
     (isColimitPresentationCokernelCofork S M)
+  have (J : Type v) : HasColimitsOfShape (Discrete J) (PresheafOfModules.{v} R) :=
+    have : HasColimitsOfShape (Discrete J) AddCommGrpCat.{v} := AddCommGrpCat.hasColimitsOfShape
+    PresheafOfModules.hasColimitsOfShape R (Discrete J)
   rintro (_ | _)
   all_goals
     exact Functor.leftAdjointObjIsDefined_colimit _

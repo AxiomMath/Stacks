@@ -112,6 +112,7 @@ theorem etaleFundamentalGroupMulEquiv_trans [ConnectedSpace X] {x y z : Geometri
     (σ : EtaleFundamentalGroup X x) :
     etaleFundamentalGroupMulEquiv (t ≪≫ s) σ
       = etaleFundamentalGroupMulEquiv s (etaleFundamentalGroupMulEquiv t σ) := by
+  apply Aut.ext
   apply Iso.ext
   apply NatTrans.ext
   funext V
@@ -122,8 +123,8 @@ isomorphism. -/
 theorem etaleFundamentalGroupMulEquiv_app_apply [ConnectedSpace X] {x y : GeometricPoint X}
     (t : finiteEtaleFiberFunctor x ≅ finiteEtaleFiberFunctor y)
     (σ : EtaleFundamentalGroup X x) (V : FiniteEtaleOver X) (z : finiteEtaleFiber x V) :
-    ((etaleFundamentalGroupMulEquiv t σ).app V).hom (t.hom.app V z)
-      = t.hom.app V ((σ.app V).hom z) :=
+    ((etaleFundamentalGroupMulEquiv t σ).asIso.app V).hom (t.hom.app V z)
+      = t.hom.app V ((σ.asIso.app V).hom z) :=
   conjAut_app_apply t σ V z
 
 /-- An isomorphism of the geometric fibre functors at two points of `X` transported along a
@@ -155,6 +156,7 @@ theorem etaleFundamentalGroupMulEquiv_transportIso [ConnectedSpace X] [Connected
     etaleFundamentalGroupMulEquiv (fiberFunctorTransportIso f t)
         (etaleFundamentalGroupMap f x σ)
       = etaleFundamentalGroupMap f y (etaleFundamentalGroupMulEquiv t σ) := by
+  apply Aut.ext
   apply Iso.ext
   apply NatTrans.ext
   funext V
@@ -162,9 +164,9 @@ theorem etaleFundamentalGroupMulEquiv_transportIso [ConnectedSpace X] [Connected
   obtain ⟨q, rfl⟩ := (asIso ((fiberFunctorTransportIso f t).hom.app V)).toEquiv.surjective q
   obtain ⟨q, rfl⟩ := (finiteEtaleFiberProjectionEquiv f x V).surjective q
   show ((etaleFundamentalGroupMulEquiv (fiberFunctorTransportIso f t)
-      (etaleFundamentalGroupMap f x σ)).app V).hom
+      (etaleFundamentalGroupMap f x σ)).asIso.app V).hom
       ((fiberFunctorTransportIso f t).hom.app V (finiteEtaleFiberProjection f x V q))
-    = ((etaleFundamentalGroupMap f y (etaleFundamentalGroupMulEquiv t σ)).app V).hom
+    = ((etaleFundamentalGroupMap f y (etaleFundamentalGroupMulEquiv t σ)).asIso.app V).hom
       ((fiberFunctorTransportIso f t).hom.app V (finiteEtaleFiberProjection f x V q))
   rw [etaleFundamentalGroupMulEquiv_app_apply,
     ← etaleFundamentalGroupMap_finiteEtaleFiberProjection,
@@ -470,6 +472,7 @@ def IsSpecializationMap (f : X ⟶ S) [IsProper f] [GeometricallyConnected f]
 theorem etaleFundamentalGroupMulEquiv_refl [ConnectedSpace X] {x : GeometricPoint X}
     (σ : EtaleFundamentalGroup X x) :
     etaleFundamentalGroupMulEquiv (Iso.refl (finiteEtaleFiberFunctor x)) σ = σ := by
+  apply Aut.ext
   apply Iso.ext
   apply NatTrans.ext
   funext V

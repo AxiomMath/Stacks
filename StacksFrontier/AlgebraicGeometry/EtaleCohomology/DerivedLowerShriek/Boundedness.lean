@@ -68,7 +68,10 @@ theorem exists_isLE_derivedLowerShriek_of_nsmul_eq_zero [CompactSpace Y] (m : �
       K.IsGE a → K.IsLE (a + n) →
         (DerivedCategory.Plus.ι.obj ((derivedLowerShriek.{u, 0} f j Λ).obj K)).IsLE
           (a + n + N) := by
-  obtain ⟨d, hd⟩ := exists_topologicalKrullDim_fiber_le j.toBase
+  have : IsProper j.toBase := j.property.2
+  obtain ⟨d, hd⟩ :=
+    @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le _ _ j.toBase this.toLocallyOfFiniteType
+      (inferInstance : QuasiCompact j.toBase) ‹_›
   refine ⟨2 * d, fun a n K hGE hLE => ?_⟩
   refine Stacks.BoundedCohomologicalDimension.isLE_map_obj_of_cohomology_mem
     (derivedLowerShriek.{u, 0} f j Λ ⋙ DerivedCategory.Plus.ι) ⊤ inferInstance (2 * d : ℕ)

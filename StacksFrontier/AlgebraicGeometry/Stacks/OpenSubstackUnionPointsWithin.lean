@@ -216,7 +216,7 @@ private theorem exists_openImmersion_representation {T : BigFppfOver B S hS}
   let v := h.snd (𝟙 (yoneda.obj T))
   let α := h.fst (𝟙 (yoneda.obj T))
   have : IsIso α := (h.isPullback (𝟙 (yoneda.obj T))).isIso_fst_of_isIso
-  have hv : α ≫ U.ι = yoneda.map v := by simpa using h.w (𝟙 (yoneda.obj T))
+  have hv : α ≫ U.ι = yoneda.map v := (h.w (𝟙 (yoneda.obj T))).trans (Category.comp_id _)
   refine ⟨V, v, hU.2.property_snd (𝟙 (yoneda.obj T)), fun Y g => ?_⟩
   constructor
   · intro hg

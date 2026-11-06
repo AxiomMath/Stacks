@@ -57,9 +57,9 @@ theorem mk_code_structureSheaf_lt (Y : Scheme.{u}) {κ : Cardinal.{u}} (hκ : �
     (hsl : κ.IsStrongPrelimit) (hY : Y.size < κ) :
     #(Stacks.PresheafOfModules.Code
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf Y.presheaf
-        (structureIsSheaf Y.toRingedSpace)).val) < κ := by
+        (structureIsSheaf Y.toRingedSpace)).obj) < κ := by
   set R := (Stacks.SheafOfModules.TensorSheafification.structureSheaf Y.presheaf
-    (structureIsSheaf Y.toRingedSpace)).val with hR
+    (structureIsSheaf Y.toRingedSpace)).obj with hR
   have hO : #(Y.Opens)ᵒᵖ < κ := by
     rw [← mk_congr (Opposite.equivToOpposite (α := Y.Opens))]
     have hinj : Function.Injective (fun U : Y.Opens => (U : Set Y)) := SetLike.coe_injective

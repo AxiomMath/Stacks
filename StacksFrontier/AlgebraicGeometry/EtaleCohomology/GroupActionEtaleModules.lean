@@ -38,24 +38,24 @@ variable {A : Type} [CommRing A] {G : Type} [Group G] {X : Scheme.{u}}
 
 /-- The representation of `G` on the sections of `N₀` over `W`. -/
 def groupActionSectionsRep (W : X.Etaleᵒᵖ) : Representation A G (N₀.obj.obj W) where
-  toFun g := ((act g).hom.app W).hom
+  toFun g := ((act g).asHom.hom.app W).hom
   map_one' := by
     rw [map_one]
     rfl
   map_mul' g h := by
-    rw [map_mul, End.mul_def]
+    rw [map_mul, End.mul_asHom]
     rfl
 
 /-- The element `g ∈ G` acts on a section `x` of `N₀` over `W` as `act g` does. -/
 lemma groupActionSectionsRep_apply (W : X.Etaleᵒᵖ) (g : G) (x : N₀.obj.obj W) :
-    groupActionSectionsRep N₀ act W g x = (act g).hom.app W x := rfl
+    groupActionSectionsRep N₀ act W g x = (act g).asHom.hom.app W x := rfl
 
 /-- The restriction maps of `N₀` are `G`-equivariant. -/
 lemma groupActionSectionsRep_map {W W' : X.Etaleᵒᵖ} (m : W ⟶ W') (g : G) (x : N₀.obj.obj W) :
     N₀.obj.map m (groupActionSectionsRep N₀ act W g x) =
       groupActionSectionsRep N₀ act W' g (N₀.obj.map m x) := by
   simp only [groupActionSectionsRep_apply]
-  exact (congrArg (fun φ => φ x) (congrArg ModuleCat.Hom.hom ((act g).hom.naturality m))).symm
+  exact (congrArg (fun φ => φ x) (congrArg ModuleCat.Hom.hom ((act g).asHom.hom.naturality m))).symm
 
 /-- A `G`-equivariant linear map between representations is `A[G]`-linear between the associated
 modules. -/
@@ -142,7 +142,7 @@ lemma groupActionEtaleModuleRestrictScalarsIso_hom_app_smul (W : X.Etaleᵒᵖ) 
     (x : (groupActionEtaleModule N₀ act).obj.obj W) :
     (groupActionEtaleModuleRestrictScalarsIso N₀ act).hom.hom.app W
         (MonoidAlgebra.single g (1 : A) • x) =
-      (act g).hom.app W ((groupActionEtaleModuleRestrictScalarsIso N₀ act).hom.hom.app W x) := by
+      (act g).asHom.hom.app W ((groupActionEtaleModuleRestrictScalarsIso N₀ act).hom.hom.app W x) := by
   show (groupActionSectionsRep N₀ act W).asAlgebraHom (MonoidAlgebra.single g 1)
     ((groupActionSectionsRep N₀ act W).asModuleEquiv x) = _
   rw [Representation.asAlgebraHom_single_one]

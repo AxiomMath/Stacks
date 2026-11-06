@@ -65,7 +65,7 @@ public noncomputable def rightDerivedZeroUnit (T : C ⥤ D) [T.Additive] (X : C)
     (DerivedCategory.Plus.homologyFunctor D 0).map
       ((CategoryTheory.Functor.mapSingleFunctorCompQhIso T).app X).inv ≫
     (DerivedCategory.Plus.homologyFunctor D 0).map
-      (T.rightDerivedFunctorPlusUnit.app
+      (T.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor C 0).obj X)) ≫
     (DerivedCategory.Plus.homologyFunctor D 0).map
       (T.rightDerivedFunctorPlus.map
@@ -77,7 +77,7 @@ part (3) of [Stacks, Tag 05TD]. -/
 public lemma isIso_rightDerivedZeroUnit (T : C ⥤ D) [T.Additive] [PreservesFiniteLimits T]
     (X : C) : IsIso (rightDerivedZeroUnit T X) := by
   have h := (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-    T T.rightDerivedFunctorPlus T.rightDerivedFunctorPlusUnit).2.2.2 ‹_›
+    T T.rightDerivedFunctorPlus T.rightDerivedFunctorPlusUnith).2.2.2 ‹_›
   have a2 : IsIso ((DerivedCategory.Plus.homologyFunctor D 0).map
       ((CategoryTheory.Functor.mapSingleFunctorCompQhIso T).app X).inv) := inferInstance
   have a4 : IsIso ((DerivedCategory.Plus.homologyFunctor D 0).map
@@ -95,7 +95,7 @@ public noncomputable def rightDerivedSingleBoundary (T : C ⥤ D) [T.Additive]
       (T.rightDerivedFunctorPlus.obj
         ((DerivedCategory.Plus.singleFunctor C 0).obj S.X₁))⟦(1 : ℤ)⟧ :=
   letI := Functor.IsRightDerivedFunctor.commShift T.rightDerivedFunctorPlus
-    T.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C) ℤ
+    T.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C) ℤ
   ShiftedHom.map
     (DerivedCategory.Plus.ι.preimage (hS.singleδ ≫
       (DerivedCategory.Plus.ι.commShiftIso (1 : ℤ)).inv.app

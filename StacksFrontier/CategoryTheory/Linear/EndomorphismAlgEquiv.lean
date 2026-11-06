@@ -57,16 +57,20 @@ such a functor `F` and an object `X`, the map `f ↦ F f` is an isomorphism of `
 the structure map `r ↦ r • 𝟙` because `F` is `R`-linear. -/
 noncomputable def algEquivEndOfFullyFaithful (hF : F.FullyFaithful) (X : C) :
     End X ≃ₐ[R] End (F.obj X) where
-  __ := hF.homEquiv
-  map_add' f g := F.map_add
-  map_mul' f g := F.map_comp g f
+  toFun f := .of (F.map f.asHom)
+  invFun g := .of (hF.preimage g.asHom)
+  left_inv f := by ext; simp
+  right_inv g := by ext; simp
+  map_add' f g := by ext; simp [End.add_asHom]
+  map_mul' f g := by ext; simp
   commutes' r := by
+    ext
     change F.map (r • 𝟙 X) = r • 𝟙 (F.obj X)
     simp
 
 /-- The isomorphism of endomorphism algebras is the action of the functor on morphisms. -/
 @[simp] theorem algEquivEndOfFullyFaithful_apply (hF : F.FullyFaithful) (X : C) (f : End X) :
-    algEquivEndOfFullyFaithful (R := R) hF X f = F.map f :=
+    algEquivEndOfFullyFaithful (R := R) hF X f = .of (F.map f.asHom) :=
   rfl
 
 end CategoryTheory.Functor.FullyFaithful
@@ -85,23 +89,22 @@ This is what transports an identification of `A` with the endomorphism algebra o
 a chosen isomorphism of that object, as in the proofs of [Stacks, Tag 09S8] and
 [Stacks, Tag 09SA], where a compact generator is replaced by a quasi-isomorphic model. -/
 noncomputable def endAlgEquiv (e : X ≅ Y) : End X ≃ₐ[R] End Y where
-  toFun f := e.inv ≫ f ≫ e.hom
-  invFun g := e.hom ≫ g ≫ e.inv
-  left_inv f := by simp
-  right_inv g := by simp
-  map_mul' f g := by
-    change e.inv ≫ (g ≫ f) ≫ e.hom = (e.inv ≫ g ≫ e.hom) ≫ (e.inv ≫ f ≫ e.hom)
-    simp
+  toFun f := .of (e.inv ≫ f.asHom ≫ e.hom)
+  invFun g := .of (e.hom ≫ g.asHom ≫ e.inv)
+  left_inv f := by ext; simp
+  right_inv g := by ext; simp
+  map_mul' f g := by ext; simp
   map_add' f g := by
-    change e.inv ≫ (f + g) ≫ e.hom = (e.inv ≫ f ≫ e.hom) + (e.inv ≫ g ≫ e.hom)
-    rw [Preadditive.add_comp, Preadditive.comp_add]
+    ext
+    simp [End.add_asHom, Preadditive.add_comp, Preadditive.comp_add]
   commutes' r := by
+    ext
     change e.inv ≫ (r • 𝟙 X) ≫ e.hom = r • 𝟙 Y
     simp
 
 /-- The isomorphism of endomorphism algebras attached to an isomorphism is conjugation by it. -/
 @[simp] theorem endAlgEquiv_apply (e : X ≅ Y) (f : End X) :
-    endAlgEquiv (R := R) e f = e.inv ≫ f ≫ e.hom :=
+    endAlgEquiv (R := R) e f = .of (e.inv ≫ f.asHom ≫ e.hom) :=
   rfl
 
 end CategoryTheory.Iso

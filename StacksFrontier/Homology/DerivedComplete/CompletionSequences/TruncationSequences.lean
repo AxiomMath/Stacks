@@ -207,7 +207,7 @@ private lemma principalHomologyTransition_epi (A : Type u) [CommRing A]
   have he := principalHomologyInclusion_epi A f C p h n
   have hd := (principalComplexUnit_difference A f C) =≫
     Pi.π (fun n : ℕ => (principalComplexSystem A f C).obj ⟨n⟩) n
-  simp only [Category.assoc, complexDifference, Pi.lift_π, comp_sub, zero_comp] at hd
+  simp only [Category.assoc, complexDifference, Pi.lift_comp_π, comp_sub, zero_comp] at hd
   have hw := congrArg (fun g => (homology A p).map (DerivedCategory.Q.map g))
     (sub_eq_zero.mp hd).symm
   simp only [Functor.map_comp] at hw

@@ -153,7 +153,7 @@ theorem branchEval_smul (a : K) (β : PowerSeries K) (c : K) (g : K[X][Y]) :
 
 /-- The derivative of `h(a + s)` is `h'(a + s)`. -/
 theorem derivative_aeval_C_add_X (a : K) (h : K[X]) :
-    PowerSeries.derivative K (aeval (PowerSeries.C a + PowerSeries.X : PowerSeries K) h) =
+    PowerSeries.derivative (R := K) (aeval (PowerSeries.C a + PowerSeries.X : PowerSeries K) h) =
       aeval (PowerSeries.C a + PowerSeries.X : PowerSeries K) (derivative h) := by
   induction h using Polynomial.induction_on' with
   | add p q hp hq => simp [hp, hq]
@@ -169,8 +169,8 @@ theorem derivative_aeval_C_add_X (a : K) (h : K[X]) :
 /-- **The chain rule along a branch**: the derivative of `g(a + s, β(s))` is
 `g_X(a + s, β(s)) + g_Y(a + s, β(s)) β'(s)`. -/
 theorem derivative_branchEval (a : K) (β : PowerSeries K) (g : K[X][Y]) :
-    PowerSeries.derivative K (branchEval a β g) =
-      branchEval a β (derivX g) + branchEval a β (derivative g) * PowerSeries.derivative K β := by
+    PowerSeries.derivative (R := K) (branchEval a β g) =
+      branchEval a β (derivX g) + branchEval a β (derivative g) * PowerSeries.derivative (R := K) β := by
   induction g using Polynomial.induction_on with
   | C h =>
     simp [branchEval]
@@ -187,7 +187,7 @@ theorem derivative_branchEval (a : K) (β : PowerSeries K) (g : K[X][Y]) :
 theorem branchEval_curveDeriv {Ψ : K[X][Y]} {a : K} {β : PowerSeries K}
     (hβ : branchEval a β Ψ = 0) (g : K[X][Y]) :
     branchEval a β (curveDeriv Ψ g) =
-      branchEval a β (derivative Ψ) * PowerSeries.derivative K (branchEval a β g) := by
+      branchEval a β (derivative Ψ) * PowerSeries.derivative (R := K) (branchEval a β g) := by
   have h0 := derivative_branchEval a β Ψ
   rw [hβ, map_zero] at h0
   rw [curveDeriv_apply, map_sub, map_mul, map_mul, derivative_branchEval,
@@ -199,7 +199,7 @@ theorem branchEval_curveDeriv {Ψ : K[X][Y]} {a : K} {β : PowerSeries K}
 theorem branchEval_iterate_curveDeriv {Ψ : K[X][Y]} {a : K} {β : PowerSeries K}
     (hβ : branchEval a β Ψ = 0) (g : K[X][Y]) (j : ℕ) :
     branchEval a β ((curveDeriv Ψ)^[j] g) =
-      (fun G => branchEval a β (derivative Ψ) * PowerSeries.derivative K G)^[j]
+      (fun G => branchEval a β (derivative Ψ) * PowerSeries.derivative (R := K) G)^[j]
         (branchEval a β g) := by
   induction j with
   | zero => rfl

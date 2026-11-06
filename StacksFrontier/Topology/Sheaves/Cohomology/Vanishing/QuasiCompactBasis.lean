@@ -6,6 +6,7 @@ public import Mathlib.Algebra.Category.Ring.Colimits
 public import Mathlib.Algebra.Category.Ring.FilteredColimits
 public import Mathlib.Algebra.Category.Ring.Limits
 public import Mathlib.Algebra.Module.ULift
+public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.Subobject
 public import Mathlib.CategoryTheory.Sites.LeftExact
 public import Mathlib.Topology.QuasiSeparated
 public import Mathlib.Topology.Spectral.Prespectral

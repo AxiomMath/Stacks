@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import StacksFrontier.RingTheory.Henselian.Pair.Criteria.IntegralClosureSplitting
 import all StacksFrontier.RingTheory.Henselian.Pair.Criteria.IntegralClosureSplitting
 

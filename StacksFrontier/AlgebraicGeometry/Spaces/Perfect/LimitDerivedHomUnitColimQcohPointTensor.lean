@@ -124,7 +124,8 @@ theorem exists_representedTilde_iso_of_isQuasicoherentOnSite
   have : PreservesFiniteLimits ε := preservesFiniteLimits_representedAssociatedModule B S hS T _
   refine ⟨DerivedCategory.Q.objPreimage M, ⟨?_⟩⟩
   exact DerivedCategory.Q.mapIso
-      ((Functor.mapHomologicalComplexCompIso (Iso.refl (representedTilde B S hS hA p))
+      ((Functor.mapHomologicalComplexCompIso (F := tilde.functor (CommRingCat.of A)) (G := ε)
+        (Iso.refl (representedTilde B S hS hA p))
         (ComplexShape.up ℤ)).app _).symm ≪≫
     (ε.mapDerivedCategoryFactors.app _).symm ≪≫
     ε.mapDerivedCategory.mapIso

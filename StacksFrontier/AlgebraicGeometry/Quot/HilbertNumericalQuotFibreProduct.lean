@@ -64,7 +64,8 @@ variable {D : QuotSituation B S hS}
 category fibred in sets attached to `Quot_{F/X/B}`: the element of the Quot functor at the test
 scheme `T ⟶ B` it lies over. -/
 def toQuotObjects {T : BigFppfOver B S hS} (x : QuotFamilyOver D T) : D.QuotObjects :=
-  ULiftHom.objUp (op ⟨op (CostructuredArrow.mk x.toBase), ⟨x.subobject, x.mem⟩⟩)
+  ULiftHom.objUp
+    (op (D.quotFunctor.elementsMk (op (CostructuredArrow.mk x.toBase)) ⟨x.subobject, x.mem⟩))
 
 /-- The object of `Coh_{X/B}` of a section is the object of `Coh_{X/B}` of the corresponding
 element of the Quot functor. -/

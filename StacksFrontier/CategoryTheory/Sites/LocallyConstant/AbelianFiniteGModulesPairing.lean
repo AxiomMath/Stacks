@@ -112,7 +112,7 @@ attribute [local instance] braidedGsetPresheaf
 def gsetPresheafPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).hom a) ((N.obj.obj.ρ g).hom b) = (L.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
     gsetPresheaf.obj (internalGModule M).X ⊗ gsetPresheaf.obj (internalGModule N).X ⟶
       gsetPresheaf.obj (internalGModule L).X where
   app _ := TypeCat.ofHom fun p => P p.1 p.2
@@ -125,7 +125,7 @@ open scoped Obj in
 theorem isBimultiplicative_gsetPresheafPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).hom a) ((N.obj.obj.ρ g).hom b) = (L.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
     IsBimultiplicative (gsetPresheafFullyFaithful.preimage
       (Functor.OplaxMonoidal.δ gsetPresheaf (internalGModule M).X (internalGModule N).X ≫
         gsetPresheafPairing M N L P hP)) :=
@@ -153,7 +153,7 @@ commutative group objects attached to the modules by
 def commGrpPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).hom a) ((N.obj.obj.ρ g).hom b) = (L.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
     ((commGrpContinuousGSetEquivalence.{u', w} (G := G)).inverse.obj M).X ⊗
         ((commGrpContinuousGSetEquivalence.{u', w} (G := G)).inverse.obj N).X ⟶
       ((commGrpContinuousGSetEquivalence.{u', w} (G := G)).inverse.obj L).X :=
@@ -168,7 +168,7 @@ def commGrpPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
 theorem isBimultiplicative_commGrpPairing (M N L : ContinuousGAddCommGrp.{u', w} G)
     (P : M.obj.obj.V →+ N.obj.obj.V →+ L.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.V) (b : N.obj.obj.V),
-      P ((M.obj.obj.ρ g).hom a) ((N.obj.obj.ρ g).hom b) = (L.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.ρ g).asHom.hom b) = (L.obj.obj.ρ g).asHom.hom (P a b)) :
     IsBimultiplicative (commGrpPairing M N L P hP) :=
   (isBimultiplicative_gsetPresheafPairing M N L P hP).comp _ _ _
 
@@ -177,8 +177,8 @@ finite discrete `G`-modules, between their group objects `finiteGModuleCommGrp`.
 def finiteGModulePairing (M N L : (ContinuousGAddCommGrp.isFinite.{u', w} G).FullSubcategory)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b)) :
     (finiteGModuleCommGrp G M).X ⊗ (finiteGModuleCommGrp G N).X ⟶ (finiteGModuleCommGrp G L).X :=
   (AlgebraicGeometry.ContinuousGSet.isFinite.{u', w} G).fullyFaithfulι.preimage
     (Functor.OplaxMonoidal.δ (AlgebraicGeometry.ContinuousGSet.isFinite.{u', w} G).ι _ _ ≫
@@ -192,8 +192,8 @@ theorem isBimultiplicative_finiteGModulePairing
     (M N L : (ContinuousGAddCommGrp.isFinite.{u', w} G).FullSubcategory)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b)) :
     IsBimultiplicative (finiteGModulePairing M N L P hP) :=
   IsBimultiplicative.preimage _ ((isBimultiplicative_commGrpPairing _ _ _ P hP).comp _ _ _
     (ha := (ObjectProperty.commGrpιObjIso _
@@ -215,8 +215,8 @@ def finiteLocallyConstantInternalPairing
     (M N L : (ContinuousGAddCommGrp.isFinite.{u', max u v} G).FullSubcategory)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b)) :
     letI : e.inverse.Braided := .ofChosenFiniteProducts _
     ((isFiniteLocallyConstantSetSheaf.{v, u, u} J).ι.mapCommGrp.obj
           (e.inverse.mapCommGrp.obj (finiteGModuleCommGrp G M))).X ⊗
@@ -235,8 +235,8 @@ theorem isBimultiplicative_finiteLocallyConstantInternalPairing
     (M N L : (ContinuousGAddCommGrp.isFinite.{u', max u v} G).FullSubcategory)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b)) :
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b)) :
     IsBimultiplicative (finiteLocallyConstantInternalPairing J e M N L P hP) :=
   let : e.inverse.Braided := .ofChosenFiniteProducts _
   ((isBimultiplicative_finiteGModulePairing M N L P hP).map e.inverse).map _
@@ -261,8 +261,8 @@ def finiteLocallyConstantPairing
     (M N L : (ContinuousGAddCommGrp.isFinite.{u', max u v} G).FullSubcategory)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b)) (U : Cᵒᵖ) :
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b)) (U : Cᵒᵖ) :
     ((finiteLocallyConstantAbelianEquivalenceOfSetEquivalence J G e).inverse.obj M).obj.obj.obj U →+
       ((finiteLocallyConstantAbelianEquivalenceOfSetEquivalence J G e).inverse.obj N).obj.obj.obj
           U →+
@@ -279,8 +279,8 @@ theorem finiteLocallyConstantPairing_naturality
     (M N L : (ContinuousGAddCommGrp.isFinite.{u', max u v} G).FullSubcategory)
     (P : M.obj.obj.obj.V →+ N.obj.obj.obj.V →+ L.obj.obj.obj.V)
     (hP : ∀ (g : G) (a : M.obj.obj.obj.V) (b : N.obj.obj.obj.V),
-      P ((M.obj.obj.obj.ρ g).hom a) ((N.obj.obj.obj.ρ g).hom b) =
-        (L.obj.obj.obj.ρ g).hom (P a b)) {U V : Cᵒᵖ} (f : U ⟶ V)
+      P ((M.obj.obj.obj.ρ g).asHom.hom a) ((N.obj.obj.obj.ρ g).asHom.hom b) =
+        (L.obj.obj.obj.ρ g).asHom.hom (P a b)) {U V : Cᵒᵖ} (f : U ⟶ V)
     (x : ((finiteLocallyConstantAbelianEquivalenceOfSetEquivalence J G e).inverse.obj M).obj.obj.obj
       U)
     (y : ((finiteLocallyConstantAbelianEquivalenceOfSetEquivalence J G e).inverse.obj N).obj.obj.obj

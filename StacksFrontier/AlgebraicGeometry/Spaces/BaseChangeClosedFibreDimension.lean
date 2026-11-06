@@ -77,6 +77,19 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {W U U' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_BaseChangeClosedFibreDimension :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- The chosen pullback of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_BaseChangeClosedFibreDimension
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 -- `CategoryTheory.MorphismProperty.pullbackMap` is applied below to the representable étale
 -- property of morphisms of presheaves, so that property has to be an instance of stability
 -- under base change; it is the general relative property, at no statement of its own.
@@ -403,11 +416,13 @@ theorem ringKrullDim_closedFibre_eq_of_chart_isPullback_of_isClosed
       ((BigFppfOver.toScheme B S hS).map gk))
     (hmp : M.point ≫ gsnd = P.point)
     (hcl₁ : IsClosed ({((BigFppfOver.toScheme B S hS).map gfst).asFiber
-      ((chartGeometricPoint M).hom
-        (IsLocalRing.closedPoint (chartGeometricPoint M).residueField))} : Set _))
+                         ((chartGeometricPoint M).hom
+                           (IsLocalRing.closedPoint
+                             (chartGeometricPoint M).residueField))} : Set _))
     (hcl₂ : IsClosed ({((BigFppfOver.toScheme B S hS).map gh).asFiber
-      (((BigFppfOver.toScheme B S hS).map gsnd) ((chartGeometricPoint M).hom
-        (IsLocalRing.closedPoint (chartGeometricPoint M).residueField)))} : Set _)) :
+                         (((BigFppfOver.toScheme B S hS).map gsnd) ((chartGeometricPoint M).hom
+                           (IsLocalRing.closedPoint
+                             (chartGeometricPoint M).residueField)))} : Set _)) :
     ringKrullDim (closedFibreEtaleLocalRing B S hS hZ π₁ a) =
       ringKrullDim (closedFibreEtaleLocalRing B S hS hU' h (geometricPointMap π₂ a)) := by
   have hlft : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map gh) :=
@@ -474,12 +489,12 @@ theorem exists_chart_square_ringKrullDim_closedFibre_eq_of_isPullback
                     ((BigFppfOver.toScheme B S hS).map gh)
                     ((BigFppfOver.toScheme B S hS).map gk) ∧
                   (IsClosed ({((BigFppfOver.toScheme B S hS).map gfst).asFiber
-                        ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
-                          (chartGeometricPoint M).residueField))} : Set _) →
+                                ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
+                                  (chartGeometricPoint M).residueField))} : Set _) →
                     IsClosed ({((BigFppfOver.toScheme B S hS).map gh).asFiber
-                        (((BigFppfOver.toScheme B S hS).map gsnd)
-                          ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
-                            (chartGeometricPoint M).residueField)))} : Set _) →
+                                 (((BigFppfOver.toScheme B S hS).map gsnd)
+                                   ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
+                                     (chartGeometricPoint M).residueField)))} : Set _) →
                       ringKrullDim (closedFibreEtaleLocalRing B S hS hZ π₁ a) =
                         ringKrullDim (closedFibreEtaleLocalRing B S hS hU' h
                           (geometricPointMap π₂ a))) := by

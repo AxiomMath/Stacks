@@ -86,6 +86,17 @@ private theorem isFlat_conjugate {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FlatComposition :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_FlatComposition
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- If the target morphism of a groupoid in algebraic spaces is flat, so is its composition:
 composition is a base change of the target along itself. -/
 theorem isFlat_comp_of_isFlat_target (G : GroupoidInAlgebraicSpaces C S hS B)

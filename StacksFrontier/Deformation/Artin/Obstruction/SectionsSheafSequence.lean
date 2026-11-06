@@ -247,7 +247,7 @@ abbrev baseScalarEnd (r : ↑R) : End (𝟭 (SheafOfModules.{u} X.ringCatSheaf))
 /-- Multiplication by `r` is the scalar action of `r` on the identity morphism. -/
 theorem baseScalarEnd_app_eq_smul_id (r : ↑R) (N : SheafOfModules.{u} X.ringCatSheaf) :
     letI := AlgebraicGeometry.Scheme.linearOfRingHom X ↑R (baseHom π)
-    (baseScalarEnd π r).app N = r • 𝟙 N :=
+    (baseScalarEnd π r).asHom.app N = r • 𝟙 N :=
   (Category.comp_id _).symm
 
 /-- **Pushforward to `Spec R` followed by global sections is `R`-linear global sections**, as
@@ -262,15 +262,15 @@ theorem modulePushforward_comp_moduleSpecΓFunctor :
 `𝒪_X`-module to multiplication by `r` on its `R`-module of global sections. -/
 theorem sectionsOverBase_map_baseScalarEnd (r : ↑R) (N : SheafOfModules.{u} X.ringCatSheaf) :
     (RingedSpaceModuleAdjunction.modulePushforward π.toLRSHom.toShHom ⋙
-        AlgebraicGeometry.moduleSpecΓFunctor).map ((baseScalarEnd π r).app N) =
-      (Stacks.scalarEnd R r).app
+        AlgebraicGeometry.moduleSpecΓFunctor).map ((baseScalarEnd π r).asHom.app N) =
+      (Stacks.scalarEnd R r).asHom.app
         ((RingedSpaceModuleAdjunction.modulePushforward π.toLRSHom.toShHom ⋙
           AlgebraicGeometry.moduleSpecΓFunctor).obj N) := by
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro x
   let y : N.val.obj (op ⊤) := x
-  show ((baseScalarEnd π r).app N).val.app (op ⊤) y =
+  show ((baseScalarEnd π r).asHom.app N).val.app (op ⊤) y =
       (show X.ringCatSheaf.obj.obj (op ⊤) from baseHom π r) • y
   rw [baseScalarEnd_app_eq_smul_id π r N]
   simpa using AlgebraicGeometry.Scheme.smul_val_app_top X ↑R (baseHom π) r (𝟙 N) y
@@ -279,8 +279,8 @@ theorem sectionsOverBase_map_baseScalarEnd (r : ↑R) (N : SheafOfModules.{u} X.
 theorem tildePullback_map_scalarEnd (r : ↑R) (M : ModuleCat.{u} R) :
     (AlgebraicGeometry.tilde.functor R ⋙
         RingedSpaceModuleAdjunction.modulePullback π.toLRSHom.toShHom).map
-          ((Stacks.scalarEnd R r).app M) =
-      (baseScalarEnd π r).app ((AlgebraicGeometry.tilde.functor R ⋙
+          ((Stacks.scalarEnd R r).asHom.app M) =
+      (baseScalarEnd π r).asHom.app ((AlgebraicGeometry.tilde.functor R ⋙
         RingedSpaceModuleAdjunction.modulePullback π.toLRSHom.toShHom).obj M) :=
   Adjunction.map_endOfId
     (AlgebraicGeometry.tilde.adjunction.comp
@@ -289,8 +289,8 @@ theorem tildePullback_map_scalarEnd (r : ↑R) (M : ModuleCat.{u} R) :
 
 /-- **`M ↦ 𝓕 ⊗_R M` carries multiplication by `r` to multiplication by `r`.** -/
 theorem tensorSheafFunctor_map_scalarEnd (r : ↑R) (M : ModuleCat.{u} R) :
-    (tensorSheafFunctor π F).map ((Stacks.scalarEnd R r).app M) =
-      (baseScalarEnd π r).app ((tensorSheafFunctor π F).obj M) := by
+    (tensorSheafFunctor π F).map ((Stacks.scalarEnd R r).asHom.app M) =
+      (baseScalarEnd π r).asHom.app ((tensorSheafFunctor π F).obj M) := by
   have h2 := congrArg
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.sheaf).flip.obj F).map
     (tildePullback_map_scalarEnd π r M)

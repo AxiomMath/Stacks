@@ -205,7 +205,8 @@ theorem exists_free_comparison_at [IsLocallyNoetherian X] (G : X.Modules)
   have hbase : (integralComponentAt x).subschemeι.base
       (genericPoint (integralComponentAt x).subscheme) = x := by
     have h1 : closure {(integralComponentAt x).subschemeι.base
-        (genericPoint (integralComponentAt x).subscheme)} = closure ({x} : Set X) := by
+                        (genericPoint (integralComponentAt x).subscheme)} =
+        closure ({x} : Set X) := by
       rw [← range_eq_closure_singleton, Scheme.IdealSheafData.range_subschemeι,
         coe_support_integralComponentAt]
     exact IsGenericPoint.eq h1 isGenericPoint_closure
@@ -448,8 +449,8 @@ theorem dimensionLayerClassMemRange_of_stalkKilled (G : X.Modules)
       (notMem_topDimensionClosure_of_ne C f k G hy) (V y) (hisoT y hy).1 (hisoT y hy).2.2
   have hAB := of_eq_of_isIso_near_topDimension C f k (dimLEObj C f k (∐ M) hAc hAdim)
     (dimLEObj C f k _ hBc hBdim)
-    (CategoryTheory.Limits.Sigma.map (f := M)
-      (g := fun x : X ↦ ∐ fun _ : Fin (r x) ↦ integralComponentStructureSheaf x) jm)
+    (CategoryTheory.Limits.Sigma.map (g := M)
+      (f := fun x : X ↦ ∐ fun _ : Fin (r x) ↦ integralComponentStructureSheaf x) jm)
     (topDimensionPoints C f k G) hAtop hBtop
     fun y hy ↦ exists_isIso_restrict_sigmaMap M _ (topDimensionClosure C f k G) hsuppM hsuppQ
       hTcl hTlf jm y y (notMem_topDimensionClosure_of_ne C f k G hy) (V y) (hisoT y hy).1

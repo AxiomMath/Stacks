@@ -397,7 +397,9 @@ theorem homEquiv_glue_condition (M : V'.Modules) (T : GluingTriple i f g)
       glueAmbientNat_app]
     exact unit_comp_ambientUnitNat i f g M b
   rw [h1, h2, Equiv.apply_eq_iff_eq, ← targetOverlap_comp_overlapComparison i f g M,
-    Category.assoc, Category.assoc, cancel_epi]
+    Category.assoc, Category.assoc]
+  haveI : Epi (targetOverlap i f g M) := IsIso.epi_of_iso _
+  rw [cancel_epi]
 
 /-- The transpose of the first projection of the glued module: a morphism from `M` into the glued
 module of `T` restricts to a morphism on `V`. -/

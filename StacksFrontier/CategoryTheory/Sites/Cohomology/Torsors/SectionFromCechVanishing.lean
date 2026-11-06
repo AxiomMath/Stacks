@@ -59,7 +59,7 @@ lemma faceProjection_left_comp_cechProj {n : ℕ} (k : Fin (n + 2) → E.I₀) (
     (m : Fin (n + 1)) :
     (faceProjection E k j).left ≫ cechProj E (fun b ↦ k (j.succAbove b)) m =
       cechProj E k (j.succAbove m) := by
-  rw [cechProj, cechProj, ← Over.comp_left, faceProjection, Pi.lift_π]
+  rw [cechProj, cechProj, ← Over.comp_left, faceProjection, Pi.lift_comp_π]
 
 attribute [local instance] singletonProjection_isIso
 
@@ -98,7 +98,7 @@ theorem nonempty_of_subsingleton_cechH1 [∀ U : Cᵒᵖ, AddAction (Θ.obj U) (
         R k (j.succAbove m) := by
     intro n k j m
     change F.map _ (F.map _ _) = F.map _ _
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, faceProjection_left_comp_cechProj]
+    rw [← Functor.map_comp_apply, ← op_comp, faceProjection_left_comp_cechProj]
   -- the cocycle of differences
   let c : cechCochain E Θ 1 := fun k ↦ δ (R k 0) (R k 1)
   have hc : c ∈ cocycles1 E Θ := by
@@ -140,10 +140,10 @@ theorem nonempty_of_subsingleton_cechH1 [∀ U : Cᵒᵖ, AddAction (Θ.obj U) (
   let k : Fin 2 → E.I₀ := ![i, j]
   let l : Over.mk (gi ≫ E.f i) ⟶ ∏ᶜ (fun b : Fin 2 ↦ Over.mk (E.f (k b))) :=
     Pi.lift (Fin.cases (Over.homMk gi) (Fin.cases (Over.homMk gj hij.symm) finZeroElim))
-  have h₀ : l.left ≫ cechProj E k 0 = gi := congrArg Over.Hom.left (Pi.lift_π _ 0)
-  have h₁ : l.left ≫ cechProj E k 1 = gj := congrArg Over.Hom.left (Pi.lift_π _ 1)
+  have h₀ : l.left ≫ cechProj E k 0 = gi := congrArg Over.Hom.left (Pi.lift_comp_π _ 0)
+  have h₁ : l.left ≫ cechProj E k 1 = gj := congrArg Over.Hom.left (Pi.lift_comp_π _ 1)
   have hh := congrArg (F.map l.left.op) (hpair k)
-  rwa [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
+  rwa [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
     h₀, h₁] at hh
 
 end Stacks.CechSite

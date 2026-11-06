@@ -244,9 +244,9 @@ theorem dense_zpowers_finiteFieldFrobenius :
       (finiteFieldExtensionCover κ)),
       σ • (finiteEtaleFiberFunctor z).map ι a = (finiteEtaleFiberFunctor z).map ι (σ • a) :=
     fun σ a => by
-      show (σ.hom.app W) ((finiteEtaleFiberFunctor z).map ι a) =
-        (finiteEtaleFiberFunctor z).map ι ((σ.hom.app _) a)
-      exact NatTrans.naturality_apply σ.hom ι a
+      show (σ.asIso.hom.app W) ((finiteEtaleFiberFunctor z).map ι a) =
+        (finiteEtaleFiberFunctor z).map ι ((σ.asIso.hom.app _) a)
+      exact NatTrans.naturality_apply σ.asIso.hom ι a
   refine ⟨Φ ^ i, ?_, pow_mem (Subgroup.mem_zpowers Φ) i⟩
   have hmem : γ⁻¹ * Φ ^ i ∈ MulAction.stabilizer (EtaleFundamentalGroup (Spec (.of k)) z)
       ((finiteEtaleFiberFunctor z).map ι y') := by

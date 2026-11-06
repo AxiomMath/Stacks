@@ -183,6 +183,7 @@ theorem normalize_add_bcProj (T : Over S) (c : Stacks.Picard.ofScheme (bc f T))
   show _ - (_ + Stacks.Picard.schemePullbackClass _ (Stacks.Picard.schemePullbackClass _
     (Stacks.Picard.schemePullbackClass _ n))) = _
   rw [schemePullbackClass_bcSection_bcProj]
+  letI : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
   abel
 
 omit [Flat f] [LocallyOfFinitePresentation f] [IsProper f] in
@@ -258,6 +259,7 @@ theorem abelNormalized_add_eq (θ : Stacks.Picard.ofScheme X) {d : ℕ} {T : Ove
   refine ⟨-Stacks.Picard.schemePullbackClass (bcSection f σ hσ T)
     (abelClass f Z - Stacks.Picard.schemePullbackClass (pullback.fst f T.hom) θ), ?_⟩
   rw [abelNormalized, normalize, schemePullbackClass_neg]
+  letI : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
   abel
 
 end Abel
@@ -464,8 +466,11 @@ theorem exists_representableBy_cohomologySubfunctorZero
           abelClass f (hH.family (a ≫ chartι W)) +
             Stacks.Picard.schemePullbackClass (bcProj f T) n -
               Stacks.Picard.schemePullbackClass (bcProj f T) n' := by
-        rw [← hn, ← chartClass, hc, chartClass, hn']; abel
+        rw [← hn, ← chartClass, hc, chartClass, hn']
+        letI : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
+        abel
       rw [h1, schemePullbackClass_sub]
+      letI : AddCommGroup (Stacks.Picard.ofScheme (bc f T)) := inferInstance
       abel
     have hm : a ≫ chartι W = a' ≫ chartι W := hH.family.injective hZ
     apply Over.OverMorphism.ext

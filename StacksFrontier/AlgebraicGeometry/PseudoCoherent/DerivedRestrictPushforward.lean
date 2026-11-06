@@ -30,7 +30,7 @@ open subspace `V` of `Z` into a statement about `(Ri_*E)|_U` on the open subspac
 
 Nothing is computed. Both legs of the derived square are the functor induced on derived
 categories by a composite of two exact functors, and
-`CategoryTheory.Functor.mapDerivedCategoryCompIso` identifies such a functor with the composite
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` identifies such a functor with the composite
 of the two induced functors. Applying it to the module-level square on one side and to the
 identity isomorphism on the other gives two descriptions of
 `(restrictModules Z V ⋙ pushforwardOXMod (i|_V)).mapDerivedCategory`, and the square is their
@@ -93,8 +93,8 @@ public def derivedRestrictPushforwardIso (hi : Topology.IsClosedEmbedding i.hom.
       pushforwardOXMod (restrictHom i U)) := comp_preservesFiniteLimits _ _
   haveI : PreservesFiniteColimits (restrictModules Z ((Opens.map i.hom.base).obj U) ⋙
       pushforwardOXMod (restrictHom i U)) := comp_preservesFiniteColimits _ _
-  exact Functor.mapDerivedCategoryCompIso (restrictPushforwardIso i U) ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl
+  exact Functor.mapDerivedCategoryCompIsoOfCompIso (restrictPushforwardIso i U) ≪≫
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl
       (restrictModules Z ((Opens.map i.hom.base).obj U) ⋙
         pushforwardOXMod (restrictHom i U)))).symm
 

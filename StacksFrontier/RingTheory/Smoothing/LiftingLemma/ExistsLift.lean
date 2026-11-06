@@ -70,8 +70,9 @@ public theorem exists_finitePresentation_lift_smoothAt
       (∀ x : R, c (algebraMap (R ⧸ Ideal.span {π ^ 2}) C
           (Ideal.Quotient.mk _ x)) = Ideal.Quotient.mk _ (algebraMap R D x)) ∧
       (∀ x : C, algebraMap
-          (C ⧸ Ideal.span {algebraMap (R ⧸ Ideal.span {π ^ 2}) C
-            (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)})
+          (C ⧸ Ideal.span {
+            algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+              (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)})
           (D ⧸ Ideal.span {algebraMap R D π}) (Ideal.Quotient.mk _ x) = c x) ∧
       (∀ (q : Ideal D) [q.IsPrime], algebraMap R D π ∉ q →
         Algebra.IsSmoothAt R q) ∧
@@ -86,8 +87,9 @@ public theorem exists_finitePresentation_lift_smoothAt
           Algebra.IsSmoothAt (R ⧸ Ideal.span {π ^ 2}) p ∧
           p = Ideal.comap c q) →
         Algebra.IsSmoothAt
-          (C ⧸ Ideal.span {algebraMap (R ⧸ Ideal.span {π ^ 2}) C
-            (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}) q := by
+          (C ⧸ Ideal.span {
+            algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+              (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}) q := by
   classical
   obtain ⟨n, φ, hφ, hker⟩ :=
     Algebra.FinitePresentation.out (R := R ⧸ Ideal.span {π ^ 2}) (A := C)
@@ -606,8 +608,9 @@ public theorem exists_finitePresentation_lift_smoothAt
     rw [cAlg.commutes]
     show Ideal.Quotient.mk _ (algebraMap R D π) = 0
     exact (Ideal.Quotient.eq_zero_iff_mem).2 (Ideal.subset_span (Set.mem_singleton _))
-  let cQuotAlg : (C ⧸ Ideal.span {algebraMap (R ⧸ Ideal.span {π ^ 2}) C
-      (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}) →ₐ[R ⧸ Ideal.span {π ^ 2}]
+  let cQuotAlg : (C ⧸ Ideal.span {
+      algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+        (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}) →ₐ[R ⧸ Ideal.span {π ^ 2}]
       (D ⧸ Ideal.span {algebraMap R D π}) :=
     Ideal.Quotient.liftₐ _ cAlg (by
       intro y hy
@@ -616,16 +619,19 @@ public theorem exists_finitePresentation_lift_smoothAt
           (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)) = 0 := hcπ
       rw [hz, map_mul, hcπAlg]
       exact zero_mul (cAlg z))
-  let cQuot : (C ⧸ Ideal.span {algebraMap (R ⧸ Ideal.span {π ^ 2}) C
-      (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}) →+*
+  let cQuot : (C ⧸ Ideal.span {
+      algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+        (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}) →+*
       (D ⧸ Ideal.span {algebraMap R D π}) := cQuotAlg.toRingHom
-  let : Algebra (C ⧸ Ideal.span {algebraMap (R ⧸ Ideal.span {π ^ 2}) C
-      (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)})
+  let : Algebra (C ⧸ Ideal.span {
+      algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+        (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)})
       (D ⧸ Ideal.span {algebraMap R D π}) :=
     RingHom.toAlgebra' cQuot (fun a b => by
       exact (Ideal.Quotient.commSemiring _).mul_comm (cQuot a) b)
-  let : CommSemiring (C ⧸ Ideal.span {algebraMap (R ⧸ Ideal.span {π ^ 2}) C
-      (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}) := Ideal.Quotient.commSemiring _
+  let : CommSemiring (C ⧸ Ideal.span {
+      algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+        (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}) := Ideal.Quotient.commSemiring _
   let : Semiring (D ⧸ Ideal.span {algebraMap R D π}) := Ideal.Quotient.semiring _
   have hcR (x : R) : c (algebraMap (R ⧸ Ideal.span {π ^ 2}) C
       (Ideal.Quotient.mk _ x)) = Ideal.Quotient.mk _ (algebraMap R D x) := by
@@ -634,8 +640,9 @@ public theorem exists_finitePresentation_lift_smoothAt
     rw [cAlg.commutes]
     exact Ideal.quotientMap_mk
   have hcQuot (x : C) : algebraMap
-      (C ⧸ Ideal.span {algebraMap (R ⧸ Ideal.span {π ^ 2}) C
-        (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)})
+      (C ⧸ Ideal.span {
+        algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+          (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)})
       (D ⧸ Ideal.span {algebraMap R D π}) (Ideal.Quotient.mk _ x) = c x := by
     show cQuot (Ideal.Quotient.mk _ x) = c x
     rfl
@@ -757,8 +764,9 @@ public theorem exists_finitePresentation_lift_smoothAt
         Ideal.span (Set.range G) ⊔ Ideal.span {MvPolynomial.C π} :=
     fun x => hDerivative (k x)
   let eD : D₀ ≃ₐ[R] D := (ULift.algEquiv (R := R) (A := D₀)).symm
-  let Apush := C ⧸ Ideal.span {algebraMap (R ⧸ Ideal.span {π ^ 2}) C
-    (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}
+  let Apush := C ⧸ Ideal.span {
+    algebraMap (R ⧸ Ideal.span {π ^ 2}) C
+      (Ideal.Quotient.mk (Ideal.span {π ^ 2}) π)}
   let dpush : MvPolynomial (Fin n) R →+* Apush := (Ideal.Quotient.mk _).comp
     (φ.toRingHom.comp (MvPolynomial.map (Ideal.Quotient.mk (Ideal.span {π ^ 2}))))
   have hdpush (b : MvPolynomial (Fin n) R) :

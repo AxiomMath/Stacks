@@ -204,13 +204,13 @@ private theorem restriction_eqToHom {g g' : strictHenselization B X hX x ⟶ X} 
           (smallEtaleDerivedGlobalSectionsRestriction c) ≫
         (Functor.associator _ _ _).inv ≫
           Functor.whiskerRight
-            (Functor.mapDerivedCategoryCompIso (smallEtalePullbackAbCompIso c g')).hom
+            (Functor.mapDerivedCategoryCompIsoOfCompIso (smallEtalePullbackAbCompIso c g')).hom
             (smallEtaleDerivedGlobalSections T) =
       Functor.whiskerLeft (smallEtaleDerivedPullbackAb g)
           (smallEtaleDerivedGlobalSectionsRestriction c) ≫
         (Functor.associator _ _ _).inv ≫
           Functor.whiskerRight
-            (Functor.mapDerivedCategoryCompIso (smallEtalePullbackAbCompIso c g)).hom
+            (Functor.mapDerivedCategoryCompIsoOfCompIso (smallEtalePullbackAbCompIso c g)).hom
             (smallEtaleDerivedGlobalSections T) ≫
           Functor.whiskerRight
             (eqToHom (congrArg (fun m => smallEtaleDerivedPullbackAb (c ≫ m)) h))
@@ -243,15 +243,15 @@ theorem smallEtaleDerivedStalkToSections_eq_restriction (c : T ⟶ strictHenseli
           (smallEtaleDerivedGlobalSectionsRestriction c) ≫
         (Functor.associator _ _ _).inv ≫
           Functor.whiskerRight
-            (Functor.mapDerivedCategoryCompIso
+            (Functor.mapDerivedCategoryCompIsoOfCompIso
               (smallEtalePullbackAbCompIso c (strictHenselizationToBase B X hX x))).hom
             (smallEtaleDerivedGlobalSections T) := by
   have key := vanishingCyclesMap_comp B X hX x (𝟙 _) c
   have hM : ∀ (m : T ⟶ X) (h : c ≫ 𝟙 _ ≫ strictHenselizationToBase B X hX x = m),
-      (Functor.mapDerivedCategoryCompIso
+      (Functor.mapDerivedCategoryCompIsoOfCompIso
           (smallEtalePullbackAbCompIso c (𝟙 _ ≫ strictHenselizationToBase B X hX x) ≪≫
             eqToIso (congrArg (fun m : T ⟶ X => smallEtalePullbackAb m) h))).hom =
-        (Functor.mapDerivedCategoryCompIso
+        (Functor.mapDerivedCategoryCompIsoOfCompIso
             (smallEtalePullbackAbCompIso c (𝟙 _ ≫ strictHenselizationToBase B X hX x))).hom ≫
           eqToHom (congrArg (fun m : T ⟶ X => smallEtaleDerivedPullbackAb m) h) := by
     intro m h
@@ -289,7 +289,7 @@ theorem stalkToVanishingCyclesFibreSections_eq_restriction :
             (vanishingCyclesFibreToStrictHenselization B hX hS f x t)) ≫
         (Functor.associator _ _ _).inv ≫
           Functor.whiskerRight
-            (Functor.mapDerivedCategoryCompIso
+            (Functor.mapDerivedCategoryCompIsoOfCompIso
               (smallEtalePullbackAbCompIso (vanishingCyclesFibreToStrictHenselization B hX hS f x t)
                 (strictHenselizationToBase B X hX x))).hom
             (smallEtaleDerivedGlobalSections (vanishingCyclesFibre B hX hS f x t)) :=

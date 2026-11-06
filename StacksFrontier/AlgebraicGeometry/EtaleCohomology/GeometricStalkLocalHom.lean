@@ -122,15 +122,15 @@ is the correspondence `AlgebraicGeometry.geometricPointFiberBaseChangeIso`. -/
 public def baseChangeEtaleNeighborhood :
     (geometricPointFiber B Y.obj Y.property (x.map (B.inclusion.map a))).Elements ⥤
       (geometricPointFiber B X.obj X.property x).Elements where
-  obj V := ⟨(smallEtaleBaseChange B a).obj V.1,
-    (geometricPointFiberBaseChangeIso B a x).hom.app V.1 V.2⟩
-  map {V W} g := ⟨(smallEtaleBaseChange B a).map g.1, by
+  obj V := Functor.elementsMk _ ((smallEtaleBaseChange B a).obj V.1)
+    ((geometricPointFiberBaseChangeIso B a x).hom.app V.1 V.2)
+  map {V W} g := Functor.Elements.homMk ((smallEtaleBaseChange B a).map g.1) (by
     have h := NatTrans.naturality_apply
       (geometricPointFiberBaseChangeIso B a x).hom g.1 V.2
     rw [g.2] at h
-    exact h.symm⟩
-  map_id V := Subtype.ext ((smallEtaleBaseChange B a).map_id V.1)
-  map_comp g h := Subtype.ext ((smallEtaleBaseChange B a).map_comp g.1 h.1)
+    exact h.symm)
+  map_id V := Functor.Elements.hom_ext ((smallEtaleBaseChange B a).map_id V.1)
+  map_comp g h := Functor.Elements.hom_ext ((smallEtaleBaseChange B a).map_comp g.1 h.1)
 
 /-- The cocone on the diagram of sections over the étale neighborhoods of `ȳ`, whose colimit is
 `(𝒪_Y)_ȳ`, with vertex `(𝒪_X)_x̄`: a global function on an étale neighborhood of `ȳ` is pulled
@@ -183,13 +183,13 @@ private theorem baseChangeEtaleNeighborhood_point_comp_projection
     (V : (geometricPointFiber B Y.obj Y.property (x.map (B.inclusion.map a))).Elements) :
     ((baseChangeEtaleNeighborhood B a x).obj V).2.1 ≫
         (smallEtaleProjection B a).app V.1 = V.2.1 := by
-  obtain ⟨V, p⟩ := V
+  obtain @⟨V, p⟩ := V
   let := hasPullbacks_bigEtaleSite B
   let := preservesPullbacks_bigEtaleSiteInclusion B
   have hpb := (IsPullback.of_hasPullback (Over.hom V.obj) a).map B.inclusion
   have hw : p.1 ≫ B.inclusion.map (Over.hom V.obj) = x.hom ≫ B.inclusion.map a := by
     simpa [GeometricPoint.map] using p.2
-  calc ((baseChangeEtaleNeighborhood B a x).obj ⟨V, p⟩).2.1 ≫
+  calc ((baseChangeEtaleNeighborhood B a x).obj (Functor.elementsMk _ V p)).2.1 ≫
         (smallEtaleProjection B a).app V
       = (hpb.lift p.1 x.hom hw ≫ 𝟙 (B.inclusion.obj (pullback (Over.hom V.obj) a))) ≫
             B.inclusion.map (pullback.fst (Over.hom V.obj) a) := rfl

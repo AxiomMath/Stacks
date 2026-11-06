@@ -251,6 +251,7 @@ def SmallEtale.toEtaleSiteFinalIsTerminal (B : BigEtaleSite.{u}) (S : Scheme.{u}
     (MorphismProperty.Over.isoMk (Iso.refl _) (by simp [SmallEtale.toEtaleSite,
       SmallEtale.final]))
 
+set_option maxHeartbeats 1000000 in
 /-- **Global sections of an abelian sheaf on the small étale site of a field are the Galois
 invariants of the associated module**, naturally in the sheaf. -/
 def fieldEtaleSheafEquivΓIso :
@@ -317,20 +318,23 @@ theorem exists_pow_smul_abelianEtaleStalk_eq_zero (B : BigEtaleSite.{u}) (S : Sc
   have := forget_preservesFiberColimits.{u, max (u + 1) v} B S hS s
   set D := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙ G.obj
   obtain ⟨j, t, rfl⟩ := Limits.Concrete.colimit_exists_rep D y
-  obtain ⟨⟨U, p⟩⟩ := j
+  obtain ⟨@⟨U, p⟩⟩ := j
   obtain ⟨R, hR, hann⟩ := hG U t
   obtain ⟨V, f, hf, q, hq⟩ := (geometricPointSitePoint B S hS s).jointly_surjective R hR p
   obtain ⟨r, -, hr⟩ := hann V f hf
   refine ⟨r, ?_⟩
-  have hw : ConcreteCategory.hom (colimit.ι D (op ⟨U, p⟩)) t =
-      ConcreteCategory.hom (colimit.ι D (op ⟨V, q⟩)) (ConcreteCategory.hom (G.obj.map f.op) t) :=
+  have hw : ConcreteCategory.hom (colimit.ι D (op ((geometricPointFiber B S hS s).elementsMk U p))) t =
+      ConcreteCategory.hom (colimit.ι D (op ((geometricPointFiber B S hS s).elementsMk V q)))
+        (ConcreteCategory.hom (G.obj.map f.op) t) :=
     (ConcreteCategory.congr_hom (colimit.w D
-      (CategoryOfElements.homMk ⟨V, q⟩ ⟨U, p⟩ f hq).op) t).symm
+      (Functor.Elements.homMk (x := (geometricPointFiber B S hS s).elementsMk V q)
+        (y := (geometricPointFiber B S hS s).elementsMk U p) f hq).op) t).symm
   rw [hw]
-  have h := map_nsmul (ConcreteCategory.hom (colimit.ι D (op ⟨V, q⟩))) (ℓ ^ r)
+  have h := map_nsmul
+    (ConcreteCategory.hom (colimit.ι D (op ((geometricPointFiber B S hS s).elementsMk V q)))) (ℓ ^ r)
     (ConcreteCategory.hom (G.obj.map f.op) t)
-  rw [hr, map_zero] at h
-  exact h.symm
+  rw [hr] at h
+  exact h.symm.trans (map_zero _)
 
 /-- If the image of `x` under an additive equivalence is `ℓ`-power torsion, so is `x`. -/
 private theorem exists_pow_smul_eq_zero_of_addEquiv {A B : Type*} [AddCommGroup A] [AddCommGroup B]

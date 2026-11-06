@@ -123,7 +123,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
   have hG : 𝒳.val.p ⋙ 𝟭 _ = 𝒳.val.p := Functor.comp_id _
   have : 𝒳.val.p.IsHomLift (𝟙 P) θ := IsHomLift.of_fac' 𝒳.val.p _ θ rfl rfl (by simpa using hθ)
   have : IsIso θ := isIso_of_isHomLift_of_isIso 𝒳.val.p hp (𝟙 P) θ
-  let A : RelativeInertia 𝒳.val.p := ⟨x, asIso θ, hθ⟩
+  let A : RelativeInertia 𝒳.val.p := ⟨x, Aut.of (asIso θ), hθ⟩
   let pt : DiagonalFibreProduct hG := (ofRelativeInertia hG).obj A
   let pZ := RelativeDiagonalFibre.RelProdP 𝒳.val.p (CatFiberedInGroupoids.product 𝒳 𝒳).val.p
     (diagonalBasedFunctor B S hS 𝒳).toFunctor
@@ -151,7 +151,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
   obtain ⟨F, hF, hFsub, hFsupp⟩ :=
     (isRepresentableByAlgebraicSpaces_secondDiagonal_iff_automorphism B S hS 𝒳).mp h1 P Y hY
   -- the automorphism attached to the point `pt` is `θ`
-  have hdpt : (diagonalAut hG pt).hom = θ := by
+  have hdpt : (diagonalAut hG pt).asIso.hom = θ := by
     simp [pt, ofRelativeInertia, A]
   -- the canonical arrow from `Y T` to `pt`
   let g : ∀ T : BigFppfOver B P.left.1 P.left.2, (Over.map P.hom).obj T ⟶ P := fun T =>
@@ -170,7 +170,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
     exact (IsHomLift.lift_comp_eqToHom_iff (p := 𝒳.val.p) _ _ _).mp
       ((IsHomLift.lift_eqToHom_comp_iff (p := 𝒳.val.p) _ _ _).mp h₁)
   have hvert : ∀ T : BigFppfOver B P.left.1 P.left.2,
-      𝒳.val.p.IsHomLift (𝟙 ((Over.map P.hom).obj T)) (diagonalAut hG (Y.obj T)).hom := by
+      𝒳.val.p.IsHomLift (𝟙 ((Over.map P.hom).obj T)) (diagonalAut hG (Y.obj T)).asIso.hom := by
     intro T
     refine IsHomLift.of_fac' 𝒳.val.p _ _ ?_ ?_ ?_
     · exact (Y.obj T).hx.trans (Functor.congr_obj hY T)
@@ -212,7 +212,7 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
       Deformation.Artin.descentEq_of_faithful 𝒳.val.p hp (D' ⋙ BigAffineFppf.inclusion B S hS)
         ((BigAffineFppf.inclusion B S hS).mapCone c')
     -- the restriction of `θ` is trivial at the cone point
-    have hθpt : (diagonalAut hG (Y.obj c.pt)).hom = 𝟙 _ :=
+    have hθpt : (diagonalAut hG (Y.obj c.pt)).asIso.hom = 𝟙 _ :=
       (hFsupp c.pt).mp ⟨xx⟩
     -- descend the equality to a stage
     let xi : 𝒳.val.p.Fiber ((D ⋙ Over.map P.hom).obj i₀) :=
@@ -225,12 +225,12 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
         𝒳.val.p.IsHomLift (𝟙 ((Over.map P.hom).obj T)) (𝟙 (Y.obj T).x) := fun T =>
       IsHomLift.id ((Y.obj T).hx.trans (Functor.congr_obj hY T))
     obtain ⟨k, s, xk, dx, hdx, hdxe⟩ := hdesc i₀ xi xi xc (Y.map (c.π.app i₀)).a hδ
-      (diagonalAut hG (Y.obj (D.obj i₀))).hom (𝟙 _) (hvert _) (hid _) (by
+      (diagonalAut hG (Y.obj (D.obj i₀))).asIso.hom (𝟙 _) (hvert _) (hid _) (by
         have hc := comp_diagonalAut_hom hG (Y.map (c.π.app i₀))
         refine hc.trans ?_
-        show (diagonalAut hG (Y.obj c.pt)).hom ≫ _ = _
+        show (diagonalAut hG (Y.obj c.pt)).asIso.hom ≫ _ = _
         rw [hθpt, Category.id_comp, Category.comp_id])
-    have hθk : (diagonalAut hG (Y.obj (D.obj k))).hom = 𝟙 _ := by
+    have hθk : (diagonalAut hG (Y.obj (D.obj k))).asIso.hom = 𝟙 _ := by
       have hmap : 𝒳.val.p.IsHomLift ((D ⋙ Over.map P.hom).map s) (Y.map (D.map s)).a :=
         hYa (D.map s)
       have := hmap
@@ -245,12 +245,12 @@ theorem exists_mono_locallyOfFiniteType_trivialLocus
       have hv : v ≫ (Y.map (D.map s)).a = dx := Functor.IsStronglyCartesian.fac 𝒳.val.p _ _ _ dx
       have : IsIso v := isIso_of_isHomLift_of_isIso 𝒳.val.p hp
         (𝟙 ((D ⋙ Over.map P.hom).obj k)) v
-      have hres : (Y.map (D.map s)).a ≫ (diagonalAut hG (Y.obj (D.obj i₀))).hom =
+      have hres : (Y.map (D.map s)).a ≫ (diagonalAut hG (Y.obj (D.obj i₀))).asIso.hom =
           (Y.map (D.map s)).a := by
         apply (cancel_epi v).mp
         rw [← Category.assoc, hv, hdxe, Category.comp_id]
       exact (eq_id_iff_of_comp_eq 𝒳.val.p hp ((D ⋙ Over.map P.hom).map s) (Y.map (D.map s)).a hmap
-        (diagonalAut hG (Y.obj (D.obj i₀))).hom (hvert _) _ (hvert _)
+        (diagonalAut hG (Y.obj (D.obj i₀))).asIso.hom (hvert _) _ (hvert _)
         (comp_diagonalAut_hom hG (Y.map (D.map s)))).mpr hres
     obtain ⟨w⟩ := (hFsupp (D.obj k)).mpr hθk
     refine ⟨colimit.ι (D.op ⋙ F) (op k) w, ?_, ?_⟩

@@ -147,7 +147,8 @@ theorem restrictFunctor_map_injective_of_isIso {A B : Scheme.{u}} (e : A ⟶ B)
   have hx := α.hom.naturality x
   have hy := α.hom.naturality y
   simp only [Functor.id_map, Functor.comp_map] at hx hy
-  rw [← cancel_mono (α.hom.app N), hx, hy, h]
+  refine (Iso.cancel_iso_hom_right x y (α.app N)).1 ?_
+  rw [Iso.app_hom, hx, hy, h]
 
 /-- An isomorphism in a full subcategory, read on the underlying objects, typed by the
 `ObjectProperty.FullSubcategory.obj` projection. -/

@@ -148,7 +148,7 @@ private lemma pairing_res {V W : Opens X} (k : op V ⟶ op W) (m : L.val.obj (op
         (PresheafOfModules.naturality_apply (a.ι.app N) k
           (m ⊗ₜ[X.presheaf.obj (op V)] nV))).symm.trans
       (congrArg (fun z => (e.hom.val.app (op W)).hom (((a.ι.app N).app (op W)).hom z))
-        (PresheafOfModules.Monoidal.tensorObj_map_tmul k m nV)))
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul k m nV)))
 
 /-- The germ of a global section at `y` is the germ of its restriction to any open around `y`. -/
 private lemma germ_eval_eq_Γgerm (s : L.sections) {V : Opens X} (y : X) (hyV : y ∈ V) :

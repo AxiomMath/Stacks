@@ -222,10 +222,10 @@ def derivedRestrictCompToSheafIso :
           (structureSheafRing U.toScheme.toRingedSpace)).mapDerivedCategory ≅
       (_root_.SheafOfModules.toSheaf (structureSheafRing X.toRingedSpace)).mapDerivedCategory ⋙
         (restrictAbelian U).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso
+  Functor.mapDerivedCategoryCompIsoOfCompIso
       (Iso.refl (restrictModules U ⋙
         _root_.SheafOfModules.toSheaf (structureSheafRing U.toScheme.toRingedSpace))) ≪≫
-    (Functor.mapDerivedCategoryCompIso (restrictForgetIso U).symm).symm
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (restrictForgetIso U).symm).symm
 
 /-! ### The crossing of the two spellings, degreewise -/
 

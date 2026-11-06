@@ -100,8 +100,8 @@ variable {G : Type (u + 1)} [Group G] [TopologicalSpace G] [IsTopologicalGroup G
 public def zmodLevelMapHom {r : ℕ} (k : ℕ) (C : Matrix (Fin r) (Fin r) (ZMod (ℓ ^ k))) :
     ULift.{u + 1} (Fin r → ZMod (ℓ ^ k)) →+ ULift.{u + 1} (Fin r → ZMod (ℓ ^ k)) where
   toFun y := ULift.up (C *ᵥ y.down)
-  map_zero' := ULift.ext _ _ (Matrix.mulVec_zero C)
-  map_add' a b := ULift.ext _ _ (Matrix.mulVec_add C a.down b.down)
+  map_zero' := ULift.ext (Matrix.mulVec_zero C)
+  map_add' a b := ULift.ext (Matrix.mulVec_add C a.down b.down)
 
 /-- **The action of `c ∈ ℤ/ℓᵏ ⊗ O` on the level module `(ℤ/ℓᵏ)^{md}`**, as a morphism of finite
 discrete `G`-modules. -/
@@ -133,30 +133,34 @@ finite discrete `G`-module. -/
 public def coeffLevelAbelianRingHom (k : ℕ) :
     coeffLevelRing ℓ O k →+*
       End (levelAbelian ((Units.map (coefficientMatrixRingHom b m).toMonoidHom).comp σ) hρ k) where
-  toFun := coeffLevelAbelianMap b σ hρ k
+  toFun c := End.of (coeffLevelAbelianMap b σ hρ k c)
   map_one' := by
+    apply End.ext
     apply finiteContinuousAbelianHom_ext
     ext y
-    exact ULift.ext _ _ (by
+    exact ULift.ext (by
       change coeffLevelMatrix ℓ b m k 1 *ᵥ y.down = y.down
       rw [map_one, Matrix.one_mulVec])
   map_mul' c c' := by
+    apply End.ext
     apply finiteContinuousAbelianHom_ext
     ext y
-    exact ULift.ext _ _ (by
+    exact ULift.ext (by
       change coeffLevelMatrix ℓ b m k (c * c') *ᵥ y.down =
         coeffLevelMatrix ℓ b m k c *ᵥ (coeffLevelMatrix ℓ b m k c' *ᵥ y.down)
       rw [map_mul, Matrix.mulVec_mulVec])
   map_zero' := by
+    apply End.ext
     apply finiteContinuousAbelianHom_ext
     ext y
-    exact ULift.ext _ _ (by
+    exact ULift.ext (by
       change coeffLevelMatrix ℓ b m k 0 *ᵥ y.down = 0
       rw [map_zero, Matrix.zero_mulVec])
   map_add' c c' := by
+    apply End.ext
     apply finiteContinuousAbelianHom_ext
     ext y
-    exact ULift.ext _ _ (by
+    exact ULift.ext (by
       change coeffLevelMatrix ℓ b m k (c + c') *ᵥ y.down =
         coeffLevelMatrix ℓ b m k c *ᵥ y.down + coeffLevelMatrix ℓ b m k c' *ᵥ y.down
       rw [map_add, Matrix.add_mulVec])
@@ -168,7 +172,7 @@ public theorem coeffLevelAbelianMap_of (k : ℕ) (o : O) :
         (fun g => coefficientScalarRingHom_commute b m o (σ g).val) k := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  exact ULift.ext _ _ (by
+  exact ULift.ext (by
     show coeffLevelMatrix ℓ b m k (coeffLevelRing.of ℓ O k o) *ᵥ y.down =
       ((coefficientScalarRingHom b m o).map (PadicInt.toZModPow k)) *ᵥ y.down
     rw [coeffLevelMatrix_of])
@@ -185,7 +189,7 @@ public theorem finiteContinuousScalarFunctor_map_comp_coeffLevelAbelianMap (k : 
           (X := SingleObj.star _) (Y := SingleObj.star _) a := by
   apply finiteContinuousAbelianHom_ext
   ext y
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show coeffLevelMatrix ℓ b m k c *ᵥ (a • y.down) = a • (coeffLevelMatrix ℓ b m k c *ᵥ y.down)
   rw [Matrix.mulVec_smul]
 
@@ -258,30 +262,30 @@ public theorem coeffLevelSheafMap_hom_app_apply (k : ℕ) (c : coeffLevelRing �
 public def coeffLevelSheafRingHom (k : ℕ) :
     coeffLevelRing ℓ O k →+* End (representationLevelSheaf B X x e
       ((Units.map (coefficientMatrixRingHom b m).toMonoidHom).comp σ) hρ k) where
-  toFun := coeffLevelSheafMap b B X x e σ hρ k
+  toFun c := End.of (coeffLevelSheafMap b B X x e σ hρ k c)
   map_one' := by
-    refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_))
+    refine End.ext (ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_)))
     ext y
     exact congrArg (fun g => (g.hom.hom.app U).hom y)
-      ((congrArg e.inverse.map (map_one (coeffLevelAbelianRingHom b σ hρ k))).trans
+      ((congrArg (fun g : End _ => e.inverse.map g.asHom) (map_one (coeffLevelAbelianRingHom b σ hρ k))).trans
         (e.inverse.map_id _))
   map_mul' c c' := by
-    refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_))
+    refine End.ext (ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_)))
     ext y
     exact congrArg (fun g => (g.hom.hom.app U).hom y)
-      ((congrArg e.inverse.map (map_mul (coeffLevelAbelianRingHom b σ hρ k) c c')).trans
+      ((congrArg (fun g : End _ => e.inverse.map g.asHom) (map_mul (coeffLevelAbelianRingHom b σ hρ k) c c')).trans
         (e.inverse.map_comp _ _))
   map_zero' := by
-    refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_))
+    refine End.ext (ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_)))
     ext y
     exact congrArg (fun g => (g.hom.hom.app U).hom y)
-      ((congrArg e.inverse.map (map_zero (coeffLevelAbelianRingHom b σ hρ k))).trans
+      ((congrArg (fun g : End _ => e.inverse.map g.asHom) (map_zero (coeffLevelAbelianRingHom b σ hρ k))).trans
         (e.inverse.map_zero _ _))
   map_add' c c' := by
-    refine ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_))
+    refine End.ext (ObjectProperty.hom_ext _ (NatTrans.ext (funext fun U => ?_)))
     ext y
     exact congrArg (fun g => (g.hom.hom.app U).hom y)
-      ((congrArg e.inverse.map (map_add (coeffLevelAbelianRingHom b σ hρ k) c c')).trans
+      ((congrArg (fun g : End _ => e.inverse.map g.asHom) (map_add (coeffLevelAbelianRingHom b σ hρ k) c c')).trans
         e.inverse.map_add)
 
 /-- **`1 ⊗ o` acts on the level sheaf as the morphism of the intertwiner of `o`.** -/

@@ -120,8 +120,8 @@ noncomputable def homothety {A : Type u} [CommRing A]
     (AddCommGrpCat.ofHom
       { toFun := fun a ↦
           ULift.up (a.down • CochainComplex.HomComplex.Cochain.ofHom (𝟙 I))
-        map_zero' := by ext; simp; rfl
-        map_add' := by intros; ext; simp [add_smul]; rfl })
+        map_zero' := by ext; simp
+        map_add' := by intros; ext; simp [add_smul] })
     (fun k hk ↦ by
       obtain rfl : (1 : ℤ) = k := by simpa using hk
       ext a
@@ -234,7 +234,7 @@ noncomputable def cochainULiftLinearEquiv
     map_smul' r z := CochainComplex.HomComplex.Cochain.ext _ _ fun p q hpq =>
       U.map_smul r (z.down.v p q hpq) }
   exact LinearEquiv.ofBijective f
-    ⟨fun z z' h => ULift.ext _ _ (e.injective h),
+    ⟨fun z z' h => ULift.ext (e.injective h),
       fun z => ⟨ULift.up (e.symm z), e.apply_symm_apply z⟩⟩
 
 /-- Universe lifting commutes with the module-valued Hom complex. -/
@@ -348,14 +348,14 @@ noncomputable def homologyZeroEndAddEquiv
       DerivedCategory.Q.mapIso zJ.symm
   let f : (DerivedCategory.Qh.obj (q.obj J) ⟶
       DerivedCategory.Qh.obj (q.obj (J⟦(0 : ℤ)⟧))) →+
-      End (DerivedCategory.Q.obj J) := {
+      (DerivedCategory.Q.obj J ⟶ DerivedCategory.Q.obj J) := {
     toFun := fun x => eSrc.inv ≫ x ≫ eTgt.hom
     map_zero' := by simp
     map_add' := by intro x y; simp }
   let eEnd : (DerivedCategory.Qh.obj (q.obj J) ⟶
       DerivedCategory.Qh.obj (q.obj (J⟦(0 : ℤ)⟧))) ≃+
       End (DerivedCategory.Q.obj J) :=
-    AddEquiv.ofBijective f (Iso.homCongr eSrc eTgt).bijective
+    (AddEquiv.ofBijective f (Iso.homCongr eSrc eTgt).bijective).trans End.addEquiv.symm
   exact eV.trans (eH.trans eEnd)
 
 /-- A cycle of the endomorphism complex, read as a cocycle of cochains. -/
@@ -437,16 +437,17 @@ private theorem homologyZeroEndAddEquiv_π {R : Type u} [CommRing R]
     (J : CochainComplex (ModuleCat.{v} R) ℤ) [J.IsKInjective]
     (z : (CochainComplex.HomComplexR R J J).cycles 0) :
     homologyZeroEndAddEquiv J (((CochainComplex.HomComplexR R J J).homologyπ 0).hom z) =
-      DerivedCategory.Q.map (cyclesCocycle J 0 z).homOf := by
+      End.of (DerivedCategory.Q.map (cyclesCocycle J 0 z).homOf) := by
   let η := DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)
   let V := forget₂ (ModuleCat.{v} R) AddCommGrpCat
   let H := CochainComplex.HomComplexR R J J
-  change (η.app J).inv ≫ DerivedCategory.Qh.map
+  change End.of ((η.app J).inv ≫ DerivedCategory.Qh.map
     (CochainComplex.HomComplex.CohomologyClass.toHom
       ((CochainComplex.HomComplex.homologyAddEquiv J J 0)
         (((H.sc 0).mapHomologyIso V).inv.hom ((H.homologyπ 0).hom z)))) ≫
     ((η.app (J⟦(0 : ℤ)⟧)).hom ≫ DerivedCategory.Q.map
-      ((shiftFunctorZero (CochainComplex (ModuleCat.{v} R) ℤ) ℤ).hom.app J)) = _
+      ((shiftFunctorZero (CochainComplex (ModuleCat.{v} R) ℤ) ℤ).hom.app J))) = _
+  congr 1
   rw [forgetHomologyπ, CochainComplex.HomComplex.CohomologyClass.toHom_mk]
   have hnat := (DerivedCategory.quotientCompQhIso (ModuleCat.{v} R)).hom.naturality
     (CochainComplex.HomComplex.Cocycle.equivHomShift.symm (cyclesCocycle J 0 z))
@@ -470,7 +471,7 @@ noncomputable def homologyZeroEndLinearEquiv {R : Type u} [CommRing R]
         ((CochainComplex.HomComplexR R J J).homologyπ 0)).mp inferInstance x
       change homologyZeroEndAddEquiv J (r • _) = r • homologyZeroEndAddEquiv J _
       rw [← map_smul, homologyZeroEndAddEquiv_π, homologyZeroEndAddEquiv_π]
-      change DerivedCategory.Q.map (cyclesCocycle J 0 (r • z)).homOf = _
+      change End.of (DerivedCategory.Q.map (cyclesCocycle J 0 (r • z)).homOf) = _
       have heq : (cyclesCocycle J 0 (r • z)).homOf =
           r • (cyclesCocycle J 0 z).homOf := by
         ext i : 1
@@ -480,7 +481,8 @@ noncomputable def homologyZeroEndLinearEquiv {R : Type u} [CommRing R]
             r • ((CochainComplex.HomComplexR R J J).iCycles 0).hom z := map_smul _ r z
         rw [hsmul]
         rfl
-      rw [heq, Functor.map_smul] }
+      rw [heq, Functor.map_smul]
+      rfl }
 
 /-- The scalar homothety before forgetting the module structure. -/
 noncomputable def moduleScalarHomothety {R : Type u} [CommRing R]

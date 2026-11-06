@@ -123,7 +123,6 @@ def idealTensorEquivMap {A C : Type*} [CommRing A] [CommRing C] [Algebra A C]
       exact ⟨TensorProduct.tmul A 1 (⟨x, hx⟩ : I), by simp [f, Algebra.smul_def]⟩
     · rintro _ ⟨x, rfl⟩
       induction x with
-      | zero => simp
       | add x y hx hy => simpa using Ideal.add_mem _ hx hy
       | tmul s x =>
         change f (TensorProduct.tmul A s x) ∈ _

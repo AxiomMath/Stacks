@@ -56,7 +56,7 @@ sections at the universe of the rings. -/
 abbrev sheafifiedDifferentials :
     _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) :=
   (PresheafOfModules.sheafification (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).obj
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
 
 /-- The universe lift of `sheafifiedDifferentials φ` to the universe `max u u₁ v₁ v` of the
 module of differentials. -/
@@ -69,12 +69,12 @@ abbrev uliftDifferentials :
 abbrev differentialsSheafificationUnit :=
   (PresheafOfModules.sheafificationAdjunction
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
 
 /-- **The universe lift of the sheafification map** of the presheaf of Kähler differentials. -/
 def uliftDifferentialsUnit :
     liftPresheaf.{v, v₁, u, u₁}
-        (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom) ⟶
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom) ⟶
       (uliftDifferentials.{v} φ).val where
   app X := ModuleCat.ofHom
     { toFun := fun x => ULift.up ((differentialsSheafificationUnit φ).app X x.down)
@@ -92,7 +92,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 `x.down` under the sheafification map. -/
 theorem uliftDifferentialsUnit_app_apply (X : Cᵒᵖ)
     (x : (liftPresheaf.{v, v₁, u, u₁}
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)).obj X) :
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)).obj X) :
     (uliftDifferentialsUnit.{v} φ).app X x =
       ULift.up ((differentialsSheafificationUnit φ).app X x.down) :=
   rfl
@@ -134,7 +134,8 @@ instance uliftDifferentialsUnit_isLocallySurjective :
     exact ⟨ULift.up x, congrArg ULift.up hx⟩
 
 /-- **The lifted universal derivation**, with values in the universe lift of `Ω`. -/
-def uliftDifferentialsDerivation : (uliftDifferentials.{v} φ).val.Derivation' φ.hom :=
+def uliftDifferentialsDerivation :
+    PresheafOfModulesOfCommRing.Derivation' (uliftDifferentials.{v} φ).val φ.hom :=
   (liftedDiffDerivation.{v₁, u, u₁, v} φ.hom).postcomp (uliftDifferentialsUnit.{v} φ)
 
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{max u u₁ v₁ v}]
@@ -144,7 +145,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 at the larger universe. -/
 theorem existsUnique_uliftDifferentialsDerivation
     (F : _root_.SheafOfModules.{max u u₁ v₁ v} (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
-    (D : F.val.Derivation' φ.hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val φ.hom) :
     ∃! g : uliftDifferentials.{v} φ ⟶ F,
       (uliftDifferentialsDerivation.{v} φ).postcomp g.val = D := by
   let U := liftedDiffUniversal.{v, v₁, u, u₁} φ.hom

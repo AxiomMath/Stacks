@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.LocalCohomology.BasicOpenSections.Normalize
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

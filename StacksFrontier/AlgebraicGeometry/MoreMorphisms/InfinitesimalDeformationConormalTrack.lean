@@ -213,7 +213,7 @@ theorem cotangentSheafIso_hom_val_app_d {Y S : Scheme.{u}} (p : Y ⟶ S) (W : Y.
     (y : Γ(Y, W)) :
     (cotangentSheafIso p).hom.val.app (op W) ((universalRelativeDerivation p).d y) =
       Stacks.Smooth.universalD p W y :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (universalRelativeDerivation_postcomp_toCotangentSheaf p) y
 
 end AlgebraicGeometry.Scheme.Hom

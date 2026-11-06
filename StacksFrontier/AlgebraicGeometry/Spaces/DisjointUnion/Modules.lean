@@ -106,7 +106,7 @@ theorem eq_of_forall_etaleModulePullback_map_eq {M N : Modules.{u, u} B S hS Z.1
   refine QuasiCoherentDescent.modulePullback_map_injective_of_isEtaleCovering B S hS X j
     (isEtaleCovering_cofanInj_of_isColimit hc) φ ψ fun i => ?_
   let e := modulePullbackIsoEtaleModulePullback B S hS (j i) (isEtale_cofanInj_of_isColimit hc i)
-  exact (cancel_mono (e.hom.app N)).1 ((e.hom.naturality φ).trans
+  exact (Iso.cancel_iso_hom_right _ _ (e.app N)).1 ((e.hom.naturality φ).trans
     ((congrArg (e.hom.app M ≫ ·) (h i)).trans (e.hom.naturality ψ).symm))
 
 /-- Restriction to all the summands of a disjoint union, as a functor to the product, is

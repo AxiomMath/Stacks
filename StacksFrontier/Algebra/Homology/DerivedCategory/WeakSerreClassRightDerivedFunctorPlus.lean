@@ -117,7 +117,7 @@ theorem derivedCategoryBPlus_rightDerivedFunctorPlus_obj (F : A ⥤ B) [F.Additi
       by_cases hp : p < 0
       · have hneg :=
           (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-            F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).1 p hp
+            F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).1 p hp
         exact Q.prop_of_isZero ((Functor.isZero_iff _).1 hneg (M.obj.homology q))
       · have hpNat : ((Int.toNat p : ℕ) : ℤ) = p := Int.toNat_of_nonneg (le_of_not_gt hp)
         simpa [hpNat] using Q.prop_of_iso

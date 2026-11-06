@@ -419,6 +419,15 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] Space.pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of fppf sheaves (instance search times out without this shortcut). -/
+local instance hasPullbacks_fppfSheaf_CompletionRigEtaleCharts :
+    HasPullbacks (FppfSheaf B S hS) := inferInstance
+
+local instance (priority := high) hasPullback_fppfSheaf_CompletionRigEtaleCharts
+    {X Y Z : FppfSheaf B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- If `Spec C` is locally Noetherian then `C` is a Noetherian ring. -/
 private theorem isNoetherianRing_of_isLocallyNoetherian_spec {C : Type u} [CommRing C]
     (h : _root_.AlgebraicGeometry.IsLocallyNoetherian (Spec (.of C))) : IsNoetherianRing C :=
@@ -485,7 +494,7 @@ theorem isLocallySurjective_sigmaDesc_sheafifiedULiftMap_pullback_snd
   have : Epi (Sigma.desc fun j : ULift.{u + 1} K ↦ pullback.snd
       (Space.sheafifiedULiftMap B S hS (a j.down)) (Space.sheafifiedULiftMap B S hS f)) :=
     (Sheaf.isLocallySurjective_iff_epi _).mp hbase
-  infer_instance
+  exact epi_comp _ _
 
 /-- **The completed charts cover.** If the maps `a k : Y k ⟶ X` jointly cover `X` and, for each
 `k`, the maps `b k l` jointly cover `Y k ×_X X'`, then the completions along any set `T'` of points

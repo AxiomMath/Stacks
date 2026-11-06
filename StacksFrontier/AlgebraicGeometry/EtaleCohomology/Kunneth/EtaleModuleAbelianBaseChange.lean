@@ -310,12 +310,12 @@ def etaleModuleDerivedBaseChangeMatePlus :
         (etaleModuleInverseImage.{u, 0} Λ f').rightDerivedFunctorPlus ⟶
       (etaleModuleInverseImage.{u, 0} Λ e).rightDerivedFunctorPlus ⋙
         (etaleModuleDirectImage.{u, 0} Λ h).rightDerivedFunctorPlus :=
-  letI : IsIso (etaleModuleInverseImage.{u, 0} Λ f').rightDerivedFunctorPlusUnit :=
+  letI : IsIso (etaleModuleInverseImage.{u, 0} Λ f').rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso (etaleModuleInverseImage.{u, 0} Λ f')
   Stacks.Cohomology.BaseChange.derived (etaleModuleDirectImage.{u, 0} Λ g)
     (etaleModuleDirectImage.{u, 0} Λ h) (etaleModuleInverseImage.{u, 0} Λ f')
     (etaleModuleInverseImage.{u, 0} Λ e) (etaleModuleBaseChangeMate Λ f' g h e w)
-    (asIso (etaleModuleInverseImage.{u, 0} Λ f').rightDerivedFunctorPlusUnit)
+    (asIso (etaleModuleInverseImage.{u, 0} Λ f').rightDerivedFunctorPlusUnith)
 
 /-- **Forgetting the module structure carries the module base change map on `D⁺` to the abelian
 one**: for `K ∈ D⁺(T_étale, Λ)`, `U` of the module base change map at `K`, followed by the
@@ -339,7 +339,7 @@ theorem etaleModuleForgetAb_map_etaleModuleDerivedBaseChangeMatePlus_app
           (rightAcyclic_smallEtalePushforwardAb_etaleModuleForgetAb_obj Λ g)).hom.app K) ≫
       (smallEtaleDerivedBaseChangeAb f' g h e w).app
         ((etaleModuleForgetAb.{u, 0} Λ T).mapDerivedCategoryPlus.obj K) :=
-  let : IsIso (etaleModuleInverseImage.{u, 0} Λ f').rightDerivedFunctorPlusUnit :=
+  let : IsIso (etaleModuleInverseImage.{u, 0} Λ f').rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso (etaleModuleInverseImage.{u, 0} Λ f')
   Stacks.Cohomology.BaseChange.derived_exactTransport_app
     (rightAcyclic_smallEtalePushforwardAb_etaleModuleForgetAb_obj Λ g)

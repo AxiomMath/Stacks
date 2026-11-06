@@ -617,7 +617,7 @@ private lemma matchingComparison_pointwise_surjective {X : C} (n m : ℕ)
     constant_of_preserves_morphisms r hr d d₀
   have haug (d : matchingShape n m) :
       ((associatedPresheafAugmentationOver (X := X)).app (D.obj d)).app Y (sD d) = ULift.up gY :=
-    ULift.ext _ _ (hgY d)
+    ULift.ext (hgY d)
   let S := (FormalCoproduct.incl (Over X)).obj (Over.mk gY)
   let iS : S.I := PUnit.unit
   let cone : Cone D := {

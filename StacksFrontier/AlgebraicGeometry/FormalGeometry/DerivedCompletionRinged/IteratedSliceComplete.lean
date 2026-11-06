@@ -236,7 +236,7 @@ private theorem isDerivedCompleteAt_iff_iteratedSlice
     ((((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).over U).over W)
     (Over.mk (𝟙 W)) Over.mkIdTerminal g with haW
   have hmap : ∀ M : SheafOfModules.{u} (((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).over W.left),
-      Φ.map (aL.app M) = aW.app (Φ.obj M) :=
+      Φ.map (aL.asHom.app M) = aW.asHom.app (Φ.obj M) :=
     sliceModulesEquiv_functor_map_terminalSectionToEnd X U W g
   have hsmulD : ∀ L : DerivedCategory (SheafOfModules.{u}
         (((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).over W.left)),
@@ -244,8 +244,8 @@ private theorem isDerivedCompleteAt_iff_iteratedSlice
     fun L => Stacks.SheafOfModules.DerivedRestrictScalars.mapDerivedCategory_map_smul_id
       Φ aL aW
       (fun Z => Stacks.SemilinearFunctor.map_smul_id_mapHomologicalComplex Φ aL aW
-        (fun M => (congrArg Φ.map (Category.comp_id (aL.app M))).trans
-          ((hmap M).trans (Category.comp_id (aW.app (Φ.obj M))).symm))
+        (fun M => (congrArg Φ.map (Category.comp_id (aL.asHom.app M))).trans
+          ((hmap M).trans (Category.comp_id (aW.asHom.app (Φ.obj M))).symm))
         (ComplexShape.up ℤ) Z) L
   let i₁ := Stacks.SheafOfModules.DerivedRestrictScalars.mapDerivedCategoryCompIso
     (SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) W.left) Φ

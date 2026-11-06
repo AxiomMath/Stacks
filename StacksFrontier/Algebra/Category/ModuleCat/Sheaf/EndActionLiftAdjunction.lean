@@ -53,7 +53,7 @@ multiplication by scalars is a morphism of sheaves of `Λ`-modules. -/
 public def sheafHomOfScalarComm {F G : Sheaf J (ModuleCat.{w} Λ)}
     (α : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F ⟶
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj G)
-    (hα : ∀ a : Λ, sheafScalarEnd Λ J F a ≫ α = α ≫ sheafScalarEnd Λ J G a) :
+    (hα : ∀ a : Λ, (sheafScalarEnd Λ J F a).asHom ≫ α = α ≫ (sheafScalarEnd Λ J G a).asHom) :
     F ⟶ G :=
   ObjectProperty.homMk
     { app U := ModuleCat.homMk (α.hom.app U)
@@ -66,7 +66,7 @@ public def sheafHomOfScalarComm {F G : Sheaf J (ModuleCat.{w} Λ)}
 public lemma sheafCompose_map_sheafHomOfScalarComm {F G : Sheaf J (ModuleCat.{w} Λ)}
     (α : (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj F ⟶
       (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).obj G)
-    (hα : ∀ a : Λ, sheafScalarEnd Λ J F a ≫ α = α ≫ sheafScalarEnd Λ J G a) :
+    (hα : ∀ a : Λ, (sheafScalarEnd Λ J F a).asHom ≫ α = α ≫ (sheafScalarEnd Λ J G a).asHom) :
     (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
         (sheafHomOfScalarComm Λ J α hα) = α :=
   rfl
@@ -85,7 +85,8 @@ under `G` of multiplication by that scalar. -/
 public lemma sheafScalarEnd_moduleLift_obj
     (G : Sheaf J₁ AddCommGrpCat.{w} ⥤ Sheaf J₂ AddCommGrpCat.{w}) [G.Additive]
     (F : Sheaf J₁ (ModuleCat.{w} Λ)) (a : Λ) :
-    sheafScalarEnd Λ J₂ ((moduleLift Λ J₁ J₂ G).obj F) a = G.map (sheafScalarEnd Λ J₁ F a) :=
+    (sheafScalarEnd Λ J₂ ((moduleLift Λ J₁ J₂ G).obj F) a).asHom =
+      G.map (sheafScalarEnd Λ J₁ F a).asHom :=
   rfl
 
 /-- Forgetting the `Λ`-module structure of the morphism the lift of `G` produces gives `G`

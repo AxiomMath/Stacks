@@ -403,7 +403,7 @@ of schemes.** -/
 noncomputable def isLimitSchemeConeOpensSpecStalkSiteCone :
     IsLimit (schemeConeOfSiteCone B S hS s W₀ U (opensSpecStalkSiteCone B S hS s W₀ U)) :=
   IsLimit.ofIsoLimit (isLimitOpensSpecStalkCone S s W₀ U)
-    (Cones.ext (Iso.refl _) fun _ => (Category.id_comp _).symm)
+    (Cone.ext (Iso.refl _) fun _ => (Category.id_comp _).symm)
 
 /-- The diagram of overlaps in the site, composed with the underlying-scheme functor, is
 `AlgebraicGeometry.opensSpecStalkDiagram`, by the isomorphism whose components are identities. -/
@@ -428,7 +428,7 @@ noncomputable def isLimitMapConeOpensSpecStalkSiteCone :
     IsLimit ((BigFppfOver.toScheme B S hS).mapCone (opensSpecStalkSiteCone B S hS s W₀ U)) :=
   (IsLimit.postcomposeHomEquiv (opensSpecStalkSiteDiagramCompIso B S hS s W₀ U) _)
     (IsLimit.ofIsoLimit (isLimitOpensSpecStalkCone S s W₀ U)
-      (Cones.ext (Iso.refl _) fun j =>
+      (Cone.ext (Iso.refl _) fun j =>
         ((Category.id_comp _).trans ((Category.comp_id _).trans
           (toScheme_map_opensSpecStalkSiteπ B S hS s W₀ U j))).symm))
 

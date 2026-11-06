@@ -528,26 +528,28 @@ def squareZeroComplexPullbackNaturalityIso
             hβτW).functor.mapHomologicalComplex (ComplexShape.up ℤ) :=
   @Functor.mapHomologicalComplexCompIso ℤ _ _ _ _ _ _ _ _ _ _ _ _
       (squareZeroPullbackNaturalityIso hiV hV hipV hpbV hβτV hiW hW hipW hpbW hβτW hH hiH hg)
-      (squareZeroModuleEquivalence_functor_additive (hq := hqV) hiV hV hipV hpbV hβτV)
-      (modulePullbackDataTopos_additive B S hS H)
-      (by
-        let := additive_extensionOfScalars g
-        let := squareZeroModuleEquivalence_functor_additive (hq := hqW) hiW hW hipW hpbW hβτW
-        exact ⟨fun {_ _ f h} => (congrArg
-          (squareZeroModuleEquivalence (hq := hqW) hiW hW hipW hpbW hβτW).functor.map
-          (Functor.map_add (extensionOfScalars g) (f := f) (g := h))).trans (Functor.map_add _)⟩)
+      (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+        (squareZeroModuleEquivalence_functor_additive (hq := hqV) hiV hV hipV hpbV hβτV))
+      (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+        (modulePullbackDataTopos_additive B S hS H))
+      (@Functor.preservesZeroMorphisms_comp _ _ _ _ _ _ _ _ _ _ _
+        (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+          (additive_extensionOfScalars g))
+        (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+          (squareZeroModuleEquivalence_functor_additive (hq := hqW) hiW hW hipW hpbW hβτW)))
       (ComplexShape.up ℤ) ≪≫
     (@Functor.mapHomologicalComplexCompIso ℤ _ _ _ _ _ _ _ _ _ _ _ _
       (Iso.refl (extensionOfScalars g ⋙
         (squareZeroModuleEquivalence (hq := hqW) hiW hW hipW hpbW hβτW).functor))
-      (additive_extensionOfScalars g)
-      (squareZeroModuleEquivalence_functor_additive (hq := hqW) hiW hW hipW hpbW hβτW)
-      (by
-        let := additive_extensionOfScalars g
-        let := squareZeroModuleEquivalence_functor_additive (hq := hqW) hiW hW hipW hpbW hβτW
-        exact ⟨fun {_ _ f h} => (congrArg
-          (squareZeroModuleEquivalence (hq := hqW) hiW hW hipW hpbW hβτW).functor.map
-          (Functor.map_add (extensionOfScalars g) (f := f) (g := h))).trans (Functor.map_add _)⟩)
+      (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+        (additive_extensionOfScalars g))
+      (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+        (squareZeroModuleEquivalence_functor_additive (hq := hqW) hiW hW hipW hpbW hβτW))
+      (@Functor.preservesZeroMorphisms_comp _ _ _ _ _ _ _ _ _ _ _
+        (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+          (additive_extensionOfScalars g))
+        (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+          (squareZeroModuleEquivalence_functor_additive (hq := hqW) hiW hW hipW hpbW hβτW)))
       (ComplexShape.up ℤ)).symm
 
 section Derived

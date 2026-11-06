@@ -67,7 +67,7 @@ theorem full_uliftHomDown : (ULiftHom.down : ULiftHom.{v₃} 𝒜 ⥤ 𝒜).Full
 
 /-- Forgetting the morphism-universe lift is a faithful functor. -/
 theorem faithful_uliftHomDown : (ULiftHom.down : ULiftHom.{v₃} 𝒜 ⥤ 𝒜).Faithful where
-  map_injective := fun {_ _ _ _} h ↦ ULift.ext _ _ h
+  map_injective := fun {_ _ _ _} h ↦ ULift.ext h
 
 /-! ### Lying over a morphism of `𝒞` survives the lift -/
 

@@ -375,7 +375,6 @@ theorem eq_of_classifyingMap_eq_neg_abelJacobi {E : picardAt B hX hk f (powerObj
   have hc : classifyingMap B hX hk f σ hσ _ E hE =
       classifyingMap B hX hk f σ hσ _ (-R) (hasDegreeZero_neg B hX hk f σ hσ hR) := by
     rw [classifyingMap_neg B hX hk f σ hσ _ hR, hcR, hcE]
-    rfl
   obtain ⟨N, hN⟩ := (classifyingMap_eq_classifyingMap_iff B hX hk f σ hσ _ hE
     (hasDegreeZero_neg B hX hk f σ hσ hR)).1 hc
   change pullSndP B hX hk f N = E - -R at hN

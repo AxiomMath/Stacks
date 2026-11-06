@@ -387,7 +387,9 @@ theorem bijective_stageMap (i : Iᵒᵖ)
       (F.obj i) ⟶ (smallEtalePushforward (f.app i) (Type (u + 1))).obj
         ((smallEtalePushforward (cX.π.app i) (Type (u + 1))).obj 𝒢) =>
       m ≫ (projectionSquareIso f (Type (u + 1)) cX cS hcS i).hom.app 𝒢) :=
-    ⟨fun a b hab => (cancel_mono _).mp hab, fun m =>
+    ⟨fun a b hab => by
+        simpa using congrArg (· ≫ (projectionSquareIso f (Type (u + 1)) cX cS hcS i).inv.app 𝒢) hab,
+      fun m =>
       ⟨m ≫ (projectionSquareIso f (Type (u + 1)) cX cS hcS i).inv.app 𝒢, by simp⟩⟩
   have e₀ : stageMap f g h e w hcS F 𝒢 i =
       (fun m => m ≫ (projectionSquareIso f (Type (u + 1)) cX cS hcS i).hom.app 𝒢) ∘

@@ -107,7 +107,6 @@ generator. -/
 private lemma exists_tmul_epsGen (t : ↥(Ideal.span {(ε : K[ε])}) ⊗[K[ε]] M) :
     ∃ m : M, t = epsGen K ⊗ₜ[K[ε]] m := by
   induction t with
-  | zero => exact ⟨0, by simp⟩
   | tmul x m =>
       obtain ⟨c, hc⟩ := Ideal.mem_span_singleton.mp x.2
       refine ⟨c • m, ?_⟩

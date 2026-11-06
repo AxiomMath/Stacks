@@ -42,6 +42,24 @@ universe u
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
+/-- Discrete limits in presheaves of types, supplied directly: the instance search for them
+times out on the small étale sites of this file. -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_SquareZeroTowerLimitKernelMapMiddleTerms.{w, w', v'}
+    {C : Type w'} [Category.{v'} C] {J : Type w} [Small.{u} J] :
+    HasLimitsOfShape (Discrete J) (C ⥤ Type u) :=
+  haveI : HasLimitsOfShape (Discrete J) (Type u) := Types.hasLimitsOfShape
+  functorCategoryHasLimitsOfShape
+
+/-- Discrete limits in sheaves of types, supplied directly from those of presheaves: the instance
+search for them times out on the small étale sites of this file. -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_sheaf_SquareZeroTowerLimitKernelMapMiddleTerms.{w, w', v'}
+    {C : Type w'} [Category.{v'} C] (T : GrothendieckTopology C) {J : Type w} [Small.{u} J] :
+    HasLimitsOfShape (Discrete J) (Sheaf T (Type u)) :=
+  haveI : HasLimitsOfShape (Discrete J) (Type u) := Types.hasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf T (Type u))
+
 /- The global instance `Abelian (SheafOfModules.{max u v r w} O)` leaves a stuck universe
 constraint against the `𝒪_X`-modules at the universe of the schemes. -/
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian

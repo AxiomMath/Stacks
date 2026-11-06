@@ -307,10 +307,10 @@ theorem exists_common_denominator {n t : ℕ} (γ : Fin t → MvPolynomial (Fin 
   let _ := hdom.algebra
   obtain ⟨b, hb⟩ := IsLocalization.exist_integer_multiples (M := nonZeroDivisors R) (S := K)
     (Finset.univ.biUnion fun i : Fin t => (γ i).support.image (Sigma.mk i))
-    fun p : (i : Fin t) × (Fin n →₀ ℕ) => ((MvPolynomial.coeff p.2 (γ p.1) : valRing A) : K)
+    fun p : (i : Fin t) × (Fin n →₀ ℕ) => (((γ p.1).coeff p.2 : valRing A) : K)
   refine ⟨(b : R), nonZeroDivisors.ne_zero b.2, fun i => ?_⟩
   have key : ∀ d : Fin n →₀ ℕ, ∃ y : R, d ∈ (γ i).support →
-      (algebraMap R (valRing A)) y = (b : R) • MvPolynomial.coeff d (γ i) := by
+      (algebraMap R (valRing A)) y = (b : R) • (γ i).coeff d := by
     intro d
     by_cases hd : d ∈ (γ i).support
     · obtain ⟨y, hy⟩ := hb ⟨i, d⟩ (Finset.mem_biUnion.mpr
@@ -318,8 +318,8 @@ theorem exists_common_denominator {n t : ℕ} (γ : Fin t → MvPolynomial (Fin 
       refine ⟨y, fun _ => ?_⟩
       apply Subtype.ext
       have h1 : ((algebraMap R (valRing A) y : valRing A) : K) = algebraMap R K y := rfl
-      have h2 : (((b : R) • MvPolynomial.coeff d (γ i) : valRing A) : K)
-          = algebraMap R K (b : R) * ((MvPolynomial.coeff d (γ i) : valRing A) : K) := by
+      have h2 : (((b : R) • (γ i).coeff d : valRing A) : K)
+          = algebraMap R K (b : R) * (((γ i).coeff d : valRing A) : K) := by
         rw [Algebra.smul_def]
         rfl
       rw [h1, h2]
@@ -330,11 +330,11 @@ theorem exists_common_denominator {n t : ℕ} (γ : Fin t → MvPolynomial (Fin 
   rw [map_sum]
   have hterm : ∀ d ∈ (γ i).support,
       MvPolynomial.map (algebraMap R (valRing A)) (MvPolynomial.monomial d (y d))
-        = MvPolynomial.monomial d ((b : R) • MvPolynomial.coeff d (γ i)) := fun d hd => by
+        = MvPolynomial.monomial d ((b : R) • (γ i).coeff d) := fun d hd => by
     rw [MvPolynomial.map_monomial, hy d hd]
   rw [Finset.sum_congr rfl hterm]
   have hsm : ((b : R) • γ i) = ∑ d ∈ (γ i).support,
-      MvPolynomial.monomial d ((b : R) • MvPolynomial.coeff d (γ i)) := by
+      MvPolynomial.monomial d ((b : R) • (γ i).coeff d) := by
     conv_lhs => rw [← MvPolynomial.support_sum_monomial_coeff (γ i)]
     rw [Finset.smul_sum]
     refine Finset.sum_congr rfl fun d _ => ?_

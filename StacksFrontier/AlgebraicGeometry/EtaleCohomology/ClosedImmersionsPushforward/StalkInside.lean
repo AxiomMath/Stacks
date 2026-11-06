@@ -86,8 +86,8 @@ public def pullbackNeighborhoodFunctor (B : BigEtaleSite.{u}) {S T : B.Scheme} (
     (s : GeometricPoint T.1) :
     (geometricPointFiber B S.1 S.property (s.map (B.inclusion.map i))).Elements ⥤
       (geometricPointFiber B T.1 T.property s).Elements :=
-  CategoryOfElements.map (geometricPointFiberBaseChangeIso B i s).hom ⋙
-    { obj x := ⟨(smallEtaleBaseChange B i).obj x.1, x.2⟩
+  NatTrans.mapElements (geometricPointFiberBaseChangeIso B i s).hom ⋙
+    { obj x := Functor.elementsMk _ ((smallEtaleBaseChange B i).obj x.1) x.2
       map f := ⟨(smallEtaleBaseChange B i).map f.1, f.2⟩ }
 
 /-- The range of a map out of the source of a geometric point lies in the range of `g` as soon as
@@ -174,7 +174,7 @@ private theorem pullbackNeighborhoodFunctor_equalize
         BigEtaleOver.toScheme, BigEtaleOver.forget, tSite]
       show B.inclusion.map jSite = O.ι
       exact B.inclusion.map_preimage _
-    refine ⟨⟨Unew, ⟨qNew, hqNew⟩⟩, ⟨tSite, Subtype.ext ?_⟩, ?_⟩
+    refine ⟨Functor.elementsMk _ Unew ⟨qNew, hqNew⟩, ⟨tSite, Subtype.ext ?_⟩, ?_⟩
     · show qNew ≫ (SmallEtale.toScheme B X hX).map tSite = U.2.1
       rw [hmap]
       exact IsOpenImmersion.lift_fac O.ι U.2.1 hjRange
@@ -262,7 +262,7 @@ private theorem pullbackNeighborhoodFunctor_equalize
   obtain ⟨O, hpointO, hO⟩ := exists_opens_mem_preimage_eq B i s U W (hqW ⟨default, rfl⟩)
   obtain ⟨U', t, ht⟩ := exists_hom_range_subset_of_mem B hpointO
   refine ⟨U', t, ?_⟩
-  apply CategoryOfElements.ext (geometricPointFiber B T.1 T.property s)
+  apply Functor.Elements.hom_ext
   apply (SmallEtale.toScheme B T.1 T.property).map_injective
   let r : (SmallEtale.toScheme B T.1 T.property).obj
       ((smallEtaleBaseChange B i).obj U'.1) ⟶ A :=
@@ -319,7 +319,7 @@ private theorem exists_pullback_neighborhood_map
       (hm : m ≫ B.inclusion.map V.1.obj.hom =
         pullback.snd (B.inclusion.map U.obj.hom) (B.inclusion.map i))
       (hqm : pullback.lift qX s.hom hqX ≫ m = V.2.1) :
-      Nonempty ((pullbackNeighborhoodFunctor B i s).obj ⟨U, ⟨qX, hqX⟩⟩ ⟶ V) := by
+      Nonempty ((pullbackNeighborhoodFunctor B i s).obj (Functor.elementsMk _ U ⟨qX, hqX⟩) ⟶ V) := by
     let fU := B.inclusion.map U.obj.hom
     let qP := geometricPointFiberBaseChangeEquiv B i s U ⟨qX, hqX⟩
     have hobj := smallEtaleBaseChange_toScheme_obj_eq B i U
@@ -402,7 +402,7 @@ private theorem exists_pullback_neighborhood_map
         _ = s.hom := pullback.lift_snd _ _ _
         _ = qW ≫ e.hom ≫ pullback.snd (f j) (B.inclusion.map i) := by
           rw [heT, reassoc_of% hqW, hq]
-  refine ⟨⟨Usite, ⟨qX, hqX⟩⟩, nonempty_pullbackNeighborhoodFunctor_obj_hom_of_lift B i s V Usite
+  refine ⟨Functor.elementsMk _ Usite ⟨qX, hqX⟩, nonempty_pullbackNeighborhoodFunctor_obj_hom_of_lift B i s V Usite
     qX hqX (k ≫ e.inv ≫ W.f j) ?_ ?_⟩
   · rw [Category.assoc, Category.assoc, ← heT, Iso.inv_hom_id_assoc]
     exact pullback.lift_snd _ _ _
@@ -440,29 +440,29 @@ public noncomputable def stalkPushforwardDiagramIso
     (B : BigEtaleSite.{u}) {S T : B.Scheme} (i : T ⟶ S)
     [IsClosedImmersion (B.inclusion.map i)] (s : GeometricPoint T.1)
     (F : Sheaf (SmallEtale.topology B T.1 T.property) (Type (u + 1))) :
-    ((CategoryOfElements.π (geometricPointFiber B S.1 S.property
+    ((Functor.Elements.π (geometricPointFiber B S.1 S.property
       (s.map (B.inclusion.map i)))).op ⋙
       (sheafToPresheaf (SmallEtale.topology B S.1 S.property) (Type (u + 1))).obj
         (((smallEtaleBaseChange B i).sheafPushforwardContinuous
           (Type (u + 1)) (SmallEtale.topology B S.1 S.property)
           (SmallEtale.topology B T.1 T.property)).obj F)) ≅
     (pullbackNeighborhoodFunctor B i s).op ⋙
-      (CategoryOfElements.π (geometricPointFiber B T.1 T.property s)).op ⋙ F.obj := by
+      (Functor.Elements.π (geometricPointFiber B T.1 T.property s)).op ⋙ F.obj := by
   classical
   let P := smallEtaleBaseChange B i
   let H := pullbackNeighborhoodFunctor B i s
   let JX := geometricPointFiber B S.1 S.property
     (s.map (B.inclusion.map i))
   let JZ := geometricPointFiber B T.1 T.property s
-  let D := (CategoryOfElements.π JX).op ⋙
+  let D := (Functor.Elements.π JX).op ⋙
     (sheafToPresheaf (SmallEtale.topology B S.1 S.property) (Type (u + 1))).obj
       ((P.sheafPushforwardContinuous (Type (u + 1))
         (SmallEtale.topology B S.1 S.property)
         (SmallEtale.topology B T.1 T.property)).obj F)
-  let E := H.op ⋙ (CategoryOfElements.π JZ).op ⋙ F.obj
+  let E := H.op ⋙ (Functor.Elements.π JZ).op ⋙ F.obj
   have hobj : ∀ U, D.obj U = E.obj U := fun U => by
     simp [D, E, P, H, JX, JZ, pullbackNeighborhoodFunctor,
-      CategoryOfElements.π, geometricPointFiber,
+      Functor.Elements.π, geometricPointFiber,
       Functor.sheafPushforwardContinuous_obj_obj_obj]
   refine NatIso.ofComponents (fun U => eqToIso (hobj U)) ?_
   intro U V f
@@ -484,15 +484,15 @@ public noncomputable def stalkPushforwardIsoAt
     (B : BigEtaleSite.{u}) {S T : B.Scheme} (i : T ⟶ S)
     [IsClosedImmersion (B.inclusion.map i)] (s : GeometricPoint T.1)
     (F : Sheaf (SmallEtale.topology B T.1 T.property) (Type (u + 1))) :
-    colimit ((CategoryOfElements.π (geometricPointFiber B S.1 S.property
+    colimit ((Functor.Elements.π (geometricPointFiber B S.1 S.property
       (s.map (B.inclusion.map i)))).op ⋙
       (sheafToPresheaf (SmallEtale.topology B S.1 S.property) (Type (u + 1))).obj
         (((smallEtaleBaseChange B i).sheafPushforwardContinuous
           (Type (u + 1)) (SmallEtale.topology B S.1 S.property)
           (SmallEtale.topology B T.1 T.property)).obj F)) ≅
-    colimit ((CategoryOfElements.π (geometricPointFiber B T.1 T.property s)).op ⋙ F.obj) := by
+    colimit ((Functor.Elements.π (geometricPointFiber B T.1 T.property s)).op ⋙ F.obj) := by
   let H := pullbackNeighborhoodFunctor B i s
-  let G := (CategoryOfElements.π (geometricPointFiber B T.1 T.property s)).op ⋙ F.obj
+  let G := (Functor.Elements.π (geometricPointFiber B T.1 T.property s)).op ⋙ F.obj
   have : H.Initial := pullbackNeighborhoodFunctor_initial B i s
   have : H.op.Final := Functor.final_op_of_initial H
   exact (colim.mapIso (stalkPushforwardDiagramIso B i s F)) ≪≫
@@ -518,8 +518,8 @@ public noncomputable def stalkPushforwardIso (B : BigEtaleSite.{u})
   let JX := geometricPointFiber B S.1 S.property
     (s.map (B.inclusion.map i))
   let JZ := geometricPointFiber B T.1 T.property s
-  let πX := (CategoryOfElements.π JX).op
-  let πZ := (CategoryOfElements.π JZ).op
+  let πX := (Functor.Elements.π JX).op
+  let πZ := (Functor.Elements.π JZ).op
   let ShX := sheafToPresheaf (SmallEtale.topology B S.1 S.property) (Type (u + 1))
   let ShZ := sheafToPresheaf (SmallEtale.topology B T.1 T.property) (Type (u + 1))
   let αX := ShX.map ((P.sheafPushforwardContinuous (Type (u + 1))
@@ -533,7 +533,7 @@ public noncomputable def stalkPushforwardIso (B : BigEtaleSite.{u})
     ext U
     simp [H, P, JX, JZ, πX, πZ, ShX, ShZ, αX, αZ, sourceMap, targetMap,
       stalkPushforwardDiagramIso, pullbackNeighborhoodFunctor,
-      geometricPointFiber, CategoryOfElements.π]
+      geometricPointFiber, Functor.Elements.π]
     rfl
   have : H.Initial := pullbackNeighborhoodFunctor_initial B i s
   have : H.op.Final := Functor.final_op_of_initial H
@@ -574,30 +574,30 @@ public theorem stalkPushforwardIso_germ (B : BigEtaleSite.{u})
         (SmallEtale.topology B T.1 T.property)).obj F).obj.obj (Opposite.op N.1)) :
     ((stalkPushforwardIso B i s).hom.app F).hom
       ((colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B S.1 S.property
+        ((Functor.Elements.π (geometricPointFiber B S.1 S.property
           (s.map (B.inclusion.map i)))).op ⋙
           (((smallEtaleBaseChange B i).sheafPushforwardContinuous
             (Type (u + 1)) (SmallEtale.topology B S.1 S.property)
             (SmallEtale.topology B T.1 T.property)).obj F).obj)
         (Opposite.op N)).hom σ) =
       (colimit.ι
-        ((CategoryOfElements.π (geometricPointFiber B T.1 T.property s)).op ⋙
+        ((Functor.Elements.π (geometricPointFiber B T.1 T.property s)).op ⋙
           F.obj)
-        (Opposite.op ⟨(smallEtaleBaseChange B i).obj N.1, q⟩)).hom σ := by
+        (Opposite.op (Functor.elementsMk _ ((smallEtaleBaseChange B i).obj N.1) q))).hom σ := by
   classical
   let P := smallEtaleBaseChange B i
   let H := pullbackNeighborhoodFunctor B i s
   let JZ := geometricPointFiber B T.1 T.property s
-  let G := (CategoryOfElements.π JZ).op ⋙ F.obj
-  let E := H.op ⋙ (CategoryOfElements.π JZ).op ⋙ F.obj
-  let D := (CategoryOfElements.π
+  let G := (Functor.Elements.π JZ).op ⋙ F.obj
+  let E := H.op ⋙ (Functor.Elements.π JZ).op ⋙ F.obj
+  let D := (Functor.Elements.π
       (geometricPointFiber B S.1 S.property
         (s.map (B.inclusion.map i)))).op ⋙
       (sheafToPresheaf (SmallEtale.topology B S.1 S.property) (Type (u + 1))).obj
         ((P.sheafPushforwardContinuous (Type (u + 1))
           (SmallEtale.topology B S.1 S.property)
           (SmallEtale.topology B T.1 T.property)).obj F)
-  have hq_eq : (⟨P.obj N.1, q⟩ : JZ.Elements) = H.obj N := by
+  have hq_eq : (Functor.elementsMk JZ (P.obj N.1) q) = H.obj N := by
     have hbase : P.obj N.1 = (H.obj N).1 := by
       dsimp [H, pullbackNeighborhoodFunctor]
     refine Functor.Elements.ext _ _ hbase ?_
@@ -610,7 +610,7 @@ public theorem stalkPushforwardIso_germ (B : BigEtaleSite.{u})
     · exact q.2.trans (geometricPointFiberBaseChangeEquiv_val_snd B i s N.1 N.2).symm
   show (stalkPushforwardIsoAt B i s F).hom
       ((colimit.ι D (Opposite.op N)).hom σ) =
-    (colimit.ι G (Opposite.op ⟨P.obj N.1, q⟩)).hom σ
+    (colimit.ι G (Opposite.op (Functor.elementsMk JZ (P.obj N.1) q))).hom σ
   dsimp [stalkPushforwardIsoAt, P, H, G, D]
   simp only [colimit.ι_map_apply]
   have : H.Initial := pullbackNeighborhoodFunctor_initial B i s
@@ -618,7 +618,7 @@ public theorem stalkPushforwardIso_germ (B : BigEtaleSite.{u})
   let δ := (stalkPushforwardDiagramIso B i s F).hom.app (Opposite.op N)
   have hEq : D.obj (Opposite.op N) = E.obj (Opposite.op N) := by
     simp [D, E, P, H, JZ, pullbackNeighborhoodFunctor,
-      geometricPointFiber, CategoryOfElements.π,
+      geometricPointFiber, Functor.Elements.π,
       Functor.sheafPushforwardContinuous_obj_obj_obj]
   have hsection : δ σ = σ := by
     dsimp [δ, stalkPushforwardDiagramIso]
@@ -627,11 +627,11 @@ public theorem stalkPushforwardIso_germ (B : BigEtaleSite.{u})
   show (Functor.Final.colimitIso (pullbackNeighborhoodFunctor B i s).op G).hom
       ((colimit.ι ((pullbackNeighborhoodFunctor B i s).op ⋙ G)
         (Opposite.op N)).hom (δ σ)) =
-    (colimit.ι G (Opposite.op ⟨P.obj N.1, q⟩)).hom σ
+    (colimit.ι G (Opposite.op (Functor.elementsMk JZ (P.obj N.1) q))).hom σ
   calc
     _ = (colimit.ι G (Opposite.op (H.obj N))).hom (δ σ) :=
       congrArg (fun f => f (δ σ)) (Functor.Final.ι_colimitIso_hom H.op G (Opposite.op N))
-    _ = (colimit.ι G (Opposite.op ⟨P.obj N.1, q⟩)).hom σ := by
+    _ = (colimit.ι G (Opposite.op (Functor.elementsMk JZ (P.obj N.1) q))).hom σ := by
       cases hq_eq
       exact congrArg
         (fun τ => (colimit.ι G (Opposite.op (H.obj N))).hom τ) hsection

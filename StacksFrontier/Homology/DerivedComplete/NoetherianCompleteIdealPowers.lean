@@ -439,7 +439,7 @@ private theorem productMap_delta {D : Type u} [Category.{v} D] [Preadditive D]
       (Limits.Pi.map fun n : ℕ ↦ φ.app (op n)) ≫ Rlim.Hom.systemDelta G := by
   apply Pi.hom_ext
   intro n
-  simp only [Rlim.Hom.systemDelta, Category.assoc, Pi.map_π, Pi.lift_π, Pi.lift_π_assoc,
+  simp only [Rlim.Hom.systemDelta, Category.assoc, Pi.map_π, Pi.lift_comp_π, Pi.lift_comp_π_assoc,
     Preadditive.sub_comp, Preadditive.comp_sub, Pi.map_π_assoc, NatTrans.naturality]
 
 set_option backward.isDefEq.respectTransparency false in
@@ -623,10 +623,10 @@ public theorem isDerivedLimitWithProjections_of_map_of_equivalence
   have hd : U.map dF ≫ e.hom = e.hom ≫ dG := by
     apply Pi.hom_ext
     intro n
-    rw [Category.assoc, he n, Category.assoc, Pi.lift_π,
+    rw [Category.assoc, he n, Category.assoc, Pi.lift_comp_π,
       Preadditive.comp_sub, he n, ← Category.assoc, he (n + 1)]
     dsimp only [pr, dF]
-    rw [← U.map_comp, Pi.lift_π, U.map_sub, U.map_comp]
+    rw [← U.map_comp, Pi.lift_comp_π, U.map_sub, U.map_comp]
     rfl
   let a : U.obj X ⟶ Q := Pi.lift fun n : ℕ ↦ U.map (p n)
   have hf : U.map (Pi.lift p) ≫ e.hom = a := by
@@ -634,9 +634,9 @@ public theorem isDerivedLimitWithProjections_of_map_of_equivalence
     intro n
     rw [Category.assoc, he n]
     dsimp only [a]
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
     dsimp only [pr]
-    rw [← U.map_comp, Pi.lift_π]
+    rw [← U.map_comp, Pi.lift_comp_π]
   let g : P ⟶ X⟦(1 : ℤ)⟧ := U.preimage
     (e.hom ≫ δ ≫ (U.commShiftIso (1 : ℤ)).inv.app X)
   have hg : e.hom ≫ δ = U.map g ≫ (U.commShiftIso (1 : ℤ)).hom.app X := by

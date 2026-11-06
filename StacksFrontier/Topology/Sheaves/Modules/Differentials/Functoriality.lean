@@ -236,7 +236,7 @@ theorem existsUnique_compositeDerivation {X' X S' S : RingedSpace.{u, u}}
     (inverseImageStructureMap h')).hom
   let Ωpush := PresheafOfModules.pushforward₀OfCommRingCat
     (Opens.map f.hom.base) X'.presheaf |>.obj M'.val
-  let dpush : Ωpush.Derivation (F := 𝟭 (Opens X.carrier)) ι' := {
+  let dpush : PresheafOfModulesOfCommRing.Derivation (F := 𝟭 (Opens X.carrier)) Ωpush ι' := {
     d := fun {U} => (universalDerivation
       (inverseImageStructureMap h')).d (X := (Opens.map f.hom.base).op.obj U)
     d_mul {U} a b := (universalDerivation (inverseImageStructureMap h')).d_mul
@@ -248,8 +248,8 @@ theorem existsUnique_compositeDerivation {X' X S' S : RingedSpace.{u, u}}
   }
   let D : SheafDerivation (inverseImageStructureMap h)
       ((RingedSpaceModuleAdjunction.modulePushforward f).obj M') := by
-    show (PresheafOfModules.restrictScalars
-      (Functor.whiskerRight φ (forget₂ CommRingCat RingCat))).obj Ωpush |>.Derivation'
+    show PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
+      (Functor.whiskerRight φ (forget₂ CommRingCat RingCat))).obj Ωpush)
         (inverseImageStructureMap h).hom
     exact SheafDifferentials.compDeriv dpush φ ψ hsq'
   refine ⟨D, ?_, ?_⟩
@@ -259,7 +259,7 @@ theorem existsUnique_compositeDerivation {X' X S' S : RingedSpace.{u, u}}
     exact SheafDifferentials.compDeriv_d dpush φ ψ
       hsq' (U := .op U) a
   · intro D' hD'
-    apply PresheafOfModules.Derivation.ext
+    apply PresheafOfModulesOfCommRing.Derivation.ext
     ext U a
     show D'.d a = (SheafDifferentials.compDeriv dpush φ ψ
       hsq').d a

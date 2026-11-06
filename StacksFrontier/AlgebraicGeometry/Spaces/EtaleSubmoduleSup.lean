@@ -178,6 +178,7 @@ theorem subobject_mk_sup_ι (K₁ K₂ : M.Submodule) :
     · rw [biprod.inl_desc_assoc, hf, biprod.inl_desc, submoduleHomOfLE_ι]
     · rw [biprod.inr_desc_assoc, hf, biprod.inr_desc, submoduleHomOfLE_ι]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The supremum of two submodules of finite type is of finite type.** -/
 theorem isFiniteType_sup (K₁ K₂ : M.Submodule) (h₁ : K₁.toSheafOfModules.IsFiniteType)
     (h₂ : K₂.toSheafOfModules.IsFiniteType) : (K₁ ⊔ K₂).toSheafOfModules.IsFiniteType := by

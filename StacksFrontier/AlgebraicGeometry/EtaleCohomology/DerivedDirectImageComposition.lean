@@ -90,8 +90,8 @@ def mapHomotopyCategoryPlusIsoOfCompIso (e : F ⋙ G ≅ H) :
 `F ⋙ G ≅ H` of underived functors: `R(G ∘ F) ≅ RH`. -/
 def rightDerivedFunctorPlusIsoOfCompIso (e : F ⋙ G ≅ H) :
     (F ⋙ G).rightDerivedFunctorPlus ≅ H.rightDerivedFunctorPlus :=
-  Functor.rightDerivedNatIso _ _ (F ⋙ G).rightDerivedFunctorPlusUnit
-    H.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C)
+  Functor.rightDerivedNatIso _ _ (F ⋙ G).rightDerivedFunctorPlusUnith
+    H.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C)
     (Functor.isoWhiskerRight (mapHomotopyCategoryPlusIsoOfCompIso F G H e)
       DerivedCategory.Plus.Qh)
 

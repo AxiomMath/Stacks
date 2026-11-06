@@ -141,8 +141,8 @@ variable {A : Type u} [CommRing A] (φ : univBase.{u} n d →+* A) (p : MvPolyno
 /-- The specialization of the parameters to the coefficients of `p`, of the `ψ_j`, and to
 `t`. -/
 noncomputable def sideSpec : sideBase.{u} n d e₁ m e₂ τ →+* A :=
-  eval₂Hom φ (Sum.elim (fun iα ↦ coeff (multiIndexExponent n e₁ iα.2) p)
-    (Sum.elim (fun jα ↦ coeff (multiIndexExponent (n + 1) e₂ jα.2) (ψ jα.1)) t))
+  eval₂Hom φ (Sum.elim (fun iα ↦ p.coeff (multiIndexExponent n e₁ iα.2))
+    (Sum.elim (fun jα ↦ (ψ jα.1).coeff (multiIndexExponent (n + 1) e₂ jα.2)) t))
 
 /-- The specialization of the parameters is `φ` on the constants. -/
 theorem sideSpec_C (c : univBase.{u} n d) :
@@ -173,7 +173,7 @@ the parameters by `g` gives the polynomial whose coefficients they specialize to
 private theorem map_sideSpec_map_rename_genPoly {ι : Type} {w ε : ℕ}
     (g : ι × MultiIndex w ε → sideσ n e₁ m e₂ τ) (P : ι → MvPolynomial (Fin w) A)
     (hg : ∀ iα, sideSpec n d e₁ m e₂ τ φ p ψ t (X (g iα)) =
-      coeff (multiIndexExponent w ε iα.2) (P iα.1))
+      (P iα.1).coeff (multiIndexExponent w ε iα.2))
     (hP : ∀ j, (P j).totalDegree ≤ ε) (j : ι) :
     MvPolynomial.map (sideSpec n d e₁ m e₂ τ φ p ψ t)
       (MvPolynomial.map (rename g : MvPolynomial (ι × MultiIndex w ε) (univBase.{u} n d) →ₐ[_]

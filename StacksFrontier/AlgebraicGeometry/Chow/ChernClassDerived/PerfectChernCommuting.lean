@@ -115,7 +115,7 @@ theorem commutesWith_totalChern (F : Y.Modules) (r : ℕ)
   · have hj' : r < j := Nat.lt_of_not_le hj
     rw [op_totalChern_of_lt C sY F r m k hj', op_totalChern_of_lt C sY F r _ (k - q) hj',
       AddMonoidHom.zero_apply, AddMonoidHom.zero_apply, map_zero]
-    exact (heq_of_eq (map_zero (chowGroupDegreeEquiv C _
+    exact (heq_of_eq (AddEquiv.map_zero (chowGroupDegreeEquiv C _
       (by ring : k - q - (j : ℤ) = k - (j : ℤ) - q))).symm).trans
       (chowGroupDegreeEquiv_heq C _ _ 0)
 

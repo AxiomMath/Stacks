@@ -509,7 +509,6 @@ theorem ext_map_op_smul_app (M N : ModuleCat.{u} R) (x : R) (i : ℕ) :
   have hΘeq : (HomologicalComplex.opFunctor (ModuleCat R) (ComplexShape.down ℕ).symm).map
       ((x • 𝟙 (P.complex.linearYonedaObj R N)).op) = Θ := by
     ext n : 2
-    apply Quiver.Hom.unop_inj
     simp only [HomologicalComplex.opFunctor_map_f, Quiver.Hom.unop_op]
     show (x • 𝟙 ((P.complex.linearYonedaObj R N).X n)) = ((linearYoneda R (ModuleCat R)).obj
         N).map ((x • 𝟙 (P.complex.X n)).op)

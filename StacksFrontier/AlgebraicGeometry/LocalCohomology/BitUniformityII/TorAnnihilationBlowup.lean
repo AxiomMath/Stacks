@@ -177,9 +177,11 @@ theorem exists_hypercohomologySpectralSequence_abutsTo_tor_idealPow [IsNoetheria
     · exact Ideal.map_le_iff_le_comap.mpr fun r hr =>
         Ideal.mem_comap.mpr (hc M (q : ℤ) p (-(i : ℤ) - p) (by omega) r hr)
   · obtain ⟨e⟩ := hq₀ q hq M
-    obtain ⟨eTor⟩ :=
-      AdicCompletionTor.nonempty_derivedTensorSingleHomology_iso_Tor' _ M
+    have hTor :=
+      AdicCompletionTor.nonempty_derivedTensorSingleHomology_iso_Tor'
+        (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct A) M
         (ModuleCat.of A (I ^ q : Ideal A)) i
+    obtain ⟨eTor⟩ := hTor
     exact ⟨baseHypercohomologyIso (toSpec I)
         (hypercohomologySpectralSequence (blowUpSpec I).toRingedSpace
           (twistedDerivedPullbackQcoh I M (q : ℤ)).obj).representative

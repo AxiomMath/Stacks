@@ -63,6 +63,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   (hO : Presheaf.IsSheaf J (TensorSheafification.structureRingPresheaf O))
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
 
+set_option backward.isDefEq.respectTransparency false in
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The symmetry constraint of the tensor product sheaf exchanges the two factors of a local
 pure tensor. -/

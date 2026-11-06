@@ -109,13 +109,14 @@ universe u
 variable {X Y : RingedTopos.{u, u, u}}
   [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   (f : RingedToposSiteHom X Y)
+
+/- Sheafification of abelian presheaves is not a section variable here: the statement and proof
+below use the global instance `Stacks.SheafOfModules.coefficientSheafification`. -/
 
 /-! ## The transport -/
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}] in
 /-- **The right-unitor coherence of Stacks 03EL for the site-presented pullback follows from the
 right-unitor coherence of Stacks 03EL for the four-field pullback.**
 

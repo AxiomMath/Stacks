@@ -50,12 +50,12 @@ open scoped TensorProduct
 /-- The monoidal structure on presheaves of modules over the structure sheaf of `X`. -/
 local instance (X : Scheme.{u}) :
     MonoidalCategory (PresheafOfModules.{u} X.ringCatSheaf.obj) :=
-  PresheafOfModules.monoidalCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
 
 /-- The symmetric monoidal structure on presheaves of modules over the structure sheaf of `X`. -/
 local instance (X : Scheme.{u}) :
     SymmetricCategory (PresheafOfModules.{u} X.ringCatSheaf.obj) :=
-  PresheafOfModules.symmetricCategory (R := X.presheaf)
+  PresheafOfModulesOfCommRing.symmetricCategory (R := X.presheaf)
 
 /-- **A commutative unital multiplication on a sheaf of `𝒪_X`-modules** `E`: a unit `𝒪_X ⟶ E`
 and a multiplication `E ⊗ E ⟶ E`, commutative, associative and unital on sections. -/

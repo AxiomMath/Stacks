@@ -55,6 +55,19 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks in presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_AdmissibleBlowupDominatesModification
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_AdmissibleBlowupDominatesModification :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-- The strict transform `X' ⊆ X ×_A A'` lies over `X` and over `A'` compatibly: its two
 projections, followed by `f` and by `b`, agree. -/
 theorem strictTransformSpaceι_toSource_comp {A X A' : AlgebraicSpaces B S hS} (f : X ⟶ A)
@@ -179,6 +192,7 @@ theorem exists_isAdmissibleBlowup_extension_of_isProper_of_section
       have ha' : (q ≫ toSchemeTheoreticImage B S hS sW) ≫ (ιZ ≫ f).hom = q ≫ U'.1.ι := by
         change q ≫ toSchemeTheoreticImage B S hS sW ≫ Z.ι ≫ f.hom = _
         rw [← Category.assoc (toSchemeTheoreticImage B S hS sW), hsZ, hsW]
+      have : Mono (pullback.snd (ιZ ≫ f).hom U'.1.ι) := @IsIso.mono_of_iso _ _ _ _ _ hiso
       have hl : pullback.lift _ q ha = pullback.lift _ q ha' :=
         (cancel_mono (pullback.snd (ιZ ≫ f).hom U'.1.ι)).1
           (by rw [pullback.lift_snd, pullback.lift_snd])

@@ -325,7 +325,7 @@ def piPushPullMap (f : K ⟶ L) : productPushPullFunctor J L ⟶ productPushPull
           localizationPushforward (K.obj j) J).map h)
     apply Limits.Pi.hom_ext
     intro i
-    simp only [Category.assoc, Limits.Pi.lift_π, Limits.Pi.map_π, Limits.Pi.lift_π_assoc,
+    simp only [Category.assoc, Limits.Pi.lift_comp_π, Limits.Pi.map_π, Limits.Pi.lift_comp_π_assoc,
       Limits.Pi.map_π_assoc]
     rw [(pushPullContraMap J (f.φ i)).naturality h]
 
@@ -338,7 +338,7 @@ theorem piPushPullMap_app_π (f : K ⟶ L) (X : Sheaf J (Type u)) (i : K.I) :
       Pi.π (fun j : L.I ↦ (localizationPullback (L.obj j) J ⋙
         localizationPushforward (L.obj j) J).obj X) (f.f i) ≫
         (pushPullContraMap J (f.φ i)).app X :=
-  Limits.Pi.lift_π _ _
+  Limits.Pi.lift_comp_π _ _
 
 /-- **The transition on internal homs induced by a morphism of semi-representable objects.** -/
 def piSheafHomMap (f : K ⟶ L) : productSheafHomFunctor J L ⟶ productSheafHomFunctor J K where
@@ -361,7 +361,7 @@ def piSheafHomMap (f : K ⟶ L) : productSheafHomFunctor J L ⟶ productSheafHom
           (SheafHomAdj.sheafHomFunctor (componentSheafifiedYoneda J K j)).map h)
     apply Limits.Pi.hom_ext
     intro i
-    simp only [Category.assoc, Limits.Pi.lift_π, Limits.Pi.map_π, Limits.Pi.lift_π_assoc,
+    simp only [Category.assoc, Limits.Pi.lift_comp_π, Limits.Pi.map_π, Limits.Pi.lift_comp_π_assoc,
       Limits.Pi.map_π_assoc]
     rw [(SheafHomAdj.sheafHomContraMap (phiSheafify J f i)).naturality h]
 
@@ -374,7 +374,7 @@ theorem piSheafHomMap_app_π (f : K ⟶ L) (X : Sheaf J (Type u)) (i : K.I) :
       Pi.π (fun j : L.I ↦
         (SheafHomAdj.sheafHomFunctor (componentSheafifiedYoneda J L j)).obj X) (f.f i) ≫
         (SheafHomAdj.sheafHomContraMap (phiSheafify J f i)).app X :=
-  Limits.Pi.lift_π _ _
+  Limits.Pi.lift_comp_π _ _
 
 /-- The transition on the coproduct left adjoints. -/
 def coproductProdFunctorMap (f : K ⟶ L) : coproductProdFunctor J K ⟶ coproductProdFunctor J L where
@@ -396,8 +396,8 @@ def coproductProdFunctorMap (f : K ⟶ L) : coproductProdFunctor J K ⟶ coprodu
         Limits.Sigma.map (fun j : L.I ↦ (prod.functor.obj (componentSheafifiedYoneda J L j)).map h)
     apply Limits.Sigma.hom_ext
     intro i
-    simp only [Category.assoc, Limits.Sigma.ι_desc, Limits.Sigma.ι_map,
-      Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_map_assoc]
+    simp only [Category.assoc, Limits.Sigma.ι_comp_desc, Limits.Sigma.ι_map,
+      Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_map_assoc]
     rw [NatTrans.naturality_assoc]
 
 /-- The `i`-th component of the coproduct transition. -/
@@ -408,7 +408,7 @@ theorem coproductProdFunctorMap_ι_app (f : K ⟶ L) (X : Sheaf J (Type u)) (i :
       (prod.functor.map (phiSheafify J f i)).app X ≫
         Limits.Sigma.ι (fun j : L.I ↦
           (prod.functor.obj (componentSheafifiedYoneda J L j)).obj X) (f.f i) :=
-  Limits.Sigma.ι_desc _ _
+  Limits.Sigma.ι_comp_desc _ _
 
 /-! ### The three squares -/
 
@@ -450,7 +450,7 @@ theorem piPushPullMap_comp_productPushPullIsoSheafHom (f : K ⟶ L) :
         (SheafHomAdj.sheafHomContraMap (phiSheafify J f i)).app X :=
     congrFun (congrArg NatTrans.app
       (pushPullContraMap_comp_sheafHomYonedaSheafify J (f.φ i))) X
-  simp only [Category.assoc, Limits.Pi.lift_π, Limits.Pi.map_π, Limits.Pi.lift_π_assoc,
+  simp only [Category.assoc, Limits.Pi.lift_comp_π, Limits.Pi.map_π, Limits.Pi.lift_comp_π_assoc,
     Limits.Pi.map_π_assoc]
   rw [key]
 
@@ -520,8 +520,8 @@ theorem piSheafHomMap_eq_conjugateEquiv (f : K ⟶ L) :
   apply Limits.Sigma.hom_ext
   intro i
   simp only [Category.id_comp, Category.assoc, Limits.Sigma.ι_map_assoc,
-    Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc]
-  rw [← Functor.map_comp_assoc, Limits.Pi.lift_π, Functor.map_comp, Category.assoc,
+    Limits.Sigma.ι_comp_desc_assoc, Limits.Sigma.ι_comp_desc]
+  rw [← Functor.map_comp_assoc, Limits.Pi.lift_comp_π, Functor.map_comp, Category.assoc,
     sheafHomContraMap_counit, NatTrans.naturality_assoc]
 
 /-! ### Compatibility of the coproduct transition with the comparison of left adjoints -/
@@ -556,7 +556,7 @@ theorem sheafifiedFormalCoproductIso_inv_map (f : K ⟶ L) (i : K.I) :
         (FormalCoproduct.yoneda (C := C)).map f =
       (yoneda (C := C)).map (f.φ i) ≫
         Limits.Sigma.ι (fun l : L.I ↦ (yoneda (C := C)).obj (L.obj l)) (f.f i) :=
-    Limits.Sigma.ι_desc _ i
+    Limits.Sigma.ι_comp_desc _ i
   rw [← Functor.map_comp]
   exact (congrArg (presheafToSheaf J (Type u)).map hyon.symm).trans
     ((presheafToSheaf J (Type u)).map_comp _ _)
@@ -590,7 +590,7 @@ theorem coproductProdFunctorMap_comp_coproductProdFunctorIso (f : K ⟶ L) :
         (prod.functor.map (totSheafify J f)).app X
   apply Limits.Sigma.hom_ext
   intro i
-  rw [Limits.Sigma.ι_desc_assoc, Category.assoc, hcop L (f.f i) X, Category.assoc,
+  rw [Limits.Sigma.ι_comp_desc_assoc, Category.assoc, hcop L (f.f i) X, Category.assoc,
     hcop K i X]
   simp only [← NatTrans.comp_app, ← Functor.map_comp]
   exact congrArg (fun h ↦ (prod.functor.map h).app X)
@@ -667,7 +667,7 @@ theorem piPushPullMap_id (K : FormalCoproduct.{u} C) :
       localizationPushforward (K.obj j) J).obj X)
   apply Limits.Pi.hom_ext
   intro i
-  rw [Limits.Pi.lift_π, pushPullContraMap_id, NatTrans.id_app, Category.comp_id,
+  rw [Limits.Pi.lift_comp_π, pushPullContraMap_id, NatTrans.id_app, Category.comp_id,
     Category.id_comp]
 
 /-! ### Push-pull along the componentwise localization functor -/

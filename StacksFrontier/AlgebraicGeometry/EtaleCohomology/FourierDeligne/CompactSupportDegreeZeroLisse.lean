@@ -50,12 +50,12 @@ theorem extensionByZero_section_eq_zero_of_isLocallyConstantWith
     (Q : ModuleCat.{u + 1} Λ → Prop) {X Y : Scheme.{u}} (j : X ⟶ Y) [IsOpenImmersion j]
     [ConnectedSpace X] (hj : ¬ IsClosed (Set.range j)) (G : EtaleModules.{u, 0} Λ X)
     (hG : Stacks.ConstantSheaf.IsLocallyConstantWith Λ X.smallEtaleTopology Q G)
-    (s : ((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).val.obj
+    (s : ((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).obj.obj
       (op (Scheme.Etale.mk (𝟙 Y)))) : s = 0 := by
   obtain ⟨z, hzc, hzr⟩ : ∃ z, z ∈ closure (Set.range j) ∧ z ∉ Set.range j :=
     Set.not_subset.1 fun h => hj (closure_subset_iff_isClosed.1 h)
   let T : Y.Etale := Scheme.Etale.mk (𝟙 Y)
-  let P := (Scheme.Etale.smallEtaleCompose j).op.lan.obj G.val
+  let P := (Scheme.Etale.smallEtaleCompose j).op.lan.obj G.obj
   have : Y.smallEtaleTopology.WEqualsLocallyBijective (ModuleCat.{u + 1} Λ) :=
     Stacks.ConstantSheaf.wEqualsLocallyBijective_moduleCat.{u, u + 1, u + 1, 0} _ Λ
   have hls : Presheaf.IsLocallySurjective.{u, u + 1, u + 1, u + 2, u + 1, u + 1}
@@ -79,19 +79,19 @@ theorem extensionByZero_section_eq_zero_of_isLocallyConstantWith
     have : IsEmpty (W ⟶ Scheme.Etale.smallEtaleSource j) := ⟨fun φ => hzr ⟨φ.left y, by
       rw [← hWz, ← MorphismProperty.Over.w φ]
       rfl⟩⟩
-    refine IsZero.of_iso ?_ (extensionByZeroPresheafSectionIso j G.val W).symm
+    refine IsZero.of_iso ?_ (extensionByZeroPresheafSectionIso j G.obj W).symm
     rw [IsZero.iff_id_eq_zero]
     exact Sigma.hom_ext _ _ fun b => isEmptyElim b
-  have hsW : (((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).val.map g.op).hom s = 0 := by
+  have hsW : (((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).obj.map g.op).hom s = 0 := by
     rw [show p = 0 from (ModuleCat.subsingleton_of_isZero hP).elim p 0, map_zero] at hp
     exact hp.symm
   let ε := (etaleModuleExtensionByZeroToDirectImage.{u, 0} Λ j).app G
   let B := smallEtaleBaseChange j
-  have ht : (G.val.map (B.map g).op).hom ((ε.hom.app (op T)).hom s) = 0 := by
+  have ht : (G.obj.map (B.map g).op).hom ((ε.hom.app (op T)).hom s) = 0 := by
     have hn := ConcreteCategory.congr_hom (ε.hom.naturality g.op) s
     rw [ConcreteCategory.comp_apply, ConcreteCategory.comp_apply] at hn
     have h0 : (ε.hom.app (op W)).hom
-        ((((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).val.map g.op).hom s) = 0 := by
+        ((((etaleModuleExtensionByZero.{u, 0} Λ j).obj G).obj.map g.op).hom s) = 0 := by
       rw [hsW, map_zero]
     exact hn.symm.trans h0
   have : ConnectedSpace (B.obj T).left := by

@@ -344,7 +344,7 @@ private theorem exists_doubleComplex_spectralSequence
   let E' : CohomologicalSpectralSequence A 1 :=
     { page := fun r hr => E.page r (by omega)
       iso := fun r r' pq h hr => E.iso r r' pq h (by omega) }
-  have hquadrant (i j : ℤ) (h : i < 0 ∨ j < 0) : IsZero ((E'.page 1).X (i, j)) :=
+  have hquadrant (i j : ℤ) (h : i < 0 ∨ j < 0) : IsZero ((E'.page 1 le_rfl).X (i, j)) :=
     IsZero.of_iso ((HomologicalComplex.ExactAt.of_isZero (hL i j h)).isZero_homology)
       (β i j)
   refine ⟨E', fun i j => ⟨β i j⟩, hquadrant, ?_⟩

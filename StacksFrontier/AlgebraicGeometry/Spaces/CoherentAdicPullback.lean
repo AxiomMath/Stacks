@@ -161,6 +161,7 @@ theorem submodule_ι_eq_zero_iff {M : Modules.{u, u} B S hS F hF} (P : M.Submodu
 variable (𝓘 : (SheafOfModules.unit
   ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).Submodule)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The inclusion of `Coh(X, 𝓘)` into the inverse systems of `𝒪_X`-modules preserves finite
 colimits.**  Cokernels in `Coh(X, 𝓘)` are the levelwise ones
 (`AlgebraicGeometry.Space.preservesColimitParallelPairι`), and a functor between preadditive

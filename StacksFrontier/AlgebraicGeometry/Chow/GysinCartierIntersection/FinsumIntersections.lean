@@ -220,8 +220,8 @@ lemma ker_zeroScheme_stalkMap_of_frame
     (hy : (Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι y ∈ U.1) :
     RingHom.ker ((Stacks.Divisors.zeroScheme X L (s.eval (.op ⊤))).subschemeι.stalkMap y).hom =
       Ideal.span {(X.presheaf.germ U.1 _ hy).hom
-        (Stacks.Divisors.frameSections X L eU
-          (L.presheaf.map (homOfLE le_top).op (s.eval (.op ⊤))))} := by
+                    (Stacks.Divisors.frameSections X L eU
+                      (L.presheaf.map (homOfLE le_top).op (s.eval (.op ⊤))))} := by
   rw [ker_subscheme_stalkMap_eq_map_ideal _ U y hy,
     Stacks.Divisors.zeroScheme_ideal_of_trivialization X L (s.eval (.op ⊤)) U
       (Stacks.Divisors.frameSections X L eU) _ rfl,

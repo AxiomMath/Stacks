@@ -5,6 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.CurveTraceC
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstructibleComplexes.EtaleModulesCtfOpenClosed
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedLowerShriek.InducedCompactification
 public import StacksFrontier.AlgebraicGeometry.Size.Cutoff
+public import Mathlib.AlgebraicGeometry.Morphisms.Finite
 
 /-!
 # The trace formula over a fibration into curves
@@ -94,6 +95,9 @@ theorem isCtf_extensionByZero_of_isOpenImmersion {U X : Scheme.{u}} (j : U ⟶ X
     rw [Scheme.IdealSheafData.range_subschemeι,
       Scheme.IdealSheafData.coe_support_vanishingIdeal]
     exact (compl_compl _).symm
+  have : IsFinite Zc.subschemeι := ((IsClosedImmersion.iff_isFinite_and_mono _).mp inferInstance).1
+  have : LocallyOfFiniteType Zc.subschemeι :=
+    ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType _).mp inferInstance).2
   have hZ : B.Contains Zc.subscheme :=
     (Scheme.size_le_of_locallyOfFiniteType_of_quasiCompact Zc.subschemeι).trans_lt hX
   have : IsOpenImmersion (B.inclusion.map
@@ -273,6 +277,13 @@ theorem cohomologicalTraceFormula_extensionByZero_of_fibration (hΛ : (Nat.card 
     rw [Category.assoc, pullback.condition, pullback.lift_snd_assoc]
   have hpb : IsPullback hUm fyk (g ≫ JA.immersion) y.1 :=
     heq ▸ h₁.paste_vert (IsPullback.of_hasPullback π.left y.1)
+  have : IsProper (pullback.snd π.left y.1) := inferInstance
+  have : LocallyOfFiniteType (pullback.snd π.left y.1) :=
+    ‹IsProper (pullback.snd π.left y.1)›.toLocallyOfFiniteType
+  have : IsOpenImmersion pY := inferInstanceAs (IsOpenImmersion (pullback.snd J'.immersion fy))
+  have : LocallyOfFiniteType pY := inferInstance
+  have : LocallyOfFiniteType fyk :=
+    MorphismProperty.comp_mem @LocallyOfFiniteType _ _ ‹_› ‹_›
   have hUy : B.Contains (pullback J'.immersion fy) :=
     (Scheme.size_le_of_locallyOfFiniteType_of_quasiCompact fyk).trans_lt hk
   let Ky := (etaleModuleInverseImage.{u, 0} Λ hUm).mapCochainComplexPlus.obj K

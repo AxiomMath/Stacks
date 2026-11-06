@@ -118,7 +118,7 @@ noncomputable def tensorSwapTensorLeftIso (O : Sheaf J CommRingCat.{w})
     ((Stacks.SheafOfModules.Tensor.sheafTensor O).obj F).obj G ≅
       ((Stacks.SheafOfModules.Tensor.sheafTensor (J := J) (O)).obj G).obj F :=
   letI : SymmetricCategory (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :=
-    PresheafOfModules.symmetricCategory (R := O.obj)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := O.obj)
   (PresheafOfModules.sheafification
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).mapIso (β_ F.val G.val)
 

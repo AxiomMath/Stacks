@@ -357,7 +357,7 @@ private noncomputable def galoisActionOnFiber [ConnectedSpace X]
 private noncomputable def galoisActionAut [ConnectedSpace X]
     (σ : Gal(sbar.residueField/X.residueField (sbar.hom default))) :
     AlgebraicGeometry.EtaleFundamentalGroup X sbar :=
-  NatIso.ofComponents
+  Aut.of <| NatIso.ofComponents
     (fun Y => Equiv.toIso (galoisActionOnFiber X sbar σ Y))
     (by
       intro Y Z f
@@ -368,8 +368,9 @@ private noncomputable def galoisActionAut [ConnectedSpace X]
 /-- Two elements of the étale fundamental group agree if they agree on all fibre points. -/
 private theorem etaleFundamentalGroup_ext [ConnectedSpace X] {a b : EtaleFundamentalGroup X sbar}
     (h : ∀ (Y : FiniteEtaleOver X) (p : finiteEtaleFiber sbar Y),
-      ((a.app Y).hom p).1 = ((b.app Y).hom p).1) : a = b := by
+      ((a.asIso.app Y).hom p).1 = ((b.asIso.app Y).hom p).1) : a = b := by
   apply Aut.ext
+  apply Iso.ext
   apply NatTrans.ext
   funext Y
   apply ConcreteCategory.hom_ext
@@ -480,7 +481,7 @@ public noncomputable def absoluteGaloisToFundamentalGroup
 private theorem absoluteGaloisToFundamentalGroup_spec [ConnectedSpace X]
     (σ : Gal(sbar.residueField/X.residueField (sbar.hom default)))
     (Y : FiniteEtaleOver X) (p : finiteEtaleFiber sbar Y) :
-    (((absoluteGaloisToFundamentalGroup X sbar σ).app Y).hom p).1 =
+    (((absoluteGaloisToFundamentalGroup X sbar σ).asIso.app Y).hom p).1 =
       Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1 :=
   rfl
 
@@ -575,7 +576,7 @@ private theorem exists_galois_action_lift
           (p : finiteEtaleFiber
             ((algebraicClosureGeometricPoint (X.residueField x) Ω).map
               (X.fromSpecResidueField x)) Y),
-          ((a.app Y).hom p).1 =
+          ((a.asIso.app Y).hom p).1 =
             Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1 := by
   subst x
   let K := X.residueField (genericPoint X)
@@ -606,7 +607,7 @@ private theorem absoluteGaloisToFundamentalGroup_surjective
       ∃ σ : Gal(sbar.residueField / X.residueField (sbar.hom default)),
         ∀ (Y : FiniteEtaleOver X)
           (p : finiteEtaleFiber ⟨sbar.residueField, j⟩ Y),
-          ((a.app Y).hom p).1 =
+          ((a.asIso.app Y).hom p).1 =
             Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1
   have h' : P (Spec.map (CommRingCat.ofHom
       (algebraMap (X.residueField (sbar.hom default)) sbar.residueField)) ≫
@@ -648,7 +649,7 @@ private theorem absoluteGaloisToFundamentalGroup_eq_one_of_fixes_maximal
     le_sSup (Set.mem_ofPred.mpr hE)
   have hfield := (spec_map_galois_comp_eq_iff E σ).mpr fun x => hσ x (hEM x.property)
   have hact := absoluteGaloisToFundamentalGroup_spec X sbar σ Y p
-  show ((((absoluteGaloisToFundamentalGroup X sbar) σ).app Y).hom p).1 = p.1
+  show ((((absoluteGaloisToFundamentalGroup X sbar) σ).asIso.app Y).hom p).1 = p.1
   rw [hact]
   show Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1 = p.1
   rw [← hq, ← hj]
@@ -720,7 +721,7 @@ public theorem fiber_stabilizer_of_mono_factor
     (j : Spec (.of E) ⟶ Y.left) [Mono j]
     (hj : Spec.map (CommRingCat.ofHom E.val.toRingHom) ≫ j = p.1)
     (σ : Gal(sbar.residueField/X.residueField (sbar.hom default))) :
-    (((absoluteGaloisToFundamentalGroup X sbar σ).app Y).hom p = p) ↔
+    (((absoluteGaloisToFundamentalGroup X sbar σ).asIso.app Y).hom p = p) ↔
       σ ∈ E.fixingSubgroup := by
   have hact := absoluteGaloisToFundamentalGroup_spec X sbar σ Y p
   rw [Subtype.ext_iff, hact, ← hj, ← Category.assoc, cancel_mono]
@@ -734,7 +735,7 @@ public theorem absoluteGaloisToFundamentalGroup_apply
     (σ : Gal(sbar.residueField/X.residueField (sbar.hom default)))
     (Y : FiniteEtaleOver X)
     (p : finiteEtaleFiber sbar Y) :
-    ((((absoluteGaloisToFundamentalGroup X sbar) σ).app Y).hom p).1 =
+    ((((absoluteGaloisToFundamentalGroup X sbar) σ).asIso.app Y).hom p).1 =
       Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1 :=
   absoluteGaloisToFundamentalGroup_spec X sbar σ Y p
 

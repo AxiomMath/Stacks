@@ -267,7 +267,8 @@ theorem isZero_presheafToSheaf_copower (G : Cᵒᵖ ⥤ Type u) {P : Cᵒᵖ ⥤
     intro Y f hf
     simp only [Presheaf.equalizerSieve_apply, map_zero, Functor.copower_map] at hf ⊢
     have hc := ConcreteCategory.congr_hom
-      (Sigma.ι_comp_map' (g := fun _ => P.obj _) (G.map f.op) (fun _ => P.map f.op) s) m
+      (Sigma.ι_comp_map' (f := fun _ => P.obj (op Y)) (g := fun _ => P.obj X)
+        (G.map f.op) (fun _ => P.map f.op) s) m
     simp only [CategoryTheory.comp_apply] at hc
     rw [hc, hf, map_zero]
   simp [htop]

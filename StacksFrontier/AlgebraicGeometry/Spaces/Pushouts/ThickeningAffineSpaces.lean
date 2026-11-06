@@ -106,6 +106,13 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] BigFppfOver.hasSheafify_type
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_thickeningAffineSpaces
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The étale clause of Stacks 07RX, in the shape in which Stacks 07SY takes it as a
 hypothesis. -/
 private theorem etale_gluingFunctor_obj_iff_forall :
@@ -504,7 +511,7 @@ private theorem exists_quotientSheafIso_of_etale_atlas
       Stacks.Groupoids.toQuotientSheaf (BigFppfOver.topology B S hS)
         (Over.post B.inclusion) (relation B S hS s t), by rw [Iso.hom_inv_id_assoc]⟩
   have hkrel : yoneda.map s ≫ k = yoneda.map t ≫ k := by
-    refine (cancel_epi (pointsYonedaIso (Over.post B.inclusion) R).hom).mp ?_
+    refine (Iso.cancel_iso_hom_left (pointsYonedaIso (Over.post B.inclusion) R) _ _).mp ?_
     rw [← Category.assoc _ (yoneda.map s) k, ← Category.assoc _ (yoneda.map t) k,
       ← h1, ← h2, Category.assoc, Category.assoc, hk,
       Stacks.Groupoids.sourceMap_toQuotientSheaf]
@@ -521,7 +528,7 @@ private theorem exists_quotientSheafIso_of_etale_atlas
         Category.assoc, Category.assoc, hl]
     refine ⟨(Stacks.Groupoids.quotientSheafDesc (BigFppfOver.topology B S hS)
       (Over.post B.inclusion) (relation B S hS s t) ⟨W, hW⟩ _ hcond).hom, ?_, ?_⟩
-    · refine (cancel_epi (pointsYonedaIso (Over.post B.inclusion) U).hom).mp ?_
+    · refine (Iso.cancel_iso_hom_left (pointsYonedaIso (Over.post B.inclusion) U) _ _).mp ?_
       rw [← Category.assoc _ k _, hk,
         Stacks.Groupoids.toQuotientSheaf_quotientSheafDesc]
     · intro d hd

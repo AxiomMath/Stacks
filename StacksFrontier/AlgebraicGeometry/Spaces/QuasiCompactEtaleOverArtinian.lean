@@ -58,6 +58,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_QuasiCompactEtaleOverArtinian
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A quasi-compact étale morphism of schemes into a locally Artinian scheme is finite, and its
 source is locally Artinian: étale morphisms are locally quasi-finite, so this is
 `AlgebraicGeometry.IsFinite.of_locallyQuasiFinite`, with local quasi-finiteness supplied by

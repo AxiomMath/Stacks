@@ -62,7 +62,7 @@ coefficients.** The coefficients are elements of `R₀ S = End (𝒪_S)`, i.e. e
 monoidal unit, so the scalar multiplication is composition. -/
 theorem curry'_eq_sum_matIncl (f : freeModule S I ⟶ freeModule S I) :
     MonoidalClosed.curry' f
-      = ∑ k : I × I, freeDualMatrix f k.1 k.2 ≫ matIncl (S := S) k := by
+      = ∑ k : I × I, (freeDualMatrix f k.1 k.2).asHom ≫ matIncl (S := S) k := by
   have h : MonoidalClosed.curry' f
       = ∑ k : I × I, MonoidalClosed.curry' f ≫ matCoord (S := S) k ≫ matIncl k := by
     rw [← Preadditive.comp_sum, sum_matCoord_comp_matIncl, Category.comp_id]

@@ -137,7 +137,9 @@ theorem cohomologicalTraceFormula_of_isProper_of_rationalFibre [QuasiCompact W.h
   have : ∀ y : rationalPoints W.hom, Fintype (rationalPoints (rationalFibre π y.1).hom) :=
     fun y =>
       have : LocallyOfFiniteType (rationalFibre π y.1).hom :=
-        inferInstanceAs (LocallyOfFiniteType (pullback.snd π.left y.1))
+        set_option backward.isDefEq.respectTransparency.types false in
+        MorphismProperty.pullback_snd (P := @LocallyOfFiniteType) π.left y.1
+          (IsProper.toLocallyOfFiniteType (f := π.left))
       have : QuasiCompact (rationalFibre π y.1).hom :=
         inferInstanceAs (QuasiCompact (pullback.snd π.left y.1))
       have := finite_rationalPoints (rationalFibre π y.1).hom

@@ -150,7 +150,8 @@ theorem exists_finiteSchemeCover_of_isEtaleSectionClosed (hZ : B.Contains (⊤_ 
   · exact isFinite_comp B S hS (isFinite_of_isIso B S hS _) hTfin
   · refine isFinitePresentation_comp B S hS hYalg T.2.1 hX _ _
       ⟨isLocallyOfFinitePresentation_of_isOpenImmersion B S hS (isOpenImmersion_of_isIso B S hS _),
-        isQuasiCompact_of_isIso B S hS _, isQuasiSeparated_of_mono B S hS _ inferInstance⟩
+        isQuasiCompact_of_isIso B S hS _, isQuasiSeparated_of_mono B S hS e.hom
+          ⟨fun g h w => by simpa using w =≫ e.inv⟩⟩
       (isFinitePresentation_comp B S hS T.2.1 P.2 hX _ _ hTfp hqfp)
   · -- finite étale over `U`
     let m := pullback.map U.ι (e.hom ≫ g') U.ι g' (𝟙 _) e.hom (𝟙 _) (by simp) (by simp)

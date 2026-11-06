@@ -139,15 +139,16 @@ The residue field map of the equivariant morphism is a homomorphism of fields, h
 injective, so it detects the triviality of the action upstairs. -/
 theorem ActsNontriviallyOnFixedResidueFields.of_equivariant {U U' : Over S} {G : Type v}
     [Group G] (a : G →* Aut U) (b : G →* Aut U') (m : U' ⟶ U)
-    (hm : ∀ g : G, (b g).hom ≫ m = m ≫ (a g).hom)
+    (hm : ∀ g : G, (b g).asIso.hom ≫ m = m ≫ (a g).asIso.hom)
     (ha : ActsNontriviallyOnFixedResidueFields U G a) :
     ActsNontriviallyOnFixedResidueFields U' G b := by
   intro g x hx hne hres
-  have hmg : (b g).hom.left ≫ m.left = m.left ≫ (a g).hom.left := by
+  have hmg : (b g).asIso.hom.left ≫ m.left = m.left ≫ (a g).asIso.hom.left := by
     rw [← Over.comp_left, ← Over.comp_left, hm g]
-  have he : ((b g).hom.left ≫ m.left).base x = (m.left ≫ (a g).hom.left).base x := by
+  have he : ((b g).asIso.hom.left ≫ m.left).base x =
+      (m.left ≫ (a g).asIso.hom.left).base x := by
     rw [hmg]
-  have hpt : (a g).hom.left.base (m.left.base x) = m.left.base x :=
+  have hpt : (a g).asIso.hom.left.base (m.left.base x) = m.left.base x :=
     he.symm.trans (congrArg m.left.base hx)
   refine ha g (m.left.base x) hpt hne ?_
   have hmono : Mono (m.left.residueFieldMap x) :=
@@ -156,7 +157,7 @@ theorem ActsNontriviallyOnFixedResidueFields.of_equivariant {U U' : Over S} {G :
   rw [Scheme.residueFieldMap_comp, Scheme.residueFieldMap_comp, hres,
     Scheme.Hom.residueFieldMap_congr' (f := m.left) hx] at hcongr
   have hcongr' : ((U.left.residueFieldCongr he).hom ≫
-        (a g).hom.left.residueFieldMap (m.left.base x)) ≫ m.left.residueFieldMap x =
+        (a g).asIso.hom.left.residueFieldMap (m.left.base x)) ≫ m.left.residueFieldMap x =
       (U.left.residueFieldCongr (congrArg m.left.base hx)).hom ≫
         m.left.residueFieldMap x :=
     (Category.assoc _ _ _).trans hcongr.symm
@@ -181,7 +182,7 @@ relation of the action downstairs: the two maps of the relation on `U'`, followe
 morphism, are related. -/
 theorem actionRelation_rel_comp {U U' : Over S} {G : Type v} [Group G] [Small.{u} G]
     (a : G →* Aut U) (b : G →* Aut U') (m : U' ⟶ U)
-    (hm : ∀ g : G, (b g).hom ≫ m = m ≫ (a g).hom) :
+    (hm : ∀ g : G, (b g).asIso.hom ≫ m = m ≫ (a g).asIso.hom) :
     (actionRelation U G a).Rel (actionRelationTarget U' G b ≫ m)
       (actionRelationSource U' G ≫ m) := by
   refine ⟨Sigma.desc (fun g : G ↦ m ≫ Sigma.ι (fun _ : G ↦ U) g), ?_, ?_⟩
@@ -204,7 +205,7 @@ piece indexed by `g` the two points differ by the action of `g` because the mono
 intertwines the two actions. -/
 theorem actionRelation_rel_of_rel_comp {U U' : Over S} {G : Type v} [Group G] [Small.{u} G]
     (a : G →* Aut U) (b : G →* Aut U') (m : U' ⟶ U) [Mono m]
-    (hm : ∀ g : G, (b g).hom ≫ m = m ≫ (a g).hom)
+    (hm : ∀ g : G, (b g).asIso.hom ≫ m = m ≫ (a g).asIso.hom)
     {W : Over S} {x y : W ⟶ U'}
     (h : (actionRelation U G a).Rel (x ≫ m) (y ≫ m)) :
     (actionRelation U' G b).Rel x y := by
@@ -227,7 +228,7 @@ theorem actionRelation_rel_of_rel_comp {U U' : Over S} {G : Type v} [Group G] [S
     rw [h1, ← Category.assoc, Category.assoc]
     exact coproductPullbackIso_ι_fst Y (Sigma.ι Y) c hu (𝟙 (∐ Y)) huι r g
   -- On the piece indexed by `g` the two points differ by the action of `g`.
-  have hpiece : ∀ g : G, pullback.fst r (Sigma.ι Y g) ≫ y ≫ (b g).hom =
+  have hpiece : ∀ g : G, pullback.fst r (Sigma.ι Y g) ≫ y ≫ (b g).asIso.hom =
       pullback.fst r (Sigma.ι Y g) ≫ x := by
     intro g
     refine (cancel_mono m).mp ?_
@@ -239,10 +240,10 @@ theorem actionRelation_rel_of_rel_comp {U U' : Over S} {G : Type v} [Group G] [S
         Sigma.desc (fun _ : G ↦ 𝟙 U) = _
       rw [Sigma.ι_desc, Category.comp_id]
     have htgt : pullback.fst r (Sigma.ι Y g) ≫ x ≫ m =
-        pullback.snd r (Sigma.ι Y g) ≫ (a g).hom := by
+        pullback.snd r (Sigma.ι Y g) ≫ (a g).asIso.hom := by
       rw [← hrt, ← Category.assoc, hcond, Category.assoc]
       show pullback.snd r (Sigma.ι Y g) ≫ Sigma.ι Y g ≫
-        Sigma.desc (fun h : G ↦ (a h).hom) = _
+        Sigma.desc (fun h : G ↦ (a h).asIso.hom) = _
       rw [Sigma.ι_desc]
     simp only [Category.assoc, hm g, reassoc_of% hsrc, htgt]
   refine ⟨ε.inv ≫ Sigma.desc (fun g : G ↦ pullback.fst r (Sigma.ι Y g) ≫ y ≫
@@ -252,7 +253,7 @@ theorem actionRelation_rel_of_rel_comp {U U' : Over S} {G : Type v} [Group G] [S
     refine Sigma.hom_ext _ _ fun g ↦ ?_
     rw [← Category.assoc, Sigma.ι_desc, Category.assoc, Category.assoc]
     show pullback.fst r (Sigma.ι Y g) ≫ y ≫ Sigma.ι (fun _ : G ↦ U') g ≫
-      Sigma.desc (fun h : G ↦ (b h).hom) = _
+      Sigma.desc (fun h : G ↦ (b h).asIso.hom) = _
     rw [Sigma.ι_desc,
       ← Category.assoc (Sigma.ι (fun g : G ↦ pullback r (Sigma.ι Y g)) g) ε.hom x,
       hεhom g, hpiece g]
@@ -296,13 +297,13 @@ theorem genericPointTranslationIso_add (p q : ℤ) :
 /-- The integers act on the generic point of the affine line over `k` by translating the
 indeterminate. -/
 def genericPointTranslationAction : Multiplicative ℤ →* Aut (genericPointOver k) :=
-  MonoidHom.mk' (fun n ↦ genericPointTranslationIso k n.toAdd) fun p q ↦
-    genericPointTranslationIso_add k p.toAdd q.toAdd
+  MonoidHom.mk' (fun n ↦ Aut.of (genericPointTranslationIso k n.toAdd)) fun p q ↦
+    congrArg Aut.of (genericPointTranslationIso_add k p.toAdd q.toAdd)
 
 /-- The element `g` acts on the generic point by translation by `g.toAdd`. -/
 @[simp]
 theorem genericPointTranslationAction_apply (g : Multiplicative ℤ) :
-    genericPointTranslationAction k g = genericPointTranslationIso k g.toAdd :=
+    genericPointTranslationAction k g = Aut.of (genericPointTranslationIso k g.toAdd) :=
   congrFun (MonoidHom.mk'_apply _ _) g
 
 /-- The generic point map is a monomorphism of `k`-schemes. -/
@@ -316,8 +317,8 @@ instance mono_genericPointMap : Mono (genericPointMap k) := by
 /-- The generic point map intertwines the translation action on the generic point with the
 translation action on the affine line. -/
 theorem genericPointMap_equivariant (g : Multiplicative ℤ) :
-    (genericPointTranslationAction k g).hom ≫ genericPointMap k =
-      genericPointMap k ≫ (translationAction k g).hom := by
+    (genericPointTranslationAction k g).asIso.hom ≫ genericPointMap k =
+      genericPointMap k ≫ (translationAction k g).asIso.hom := by
   rw [genericPointTranslationAction_apply]
   exact genericPointMap_translation k g.toAdd
 
@@ -495,7 +496,7 @@ theorem isPullback_genericQuotientMorphism [CharZero k]
 /-- Translating the indeterminate of `k(x)` by one is not the identity automorphism of the
 generic point: the indeterminate goes to `x + 1`. -/
 theorem genericPointTranslationAction_one_ne_one :
-    (genericPointTranslationAction k (Multiplicative.ofAdd (1 : ℤ))).hom ≠
+    (genericPointTranslationAction k (Multiplicative.ofAdd (1 : ℤ))).asIso.hom ≠
       𝟙 (genericPointOver k) := by
   intro h
   have h' : (genericPointTranslationIso k 1).hom = 𝟙 (genericPointOver k) := by
@@ -530,7 +531,7 @@ theorem not_mono_genericQuotientMorphism [CharZero k]
     (Sigma.ι (fun _ : Multiplicative ℤ ↦ genericPointOver k) (Multiplicative.ofAdd (1 : ℤ)))
   simp only [Space.actionRelationTarget, Space.actionRelationSource, Sigma.ι_desc] at hrelone
   let pt₁ : (points (siteOver k B hS) (genericPointOver k)).obj (op GP) :=
-    (genericPointTranslationAction k (Multiplicative.ofAdd (1 : ℤ))).hom
+    (genericPointTranslationAction k (Multiplicative.ofAdd (1 : ℤ))).asIso.hom
   let pt₂ : (points (siteOver k B hS) (genericPointOver k)).obj (op GP) :=
     𝟙 (genericPointOver k)
   have hvalue : (genericQuotientMorphism k B hS hU).app (op GP) pt₁ =

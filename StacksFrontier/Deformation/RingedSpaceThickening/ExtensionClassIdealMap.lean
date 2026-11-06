@@ -185,7 +185,7 @@ theorem singleZeroShiftOneIso_hom (M : C)
     Functor.associator_hom_app, Functor.isoWhiskerLeft_hom, Iso.symm_hom, Functor.whiskerLeft_app,
     Functor.associator_inv_app, Functor.isoWhiskerRight_hom, Functor.whiskerRight_app, Iso.refl_hom,
     NatTrans.id_app, Category.id_comp]
-  exact (Category.id_comp _).trans (congrArg _ (Category.comp_id _))
+  simp only [Category.id_comp, Category.comp_id]
 
 /-- **The projection of a two-term complex onto its shifted degree `-1` term, restricted to a
 complex concentrated in degree `-1`.** For a chain map `ψ : M[-1] ⟶ (X₀ ⟶ X₁)` with degree `-1`

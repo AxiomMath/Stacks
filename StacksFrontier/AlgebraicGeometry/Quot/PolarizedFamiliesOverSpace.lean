@@ -89,7 +89,7 @@ structure PolarizedFamilyOver where
 /-- The projection taking a scheme over the base of the site carrying a point of `A` to the
 underlying scheme of the site. -/
 def pointedSchemesProjection : A.Elementsᵒᵖ ⥤ B.Schemes :=
-  (CategoryOfElements.π A).op ⋙ unopUnop _ ⋙ Over.forget (B.obj hS)
+  (Functor.Elements.π A).op ⋙ unopUnop _ ⋙ Over.forget (B.obj hS)
 
 namespace PolarizedFamilyOver
 
@@ -182,12 +182,12 @@ def forgetPoint : PolarizedFamilyOver B S hS A ⥤ PolarizedFamily B where
 
 /-- Forget the polarization, retaining the base scheme with its point of `A`. -/
 def toElements : PolarizedFamilyOver B S hS A ⥤ A.Elementsᵒᵖ where
-  obj X := Opposite.op ⟨Opposite.op (Over.mk X.toBase), X.point⟩
-  map f := Quiver.Hom.op ⟨(Hom.over f).op, Hom.point_comm f⟩
+  obj X := Opposite.op (A.elementsMk (Opposite.op (Over.mk X.toBase)) X.point)
+  map f := Quiver.Hom.op (Functor.Elements.homMk (Hom.over f).op (Hom.point_comm f))
   map_id X := by
     apply Quiver.Hom.unop_inj
     simp only [unop_id]
-    apply CategoryOfElements.ext A
+    apply Functor.Elements.hom_ext
     apply Quiver.Hom.unop_inj
     apply Over.OverMorphism.ext
     change PolarizedFamily.Hom.baseMap (Hom.polarizedHom (𝟙 X)) = 𝟙 X.polarized.base
@@ -195,7 +195,7 @@ def toElements : PolarizedFamilyOver B S hS A ⥤ A.Elementsᵒᵖ where
   map_comp f g := by
     apply Quiver.Hom.unop_inj
     simp only [unop_comp]
-    apply CategoryOfElements.ext A
+    apply Functor.Elements.hom_ext
     apply Quiver.Hom.unop_inj
     apply Over.OverMorphism.ext
     change PolarizedFamily.Hom.baseMap (Hom.polarizedHom (f ≫ g)) =
@@ -246,8 +246,8 @@ private def ofCategoricalPullbackIso
       infer_instance
     exact Functor.ReflectsIsomorphisms.reflects (Over.forget (B.obj hS)) _
   refine CategoricalPullback.mkIso (Iso.refl q.fst)
-    (CategoryOfElements.isoMk (Opposite.unop q.snd)
-      (Opposite.unop ((toCategoricalPullback B S hS A).obj (ofCategoricalPullback q)).snd)
+    (Functor.Elements.isoMk (x := Opposite.unop q.snd)
+      (y := Opposite.unop ((toCategoricalPullback B S hS A).obj (ofCategoricalPullback q)).snd)
       (@asIso _ _ _ _ _ hiso).op rfl).op ?_
   change (polarizedProjection B).map (𝟙 q.fst) ≫ q.iso.hom = q.iso.hom
   simp
@@ -256,7 +256,7 @@ private def ofCategoricalPullbackIso
 of its pointed-scheme component. -/
 private theorem baseMap_fst_eq_left {X Y : PolarizedFamilyOver B S hS A}
     (f : (toCategoricalPullback B S hS A).obj X ⟶ (toCategoricalPullback B S hS A).obj Y) :
-    PolarizedFamily.Hom.baseMap f.fst = (Opposite.unop (Opposite.unop f.snd).val).left := by
+    PolarizedFamily.Hom.baseMap f.fst = (Opposite.unop (Opposite.unop f.snd).hom).left := by
   calc _ = (pointedSchemesProjection B S hS A).map f.snd := by
         simpa [toCategoricalPullback, pointedSchemesProjection, toElements] using f.w
     _ = _ := rfl
@@ -269,19 +269,19 @@ private def homOfCategoricalPullbackHom {X Y : PolarizedFamilyOver B S hS A}
   have hw := baseMap_fst_eq_left f
   have hbase : PolarizedFamily.Hom.baseMap f.fst ≫ Y.toBase = X.toBase := by
     rw [hw]
-    exact (Opposite.unop (Opposite.unop f.snd).val).w
+    exact (Opposite.unop (Opposite.unop f.snd).hom).w
   refine ⟨f.fst, hbase, ?_⟩
   have hover : (Over.homMk (PolarizedFamily.Hom.baseMap f.fst) hbase :
-      Over.mk X.toBase ⟶ Over.mk Y.toBase) = Opposite.unop (Opposite.unop f.snd).val :=
+      Over.mk X.toBase ⟶ Over.mk Y.toBase) = Opposite.unop (Opposite.unop f.snd).hom :=
     Over.OverMorphism.ext hw
   rw [hover]
-  exact (Opposite.unop f.snd).property
+  exact (Opposite.unop f.snd).map_val
 
 /-- The comparison functor takes the morphism built from a morphism between images back to it. -/
 private theorem map_homOfCategoricalPullbackHom {X Y : PolarizedFamilyOver B S hS A}
     (f : (toCategoricalPullback B S hS A).obj X ⟶ (toCategoricalPullback B S hS A).obj Y) :
     (toCategoricalPullback B S hS A).map (homOfCategoricalPullbackHom f) = f :=
-  CategoricalPullback.hom_ext rfl <| Quiver.Hom.unop_inj <| CategoryOfElements.ext A _ _ <|
+  CategoricalPullback.hom_ext rfl <| Quiver.Hom.unop_inj <| Functor.Elements.hom_ext <|
     Quiver.Hom.unop_inj <| Over.OverMorphism.ext <| baseMap_fst_eq_left f
 
 variable (B S hS A)

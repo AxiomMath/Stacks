@@ -44,7 +44,6 @@ namespace Deformation.Artin
 universe u v w
 
 attribute [local implicit_reducible] CategoryTheory.BasedCategory.ofFunctor
-attribute [local implicit_reducible] CategoryTheory.Functor.Elements
 attribute [local implicit_reducible] Deformation.Artin.baseOver
 attribute [local implicit_reducible] Deformation.Artin.truncationOver
 
@@ -535,7 +534,7 @@ public theorem restriction_lifts_deformationObject
     rw [← deformationObject_residueMap C y A rfl,
       ← schemeMap_comp q hx₀ hy hx, hb]
   obtain ⟨α, hα⟩ := hpoints A f (schemeMap_over q hy hx b) hf
-  let β : (Deformation.restrictedCoyoneda R).Elements := ⟨A, α⟩
+  let β : (Deformation.restrictedCoyoneda R).Elements := Functor.elementsMk _ A α
   let hβ := deformationPointBase C (H.obj β) A (H.w_obj β)
   obtain ⟨l, hl, _⟩ := factor_through_cartesian_schemeMap B S hS p hp hy hβ hx
     (r.app (.op β)) b (𝟙 _) (by simp) (by
@@ -754,7 +753,7 @@ public theorem liftsAtResiduePoint_of_isSmooth
   intro A A' f hf y z hy hz i hi a ha
   let q := p ⋙ Over.post B.inclusion
   obtain ⟨α, hα⟩ := hpoints A (schemeMap q hy hx a) (schemeMap_over q hy hx a) ha
-  let β : (Deformation.restrictedCoyoneda R).Elements := ⟨A, α⟩
+  let β : (Deformation.restrictedCoyoneda R).Elements := Functor.elementsMk _ A α
   let hβ := deformationPointBase C (H.obj β) A (H.w_obj β)
   obtain ⟨v, hv, _⟩ := factor_through_cartesian_schemeMap B S hS p hp hβ hy hx
     a (r.app (.op β)) (𝟙 _) (by simp) (by

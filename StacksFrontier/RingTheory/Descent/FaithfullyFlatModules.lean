@@ -208,7 +208,6 @@ base. -/
 theorem span_descended_eq_top : Submodule.span S (d.descended : Set N) = ⊤ := by
   refine Submodule.eq_top_iff'.2 fun x => ?_
   induction x using d.isBaseChange.inductionOn with
-  | zero => exact zero_mem _
   | tmul m => exact Submodule.subset_span m.2
   | smul s n h => exact Submodule.smul_mem _ s h
   | add n₁ n₂ h₁ h₂ => exact Submodule.add_mem _ h₁ h₂

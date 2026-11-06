@@ -804,7 +804,7 @@ theorem exists_open_subgroup_fixing_isQuasiCompact_open [IsGalois k K]
     ∃ H : Subgroup Gal(K/k), IsOpen (H : Set Gal(K/k)) ∧
       ∀ σ : Gal(K/k), σ ∈ H →
         Subfunctor.preimage (galoisOpenSubfunctor B k K hk hK X V)
-            ((galoisActionOnBaseChange B k K hk hK X).ρ (MulOpposite.op σ)) =
+            ((galoisActionOnBaseChange B k K hk hK X).ρ (MulOpposite.op σ)).asHom =
           galoisOpenSubfunctor B k K hk hK X V := by
   classical
   have _ : Algebra.IsAlgebraic k K := inferInstance
@@ -816,7 +816,7 @@ theorem exists_open_subgroup_fixing_isQuasiCompact_open [IsGalois k K]
     (fieldExtensionMap B E K hE hK)
     (relocalizeRestrict_fieldExtensionMap_comp B k E K hk hE hK X) V' V hdesc
   refine Subfunctor.ext (funext fun W ↦ ?_)
-  show ((galoisActionOnBaseChange B k K hk hK X).ρ (MulOpposite.op σ)).app W ⁻¹'
+  show ((galoisActionOnBaseChange B k K hk hK X).ρ (MulOpposite.op σ)).asHom.app W ⁻¹'
       (Subfunctor.range ((OverShriek.relocalizePresheafFunctor
         (fieldExtensionMap B k K hk hK)).map V.ι)).obj W =
     (Subfunctor.range ((OverShriek.relocalizePresheafFunctor

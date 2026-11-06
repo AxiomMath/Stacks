@@ -177,7 +177,6 @@ private theorem appLE_pushoutMap_of_ringHomProperty
   have hUΓ : IsPullback (pushoutInr s |>.app U) (pushoutInl s |>.app U)
       (CommRingCat.ofHom toBase) (CommRingCat.ofHom surjection) := by
     convert pushoutStructureSheaf_isPullback s U using 1
-    · rfl
     · exact Scheme.Hom.appLE_eq_app s.j
     · show s.i.appLE UX UZ eU.symm.le =
         s.i.app UX ≫ eqToHom (congrArg (fun W ↦ Γ(s.Z, W)) eU)
@@ -188,7 +187,6 @@ private theorem appLE_pushoutMap_of_ringHomProperty
   have hVΓ : IsPullback (pushoutInr s' |>.app V) (pushoutInl s' |>.app V)
       (CommRingCat.ofHom DtoC) (CommRingCat.ofHom C'toC) := by
     convert pushoutStructureSheaf_isPullback s' V using 1
-    · rfl
     · exact Scheme.Hom.appLE_eq_app d.j'
     · show d.i'.appLE VX VZ hVZi =
         d.i'.app VX ≫ eqToHom (congrArg (fun W ↦ Γ(d.Z', W)) eV)

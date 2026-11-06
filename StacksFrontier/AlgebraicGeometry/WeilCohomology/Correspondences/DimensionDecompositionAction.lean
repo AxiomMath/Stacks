@@ -61,13 +61,12 @@ variable (k : Type u) [Field k] {X Y Z : Scheme.{u}}
 /-- Transport of mixed correspondences along `r = r` is the identity. -/
 theorem corrCongr_self {r : ℤ} (h : r = r) (c : Corr k sX sY r) : corrCongr k sX sY h c = c := by
   induction c using Corr.induction_on with
-  | zero => simp
+  | zero => exact LinearEquiv.map_zero _
   | add a b ha hb => rw [map_add, ha, hb]
   | lof d e x =>
     rw [corrCongr_lof_lof]
     congr 2
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul q y => rfl
     | add a b ha hb => rw [map_add, ha, hb]
 

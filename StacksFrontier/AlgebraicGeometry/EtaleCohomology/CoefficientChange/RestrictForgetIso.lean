@@ -102,8 +102,8 @@ def etaleRestrictForgetToIntIso (X : Scheme.{u}) :
       etaleModuleRestrictScalarsUniv.{u, r} φ X ⋙ etaleModuleForgetToInt.{u, r} Λ₁ X :=
   NatIso.ofComponents
     (fun P =>
-      { hom := ⟨Functor.whiskerLeft P.val (restrictScalarsIntComp.{u, r} φ).hom⟩
-        inv := ⟨Functor.whiskerLeft P.val (restrictScalarsIntComp.{u, r} φ).inv⟩
+      { hom := ⟨Functor.whiskerLeft P.obj (restrictScalarsIntComp.{u, r} φ).hom⟩
+        inv := ⟨Functor.whiskerLeft P.obj (restrictScalarsIntComp.{u, r} φ).inv⟩
         hom_inv_id := by aesop_cat
         inv_hom_id := by aesop_cat })
     (fun f => by aesop_cat)

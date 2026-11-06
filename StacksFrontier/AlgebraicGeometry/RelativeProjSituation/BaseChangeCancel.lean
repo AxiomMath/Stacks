@@ -61,8 +61,7 @@ public theorem IsBaseChange.of_isPushout
   have key : ∀ (b : B) (m : M), e₀ (b ⊗ₜ[A] m) = b • g m := by
     intro b m
     refine (Algebra.IsPushout.out (R := R) (S := S) (R' := A) (S' := B)).inductionOn b
-      (fun b => e₀ (b ⊗ₜ[A] m) = b • g m) ?_ ?_ ?_ ?_
-    · rw [TensorProduct.zero_tmul, map_zero, zero_smul]
+      (motive := fun b => e₀ (b ⊗ₜ[A] m) = b • g m) ?_ ?_ ?_
     · intro a
       show e₀ (algebraMap A B a ⊗ₜ[A] m) = algebraMap A B a • g m
       have h1 : (algebraMap A B a) ⊗ₜ[A] m = (1 : B) ⊗ₜ[A] (a • m) := by
@@ -78,7 +77,6 @@ public theorem IsBaseChange.of_isPushout
   refine _root_.IsBaseChange.of_equiv (AddEquiv.toLinearEquiv e₀.toAddEquiv ?_) ?_
   · intro c x
     induction x with
-    | zero => simp
     | tmul b m =>
         have hcb : c • (b ⊗ₜ[A] m) = (c * b) ⊗ₜ[A] m := by
           rw [← smul_eq_mul, TensorProduct.smul_tmul']

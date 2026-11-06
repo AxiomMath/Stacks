@@ -262,7 +262,7 @@ theorem mono_multiplicationMap_of_idealTensor {i : RingedToposHom X Y}
     (kernelSectionEquiv hi (op V)).symm.toLinearMap) (hR' V g hg)
   rw [map_zero, map_sum] at h0
   rw [hxs]
-  refine (map_sum (((PresheafOfModules.Monoidal.tensorObj
+  refine (map_sum (((PresheafOfModulesOfCommRing.Monoidal.tensorObj
     ((SheafOfModules.restrictScalars (ringMap i.fSharp)).obj hi.I).val F'.val).map g.op).hom)
       (fun j => a j ⊗ₜ s j) Finset.univ).trans ?_
   refine Eq.trans (Finset.sum_congr rfl fun j _ => ?_) h0

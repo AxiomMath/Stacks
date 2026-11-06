@@ -386,8 +386,9 @@ with compact support along `f`. -/
 public def sepCompShriekMap :
     (fShriekFunctor.{u, v} B (f ≫ g)).obj F ⟶
       (properSupportFunctor.{u, max (u + 1) v} B g).obj ((fShriekFunctor.{u, v} B f).obj F) :=
-  ⟨sheafifyLift (SmallEtale.topology B Z.obj Z.property) (sepCompProperMap B f g F)
-    (properSupportSheaf B g ((fShriekFunctor.{u, v} B f).obj F)).cond⟩
+  ObjectProperty.homMk (sheafifyLift (SmallEtale.topology B Z.obj Z.property)
+    (sepCompProperMap B f g F)
+    (properSupportSheaf B g ((fShriekFunctor.{u, v} B f).obj F)).property)
 
 /-- The map `c'` restricts along the sheafification unit to the map `c`. -/
 public theorem toSheafify_sepCompShriekMap :

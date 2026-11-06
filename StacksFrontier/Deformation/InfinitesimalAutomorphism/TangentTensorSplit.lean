@@ -475,10 +475,10 @@ public noncomputable def relativeInfinitesimalAutomorphismsChosenMulEquiv
       _ = P.inclusion U ≫ P.map r := by rw [chosenPushforwardComparison_fac P hp ι hι]
       _ = P.inclusion V := P.inclusion_map r
       _ = ι ≫ fy ≫ t := hfac.symm
-  have hval : ∀ a : Aut y, (Θy.conjAut a).hom.val =
-      Θy.inv.val ≫ a.hom.val ≫ Θy.hom.val := fun _ => rfl
+  have hval : ∀ a : Aut y, (Θy.conjAut a).asIso.hom.val =
+      Θy.inv.val ≫ a.asIso.hom.val ≫ Θy.hom.val := fun _ => rfl
   have hmemz : ∀ a : Aut y,
-      (a.hom.val ≫ fy = fy) ↔ (a.hom.val ≫ fy ≫ t = fy ≫ t) := by
+      (a.asIso.hom.val ≫ fy = fy) ↔ (a.asIso.hom.val ≫ fy ≫ t = fy ≫ t) := by
     intro a
     constructor
     · intro h
@@ -494,20 +494,20 @@ public noncomputable def relativeInfinitesimalAutomorphismsChosenMulEquiv
       mem_ker_transportAutHom_iff, hval]
     constructor
     · intro h
-      calc (Θy.inv.val ≫ a.hom.val ≫ Θy.hom.val) ≫ P.map r
-          = Θy.inv.val ≫ a.hom.val ≫ Θy.hom.val ≫ P.map r := by
+      calc (Θy.inv.val ≫ a.asIso.hom.val ≫ Θy.hom.val) ≫ P.map r
+          = Θy.inv.val ≫ a.asIso.hom.val ≫ Θy.hom.val ≫ P.map r := by
             simp only [Category.assoc]
-        _ = Θy.inv.val ≫ a.hom.val ≫ fy ≫ t := by rw [hcomp]
+        _ = Θy.inv.val ≫ a.asIso.hom.val ≫ fy ≫ t := by rw [hcomp]
         _ = Θy.inv.val ≫ fy ≫ t := by rw [h]
         _ = Θy.inv.val ≫ Θy.hom.val ≫ P.map r := by rw [hcomp]
         _ = (Θy.inv.val ≫ Θy.hom.val) ≫ P.map r := by rw [Category.assoc]
         _ = P.map r := by rw [hyi, Category.id_comp]
     · intro h
-      have e1 : a.hom.val ≫ Θy.hom.val ≫ P.map r = Θy.hom.val ≫ P.map r := by
-        calc a.hom.val ≫ Θy.hom.val ≫ P.map r
-            = (Θy.hom.val ≫ Θy.inv.val) ≫ a.hom.val ≫ Θy.hom.val ≫ P.map r := by
+      have e1 : a.asIso.hom.val ≫ Θy.hom.val ≫ P.map r = Θy.hom.val ≫ P.map r := by
+        calc a.asIso.hom.val ≫ Θy.hom.val ≫ P.map r
+            = (Θy.hom.val ≫ Θy.inv.val) ≫ a.asIso.hom.val ≫ Θy.hom.val ≫ P.map r := by
               rw [hyh, Category.id_comp]
-          _ = Θy.hom.val ≫ (Θy.inv.val ≫ a.hom.val ≫ Θy.hom.val) ≫ P.map r := by
+          _ = Θy.hom.val ≫ (Θy.inv.val ≫ a.asIso.hom.val ≫ Θy.hom.val) ≫ P.map r := by
               simp only [Category.assoc]
           _ = Θy.hom.val ≫ P.map r := by rw [h]
       rwa [← hcomp]

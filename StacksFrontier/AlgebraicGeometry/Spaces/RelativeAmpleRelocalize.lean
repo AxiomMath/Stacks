@@ -48,6 +48,13 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {W S : Scheme.{u}} {hW : B.Contains W} {hS : B.Contains S}
   (h : B.obj hW ⟶ B.obj hS)
 
+/-- Pullbacks of presheaves on the big fppf site over `W` (instance search times out without
+this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_relativeAmpleRelocalize
+    {X Y Z : (BigFppfOver B W hW)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **`Λ` reflects representability of morphisms.** -/
 theorem relativelyRepresentable_of_relocalize {X Y : (BigFppfOver B W hW)ᵒᵖ ⥤ Type u}
     {f : X ⟶ Y}

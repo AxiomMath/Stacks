@@ -251,7 +251,7 @@ theorem isZero_of_isZero_restrict_iso {X Y : Scheme.{u}} (e : X ≅ Y)
     (Scheme.Modules.restrictFunctorComp e.inv e.hom).symm ≪≫
       Scheme.Modules.restrictFunctorCongr e.inv_hom_id ≪≫ Scheme.Modules.restrictFunctorId
   exact (Functor.map_isZero (Scheme.Modules.restrictFunctor e.inv).mapDerivedCategory hC).of_iso
-    ((Functor.mapDerivedCategoryCompIso r ≪≫ Functor.mapDerivedCategoryId _).app C).symm
+    ((Functor.mapDerivedCategoryCompIsoOfCompIso r ≪≫ Functor.mapDerivedCategoryId _).app C).symm
 
 /-- The base-change isomorphism `j^* i_* ≅ i'_* j'^*` for a commutative square whose two
 horizontal arrows are isomorphisms. -/

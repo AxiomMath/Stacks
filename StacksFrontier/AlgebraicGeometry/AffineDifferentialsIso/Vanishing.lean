@@ -102,7 +102,7 @@ section Constants
 variable {C₁ : Type u₁} [Category.{w} C₁] {C₂ : Type u₂} [Category.{w'} C₂] {F : C₁ ⥤ C₂}
   {O₁ : C₁ᵒᵖ ⥤ CommRingCat.{v}} {O₂ : C₂ᵒᵖ ⥤ CommRingCat.{v}} {φ : O₁ ⟶ F.op ⋙ O₂}
   {M : PresheafOfModules.{v} (O₂ ⋙ forget₂ CommRingCat.{v} RingCat.{v})}
-  (D : M.Derivation φ)
+  (D : PresheafOfModulesOfCommRing.Derivation M φ)
 
 /-- The subring of sections annihilated by a derivation. It is a subring because a derivation
 sends `1` to `0` and satisfies the Leibniz rule. -/
@@ -163,7 +163,7 @@ variable {Z : TopCat.{u}} {C₁ : Type u₁} [Category.{w} C₁] {F : C₁ ⥤ O
   {φ : O₁ ⟶ F.op ⋙ O₂}
   {M : PresheafOfModules.{u} (O₂ ⋙ forget₂ CommRingCat.{u} RingCat.{u})}
   (hO : TopCat.Presheaf.IsSheaf O₂) (hM : TopCat.Presheaf.IsSheaf M.presheaf)
-  (D : M.Derivation φ)
+  (D : PresheafOfModulesOfCommRing.Derivation M φ)
 
 include hO hM in
 /-- The sections annihilated by a derivation with values in a *sheaf* of modules form a sheaf
@@ -193,7 +193,8 @@ end Sheaf
 
 section Crux
 
-variable {X S : Scheme.{u}} (f : X ⟶ S) (M : X.Modules) (D : M.val.Derivation f.c)
+variable {X S : Scheme.{u}} (f : X ⟶ S) (M : X.Modules)
+  (D : PresheafOfModulesOfCommRing.Derivation M.val f.c)
 
 /- A subsheaf of rings of `𝒪_X`, cut out inside the structure sheaf by `D`: the input is
 exactly `f`, `M` and `D`.  The library's other sheaves of commutative rings of this form pair a

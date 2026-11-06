@@ -72,8 +72,8 @@ private theorem exists_addHom_extension_of_W_base {R : Sheaf J CommRingCat.{max 
     {R₀ : Cᵒᵖ ⥤ CommRingCat.{max u v w}} (Q : Cᵒᵖ ⥤ CommRingCat.{max u v w}) (b : R₀ ⟶ Q)
     (c : Q ⟶ R.obj) (hc : J.W c)
     (M : SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, max u v w} R))
-    (d : ((PresheafOfModules.restrictScalars
-      (Functor.whiskerRight c (forget₂ CommRingCat RingCat))).obj M.val).Derivation' b) :
+    (d : PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
+      (Functor.whiskerRight c (forget₂ CommRingCat RingCat))).obj M.val) b) :
     ∃ D : ∀ U, R.obj.obj U →+ M.val.obj U, (∀ U q, D U (c.app U q) = d.d q) ∧
       ∀ {U V} (g : U ⟶ V) (x : R.obj.obj U), M.val.map g (D U x) = D V (R.obj.map g x) := by
   let dAb : Q ⋙ (forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat) ⟶
@@ -103,9 +103,9 @@ theorem exists_derivation_extension_of_W_base {A R : Sheaf J CommRingCat.{max u 
     (Q : Cᵒᵖ ⥤ CommRingCat.{max u v w}) (b : R₀ ⟶ Q)
     (c : Q ⟶ R.obj) (hbc : b ≫ c = a₀ ≫ a.hom) (hc : J.W c)
     (M : SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, max u v w} R))
-    (d : ((PresheafOfModules.restrictScalars
-      (Functor.whiskerRight c (forget₂ CommRingCat RingCat))).obj M.val).Derivation' b) :
-    ∃ D : M.val.Derivation' a.hom, ∀ U q, D.d (c.app U q) = d.d q := by
+    (d : PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
+      (Functor.whiskerRight c (forget₂ CommRingCat RingCat))).obj M.val) b) :
+    ∃ D : PresheafOfModulesOfCommRing.Derivation' M.val a.hom, ∀ U q, D.d (c.app U q) = d.d q := by
   have : Presheaf.IsLocallySurjective J c := hc.isLocallySurjective
   obtain ⟨Dadd, heq, enat⟩ := exists_addHom_extension_of_W_base J Q b c hc M d
   let MT : Sheaf J (Type (max u v w)) := (sheafCompose J (forget AddCommGrpCat)).obj
@@ -528,11 +528,11 @@ theorem presheafBaseCotangentTermDerivationAddHom_map (n : ℕ) (M : targetModul
 presheaves of modules out of `U ↦ L^{-n}_{B(U)/R(U)}`: precompose with `p ↦ 1 ⊗ d p`. -/
 noncomputable def presheafBaseCotangentTermDerivation (n : ℕ) (M : targetModules J B)
     (φ : presheafBaseCotangentTerm.{u, v, w} J f a (-(n : ℤ)) ⟶ M.val) :
-    ((PresheafOfModules.restrictScalars
+    PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
       (Functor.whiskerRight (presheafBaseResolutionComparison.{u, v, w} J f a (op ⦋n⦌))
         (forget₂ CommRingCat RingCat))).obj
       ((SheafOfModules.restrictScalars (resolutionAugmentationRing.{u, v, w} J f (op ⦋n⦌))).obj
-        M).val).Derivation'
+        M).val)
       (sectionwiseResolutionBase.{u, v, w} ⊥ (presheafBaseHom.{u, v, w} J f a) (op ⦋n⦌)) where
   d {U} := presheafBaseCotangentTermDerivationAddHom.{u, v, w} J f a n M φ U
   d_app {U} r := presheafBaseCotangentTermDerivationAddHom_base.{u, v, w} J f a n M φ U r

@@ -189,7 +189,7 @@ theorem submoduleTranspose_submoduleDerivationHom_congr (f : X' ⟶ X)
     (M : Modules.{u, u} B S hS X'.1 X'.2)
     {A : Sheaf (SmallEtale.topology B S hS X.1) CommRingCat.{u}}
     {φ : A ⟶ (smallEtaleRingedTopos B S hS X).O}
-    (D : ((modulePushforward B S hS f).obj M).val.Derivation' φ.hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS f).obj M).val φ.hom)
     (hann₁ : ∀ (U : (SmallEtale B S hS X.1)ᵒᵖ)
       (a : ToType ((structureRingSheaf B S hS X).obj.obj U)),
       a ∈ I.obj U →

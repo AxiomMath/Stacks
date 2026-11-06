@@ -179,7 +179,7 @@ theorem bijective_genericPointModuleComparisonPi_app
         ULift.up (((P.genericPointComparison η.2).hom.app (op U)).hom s.down) := by
     have h : P.genericPointModuleComparisonPi ≫
         Pi.π (fun η : CodimensionZeroPoints B S hS X.1 => P.genericPointModule η.2) η =
-          P.genericPointModuleComparison η.2 := Pi.lift_π _ η
+          P.genericPointModuleComparison η.2 := Pi.lift_comp_π _ η
     exact congrFun (congrArg
       (fun f : meromorphicModule B S hS X ⟶ P.genericPointModule η.2 =>
         fun z => f.val.app (op U) z) h) s

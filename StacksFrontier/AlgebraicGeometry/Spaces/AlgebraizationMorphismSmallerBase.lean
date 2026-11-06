@@ -110,7 +110,7 @@ theorem map_smallerBaseFactorHom_overSpecSection
     {T : BigFppfOver B S hS} (x : X.left.obj (op T)) :
     X.left.map (smallerBaseFactorHom B (Spec (.of R)) S hR hS g
       (Over.w (X.hom.app (op T) x))).op (overSpecSection B x).1 = x := by
-  refine (FunctorToTypes.map_comp_apply X.left _ _ x).symm.trans ?_
+  refine (X.left.map_comp_apply _ _ x).symm.trans ?_
   have : smallerBaseFactorHom B (Spec (.of R)) S hR hS g (Over.w (X.hom.app (op T) x)) ≫
       smallerBaseFactorHomInv B (Spec (.of R)) S hR hS g (Over.w (X.hom.app (op T) x)) = 𝟙 _ :=
     Over.OverMorphism.ext (by simp [smallerBaseFactorHom, smallerBaseFactorHomInv])
@@ -118,7 +118,7 @@ theorem map_smallerBaseFactorHom_overSpecSection
       (Over.w (X.hom.app (op T) x))).op ≫ (smallerBaseFactorHom B (Spec (.of R)) S hR hS g
         (Over.w (X.hom.app (op T) x))).op = 𝟙 _ := by
     rw [← op_comp, this, op_id]
-  exact (congrArg (fun k => X.left.map k x) hop).trans (FunctorToTypes.map_id_apply _ _)
+  exact (congrArg (fun k => X.left.map k x) hop).trans (X.left.map_id_apply _ x)
 
 /-- A section `x` of `X` lies in `Z` exactly when `overSpecSection B x` lies in
 `overSpecSubfunctor B Z`. -/
@@ -209,7 +209,7 @@ theorem overSpecSubfunctor_overSpecImage
       have hid : smallerBaseFactorHom B (Spec (.of R)) S hR hS g h = 𝟙 _ :=
         smallerBaseFactorHom_eq_id B
       exact (congrArg (fun k => X.left.map (Quiver.Hom.op k) s.1) hid).trans
-        (FunctorToTypes.map_id_apply X.left s.1)
+        (X.left.map_id_apply _ s.1)
     rw [hys]
     exact hs
   · intro hy
@@ -218,7 +218,7 @@ theorem overSpecSubfunctor_overSpecImage
     change X.left.map (smallerBaseFactorHom B (Spec (.of R)) S hR hS g
       (T := (Over.map g).obj T.unop) (ψ := T.unop.hom) rfl).op y.1 = y.1
     rw [smallerBaseFactorHom_eq_id, op_id]
-    exact FunctorToTypes.map_id_apply X.left y.1
+    exact X.left.map_id_apply _ y.1
 
 /-- The map defining `overSpecImage B Z` is a closed immersion when `Z` is a closed subspace. -/
 private theorem isClosedImmersion_relocalizeMap_comp_inverseIso

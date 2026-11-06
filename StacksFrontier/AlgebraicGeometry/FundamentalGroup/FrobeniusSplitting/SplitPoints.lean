@@ -135,7 +135,7 @@ variable {X : Scheme.{u}} [ConnectedSpace X] {base : GeometricPoint X} {x : clos
 element `c.element` acts trivially on the fibre of `A` at the base point, then the lifts
 `Spec κ(x) ⟶ A` of the canonical point `Spec κ(x) ⟶ X` are as many as the points of that fibre. -/
 theorem natCard_lifts_fromSpecResidueField (c : FrobeniusData base x) (A : FiniteEtaleOver X)
-    (h : ∀ z : (finiteEtaleFiberFunctor base).obj A, ((c.element.app A).hom z) = z) :
+    (h : ∀ z : (finiteEtaleFiberFunctor base).obj A, ((c.element.asIso.app A).hom z) = z) :
     Nat.card (A.lifts (X.fromSpecResidueField x.1)) =
       Nat.card ((finiteEtaleFiberFunctor base).obj A) := by
   have : Finite (X.residueField x.1) := c.finite_residueField
@@ -174,7 +174,7 @@ theorem card_mul_le_natCard_fieldValuedPoints [IsFinite A.hom] (K : Type u) [Fie
     (hsplit : ∀ t : fieldValuedPoints f K, ∃ hx : IsClosed
       ({(Scheme.SpecToEquivOfField K X t.1).1} : Set X),
       ∃ c : FrobeniusData base ⟨_, hx⟩,
-        ∀ z : (finiteEtaleFiberFunctor base).obj A, ((c.element.app A).hom z) = z) :
+        ∀ z : (finiteEtaleFiberFunctor base).obj A, ((c.element.asIso.app A).hom z) = z) :
     Nat.card ((finiteEtaleFiberFunctor base).obj A) * Nat.card (fieldValuedPoints f K) ≤
       Nat.card (fieldValuedPoints (A.hom ≫ f) K) := by
   have : Finite (fieldValuedPoints f K) := Stacks.BombieriStepanov.finite_fieldValuedPoints f K

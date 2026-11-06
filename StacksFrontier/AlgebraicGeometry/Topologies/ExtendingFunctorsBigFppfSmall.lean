@@ -59,7 +59,7 @@ theorem small_obj_of_isAffineOverAffineOpen
               Functor.map_comp, Functor.FullyFaithful.map_preimage]
             exact congrArg (ci.inv ≫ ·) (c.w f).symm } }
   have hKc : IsLimit ((bigFppfOverToOver B hS).mapCone c') :=
-    IsLimit.ofIsoLimit hc (Cones.ext ci (fun l => by
+    IsLimit.ofIsoLimit hc (Cone.ext ci (fun l => by
       show c.π.app l = ci.hom ≫ (bigFppfOverToOver B hS).map
         (hK.preimage (Y := D'.obj l) (ci.inv ≫ c.π.app l))
       rw [hK.map_preimage]

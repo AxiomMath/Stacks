@@ -342,7 +342,7 @@ theorem ideal_comap_modificationToBase_chartImage (i : Fin 2) {c d : A}
     ((centerIdealSheaf A f₁ f₂).comap (modificationToBase A f₁ f₂)).ideal
         ⟨chartImage A f₁ f₂ i, isAffineOpen_chartImage A f₁ f₂ i⟩ =
       Ideal.span {(chartSections A f₁ f₂ i).inv.hom
-        ((chartGamma A f₁ f₂ i).inv.hom (chartAwayMap A f₁ f₂ i c))} := by
+                    ((chartGamma A f₁ f₂ i).inv.hom (chartAwayMap A f₁ f₂ i c))} := by
   let := (twoGeneratorSquare A f₁ f₂).modificationGraded
   set J := centerIdealSheaf A f₁ f₂ with hJdef
   have hcomap : (J.comap (modificationToBase A f₁ f₂)).comap (awayChartι A f₁ f₂ i) =

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Preadditive.LeftExact
 public import StacksFrontier.AlgebraicGeometry.ContinuousCohomology.Basic
 public import
   StacksFrontier.AlgebraicGeometry.EtaleCohomology.FiniteLocallyConstant.UnibranchContinuousModules

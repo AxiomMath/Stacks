@@ -150,6 +150,26 @@ universe u v w
 
 namespace Stacks.SheafOfModules
 
+section CoproductInstances
+
+universe w' v' u'
+
+/-- Instance search for coproducts of presheaves of modules times out; supply it directly. -/
+instance hasColimitsOfShape_discrete_bigSiteLocalGenerationFinitenessAgreement
+    {C : Type u'} [Category.{v'} C] {L : GrothendieckTopology C} {R' : Sheaf L RingCat.{w'}}
+    (I : Type w') : HasColimitsOfShape (Discrete I) (PresheafOfModules.{w'} R'.obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
+/-- Instance search for coproducts of sheaves of modules times out; supply it directly. -/
+instance hasColimitsOfShape_discrete_sheaf_bigSiteLocalGenerationFinitenessAgreement
+    {C : Type u'} [Category.{v'} C] {L : GrothendieckTopology C} {R' : Sheaf L RingCat.{w'}}
+    [HasWeakSheafify L AddCommGrpCat.{w'}] [L.WEqualsLocallyBijective AddCommGrpCat.{w'}]
+    (I : Type w') : HasColimitsOfShape (Discrete I) (_root_.SheafOfModules.{w'} R') :=
+  @_root_.SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    _ _ _ R' _ _ _ _ (PresheafOfModules.hasColimitsOfShape _ _)
+
+end CoproductInstances
+
 section OfLe
 
 variable {C : Type u} [Category.{v} C] {J K : GrothendieckTopology C} (h : K ≤ J)
@@ -195,6 +215,8 @@ public noncomputable def generatingSectionsOfComparisonPushforward
     (comparisonAdjunction.{u, v, w, w} h R).isLeftAdjoint
   haveI : (comparisonPullback.{u, v, w, w} h R).PreservesEpimorphisms :=
     Functor.preservesEpimorphisms_of_isLeftAdjoint _
+  haveI : Epi (comparisonPullbackObjIso.{u, v, w, w} h R M).hom :=
+    IsIso.epi_of_iso _
   (Stacks.Sheaves.QcohTypeComparison.generatingSectionsMap
       (comparisonPullback.{u, v, w, w} h R) (comparisonPullbackUnitIso h R) σ).ofEpi
     (comparisonPullbackObjIso.{u, v, w, w} h R M).hom
@@ -303,6 +325,7 @@ public noncomputable def generatingSectionsBaseAssociatedModuleOver (τ : SiteKi
   haveI :
       (SheafOfModules.pullback.{u} (baseSliceStructureMap B S hS τ V)).PreservesEpimorphisms :=
     Functor.preservesEpimorphisms_of_isLeftAdjoint _
+  haveI : Epi (baseAssociatedModuleOverObjIso B S hS τ V 𝓗).hom := IsIso.epi_of_iso _
   (Stacks.Sheaves.QcohTypeComparison.generatingSectionsMap
       (SheafOfModules.pullback.{u} (baseSliceStructureMap B S hS τ V))
       (asIso (SheafOfModules.pullbackObjUnitToUnit.{u}

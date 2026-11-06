@@ -51,6 +51,23 @@ attribute [local instance] Space.pointTopology
 
 variable {B : BigFppfSite.{u}} {hZ : B.Contains integerBase}
 
+/-- Pullbacks of presheaves on the big fppf site over `Spec ℤ`, given directly: instance search
+for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_CurvesOpenLocusRelative :
+    HasPullbacks ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_CurvesOpenLocusRelative
+    {X Y Z : (BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_CurvesOpenLocusRelative (B := B) (hZ := hZ)).has_limit _
+
+/-- Discrete limits of presheaves on the big fppf site over `Spec ℤ`, given directly for the
+same reason. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_CurvesOpenLocusRelative
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B integerBase hZ)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 namespace CurveFamily
 
 /-- The base change of a family of curves `G` along a morphism `j : V ⟶ S` of the site into its

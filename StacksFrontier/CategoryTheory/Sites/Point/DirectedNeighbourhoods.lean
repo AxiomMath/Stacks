@@ -58,7 +58,7 @@ theorem IsDirectedColimitOfTypes.of_isColimit {α : Type w} [Preorder α]
     rw [show homOfLE (le_refl i) = 𝟙 i from Subsingleton.elim _ _, F.map_id]
     rfl
   map_comp i j k hij hjk a := by
-    rw [← FunctorToTypes.map_comp_apply]
+    rw [← Functor.map_comp_apply]
     rfl
   comp i j hij a := Cocone.w_apply c (homOfLE hij) a
   jointly_surjective b := Types.jointly_surjective_of_isColimit hc b

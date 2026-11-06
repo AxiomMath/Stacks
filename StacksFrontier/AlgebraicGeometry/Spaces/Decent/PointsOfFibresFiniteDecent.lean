@@ -96,6 +96,15 @@ theorem isLocallyQuasiFinite_of_isEtale' {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ T
 
 variable {B S hS}
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instance. -/
+local instance (priority := high) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W)
+    (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 namespace PointsFibresDiagram
 
 /-! ### Exchanging the two off-diagonal corners -/

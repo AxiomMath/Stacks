@@ -89,8 +89,9 @@ structure DifferentialsMapData {O₁ O₂ O₁' O₂' : Sheaf J CommRingCat.{w}}
   /-- The composite of the upper horizontal map with the target universal derivation, regarded
   as a derivation over the lower-left sheaf. -/
   inducedDerivation :
-    ((_root_.SheafOfModules.restrictScalars (underlyingRingHomOfSite f₂)).obj
-      (moduleOfDifferentialsOfSite.{v, u, w, m} O₁' O₂' a')).val.Derivation' a.hom
+    PresheafOfModulesOfCommRing.Derivation'
+      ((_root_.SheafOfModules.restrictScalars (underlyingRingHomOfSite f₂)).obj
+        (moduleOfDifferentialsOfSite.{v, u, w, m} O₁' O₂' a')).val a.hom
   /-- On local sections, the induced derivation is the differential of the image. -/
   inducedDerivation_apply (X : Cᵒᵖ) (x : O₂.obj.obj X) :
     inducedDerivation.d x =
@@ -115,8 +116,9 @@ noncomputable def functorialDifferentials {O₁ O₂ O₁' O₂' : Sheaf J CommR
     (a : O₁ ⟶ O₂) (a' : O₁' ⟶ O₂') (f₁ : O₁ ⟶ O₁') (f₂ : O₂ ⟶ O₂')
     (sq : a ≫ f₂ = f₁ ≫ a') :
     DifferentialsMapData.{v, u, w, m} a a' f₁ f₂ sq := by
-  let D : ((_root_.SheafOfModules.restrictScalars (underlyingRingHomOfSite f₂)).obj
-      (moduleOfDifferentialsOfSite.{v, u, w, m} O₁' O₂' a')).val.Derivation' a.hom :=
+  let D : PresheafOfModulesOfCommRing.Derivation'
+      ((_root_.SheafOfModules.restrictScalars (underlyingRingHomOfSite f₂)).obj
+        (moduleOfDifferentialsOfSite.{v, u, w, m} O₁' O₂' a')).val a.hom :=
     { d := fun {X} ↦ (universalDerivationOfSite.{v, u, w, m} O₁' O₂' a').d.comp
           (f₂.hom.app X).hom.toAddMonoidHom
       d_mul := by

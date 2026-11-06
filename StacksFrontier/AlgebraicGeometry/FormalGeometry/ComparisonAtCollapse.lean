@@ -102,17 +102,19 @@ variable {A I a F}
 locus. -/
 public def sectionsAtSmul (V : OpensNearVanishing A I a) :
     A →+* End ((sectionsNearVanishing A I a F).obj V) where
-  toFun r := (smulSectionsNearVanishing A I a F r).app V
-  map_one' := congrArg (fun α : sectionsNearVanishing A I a F ⟶ sectionsNearVanishing A I a F =>
-    α.app V) (smulSectionsNearVanishing_one A I a F)
-  map_mul' r s := congrArg
+  toFun r := End.of ((smulSectionsNearVanishing A I a F r).app V)
+  map_one' := End.ext (congrArg
     (fun α : sectionsNearVanishing A I a F ⟶ sectionsNearVanishing A I a F => α.app V)
-    (smulSectionsNearVanishing_mul A I a F r s)
-  map_zero' := congrArg (fun α : sectionsNearVanishing A I a F ⟶ sectionsNearVanishing A I a F =>
-    α.app V) (smulSectionsNearVanishing_zero A I a F)
-  map_add' r s := congrArg
+    (smulSectionsNearVanishing_one A I a F))
+  map_mul' r s := End.ext (congrArg
     (fun α : sectionsNearVanishing A I a F ⟶ sectionsNearVanishing A I a F => α.app V)
-    (smulSectionsNearVanishing_add A I a F r s)
+    (smulSectionsNearVanishing_mul A I a F r s))
+  map_zero' := End.ext (congrArg
+    (fun α : sectionsNearVanishing A I a F ⟶ sectionsNearVanishing A I a F => α.app V)
+    (smulSectionsNearVanishing_zero A I a F))
+  map_add' r s := End.ext (congrArg
+    (fun α : sectionsNearVanishing A I a F ⟶ sectionsNearVanishing A I a F => α.app V)
+    (smulSectionsNearVanishing_add A I a F r s))
 
 /-- **The sections of `ℱ` over a single neighbourhood of the formal locus, as an `A`-module.** -/
 public def sectionsAtModule (V : OpensNearVanishing A I a) : ModuleCat.{u} A :=

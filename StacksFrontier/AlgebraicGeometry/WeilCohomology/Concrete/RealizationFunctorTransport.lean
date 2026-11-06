@@ -169,6 +169,7 @@ theorem gradeEquiv_blockMap (hγ : e.PreservesCycleClass) (htr : e.PreservesTrac
     · rw [blockMap_of_isEmpty_right hA hB hC n h, blockMap_of_isEmpty_right hA' hB' hC' n h]
       exact map_zero _
 
+set_option maxHeartbeats 1600000 in
 /-- **`e` intertwines the actions of correspondences** `a ↦ pr₂,*(γ(c) ∪ pr₁^*a)`. -/
 theorem gradeEquiv_corrMap (hγ : e.PreservesCycleClass) (htr : e.PreservesTrace)
     (X Y : (SmoothProjectiveScheme k).FullSubcategory) (r n : ℤ) (c : Corr k X.obj.hom Y.obj.hom r)

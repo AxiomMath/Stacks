@@ -158,6 +158,11 @@ theorem pullbackHomMap_pullbackHomMap {Z A B C : Scheme.{u}} (G F : Z.Modules) {
     Iso.trans_hom, Iso.trans_inv, NatTrans.comp_app, Scheme.Modules.pullbackCongr, eqToIso.hom,
     eqToIso.inv, eqToHom_app, eqToHom_refl, Category.comp_id, Category.id_comp,
     Functor.map_comp, Category.assoc]
+  have hepi : Epi ((Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g b).hom.app G) ≫
+      (Scheme.Modules.pullbackComp f (g ≫ b)).hom.app G) :=
+    @IsIso.epi_of_iso _ _ _ _ _
+      ((Scheme.Modules.pullback f).mapIso ((Scheme.Modules.pullbackComp g b).app G) ≪≫
+        (Scheme.Modules.pullbackComp f (g ≫ b)).app G).isIso_hom
   rw [← cancel_epi ((Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g b).hom.app G) ≫
     (Scheme.Modules.pullbackComp f (g ≫ b)).hom.app G)]
   conv_lhs => rw [Category.assoc, Iso.hom_inv_id_app_assoc, ← Functor.map_comp_assoc,

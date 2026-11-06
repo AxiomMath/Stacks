@@ -241,7 +241,7 @@ theorem isIso_colimitDesc_gammaCocone [Nonempty I] [IsDirected I (· ≤ ·)] [I
       exact (gammaTransition_sheafHZeroFun T X Z F g.unop x).symm)
   have e : (Cocone.precompose α.hom).obj (gammaCocone T X Z F cY p hp) ≅
       cohomologyCocone T X Z F cY p hp 0 :=
-    Cocones.ext (sheafHZeroIso ((smallEtalePullbackAb p).obj F)).symm (fun a => by
+    Cocone.ext (sheafHZeroIso ((smallEtalePullbackAb p).obj F)).symm (fun a => by
       ext (x : Sheaf.H.{u + 1, u + 1} (levelSheaf T X Z F a.unop) 0)
       have h1 := gammaLeg_sheafHZeroFun F cY p hp a.unop x
       exact (congrArg (sheafHZeroIso ((smallEtalePullbackAb p).obj F)).inv h1).trans

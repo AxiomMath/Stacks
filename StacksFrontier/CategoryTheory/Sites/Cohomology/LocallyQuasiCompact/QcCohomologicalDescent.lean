@@ -75,6 +75,27 @@ attribute [local instance 2000] HomotopyCategory.Plus.instHasPointwiseRightDeriv
 attribute [local instance] CategoryTheory.Limits.comp_preservesFiniteLimits
   CategoryTheory.Limits.comp_preservesFiniteColimits
 
+/-- The unit of `RG` (Mathlib's `rightDerivedFunctorPlusUnith`, whose definition is not exposed)
+is invertible at `K` exactly when the unit of `Functor.totalRightDerived` is: both are units of
+right derived functors of the same functor. -/
+private lemma isIso_rightDerivedFunctorPlusUnith_app_iff {D : Type*} {E : Type*}
+    [Category* D] [Category* E] [Abelian D] [Abelian E] [HasDerivedCategory D]
+    [HasDerivedCategory E] (G : D ⥤ E) [G.Additive]
+    [EnoughInjectives D] (K : HomotopyCategory.Plus D) :
+    IsIso (G.rightDerivedFunctorPlusUnith.app K) ↔
+      IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)).app K) := by
+  have : IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso D) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  rw [← Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso D) _
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso D)) K]
+  exact (isIso_comp_right_iff _ _).symm
+
 namespace CategoryTheory.Functor
 
 /-- **Right acyclicity passes to a composite whose second factor is exact.** If `M` is right
@@ -87,24 +108,26 @@ lemma rightAcyclic_comp_of_preservesHomology {A B C : Type*}
     [EnoughInjectives A] [EnoughInjectives B]
     [F.PreservesInjectiveObjects] [G.PreservesHomology]
     (M : A) (hF : F.rightAcyclic M) : (F ⋙ G).rightAcyclic M := by
-  have hG : IsIso G.rightDerivedFunctorPlusUnit :=
+  have hG : IsIso G.rightDerivedFunctorPlusUnith :=
     isIso_rightDerivedFunctorPlusUnit_of_preservesHomology G
   set K : HomotopyCategory.Plus A := (HomotopyCategory.Plus.singleFunctor A 0).obj M with hK
-  have hFK : IsIso (F.rightDerivedFunctorPlusUnit.app K) := hF
+  have hFK : IsIso (F.rightDerivedFunctorPlusUnith.app K) :=
+    (isIso_rightDerivedFunctorPlusUnith_app_iff F K).2 hF
   have hrhs : IsIso (DerivedCategory.Plus.Qh.map
         ((mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).inv.app K) ≫
-      G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)) := by
-    have h₂ : IsIso (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K)) :=
+      G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+      G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)) := by
+    have h₂ : IsIso (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K)) :=
       NatIso.isIso_app_of_isIso _ _
-    have h₃ : IsIso (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)) :=
+    have h₃ : IsIso (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)) :=
       inferInstance
     infer_instance
   rw [← rightDerivedFunctorPlusComp_fac_app F G K] at hrhs
   have ht : IsIso ((rightDerivedFunctorPlusComp F G).app (DerivedCategory.Plus.Qh.obj K)) :=
     NatIso.isIso_app_of_isIso _ _
-  exact IsIso.of_isIso_comp_right ((F ⋙ G).rightDerivedFunctorPlusUnit.app K)
-    ((rightDerivedFunctorPlusComp F G).app (DerivedCategory.Plus.Qh.obj K))
+  exact (isIso_rightDerivedFunctorPlusUnith_app_iff (F ⋙ G) K).1
+    (IsIso.of_isIso_comp_right ((F ⋙ G).rightDerivedFunctorPlusUnith.app K)
+      ((rightDerivedFunctorPlusComp F G).app (DerivedCategory.Plus.Qh.obj K)))
 
 end CategoryTheory.Functor
 
@@ -267,7 +290,7 @@ abelian sheaves on the space. -/
 theorem isIso_rightDerivedFunctorPlusUnit_app_qcTopologicalInverseImage
     (K : HomotopyCategory.Plus
       (Sheaf (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v})) :
-    IsIso ((qcTopologicalAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnit.app
+    IsIso ((qcTopologicalAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnith.app
       ((qcTopologicalAbelianInverseImage.{u, w, v} S X).mapHomotopyCategoryPlus.obj K)) :=
   Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun n ↦
     rightAcyclic_qcTopologicalAbelianDirectImage.{u, w, v} S X (K.obj.as.X n)

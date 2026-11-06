@@ -28,6 +28,16 @@ attribute [local instance] ReasonableApproximation.schemeCutoff_isClosedUnderIso
   ReasonableApproximation.schemeCutoff_hasTerminal
   ReasonableApproximation.schemeCutoff_hasPullbacks
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on a category (instance search times out without this shortcut). -/
+local instance hasPullbacks_presheaf_QuotientStages
+    {C : Type (u + 1)} [Category.{u} C] : HasPullbacks (Cᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_QuotientStages
+    {C : Type (u + 1)} [Category.{u} C] {X Y Z : Cᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace ReasonableApproximation
 
 open Cardinal in

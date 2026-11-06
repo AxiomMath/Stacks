@@ -177,13 +177,13 @@ theorem mapDerivedCategoryPlusGlue_fac (N : HomotopyCategory.Plus C₀) :
   have hΦ₂ : (exactMapDerivedCategoryPlusIso U₂).hom.app
         (DerivedCategory.Plus.Qh.obj (U₁.mapHomotopyCategoryPlus.obj N)) =
       U₂.mapDerivedCategoryPlusFactorsh.hom.app (U₁.mapHomotopyCategoryPlus.obj N) ≫
-        U₂.rightDerivedFunctorPlusUnit.app (U₁.mapHomotopyCategoryPlus.obj N) :=
+        U₂.rightDerivedFunctorPlusUnith.app (U₁.mapHomotopyCategoryPlus.obj N) :=
     exactMapDerivedCategoryPlusIso_hom_app_Qh U₂ (U₁.mapHomotopyCategoryPlus.obj N)
   have hΦ₁ : (exactMapDerivedCategoryPlusIso U₁).hom.app (DerivedCategory.Plus.Qh.obj N) =
-      U₁.mapDerivedCategoryPlusFactorsh.hom.app N ≫ U₁.rightDerivedFunctorPlusUnit.app N :=
+      U₁.mapDerivedCategoryPlusFactorsh.hom.app N ≫ U₁.rightDerivedFunctorPlusUnith.app N :=
     exactMapDerivedCategoryPlusIso_hom_app_Qh U₁ N
   have hΦU : (exactMapDerivedCategoryPlusIso U).hom.app (DerivedCategory.Plus.Qh.obj N) =
-      U.mapDerivedCategoryPlusFactorsh.hom.app N ≫ U.rightDerivedFunctorPlusUnit.app N :=
+      U.mapDerivedCategoryPlusFactorsh.hom.app N ≫ U.rightDerivedFunctorPlusUnith.app N :=
     exactMapDerivedCategoryPlusIso_hom_app_Qh U N
   rw [mapDerivedCategoryPlusGlue, hΦU, hΦ₁, Functor.map_comp]
   simp only [Category.assoc, Iso.inv_hom_id_app_assoc]

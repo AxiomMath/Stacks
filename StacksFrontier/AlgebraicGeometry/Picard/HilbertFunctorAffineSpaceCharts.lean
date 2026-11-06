@@ -81,7 +81,6 @@ theorem mem_closure_of_isPushout {A B C D : CommRingCat.{u}} {f : A ⟶ B} {g : 
   have hP : Algebra.IsPushout A B C D := (CommRingCat.isPushout_iff_isPushout.mp h.flip).symm
   obtain ⟨y, rfl⟩ := (Algebra.IsPushout.equiv A B C D).surjective x
   induction y with
-  | zero => simp
   | tmul b c =>
     rw [Algebra.IsPushout.equiv_tmul, mul_comm]
     exact AddSubmonoid.subset_closure ⟨(c, b), rfl⟩
@@ -209,7 +208,6 @@ theorem notMem_support_iff_subsingleton_tensorProduct [Module.Finite A C] (hK : 
     obtain ⟨u, hu⟩ := hunit a hap
     refine subsingleton_of_forall_eq 0 fun x ↦ ?_
     induction x with
-    | zero => rfl
     | add x y hx hy => rw [hx, hy, add_zero]
     | tmul k c =>
       calc k ⊗ₜ[A] c = (a • (k * ↑u⁻¹)) ⊗ₜ[A] c := by

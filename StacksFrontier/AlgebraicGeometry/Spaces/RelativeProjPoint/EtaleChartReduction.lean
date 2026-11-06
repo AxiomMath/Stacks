@@ -66,6 +66,19 @@ namespace RelativeProjPoints
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {π : P ⟶ X} (d : RelativeProjPoints B S hS π)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_EtaleChartReduction (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_EtaleChartReduction
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A property of scheme morphisms invariant under isomorphism which holds for the structure
 morphism `Proj_T(g^*𝒜) ⟶ T` holds for the structure morphism of the base change of `π` along
 `g`. -/

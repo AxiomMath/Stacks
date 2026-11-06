@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Comma.LocallySmall
 public import Mathlib.CategoryTheory.Sites.Point.Over
 public import StacksFrontier.CategoryTheory.Sites.Point.ConservativeFamily
 import StacksCore.Tactic.StacksAttribute

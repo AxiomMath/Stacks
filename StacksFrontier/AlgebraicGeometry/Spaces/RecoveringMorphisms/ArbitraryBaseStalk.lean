@@ -48,6 +48,21 @@ attribute [local instance] smallEtaleTopology_subcanonical
 
 open Sheaf
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Finite products of sheaves of sets on a small étale site, supplied directly: under Lean
+v4.35.0 instance search for them times out in this file. -/
+local instance (priority := high) hasFiniteProducts_sheaf_arbitraryBaseStalk
+    {Z : AlgebraicSpaces B S hS} :
+    HasFiniteProducts (Sheaf (SmallEtale.topology B S hS Z.1) (Type u)) :=
+  inferInstance
+
+/-- `F ↦ (g⁻¹F)_x̄` preserves finite products, supplied directly: under Lean v4.35.0 instance
+search for it times out in this file. -/
+local instance (priority := high) preservesFiniteProducts_invStalk_arbitraryBaseStalk
+    (g : RingedToposHom (smallEtaleRingedTopos B S hS X) (smallEtaleRingedTopos B S hS Y))
+    (x : GeometricPoint B S hS X.1) : PreservesFiniteProducts (invStalk g x) :=
+  ⟨fun n => PreservesFiniteLimits.preservesFiniteLimits (Discrete (Fin n))⟩
+
 /-! ### The comparison on stalks -/
 
 section Bijectivity

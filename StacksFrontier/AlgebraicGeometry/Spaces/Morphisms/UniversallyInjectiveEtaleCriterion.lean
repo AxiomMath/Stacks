@@ -58,6 +58,27 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_UniversallyInjectiveEtaleCriterion :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_UniversallyInjectiveEtaleCriterion
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks in the big fppf site (instance search times out without this shortcut). -/
+local instance hasPullbacks_site_UniversallyInjectiveEtaleCriterion :
+    HasPullbacks (BigFppfOver B S hS) := inferInstance
+
+local instance (priority := high) hasPullback_site_UniversallyInjectiveEtaleCriterion
+    {X Y Z : BigFppfOver B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- An algebraic space over `S` with a locally quasi-finite morphism to an object of the
 site whose underlying scheme has at most one point is decent. -/
 theorem isDecentSpace_of_isLocallyQuasiFinite_to_subsingleton
@@ -312,7 +333,7 @@ private theorem universallyInjective_of_isIso_fieldFibre
         · simpa only [Category.assoc, hμ₁] using congrArg (· ≫ pullback.fst _ _) hab
         · simp only [Category.assoc, ← hφ]
           rw [pullback.condition, ← Category.assoc, hs, Category.assoc]
-      have hf₂ := (cancel_mono e.hom).1 hf₁
+      have hf₂ := (Iso.cancel_iso_hom_right _ _ e).1 hf₁
       exact pullback.hom_ext hf₂ hs
     have : Subsingleton (T.obj R') := subsingleton_toScheme_siteObject B S hS _ r
     have : Subsingleton (points B S hS (yoneda.obj R')) :=
@@ -410,7 +431,9 @@ theorem universallyInjective_of_injective_pointsMap_pullback_yoneda :
       apply hfield p.carrier
       show T.map _ ≫ T.map φ = T.map _ ≫ T.map φ
       rw [← Functor.map_comp, ← Functor.map_comp, ha z hz, ha z' hz']
-    simpa using congrArg (fun a => yoneda.map a ≫ e.hom) heq
+    have h2 := congrArg yoneda.map heq
+    rw [yoneda.map_preimage, yoneda.map_preimage] at h2
+    exact (Iso.cancel_iso_inv_right _ _ e).1 h2
   exact yonedaEquiv.symm.injective ((pullback.lift_fst _ _ (hw p.value rfl)).symm.trans
     ((congrArg (· ≫ pullback.fst _ _) (hz z₁ z₂ (pullback.lift_snd _ _ _)
       (pullback.lift_snd _ _ _))).trans (pullback.lift_fst _ _ (hw y hy.symm))))

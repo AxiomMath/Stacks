@@ -287,10 +287,14 @@ theorem pullbackComp_inv_eq_pullbackCompIso
           (projectiveSpaceOverMap n ((𝒯).map a''))).app G).inv =
       (pullbackCompIso ((𝒯).map g) ((𝒯).map a'') h𝒯 G).hom := by
   unfold pullbackCompIso
-  rw [Iso.symm_hom, asIso_inv, ← cancel_epi (pullbackCompCongrApp
+  have hepi := IsIso.epi_of_iso (pullbackCompCongrApp
     (projectiveSpaceOverMap n ((𝒯).map g)) (projectiveSpaceOverMap n ((𝒯).map a''))
     ((projectiveSpaceOverMap_comp n ((𝒯).map g) ((𝒯).map a'')).trans
-      (congrArg (projectiveSpaceOverMap n) h𝒯)) G), IsIso.hom_inv_id]
+      (congrArg (projectiveSpaceOverMap n) h𝒯)) G)
+  rw [Iso.symm_hom, asIso_inv, ← @cancel_epi _ _ _ _ _ (pullbackCompCongrApp
+    (projectiveSpaceOverMap n ((𝒯).map g)) (projectiveSpaceOverMap n ((𝒯).map a''))
+    ((projectiveSpaceOverMap_comp n ((𝒯).map g) ((𝒯).map a'')).trans
+      (congrArg (projectiveSpaceOverMap n) h𝒯)) G) hepi, IsIso.hom_inv_id]
   unfold pullbackCompCongrApp
   rw [Category.assoc, Iso.app_inv, Iso.app_inv, Iso.hom_inv_id_app_assoc, Iso.hom_inv_id_app]
   rfl

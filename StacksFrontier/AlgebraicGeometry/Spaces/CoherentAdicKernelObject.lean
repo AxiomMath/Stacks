@@ -319,7 +319,8 @@ theorem stableKernelImageCompletionToLevel_mono (α : E ⟶ E') (n : ℕ) :
         stableKernelImageIncl B S hS F hF 𝓘 hZ hN hIcart α n := by
     rw [← hr, IsIso.inv_hom_id_assoc]
   rw [he]
-  infer_instance
+  exact @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _
+    (mono_stableKernelImageIncl B S hS F hF 𝓘 hZ hN hIcart α n)
 
 /-! ### The inclusion of the limit system into the source -/
 

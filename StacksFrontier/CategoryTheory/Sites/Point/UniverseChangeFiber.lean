@@ -50,7 +50,7 @@ theorem toPresheafFiber_ulift_comp_presheafFiberUliftIso_hom (P : Cᵒᵖ ⥤ A)
         ((Functor.Elements.uliftEquiv.{w', w} Φ.fiber).functor.op)
         ((Φ.ulift.{w'} (J := J)).presheafFiberCocone P)).symm
       ((Φ.ulift.{w'} (J := J)).isColimitPresheafFiberCocone P))
-    (Opposite.op (α := Φ.fiber.Elements) ⟨X, x.down⟩)
+    (Opposite.op (α := Φ.fiber.Elements) (Φ.fiber.elementsMk X x.down))
 
 /-- **The fibre functor on presheaves of the universe lift of a point is that of the point**,
 with components `CategoryTheory.GrothendieckTopology.Point.presheafFiberUliftIso`. -/

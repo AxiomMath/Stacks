@@ -190,6 +190,10 @@ private theorem exists_exact_leftAdjoint_restrictionAbSheafFunctor (hp : p.IsFib
     Stacks.Sites.LowerShriek.gShriek_preservesFiniteLimits.{t, u, w, u + 1, v} _ _ _
   let : PreservesFiniteColimits L :=
     Stacks.Sites.LowerShriek.gShriek_preservesFiniteColimits Ab.{t} _ _ _
+  have : HasFiniteLimits (Sheaf (SmallEtale.topology B S hS F) Ab.{t}) :=
+    Abelian.hasFiniteLimits
+  have : HasBinaryProducts (Sheaf (SmallEtale.topology B S hS F) Ab.{t}) :=
+    inferInstance
   exact ⟨L, ⟨Functor.sheafPullbackConstruction.sheafAdjunctionContinuous _ _ _ _⟩,
     Functor.additive_of_preserves_binary_products L, inferInstance, inferInstance⟩
 

@@ -119,7 +119,6 @@ public theorem extClass_eq_towerMap_of_middleRingHom
       g (firstOrderConormalHom π hπ m) = firstOrderConormalHom π' hπ' (c m) := by
     intro m
     induction m with
-    | zero => simp only [map_zero]
     | add m₁ m₂ h₁ h₂ => simp only [map_add, h₁, h₂]
     | tmul p v =>
       obtain ⟨q, hq⟩ := hπ p

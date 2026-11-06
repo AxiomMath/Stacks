@@ -76,7 +76,6 @@ theorem finiteType_iff_tensorProduct
   obtain ⟨z, rfl⟩ := hg y
   use TensorProduct.comm R S (MvPolynomial (Σ x : s, Fin (k x)) R) z
   induction z with
-  | zero => rfl
   | add x y hx hy => simp_all
   | tmul x y => rfl
 

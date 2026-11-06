@@ -262,8 +262,8 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
               (Algebra.TensorProduct.includeRight u))) ^
             (Module.length (Localization.AtPrime r.1.asIdeal)
             (Localization.AtPrime r.1.asIdeal ⧸
-              Ideal.span {(algebraMap (S ⊗[A] B) (Localization.AtPrime r.1.asIdeal))
-                (Algebra.TensorProduct.includeRight π)})).toNat := by
+              Ideal.span {(algebraMap (S ⊗[A] B) (Localization.AtPrime r.1.asIdeal)
+                (Algebra.TensorProduct.includeRight π))})).toNat := by
   classical
   have hMA : IsFiniteLength A (B ⧸ Ideal.span {π}) :=
     isFiniteLength_restrictScalars_of_finite_residueField A B (B ⧸ Ideal.span {π}) hM
@@ -310,8 +310,8 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
       I.map (algebraMap T (Localization.AtPrime (q p).asIdeal))
   have hspan (p : MaximalSpectrum Q) :
       I.map (algebraMap T (Localization.AtPrime (q p).asIdeal)) =
-        Ideal.span {algebraMap T (Localization.AtPrime (q p).asIdeal)
-          (Algebra.TensorProduct.includeRight π)} := by
+        Ideal.span {(algebraMap T (Localization.AtPrime (q p).asIdeal)
+          (Algebra.TensorProduct.includeRight π))} := by
     show (Ideal.map (algebraMap T (Localization.AtPrime (q p).asIdeal))
       (Ideal.map (Algebra.TensorProduct.includeRight (A := S)) (Ideal.span {π}))) = _
     rw [Ideal.map_span, Ideal.map_span]
@@ -353,8 +353,8 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length_support
           (Algebra.TensorProduct.includeRight u))) ^
       (Module.length (Localization.AtPrime r.1.asIdeal)
         (Localization.AtPrime r.1.asIdeal ⧸
-          Ideal.span {(algebraMap T (Localization.AtPrime r.1.asIdeal))
-            (Algebra.TensorProduct.includeRight π)})).toNat
+          Ideal.span {(algebraMap T (Localization.AtPrime r.1.asIdeal)
+            (Algebra.TensorProduct.includeRight π))})).toNat
   have hlocaldet (p : MaximalSpectrum Q) :
       FiniteLengthEndomorphism.det S (hRqS p) (φq p) = F (toSupport p) := by
     let := hloc (toSupport p)
@@ -494,8 +494,8 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length
               (Algebra.TensorProduct.includeRight u))) ^
             (Module.length (Localization.AtPrime q.asIdeal)
             (Localization.AtPrime q.asIdeal ⧸
-              Ideal.span {(algebraMap (S ⊗[A] B) (Localization.AtPrime q.asIdeal))
-                (Algebra.TensorProduct.includeRight π)})).toNat := by
+              Ideal.span {(algebraMap (S ⊗[A] B) (Localization.AtPrime q.asIdeal)
+                (Algebra.TensorProduct.includeRight π))})).toNat := by
   classical
   let F (r : MaximalSpectrum (S ⊗[A] B)) :=
     Algebra.norm (ResidueField S)
@@ -504,8 +504,8 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length
           (Algebra.TensorProduct.includeRight u))) ^
       (Module.length (Localization.AtPrime r.asIdeal)
         (Localization.AtPrime r.asIdeal ⧸
-          Ideal.span {(algebraMap (S ⊗[A] B) (Localization.AtPrime r.asIdeal))
-            (Algebra.TensorProduct.includeRight π)})).toNat
+          Ideal.span {(algebraMap (S ⊗[A] B) (Localization.AtPrime r.asIdeal)
+            (Algebra.TensorProduct.includeRight π))})).toNat
   have houtside (r : MaximalSpectrum (S ⊗[A] B))
       (hr : (Algebra.TensorProduct.includeRight π : S ⊗[A] B) ∉ r.asIdeal) : F r = 1 := by
     have huπ : IsUnit (algebraMap (S ⊗[A] B) (Localization.AtPrime r.asIdeal)
@@ -513,13 +513,13 @@ theorem map_norm_pow_length_eq_prod_norm_pow_length
       (IsLocalization.AtPrime.isUnit_to_map_iff (Localization.AtPrime r.asIdeal)
         r.asIdeal (Algebra.TensorProduct.includeRight π)).2 hr
     have hsub : Subsingleton (Localization.AtPrime r.asIdeal ⧸
-        Ideal.span {algebraMap (S ⊗[A] B) (Localization.AtPrime r.asIdeal)
-          (Algebra.TensorProduct.includeRight π)}) :=
+        Ideal.span {(algebraMap (S ⊗[A] B) (Localization.AtPrime r.asIdeal)
+          (Algebra.TensorProduct.includeRight π))}) :=
       Ideal.Quotient.subsingleton_iff.mpr (Ideal.span_singleton_eq_top.mpr huπ)
     have hlen : Module.length (Localization.AtPrime r.asIdeal)
         (Localization.AtPrime r.asIdeal ⧸
-          Ideal.span {algebraMap (S ⊗[A] B) (Localization.AtPrime r.asIdeal)
-            (Algebra.TensorProduct.includeRight π)}) = 0 :=
+          Ideal.span {(algebraMap (S ⊗[A] B) (Localization.AtPrime r.asIdeal)
+            (Algebra.TensorProduct.includeRight π))}) = 0 :=
       Module.length_eq_zero_iff.mpr hsub
     simp only [F, hlen]
     simp

@@ -131,7 +131,7 @@ theorem twistedUnit_comp_baseChangeTrace (F : S.X.Modules) [F.IsQuasicoherent]
     (b : Γ(Spec (.of K), ⊤)) :
     Stacks.Tag0CKW.twistedUnit (S.baseChange K).f (S.baseChangeProj K) F b ≫
         S.baseChangeTrace K F f =
-      (Scheme.smulEnd S.X ((S.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom (f b))).app F :=
+      (Scheme.smulEnd S.X ((S.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom (f b))).asHom.app F :=
   Stacks.FlatTrace.twistedUnit_comp_traceOf _ F _ f b
 
 /-! ### Cohomology along the extension of the ground field -/
@@ -329,7 +329,6 @@ theorem traceCohomology_cohomologyBaseChange (F : S.X.Modules) [F.IsQuasicoheren
     S.traceCohomology K F n l (S.cohomologyBaseChange K F n z) =
       TensorProduct.lid S.k _ (LinearMap.rTensor _ l z) := by
   induction z with
-  | zero => simp only [map_zero]
   | tmul a x =>
     rw [traceCohomology_cohomologyBaseChange_tmul, LinearMap.rTensor_tmul,
       TensorProduct.lid_tmul]
@@ -480,7 +479,7 @@ theorem cohomologyOverFieldMap_smulEnd (M : (S.baseChange K).X.Modules) (n : ℕ
     (y : cohomologyOverField K (S.baseChange K).f M n) :
     cohomologyOverFieldMap K (S.baseChange K).f
         ((Scheme.smulEnd (S.baseChange K).X
-          (((S.baseChange K).structureRingHom).hom a)).app M) n y =
+          (((S.baseChange K).structureRingHom).hom a)).asHom.app M) n y =
       a • y :=
   (cohomologyOverFieldMap_apply (S.baseChange K).k (S.baseChange K).f _ n y).trans
     (Scheme.rightDerived_sectionsFunctor_map_smulEnd_apply _ _ n M y)
@@ -555,7 +554,6 @@ theorem traceForm_traceCohomology (l : K →ₗ[S.k] S.k)
   obtain ⟨z, rfl⟩ := (S.cohomologyBaseChange_bijective_one K hone).2 w
   rw [traceCohomology_cohomologyBaseChange, baseChangeTraceForm_cohomologyBaseChange]
   induction z with
-  | zero => simp only [map_zero]
   | tmul a x =>
     rw [LinearMap.rTensor_tmul, TensorProduct.lid_tmul, LinearMap.baseChange_tmul,
       TensorProduct.AlgebraTensorModule.rid_tmul, map_smul, map_smul, smul_eq_mul, smul_eq_mul,

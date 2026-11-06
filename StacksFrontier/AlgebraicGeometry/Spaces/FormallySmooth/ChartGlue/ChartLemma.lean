@@ -90,8 +90,8 @@ theorem exists_lift_of_pair (C₀ D₀ : BigFppfOver B S hS)
   obtain ⟨u, hu₁, hu₂⟩ := hfs D₀ C₀ hD hC j hj (e₀ ≫ eU) (Y.map c.op y) (by
     show f.app _ (a.app _ (e₀ ≫ eU)) = _
     rw [show a.app _ (e₀ ≫ eU) = X.map e₀.op (aPt (a := a) eU) from (aPt_comp e₀ eU).symm,
-      f.naturality_apply, hyE, ← FunctorToTypes.map_comp_apply,
-      ← op_comp, he₀, op_comp, FunctorToTypes.map_comp_apply])
+      f.naturality_apply, hyE, ← Functor.map_comp_apply,
+      ← op_comp, he₀, op_comp, Functor.map_comp_apply])
   obtain ⟨e, ⟨he₁, -, he₃⟩, -⟩ := hpair C₀ D₀ hC hD j hj u c hu₂ e₀ hu₁.symm he₀
   exact ⟨e, he₁, he₃⟩
 

@@ -405,8 +405,10 @@ omit [IsNoetherian X] [F.IsStrictlyLE b] in
 /-- `ρ` is injective. -/
 public lemma sectionToTerm_injective :
     Function.Injective (sectionToTerm K F e) :=
-  (Stacks.AlgebraicGeometry.RelativeMayerVietoris.injective_app_of_mono _ ⊤).comp
-    (Stacks.AlgebraicGeometry.RelativeMayerVietoris.injective_app_of_mono _ ⊤)
+  (Stacks.AlgebraicGeometry.RelativeMayerVietoris.injective_app_of_mono
+      (DerivedCategory.homologyZeroToX F) ⊤).comp
+    (Stacks.AlgebraicGeometry.RelativeMayerVietoris.injective_app_of_mono
+      ((DerivedCategory.homologyFunctor X.Modules 0).map e.inv) ⊤)
 
 include F b hF e in
 /-- Injectivity of `H^0_c(U, K|_U) ⟶ Γ(X, H^0(K))`, for a chosen complex `𝓕^•`. -/
@@ -579,7 +581,8 @@ public theorem range_degreeZeroCompactSupportMap (U : X.Opens) (K : BoundedCoher
     rfl
   rw [hσ]
   exact exists_congr fun V ↦ and_congr_right fun _ ↦
-    (presheaf_map_eq_zero_iff_of_mono _ σ).symm
+    (presheaf_map_eq_zero_iff_of_mono ((DerivedCategory.homologyFunctor X.Modules 0).map e.inv ≫
+      DerivedCategory.homologyZeroToX F) σ).symm
 
 /-- Let `X` be a proper scheme over a field `k`. Let
 `K ∈ D^b_{Coh}(𝒪_X)` with `H^i(K) = 0` for `i < 0`, and set `𝓕 = H^0(K)`. Let `Z ⊆ X` be closed

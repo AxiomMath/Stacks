@@ -261,9 +261,8 @@ def continuousModuleOfRepOrbits (ρ : Rep.{w} k G)
     (hcont : letI : TopologicalSpace ρ := ⊥
       ∀ z : ρ, Continuous (fun γ : G => ρ.ρ γ z)) :
     Stacks.Injectives.ContinuousModule.{u, v, w} k G :=
-  ⟨⟨(Rep.RepToAction k G).obj ρ, by
-      rw [Action.isContinuous_def]
-      exact continuous_prod_of_discrete_right.mpr hcont⟩, ⟨rfl⟩⟩
+  ⟨⟨(Rep.RepToAction k G).obj ρ,
+      (Action.isContinuous_def _).2 (continuous_prod_of_discrete_right.mpr hcont)⟩, ⟨rfl⟩⟩
 
 /-- A representation whose orbit maps are continuous for the discrete topology lies in the
 essential image of the continuous discrete modules. -/

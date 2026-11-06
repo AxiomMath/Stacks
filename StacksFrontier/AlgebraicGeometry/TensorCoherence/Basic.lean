@@ -274,7 +274,7 @@ noncomputable def tensorUnitRightIso (A : SheafOfModules.{u} (RU (X := X) U)) :
         ((SheafOfModules.unit (RU (X := X) U)))) ≅
       A := by
   letI : MonoidalCategory (PresheafOfModules.{u} (RU (X := X) U).obj) :=
-    PresheafOfModules.monoidalCategory (R := OU (X := X) U)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := OU (X := X) U)
   letI : IsIso (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction (OU (X := X) U) (hOU
     U)).counit := by
     change IsIso (PresheafOfModules.sheafificationAdjunction (𝟙 (RU (X := X) U).obj)).counit
@@ -293,7 +293,7 @@ noncomputable def tensorSheafCongrRight (A : SheafOfModules.{u} (RU (X := X) U))
           Presheaf.isSheaf_of_isSheaf_comp _ ((OU (X := X) U)) (forget₂ CommRingCat RingCat)
           ((hOU U))⟩).obj (A)).obj (B')) := by
   letI : MonoidalCategory (PresheafOfModules.{u} (RU (X := X) U).obj) :=
-    PresheafOfModules.monoidalCategory (R := OU (X := X) U)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := OU (X := X) U)
   exact (Stacks.SheafOfModules.TensorSheafification.sheafify (OU (X := X) U) (hOU U)).mapIso
     (whiskerLeftIso A.val ((SheafOfModules.forget (RU (X := X) U)).mapIso θ))
 

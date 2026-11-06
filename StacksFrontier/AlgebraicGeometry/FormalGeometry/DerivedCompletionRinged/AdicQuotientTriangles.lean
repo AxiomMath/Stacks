@@ -220,10 +220,10 @@ theorem adicQuotientReduction_comp_eq_zero
     (a : (((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj ⋙ forget RingCat.{u}).sections)
     (hφ : Stacks.Sites.adicQuotientModuleπ (X := X) I n ≫ φ =
       (Stacks.SheafOfModules.globalSectionToEnd
-        ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) a).app
+        ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) a).asHom.app
         (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
     (ha : (Stacks.SheafOfModules.globalSectionToEnd
-      ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) a).app M = 0) :
+      ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) a).asHom.app M = 0) :
     adicQuotientReduction X I ((DerivedCategory.singleFunctor _ 0).obj M) n ≫
         (((Stacks.SheafOfModules.derivedTensorProductFunctor X).obj
             ((DerivedCategory.singleFunctor _ 0).obj M)).map
@@ -237,7 +237,7 @@ theorem adicQuotientReduction_comp_eq_zero
     (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) 0).obj
     (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
   have hc : ∀ N, (DerivedCategory.singleFunctor
-      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) 0).map (c.app N) =
+      (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) 0).map (c.asHom.app N) =
       c • 𝟙 ((DerivedCategory.singleFunctor _ 0).obj N) := fun N => by
     have hmapS := CategoryTheory.Functor.map_smul
       (F := DerivedCategory.singleFunctor
@@ -248,7 +248,7 @@ theorem adicQuotientReduction_comp_eq_zero
     exact congrArg _ (Category.comp_id _).symm
   have hsingle : (DerivedCategory.singleFunctor
       (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) 0).map
-      (c.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) = c • 𝟙 U :=
+      (c.asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) = c • 𝟙 U :=
     hc _
   have hlin : F.map (c • 𝟙 U) = c • 𝟙 (F.obj U) :=
     Stacks.SheafOfModules.Tensor.derivedTensor_map_globalSectionToEnd X

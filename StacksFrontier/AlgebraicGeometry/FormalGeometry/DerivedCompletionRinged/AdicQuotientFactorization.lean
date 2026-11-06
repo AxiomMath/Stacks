@@ -78,14 +78,14 @@ theorem exists_isDerivedLimit_comparison (T : ℕᵒᵖ ⥤ D)
   have hw : (Pi.lift c) ≫ (Pi.lift fun n : ℕ => Pi.π (fun n : ℕ => T.obj ⟨n⟩) n -
       Pi.π (fun n : ℕ => T.obj ⟨n⟩) (n + 1) ≫ T.map (homOfLE (Nat.le_succ n)).op) = 0 := by
     refine Pi.hom_ext _ _ fun n => ?_
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, Pi.lift_π, ← Category.assoc,
-      Pi.lift_π, hc n, sub_self, zero_comp]
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π, ← Category.assoc,
+      Pi.lift_comp_π, hc n, sub_self, zero_comp]
   obtain ⟨g, hg⟩ := (Triangle.mk p (Pi.lift fun n : ℕ => Pi.π (fun n : ℕ => T.obj ⟨n⟩) n -
     Pi.π (fun n : ℕ => T.obj ⟨n⟩) (n + 1) ≫
       T.map (homOfLE (Nat.le_succ n)).op) δ).coyoneda_exact₂ hδ (Pi.lift c) hw
   have hg' : Pi.lift c = g ≫ p := hg
   refine ⟨L, p, δ, g, hδ, fun n => ?_⟩
-  rw [← Category.assoc, ← hg', Pi.lift_π]
+  rw [← Category.assoc, ← hg', Pi.lift_comp_π]
 
 end Stacks.InverseSystem
 

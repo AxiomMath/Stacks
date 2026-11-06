@@ -127,7 +127,7 @@ lemma globalSectionsCechRestriction_naturality
   show f.app (op ⊤) ≫ Pi.lift _ = Pi.lift _ ≫ Limits.Pi.map _
   apply Pi.hom_ext
   intro i
-  simp only [Category.assoc, Pi.lift_π, Pi.map_π, Pi.lift_π_assoc]
+  simp only [Category.assoc, Pi.lift_comp_π, Pi.map_π, Pi.lift_comp_π_assoc]
   exact (f.naturality _).symm
 
 /-- Restricting a global section to each piece commutes with restriction along a morphism of
@@ -141,7 +141,7 @@ private lemma pi_lift_restrict_comp_evalOp_map
   change (Pi.lift _) ≫ (Pi.lift _) = Pi.lift _
   apply Pi.hom_ext
   intro i
-  simp only [Category.assoc, Pi.lift_π, Pi.lift_π_assoc, ← P.map_comp]
+  simp only [Category.assoc, Pi.lift_comp_π, Pi.lift_comp_π_assoc, ← P.map_comp]
   congr 1
 
 /-- A global section restricted into Čech degree zero is a cocycle: its Čech differential

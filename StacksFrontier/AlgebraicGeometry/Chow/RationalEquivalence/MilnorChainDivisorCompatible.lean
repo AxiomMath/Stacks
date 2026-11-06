@@ -186,7 +186,8 @@ theorem pointwiseDivisorDifferential_milnorChainExtend (k : ℤ) :
   · rw [pointwiseDivisorDifferential_milnorChainExtend_of_notMem_range C p i k b x' hx',
       milnorChainExtend_apply,
       milnorChainExtendAtHom_of_notMem_range C p i
-        (bijective_residueFieldMap_closedImmersion i) x' hx', AddMonoidHom.zero_apply, map_zero]
+        (bijective_residueFieldMap_closedImmersion i) x' hx', AddMonoidHom.zero_apply]
+    exact (AddEquiv.map_zero _).symm
 
 end Stacks.Chow
 

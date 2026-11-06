@@ -59,6 +59,19 @@ attribute [local instance] HasDerivedCategory.standard
 
 namespace Stacks.EtaleCohomology
 
+/-- `isRightAdjoint_sheafPushforwardContinuous_addCommGrpCat_containing` at coefficients
+`AddCommGrpCat.{u + 1}`: there the universe `max (u + 1) ?r` of the general instance is not
+solved by unification. -/
+instance (priority := high) isRightAdjoint_sheafPushforwardContinuous_addCommGrpCat_abelianAssembly
+    (X : Scheme.{u}) (S T : (BigEtaleSite.containing X).Scheme) (f : T ⟶ S) :
+    (Functor.sheafPushforwardContinuous
+      (AlgebraicGeometry.smallEtaleBaseChange (BigEtaleSite.containing X) f)
+      AddCommGrpCat.{u + 1}
+      (AlgebraicGeometry.SmallEtale.topology (BigEtaleSite.containing X) S.obj S.property)
+      (AlgebraicGeometry.SmallEtale.topology (BigEtaleSite.containing X) T.obj
+        T.property)).IsRightAdjoint :=
+  isRightAdjoint_sheafPushforwardContinuous_addCommGrpCat_containing.{u, 0} X S T f
+
 /-- **Constructibility on Mathlib's small étale site is invariant under isomorphism.** -/
 theorem isConstructibleEtaleAbelianSheaf_of_iso {X : Scheme.{u}}
     {F G : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}} (e : F ≅ G)

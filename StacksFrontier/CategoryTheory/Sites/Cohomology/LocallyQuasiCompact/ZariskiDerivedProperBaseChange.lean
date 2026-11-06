@@ -89,7 +89,7 @@ def derivedComparisonBaseChangeOnHomotopy :
   let G := sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}
   let PX := S.abelianComparisonInverseImage.{u, w, max (u + 1) v} X
   let PY := S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y
-  Functor.whiskerLeft F.mapHomotopyCategoryPlus (inv PY.rightDerivedFunctorPlusUnit) ≫
+  Functor.whiskerLeft F.mapHomotopyCategoryPlus (inv PY.rightDerivedFunctorPlusUnith) ≫
     Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ PY))).hom
       DerivedCategory.Plus.Qh ≫
     Functor.whiskerRight
@@ -97,8 +97,8 @@ def derivedComparisonBaseChangeOnHomotopy :
       DerivedCategory.Plus.Qh ≫
     Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (PX ⋙ G))).inv
       DerivedCategory.Plus.Qh ≫
-    Functor.whiskerLeft PX.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight PX.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus
+    Functor.whiskerLeft PX.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight PX.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus
 
 /-- **The canonical derived base-change map of the Zariski comparison morphisms,**
 `π_Y^{-1} Rf_* ⟶ Rf_{Zar,*} π_X^{-1}` on bounded below derived categories. -/
@@ -112,7 +112,7 @@ def derivedComparisonBaseChangeMap :
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
     (L := DerivedCategory.Plus.Qh)
     (Functor.whiskerRight
-      (spaceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit
+      (spaceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
     (HomotopyCategory.Plus.quasiIso
       (Sheaf (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v}))
@@ -121,7 +121,7 @@ def derivedComparisonBaseChangeMap :
 /-- The equation defining the canonical derived base-change map. -/
 theorem derivedComparisonBaseChangeMap_fac :
     Functor.whiskerRight
-        (spaceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit
+        (spaceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith
         (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh
         (derivedComparisonBaseChangeMap.{u, w, v} S f) =
@@ -131,7 +131,7 @@ theorem derivedComparisonBaseChangeMap_fac :
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
     (L := DerivedCategory.Plus.Qh)
     (Functor.whiskerRight
-      (spaceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit
+      (spaceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
     (HomotopyCategory.Plus.quasiIso
       (Sheaf (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v}))
@@ -145,7 +145,7 @@ theorem eq_derivedComparisonBaseChangeMap_of_fac
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} X).rightDerivedFunctorPlus ⋙
         (sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlus)
     (hτ : Functor.whiskerRight
-        (spaceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit
+        (spaceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith
         (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh τ =
         derivedComparisonBaseChangeOnHomotopy.{u, w, v} S f) :

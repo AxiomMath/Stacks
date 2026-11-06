@@ -226,7 +226,7 @@ private def openClassifierPoint (Y : RingedSpace.{u, u}) (V : Opens Y.carrier) :
 
 private lemma openClassifierPoint_eq {Y : RingedSpace.{u, u}} {V : Opens Y.carrier}
     (p : openClassifierPoint Y V) : p = ⟨⟨True⟩, trivial⟩ :=
-  Subtype.ext <| ULift.ext _ _ <| propext ⟨fun _ => trivial, fun _ => p.property⟩
+  Subtype.ext <| ULift.ext <| propext ⟨fun _ => trivial, fun _ => p.property⟩
 
 private instance (Y : RingedSpace.{u, u}) (V : Opens Y.carrier) :
     Subsingleton (openClassifierPoint Y V) :=

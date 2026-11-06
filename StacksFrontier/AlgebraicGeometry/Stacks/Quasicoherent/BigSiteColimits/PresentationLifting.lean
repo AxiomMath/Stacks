@@ -95,7 +95,7 @@ multiple of it. -/
 @[simp]
 lemma smul_uliftSelfGen {A : RingCat.{r}} (a : ULift.{t} A) :
     a.down • uliftSelfGen.{r, t} A = a :=
-  ULift.ext _ _ (mul_one a.down)
+  ULift.ext (mul_one a.down)
 
 /-- The `A`-linear map from the universe lift of a ring `A` to an `A`-module `M` sending
 `ModuleCat.uliftSelfGen` to a prescribed element `y` of `M`, that is, sending the lift of `a`

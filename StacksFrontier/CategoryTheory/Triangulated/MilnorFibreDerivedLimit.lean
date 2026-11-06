@@ -165,7 +165,7 @@ public theorem distTriang_Q_milnorObj (F : ℕᵒᵖ ⥤ CochainComplex A ℤ)
       (towerProductIso F hpc).hom =
       Pi.lift fun n : ℕ ↦ DerivedCategory.Q.map (proj F n) :=
     Limits.Pi.hom_ext _ _ fun n ↦ by
-      rw [Category.assoc, towerProductIso_hom_π, Limits.Pi.lift_π, proj,
+      rw [Category.assoc, towerProductIso_hom_π, Limits.Pi.lift_comp_π, proj,
         DerivedCategory.Q.map_comp]
   have sq2 : DerivedCategory.Q.map (oneMinusShift F) ≫ (towerProductIso F hpc).hom =
       (towerProductIso F hpc).hom ≫
@@ -174,7 +174,7 @@ public theorem distTriang_Q_milnorObj (F : ℕᵒᵖ ⥤ CochainComplex A ℤ)
           Pi.π (fun k : ℕ ↦ DerivedCategory.Q.obj (F.obj ⟨k⟩)) (n + 1) ≫
             DerivedCategory.Q.map (F.map (homOfLE (Nat.le_succ n)).op) :=
     Limits.Pi.hom_ext _ _ fun n ↦ by
-      rw [Category.assoc, towerProductIso_hom_π, Category.assoc, Limits.Pi.lift_π, comp_sub,
+      rw [Category.assoc, towerProductIso_hom_π, Category.assoc, Limits.Pi.lift_comp_π, comp_sub,
         towerProductIso_hom_π, ← Category.assoc (f := (towerProductIso F hpc).hom),
         towerProductIso_hom_π, ← DerivedCategory.Q.map_comp, ← DerivedCategory.Q.map_comp,
         ← CategoryTheory.Functor.map_sub]

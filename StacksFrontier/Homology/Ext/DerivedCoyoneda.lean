@@ -169,13 +169,13 @@ public noncomputable def homologyRightDerivedIso
     (((F.mapHomologicalComplex (.up ℤ)).obj
       (((InjectiveObject.ι A).mapCochainComplexPlus.obj J).obj)).homology n) := by
   let L := (InjectiveObject.ι A).mapCochainComplexPlus.obj J
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj L)) := by
     dsimp [L]
     infer_instance
   exact (DerivedCategory.Plus.homologyFunctor B n).mapIso
     (F.rightDerivedFunctorPlus.mapIso ((plusQuotientCompQhIso A).app L).symm ≪≫
-    (asIso (F.rightDerivedFunctorPlusUnit.app
+    (asIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj L))).symm ≪≫
     (plusQuotientCompQhIso B).app (F.mapCochainComplexPlus.obj L)) ≪≫
     (DerivedCategory.homologyFunctorFactors B n).app _

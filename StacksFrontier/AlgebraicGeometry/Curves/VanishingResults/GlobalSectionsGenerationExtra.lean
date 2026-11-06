@@ -82,6 +82,7 @@ public theorem isZero_firstCohomology_of_mono_of_supp_dim_le_zero_of_isCoherent
     refine hne ?_
     rw [← hπj, hzQ.eq_of_tgt (cokernel.π α') 0, zero_comp]
 
+set_option maxHeartbeats 400000 in
 /-- Variant of `epi_globalSectionsHom_comp` in which the last hypothesis is asked only of coherent
 submodules of `F`: the composite `globalSectionsHom F ≫ β` is an epimorphism. -/
 public theorem epi_globalSectionsHom_comp_of_isCoherent {ω F Q : S.X.Modules}
@@ -96,15 +97,12 @@ public theorem epi_globalSectionsHom_comp_of_isCoherent {ω F Q : S.X.Modules}
       IsZero M) :
     Epi (globalSectionsHom F ≫ β) := by
   have : IsLocallyNoetherian S.X := LocallyOfFiniteType.isLocallyNoetherian S.f
-  have := hFq
-  have := hFft
-  have := hQq
   have hFc : F.IsCoherent :=
     Stacks.AlgebraicGeometry.CoherentOfFiniteType.isCoherent_of_isQuasicoherent_of_isFiniteType F
   have hQc : Q.IsCoherent :=
     Stacks.AlgebraicGeometry.CoherentOfFiniteType.isCoherent_of_epi_of_isQuasicoherent hFc β
   have hγ0 : globalSectionsHom F ≫ (β ≫ cokernel.π (globalSectionsHom F ≫ β)) = 0 := by
-    rw [← Category.assoc]; exact cokernel.condition _
+    rw [← Category.assoc, cokernel.condition]
   have hα0 : α ≫ (β ≫ cokernel.π (globalSectionsHom F ≫ β)) = 0 := by
     rw [← Category.assoc, hαβ, zero_comp]
   have hepiδ : Epi (β ≫ cokernel.π (globalSectionsHom F ≫ β)) := epi_comp _ _
@@ -121,7 +119,6 @@ public theorem epi_globalSectionsHom_comp_of_isCoherent {ω F Q : S.X.Modules}
     Stacks.AlgebraicGeometry.CoherentOfFiniteType.isCoherent_of_epi_of_isQuasicoherent hQc
       (cokernel.π (globalSectionsHom F ≫ β))
   have hF'c : (kernel (β ≫ cokernel.π (globalSectionsHom F ≫ β))).IsCoherent :=
-    have := hCc
     Stacks.AlgebraicGeometry.CoherentOfFiniteType.isCoherent_of_mono_of_isQuasicoherent hFc
       (kernel.ι (β ≫ cokernel.π (globalSectionsHom F ≫ β)))
   have hF'1 : IsZero (cohomologyOverField S.k S.f

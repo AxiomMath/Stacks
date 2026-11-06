@@ -279,6 +279,7 @@ private noncomputable def tensorDoubleComparison {I : SheafOfModules.{u} Oₓ}
 
 attribute [local implicit_reducible] tensorDoubleComparison idealMultiplication
 
+set_option maxHeartbeats 1000000 in
 /-- The comparison of a twofold tensor product, followed by multiplying the outer factor into
 the sheafified twofold tensor product, is the sheafification of the presheaf multiplication. -/
 private lemma tensorDoubleComparison_multiplication {I : SheafOfModules.{u} Oₓ} (ι : I ⟶ 𝒪)

@@ -117,12 +117,12 @@ public def derivedSectionsUnboundedιIso :
     DerivedCategory.Plus.ι ⋙ derivedSectionsUnbounded X U ≅
       Stacks.Cohomology.derivedSections X U ⋙ DerivedCategory.Plus.ι :=
   have : (Stacks.Cohomology.derivedSections X U ⋙ DerivedCategory.Plus.ι).IsRightDerivedFunctor
-      (Functor.whiskerRight (Stacks.Cohomology.sectionsFunctor X U).rightDerivedFunctorPlusUnit
+      (Functor.whiskerRight (Stacks.Cohomology.sectionsFunctor X U).rightDerivedFunctorPlusUnith
         DerivedCategory.Plus.ι) (HomotopyCategory.Plus.quasiIso X.Modules) :=
     Functor.isRightDerivedFunctor_postcomp (Stacks.Cohomology.sectionsFunctor X U)
       DerivedCategory.Plus.ι
   Functor.rightDerivedNatIso _ _ (derivedSectionsUnboundedUnitPlus X U)
-    (Functor.whiskerRight (Stacks.Cohomology.sectionsFunctor X U).rightDerivedFunctorPlusUnit
+    (Functor.whiskerRight (Stacks.Cohomology.sectionsFunctor X U).rightDerivedFunctorPlusUnith
       DerivedCategory.Plus.ι)
     (HomotopyCategory.Plus.quasiIso X.Modules) (Iso.refl _)
 

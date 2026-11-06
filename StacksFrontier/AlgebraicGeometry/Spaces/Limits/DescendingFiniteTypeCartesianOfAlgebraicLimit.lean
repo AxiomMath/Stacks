@@ -402,6 +402,7 @@ theorem isIso_lift_of_isFlat_of_algebraicLimit (alg₂ : IsAlgebraicSpace B S hS
   have himage : schemeTheoreticImageSubfunctor B S hS χ = ⊤ := by
     have e := sq.flip.isoPullback
     have he : sq.flip.isoPullback.hom ≫ pullback.snd _ _ = χ := sq.flip.isoPullback_hom_snd
+    have : Epi sq.flip.isoPullback.hom := @IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom _)
     rw [← he, schemeTheoreticImageSubfunctor_comp_of_epi,
       schemeTheoreticImageSubfunctor_pullback_snd_of_isFlat_of_isQuasiCompact' B S hS _ _
         algT alg₂i alg₂ flatFst qcπ]

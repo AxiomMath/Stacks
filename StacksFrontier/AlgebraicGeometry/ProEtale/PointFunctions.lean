@@ -138,9 +138,9 @@ private theorem weaklyEtale_residueFieldMap_bijective
   have : Algebra.IsSeparable p.ResidueField q.ResidueField :=
     (isSeparable_and_isAlgebraic_residueField_of_weaklyEtale A B hw p q hpq).1
   let eY : Y.residueField (f x) ≃+* p.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)
+    IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p) |>.toRingEquiv
   let eX : X.residueField x ≃+* q.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal q (Localization.AtPrime q)
+    IsLocalization.AtPrime.equivQuotMaximalIdeal q (Localization.AtPrime q) |>.toRingEquiv
   let : IsSepClosed p.ResidueField := IsSepClosed.of_ringEquiv eY.symm
   have hrbij : Function.Bijective r :=
     IsSepClosed.algebraMap_bijective p.ResidueField q.ResidueField

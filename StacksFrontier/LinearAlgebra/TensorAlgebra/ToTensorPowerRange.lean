@@ -139,7 +139,6 @@ theorem range_toTensorAlgebra (n : ℕ) :
       · rintro _ ⟨z, rfl⟩
         obtain ⟨w, rfl⟩ := (mulEquiv (R := R) (M := M) (n := n) (m := 1)).surjective z
         induction w with
-        | zero => simpa only [map_zero] using Submodule.zero_mem _
         | tmul a b =>
             rw [toTensorAlgebra_mulEquiv, pow_succ]
             exact Submodule.mul_mem_mul (ih ▸ LinearMap.mem_range_self _ a)
@@ -183,7 +182,6 @@ theorem mulMap_congr_toTensorAlgebraEquiv (i j : ℕ) (w : (⨂[R]^i M) ⊗[R] (
           (TensorPower.toTensorAlgebraEquiv j) w) =
       TensorPower.toTensorAlgebra (TensorPower.mulEquiv w) := by
   induction w with
-  | zero => simp
   | tmul a b =>
       rw [TensorProduct.congr_tmul, Submodule.mulMap_tmul,
         TensorPower.coe_toTensorAlgebraEquiv, TensorPower.coe_toTensorAlgebraEquiv,

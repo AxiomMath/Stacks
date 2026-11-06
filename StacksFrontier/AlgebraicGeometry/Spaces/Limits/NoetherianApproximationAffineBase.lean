@@ -201,7 +201,7 @@ noncomputable def isLimit_toScheme_mapCone_fgStageCone :
       (fgStageCone T)) :=
   let hS := isLimitOfPreserves Scheme.Spec (isColimit_fgRingCocone T).op
   IsLimit.ofIsoLimit ((IsLimit.postcomposeHomEquiv (fgStageDiagramToSchemeIso T) _).symm hS)
-    (Cones.ext ((BigAffineFppf.toScheme B _ _).obj T).isoSpec.symm fun μ => by
+    (Cone.ext ((BigAffineFppf.toScheme B _ _).obj T).isoSpec.symm fun μ => by
       change Spec.map ((fgRingCocone T).ι.app μ.unop) ≫ 𝟙 _ = _ ≫
         ((BigAffineFppf.toScheme B _ _).obj T).isoSpec.hom ≫
           Spec.map ((fgRingCocone T).ι.app μ.unop)
@@ -385,7 +385,7 @@ theorem exists_descentSituation_noetherianApproximation
   let π : (Functor.const (FgIndexAbove T μ₀)ᵒᵖ).obj X ⟶ sys :=
     (Functor.const _).map e.hom ≫ bc.π
   have hπ : IsLimit (Cone.mk X π) :=
-    hbc.ofIsoLimit (Cones.ext e.symm fun j => (e.inv_hom_id_assoc _).symm)
+    hbc.ofIsoLimit (Cone.ext e.symm fun j => (e.inv_hom_id_assoc _).symm)
   have hsysalg (j) : IsAlgebraicSpace B _ _ (sys.obj j) :=
     isAlgebraicSpace_pullback B _ _ (t.app j) fi (hGalg _) hZi (hGalg _)
   have hsq_j (j) : IsPullback (pullback.fst (t.app j) fi) (pullback.snd (t.app j) fi)

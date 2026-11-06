@@ -217,7 +217,7 @@ lemma tensorComplexSection_restrict (t r c : ℤ) (htr : t + r = c) {W V : X.C} 
       ((((Stacks.SheafOfModules.Tensor.tensorComplex X.O).obj K).obj L).X c).val.map h.op
         (tensorComplexSection X t r c htr k l) :=
   (congrArg (fun y ↦ (tensorComplexTmulMap X K L t r c htr).app (op V) y)
-      (PresheafOfModules.Monoidal.tensorObj_map_tmul h.op k l).symm).trans
+      (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul h.op k l).symm).trans
     (PresheafOfModules.naturality_apply (tensorComplexTmulMap X K L t r c htr) h.op
       (k ⊗ₜ[(Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (op W)] l))
 

@@ -86,11 +86,11 @@ structure IterData (n : ℕ) where
   /-- `π` is an epimorphism. -/
   [epi_π : Epi π]
   /-- `π ≫ ι = α ^ n`. -/
-  π_ι : π ≫ ι = X.α ^ n
+  π_ι : π ≫ ι = (X.α ^ n).asHom
   /-- `ι` intertwines `Y.α` and `α`. -/
-  α_ι : Y.α ≫ ι = ι ≫ X.α
+  α_ι : Y.α.asHom ≫ ι = ι ≫ X.α.asHom
   /-- `π` intertwines `α` and `Y.α`. -/
-  π_α : π ≫ Y.α = X.α ≫ π
+  π_α : π ≫ Y.α.asHom = X.α.asHom ≫ π
 
 namespace IterData
 
@@ -102,15 +102,16 @@ variable {X} {n : ℕ} (D : X.IterData n)
 An `abbrev` on purpose (load-bearing): `D.step.Y`, `D.step.ι`, `D.step.π` must reduce. -/
 noncomputable abbrev step : X.IterData (n + 1) where
   Y := D.Y.derived
-  ι := Abelian.image.ι D.Y.α ≫ D.ι
-  π := D.π ≫ Abelian.factorThruImage D.Y.α
+  ι := Abelian.image.ι D.Y.α.asHom ≫ D.ι
+  π := D.π ≫ Abelian.factorThruImage D.Y.α.asHom
   π_ι := by
-    rw [assoc, ← assoc (Abelian.factorThruImage D.Y.α), Abelian.image.fac, D.α_ι, ← assoc,
+    rw [assoc, ← assoc (Abelian.factorThruImage D.Y.α.asHom), Abelian.image.fac, D.α_ι, ← assoc,
       D.π_ι, X.pow_succ_eq']
   α_ι := by
-    rw [derived_α, ← assoc, α'_ι, assoc, D.α_ι, assoc]
+    rw [show D.Y.derived.α.asHom = D.Y.α' from rfl, ← assoc, α'_ι, assoc, D.α_ι, assoc]
   π_α := by
-    rw [derived_α, assoc, factorThruImage_α', ← assoc, D.π_α, assoc]
+    rw [show D.Y.derived.α.asHom = D.Y.α' from rfl, assoc, factorThruImage_α', ← assoc, D.π_α,
+      assoc]
 
 /-- Transport of `Y.f ≫ ι` along an equality of iterated data. -/
 lemma f_ι_eqToHom {D' : X.IterData n} (hD : D = D') :
@@ -374,28 +375,28 @@ variable (E : Ungraded C 1) (e₁ : E.X 1 le_rfl ≅ X.E)
 
 /-- `g ≫ e₁⁻¹ : A ⟶ E_1` factors through `f⁻¹(Im α^n)`, since `g ≫ f = 0`. -/
 lemma pullback_factors_g (n : ℕ) :
-    ((Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ n))).Factors
+    ((Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ n).asHom)).Factors
       (X.g ≫ e₁.inv) :=
   pullback_factors _ _ _
     (by rw [assoc, Iso.inv_hom_id_assoc, X.g_f]; exact Subobject.factors_zero)
 
 /-- `g ≫ e₁⁻¹` factors through `Z_s` as soon as `Z_s = f⁻¹(Im α^n)`. -/
 lemma factors_of_eq {s : ℤ} {n : ℕ}
-    (hZ : E.Z () s = (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ n))) :
+    (hZ : E.Z () s = (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ n).asHom)) :
     (E.Z () s).Factors (X.g ≫ e₁.inv) := by
   rw [hZ]
   exact X.pullback_factors_g E e₁ n
 
 /-- `Z_1 = E_1 = f⁻¹(Im α^0)` under `E_1 ≅ E`. -/
 theorem Z_one :
-    E.Z () 1 = (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ 0)) := by
+    E.Z () 1 = (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ 0).asHom) := by
   rw [Z_self]
   simp only [pow_zero, End.one_def]
   rw [Subobject.imageSubobject_eq_top_of_epi, Subobject.pullback_top]
 
 /-- `B_1 = 0 = g(Ker α^0)` under `E_1 ≅ E`. -/
 theorem B_one :
-    E.B () 1 = (Subobject.exists (X.g ≫ e₁.inv)).obj (kernelSubobject (X.α ^ 0)) := by
+    E.B () 1 = (Subobject.exists (X.g ≫ e₁.inv)).obj (kernelSubobject (X.α ^ 0).asHom) := by
   rw [B_self]
   simp only [pow_zero, End.one_def]
   rw [Subobject.kernelSubobject_eq_bot_of_mono, (Subobject.existsPullbackAdj _).gc.l_bot]
@@ -423,15 +424,15 @@ structure Package (s : ℤ) (hs : 1 ≤ s) (n : ℕ) where
   /-- `π` is an epimorphism. -/
   [epi_π : Epi π]
   /-- `π ≫ ι = α ^ n`. -/
-  π_ι : π ≫ ι = X.α ^ n
+  π_ι : π ≫ ι = (X.α ^ n).asHom
   /-- `ι` intertwines `Y.α` and `α`. -/
-  α_ι : Y.α ≫ ι = ι ≫ X.α
+  α_ι : Y.α.asHom ≫ ι = ι ≫ X.α.asHom
   /-- `π` intertwines `α` and `Y.α`. -/
-  π_α : π ≫ Y.α = X.α ≫ π
+  π_α : π ≫ Y.α.asHom = X.α.asHom ≫ π
   /-- `Z_s = f⁻¹(Im α^n)` under `E_1 ≅ E`. -/
-  hZ : E.Z () s = (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ n))
+  hZ : E.Z () s = (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ n).asHom)
   /-- `B_s = g(Ker α^n)` under `E_1 ≅ E`. -/
-  hB : E.B () s = (Subobject.exists (X.g ≫ e₁.inv)).obj (kernelSubobject (X.α ^ n))
+  hB : E.B () s = (Subobject.exists (X.g ≫ e₁.inv)).obj (kernelSubobject (X.α ^ n).asHom)
   /-- `q_s ≫ φ ≫ Y.f ≫ ι` is the restriction of `f` to `Z_s ⊆ E_1 ≅ E`. -/
   q_f : E.q () s hs ≫ φ.hom ≫ Y.f ≫ ι = (E.Z () s).arrow ≫ e₁.hom ≫ X.f
   /-- The lift of `g ≫ e₁⁻¹` to `Z_s`. -/
@@ -451,7 +452,8 @@ variable (P : Package X E e₁ s hs n)
 
 /-- `ι(Im Y.α) = Im α^{n+1}`. -/
 lemma map_ι_imageSubobject_α :
-    (Subobject.map P.ι).obj (imageSubobject P.Y.α) = imageSubobject (X.α ^ (n + 1)) := by
+    (Subobject.map P.ι).obj (imageSubobject P.Y.α.asHom) =
+      imageSubobject (X.α ^ (n + 1)).asHom := by
   rw [← Subobject.exists_iso_map, ← Subobject.imageSubobject_comp_eq_exists, P.α_ι,
     Subobject.imageSubobject_comp_eq_exists, ← Subobject.exists_obj_top P.ι,
     ← Subobject.imageSubobject_eq_top_of_epi P.π, ← Subobject.imageSubobject_comp_eq_exists,
@@ -459,24 +461,25 @@ lemma map_ι_imageSubobject_α :
 
 /-- `Ker Y.α = π(Ker α^{n+1})`. -/
 lemma kernelSubobject_α_eq_exists_π :
-    kernelSubobject P.Y.α = (Subobject.exists P.π).obj (kernelSubobject (X.α ^ (n + 1))) := by
-  rw [← Abelian.Subobject.exists_pullback_eq_self_of_epi P.π (kernelSubobject P.Y.α),
-    Subobject.pullback_kernelSubobject, P.π_α, ← kernelSubobject_comp_mono (X.α ≫ P.π) P.ι,
+    kernelSubobject P.Y.α.asHom =
+      (Subobject.exists P.π).obj (kernelSubobject (X.α ^ (n + 1)).asHom) := by
+  rw [← Abelian.Subobject.exists_pullback_eq_self_of_epi P.π (kernelSubobject P.Y.α.asHom),
+    Subobject.pullback_kernelSubobject, P.π_α, ← kernelSubobject_comp_mono (X.α.asHom ≫ P.π) P.ι,
     pow_succ_eq, ← P.π_ι, ← assoc]
 
 /-- `Ker d_s = (φ ≫ Y.f ≫ ι)⁻¹(Im α^{n+1})`, by 011R (1) for `Y`. -/
 lemma kernelSubobject_d_eq :
     kernelSubobject (E.d s hs) = (Subobject.pullback (P.φ.hom ≫ P.Y.f ≫ P.ι)).obj
-      (imageSubobject (X.α ^ (n + 1))) := by
+      (imageSubobject (X.α ^ (n + 1)).asHom) := by
   rw [P.hd, ← assoc, kernelSubobject_comp_mono, ← Subobject.pullback_kernelSubobject,
     P.Y.kernelSubobject_d_eq_pullback_imageSubobject,
-    ← Subobject.pullback_map_self P.ι (imageSubobject P.Y.α),
+    ← Subobject.pullback_map_self P.ι (imageSubobject P.Y.α.asHom),
     P.map_ι_imageSubobject_α, Subobject.pullback_comp, Subobject.pullback_comp]
 
 /-- `Im d_s = (ℓ ≫ q_s)(Ker α^{n+1})`, by 011R (2) for `Y`. -/
 lemma imageSubobject_d_eq :
     imageSubobject (E.d s hs) =
-      (Subobject.exists (P.ℓ ≫ E.q () s hs)).obj (kernelSubobject (X.α ^ (n + 1))) := by
+      (Subobject.exists (P.ℓ ≫ E.q () s hs)).obj (kernelSubobject (X.α ^ (n + 1)).asHom) := by
   rw [P.hd, ← assoc, Subobject.imageSubobject_comp_eq_exists, Subobject.imageSubobject_iso_comp',
     P.Y.imageSubobject_d_eq_exists_kernelSubobject, P.kernelSubobject_α_eq_exists_π,
     ← Subobject.exists_comp, ← Subobject.exists_comp, P.π_g]
@@ -485,8 +488,8 @@ include P in
 /-- `Z_{s+1} = f⁻¹(Im α^{n+1})`, from `Z_{s+1} = q_s⁻¹(Ker d_s)` pushed into `E_1`. -/
 theorem Z_step :
     E.Z () (s + 1) =
-      (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ (n + 1))) := by
-  have hle : (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ (n + 1))) ≤
+      (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ (n + 1)).asHom) := by
+  have hle : (Subobject.pullback (e₁.hom ≫ X.f)).obj (imageSubobject (X.α ^ (n + 1)).asHom) ≤
       E.Z () s := by
     rw [P.hZ]
     exact (Subobject.pullback _).monotone.imp (X.imageSubobject_pow_succ_le n)
@@ -498,7 +501,7 @@ include P in
 /-- `B_{s+1} = g(Ker α^{n+1})`, from `B_{s+1} = q_s⁻¹(Im d_s)` pushed into `E_1`. -/
 theorem B_step :
     E.B () (s + 1) =
-      (Subobject.exists (X.g ≫ e₁.inv)).obj (kernelSubobject (X.α ^ (n + 1))) := by
+      (Subobject.exists (X.g ≫ e₁.inv)).obj (kernelSubobject (X.α ^ (n + 1)).asHom) := by
   rw [Ungraded.B_add_one E s hs, P.imageSubobject_d_eq,
     Subobject.exists_comp, Abelian.Subobject.pullback_exists_eq_sup, E.kernelSubobject_q () s hs,
     (Subobject.mapPullbackAdj (E.Z () s).arrow).gc.l_sup, ← Subobject.inf_eq_map_pullback,
@@ -572,7 +575,7 @@ theorem π_g_step {A' : C} (π' : P.Y.A ⟶ A') (g' : A' ⟶ P.Y.dComplex.homolo
 `f x = α^n y` (under `E_1 ≅ E`), `d_s(x̄) = \overline{ℓ y}`, the class of the lift `y ≫ ℓ` of
 `g ∘ y` (Lean's `y ≫ g`) to `Z_s`. -/
 theorem q_d {T : C} (x : T ⟶ (E.Z () s : C)) (y : T ⟶ X.A)
-    (h : x ≫ (E.Z () s).arrow ≫ e₁.hom ≫ X.f = y ≫ X.α ^ n) :
+    (h : x ≫ (E.Z () s).arrow ≫ e₁.hom ≫ X.f = y ≫ (X.α ^ n).asHom) :
     x ≫ E.q () s hs ≫ E.d s hs = (y ≫ P.ℓ) ≫ E.q () s hs := by
   have h1 : x ≫ E.q () s hs ≫ P.φ.hom ≫ P.Y.f = y ≫ P.π := by
     rw [← cancel_mono P.ι, assoc, assoc, assoc, P.q_f, assoc, P.π_ι, h]
@@ -583,7 +586,7 @@ include P in
 the lift of `g ≫ e₁⁻¹` to `Z_s` given by any factorisation witness `hfac`. -/
 theorem q_d_factorThru (hfac : (E.Z () s).Factors (X.g ≫ e₁.inv)) {T : C}
     (x : T ⟶ (E.Z () s : C)) (y : T ⟶ X.A)
-    (h : x ≫ (E.Z () s).arrow ≫ e₁.hom ≫ X.f = y ≫ X.α ^ n) :
+    (h : x ≫ (E.Z () s).arrow ≫ e₁.hom ≫ X.f = y ≫ (X.α ^ n).asHom) :
     x ≫ E.q () s hs ≫ E.d s hs =
       y ≫ (E.Z () s).factorThru (X.g ≫ e₁.inv) hfac ≫ E.q () s hs := by
   have hℓ : (E.Z () s).factorThru (X.g ≫ e₁.inv) hfac = P.ℓ := by
@@ -606,9 +609,9 @@ with `f^{(n)} ≫ ι` and `π ≫ g^{(n)}` through `E_s ≅ E^{(n)}`, where `ι 
 `π : A ↠ A^{(n)}` are the iterated data `iterData n`. -/
 structure Invariant (s : ℤ) (hs : 1 ≤ s) (n : ℕ) (h : (s - 1).toNat = n) : Prop where
   /-- `Z_s = f⁻¹(Im α^n)` under `E_1 ≅ E`. -/
-  hZ : E.Z () s = (Subobject.pullback (D.pageOneIso.hom ≫ X.f)).obj (imageSubobject (X.α ^ n))
+  hZ : E.Z () s = (Subobject.pullback (D.pageOneIso.hom ≫ X.f)).obj (imageSubobject (X.α ^ n).asHom)
   /-- `B_s = g(Ker α^n)` under `E_1 ≅ E`. -/
-  hB : E.B () s = (Subobject.exists (X.g ≫ D.pageOneIso.inv)).obj (kernelSubobject (X.α ^ n))
+  hB : E.B () s = (Subobject.exists (X.g ≫ D.pageOneIso.inv)).obj (kernelSubobject (X.α ^ n).asHom)
   /-- `q_s ≫ pageIso ≫ f^{(n)} ≫ ι` is the restriction of `f` to `Z_s ⊆ E_1 ≅ E`. -/
   q_f : E.q () s hs ≫ (D.pageIso s hs n h).hom ≫ (X.derivedIter n).f ≫ (X.iterData n).ι =
     (E.Z () s).arrow ≫ D.pageOneIso.hom ≫ X.f
@@ -650,14 +653,14 @@ theorem step (I : D.Invariant s hs n h) : D.Invariant (s + 1) (by omega) (n + 1)
     rw [D.pageIso_succ_hom s hs n h, X.derivedIterSuccIso_hom,
       IterData.f_ι_eqToHom _ (X.iterData_succ n)]
     simp only [assoc, eqToHom_trans_assoc, eqToHom_refl, id_comp]
-    exact (I.toPackage.q_f_step (Abelian.image.ι (X.derivedIter n).α)
+    exact (I.toPackage.q_f_step (Abelian.image.ι (X.derivedIter n).α.asHom)
       (X.derivedIter n).f' (X.derivedIter n).homologyπ_f'_ι (D.homologyIso s hs n h)
       (fun z hz hz' ↦ D.liftCycles_homologyπ_homologyIso_hom s hs n h z hz hz'))
   π_g := by
     rw [D.pageIso_succ_inv s hs n h, X.derivedIterSuccIso_inv, ← assoc,
       IterData.π_g_eqToHom _ (X.iterData_succ n)]
     simp only [assoc, eqToHom_trans_assoc, eqToHom_refl, id_comp]
-    exact (I.toPackage.π_g_step (Abelian.factorThruImage (X.derivedIter n).α)
+    exact (I.toPackage.π_g_step (Abelian.factorThruImage (X.derivedIter n).α.asHom)
       (X.derivedIter n).g' (X.derivedIter n).factorThruImage_g' (D.homologyIso s hs n h)
       (fun z hz hz' ↦ D.liftCycles_homologyπ_homologyIso_hom s hs n h z hz hz') _
       (Subobject.factorThru_arrow _ _ _))
@@ -691,12 +694,12 @@ theorem invariant (D : X.DerivedPages E) :
 
 /-- `Z_s = f⁻¹(Im α^n)` under `E_1 ≅ E`, for `n = s - 1`. -/
 theorem Z_eq (s : ℤ) (hs : 1 ≤ s) (n : ℕ) (h : (s - 1).toNat = n) :
-    E.Z () s = (Subobject.pullback (D.pageOneIso.hom ≫ X.f)).obj (imageSubobject (X.α ^ n)) :=
+    E.Z () s = (Subobject.pullback (D.pageOneIso.hom ≫ X.f)).obj (imageSubobject (X.α ^ n).asHom) :=
   (D.invariant n s hs h).hZ
 
 /-- `B_s = g(Ker α^n)` under `E_1 ≅ E`, for `n = s - 1`. -/
 theorem B_eq (s : ℤ) (hs : 1 ≤ s) (n : ℕ) (h : (s - 1).toNat = n) :
-    E.B () s = (Subobject.exists (X.g ≫ D.pageOneIso.inv)).obj (kernelSubobject (X.α ^ n)) :=
+    E.B () s = (Subobject.exists (X.g ≫ D.pageOneIso.inv)).obj (kernelSubobject (X.α ^ n).asHom) :=
   (D.invariant n s hs h).hB
 
 /-- Stacks 011T: `Z_{r+1} = f⁻¹(Im α^r)` under `E_1 ≅ E`, for any ungraded spectral sequence
@@ -704,7 +707,7 @@ theorem B_eq (s : ℤ) (hs : 1 ≤ s) (n : ℕ) (h : (s - 1).toNat = n) :
 @[stacks 011T "`Z_{r+1} = f⁻¹(Im α^r)` under `E_1 ≅ E`, for any `E` with derived-couple pages"]
 theorem Z_succ (r : ℕ) :
     E.Z () (r + 1) =
-      (Subobject.pullback (D.pageOneIso.hom ≫ X.f)).obj (imageSubobject (X.α ^ r)) :=
+      (Subobject.pullback (D.pageOneIso.hom ≫ X.f)).obj (imageSubobject (X.α ^ r).asHom) :=
   D.Z_eq (r + 1) (by omega) r (by omega)
 
 /-- Stacks 011T: `B_{r+1} = g(Ker α^r)` under `E_1 ≅ E`, for any ungraded spectral sequence
@@ -712,7 +715,7 @@ theorem Z_succ (r : ℕ) :
 @[stacks 011T "`B_{r+1} = g(Ker α^r)` under `E_1 ≅ E`, for any `E` with derived-couple pages"]
 theorem B_succ (r : ℕ) :
     E.B () (r + 1) =
-      (Subobject.exists (X.g ≫ D.pageOneIso.inv)).obj (kernelSubobject (X.α ^ r)) :=
+      (Subobject.exists (X.g ≫ D.pageOneIso.inv)).obj (kernelSubobject (X.α ^ r).asHom) :=
   D.B_eq (r + 1) (by omega) r (by omega)
 
 /-- `g ≫ pageOneIso⁻¹ : A ⟶ E_1` factors through `Z_{r+1}` (since `g ≫ f = 0`). -/
@@ -724,7 +727,7 @@ under `E_1 ≅ E`, `d_s(x̄) = \overline{g y}`, the class of the lift of `y ≫ 
 to `Z_s` given by any factorisation witness `hfac`. -/
 theorem q_d_eq (s : ℤ) (hs : 1 ≤ s) (n : ℕ) (h : (s - 1).toNat = n)
     (hfac : (E.Z () s).Factors (X.g ≫ D.pageOneIso.inv)) {T : C} (x : T ⟶ (E.Z () s : C))
-    (y : T ⟶ X.A) (hxy : x ≫ (E.Z () s).arrow ≫ D.pageOneIso.hom ≫ X.f = y ≫ X.α ^ n) :
+    (y : T ⟶ X.A) (hxy : x ≫ (E.Z () s).arrow ≫ D.pageOneIso.hom ≫ X.f = y ≫ (X.α ^ n).asHom) :
     x ≫ E.q () s hs ≫ E.d s hs =
       y ≫ (E.Z () s).factorThru (X.g ≫ D.pageOneIso.inv) hfac ≫ E.q () s hs :=
   (D.invariant n s hs h).toPackage.q_d_factorThru hfac x y hxy
@@ -735,7 +738,7 @@ under `E_1 ≅ E`, `d_{r+1}(x̄) = \overline{g y}`: here `x̄ = x ≫ q_{r+1} : 
 exists by `factors_g`). -/
 @[stacks 011T "`d_{r+1}(x̄) = \\overline{g y}` for `x ∈ Z_{r+1}`, `y ∈ A` with `f x = α^r y`"]
 theorem d_succ (r : ℕ) {T : C} (x : T ⟶ (E.Z () (r + 1) : C)) (y : T ⟶ X.A)
-    (hxy : x ≫ (E.Z () (r + 1)).arrow ≫ D.pageOneIso.hom ≫ X.f = y ≫ X.α ^ r) :
+    (hxy : x ≫ (E.Z () (r + 1)).arrow ≫ D.pageOneIso.hom ≫ X.f = y ≫ (X.α ^ r).asHom) :
     x ≫ E.q () (r + 1) ≫ E.d (r + 1) =
       y ≫ (E.Z () (r + 1)).factorThru (X.g ≫ D.pageOneIso.inv) (D.factors_g r) ≫
         E.q () (r + 1) :=
@@ -748,13 +751,15 @@ end DerivedPages
 /-- `Z_{r+1} = f⁻¹(Im α^r)` in the spectral sequence of `X`, under `E_1 ≅ E`. -/
 theorem spectralSequence_Z_succ (r : ℕ) :
     X.spectralSequence.Z () (r + 1) =
-      (Subobject.pullback (X.spectralSequenceXOneIso.hom ≫ X.f)).obj (imageSubobject (X.α ^ r)) :=
+      (Subobject.pullback (X.spectralSequenceXOneIso.hom ≫ X.f)).obj
+        (imageSubobject (X.α ^ r).asHom) :=
   X.spectralSequenceDerivedPages.Z_succ r
 
 /-- `B_{r+1} = g(Ker α^r)` in the spectral sequence of `X`, under `E_1 ≅ E`. -/
 theorem spectralSequence_B_succ (r : ℕ) :
     X.spectralSequence.B () (r + 1) =
-      (Subobject.exists (X.g ≫ X.spectralSequenceXOneIso.inv)).obj (kernelSubobject (X.α ^ r)) :=
+      (Subobject.exists (X.g ≫ X.spectralSequenceXOneIso.inv)).obj
+        (kernelSubobject (X.α ^ r).asHom) :=
   X.spectralSequenceDerivedPages.B_succ r
 
 /-- The differential `d_{r+1}` of the spectral sequence of `X`: for `x : T ⟶ Z_{r+1}` and
@@ -762,7 +767,7 @@ theorem spectralSequence_B_succ (r : ℕ) :
 theorem spectralSequence_d_succ (r : ℕ) {T : C} (x : T ⟶ (X.spectralSequence.Z () (r + 1) : C))
     (y : T ⟶ X.A)
     (hxy : x ≫ (X.spectralSequence.Z () (r + 1)).arrow ≫ X.spectralSequenceXOneIso.hom ≫ X.f =
-      y ≫ X.α ^ r) :
+      y ≫ (X.α ^ r).asHom) :
     x ≫ X.spectralSequence.q () (r + 1) ≫ X.spectralSequence.d (r + 1) =
       y ≫ (X.spectralSequence.Z () (r + 1)).factorThru (X.g ≫ X.spectralSequenceXOneIso.inv)
         (X.spectralSequenceDerivedPages.factors_g r) ≫ X.spectralSequence.q () (r + 1) :=

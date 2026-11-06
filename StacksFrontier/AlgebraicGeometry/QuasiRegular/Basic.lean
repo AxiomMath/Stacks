@@ -104,10 +104,11 @@ theorem polynomialGerm_eq_zero_iff (U : Opens X) (x : X) (hx : x ∈ U)
     (p : MvPolynomial (Fin r) (X.presheaf.obj (op U))) :
     polynomialGerm X f U x hx p = 0 ↔
       ∀ e : Fin r →₀ ℕ,
-        X.presheaf.germ U x hx (MvPolynomial.coeff e p) ∈ Jid (germSequence X f x) := by
+        X.presheaf.germ U x hx (p.coeff e) ∈ Jid (germSequence X f x) := by
   rw [MvPolynomial.ext_iff]
   refine forall_congr' fun e => ?_
-  rw [polynomialGerm, MvPolynomial.coeff_map, MvPolynomial.coeff_zero, RingHom.comp_apply,
+  rw [polynomialGerm, MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply,
+    RingHom.comp_apply,
     Ideal.Quotient.eq_zero_iff_mem]
 
 end PolynomialGerm
@@ -126,7 +127,7 @@ noncomputable def polynomialPresentation (X : RingedSpace.{u}) {r : ℕ}
     classical
     have hco := (polynomialGerm_eq_zero_iff f U x hx p).mp h
     obtain ⟨V, hxV, hVU, hV⟩ := exists_nhds_forall_germ_mem_Jid_pow f p.support U
-      (fun e => MvPolynomial.coeff e p) (fun _ => 1) x hx
+      (fun e => p.coeff e) (fun _ => 1) x hx
       (fun e _ => by simpa only [pow_one] using hco e)
     refine ⟨V, hxV, hVU, fun y hy => (polynomialGerm_eq_zero_iff f U y (hVU hy) p).mpr
       fun e => ?_⟩
@@ -137,7 +138,7 @@ noncomputable def polynomialPresentation (X : RingedSpace.{u}) {r : ℕ}
   pres_surjective x q := by
     classical
     choose lift hlift using fun e : Fin r →₀ ℕ =>
-      Ideal.Quotient.mk_surjective (I := Jid (germSequence X f x)) (MvPolynomial.coeff e q)
+      Ideal.Quotient.mk_surjective (I := Jid (germSequence X f x)) (q.coeff e)
     obtain ⟨V, hxV, b, hb⟩ := exists_nhds_germ_eq q.support x lift
     refine ⟨V, hxV, ∑ e ∈ q.support, MvPolynomial.monomial e (b e), ?_⟩
     rw [polynomialGerm, map_sum]
@@ -150,7 +151,7 @@ family `f`: `∑_{e ∈ S, |e| = d} f^e · (coeff e p)`. -/
 noncomputable def gradedPartSection (U : Opens X)
     (p : MvPolynomial (Fin r) (X.presheaf.obj (op U))) (S : Finset (Fin r →₀ ℕ)) (d : ℕ) :
     X.presheaf.obj (op U) :=
-  ∑ e ∈ S with qrMdeg e = d, fpow (restrictFamily X f U) e * MvPolynomial.coeff e p
+  ∑ e ∈ S with qrMdeg e = d, fpow (restrictFamily X f U) e * p.coeff e
 
 /-- The germ at `x` of `gradedPartSection f U p S d` is the degree-`d` part `gradedPartOn` of the
 polynomial obtained by taking germs of the coefficients of `p`. -/

@@ -4,6 +4,7 @@ public import Mathlib.AlgebraicGeometry.Sites.Fpqc
 public import Mathlib.Algebra.MvPolynomial.CommRing
 public import Mathlib.CategoryTheory.Sites.Hypercover.Zero
 public import Mathlib.RingTheory.Flat.Basic
+public import Mathlib.RingTheory.Flat.Localization
 public import Mathlib.RingTheory.MvPolynomial.Basic
 public import Mathlib.RingTheory.Localization.Basic
 public import Mathlib.RingTheory.Spectrum.Prime.Topology
@@ -67,16 +68,15 @@ private lemma separatingSubmonoid_X_sub_X {R : Type u} [CommRing R] [Nontrivial 
       (MvPolynomial.X i - MvPolynomial.X j : MvPolynomial I R) ≠ 0 := by
   classical
   intro p hzero
-  have hcoeff := congrArg (MvPolynomial.coeff (Finsupp.single i 1)) hzero
   have hsingle : Finsupp.single j (1 : ℕ) ≠ Finsupp.single i 1 := by
     intro h; exact hij ((Finsupp.single_left_inj (by decide : (1 : ℕ) ≠ 0)).mp h).symm
-  have hmapcoeff : MvPolynomial.coeff (Finsupp.single i 1)
-      (MvPolynomial.map (Ideal.Quotient.mk p.asIdeal)
-        (MvPolynomial.X i - MvPolynomial.X j : MvPolynomial I R)) = 1 := by
+  have hmapcoeff : (MvPolynomial.map (Ideal.Quotient.mk p.asIdeal)
+        (MvPolynomial.X i - MvPolynomial.X j : MvPolynomial I R)).coeff
+        (Finsupp.single i 1) = 1 := by
     rw [MvPolynomial.coeff_map, MvPolynomial.coeff_sub, map_sub]
     simp [MvPolynomial.coeff_X, hsingle]
-  rw [hmapcoeff, MvPolynomial.coeff_zero] at hcoeff
-  exact one_ne_zero hcoeff
+  rw [hzero, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at hmapcoeff
+  exact zero_ne_one hmapcoeff
 
 private abbrev separatorRing (R : Type u) [CommRing R] (I : Type u) :=
   Localization (separatingSubmonoid (R := R) I)

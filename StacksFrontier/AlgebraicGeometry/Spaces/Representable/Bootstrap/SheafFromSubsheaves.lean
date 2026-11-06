@@ -392,8 +392,9 @@ private theorem section_mem_subfunctor_of_local_lifts
         show ξ.app (op V) g = F.map g.op s by simp [ξ]]
       simpa [η] using ht.symm
     refine ⟨(pullback.lift (yoneda.map g) η hc).app (op V) (𝟙 V), ?_⟩
-    simpa [f] using congrArg (fun k : yoneda.obj V ⟶ yoneda.obj U ↦ k.app (op V) (𝟙 V))
+    have h := congrArg (fun k : yoneda.obj V ⟶ yoneda.obj U ↦ k.app (op V) (𝟙 V))
       (pullback.lift_fst (yoneda.map g) η hc)
+    exact h.trans (by simp)
   obtain ⟨p, hp⟩ := exists_lift_of_sheaf_on_covering_sieve f hP hY hf U R hR (𝟙 U) hloc'
   refine ⟨(pullback.snd ξ G.ι).app (op U) p, ?_⟩
   have hcone := congrArg (fun η : pullback ξ G.ι ⟶ F ↦ η.app (op U) p)

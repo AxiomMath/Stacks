@@ -64,19 +64,20 @@ variable {R : Type*} [CommRing R] {C : Type*} [Category C] [Preadditive C] [Grad
 /-- The degree-zero endomorphisms of an object of a graded category, a subalgebra of its
 endomorphism algebra: identities have degree zero and composition adds degrees. -/
 def degreeZeroSubalgebra (X : C) : Subalgebra R (End X) where
-  carrier := (grade (R := R) X X 0 : Set (X ⟶ X))
+  carrier := {f | f.asHom ∈ grade (R := R) X X 0}
   mul_mem' {a b} ha hb := by
     have h := comp_mem (R := R) ha hb
     rw [add_zero] at h
     exact h
   add_mem' ha hb := (grade (R := R) X X 0).add_mem ha hb
+  zero_mem' := (grade (R := R) X X 0).zero_mem
   algebraMap_mem' r := by
     rw [Algebra.algebraMap_eq_smul_one]
     exact (grade (R := R) X X 0).smul_mem r (id_mem (R := R) X)
 
 /-- An endomorphism lies in the degree-zero subalgebra if and only if it has degree zero. -/
 theorem mem_degreeZeroSubalgebra {X : C} {f : End X} :
-    f ∈ degreeZeroSubalgebra (R := R) X ↔ f ∈ grade (R := R) X X 0 :=
+    f ∈ degreeZeroSubalgebra (R := R) X ↔ f.asHom ∈ grade (R := R) X X 0 :=
   Iff.rfl
 
 end CategoryTheory.GradedCategory
@@ -126,23 +127,24 @@ def projectiveLineDegreeZeroEquiv :
     SmoothProjectiveCorr (projectiveLineObj k) (projectiveLineObj k) 0 ≃ₗ[ℚ]
       degreeZeroSubalgebra (R := ℚ) 𝐗 :=
   LinearEquiv.ofBijective
-    ((DirectSum.lof ℚ ℤ
+    ((End.linearEquiv (R := ℚ) (X := 𝐗).symm.toLinearMap ∘ₗ DirectSum.lof ℚ ℤ
         (fun i ↦ SmoothProjectiveCorr (projectiveLineObj k) (projectiveLineObj k) i) 0).codRestrict
       (degreeZeroSubalgebra (R := ℚ) 𝐗).toSubmodule
       fun c ↦ (GradedCompositionData.mem_grade_iff _).2 ⟨c, (DirectSum.lof_eq_of ℚ ℤ _ 0 c).symm⟩)
     ⟨fun a b h ↦ DirectSum.of_injective (β := fun i ↦
         SmoothProjectiveCorr (projectiveLineObj k) (projectiveLineObj k) i) 0
-        (((DirectSum.lof_eq_of ℚ ℤ _ 0 a).symm.trans (congrArg Subtype.val h)).trans
+        (((DirectSum.lof_eq_of ℚ ℤ _ 0 a).symm.trans
+          (congrArg (fun f : degreeZeroSubalgebra (R := ℚ) 𝐗 ↦ (f : End 𝐗).asHom) h)).trans
           (DirectSum.lof_eq_of ℚ ℤ _ 0 b)),
       fun ⟨f, hf⟩ ↦ by
         obtain ⟨a, ha⟩ := (GradedCompositionData.mem_grade_iff _).1 hf
-        exact ⟨a, Subtype.ext ((DirectSum.lof_eq_of ℚ ℤ _ 0 a).trans ha)⟩⟩
+        exact ⟨a, Subtype.ext (End.ext ((DirectSum.lof_eq_of ℚ ℤ _ 0 a).trans ha))⟩⟩
 
 /-- `Stacks.WeilCohomology.projectiveLineDegreeZeroEquiv` sends a correspondence of degree zero
 to its degree-zero component as an endomorphism of `P¹_k`. -/
 theorem projectiveLineDegreeZeroEquiv_apply
     (c : SmoothProjectiveCorr (projectiveLineObj k) (projectiveLineObj k) 0) :
-    (projectiveLineDegreeZeroEquiv k c : End 𝐗) =
+    (projectiveLineDegreeZeroEquiv k c : End 𝐗).asHom =
       DirectSum.of (fun i ↦ SmoothProjectiveCorr (projectiveLineObj k) (projectiveLineObj k) i) 0
         c :=
   DirectSum.lof_eq_of ℚ ℤ _ 0 c
@@ -260,27 +262,38 @@ theorem projectiveLine_pointFibre_comp_pointFibre :
   rw [he]
   exact h
 
+/-- `1 = c₀ + c₂` in the endomorphism ring of `P¹_k`. -/
+private theorem projectiveLine_endOf_add :
+    End.of (projectiveLinePointFibreHom x hx) + End.of (projectiveLineFibrePointHom x hx) = 1 :=
+  End.ext (projectiveLine_id_eq_add x hx).symm
+
+/-- `c₀ * c₀ = c₀` in the endomorphism ring of `P¹_k`. -/
+private theorem projectiveLine_endOf_mul_self :
+    End.of (projectiveLinePointFibreHom x hx) * End.of (projectiveLinePointFibreHom x hx) =
+      End.of (projectiveLinePointFibreHom x hx) :=
+  End.ext (projectiveLine_pointFibre_comp_pointFibre x hx)
+
 /-- `c₀ ∘ c₂ = 0` in the category of correspondences. -/
 @[stacks 0FG6 "c₀ ∘ c₂ = 0"]
 theorem projectiveLine_fibrePoint_comp_pointFibre :
     projectiveLineFibrePointHom x hx ≫ projectiveLinePointFibreHom x hx = 0 :=
-  mul_eq_zero_of_add_eq_one (A := End 𝐗) (projectiveLine_id_eq_add x hx).symm
-    (projectiveLine_pointFibre_comp_pointFibre x hx)
+  congrArg End.asHom (mul_eq_zero_of_add_eq_one (A := End 𝐗) (projectiveLine_endOf_add x hx)
+    (projectiveLine_endOf_mul_self x hx))
 
 /-- `c₂ ∘ c₀ = 0` in the category of correspondences. -/
 @[stacks 0FG6 "c₂ ∘ c₀ = 0"]
 theorem projectiveLine_pointFibre_comp_fibrePoint :
     projectiveLinePointFibreHom x hx ≫ projectiveLineFibrePointHom x hx = 0 :=
-  mul_eq_zero_of_add_eq_one' (A := End 𝐗) (projectiveLine_id_eq_add x hx).symm
-    (projectiveLine_pointFibre_comp_pointFibre x hx)
+  congrArg End.asHom (mul_eq_zero_of_add_eq_one' (A := End 𝐗) (projectiveLine_endOf_add x hx)
+    (projectiveLine_endOf_mul_self x hx))
 
 /-- `c₂ ∘ c₂ = c₂` in the category of correspondences. -/
 @[stacks 0FG6 "c₂ ∘ c₂ = c₂"]
 theorem projectiveLine_fibrePoint_comp_fibrePoint :
     projectiveLineFibrePointHom x hx ≫ projectiveLineFibrePointHom x hx =
       projectiveLineFibrePointHom x hx :=
-  mul_self_of_add_eq_one (A := End 𝐗) (projectiveLine_id_eq_add x hx).symm
-    (projectiveLine_pointFibre_comp_pointFibre x hx)
+  congrArg End.asHom (mul_self_of_add_eq_one (A := End 𝐗) (projectiveLine_endOf_add x hx)
+    (projectiveLine_endOf_mul_self x hx))
 
 /-! ### The basis `c₀, c₂` and the algebra `ℚ × ℚ` -/
 
@@ -303,12 +316,12 @@ theorem projectiveLineCorrBasis_one : projectiveLineCorrBasis k 1 =
 
 /-- The first vector of `Stacks.WeilCohomology.projectiveLineDegreeZeroBasis` is `c₀`. -/
 theorem projectiveLineDegreeZeroBasis_zero :
-    (projectiveLineDegreeZeroBasis k 0 : End 𝐗) = projectiveLinePointFibreHom x hx :=
+    (projectiveLineDegreeZeroBasis k 0 : End 𝐗).asHom = projectiveLinePointFibreHom x hx :=
   (projectiveLineDegreeZeroEquiv_apply k _).trans (congrArg _ (projectiveLineCorrBasis_zero x hx))
 
 /-- The second vector of `Stacks.WeilCohomology.projectiveLineDegreeZeroBasis` is `c₂`. -/
 theorem projectiveLineDegreeZeroBasis_one :
-    (projectiveLineDegreeZeroBasis k 1 : End 𝐗) = projectiveLineFibrePointHom x hx :=
+    (projectiveLineDegreeZeroBasis k 1 : End 𝐗).asHom = projectiveLineFibrePointHom x hx :=
   (projectiveLineDegreeZeroEquiv_apply k _).trans (congrArg _ (projectiveLineCorrBasis_one x hx))
 
 variable (k)
@@ -316,19 +329,20 @@ variable (k)
 /-- The two vectors of `Stacks.WeilCohomology.projectiveLineDegreeZeroBasis` sum to `1`. -/
 theorem projectiveLineDegreeZeroBasis_add :
     projectiveLineDegreeZeroBasis k 0 + projectiveLineDegreeZeroBasis k 1 = 1 :=
-  Subtype.ext (by
-    rw [Subalgebra.coe_add, projectiveLineDegreeZeroBasis_zero, projectiveLineDegreeZeroBasis_one,
-      Subalgebra.coe_one, End.one_def,
-      projectiveLine_id_eq_add (lineInfinitySection _) (lineInfinitySection_comp _)])
+  Subtype.ext (End.ext (by
+    rw [Subalgebra.coe_add, show ∀ a b : End 𝐗, (a + b).asHom = a.asHom + b.asHom from
+      fun _ _ ↦ rfl, projectiveLineDegreeZeroBasis_zero, projectiveLineDegreeZeroBasis_one,
+      Subalgebra.coe_one, End.one_asHom,
+      projectiveLine_id_eq_add (lineInfinitySection _) (lineInfinitySection_comp _)]))
 
 /-- The first vector of `Stacks.WeilCohomology.projectiveLineDegreeZeroBasis` is idempotent. -/
 theorem projectiveLineDegreeZeroBasis_mul_self :
     projectiveLineDegreeZeroBasis k 0 * projectiveLineDegreeZeroBasis k 0 =
       projectiveLineDegreeZeroBasis k 0 :=
-  Subtype.ext (by
-    rw [Subalgebra.coe_mul, projectiveLineDegreeZeroBasis_zero, End.mul_def,
+  Subtype.ext (End.ext (by
+    rw [Subalgebra.coe_mul, End.mul_asHom, projectiveLineDegreeZeroBasis_zero,
       projectiveLine_pointFibre_comp_pointFibre (lineInfinitySection _)
-        (lineInfinitySection_comp _)])
+        (lineInfinitySection_comp _)]))
 
 /-- `Corr⁰(P¹_k, P¹_k) = ℚ × ℚ` as a `ℚ`-algebra: the degree-zero endomorphisms of `P¹_k` in the
 category of correspondences, with composition as multiplication, are the product algebra, via
@@ -342,10 +356,12 @@ variable {k}
 
 /-- `Stacks.WeilCohomology.projectiveLineCorrAlgEquiv` sends `(a, b)` to `a c₀ + b c₂`. -/
 theorem projectiveLineCorrAlgEquiv_apply (y : ℚ × ℚ) :
-    (projectiveLineCorrAlgEquiv k y : End 𝐗) =
+    (projectiveLineCorrAlgEquiv k y : End 𝐗).asHom =
       y.1 • projectiveLinePointFibreHom x hx + y.2 • projectiveLineFibrePointHom x hx := by
   rw [projectiveLineCorrAlgEquiv, algEquivProdOfBasisOfAddEqOne_apply, Subalgebra.coe_add,
-    Subalgebra.coe_smul, Subalgebra.coe_smul, projectiveLineDegreeZeroBasis_zero,
+    Subalgebra.coe_smul, Subalgebra.coe_smul,
+    show ∀ a b : End 𝐗, (a + b).asHom = a.asHom + b.asHom from fun _ _ ↦ rfl,
+    End.smul_asHom, End.smul_asHom, projectiveLineDegreeZeroBasis_zero,
     projectiveLineDegreeZeroBasis_one]
 
 end Stacks.WeilCohomology

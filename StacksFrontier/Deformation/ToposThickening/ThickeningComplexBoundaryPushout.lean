@@ -102,9 +102,9 @@ theorem extensionActionMap_comp_of_hom (hi : FirstOrderThickening i)
     let R := Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)
     have hval : (SheafOfModules.forget R).map (𝟙 F) = 𝟙 F.val :=
       CategoryTheory.Functor.map_id (SheafOfModules.forget R) F
-    have h : PresheafOfModules.Monoidal.tensorHom (𝟙 hi.I.val)
+    have h : PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
           ((SheafOfModules.forget R).map (𝟙 F)) =
-        𝟙 (PresheafOfModules.Monoidal.tensorObj hi.I.val F.val) := by
+        𝟙 (PresheafOfModulesOfCommRing.Monoidal.tensorObj hi.I.val F.val) := by
       rw [hval]
       apply PresheafOfModules.hom_ext
       intro U
@@ -112,7 +112,7 @@ theorem extensionActionMap_comp_of_hom (hi : FirstOrderThickening i)
       intro a x
       rfl
     show (PresheafOfModules.sheafification (R := R) (𝟙 R.obj)).map
-      (PresheafOfModules.Monoidal.tensorHom (𝟙 hi.I.val)
+      (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 hi.I.val)
         ((SheafOfModules.forget R).map (𝟙 F))) = 𝟙 _
     rw [h]
     exact CategoryTheory.Functor.map_id _ _

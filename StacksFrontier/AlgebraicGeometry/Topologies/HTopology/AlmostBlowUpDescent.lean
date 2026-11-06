@@ -130,7 +130,7 @@ private theorem presheaf_map_comp_apply
     {C : Type v} [Category.{u, v} C] {F : Cᵒᵖ ⥤ Type w}
     {A B D : C} (f : A ⟶ B) (g : B ⟶ D) (x : F.obj (op D)) :
     F.map f.op (F.map g.op x) = F.map (f ≫ g).op x := by
-  rw [op_comp, FunctorToTypes.map_comp_apply]
+  rw [op_comp, Functor.map_comp_apply]
 
 /-- A sheaf on the big h site over a scheme satisfies the sheaf condition for every family of
 morphisms in the site whose underlying family of scheme morphisms is an h covering and whose

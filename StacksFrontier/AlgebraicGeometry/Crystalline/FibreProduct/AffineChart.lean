@@ -443,7 +443,6 @@ structure DividedPowerPullbackData {X Y S : DividedPowerScheme.{u}}
 
 section
 
-attribute [local implicit_reducible] PullbackCone.mk
 
 /-- Fibre products of affine divided-power schemes are given by ring pushouts. -/
 theorem nonempty_affineDividedPowerPullbackData

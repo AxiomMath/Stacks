@@ -63,6 +63,8 @@ open Stacks.CategoryTheory.Hypercovering
 
 universe u
 
+set_option synthInstance.maxHeartbeats 400000
+
 namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -498,7 +500,7 @@ def fppfAugmentationConeIsLimitApp
       ((SimplicialSemiRepresentable.totalForget
           (fppfHypercover A)).op.isPointwiseRightKanExtensionRanCounit
         G.obj (op ((SpacesEtale.inclusion B S hS A.right).obj V.unop)))))
-    (Cones.ext (Iso.refl _) fun _ ↦ (Category.comp_id _).trans (Category.id_comp _).symm)
+    (Cone.ext (Iso.refl _) fun _ ↦ (Category.comp_id _).trans (Category.id_comp _).symm)
 
 /-- The cone exhibiting `h₋₁,* a_{fppf,*} G` as `a_* h_* G` is a limit cone. -/
 def fppfAugmentationConeIsLimit (G : Sheaf (fppfTotalSituation A).totalTopology (Type (u + 1))) :

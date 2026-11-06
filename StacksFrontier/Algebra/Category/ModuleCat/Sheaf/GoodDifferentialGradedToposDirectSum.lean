@@ -52,6 +52,14 @@ variable {Y : AlgebraicGeometry.RingedTopos.{v₂, u₂, w}}
 
 attribute [local instance] Stacks.TensorSheafWorld.monoidalCategory
 
+/-- Coproducts of sheaves of modules, indexed in the module universe. Instance search times out
+looking for them through the `Discrete` shape, so they are taken from `HasColimitsOfSize`. -/
+local instance (priority := high) hasColimitsOfShape_discrete_GoodDifferentialGradedToposDirectSum {C : Type u₂} [Category.{v₂} C] {J : GrothendieckTopology C}
+    [HasSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+    (R : Sheaf J RingCat.{w}) (K : Type w) :
+    HasColimitsOfShape (Discrete K) (SheafOfModules.{w} R) :=
+  (inferInstance : HasColimitsOfSize.{w, w} (SheafOfModules.{w} R)).has_colimits_of_shape _
+
 /-- **An arbitrary direct sum of good right differential graded modules is good**, goodness being
 `SheafOfModules.IsGoodToposBaseChange`: conditions (1) and (2) of Tag 0FSA together with
 condition (3) read over the morphisms of ringed topoi out of the base. -/

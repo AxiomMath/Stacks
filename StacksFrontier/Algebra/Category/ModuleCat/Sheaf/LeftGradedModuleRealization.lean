@@ -411,6 +411,21 @@ lemma isLocallySurjective_ungradedDirectSumHom :
   ⟨fun s => Presheaf.imageSieve_mem J
     (CategoryTheory.toSheafify J M.ungradedPresheaf.presheaf) s⟩
 
+set_option synthInstance.maxHeartbeats 200000 in
+omit [HasSheafify J RingCat.{w}] [J.WEqualsLocallyBijective RingCat.{w}] in
+/-- Shortcut instance: coproducts of sheaves of modules indexed by `ℤ` (the search times out
+otherwise). -/
+local instance hasColimitsOfShape_discrete_int :
+    HasColimitsOfShape (Discrete ℤ) (SheafOfModules.{w} R) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 200000 in
+omit [HasSheafify J RingCat.{w}] [J.WEqualsLocallyBijective RingCat.{w}] in
+/-- Shortcut instance: coproducts of sheaves of modules indexed by `ℕ`. -/
+local instance hasColimitsOfShape_discrete_nat :
+    HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} R) :=
+  inferInstance
+
 /-- **The `𝒪`-module underlying the ungraded realization of a left graded module is the
 sheafification of the objectwise direct sum of its homogeneous components.** -/
 noncomputable def directSumIsoUnderlyingModule :

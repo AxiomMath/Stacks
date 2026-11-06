@@ -194,7 +194,7 @@ section Versal
 -- mentioning an object of a fibre, an object of the site read in `Over S`, or the base of a
 -- section of the representing presheaf are not type-correct at `implicit` transparency.  Naming
 -- them here is what lets instance search and `exact` see through exactly these and nothing else.
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.TwoYoneda.liftBased

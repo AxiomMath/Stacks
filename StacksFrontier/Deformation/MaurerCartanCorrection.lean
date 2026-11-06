@@ -453,7 +453,6 @@ lemma range_baseChange_le_smul {S' : Type u} [CommRing S'] [Algebra R' S']
     LinearMap.range (LinearMap.baseChange S' φ) ≤ Jd • (⊤ : Submodule S' (S' ⊗[R'] N)) := by
   rintro z ⟨w, rfl⟩
   induction w with
-  | zero => simp
   | tmul s y =>
       rw [LinearMap.baseChange_tmul]
       refine Submodule.smul_induction_on (hφ ⟨y, rfl⟩) ?_ ?_

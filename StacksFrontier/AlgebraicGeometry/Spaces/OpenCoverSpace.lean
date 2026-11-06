@@ -178,7 +178,7 @@ theorem isRepresentable_of_locally_covering
         NatTrans.naturality_apply h f2.op s]
     refine ⟨(Sigma.ι (fun k => yoneda.obj (X k)) i).app (op W)
       (yonedaEquiv ((hp i).lift sig tau hcomm)), ?_⟩
-    rw [← FunctorToTypes.comp, Sigma.ι_desc, ← yonedaEquiv_comp, (hp i).lift_fst,
+    rw [← NatTrans.comp_app_apply, Sigma.ι_desc, ← yonedaEquiv_comp, (hp i).lift_fst,
       Equiv.apply_symm_apply]
   exact isRepresentable_of_openCover p hpopen hI hsurj
 

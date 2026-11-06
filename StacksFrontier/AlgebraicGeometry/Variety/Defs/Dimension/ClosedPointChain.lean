@@ -134,10 +134,9 @@ theorem natTrdegResidueField_eq_zero_of_isClosed (x : X) (hx : IsClosed ({x} : S
   let : Algebra.FiniteType k (X.residueField x) := by
     change RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
-    · rfl
-    · simp only [RingHom.algebraMap_toAlgebra]
-      rw [← Scheme.Γevaluation_naturality]
-      simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
+    simp only [RingHom.algebraMap_toAlgebra]
+    rw [← Scheme.Γevaluation_naturality]
+    simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
   let : Module.Finite k (X.residueField x) := finite_of_finite_type_of_isJacobsonRing _ _
   let : Algebra.IsAlgebraic k (X.residueField x) := Algebra.IsAlgebraic.of_finite _ _
   change Cardinal.toNat (Algebra.trdeg k (X.residueField x)) = 0

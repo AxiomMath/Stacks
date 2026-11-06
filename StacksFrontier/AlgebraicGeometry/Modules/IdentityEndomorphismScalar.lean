@@ -87,7 +87,7 @@ identity functor: the image of `1` under the component of `f` at the unit module
 noncomputable def scalarSection (f : End (𝟭 (_root_.SheafOfModules X.ringCatSheaf))) :
     (_root_.SheafOfModules.unit X.ringCatSheaf).sections :=
   (_root_.SheafOfModules.unit X.ringCatSheaf).unitHomEquiv
-    (f.app (_root_.SheafOfModules.unit X.ringCatSheaf))
+    (f.asHom.app (_root_.SheafOfModules.unit X.ringCatSheaf))
 
 /-- The local scalar by which a natural endomorphism of the identity functor acts over an
 open `U`. -/
@@ -96,7 +96,7 @@ noncomputable def scalarAt (f : End (𝟭 (_root_.SheafOfModules X.ringCatSheaf)
 
 /-- The local scalar is the image of `1` under the component of `f` at the unit module. -/
 theorem scalarAt_apply (f : End (𝟭 (_root_.SheafOfModules X.ringCatSheaf))) (U : X.Opens) :
-    scalarAt f U = (f.app (_root_.SheafOfModules.unit X.ringCatSheaf)).val.app (.op U)
+    scalarAt f U = (f.asHom.app (_root_.SheafOfModules.unit X.ringCatSheaf)).val.app (.op U)
       (1 : X.ringCatSheaf.obj.obj (.op U)) := rfl
 
 /-- The local scalars of a natural endomorphism are compatible with restriction. -/
@@ -109,9 +109,9 @@ theorem scalarAt_res (f : End (𝟭 (_root_.SheafOfModules X.ringCatSheaf)))
 any morphism of modules. -/
 private theorem app_naturality (f : End (𝟭 (_root_.SheafOfModules X.ringCatSheaf)))
     {M N : X.Modules} (α : M ⟶ N) (U : X.Opens) (x : Γ(M, U)) :
-    (Scheme.Modules.Hom.app (f.app N) U) ((Scheme.Modules.Hom.app α U) x) =
-      (Scheme.Modules.Hom.app α U) ((Scheme.Modules.Hom.app (f.app M) U) x) := by
-  have h : α ≫ f.app N = f.app M ≫ α := f.naturality α
+    (Scheme.Modules.Hom.app (f.asHom.app N) U) ((Scheme.Modules.Hom.app α U) x) =
+      (Scheme.Modules.Hom.app α U) ((Scheme.Modules.Hom.app (f.asHom.app M) U) x) := by
+  have h : α ≫ f.asHom.app N = f.asHom.app M ≫ α := f.asHom.naturality α
   exact congrArg (fun q => (Scheme.Modules.Hom.app q U) x) h
 
 /-- On a global section of `M`, a natural endomorphism of the identity functor acts as
@@ -119,7 +119,7 @@ multiplication by the local scalar. -/
 theorem scalarActionGlobal (f : End (𝟭 (_root_.SheafOfModules X.ringCatSheaf)))
     (M : X.Modules) (p : ((Scheme.Modules.toPresheafOfModules X).obj M).sections)
     (U : X.Opens) :
-    (Scheme.Modules.Hom.app (f.app M) U) (p.val (.op U)) =
+    (Scheme.Modules.Hom.app (f.asHom.app M) U) (p.val (.op U)) =
       scalarAt f U • p.val (.op U) := by
   have h := app_naturality f (sectionHom M p) U
     (1 : X.ringCatSheaf.obj.obj (.op U))
@@ -170,7 +170,7 @@ theorem pushedSection_unit (M : X.Modules) (U : X.Opens) (x : Γ(M, U)) :
 by the local scalar. -/
 theorem scalarActionLocal (f : End (𝟭 (_root_.SheafOfModules X.ringCatSheaf)))
     (M : X.Modules) (U : X.Opens) (x : Γ(M, U)) :
-    (Scheme.Modules.Hom.app (f.app M) U) x = scalarAt f U • x := by
+    (Scheme.Modules.Hom.app (f.asHom.app M) U) x = scalarAt f U • x := by
   let η := (Scheme.Modules.restrictAdjunction U.ι).unit.app M
   let N : X.Modules := (Scheme.Modules.restrictFunctor U.ι ⋙
     Scheme.Modules.pushforward U.ι).obj M
@@ -178,7 +178,7 @@ theorem scalarActionLocal (f : End (𝟭 (_root_.SheafOfModules X.ringCatSheaf))
   have hp : p.val (.op U) = (η.app U) x := pushedSection_unit M U x
   have hglob := scalarActionGlobal f N p U
   have hnat' := app_naturality f η U x
-  have hglob'' : (Scheme.Modules.Hom.app (f.app N) U) ((Scheme.Modules.Hom.app η U) x) =
+  have hglob'' : (Scheme.Modules.Hom.app (f.asHom.app N) U) ((Scheme.Modules.Hom.app η U) x) =
       scalarAt f U • ((Scheme.Modules.Hom.app η U) x) := by
     rwa [hp] at hglob
   have hη : Function.Injective (Scheme.Modules.Hom.app η U) := by
@@ -197,8 +197,8 @@ theorem scalarActionLocal (f : End (𝟭 (_root_.SheafOfModules X.ringCatSheaf))
     exact hinj (congrArg (M.restrictAppIso U.ι (U.ι ⁻¹ᵁ U)).hom hab)
   apply hη
   calc
-    (Scheme.Modules.Hom.app η U) ((Scheme.Modules.Hom.app (f.app M) U) x) =
-        (Scheme.Modules.Hom.app (f.app N) U) ((Scheme.Modules.Hom.app η U) x) := hnat'.symm
+    (Scheme.Modules.Hom.app η U) ((Scheme.Modules.Hom.app (f.asHom.app M) U) x) =
+        (Scheme.Modules.Hom.app (f.asHom.app N) U) ((Scheme.Modules.Hom.app η U) x) := hnat'.symm
     _ = scalarAt f U • ((Scheme.Modules.Hom.app η U) x) := hglob''
     _ = (Scheme.Modules.Hom.app η U) (scalarAt f U • x) :=
         (((Scheme.Modules.toPresheafOfModules X).map η |>.app (.op U)).hom.map_smul

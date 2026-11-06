@@ -99,7 +99,7 @@ theorem chartRealizedSchemeMap_base {U V : SmallEtale B S hS X.1} (g : V ⟶ U) 
 /-- On sections, `V' ⟶ U'` is restriction in `𝒜`. -/
 theorem chartRealizedSchemeMap_app {U V : SmallEtale B S hS X.1} (g : V ⟶ U)
     (O : (E.chartRealizedScheme U).Opens) :
-    (E.chartRealizedSchemeMap g).app O = E.A.val.map (chartOpensRestrict B S hS g O).op :=
+    (E.chartRealizedSchemeMap g).app O = E.A.obj.map (chartOpensRestrict B S hS g O).op :=
   rfl
 
 /-- **`U ↦ U'` preserves identities.** -/
@@ -107,7 +107,7 @@ theorem chartRealizedSchemeMap_id (U : SmallEtale B S hS X.1) :
     E.chartRealizedSchemeMap (𝟙 U) = 𝟙 _ := by
   refine Scheme.Hom.ext rfl fun O => ?_
   rw [chartRealizedSchemeMap_app, Scheme.Hom.id_app]
-  refine (E.A.val.map_comp _ _).symm.trans (Eq.trans ?_ (E.A.val.map_id _))
+  refine (E.A.obj.map_comp _ _).symm.trans (Eq.trans ?_ (E.A.obj.map_id _))
   congr 1
   exact congrArg Quiver.Hom.op (eqToHom_comp_chartOpensRestrict_id U O rfl)
 
@@ -122,7 +122,7 @@ theorem chartRealizedSchemeMap_comp {U V W : SmallEtale B S hS X.1} (g : V ⟶ U
   refine Scheme.Hom.ext hb fun O => ?_
   rw [Scheme.Hom.comp_app, chartRealizedSchemeMap_app, chartRealizedSchemeMap_app,
     chartRealizedSchemeMap_app]
-  refine (E.A.val.map_comp _ _).symm.trans (Eq.trans ?_ (E.A.val.map_comp _ _))
+  refine (E.A.obj.map_comp _ _).symm.trans (Eq.trans ?_ (E.A.obj.map_comp _ _))
   congr 1
   exact congrArg Quiver.Hom.op (eqToHom_comp_chartOpensRestrict_comp g h O rfl)
 
@@ -135,13 +135,13 @@ private instance isClosedImmersion_chartInclusion (U : SmallEtale B S hS X.1) :
 equal ones. -/
 theorem isBaseChange_ker_of_isAffineChart' {U V : SmallEtale B S hS X.1}
     (hU : IsAffineChart B S hS X.1 U) (hV : IsAffineChart B S hS X.1 V) (g : V ⟶ U)
-    (ψ : E.A.val.obj (op U) →+* E.A.val.obj (op V)) (hψ : ψ = (E.A.val.map g.op).hom)
-    (KU : Ideal (E.A.val.obj (op U))) (hKU : KU = RingHom.ker (E.π.hom.app (op U)).hom)
-    (KV : Ideal (E.A.val.obj (op V))) (hKV : KV = RingHom.ker (E.π.hom.app (op V)).hom) :
-    letI : Algebra (E.A.val.obj (op U)) (E.A.val.obj (op V)) := ψ.toAlgebra
-    ∀ κ : KU →ₗ[E.A.val.obj (op U)] KV,
-      (∀ x, (κ x : E.A.val.obj (op V)) = ψ (x : E.A.val.obj (op U))) →
-        IsBaseChange (E.A.val.obj (op V)) κ := by
+    (ψ : E.A.obj.obj (op U) →+* E.A.obj.obj (op V)) (hψ : ψ = (E.A.obj.map g.op).hom)
+    (KU : Ideal (E.A.obj.obj (op U))) (hKU : KU = RingHom.ker (E.π.hom.app (op U)).hom)
+    (KV : Ideal (E.A.obj.obj (op V))) (hKV : KV = RingHom.ker (E.π.hom.app (op V)).hom) :
+    letI : Algebra (E.A.obj.obj (op U)) (E.A.obj.obj (op V)) := ψ.toAlgebra
+    ∀ κ : KU →ₗ[E.A.obj.obj (op U)] KV,
+      (∀ x, (κ x : E.A.obj.obj (op V)) = ψ (x : E.A.obj.obj (op U))) →
+        IsBaseChange (E.A.obj.obj (op V)) κ := by
   subst hψ hKU hKV
   exact E.isBaseChange_ker_of_isAffineChart hU hV g
 
@@ -157,8 +157,8 @@ theorem ker_chartInclusion_app {U : SmallEtale B S hS X.1} (O : (chartScheme U).
 theorem chartRealizedSchemeMap_appLE {U V : SmallEtale B S hS X.1} (g : V ⟶ U)
     (O : (chartScheme U).Opens) (O' : (chartScheme V).Opens) (e : O' ≤ chartSchemeMap g ⁻¹ᵁ O) :
     (E.chartRealizedSchemeMap g).appLE O O' e =
-      E.A.val.map ((chartOpens B S hS V).map (homOfLE e) ≫ chartOpensRestrict B S hS g O).op :=
-  (E.A.val.map_comp _ _).symm
+      E.A.obj.map ((chartOpens B S hS V).map (homOfLE e) ≫ chartOpensRestrict B S hS g O).op :=
+  (E.A.obj.map_comp _ _).symm
 
 /-- **The ideal of `V` in `V'` is the base change of the ideal of `U` in `U'`** along
 `V' ⟶ U'`, on every pair of affine opens. -/

@@ -77,8 +77,9 @@ theorem IsScalarFaithful.eq_zero_of_mul_eq_smul_one {m n : ℕ}
   have : ∀ U, IsMulCommutative (((Stacks.SheafOfModules.Tensor.ringSheaf O)).obj.obj U) := fun U =>
     ⟨⟨fun a b => mul_comm (G := O.obj.obj U) a b⟩⟩
   let μ := terminalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf O)) T hT x
-  have hunit : μ.app (_root_.SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf O))) =
-      unitEndRingHom O hT x := by
+  have hunit : μ.asHom.app (_root_.SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf O))) =
+      (unitEndRingHom O hT x).asHom := by
+    refine congrArg End.asHom (?_ : End.of (μ.asHom.app _) = unitEndRingHom O hT x)
     apply (unitEndRingEquiv O hT).injective
     show _ = (unitEndRingEquiv O hT) ((unitEndRingEquiv O hT).symm x)
     rw [RingEquiv.apply_symm_apply]

@@ -154,8 +154,9 @@ theorem toZeroSchemeStructureSheaf_app_eq_zero_of_subschemeι_app_eq_zero (a : A
   let m' : Γ(X, W) := m
   have hmem : m' ∈ I.ideal ⟨W, hW⟩ := by
     rwa [← I.ker_subschemeι_app ⟨W, hW⟩]
-  have hmem' : m' ∈ Ideal.span {X.presheaf.map (homOfLE le_top).op
-      (((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop).hom a)} := by
+  have hmem' : m' ∈ Ideal.span
+      {X.presheaf.map (homOfLE le_top).op
+        (((Scheme.ΓSpecIso (.of A)).inv ≫ f.appTop).hom a)} := by
     simpa only [I, zeroSchemeIdeal, Scheme.IdealSheafData.ofIdealTop_ideal, Ideal.map_span,
       Set.image_singleton] using hmem
   obtain ⟨u₀, hu⟩ := Ideal.mem_span_singleton'.mp hmem'

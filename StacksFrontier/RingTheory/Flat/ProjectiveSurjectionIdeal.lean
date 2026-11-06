@@ -128,7 +128,6 @@ theorem injective_lTensor_iff_kerCoeffIdeal_le_ker [Module.Projective A M] {u : 
   · have hzero : ∀ z : B ⊗[A] (LinearMap.ker u), (LinearMap.ker u).subtype.lTensor B z = 0 := by
       intro z
       induction z with
-      | zero => exact map_zero _
       | tmul b k =>
           have hk : (1 : B) ⊗ₜ[A] (k : M) = 0 :=
             (tmul_one_eq_zero_iff_forall_algebraMap_eq_zero B _).mpr fun f ↦

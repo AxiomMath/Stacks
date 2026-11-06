@@ -256,7 +256,7 @@ theorem descendSection_app (W : (Spec (.of k)).Opens) (b : Γ(Spec (.of k), W)) 
 /-- The compatible family `descendSection` read as a derivation of `𝒪_X` relative to the
 constant presheaf of integers: all of the derivation axioms except the vanishing on the base,
 which is imposed separately. -/
-def descendData : (SheafOfModules.unit X.ringCatSheaf).val.Derivation'
+def descendData : PresheafOfModulesOfCommRing.Derivation' (SheafOfModules.unit X.ringCatSheaf).val
     (AlgebraicGeometry.SheafOfModules.constIntMap X.presheaf) where
   d {W} := AddMonoidHom.mk' (fun s => h.descendSection W.unop s)
     (h.descendSection_add hinj W.unop)

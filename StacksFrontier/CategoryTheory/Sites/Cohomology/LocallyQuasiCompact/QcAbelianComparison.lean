@@ -519,7 +519,7 @@ def qcDerivedComparisonUnit :
             (Iso.refl (qcAbelianInverseImage.{u, w, v} S X ⋙
               qcAbelianDirectImage.{u, w, v} S X))).inv DerivedCategory.Plus.Qh ≫
         Functor.whiskerLeft (qcAbelianInverseImage.{u, w, v} S X).mapHomotopyCategoryPlus
-          (qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnit ≫
+          (qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlusUnith ≫
         Functor.whiskerRight
           (qcAbelianInverseImage.{u, w, v} S X).mapDerivedCategoryPlusFactorsh.inv
           (qcAbelianDirectImage.{u, w, v} S X).rightDerivedFunctorPlus)
@@ -545,7 +545,7 @@ category. -/
 instance qcAbelianInverseImage_rightDerivedFunctorPlusUnit_isIso (T : S.category)
     [HasSheafify (S.zariskiTopology.over T) AddCommGrpCat.{max (u + 1) v}]
     [EnoughInjectives (Sheaf (S.zariskiTopology.over T) AddCommGrpCat.{max (u + 1) v})] :
-    IsIso (qcAbelianInverseImage.{u, w, v} S T).rightDerivedFunctorPlusUnit :=
+    IsIso (qcAbelianInverseImage.{u, w, v} S T).rightDerivedFunctorPlusUnith :=
   Functor.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology _
 
 /-- **The mate of the strict square `ε_{X,*} ∘ f_{Zar,*} = f_{qc,*} ∘ ε_{Y,*}` of Stacks 0EZ2 on
@@ -575,7 +575,7 @@ def qcDerivedComparisonBaseChangeOnHomotopy :
         (qcAbelianSliceDirectImage.{u, w, v} S f).rightDerivedFunctorPlus :=
   Functor.whiskerLeft
       (sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).mapHomotopyCategoryPlus
-      (inv (qcAbelianInverseImage.{u, w, v} S Y).rightDerivedFunctorPlusUnit) ≫
+      (inv (qcAbelianInverseImage.{u, w, v} S Y).rightDerivedFunctorPlusUnith) ≫
     Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso
         (Iso.refl (sliceDirectImage S f AddCommGrpCat.{max (u + 1) v} ⋙
           qcAbelianInverseImage.{u, w, v} S Y))).hom DerivedCategory.Plus.Qh ≫
@@ -585,8 +585,8 @@ def qcDerivedComparisonBaseChangeOnHomotopy :
         (Iso.refl (qcAbelianInverseImage.{u, w, v} S X ⋙
           qcAbelianSliceDirectImage.{u, w, v} S f))).inv DerivedCategory.Plus.Qh ≫
     Functor.whiskerLeft (qcAbelianInverseImage.{u, w, v} S X).mapHomotopyCategoryPlus
-      (qcAbelianSliceDirectImage.{u, w, v} S f).rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight (qcAbelianInverseImage.{u, w, v} S X).rightDerivedFunctorPlusUnit
+      (qcAbelianSliceDirectImage.{u, w, v} S f).rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight (qcAbelianInverseImage.{u, w, v} S X).rightDerivedFunctorPlusUnith
       (qcAbelianSliceDirectImage.{u, w, v} S f).rightDerivedFunctorPlus
 
 /-- **The canonical derived base change map of the change-of-topology morphisms,**
@@ -604,7 +604,7 @@ def qcDerivedComparisonBaseChangeMap :
       (qcAbelianInverseImage.{u, w, v} S Y).rightDerivedFunctorPlus)
     (L := DerivedCategory.Plus.Qh)
     (Functor.whiskerRight
-      (sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit
+      (sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith
       (qcAbelianInverseImage.{u, w, v} S Y).rightDerivedFunctorPlus)
     (HomotopyCategory.Plus.quasiIso
       (Sheaf (S.zariskiTopology.over X) AddCommGrpCat.{max (u + 1) v}))
@@ -614,7 +614,7 @@ def qcDerivedComparisonBaseChangeMap :
 morphisms. -/
 theorem qcDerivedComparisonBaseChangeMap_fac :
     Functor.whiskerRight
-        (sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit
+        (sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith
         (qcAbelianInverseImage.{u, w, v} S Y).rightDerivedFunctorPlus ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh
         (qcDerivedComparisonBaseChangeMap.{u, w, v} S f) =
@@ -624,7 +624,7 @@ theorem qcDerivedComparisonBaseChangeMap_fac :
       (qcAbelianInverseImage.{u, w, v} S Y).rightDerivedFunctorPlus)
     (L := DerivedCategory.Plus.Qh)
     (Functor.whiskerRight
-      (sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnit
+      (sliceDirectImage S f AddCommGrpCat.{max (u + 1) v}).rightDerivedFunctorPlusUnith
       (qcAbelianInverseImage.{u, w, v} S Y).rightDerivedFunctorPlus)
     (HomotopyCategory.Plus.quasiIso
       (Sheaf (S.zariskiTopology.over X) AddCommGrpCat.{max (u + 1) v}))

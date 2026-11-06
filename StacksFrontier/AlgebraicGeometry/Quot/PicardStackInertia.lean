@@ -303,7 +303,7 @@ theorem nonempty_vertical_equiv_multiplicativeGroupPoints
     (h : s.StructureSheafMapIso) (hu : s.StructureUnitsIso) (A : PicardObject s) :
     Nonempty (A.Vertical ≃ multiplicativeGroupPointsAt B S hS A.T.left) := by
   obtain ⟨e⟩ := nonempty_autLineBundle_mulEquiv_multiplicativeGroupPoints h hu A
-  exact ⟨(verticalEquivAut hc A).trans e.toEquiv⟩
+  exact ⟨(verticalEquivAut hc A).trans (Aut.isoEquiv.symm.trans e.toEquiv)⟩
 
 /-- **The automorphism group of an invertible module on an algebraic space does not depend on the
 module.**  Any two invertible `𝒪_Z`-modules have isomorphic automorphism groups, with no
@@ -414,15 +414,16 @@ def verticalAutEquivVertical (cd : PicardCategoryData hc s) (A : PicardObject s)
       (Equiv.cast (cd.hom_type A A) ((Equiv.cast (cd.hom_type A A)).symm v.1)).base = 𝟙 A.T :=
     fun v => (congrArg (fun n : PicardHom A A => n.base)
       (Equiv.apply_symm_apply (Equiv.cast (cd.hom_type A A)) v.1)).trans v.2
-  { toFun := fun α => ⟨Equiv.cast (cd.hom_type A A) α.1.hom,
-      (cd.map_eq_id_iff α.1.hom).mp α.2⟩
+  { toFun := fun α => ⟨Equiv.cast (cd.hom_type A A) α.1.asIso.hom,
+      (cd.map_eq_id_iff α.1.asIso.hom).mp α.2⟩
     invFun := fun v =>
       ⟨(letI : IsIso ((Equiv.cast (cd.hom_type A A)).symm v.1) :=
           hiso _ ((cd.map_eq_id_iff _).mpr (hbase v));
-        asIso ((Equiv.cast (cd.hom_type A A)).symm v.1)),
+        Aut.of (asIso ((Equiv.cast (cd.hom_type A A)).symm v.1))),
         (cd.map_eq_id_iff _).mpr (hbase v)⟩
     left_inv := fun α =>
-      Subtype.ext (Iso.ext (Equiv.symm_apply_apply (Equiv.cast (cd.hom_type A A)) α.1.hom))
+      Subtype.ext (Aut.ext (Iso.ext
+        (Equiv.symm_apply_apply (Equiv.cast (cd.hom_type A A)) α.1.asIso.hom)))
     right_inv := fun v =>
       Subtype.ext (Equiv.apply_symm_apply (Equiv.cast (cd.hom_type A A)) v.1) }
 
@@ -432,7 +433,7 @@ def verticalAutEquivAut (cd : PicardCategoryData hc s) (A : PicardObject s) :
     letI : Category.{u + 1} (PicardObject s) := cd.category
     cd.siteProjection.VerticalAut A ≃ Aut A.lineBundle :=
   letI : Category.{u + 1} (PicardObject s) := cd.category
-  (cd.verticalAutEquivVertical A).trans (verticalEquivAut hc A)
+  (cd.verticalAutEquivVertical A).trans ((verticalEquivAut hc A).trans Aut.isoEquiv.symm)
 
 /-- **A coordinatisation of the automorphism groups of the invertible modules of
 `Picardstack_{X/B}` by `𝐆_{m, S}` which is compatible with the composition of
@@ -451,7 +452,7 @@ structure MultiplicativeGroupCoordinates (cd : PicardCategoryData hc s) where
   comm : letI : Category.{u + 1} (PicardObject s) := cd.category
     ∀ {A C : PicardObject s} (m : A ⟶ C) (v : cd.siteProjection.VerticalAut A)
         (w : cd.siteProjection.VerticalAut C),
-      m ≫ w.1.hom = v.1.hom ≫ m ↔
+      m ≫ w.1.asIso.hom = v.1.asIso.hom ≫ m ↔
         (multiplicativeGroupPresheaf B S hS).map (Quiver.Hom.op (cd.siteProjection.map m))
             (equiv C (cd.verticalAutEquivAut C w))
           = equiv A (cd.verticalAutEquivAut A v)
@@ -614,11 +615,11 @@ homomorphism `H^0(T, 𝒪_T^*) ⟶ Aut(L)`. -/
 def unitsToAut (A : PicardObject s) :
     (Scheme.Γ.obj (Opposite.op ((BigFppfOver.toScheme B S hS).obj A.T.left)))ˣ →*
       Aut A.lineBundle where
-  toFun u :=
+  toFun u := Aut.of
     { hom := (globalFunctionSMul B S hS (s.baseChange A.T)
-        (baseChangeGlobalFunctions s.f A.T u)).app A.lineBundle
+        (baseChangeGlobalFunctions s.f A.T u)).asHom.app A.lineBundle
       inv := (globalFunctionSMul B S hS (s.baseChange A.T)
-        (baseChangeGlobalFunctions s.f A.T ↑u⁻¹)).app A.lineBundle
+        (baseChangeGlobalFunctions s.f A.T ↑u⁻¹)).asHom.app A.lineBundle
       hom_inv_id :=
         (globalFunctionSMul_app_comp (s.baseChange A.T) _ _
           (baseChangeGlobalFunctions s.f A.T (↑u⁻¹ * ↑u)) (fun U ↦ by rw [map_mul]; rfl) _).trans
@@ -629,16 +630,16 @@ def unitsToAut (A : PicardObject s) :
           (baseChangeGlobalFunctions s.f A.T (↑u * ↑u⁻¹)) (fun U ↦ by rw [map_mul]; rfl) _).trans
           (globalFunctionSMul_app_eq_id (s.baseChange A.T) _
             (fun U ↦ by rw [Units.mul_inv, map_one]; rfl) _) }
-  map_one' := Iso.ext (globalFunctionSMul_app_eq_id (s.baseChange A.T) _
-    (fun U ↦ by rw [Units.val_one, map_one]; rfl) _)
-  map_mul' u w := Iso.ext (globalFunctionSMul_app_comp (s.baseChange A.T) _ _ _
-    (fun U ↦ by rw [Units.val_mul, map_mul]; rfl) _).symm
+  map_one' := Aut.ext (Iso.ext (globalFunctionSMul_app_eq_id (s.baseChange A.T) _
+    (fun U ↦ by rw [Units.val_one, map_one]; rfl) _))
+  map_mul' u w := Aut.ext (Iso.ext (globalFunctionSMul_app_comp (s.baseChange A.T) _ _ _
+    (fun U ↦ by rw [Units.val_mul, map_mul]; rfl) _).symm)
 
 /-- The automorphism attached to an invertible function is multiplication by its pullback. -/
 theorem unitsToAut_hom (A : PicardObject s)
     (u : (Scheme.Γ.obj (Opposite.op ((BigFppfOver.toScheme B S hS).obj A.T.left)))ˣ) :
-    (A.unitsToAut u).hom = (globalFunctionSMul B S hS (s.baseChange A.T)
-      (baseChangeGlobalFunctions s.f A.T u)).app A.lineBundle :=
+    (A.unitsToAut u).asIso.hom = (globalFunctionSMul B S hS (s.baseChange A.T)
+      (baseChangeGlobalFunctions s.f A.T u)).asHom.app A.lineBundle :=
   rfl
 
 /-- **Every automorphism of the invertible module of an object over `T` is multiplication by
@@ -654,21 +655,21 @@ theorem bijective_unitsToAut (h : s.StructureSheafMapIso) (A : PicardObject s) :
       (by change IsIso (𝟙 ((schemeSpaceFunctor B S hS).obj A.T.left)); infer_instance) (h A.T)
   have hinj : ∀ a b : Scheme.Γ.obj (Opposite.op ((BigFppfOver.toScheme B S hS).obj A.T.left)),
       (globalFunctionSMul B S hS (s.baseChange A.T)
-        (baseChangeGlobalFunctions s.f A.T a)).app A.lineBundle =
+        (baseChangeGlobalFunctions s.f A.T a)).asHom.app A.lineBundle =
       (globalFunctionSMul B S hS (s.baseChange A.T)
-        (baseChangeGlobalFunctions s.f A.T b)).app A.lineBundle → a = b := fun a b hab ↦
+        (baseChangeGlobalFunctions s.f A.T b)).asHom.app A.lineBundle → a = b := fun a b hab ↦
     hπ.1 (globalFunctionSMul_injective_of_isInvertibleModule (s.baseChange A.T) A.lineBundle
       A.invertible hab)
   refine ⟨fun u w huw ↦ Units.ext (hinj _ _ (by
-    simpa only [unitsToAut_hom] using congrArg Iso.hom huw)), fun α ↦ ?_⟩
+    simpa only [unitsToAut_hom] using congrArg (fun a : Aut _ ↦ a.asIso.hom) huw)), fun α ↦ ?_⟩
   have key : ∀ f : A.lineBundle ⟶ A.lineBundle, ∃ c, f = (globalFunctionSMul B S hS
-      (s.baseChange A.T) (baseChangeGlobalFunctions s.f A.T c)).app A.lineBundle := fun f ↦ by
+      (s.baseChange A.T) (baseChangeGlobalFunctions s.f A.T c)).asHom.app A.lineBundle := fun f ↦ by
     obtain ⟨b, hb⟩ := exists_eq_globalFunctionSMul_of_isInvertibleModule (s.baseChange A.T)
       A.lineBundle A.invertible f
     obtain ⟨c, hc⟩ := hπ.2 b
     exact ⟨c, hb.trans (by rw [← hc])⟩
-  obtain ⟨c, hb₁⟩ := key α.hom
-  obtain ⟨c', hb₂⟩ := key α.inv
+  obtain ⟨c, hb₁⟩ := key α.asIso.hom
+  obtain ⟨c', hb₂⟩ := key α.asIso.inv
   have h₁ : c' * c = 1 := by
     refine hinj _ _ ?_
     refine (globalFunctionSMul_app_comp (s.baseChange A.T) (baseChangeGlobalFunctions s.f A.T c)
@@ -676,8 +677,8 @@ theorem bijective_unitsToAut (h : s.StructureSheafMapIso) (A : PicardObject s) :
       (fun U ↦ by rw [map_mul]; rfl) A.lineBundle).symm.trans (Eq.trans ?_
         (globalFunctionSMul_app_eq_id (s.baseChange A.T) (baseChangeGlobalFunctions s.f A.T 1)
           (fun U ↦ by rw [map_one]; rfl) A.lineBundle).symm)
-    rw [← hb₁, ← hb₂, α.hom_inv_id]
-  exact ⟨⟨c, c', mul_comm c c' ▸ h₁, h₁⟩, Iso.ext ((unitsToAut_hom A _).trans hb₁.symm)⟩
+    rw [← hb₁, ← hb₂, α.asIso.hom_inv_id]
+  exact ⟨⟨c, c', mul_comm c c' ▸ h₁, h₁⟩, Aut.ext (Iso.ext ((unitsToAut_hom A _).trans hb₁.symm))⟩
 
 /-- **The `𝐆_m` factor of the inertia stack, as an explicit isomorphism of groups.** When
 `𝒪_T ⟶ f_{T, *}𝒪_{X_T}` is an isomorphism for every test scheme `T`, the automorphism group of the
@@ -717,13 +718,13 @@ invertible function on `T`
 def verticalEquivMultiplicativeGroupPoints (h : s.StructureSheafMapIso) (A : PicardObject s) :
     A.Vertical ≃ multiplicativeGroupPointsAt B S hS A.T.left :=
   (verticalEquivAut (modulePushforwardCoherence B S hS) A).trans
-    (A.autMulEquivMultiplicativeGroupPoints h).toEquiv
+    (Aut.isoEquiv.symm.trans (A.autMulEquivMultiplicativeGroupPoints h).toEquiv)
 
 /-- Two invertible functions whose multiplications agree on the invertible module are equal. -/
 theorem unitsToAut_injective_of_hom_eq (h : s.StructureSheafMapIso) (A : PicardObject s)
     {u w : (Scheme.Γ.obj (Opposite.op ((BigFppfOver.toScheme B S hS).obj A.T.left)))ˣ}
-    (e : (A.unitsToAut u).hom = (A.unitsToAut w).hom) : u = w :=
-  (A.bijective_unitsToAut h).1 (Iso.ext e)
+    (e : (A.unitsToAut u).asIso.hom = (A.unitsToAut w).asIso.hom) : u = w :=
+  (A.bijective_unitsToAut h).1 (Aut.ext (Iso.ext e))
 
 end PicardObject
 
@@ -747,14 +748,14 @@ theorem PicardHom.pullback_unitsToAut_comp_eq_iff {s : PicardSituation B S hS}
     (h : s.StructureSheafMapIso) {A C : PicardObject s} (m : PicardHom A C)
     (u : (Scheme.Γ.obj (Opposite.op ((BigFppfOver.toScheme B S hS).obj A.T.left)))ˣ)
     (w : (Scheme.Γ.obj (Opposite.op ((BigFppfOver.toScheme B S hS).obj C.T.left)))ˣ) :
-    (modulePullback B S hS (baseChangeMap s.f m.base)).map (C.unitsToAut w).hom ≫ m.fibre =
-        m.fibre ≫ (A.unitsToAut u).hom ↔
+    (modulePullback B S hS (baseChangeMap s.f m.base)).map (C.unitsToAut w).asIso.hom ≫
+        m.fibre = m.fibre ≫ (A.unitsToAut u).asIso.hom ↔
       Units.map (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map m.base.left).op).hom.toMonoidHom
         w = u := by
-  have e : (modulePullback B S hS (baseChangeMap s.f m.base)).map (C.unitsToAut w).hom ≫
+  have e : (modulePullback B S hS (baseChangeMap s.f m.base)).map (C.unitsToAut w).asIso.hom ≫
       m.fibre = m.fibre ≫ (A.unitsToAut (Units.map
         (Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map m.base.left).op).hom.toMonoidHom
-          w)).hom := by
+          w)).asIso.hom := by
     rw [PicardObject.unitsToAut_hom, PicardObject.unitsToAut_hom]
     refine (congrArg (fun k ↦ k ≫ m.fibre) (modulePullback_map_globalFunctionSMul
       (baseChangeMap s.f m.base) (baseChangeGlobalFunctions s.f C.T w) _
@@ -762,7 +763,8 @@ theorem PicardHom.pullback_unitsToAut_comp_eq_iff {s : PicardSituation B S hS}
       C.lineBundle)).trans ?_
     exact (NatTrans.naturality (globalFunctionSMul B S hS (s.baseChange A.T)
       (baseChangeGlobalFunctions s.f A.T
-        ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map m.base.left).op).hom w))) m.fibre).symm
+        ((Scheme.Γ.map ((BigFppfOver.toScheme B S hS).map m.base.left).op).hom w))).asHom
+      m.fibre).symm
   rw [e]
   refine ⟨fun he ↦ A.unitsToAut_injective_of_hom_eq h
     (((asIso m.fibre).cancel_iso_hom_left _ _).mp he), ?_⟩
@@ -780,11 +782,13 @@ theorem PicardHom.comp_vertical_eq_iff_multiplicativeGroupPoints
     (w : C.Vertical) :
     PicardHom.comp m w.1 = PicardHom.comp v.1 m ↔
       (multiplicativeGroupPresheaf B S hS).map m.base.left.op
-          (C.autMulEquivMultiplicativeGroupPoints h (verticalEquivAut hc C w)) =
-        A.autMulEquivMultiplicativeGroupPoints h (verticalEquivAut hc A v) := by
-  obtain ⟨u, hu⟩ := (A.bijective_unitsToAut h).2 (verticalEquivAut hc A v)
-  obtain ⟨x, hx⟩ := (C.bijective_unitsToAut h).2 (verticalEquivAut hc C w)
-  rw [PicardHom.comp_vertical_eq_vertical_comp_iff hc, ← hu, ← hx,
+          (C.autMulEquivMultiplicativeGroupPoints h (Aut.of (verticalEquivAut hc C w))) =
+        A.autMulEquivMultiplicativeGroupPoints h (Aut.of (verticalEquivAut hc A v)) := by
+  obtain ⟨u, hu⟩ := (A.bijective_unitsToAut h).2 (Aut.of (verticalEquivAut hc A v))
+  obtain ⟨x, hx⟩ := (C.bijective_unitsToAut h).2 (Aut.of (verticalEquivAut hc C w))
+  have hu' : (A.unitsToAut u).asIso = verticalEquivAut hc A v := congrArg Aut.asIso hu
+  have hx' : (C.unitsToAut x).asIso = verticalEquivAut hc C w := congrArg Aut.asIso hx
+  rw [PicardHom.comp_vertical_eq_vertical_comp_iff hc, ← hu, ← hx, ← hu', ← hx',
     PicardHom.pullback_unitsToAut_comp_eq_iff h,
     PicardObject.autMulEquivMultiplicativeGroupPoints_unitsToAut,
     PicardObject.autMulEquivMultiplicativeGroupPoints_unitsToAut]
@@ -842,11 +846,11 @@ def picardInertiaEquivalenceOverMultiplicativeGroupProduct (s : PicardSituation 
               (x : (picardCategoryData (modulePushforwardCoherence B S hS)
                 s).siteProjection.VerticalAut D),
               (picardCategoryData (modulePushforwardCoherence B S hS) s).verticalAutEquivAut D x =
-                verticalEquivAut (modulePushforwardCoherence B S hS) D
+                Aut.of (verticalEquivAut (modulePushforwardCoherence B S hS) D
                   ((picardCategoryData (modulePushforwardCoherence B S hS)
-                    s).verticalAutEquivVertical D x) := fun x ↦ by
+                    s).verticalAutEquivVertical D x)) := fun x ↦ by
             rw [PicardCategoryData.verticalAutEquivAut]
-            exact Equiv.trans_apply _ _ _
+            rfl
           rw [e, e]
           exact PicardHom.comp_vertical_eq_iff_multiplicativeGroupPoints
             (modulePushforwardCoherence B S hS) h m

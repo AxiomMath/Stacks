@@ -453,7 +453,7 @@ noncomputable def ChartedPoint.restrict (c : ChartedPoint G) {T' : BigFppfOver C
   W := c.W
   hW := c.hW
   g := k ≫ c.g
-  hpt := by rw [c.hpt, op_comp, FunctorToTypes.map_comp_apply]
+  hpt := by rw [c.hpt, op_comp, Functor.map_comp_apply]
 
 /-- The point of a restricted charted point is the restricted point. -/
 theorem ChartedPoint.restrict_toPoint (c : ChartedPoint G) {T' : BigFppfOver C S hS}

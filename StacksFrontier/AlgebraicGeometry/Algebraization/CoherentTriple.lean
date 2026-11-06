@@ -2,6 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Modules.Sheaf
 public import Mathlib.AlgebraicGeometry.Restrict
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.EpiMono
 public import StacksFrontier.RingTheory.LocalCohomology.Deps.PuncturedSpectrumAffine
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.CoherentFinitePresentation
 

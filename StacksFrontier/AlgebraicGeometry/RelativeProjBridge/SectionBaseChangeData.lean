@@ -60,7 +60,7 @@ theorem pieceBaseChange_of_isBaseChange {R R' M M' : Type u} [CommRing R] [CommR
     [IsScalarTower R R' M'] {ρ : M →ₗ[R] M'} (h : IsBaseChange R' ρ) :
     PieceBaseChange (algebraMap R R') ρ.toAddMonoidHom := by
   refine ⟨fun y => ?_, fun T _ _ l hl => ?_⟩
-  · refine h.inductionOn y _ (zero_mem _) (fun m => ?_) (fun s n hn => ?_)
+  · refine h.inductionOn y (fun m => ?_) (fun s n hn => ?_)
       (fun _ _ h₁ h₂ => add_mem h₁ h₂)
     · exact AddSubgroup.subset_closure ⟨1, m, by simp⟩
     · induction hn using AddSubgroup.closure_induction with

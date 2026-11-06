@@ -126,8 +126,7 @@ theorem irreducible_X_pow_sub_X_sub_C {F : Type*} [Field F] {p : ℕ} [Fact p.Pr
   have hab : algebraMap F K a = b ^ p - b := by
     have : (X ^ p - X - C (algebraMap F K a)).eval b = 0 := by
       convert eval_rootOfSplits _ _
-      · rfl
-      · simp
+      simp
     simpa [sub_eq_zero, eq_comm (a := algebraMap F K a)]
   replace hfg := congr(($hfg).map (algebraMap F K))
   simp_rw [Polynomial.map_mul, Polynomial.map_sub, Polynomial.map_pow, map_X, map_C, hab,

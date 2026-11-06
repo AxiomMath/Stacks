@@ -116,7 +116,7 @@ theorem towerSolution_toBase_eq :
     (limitBaseRangeIso ξ hsurj hsq e cR hcR c eLimit hc) (towerStructureMap ξ 0)
     (schemeSpaceMap (c.ι.app 0))
     (limitBaseRangeIso_hom_comp_subspaceInclusion ξ hsurj hsq e cR hcR c eLimit hc)
-  refine (congrArg (· ≫ P'.baseMap) hco).trans ?_
+  refine (congrArg (· ≫ _) hco).trans ?_
   rfl
 
 /-- **A realization of a solution of the tower problem, as a realization of the corresponding

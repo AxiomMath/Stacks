@@ -87,6 +87,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 variable {B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FiniteMorphismLimitPresentation :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_FiniteMorphismLimitPresentation
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 private lemma affineOverToOver_map_left {Y : AlgebraicSpaces B S hS}
     {X Z : AffineOver B S hS Y} (g : X ⟶ Z) :
     ((affineOverToOver B S hS Y).map g).left = g.hom.left.hom := rfl
@@ -230,7 +241,9 @@ private theorem exists_lift_of_isTerminal {Y : AlgebraicSpaces B S hS}
   have ha : ∀ i : J, (a.app i).left ≫ r i = (a.app i₀).left := fun i => by
     simp only [hr]
     have h2 : a.app i ≫ (affineOverToOver B S hS Y).map (D.map (hi₀.from i)) = a.app i₀ := by
-      simpa using (a.naturality (hi₀.from i)).symm
+      have h1 := a.naturality (hi₀.from i)
+      simp only [Functor.const_obj_map, Category.id_comp, Functor.comp_map] at h1
+      exact h1.symm
     have h3 := congrArg (fun t => t.left) h2
     rw [Over.comp_left] at h3
     exact h3

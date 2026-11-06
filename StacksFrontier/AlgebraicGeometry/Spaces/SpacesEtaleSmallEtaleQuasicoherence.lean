@@ -110,6 +110,7 @@ instance isCocontinuous_liftedComparisonFunctor :
   isCocontinuous_comp _ _ (smallEtaleLiftedTopology B S hS Y) (SmallEtale.topology B S hS Y.obj)
     (L := SpacesEtale.topology B S hS Y)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Quasi-coherence on the spaces-étale site is quasi-coherence on the lifted small étale site.**
 The comparison functor is special cocontinuous and the two sites share their universes, so this is
 `Stacks.Sheaves.SpecialCocontinuous.isQuasicoherentOnSite_iff`. -/

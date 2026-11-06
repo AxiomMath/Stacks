@@ -329,8 +329,7 @@ omit [IsNoetherianRing R] [IsLocalRing R] in
 private lemma subsingleton_tensorProduct_right [Subsingleton M] : Subsingleton (N ⊗[R] M) := by
   have h : ∀ w : N ⊗[R] M, w = 0 := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => rfl
+    induction w using TensorProduct.inductionOn with
     | tmul n m => rw [Subsingleton.elim m 0, TensorProduct.tmul_zero]
     | add x y hx hy => rw [hx, hy, add_zero]
   exact ⟨fun x y => by rw [h x, h y]⟩
@@ -380,7 +379,6 @@ omit [IsNoetherianRing R] [IsNoetherianRing S] [IsLocalRing R] [IsLocalRing S]
 private lemma smul_quotSMulTop_tensor_eq_zero (f : S) (w : (QuotSMulTop f N) ⊗[R] M) :
     f • w = 0 := by
   induction w with
-  | zero => simp
   | tmul x m =>
     obtain ⟨n, rfl⟩ := Submodule.Quotient.mk_surjective (f • ⊤ : Submodule S N) x
     rw [TensorProduct.smul_tmul', smul_mk_eq_zero, TensorProduct.zero_tmul]
@@ -441,7 +439,6 @@ private noncomputable def quotSMulTopTensorEquiv (f : S) :
       refine LinearMap.ext fun w => ?_
       simp only [LinearMap.comp_apply, LinearMap.id_apply]
       induction w with
-      | zero => simp
       | tmul x m =>
         obtain ⟨n, rfl⟩ := Submodule.Quotient.mk_surjective (f • ⊤ : Submodule S N) x
         rfl
@@ -451,7 +448,6 @@ private noncomputable def quotSMulTopTensorEquiv (f : S) :
       simp only [LinearMap.comp_apply, LinearMap.id_apply]
       obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective (f • ⊤ : Submodule S (N ⊗[R] M)) w
       induction v with
-      | zero => simp
       | tmul n m => rfl
       | add x y hx hy =>
         rw [Submodule.Quotient.mk_add] at *
@@ -469,7 +465,6 @@ private lemma range_lTensor_smul_top_subtype (f : R) :
     refine Submodule.eq_top_iff'.mpr fun w => ?_
     rw [Submodule.mem_comap]
     induction w with
-    | zero => simp
     | tmul n y =>
       obtain ⟨m, -, hm⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).mp y.2
       have hval : (AlgebraTensorModule.lTensor S N
@@ -486,7 +481,6 @@ private lemma range_lTensor_smul_top_subtype (f : R) :
           ((f • ⊤ : Submodule R M).subtype.restrictScalars R)) := by
       intro w
       induction w with
-      | zero => simp
       | tmul n m =>
         refine ⟨n ⊗ₜ[R] ⟨f • m, Submodule.smul_mem_pointwise_smul _ _ _ Submodule.mem_top⟩, ?_⟩
         rw [AlgebraTensorModule.lTensor_tmul, algebraMap_smul, ← TensorProduct.tmul_smul]
@@ -571,7 +565,6 @@ private theorem isSMulRegular_tensorProduct_left (f : S)
       f • w = ((LinearMap.lsmul S N f).restrictScalars R).rTensor M w := by
     intro w
     induction w with
-    | zero => simp
     | tmul n m => rw [LinearMap.rTensor_tmul]; rfl
     | add x y hx hy => rw [smul_add, map_add, hx, hy]
   intro x y hxy
@@ -586,7 +579,6 @@ private theorem isSMulRegular_tensorProduct_right [Module.Flat R N] (f : R)
   have key : ∀ w : N ⊗[R] M, (algebraMap R S f) • w = (LinearMap.lsmul R M f).lTensor N w := by
     intro w
     induction w with
-    | zero => simp
     | tmul n m =>
       rw [algebraMap_smul, TensorProduct.smul_tmul', TensorProduct.smul_tmul,
         LinearMap.lTensor_tmul, LinearMap.lsmul_apply]

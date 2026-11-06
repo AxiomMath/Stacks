@@ -159,14 +159,14 @@ of an earlier pushforward. -/
 public noncomputable def transportHom {A B : Under (p.obj x)} (f : A ⟶ B)
     (a : Aut (P.obj A)) : (P.obj B).1 ⟶ (P.obj B).1 := by
   let := P.map_cocartesian f
-  let : p.IsHomLift (𝟙 A.right) a.hom.val := a.hom.2
+  let : p.IsHomLift (𝟙 A.right) a.asIso.hom.val := a.asIso.hom.2
   let : p.IsHomLift f.right
-      (a.hom.val ≫ P.map f) :=
+      (a.asIso.hom.val ≫ P.map f) :=
     CategoryTheory.IsHomLift.comp_lift_id_left p f.right (P.map f)
-      a.hom.val
+      a.asIso.hom.val
   exact Functor.IsStronglyCocartesian.map p f.right (P.map f)
     (Category.comp_id f.right).symm
-    (a.hom.val ≫ P.map f)
+    (a.asIso.hom.val ≫ P.map f)
 
 public instance transportHom_isHomLift {A B : Under (p.obj x)} (f : A ⟶ B)
     (a : Aut (P.obj A)) : p.IsHomLift (𝟙 B.right) (P.transportHom f a) := by
@@ -177,82 +177,82 @@ public instance transportHom_isHomLift {A B : Under (p.obj x)} (f : A ⟶ B)
 public lemma map_transportHom {A B : Under (p.obj x)} (f : A ⟶ B)
     (a : Aut (P.obj A)) :
     P.map f ≫ P.transportHom f a =
-      a.hom.val ≫ P.map f := by
+      a.asIso.hom.val ≫ P.map f := by
   let := P.map_cocartesian f
-  let : p.IsHomLift (𝟙 A.right) a.hom.val := a.hom.2
+  let : p.IsHomLift (𝟙 A.right) a.asIso.hom.val := a.asIso.hom.2
   let : p.IsHomLift f.right
-      (a.hom.val ≫ P.map f) :=
+      (a.asIso.hom.val ≫ P.map f) :=
     CategoryTheory.IsHomLift.comp_lift_id_left p f.right (P.map f)
-      a.hom.val
+      a.asIso.hom.val
   exact Functor.IsStronglyCocartesian.fac p f.right (P.map f)
     (Category.comp_id f.right).symm
-    (a.hom.val ≫ P.map f)
+    (a.asIso.hom.val ≫ P.map f)
 
 /-- Transport of a fibre automorphism along the canonical arrow between two
 chosen pushforwards. -/
 @[implicit_reducible]
 public noncomputable def transportAut {A B : Under (p.obj x)} (f : A ⟶ B)
     (a : Aut (P.obj A)) : Aut (P.obj B) where
-  hom := ⟨P.transportHom f a, inferInstance⟩
-  inv := ⟨P.transportHom f a.symm, P.transportHom_isHomLift f a.symm⟩
-  hom_inv_id := by
+  asIso.hom := ⟨P.transportHom f a, inferInstance⟩
+  asIso.inv := ⟨P.transportHom f a⁻¹, P.transportHom_isHomLift f a⁻¹⟩
+  asIso.hom_inv_id := by
     apply Functor.Fiber.hom_ext
-    change P.transportHom f a ≫ P.transportHom f a.symm = 𝟙 (P.obj B).1
+    change P.transportHom f a ≫ P.transportHom f a⁻¹ = 𝟙 (P.obj B).1
     let := P.map_cocartesian f
     let := P.transportHom_isHomLift f a
-    let := P.transportHom_isHomLift f a.symm
+    let := P.transportHom_isHomLift f a⁻¹
     let : p.IsHomLift (𝟙 B.right)
-        (P.transportHom f a ≫ P.transportHom f a.symm) :=
+        (P.transportHom f a ≫ P.transportHom f a⁻¹) :=
       by
         simpa using (CategoryTheory.IsHomLift.comp p (𝟙 B.right) (𝟙 B.right)
-          (P.transportHom f a) (P.transportHom f a.symm))
+          (P.transportHom f a) (P.transportHom f a⁻¹))
     let : p.IsHomLift (𝟙 B.right) (𝟙 (P.obj B).1) :=
       CategoryTheory.IsHomLift.id (P.obj B).2
     apply Functor.IsStronglyCocartesian.ext p f.right (P.map f) (𝟙 B.right)
     calc
-      P.map f ≫ (P.transportHom f a ≫ P.transportHom f a.symm) =
-          (P.map f ≫ P.transportHom f a) ≫ P.transportHom f a.symm :=
+      P.map f ≫ (P.transportHom f a ≫ P.transportHom f a⁻¹) =
+          (P.map f ≫ P.transportHom f a) ≫ P.transportHom f a⁻¹ :=
         (Category.assoc _ _ _).symm
       _ =
-          (a.hom.val ≫ P.map f) ≫ P.transportHom f a.symm :=
-        congrArg (fun h ↦ h ≫ P.transportHom f a.symm) (P.map_transportHom f a)
-      _ = a.hom.val ≫ (P.map f ≫ P.transportHom f a.symm) := Category.assoc _ _ _
-      _ = a.hom.val ≫ (a.inv.val ≫ P.map f) :=
-        congrArg (fun h ↦ a.hom.val ≫ h) (P.map_transportHom f a.symm)
+          (a.asIso.hom.val ≫ P.map f) ≫ P.transportHom f a⁻¹ :=
+        congrArg (fun h ↦ h ≫ P.transportHom f a⁻¹) (P.map_transportHom f a)
+      _ = a.asIso.hom.val ≫ (P.map f ≫ P.transportHom f a⁻¹) := Category.assoc _ _ _
+      _ = a.asIso.hom.val ≫ (a.asIso.inv.val ≫ P.map f) :=
+        congrArg (fun h ↦ a.asIso.hom.val ≫ h) (P.map_transportHom f a⁻¹)
       _ = P.map f := by
         rw [← Category.assoc]
-        have h : a.hom.val ≫ a.inv.val = 𝟙 (P.obj A).1 :=
-          congrArg Subtype.val a.hom_inv_id
+        have h : a.asIso.hom.val ≫ a.asIso.inv.val = 𝟙 (P.obj A).1 :=
+          congrArg Subtype.val a.asIso.hom_inv_id
         rw [h, Category.id_comp]
       _ = P.map f ≫ 𝟙 (P.obj B).1 := (Category.comp_id _).symm
-  inv_hom_id := by
+  asIso.inv_hom_id := by
     apply Functor.Fiber.hom_ext
-    change P.transportHom f a.symm ≫ P.transportHom f a = 𝟙 (P.obj B).1
+    change P.transportHom f a⁻¹ ≫ P.transportHom f a = 𝟙 (P.obj B).1
     let := P.map_cocartesian f
     let := P.transportHom_isHomLift f a
-    let := P.transportHom_isHomLift f a.symm
+    let := P.transportHom_isHomLift f a⁻¹
     let : p.IsHomLift (𝟙 B.right)
-        (P.transportHom f a.symm ≫ P.transportHom f a) :=
+        (P.transportHom f a⁻¹ ≫ P.transportHom f a) :=
       by
         simpa using (CategoryTheory.IsHomLift.comp p (𝟙 B.right) (𝟙 B.right)
-          (P.transportHom f a.symm) (P.transportHom f a))
+          (P.transportHom f a⁻¹) (P.transportHom f a))
     let : p.IsHomLift (𝟙 B.right) (𝟙 (P.obj B).1) :=
       CategoryTheory.IsHomLift.id (P.obj B).2
     apply Functor.IsStronglyCocartesian.ext p f.right (P.map f) (𝟙 B.right)
     calc
-      P.map f ≫ (P.transportHom f a.symm ≫ P.transportHom f a) =
-          (P.map f ≫ P.transportHom f a.symm) ≫ P.transportHom f a :=
+      P.map f ≫ (P.transportHom f a⁻¹ ≫ P.transportHom f a) =
+          (P.map f ≫ P.transportHom f a⁻¹) ≫ P.transportHom f a :=
         (Category.assoc _ _ _).symm
       _ =
-          (a.inv.val ≫ P.map f) ≫ P.transportHom f a :=
-        congrArg (fun h ↦ h ≫ P.transportHom f a) (P.map_transportHom f a.symm)
-      _ = a.inv.val ≫ (P.map f ≫ P.transportHom f a) := Category.assoc _ _ _
-      _ = a.inv.val ≫ (a.hom.val ≫ P.map f) :=
-        congrArg (fun h ↦ a.inv.val ≫ h) (P.map_transportHom f a)
+          (a.asIso.inv.val ≫ P.map f) ≫ P.transportHom f a :=
+        congrArg (fun h ↦ h ≫ P.transportHom f a) (P.map_transportHom f a⁻¹)
+      _ = a.asIso.inv.val ≫ (P.map f ≫ P.transportHom f a) := Category.assoc _ _ _
+      _ = a.asIso.inv.val ≫ (a.asIso.hom.val ≫ P.map f) :=
+        congrArg (fun h ↦ a.asIso.inv.val ≫ h) (P.map_transportHom f a)
       _ = P.map f := by
         rw [← Category.assoc]
-        have h : a.inv.val ≫ a.hom.val = 𝟙 (P.obj A).1 :=
-          congrArg Subtype.val a.inv_hom_id
+        have h : a.asIso.inv.val ≫ a.asIso.hom.val = 𝟙 (P.obj A).1 :=
+          congrArg Subtype.val a.asIso.inv_hom_id
         rw [h, Category.id_comp]
       _ = P.map f ≫ 𝟙 (P.obj B).1 := (Category.comp_id _).symm
 
@@ -263,6 +263,7 @@ public noncomputable def transportAutHom {A B : Under (p.obj x)} (f : A ⟶ B) :
   toFun := P.transportAut f
   map_one' := by
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     change P.transportHom f (1 : Aut (P.obj A)) = 𝟙 (P.obj B).1
     let := P.map_cocartesian f
@@ -274,6 +275,7 @@ public noncomputable def transportAutHom {A B : Under (p.obj x)} (f : A ⟶ B) :
     simp
   map_mul' a b := by
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     change P.transportHom f (a * b) = P.transportHom f b ≫ P.transportHom f a
     let := P.map_cocartesian f
@@ -286,13 +288,13 @@ public noncomputable def transportAutHom {A B : Under (p.obj x)} (f : A ⟶ B) :
           (P.transportHom f b) (P.transportHom f a))
     apply Functor.IsStronglyCocartesian.ext p f.right (P.map f) (𝟙 B.right)
     calc
-      P.map f ≫ P.transportHom f (a * b) = (a * b).hom.val ≫ P.map f :=
+      P.map f ≫ P.transportHom f (a * b) = (a * b).asIso.hom.val ≫ P.map f :=
         P.map_transportHom f (a * b)
-      _ = (b.hom.val ≫ a.hom.val) ≫ P.map f := rfl
-      _ = b.hom.val ≫ (a.hom.val ≫ P.map f) := Category.assoc _ _ _
-      _ = b.hom.val ≫ (P.map f ≫ P.transportHom f a) :=
-        congrArg (fun h ↦ b.hom.val ≫ h) (P.map_transportHom f a).symm
-      _ = (b.hom.val ≫ P.map f) ≫ P.transportHom f a :=
+      _ = (b.asIso.hom.val ≫ a.asIso.hom.val) ≫ P.map f := rfl
+      _ = b.asIso.hom.val ≫ (a.asIso.hom.val ≫ P.map f) := Category.assoc _ _ _
+      _ = b.asIso.hom.val ≫ (P.map f ≫ P.transportHom f a) :=
+        congrArg (fun h ↦ b.asIso.hom.val ≫ h) (P.map_transportHom f a).symm
+      _ = (b.asIso.hom.val ≫ P.map f) ≫ P.transportHom f a :=
         (Category.assoc _ _ _).symm
       _ = (P.map f ≫ P.transportHom f b) ≫ P.transportHom f a :=
         congrArg (fun h ↦ h ≫ P.transportHom f a) (P.map_transportHom f b).symm
@@ -303,8 +305,9 @@ public noncomputable def transportAutHom {A B : Under (p.obj x)} (f : A ⟶ B) :
 public lemma transportAut_id (A : Under (p.obj x)) (a : Aut (P.obj A)) :
     P.transportAut (𝟙 A) a = a := by
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
-  show P.transportHom (𝟙 A) a = a.hom.val
+  show P.transportHom (𝟙 A) a = a.asIso.hom.val
   simpa only [P.map_id, Category.id_comp, Category.comp_id] using
     P.map_transportHom (𝟙 A) a
 
@@ -312,6 +315,7 @@ public lemma transportAut_comp {A B D : Under (p.obj x)} (f : A ⟶ B) (g : B �
     (a : Aut (P.obj A)) :
     P.transportAut (f ≫ g) a = P.transportAut g (P.transportAut f a) := by
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
   show P.transportHom (f ≫ g) a =
     P.transportHom g (P.transportAut f a)
@@ -322,7 +326,7 @@ public lemma transportAut_comp {A B D : Under (p.obj x)} (f : A ⟶ B) (g : B �
     (𝟙 D.right)
   rw [P.map_transportHom (f ≫ g) a, P.map_comp f g,
     Category.assoc, P.map_transportHom g (P.transportAut f a)]
-  show a.hom.val ≫ (P.map f ≫ P.map g) =
+  show a.asIso.hom.val ≫ (P.map f ≫ P.map g) =
     P.map f ≫ (P.transportHom f a ≫ P.map g)
   simp only [← Category.assoc, P.map_transportHom f a]
 

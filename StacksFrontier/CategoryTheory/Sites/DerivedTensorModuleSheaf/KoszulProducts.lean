@@ -113,7 +113,7 @@ theorem isIso_lift_Q_map_map₂CochainComplex_tensorUnit {ι : Type}
       DerivedCategory.Q.map (e P).hom ≫ (Pi.lift fun j ↦ DerivedCategory.Q.map (π j)) ≫
         Limits.Pi.map fun j ↦ DerivedCategory.Q.map (e (x j)).inv := by
     ext j
-    simp only [h₁, Functor.map_comp, Pi.lift_π, Category.assoc, Pi.map_π, Pi.lift_π_assoc]
+    simp only [h₁, Functor.map_comp, Pi.lift_comp_π, Category.assoc, Pi.map_π, Pi.lift_comp_π_assoc]
   change IsIso (Pi.lift fun j ↦ DerivedCategory.Q.map ((B.map (π j)).app U))
   rw [h₂]
   infer_instance

@@ -545,7 +545,7 @@ theorem exists_cechD₁_eq
     rw [this, LinearMap.rTensor_zero, LinearMap.zero_apply]
   rw [LinearMap.rTensor_tmul] at h₂
   have h₃ : (1 : B') ⊗ₜ[A'] Q c = 0 := by
-    rw [← TensorProduct.comm_tmul A' _ B', h₂, map_zero]
+    rw [← TensorProduct.comm_tmul A' _ B', h₂, LinearEquiv.map_zero]
   rw [Module.FaithfullyFlat.one_tmul_eq_zero_iff, Submodule.mkQ_apply,
     Submodule.Quotient.mk_eq_zero, LinearMap.mem_range] at h₃
   exact h₃

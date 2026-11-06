@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.ObjectProperty.FiniteProducts
+import Mathlib.CategoryTheory.Limits.FullSubcategory
 import StacksCore.Algebra.FreeAbelianGroup.Finsupp
 import StacksCore.Algebra.Homology.ShortComplex.Preadditive
 import StacksCore.CategoryTheory.GrothendieckGroup.Abelian

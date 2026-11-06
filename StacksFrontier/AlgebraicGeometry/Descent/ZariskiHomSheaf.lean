@@ -91,7 +91,10 @@ lemma pullback_map_eq_of_pullHom_eq {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y �
     (Scheme.Modules.pullback f).map t₁ = (Scheme.Modules.pullback f).map t₂ :=
   have heq' := ((modulePullbackPseudofunctor_pullHom f g h w M N t₁).symm.trans heq).trans
     (modulePullbackPseudofunctor_pullHom f g h w M N t₂)
-  (cancel_mono _).mp ((cancel_epi _).mp ((cancel_epi _).mp heq'))
+  (Iso.cancel_iso_hom_right _ _
+    ((Scheme.Modules.pullbackComp f g).app N ≪≫ (Scheme.Modules.pullbackCongr w).app N)).mp
+    ((Iso.cancel_iso_inv_left ((Scheme.Modules.pullbackComp f g).app M) _ _).mp
+      ((Iso.cancel_iso_inv_left ((Scheme.Modules.pullbackCongr w).app M) _ _).mp heq'))
 
 /-- The presheaf of morphisms is separated for Zariski covering families: a morphism
 `X^* A ⟶ X^* B` of sheaves of modules on a scheme is determined by its restrictions to the

@@ -408,7 +408,7 @@ theorem connectedPullback_of_isProper_of_isSurjective_of_isIso_fSharp
   obtain ⟨hrqc, hrmono⟩ := representedResidueFieldPointInNeighborhood_qc_mono B S hS U W e
   have hqmono : Mono (yonedaEquiv.symm q.value) := by
     rw [hq]
-    exact @mono_comp _ _ _ _ _ _ hrmono _ _
+    exact @mono_comp _ _ _ _ _ _ hrmono _ (IsIso.mono_of_iso e.hom)
   have hqqc : IsQuasiCompact B S hS (yonedaEquiv.symm q.value) := by
     rw [hq]
     exact (isQuasiCompact_comp_isIso_iff B S hS _ e.hom).2 hrqc

@@ -224,10 +224,10 @@ lemma pderiv_smul_conormalCokernel_eq_zero (i : Fin n)
     (c : conormalCokernel (prob k (Hypersurface n f) (Hypersurface n f))) :
     (algebraMap (MvPowerSeries (Fin n) k)
         (prob k (Hypersurface n f) (Hypersurface n f)).B
-      (MvPowerSeries.pderiv k i f)) • c = 0 := by
+      (MvPowerSeries.pderiv (R := k) i f)) • c = 0 := by
   obtain ⟨δ, rfl⟩ := surjective_hypersurfacePullback n f c
   obtain ⟨t, ht⟩ := Algebra.Extension.exists_comp_cotangentComplex_eq_derivation_smul
-    (hypersurfaceExtension n f) f (hypersurfaceExtension_ker n f) (MvPowerSeries.pderiv k i) δ
+    (hypersurfaceExtension n f) f (hypersurfaceExtension_ker n f) (MvPowerSeries.pderiv (R := k) i) δ
   rw [← map_smul, hypersurfacePullback, pullbackClass_apply, Submodule.Quotient.mk_eq_zero]
   refine LinearMap.mem_range.mpr ⟨t ∘ₗ Algebra.Extension.CotangentSpace.map
     (canonicalHom (hypersurfaceExtension n f)), ?_⟩
@@ -246,7 +246,7 @@ ideal, the conormal cokernel of the canonical presentation of `P = k[[x_1, …, 
 is, `Ext¹_P(NL_{P/k}, P)` — is a finite dimensional `k`-vector space. -/
 theorem finiteDimensional_conormalCokernel_hypersurface
     (hjac : (Ideal.span ({f} ∪ Set.range
-      (fun i : Fin n ↦ MvPowerSeries.pderiv k i f))).radical =
+      (fun i : Fin n ↦ MvPowerSeries.pderiv (R := k) i f))).radical =
       Ideal.span (Set.range (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) k))) :
     letI : Module k (conormalCokernel (prob k (Hypersurface n f) (Hypersurface n f))) :=
       Module.compHom _ (algebraMap k (prob k (Hypersurface n f) (Hypersurface n f)).B)
@@ -328,7 +328,7 @@ theorem hypersurface_finiteDimensional_tangentSpace {Λ : Type u} [CommRing Λ] 
     (hord : f ∈ (Ideal.span (Set.range
       (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) k))) ^ 2)
     (hjac : (Ideal.span ({f} ∪ Set.range
-      (fun i : Fin n ↦ MvPowerSeries.pderiv k i f))).radical =
+      (fun i : Fin n ↦ MvPowerSeries.pderiv (R := k) i f))).radical =
       Ideal.span (Set.range (MvPowerSeries.X : Fin n → MvPowerSeries (Fin n) k))) :
     letI : Fact (IsPredeformationCategory
         (ringDeformationBasedCategory Λ k (Hypersurface n f)).p) :=

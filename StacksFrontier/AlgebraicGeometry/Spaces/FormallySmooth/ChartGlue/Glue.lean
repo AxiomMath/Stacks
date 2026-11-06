@@ -191,8 +191,8 @@ include hū in
 one point. -/
 lemma pt_p₁'_eq_pt_p₂' :
     Φ.pt K.B₂' ((ah K.p₁').comp ū) = Φ.pt K.B₂' ((ah K.p₂').comp ū) := by
-  rw [Φ.pt_comp, Φ.pt_comp, hū, ← FunctorToTypes.map_comp_apply,
-    ← FunctorToTypes.map_comp_apply, K.ι_p']
+  rw [Φ.pt_comp, Φ.pt_comp, hū, ← Functor.map_comp_apply,
+    ← Functor.map_comp_apply, K.ι_p']
 
 variable {Φ K x ū}
 variable (u' : R →ₐ[A'] K.B₁.obj) (hu' : (ah K.π₁).comp u' = ū)
@@ -326,7 +326,7 @@ theorem exists_lift_of_coboundary
     abel
   obtain ⟨z₀, hz₀⟩ := hglue _ (map_p₁_eq_map_p₂_of_defect hū _ _ h0)
   refine ⟨z₀, hsep _ _ ?_⟩
-  rw [← FunctorToTypes.map_comp_apply, ← K.ι_π, FunctorToTypes.map_comp_apply, hz₀, ← Φ.pt_comp,
+  rw [← Functor.map_comp_apply, ← K.ι_π, Functor.map_comp_apply, hz₀, ← Φ.pt_comp,
     π₁_moved u' hu' θ, hū]
 
 /-- The kernel map `J₂ → J₃` along `q₁₂`. -/

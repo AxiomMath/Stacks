@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.RingTheory.DedekindDomain.Instances
 public import Mathlib.RingTheory.DedekindDomain.PID
 public import Mathlib.RingTheory.Ideal.Norm.RelNorm
 public import Mathlib.RingTheory.Localization.BaseChange

@@ -196,6 +196,14 @@ universe u
 variable {S : Scheme.{u}} {T : BigFppfSpaceSite S} {X : T.Spaces}
   {W : Space.SpacesEtale T.schemeSite S T.scheme_mem X}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_bigFppfModuleUnit
+    (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver T.schemeSite S T.scheme_mem)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 open EtaleAffineSchemesOver in
 /-- **The unit `𝓕 ⟶ a_{X,*}a_X^*𝓕` is invertible on sections over an affine object over which
 `𝓕` has a global presentation.** -/

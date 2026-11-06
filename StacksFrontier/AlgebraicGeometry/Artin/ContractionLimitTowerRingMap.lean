@@ -441,7 +441,7 @@ theorem globalSectionsRingHomSite_fibreMap_comp_alphaComp (n : ℕ) :
   calc globalSectionsRingHomSite B S hS (fibreMap v hII g g' h hsq (n + 1)) (alphaComp I g n x)
       = globalSectionsRingHomSite B S hS (fibreMap v hII g g' h hsq (n + 1))
           (alphaComp I g n (algebraMap _ _ a) + alphaComp I g n (x - algebraMap _ _ a)) :=
-        congrArg _ ((congrArg (alphaComp I g n) hx).trans (map_add (alphaComp I g n) _ _))
+        congrArg _ ((congrArg (alphaComp I g n) hx).trans ((alphaComp I g n).map_add _ _))
     _ = globalSectionsRingHomSite B S hS (fibreMap v hII g g' h hsq (n + 1))
           (alphaComp I g n (algebraMap _ _ a)) :=
         congrArg _ ((congrArg (_ + ·) (alphaComp_eq_zero g ha)).trans (add_zero _))
@@ -466,8 +466,8 @@ theorem globalSectionsRingHomSite_fibreMap_comp_alphaComp (n : ℕ) :
         ((congrArg (_ + ·) (alphaComp_eq_zero g' hy)).trans (add_zero _)).symm
     _ = alphaComp I' g' n
           (completionRingHom ((BigFppfOver.toScheme B S hS).map v).appTop.hom hII x) :=
-        (map_add (alphaComp I' g' n) _ _).symm.trans (congrArg (alphaComp I' g' n)
-          ((map_add (completionRingHom ((BigFppfOver.toScheme B S hS).map v).appTop.hom hII)
+        ((alphaComp I' g' n).map_add _ _).symm.trans (congrArg (alphaComp I' g' n)
+          (((completionRingHom ((BigFppfOver.toScheme B S hS).map v).appTop.hom hII).map_add
             _ _).symm.trans
             (congrArg _ hx.symm)))
 

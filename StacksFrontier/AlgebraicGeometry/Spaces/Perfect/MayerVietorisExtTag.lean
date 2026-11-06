@@ -344,7 +344,7 @@ theorem mayerVietoris_derivedHom_longExactSequence_of_eds_lowerShriek
               (NatTrans.mapDerivedCategory
                   (etaleModuleLowerShriekAdjunction B S hS (edsOpenHom B S hS hsq)
                     (isEtale_edsOpenHom B S hS hsq)).counit).app E ≫
-              Functor.mapDerivedCategoryIdIso.hom.app E)
+              (Functor.mapDerivedCategoryIdIso _).hom.app E)
             ((Functor.mapDerivedCategoryComp (etaleModulePullback.{u, u} B S hS
                   (edsEtaleHom B S hS hsq) (isEtale_edsEtaleHom B S hS hsq))
                       (etaleModuleLowerShriek B S hS (edsEtaleHom B S hS hsq)
@@ -352,7 +352,7 @@ theorem mayerVietoris_derivedHom_longExactSequence_of_eds_lowerShriek
               (NatTrans.mapDerivedCategory
                   (etaleModuleLowerShriekAdjunction B S hS (edsEtaleHom B S hS hsq)
                     (isEtale_edsEtaleHom B S hS hsq)).counit).app E ≫
-              Functor.mapDerivedCategoryIdIso.hom.app E)) δ ∈
+              (Functor.mapDerivedCategoryIdIso _).hom.app E)) δ ∈
         distTriang (DerivedCategory (Modules.{u, u} B S hS W.1 W.2)) ∧
       (∀ (n : ℤ) (x : E ⟶ F⟦n⟧),
         edsDerivedHomRestrictionOpen B S hS hsq E F n

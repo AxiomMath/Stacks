@@ -86,6 +86,19 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_ProperFiniteImageNearFibre :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Cospans of presheaves on the big fppf site over `S` have limits (a fast path for instance
+search). -/
+local instance (priority := high) hasPullback_presheaf_ProperFiniteImageNearFibre
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Set-theoretic preliminaries -/
 
 /-- If `f` is surjective, `g` is injective and `g ∘ f` has finite range, then the codomain of

@@ -50,7 +50,7 @@ theorem finrank_homology_homModule_of_Q_iso {F : (BigFppfOver B S hS)ᵒᵖ ⥤ 
       ⟨yoneda.obj p.val.siteObject, isAlgebraicSpace_yoneda B S hS p.val.siteObject⟩)))
     (e : (DerivedCategory.Q).obj K ≅ D) (j : ℤ) :
     Module.finrank ((structureSheaf B S hS (yoneda.obj p.val.siteObject)
-        (isAlgebraicSpace_yoneda B S hS p.val.siteObject)).val.obj
+        (isAlgebraicSpace_yoneda B S hS p.val.siteObject)).obj.obj
           (op (idChart B S hS p.val.siteObject)))
       ((((homModule (SheafOfModules.unit _) (Stacks.SheafOfModules.unitEndRingHom.{u}
         (structureSheaf B S hS (yoneda.obj p.val.siteObject)
@@ -58,7 +58,7 @@ theorem finrank_homology_homModule_of_Q_iso {F : (BigFppfOver B S hS)ᵒᵖ ⥤ 
         (isTerminal_idChart B S hS p.val.siteObject))).mapHomologicalComplex
           (ComplexShape.up ℤ)).obj K).homology j) =
       Module.finrank ((structureSheaf B S hS (yoneda.obj p.val.siteObject)
-        (isAlgebraicSpace_yoneda B S hS p.val.siteObject)).val.obj
+        (isAlgebraicSpace_yoneda B S hS p.val.siteObject)).obj.obj
           (op (idChart B S hS p.val.siteObject)))
         ((homModule (SheafOfModules.unit _) (Stacks.SheafOfModules.unitEndRingHom.{u}
           (structureSheaf B S hS (yoneda.obj p.val.siteObject)
@@ -69,7 +69,7 @@ theorem finrank_homology_homModule_of_Q_iso {F : (BigFppfOver B S hS)ᵒᵖ ⥤ 
     (isAlgebraicSpace_yoneda B S hS p.val.siteObject)
   let hT := isTerminal_idChart B S hS p.val.siteObject
   let ρ := Stacks.SheafOfModules.unitEndRingHom.{u} O hT
-  let : Field (O.val.obj (op (idChart B S hS p.val.siteObject))) :=
+  let : Field (O.obj.obj (op (idChart B S hS p.val.siteObject))) :=
     (isField_structureSheaf_idChart B S hS p.val).toField
   have :=
     Stacks.SheafOfModules.projective_unit_of_mem O hT
@@ -83,6 +83,7 @@ theorem finrank_homology_homModule_of_Q_iso {F : (BigFppfOver B S hS)ᵒᵖ ⥤ 
         (DerivedCategory.homologyFunctor _ j).mapIso e)
   rw [eH.toLinearEquiv.finrank_eq]
 
+set_option maxHeartbeats 1000000 in
 /-- **A perfect complex whose geometric fibre has global sections in one degree only is free in
 that degree on an étale chart through the image of the point.** Let `E` be perfect on `X`, let
 `p` be a geometric point of an algebraic space, and let `c` be a morphism to `X` from the
@@ -149,14 +150,14 @@ theorem exists_pointsMap_mem_singleDegreeFreePoints_of_subsingleton
       (modulePullbackUnitIso B S hS bm)
   have hψ : ∀ t, ψ t = ((BigFppfOver.toScheme B S hS).map N.point).appTop t :=
     baseChangeRingHom_representedSpaceMap B S hS (T' := K) (T := TV) N.point
-  let : Field (OK.val.obj (op (idChart B S hS K))) :=
+  let : Field (OK.obj.obj (op (idChart B S hS K))) :=
     (isField_structureSheaf_idChart B S hS p.val).toField
   let ebc := homModuleBaseChangeComplexIso (ρ := ρV) ρK hρK (modulePullback B S hS bm)
     (hF := modulePullback_additive bm) (modulePullbackUnitIso B S hS bm) hρV A hAret
-  let n : ℕ := Module.finrank (OK.val.obj (op (idChart B S hS K)))
+  let n : ℕ := Module.finrank (OK.obj.obj (op (idChart B S hS K)))
     ((homModule _ ρK).obj ((DerivedCategory.homologyFunctor _ i).obj
       ((smallEtaleDerivedModulePullback B S hS c).obj E)))
-  have hdim : ∀ j, Module.finrank (OK.val.obj (op (idChart B S hS K)))
+  have hdim : ∀ j, Module.finrank (OK.obj.obj (op (idChart B S hS K)))
       ((((ModuleCat.extendScalars.{u, u, u + 1} ψ).mapHomologicalComplex
         (ComplexShape.up ℤ)).obj L).homology j) = if j = i then n else 0 := by
     intro j

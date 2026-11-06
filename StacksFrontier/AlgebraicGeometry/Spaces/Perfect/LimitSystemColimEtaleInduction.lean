@@ -256,7 +256,7 @@ theorem isColim_of_extendRestrictIsColim_id {E₀ K₀ : derivedModules B S hS (
     ((Dualizing.mapDerivedCategoryNatIso _ _
       (etaleModuleExtendRestrictIdIso B S hS (D.stage D.base) h)).app E₀ ≪≫
       (Functor.mapDerivedCategoryIdIso
-        (C := Modules.{u, u} B S hS (D.stage D.base).obj (D.stage D.base).property)).app E₀)
+        (Modules.{u, u} B S hS (D.stage D.base).obj (D.stage D.base).property)).app E₀)
     hE 0).of_iso_fst hcoh ((shiftFunctorZero _ ℤ).app E₀)
 
 /-- **Stacks 09RI, reduced to its affine case.**  In Situation 09RH, if for every étale

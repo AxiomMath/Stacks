@@ -80,6 +80,13 @@ namespace AlgebraicGeometry
 
 universe u
 
+/-- Fibre products of presheaves on the big fppf site over `S`, resolved in one instance step
+(the search through `HasLimitsOfShape WalkingCospan` on presheaf categories times out). -/
+local instance (priority := high) hasPullback_presheaf_ProperFlatMorphismDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasPullback f g := HasLimitsOfShape.has_limit _
+
 section Transport
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -94,7 +101,7 @@ private theorem snd_comp_eq_iff_fst_comp_eq (p : W ⟶ Z) (f : X ⟶ Z) {a a' : 
     pullback.snd p f ≫ a = pullback.snd p f ≫ a' ↔
       pullback.fst f p ≫ a = pullback.fst f p ≫ a' := by
   rw [← pullbackSymmetry_hom_comp_fst p f, Category.assoc, Category.assoc]
-  exact cancel_epi _
+  exact Iso.cancel_iso_hom_left _ _ _
 
 /-- **Equality of two base changes in the `Over.pullback` form, read on the chosen fibre
 products.** Two vertical morphisms `a, a' : X ⟶ Y` over `Z` have equal base changes along

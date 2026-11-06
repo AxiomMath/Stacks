@@ -146,7 +146,7 @@ private noncomputable def residueFieldChangeIso
         (ModuleCat.of S (IsLocalRing.ResidueField S))) :=
     { toFun := fun x => φ x.down
       invFun := fun x => ULift.up (φ.symm x)
-      left_inv := fun x => ULift.ext _ _ (φ.symm_apply_apply x.down)
+      left_inv := fun x => ULift.ext (φ.symm_apply_apply x.down)
       right_inv := fun x => φ.apply_symm_apply x
       map_add' := fun x y => map_add φ x.down y.down
       map_smul' := by

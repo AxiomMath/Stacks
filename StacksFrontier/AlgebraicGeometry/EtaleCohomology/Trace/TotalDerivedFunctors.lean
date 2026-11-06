@@ -278,13 +278,13 @@ def rightDerivedFunctorPlusIsoOnPlusInjective (F : A ⥤ B) [F.Additive] [Enough
       mapPlusInjectiveToDerivedPlus F := by
   let : ∀ X : HomotopyCategory.PlusInjective A,
       IsIso ((Functor.whiskerLeft (HomotopyCategory.PlusInjective.toHomotopyPlus A)
-        F.rightDerivedFunctorPlusUnit).app X) := fun X ↦
-    inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnit.app
+        F.rightDerivedFunctorPlusUnith).app X) := fun X ↦
+    inferInstanceAs (IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.PlusInjective.toHomotopyPlus A).obj X)))
   let := NatIso.isIso_of_isIso_app (Functor.whiskerLeft
-    (HomotopyCategory.PlusInjective.toHomotopyPlus A) F.rightDerivedFunctorPlusUnit)
+    (HomotopyCategory.PlusInjective.toHomotopyPlus A) F.rightDerivedFunctorPlusUnith)
   exact (asIso (Functor.whiskerLeft (HomotopyCategory.PlusInjective.toHomotopyPlus A)
-    F.rightDerivedFunctorPlusUnit)).symm
+    F.rightDerivedFunctorPlusUnith)).symm
 
 /-- The total right derived functor built from `K⁺(I)` agrees with the abstract right derived
 functor of the localization: both fit in the diagram of [Stacks, Tag 03T7]. -/
@@ -304,7 +304,7 @@ def rightDerivedFunctorPlusOfInjectivesIsoRightDerivedFunctorPlus
 def rightDerivedFunctorPlusOfInjectivesUnit (F : A ⥤ B) [F.Additive] [EnoughInjectives A] :
     F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⟶
       DerivedCategory.Plus.Qh ⋙ rightDerivedFunctorPlusOfInjectives F :=
-  F.rightDerivedFunctorPlusUnit ≫ whiskerLeft DerivedCategory.Plus.Qh
+  F.rightDerivedFunctorPlusUnith ≫ whiskerLeft DerivedCategory.Plus.Qh
     (rightDerivedFunctorPlusOfInjectivesIsoRightDerivedFunctorPlus F).inv
 
 /-- The total right derived functor, with its comparison map, is a right derived functor of
@@ -313,7 +313,7 @@ def rightDerivedFunctorPlusOfInjectivesUnit (F : A ⥤ B) [F.Additive] [EnoughIn
 instance (F : A ⥤ B) [F.Additive] [EnoughInjectives A] :
     (rightDerivedFunctorPlusOfInjectives F).IsRightDerivedFunctor
       (rightDerivedFunctorPlusOfInjectivesUnit F) (HomotopyCategory.Plus.quasiIso A) :=
-  (isRightDerivedFunctor_iff_of_iso F.rightDerivedFunctorPlusUnit _
+  (isRightDerivedFunctor_iff_of_iso F.rightDerivedFunctorPlusUnith _
     (HomotopyCategory.Plus.quasiIso A)
     (rightDerivedFunctorPlusOfInjectivesIsoRightDerivedFunctorPlus F).symm rfl).1
     inferInstance

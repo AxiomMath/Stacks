@@ -122,7 +122,7 @@ theorem restrictionComparisonIso_hom_comp_base :
       pullback.fst (𝟙 Y) (g ≫ f) ≫ sY := by
   have key {A B : D.Ambient} (h : A ⟶ B) :
       pullback.fst (𝟙 B) h = pullback.snd (𝟙 B) h ≫ h := by
-    simpa using pullback.condition (f := 𝟙 B) (g := h)
+    exact (Category.comp_id _).symm.trans (pullback.condition (f := 𝟙 B) (g := h))
   rw [key g, key (g ≫ f), ← hf]
   simp [restrictionComparisonIso]
 

@@ -32,6 +32,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_EtaleHomLift :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_EtaleHomLift
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Let `f` be a monomorphism and let `π : H ⟶ F` be a base change of it along `v : F ⟶ Y`. Then
 `H` is isomorphic over `F` to the inverse image along `v` of the range of `f`. -/
 theorem exists_isIso_comp_preimage_ι {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) [Mono f.hom]

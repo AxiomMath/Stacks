@@ -84,6 +84,17 @@ attribute [local instance] hasPullbacks_bigFppfOver preservesPullbacks_bigFppfOv
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_GlueingSpace :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_GlueingSpace
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The functor from the big fppf category over `S` to schemes reflects cospan limits.**  It
 preserves them, the category has them, and it reflects isomorphisms, being the composite of the
 forgetful functor of a slice with a full subcategory inclusion. -/
@@ -690,7 +701,7 @@ theorem glueingBaseInvariant_invariant :
 to `Y` is invariant under the relation, so it descends to the quotient. -/
 def glueingSpaceToBase : (glueingSpaceSheaf B S hS f hf hy c).obj ⟶ Y.1 :=
   (existsUnique_desc_of_surjective_etale_atlas B S hS
-    (glueingSpaceSheaf B S hS f hf hy c).cond (glueingSpaceChart B S hS f hf hy c)
+    (glueingSpaceSheaf B S hS f hf hy c).property (glueingSpaceChart B S hS f hf hy c)
     (isPullback_glueingSpaceChart B S hS f hf hy c)
     (surjective_glueingSpaceChart B S hS f hf hy c)
     (etale_glueingSpaceChart B S hS f hf hy c) Y.property.isSheaf
@@ -702,7 +713,7 @@ theorem glueingSpaceChart_comp_toBase :
     glueingSpaceChart B S hS f hf hy c ≫ glueingSpaceToBase B S hS f hf hy c =
       glueingBaseInvariant B S hS f hf hy c :=
   (existsUnique_desc_of_surjective_etale_atlas B S hS
-    (glueingSpaceSheaf B S hS f hf hy c).cond (glueingSpaceChart B S hS f hf hy c)
+    (glueingSpaceSheaf B S hS f hf hy c).property (glueingSpaceChart B S hS f hf hy c)
     (isPullback_glueingSpaceChart B S hS f hf hy c)
     (surjective_glueingSpaceChart B S hS f hf hy c)
     (etale_glueingSpaceChart B S hS f hf hy c) Y.property.isSheaf
@@ -732,7 +743,7 @@ def glueingSpaceFromSource : X.1 ⟶ (glueingSpaceSheaf B S hS f hf hy c).obj :=
   (existsUnique_desc_of_surjective_etale_atlas B S hS X.property.isSheaf
     (glueingSourceChart B S hS f hf c) (isPullback_glueingSourceChart B S hS f hf c)
     (surjective_glueingSourceChart B S hS f hf c) (etale_glueingSourceChart B S hS f hf c)
-    (glueingSpaceSheaf B S hS f hf hy c).cond (glueingSourceInvariant B S hS f hf hy c)
+    (glueingSpaceSheaf B S hS f hf hy c).property (glueingSourceInvariant B S hS f hf hy c)
     (glueingSourceInvariant_invariant B S hS f hf hy c)).choose
 
 /-- The chart `X ×_Y U ⟶ X` followed by `X ⟶ X'` is the composite `X ×_Y U ⟶ P_U ⟶ X'`. -/
@@ -742,7 +753,7 @@ theorem glueingSourceChart_comp_fromSource :
   (existsUnique_desc_of_surjective_etale_atlas B S hS X.property.isSheaf
     (glueingSourceChart B S hS f hf c) (isPullback_glueingSourceChart B S hS f hf c)
     (surjective_glueingSourceChart B S hS f hf c) (etale_glueingSourceChart B S hS f hf c)
-    (glueingSpaceSheaf B S hS f hf hy c).cond (glueingSourceInvariant B S hS f hf hy c)
+    (glueingSpaceSheaf B S hS f hf hy c).property (glueingSourceInvariant B S hS f hf hy c)
     (glueingSourceInvariant_invariant B S hS f hf hy c)).choose_spec.1
 
 /-- **The factorization of `f`.**  The two descended morphisms compose to `f`. -/
@@ -950,7 +961,7 @@ def glueingSpacePoint : yoneda.obj Ky ⟶ (glueingSpaceSheaf B S hS f hf hy c).o
   (existsUnique_desc_of_surjective_etale_atlas B S hS
     (isAlgebraicSpace_yoneda B S hS Ky).isSheaf (glueingFibreChart B S hS hy c)
     (isPullback_glueingFibreChart B S hS hy c) (surjective_glueingFibreChart B S hS hy c)
-    (etale_glueingFibreChart B S hS hy c) (glueingSpaceSheaf B S hS f hf hy c).cond
+    (etale_glueingFibreChart B S hS hy c) (glueingSpaceSheaf B S hS f hf hy c).property
     (glueingFibreInvariant B S hS f hf hy c)
     (glueingFibreInvariant_invariant B S hS f hf hy c)).choose
 
@@ -962,7 +973,7 @@ theorem glueingFibreChart_comp_point :
   (existsUnique_desc_of_surjective_etale_atlas B S hS
     (isAlgebraicSpace_yoneda B S hS Ky).isSheaf (glueingFibreChart B S hS hy c)
     (isPullback_glueingFibreChart B S hS hy c) (surjective_glueingFibreChart B S hS hy c)
-    (etale_glueingFibreChart B S hS hy c) (glueingSpaceSheaf B S hS f hf hy c).cond
+    (etale_glueingFibreChart B S hS hy c) (glueingSpaceSheaf B S hS f hf hy c).property
     (glueingFibreInvariant B S hS f hf hy c)
     (glueingFibreInvariant_invariant B S hS f hf hy c)).choose_spec.1
 

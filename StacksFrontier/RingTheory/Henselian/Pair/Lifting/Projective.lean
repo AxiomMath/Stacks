@@ -182,7 +182,6 @@ private theorem exists_finiteProjective_lift {R : Type u} [CommRing R] (I : Idea
         show (TensorProduct.congr qlin (LinearEquiv.refl A' P')) (c • x) =
           qe c • (TensorProduct.congr qlin (LinearEquiv.refl A' P')) x
         induction x with
-        | zero => simp
         | add x y hx hy => rw [smul_add, map_add, hx, hy, map_add, smul_add]
         | tmul x y =>
             rw [TensorProduct.smul_tmul', TensorProduct.congr_tmul,

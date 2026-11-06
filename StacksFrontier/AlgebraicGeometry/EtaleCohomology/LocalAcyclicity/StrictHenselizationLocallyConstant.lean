@@ -100,10 +100,10 @@ fibre over some `Y` along a member `g : Y ⟶ T` of the sieve; initiality gives 
 `T ⟶ Y` of elements, and its composite with `g` is the identity because `T` is terminal. -/
 theorem arrows_id_of_isInitial_point {Φ : J.Point.{w}} {T : C} (hT : IsTerminal T)
     (ξ : Φ.fiber.obj T)
-    (hinit : IsInitial (show Φ.fiber.Elements from ⟨T, ξ⟩))
+    (hinit : IsInitial (show Φ.fiber.Elements from Φ.fiber.elementsMk T ξ))
     {R : Sieve T} (hR : R ∈ J T) : R.arrows (𝟙 T) := by
   obtain ⟨Y, g, hg, y, -⟩ := Φ.jointly_surjective R hR ξ
-  have h := R.downward_closed hg (hinit.to (show Φ.fiber.Elements from ⟨Y, y⟩)).1
+  have h := R.downward_closed hg (hinit.to (show Φ.fiber.Elements from Φ.fiber.elementsMk Y y)).hom
   rwa [hT.hom_ext (_ ≫ g) (𝟙 T)] at h
 
 /-- **A locally constant sheaf is constant** on a site with a terminal object `T` which carries an
@@ -116,7 +116,7 @@ equivalence of sheaf categories. -/
 theorem isConstant_of_isLocallyConstant_of_isInitial [HasPullbacks C] (A : Type w')
     [Category.{t} A] [HasWeakSheafify J A] [∀ U : C, HasWeakSheafify (J.over U) A]
     {Φ : J.Point.{w}} {T : C} (hT : IsTerminal T) (ξ : Φ.fiber.obj T)
-    (hinit : IsInitial (show Φ.fiber.Elements from ⟨T, ξ⟩))
+    (hinit : IsInitial (show Φ.fiber.Elements from Φ.fiber.elementsMk T ξ))
     (H : Sheaf J A) (hH : IsLocallyConstant J H) : Sheaf.IsConstant J H := by
   obtain ⟨I, Y, g, hg, hc⟩ := hH.exists_cover T
   obtain ⟨i, h, -⟩ :=

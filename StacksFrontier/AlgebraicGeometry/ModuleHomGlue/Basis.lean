@@ -73,7 +73,7 @@ theorem exists_hom_of_isBasis (hB : Opens.IsBasis (Set.range B))
   refine (congrArg (ψ.app (op (B i)))
     (PresheafOfModules.map_smul M.val (homOfLE hiU).op r s)).trans ?_
   refine (hψ i _).trans ?_
-  refine (hsmul i (X.ringCatSheaf.val.map (homOfLE hiU).op r)
+  refine (hsmul i (X.ringCatSheaf.obj.map (homOfLE hiU).op r)
     (M.presheaf.map (homOfLE hiU).op s)).trans ?_
   have e7 : g i (M.presheaf.map (homOfLE hiU).op s) =
       N.presheaf.map (homOfLE hiU).op (ψ.app U s) := (hψ i _).symm.trans (hnat hiU s)

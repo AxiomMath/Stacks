@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.GeometricallyIrreducible.Criteria
+import Mathlib.Algebra.GroupWithZero.Action.Regular
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

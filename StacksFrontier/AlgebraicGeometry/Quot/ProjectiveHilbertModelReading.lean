@@ -141,7 +141,9 @@ def yReadingPushforwardStructureSheafIso {R : BigFppfOver B integerBase B.contai
   haveI : Mono (yoneda.map j) := by
     have : Mono j := (𝒯).mono_of_mono_map inferInstance
     infer_instance
-  haveI : Mono m := mono_comp _ _
+  haveI : IsIso (spaceIso' E T).hom.hom :=
+    Iso.isIso_hom ((ObjectProperty.ι _).mapIso (spaceIso' E T))
+  haveI : Mono m := mono_comp' inferInstance (IsIso.mono_of_iso (spaceIso' E T).hom.hom)
   haveI : IsIso (Subfunctor.toRange m) := inferInstance
   let φ := spaceIso' E T
   let RA : AlgebraicSpaces B integerBase B.contains_integerBase :=

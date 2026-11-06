@@ -331,7 +331,7 @@ theorem toSpacesEtaleModulesSheafIso_hom_smul (M : Modules.{u, u} B S hS Y.1 Y.2
             (smallEtaleRingedSite B S hS Y.1 Y.2)).obj M)).hom.val.app (op U)) h2).symm
   refine Eq.trans ?_ (comparisonModuleEquivalence_functor_map_smul B S hS Y _ U _ _).symm
   rw [toSpacesEtaleModulesSheafIso_hom_apply_restrict B S hS Y M U c x,
-    ULift.ext _ (ULift.up ((comparisonChartProjection B S hS Y U c).app _ a)) (hρ U c)]
+    ULift.ext (y := ULift.up ((comparisonChartProjection B S hS Y U c).app _ a)) (hρ U c)]
   exact congrArg ULift.up h1
 
 /-- **The additive structure is compatible with `ι`.** -/

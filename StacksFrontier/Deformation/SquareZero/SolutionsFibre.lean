@@ -109,7 +109,7 @@ public def baseExtension :
         have h : r.down * s.down ∈ S.I ^ 2 := pow_two S.I ▸
           Ideal.mul_mem_mul ((mem_ker_baseReduction S).1 hr) ((mem_ker_baseReduction S).1 hs)
         rw [S.sq_zero] at h
-        exact Ideal.mem_bot.2 (ULift.ext _ _ (by simpa using h))
+        exact Ideal.mem_bot.2 (ULift.ext (by simpa using h))
       toB_smul_kernel := by
         intro b' x
         apply (kernelAddEquiv S).injective

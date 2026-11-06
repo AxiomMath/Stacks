@@ -74,7 +74,8 @@ private theorem flat_specMap_algebraMap (R S : Type u) [CommRing R] [CommRing S]
 private theorem isMaximal_of_comap_eq_maximalIdeal {R S : Type*} [CommRing R] [IsLocalRing R]
     [CommRing S] [Algebra R S] [Module.Finite R S] (q : Ideal S) [q.IsPrime]
     (h : q.comap (algebraMap R S) = maximalIdeal R) : q.IsMaximal :=
-  Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := R) q (h ▸ maximalIdeal.isMaximal R)
+  Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) q
+    ((show q.under R = maximalIdeal R from h) ▸ maximalIdeal.isMaximal R)
 
 /-- **A flat quasi-section through a point closed in its fibre.** Let `f : X ⟶ S` be smooth with
 `S` locally Noetherian and let `z ∈ X` be closed in its fibre. There are a locally Noetherian

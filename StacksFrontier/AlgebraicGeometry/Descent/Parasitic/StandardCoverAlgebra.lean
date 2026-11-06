@@ -5,6 +5,7 @@ public import Mathlib.Algebra.Category.CommAlgCat.Monoidal
 public import Mathlib.AlgebraicTopology.CechNerve
 public import Mathlib.RingTheory.Localization.Away.Basic
 public import Mathlib.RingTheory.Localization.BaseChange
+public import Mathlib.RingTheory.Flat.Localization
 public import Mathlib.RingTheory.RingHom.FaithfullyFlat
 public import Mathlib.RingTheory.TensorProduct.Pi
 public import StacksFrontier.AlgebraicGeometry.Cohomology.Cech.StandardCoverVanishing

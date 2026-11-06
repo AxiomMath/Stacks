@@ -61,9 +61,10 @@ def constScalar (r : R) :
 constant global section `r` on every homogeneous piece. -/
 def scalarEnd (r : R) (M : DifferentialGradedModule.{u, a, m} A) : M ⟶ M where
   toHomologicalComplex :=
-    { f := fun n => (Stacks.SheafOfModules.globalSectionToEnd _ (constScalar r)).app (M.complex.X n)
+    { f := fun n =>
+        CatCenter.app (Stacks.SheafOfModules.globalSectionToEnd _ (constScalar r)) (M.complex.X n)
       comm' := fun _ _ _ =>
-        ((Stacks.SheafOfModules.globalSectionToEnd _ (constScalar r)).naturality _).symm }
+        (CatCenter.naturality (Stacks.SheafOfModules.globalSectionToEnd _ (constScalar r)) _).symm }
   map_mul n i U x y := ((M.mul n i).map_smul_left U ((constScalar r).val U) x y).symm
 
 /-- On sections over `U`, the `n`-th component of `scalarEnd r M` is multiplication by the
@@ -77,24 +78,24 @@ theorem scalarEnd_apply (r : R) (M : DifferentialGradedModule.{u, a, m} A) (n : 
 /-- **Multiplication by elements of `R`, as a ring homomorphism into the centre of the category of
 right differential graded `A`-modules.** -/
 def scalarCenter : R →+* CatCenter (DifferentialGradedModule.{u, a, m} A) where
-  toFun r :=
+  toFun r := .of
     { app := scalarEnd r
       naturality := fun _ _ g => Hom.ext fun n => by
         ext U x
         exact (((g.toHomologicalComplex.f n).val.app U).hom.map_smul ((constScalar r).val U)
           x).symm }
-  map_one' := NatTrans.ext <| funext fun M => Hom.ext fun n => by
+  map_one' := CatCenter.ext _ _ fun M => Hom.ext fun n => by
     ext U x
     exact one_smul ((Stacks.PresheafOfModules.constRingSheaf (C := C) R).obj.obj U) x
-  map_mul' r s := NatTrans.ext <| funext fun M => Hom.ext fun n => by
+  map_mul' r s := CatCenter.ext _ _ fun M => Hom.ext fun n => by
     ext U x
     change (constScalar (r * s)).val U • x = (constScalar r).val U • (constScalar s).val U • x
     rw [← mul_smul]
     rfl
-  map_zero' := NatTrans.ext <| funext fun M => Hom.ext fun n => by
+  map_zero' := CatCenter.ext _ _ fun M => Hom.ext fun n => by
     ext U x
     exact zero_smul ((Stacks.PresheafOfModules.constRingSheaf (C := C) R).obj.obj U) x
-  map_add' r s := NatTrans.ext <| funext fun M => Hom.ext fun n => by
+  map_add' r s := CatCenter.ext _ _ fun M => Hom.ext fun n => by
     ext U x
     exact add_smul ((constScalar r).val U) ((constScalar s).val U) x
 

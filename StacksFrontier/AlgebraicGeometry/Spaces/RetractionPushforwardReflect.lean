@@ -329,7 +329,7 @@ theorem exists_iso_retractionPushforward_map_eq (hr : IsAffineHom B S hS r.hom)
     ∃ θ : F₁ ≅ F₂, (retractionPushforward B S hS r hrep).map θ.hom = φ.hom := by
   have hφ' : ∀ v : ↥M, retractionMultiplication B S hS r hrep M ι F₂ v ≫ φ.inv =
       φ.inv ≫ retractionMultiplication B S hS r hrep M ι F₁ v := fun v => by
-    rw [← cancel_epi φ.hom, ← Category.assoc, ← hφ v, Category.assoc, Iso.hom_inv_id,
+    rw [← Iso.cancel_iso_hom_left φ, ← Category.assoc, ← hφ v, Category.assoc, Iso.hom_inv_id,
       Category.comp_id, Iso.hom_inv_id_assoc]
   obtain ⟨θ₁, h₁⟩ := exists_retractionPushforward_map_eq B S hS r hs hr hF₁ hF₂ φ.hom hφ
   obtain ⟨θ₂, h₂⟩ := exists_retractionPushforward_map_eq B S hS r hs hr hF₂ hF₁ φ.inv hφ'
@@ -411,7 +411,7 @@ theorem exists_iso_of_extensionClass_retractionCopowerExtension_eq
         retractionProjection B S hS r hrep i hi F₁ G ψ₁ ≫ ψ₁.inv := by
       rw [retractionProjection, Category.assoc, Iso.hom_inv_id, Category.comp_id]
     rw [e]
-    infer_instance
+    exact epi_comp' this (IsIso.epi_of_iso _)
   rw [eqToHom_refl, Category.id_comp]
   apply (cancel_epi (reductionMap B S hS r hrep i hi F₁)).1
   rwa [← Category.assoc, ← reductionMap_naturality]

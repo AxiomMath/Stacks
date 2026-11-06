@@ -119,7 +119,7 @@ theorem formalObjectNeighbourhoodMap_comp :
     (fun _ _ h => formalObjectAlgebraization_compatible hW hred A hA w hw h)
     (idealNeighbourhoodι _ k) (hasImageIn_formalObjectNeighbourhood hred A hA w k) (𝟙 _)
     (Category.id_comp _)).symm
-  rw [op_id, FunctorToTypes.map_id_apply]
+  rw [op_id, Functor.map_id_apply]
   rfl
 
 /-- The inclusion `Spec(R/Iᵏ⁺¹) ⟶ (Spec R)_{/V(I)}` is a monomorphism of presheaves. -/
@@ -147,7 +147,8 @@ theorem mono_formalObjectNeighbourhoodIncl (k : ℕ) :
   have h2 : (J.toSheafify Q).app T (ULift.up (a ≫ idealNeighbourhoodι _ k)) =
       (J.toSheafify Q).app T (ULift.up (b ≫ idealNeighbourhoodι _ k)) :=
     (key a).trans (h1.trans (key b).symm)
-  have h3 := (mono_iff_injective ((J.toSheafify Q).app T)).1 inferInstance h2
+  have hiso : IsIso ((J.toSheafify Q).app T) := NatIso.isIso_app_of_isIso _ T
+  have h3 := ((isIso_iff_bijective _).1 hiso).1 h2
   have h4 : a ≫ idealNeighbourhoodι _ k = b ≫ idealNeighbourhoodι _ k :=
     congrArg ULift.down h3
   exact congrArg ULift.up ((cancel_mono _).1 h4)
@@ -174,8 +175,8 @@ theorem isPullback_formalObjectCompletion (k : ℕ) :
       downward_closed := by
         rintro T' T'' h ⟨z, hz₁, hz₂⟩ g
         refine ⟨(formalObjectNeighbourhoodSheaf hred A hA w k).obj.map g.op z, ?_, ?_⟩
-        · rw [NatTrans.naturality_apply, hz₁, op_comp, FunctorToTypes.map_comp_apply]
-        · rw [NatTrans.naturality_apply, hz₂, op_comp, FunctorToTypes.map_comp_apply] }
+        · rw [NatTrans.naturality_apply, hz₁, op_comp, Functor.map_comp_apply]
+        · rw [NatTrans.naturality_apply, hz₂, op_comp, Functor.map_comp_apply] }
   refine ⟨P', mem_topology_of_affine (Presheaf.imageSieve_mem Jt (Jt.toSheafify P.toFunctor) y)
     (fun V g hV hg => ?_), fun T' h hh => hh⟩
   have := hV

@@ -212,7 +212,7 @@ variable {Z : Type u₃} [Category.{v₃} Z] {R : Zᵒᵖ ⥤ RingCat.{r}}
 underlying presheaf of abelian groups evaluated at an object. -/
 def smulPresheaf (M : PresheafOfModules.{v} R) (U : Zᵒᵖ) (s : R.obj U) :
     M.presheaf.obj U ⟶ M.presheaf.obj U :=
-  (M.obj U).smul s
+  ((M.obj U).smul s).asHom
 
 /-- The restriction maps of a presheaf of modules are semilinear. -/
 @[reassoc]
@@ -335,18 +335,26 @@ lemma ranSMul_π (V : Yᵒᵖ) (r : T.obj V) (j : StructuredArrow V w.op) :
 /-- Scalar multiplication on the direct image at `V`, as a ring map from `O_Y(V)` to the
 endomorphisms of the underlying abelian group. -/
 def ranSMulRingHom (V : Yᵒᵖ) : T.obj V →+* End ((w.op.ran.obj M.presheaf).obj V) where
-  toFun := ranSMul w ψ M V
+  toFun r := End.of (ranSMul w ψ M V r)
   map_one' := by
+    refine End.ext ?_
+    show ranSMul w ψ M V 1 = 𝟙 _
     refine ran_hom_ext w.op M.presheaf (fun j => ?_)
-    rw [ranSMul_π, End.one_def, Category.id_comp, map_one, smulPresheaf_one, Category.comp_id]
+    rw [ranSMul_π, Category.id_comp, map_one, smulPresheaf_one, Category.comp_id]
   map_mul' r r' := by
+    refine End.ext ?_
+    show ranSMul w ψ M V (r * r') = ranSMul w ψ M V r' ≫ ranSMul w ψ M V r
     refine ran_hom_ext w.op M.presheaf (fun j => ?_)
-    rw [ranSMul_π, End.mul_def, Category.assoc, ranSMul_π, ← Category.assoc, ranSMul_π,
+    rw [ranSMul_π, Category.assoc, ranSMul_π, ← Category.assoc, ranSMul_π,
       Category.assoc, map_mul, smulPresheaf_mul]
   map_zero' := by
+    refine End.ext ?_
+    show ranSMul w ψ M V 0 = 0
     refine ran_hom_ext w.op M.presheaf (fun j => ?_)
     rw [ranSMul_π, map_zero, smulPresheaf_zero, Limits.comp_zero, Limits.zero_comp]
   map_add' r r' := by
+    refine End.ext ?_
+    show ranSMul w ψ M V (r + r') = ranSMul w ψ M V r + ranSMul w ψ M V r'
     refine ran_hom_ext w.op M.presheaf (fun j => ?_)
     rw [ranSMul_π, Preadditive.add_comp, ranSMul_π, ranSMul_π, map_add, smulPresheaf_add,
       Preadditive.comp_add]

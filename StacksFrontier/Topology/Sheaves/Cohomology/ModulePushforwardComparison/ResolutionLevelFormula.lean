@@ -136,7 +136,6 @@ theorem mapHomotopyCategorySingleFunctor_hom_app (M : C₁) :
       ((singleMapHomologicalComplex T (ComplexShape.up ℤ) 0).hom.app M) ≫ 𝟙 _ ≫ 𝟙 _)
     ((T.mapHomotopyCategory (ComplexShape.up ℤ)).map_id _)) ?_
   simp only [Category.comp_id, Category.id_comp]
-  exact Category.id_comp _
 
 /-- `resolutionExtendComparison` read in the bounded below homotopy category, as the preimage
 under the fully faithful `CategoryTheory.HomotopyCategory.Plus.ι`. -/
@@ -216,13 +215,13 @@ variable {C₁ : Type*} {C₂ : Type*} [Category* C₁] [Category* C₂] [Abelia
 
 /-- **`T` commutes with placing an object in degree zero**, for a `T` whose bounded below right
 derived functor has an invertible unit, that is, an exact `T`. -/
-noncomputable def singleFunctorPlusRightDerivedIso [IsIso T.rightDerivedFunctorPlusUnit] :
+noncomputable def singleFunctorPlusRightDerivedIso [IsIso T.rightDerivedFunctorPlusUnith] :
     DerivedCategory.Plus.singleFunctor C₁ 0 ⋙ T.rightDerivedFunctorPlus ≅
       T ⋙ DerivedCategory.Plus.singleFunctor C₂ 0 :=
   Functor.isoWhiskerRight (Functor.singleFunctorPlusIsoCompQh 0)
       T.rightDerivedFunctorPlus ≪≫
     Functor.isoWhiskerLeft (HomotopyCategory.Plus.singleFunctor C₁ 0)
-      (asIso T.rightDerivedFunctorPlusUnit).symm ≪≫
+      (asIso T.rightDerivedFunctorPlusUnith).symm ≪≫
     Functor.mapSingleFunctorCompQhIso T
 
 /-- Three applications of a functor to morphisms whose composite is the identity cancel. -/
@@ -239,11 +238,11 @@ extension of `I`, transported back along
 `singleFunctorPlusRightDerivedIso` and transported forward along the corresponding isomorphism
 for `J`, is `DerivedCategory.Plus.Qh` of `resolutionExtendPlusHom`. -/
 theorem rightDerivedFunctorPlusUnit_comp_singleFunctorIso_eq
-    [IsIso T.rightDerivedFunctorPlusUnit] {M : C₁} (I : InjectiveResolution M)
+    [IsIso T.rightDerivedFunctorPlusUnith] {M : C₁} (I : InjectiveResolution M)
     (J : InjectiveResolution (T.obj M))
     (φ : (T.mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex ⟶ J.cocomplex)
     (hφ : T.map (I.ι.f 0) ≫ φ.f 0 = J.ι.f 0) :
-    T.rightDerivedFunctorPlusUnit.app
+    T.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)) ≫
         T.rightDerivedFunctorPlus.map (resolutionDerivedIso I).inv ≫
           (singleFunctorPlusRightDerivedIso T).hom.app M ≫ (resolutionDerivedIso J).hom =
@@ -256,27 +255,27 @@ theorem rightDerivedFunctorPlusUnit_comp_singleFunctorIso_eq
     rw [e, Functor.map_comp]
     infer_instance
   have hnat : DerivedCategory.Plus.Qh.map (T.mapHomotopyCategoryPlus.map g) ≫
-      T.rightDerivedFunctorPlusUnit.app
+      T.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)) =
-      T.rightDerivedFunctorPlusUnit.app
+      T.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor C₁ 0).obj M) ≫
         T.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map g) :=
-    T.rightDerivedFunctorPlusUnit.naturality g
-  have h3 : IsIso (T.rightDerivedFunctorPlusUnit.app
+    T.rightDerivedFunctorPlusUnith.naturality g
+  have h3 : IsIso (T.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C₁ 0).obj M)) :=
     NatIso.isIso_app_of_isIso _ _
-  have h5 : IsIso (T.rightDerivedFunctorPlusUnit.app
+  have h5 : IsIso (T.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I))) :=
     NatIso.isIso_app_of_isIso _ _
   have hepi : IsIso (DerivedCategory.Plus.Qh.map (T.mapHomotopyCategoryPlus.map g)) := by
     have h4 : IsIso (DerivedCategory.Plus.Qh.map (T.mapHomotopyCategoryPlus.map g) ≫
-        T.rightDerivedFunctorPlusUnit.app
+        T.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I))) := by
       rw [hnat]
       exact IsIso.comp_isIso
     exact IsIso.of_isIso_comp_right
       (DerivedCategory.Plus.Qh.map (T.mapHomotopyCategoryPlus.map g))
-      (T.rightDerivedFunctorPlusUnit.app
+      (T.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)))
   have hB : DerivedCategory.Plus.Qh.map g ≫ (resolutionDerivedIso I).inv =
       (Functor.singleFunctorPlusIsoCompQh (A := C₁) 0).inv.app M := by
@@ -290,14 +289,14 @@ theorem rightDerivedFunctorPlusUnit_comp_singleFunctorIso_eq
   have hts : (singleFunctorPlusRightDerivedIso T).hom.app M =
       T.rightDerivedFunctorPlus.map
           ((Functor.singleFunctorPlusIsoCompQh (A := C₁) 0).hom.app M) ≫
-        (asIso T.rightDerivedFunctorPlusUnit).inv.app
+        (asIso T.rightDerivedFunctorPlusUnith).inv.app
           ((HomotopyCategory.Plus.singleFunctor C₁ 0).obj M) ≫
           (Functor.mapSingleFunctorCompQhIso T).hom.app M := rfl
-  have hu : T.rightDerivedFunctorPlusUnit.app
+  have hu : T.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor C₁ 0).obj M) ≫
-      (asIso T.rightDerivedFunctorPlusUnit).inv.app
+      (asIso T.rightDerivedFunctorPlusUnith).inv.app
         ((HomotopyCategory.Plus.singleFunctor C₁ 0).obj M) = 𝟙 _ :=
-    Iso.hom_inv_id_app (asIso T.rightDerivedFunctorPlusUnit) _
+    Iso.hom_inv_id_app (asIso T.rightDerivedFunctorPlusUnith) _
   have hR : DerivedCategory.Plus.Qh.map (T.mapHomotopyCategoryPlus.map g) ≫
         DerivedCategory.Plus.Qh.map (resolutionExtendPlusHom T I J φ) =
       DerivedCategory.Plus.Qh.map (singleMapPlusHom T M) ≫
@@ -305,7 +304,7 @@ theorem rightDerivedFunctorPlusUnit_comp_singleFunctorIso_eq
     rw [← Functor.map_comp, ← singleMapPlusHom_comp_resolutionSingleQhHom T I J φ hφ,
       Functor.map_comp]
   have hL : DerivedCategory.Plus.Qh.map (T.mapHomotopyCategoryPlus.map g) ≫
-        (T.rightDerivedFunctorPlusUnit.app
+        (T.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)) ≫
           T.rightDerivedFunctorPlus.map (resolutionDerivedIso I).inv ≫
             (singleFunctorPlusRightDerivedIso T).hom.app M ≫
@@ -314,7 +313,7 @@ theorem rightDerivedFunctorPlusUnit_comp_singleFunctorIso_eq
         DerivedCategory.Plus.Qh.map (resolutionSingleQhHom J) := by
     rw [← Category.assoc, hnat, Category.assoc, hts]
     simp only [Category.assoc]
-    refine Eq.trans (congrArg (fun z ↦ T.rightDerivedFunctorPlusUnit.app
+    refine Eq.trans (congrArg (fun z ↦ T.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor C₁ 0).obj M) ≫ z)
       (map_collapse_three T.rightDerivedFunctorPlus _ _ _ hB2 _)) ?_
     rw [← Category.assoc, hu, Category.id_comp, resolutionDerivedIso_hom_eq J,
@@ -343,8 +342,8 @@ noncomputable def derivedCompositionUnitOf :
       DerivedCategory.Plus.Qh ⋙ T.rightDerivedFunctorPlus ⋙ A.rightDerivedFunctorPlus :=
   Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (T ⋙ A))).inv
       DerivedCategory.Plus.Qh ≫
-    Functor.whiskerLeft T.mapHomotopyCategoryPlus A.rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight T.rightDerivedFunctorPlusUnit A.rightDerivedFunctorPlus
+    Functor.whiskerLeft T.mapHomotopyCategoryPlus A.rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight T.rightDerivedFunctorPlusUnith A.rightDerivedFunctorPlus
 
 omit [HasDerivedCategory C₁] [HasDerivedCategory C₂] [HasDerivedCategory C₃]
   [EnoughInjectives C₁] [EnoughInjectives C₂] in
@@ -383,44 +382,44 @@ transported along the two `Stacks.Cohomology.HigherDirectImagePresheaf.resolutio
 is `DerivedCategory.Plus.Qh` of `A.mapHomotopyCategoryPlus` applied to
 `resolutionExtendPlusHom`. -/
 theorem derivedComposition_app_eq_qh_resolutionExtendPlusHom
-    [IsIso T.rightDerivedFunctorPlusUnit]
+    [IsIso T.rightDerivedFunctorPlusUnith]
     (dc : (T ⋙ A).rightDerivedFunctorPlus ⟶
       T.rightDerivedFunctorPlus ⋙ A.rightDerivedFunctorPlus)
-    (hdc : (T ⋙ A).rightDerivedFunctorPlusUnit ≫
+    (hdc : (T ⋙ A).rightDerivedFunctorPlusUnith ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh dc = derivedCompositionUnitOf T A)
     {M : C₁} (I : InjectiveResolution M) (J : InjectiveResolution (T.obj M))
     (φ : (T.mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex ⟶ J.cocomplex)
     (hφ : T.map (I.ι.f 0) ≫ φ.f 0 = J.ι.f 0) :
-    (T ⋙ A).rightDerivedFunctorPlusUnit.app
+    (T ⋙ A).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)) ≫
         (T ⋙ A).rightDerivedFunctorPlus.map (resolutionDerivedIso I).inv ≫
           dc.app ((DerivedCategory.Plus.singleFunctor C₁ 0).obj M) ≫
             A.rightDerivedFunctorPlus.map ((singleFunctorPlusRightDerivedIso T).hom.app M) ≫
               A.rightDerivedFunctorPlus.map (resolutionDerivedIso J).hom ≫
-                (asIso (A.rightDerivedFunctorPlusUnit.app
+                (asIso (A.rightDerivedFunctorPlusUnith.app
                   ((HomotopyCategory.Plus.quotient C₂).obj (resolutionCochainPlus J)))).inv =
       DerivedCategory.Plus.Qh.map
         (A.mapHomotopyCategoryPlus.map (resolutionExtendPlusHom T I J φ)) := by
   have hdcu : (derivedCompositionUnitOf T A).app
         ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)) =
-      A.rightDerivedFunctorPlusUnit.app (T.mapHomotopyCategoryPlus.obj
+      A.rightDerivedFunctorPlusUnith.app (T.mapHomotopyCategoryPlus.obj
           ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I))) ≫
-        A.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnit.app
+        A.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I))) := by
     rw [show (derivedCompositionUnitOf T A).app
           ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)) =
         DerivedCategory.Plus.Qh.map
             ((Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (T ⋙ A))).inv.app
               ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I))) ≫
-          A.rightDerivedFunctorPlusUnit.app (T.mapHomotopyCategoryPlus.obj
+          A.rightDerivedFunctorPlusUnith.app (T.mapHomotopyCategoryPlus.obj
               ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I))) ≫
-            A.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnit.app
+            A.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnith.app
               ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I)))
         from rfl, mapHomotopyCategoryPlusCompIso_inv_app_resolution]
-    exact (congrArg (fun z ↦ z ≫ A.rightDerivedFunctorPlusUnit.app
+    exact (congrArg (fun z ↦ z ≫ A.rightDerivedFunctorPlusUnith.app
           (T.mapHomotopyCategoryPlus.obj
             ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I))) ≫
-        A.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnit.app
+        A.rightDerivedFunctorPlus.map (T.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C₁).obj (resolutionCochainPlus I))))
       (DerivedCategory.Plus.Qh.map_id _)).trans (Category.id_comp _)
   rw [reassoc_of% (rightDerivedFunctorPlusUnit_comp_app_singleFunctor_obj T A dc
@@ -430,18 +429,18 @@ theorem derivedComposition_app_eq_qh_resolutionExtendPlusHom
         (resolutionDerivedIso I).inv ≫
       A.rightDerivedFunctorPlus.map ((singleFunctorPlusRightDerivedIso T).hom.app M) ≫
       A.rightDerivedFunctorPlus.map (resolutionDerivedIso J).hom ≫
-        (asIso (A.rightDerivedFunctorPlusUnit.app
+        (asIso (A.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C₂).obj (resolutionCochainPlus J)))).inv) hdcu) ?_
   refine Eq.trans (unit_collapse A.rightDerivedFunctorPlus _ _ _ _ _
     (rightDerivedFunctorPlusUnit_comp_singleFunctorIso_eq T I J φ hφ) _ _) ?_
-  have hn := A.rightDerivedFunctorPlusUnit.naturality (resolutionExtendPlusHom T I J φ)
+  have hn := A.rightDerivedFunctorPlusUnith.naturality (resolutionExtendPlusHom T I J φ)
   refine Eq.trans (Category.assoc _ _ _).symm ?_
-  refine Eq.trans (congrArg (fun z ↦ z ≫ (asIso (A.rightDerivedFunctorPlusUnit.app
+  refine Eq.trans (congrArg (fun z ↦ z ≫ (asIso (A.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient C₂).obj (resolutionCochainPlus J)))).inv) hn.symm) ?_
   refine Eq.trans (Category.assoc _ _ _) ?_
   refine Eq.trans (congrArg (fun z ↦ DerivedCategory.Plus.Qh.map
       (A.mapHomotopyCategoryPlus.map (resolutionExtendPlusHom T I J φ)) ≫ z)
-    (Iso.hom_inv_id (asIso (A.rightDerivedFunctorPlusUnit.app
+    (Iso.hom_inv_id (asIso (A.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient C₂).obj (resolutionCochainPlus J)))))) ?_
   exact Category.comp_id _
 
@@ -520,10 +519,10 @@ private theorem glue_dpts {E' : Type*} [Category* E'] {a b c d e f g h k : E'}
 `R(A ∘ T)` is `derivedCompositionUnitOf`.  Then the
 comparison `(A ∘ T).rightDerived n ≅ T ⋙ A.rightDerived n` that `dc` assembles is computed at
 `M` on the pair `(I, J)` by `φ`. -/
-theorem derivedPlusToStandard_trans_hom_app_eq [IsIso T.rightDerivedFunctorPlusUnit]
+theorem derivedPlusToStandard_trans_hom_app_eq [IsIso T.rightDerivedFunctorPlusUnith]
     (dc : (T ⋙ A).rightDerivedFunctorPlus ⟶
       T.rightDerivedFunctorPlus ⋙ A.rightDerivedFunctorPlus) [IsIso dc]
-    (hdc : (T ⋙ A).rightDerivedFunctorPlusUnit ≫
+    (hdc : (T ⋙ A).rightDerivedFunctorPlusUnith ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh dc = derivedCompositionUnitOf T A)
     (n : ℕ) {M : C₁} (I : InjectiveResolution M) (J : InjectiveResolution (T.obj M))
     (φ : (T.mapHomologicalComplex (ComplexShape.up ℕ)).obj I.cocomplex ⟶ J.cocomplex)
@@ -595,7 +594,7 @@ variable {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
 /-- The unit of the bounded below right derived functor of the forgetful functor to abelian
 sheaves is invertible. -/
 theorem isIso_toSheaf_rightDerivedFunctorPlusUnit (Z : RingedSpace.{u, u}) :
-    IsIso (SheafOfModules.toSheaf (structureSheafRing Z)).rightDerivedFunctorPlusUnit :=
+    IsIso (SheafOfModules.toSheaf (structureSheafRing Z)).rightDerivedFunctorPlusUnith :=
   Stacks.Cohomology.HigherDirectImage.isIso_rightDerivedFunctorPlusUnit _
 
 attribute [local instance] isIso_toSheaf_rightDerivedFunctorPlusUnit

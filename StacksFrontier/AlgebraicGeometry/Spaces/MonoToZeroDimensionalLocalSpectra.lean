@@ -163,7 +163,8 @@ theorem isRepresentable_of_mono_to_coproduct_spec_zeroDimensional
     F.IsRepresentable := by
   have hZ := BigFppfSite.contains_terminal B
   set g : F ⟶ yoneda.obj Y := f ≫ eG.hom with hg
-  have hgmono : Mono g := by rw [hg]; infer_instance
+  have hgmono : Mono g := by
+    rw [hg]; exact mono_comp' inferInstance (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom eG))
   -- The target scheme, and so the point space of the target, is discrete.
   have hdiscY : DiscreteTopology ((BigFppfOver.toScheme B S hS).obj Y) :=
     discreteTopology_of_iso_coproduct_spec_zeroDimensional A hlocal hdim eY
@@ -247,7 +248,10 @@ theorem isEmpty_points_or_isIso_of_mono_to_spec_field
         exact eY.trans e₀.symm)
   have := hrep
   obtain ⟨V, e, p, hp⟩ := exists_yoneda_map_eq_of_isRepresentable B S hS f Y eG
-  have hmonoyp : Mono (yoneda.map p) := by rw [hp]; infer_instance
+  have hmonoyp : Mono (yoneda.map p) := by
+    rw [hp]
+    exact mono_comp' (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom e))
+      (mono_comp' inferInstance (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_hom eG)))
   have : Mono p := yoneda.mono_of_mono_map hmonoyp
   have : Mono ((BigFppfOver.toScheme B S hS).map p) :=
     Functor.map_mono (BigFppfOver.toScheme B S hS) p

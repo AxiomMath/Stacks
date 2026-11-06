@@ -120,7 +120,7 @@ theorem frobeniusBaseChangeDerivedMap_app_Q
     rfl
   have hH : (frobeniusBaseChangeHomotopyMap.{u, r} Λ Y kbar p q hcard).app X₀ =
       DerivedCategory.Plus.Qh.map ((HomotopyCategory.Plus.quotient _).map tw) ≫
-        P.rightDerivedFunctorPlusUnit.app (i.mapHomotopyCategoryPlus.obj X₀) := by
+        P.rightDerivedFunctorPlusUnith.app (i.mapHomotopyCategoryPlus.obj X₀) := by
     rw [← hτ]
     simp only [frobeniusBaseChangeHomotopyMap, NatTrans.comp_app, Functor.whiskerRight_app,
       Functor.whiskerLeft_app, Functor.associator_hom_app, Functor.associator_inv_app,
@@ -135,7 +135,7 @@ theorem frobeniusBaseChangeDerivedMap_app_Q
   have hm := frobeniusBaseChangeDerivedMap_app_Qh.{u, r} Λ Y kbar p q hcard X₀
   have hD : frobeniusRestrictionDerivedMap.{u, r} Λ Y kbar p q hcard C =
       DerivedCategory.Plus.Q.map tw ≫ q₂.inv ≫
-        P.rightDerivedFunctorPlusUnit.app
+        P.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient _).obj (i.mapCochainComplexPlus.obj C)) ≫
         RP.map q'.hom := rfl
   rw [hmQ, hm, hι, hD, hH]

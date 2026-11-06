@@ -302,7 +302,7 @@ variable (R : Type u) [CommRing R] (G : Type v) [Group G] [TopologicalSpace G]
 /-- Each orbit map of a continuous action on a module with the discrete topology is continuous. -/
 private lemma continuous_action_apply (X : Action (ModuleCat.{w} ℤ) G)
     (hX : Action.IsContinuous X) (x : X.V) :
-    Continuous fun g : G => (forget₂ (ModuleCat.{w} ℤ) TopCat).map (X.ρ g) x :=
+    Continuous fun g : G => (forget₂ (ModuleCat.{w} ℤ) TopCat).map (X.ρ g).asHom x :=
   (continuous_prod_of_discrete_right.mp (Action.isContinuous_def X |>.mp hX)) x
 
 /-- Extension of scalars `M ↦ R ⊗[ℤ] M` along `ℤ → R`, applied to a `G`-action. -/
@@ -334,7 +334,7 @@ lemma actionExtendScalars_isContinuous (X : Action (ModuleCat.{max u v w} ℤ) G
     exact ((continuous_of_discreteTopology (f := hmap)).comp hm).congr fun _ => rfl
   | add x y hx hy =>
     refine (hx.add hy).congr fun g => Eq.symm ?_
-    exact map_add (((actionExtendScalars.{u, v, w} R G).obj X).ρ g).hom x y
+    exact map_add (((actionExtendScalars.{u, v, w} R G).obj X).ρ g).asHom.hom x y
 
 /-- Extension of scalars `M ↦ R ⊗[ℤ] M` on continuous discrete modules, the left adjoint of
 `Stacks.ContinuousCohomology.continuousModuleForget`. -/
@@ -355,13 +355,13 @@ def adjunctionMapAction {V W : Type*} [Category* V] [Category* W]
   Adjunction.mkOfHomEquiv
     { homEquiv := fun X Y =>
         { toFun := fun f => ⟨adj.homEquiv X.V Y.V f.hom,
-            fun g => (adj.homEquiv_naturality_left (X.ρ g) f.hom).symm.trans
+            fun g => (adj.homEquiv_naturality_left (X.ρ g).asHom f.hom).symm.trans
               ((congrArg (adj.homEquiv X.V Y.V) (f.comm g)).trans
-                (adj.homEquiv_naturality_right f.hom (Y.ρ g)))⟩
+                (adj.homEquiv_naturality_right f.hom (Y.ρ g).asHom))⟩
           invFun := fun f => ⟨(adj.homEquiv X.V Y.V).symm f.hom,
-            fun g => (adj.homEquiv_naturality_left_symm (X.ρ g) f.hom).symm.trans
+            fun g => (adj.homEquiv_naturality_left_symm (X.ρ g).asHom f.hom).symm.trans
               ((congrArg (adj.homEquiv X.V Y.V).symm (f.comm g)).trans
-                (adj.homEquiv_naturality_right_symm f.hom (Y.ρ g)))⟩
+                (adj.homEquiv_naturality_right_symm f.hom (Y.ρ g).asHom))⟩
           left_inv := fun _ => Action.hom_ext _ _ ((adj.homEquiv X.V Y.V).symm_apply_apply _)
           right_inv := fun _ => Action.hom_ext _ _ ((adj.homEquiv X.V Y.V).apply_symm_apply _) }
       homEquiv_naturality_left_symm := fun f g =>
@@ -402,16 +402,19 @@ action. -/
 def freeAction (X : Action (ModuleCat.{w} ℤ) G) : Action (ModuleCat.{w} ℤ) G where
   V := ModuleCat.of ℤ (X.V →₀ ℤ)
   ρ :=
-    { toFun := fun g => ModuleCat.ofHom (Finsupp.lmapDomain ℤ ℤ fun x => (X.ρ g).hom x)
+    { toFun := fun g =>
+        End.of (ModuleCat.ofHom (Finsupp.lmapDomain ℤ ℤ fun x => (X.ρ g).asHom.hom x))
       map_one' := by
+        apply End.ext
         apply ModuleCat.hom_ext
         ext f x
-        simp [Finsupp.lmapDomain_apply, X.ρ.map_one]
+        simp [Finsupp.lmapDomain_apply, X.ρ.map_one, End.one_asHom]
       map_mul' := by
         intro g h
+        apply End.ext
         apply ModuleCat.hom_ext
         ext f x
-        simp [Finsupp.lmapDomain_apply, X.ρ.map_mul, End.mul_def] }
+        simp [Finsupp.lmapDomain_apply, X.ρ.map_mul, End.mul_asHom] }
 
 /-- The augmentation of the free action on the underlying set: a formal sum of elements goes to
 its actual sum. -/
@@ -422,15 +425,15 @@ def freeActionAugmentation (X : Action (ModuleCat.{w} ℤ) G) : freeAction G X �
     apply ModuleCat.hom_ext
     ext f
     change (Finsupp.linearCombination ℤ (fun x : X.V => x))
-        ((Finsupp.lmapDomain ℤ ℤ (fun x => (X.ρ g).hom x)) f) =
-      (X.ρ g).hom ((Finsupp.linearCombination ℤ (fun x : X.V => x)) f)
+        ((Finsupp.lmapDomain ℤ ℤ (fun x => (X.ρ g).asHom.hom x)) f) =
+      (X.ρ g).asHom.hom ((Finsupp.linearCombination ℤ (fun x : X.V => x)) f)
     induction f using Finsupp.induction_linear with
     | zero => simp
     | add a b ha hb => simp only [map_add, ha, hb]
     | single a n =>
       rw [Finsupp.lmapDomain_apply, Finsupp.mapDomain_single,
         Finsupp.linearCombination_single, Finsupp.linearCombination_single]
-      exact (LinearMap.map_smul (ModuleCat.Hom.hom (X.ρ g)) n a).symm
+      exact (LinearMap.map_smul (ModuleCat.Hom.hom (X.ρ g).asHom) n a).symm
 
 /-- The free action on the underlying set of a continuous action is continuous. -/
 lemma freeAction_isContinuous (X : Action (ModuleCat.{w} ℤ) G)
@@ -443,14 +446,14 @@ lemma freeAction_isContinuous (X : Action (ModuleCat.{w} ℤ) G)
   have : DiscreteTopology ((freeAction.{v, w} G X).V : Type w) := ⟨rfl⟩
   rw [Action.isContinuous_def, continuous_prod_of_discrete_right]
   intro f
-  show Continuous fun g : G => ((freeAction.{v, w} G X).ρ g).hom f
+  show Continuous fun g : G => ((freeAction.{v, w} G X).ρ g).asHom.hom f
   induction f using Finsupp.induction_linear with
   | zero => exact continuous_const
   | add f₁ f₂ hf₁ hf₂ =>
-    exact (hf₁.add hf₂).congr fun g => (((freeAction.{v, w} G X).ρ g).hom.map_add f₁ f₂).symm
+    exact (hf₁.add hf₂).congr fun g => (((freeAction.{v, w} G X).ρ g).asHom.hom.map_add f₁ f₂).symm
   | single x n =>
     have hs : Continuous fun g : G =>
-        (Finsupp.single ((X.ρ g).hom x) n : (freeAction.{v, w} G X).V) :=
+        (Finsupp.single ((X.ρ g).asHom.hom x) n : (freeAction.{v, w} G X).V) :=
       (continuous_of_discreteTopology (f := fun y : X.V => (Finsupp.single y n : X.V →₀ ℤ))).comp
         (continuous_action_apply.{v, w} G X hX x)
     exact hs.congr fun g => (Finsupp.mapDomain_single (M := ℤ)).symm
@@ -597,14 +600,14 @@ variable (G : Type v) [Group G] [TopologicalSpace G]
 
 /-- `ℤ` with the trivial `G`-action, as a continuous discrete `G`-module. -/
 def trivialIntegerModule : ContinuousGModule.{v, w} G :=
-  ⟨⟨Action.trivial G (ModuleCat.of.{w} ℤ (ULift.{w} ℤ)), by
-      rw [Action.isContinuous_def, continuous_prod_of_discrete_right]
-      exact fun _ => continuous_const⟩, ⟨rfl⟩⟩
+  ⟨⟨Action.trivial G (ModuleCat.of.{w} ℤ (ULift.{w} ℤ)),
+      (Action.isContinuous_def _).2
+        (continuous_prod_of_discrete_right.2 fun _ => continuous_const)⟩, ⟨rfl⟩⟩
 
 /-- An invariant vector is fixed by every group element. -/
 lemma rho_apply_invariant {M : ContinuousGModule.{v, w} G}
     (x : (continuousGModuleInvariants.{v, w} G).obj M) (g : G) :
-    (M.obj.obj.ρ g).hom x.val = x.val := x.property g
+    (M.obj.obj.ρ g).asHom.hom x.val = x.val := x.property g
 
 /-- The morphism of continuous discrete `G`-modules out of the trivial module `ℤ` given by
 multiplication by an invariant vector. -/
@@ -614,7 +617,7 @@ def invariantHom {M : ContinuousGModule.{v, w} G}
   ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ModuleCat.ofHom (uliftIntSpan (M.obj.obj.V : Type w) x.val)
       comm := fun g => ModuleCat.hom_ext (LinearMap.ext fun n =>
-        (uliftIntSpan_fixed (M.obj.obj.V : Type w) (M.obj.obj.ρ g).hom x.val
+        (uliftIntSpan_fixed (M.obj.obj.V : Type w) (M.obj.obj.ρ g).asHom.hom x.val
           (rho_apply_invariant G x g) n).symm) })
 
 /-- The invariants of a continuous discrete `G`-module `M` are additively equivalent to the

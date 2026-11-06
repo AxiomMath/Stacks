@@ -316,7 +316,7 @@ private lemma exists_polynomialDerivation
     (M : PresheafOfModules.{w}
       (polynomialPresheaf J A E ⋙ forget₂ CommRingCat RingCat))
     (f : E ⟶ M.presheaf ⋙ forget AddCommGrpCat) :
-    ∃ D : M.Derivation' (polynomialCoefficientMap J A E),
+    ∃ D : PresheafOfModulesOfCommRing.Derivation' M (polynomialCoefficientMap J A E),
       ∀ (X : Cᵒᵖ) (e : E.obj X), D.d (MvPolynomial.X e) = f.app X e := by
   let d (X : Cᵒᵖ) := polynomialDerivationComponent (A.obj.obj X) (E.obj X)
     (M.obj X) (f.app X)
@@ -354,7 +354,7 @@ private lemma exists_polynomialDerivation
       refine Eq.trans ?_ (map_add (ConcreteCategory.hom (M.map g)) _ _).symm
       exact congrArg₂ (· + ·) (PresheafOfModules.map_smul M g p _).symm
         (PresheafOfModules.map_smul M g (MvPolynomial.X e) _).symm
-  exact ⟨PresheafOfModules.Derivation'.mk d (fun {X Y} g x => hn g x), hX⟩
+  exact ⟨PresheafOfModulesOfCommRing.Derivation'.mk d (fun {X Y} g x => hn g x), hX⟩
 
 
 /-- A derivation with values in a sheaf of modules, defined on a presheaf of rings which is
@@ -370,9 +370,9 @@ private lemma exists_derivation_of_locallyBijective
     (a : S ⟶ P) (α : P ⟶ Q.obj)
     [Presheaf.IsLocallySurjective J α] [Presheaf.IsLocallyInjective J α]
     (M : _root_.SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Q))
-    (D : ((PresheafOfModules.restrictScalars
-      (Functor.whiskerRight α (forget₂ CommRingCat RingCat))).obj M.val).Derivation' a) :
-    ∃ D' : M.val.Derivation' (a ≫ α),
+    (D : PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.restrictScalars
+      (Functor.whiskerRight α (forget₂ CommRingCat RingCat))).obj M.val) a) :
+    ∃ D' : PresheafOfModulesOfCommRing.Derivation' M.val (a ≫ α),
       ∀ (X : Cᵒᵖ) (x : P.obj X), D'.d (α.app X x) = D.d x := by
   let alphaAdd := Functor.whiskerRight α
     (forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat)
@@ -440,7 +440,7 @@ private lemma freeAlgebraSheafDerivation_ext
       ((toSheafification J CommRingCat.{w}).app (polynomialPresheaf J A E))]
     (M : _root_.SheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (freeAlgebraSheaf J A E)))
-    (D₁ D₂ : M.val.Derivation' (freeAlgebraSheafCoefficientMap J A E).hom)
+    (D₁ D₂ : PresheafOfModulesOfCommRing.Derivation' M.val (freeAlgebraSheafCoefficientMap J A E).hom)
     (h : ∀ (X : Cᵒᵖ) (e : E.obj X),
       D₁.d (((toSheafification J CommRingCat.{w}).app
         (polynomialPresheaf J A E)).app X (MvPolynomial.X e)) =
@@ -497,8 +497,9 @@ variable (N : _root_.SheafOfModules.{max w u v}
 of `A[E]` over `A` with values in it. -/
 private noncomputable def tensorHomEquivDerivation :
     ((presentationConormalSequence.{v, u, max w u v, w} J A B a E α).X₂ ⟶ N) ≃
-      ((_root_.SheafOfModules.pushforward (underlyingRingHomForPullback J
-        (freeAlgebraSheaf J A E) B (presentation J A B a E α))).obj N).val.Derivation'
+      PresheafOfModulesOfCommRing.Derivation'
+        ((_root_.SheafOfModules.pushforward (underlyingRingHomForPullback J
+          (freeAlgebraSheaf J A E) B (presentation J A B a E α))).obj N).val
           (freeAlgebraSheafCoefficientMap J A E).hom :=
   (tensorDifferentialsIso.{v, u, max w u v, w} J A (freeAlgebraSheaf J A E) B
       (freeAlgebraSheafCoefficientMap J A E) (presentation J A B a E α)).homFromEquiv.trans
@@ -565,7 +566,7 @@ private lemma exists_tensorHom_on_generators
       (Functor.whiskerRight η (forget₂ CommRingCat RingCat))).obj M.val) g
   obtain ⟨D, hD⟩ := exists_derivation_of_locallyBijective J
     (polynomialCoefficientMap J A E) η M D₀
-  let D' : M.val.Derivation' (freeAlgebraSheafCoefficientMap J A E).hom := D
+  let D' : PresheafOfModulesOfCommRing.Derivation' M.val (freeAlgebraSheafCoefficientMap J A E).hom := D
   refine ⟨(tensorHomEquivDerivation.{v, u, w} J A B a E α N).symm D', fun X e => ?_⟩
   have hEq : tensorHomEquivDerivation.{v, u, w} J A B a E α N
       ((tensorHomEquivDerivation.{v, u, w} J A B a E α N).symm D') = D' :=

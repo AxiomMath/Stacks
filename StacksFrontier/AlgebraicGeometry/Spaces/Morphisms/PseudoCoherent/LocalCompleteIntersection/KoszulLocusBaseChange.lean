@@ -76,6 +76,9 @@ open CategoryTheory CategoryTheory.Limits
 
 universe u
 
+-- Lean v4.35.0: `HasLimit (cospan _ _)` in presheaf categories exceeds the default budget.
+set_option synthInstance.maxHeartbeats 200000
+
 namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -111,6 +114,7 @@ private theorem locallyOfFiniteType_of_comp_eq_of_lfp {X Y Z : Scheme.{u}} (g : 
     infer_instance
   exact _root_.AlgebraicGeometry.locallyOfFiniteType_of_comp g h
 
+set_option maxHeartbeats 1000000 in
 /-- **The Koszul locus commutes with base change.** In a commutative triangle of algebraic
 spaces over `S` with `p : X ⟶ Z` and `q : Y ⟶ Z` flat and locally of finite presentation, the
 set of points at which the base change of `f : X ⟶ Y` along an arbitrary `z : Z' ⟶ Z` is Koszul

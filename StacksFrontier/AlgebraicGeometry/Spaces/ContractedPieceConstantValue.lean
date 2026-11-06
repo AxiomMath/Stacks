@@ -69,6 +69,13 @@ attribute [local instance] pointTopology
 variable (k : Type u) [Field k] (B : BigFppfSite.{u})
   (hk : B.Contains (Spec (CommRingCat.of k)))
 
+/-- Shortcut instance: instance search for products of presheaves on the big fppf site times
+out in Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_contractedPieceConstantValue
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 /-- **The base, read as an algebraic space over itself, is locally Noetherian**: it is
 represented by the identity of `Spec k` in the site, and the spectrum of a field is locally
 Noetherian. -/

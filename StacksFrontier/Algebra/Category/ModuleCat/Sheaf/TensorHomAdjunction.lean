@@ -159,6 +159,7 @@ section Displayed
 
 variable (G H : _root_.SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf R))
 
+set_option maxHeartbeats 1600000 in
 /-- **Stacks 03EO, sheaf case, in the handedness Stacks 03EO displays.** Tensoring on the right
 by `G` is left adjoint to the internal-Hom functor with source `G`.
 

@@ -111,7 +111,7 @@ end DiffOp
 
 namespace PresheafOfModules
 
-open DifferentialsConstruction
+open PresheafOfModulesOfCommRing.DifferentialsConstruction
 
 variable {C : Type u} [Category.{v} C] {R R' : Cᵒᵖ ⥤ CommRingCat.{w}} (φ : R ⟶ R')
 
@@ -206,7 +206,7 @@ statement of Tag 0G34. -/
 theorem deRhamGlobalOp_commutator_smul_comparison (p : ℕ) (U : (Opens X.carrier)ᵒᵖ)
     (g r : X.sheaf.obj.obj U)
     (z : (PresheafOfModules.extPow.{u, u, u, u} p
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)).obj U) :
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)).obj U) :
     deRhamGlobalOp B p U (g • r • (exactWedgeComparison B p).app U z) -
         g • deRhamGlobalOp B p U (r • (exactWedgeComparison B p).app U z) =
       r • (deRhamGlobalOp B p U (g • (exactWedgeComparison B p).app U z) -

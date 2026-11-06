@@ -126,7 +126,7 @@ theorem isTildeModelOnAnyModel_topTildeComplex
         ((Scheme.Modules.restrictFunctorComp (⊤ : S.Opens).ι (Scheme.topIso S).inv).symm ≪≫
           Scheme.Modules.restrictFunctorCongr h ≪≫ Scheme.Modules.restrictFunctorId) ≪≫
       Functor.rightUnitor _
-  exact ⟨(Functor.mapDerivedCategoryCompIso e).app ω⟩
+  exact ⟨(Functor.mapDerivedCategoryCompIsoOfCompIso e).app ω⟩
 
 /-- **A normalized dualizing complex over the global sections of an affine base, with its sheaf
 model.** Let `S` be affine and locally Noetherian with `Γ(S, ⊤)` local, and let `ω₀` be a

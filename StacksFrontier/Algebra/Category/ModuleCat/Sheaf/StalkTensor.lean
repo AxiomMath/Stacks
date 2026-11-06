@@ -207,7 +207,7 @@ lemma exists_germ_relation (Φ : J.Point.{w}) {R : Cᵒᵖ ⥤ RingCat.{w}} (M :
     ∃ (V : C) (v : Φ.fiber.obj V) (a : Fin l → R.obj (op V)) (s : Fin l → M.obj (op V)),
       (∀ i, Φ.toPresheafFiber V v R (a i) = b i) ∧
         (∀ i, toPresheafModuleFiber Φ M V v (s i) = y i) ∧ ∑ i, a i • s i = 0 := by
-  obtain ⟨⟨X₀, x₀⟩⟩ := IsCofiltered.nonempty (C := Φ.fiber.Elements)
+  obtain ⟨@⟨X₀, x₀⟩⟩ := IsCofiltered.nonempty (C := Φ.fiber.Elements)
   obtain ⟨U₁, x₁, -, -, s₁, hs₁⟩ := exists_toPresheafModuleFiber_family Φ M X₀ x₀ y
   obtain ⟨U, x, g, hg, a, ha⟩ := exists_toPresheafFiber_family Φ R U₁ x₁ b
   have hs : ∀ i, toPresheafModuleFiber Φ M U x (M.restrictₛₗ g.op (s₁ i)) = y i := fun i =>

@@ -369,7 +369,7 @@ private theorem derived_single_hom_subsingleton_of_projective
   have : K.IsKProjective := CochainComplex.isKProjective_of_projective K i
   have : Subsingleton (K ⟶ L) := by
     refine ⟨fun a b => ?_⟩
-    ext n
+    refine HomologicalComplex.hom_ext _ _ fun n => ?_
     by_cases hn : n = i
     · subst n
       exact (HomologicalComplex.isZero_single_obj_X (.up ℤ) j F i hij).eq_of_tgt _ _
@@ -485,7 +485,7 @@ private def mappedInjectiveResolutionHomologyIso
       ((HomotopyCategory.quotient_map_mem_quasiIso_iff s).2 (by change QuasiIso s; infer_instance))
   have : IsIso (DerivedCategory.Plus.Qh.map sp') := by simpa [sp', hP] using hq
   have : ∀ i, Injective (hp.obj.as.X i) := fun i => inferInstanceAs (Injective (L.X i))
-  have : IsIso (G.rightDerivedFunctorPlusUnit.app hp) := by infer_instance
+  have : IsIso (G.rightDerivedFunctorPlusUnith.app hp) := by infer_instance
   refine ((DerivedCategory.homologyFunctorFactors D n).app
     ((G.mapHomologicalComplex _).obj L)).symm ≪≫ ?_
   refine (DerivedCategory.homologyFunctor D n).mapIso
@@ -496,7 +496,7 @@ private def mappedInjectiveResolutionHomologyIso
         ((G.mapHomotopyCategoryFactors (ComplexShape.up ℤ)).app L) ≪≫
       (DerivedCategory.quotientCompQhIso D).app ((G.mapHomologicalComplex _).obj L)).symm) ≪≫ ?_
   exact (DerivedCategory.Plus.homologyFunctor D n).mapIso
-    ((asIso (G.rightDerivedFunctorPlusUnit.app hp)) ≪≫
+    ((asIso (G.rightDerivedFunctorPlusUnith.app hp)) ≪≫
       (G.rightDerivedFunctorPlus.mapIso
         ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).app A ≪≫
           asIso (DerivedCategory.Plus.Qh.map sp'))).symm)

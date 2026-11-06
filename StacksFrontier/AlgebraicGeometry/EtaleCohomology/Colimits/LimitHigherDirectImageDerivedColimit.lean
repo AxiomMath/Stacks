@@ -120,7 +120,7 @@ instance isIso_smallEtaleComplexPullbackComparison_id (a : ℤ) {X Y : Scheme.{u
     [CochainComplex.IsStrictlyGE
       (((smallEtalePullbackAb f).mapHomologicalComplex (ComplexShape.up ℤ)).obj G) a] :
     IsIso (smallEtaleComplexPullbackComparison a f G _ (𝟙 _)) := by
-  letI : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit :=
+  letI : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb f).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have : IsIso (ObjectProperty.homMk ((HomotopyCategory.quotient _ _).map
       (𝟙 (((smallEtalePullbackAb f).mapHomologicalComplex (ComplexShape.up ℤ)).obj G))) :

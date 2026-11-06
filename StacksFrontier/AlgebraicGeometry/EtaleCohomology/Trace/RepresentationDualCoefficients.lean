@@ -198,6 +198,7 @@ variable [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.1 T.property),
     (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
   {k : Type u} [Field k] [Finite k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The geometric Frobenius at a closed point `y` acts on the stalks of `ℱ_{ρ₀^∨}` and of
 `ℱ_{ρ^∨}` with the same characteristic polynomial**, that of `ρ^∨(F_y)`. -/
 public theorem LAdicSheaf.charpoly_rationalStalkFrobenius_representationDualSheaf

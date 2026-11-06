@@ -51,7 +51,7 @@ private lemma epi_productDifference_of_finite {R : Type u} [Ring R]
   -- `Pi.lift _ ≫ Pi.π X n`, which `rw` cannot see past.
   have hd : (Pi.π X n).hom ((Pi.lift (fun n => Pi.π X n - Pi.π X (n + 1) ≫ t n)).hom x) =
       (Pi.π X n - Pi.π X (n + 1) ≫ t n).hom x :=
-    congrArg (fun f => f.hom x) (Pi.lift_π (fun n => Pi.π X n - Pi.π X (n + 1) ≫ t n) n)
+    congrArg (fun f => f.hom x) (Pi.lift_comp_π (fun n => Pi.π X n - Pi.π X (n + 1) ≫ t n) n)
   rw [hd]
   show (Pi.π X n).hom x - (t n).hom ((Pi.π X (n + 1)).hom x) = _
   dsimp only [x]
@@ -100,8 +100,8 @@ private lemma productDifference_comm {C : Type*} [Category C] [Preadditive C]
   dsimp only
   apply Pi.hom_ext
   intro n
-  simp only [Category.assoc, Pi.map_π, Pi.lift_π, Preadditive.comp_sub]
-  rw [← Category.assoc, Pi.lift_π, Preadditive.sub_comp,
+  simp only [Category.assoc, Pi.map_π, Pi.lift_comp_π, Preadditive.comp_sub]
+  rw [← Category.assoc, Pi.lift_comp_π, Preadditive.sub_comp,
     Category.assoc, η.naturality, Pi.map_π_assoc]
 
 

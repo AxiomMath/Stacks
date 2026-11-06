@@ -356,7 +356,7 @@ theorem ideal_ker_vectorBundleZeroSection_comp_toCompletion [IsLocallyNoetherian
         congrArg (fun g => g p) hψ]
       exact ⟨fun h => hCinj (h.trans (map_zero _).symm), fun h => by rw [h, map_zero]⟩
     rw [RingHom.mem_ker, e1, ← Set.image_univ, MvPolynomial.mem_ideal_span_X_image]
-    change MvPolynomial.coeff 0 p = 0 ↔ _
+    change p.coeff 0 = 0 ↔ _
     constructor
     · intro hp m hm
       have hm0 : m ≠ 0 := by

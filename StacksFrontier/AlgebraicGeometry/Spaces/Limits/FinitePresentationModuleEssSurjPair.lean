@@ -40,6 +40,13 @@ variable {I : Type u} [Category.{u} I] [IsCofiltered I]
   (hL : HasSiteLimit B S hS D)
   (hD : ∀ i, IsAlgebraicSpace B S hS (D.obj i))
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FinitePresentationModuleEssSurjPair
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 omit [IsCofiltered I] in
 /-- The relation between a morphism on a stage of a system of base changes and a morphism on
 the limit, read through `homConjLInv` as a relation between morphisms of inverse images of one

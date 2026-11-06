@@ -3,6 +3,7 @@ module
 public import Mathlib.CategoryTheory.Abelian.Injective.Ext
 public import Mathlib.CategoryTheory.Abelian.Injective.Resolution
 public import Mathlib.CategoryTheory.Abelian.Projective.Dimension
+public import Mathlib.CategoryTheory.Abelian.Refinements
 public import Mathlib.CategoryTheory.Sites.EpiMono
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.MayerVietoris
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ZariskiRefinement

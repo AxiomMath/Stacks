@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughProjectives
 public import StacksFrontier.AlgebraicGeometry.Adequate.AdequateFunctors.Descent
 public import StacksFrontier.AlgebraicGeometry.Adequate.AdequateFunctors.Restriction
 public import StacksFrontier.AlgebraicGeometry.Adequate.HigherExtsAdequate.Basic

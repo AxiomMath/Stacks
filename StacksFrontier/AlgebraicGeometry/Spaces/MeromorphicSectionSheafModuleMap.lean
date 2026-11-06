@@ -82,7 +82,7 @@ def meromorphicSectionPresheafMap (φ : M ⟶ N) :
     (Functor.whiskerRight
       ((PresheafOfModules.toPresheaf _).map (meromorphicSectionModuleMap B S hS F hF φ))
       AddCommGrpCat.uliftFunctor.{u + 1})
-    fun X r m => ULift.ext _ _ <|
+    fun X r m => ULift.ext <|
       ((meromorphicSectionModuleMap B S hS F hF φ).app X).hom.map_smul r m.down
 
 /-- Extension of scalars along `𝒪_F ⟶ 𝒦_F` is compatible with composition. -/

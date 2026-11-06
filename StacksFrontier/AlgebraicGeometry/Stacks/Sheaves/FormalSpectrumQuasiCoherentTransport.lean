@@ -86,7 +86,7 @@ def SmallIsStage : ObjectProperty (AsSmall.{max (u + 1) t} (formalSpectrumAffine
 theorem subsingleton_hom_smallStage (Y Z : AsSmall.{max (u + 1) t} (formalSpectrumAffine D))
     (hZ : SmallIsStage.{t} D hA hI Z) : Subsingleton (Y ⟶ Z) := by
   obtain ⟨n, hn⟩ := hZ
-  refine ⟨fun f g => ULift.ext _ _ ?_⟩
+  refine ⟨fun f g => ULift.ext ?_⟩
   have : Subsingleton (AsSmall.down.obj Y ⟶ AsSmall.down.obj Z) := by
     rw [show AsSmall.down.obj Z = stage D hA hI n from hn]
     infer_instance

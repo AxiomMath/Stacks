@@ -78,7 +78,7 @@ theorem isLocalHom_of_isIntegral [IsLocalRing R] [IsLocalRing C]
       rw [hcomp, maximalIdeal_comap (algebraMap R C)]
       exact maximalIdeal.isMaximal R
     exact eq_maximalIdeal
-      (Ideal.isMaximal_of_isIntegral_of_isMaximal_comap
+      (Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R)
         ((maximalIdeal C).comap (g : E →+* C)) hR)
   exact ((local_hom_TFAE (g : E →+* C)).out 5 1 rfl rfl).mp hcomap
 

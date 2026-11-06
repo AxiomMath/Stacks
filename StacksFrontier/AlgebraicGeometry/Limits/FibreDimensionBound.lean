@@ -6,7 +6,8 @@ public import Mathlib.AlgebraicGeometry.Fiber
 public import Mathlib.AlgebraicGeometry.Morphisms.Affine
 public import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 public import Mathlib.AlgebraicGeometry.Noetherian
-public import Mathlib.Data.ENat.SuccOrder
+public import Mathlib.Order.SuccPred.ENat
+public import Mathlib.CategoryTheory.Limits.Constructions.EventuallyConstant
 public import Mathlib.RingTheory.KrullDimension.Polynomial
 public import StacksFrontier.AlgebraicGeometry.FibreDimensionBaseChange.Basic
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FibreDimension.Openness

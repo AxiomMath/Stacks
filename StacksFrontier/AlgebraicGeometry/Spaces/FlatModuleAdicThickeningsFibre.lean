@@ -464,6 +464,14 @@ open CategoryTheory.Limits
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on the big fppf site over `Spec A` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FlatModuleAdicThickeningsFibre
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (A : Type u) [CommRing A] (I : Ideal A) (B : BigFppfSite.{u})
   (hA : B.Contains (Spec (.of A)))
 

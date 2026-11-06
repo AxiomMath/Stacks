@@ -169,13 +169,13 @@ private theorem exists_baseChange_factorization {R : Type u} {S : Type w} {M : T
   have hts : IsScalarTower R S (Shrink.{v} (S ⊗[R] P)) :=
     IsScalarTower.of_algebraMap_smul fun r x => by
       apply (Shrink.linearEquiv S (S ⊗[R] P)).injective
-      simp [Shrink.linearEquiv, algebraMap_smul]
+      simp [algebraMap_smul]
   have hfp : Module.FinitePresentation S (Shrink.{v} (S ⊗[R] P)) :=
     (LinearEquiv.finitePresentation_iff (Shrink.linearEquiv S (S ⊗[R] P))).mpr inferInstance
   exact ⟨Shrink.{v} (S ⊗[R] P), inferInstance, inferInstance, inferInstance, hts, hfp,
     (Shrink.linearEquiv R (S ⊗[R] P)).symm.toLinearMap ∘ₗ TensorProduct.mk R S P 1,
     (LinearMap.liftBaseChange S f) ∘ₗ (Shrink.linearEquiv S (S ⊗[R] P)).toLinearMap,
-    by ext p; simp [Shrink.linearEquiv]⟩
+    by ext p; simp⟩
 
 public theorem solution {R : Type u} {S : Type w} {M : Type v} [CommRing R]
     [CommRing S] [Algebra R S] [Small.{v} R] [Module.FinitePresentation R S] [AddCommGroup M]

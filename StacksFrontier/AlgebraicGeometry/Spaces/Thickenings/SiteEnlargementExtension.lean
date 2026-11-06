@@ -238,7 +238,7 @@ theorem exists_section_of_transported
     (hF _ ((chartTransport_isCoverDense B B' h S hS X).is_cover U')) hcompat n
     (Presieve.in_coverByImage _ n)
   have e := hrestr n (Presieve.in_coverByImage _ n) U₃ (𝟙 _)
-  exact hv.trans ((FunctorToTypes.map_id_apply F'.obj _).symm.trans
+  exact hv.trans ((F'.obj.map_id_apply _ _).symm.trans
     (e.trans (congrArg (x U₃) (Category.id_comp n))))
 
 end GlueTransported
@@ -263,7 +263,8 @@ sheaf, through the given inclusion `ℐ ⟶ 𝒜`. -/
 def restrictedInclusion :
     (restrictSheaf h hS' X).obj (transportISet h hS' E) ⟶
       (restrictSheaf h hS' X).obj (transportASet h hS' E) :=
-  ⟨{ app := fun U => TypeCat.ofHom fun z =>
+  ObjectProperty.homMk
+   { app := fun U => TypeCat.ofHom fun z =>
         (transportAIso h hS' E).inv.hom.app U (E.ι U ((transportIIso h hS' E).hom.val.app U z))
      naturality := fun U V g => by
        apply TypeCat.homEquiv.injective
@@ -271,7 +272,7 @@ def restrictedInclusion :
        change (transportAIso h hS' E).inv.hom.app V (E.ι V
           ((transportIIso h hS' E).hom.val.app V ((transportI h hS' E).val.map
             ((chartTransport B B' h S hS X).map g.unop).op z))) =
-        (transportA h hS' E).val.map ((chartTransport B B' h S hS X).map g.unop).op
+        (transportA h hS' E).obj.map ((chartTransport B B' h S hS X).map g.unop).op
           ((transportAIso h hS' E).inv.hom.app U (E.ι U ((transportIIso h hS' E).hom.val.app U z)))
        have e1 := PresheafOfModules.naturality_apply (transportIIso h hS' E).hom.val g z
        have e2 := NatTrans.naturality_apply (transportAIso h hS' E).inv.hom g
@@ -279,7 +280,7 @@ def restrictedInclusion :
        refine (congrArg (fun w => (transportAIso h hS' E).inv.hom.app V (E.ι V w)) e1).trans ?_
        refine (congrArg (fun w => (transportAIso h hS' E).inv.hom.app V w)
          (E.naturality g _)).trans ?_
-       exact e2 }⟩
+       exact e2 }
 
 /-- The transported inclusion, as a morphism of sheaves of sets on the small étale site of
 `X'`. -/
@@ -303,7 +304,7 @@ section Elementwise
 variable (U₃ : Space.SmallEtale B S hS X.obj)
 
 /-- `transportAIso` followed by its inverse is the identity, on sections over a chart of `X`. -/
-theorem transportAIso_hom_inv_apply (a : E.A.val.obj (op U₃)) :
+theorem transportAIso_hom_inv_apply (a : E.A.obj.obj (op U₃)) :
     (transportAIso h hS' E).hom.hom.app (op U₃)
       ((transportAIso h hS' E).inv.hom.app (op U₃) a) = a :=
   congrArg (fun m => m.hom.app (op U₃) a) (transportAIso h hS' E).inv_hom_id
@@ -311,7 +312,7 @@ theorem transportAIso_hom_inv_apply (a : E.A.val.obj (op U₃)) :
 /-- The inverse of `transportAIso` followed by `transportAIso` is the identity, on sections over a
 transported chart. -/
 theorem transportAIso_inv_hom_apply
-    (w : (transportA h hS' E).val.obj (op ((chartTransport B B' h S hS X).obj U₃))) :
+    (w : (transportA h hS' E).obj.obj (op ((chartTransport B B' h S hS X).obj U₃))) :
     (transportAIso h hS' E).inv.hom.app (op U₃)
       ((transportAIso h hS' E).hom.hom.app (op U₃) w) = w :=
   congrArg (fun m => m.hom.app (op U₃) w) (transportAIso h hS' E).hom_inv_id
@@ -332,7 +333,7 @@ theorem transportIIso_inv_hom_apply
 
 /-- The transported surjection on a transported chart. -/
 theorem transportπ_app
-    (w : (transportA h hS' E).val.obj (op ((chartTransport B B' h S hS X).obj U₃))) :
+    (w : (transportA h hS' E).obj.obj (op ((chartTransport B B' h S hS X).obj U₃))) :
     (transportπ h hS' E).hom.app (op ((chartTransport B B' h S hS X).obj U₃)) w =
       E.π.hom.app (op U₃) ((transportAIso h hS' E).hom.hom.app (op U₃) w) :=
   congrArg (fun m => m.hom.app (op U₃) w) (map_transportπ h hS' E)
@@ -367,29 +368,29 @@ theorem transportInclusionSet_injective (U₃ : Space.SmallEtale B S hS X.obj) :
 theorem transportInclusionSet_naturality {V W : (Space.SmallEtale B' S hS'
       ((changeBigSite B B' h S hS).obj X).obj)ᵒᵖ} (g : V ⟶ W) (z : (transportI h hS' E).val.obj V) :
     (transportInclusionSet h hS' E).hom.app W ((transportI h hS' E).val.map g z) =
-      (transportA h hS' E).val.map g ((transportInclusionSet h hS' E).hom.app V z) :=
+      (transportA h hS' E).obj.map g ((transportInclusionSet h hS' E).hom.app V z) :=
   NatTrans.naturality_apply (transportInclusionSet h hS' E).hom g z
 
 /-- The transported inclusion, as a homomorphism of abelian groups on sections. -/
 def transportι (V : (Space.SmallEtale B' S hS' ((changeBigSite B B' h S hS).obj X).obj)ᵒᵖ) :
-    (transportI h hS' E).val.obj V →+ (transportA h hS' E).val.obj V where
+    (transportI h hS' E).val.obj V →+ (transportA h hS' E).obj.obj V where
   toFun := (transportInclusionSet h hS' E).hom.app V
   map_zero' := by
     refine section_ext (F' := transportASet h hS' E) fun U₃ n => ?_
-    change (transportA h hS' E).val.map n.op _ = (transportA h hS' E).val.map n.op 0
+    change (transportA h hS' E).obj.map n.op _ = (transportA h hS' E).obj.map n.op 0
     refine (transportInclusionSet_naturality h hS' E n.op 0).symm.trans ?_
     refine (congrArg _ (map_zero ((transportI h hS' E).val.map n.op).hom)).trans ?_
     refine (transportInclusionSet_app h hS' E U₃ 0).trans ?_
-    refine Eq.trans ?_ (map_zero ((transportA h hS' E).val.map n.op).hom).symm
+    refine Eq.trans ?_ (map_zero ((transportA h hS' E).obj.map n.op).hom).symm
     refine (congrArg (ConcreteCategory.hom ((transportAIso h hS' E).inv.hom.app (op U₃)))
       ((congrArg (E.ι (op U₃)) (map_zero (ConcreteCategory.hom
         ((transportIIso h hS' E).hom.val.app (op U₃))))).trans (map_zero (E.ι (op U₃))))).trans ?_
     exact map_zero _
   map_add' z₁ z₂ := by
     refine section_ext (F' := transportASet h hS' E) fun U₃ n => ?_
-    change (transportA h hS' E).val.map n.op _ = (transportA h hS' E).val.map n.op (_ + _)
+    change (transportA h hS' E).obj.map n.op _ = (transportA h hS' E).obj.map n.op (_ + _)
     refine (transportInclusionSet_naturality h hS' E n.op _).symm.trans ?_
-    refine Eq.trans ?_ (map_add ((transportA h hS' E).val.map n.op).hom _ _).symm
+    refine Eq.trans ?_ (map_add ((transportA h hS' E).obj.map n.op).hom _ _).symm
     refine Eq.trans ?_ (congrArg₂ (· + ·) (transportInclusionSet_naturality h hS' E n.op z₁)
       (transportInclusionSet_naturality h hS' E n.op z₂))
     refine (congrArg _ (map_add ((transportI h hS' E).val.map n.op).hom z₁ z₂)).trans ?_
@@ -429,8 +430,8 @@ theorem transport_mem_kernel
     (transportπ h hS' E).hom.app V (transportι h hS' E V z) = 0 := by
   refine section_ext (F' := structureSet' h hS') fun U₃ n => ?_
   show (Space.smallEtaleRingedTopos B' S hS'
-      ((changeBigSite B B' h S hS).obj X)).O.val.map n.op _ =
-    (Space.smallEtaleRingedTopos B' S hS' ((changeBigSite B B' h S hS).obj X)).O.val.map n.op 0
+      ((changeBigSite B B' h S hS).obj X)).O.obj.map n.op _ =
+    (Space.smallEtaleRingedTopos B' S hS' ((changeBigSite B B' h S hS).obj X)).O.obj.map n.op 0
   refine (NatTrans.naturality_apply (transportπ h hS' E).hom n.op _).symm.trans ?_
   refine (congrArg _ (transportInclusionSet_naturality h hS' E n.op z).symm).trans ?_
   refine (transportπ_transportInclusionSet_app h hS' E U₃ _).trans ?_
@@ -442,7 +443,7 @@ private theorem map_transportι_eq
     {V : (Space.SmallEtale B' S hS' ((changeBigSite B B' h S hS).obj X).obj)ᵒᵖ}
     (U₃ : Space.SmallEtale B S hS X.obj) (n : (chartTransport B B' h S hS X).obj U₃ ⟶ V.unop)
     (z : (transportI h hS' E).val.obj V) :
-    (transportA h hS' E).val.map n.op (transportι h hS' E V z) =
+    (transportA h hS' E).obj.map n.op (transportι h hS' E V z) =
       (transportAIso h hS' E).inv.hom.app (op U₃) (E.ι (op U₃)
         ((transportIIso h hS' E).hom.val.app (op U₃) ((transportI h hS' E).val.map n.op z))) :=
   (transportInclusionSet_naturality h hS' E n.op z).symm.trans
@@ -455,7 +456,7 @@ theorem transport_square_zero
     (z₁ z₂ : (transportI h hS' E).val.obj V) :
     transportι h hS' E V z₁ * transportι h hS' E V z₂ = 0 := by
   refine section_ext (F' := transportASet h hS' E) fun U₃ n => ?_
-  show (transportA h hS' E).val.map n.op (_ * _) = (transportA h hS' E).val.map n.op 0
+  show (transportA h hS' E).obj.map n.op (_ * _) = (transportA h hS' E).obj.map n.op 0
   rw [map_mul, map_zero, map_transportι_eq, map_transportι_eq]
   exact (map_mul (ConcreteCategory.hom ((transportAIso h hS' E).inv.hom.app (op U₃)))
     _ _).symm.trans ((congrArg (ConcreteCategory.hom ((transportAIso h hS' E).inv.hom.app (op U₃)))
@@ -468,7 +469,7 @@ section Exact
 /-- On a transported chart, every section killed by the transported surjection comes from the
 transported kernel. -/
 theorem exists_transportInclusionSet_eq (U₃ : Space.SmallEtale B S hS X.obj)
-    (w : (transportA h hS' E).val.obj (op ((chartTransport B B' h S hS X).obj U₃)))
+    (w : (transportA h hS' E).obj.obj (op ((chartTransport B B' h S hS X).obj U₃)))
     (hw : (transportπ h hS' E).hom.app (op ((chartTransport B B' h S hS X).obj U₃)) w = 0) :
     ∃ z, (transportInclusionSet h hS' E).hom.app (op ((chartTransport B B' h S hS X).obj U₃)) z =
       w := by
@@ -485,12 +486,12 @@ theorem exists_transportInclusionSet_eq (U₃ : Space.SmallEtale B S hS X.obj)
 unique section of the transported kernel. -/
 theorem transport_exact_kernel
     (V : (Space.SmallEtale B' S hS' ((changeBigSite B B' h S hS).obj X).obj)ᵒᵖ)
-    (a : (transportA h hS' E).val.obj V) (ha : (transportπ h hS' E).hom.app V a = 0) :
+    (a : (transportA h hS' E).obj.obj V) (ha : (transportπ h hS' E).hom.app V a = 0) :
     ∃! z, transportι h hS' E V z = a := by
   have hloc : ∀ (U₃ : Space.SmallEtale B S hS X.obj)
       (n : (chartTransport B B' h S hS X).obj U₃ ⟶ V.unop),
       (transportπ h hS' E).hom.app (op ((chartTransport B B' h S hS X).obj U₃))
-        ((transportA h hS' E).val.map n.op a) = 0 := fun U₃ n =>
+        ((transportA h hS' E).obj.map n.op a) = 0 := fun U₃ n =>
     (NatTrans.naturality_apply (transportπ h hS' E).hom n.op a).trans
       ((congrArg _ ha).trans (map_zero _))
   let x : ∀ (U₃ : Space.SmallEtale B S hS X.obj),
@@ -499,7 +500,7 @@ theorem transport_exact_kernel
     fun U₃ n => (exists_transportInclusionSet_eq h hS' E U₃ _ (hloc U₃ n)).choose
   have hxa : ∀ U₃ n, (transportInclusionSet h hS' E).hom.app
       (op ((chartTransport B B' h S hS X).obj U₃)) (x U₃ n) =
-        (transportA h hS' E).val.map n.op a := fun U₃ n =>
+        (transportA h hS' E).obj.map n.op a := fun U₃ n =>
     (exists_transportInclusionSet_eq h hS' E U₃ _ (hloc U₃ n)).choose_spec
   obtain ⟨y, hy⟩ := exists_section_of_transported h hS' (transportISet h hS' E) x (by
     intro U₃ U₄ p n
@@ -508,7 +509,7 @@ theorem transport_exact_kernel
       _).trans ?_
     refine (congrArg _ (hxa U₃ n)).trans ?_
     refine Eq.trans ?_ (hxa U₄ _).symm
-    exact (FunctorToTypes.map_comp_apply (transportASet h hS' E).obj n.op
+    exact ((transportASet h hS' E).obj.map_comp_apply n.op
       ((chartTransport B B' h S hS X).map p).op a).symm)
   refine ⟨y, ?_, fun z hz => ?_⟩
   · refine section_ext (F' := transportASet h hS' E) fun U₃ n => ?_
@@ -526,23 +527,23 @@ section SMul
 
 /-- The comparison of the kernels is linear over the structure sheaf. -/
 theorem transportIIso_smul (U₃ : Space.SmallEtale B S hS X.obj)
-    (r : (Space.smallEtaleRingedTopos B S hS X).O.val.obj (op U₃))
+    (r : (Space.smallEtaleRingedTopos B S hS X).O.obj.obj (op U₃))
     (z : (transportI h hS' E).val.obj (op ((chartTransport B B' h S hS X).obj U₃))) :
     (transportIIso h hS' E).hom.val.app (op U₃)
         ((((transportI h hS' E).val.obj
-          (op ((chartTransport B B' h S hS X).obj U₃))).smul r).hom z) =
-      ((E.I.val.obj (op U₃)).smul r).hom ((transportIIso h hS' E).hom.val.app (op U₃) z) :=
+          (op ((chartTransport B B' h S hS X).obj U₃))).smul r).asHom.hom z) =
+      ((E.I.val.obj (op U₃)).smul r).asHom.hom ((transportIIso h hS' E).hom.val.app (op U₃) z) :=
   ((transportIIso h hS' E).hom.val.app (op U₃)).hom.map_smul r z
 
 /-- Restriction of the transported kernel is linear over the restriction of the structure sheaf. -/
 theorem transportI_map_smul {V W : (Space.SmallEtale B' S hS'
       ((changeBigSite B B' h S hS).obj X).obj)ᵒᵖ} (g : V ⟶ W)
-    (r : (Space.smallEtaleRingedTopos B' S hS' ((changeBigSite B B' h S hS).obj X)).O.val.obj V)
+    (r : (Space.smallEtaleRingedTopos B' S hS' ((changeBigSite B B' h S hS).obj X)).O.obj.obj V)
     (z : (transportI h hS' E).val.obj V) :
-    (transportI h hS' E).val.map g ((((transportI h hS' E).val.obj V).smul r).hom z) =
+    (transportI h hS' E).val.map g ((((transportI h hS' E).val.obj V).smul r).asHom.hom z) =
       (((transportI h hS' E).val.obj W).smul
         ((Space.smallEtaleRingedTopos B' S hS'
-          ((changeBigSite B B' h S hS).obj X)).O.val.map g r)).hom
+          ((changeBigSite B B' h S hS).obj X)).O.obj.map g r)).asHom.hom
           ((transportI h hS' E).val.map g z) :=
   PresheafOfModules.map_smul (transportI h hS' E).val g r z
 
@@ -550,27 +551,27 @@ theorem transportI_map_smul {V W : (Space.SmallEtale B' S hS'
 sheaf through the transported surjection: `ι (π a • z) = a * ι z`. -/
 theorem transport_smul_lift
     (V : (Space.SmallEtale B' S hS' ((changeBigSite B B' h S hS).obj X).obj)ᵒᵖ)
-    (a : (transportA h hS' E).val.obj V) (z : (transportI h hS' E).val.obj V) :
+    (a : (transportA h hS' E).obj.obj V) (z : (transportI h hS' E).val.obj V) :
     transportι h hS' E V
-        ((((transportI h hS' E).val.obj V).smul ((transportπ h hS' E).hom.app V a)).hom z) =
+        ((((transportI h hS' E).val.obj V).smul ((transportπ h hS' E).hom.app V a)).asHom.hom z) =
       a * transportι h hS' E V z := by
   refine section_ext (F' := transportASet h hS' E) fun U₃ n => ?_
-  show (transportA h hS' E).val.map n.op _ = (transportA h hS' E).val.map n.op (_ * _)
-  refine Eq.trans ?_ (map_mul ((transportA h hS' E).val.map n.op).hom _ _).symm
+  show (transportA h hS' E).obj.map n.op _ = (transportA h hS' E).obj.map n.op (_ * _)
+  refine Eq.trans ?_ (map_mul ((transportA h hS' E).obj.map n.op).hom _ _).symm
   refine (map_transportι_eq h hS' E U₃ n _).trans ?_
-  refine Eq.trans ?_ (congrArg (fun t => (transportA h hS' E).val.map n.op a * t)
+  refine Eq.trans ?_ (congrArg (fun t => (transportA h hS' E).obj.map n.op a * t)
     (map_transportι_eq h hS' E U₃ n z).symm)
   refine (congrArg (fun w => (transportAIso h hS' E).inv.hom.app (op U₃)
     (E.ι (op U₃) ((transportIIso h hS' E).hom.val.app (op U₃) w)))
     ((transportI_map_smul h hS' E n.op _ z).trans
       (congrArg (fun r => (((transportI h hS' E).val.obj
-        (op ((chartTransport B B' h S hS X).obj U₃))).smul r).hom
+        (op ((chartTransport B B' h S hS X).obj U₃))).smul r).asHom.hom
           ((transportI h hS' E).val.map n.op z))
         (NatTrans.naturality_apply (transportπ h hS' E).hom n.op a).symm))).trans ?_
   refine (congrArg (fun t => (transportAIso h hS' E).inv.hom.app (op U₃) (E.ι (op U₃) t))
     (transportIIso_smul h hS' E U₃ _ _)).trans ?_
   refine (congrArg (fun t => (transportAIso h hS' E).inv.hom.app (op U₃) t)
-    ((congrArg (fun r => E.ι (op U₃) (((E.I.val.obj (op U₃)).smul r).hom
+    ((congrArg (fun r => E.ι (op U₃) (((E.I.val.obj (op U₃)).smul r).asHom.hom
       ((transportIIso h hS' E).hom.val.app (op U₃) ((transportI h hS' E).val.map n.op z))))
       (transportπ_app h hS' E U₃ _)).trans (E.smul_lift (op U₃) _ _))).trans ?_
   exact (map_mul (ConcreteCategory.hom ((transportAIso h hS' E).inv.hom.app (op U₃))) _ _).trans

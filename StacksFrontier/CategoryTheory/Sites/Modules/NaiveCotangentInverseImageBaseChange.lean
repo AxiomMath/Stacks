@@ -395,7 +395,8 @@ underlying sheaf of sets. -/
 lemma sectionsFunctor_map_variableSheaf_comp_derivationSheafHom
     (N : _root_.SheafOfModules.{w₁}
       (Stacks.SheafOfModules.Tensor.ringSheaf (freeAlgebraSheaf K A (underlyingPresheaf K B))))
-    (Dr : N.val.Derivation' (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B)).hom)
+    (Dr : PresheafOfModulesOfCommRing.Derivation' N.val
+      (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B)).hom)
     (V : Dᵒᵖ) (b : (Sheaf.sectionsFunctor K V).obj
       ((sheafCompose K (forget CommRingCat.{w₁})).obj B)) :
     @Eq ↥(N.val.obj V)
@@ -440,12 +441,14 @@ lemma derivation_ext_of_polynomial_variables (A : Sheaf J CommRingCat.{w₁})
     [Presheaf.IsLocallySurjective J α] (r : R ⟶ T) (c : A.obj ⟶ R)
     (hc : polynomialCoefficientMap J A E ≫ α = c ≫ r)
     {M : PresheafOfModules.{w₁} (T ⋙ forget₂ CommRingCat.{w₁} RingCat.{w₁})}
-    (hM : Presheaf.IsSheaf J M.presheaf) (D₁ D₂ : M.Derivation' r)
+    (hM : Presheaf.IsSheaf J M.presheaf)
+    (D₁ D₂ : PresheafOfModulesOfCommRing.Derivation' M r)
     (h : ∀ (X : Cᵒᵖ) (e : E.obj X),
       D₁.d (α.app X (MvPolynomial.X e)) = D₂.d (α.app X (MvPolynomial.X e))) : D₁ = D₂ := by
   refine AlgebraicGeometry.SheafOfModules.derivation_ext_of_isLocallySurjective J α hM D₁ D₂
     fun X p => ?_
-  have hC : ∀ (D : M.Derivation' r) (a : A.obj.obj X), D.d (α.app X (MvPolynomial.C a)) = 0 :=
+  have hC : ∀ (D : PresheafOfModulesOfCommRing.Derivation' M r) (a : A.obj.obj X),
+      D.d (α.app X (MvPolynomial.C a)) = 0 :=
     fun D a => by
       have e : α.app X (MvPolynomial.C a) = r.app X (c.app X a) :=
         congrArg (fun t : A.obj ⟶ T => t.app X a) hc
@@ -478,7 +481,8 @@ lemma freeAlgebraSheafDerivation_ext_of_variable
       ((toSheafification J CommRingCat.{w₁}).app (polynomialPresheaf J A E))]
     (M : _root_.SheafOfModules.{w₁}
       (Stacks.SheafOfModules.Tensor.ringSheaf (freeAlgebraSheaf J A E)))
-    (D₁ D₂ : M.val.Derivation' (freeAlgebraSheafCoefficientMap J A E).hom)
+    (D₁ D₂ : PresheafOfModulesOfCommRing.Derivation' M.val
+      (freeAlgebraSheafCoefficientMap J A E).hom)
     (h : ∀ (X : Cᵒᵖ) (e : E.obj X),
       D₁.d ((freeAlgebraSheafVariable J A E).app X e) =
         D₂.d ((freeAlgebraSheafVariable J A E).app X e)) : D₁ = D₂ :=

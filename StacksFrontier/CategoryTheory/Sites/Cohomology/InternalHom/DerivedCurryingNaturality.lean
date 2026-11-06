@@ -469,11 +469,9 @@ lemma model_currying_natural (a b : homTensorModels X)
   have hfs : f ≫ s = t := by
     rw [hsdef, htdef]
     ext
-    · apply Quiver.Hom.unop_inj
-      show DerivedCategory.Q.map sk ≫ f.1.unop = DerivedCategory.Q.map gk
+    · show DerivedCategory.Q.map sk ≫ f.1.unop = DerivedCategory.Q.map gk
       simp only [hk, IsIso.hom_inv_id_assoc]
-    · apply Quiver.Hom.unop_inj
-      show DerivedCategory.Q.map (qL ≫ sl) ≫ f.2.1.unop = DerivedCategory.Q.map (qL ≫ gl)
+    · show DerivedCategory.Q.map (qL ≫ sl) ≫ f.2.1.unop = DerivedCategory.Q.map (qL ≫ gl)
       simp only [hl, CategoryTheory.Functor.map_comp, Category.assoc, IsIso.hom_inv_id_assoc]
     · show f.2.2 ≫ DerivedCategory.Q.map (si ≫ (kInjectiveAugmentation X).app I₀) =
         DerivedCategory.Q.map (gi ≫ (kInjectiveAugmentation X).app I₀)

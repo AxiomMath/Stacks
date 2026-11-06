@@ -32,13 +32,13 @@ def contActionUniverseEquivalence (G : Type*) [Group G] [TopologicalSpace G] :
     (fun A ↦ by
       rw [Action.isContinuous_def]
       change Continuous ((fun p ↦ (FintypeCat.uSwitchEquiv A.obj.V).symm p) ∘
-          (fun p : G × _ ↦ (A.obj.ρ p.1).hom p.2) ∘
+          (fun p : G × _ ↦ (A.obj.ρ p.1).asHom p.2) ∘
           (fun p : G × _ ↦ (p.1, FintypeCat.uSwitchEquiv _ p.2)))
       exact Continuous.comp (by fun_prop) (Continuous.comp A.2.1 (by fun_prop)))
     (fun A ↦ by
       rw [Action.isContinuous_def]
       change Continuous ((fun p ↦ (FintypeCat.uSwitchEquiv A.obj.V).symm p) ∘
-          (fun p : G × _ ↦ (A.obj.ρ p.1).hom p.2) ∘
+          (fun p : G × _ ↦ (A.obj.ρ p.1).asHom p.2) ∘
           (fun p : G × _ ↦ (p.1, FintypeCat.uSwitchEquiv _ p.2)))
       exact Continuous.comp (by fun_prop) (Continuous.comp A.2.1 (by fun_prop)))
 

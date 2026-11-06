@@ -124,7 +124,7 @@ theorem isIso_map_piLift_of_isIso_piLift {C : Type u₁} [Category.{v₁} C] {D 
     refine Pi.hom_ext _ _ fun j ↦ ?_
     rw [Category.assoc, Category.assoc, Pi.mapIso_hom_π,
       ← Category.assoc (piComparison G f), piComparison_comp_π, ← Category.assoc,
-      ← G.map_comp, Pi.lift_π, Pi.lift_π, hq]
+      ← G.map_comp, Pi.lift_comp_π, Pi.lift_comp_π, hq]
   have h2 : IsIso (G.map (Pi.lift g) ≫ (piComparison G f ≫ (Pi.mapIso e).hom)) := by
     rw [key]; infer_instance
   exact IsIso.of_isIso_comp_right (G.map (Pi.lift g)) (piComparison G f ≫ (Pi.mapIso e).hom)
@@ -154,6 +154,7 @@ theorem isIso_of_isIso_restrictScalars_toTotalQuotientRingSheaf {X : Scheme.{u}}
 
 variable {X : Scheme.{u}}
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The comparison from `K_X(F)` to the product of the generic-point contributions, as a
 morphism of sheaves of `K_X`-modules. -/
 def genericPointComparisonKPi (F : X.Modules) :

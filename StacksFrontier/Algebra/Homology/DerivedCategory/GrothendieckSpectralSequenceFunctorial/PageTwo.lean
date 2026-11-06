@@ -281,7 +281,7 @@ private noncomputable def shiftedRightDerivedIso
         DerivedCategory.Plus.homologyFunctor B (p + q) ≅
       F.rightDerivedPlus p := by
   let RF := F.rightDerivedFunctorPlus
-  let α := F.rightDerivedFunctorPlusUnit
+  let α := F.rightDerivedFunctorPlusUnith
   let W := HomotopyCategory.Plus.quasiIso A
   letI : RF.IsRightDerivedFunctor α W := inferInstance
   letI : RF.CommShift ℤ := Functor.IsRightDerivedFunctor.commShift RF α W ℤ

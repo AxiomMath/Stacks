@@ -155,9 +155,10 @@ theorem exists_next_notAccWith_of_isClosed (hL : RationalDoublePointBlowUpProper
       Ideal.map ((blowUpToBase
           (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y))).stalkMap q).hom
           (hq.symm ▸ IsLocalRing.maximalIdeal (Y.presheaf.stalk y)) =
-        Ideal.span {((blowUpToBase
-          (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y))).stalkMap q).hom
-            (hq.symm ▸ s₀)} ∧
+        Ideal.span
+          {((blowUpToBase
+              (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y))).stalkMap q).hom
+              (hq.symm ▸ s₀)} ∧
       NotAccWith R (blowUp (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y))) q
         (((blowUpToBase
           (Scheme.IdealSheafData.vanishingIdeal (⟨{y}, hy⟩ : Closeds Y))).stalkMap q).hom

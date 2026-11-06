@@ -72,7 +72,8 @@ theorem relativeInfinitesimalAutomorphisms_eq_bot_of_isIso
   have : IsIso f := isIso_of_isCofiberedInGroupoids_of_map_isIso hp f
   refine (Subgroup.eq_bot_iff_forall _).2 fun a ha => ?_
   rw [mem_relativeInfinitesimalAutomorphisms_iff] at ha
-  exact Aut.ext (Functor.Fiber.hom_ext ((cancel_mono f).1 (ha.trans (Category.id_comp f).symm)))
+  exact Aut.ext (Iso.ext <| Functor.Fiber.hom_ext
+    ((cancel_mono f).1 (ha.trans (Category.id_comp f).symm)))
 
 /-- Vanishing of relative infinitesimal automorphisms is stable under composition:
 an automorphism fixing the composite pushes forward to one fixing the second
@@ -92,11 +93,11 @@ theorem relativeInfinitesimalAutomorphisms_eq_bot_comp
   let := hf'
   let := isStronglyCocartesian_of_isCofiberedInGroupoids hp g' f' hf'
   set b := pushforwardAutomorphism hp g' f' hf' a
-  have hsq : a.hom.val ≫ f' = f' ≫ b.hom.val :=
+  have hsq : a.asIso.hom.val ≫ f' = f' ≫ b.asIso.hom.val :=
     hom_comp_eq_comp_pushforwardEndomorphism hp g' f' hf' a
-  let : p.IsHomLift (𝟙 A') b.hom.val := b.hom.2
-  let : p.IsHomLift g (b.hom.val ≫ f) := IsHomLift.comp_lift_id_left p g f b.hom.val
-  have hkey : b.hom.val ≫ f = f := by
+  let : p.IsHomLift (𝟙 A') b.asIso.hom.val := b.asIso.hom.2
+  let : p.IsHomLift g (b.asIso.hom.val ≫ f) := IsHomLift.comp_lift_id_left p g f b.asIso.hom.val
+  have hkey : b.asIso.hom.val ≫ f = f := by
     refine Functor.IsStronglyCocartesian.ext p g' f' g ?_
     rw [← Category.assoc, ← hsq, Category.assoc, ha]
   have hb1 : b = 1 := (Subgroup.eq_bot_iff_forall _).1 h b
@@ -623,22 +624,22 @@ private theorem relativeInfinitesimalAutomorphisms_eq_bot_of_isSmallExtension_au
   obtain ⟨hc₂⟩ := isLimit_of_map_isLimit hrs (f ≫ f₀) h
     (PullbackCone.mk c.fst q hqh.symm) hhsurj ⟨hc₂plim⟩
   refine (Subgroup.eq_bot_iff_forall _).2 fun a ha => ?_
-  replace ha : a.hom.val ≫ f = f :=
+  replace ha : a.asIso.hom.val ≫ f = f :=
     (mem_relativeInfinitesimalAutomorphisms_iff
       (x' := fiberOfSelf p X') (x := fiberOfSelf p X)
       hrs.1 (p.map f) f (IsHomLift.map p f) a).mp ha
-  have hcancel : a.hom.val ≫ a.inv.val = 𝟙 X' :=
-    congrArg (fun t : fiberOfSelf p X' ⟶ fiberOfSelf p X' => t.val) a.hom_inv_id
-  have hcancel' : a.inv.val ≫ a.hom.val = 𝟙 X' :=
-    congrArg (fun t : fiberOfSelf p X' ⟶ fiberOfSelf p X' => t.val) a.inv_hom_id
-  have hainv : a.inv.val ≫ f = f := by
+  have hcancel : a.asIso.hom.val ≫ a.asIso.inv.val = 𝟙 X' :=
+    congrArg (fun t : fiberOfSelf p X' ⟶ fiberOfSelf p X' => t.val) a.asIso.hom_inv_id
+  have hcancel' : a.asIso.inv.val ≫ a.asIso.hom.val = 𝟙 X' :=
+    congrArg (fun t : fiberOfSelf p X' ⟶ fiberOfSelf p X' => t.val) a.asIso.inv_hom_id
+  have hainv : a.asIso.inv.val ≫ f = f := by
     rw [← ha, reassoc_of% hcancel', ha]
-  have := a.hom.2
-  have := a.inv.2
-  have hamap : p.map a.hom.val = 𝟙 (p.obj X') :=
-    (IsHomLift.eq_of_isHomLift p (𝟙 (p.obj X')) a.hom.val).symm
-  have hainvmap : p.map a.inv.val = 𝟙 (p.obj X') :=
-    (IsHomLift.eq_of_isHomLift p (𝟙 (p.obj X')) a.inv.val).symm
+  have := a.asIso.hom.2
+  have := a.asIso.inv.2
+  have hamap : p.map a.asIso.hom.val = 𝟙 (p.obj X') :=
+    (IsHomLift.eq_of_isHomLift p (𝟙 (p.obj X')) a.asIso.hom.val).symm
+  have hainvmap : p.map a.asIso.inv.val = 𝟙 (p.obj X') :=
+    (IsHomLift.eq_of_isHomLift p (𝟙 (p.obj X')) a.asIso.inv.val).symm
   -- an endomorphism `s` of `X'` over `f` and the identity induces an endomorphism of `c.pt`
   -- fixing the first projection and acting by `s` on the second, again over the identity
   have hlift : ∀ s : X' ⟶ X', s ≫ f = f → p.map s = 𝟙 (p.obj X') →
@@ -670,12 +671,13 @@ private theorem relativeInfinitesimalAutomorphisms_eq_bot_of_isSmallExtension_au
   have hφ'lift : p.IsHomLift (𝟙 (p.obj c.pt)) φ' := by
     rw [← hφ'map]; exact IsHomLift.map p φ'
   set Φ : Aut (fiberOfSelf p c.pt) :=
-    { hom := ⟨φ, hφlift⟩
-      inv := ⟨φ', hφ'lift⟩
-      hom_inv_id := Subtype.ext hinv1
-      inv_hom_id := Subtype.ext hinv2 } with hΦdef
+    .of
+      { hom := ⟨φ, hφlift⟩
+        inv := ⟨φ', hφ'lift⟩
+        hom_inv_id := Subtype.ext hinv1
+        inv_hom_id := Subtype.ext hinv2 } with hΦdef
   have hpush : φ ≫ q = q ≫ (pushforwardAutomorphism (x := fiberOfSelf p Xε)
-      hrs.1 γ q hqlift Φ).hom.val :=
+      hrs.1 γ q hqlift Φ).asIso.hom.val :=
     hom_comp_eq_comp_pushforwardEndomorphism (x := fiberOfSelf p Xε)
       hrs.1 γ q hqlift Φ
   have hmem : pushforwardAutomorphism (x := fiberOfSelf p Xε) hrs.1 γ q hqlift Φ ∈
@@ -686,21 +688,21 @@ private theorem relativeInfinitesimalAutomorphisms_eq_bot_of_isSmallExtension_au
       hrs.1 (p.map fi) e hpair fi (IsHomLift.map p fi) _).mpr ?_
     rw [← hret]
     have hendlift := (pushforwardAutomorphism (x := fiberOfSelf p Xε)
-      hrs.1 γ q hqlift Φ).hom.2
+      hrs.1 γ q hqlift Φ).asIso.hom.2
     have := hendlift
     have hl : p.IsHomLift e
         ((pushforwardAutomorphism (x := fiberOfSelf p Xε)
-          hrs.1 γ q hqlift Φ).hom.val ≫ h) :=
+          hrs.1 γ q hqlift Φ).asIso.hom.val ≫ h) :=
       IsHomLift.comp_lift_id_left p e h
         ((pushforwardAutomorphism (x := fiberOfSelf p Xε)
-          hrs.1 γ q hqlift Φ).hom.val)
+          hrs.1 γ q hqlift Φ).asIso.hom.val)
     have := hl
     refine Functor.IsStronglyCocartesian.ext p γ q e ?_
     rw [← Category.assoc, ← hpush, Category.assoc, hqh, reassoc_of% hφ1]
   have hΨ1 : pushforwardAutomorphism (x := fiberOfSelf p Xε) hrs.1 γ q hqlift Φ = 1 :=
     (Subgroup.eq_bot_iff_forall _).1 htriv _ hmem
   have hend : (pushforwardAutomorphism (x := fiberOfSelf p Xε)
-      hrs.1 γ q hqlift Φ).hom.val = 𝟙 Xε := by
+      hrs.1 γ q hqlift Φ).asIso.hom.val = 𝟙 Xε := by
     rw [hΨ1]
     rfl
   have hφq : φ ≫ q = q := by rw [hpush, hend, Category.comp_id]
@@ -712,10 +714,10 @@ private theorem relativeInfinitesimalAutomorphisms_eq_bot_of_isSmallExtension_au
     (p.map c.snd) c.snd (IsHomLift.map p c.snd)
   have hidlift : p.IsHomLift (𝟙 (p.obj X')) (𝟙 X') := IsHomLift.id rfl
   have := hidlift
-  have hafinal : a.hom.val = 𝟙 X' := by
+  have hafinal : a.asIso.hom.val = 𝟙 X' := by
     refine Functor.IsStronglyCocartesian.ext p (p.map c.snd) c.snd (𝟙 (p.obj X')) ?_
     rw [← hφ2, hφid, Category.id_comp, Category.comp_id]
-  exact Aut.ext (Functor.Fiber.hom_ext hafinal)
+  exact Aut.ext (Iso.ext <| Functor.Fiber.hom_ext hafinal)
 
 /-- **Vanishing over a small extension.** For a category cofibered in groupoids over
 `𝒞_Λ` satisfying (RS), if the infinitesimal automorphisms at a pushforward of `x` to the
@@ -790,14 +792,15 @@ private theorem relativeInfinitesimalAutomorphisms_eq_bot_aux
       ∃ (Y : F) (hY : p.obj Y = G.obj' m hm) (u : X' ⟶ Y) (v : Y ⟶ X),
         u ≫ v = f ∧
         p.map v = eqToHom hY ≫ G.map' m n hm le_rfl ≫ ee.hom ∧
-        ∀ a : Aut (fiberOfSelf p X'), a.hom.val ≫ u = u → a = 1 := by
+        ∀ a : Aut (fiberOfSelf p X'), a.asIso.hom.val ≫ u = u → a = 1 := by
     intro m
     induction m with
     | zero =>
       intro hm
       refine ⟨X', hB.symm, 𝟙 X', f, Category.id_comp f, hcomp.symm, ?_⟩
       intro a ha
-      exact Aut.ext (Functor.Fiber.hom_ext ((Category.comp_id a.hom.val).symm.trans ha))
+      exact Aut.ext (Iso.ext <| Functor.Fiber.hom_ext
+        ((Category.comp_id a.asIso.hom.val).symm.trans ha))
     | succ m ih =>
       intro hm
       obtain ⟨Y, hY, u, v, huv, hv, hub⟩ := ih (Nat.le_of_succ_le hm)
@@ -867,7 +870,7 @@ private theorem relativeInfinitesimalAutomorphisms_eq_bot_aux
     infer_instance
   have hvIso : IsIso v := isIso_of_isCofiberedInGroupoids_of_map_isIso hrs.1 v
   refine (Subgroup.eq_bot_iff_forall _).2 fun a ha => ?_
-  replace ha : a.hom.val ≫ f = f :=
+  replace ha : a.asIso.hom.val ≫ f = f :=
     (mem_relativeInfinitesimalAutomorphisms_iff (x' := fiberOfSelf p X')
       (x := fiberOfSelf p X) hrs.1 (p.map f) f (IsHomLift.map p f) a).mp ha
   refine hub a ((cancel_mono v).1 ?_)

@@ -36,7 +36,7 @@ interest is formed on something isomorphic to it.
 ## Implementation notes
 
 Compatibility of the two actions with `i` is asked in the form
-`(act g).hom ≫ i.hom = i.hom ≫ (act' g).hom`, which is the shape a geometric transport
+`(act g).asIso.hom ≫ i.hom = i.hom ≫ (act' g).asIso.hom`, which is the shape a geometric transport
 produces.  It is not asked that `act'` be conjugate to `act` as a monoid homomorphism, which
 would be the same demand in a less usable form.
 
@@ -55,7 +55,7 @@ open Opposite
 
 variable {C : Type u} [Category.{v} C] {W W' : C} {G : Type w} [Group G]
     (i : W ≅ W') (act : G →* Aut W) (act' : G →* Aut W')
-    (hact : ∀ g : G, (act g).hom ≫ i.hom = i.hom ≫ (act' g).hom) (χ : G →* ℤˣ)
+    (hact : ∀ g : G, (act g).asIso.hom ≫ i.hom = i.hom ≫ (act' g).asIso.hom) (χ : G →* ℤˣ)
 
 include hact in
 /-- **Restriction along `i` takes `χ`-semi-invariant sections over `W'` to `χ`-semi-invariant
@@ -64,12 +64,12 @@ theorem mem_characterSections_map_hom (F : Cᵒᵖ ⥤ AddCommGrpCat.{v})
     {s : F.obj (op W')} (hs : s ∈ characterSections W' act' χ F) :
     (F.map i.hom.op) s ∈ characterSections W act χ F := by
   intro g
-  calc (F.map ((act g).hom).op) ((F.map i.hom.op) s)
-      = (F.map (((act g).hom ≫ i.hom).op)) s := by
+  calc (F.map ((act g).asIso.hom).op) ((F.map i.hom.op) s)
+      = (F.map (((act g).asIso.hom ≫ i.hom).op)) s := by
         rw [op_comp, F.map_comp]
         rfl
-    _ = (F.map ((i.hom ≫ (act' g).hom).op)) s := by rw [hact g]
-    _ = (F.map i.hom.op) ((F.map ((act' g).hom).op) s) := by
+    _ = (F.map ((i.hom ≫ (act' g).asIso.hom).op)) s := by rw [hact g]
+    _ = (F.map i.hom.op) ((F.map ((act' g).asIso.hom).op) s) := by
         rw [op_comp, F.map_comp]
         rfl
     _ = (F.map i.hom.op) ((χ g : ℤ) • s) := by rw [hs g]

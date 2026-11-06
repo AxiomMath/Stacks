@@ -97,7 +97,7 @@ public def natIsoOfForget₂ {R : Type u} [Ring R] {J : Type u₁} [Category.{v�
     (α : X ⋙ forget₂ (ModuleCat.{v} R) AddCommGrpCat.{v} ≅
       Y ⋙ forget₂ (ModuleCat.{v} R) AddCommGrpCat.{v})
     (hα : ∀ (j : J) (r : R),
-      α.hom.app j ≫ (Y.obj j).smul r = (X.obj j).smul r ≫ α.hom.app j) :
+      α.hom.app j ≫ ((Y.obj j).smul r).asHom = ((X.obj j).smul r).asHom ≫ α.hom.app j) :
     X ≅ Y :=
   NatIso.ofComponents (fun j => ModuleCat.isoMk (α.app j) (hα j)) (by
     intro i j f
@@ -145,10 +145,10 @@ abelian groups that `Stacks.ModuleCatSites.natIsoOfForget₂` consumes: two addi
 tensor product agreeing on the generators by
 `Stacks.Sites.gammaAlg_smul_smul`. -/
 public theorem tensorToSectionsApp_comp_smul (Z : (Over U)ᵒᵖ) (r : (Γ(U.left, ⊤) : Type u)) :
-    tensorToSectionsApp S F (𝟭 (Over S)) U Z ≫ (sliceAssociatedModuleCatObj F U Z).smul r =
-      ((Stacks.Descent.amitsurCoefficients.{u, u, u} (Γ(U.left, ⊤) : Type u)
+    tensorToSectionsApp S F (𝟭 (Over S)) U Z ≫ ((sliceAssociatedModuleCatObj F U Z).smul r).asHom =
+      (((Stacks.Descent.amitsurCoefficients.{u, u, u} (Γ(U.left, ⊤) : Type u)
           (coeffModule S F (𝟭 (Over S)) U)).obj
-        ((gammaAlg S (𝟭 (Over S)) U).obj Z)).smul r ≫
+        ((gammaAlg S (𝟭 (Over S)) U).obj Z)).smul r).asHom ≫
         tensorToSectionsApp S F (𝟭 (Over S)) U Z := by
   apply AddCommGrpCat.hom_ext
   refine addHom_ext_tmul (Rr := ULift.{u} (coeffBase S (𝟭 (Over S)) U))

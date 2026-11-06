@@ -259,8 +259,8 @@ theorem isIso_modulePullback_map_cokernelπ_supportedSectionsSubmodule
     have hnat := (modulePullbackIsoEtaleModulePullback B S hS σ hσ).hom.naturality ι
     have h0 := etaleModulePullback_supportedSectionsSubmodule_ι_eq_zero B S hS σ hσ T hmiss M
     rw [hι, h0, comp_zero] at hnat
-    have := (cancel_mono
-      ((modulePullbackIsoEtaleModulePullback B S hS σ hσ).hom.app M)).1
+    have := (Iso.cancel_iso_hom_right _ _
+      ((modulePullbackIsoEtaleModulePullback B S hS σ hσ).app M)).1
       (hnat.trans (zero_comp).symm)
     exact this
   have hπ := PreservesCokernel.π_iso_hom (modulePullback B S hS σ) ι
@@ -529,7 +529,7 @@ theorem exists_strictTransformSheafIso_modulePushforward_of_isBlowupAlong
   have hjM : Mono (σ ≫ i).hom := by
     rw [hjhom]
     have := mono_of_presheaf_isOpenImmersion hCplOpen.2
-    infer_instance
+    exact mono_comp' (IsIso.mono_of_iso _) inferInstance
   have hfac : ∀ (a : BigFppfOver B S hS)
       (φ : yoneda.obj a ⟶ (strictTransformPullback B S hS f b).1),
       Set.range (pointsMap B S hS (yoneda.obj a) φ) ⊆
@@ -576,7 +576,7 @@ theorem exists_strictTransformSheafIso_modulePushforward_of_isBlowupAlong
       preservesEpimorphisms_modulePushforward_of_isClosedImmersion B S hS i hi
     have hαepi : Epi α := by
       rw [hα]
-      infer_instance
+      exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom ((modulePullbackCompIso B S hS i (strictTransformPullbackToSource B S hS f b)).app F))) inferInstance
     rw [hq]
     have := hunit
     have := hpe
@@ -597,7 +597,9 @@ theorem exists_strictTransformSheafIso_modulePushforward_of_isBlowupAlong
     have hmonoα : Mono ((modulePullback B S hS σ).map α) := by
       rw [hα, Functor.map_comp]
       have := hπiso
-      infer_instance
+      exact mono_comp' (@IsIso.mono_of_iso _ _ _ _ _
+        (Iso.isIso_hom ((modulePullback B S hS σ).mapIso ((modulePullbackCompIso B S hS i (strictTransformPullbackToSource B S hS f b)).app F))))
+        (IsIso.mono_of_iso _)
     -- Hence so is the inverse image of `q` along `σ ≫ i`, by the triangle identity and the
     -- comparison of inverse images along a composite.
     have h1 : Mono ((modulePullback B S hS σ).map ((modulePullback B S hS i).map q)) := by

@@ -108,7 +108,7 @@ schemes together with the commutation with the two morphisms to `Y`, so it is de
 morphism of schemes; this is the shape in which the fibres of `𝒮_Y` being sets is used. -/
 theorem baseBasedCategory_faithful (Y : AlgebraicSpaces B S hS) :
     (baseBasedCategory Y).p.Faithful where
-  map_injective {_ _} m n h := ULift.ext m n (CostructuredArrow.hom_ext m.down n.down h)
+  map_injective {_ _} m n h := ULift.ext (CostructuredArrow.hom_ext m.down n.down h)
 
 /-- The 1-morphism `𝒮_{Y'} ⟶ 𝒮_Y` attached to a morphism `g : Y' ⟶ Y` of algebraic spaces: it
 sends a test scheme `(T, h)` over `Y'` to the test scheme `(T, h ≫ g)` over `Y`, and is the

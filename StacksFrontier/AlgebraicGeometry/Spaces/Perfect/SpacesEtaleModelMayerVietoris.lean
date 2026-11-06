@@ -159,7 +159,7 @@ theorem exists_mem_distTriang_spacesEtaleModelMayerVietoris
     (spacesEtaleModelDerivedLowerShriekPullbackTransportIso B S hS _ _ E)
     (biprod.mapIso (spacesEtaleModelDerivedLowerShriekPullbackTransportIso B S hS _ _ E)
         (spacesEtaleModelDerivedLowerShriekPullbackTransportIso B S hS _ _ E) ≪≫ ?_)
-    ((Functor.mapDerivedCategoryIdIso.app E).symm ≪≫
+    (((Functor.mapDerivedCategoryIdIso _).app E).symm ≪≫
       (Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso _ _
         (spacesEtaleModelModulesEquiv B S hS W).unitIso).app E ≪≫
       (Functor.mapDerivedCategoryComp _ _).app E)

@@ -226,7 +226,7 @@ theorem hasSmallNoetherianApproximation_of_system :
     (isFiniteTypeOverIntegers := fun j => ?_)
     (π := (Functor.const Iᵒᵖ).map e.hom ≫ (limit.cone D.quotients).π)
     (isLimit := IsLimit.ofIsoLimit (limit.isLimit D.quotients)
-      (Cones.ext e.symm fun j => by simp)),
+      (Cone.ext e.symm fun j => by simp)),
     hI⟩
   · have := hamb j
     have := hambqs j

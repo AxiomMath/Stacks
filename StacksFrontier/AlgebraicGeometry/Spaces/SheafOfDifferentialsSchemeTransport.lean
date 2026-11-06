@@ -233,11 +233,11 @@ site of the algebraic space `yoneda.obj U`.**  The two sites are identified and 
 identification carries the structure sheaf to the structure sheaf, so the sections, the
 multiplication and the vanishing condition are unchanged: only the indexing object moves. -/
 noncomputable def transportDerivation
-    (D : PresheafOfModules.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation'
       (R := (_root_.AlgebraicGeometry.SmallEtale.commRingStructureSheaf
         (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U)
         U.left.property).obj) M.val ψ) :
-    PresheafOfModules.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
       (R := structurePresheaf B S hS (yoneda.obj U))
       ((representedModulePushforward B S hS U).obj M).val
       (transportBase B S hS U ψ) where
@@ -268,9 +268,9 @@ noncomputable def transportBaseInverse :
 the scheme underlying `U`**, with values in the module transported along the inverse
 identification. -/
 noncomputable def transportDerivationInverse
-    (D : PresheafOfModules.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation'
       (R := structurePresheaf B S hS (yoneda.obj U)) N.val χ) :
-    PresheafOfModules.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
       (R := (_root_.AlgebraicGeometry.SmallEtale.commRingStructureSheaf
         (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U) U.left.property).obj)
       ((representedModuleRestriction B S hS U).obj N).val
@@ -291,7 +291,7 @@ identification and its inverse, is the derivation at the object itself, restrict
 unit. -/
 theorem derivation_d_map_unit
     {N : Modules.{u, u} B S hS (yoneda.obj U) (schemeSpace U).property}
-    (D : PresheafOfModules.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation'
       (R := structurePresheaf B S hS (yoneda.obj U)) N.val χ)
     (V : (SmallEtale B S hS (yoneda.obj U))ᵒᵖ)
     (x : (structurePresheaf B S hS (yoneda.obj U)).obj V) :
@@ -315,7 +315,7 @@ theorem derivation_d_map_unit
 
 /-- Transport of derivations commutes with postcomposition by a morphism of modules. -/
 theorem transportDerivation_postcomp
-    (D : PresheafOfModules.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation'
       (R := (_root_.AlgebraicGeometry.SmallEtale.commRingStructureSheaf
         (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U)
         U.left.property).obj) M.val ψ) (k : M ⟶ M') :
@@ -328,13 +328,13 @@ scheme underlying `U` is the image of one of the small étale site of `yoneda.ob
 identification composes with its inverse to the identity functor — so a derivation is determined
 by its transport. -/
 theorem transportDerivation_injective
-    {D D' : PresheafOfModules.Derivation'
+    {D D' : PresheafOfModulesOfCommRing.Derivation'
       (R := (_root_.AlgebraicGeometry.SmallEtale.commRingStructureSheaf
         (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U)
         U.left.property).obj) M.val ψ}
     (h : transportDerivation B S hS U ψ D = transportDerivation B S hS U ψ D') : D = D' :=
-  PresheafOfModules.Derivation.ext (funext fun W => AddMonoidHom.ext fun x =>
-    PresheafOfModules.Derivation.congr_d (M := ((representedModulePushforward B S hS U).obj M).val)
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun W => AddMonoidHom.ext fun x =>
+    PresheafOfModulesOfCommRing.Derivation.congr_d (M := ((representedModulePushforward B S hS U).obj M).val)
       h (X := op ((representedSmallEtaleEquivalence B S hS U).inverse.obj W.unop)) x)
 
 end Derivations
@@ -484,7 +484,7 @@ theorem chartPullback_chartBaseChangeArrow (V₀ : SmallEtale B S hS (schemeSpac
 private theorem derivation_d_eq_zero_of_eq_map
     {C : Type u₁} [Category.{v₁} C] {R : Cᵒᵖ ⥤ CommRingCat.{u}}
     {M : PresheafOfModules.{u} (R ⋙ forget₂ _ _)} {S' : Cᵒᵖ ⥤ CommRingCat.{u}} {φ' : S' ⟶ R}
-    (D : PresheafOfModules.Derivation' (R := R) M φ') {X Y : Cᵒᵖ} (f : X ⟶ Y)
+    (D : PresheafOfModulesOfCommRing.Derivation' (R := R) M φ') {X Y : Cᵒᵖ} (f : X ⟶ Y)
     {x : R.obj X} {y : R.obj Y} (h : y = R.map f x) (hx : D.d x = 0) : D.d y = 0 := by
   rw [h, D.d_map, hx]
   exact map_zero _
@@ -505,7 +505,7 @@ theorem transportDerivation_d_chartPullback_eq_zero
       ((BigFppfOver.toScheme B S hS).obj U) U.left.property)ᵒᵖ ⥤ CommRingCat.{u}}
     {ψ : R ⟶ (_root_.AlgebraicGeometry.SmallEtale.commRingStructureSheaf
       (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U) U.left.property).obj}
-    (D : PresheafOfModules.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation'
       (R := (_root_.AlgebraicGeometry.SmallEtale.commRingStructureSheaf
         (associatedBigEtaleSite B) ((BigFppfOver.toScheme B S hS).obj U)
         U.left.property).obj) M.val ψ)
@@ -612,7 +612,7 @@ theorem transportDerivationInverse_d_structureSharp_eq_zero
     {N : Modules.{u, u} B S hS (yoneda.obj U) (schemeSpace U).property}
     {R' : (SmallEtale B S hS (yoneda.obj U))ᵒᵖ ⥤ CommRingCat.{u}}
     (χ : R' ⟶ structurePresheaf B S hS (yoneda.obj U))
-    (D : PresheafOfModules.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation'
       (R := structurePresheaf B S hS (yoneda.obj U)) N.val χ)
     (hD : ∀ (V₁ : SmallEtale B S hS (schemeSpace V).obj)
         (j : StructuredArrow (op (chartBaseChange B S hS (schemeSpaceMap α) V₁))
@@ -647,7 +647,7 @@ condition over the spaces-level structure map, and that is
 `AlgebraicGeometry.Space.transportDerivation_d_chartPullback_eq_zero` together with
 `AlgebraicGeometry.Space.Derivation'.ofChartPullback`. -/
 noncomputable def transportedUniversalDerivation :
-    PresheafOfModules.Derivation' (R := structurePresheaf B S hS (yoneda.obj U))
+    PresheafOfModulesOfCommRing.Derivation' (R := structurePresheaf B S hS (yoneda.obj U))
       (transportedDifferentials B S hS α).val
       (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom :=
   Derivation'.ofChartPullback B S hS (schemeSpaceMap α)
@@ -661,7 +661,7 @@ noncomputable def transportedUniversalDerivation :
         (associatedBigEtaleSite B) α.left
         (_root_.AlgebraicGeometry.SmallEtale.universalDerivation
           (associatedBigEtaleSite B) α.left)
-        (fun _ s => PresheafOfModules.Derivation'.d_app _ s) W t))
+        (fun _ s => PresheafOfModulesOfCommRing.Derivation'.d_app _ s) W t))
 
 /-- **The universal `yoneda.obj V`-derivation of `𝒪_{yoneda.obj U}`, read on the small étale site
 of the scheme underlying `U` as a `V_étale`-derivation.**  Again the values are unchanged; the
@@ -741,10 +741,10 @@ derivation. -/
 theorem postcomp_schemeDifferentialsInv :
     (transportedUniversalDerivation B S hS α).postcomp (schemeDifferentialsInv B S hS α).val =
       universalDerivation B S hS (schemeSpaceMap α) := by
-  refine PresheafOfModules.Derivation.ext (funext fun Vop => AddMonoidHom.ext fun x => ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun Vop => AddMonoidHom.ext fun x => ?_)
   refine Eq.trans (congrArg (fun z => (((representedModuleEquivalence.{u, u} B S hS U).counit.app
       (sheafOfDifferentials B S hS (schemeSpaceMap α))).val.app Vop).hom z)
-    (PresheafOfModules.Derivation.congr_d
+    (PresheafOfModulesOfCommRing.Derivation.congr_d
       (Classical.choose_spec (_root_.AlgebraicGeometry.SmallEtale.universalDerivation_isUniversal
         (associatedBigEtaleSite B) α.left
         ((representedModuleRestriction B S hS U).obj
@@ -759,12 +759,12 @@ theorem postcomp_schemeDifferentialsInv :
 private theorem derivation_postcomp_comp_eq
     {C : Type u₁} [Category.{v₁} C] {R S' S'' : Cᵒᵖ ⥤ CommRingCat.{u}} {φ' : S' ⟶ R}
     {φ'' : S'' ⟶ R} {M M' M'' : PresheafOfModules.{u} (R ⋙ forget₂ _ _)}
-    {D : PresheafOfModules.Derivation' (R := R) M φ'}
-    {D' : PresheafOfModules.Derivation' (R := R) M' φ''}
-    {D'' : PresheafOfModules.Derivation' (R := R) M'' φ'} {f : M ⟶ M'} {g : M' ⟶ M''}
+    {D : PresheafOfModulesOfCommRing.Derivation' (R := R) M φ'}
+    {D' : PresheafOfModulesOfCommRing.Derivation' (R := R) M' φ''}
+    {D'' : PresheafOfModulesOfCommRing.Derivation' (R := R) M'' φ'} {f : M ⟶ M'} {g : M' ⟶ M''}
     (h : ∀ {X} (x : R.obj X), (f.app X).hom (D.d x) = D'.d x)
     (h' : ∀ {X} (x : R.obj X), (g.app X).hom (D'.d x) = D''.d x) : D.postcomp (f ≫ g) = D'' :=
-  PresheafOfModules.Derivation.ext (funext fun _ => AddMonoidHom.ext fun x =>
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ => AddMonoidHom.ext fun x =>
     (congrArg (g.app _).hom (h x)).trans (h' x))
 
 /-- The two comparison morphisms compose to the identity of `Ω_{yoneda U/yoneda V}`: both that
@@ -777,9 +777,9 @@ theorem schemeDifferentialsHom_comp_inv :
     (universalDerivation B S hS (schemeSpaceMap α))
   refine (hu _ ?_).trans (hu _ ?_).symm
   · exact derivation_postcomp_comp_eq
-      (fun x => PresheafOfModules.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α) x)
-      (fun x => PresheafOfModules.Derivation.congr_d (postcomp_schemeDifferentialsInv B S hS α) x)
-  · exact PresheafOfModules.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
+      (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α) x)
+      (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsInv B S hS α) x)
+  · exact PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
 
 /-- The two comparison morphisms compose to the identity of the transported module as well.
 Transport of modules along the identification of the two small étale sites is an equivalence, so
@@ -809,9 +809,9 @@ theorem schemeDifferentialsInv_comp_hom :
       refine Eq.trans (congrArg (fun n => (transportedEtaleDerivation B S hS α).postcomp n.val)
         hGm) ?_
       exact derivation_postcomp_comp_eq
-        (fun x => PresheafOfModules.Derivation.congr_d (postcomp_schemeDifferentialsInv B S hS α) x)
-        (fun x => PresheafOfModules.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α) x)
-    · exact PresheafOfModules.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
+        (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsInv B S hS α) x)
+        (fun x => PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α) x)
+    · exact PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
   exact hGm.symm.trans ((congrArg (representedModulePushforward B S hS U).map hm).trans
     ((representedModulePushforward B S hS U).map_id _))
 

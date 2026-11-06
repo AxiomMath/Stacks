@@ -6,6 +6,7 @@ public import Mathlib.RingTheory.Spectrum.Prime.Basic
 public import Mathlib.RingTheory.Artinian.Module
 public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.LocalRing.Module
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.RingTheory.Henselian.TFAE
 

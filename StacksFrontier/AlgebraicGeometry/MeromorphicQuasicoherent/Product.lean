@@ -83,7 +83,7 @@ theorem sectionsPi_hom_apply (G : ι → Y.Modules) (U : Y.Opens)
   have h2 : (productSectionsIso G U).hom ≫
       Pi.π (fun i ↦ (sectionsFunctor Y U).obj (G i)) i =
       (sectionsFunctor Y U).map (Pi.π G i) := by
-    rw [productSectionsIso, PreservesProduct.iso_hom, piComparison, Pi.lift_π]
+    rw [productSectionsIso, PreservesProduct.iso_hom, piComparison, Pi.lift_comp_π]
   exact h1.trans (by rw [← ConcreteCategory.comp_apply, h2])
 
 /-- Evaluation on an open set, as a functor to modules over the ring of sections, agrees on
@@ -185,7 +185,7 @@ theorem isIso_restrictPiLift (V : X.Opens) (F : ι → X.Modules) (p : ι → Pr
         (Scheme.Modules.restrictFunctor V.ι).obj (F j.1)) i).app W
           ((restrictPiLift V F p).app W x) = (Pi.π F i.1).app (V.ι ''ᵁ W) x := by
     intro x i
-    rw [comp_app_apply, restrictPiLift, Pi.lift_π, restrictFunctor_map_app]
+    rw [comp_app_apply, restrictPiLift, Pi.lift_comp_π, restrictFunctor_map_app]
     rfl
   refine Eq.mp (congrArg Function.Bijective (funext fun x ↦ funext fun i ↦ (key x i).symm))
     (hI.comp hL)

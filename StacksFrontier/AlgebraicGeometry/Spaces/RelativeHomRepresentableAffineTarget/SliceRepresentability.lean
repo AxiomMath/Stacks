@@ -674,7 +674,6 @@ private lemma overMapProdPullbackIso_natural
     rw [← Functor.map_comp, prod.map_snd, Functor.map_comp,
       ← Category.assoc, overMapProdPullbackIso_hom_snd]
 
-attribute [local implicit_reducible] CategoryTheory.Limits.prod.functor in
 private noncomputable def relativeHomRepresentableBy_baseChange
     {C : Type v} [Category.{u} C] [HasPullbacks C]
     {S U : C} [HasBinaryProducts (Over S)] [HasBinaryProducts (Over U)]

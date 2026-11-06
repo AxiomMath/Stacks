@@ -83,7 +83,7 @@ theorem faithful_representedSpacesInverseImage_of_surjective {V W : BigFppfOver 
   have e := Cat.Hom.toNatIso
     ((representedComparison (B := B) (S := S) (hS := hS)).naturality m.op.toLoc)
   have h1 := @Functor.Faithful.comp _ _ _ _ _ _ (representedRestriction V
-      (Type (u + 1))) _ inferInstance hS'
+      (Type (u + 1))) _ (representedRestriction_isEquivalence V (Type (u + 1))).faithful hS'
   have : (((representedSpacesPseudofunctor B S hS).map m.op.toLoc).toFunctor ⋙
       representedRestriction W (Type (u + 1))).Faithful :=
     @Functor.Faithful.of_iso _ _ _ _ _ _ h1 e.symm

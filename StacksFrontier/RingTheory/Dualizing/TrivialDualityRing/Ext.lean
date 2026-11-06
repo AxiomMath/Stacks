@@ -718,7 +718,7 @@ private theorem coextendSingleUnit_eq_derivedAdjunctionUnit
       have hchain : ηT ≫ (F₀.mapHomologicalComplex (.up ℤ)).map mG =
           ((CochainComplex.singleFunctor (ModuleCat.{max v u} B) q).map η) ≫
             mF.inv.app M := by
-        ext n : 1
+        refine HomologicalComplex.hom_ext _ _ (fun n => ?_)
         by_cases hn : n = q
         · subst n
           show adj₀.unit.app (T.X q) ≫ F₀.map (mG.f q) =
@@ -794,7 +794,6 @@ private theorem coextendSingleUnit_eq_derivedAdjunctionUnit
       · dsimp only [adj₀]
         simp only [Functor.map_comp]
       · rw [hpath]
-        rfl
       · rw [hnatE, H.map_comp]
         exact congrArg (fun t =>
           (HomologicalComplex.singleObjHomologySelfIso (.up ℤ) q P).inv ≫ t) hnatH'

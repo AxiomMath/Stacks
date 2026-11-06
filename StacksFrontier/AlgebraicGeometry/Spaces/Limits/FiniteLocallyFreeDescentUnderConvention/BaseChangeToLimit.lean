@@ -420,7 +420,7 @@ private theorem Conv.exists_gpb_stageToStage_eq {s : Over j}
     (isAlgebraicSpace_yoneda B S hS (baseTerminal B S hS))
     (yoneda.map (affineLineToBase B S hS)) (isLocallyOfFinitePresentation_affineLineToBase B S hS)
     s r r' (by
-      apply (cancel_epi (Conv.limChartIso B S hS D hconv hQcL hD hAffine T).hom).1
+      apply (Iso.cancel_iso_hom_left (Conv.limChartIso B S hS D hconv hQcL hD hAffine T) _ _).1
       simp only [r, r']
       rw [hl, hl, h])
     ((baseTerminal_yonedaIsTerminal B S hS).hom_ext _ _)

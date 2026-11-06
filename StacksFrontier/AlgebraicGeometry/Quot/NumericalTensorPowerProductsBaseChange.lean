@@ -71,6 +71,19 @@ attribute [local instance 5000] SheafOfModules.instAbelian
 attribute [local instance 5000] CategoryTheory.IsGrothendieckAbelian.enoughInjectives
 attribute [local instance] isGrothendieckAbelian_modules
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_NumericalTensorPowerProductsBaseChange
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_NumericalTensorPowerProductsBaseChange
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_NumericalTensorPowerProductsBaseChange B S hS).has_limit _
+
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} (D₀ : CoherentSituation B S hS)
   {Y' : AlgebraicSpaces B S hS} (g : Y' ⟶ D₀.Y)
 

@@ -155,7 +155,7 @@ changes of spelling rather than mathematics, and each is named here with its inp
    `Stacks.SheafOfModules.isQuasicoherentOnSite_restrictScalars_of_isIso` accepts *any*
    isomorphism of sheaves of rings, nothing is lost by using the first.
 2. *The sections of the crystalline sheafification over the object.*  `happ` is about
-   `(...restrictionFMap (tensorDifferentialFormsSheaf F i).val g).app (op ⊤)`, a map of sections
+   `(...restrictionFMap (tensorDifferentialFormsSheaf F i).obj g).app (op ⊤)`, a map of sections
    of the *crystalline* sheafification, while `tensorRestrictionFMapSheaf` is a map of sections of
    a *Zariski* sheafification on `T'`.  The identification is
    `...CrystallineThickening.restrictOpenSheafifyIso` of `SmallSite/SheafifySections.lean` at the
@@ -389,11 +389,11 @@ theorem hasSurjectiveWholeSpaceTransitions_of_surjective_fmap_top
     (h : ∀ (A B : CrystallineThickening S) (g : A ⟶ B), IsClosedImmersion g.hom.targetHom.hom →
       IsIso A.obj.toX → IsIso B.obj.toX →
       Function.Surjective (ConcreteCategory.hom
-        ((CohomologyRestriction.restrictionFMap G.val g).app
+        ((CohomologyRestriction.restrictionFMap G.obj g).app
           (op (⊤ : B.obj.thickening.target.scheme.Opens))))) :
     HasSurjectiveWholeSpaceTransitions G :=
   fun A B g hg hA hB ↦
-    surjective_map_of_surjective_restrictOpenMap_top G.val g (h A B g hg hA hB)
+    surjective_map_of_surjective_restrictOpenMap_top G.obj g (h A B g hg hA hB)
 
 /-! ### The `f`-map of a crystalline sheafification -/
 
@@ -483,7 +483,7 @@ theorem isLocallySurjective_restrictionFMap_tensorDifferentialFormsSheaf
     (hA : IsIso A.obj.toX) (hB : IsIso B.obj.toX) :
     Presheaf.IsLocallySurjective
       (Opens.grothendieckTopology B.obj.thickening.target.scheme)
-      (CohomologyRestriction.restrictionFMap (tensorDifferentialFormsSheaf F i).val g) := by
+      (CohomologyRestriction.restrictionFMap (tensorDifferentialFormsSheaf F i).obj g) := by
   have := isLocallySurjective_moduleFMap_tensorDifferentialForms F i hM g hg hA hB
   have hP : Presheaf.IsLocallySurjective
       (Opens.grothendieckTopology B.obj.thickening.target.scheme)
@@ -527,9 +527,9 @@ theorem hasSurjectiveWholeSpaceTransitions_tensorDifferentialFormsSheaf_of_surje
       IsIso A.obj.toX → IsIso B.obj.toX →
       Presheaf.IsLocallySurjective
           (Opens.grothendieckTopology B.obj.thickening.target.scheme)
-          (CohomologyRestriction.restrictionFMap (tensorDifferentialFormsSheaf F i).val g) →
+          (CohomologyRestriction.restrictionFMap (tensorDifferentialFormsSheaf F i).obj g) →
         Function.Surjective (ConcreteCategory.hom
-          ((CohomologyRestriction.restrictionFMap (tensorDifferentialFormsSheaf F i).val g).app
+          ((CohomologyRestriction.restrictionFMap (tensorDifferentialFormsSheaf F i).obj g).app
             (op (⊤ : B.obj.thickening.target.scheme.Opens))))) :
     HasSurjectiveWholeSpaceTransitions (tensorDifferentialFormsSheaf F i) :=
   hasSurjectiveWholeSpaceTransitions_of_surjective_fmap_top _ fun A B g hg hA hB ↦

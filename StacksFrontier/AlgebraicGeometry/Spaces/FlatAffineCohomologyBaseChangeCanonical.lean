@@ -154,7 +154,7 @@ three steps, all of them carried out in
 *The step-1 inverse, and why it was not a wall.*  Unfolding
 `tensorByBaseModulePresheafOfHomUnitIso`, `tensorByBaseModulePresheafOfHom`,
 `changeOfRingsUnitIso`, `constantModuleUnitIso` and `spanHom` turns step 1 into a
-monoidal-coherence computation in `PMod O.val`: the right unitor's inverse followed by three
+monoidal-coherence computation in `PMod O.obj`: the right unitor's inverse followed by three
 `whiskerLeft`s acting on the second tensor factor.  The first of those three is the inverse of
 
 ```
@@ -175,7 +175,7 @@ there as the image of `1` under the change-of-rings adjunction unit — which
 `Stacks.PresheafOfModules.ChangeOfRings.changeOfRingsAdjunction_unit_app_apply` reads as
 `1 ⊗ₜ 1` — out of the forward statement
 `Stacks.TensorByBaseModule.changeOfRingsUnitIso_hom_app_unit_app_one` and
-`CategoryTheory.Iso.hom_inv_id`.  The rest of step 1 is the right unitor of `PMod O.val` on
+`CategoryTheory.Iso.hom_inv_id`.  The rest of step 1 is the right unitor of `PMod O.obj` on
 sections, which is `TensorProduct.rid` and holds by `rfl`, `constantModuleUnitIso` acting as the
 identity, which also holds by `rfl`, and
 `Stacks.PresheafOfModules.ChangeOfRings.cofHom_app_tmul` twice.
@@ -290,7 +290,7 @@ variable {C : Type u₂} [CategoryTheory.Category.{v₂} C] (R : Type w₂) [Com
   (J : CategoryTheory.GrothendieckTopology C)
   [J.HasSheafCompose (CategoryTheory.forget₂ CommRingCat.{w₂} RingCat.{w₂})]
   (O : CategoryTheory.Sheaf J CommRingCat.{w₂})
-  (𝓕 : SheafOfModules.{w₂} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.val)
+  (𝓕 : SheafOfModules.{w₂} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.obj)
   [J.WEqualsLocallyBijective AddCommGrpCat.{w₂}]
   [CategoryTheory.HasWeakSheafify J AddCommGrpCat.{w₂}]
 

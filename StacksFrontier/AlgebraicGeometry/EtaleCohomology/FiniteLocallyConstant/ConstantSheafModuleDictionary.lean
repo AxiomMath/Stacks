@@ -260,12 +260,11 @@ public theorem rho_eq_one_finiteTypeLocallyConstantModuleSheafEquivalence_consta
     (M : ModuleCat.{u + 1} Λ) [Finite (ToType M)] (σ : EtaleFundamentalGroup X.1 x) :
     ((finiteTypeLocallyConstantModuleSheafEquivalence B X x Λ).functor.obj
       (constantSheafFiniteTypeLocallyConstantModule B X Λ M)).obj.obj.obj.ρ σ = 1 := by
-  apply ModuleCat.hom_ext
-  ext v
-  exact ConcreteCategory.congr_hom
+  refine End.ext (ModuleCat.hom_ext (LinearMap.ext fun v ↦ ?_))
+  exact ConcreteCategory.congr_hom (congrArg End.asHom
     (rho_eq_one_finiteLocallyConstantSetsEquivalence_of_constant B X x
       (constantSheafModuleUnderlyingFiniteLocallyConstant B X Λ M) (ToType M)
-      (constantSheafModuleForget₂ForgetIso B X Λ M) σ) v
+      (constantSheafModuleForget₂ForgetIso B X Λ M) σ)) v
 
 /-- **Stacks Project, Tag 0DV5 (3) on a constant sheaf of modules: the underlying set.** The
 finite `Λ`-module with a commuting continuous `π₁(X, x)`-action attached to the constant sheaf of

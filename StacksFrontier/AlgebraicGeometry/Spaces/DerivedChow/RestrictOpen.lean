@@ -32,6 +32,8 @@ attribute [local instance 5000] SheafOfModules.instAbelian
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 attribute [local instance 10000] HasDerivedCategory.standard
+attribute [local instance] hasPullbacks_presheaf_Datum
+attribute [local instance high] hasPullback_presheaf_Datum
 
 open DerivedChow
 

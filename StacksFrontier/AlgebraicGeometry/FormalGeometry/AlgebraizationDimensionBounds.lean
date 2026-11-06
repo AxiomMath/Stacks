@@ -77,8 +77,10 @@ private theorem krullDim_eq_of_bounded_grade
     (δ : α → ℤ)
     (hstep : ∀ {a b : α}, a ⋖ b → δ a = δ b + 1) :
     Order.krullDim α = (((δ ⊥ - δ ⊤).toNat : ℕ∞) : WithBot ℕ∞) := by
-  have : WellFoundedLT α := ⟨SetRel.IsWellFounded.of_finiteDimensional {(a, b) : α × α | a < b}⟩
-  have : WellFoundedGT α := ⟨SetRel.IsWellFounded.inv_of_finiteDimensional {(a, b) : α × α | a < b}⟩
+  have : WellFoundedLT α :=
+    SetRel.IsWellFounded.of_finiteDimensional {(a, b) : α × α | a < b}
+  have : WellFoundedGT α :=
+    SetRel.IsWellFounded.inv_of_finiteDimensional {(a, b) : α × α | a < b}
   let s := LTSeries.longestOf α
   obtain ⟨t, e, _, ht₀, ht₁⟩ :=
     s.exists_relSeries_covBy_and_head_eq_bot_and_last_eq_bot

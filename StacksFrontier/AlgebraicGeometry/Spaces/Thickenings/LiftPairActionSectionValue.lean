@@ -118,8 +118,8 @@ transpose of `D` along [Stacks Project, Tag 08TQ].
 This is `Equiv.apply_symm_apply`: the outermost of the three bijections composed in the
 definition is cancelled rather than computed. -/
 theorem etaleSourceAdjEquiv_definingIdealHomOfDerivation
-    (D : (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom) :
     etaleSourceAdjEquiv B S hS b' q (definingIdealSheaf B S hS X' ⟨G, hG.1⟩).toSheafOfModules
         (definingIdealHomOfDerivation B S hS hG b' q D) =
       (differentialsHomEquiv B S hS q
@@ -136,8 +136,8 @@ local section `t` of `𝒪_{Y'}` to the value at `t` of the transpose of `D`.
 This is the characterising equation of the universal property of [Stacks Project, Tag 04CT],
 `AlgebraicGeometry.Space.differentialsHomEquiv_symm_app_d`, read at the transposed derivation. -/
 theorem definingIdealHomOfDerivation_transpose_app_d
-    (D : (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom)
     (W : (SmallEtale B S hS Y'.1)ᵒᵖ) (t : (structureRingSheaf B S hS Y').obj.obj W) :
     (((etaleSourceAdjEquiv B S hS b' q
             (definingIdealSheaf B S hS X' ⟨G, hG.1⟩).toSheafOfModules
@@ -161,8 +161,8 @@ composite of three bijections it is defined by.  The proof is the uniqueness hal
 [Stacks Project, Tag 04CT], `AlgebraicGeometry.Space.sheafOfDifferentials_hom_ext`, applied to
 the two transposes, followed by injectivity of the transposition. -/
 theorem eq_definingIdealHomOfDerivation_of_transpose_app_d
-    (D : (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom)
     (ψ : (modulePullback B S hS b').obj (sheafOfDifferentials B S hS q) ⟶
       (definingIdealSheaf B S hS X' ⟨G, hG.1⟩).toSheafOfModules)
     (h : ∀ (W : (SmallEtale B S hS Y'.1)ᵒᵖ) (t : (structureRingSheaf B S hS Y').obj.obj W),
@@ -185,8 +185,8 @@ Tag 061D]**: the morphism `a^*Ω_{Y'/Bb} ⟶ 𝒞_{X/X'}` attached to `D` is com
 morphism `ψ` satisfying the characterising equation, by the composition comparison of
 [Stacks Project, Tag 03LU] and the inverse image along the inclusion of the thickening. -/
 theorem liftPairActionSectionOfDerivation_eq_of_transpose_app_d
-    (D : (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom)
     (ψ : (modulePullback B S hS b').obj (sheafOfDifferentials B S hS q) ⟶
       (definingIdealSheaf B S hS X' ⟨G, hG.1⟩).toSheafOfModules)
     (h : ∀ (W : (SmallEtale B S hS Y'.1)ᵒᵖ) (t : (structureRingSheaf B S hS Y').obj.obj W),
@@ -210,8 +210,8 @@ theorem liftPairActionSectionOfDerivation_eq_of_transpose_app_d
 `AlgebraicGeometry.Space.liftPairGlobalSection` and hence
 `AlgebraicGeometry.Space.chartLiftPairGlobalSection` live. -/
 theorem liftPairGlobalSectionOfDerivation_eq_of_transpose_app_d
-    (D : (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
-      (liftPairSecondSharp B S hS b')).Derivation' (liftPairBaseMap B S hS b' q).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+      (liftPairSecondSharp B S hS b')) (liftPairBaseMap B S hS b' q).hom)
     (ψ : (modulePullback B S hS b').obj (sheafOfDifferentials B S hS q) ⟶
       (definingIdealSheaf B S hS X' ⟨G, hG.1⟩).toSheafOfModules)
     (h : ∀ (W : (SmallEtale B S hS Y'.1)ᵒᵖ) (t : (structureRingSheaf B S hS Y').obj.obj W),

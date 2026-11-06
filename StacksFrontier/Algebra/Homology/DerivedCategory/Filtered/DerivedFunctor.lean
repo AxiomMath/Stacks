@@ -7,6 +7,7 @@ public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 public import Mathlib.Analysis.SpecialFunctions.Bernstein
 public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+public import Mathlib.CategoryTheory.Abelian.Exact
 public import Mathlib.CategoryTheory.EffectiveEpi.Comp
 public import Mathlib.CategoryTheory.ExtremalEpi
 public import Mathlib.CategoryTheory.Monoidal.Mon
@@ -107,7 +108,7 @@ public theorem solution
             (X := ⟨_, hK p⟩) (Y := ⟨_, hI p⟩)
             ((gr p).map α)))) =
         DerivedCategory.Plus.Qh.map (e p).hom ≫
-          T.rightDerivedFunctorPlusUnit.app
+          T.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient A).obj ⟨_, hI p⟩) := by
   set f := (HomotopyCategory.Plus.quotient A).map (ObjectProperty.homMk
     (X := (⟨_, hK p⟩ : CochainComplex.Plus A)) (Y := ⟨_, hI p⟩) ((gr p).map α))
@@ -121,7 +122,7 @@ public theorem solution
   have : ∀ n : ℤ, Injective (((HomotopyCategory.Plus.quotient A).obj
       (⟨_, hI p⟩ : CochainComplex.Plus A)).obj.as.X n) := fun n => hinj p n
   refine ⟨(DerivedCategory.Plus.Qh.mapIso (e p)).trans
-    ((asIso (T.rightDerivedFunctorPlusUnit.app
+    ((asIso (T.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient A).obj ⟨_, hI p⟩))).trans
       (asIso (T.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map f))).symm), ?_⟩
   simp
@@ -188,7 +189,7 @@ with `ℤᵒᵖ` recording that the filtration decreases, `gr^p` is
 `FilteredObject.gr p`, and a filtered quasi-isomorphism is
 `CochainComplex.filteredQuasiIso`. The localisation `D⁺` is spelled as `DerivedCategory.Plus.Qh`
 on the bounded below homotopy category, rather than through `DerivedCategory.Plus.Q`, because that
-is where Mathlib's unit `Functor.rightDerivedFunctorPlusUnit` of the right derived functor lives.
+is where Mathlib's unit `Functor.rightDerivedFunctorPlusUnith` of the right derived functor lives.
 
 *Minimal hypotheses.* Only what the conclusion uses is assumed: `T` is additive, where the source
 assumes it left exact (as in [Stacks, Tag 015J] and [Stacks, Tag 015W]; `RT` exists for an additive
@@ -270,7 +271,7 @@ public theorem exists_iso_gradedPiece_rightDerivedFunctorPlus_of_filteredQuasiIs
             (X := ⟨_, hK p⟩) (Y := ⟨_, hI p⟩)
             ((gr p).map α)))) =
         DerivedCategory.Plus.Qh.map (e p).hom ≫
-          T.rightDerivedFunctorPlusUnit.app
+          T.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient A).obj ⟨_, hI p⟩) :=
   Stacks.FilteredDerived.GradedPieceIso.solution (I := I) (K := K) T α hα hinj M hK hI hM e p
 
@@ -415,7 +416,7 @@ public theorem solution
       IsZero ((I.filtration.obj (op q)).X n))
     (hinj : ∀ p n : ℤ,
       Injective (((FilteredObject.gr p).obj I).X n)) :
-    IsIso (T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj
+    IsIso (T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj
       ⟨FilteredObject.forget.obj I,
         (CochainComplex.plus_iff A _).2 ⟨a, ‹I.X.IsStrictlyGE a›⟩⟩)) := by
   -- The underlying complex of `I` is a bounded below complex of injective objects.
@@ -474,7 +475,7 @@ injective objects; by [Stacks, Tag 015Q](1) every object of `DF⁺(𝒜)` is of 
 isomorphism, so this is no loss. There the left-hand composite is `Q(T((forget F) I))` — by
 [Stacks, Tag 05U2] and the identification of the underlying complex of `T_ext(I)` recalled above —
 and the right-hand composite is `RT(Q((forget F) I))`, and the comparison map is the component of
-`CategoryTheory.Functor.rightDerivedFunctorPlusUnit`, the canonical natural transformation
+`CategoryTheory.Functor.rightDerivedFunctorPlusUnith`, the canonical natural transformation
 `Q ∘ T ⟶ RT ∘ Q` on `K⁺(𝒜)` which is part of the data making `RT` a right derived functor. Since
 that transformation is natural, the single assertion that it is invertible at every such `I` *is*
 the source's isomorphism of functors, restricted along the equivalence of [Stacks, Tag 015Q]. The
@@ -524,7 +525,7 @@ dropped either. (2) The base is the source's: two abelian categories `𝒜`, `�
 functor `T : 𝒜 ⥤ ℬ` between them, filtrations indexed by `ℤ` with the source's decreasing
 convention, cochain complexes with cohomological indexing, and the comparison taken in `D⁺(ℬ)`
 itself. (3) The canonical map is pinned: it is the component of
-`CategoryTheory.Functor.rightDerivedFunctorPlusUnit`, not an unnamed isomorphism, so the statement
+`CategoryTheory.Functor.rightDerivedFunctorPlusUnith`, not an unnamed isomorphism, so the statement
 is the characterising property of `RT` at this object rather than a bare equivalence of objects.
 (4) The instantiation is not degenerate: for `𝒜 = ℬ = ModuleCat ℤ`, `E^• = (ℚ ⟶ ℚ/ℤ)` in degrees
 `0, 1` and `I^• = E^• ⊕ E^•` filtered by `F^p I = I` for `p ≤ 0`, `F^1 I = 0 ⊕ E^•` and
@@ -578,7 +579,7 @@ public theorem isIso_rightDerivedFunctorPlusUnit_app_forget_of_injective_gradedP
     (T : A ⥤ B) [T.Additive]
     (I : FilteredObject (CochainComplex A ℤ) ℤᵒᵖ) (a : ℤ) [I.X.IsStrictlyGE a]
     (hI : ∀ n : ℤ, (evalFil I n).IsFilteredInjective) :
-    IsIso (T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj
+    IsIso (T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj
       ⟨FilteredObject.forget.obj I,
         (CochainComplex.plus_iff A _).2 ⟨a, ‹I.X.IsStrictlyGE a›⟩⟩)) :=
   Stacks.FilteredDerived.ForgetCommutes.solution (B := B) T I a

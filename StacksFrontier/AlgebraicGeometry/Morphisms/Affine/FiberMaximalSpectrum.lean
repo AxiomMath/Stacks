@@ -213,8 +213,9 @@ instance isIntegral_pushforwardStalk [IsIntegralHom f] (y : Y) :
 /-- The kernel of the evaluation at a point of the fibre of an integral morphism is maximal. -/
 private lemma isMaximal_ker_fiberResidue [IsIntegralHom f] (x : X) :
     (RingHom.ker (f.fiberResidue x).hom).IsMaximal :=
-  Ideal.isMaximal_of_isIntegral_of_isMaximal_comap _
-    ((f.comap_ker_fiberResidue x) ▸ IsLocalRing.maximalIdeal.isMaximal _)
+  Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := Y.presheaf.stalk (f x)) _
+    (show Ideal.IsMaximal (Ideal.comap _ _) from
+      (f.comap_ker_fiberResidue x) ▸ IsLocalRing.maximalIdeal.isMaximal _)
 
 /-- **The evaluation of the pushforward stalk in the residue field of a point of the fibre is
 surjective.**  Its kernel is a maximal ideal, because the pushforward stalk is integral over the
@@ -332,7 +333,7 @@ lemma bijective_fiberMaximalIdeal [IsIntegralHom f] (y : Y) :
     have hcomap : q.asIdeal.comap (algebraMap (Y.presheaf.stalk y) (f.pushforwardStalk y)) =
         maximalIdeal (Y.presheaf.stalk y) :=
       IsLocalRing.eq_maximalIdeal
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q.asIdeal)
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := Y.presheaf.stalk y) q.asIdeal)
     have hq₀comap : (q.asIdeal.comap (f.pushforwardGerm V y hy).hom).comap (f.app V).hom =
         (hV.primeIdealOf ⟨y, hy⟩).asIdeal := by
       rw [Ideal.comap_comap, ← CommRingCat.hom_comp,

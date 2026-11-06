@@ -59,6 +59,7 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+
 /-- The closed immersion of the representing scheme of a closed subspace is a monomorphism of
 the site: its Yoneda image is an isomorphism followed by the inclusion of a subfunctor. -/
 theorem mono_representedClosedHom (T : BigFppfOver B S hS)
@@ -66,8 +67,10 @@ theorem mono_representedClosedHom (T : BigFppfOver B S hS)
   have : IsIso (Z.2.2.rep.fst (idEtaleChart B S hS T).1.hom) :=
     isIso_representedClosedMap_hom B S hS T Z
   have : Mono (yoneda.map (representedClosedHom B S hS T Z)) := by
+    have h1 : Mono (Z.2.2.rep.fst (idEtaleChart B S hS T).1.hom) := IsIso.mono_of_iso _
+    have h2 : Mono Z.1.ι := inferInstance
     rw [yoneda_map_representedClosedHom]
-    exact mono_comp _ _
+    exact @mono_comp _ _ _ _ _ _ h1 _ h2
   exact yoneda.mono_of_mono_map inferInstance
 
 section Lift

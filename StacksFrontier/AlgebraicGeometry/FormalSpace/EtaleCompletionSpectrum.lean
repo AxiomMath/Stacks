@@ -413,6 +413,18 @@ private theorem stageTransition_snd {X : Sheaf (BigFppfOver.topology 𝔅 S hS) 
     stageTransition c x f ≫ pullback.snd _ _ = pullback.snd _ _ :=
   baseChangeDiagram_map_snd c x f
 
+/-- Pullbacks of fppf sheaves, found directly (instance search through a preorder index category
+otherwise times out). -/
+local instance (priority := high) hasPullbacks_sheaf_etaleCompletionSpectrum :
+    HasPullbacks (Sheaf (BigFppfOver.topology 𝔅 S hS) (Type (u + 1))) :=
+  inferInstance
+
+/-- Limits of cospans of fppf sheaves, found directly. -/
+local instance (priority := high) hasLimit_cospan_sheaf_etaleCompletionSpectrum
+    {X Y Z : Sheaf (BigFppfOver.topology 𝔅 S hS) (Type (u + 1))} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Glueing
 
 variable {I : Type*} [Preorder I] {Δ : I ⥤ BigFppfOver 𝔅 S hS}
@@ -729,7 +741,7 @@ theorem isEtaleULift_pullback_of_compact_pullback {X Y : FppfSheaf 𝔅 S hS} (�
         (r : (BigFppfOver.topology 𝔅 S hS).uliftYoneda.{u + 1}.obj W ⟶ X),
         IsPullback r ((BigFppfOver.topology 𝔅 S hS).uliftYoneda.{u + 1}.map p) Φ ξ →
         Etale ((BigFppfOver.toScheme 𝔅 S hS).map p))
-    (T : BigFppfOver 𝔅 S hS) (ξp : (uliftYoneda.{u + 1}).obj T ⟶ Y.val) :
+    (T : BigFppfOver 𝔅 S hS) (ξp : (uliftYoneda.{u + 1}).obj T ⟶ Y.obj) :
     Space.IsEtaleULift.{u + 1} 𝔅 S hS (pullback.fst ξp Φ.hom) := by
   classical
   let := HasRingHomProperty.instIsZariskiLocalAtSource (P := @Etale.{u}) (Q := RingHom.Etale)

@@ -62,6 +62,17 @@ namespace AlgebraicGeometry.Space.FormalGlueingSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_HomSheafSizeBound
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+local instance (priority := high) hasBinaryProducts_presheaf_HomSheafSizeBound :
+    HasBinaryProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  hasLimitsOfShape_discrete_presheaf_HomSheafSizeBound _
+
 /-! ### The affine line over `S` in the site -/
 
 section AffineLine

@@ -172,11 +172,9 @@ instance natTransCommShift_rightDerivedFunctorPlusIsoOfCompIso (e : F ⋙ G ≅ 
   have h₂ : NatTrans.CommShift (Functor.isoWhiskerRight
       (mapHomotopyCategoryPlusIsoOfCompIso F G H e) DerivedCategory.Plus.Qh).hom ℤ :=
     NatTrans.CommShift.whiskerRight _ _ ℤ
-  have h₄ : NatTrans.CommShift H.rightDerivedFunctorPlusUnit ℤ :=
-    CategoryTheory.Functor.natTransCommShiftRightDerivedFunctorPlusUnit H
   have h₃ : NatTrans.CommShift ((Functor.isoWhiskerRight
       (mapHomotopyCategoryPlusIsoOfCompIso F G H e) DerivedCategory.Plus.Qh).hom ≫
-        H.rightDerivedFunctorPlusUnit) ℤ := NatTrans.CommShift.comp _ _ ℤ
+        H.rightDerivedFunctorPlusUnith) ℤ := NatTrans.CommShift.comp _ _ ℤ
   exact Stacks.Triangulated.natTransCommShift_rightDerivedDesc _ _
     (HomotopyCategory.Plus.quasiIso C) ℤ _ _
 

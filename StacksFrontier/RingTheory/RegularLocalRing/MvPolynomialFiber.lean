@@ -3,6 +3,7 @@ module
 import Mathlib.RingTheory.RegularLocalRing.Polynomial
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
+import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Topology.Sheaves.Presheaf
 
@@ -92,7 +93,7 @@ theorem ringKrullDim_fiber_mvPolynomial (ι : Type*) [Finite ι] :
     ringKrullDim (p.Fiber (MvPolynomial ι R)) = (Nat.card ι : WithBot ℕ∞) := by
   rw [ringKrullDim_eq_of_ringEquiv
       (MvPolynomial.algebraTensorAlgEquiv R p.ResidueField (σ := ι)).toRingEquiv,
-    MvPolynomial.ringKrullDim_of_isNoetherianRing]
+    MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite]
   simp
 
 /-- **The local rings of the fibres of a polynomial ring are regular local**, the fibre being the

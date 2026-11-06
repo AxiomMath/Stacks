@@ -283,7 +283,7 @@ theorem objectwiseDifferentials_map_chartObjectwiseUp {U₁ U₂ : Over d.U} (g 
     refine Eq.trans ?_ (congrArg (chartObjectwiseUp B S hS f d)
       (chartSectionsKaehlerRestrict_D B S hS f d g b).symm)
     exact congrArg ULift.up
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
         (structureSharpInverseImage B S hS f).hom g.left.op b)
   | zero =>
     refine (map_zero _).trans ?_

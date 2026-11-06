@@ -227,9 +227,7 @@ theorem map_comap_eq_comap_map_of_flat {R S A B : Type*} [CommRing R] [CommRing 
     · rw [LinearMap.range_le_iff_comap, eq_top_iff]
       intro t _
       simp only [Submodule.mem_comap]
-      induction t using TensorProduct.induction_on with
-      | zero =>
-        rw [map_zero]; exact Submodule.zero_mem _
+      induction t using TensorProduct.inductionOn with
       | tmul a s =>
         rw [hγt]
         exact
@@ -392,7 +390,6 @@ lemma sqCoreNatMap_range (A B : Type*) [CommRing A] [CommRing B] [Algebra A B] (
   apply le_antisymm
   · rintro _ ⟨t, rfl⟩
     induction t with
-    | zero => simp
     | tmul b a =>
       rw [sqCoreNatMap_tmul]; exact Ideal.mul_mem_left _ _ (Ideal.mem_map_of_mem _ a.property)
     | add x y hx hy =>
@@ -458,13 +455,11 @@ theorem sqCore_endpoint_inj (A B Vi : Type*) [CommRing A] [CommRing B] [Algebra 
       e ((TensorProduct.mk A (A ⧸ 𝔪) B (1 : A ⧸ 𝔪) u) • w) = u • e w := by
     intro w
     induction w with
-    | zero => simp
     | add a b ha hb => rw [smul_add, map_add, ha, hb, map_add, smul_add]
     | tmul d v =>
       rw [he]
       simp only [LinearEquiv.trans_apply, LinearEquiv.restrictScalars_apply]
       induction d with
-      | zero => simp
       | add d1 d2 h1 h2 =>
         simp only [TensorProduct.add_tmul, smul_add, map_add]
         rw [h1, h2]
@@ -542,8 +537,6 @@ theorem sq_core_cancel {A B : Type*} [CommRing A] [CommRing B] [Algebra A B]
     apply le_antisymm
     · rintro _ ⟨t, rfl⟩
       induction t with
-      | zero =>
-        rw [map_zero]; exact Submodule.zero_mem _
       | tmul b
         y =>
         rw [LinearMap.comp_apply, hincl, hΦ, LinearMap.baseChange_tmul, sqCoreNatMap_tmul]

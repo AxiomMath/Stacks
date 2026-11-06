@@ -102,10 +102,12 @@ theorem isEquivalence_representedSpacesInverseImage_of_isEquivalence {V W : BigF
     ((representedComparison (B := B) (S := S) (hS := hS)).naturality m.op.toLoc)
   have h₃ := @Functor.isEquivalence_trans _ _ _ _ _ _ (representedRestriction V (Type (u + 1)))
     ((representedSchemesPseudofunctor B S hS).map m.op.toLoc).toFunctor
-    (representedRestriction_isEquivalence V (Type (u + 1))) hS'
+    (@representedRestriction_isEquivalence _ _ _ V (Type (u + 1)) _
+      (fun _ => HasLimitsOfSize.has_limits_of_shape (C := Type (u + 1)) _)) hS'
   have h₄ := @Functor.isEquivalence_of_iso _ _ _ _ _ _ e'.symm h₃
   exact @Functor.isEquivalence_of_comp_right _ _ _ _ _ _ _ (representedRestriction W (Type (u + 1)))
-    (representedRestriction_isEquivalence W (Type (u + 1))) h₄
+    (@representedRestriction_isEquivalence _ _ _ W (Type (u + 1)) _
+      (fun _ => HasLimitsOfSize.has_limits_of_shape (C := Type (u + 1)) _)) h₄
 
 end AlgebraicGeometry.Space
 

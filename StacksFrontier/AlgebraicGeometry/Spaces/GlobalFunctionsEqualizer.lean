@@ -237,6 +237,7 @@ theorem presheaf_etale_chartRelocalizeRestrict
     MorphismProperty.IsStableUnderBaseChange.respectsIso
   presheaf_chartRelocalizeRestrict_of_respectsIso B g p _ hpe
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The base change of the kernel pair of a chart is the kernel pair of the base-changed chart. -/
 theorem isPullback_chartRelocalizeRestrict (r₁ r₂ : R ⟶ U)
     (hR : IsPullback (yoneda.map r₁) (yoneda.map r₂) p p) :
@@ -363,8 +364,7 @@ theorem bijective_algebraMap_globalFunctions_relocalizeRestrict_iff
   have hF2 (r : R ⟶ U) (x : A' ⊗[A] Γ((BigFppfOver.toScheme B (Spec (.of A)) hA).obj U, ⊤)) :
       ((BigFppfOver.toScheme B (Spec (.of A')) hA').map ((Over.pullback g).map r)).appTop
           (eU x) = eR ((siteObjectAlgHom B r).toLinearMap.lTensor A' x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x with
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy, map_add]
     | tmul a c =>
       rw [heU, LinearMap.lTensor_tmul, heR, map_mul]
@@ -418,8 +418,7 @@ theorem bijective_algebraMap_globalFunctions_iff
   have hF2 (r : R ⟶ U) (x : A ⊗[A] Γ((BigFppfOver.toScheme B (Spec (.of A)) hA).obj U, ⊤)) :
       ((BigFppfOver.toScheme B (Spec (.of A)) hA).map r).appTop (TensorProduct.lid A _ x) =
         TensorProduct.lid A _ ((siteObjectAlgHom B r).toLinearMap.lTensor A x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x with
     | add x y hx hy => rw [map_add, map_add, map_add, hx, hy, map_add]
     | tmul a c =>
       rw [TensorProduct.lid_tmul, LinearMap.lTensor_tmul, TensorProduct.lid_tmul]

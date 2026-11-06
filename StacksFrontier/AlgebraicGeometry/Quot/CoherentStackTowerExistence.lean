@@ -560,6 +560,7 @@ theorem siteIso_inv_comp_relocalize :
         τ.baseMor τ.siteStructure = D.projection τ.T ≫ τ.limitTargetIso.hom := by
   apply ObjectProperty.hom_ext
   have := τ.isIso_limitTargetMap
+  have : Mono τ.limitTargetMap := IsIso.mono_of_iso (f := τ.limitTargetMap)
   rw [← cancel_mono τ.limitTargetMap]
   have e1 : τ.siteIso.inv.hom ≫ τ.siteIso.hom.hom = 𝟙 _ :=
     congrArg (fun k => k.hom) τ.siteIso.inv_hom_id

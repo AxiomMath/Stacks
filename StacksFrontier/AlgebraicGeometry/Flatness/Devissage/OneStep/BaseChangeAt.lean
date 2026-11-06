@@ -231,7 +231,7 @@ private lemma purelyTranscendental_of_ringEquiv_base {k k' K : Type u} [Field k]
       rw [hgen]
       trivial
     refine IntermediateField.adjoin_induction (F := k) (E := K) (s := s)
-      (p := fun y _ ↦ y ∈ IntermediateField.adjoin k' s)
+      (motive := fun y _ ↦ y ∈ IntermediateField.adjoin k' s)
       (fun y hy ↦ IntermediateField.subset_adjoin k' s hy) (fun a ↦ ?_)
       (fun _ _ _ _ hx hy ↦ add_mem hx hy) (fun _ _ hx ↦ inv_mem hx)
       (fun _ _ _ _ hx hy ↦ mul_mem hx hy) hx

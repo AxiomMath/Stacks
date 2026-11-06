@@ -218,7 +218,7 @@ variable {R : Type u} [CommRing R] [IsLocalRing R] {S : Type v} [CommRing S] [Al
 private theorem comap_eq_maximalIdeal (q : Ideal S) [q.IsMaximal] :
     q.comap (algebraMap R S) = maximalIdeal R :=
   have : (q.comap (algebraMap R S)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) q
   eq_maximalIdeal ‹_›
 
 /-- An element of `𝔪` maps into the maximal ideal of every localization of `S` at a maximal
@@ -273,7 +273,8 @@ private theorem exists_mem_maximalIdeal_isSMulRegular [IsNoetherianRing R]
   obtain ⟨qq, hq, hcomap⟩ := hmem
   have : qq.IsPrime := hq.isPrime
   have hqmax : qq.IsMaximal :=
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap qq (hcomap ▸ maximalIdeal.isMaximal R)
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) qq
+      (show (qq.comap (algebraMap R S)).IsMaximal from hcomap ▸ maximalIdeal.isMaximal R)
   set P : MaximalSpectrum S := ⟨qq, hqmax⟩
   exact hdepth P (depth_eq_zero_of_isAssociatedPrime P.asIdeal (Sₘ P) (g P) hq)
 

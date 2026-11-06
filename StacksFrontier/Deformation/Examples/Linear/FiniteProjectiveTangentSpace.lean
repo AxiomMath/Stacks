@@ -379,15 +379,7 @@ private theorem exists_iso_of_base_eq_dualNumber
                TensorProduct (↑ε) (↑hpoint.base) carrier →ₗ[k]
                  TensorProduct (DualNumber k) k carrier) ?_
         · intro c z
-          refine TensorProduct.induction_on z ?_ ?_ ?_
-          · calc
-              eT (c • (0 : TensorProduct (↑ε) (↑hpoint.base) carrier)) = eT 0 :=
-                congrArg eT (smul_zero c)
-              _ = 0 := eT.map_zero
-              _ = c • eT 0 := by
-                have hz : c • (0 : TensorProduct (DualNumber k) k carrier) = 0 :=
-                  TensorProduct.smul_zero c
-                simpa only [eT.map_zero] using hz.symm
+          refine TensorProduct.inductionOn z ?_ ?_
           · intro a m
             change (eK (c • a)) ⊗ₜ[DualNumber k] (eM m) =
               c • ((eK a) ⊗ₜ[DualNumber k] (eM m))

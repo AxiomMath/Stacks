@@ -176,15 +176,15 @@ public theorem injective_inducedHom_iff_exists_epi_mono
     let eV : Q.obj.V ≃ (Aut F ⧸ (V : Subgroup (Aut F))) :=
       FintypeCat.uSwitchEquiv QV.V
     have hnat (g : Aut F') (y : Y.obj.V) :
-        eW ((Y.obj.ρ g).hom y) = (QW.ρ g).hom (eW y) :=
-      (FintypeCat.uSwitchEquiv_naturality (QW.ρ g) y).symm
+        eW (((Y.obj.ρ g).asHom).hom y) = ((QW.ρ g).asHom).hom (eW y) :=
+      (FintypeCat.uSwitchEquiv_naturality ((QW.ρ g).asHom) y).symm
     let pHom : Y.obj ⟶ (B.obj X'').obj := {
       hom := FintypeCat.homMk (fun y => quotientMapToAction (W : Subgroup (Aut F')) x hWstab (eW y))
       comm := by
         intro g
         ext y
         show quotientMapToAction (W : Subgroup (Aut F')) x hWstab
-            (eW ((Y.obj.ρ g).hom y)) =
+            (eW (((Y.obj.ρ g).asHom).hom y)) =
           g • quotientMapToAction (W : Subgroup (Aut F')) x hWstab (eW y)
         rw [hnat]
         exact quotientMapToAction_smul (W : Subgroup (Aut F')) x hWstab g (eW y) }
@@ -202,23 +202,23 @@ public theorem injective_inducedHom_iff_exists_epi_mono
       comm := by
         intro g
         ext y
-        show castR (eV.symm (qmap (eW ((Y.obj.ρ g).hom y)))) =
-          (R.obj.ρ g).hom (castR (eV.symm (qmap (eW y))))
-        have htarget : R.obj.ρ g =
-            FintypeCat.uSwitch.map (QV.ρ (d.hom g)) := rfl
+        show castR (eV.symm (qmap (eW (((Y.obj.ρ g).asHom).hom y)))) =
+          ((R.obj.ρ g).asHom).hom (castR (eV.symm (qmap (eW y))))
+        have htarget : (R.obj.ρ g).asHom =
+            FintypeCat.uSwitch.map ((QV.ρ (d.hom g)).asHom) := rfl
         rw [hnat]
         show castR (eV.symm (qmap (g • eW y))) =
-          (R.obj.ρ g).hom (castR (eV.symm (qmap (eW y))))
+          ((R.obj.ρ g).asHom).hom (castR (eV.symm (qmap (eW y))))
         have hq : qmap (g • eW y) = d.hom g • qmap (eW y) := by
           exact quotientMapOfComap_smul d.hom.toMonoidHom (V : Subgroup (Aut F))
             (W : Subgroup (Aut F')) hcomap g (eW y)
         rw [hq]
         rw [htarget]
-        show eV.symm (ConcreteCategory.hom (QV.ρ (d.hom g)) (qmap (eW y))) =
-          ConcreteCategory.hom (FintypeCat.uSwitch.map (QV.ρ (d.hom g)))
+        show eV.symm (ConcreteCategory.hom ((QV.ρ (d.hom g)).asHom) (qmap (eW y))) =
+          ConcreteCategory.hom (FintypeCat.uSwitch.map ((QV.ρ (d.hom g)).asHom))
             (eV.symm (qmap (eW y)))
         convert (FintypeCat.uSwitchEquiv_symm_naturality
-          (QV.ρ (d.hom g)) (qmap (eW y))).symm using 1
+          ((QV.ρ (d.hom g)).asHom) (qmap (eW y))).symm using 1
         · simp [eV, QV, quotientContAction, Action.FintypeCat.ofMulAction]
           rfl }
     let i0 : Y ⟶ (ContAction.res FintypeCat d.hom).obj Q := ObjectProperty.homMk iHom
@@ -293,29 +293,29 @@ public theorem injective_inducedHom_iff_exists_epi_mono
     have hmap_natural (g : Aut F') {X Y : C'} (f : X ⟶ Y)
         (x : (B.obj X).obj.V) :
         ConcreteCategory.hom (B.map f).hom.hom
-            (ConcreteCategory.hom ((B.obj X).obj.ρ g) x) =
-          ConcreteCategory.hom ((B.obj Y).obj.ρ g)
+            (ConcreteCategory.hom (((B.obj X).obj.ρ g).asHom) x) =
+          ConcreteCategory.hom (((B.obj Y).obj.ρ g).asHom)
             (ConcreteCategory.hom (B.map f).hom.hom x) := by
       have hc := (B.map f).hom.comm g
       have hx := congrArg
         (fun m : (B.obj X).obj.V ⟶ (B.obj Y).obj.V => ConcreteCategory.hom m x) hc
       simpa only [FintypeCat.comp_apply] using hx
     have hfix_map (g : Aut F') {X Y : C'} (f : Y ⟶ X)
-        (hY : ∀ y : (B.obj Y).obj.V, ConcreteCategory.hom ((B.obj Y).obj.ρ g) y = y)
+        (hY : ∀ y : (B.obj Y).obj.V, ConcreteCategory.hom (((B.obj Y).obj.ρ g).asHom) y = y)
         (x : (B.obj X).obj.V) (y : (B.obj Y).obj.V)
         (hy : ConcreteCategory.hom (B.map f).hom.hom y = x) :
-        ConcreteCategory.hom ((B.obj X).obj.ρ g) x = x := by
+        ConcreteCategory.hom (((B.obj X).obj.ρ g).asHom) x = x := by
       rw [← hy, ← hmap_natural g f y, hY]
     have hfixImage (g : Aut F') (hg : d.hom g = 1) (X : C) :
         ∀ x : (B.obj (H.obj X)).obj.V,
-          ConcreteCategory.hom ((B.obj (H.obj X)).obj.ρ g) x = x := by
+          ConcreteCategory.hom (((B.obj (H.obj X)).obj.ρ g).asHom) x = x := by
       let S := (ContAction.res FintypeCat d.hom).obj (A.obj X)
       let T := B.obj (H.obj X)
       let α := d.actionIso.hom.app X
-      have hcomm : S.obj.ρ g ≫ α.hom.hom = α.hom.hom ≫ T.obj.ρ g :=
+      have hcomm : (S.obj.ρ g).asHom ≫ α.hom.hom = α.hom.hom ≫ (T.obj.ρ g).asHom :=
         α.hom.comm g
-      have hsource : S.obj.ρ g = 𝟙 S.obj.V := by
-        show (A.obj X).obj.ρ (d.hom g) = 𝟙 _
+      have hsource : (S.obj.ρ g).asHom = 𝟙 S.obj.V := by
+        show ((A.obj X).obj.ρ (d.hom g)).asHom = 𝟙 _
         rw [hg]
         simp
       have : IsIso α := inferInstance
@@ -326,20 +326,20 @@ public theorem injective_inducedHom_iff_exists_epi_mono
         have hα : IsIso (forgetAction.map α.hom) := Functor.map_isIso forgetAction α.hom
         change IsIso α.hom.hom at hα
         exact hα
-      have htarget : T.obj.ρ g = 𝟙 T.obj.V := by
+      have htarget : (T.obj.ρ g).asHom = 𝟙 T.obj.V := by
         apply (cancel_epi α.hom.hom).1
         calc
-          α.hom.hom ≫ T.obj.ρ g = S.obj.ρ g ≫ α.hom.hom := hcomm.symm
+          α.hom.hom ≫ (T.obj.ρ g).asHom = (S.obj.ρ g).asHom ≫ α.hom.hom := hcomm.symm
           _ = α.hom.hom := by rw [hsource]; simp
           _ = α.hom.hom ≫ 𝟙 T.obj.V := (Category.comp_id _).symm
       intro x
-      show ConcreteCategory.hom (T.obj.ρ g) x = x
+      show ConcreteCategory.hom ((T.obj.ρ g).asHom) x = x
       rw [htarget]
       rfl
     have hfixConnected (g : Aut F') (hg : d.hom g = 1) (X : C')
         (hX : PreGaloisCategory.IsConnected X) :
         ∀ x : (B.obj X).obj.V,
-          ConcreteCategory.hom ((B.obj X).obj.ρ g) x = x := by
+          ConcreteCategory.hom (((B.obj X).obj.ρ g).asHom) x = x := by
       obtain ⟨X', Y, p, i, hp, hi⟩ := h X hX
       have hpFiber := (epi_iff_surjective_on_fiber
         (setValuedFiberFunctor F') p).1 hp
@@ -352,13 +352,13 @@ public theorem injective_inducedHom_iff_exists_epi_mono
         show Function.Injective (ConcreteCategory.hom (F'.map i))
         exact hiFiber
       have hfixY : ∀ y : (B.obj Y).obj.V,
-          ConcreteCategory.hom ((B.obj Y).obj.ρ g) y = y := by
+          ConcreteCategory.hom (((B.obj Y).obj.ρ g).asHom) y = y := by
         intro y
         apply hiB
         calc
           ConcreteCategory.hom (B.map i).hom.hom
-              (ConcreteCategory.hom ((B.obj Y).obj.ρ g) y) =
-              ConcreteCategory.hom ((B.obj (H.obj X')).obj.ρ g)
+              (ConcreteCategory.hom (((B.obj Y).obj.ρ g).asHom) y) =
+              ConcreteCategory.hom (((B.obj (H.obj X')).obj.ρ g).asHom)
                 (ConcreteCategory.hom (B.map i).hom.hom y) := hmap_natural g i y
           _ = (B.map i).hom.hom y := hfixImage g hg X' _
       intro x
@@ -366,7 +366,7 @@ public theorem injective_inducedHom_iff_exists_epi_mono
       exact hfix_map g p hfixY x y hy
     have hfixAll (g : Aut F') (hg : d.hom g = 1) (X : C') :
         ∀ x : (B.obj X).obj.V,
-          ConcreteCategory.hom ((B.obj X).obj.ρ g) x = x := by
+          ConcreteCategory.hom (((B.obj X).obj.ρ g).asHom) x = x := by
       let G := setValuedFiberFunctor F'
       obtain ⟨ι, A₀, f, hc, _, hconn⟩ :=
         IsGaloisCategory.exists_finite_coproduct_connected

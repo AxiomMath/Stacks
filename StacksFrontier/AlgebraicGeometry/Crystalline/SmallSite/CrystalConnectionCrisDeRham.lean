@@ -274,7 +274,7 @@ theorem crystalConnectionCrisApp_eq_ringConnection (hC : IsSheafCrystal F)
     ConcreteCategory.congr_hom (NatTrans.congr_app Ψ.hom_inv_id (op ⊤)) z
   have h4 : G.map ι.op (crystalConnectionCrisApp hC B (ULift.up s)) =
       G.map ι.op (η.app (op B) (ULift.up Y)) :=
-    (hΨ _).symm.trans ((congrArg (Ψ.inv.app (op ⊤)) (ULift.ext _ _ h2)).trans (hΨ _))
+    (hΨ _).symm.trans ((congrArg (Ψ.inv.app (op ⊤)) (ULift.ext h2)).trans (hΨ _))
   exact injective_restrictTop G B h4
 
 end Affine

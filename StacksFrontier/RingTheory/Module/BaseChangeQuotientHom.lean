@@ -68,7 +68,6 @@ theorem baseChange_eq_zero_of_image_mem_smul {S : Type u} [CommRing S] [Algebra 
   refine LinearMap.ext fun x => ?_
   rw [LinearMap.zero_apply]
   induction x with
-  | zero => rw [map_zero]
   | tmul s m =>
     rw [LinearMap.baseChange_tmul]
     exact tmul_eq_zero_of_mem_smul_top 𝔠 hker s (hh m)

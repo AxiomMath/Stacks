@@ -53,7 +53,7 @@ theorem smashToFibrePower_π (n : ℕ) (i : Fin n) :
     smashToFibrePower k X x x' hx hx' n ≫ Pi.π (fun _ : Fin n => X) i =
       Over.homMk (smashProjection k X.hom x x' hx hx' n i)
         (smashProjection_comp k X.hom x x' hx hx' n i) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- Forgetting the last factor of the categorical fibre power. -/
 def fibrePowerInit (n : ℕ) :
@@ -90,7 +90,7 @@ theorem fibrePowerToSmash_left_comp_smashProjection (n : ℕ) (i : Fin n) :
       rw [smashProjection_castSucc]
       show pullback.lift _ _ _ ≫ pullback.fst _ X.hom ≫ _ = _
       rw [pullback.lift_fst_assoc, Over.comp_left, Category.assoc, ih, ← Over.comp_left,
-        fibrePowerInit, Pi.lift_π]
+        fibrePowerInit, Pi.lift_comp_π]
 
 /-- `smashToFibrePower` is a left inverse of `fibrePowerToSmash`. -/
 theorem fibrePowerToSmash_comp_smashToFibrePower (n : ℕ) :
@@ -112,7 +112,7 @@ theorem smashToFibrePower_comp_fibrePowerInit (n : ℕ) :
     smashToFibrePower k X x x' hx hx' (n + 1) ≫ fibrePowerInit k X n =
       smashInit k X x x' hx hx' n ≫ smashToFibrePower k X x x' hx hx' n := by
   refine Pi.hom_ext _ _ fun i => ?_
-  rw [Category.assoc, fibrePowerInit, Pi.lift_π, smashToFibrePower_π, Category.assoc,
+  rw [Category.assoc, fibrePowerInit, Pi.lift_comp_π, smashToFibrePower_π, Category.assoc,
     smashToFibrePower_π]
   ext
   rw [Over.comp_left]

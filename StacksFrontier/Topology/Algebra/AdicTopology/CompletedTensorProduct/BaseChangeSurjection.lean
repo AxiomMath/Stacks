@@ -87,6 +87,8 @@ public theorem exists_ringEquiv_tensorProduct_completedTensorProduct
   classical
   set B' := CompletedTensorProduct (R := A) (M := B) (N := R) with hB'def
   set K : Ideal R := RingHom.ker (π : R →+* C) with hKdef
+  have : T2Space B' := by
+    set_option synthInstance.maxHeartbeats 200000 in infer_instance
   let : TopologicalSpace (B ⊗[A] R) := tensorProductTopology (R := A) (M := B) (N := R)
   let : UniformSpace (B ⊗[A] R) := tensorProductUniformSpace (R := A) (M := B) (N := R)
   have hcount : (nhds (0 : B ⊗[A] R)).IsCountablyGenerated :=

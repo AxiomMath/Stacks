@@ -333,7 +333,7 @@ theorem quasiIsoAt_powAugmentation (f : Fin r → R) (n : ℕ) :
     isZero_powAlgebra_toCochainComplex_X f n (by norm_num)
   refine (quasiIsoAt_iff' (powAugmentation f n) (-1) 0 1 (by simp) (by simp)).2 ?_
   refine (ShortComplex.quasiIso_iff_of_zeros' _ (hzero1.eq_of_tgt _ _)
-      (by simp; rfl) (by simp; rfl)).2 ⟨?_, ?_⟩
+      (by simp) (by simp)).2 ⟨?_, ?_⟩
   · rw [ShortComplex.moduleCat_exact_iff]
     intro x hx
     have hmem := gradeZeroEquiv_mem_powIdeal_of_augmentation f n x hx

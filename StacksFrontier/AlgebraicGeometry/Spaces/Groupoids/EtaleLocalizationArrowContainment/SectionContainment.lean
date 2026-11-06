@@ -32,6 +32,17 @@ section Generic
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS} {G : GroupoidInAlgebraicSpaces C S hS B}
 
+/-- Pullbacks of presheaves on `BigFppfOver C S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_SectionContainment :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_SectionContainment
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Transfer of lifts along a base-change square of finite open subspaces: if the open
 subspace of `q` is cartesian over the open subspace of `p` along `g`, compatibly with the
 second projections, then a section of the ambient fibre product of `q` factors through the
@@ -311,8 +322,16 @@ theorem exists_arrows_of_cutsOut (F : FinitePartUniversalOpen G)
     ∃ a : yoneda.obj V' ⟶ F.arrows.obj,
       a ≫ F.source.hom = μ ∧ a ≫ F.arrowMap.hom = ψ := by
   obtain ⟨n, hn⟩ := (hm V' μ ψ φ hμ hs.symm).2 hP
-  exact ⟨n, by rw [← pullback.lift_fst μ ψ hs.symm, ← hn, Category.assoc]; rfl,
-    by rw [← pullback.lift_snd μ ψ hs.symm, ← hn, Category.assoc]; rfl⟩
+  exact ⟨n, by
+      rw [← pullback.lift_fst μ ψ hs.symm, ← hn, Category.assoc]
+      first
+        | (unfold FinitePartUniversalOpen.source; rfl)
+        | simp [FinitePartUniversalOpen.source],
+    by
+      rw [← pullback.lift_snd μ ψ hs.symm, ← hn, Category.assoc]
+      first
+        | (unfold FinitePartUniversalOpen.arrowMap; rfl)
+        | simp [FinitePartUniversalOpen.arrowMap]⟩
 
 /-! ### The target of a lift -/
 

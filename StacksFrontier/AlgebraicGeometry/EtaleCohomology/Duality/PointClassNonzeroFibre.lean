@@ -145,7 +145,12 @@ theorem homologyFunctor_zero_map_derivedLowerShriek_directImage_ne_zero {U S C :
       ((etaleModuleDerivedDirectImage.{u, 0} (ZMod ℓ) c).map φ)) ≠ 0 := by
   let Rf := derivedLowerShriek.{u, 0} f jf (ZMod ℓ)
   have : QuasiCompact (f ≫ i') := quasiCompact_of_compactSpace _
-  obtain ⟨jY⟩ : Nonempty (CompactificationOf (Over.mk (f ≫ i'))) := IsCofiltered.nonempty
+  have : LocallyOfFiniteType i' := instLocallyOfFiniteTypeOfIsClosedImmersion i'
+  have : IsSeparated i' := inferInstance
+  have : LocallyOfFiniteType (f ≫ i') := inferInstance
+  have : IsSeparated (f ≫ i') := inferInstance
+  obtain ⟨jY⟩ : Nonempty (CompactificationOf (Over.mk (f ≫ i'))) :=
+    (isCofiltered_compactificationOf (f ≫ i')).nonempty
   let Θ := (derivedLowerShriekCompDirectImageIsoOfIsFinite (ZMod ℓ) c g jg
       (hcond.symm ▸ jY)).symm ≪≫
     Functor.isoWhiskerLeft (isTorsionPlus.{u, 0} (ZMod ℓ) C).ι

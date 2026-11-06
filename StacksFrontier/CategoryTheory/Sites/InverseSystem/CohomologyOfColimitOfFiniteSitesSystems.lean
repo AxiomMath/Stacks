@@ -642,7 +642,7 @@ end ColimitPullbacks
 
 section CoveringProducts
 
-attribute [local implicit_reducible] CategoryTheory.Over.post CategoryTheory.extendFan
+attribute [local implicit_reducible] CategoryTheory.extendFan
 
 end CoveringProducts
 
@@ -658,7 +658,7 @@ variable {C : Type u} [Category.{v} C] {D : Type u'} [Category.{v'} D]
     PreservesLimit (Discrete.functor (fun a ↦ Over.mk (E.f (i a)))) (Over.post F)]
 
 attribute [local instance_reducible] CategoryTheory.PreZeroHypercover.map
-attribute [local implicit_reducible] CategoryTheory.Over.post Stacks.CechSite.cechFormalCoproduct
+attribute [local implicit_reducible] Stacks.CechSite.cechFormalCoproduct
   Stacks.CechSite.cechFormalCoproductMap
 
 variable {A : Type a} [Category.{b} A] [HasProducts.{w} A] (P : Dᵒᵖ ⥤ A)

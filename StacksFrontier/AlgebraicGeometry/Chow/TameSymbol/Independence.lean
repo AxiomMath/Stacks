@@ -461,16 +461,6 @@ theorem symbolValue_eq_of_preparations (hunit : ¬ ∀ i, IsUnit (a i))
       Algebra (Localization.AtPrime q.asIdeal)
         (Localization.AtPrime (v.asIdeal.under R.carrier)) := fun q v =>
     Localization.AtPrime.algebraOfLiesOver q.asIdeal (v.asIdeal.under R.carrier)
-  let : ∀ (q : MaximalSpectrum B)
-      (v : MaximalSpectrum
-        (Localization (Algebra.algebraMapSubmonoid R.carrier q.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under R.carrier) :=
-    fun _ _ => ⟨rfl⟩
-  let : ∀ (q : MaximalSpectrum B')
-      (v : MaximalSpectrum
-        (Localization (Algebra.algebraMapSubmonoid R.carrier q.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (v.asIdeal.under R.carrier) :=
-    fun _ _ => ⟨rfl⟩
   refine symbolValue_eq_of_common_refinement
     (not_isAssociatedPrime_maximalIdeal_of_mem_nonZeroDivisors hsm hsB)
     (not_isAssociatedPrime_maximalIdeal_of_mem_nonZeroDivisors hsm hsB')

@@ -65,7 +65,7 @@ lemma modulesSectionsPiEquiv_restrictPiComparison {Y : Scheme.{u}} (f : Y ⟶ X)
         ((Scheme.Modules.restrictFunctor f).map (Pi.π N i)) := by
     rw [← Functor.map_comp]
     exact congrArg (modulesSectionsFunctor Y U).map
-      (Pi.lift_π (fun i ↦ (Scheme.Modules.restrictFunctor f).map (Pi.π N i)) i)
+      (Pi.lift_comp_π (fun i ↦ (Scheme.Modules.restrictFunctor f).map (Pi.π N i)) i)
   exact ConcreteCategory.congr_hom h x
 
 /-- Restriction to an open subscheme commutes with products: the comparison map is an
@@ -106,14 +106,14 @@ noncomputable def piSubtypeIsoOfSubsingletonHom {C : Type*} [Category C] [HasZer
     inv := Pi.lift fun i ↦ if h : p i then Pi.π (fun s : {i // p i} ↦ P s.1) ⟨i, h⟩ else 0
     hom_inv_id := by
       refine Pi.hom_ext _ _ fun i ↦ ?_
-      rw [Category.assoc, Pi.lift_π, Category.id_comp]
+      rw [Category.assoc, Pi.lift_comp_π, Category.id_comp]
       by_cases h : p i
-      · rw [dite_eq_left_of_eq_true (eq_true h), Pi.lift_π]
+      · rw [dite_eq_left_of_eq_true (eq_true h), Pi.lift_comp_π]
       · rw [dite_eq_right_of_eq_false (eq_false h), Limits.comp_zero]
         exact (hz i h (∏ᶜ P)).elim _ _
     inv_hom_id := by
       refine Pi.hom_ext _ _ fun s ↦ ?_
-      rw [Category.assoc, Pi.lift_π, Pi.lift_π, dite_eq_left_of_eq_true (eq_true s.2),
+      rw [Category.assoc, Pi.lift_comp_π, Pi.lift_comp_π, dite_eq_left_of_eq_true (eq_true s.2),
         Category.id_comp] }
 
 end AlgebraicGeometry

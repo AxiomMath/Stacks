@@ -132,7 +132,6 @@ theorem mapHomotopyCategoryCompLocalizationIso_hom_app (M : CochainComplex A ℤ
             (HomologicalComplex.quasiIso B (ComplexShape.up ℤ))).hom.app
           ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj M) := rfl
   rw [hdef₁, homotopyLocalizationQuotientIso_hom_app_eq, h₁, Category.id_comp, Category.id_comp]
-  rfl
 
 end Stacks.DerivedModel
 

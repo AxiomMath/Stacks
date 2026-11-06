@@ -330,11 +330,14 @@ theorem exists_endAddEquiv_hom_derivedTensorUnit_of_isIso_bidualityMor [IsNoethe
   set bid := @asIso _ _ _ _ (dualizingBidualityMor.{u, max v u} A ω (targetSingle.{u, v} f)) hbid
   set mb : ∀ b : B, targetSingle.{u, v} f ⟶ targetSingle.{u, v} f := fun b =>
     (DerivedCategory.singleFunctor (ModuleCat.{max v u} A) 0).map (targetMul.{u, v} f b)
-  refine ⟨((adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm.trans
+  refine ⟨End.addEquiv.trans ((adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm.trans
       ((precompAddEquiv θ ω).symm.trans
         ((homUnitAddEquiv d (StacksDraft.DerivedHom.derivedTensorUnit.{u, max v u} A)
             (StacksDraft.DerivedHom.derivedTensorUnitLeft.{u, max v u} A) ω D₁).symm.trans
           (postcompAddEquiv _ bid.symm)))), fun b φ => ?_⟩
+  simp only [AddEquiv.trans_apply (e₁ := End.addEquiv), End.addEquiv_apply, End.homEquiv_apply,
+    End.smul_asHom]
+  generalize φ.asHom = φ
   have h₁ : (adj.homAddEquiv ((derivedHom.{u, v, u} f).obj ω) ω).symm (b • φ) =
       (ModuleCat.restrictScalars.{max v u} f).mapDerivedCategory.map
           (b • 𝟙 ((derivedHom.{u, v, u} f).obj ω)) ≫

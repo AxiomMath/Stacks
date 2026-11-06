@@ -222,12 +222,12 @@ theorem exists_extension_of_chartedFunctor (X : (BigFppfOver B S hS)ᵒᵖ ⥤ T
       rw [IsIso.comp_inv_eq, Category.assoc, specOverMap_comp_specOverToBase, IsIso.eq_inv_comp,
         specQuotToObj_comp]
     calc X.map i.op (X.map (inv e').op ξ.1) = X.map (i ≫ inv e').op ξ.1 := by
-          rw [op_comp, FunctorToTypes.map_comp_apply]
+          rw [op_comp, Functor.map_comp_apply]
       _ = X.map (inv e).op (X.map e.op x) := by
-          rw [hsq, op_comp, FunctorToTypes.map_comp_apply, hξ']
+          rw [hsq, op_comp, Functor.map_comp_apply, hξ']
       _ = x := by
-          rw [← FunctorToTypes.map_comp_apply, ← op_comp, IsIso.inv_hom_id, op_id,
-            FunctorToTypes.map_id_apply]
+          rw [← Functor.map_comp_apply, ← op_comp, IsIso.inv_hom_id, op_id,
+            Functor.map_id_apply]
   · rw [NatTrans.naturality_apply, ξ.2]
     exact IsIso.inv_hom_id e'
 

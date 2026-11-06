@@ -101,6 +101,13 @@ local instance overFunctorPreservesFiniteColimits (X : AlgebraicSpaces B S hS)
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O) U) :=
   Stacks.SheafOfModules.LocalCokernel.overFunctor_preservesFiniteColimits U
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FpqcDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- An object of `D(𝒪_X)` is `m`-pseudo-coherent exactly when a complex representing it is. -/
 private theorem isPseudoCoherentFrom_iff_of_iso {X : AlgebraicSpaces B S hS}
     [HasDerivedCategory.{d} (Modules.{u, u} B S hS X.1 X.2)]

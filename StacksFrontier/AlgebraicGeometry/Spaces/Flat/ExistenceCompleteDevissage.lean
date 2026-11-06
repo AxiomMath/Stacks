@@ -146,6 +146,14 @@ end AlgebraicGeometry
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_ExistenceCompleteDevissage
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Stacks 0CWJ at an affine étale chart -/
 
 /-- **Stacks Project, Tag 0CWJ**, delivered at an affine étale chart of the base change.

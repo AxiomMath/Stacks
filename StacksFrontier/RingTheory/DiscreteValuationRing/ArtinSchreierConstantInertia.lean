@@ -211,10 +211,10 @@ variable {k M} in
 def constantLevelIncl (T : Finset M) :
     IntermediateField.adjoin k (T : Set M) →+* constantLevel K k M T where
   toFun z := ⟨z, IntermediateField.subset_adjoin _ _ ⟨z, rfl⟩⟩
-  map_one' := rfl
-  map_mul' _ _ := rfl
-  map_zero' := rfl
-  map_add' _ _ := rfl
+  map_one' := Subtype.ext rfl
+  map_mul' _ _ := Subtype.ext rfl
+  map_zero' := Subtype.ext rfl
+  map_add' _ _ := Subtype.ext rfl
 
 variable {k M} in
 omit [Algebra A K] [IsFractionRing A K] [Finite (IsLocalRing.ResidueField A)] [Algebra A M]
@@ -484,7 +484,8 @@ theorem perfectField_residueField_constantClosure (p : ℕ) [Fact p.Prime] [Char
       IsLocalRing.maximalIdeal (integralClosure A (constantLevel K k M T)))
     have hyQ :
         y ^ Q - y ∈ IsLocalRing.maximalIdeal (integralClosure A (constantLevel K k M T)) := by
-      rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub, map_pow, FiniteField.pow_card, sub_self]
+      rw [← Ideal.Quotient.eq_zero_iff_mem, RingHom.map_sub, RingHom.map_pow, FiniteField.pow_card,
+        sub_self]
     have hxQ : IsLocalRing.residue R
         (integralClosureInclusion A (constantLevel_le_constantClosure K hT) y) ^ Q =
         IsLocalRing.residue R

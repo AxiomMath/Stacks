@@ -153,6 +153,14 @@ private theorem inverseArrow_involutive {J : Type w} [Category.{v} J]
   simp only [Groupoid.inv_eq_inv, IsIso.inv_inv]
   exact congrArg Subtype.val ((G.evaluationArrowEquiv T _ _).apply_symm_apply _)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_restrictedSubgroupoid
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 

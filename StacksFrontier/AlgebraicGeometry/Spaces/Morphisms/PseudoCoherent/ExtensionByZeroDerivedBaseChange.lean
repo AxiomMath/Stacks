@@ -50,6 +50,17 @@ attribute [local instance 3000] Abelian.toPreadditive
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ExtensionByZeroDerivedBaseChange :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ExtensionByZeroDerivedBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Derived extension by zero commutes with derived base change**: for a cartesian square of
 algebraic spaces with `u` étale, the base change map `u'_!(Lt'^*A) ⟶ Lt^*(u_!A)` of the canonical
 pseudofunctoriality datum is an isomorphism at every object `A` of `D(𝒪_U)`. -/
@@ -94,16 +105,18 @@ theorem isPullback_restrictStage (i : D.LaterIndex) :
     IsPullback (D.restrictStage hU₀ g hgflat hgfp i)
       ((D.restrict hU₀ g hgflat hgfp).stageToInitial i) (D.stageToInitial i)
       (D.restrictInitial hU₀ g hgflat hgfp) :=
-  IsPullback.flip (IsPullback.of_map_of_faithful (F := ObjectProperty.ι _)
-    (IsPullback.of_hasPullback (D.toX₀ i.1 i.2) g).flip)
+  IsPullback.flip (IsPullback.of_map_of_faithful (F := ObjectProperty.ι _) (by
+    simp only [ObjectProperty.ι_map]
+    exact (IsPullback.of_hasPullback (D.toX₀ i.1 i.2) g).flip))
 
 /-- The limit of the situation restricted along `g` is the base change of the limit along `g`. -/
 theorem isPullback_restrictLimit :
     IsPullback (D.restrictLimit hU₀ g hgflat hgfp)
       (D.restrict hU₀ g hgflat hgfp).limitToInitial D.limitToInitial
       (D.restrictInitial hU₀ g hgflat hgfp) :=
-  IsPullback.flip (IsPullback.of_map_of_faithful (F := ObjectProperty.ι _)
-    (IsPullback.of_hasPullback D.toInitial g).flip)
+  IsPullback.flip (IsPullback.of_map_of_faithful (F := ObjectProperty.ι _) (by
+    simp only [ObjectProperty.ι_map]
+    exact (IsPullback.of_hasPullback D.toInitial g).flip))
 
 variable (hg : IsEtale B S hS g)
 

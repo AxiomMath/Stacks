@@ -105,7 +105,7 @@ theorem unit_injective (G : Sheaf J (Type (max u v))) (V : Cᵒᵖ) :
   rw [unit_app_apply, unit_app_apply] at hxy
   have hS := Presheaf.equalizerSieve_mem J (toSheafify J (G.obj ⋙ AddCommGrpCat.free))
     (FreeAbelianGroup.of x) (FreeAbelianGroup.of y) hxy
-  have hsep := ((isSheaf_iff_isSheaf_of_type J G.obj).mp G.cond).isSeparated _ hS
+  have hsep := ((isSheaf_iff_isSheaf_of_type J G.obj).mp G.property).isSeparated _ hS
   refine hsep.ext fun Y f hf => ?_
   have hf' : FreeAbelianGroup.map (G.obj.map f.op) (FreeAbelianGroup.of x) =
       FreeAbelianGroup.map (G.obj.map f.op) (FreeAbelianGroup.of y) := hf
@@ -178,8 +178,8 @@ theorem exists_unit_eq_of_unit_eq (G : Sheaf J (Type (max u v))) (V : C)
     rw [← mapcomp g f, ← e]
     exact hr
   -- the local preimages glue
-  have hG := (isSheaf_iff_isSheaf_of_type J G.obj).mp G.cond
-  have hH := (isSheaf_iff_isSheaf_of_type J H.obj).mp H.cond
+  have hG := (isSheaf_iff_isSheaf_of_type J G.obj).mp G.property
+  have hH := (isSheaf_iff_isSheaf_of_type J H.obj).mp H.property
   let fam : Presieve.FamilyOfElements G.obj S.arrows := fun Y f hf => hf.choose
   have hfam : ∀ (Y : C) (f : Y ⟶ V) (hf : S f), η.hom.app (op Y) (fam f hf) = H.obj.map f.op y :=
     fun Y f hf => hf.choose_spec

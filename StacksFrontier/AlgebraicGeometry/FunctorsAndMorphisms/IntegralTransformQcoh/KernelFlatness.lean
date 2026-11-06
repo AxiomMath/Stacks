@@ -428,10 +428,11 @@ private lemma generatorIso_sectionScalar (s : Γ(X.left, ⊤)) :
 /-- The comparison at the structure sheaf is equivariant for every endomorphism of the structure
 sheaf: each of them is multiplication by a global function. -/
 private lemma generatorIso_equivariant (a : End (unitQcoh X.left)) :
-    (transformSections R X Y K).map a ≫ (generatorIso R X Y K).hom =
-      (generatorIso R X Y K).hom ≫ (tensorSections R X Y K).map a := by
-  obtain ⟨s, hs⟩ := sectionScalar_unit_surjective X.left a.hom
-  obtain rfl : a = unitScalarHom X.left s := ObjectProperty.hom_ext _ hs.symm
+    (transformSections R X Y K).map a.asHom ≫ (generatorIso R X Y K).hom =
+      (generatorIso R X Y K).hom ≫ (tensorSections R X Y K).map a.asHom := by
+  obtain ⟨s, hs⟩ := sectionScalar_unit_surjective X.left a.asHom.hom
+  have ha : a.asHom = unitScalarHom X.left s := ObjectProperty.hom_ext _ hs.symm
+  rw [ha]
   exact generatorIso_sectionScalar R X Y K s
 
 /-- On an affine scheme `X`, the global sections of the integral transform of the kernel,

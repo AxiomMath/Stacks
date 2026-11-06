@@ -157,7 +157,7 @@ theorem projectiveLineBaseChangeIso_inv_left :
 /-- The Möbius automorphism `μ_M` of `ℙ¹_A`, as an automorphism of `A`-schemes. -/
 def projectiveLineMobiusOver (M : Matrix (Fin 2) (Fin 2) A) (hM : IsUnit M.det) :
     Aut (projectiveLineOverRing A) :=
-  Over.isoMk (projectiveLineMobiusIso hM) (projectiveLineMobius_comp_structureMorphism hM)
+  .of (Over.isoMk (projectiveLineMobiusIso hM) (projectiveLineMobius_comp_structureMorphism hM))
 
 /-- **The Möbius automorphism of `ℙ¹_T` for `T = Spec A`**, as an element of the automorphism
 functor of `ℙ¹_k`. -/
@@ -168,7 +168,7 @@ def mobiusAutFunctor (M : Matrix (Fin 2) (Fin 2) A) (hM : IsUnit M.det) :
 /-- The underlying morphism of `mobiusAutFunctor h M hM` is `μ_M` conjugated by the comparison of
 `ℙ¹_A` with the base change of `ℙ¹_k`. -/
 theorem mobiusAutFunctor_hom_left (M : Matrix (Fin 2) (Fin 2) A) (hM : IsUnit M.det) :
-    (mobiusAutFunctor h M hM).hom.left =
+    (mobiusAutFunctor h M hM).asIso.hom.left =
       (isPullback_projectiveLineMap_over h).isoPullback.inv ≫ projectiveLineMobius hM ≫
         projectiveLineBaseChangeHom h :=
   rfl
@@ -176,7 +176,7 @@ theorem mobiusAutFunctor_hom_left (M : Matrix (Fin 2) (Fin 2) A) (hM : IsUnit M.
 /-- The underlying morphism of `mobiusAutFunctor h M hM` followed by the projection to `ℙ¹_k` is
 `μ_M` followed by the base change map `ℙ¹_A ⟶ ℙ¹_k`. -/
 theorem mobiusAutFunctor_hom_left_fst (M : Matrix (Fin 2) (Fin 2) A) (hM : IsUnit M.det) :
-    (mobiusAutFunctor h M hM).hom.left ≫ pullback.fst _ _ =
+    (mobiusAutFunctor h M hM).asIso.hom.left ≫ pullback.fst _ _ =
       (isPullback_projectiveLineMap_over h).isoPullback.inv ≫ projectiveLineMobius hM ≫
         projectiveLineMap (ringHomOfSpec h) := by
   rw [mobiusAutFunctor_hom_left, Category.assoc, Category.assoc, IsPullback.isoPullback_hom_fst]
@@ -194,10 +194,11 @@ theorem autFunctor_map_mobiusAutFunctor {B : Type u} [CommRing B] (h' : Spec (.o
   have hσ : ringHomOfSpec h' = φ.comp (ringHomOfSpec h) := by
     have := ringHomOfSpec_comp h φ
     rwa [← hh'] at this
+  apply Aut.ext
   apply Iso.ext
   apply Scheme.endo_ext
-  show (Scheme.endBaseChange _ q (mobiusAutFunctor h M hM).hom).left ≫ pullback.fst _ _ =
-    (mobiusAutFunctor h' _ hφM).hom.left ≫ pullback.fst _ _
+  show (Scheme.endBaseChange _ q (mobiusAutFunctor h M hM).asIso.hom).left ≫ pullback.fst _ _ =
+    (mobiusAutFunctor h' _ hφM).asIso.hom.left ≫ pullback.fst _ _
   rw [Scheme.endBaseChange_left_fst, mobiusAutFunctor_hom_left_fst, mobiusAutFunctor_hom_left_fst]
   have L1 : projectiveLineBaseChangeHom h' ≫ Scheme.baseChangeMap _ q =
       projectiveLineMap φ ≫ projectiveLineBaseChangeHom h := by
@@ -215,6 +216,7 @@ theorem autFunctor_map_mobiusAutFunctor {B : Type u} [CommRing B] (h' : Spec (.o
 theorem mobiusAutFunctor_smul (M : Matrix (Fin 2) (Fin 2) A) (hM : IsUnit M.det) {w : A}
     (hw : IsUnit w) (hwM : IsUnit (w • M).det) :
     mobiusAutFunctor h (w • M) hwM = mobiusAutFunctor h M hM := by
+  apply Aut.ext
   apply Iso.ext
   apply Over.OverMorphism.ext
   rw [mobiusAutFunctor_hom_left, mobiusAutFunctor_hom_left, projectiveLineMobius_smul hM hw hwM]
@@ -224,7 +226,7 @@ theorem exists_eq_smul_of_mobiusAutFunctor_eq {M N : Matrix (Fin 2) (Fin 2) A} (
     (hN : IsUnit N.det) (e : mobiusAutFunctor h M hM = mobiusAutFunctor h N hN) :
     ∃ w : A, IsUnit w ∧ N = w • M := by
   have e' := congrArg (fun ψ : (Scheme.autFunctor (projectiveLineOver k)).obj (op (Over.mk h)) ↦
-    (isPullback_projectiveLineMap_over h).isoPullback.hom ≫ ψ.hom.left ≫
+    (isPullback_projectiveLineMap_over h).isoPullback.hom ≫ ψ.asIso.hom.left ≫
       (isPullback_projectiveLineMap_over h).isoPullback.inv) e
   simp only [mobiusAutFunctor_hom_left, Category.assoc, Iso.hom_inv_id, Category.comp_id,
     Iso.hom_inv_id_assoc] at e'
@@ -242,21 +244,22 @@ recovers `ψ`. -/
 theorem conjAut_autFunctorToProjectiveLineAut
     (ψ : Aut ((Over.pullback (Over.mk h).hom).obj (projectiveLineOver k))) :
     (projectiveLineBaseChangeIso h).conjAut (autFunctorToProjectiveLineAut h ψ) = ψ := by
-  apply Iso.ext
-  rw [Iso.conjAut_hom, autFunctorToProjectiveLineAut, Iso.conjAut_hom, Iso.self_symm_conj]
+  apply Aut.ext
+  rw [Iso.conjAut_apply, autFunctorToProjectiveLineAut, Iso.conjAut_apply]
+  simp
 
 /-- The underlying automorphism of `ℙ¹_A`. -/
 abbrev autFunctorToProjectiveLineIso
     (ψ : Aut ((Over.pullback (Over.mk h).hom).obj (projectiveLineOver k))) :
     projectiveLine A ≅ projectiveLine A :=
-  (Over.forget _).mapIso (autFunctorToProjectiveLineAut h ψ)
+  (Over.forget _).mapIso (autFunctorToProjectiveLineAut h ψ).asIso
 
 /-- The underlying morphism of `autFunctorToProjectiveLineIso h ψ` is `ψ` conjugated by the
 comparison of `ℙ¹_A` with the base change of `ℙ¹_k`. -/
 theorem autFunctorToProjectiveLineIso_hom
     (ψ : Aut ((Over.pullback (Over.mk h).hom).obj (projectiveLineOver k))) :
     (autFunctorToProjectiveLineIso h ψ).hom =
-      projectiveLineBaseChangeHom h ≫ ψ.hom.left ≫
+      projectiveLineBaseChangeHom h ≫ ψ.asIso.hom.left ≫
         (isPullback_projectiveLineMap_over h).isoPullback.inv :=
   rfl
 
@@ -269,11 +272,11 @@ theorem exists_eq_mobiusAutFunctor
       projectiveLineHomogeneousPoint (RingHom.id A) a c hac) :
     ∃ (M : Matrix (Fin 2) (Fin 2) A) (hM : IsUnit M.det), ψ = mobiusAutFunctor h M hM := by
   obtain ⟨M, hM, hχ⟩ := exists_eq_projectiveLineMobius (autFunctorToProjectiveLineIso h ψ)
-    (Over.w (autFunctorToProjectiveLineAut h ψ).hom) hac hinf
+    (Over.w (autFunctorToProjectiveLineAut h ψ).asIso.hom) hac hinf
   refine ⟨M, hM, ?_⟩
   rw [← conjAut_autFunctorToProjectiveLineAut h ψ, mobiusAutFunctor]
   congr 1
-  exact Iso.ext (Over.OverMorphism.ext hχ)
+  exact Aut.ext (Iso.ext (Over.OverMorphism.ext hχ))
 
 end Transport
 
@@ -403,16 +406,16 @@ Möbius automorphism.** -/
 theorem exists_eq_mobiusAutFunctor_of_range
     (ψ : Aut ((Over.pullback (Over.mk h).hom).obj (projectiveLineOver k)))
     (hr : Set.range (projectiveLineInfinitySection A ≫ projectiveLineBaseChangeHom h ≫
-        ψ.hom.left ≫ (isPullback_projectiveLineMap_over h).isoPullback.inv ≫
+        ψ.asIso.hom.left ≫ (isPullback_projectiveLineMap_over h).isoPullback.inv ≫
           projectiveLineMap (ringHomOfSpec h)).base ⊆ Set.range (projectiveLineXChart k).base ∨
       Set.range (projectiveLineInfinitySection A ≫ projectiveLineBaseChangeHom h ≫
-        ψ.hom.left ≫ (isPullback_projectiveLineMap_over h).isoPullback.inv ≫
+        ψ.asIso.hom.left ≫ (isPullback_projectiveLineMap_over h).isoPullback.inv ≫
           projectiveLineMap (ringHomOfSpec h)).base ⊆ Set.range (projectiveLineYChart k).base) :
     ∃ (M : Matrix (Fin 2) (Fin 2) A) (hM : IsUnit M.det), ψ = mobiusAutFunctor h M hM := by
   set s := projectiveLineInfinitySection A ≫ (autFunctorToProjectiveLineIso h ψ).hom
   have hs : s ≫ (projectiveLine A ↘ Spec (.of A)) = 𝟙 _ := by
     rw [Category.assoc, show (autFunctorToProjectiveLineIso h ψ).hom ≫
-      (projectiveLine A ↘ Spec (.of A)) = _ from Over.w (autFunctorToProjectiveLineAut h ψ).hom]
+      (projectiveLine A ↘ Spec (.of A)) = _ from Over.w (autFunctorToProjectiveLineAut h ψ).asIso.hom]
     exact projectiveLineInfinitySection_comp_structureMorphism _
   have hX := preimage_range_projectiveLineXChart (ringHomOfSpec h) X X
     toLaurent_X_mul_overlapInverseCoordinate_X (dvd_refl X)
@@ -858,7 +861,7 @@ theorem exists_autFunctor_map_universalAut_eq {T : Over (Spec (.of k))}
     (ψ : (Scheme.autFunctor (projectiveLineOver k)).obj (op T)) :
     ∃ a : T ⟶ projectiveGeneralLinearTwoScheme k,
       (Scheme.autFunctor (projectiveLineOver k)).map a.op (projectiveLineUniversalAut k) = ψ := by
-  let τ := projectiveLineInfinityOver T ≫ ψ.hom.left ≫ pullback.fst _ _
+  let τ := projectiveLineInfinityOver T ≫ ψ.asIso.hom.left ≫ pullback.fst _ _
   let PC := (projectiveLineGluingData k).openCover
   let U : T.left → T.left.Opens := fun y ↦ τ ⁻¹ᵁ (PC.f (PC.idx (τ y))).opensRange
   have hU : ∀ y, y ∈ U y := fun y ↦ PC.covers (τ y)
@@ -869,12 +872,12 @@ theorem exists_autFunctor_map_universalAut_eq {T : Over (Spec (.of k))}
     intro y
     refine exists_eq_mobiusAutFunctor_of_range (𝒲.f y ≫ T.hom) _ ?_
     have key := projectiveLineInfinitySection_comp_endBaseChange (𝒲.f y ≫ T.hom)
-      (Scheme.coverOverι 𝒲 y) ψ.hom
+      (Scheme.coverOverι 𝒲 y) ψ.asIso.hom
     have hsub : Set.range (𝒲.f y ≫ τ) ⊆ Set.range (PC.f (PC.idx (τ y))) := by
       rintro _ ⟨z, rfl⟩
       exact range_subordinateAffineCover_subset U hU y ⟨z, rfl⟩
     have hr : Set.range (projectiveLineInfinitySection _ ≫ projectiveLineBaseChangeHom _ ≫
-        (Scheme.endBaseChange _ (Scheme.coverOverι 𝒲 y) ψ.hom).left ≫
+        (Scheme.endBaseChange _ (Scheme.coverOverι 𝒲 y) ψ.asIso.hom).left ≫
           (isPullback_projectiveLineMap_over (𝒲.f y ≫ T.hom)).isoPullback.inv ≫
             projectiveLineMap (ringHomOfSpec (𝒲.f y ≫ T.hom))) ⊆
         Set.range (PC.f (PC.idx (τ y))) := by

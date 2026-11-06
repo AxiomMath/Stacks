@@ -77,6 +77,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, supplied directly: instance search
+for them now times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_ArtinianPushforwardAcyclicity
+    {Z₁ Z₂ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-- A module is zero as soon as its underlying abelian group is. -/
 theorem isZero_of_isZero_forget₂_addCommGrpCat {R : Type*} [Ring R] {M : ModuleCat.{u + 1} R}
     (h : IsZero ((forget₂ (ModuleCat.{u + 1} R) AddCommGrpCat.{u + 1}).obj M)) : IsZero M :=

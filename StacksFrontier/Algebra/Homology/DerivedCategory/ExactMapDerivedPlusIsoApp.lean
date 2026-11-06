@@ -17,7 +17,7 @@ isomorphism it lifts. This file records that computation in both directions.
 * `Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso_hom_app_Qh` and
   `Stacks.DerivedFunctor.exactMapDerivedCategoryPlusIso_inv_app_Qh`: on a bounded below complex
   `N`, the component of the comparison at `Qh.obj N` is the component at `N` of
-  `F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnit`.
+  `F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnith`.
 
 ## References
 
@@ -43,17 +43,17 @@ variable {C D : Type*} [Category* C] [Category* D] [Abelian C] [Abelian D]
 
 /-- **The comparison between the degreewise action and the right derived functor of an exact
 functor, on the image of the localization.** Being a lift along `Qh` of
-`F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnit`, it agrees with that
+`F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnith`, it agrees with that
 isomorphism componentwise on bounded below complexes. -/
 theorem exactMapDerivedCategoryPlusIso_hom_app_Qh (N : HomotopyCategory.Plus C) :
     (exactMapDerivedCategoryPlusIso F).hom.app (DerivedCategory.Plus.Qh.obj N) =
-      (F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnit).hom.app N := by
+      (F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnith).hom.app N := by
   simp [exactMapDerivedCategoryPlusIso]
 
 /-- The inverse half of `exactMapDerivedCategoryPlusIso_hom_app_Qh`. -/
 theorem exactMapDerivedCategoryPlusIso_inv_app_Qh (N : HomotopyCategory.Plus C) :
     (exactMapDerivedCategoryPlusIso F).inv.app (DerivedCategory.Plus.Qh.obj N) =
-      (F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnit).inv.app N := by
+      (F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnith).inv.app N := by
   simp [exactMapDerivedCategoryPlusIso]
 
 end Exact

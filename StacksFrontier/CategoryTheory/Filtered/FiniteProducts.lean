@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Limits.Shapes.BinaryProducts.ProdComparison
 public import Mathlib.CategoryTheory.Limits.Shapes.FunctorToTypes
 public import Mathlib.CategoryTheory.Limits.Types.Products
 public import StacksCore.Tactic.StacksAttribute

@@ -142,7 +142,7 @@ noncomputable def isColimitFreeCofanExtensionByZeroUnit (hU : IsTerminal U) (ι 
     ((IsColimit.precomposeHomEquiv
         (Discrete.natIso fun _ => extensionByZeroUnitObjIsoUnit J R U hU)
         (SheafOfModules.freeCofan (R := R) ι)).symm (SheafOfModules.isColimitFreeCofan ι))
-    (Cocones.ext (Iso.refl _) (fun j => by cases j; simp [SheafOfModules.freeCofan]))
+    (Cocone.ext (Iso.refl _) (fun j => by cases j; simp [SheafOfModules.freeCofan]))
 
 end Terminal
 

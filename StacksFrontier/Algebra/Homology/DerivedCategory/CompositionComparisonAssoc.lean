@@ -113,89 +113,89 @@ omit [HasDerivedCategory B] [EnoughInjectives B] in
 against `H`: the coherence isomorphism drops out and what is left is the unit of `RH` followed
 by `RH` of the unit of `R(G ∘ F)`. -/
 private lemma assoc_unit_left (K : HomotopyCategory.Plus A) :
-    ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnit.app K ≫
+    ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedFunctorPlusComp (F ⋙ G) H).app (DerivedCategory.Plus.Qh.obj K) =
-      H.rightDerivedFunctorPlusUnit.app ((F ⋙ G).mapHomotopyCategoryPlus.obj K) ≫
-        H.rightDerivedFunctorPlus.map ((F ⋙ G).rightDerivedFunctorPlusUnit.app K) :=
+      H.rightDerivedFunctorPlusUnith.app ((F ⋙ G).mapHomotopyCategoryPlus.obj K) ≫
+        H.rightDerivedFunctorPlus.map ((F ⋙ G).rightDerivedFunctorPlusUnith.app K) :=
   (rightDerivedFunctorPlusComp_fac_app (F ⋙ G) H K).trans
     (qhMapCompIsoReflInv_comp (F ⋙ G) H K
-      (H.rightDerivedFunctorPlusUnit.app ((F ⋙ G).mapHomotopyCategoryPlus.obj K) ≫
-        H.rightDerivedFunctorPlus.map ((F ⋙ G).rightDerivedFunctorPlusUnit.app K)))
+      (H.rightDerivedFunctorPlusUnith.app ((F ⋙ G).mapHomotopyCategoryPlus.obj K) ≫
+        H.rightDerivedFunctorPlus.map ((F ⋙ G).rightDerivedFunctorPlusUnith.app K)))
 
 omit [EnoughInjectives C] in
 /-- The same for the inner pair `(F, G)`. -/
 private lemma assoc_unit_inner (K : HomotopyCategory.Plus A) :
-    (F ⋙ G).rightDerivedFunctorPlusUnit.app K ≫
+    (F ⋙ G).rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedFunctorPlusComp F G).app (DerivedCategory.Plus.Qh.obj K) =
-      G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) :=
+      G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) :=
   (rightDerivedFunctorPlusComp_fac_app F G K).trans
     (qhMapCompIsoReflInv_comp F G K
-      (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)))
+      (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)))
 
 omit [HasDerivedCategory C] [EnoughInjectives C] in
 /-- The composite of the unit of `R(H ∘ G ∘ F)` with the comparison taken apart as `F` against
 `G ⋙ H`. -/
 private lemma assoc_unit_right (K : HomotopyCategory.Plus A) :
-    ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnit.app K ≫
+    ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedFunctorPlusComp F (G ⋙ H)).app (DerivedCategory.Plus.Qh.obj K) =
-      (G ⋙ H).rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-        (G ⋙ H).rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) :=
+      (G ⋙ H).rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+        (G ⋙ H).rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) :=
   (rightDerivedFunctorPlusComp_fac_app F (G ⋙ H) K).trans
     (qhMapCompIsoReflInv_comp F (G ⋙ H) K
-      ((G ⋙ H).rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-        (G ⋙ H).rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)))
+      ((G ⋙ H).rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+        (G ⋙ H).rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)))
 
 omit [HasDerivedCategory A] [EnoughInjectives A] in
 /-- The same for the outer pair `(G, H)`, read at the image of `K` under `F`. -/
 private lemma assoc_unit_outer (K : HomotopyCategory.Plus A) :
-    (G ⋙ H).rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
+    (G ⋙ H).rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
         (rightDerivedFunctorPlusComp G H).app
           (DerivedCategory.Plus.Qh.obj (F.mapHomotopyCategoryPlus.obj K)) =
-      H.rightDerivedFunctorPlusUnit.app
+      H.rightDerivedFunctorPlusUnith.app
           (G.mapHomotopyCategoryPlus.obj (F.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-          (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K)) :=
+          (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K)) :=
   (rightDerivedFunctorPlusComp_fac_app G H (F.mapHomotopyCategoryPlus.obj K)).trans
     (qhMapCompIsoReflInv_comp G H (F.mapHomotopyCategoryPlus.obj K)
-      (H.rightDerivedFunctorPlusUnit.app
+      (H.rightDerivedFunctorPlusUnith.app
           (G.mapHomotopyCategoryPlus.obj (F.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-          (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K))))
+          (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K))))
 
 /-- Under `RH`, the inner factorization of the comparison for `(F, G)`. -/
 private lemma assoc_unit_inner_map (K : HomotopyCategory.Plus A) :
-    H.rightDerivedFunctorPlus.map ((F ⋙ G).rightDerivedFunctorPlusUnit.app K) ≫
+    H.rightDerivedFunctorPlus.map ((F ⋙ G).rightDerivedFunctorPlusUnith.app K) ≫
         H.rightDerivedFunctorPlus.map
           ((rightDerivedFunctorPlusComp F G).app (DerivedCategory.Plus.Qh.obj K)) =
       H.rightDerivedFunctorPlus.map
-          (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K)) ≫
+          (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-          (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)) :=
+          (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)) :=
   (H.rightDerivedFunctorPlus.map_comp _ _).symm.trans
     ((congrArg H.rightDerivedFunctorPlus.map (assoc_unit_inner F G K)).trans
       (H.rightDerivedFunctorPlus.map_comp _ _))
 
 /-- **The associativity, read against the unit of `R(H ∘ G ∘ F)` at a bounded below complex.** -/
 private lemma assoc_unit_app (K : HomotopyCategory.Plus A) :
-    ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnit.app K ≫
+    ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedFunctorPlusComp (F ⋙ G) H).app (DerivedCategory.Plus.Qh.obj K) ≫
           H.rightDerivedFunctorPlus.map
             ((rightDerivedFunctorPlusComp F G).app (DerivedCategory.Plus.Qh.obj K)) =
-      ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnit.app K ≫
+      ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedFunctorPlusComp F (G ⋙ H)).app (DerivedCategory.Plus.Qh.obj K) ≫
           (rightDerivedFunctorPlusComp G H).app
             (F.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) :=
-  have hleft : ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnit.app K ≫
+  have hleft : ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnith.app K ≫
       (rightDerivedFunctorPlusComp (F ⋙ G) H).app (DerivedCategory.Plus.Qh.obj K) ≫
         H.rightDerivedFunctorPlus.map
           ((rightDerivedFunctorPlusComp F G).app (DerivedCategory.Plus.Qh.obj K)) =
-      H.rightDerivedFunctorPlusUnit.app ((F ⋙ G).mapHomotopyCategoryPlus.obj K) ≫
+      H.rightDerivedFunctorPlusUnith.app ((F ⋙ G).mapHomotopyCategoryPlus.obj K) ≫
         H.rightDerivedFunctorPlus.map
-            (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K)) ≫
+            (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K)) ≫
           H.rightDerivedFunctorPlus.map
-            (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)) :=
+            (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)) :=
     (Category.assoc _ _ _).symm.trans
       ((CategoryTheory.eq_whisker (assoc_unit_left F G H K)
             (H.rightDerivedFunctorPlus.map
@@ -203,32 +203,32 @@ private lemma assoc_unit_app (K : HomotopyCategory.Plus A) :
                 (DerivedCategory.Plus.Qh.obj K)))).trans
         ((Category.assoc _ _ _).trans
           (CategoryTheory.whisker_eq
-            (H.rightDerivedFunctorPlusUnit.app ((F ⋙ G).mapHomotopyCategoryPlus.obj K))
+            (H.rightDerivedFunctorPlusUnith.app ((F ⋙ G).mapHomotopyCategoryPlus.obj K))
             (assoc_unit_inner_map F G H K))))
-  have hright : ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnit.app K ≫
+  have hright : ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnith.app K ≫
       (rightDerivedFunctorPlusComp F (G ⋙ H)).app (DerivedCategory.Plus.Qh.obj K) ≫
         (rightDerivedFunctorPlusComp G H).app
           (F.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) =
-      H.rightDerivedFunctorPlusUnit.app
+      H.rightDerivedFunctorPlusUnith.app
           (G.mapHomotopyCategoryPlus.obj (F.mapHomotopyCategoryPlus.obj K)) ≫
         H.rightDerivedFunctorPlus.map
-            (G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K)) ≫
+            (G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K)) ≫
           (G.rightDerivedFunctorPlus ⋙ H.rightDerivedFunctorPlus).map
-            (F.rightDerivedFunctorPlusUnit.app K) :=
+            (F.rightDerivedFunctorPlusUnith.app K) :=
     (Category.assoc _ _ _).symm.trans
       ((CategoryTheory.eq_whisker (assoc_unit_right F G H K)
             ((rightDerivedFunctorPlusComp G H).app
               (F.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)))).trans
         ((Category.assoc _ _ _).trans
           ((CategoryTheory.whisker_eq
-                ((G ⋙ H).rightDerivedFunctorPlusUnit.app
+                ((G ⋙ H).rightDerivedFunctorPlusUnith.app
                   (F.mapHomotopyCategoryPlus.obj K))
                 ((rightDerivedFunctorPlusComp G H).naturality
-                  (F.rightDerivedFunctorPlusUnit.app K))).trans
+                  (F.rightDerivedFunctorPlusUnith.app K))).trans
             ((Category.assoc _ _ _).symm.trans
               ((CategoryTheory.eq_whisker (assoc_unit_outer F G H K)
                     ((G.rightDerivedFunctorPlus ⋙ H.rightDerivedFunctorPlus).map
-                      (F.rightDerivedFunctorPlusUnit.app K))).trans
+                      (F.rightDerivedFunctorPlusUnith.app K))).trans
                 (Category.assoc _ _ _))))))
   hleft.trans hright.symm
 
@@ -246,7 +246,7 @@ theorem rightDerivedFunctorPlusComp_assoc :
       rightDerivedFunctorPlusComp F (G ⋙ H) ≫
         Functor.whiskerLeft F.rightDerivedFunctorPlus (rightDerivedFunctorPlusComp G H) :=
   ((F ⋙ G) ⋙ H).rightDerivedFunctorPlus.rightDerived_ext
-    ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso A) _ _ _
+    ((F ⋙ G) ⋙ H).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A) _ _ _
     (NatTrans.ext (funext fun K ↦ assoc_unit_app F G H K))
 
 /-- The associativity of the canonical comparison, read at an object of `D⁺(𝒜)`. -/

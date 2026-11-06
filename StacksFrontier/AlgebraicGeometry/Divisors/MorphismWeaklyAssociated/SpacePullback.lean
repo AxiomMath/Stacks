@@ -195,8 +195,9 @@ theorem isWeaklyAssociatedPrime_maximalIdeal_tensorProduct_iff_of_finite_flat
       (R := R) (S := A) (M := A ⊗[R] M) (maximalIdeal R) hN
     have : q.IsPrime := hq.isPrime
     have hqmax : q.IsMaximal :=
-      Ideal.isMaximal_of_isIntegral_of_isMaximal_comap q
-        (hqp ▸ IsLocalRing.maximalIdeal.isMaximal R)
+      Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) q
+        (show (Ideal.comap (algebraMap R A) q).IsMaximal from
+          hqp ▸ IsLocalRing.maximalIdeal.isMaximal R)
     exact (IsLocalRing.eq_maximalIdeal hqmax) ▸ hq
   · intro hN
     have hN' : IsWeaklyAssociatedPrime R (A ⊗[R] M) (maximalIdeal R) := by

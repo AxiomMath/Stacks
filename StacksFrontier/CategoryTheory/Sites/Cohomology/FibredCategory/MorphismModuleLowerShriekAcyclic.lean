@@ -269,6 +269,8 @@ theorem extAcyclic_toSheaf_of_isSumOfExtensionByZeroUnits
   have : HasColimitsOfShape (Discrete ι) (Sheaf S.sourceTopology A) :=
     Stacks.Cohomology.DerivedLowerShriek.hasColimitsOfShape_discrete_sheafAb S.sourceTopology ι
   have : HasColimit (Discrete.functor X) := HasColimitsOfShape.has_colimit _
+  have : HasColimitsOfShape (Discrete ι) AddCommGrpCat.{max w u₀ u₁ u₂ v₀ v₁ v₂} :=
+    AddCommGrpCat.hasColimitsOfShape
   have : PreservesColimitsOfShape (Discrete ι) S.sourceModuleForget :=
     SheafOfModules.preservesColimitsOfShape_toSheaf _
   exact S.abelianLowerShriekAdjunction.extAcyclic_of_iso

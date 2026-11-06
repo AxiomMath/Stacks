@@ -169,11 +169,11 @@ private lemma modelsIso_of_inter
     exact ⟨Over.homMk a' ha'⟩
   obtain ⟨a⟩ := fac U hxU
   obtain ⟨b⟩ := fac V hxV
-  let u' : p.fiber.Elements := ⟨U, a⟩
-  let v' : p.fiber.Elements := ⟨V, b⟩
+  let u' : p.fiber.Elements := p.fiber.elementsMk U a
+  let v' : p.fiber.Elements := p.fiber.elementsMk V b
   exact modelsIso_of_commonPoint X.smallEtaleTopology A F
-    (IsCofiltered.minToLeft u' v').val (IsCofiltered.minToRight u' v').val p
-    (IsCofiltered.min u' v').2 M N eU eV
+    (IsCofiltered.minToLeft u' v').hom (IsCofiltered.minToRight u' v').hom p
+    (IsCofiltered.min u' v').val M N eU eV
 
 private lemma exists_cover_constant_of_products
     (X : Scheme.{u}) [ConnectedSpace X]

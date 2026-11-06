@@ -91,7 +91,7 @@ public theorem properSupportStalkEval_natural
         colim.map (Functor.whiskerLeft (CategoryOfElements.π
           (geometricPointFiber B Y.obj Y.property (y.toGeometricPoint B g s))).op φ.hom) := by
   apply colimit.hom_ext
-  rintro ⟨⟨W, w⟩⟩
+  rintro ⟨@⟨W, w⟩⟩
   refine ConcreteCategory.hom_ext _ _ fun τ => ?_
   have h3 := properSupportStalkEval_germ.{u, v} B g G s y W w τ
   have h4 := colim_map_etaleGerm.{u, v} B (y.toGeometricPoint B g s) φ.hom (baseChange B g W)
@@ -186,9 +186,9 @@ public theorem properSupportBaseChange_stalkEval :
       properSupportStalkEval.{u, v} B g G (s.map (B.inclusion.map b))
         (fiberPointBaseChange B b' g₁ g b sq s y) := by
   apply colimit.hom_ext
-  rintro ⟨⟨W, w⟩⟩
+  rintro ⟨@⟨W, w⟩⟩
   refine ConcreteCategory.hom_ext _ _ fun τ => ?_
-  have ha := properSupportBaseChange_stalk_germ.{u, v} B b' g₁ g b sq G s ⟨W, w⟩ τ
+  have ha := properSupportBaseChange_stalk_germ.{u, v} B b' g₁ g b sq G s ⟨w⟩ τ
   have hb := properSupportStalkEval_germ.{u, v} B g₁ ((abPullback.{u, v} B b').obj G) s y
     (baseChange B b W) (geometricPointFiberBaseChangeEquiv B b s W w)
     ((properSupportBaseChangePushforward.{u, v} B b' g₁ g b sq G).hom.app (op W) τ)

@@ -50,7 +50,7 @@ def rightDerivedFunctorPlusSingleIsoOfAcyclic (A : C) (R : CochainComplex C ℤ)
   haveI := isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic G Kp hR
   (DerivedCategory.quotientCompQhIso D).symm.app _ ≪≫
     DerivedCategory.Qh.mapIso ((G.mapHomotopyCategoryFactors _).symm.app R) ≪≫
-    DerivedCategory.Plus.ι.mapIso (asIso (G.rightDerivedFunctorPlusUnit.app Kp)) ≪≫
+    DerivedCategory.Plus.ι.mapIso (asIso (G.rightDerivedFunctorPlusUnith.app Kp)) ≪≫
     DerivedCategory.Plus.ι.mapIso
       (G.rightDerivedFunctorPlus.mapIso (plusQhObjIsoSingleOfQuasiIso A R n₀ q))
 

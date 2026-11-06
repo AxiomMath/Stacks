@@ -172,7 +172,6 @@ theorem foldZero_mapHomotopyCategory_app
           ((NatTrans.mapHomologicalComplex δ (ComplexShape.up ℤ)).app L) := by
     ext i
     exact foldZero_app (w := w) (w' := w') (P := P) (P' := P') (F := F) (G := G) δ θ (L.X i)
-  simp only [NatTrans.mapHomotopyCategory_app]
   show (HomotopyCategory.quotient A' (ComplexShape.up ℤ)).map
         ((NatTrans.mapHomologicalComplex (foldZero (w := w) (w' := w') (P := P) (P' := P')
           (F := F) (G := G) δ θ) (ComplexShape.up ℤ)).app L) =

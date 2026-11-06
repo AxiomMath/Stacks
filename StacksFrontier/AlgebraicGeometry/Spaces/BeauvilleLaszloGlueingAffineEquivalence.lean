@@ -564,7 +564,6 @@ theorem tensorMap_eq_baseChangeToAway {R R' M : Type u} [CommRing R] [CommRing R
         (IsScalarTower.toAlgHom R R' (Localization.Away ((algebraMap R R') f)))) x =
       _root_.BeauvilleLaszlo.baseChangeToAway (S := R') M f x := by
   induction x with
-  | zero => simp
   | tmul m s => simp
   | add x y hx hy => rw [map_add, map_add, hx, hy]
 
@@ -577,7 +576,6 @@ theorem tensorMap_eq_localizedBaseChangeToAway {R R' M : Type u} [CommRing R] [C
           (Localization.Away ((algebraMap R R') f)))) x =
       _root_.BeauvilleLaszlo.localizedBaseChangeToAway (S := R') M f x := by
   induction x with
-  | zero => simp
   | tmul m s =>
       rw [Algebra.TensorProduct.map_tmul,
         _root_.BeauvilleLaszlo.localizedBaseChangeToAway_tmul]

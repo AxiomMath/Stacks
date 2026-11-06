@@ -279,7 +279,7 @@ noncomputable def abelianDerivedDirectImageBaseChange
   let : PreservesFiniteColimits G := inferInstance
   exact Stacks.Cohomology.BaseChange.derived F F' G G'
     (abelianDirectImageBaseChange.{u, a} B S hS p𝒳 p𝒴' p𝒴 f g τ h𝒳 h𝒴' h𝒴 hfc hgc)
-    (asIso G.rightDerivedFunctorPlusUnit)
+    (asIso G.rightDerivedFunctorPlusUnith)
 
 /-- **The derived base change map is the canonical one.** Precomposed with `g⁻¹` of the
 derived-functor unit of `Rf_*`, the base change map
@@ -337,7 +337,7 @@ theorem abelianDerivedDirectImageBaseChange_fac
           (associatedTopology B S hS p𝒴 τ)) := inferInstance
     Functor.whiskerRight (f.sheafPushforwardCocontinuous AddCommGrpCat.{max (u + 1) a}
           (associatedTopology B S hS p𝒳 τ)
-          (associatedTopology B S hS p𝒴 τ)).rightDerivedFunctorPlusUnit
+          (associatedTopology B S hS p𝒴 τ)).rightDerivedFunctorPlusUnith
         (g.sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) a}
           (associatedTopology B S hS p𝒴' τ)
           (associatedTopology B S hS p𝒴 τ)).rightDerivedFunctorPlus ≫
@@ -362,7 +362,7 @@ theorem abelianDerivedDirectImageBaseChange_fac
       (abelianDirectImageBaseChange.{u, a} B S hS p𝒳 p𝒴' p𝒴 f g τ h𝒳 h𝒴' h𝒴 hfc hgc)
       (asIso (g.sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) a}
           (associatedTopology B S hS p𝒴' τ)
-          (associatedTopology B S hS p𝒴 τ)).rightDerivedFunctorPlusUnit) := by
+          (associatedTopology B S hS p𝒴 τ)).rightDerivedFunctorPlusUnith) := by
   have := h𝒳.isFibered
   have := h𝒴'.isFibered
   have := h𝒴.isFibered
@@ -513,7 +513,7 @@ noncomputable def moduleDerivedDirectImageBaseChange
   let : PreservesFiniteColimits Qg := inferInstance
   exact Stacks.Cohomology.BaseChange.derived Pf Pf' Qg Qg'
     (moduleSheafPushforwardBaseChangeIso.{u, a} B S hS p𝒳 p𝒴' p𝒴 f g τ hτ h𝒳 h𝒴' h𝒴 hfc hgc).hom
-    (asIso Qg.rightDerivedFunctorPlusUnit)
+    (asIso Qg.rightDerivedFunctorPlusUnith)
 
 /-- **The derived base change map of sheaves of modules is the canonical one**: precomposed with
 `g^*` of the derived-functor unit of `Rf_*`, it is the degree-zero base change map applied
@@ -531,7 +531,7 @@ theorem moduleDerivedDirectImageBaseChange_fac
         p𝒴' p𝒴 h𝒴' h𝒴 g hgc τ hτ) :=
       inferInstance
     Functor.whiskerRight (moduleSheafPushforward.{u, u + 1, u, max (u + 1) a} B S hS
-        p𝒳 p𝒴 h𝒳 h𝒴 f hfc τ hτ).rightDerivedFunctorPlusUnit
+        p𝒳 p𝒴 h𝒳 h𝒴 f hfc τ hτ).rightDerivedFunctorPlusUnith
         (modulePullback.{u, u + 1, u, max (u + 1) a} B S hS
           p𝒴' p𝒴 h𝒴' h𝒴 g hgc τ hτ).rightDerivedFunctorPlus ≫
       (Functor.associator _ _ _).hom ≫
@@ -554,7 +554,7 @@ theorem moduleDerivedDirectImageBaseChange_fac
         τ hτ)
       (moduleSheafPushforwardBaseChangeIso.{u, a} B S hS p𝒳 p𝒴' p𝒴 f g τ hτ h𝒳 h𝒴' h𝒴 hfc hgc).hom
       (asIso (modulePullback.{u, u + 1, u, max (u + 1) a} B S hS
-          p𝒴' p𝒴 h𝒴' h𝒴 g hgc τ hτ).rightDerivedFunctorPlusUnit) := by
+          p𝒴' p𝒴 h𝒴' h𝒴 g hgc τ hτ).rightDerivedFunctorPlusUnith) := by
   exact Stacks.Cohomology.BaseChange.derived_fac _ _ _ _ _ _
 
 /-- The inverse image of sheaves of modules along a fibred 1-morphism preserves finite limits and

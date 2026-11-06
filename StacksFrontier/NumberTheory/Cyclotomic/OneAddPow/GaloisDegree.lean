@@ -72,7 +72,7 @@ private theorem unramified_or_trivial_of_separable_reduction
     intro m hm
     let : m.IsPrime := hm.isPrime
     have hunder : m.under A = mA := (IsLocalRing.isMaximal_iff A).mp
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m)
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m)
     have hOver : m.LiesOver mA := ⟨hunder.symm⟩
     have hm0 : m ≠ ⊥ :=
       Ideal.ne_bot_of_liesOver_of_ne_bot (IsDiscreteValuationRing.not_a_field A) m

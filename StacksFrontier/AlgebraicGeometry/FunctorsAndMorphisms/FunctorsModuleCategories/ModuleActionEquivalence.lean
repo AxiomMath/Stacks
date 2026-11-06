@@ -53,8 +53,8 @@ private abbrev evaluationObject (A : Type u) (B : Type v) [Ring A]
     { carrier := F.obj.obj (regularModule A)
       action :=
         ({ F.obj.mapEnd (regularModule A) with
-            map_zero' := F.obj.map_zero _ _
-            map_add' := fun _ _ ↦ F.obj.map_add } :
+            map_zero' := End.ext (F.obj.map_zero _ _)
+            map_add' := fun _ _ ↦ End.ext F.obj.map_add } :
           End (regularModule A) →+* End (F.obj.obj (regularModule A))).comp
             (regularAction A) }
 
@@ -104,7 +104,6 @@ private def finiteFreeCofanIsColimit (A : Type u) [Ring A] (n : ℕ) :
       Pi.single_apply, apply_ite, map_zero, Finset.sum_ite_eq', Finset.mem_univ,
       ite_true]
     convert hi using 1
-    rfl
 
 private lemma finitePresentation_induction (A : Type u) [Ring A]
     (P : FPModule A → Prop) (hfree : ∀ n, P (finiteFreeModule A n))
@@ -136,7 +135,7 @@ private noncomputable def actionHomFunctor {A : Type u} {B : Type v} [Ring A]
 
 private lemma preadditiveCoyoneda_smul {B : Type v} [Category.{w} B] [Preadditive B]
     {X Y : B} (e : End X) (f : X ⟶ Y) :
-    (MulOpposite.op e : (End X)ᵐᵒᵖ) • f = e ≫ f := rfl
+    (MulOpposite.op e : (End X)ᵐᵒᵖ) • f = e.asHom ≫ f := rfl
 
 private abbrev liftedModuleInclusion (A : Type u) [Ring A] :
     FPModule A ⥤ ModuleCat.{max u w} Aᵐᵒᵖ :=
@@ -188,7 +187,7 @@ private lemma regularHom_add {A : Type u} [Ring A] {M : FPModule A}
 
 private lemma regularHom_smul {A : Type u} [Ring A] {M : FPModule A}
     (a : A) (x : M.obj) : regularHom ((MulOpposite.op a : Aᵐᵒᵖ) • x) =
-      regularEnd A a ≫ regularHom x := by
+      (regularEnd A a).asHom ≫ regularHom x := by
   apply InducedCategory.hom_ext
   apply ModuleCat.hom_ext
   apply LinearMap.ext
@@ -584,8 +583,8 @@ private lemma actionTensorRegularIso_homEquiv {A : Type u} {B : Type v} [Ring A]
 private lemma actionTensorRegularIso_comm {A : Type u} {B : Type v} [Ring A]
     [Category.{w} B] [Preadditive B] [HasFiniteBiproducts B] [HasCokernels B]
     (K : ModuleAction A B) (a : A) :
-    (actionTensorFunctor K).map (regularEnd A a) ≫ (actionTensorRegularIso K).hom =
-      (actionTensorRegularIso K).hom ≫ K.action a := by
+    (actionTensorFunctor K).map (regularEnd A a).asHom ≫ (actionTensorRegularIso K).hom =
+      (actionTensorRegularIso K).hom ≫ (K.action a).asHom := by
   let H := actionHomFunctor K
   let L := actionTensorSource K
   apply H.partialLeftAdjointHomEquiv.injective
@@ -601,7 +600,7 @@ private lemma actionTensorRegularIso_comm {A : Type u} {B : Type v} [Ring A]
       (MulOpposite.op a • u.hom x₁).down =
         (RingHom.op K.action (MulOpposite.op a) : (End K.carrier)ᵐᵒᵖ) • (u.hom x₁).down := by
     rfl
-  have ha : (u.hom xa).down = K.action a := by
+  have ha : (u.hom xa).down = (K.action a).asHom := by
     have hx : xa = (MulOpposite.op a : Aᵐᵒᵖ) • x₁ := by
       show ULift.up a = (MulOpposite.op a : Aᵐᵒᵖ) • ULift.up (1 : A)
       ext
@@ -611,26 +610,26 @@ private lemma actionTensorRegularIso_comm {A : Type u} {B : Type v} [Ring A]
     have hfirst : (u.hom xa).down = (MulOpposite.op a • u.hom x₁).down := by
       rw [hx]
       exact congrArg ULift.down (u.hom.map_smul _ x₁)
-    have hsecond : (MulOpposite.op a • u.hom x₁).down = K.action a := by
+    have hsecond : (MulOpposite.op a • u.hom x₁).down = (K.action a).asHom := by
       rw [hsmul, hux]
       show (MulOpposite.op (K.action a) : (End K.carrier)ᵐᵒᵖ) •
         (𝟙 K.carrier) = _
       rw [preadditiveCoyoneda_smul]
       simp
     exact hfirst.trans hsecond
-  show (u.hom (((L.map (regularEnd A a)).hom.hom) x₁)).down =
-    ((H.map (K.action a)).hom (u.hom x₁)).down
-  have hL : ((L.map (regularEnd A a)).hom.hom) x₁ = xa := by
-    show ULift.up ((regularEnd A a).hom.hom (1 : A)) = ULift.up a
+  show (u.hom (((L.map (regularEnd A a).asHom).hom.hom) x₁)).down =
+    ((H.map (K.action a).asHom).hom (u.hom x₁)).down
+  have hL : ((L.map (regularEnd A a).asHom).hom.hom) x₁ = xa := by
+    show ULift.up ((regularEnd A a).asHom.hom.hom (1 : A)) = ULift.up a
     congr 1
     simp [regularEnd, LinearMap.mulLeft_apply]
   rw [hL, ha, hux]
-  exact (Category.id_comp (K.action a)).symm
+  exact (Category.id_comp (K.action a).asHom).symm
 
 private def moduleActionIsoOfIso {A : Type u} {B : Type v} [Ring A]
     [Category.{w} B] [Preadditive B] {K L : ModuleAction A B}
     (e : K.carrier ≅ L.carrier)
-    (h : ∀ a, K.action a ≫ e.hom = e.hom ≫ L.action a) : K ≅ L where
+    (h : ∀ a, (K.action a).asHom ≫ e.hom = e.hom ≫ (L.action a).asHom) : K ≅ L where
   hom := ⟨e.hom, h⟩
   inv := ⟨e.inv, fun a ↦ by rw [Iso.comp_inv_eq, Category.assoc, h a, Iso.inv_hom_id_assoc]⟩
   hom_inv_id := ModuleAction.Hom.ext e.hom_inv_id
@@ -643,7 +642,7 @@ private noncomputable def actionTensorUnitIsoObj {A : Type u} {B : Type v}
   let e := actionTensorRegularIso K
   apply moduleActionIsoOfIso e.symm
   intro a
-  change K.action a ≫ e.inv = e.inv ≫ (actionTensorFunctor K).map (regularEnd A a)
+  change (K.action a).asHom ≫ e.inv = e.inv ≫ (actionTensorFunctor K).map (regularEnd A a).asHom
   rw [Iso.comp_inv_eq, Category.assoc, actionTensorRegularIso_comm K a, Iso.inv_hom_id_assoc]
 
 private lemma actionHomRegularCanonical_naturality {A : Type u} {B : Type v}

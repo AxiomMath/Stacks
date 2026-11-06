@@ -172,7 +172,7 @@ private lemma tildeTensorSheafMap_eq (R : CommRingCat.{u}) {M M' N N' : ModuleCa
         ((PresheafOfModules.tensorBifunctor.{u, u, u, u, u}
           (specCommRingSheaf R).obj).obj (tilde M').val).map
           (tilde.map g).val =
-      PresheafOfModules.Monoidal.tensorHom (R := (Spec R).presheaf)
+      PresheafOfModulesOfCommRing.Monoidal.tensorHom (R := (Spec R).presheaf)
         (tilde.map f).val (tilde.map g).val :=
     (MonoidalCategory.tensorHom_def
       (C := PresheafOfModules.{u} ((Spec R).presheaf ⋙ forget₂ CommRingCat.{u} RingCat.{u}))

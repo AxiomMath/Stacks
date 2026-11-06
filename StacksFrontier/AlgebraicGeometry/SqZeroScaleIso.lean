@@ -231,7 +231,7 @@ restated so that instance search finds it for `Γ(Spec (CommRingCat.of A), U)`. 
 algebra structure of the structure sheaf, i.e. the restriction of global sections. -/
 instance algebraSections (A : Type u) [CommRing A] (U : (Spec (CommRingCat.of A)).Opens) :
     Algebra A Γ(Spec (CommRingCat.of A), U) :=
-  inferInstanceAs (Algebra A ((Spec.structureSheaf A).val.obj (Opposite.op U)))
+  inferInstanceAs (Algebra A ((Spec.structureSheaf A).obj.obj (Opposite.op U)))
 
 /-- The structure map `A ⟶ Γ(Spec A, U)` is the restriction of global sections along
 `AlgebraicGeometry.Scheme.ΓSpecIso`. -/
@@ -249,7 +249,7 @@ instance isLocalization_sections (g : R) :
       Γ(Spec (CommRingCat.of (Sq R)),
         specAug R ⁻¹ᵁ (PrimeSpectrum.basicOpen g : (Spec (CommRingCat.of R)).Opens)) :=
   inferInstanceAs (IsLocalization.Away (algebraMap R (Sq R) g)
-    ((Spec.structureSheaf (Sq R)).val.obj
+    ((Spec.structureSheaf (Sq R)).obj.obj
       (Opposite.op (PrimeSpectrum.basicOpen (algebraMap R (Sq R) g)))))
 
 /-! ### The induced endomorphism of sections -/

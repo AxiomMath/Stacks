@@ -119,7 +119,7 @@ private def uliftDown (M : Type v) [AddCommGroup M] [Module R M] :
   map_smul' _ _ := rfl
 
 private lemma uliftDown_injective (M : Type v) [AddCommGroup M] [Module R M] :
-    Function.Injective (uliftDown R M) := fun _ _ h ↦ ULift.ext _ _ h
+    Function.Injective (uliftDown R M) := fun _ _ h ↦ ULift.ext h
 
 private structure Stage where
   carrier : Type (max u v)

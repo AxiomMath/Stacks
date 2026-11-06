@@ -297,6 +297,7 @@ theorem representsFactor_trans {P Q R T : BigFppfOver B S hS} {a : P ⟶ Q} {b :
   rw [← hg']
   exact ((baseChangeFactorIso B S hS hab).hom.naturality g).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A morphism found at a later stage of a factorisation represents a given morphism over the
 composite, read through the other factorisation.** The hypotheses are that `hk'` represents `mR`
 over the longer factorisation and that `f₀` base changes to `hk'`. -/

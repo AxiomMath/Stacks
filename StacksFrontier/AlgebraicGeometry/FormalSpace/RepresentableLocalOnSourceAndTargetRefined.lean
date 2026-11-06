@@ -249,7 +249,7 @@ theorem isRepresentableByAlgebraicSpacesULift_of_comp_of_locallySurjective
     exists_schemeChart_pullback_of_locallySurjective B S hS f p hp hsurj hpf T ξ
   exact Space.isAlgebraicSpaceULift_of_relative_surjective_etale B S hS
     (Presheaf.isSheaf_pullback _ ξ f.hom
-      (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS T).isSheaf X.cond Y.cond)
+      (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS T).isSheaf X.property Y.property)
     (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS Z) _ hcs hce
 
 /-- **Stacks 0AN4, condition (2) implies condition (1).** In a square as in condition (2) the

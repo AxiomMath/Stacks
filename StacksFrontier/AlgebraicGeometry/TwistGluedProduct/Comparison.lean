@@ -127,7 +127,9 @@ pointwise route above needs no tensor sheaf at all.
   `…ChartTransRelativeProj.IsComposite` and `cmpNested_mul` (`maximum recursion depth` at the
   first `Eq.trans`), and the same with the products wrapped in a `def` declared at the
   pushed-forward spelling (`maximum recursion depth` again, now in the wrapper's own transport).
-* No compiler option is raised anywhere here and no limit is increased.
+* One limit is raised: since the Lean v4.35.0 bump the kernel check of
+  `restrictTwistIso_val_app_preimage`'s proof exceeds the stock budget (its statement alone
+  checks), so that declaration carries `set_option maxHeartbeats 800000`. Nothing else is raised.
 
 **What is not done.** `Stacks.AlgebraicGeometry.RelativeProjTwists.ChartData` and `TwistData` are
 still absent, and nothing here supplies them: the glued pieces are one sheaf of modules per integer
@@ -321,6 +323,7 @@ public theorem restrictTwistIso_hom_eq (n : ℤ) :
             (projInclusionMap A W U h hW hU)).app (twistingSheaf (A.grading U) n)).hom ≫
         (projInclusionTwistIso A W U h hW hU n).hom := rfl
 
+set_option maxHeartbeats 800000 in
 /-- **The pointwise value of Tag 01NO's chart comparison, over the preimage of an open of the
 larger chart.** -/
 public theorem restrictTwistIso_val_app_preimage (n : ℤ)

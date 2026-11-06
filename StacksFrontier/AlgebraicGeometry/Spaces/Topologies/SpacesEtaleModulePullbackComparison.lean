@@ -200,6 +200,7 @@ def toSpacesEtaleModulesPullbackHom :
     (smallEtaleRingedSiteHom T f).pullbackPushforwardAdjunctionTopos
     (toSpacesEtaleModulesPushforwardIso T f)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The inverse image of `ι𝓕` along `f_{small}` is in the essential image of `ι`. -/
 theorem mem_essImage_pullbackTopos_toSpacesEtaleModules
     (F : Space.Modules.{u, u} T.fppfSite S T.fppf_mem X.1 X.2) :

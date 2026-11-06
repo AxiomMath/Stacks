@@ -152,10 +152,9 @@ private theorem associatedMorphism_essentiallySurjective
   let yF : F := y
   let K : ArtinianLocalAlgCat.{u, max v w, w} Λ k := residueFieldObject Λ k
   let α : (restrictedCoyoneda ξ.base).obj K := completeResiduePoint ξ.base
-  let z₀ : (restrictedCoyoneda ξ.base).Elements := ⟨K, α⟩
+  let z₀ : (restrictedCoyoneda ξ.base).Elements := (restrictedCoyoneda ξ.base).elementsMk K α
   have hz₀ : p.obj (M.obj z₀) = K := by
-    simpa [M, BasedCategory.ofFunctor, CategoryOfElements.π, z₀] using
-      (BasedFunctor.w_obj M z₀)
+    exact (BasedFunctor.w_obj M z₀).trans rfl
   let A := p.obj yF
   let f := artinianResiduePoint A
   obtain ⟨zop, gop, hgop⟩ := hp.cofibered.exists_lift f.op (Opposite.op yF) rfl

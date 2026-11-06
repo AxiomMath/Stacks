@@ -785,7 +785,7 @@ theorem flatPullbackMap_rationalFunctionPrincipalDivisorCycle_eq_finsum_componen
         (pointsMap D.site D.base D.base_mem X f (Z.ambientGenericPoint D.site D.base D.base_mem)))
     have hW₀set : subspacePointSet D.site D.base D.base_mem Y W₀.subspace =
         closure {pointsMap D.site D.base D.base_mem X f
-          (Z.ambientGenericPoint D.site D.base D.base_mem)} :=
+                  (Z.ambientGenericPoint D.site D.base D.base_mem)} :=
       congrArg IrreducibleCloseds.carrier hW₀
     have hW₀gp : W₀.ambientGenericPoint D.site D.base D.base_mem =
         pointsMap D.site D.base D.base_mem X f (Z.ambientGenericPoint D.site D.base D.base_mem) :=

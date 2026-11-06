@@ -98,12 +98,12 @@ theorem isPresentedByGlobalSections_sourceModulesEquivalenceSucc_moduleSubsiteIn
     (schemeStack.{u, w} B S hS (𝒳.val.val.p.obj y.obj))
   exact Stacks.SheafOfModules.isPresentedByGlobalSections_map_pushforward_of_isTerminal.{u, 0,
       u + 1, u}
-    (𝒪 := (structureSheaf B S hS 𝒳).val) (subsiteRingStructureSheaf B S hS 𝒳).cond
+    (𝒪 := (structureSheaf B S hS 𝒳).obj) (subsiteRingStructureSheaf B S hS 𝒳).property
     ((hasSheafCompose_forget_ringCat (topology B S hS 𝒳)).isSheaf _
-      (subsiteRingStructureSheaf B S hS 𝒳).cond)
+      (subsiteRingStructureSheaf B S hS 𝒳).property)
     (topology B S hS (schemeStack.{u, w} B S hS (𝒳.val.val.p.obj y.obj)))
-    (𝒪' := (structureSheaf B S hS (schemeStack.{u, w} B S hS (𝒳.val.val.p.obj y.obj))).val)
-    (subsiteRingStructureSheaf B S hS (schemeStack.{u, w} B S hS (𝒳.val.val.p.obj y.obj))).cond
+    (𝒪' := (structureSheaf B S hS (schemeStack.{u, w} B S hS (𝒳.val.val.p.obj y.obj))).obj)
+    (subsiteRingStructureSheaf B S hS (schemeStack.{u, w} B S hS (𝒳.val.val.p.obj y.obj))).property
     (isTerminalFlatObjectSchemeStackId.{u, w} B S hS _)
     (primedSiteFunctor B S hS (objectStackMap B S hS 𝒳 y.obj) y.property) V
     (primedSiteFunctorTerminalHom B S hS 𝒳 y ≫ g)

@@ -196,8 +196,10 @@ theorem fibreMap_tensorLocalizationEquiv (φ : 𝒜 →+*ᵍ ℬ) (hφ : ℬ₊ 
             (fibreMap φ hφ fM y zM ⊗ₜ[B] fibreMap φ hφ fN y zN)) := by
   rw [← fibreMap_tensorLocalization φ hφ fM fN (TensorProduct.map fM fN) (fun _ _ => rfl) y zM zN,
     fibreMap_localizedModuleMap φ hφ (TensorProduct.map fM fN) fQ u v
-      (fun z => TensorProduct.induction_on z (by simp) (fun m n => by simpa using huv m n)
-        fun x y hx hy => by simp [hx, hy]) y]
+      (fun z => by
+        induction z with
+        | tmul m n => simpa using huv m n
+        | add x y hx hy => simp [hx, hy]) y]
 
 end Stacks.ProjModuleComparison
 

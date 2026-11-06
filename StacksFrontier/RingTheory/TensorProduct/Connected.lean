@@ -197,7 +197,6 @@ private theorem repr_rTensor (b : Module.Basis ι k R) (π : S →ₐ[k] T) (y :
     (b.baseChange T).repr (Algebra.TensorProduct.rTensor R π y) i
       = π ((b.baseChange S).repr y i) := by
   induction y with
-  | zero => simp
   | tmul s r => simp [Algebra.TensorProduct.map_tmul, map_smul]
   | add y z hy hz => simp [hy, hz]
 
@@ -279,7 +278,6 @@ private theorem baseChange_val_injective {k : Type u} (R : Type v) {S : Type w} 
       = TensorProduct.map LinearMap.id S'.val.toLinearMap z := by
     intro z
     induction z with
-    | zero => simp
     | tmul a s => simp
     | add z w hz hw => simp [hz, hw]
   intro z w hzw

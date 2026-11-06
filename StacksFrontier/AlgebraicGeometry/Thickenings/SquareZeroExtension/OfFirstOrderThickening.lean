@@ -206,7 +206,7 @@ private theorem transportedKernelInclusion_smul {X Y : Scheme.{u}}
     (a : (transportedStructureSheaf (firstOrderThickeningBaseIso i hi)).presheaf.obj U)
     (x : I.val.obj U) :
     transportedKernelInclusion i hi I j U
-      (((I.val.obj U).smul ((transportedQuotient i hi).hom.app U a)).hom x) =
+      (((I.val.obj U).smul ((transportedQuotient i hi).hom.app U a)).asHom x) =
         a * transportedKernelInclusion i hi I j U x := by
   have hid : (eqToHom (baseIso_preimage_inv
         (firstOrderThickeningBaseIso i hi) U.unop).symm).op ≫

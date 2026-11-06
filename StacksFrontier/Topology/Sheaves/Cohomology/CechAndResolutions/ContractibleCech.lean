@@ -269,7 +269,7 @@ private theorem cechAugmentation_eq_eval {X : TopCat.{u}}
           (cechAugmentationIndex V hV).op := by
   apply Pi.hom_ext
   intro a
-  rw [cechAugmentation, Pi.lift_π, Category.assoc]
+  rw [cechAugmentation, Pi.lift_comp_π, Category.assoc]
   have hEval :
       ((FormalCoproduct.evalOp (Opens X) Ab.{u}).obj F).map
           (cechAugmentationIndex V hV).op ≫
@@ -285,7 +285,7 @@ private theorem cechAugmentation_eq_eval {X : TopCat.{u}}
           F.map ((cechAugmentationIndex V hV).φ a).op := by
     simp [FormalCoproduct.cech]
   rw [hEval]
-  simp only [cechSingletonLift, cechAugmentationIndex, Pi.lift_π_assoc,
+  simp only [cechSingletonLift, cechAugmentationIndex, Pi.lift_comp_π_assoc,
     Category.id_comp]
   exact congrArg F.map (Subsingleton.elim _ _)
 

@@ -91,7 +91,7 @@ def characterFactorContinuousModule : FiniteTypeContinuousModule.{0, u + 1, u + 
 
 /-- The action of `g : G` on `characterFactorContinuousModule R W χ hχ ρK` is `ρK (χ g)`. -/
 theorem characterFactorContinuousModule_ρ_hom (g : G) (v : W) :
-    ((characterFactorContinuousModule R W χ hχ ρK).obj.obj.obj.ρ g).hom v = ρK (χ g) v :=
+    ((characterFactorContinuousModule R W χ hχ ρK).obj.obj.obj.ρ g).asHom.hom v = ρK (χ g) v :=
   rfl
 
 end Modules
@@ -107,7 +107,7 @@ omit [IsTopologicalGroup G] in
 /-- The lifted level representation of `g` depends only on `τ g`. -/
 theorem levelULiftRepresentation_eq_of_eq (k : ℕ) {g g' : G} (h : τ g = τ g') :
     levelULiftRepresentation.{v, w} τ k g = levelULiftRepresentation.{v, w} τ k g' := by
-  refine LinearMap.ext fun x => ULift.ext _ _ ?_
+  refine LinearMap.ext fun x => ULift.ext ?_
   change levelRepresentation τ k g x.down = levelRepresentation τ k g' x.down
   rw [levelRepresentation_apply, levelRepresentation_apply, h]
 
@@ -221,7 +221,7 @@ theorem isZero_homology_derivedLowerShriek_lisseEtaleSheaf_scaledLine (p : ℕ) 
     (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod p)
       (EtaleFundamentalGroup (Spec (.of (Polynomial Ω))) y))
     (ρK : Multiplicative k' →* Module.End (ZMod p) M.obj.obj.obj.V)
-    (hM : ∀ σ v, (M.obj.obj.obj.ρ σ).hom v =
+    (hM : ∀ σ v, (M.obj.obj.obj.ρ σ).asHom.hom v =
       ρK ((torsorCover k' (Polynomial Ω) (C a * Polynomial.X)).character y q σ) v)
     (hfix : ∀ v, ∑ c : k', ρK (Multiplicative.ofAdd c) v = 0)
     (j : CompactificationOf (Over.mk (Spec.map (CommRingCat.ofHom (C : Ω →+* Polynomial Ω)))))
@@ -262,7 +262,7 @@ theorem isZero_homology_derivedLowerShriek_lisseEtaleSheaf_scaledLine (p : ℕ) 
   let eM : M ≅
       (finiteTypeContinuousModuleRes (ZMod p) (etaleFundamentalGroupMap Tb.hom y)).obj M₀ :=
     finiteTypeContinuousModuleIsoOfLinearEquiv (ZMod p) (LinearEquiv.refl _ _) fun σ v => by
-      change (M.obj.obj.obj.ρ σ).hom v = ρK (χ₀ (etaleFundamentalGroupMap T y σ)) v
+      change (M.obj.obj.obj.ρ σ).asHom.hom v = ρK (χ₀ (etaleFundamentalGroupMap T y σ)) v
       rw [hM]
       exact congrArg (fun c => ρK c v) (torsorCover_character_map k' Polynomial.X φT y q σ)
   obtain ⟨e₂⟩ := nonempty_etaleModuleInverseImage_lisseEtaleSheaf_iso B Tb y (ZMod p) M₀
@@ -347,7 +347,7 @@ theorem isZero_homology_one_derivedLowerShriek_levelModule_scaledLine {ℓ : ℕ
   rcases eq_or_ne a 0 with rfl | ha
   · refine isZero_homology_derivedLowerShriek_lisseEtaleSheaf_affineLine_of_trivial k' B hP
       (ℓ ^ (0 + 1)) hℓ y _ (fun σ => ?_) j 1 (by norm_num)
-    refine ModuleCat.hom_ext (LinearMap.ext fun v => ?_)
+    refine End.ext (ModuleCat.hom_ext (LinearMap.ext fun v => ?_))
     change L σ v = v
     rw [hL1 σ (hτ1 σ (DFunLike.congr_fun (torsorCover_character_scaledLine_zero k' y q) σ))]
     rfl

@@ -90,8 +90,8 @@ private lemma leftDerived_scalar
     [LF.IsLeftDerivedFunctor α W] (r : R) (s : S)
     (h : ∀ Z, F.map (r • 𝟙 Z) = s • 𝟙 (F.obj Z)) (Z : D) :
     LF.map (r • 𝟙 Z) = s • 𝟙 (LF.obj Z) := by
-  have he : Functor.whiskerRight (Linear.toCatCenter R D r) LF =
-      Functor.whiskerLeft LF (Linear.toCatCenter S H s) := by
+  have he : Functor.whiskerRight (Linear.toCatCenter R D r).asHom LF =
+      (Functor.whiskerLeft LF (Linear.toCatCenter S H s).asHom : LF ⋙ 𝟭 H ⟶ LF ⋙ 𝟭 H) := by
     apply LF.leftDerived_ext α W LF
     ext W'
     change LF.map (r • 𝟙 (L.obj W')) ≫ α.app W' = (s • 𝟙 (LF.obj (L.obj W'))) ≫ α.app W'
@@ -142,9 +142,10 @@ private lemma exactFunctor_scalar
     (F : C ⥤ D) [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F]
     (r : R) (s : S) (h : ∀ M, F.map (r • 𝟙 M) = s • 𝟙 (F.obj M))
     (K : DerivedCategory C) : F.mapDerivedCategory.map (r • 𝟙 K) = s • 𝟙 _ := by
-  have he : Functor.whiskerRight (Linear.toCatCenter R (DerivedCategory C) r)
+  have he : Functor.whiskerRight (Linear.toCatCenter R (DerivedCategory C) r).asHom
         F.mapDerivedCategory =
-      Functor.whiskerLeft F.mapDerivedCategory (Linear.toCatCenter S (DerivedCategory D) s) := by
+      (Functor.whiskerLeft F.mapDerivedCategory (Linear.toCatCenter S (DerivedCategory D) s).asHom :
+        F.mapDerivedCategory ⋙ 𝟭 _ ⟶ F.mapDerivedCategory ⋙ 𝟭 _) := by
     apply Localization.natTrans_ext DerivedCategory.Q
       (HomologicalComplex.quasiIso C (ComplexShape.up ℤ))
     intro P

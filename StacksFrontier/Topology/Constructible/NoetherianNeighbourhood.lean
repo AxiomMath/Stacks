@@ -93,7 +93,7 @@ lemma exists_minimal_isClosed_mem_closure_inter [NoetherianSpace X] {x : X} {F :
       ∀ Y' : Set X, IsClosed Y' → x ∈ Y' → x ∈ closure (F ∩ Y') → Y' ⊆ Y → Y' = Y := by
   set C : Set (Closeds X) := {c | x ∈ (c : Set X) ∧ x ∈ closure (F ∩ (c : Set X))}
   have hCne : C.Nonempty := ⟨⊤, mem_univ x, by simpa only [Closeds.coe_top, inter_univ] using hxF⟩
-  have wf : WellFounded ((· < ·) : Closeds X → Closeds X → Prop) := IsWellFounded.wf
+  have wf : WellFounded ((· < ·) : Closeds X → Closeds X → Prop) := wellFounded_lt
   set Y := wf.min C hCne
   have hYmem : Y ∈ C := wf.min_mem C hCne
   refine ⟨Y, Y.2, hYmem.1, hYmem.2, fun Y' hY'c hxY' hxcl hY'sub => ?_⟩

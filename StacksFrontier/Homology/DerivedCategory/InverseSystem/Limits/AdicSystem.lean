@@ -164,7 +164,7 @@ private theorem delta_epi {A : Type u} [CommRing A] (F : ℕᵒᵖ ⥤ ModuleCat
     rw [show d = 𝟙 _ - Pi.lift (fun n : ℕ ↦ Pi.π G (n + 1) ≫
       (ModuleInverseLimit.moduleDiagram R M).map (homOfLE (Nat.le_succ n)).op) from rfl,
       CategoryTheory.Preadditive.sub_comp, Category.id_comp,
-      CategoryTheory.Limits.Pi.lift_π]
+      CategoryTheory.Limits.Pi.lift_comp_π]
   have hn := ConcreteCategory.congr_hom hd x
   rw [ConcreteCategory.comp_apply, hx] at hn
   have heval : (Pi.π G n - Pi.π G (n + 1) ≫
@@ -190,7 +190,7 @@ private theorem delta_epi {A : Type u} [CommRing A] (F : ℕᵒᵖ ⥤ ModuleCat
         Pi.π (fun n : ℕ ↦ F.obj (Opposite.op n)) n -
           Pi.π (fun n : ℕ ↦ F.obj (Opposite.op n)) (n + 1) ≫
             F.map (homOfLE (Nat.le_succ n)).op :=
-    CategoryTheory.Limits.Pi.lift_π _ n
+    CategoryTheory.Limits.Pi.lift_comp_π _ n
   rw [← ConcreteCategory.comp_apply, htarget]
   show Pi.π (fun n : ℕ ↦ F.obj (Opposite.op n)) n x' -
       F.map (homOfLE (Nat.le_succ n)).op
@@ -559,10 +559,10 @@ private theorem isDerivedComplete_of_milnorTriangle
             (shiftFunctor _ (1 : ℤ)).map (shiftSubMul K f) ≫ pc := by
           apply Pi.hom_ext
           intro m
-          rw [Category.assoc, shiftSubMul, Pi.lift_π, Preadditive.comp_sub,
+          rw [Category.assoc, shiftSubMul, Pi.lift_comp_π, Preadditive.comp_sub,
             Linear.comp_smul, piComparison_comp_π, piComparison_comp_π,
             Category.assoc, piComparison_comp_π, shiftSubMul, ← Functor.map_comp,
-            Pi.lift_π, Functor.map_sub, Functor.Linear.map_smul]
+            Pi.lift_comp_π, Functor.map_sub, Functor.Linear.map_smul]
         have hshift' : shiftSubMul ((shiftFunctor _ (1 : ℤ)).obj K) f ≫ inv pc =
             inv pc ≫ (shiftFunctor _ (1 : ℤ)).map (shiftSubMul K f) := by
           rw [IsIso.comp_inv_eq, Category.assoc, IsIso.eq_inv_comp]
@@ -1148,7 +1148,7 @@ private theorem bounded_complete_and_reductions_of_flat_models
             (Ideal.Quotient.mk (I ^ (n + 1)))).mapDerivedCategory.map
             (eP n).hom := by
     rw [← heK]
-    simp only [q, Category.assoc, Pi.lift_π_assoc, heM]
+    simp only [q, Category.assoc, Pi.lift_comp_π_assoc, heM]
   rw [hprojection, Adjunction.homEquiv_naturality_left_symm]
   have hred' : IsIso (((adj n).homEquiv _ _).symm
       (DerivedCategory.Q.map (limit.π M (.op n)) ≫

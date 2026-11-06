@@ -84,7 +84,7 @@ geometric point is a one-point scheme, so this is the torsor property of the lif
 comparison isomorphism. -/
 theorem existsUnique_comp_action_eq (x : GeometricPoint X)
     (a b : (finiteEtaleFiberFintypeFunctor X x).obj Z.obj) :
-    ∃! σ : G, a.1 ≫ (Z.action (.op σ)).hom.left = b.1 :=
+    ∃! σ : G, a.1 ≫ (Z.action (.op σ)).asIso.hom.left = b.1 :=
   Abhyankar.existsUnique_comp_twist Z.obj.hom
     (((MorphismProperty.Over.forget finiteEtale ⊤ X).mapAut Z.obj).comp Z.action) a.1 b.1
     (b.2.trans a.2.symm)

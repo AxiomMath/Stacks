@@ -77,7 +77,7 @@ private theorem isZero_rightDerivedPlus_obj_of_neg {𝒞 𝒟 : Type*} [Category
     (Φ : 𝒞 ⥤ 𝒟) [Φ.Additive] (i : ℤ) (hi : i < 0) (Y : 𝒞) :
     IsZero ((Φ.rightDerivedPlus i).obj Y) :=
   (Functor.isZero_iff _).1 ((isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-    Φ Φ.rightDerivedFunctorPlus Φ.rightDerivedFunctorPlusUnit).1 i hi) Y
+    Φ Φ.rightDerivedFunctorPlus Φ.rightDerivedFunctorPlusUnith).1 i hi) Y
 
 /-- **The Euler characteristic of a composite of right derived functors.** Let `F : 𝒜 ⥤ ℬ` and
 `G : ℬ ⥤ Mod_k` be additive, `G` left exact, between abelian categories with enough injectives,

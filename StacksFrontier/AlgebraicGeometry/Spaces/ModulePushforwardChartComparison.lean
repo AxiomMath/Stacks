@@ -392,6 +392,17 @@ noncomputable def chartRanIso (f : X ⟶ Y) (hf : yoneda.relativelyRepresentable
         (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1) :=
   asIso (chartRanNatTrans B S hS f hf)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Restriction along base change of étale scheme charts preserves finite products (it is a right
+adjoint); recorded here because instance search for it exceeds the default budget. -/
+theorem preservesFiniteProducts_smallBaseChange_sheafPushforwardContinuous (f : X ⟶ Y)
+    (hf : yoneda.relativelyRepresentable f.hom) :
+    PreservesFiniteProducts ((smallBaseChange B S hS f hf).sheafPushforwardContinuous (Type u)
+      (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1)) :=
+  inferInstance
+
+attribute [local instance] preservesFiniteProducts_smallBaseChange_sheafPushforwardContinuous
+
 /-! ### The structure map -/
 
 /-- At the initial index the induced morphism of charts is the cartesian projection

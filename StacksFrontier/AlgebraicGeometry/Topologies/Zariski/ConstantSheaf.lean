@@ -243,7 +243,7 @@ public def constantSheafIsoLocallyConstantMaps_bigZariski (B : BigZariskiSite.{u
       (Type (max (u + 1) v))).obj G).obj ≅
     ((BigZariskiOver.toScheme B S hS).op ⋙
       locallyConstantMaps.{u, max (u + 1) v} G ⋙ forget GrpCat) :=
-  constantSheafIsoLocallyConstantMapsOn (BigZariskiOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn.{u, v} (BigZariskiOver.toScheme B S hS) G
     (BigZariskiOver.topology B S hS) (bigZariskiOver_openCoverData B S hS)
     (bigZariskiOver_bottom_cover B S hS) (locallyConstantMaps_isSheaf_bigZariski B S hS G)
 
@@ -254,7 +254,7 @@ public def constantSheafIsoLocallyConstantMaps_smallZariski (B : BigZariskiSite.
     ((constantSheaf (SmallZariski.topology B S hS) (Type (max (u + 1) v))).obj G).obj ≅
     ((SmallZariski.toScheme B S hS).op ⋙
       locallyConstantMaps.{u, max (u + 1) v} G ⋙ forget GrpCat) :=
-  constantSheafIsoLocallyConstantMapsOn (SmallZariski.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn.{u, v} (SmallZariski.toScheme B S hS) G
     (SmallZariski.topology B S hS) (smallZariski_openCoverData B S hS)
     (openCoverData_bottom (SmallZariski.toScheme B S hS) (SmallZariski.topology B S hS)
       (smallZariski_openCoverData B S hS))
@@ -267,7 +267,7 @@ public theorem constantSheafIsoLocallyConstantMaps_bigZariski_unit (B : BigZaris
     ConstantSheafIso.UnitCompatible (BigZariskiOver.toScheme B S hS)
       (BigZariskiOver.topology B S hS) G
       (constantSheafIsoLocallyConstantMaps_bigZariski B S hS G) :=
-  constantSheafIsoLocallyConstantMapsOn_unit (BigZariskiOver.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn_unit.{u, v} (BigZariskiOver.toScheme B S hS) G
     (BigZariskiOver.topology B S hS) (bigZariskiOver_openCoverData B S hS)
     (bigZariskiOver_bottom_cover B S hS) (locallyConstantMaps_isSheaf_bigZariski B S hS G)
 
@@ -278,7 +278,7 @@ public theorem constantSheafIsoLocallyConstantMaps_smallZariski_unit (B : BigZar
     ConstantSheafIso.UnitCompatible (SmallZariski.toScheme B S hS)
       (SmallZariski.topology B S hS) G
       (constantSheafIsoLocallyConstantMaps_smallZariski B S hS G) :=
-  constantSheafIsoLocallyConstantMapsOn_unit (SmallZariski.toScheme B S hS) G
+  constantSheafIsoLocallyConstantMapsOn_unit.{u, v} (SmallZariski.toScheme B S hS) G
     (SmallZariski.topology B S hS) (smallZariski_openCoverData B S hS)
     (openCoverData_bottom (SmallZariski.toScheme B S hS) (SmallZariski.topology B S hS)
       (smallZariski_openCoverData B S hS))

@@ -47,18 +47,18 @@ theorem exists_fiber_cone_of_point {U U' : C} (u : Φ.fiber.obj U) (u' : Φ.fibe
     ∃ (W : C) (w : Φ.fiber.obj W) (g : W ⟶ U) (g' : W ⟶ U'),
       Φ.fiber.map g w = u ∧ Φ.fiber.map g' w = u' := by
   obtain ⟨W, f, f', -⟩ := @IsCofilteredOrEmpty.cone_objs Φ.fiber.Elements _ _
-    (⟨U, u⟩ : Φ.fiber.Elements) (⟨U', u'⟩ : Φ.fiber.Elements)
-  exact ⟨W.1, W.2, f.1, f'.1, f.2, f'.2⟩
+    (Φ.fiber.elementsMk U u) (Φ.fiber.elementsMk U' u')
+  exact ⟨W.obj, W.val, f.hom, f'.hom, f.map_val, f'.map_val⟩
 
 /-- Two morphisms to `V` sending a point of the fibre to the same point are equalized on a
 refinement of that point. -/
 theorem exists_fiber_equalizer {W V : C} (w : Φ.fiber.obj W) (g g' : W ⟶ V)
     (h : Φ.fiber.map g w = Φ.fiber.map g' w) :
     ∃ (W' : C) (w' : Φ.fiber.obj W') (a : W' ⟶ W), Φ.fiber.map a w' = w ∧ a ≫ g = a ≫ g' := by
-  let e : Φ.fiber.elementsMk W w ⟶ Φ.fiber.elementsMk V (Φ.fiber.map g w) := ⟨g, rfl⟩
-  let e' : Φ.fiber.elementsMk W w ⟶ Φ.fiber.elementsMk V (Φ.fiber.map g w) := ⟨g', h.symm⟩
+  let e : Φ.fiber.elementsMk W w ⟶ Φ.fiber.elementsMk V (Φ.fiber.map g w) := Functor.Elements.homMk g rfl
+  let e' : Φ.fiber.elementsMk W w ⟶ Φ.fiber.elementsMk V (Φ.fiber.map g w) := Functor.Elements.homMk g' h.symm
   obtain ⟨W', a, ha⟩ := @IsCofilteredOrEmpty.cone_maps Φ.fiber.Elements _ _ _ _ e e'
-  exact ⟨W'.1, W'.2, a.1, a.2, congrArg Subtype.val ha⟩
+  exact ⟨W'.obj, W'.val, a.hom, a.map_val, congrArg Functor.Elements.Hom.hom ha⟩
 
 variable [LocallySmall.{w} C] [HasColimitsOfSize.{w, w} AddCommGrpCat.{t}]
   [PreservesFilteredColimitsOfSize.{w, w} (forget AddCommGrpCat.{t})]
@@ -89,7 +89,7 @@ theorem toPresheafFiber_overMap_eq {W₁ W₂ : C} (w₁ : Φ.fiber.obj W₁) (w
   rw [← Φ.toPresheafFiber_w_apply, ← Φ.toPresheafFiber_w_apply, ← hf, ← hf,
     ← Φ.toPresheafFiber_w_apply, ← Φ.toPresheafFiber_w_apply (f := c), ← hf, ← hf]
   have e : Φ.fiber.map (c ≫ a ≫ g₁) y = Φ.fiber.map (c ≫ b ≫ g₂) y := by
-    simp only [FunctorToTypes.map_comp_apply, h₁, h₂]
+    simp only [Functor.map_comp, ConcreteCategory.comp_apply, h₁, h₂]
   refine (toPresheafFiber_overMap_eq_of_eq Φ f hf y _ _ e _).trans ?_
   congr 2
 

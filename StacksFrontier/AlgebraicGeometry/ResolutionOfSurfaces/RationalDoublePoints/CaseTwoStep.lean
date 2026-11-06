@@ -97,9 +97,9 @@ private theorem map_maximalIdeal_localization_eq_span_zero {x : Fin 3 → A}
     Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (x 0) S)
         (Localization.AtPrime M)).comp
         (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S))) (maximalIdeal A) =
-      Ideal.span {algebraMap (affineBlowupAlgebra (maximalIdeal A) (x 0) S)
-        (Localization.AtPrime M)
-        (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0))} := by
+      Ideal.span {
+          algebraMap (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (Localization.AtPrime M)
+            (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (x 0) S) (x 0))} := by
   refine map_maximalIdeal_localization_eq_span S hx M 0 ?_
   rw [chartFraction_zero]
   exact fun h1 => (inferInstance : M.IsMaximal).ne_top ((Ideal.eq_top_iff_one M).mpr h1)
@@ -123,9 +123,9 @@ theorem hasDoubleLineRelation_of_isCaseTwo_chart_zero (w : Fin 3 → A)
         (maximalIdeal A) (w 0) S))) ∧
       Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 0) S) (Localization.AtPrime
           M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 0) S))) (maximalIdeal A)
-          = Ideal.span {((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 0) S)
-          (Localization.AtPrime M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 0)
-          S))) (w 0)} ∧
+          = Ideal.span {
+              ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 0) S) (Localization.AtPrime
+                M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 0) S))) (w 0)} ∧
       ∃ w' : Fin 3 → (Localization.AtPrime M), HasDoubleLineRelation (Localization.AtPrime M) w' :=
           by
   have hx : ∀ i, w i ∈ maximalIdeal A := fun i => hspan ▸ Ideal.subset_span ⟨i, rfl⟩
@@ -152,9 +152,9 @@ theorem hasDoubleLineRelation_of_isCaseTwo_chart_one (w : Fin 3 → A)
         (maximalIdeal A) (w 1) S))) ∧
       Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S) (Localization.AtPrime
           M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1) S))) (maximalIdeal A)
-          = Ideal.span {((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S)
-          (Localization.AtPrime M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1)
-          S))) (w 1)} ∧
+          = Ideal.span {
+              ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S) (Localization.AtPrime
+                M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1) S))) (w 1)} ∧
       ∃ w' : Fin 3 → (Localization.AtPrime M), HasDoubleLineRelation (Localization.AtPrime M) w' :=
           by
   set σ := Equiv.swap (0 : Fin 3) 1
@@ -177,9 +177,9 @@ theorem hasDoubleLineRelation_of_isCaseTwo_chart_one (w : Fin 3 → A)
           (maximalIdeal A) (e) S))) ∧
         Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (e) S) (Localization.AtPrime
             M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (e) S))) (maximalIdeal A)
-            = Ideal.span {((algebraMap (affineBlowupAlgebra (maximalIdeal A) (e) S)
-            (Localization.AtPrime M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (e)
-            S))) (e)} ∧
+            = Ideal.span {
+                ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (e) S) (Localization.AtPrime
+                  M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (e) S))) (e)} ∧
         ∃ w' : Fin 3 → (Localization.AtPrime M), HasDoubleLineRelation (Localization.AtPrime M) w'
             := by
     intro e he _ M _ hle _ _ _ hdim hsing hII
@@ -206,9 +206,9 @@ theorem hasDoubleLineRelationUnit_of_hasDoubleLineRelation_chart_zero (w : Fin 3
         (maximalIdeal A) (w 0) S))) ∧
       Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 0) S) (Localization.AtPrime
           M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 0) S))) (maximalIdeal A)
-          = Ideal.span {((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 0) S)
-          (Localization.AtPrime M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 0)
-          S))) (w 0)} ∧
+          = Ideal.span {
+              ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 0) S) (Localization.AtPrime
+                M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 0) S))) (w 0)} ∧
       ∃ w' : Fin 3 → (Localization.AtPrime M), w' 0 = ((algebraMap (affineBlowupAlgebra
           (maximalIdeal A) (w 0) S) (Localization.AtPrime M)).comp (algebraMap A
           (affineBlowupAlgebra (maximalIdeal A) (w 0) S))) (w 0) ∧
@@ -234,17 +234,17 @@ theorem hasDoubleLineRelation_chart_one (w : Fin 3 → A)
     (hII : ¬ IsCaseOne (Localization.AtPrime M)) :
     Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S) (Localization.AtPrime
         M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1) S))) (maximalIdeal A) =
-        Ideal.span {((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S)
-        (Localization.AtPrime M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1)
-        S))) (w 0)} ∨
+        Ideal.span {
+            ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S) (Localization.AtPrime
+              M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1) S))) (w 0)} ∨
       (f 1 1 ∈ maximalIdeal A ∧
         Function.Surjective ((Ideal.Quotient.mk M).comp (algebraMap A (affineBlowupAlgebra
             (maximalIdeal A) (w 1) S))) ∧
         Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S) (Localization.AtPrime
             M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1) S))) (maximalIdeal
-            A) = Ideal.span {((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S)
-            (Localization.AtPrime M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w
-            1) S))) (w 1)} ∧
+            A) = Ideal.span {
+                ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S) (Localization.AtPrime
+                  M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1) S))) (w 1)} ∧
         ∃ w' : Fin 3 → (Localization.AtPrime M), w' 1 = ((algebraMap (affineBlowupAlgebra
             (maximalIdeal A) (w 1) S) (Localization.AtPrime M)).comp (algebraMap A
             (affineBlowupAlgebra (maximalIdeal A) (w 1) S))) (w 1) ∧
@@ -263,17 +263,17 @@ theorem hasDoubleLineRelation_chart_one (w : Fin 3 → A)
         (maximalIdeal A) ≤ M) (hII : ¬ IsCaseOne (Localization.AtPrime M)),
       Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (e) S) (Localization.AtPrime
           M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (e) S))) (maximalIdeal A) =
-          Ideal.span {((algebraMap (affineBlowupAlgebra (maximalIdeal A) (e) S)
-          (Localization.AtPrime M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (e)
-          S))) (w 0)} ∨
+          Ideal.span {
+              ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (e) S) (Localization.AtPrime
+                M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (e) S))) (w 0)} ∨
         (f 1 1 ∈ maximalIdeal A ∧
           Function.Surjective ((Ideal.Quotient.mk M).comp (algebraMap A (affineBlowupAlgebra
               (maximalIdeal A) (e) S))) ∧
           Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (e) S) (Localization.AtPrime
               M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (e) S))) (maximalIdeal
-              A) = Ideal.span {((algebraMap (affineBlowupAlgebra (maximalIdeal A) (e) S)
-              (Localization.AtPrime M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A)
-              (e) S))) (e)} ∧
+              A) = Ideal.span {
+                  ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (e) S) (Localization.AtPrime
+                    M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (e) S))) (e)} ∧
           ∃ w' : Fin 3 → (Localization.AtPrime M), w' 1 = ((algebraMap (affineBlowupAlgebra
               (maximalIdeal A) (e) S) (Localization.AtPrime M)).comp (algebraMap A
               (affineBlowupAlgebra (maximalIdeal A) (e) S))) e ∧
@@ -300,9 +300,9 @@ theorem map_maximalIdeal_eq_span_of_hasDoubleLineRelationUnit_chart_one (w : Fin
     (hII : ¬ IsCaseOne (Localization.AtPrime M)) :
     Ideal.map ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S) (Localization.AtPrime
         M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1) S))) (maximalIdeal A) =
-        Ideal.span {((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S)
-        (Localization.AtPrime M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1)
-        S))) (w 0)} := by
+        Ideal.span {
+            ((algebraMap (affineBlowupAlgebra (maximalIdeal A) (w 1) S) (Localization.AtPrime
+              M)).comp (algebraMap A (affineBlowupAlgebra (maximalIdeal A) (w 1) S))) (w 0)} := by
   obtain ⟨f, hfu, hf⟩ := h.exists_sum
   exact (hasDoubleLineRelation_chart_one w h.1 f hf S M hle hII).resolve_right
     fun h1 => notMem_maximalIdeal.mpr hfu h1.1

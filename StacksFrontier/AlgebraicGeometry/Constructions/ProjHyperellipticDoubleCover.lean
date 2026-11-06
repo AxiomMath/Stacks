@@ -605,9 +605,9 @@ public theorem eq_zero_of_mul_X_pow_eq {D K M : ℕ} {i j : Fin 2} (hij : i ≠ 
   classical
   by_contra hne
   obtain ⟨s, hs⟩ := MvPolynomial.ne_zero_iff.mp hne
-  have h1 : coeff (s + Finsupp.single i M) (q * X i ^ M) = coeff s q := by
+  have h1 : (q * X i ^ M).coeff (s + Finsupp.single i M) = q.coeff s := by
     rw [X_pow_eq_monomial, coeff_mul_monomial, mul_one]
-  have h2 : coeff (s + Finsupp.single i M) (q' * X j ^ K) ≠ 0 := by
+  have h2 : (q' * X j ^ K).coeff (s + Finsupp.single i M) ≠ 0 := by
     rw [← h, h1]
     exact hs
   rw [X_pow_eq_monomial, coeff_mul_monomial'] at h2
@@ -796,7 +796,7 @@ public theorem bijective_degreeSection_binaryForm (hd : 0 < d) {n : ℕ} (hn : n
       intro s hs
       have hra := (isSplitHomogeneous_split k d lam ha).1
       rw [mem_homogeneousSubmodule, hp] at hra
-      have hc : coeff (s + Finsupp.single 1 N) (X 1 ^ N * p) ≠ 0 := by
+      have hc : (X 1 ^ N * p).coeff (s + Finsupp.single 1 N) ≠ 0 := by
         rw [X_pow_eq_monomial, mul_comm, coeff_mul_monomial, mul_one]; exact hs
       have hws : ∀ s : Fin 2 →₀ ℕ, Finsupp.weight 1 s = s 0 + s 1 := fun s => by
         simp [Finsupp.weight_apply, Finsupp.sum_fintype, Fin.sum_univ_two]

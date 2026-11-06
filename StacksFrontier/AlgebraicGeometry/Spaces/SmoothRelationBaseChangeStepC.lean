@@ -161,12 +161,12 @@ def HasClosedChartFibreSquare {W U U' Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
                   ((BigFppfOver.toScheme B S hS).map gh)
                   ((BigFppfOver.toScheme B S hS).map gk) ∧
                 IsClosed ({((BigFppfOver.toScheme B S hS).map gfst).asFiber
-                    ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
-                      (chartGeometricPoint M).residueField))} : Set _) ∧
+                             ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
+                               (chartGeometricPoint M).residueField))} : Set _) ∧
                   IsClosed ({((BigFppfOver.toScheme B S hS).map gh).asFiber
-                      (((BigFppfOver.toScheme B S hS).map gsnd)
-                        ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
-                          (chartGeometricPoint M).residueField)))} : Set _)
+                               (((BigFppfOver.toScheme B S hS).map gsnd)
+                                 ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
+                                   (chartGeometricPoint M).residueField)))} : Set _)
 
 /-- **The closed fibre of a base change has the dimension of the closed fibre of the original
 morphism, once the closedness input is available.** This is
@@ -211,12 +211,12 @@ theorem exists_chart_square_hasClosedChartFibreSquare_of_isPullback
       (gsnd : M.chart.obj.left ⟶ P.chart.obj.left)
       (gh : P.chart.obj.left ⟶ Q.chart.obj.left),
       IsClosed ({((BigFppfOver.toScheme B S hS).map gfst).asFiber
-          ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
-            (chartGeometricPoint M).residueField))} : Set _) →
+                   ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
+                     (chartGeometricPoint M).residueField))} : Set _) →
         IsClosed ({((BigFppfOver.toScheme B S hS).map gh).asFiber
-            (((BigFppfOver.toScheme B S hS).map gsnd)
-              ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
-                (chartGeometricPoint M).residueField)))} : Set _) →
+                     (((BigFppfOver.toScheme B S hS).map gsnd)
+                       ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
+                         (chartGeometricPoint M).residueField)))} : Set _) →
           HasClosedChartFibreSquare B S hS h π₁ π₂ a := by
   obtain ⟨M, N, P, Q, gfst, gsnd, gh, gk, hNaff, hQaff, hcomm₁, hcomm₂, hpoint₁, hpoint₂,
     hmp, hsq⟩ :=

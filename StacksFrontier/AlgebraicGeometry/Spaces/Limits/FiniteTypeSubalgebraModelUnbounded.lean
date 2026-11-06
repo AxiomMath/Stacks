@@ -65,6 +65,17 @@ attribute [local instance] uliftIntAlgebra
 variable (B : BigFppfSite.{u}) (hZ : B.Contains (⊤_ Scheme.{u}))
   (A : Type u) [CommRing A] (hA : B.Contains (Spec (.of A)))
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over the terminal scheme (instance search
+times out without this shortcut). -/
+local instance hasPullbacks_presheaf_FiniteTypeSubalgebraModelUnbounded :
+    HasPullbacks ((BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_FiniteTypeSubalgebraModelUnbounded
+    {X Y Z : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The system of the `Spec Λ_s` satisfies the chapter's convention 07SD.** For every stage
 `i`, every affine object `Z` of the site and every `g : Z ⟶ Spec Λ_i`, the limit of the base
 changes `Z ×_{Spec Λ_i} Spec Λ_s` over the stages `s` over `i` lies in the site. No bound on the

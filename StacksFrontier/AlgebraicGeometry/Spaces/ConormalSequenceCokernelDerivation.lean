@@ -82,7 +82,7 @@ the unit of `i^* ⊣ i_*` and then through the direct image of `θ`.
 The transpose of `θ` is the unit followed by `i_*θ`
 (`CategoryTheory.Adjunction.homEquiv_unit`), and both derivations are the universal derivation
 postcomposed with a morphism of modules, so this is
-`PresheafOfModules.Derivation.postcomp_d_apply` twice. -/
+`PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply` twice. -/
 theorem derivationDirectImageEquiv_d (i : W ⟶ X) (b : X ⟶ Bb)
     (M : Modules.{u, u} B S hS W.1 W.2)
     (θ : (modulePullback B S hS i).obj (sheafOfDifferentials B S hS b) ⟶ M)
@@ -94,9 +94,9 @@ theorem derivationDirectImageEquiv_d (i : W ⟶ X) (b : X ⟶ Bb)
   have hu := Adjunction.homEquiv_unit (modulePullbackAdjunction B S hS i)
     (sheafOfDifferentials B S hS b) M θ
   refine Eq.trans ?_ (congrArg (fun m ↦ (((modulePushforward B S hS i).map θ).val.app U).hom m)
-    (PresheafOfModules.Derivation.postcomp_d_apply (universalDerivation B S hS b)
+    (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply (universalDerivation B S hS b)
       ((modulePullbackAdjunction B S hS i).unit.app (sheafOfDifferentials B S hS b)).val a).symm)
-  refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply (universalDerivation B S hS b)
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply (universalDerivation B S hS b)
     (((modulePullbackAdjunction B S hS i).homEquiv _ _) θ).val a) ?_
   exact congrArg (fun m ↦ (ModuleCat.Hom.hom ((SheafOfModules.Hom.val m).app U))
     ((universalDerivation B S hS b).d a)) hu

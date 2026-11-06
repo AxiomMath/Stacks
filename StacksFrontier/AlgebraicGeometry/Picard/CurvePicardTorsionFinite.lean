@@ -131,7 +131,8 @@ theorem finite_setOf_isOfFinAddOrder [Finite E] :
       push_cast
       rw [Int.toNat_of_nonneg (by omega)]
     omega
-  · simp only [Φ, dif_pos hD, hDw, w, add_sub_cancel_right]
+  · simp only [Φ, dif_pos hD, hDw, w]
+    exact add_sub_cancel_right _ _
 
 end Stacks.Picard
 

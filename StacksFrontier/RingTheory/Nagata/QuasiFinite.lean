@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.Finiteness.Quotient
 public import StacksFrontier.RingTheory.Nagata.JapaneseCriteria
 
 @[expose] public section

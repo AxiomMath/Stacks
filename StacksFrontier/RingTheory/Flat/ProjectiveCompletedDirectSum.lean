@@ -174,7 +174,7 @@ private theorem map_id_rTensor_lTensor_comm {R : Type uR} [CommRing R] {A A' B B
         (((LinearEquiv.rTensor T' eA).trans (LinearEquiv.lTensor A eT)) x) =
       ((LinearEquiv.rTensor T' eB).trans (LinearEquiv.lTensor B eT))
         (TensorProduct.map u (LinearMap.id : T' →ₗ[R] T') x) := by
-  refine TensorProduct.induction_on x (by simp) (fun p t => by simp [h]) ?_
+  refine TensorProduct.inductionOn x (fun p t => by simp [h]) ?_
   intro x y hx hy
   simp only [map_add, hx, hy]
 

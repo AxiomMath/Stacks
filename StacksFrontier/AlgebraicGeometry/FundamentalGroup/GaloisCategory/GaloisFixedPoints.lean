@@ -54,7 +54,7 @@ The fibre at `Spec Ω` is identified with the `L`-points (`finiteEtaleFiberIso`,
 theorem galoisEquivEtaleFundamentalGroup_apply_eq_self_iff (Y : FiniteEtaleOver (Spec (.of K)))
     (σ : Gal(L/K)) :
     (∀ p : (finiteEtaleFiberFunctor (algebraicClosureGeometricPoint K Ω)).obj Y,
-      (((galoisEquivEtaleFundamentalGroup K L Ω) σ).app Y).hom p = p) ↔
+      (((galoisEquivEtaleFundamentalGroup K L Ω) σ).asIso.app Y).hom p = p) ↔
     ∀ f : Spec (.of L) ⟶ Y.left, f ≫ Y.hom = Spec.map (CommRingCat.ofHom (algebraMap K L)) →
       Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ f = f := by
   let e := separableFiberEquiv K L Ω Y
@@ -89,11 +89,11 @@ theorem isOpen_setOf_forall_galoisEquivEtaleFundamentalGroup_apply_eq
     (W : FiniteEtaleOver (Spec (.of K))) :
     IsOpen {σ : Gal(L/K) |
       ∀ p : (finiteEtaleFiberFunctor (algebraicClosureGeometricPoint K Ω)).obj W,
-        (((galoisEquivEtaleFundamentalGroup K L Ω) σ).app W).hom p = p} := by
+        (((galoisEquivEtaleFundamentalGroup K L Ω) σ).asIso.app W).hom p = p} := by
   have := forall_finite_finiteEtaleFiberFunctor_obj (algebraicClosureGeometricPoint K Ω) W
   have heq : {σ : Gal(L/K) | ∀ p : (finiteEtaleFiberFunctor
       (algebraicClosureGeometricPoint K Ω)).obj W,
-        (((galoisEquivEtaleFundamentalGroup K L Ω) σ).app W).hom p = p} =
+        (((galoisEquivEtaleFundamentalGroup K L Ω) σ).asIso.app W).hom p = p} =
       ⋂ p : (finiteEtaleFiberFunctor (algebraicClosureGeometricPoint K Ω)).obj W,
         (galoisEquivEtaleFundamentalGroup K L Ω) ⁻¹'
           (MulAction.stabilizer (EtaleFundamentalGroup (Spec (.of K))
@@ -127,7 +127,7 @@ theorem forall_apply_eq_of_forall_spec_comp_eq {x : GeometricPoint X} (J : Spec 
       g ≫ Y.hom = Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ J →
         Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ g = g) :
     ∀ w : (finiteEtaleFiberFunctor x).obj Y,
-      ((Φ (galoisEquivEtaleFundamentalGroup K L Ω σ)).app Y).hom w = w := by
+      ((Φ (galoisEquivEtaleFundamentalGroup K L Ω σ)).asIso.app Y).hom w = w := by
   obtain ⟨T, hT⟩ := hΦ
   intro w
   rw [hT]
@@ -150,7 +150,7 @@ theorem forall_spec_comp_eq_of_forall_apply_eq (J : Spec (.of K) ⟶ X) (Y : Fin
     (σ : Gal(L/K))
     (h : ∀ p : (finiteEtaleFiberFunctor (algebraicClosureGeometricPoint K Ω)).obj
       ((finiteEtaleBaseChange J).obj Y),
-        (((galoisEquivEtaleFundamentalGroup K L Ω) σ).app _).hom p = p)
+        (((galoisEquivEtaleFundamentalGroup K L Ω) σ).asIso.app _).hom p = p)
     (g : Spec (.of L) ⟶ Y.left)
     (hg : g ≫ Y.hom = Spec.map (CommRingCat.ofHom (algebraMap K L)) ≫ J) :
     Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ g = g := by

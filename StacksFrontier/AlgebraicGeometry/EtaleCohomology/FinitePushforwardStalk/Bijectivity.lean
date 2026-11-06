@@ -209,7 +209,7 @@ private theorem exists_lift_to_pullback_of_etale
         (liftedEtaleNeighborhood B f y x V).2.1 ≫ r ≫ pullback.fst _ g₀ = x.1 ∧
         (liftedEtaleNeighborhood B f y x V).2.1 ≫ r ≫ pullback.snd _ g₀ = q₀ := by
   let N : (Scheme.pointSmallEtale y.hom).fiber.Elements :=
-    ⟨MorphismProperty.Over.mk _ g₀ hg₀, Over.homMk q₀ hq₀⟩
+    Functor.elementsMk _ (MorphismProperty.Over.mk _ g₀ hg₀) (Over.homMk q₀ hq₀)
   obtain ⟨V, -, ⟨v⟩⟩ := exists_neighborhood_refinement B Y.1 Y.property y N
   let β : V.1.obj.left.1 ⟶ S₀ := v.1.left
   have hβ : β ≫ g₀ = B.inclusion.map V.1.obj.hom := v.1.w
@@ -293,10 +293,10 @@ private theorem exists_open_neighborhood_lift
       infer_instance⟩
   let W : (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) y x)).Elements :=
-    ⟨Wobj, ⟨z', by
+    Functor.elementsMk _ Wobj ⟨z', by
       show z' ≫ (O.ι ≫ ρ) = x.1
       rw [← Category.assoc, hz']
-      exact (liftedEtaleNeighborhood B f y x V).2.2⟩⟩
+      exact (liftedEtaleNeighborhood B f y x V).2.2⟩
   let a : W.1 ⟶ T := ObjectProperty.homMk
     (Over.homMk (ObjectProperty.homMk O.ι) rfl)
   have hlh : (l ≫ h) ≫ u = O.ι ≫ ρ := by
@@ -504,13 +504,13 @@ private theorem exists_partition_of_disjoint_neighborhoods
       (liftedEtaleNeighborhood B f y x V').2.1 := (P x).lift_snd _ _ _
   let N (x) : (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) y x)).Elements :=
-    ⟨W' x, ⟨q x, by
+    Functor.elementsMk _ (W' x) ⟨q x, by
       have h : T.map (pullback.fst (a x) d) ≫ B.inclusion.map (W x).1.obj.hom =
           B.inclusion.map (W' x).obj.hom := by
         show B.inclusion.map (pullback.fst (a x) d).hom.left ≫ _ = _
         rw [← Functor.map_comp, Over.w]
       rw [← h, ← Category.assoc, hq₁]
-      exact (W x).2.2⟩⟩
+      exact (W x).2.2⟩
   let b' (x) : N x ⟶ W x := ⟨pullback.fst (a x) d, Subtype.ext (hq₁ x)⟩
   refine ⟨{
     base := V'
@@ -566,7 +566,7 @@ private theorem finitePushforwardStalkComponent_surjective_of_partitions
     exact ⟨⟨x⟩, hx⟩
   have hmono (i : E.I₀) : Mono (E.f i) := Q.mono_toBase i.down
   obtain ⟨s', hs'⟩ := exists_section_of_disjoint_cover B X.1 X.property F _ E hE
-    (fun i j hij => Q.disjoint (fun he => hij (ULift.ext _ _ he)))
+    (fun i j hij => Q.disjoint (fun he => hij (ULift.ext he)))
     (fun i => F.obj.map (Q.toNeighborhood i.down).1.op (s i.down))
   let D' := (CategoryOfElements.π
     (geometricPointFiber B Y.1 Y.property y)).op ⋙
@@ -646,11 +646,11 @@ private theorem exists_etaleNeighborhoodPartition
       infer_instance⟩
   let N (x) : (geometricPointFiber B X.1 X.property
       (geometricPointLift (B.inclusion.map f) y x)).Elements :=
-    ⟨Nobj x, ⟨p x, by
+    Functor.elementsMk _ (Nobj x) ⟨p x, by
       show p x ≫ ((O x).ι ≫ ρ) = x.1
       exact (Category.assoc _ _ _).symm.trans
         ((congrArg (fun m => m ≫ ρ) (hp x)).trans
-          (liftedEtaleNeighborhood B f y x V).2.2)⟩⟩
+          (liftedEtaleNeighborhood B f y x V).2.2)⟩
   let a (x) : (N x).1 ⟶ C.obj V.1 :=
     ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk (O x).ι) rfl)
   have hlw (x) : l x ≫ B.inclusion.map (Wx x).1.obj.hom = (O x).ι ≫ ρ :=

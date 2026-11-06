@@ -53,13 +53,13 @@ variable {C : Type u} [Category.{v} C]
   (R : Type w) [CommRing R] (J : GrothendieckTopology C)
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] (O : Sheaf J CommRingCat.{w})
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
-  (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.val)
+  (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (θ : constantRingPresheaf (C := C) R ⟶ O.obj)
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}] in
 /-- **The comparison is natural**: for `f : M ⟶ N` and `ψ : G ⟶ G'` with `σ' (f m) = σ m ≫ ψ`,
 the comparisons of `σ` and `σ'` commute with `𝓕 ⊗_R f` and `ψ`, at the level of presheaves. -/
 theorem comparisonOfHom_naturality_of_compatible {M N : ModuleCat.{w} R} (f : M ⟶ N)
-    {P P' : PMod O.val}
+    {P P' : PMod O.obj}
     (ψ : P ⟶ P') (σ : M → (𝓕.val ⟶ P))
     (hadd : ∀ (m₁ m₂ : M) (X : Cᵒᵖ) (x : 𝓕.val.obj X),
       ((σ (m₁ + m₂)).app X).hom x = ((σ m₁).app X).hom x + ((σ m₂).app X).hom x)
@@ -80,15 +80,15 @@ theorem comparisonOfHom_naturality_of_compatible {M N : ModuleCat.{w} R} (f : M 
   suffices h :
       ((comparisonApp R J O 𝓕 θ N P' σ' hadd' hsmul' X).hom.toAddMonoidHom.comp
           (((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).map f).app X).hom.toAddMonoidHom :
-        (𝓕.val.obj X ⊗[O.val.obj X] (O.val.obj X ⊗[R] M)) →+ P'.obj X)
+        (𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M)) →+ P'.obj X)
         = (ψ.app X).hom.toAddMonoidHom.comp
           (comparisonApp R J O 𝓕 θ M P σ hadd hsmul X).hom.toAddMonoidHom by
     exact congrFun (congrArg DFunLike.coe h) t
   refine addHom_ext_tmul_tmul fun x a m => ?_
   show (comparisonApp R J O 𝓕 θ N P' σ' hadd' hsmul' X).hom
       ((((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).map f).app X).hom
-        ((x ⊗ₜ[O.val.obj X] (a ⊗ₜ[R] m) :
-          𝓕.val.obj X ⊗[O.val.obj X] (O.val.obj X ⊗[R] M)))) =
+        ((x ⊗ₜ[O.obj.obj X] (a ⊗ₜ[R] m) :
+          𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M)))) =
     (ψ.app X).hom (a • ((σ m).app X).hom x)
   rw [(ψ.app X).hom.map_smul, ← hσ]
   rfl
@@ -133,7 +133,7 @@ theorem tensorByBaseModuleIsoOfComparisonOfHom_naturality {M N : ModuleCat.{w} R
     (comparison R J O 𝓕 θ N _ σ' hadd' hsmul')
   have h2 := adj.homEquiv_naturality_right_symm
     (comparison R J O 𝓕 θ M _ σ hadd hsmul) ψ
-  have k : ∀ {Q : PMod O.val} {H : SheafOfModules.{w} (ringSheaf J O)}
+  have k : ∀ {Q : PMod O.obj} {H : SheafOfModules.{w} (ringSheaf J O)}
       (Φ : Q ⟶ (PresheafOfModules.restrictScalars (𝟙 (ringSheaf J O).obj)).obj
         ((SheafOfModules.forget (ringSheaf J O)).obj H)),
       (PresheafOfModules.sheafificationHomEquiv (𝟙 (ringSheaf J O).obj)).symm Φ =

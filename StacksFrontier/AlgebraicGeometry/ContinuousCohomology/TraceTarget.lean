@@ -6,6 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.ContinuousCohomology.Basic
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.FiniteLocallyConstant.FiniteTypeContinuousModuleAbelian
 public import StacksFrontier.Algebra.Homology.DerivedCategory.InjectiveRepresents
 public import Mathlib.CategoryTheory.Abelian.Injective.Extend
+public import Mathlib.CategoryTheory.Abelian.Injective.Resolution
 public import Mathlib.Algebra.Homology.DerivedCategory.KInjective
 public import Mathlib.Algebra.Category.Grp.Injective
 

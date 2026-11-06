@@ -200,6 +200,7 @@ def rationalFunctionsRingEquivOfIso (hX : IsAlgebraicSpace B S hS X)
     (hY : IsAlgebraicSpace B S hS Y) (hintX : IsIntegralSpace B S hS X)
     (hintY : IsIntegralSpace B S hS Y) (e : X ≅ Y) :
     rationalFunctions B S hS hY ≃+* rationalFunctions B S hS hX :=
+  haveI : Mono e.hom := IsIso.mono_of_iso e.hom
   rationalFunctionsRingEquivOfMono B S hS hX hY hintX hintY e.hom
     (pointsMap_genericPoint_of_isIso B S hS hX hY hintX hintY e.hom)
 

@@ -100,7 +100,8 @@ of the endomorphism of the identity functor of `Mod(O)` given by that family. -/
 theorem globalSectionToEnd_app_adicQuotientModule_eq_zero (I : IdealSubsheaf.{v, u, w} X.O)
     (n : ℕ) (a : (((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj ⋙ forget RingCat.{w}).sections)
     (ha : ∀ U : X.Cᵒᵖ, a.val U ∈ (idealPow I n).obj U) :
-    (Stacks.SheafOfModules.globalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) a).app
+    (Stacks.SheafOfModules.globalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))
+      a).asHom.app
       (adicQuotientModule I n) = 0 := by
   refine _root_.SheafOfModules.Hom.ext (PresheafOfModules.hom_ext fun U => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun g => ?_)

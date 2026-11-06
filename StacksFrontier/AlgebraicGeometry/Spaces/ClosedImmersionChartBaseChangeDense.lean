@@ -330,7 +330,7 @@ noncomputable def smallEtaleAbelianPullbackPushforwardCounitIso (f : X ⟶ Y)
     letI := (smallBaseChange_isMorphismOfSites B S hS f hf.rep).toIsContinuous
     letI : ((smallBaseChange B S hS f hf.rep).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
       (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1)).IsRightAdjoint :=
-      inferInstance
+      (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous _ _ _ _).isRightAdjoint
     (smallBaseChange B S hS f hf.rep).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
         (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1) ⋙
       (smallBaseChange B S hS f hf.rep).sheafPullback AddCommGrpCat.{u + 1}
@@ -339,7 +339,7 @@ noncomputable def smallEtaleAbelianPullbackPushforwardCounitIso (f : X ⟶ Y)
   letI := (smallBaseChange_isMorphismOfSites B S hS f hf.rep).toIsContinuous
   letI : ((smallBaseChange B S hS f hf.rep).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
     (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1)).IsRightAdjoint :=
-    inferInstance
+    (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous _ _ _ _).isRightAdjoint
   have hff := fullyFaithfulSmallEtaleAbelianPushforwardOfIsClosedImmersion.{u + 1} B S hS f hf
   have := hff.full
   have := hff.faithful

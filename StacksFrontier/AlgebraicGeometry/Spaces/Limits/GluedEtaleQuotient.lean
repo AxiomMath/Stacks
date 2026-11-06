@@ -471,6 +471,17 @@ theorem w_baseMap : w ≫ baseMap w hw ι hU hws = yoneda.map ι ≫ qmap w hw �
 
 /-! ### Quasi-separatedness of the quotient -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `Spec ℤ` (instance search times out
+without this shortcut). -/
+instance hasPullbacks_presheaf_GluedEtaleQuotient :
+    HasPullbacks ((BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u) := inferInstance
+
+instance (priority := high) hasPullback_presheaf_GluedEtaleQuotient
+    {X Y Z : (BigFppfOver B (⊤_ Scheme.{u}) hZ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The quotient is quasi-separated** (Stacks 07S4) as soon as `V` is quasi-separated and the
 target map `R ⟶ V` of the relation is quasi-compact. -/
 theorem isAbsolutelyQuasiSeparated_quotient

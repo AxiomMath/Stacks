@@ -242,6 +242,18 @@ theorem exists_chartSquare_ringKrullDim_closedFibreEtaleLocalRing_eq_fiberStalk
 
 /-! ### Geometric points of a fibre product -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_EtaleLocalRingFibreDimension :
+    Limits.HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_EtaleLocalRingFibreDimension
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  Limits.HasLimitsOfShape.has_limit _
+
 /-- **The two feet of a geometric point of a fibre product agree.** For a geometric point `a` of
 `W ×_U U'`, the image in `U` of its first projection and the image in `U` of its second
 projection are the same geometric point. -/

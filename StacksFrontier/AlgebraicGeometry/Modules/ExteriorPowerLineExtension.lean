@@ -292,7 +292,7 @@ theorem exists_shortExact_exteriorPower_of_rank_one (m : ℕ)
       hex.epi_kernelLift
   have : Mono T.f := by
     rw [← kernel.lift_ι T.g T.f T.zero]
-    exact mono_comp _ _
+    exact @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _ equalizer.ι_mono
   exact { exact := hex }
 
 end AlgebraicGeometry.Scheme.Modules

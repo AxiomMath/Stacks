@@ -68,8 +68,8 @@ public def PerfectTower.pow (T : PerfectTower.{v} ℓ) (m : ℕ) : PerfectTower.
 theorem levelCohomologyEndoHom_pow (T : PerfectTower.{v} ℓ) (m : ℕ) (i : ℤ) (n : ℕ) :
     levelCohomologyEndoHom (T.pow m) i n =
       End.asHom (End.of (levelCohomologyEndoHom T i n) ^ m) :=
-  map_pow (Functor.mapEnd (T.obj n)
-    (DerivedCategory.homologyFunctor (ModuleCat.{v} (ZMod (ℓ ^ (n + 1)))) i)) _ m
+  congrArg End.asHom (map_pow (Functor.mapEnd (T.obj n)
+    (DerivedCategory.homologyFunctor (ModuleCat.{v} (ZMod (ℓ ^ (n + 1)))) i)) (End.of (T.endo n)) m)
 
 variable [Fact ℓ.Prime]
 

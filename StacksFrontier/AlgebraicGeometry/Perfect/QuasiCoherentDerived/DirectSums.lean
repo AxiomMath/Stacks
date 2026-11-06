@@ -143,7 +143,10 @@ instance hasCoproducts_quasicoherentDerivedCategory (X : Scheme.{u}) :
         (isColimitOfPreserves (DerivedCategory.homologyFunctor A n) c.isColimit)
         (fun j ↦ c.prop_diag_obj j n)⟩
   change HasCoproducts.{u} Q.FullSubcategory
-  infer_instance
+  intro I
+  have : HasColimitsOfShape (Discrete I) (DerivedCategory A) :=
+    Stacks.Injectives.hasCoproducts_derivedCategory A I
+  exact hasColimitsOfShape_of_closedUnderColimits (Discrete I) Q
 
 end AlgebraicGeometry
 

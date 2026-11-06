@@ -397,8 +397,8 @@ theorem irrelevant_le_map_mapHom (C : WeierstrassCurve R) (φ : R →+* S) :
       (HomogeneousIdeal.irrelevant (gradingOf C)).toIdeal :=
     HomogeneousIdeal.mem_irrelevant_of_mem _ hi
       (Stacks.HomogeneousIdeal.mk_mem_quotientGrading _ ((mem_homogeneousSubmodule i _).2 hdeg))
-  have h : Ideal.Quotient.mk (cubicIdealOf (C.map φ)).toIdeal (monomial d (coeff d q)) =
-      Ideal.Quotient.mk _ (MvPolynomial.C (coeff d q)) *
+  have h : Ideal.Quotient.mk (cubicIdealOf (C.map φ)).toIdeal (monomial d (q.coeff d)) =
+      Ideal.Quotient.mk _ (MvPolynomial.C (q.coeff d)) *
         mapHom C φ (Ideal.Quotient.mk (cubicIdealOf C).toIdeal (monomial d 1)) := by
     show _ = _ * Ideal.Quotient.mk _ (MvPolynomial.map φ (monomial d 1))
     rw [← map_mul, MvPolynomial.map_monomial, map_one, C_mul_monomial, mul_one]
@@ -621,7 +621,7 @@ def baseChangeGradedInv :
     obtain ⟨q, hq, rfl⟩ := (Stacks.HomogeneousIdeal.mem_quotientGrading_iff _ x).mp hx
     have hq' : q.IsHomogeneous i := (mem_homogeneousSubmodule i q).1 hq
     set z : S ⊗[R] coordRingOf C :=
-      ∑ d ∈ q.support, coeff d q ⊗ₜ[R] Ideal.Quotient.mk (cubicIdealOf C).toIdeal (monomial d 1)
+      ∑ d ∈ q.support, q.coeff d ⊗ₜ[R] Ideal.Quotient.mk (cubicIdealOf C).toIdeal (monomial d 1)
       with hzdef
     have hz : baseChangeEquiv C S z = Ideal.Quotient.mk _ q := by
       rw [hzdef, map_sum]

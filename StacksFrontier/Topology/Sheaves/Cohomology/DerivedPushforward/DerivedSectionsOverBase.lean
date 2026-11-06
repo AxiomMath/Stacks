@@ -262,14 +262,15 @@ of the identity functor of sheaves of modules acts on a complex degreewise; natu
 module is exactly commutation with the differentials. -/
 def smulComplex (a : End (𝟭 (SheafOfModules.{u} (structureSheafRing X))))
     (C : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ) : End C :=
-  { f := fun i ↦ a.app (C.X i)
-    comm' := fun i j _ ↦ (a.naturality (C.d i j)).symm }
+  .of
+    { f := fun i ↦ a.asHom.app (C.X i)
+      comm' := fun i j _ ↦ (a.asHom.naturality (C.d i j)).symm }
 
 /-- In degree `i`, `smulComplex X a C` is the component of `a` at the term `C.X i`. -/
 @[simp]
 lemma smulComplex_f (a : End (𝟭 (SheafOfModules.{u} (structureSheafRing X))))
     (C : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ) (i : ℤ) :
-    HomologicalComplex.Hom.f (smulComplex X a C) i = a.app (C.X i) := rfl
+    HomologicalComplex.Hom.f (smulComplex X a C).asHom i = a.asHom.app (C.X i) := rfl
 
 /-- **Multiplication by the image of `f` in `Γ(X, 𝒪_X)`**, as an endomorphism of the identity
 functor of sheaves of `𝒪_X`-modules: a global section of the structure sheaf acts on every sheaf
@@ -285,12 +286,11 @@ abbrev principalKoszulComplexTower (a : End (𝟭 (SheafOfModules.{u} (structure
     (C : CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ) :
     ℕᵒᵖ ⥤ CochainComplex (SheafOfModules.{u} (structureSheafRing X)) ℤ :=
   Functor.ofOpSequence
-    (X := fun n ↦ CochainComplex.mappingCone (smulComplex X a C ^ (n + 1)))
-    (fun n ↦ CochainComplex.mappingCone.map _ _ (smulComplex X a C) (𝟙 C) (by
+    (X := fun n ↦ CochainComplex.mappingCone (smulComplex X a C ^ (n + 1)).asHom)
+    (fun n ↦ CochainComplex.mappingCone.map _ _ (smulComplex X a C).asHom (𝟙 C) (by
       have h : smulComplex X a C ^ (n + 1 + 1) =
           smulComplex X a C ^ (n + 1) * smulComplex X a C := pow_succ _ _
-      rw [Category.comp_id]
-      exact h))
+      rw [Category.comp_id, h, End.mul_asHom]))
 
 /-- **The `f`-power Koszul tower of an object of `D(𝒪_X)`.** This is the inverse system
 `n ↦ E ⊗_{𝒪_X} (𝒪_X --f^(n+1)--> 𝒪_X)` of [Stacks, Tag 0H3C], realized as the cones of
@@ -309,7 +309,7 @@ lemma principalKoszulTower_obj (f : A)
     (E : DerivedCategory (SheafOfModules.{u} (structureSheafRing X))) (n : ℕ) :
     (principalKoszulTower X ρ f E).obj ⟨n⟩ =
       DerivedCategory.Q.obj (CochainComplex.mappingCone
-        (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1))) := rfl
+        (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1)).asHom) := rfl
 
 /-- **The Koszul triangle of the `n`-th term of the tower.** The term is the cone of
 multiplication by `f ^ (n + 1)`, so there is a distinguished triangle
@@ -319,7 +319,7 @@ identifies the terms of `principalKoszulTower` with the derived tensor products
 theorem principalKoszulTower_mappingCone_triangle_distinguished (f : A)
     (E : DerivedCategory (SheafOfModules.{u} (structureSheafRing X))) (n : ℕ) :
     DerivedCategory.Q.mapTriangle.obj (CochainComplex.mappingCone.triangle
-        (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1))) ∈
+        (smulComplex X (baseSmul X ρ f) (DerivedCategory.Q.objPreimage E) ^ (n + 1)).asHom) ∈
       distTriang (DerivedCategory (SheafOfModules.{u} (structureSheafRing X))) :=
   DerivedCategory.mappingCone_triangle_distinguished _
 

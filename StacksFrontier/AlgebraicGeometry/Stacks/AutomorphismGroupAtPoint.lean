@@ -106,13 +106,13 @@ def verticalAut (p : X ⥤ C) (a : X) : Subgroup (Aut a) := (p.mapAut a).ker
 `p` sends it to the identity of `p.obj a`. -/
 @[simp]
 lemma mem_verticalAut_iff (p : X ⥤ C) {a : X} (α : Aut a) :
-    α ∈ p.verticalAut a ↔ p.map α.hom = 𝟙 (p.obj a) := by
+    α ∈ p.verticalAut a ↔ p.map α.asIso.hom = 𝟙 (p.obj a) := by
   rw [verticalAut, MonoidHom.mem_ker]
-  exact ⟨fun h => congrArg Iso.hom h, fun h => Aut.ext h⟩
+  exact ⟨fun h => congrArg (fun x => x.asIso.hom) h, fun h => Aut.ext (Iso.ext h)⟩
 
 /-- The defining equation of the automorphism group: its elements lie over an identity. -/
 lemma verticalAut.cond {p : X ⥤ C} {a : X} (α : p.verticalAut a) :
-    p.map (α : Aut a).hom = 𝟙 (p.obj a) := (mem_verticalAut_iff p _).mp α.2
+    p.map (α : Aut a).asIso.hom = 𝟙 (p.obj a) := (mem_verticalAut_iff p _).mp α.2
 
 /-- The object of the relative inertia determined by an element of an automorphism group. -/
 def verticalAut.toRelativeInertia {p : X ⥤ C} {a : X} (α : p.verticalAut a) :
@@ -135,14 +135,14 @@ def verticalAutMap (F : X ⥤ Y) (hF : F ⋙ pY = pX) (a : X) :
   ((F.mapAut a).comp (pX.verticalAut a).subtype).codRestrict _ <| by
     intro α
     simp only [mem_verticalAut_iff]
-    change pY.map (F.map (α : Aut a).hom) = _
+    change pY.map (F.map (α : Aut a).asIso.hom) = _
     rw [map_map_eq F hF, verticalAut.cond α]
     simp
 
 /-- The homomorphism `verticalAutMap F hF a` sends an automorphism `α` of `a` to `F.map α`. -/
 @[simp]
 lemma verticalAutMap_coe_hom (F : X ⥤ Y) (hF : F ⋙ pY = pX) (a : X) (α : pX.verticalAut a) :
-    ((verticalAutMap F hF a α : Aut (F.obj a))).hom = F.map (α : Aut a).hom := rfl
+    ((verticalAutMap F hF a α : Aut (F.obj a))).asIso.hom = F.map (α : Aut a).asIso.hom := rfl
 
 private lemma map_inv_eq_eqToHom (p : X ⥤ C) {a b : X} (e : a ≅ b) {hab : p.obj a = p.obj b}
     (he : p.map e.hom = eqToHom hab) : p.map e.inv = eqToHom hab.symm := by
@@ -155,12 +155,12 @@ def verticalAutCongr (p : X ⥤ C) {a b : X} (e : a ≅ b) {hab : p.obj a = p.ob
     (he : p.map e.hom = eqToHom hab) : p.verticalAut a ≃* p.verticalAut b where
   toFun α := ⟨Aut.autMulEquivOfIso e α, by
     simp only [mem_verticalAut_iff]
-    change p.map (e.inv ≫ (α : Aut a).hom ≫ e.hom) = _
+    change p.map (e.inv ≫ (α : Aut a).asIso.hom ≫ e.hom) = _
     rw [p.map_comp, p.map_comp, map_inv_eq_eqToHom p e he, he, verticalAut.cond α]
     simp⟩
   invFun β := ⟨(Aut.autMulEquivOfIso e).symm β, by
     simp only [mem_verticalAut_iff]
-    change p.map (e.hom ≫ (β : Aut b).hom ≫ e.inv) = _
+    change p.map (e.hom ≫ (β : Aut b).asIso.hom ≫ e.inv) = _
     rw [p.map_comp, p.map_comp, map_inv_eq_eqToHom p e he, he, verticalAut.cond β]
     simp⟩
   left_inv α := Subtype.ext ((Aut.autMulEquivOfIso e).symm_apply_apply _)
@@ -190,8 +190,9 @@ theorem bijective_verticalAutMap_of_iso (F : X ⥤ Y) (hF : F ⋙ pY = pX) {a b 
     simp only [Function.comp_apply, MulEquiv.apply_symm_apply]
     apply Subtype.ext
     apply Aut.ext
-    show F.map e.inv ≫ F.map (α : Aut a).hom ≫ F.map e.hom =
-      F.map (e.inv ≫ (α : Aut a).hom ≫ e.hom)
+    apply Iso.ext
+    show F.map e.inv ≫ F.map (α : Aut a).asIso.hom ≫ F.map e.hom =
+      F.map (e.inv ≫ (α : Aut a).asIso.hom ≫ e.hom)
     simp
   rw [key]
   exact (verticalAutCongr pY (F.mapIso e) heY).symm.bijective.comp
@@ -209,8 +210,9 @@ theorem injective_verticalAutMap_of_full
   intro α β h
   apply Subtype.ext
   apply Aut.ext
-  have hh : F.map (β : Aut a).hom = F.map (α : Aut a).hom := by
-    simpa using (congrArg (fun z : pY.verticalAut (F.obj a) => (z : Aut (F.obj a)).hom) h).symm
+  apply Iso.ext
+  have hh : F.map (β : Aut a).asIso.hom = F.map (α : Aut a).asIso.hom := by
+    simpa using (congrArg (fun z : pY.verticalAut (F.obj a) => (z : Aut (F.obj a)).asIso.hom) h).symm
   simpa using (inertiaPullbackComparison_reflects_comm pX pY F hF
     ⟨a, α, verticalAut.cond α⟩ ⟨a, β, verticalAut.cond β⟩ (𝟙 a) (by simpa using hh)).symm
 
@@ -222,7 +224,7 @@ theorem surjective_verticalAutMap_of_essSurj
     Function.Surjective (verticalAutMap F hF a) := by
   intro β
   obtain ⟨α, hα, hmap⟩ := inertiaPullbackComparison_exists_aut pX pY F hF a β (verticalAut.cond β)
-  exact ⟨⟨α, (mem_verticalAut_iff pX α).mpr hα⟩, Subtype.ext (Aut.ext hmap)⟩
+  exact ⟨⟨α, (mem_verticalAut_iff pX α).mpr hα⟩, Subtype.ext (Aut.ext (Iso.ext hmap))⟩
 
 /-- A full and essentially surjective inertia comparison (Stacks 06R5) induces isomorphisms
 between all automorphism groups. -/

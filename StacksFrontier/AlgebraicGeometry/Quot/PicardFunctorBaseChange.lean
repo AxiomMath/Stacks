@@ -97,7 +97,7 @@ theorem compatiblePreserving_map :
     have h₂ : f₂ = e.inv ≫ (CostructuredArrow.map g).map g₂' :=
       CostructuredArrow.hom_ext _ _ (Category.id_comp _).symm
     have key := hx g₁' g₂' hg₁ hg₂ (CostructuredArrow.hom_ext _ _ hl)
-    rw [h₁, h₂, op_comp, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply]
+    rw [h₁, h₂, op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
     exact congrArg (F.obj.map e.inv.op) key
 
 /-- **Reading test schemes over `Y'` as test schemes over `Y` is continuous.** -/
@@ -151,10 +151,16 @@ def picardPresheafBaseChangeIso :
 def picardFunctorBaseChangeIso :
     (D.baseChange g).toPicardSituation.picardFunctor ≅
       (CostructuredArrow.map g).op ⋙ D.toPicardSituation.picardFunctor :=
-  (sheafToPresheaf (topology Y') (Type (u + 1))).mapIso
-    ((presheafToSheaf (topology Y') (Type (u + 1))).mapIso (D.picardPresheafBaseChangeIso g) ≪≫
-    ((CostructuredArrow.map g).pushforwardContinuousSheafificationCompatibility (Type (u + 1))
-      (topology Y') (topology D.Y)).app D.toPicardSituation.picardPresheaf)
+  let e₁ := (presheafToSheaf (topology Y') (Type (u + 1))).mapIso (D.picardPresheafBaseChangeIso g)
+  let e₂ := ((CostructuredArrow.map g).pushforwardContinuousSheafificationCompatibility
+    (Type (u + 1)) (topology Y') (topology D.Y)).app D.toPicardSituation.picardPresheaf
+  let e : (presheafToSheaf (topology Y') (Type (u + 1))).obj
+      (D.baseChange g).toPicardSituation.picardPresheaf ≅
+      ((CostructuredArrow.map g).sheafPushforwardContinuous (Type (u + 1)) (topology Y')
+        (topology D.Y)).obj
+        ((presheafToSheaf (topology D.Y) (Type (u + 1))).obj D.toPicardSituation.picardPresheaf) :=
+    e₁ ≪≫ e₂
+  (sheafToPresheaf (topology Y') (Type (u + 1))).mapIso e
 
 end AlgebraicGeometry.Space.CoherentSituation
 

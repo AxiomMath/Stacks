@@ -53,7 +53,7 @@ def relativeInertiaStructureMorphismToInertia :
       (inertiaAlgebraicStack B S hS 𝒳).val.val where
   toFunctor :=
     { obj := fun A => ⟨A.obj, A.auto,
-        (structureMorphism_map_eq_id_iff B S hS 𝒳 A.auto.hom).1 A.cond⟩
+        (structureMorphism_map_eq_id_iff B S hS 𝒳 A.auto.asIso.hom).1 A.cond⟩
       map := fun φ => ⟨φ.hom, φ.comm⟩ }
   w := rfl
 
@@ -69,7 +69,7 @@ instance : (relativeInertiaStructureMorphismToInertia B S hS 𝒳).toFunctor.Ful
 /-- The comparison `relativeInertiaStructureMorphismToInertia` is essentially surjective. -/
 instance : (relativeInertiaStructureMorphismToInertia B S hS 𝒳).toFunctor.EssSurj where
   mem_essImage A := ⟨⟨A.obj, A.auto,
-    (structureMorphism_map_eq_id_iff B S hS 𝒳 A.auto.hom).2 A.cond⟩, ⟨Iso.refl _⟩⟩
+    (structureMorphism_map_eq_id_iff B S hS 𝒳 A.auto.asIso.hom).2 A.cond⟩, ⟨Iso.refl _⟩⟩
 
 /-- The comparison `relativeInertiaStructureMorphismToInertia` is an equivalence of categories. -/
 instance : (relativeInertiaStructureMorphismToInertia B S hS 𝒳).toFunctor.IsEquivalence where

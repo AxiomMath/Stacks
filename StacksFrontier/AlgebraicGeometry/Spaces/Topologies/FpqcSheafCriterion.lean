@@ -180,7 +180,7 @@ theorem eq_of_isFpqcCovering (h₁ : IsEtaleSheafOnSlice B S hS X F)
       (F.map (slicePointHom B S hS X U (b x)).op t) =
         F.map (refinementLift f (b x) R j (i j) (a j) (ha j)).op (F.map (f (i j)).op t) := by
     intro t
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
       hc]
   rw [key, key, h]
 
@@ -275,8 +275,8 @@ theorem map_eq_of_refinement (h₁ : IsEtaleSheafOnSlice B S hS X F)
   refine eq_of_isFpqcCovering_pullback h₁ h₂ (fun j ↦ refinementOverHom (X := X) h R j)
     (isFpqcCovering_yoneda_of_mem_fpqcPrecoverage R hR) g fun j ↦ ?_
   have hw := (sliceFiberProduct_isPullback B S hS X (refinementOverHom (X := X) h R j) g).w
-  rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
-    ← hw, op_comp, FunctorToTypes.map_comp_apply, hz j, ← FunctorToTypes.map_comp_apply,
+  rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
+    ← hw, op_comp, Functor.map_comp_apply, hz j, ← Functor.map_comp_apply,
     ← op_comp]
   refine hx _ _ _ _ _ ?_
   rw [Category.assoc, refinementLift_comp, ← Category.assoc, hw, Category.assoc, Category.assoc,
@@ -307,7 +307,7 @@ theorem isSheafFor_of_isFpqcCovering (h₁ : IsEtaleSheafOnSlice B S hS X F)
         (fun j ↦ F.map (refinementLift f (b p) (R p) j (i p j) (a p j) (ha p j)).op
           (x (i p j))) ?_).exists
     intro j j' Z gj gj' hg
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp]
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp]
     refine hx _ _ _ _ _ ?_
     rw [Category.assoc, Category.assoc, refinementLift_comp, refinementLift_comp,
       ← Category.assoc, ← Category.assoc]
@@ -325,7 +325,7 @@ theorem isSheafFor_of_isFpqcCovering (h₁ : IsEtaleSheafOnSlice B S hS X F)
       fun k ↦ ?_
     have hw := (sliceFiberProduct_isPullback B S hS X (f k)
       (gp ≫ slicePointHom B S hS X U (b p))).w
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
       hC p _ k _ (by rw [hw, Category.assoc]),
       hC q _ k _ (by rw [hw, Category.assoc, hpq])]
   obtain ⟨t, ht, -⟩ := ((Presieve.isSheafFor_arrows_iff _ _).mp
@@ -335,7 +335,7 @@ theorem isSheafFor_of_isFpqcCovering (h₁ : IsEtaleSheafOnSlice B S hS X F)
     refine eq_of_isFpqcCovering_pullback h₁ h₂ (fun p ↦ slicePointHom B S hS X U (b p))
       (isFpqcCovering_of_isEtaleCovering B S hS _ _ hcov) (f k) fun p ↦ ?_
     have hw := (sliceFiberProduct_isPullback B S hS X (slicePointHom B S hS X U (b p)) (f k)).w
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← hw, op_comp, FunctorToTypes.map_comp_apply,
+    rw [← Functor.map_comp_apply, ← op_comp, ← hw, op_comp, Functor.map_comp_apply,
       ht p]
     exact hC p _ k _ hw.symm
   exact ⟨t, hall, fun t' ht' ↦ eq_of_isFpqcCovering h₁ h₂ f hf fun k ↦ (ht' k).trans (hall k).symm⟩

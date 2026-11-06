@@ -50,6 +50,8 @@ universe u
 
 namespace AlgebraicGeometry
 
+attribute [local instance high] SmallEtale.hasWeakSheafify_over_moduleCat_site
+
 attribute [local instance] SmallEtale.isRightAdjointPushforward_type
   SmallEtale.isRightAdjointPushforward_addCommGrpCat
   SmallEtale.isRightAdjointPushforward_moduleCat_site

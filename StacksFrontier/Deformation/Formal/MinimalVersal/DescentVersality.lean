@@ -43,10 +43,10 @@ surjective morphism of restricted representable categories. -/
 public theorem essSurj_restrictedRepresentableMap_of_retraction
     {R S : CompleteLocalAlgCat.{u, v, w} Λ k} (f : R ⟶ S) (r : S ⟶ R) (hfr : f ≫ r = 𝟙 R) :
     (restrictedRepresentableMap f).toFunctor.EssSurj := by
-  refine Functor.essSurj_of_surj fun z => ⟨⟨z.1, (restrictedCoyonedaMap r).app z.1 z.2⟩,
+  refine Functor.essSurj_of_surj fun z => ⟨⟨(restrictedCoyonedaMap r).app z.obj z.val⟩,
     Functor.Elements.ext (F := restrictedCoyoneda R) _ z rfl
       (CompleteLocalAlgCat.Hom.ext (AlgHom.ext fun x => ?_))⟩
-  change z.2.hom ((r.hom.comp f.hom) x) = z.2.hom x
+  change z.val.hom ((r.hom.comp f.hom) x) = z.val.hom x
   rw [show r.hom.comp f.hom = AlgHom.id Λ R by
     simpa using congrArg (fun g : R ⟶ R ↦ g.hom) hfr]
   rfl

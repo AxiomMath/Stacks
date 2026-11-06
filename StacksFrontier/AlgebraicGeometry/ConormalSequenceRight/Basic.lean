@@ -164,7 +164,7 @@ theorem relativeDifferentials_hom_ext {Z S : Scheme.{u}} (q : Z ⟶ S) {F : Z.Mo
     g = g' := by
   refine (SheafOfModules.universalDerivation_isUniversal (inverseImageStructureMap q) F
     ((Scheme.Hom.universalRelativeDerivation q).postcomp g.val)).unique rfl ?_
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext V t
   exact (h V.unop t).symm
 
@@ -279,14 +279,16 @@ theorem smul_restrictScalars_eq_zero {C : Type u₁} [Category.{v₁} C]
       (ModuleCat.restrictScalars (α.app V).hom).obj (M.obj V) from rfl,
       ModuleCat.smul_restrictScalars, hr, map_zero]
     rfl
-  exact congrArg (fun t => AddCommGrpCat.Hom.hom t m) h
+  have h2 := congrArg (fun t => AddCommGrpCat.Hom.hom t.asHom m) h
+  exact h2
 
 /-- A derivation is linear in the first factor of a product whose second factor annihilates
 the coefficient module: the Leibniz term `b · d a` of `d (a * b)` vanishes. -/
 theorem derivation_d_mul_of_smul_eq_zero {C : Type u₁} [Category.{v₁} C] {D : Type u₂}
     [Category.{v₂} D] {O : Cᵒᵖ ⥤ CommRingCat.{u}} {G : C ⥤ D} {R : Dᵒᵖ ⥤ CommRingCat.{u}}
     {M : PresheafOfModules.{v} (R ⋙ forget₂ _ _)} {φ : O ⟶ G.op ⋙ R}
-    (d : M.Derivation φ) {V : Dᵒᵖ} (a b : R.obj V) (hb : ∀ m : M.obj V, b • m = 0) :
+    (d : PresheafOfModulesOfCommRing.Derivation M φ) {V : Dᵒᵖ} (a b : R.obj V)
+    (hb : ∀ m : M.obj V, b • m = 0) :
     d.d (a * b) = a • d.d b := by
   rw [d.d_mul, hb (d.d a), add_zero]
 

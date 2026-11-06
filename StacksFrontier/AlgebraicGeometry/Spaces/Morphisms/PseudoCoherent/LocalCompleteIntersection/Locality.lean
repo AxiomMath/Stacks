@@ -138,6 +138,13 @@ public theorem isLocalCompleteIntersection_isLocalAtSource_syntomic :
 
 /-! ### Locality on the base for syntomic coverings of the target -/
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_LCILocality
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The property of being a local complete intersection morphism of algebraic spaces over `S` is
 local on the base for the syntomic topology of Stacks 03YH: it may be checked after a syntomic
 covering of the target.

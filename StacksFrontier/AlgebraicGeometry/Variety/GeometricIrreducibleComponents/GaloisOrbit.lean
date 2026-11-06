@@ -72,7 +72,7 @@ private theorem pullback_map_comp_snd {X Y S X' Y' S' : Scheme.{u}} {f : X ⟶ S
 /-- The Galois action on a base change commutes with the projection to the original scheme. -/
 private theorem galoisActionOnBaseChange_ρ_comp_fst (k K : Type u) [Field k] [Field K]
     [Algebra k K] (X : Over (Spec (.of k))) (σ : MulOpposite (K ≃ₐ[k] K)) :
-    (galoisActionOnBaseChange k K X).ρ σ ≫
+    ((galoisActionOnBaseChange k K X).ρ σ).asHom ≫
         pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) =
       pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) := by
   dsimp [galoisActionOnBaseChange, SchemeOver.baseChange]
@@ -81,7 +81,7 @@ private theorem galoisActionOnBaseChange_ρ_comp_fst (k K : Type u) [Field k] [F
 /-- The Galois action on a base change acts on the `Spec K` coordinate by `Spec σ`. -/
 private theorem galoisActionOnBaseChange_ρ_comp_snd (k K : Type u) [Field k] [Field K]
     [Algebra k K] (X : Over (Spec (.of k))) (σ : MulOpposite (K ≃ₐ[k] K)) :
-    (galoisActionOnBaseChange k K X).ρ σ ≫
+    ((galoisActionOnBaseChange k K X).ρ σ).asHom ≫
         pullback.snd X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) =
       pullback.snd X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) ≫
         specMapAlgAut k K σ.unop := by
@@ -183,7 +183,7 @@ private theorem pullback_galoisAction_comp_hom (k K L : Type u) [Field k] [Field
     (hq : q ≫ X.hom = Spec.map (CommRingCat.ofHom (algebraMap k L))) (σ : K ≃ₐ[k] K) :
     pullback.map (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))) q
         (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))) q
-        ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)) (𝟙 _) (𝟙 X.left)
+        ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom (𝟙 _) (𝟙 X.left)
         (by simpa using (galoisActionOnBaseChange_ρ_comp_fst k K X (.op σ)).symm) (by simp) ≫
       (pullbackSymmetry (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))) q ≪≫
         pullbackRightPullbackFstIso X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K))) q ≪≫
@@ -199,7 +199,7 @@ private theorem pullback_galoisAction_comp_hom (k K L : Type u) [Field k] [Field
   let gK := Spec.map (CommRingCat.ofHom (algebraMap k K))
   let p := pullback.fst X.hom gK
   let fL := Spec.map (CommRingCat.ofHom (algebraMap k L))
-  let a := (galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)
+  let a := ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom
   let fiberIso : pullback p q ≅ pullback fL gK :=
     pullbackSymmetry p q ≪≫ pullbackRightPullbackFstIso X.hom gK q ≪≫ pullback.congrHom hq rfl
   let actionOnFiber : pullback p q ⟶ pullback p q := pullback.map p q p q a (𝟙 _) (𝟙 X.left)
@@ -245,7 +245,7 @@ private theorem exists_pullbackIso_galoisAction_comp (k K L : Type u) [Field k] 
         Spec (.of (K ⊗[k] L)), ∀ σ : K ≃ₐ[k] K,
       pullback.map (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))) q
           (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))) q
-          ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)) (𝟙 _) (𝟙 X.left)
+          ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom (𝟙 _) (𝟙 X.left)
           (by simpa using (galoisActionOnBaseChange_ρ_comp_fst k K X (.op σ)).symm)
           (by simp) ≫ e.hom =
         e.hom ≫ Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.congr σ
@@ -260,7 +260,7 @@ private theorem exists_pullbackIso_galoisAction_comp (k K L : Type u) [Field k] 
       ((Algebra.TensorProduct.comm k L K).toRingEquiv.toCommRingCatIso.op)).symm
   refine ⟨fiberIso ≪≫ affineIso, fun σ => ?_⟩
   let actionOnFiber : pullback p q ⟶ pullback p q :=
-    pullback.map p q p q ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)) (𝟙 _)
+    pullback.map p q p q ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom (𝟙 _)
       (𝟙 X.left) (by simpa using (galoisActionOnBaseChange_ρ_comp_fst k K X (.op σ)).symm)
       (by simp)
   let actionOnAffine := pullback.map fL gK fL gK (𝟙 _) (specMapAlgAut k K σ)
@@ -283,7 +283,7 @@ private theorem exists_galoisAction_pullback_fst_eq (k K L : Type u) [Field k] [
     (hq : q ≫ X.hom = Spec.map (CommRingCat.ofHom (algebraMap k L)))
     (x y : pullback (C := Scheme)
       (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))) q) :
-    ∃ σ : K ≃ₐ[k] K, ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).base
+    ∃ σ : K ≃ₐ[k] K, ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom.base
         (pullback.fst (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))) q x) =
       pullback.fst (pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))) q y := by
   let p := pullback.fst X.hom (Spec.map (CommRingCat.ofHom (algebraMap k K)))
@@ -292,7 +292,7 @@ private theorem exists_galoisAction_pullback_fst_eq (k K L : Type u) [Field k] [
   let Q : PrimeSpectrum (K ⊗[k] L) := e.hom.base x
   obtain ⟨σ, hσ⟩ := gal_acts_transitively_on_primes_of_normal (k := k) (K := L) (kbar := K) P Q
   refine ⟨σ, ?_⟩
-  let a := (galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)
+  let a := ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom
   let actionOnFiber : pullback p q ⟶ pullback p q := pullback.map p q p q a (𝟙 _) (𝟙 X.left)
     (by simpa using (galoisActionOnBaseChange_ρ_comp_fst k K X (.op σ)).symm) (by simp)
   have hpoints : e.hom.base (actionOnFiber x) = e.hom.base y := by
@@ -328,7 +328,7 @@ private theorem galoisAction_transitive_on_points_over
     (hy : (pullback.fst X.hom
       (Spec.map (CommRingCat.ofHom (algebraMap k K)))).base y = η) :
     ∃ σ : K ≃ₐ[k] K,
-      ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).base x = y := by
+      ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom.base x = y := by
   classical
   let gK := Spec.map (CommRingCat.ofHom (algebraMap k K))
   let p := pullback.fst X.hom gK
@@ -386,19 +386,20 @@ private theorem irreducibleComponentsBaseChangeMap_galoisAction
     (k K : Type u) [Field k] [Field K] [Algebra k K] (X : Over (Spec (.of k)))
     (σ : MulOpposite (K ≃ₐ[k] K)) (Z : (galoisActionOnGeometricIrreducibleComponents k K X).V) :
     irreducibleComponentsBaseChangeMap k K X
-        (ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ) Z) =
+        (ConcreteCategory.hom
+          ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom Z) =
       irreducibleComponentsBaseChangeMap k K X Z := by
   let gK := Spec.map (CommRingCat.ofHom (algebraMap k K))
   let Y := pullback (C := Scheme) X.hom gK
   let p := pullback.fst X.hom gK
-  let a := (galoisActionOnBaseChange k K X).ρ σ
+  let a := ((galoisActionOnBaseChange k K X).ρ σ).asHom
   have hprojPoint (x : Y) : p.base (a.base x) = p.base x := by
     have hh := congrArg (fun f : Y ⟶ X.left => f.base x)
       (galoisActionOnBaseChange_ρ_comp_fst k K X σ)
     simpa [Scheme.Hom.comp_base, TopCat.hom_comp] using hh
   apply Subtype.ext
   show p.base '' (ConcreteCategory.hom
-    ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ) Z).1 = p.base '' Z.1
+    ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom Z).1 = p.base '' Z.1
   rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe]
   show p.base '' ((fun x : Y => a.base x) '' Z.1) = p.base '' Z.1
   ext y
@@ -417,7 +418,8 @@ private theorem exists_galoisAction_eq_of_irreducibleComponentsBaseChangeMap_eq
     (hWZ : irreducibleComponentsBaseChangeMap k K X W =
       irreducibleComponentsBaseChangeMap k K X Z) :
     ∃ σ : MulOpposite (K ≃ₐ[k] K),
-      ConcreteCategory.hom ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ) Z = W := by
+      ConcreteCategory.hom
+        ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom Z = W := by
   let gK := Spec.map (CommRingCat.ofHom (algebraMap k K))
   let Y := pullback (C := Scheme) X.hom gK
   let p := pullback.fst X.hom gK
@@ -437,11 +439,11 @@ private theorem exists_galoisAction_eq_of_irreducibleComponentsBaseChangeMap_eq
   obtain ⟨σ, hσ⟩ := galoisAction_transitive_on_points_over k K X ξT.1 ξZ.1 ξW.1 hηZ hηW
   refine ⟨MulOpposite.op σ, ?_⟩
   let C : irreducibleComponents Y := ConcreteCategory.hom
-    ((galoisActionOnGeometricIrreducibleComponents k K X).ρ (MulOpposite.op σ)) Z
-  let a := (galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)
+    ((galoisActionOnGeometricIrreducibleComponents k K X).ρ (MulOpposite.op σ)).asHom Z
+  let a := ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op σ)).asHom
   have hCset : (C : Set Y) = a.base '' (Zc : Set Y) := by
     show (ConcreteCategory.hom
-      ((galoisActionOnGeometricIrreducibleComponents k K X).ρ (MulOpposite.op σ)) Z).1 =
+      ((galoisActionOnGeometricIrreducibleComponents k K X).ρ (MulOpposite.op σ)).asHom Z).1 =
         a.base '' (Zc : Set Y)
     rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe]
     rfl
@@ -468,7 +470,7 @@ public theorem fiber_irreducibleComponentsBaseChangeMap_eq_orbit
         {irreducibleComponentsBaseChangeMap k K X Z} =
       Set.range (fun σ : MulOpposite (K ≃ₐ[k] K) ↦
         ConcreteCategory.hom
-          ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ) Z) := by
+          ((galoisActionOnGeometricIrreducibleComponents k K X).ρ σ).asHom Z) := by
   ext W
   simp only [Set.mem_preimage, Set.mem_singleton_iff, Set.mem_range]
   refine ⟨exists_galoisAction_eq_of_irreducibleComponentsBaseChangeMap_eq k K X Z W, ?_⟩

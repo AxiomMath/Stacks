@@ -306,7 +306,7 @@ theorem projModelMap_eq_projMap (S : Type u) [CommRing S] (φ : R →+* S) :
 inverse matrix**, conjugated by the comparison of the two models of projective `n`-space. The
 inverse appears because `AlgebraicGeometry.Proj.map` is contravariant. -/
 theorem projectiveSpaceMatrixToAut_hom_eq (M : Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
-    (projectiveSpaceMatrixToAut R n M).hom =
+    (projectiveSpaceMatrixToAut R n M).asIso.hom =
       (polynomialComparison R n).iso.hom ≫
         Proj.map (matrixSubstGradedHom R n
             ((M⁻¹ : Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
@@ -317,7 +317,7 @@ theorem projectiveSpaceMatrixToAut_hom_eq (M : Matrix.GeneralLinearGroup (Fin (n
       LinearMap.GeneralLinearGroup R (Fin (n + 1) → R)) =
       Matrix.GeneralLinearGroup.toLin M⁻¹ :=
     (map_inv Matrix.GeneralLinearGroup.toLin M).symm
-  rw [show (projectiveSpaceMatrixToAut R n M).hom = _ from
+  rw [show (projectiveSpaceMatrixToAut R n M).asIso.hom = _ from
       projectiveSpaceLinearToAut_hom (coordinateBasis R n) (Matrix.GeneralLinearGroup.toLin M),
     hinv, projectiveSpaceOfModuleIso_coordinateBasis_inv,
     projectiveSpaceOfModuleIso_coordinateBasis_hom, projMap_matrixSubstGradedHom]
@@ -352,9 +352,9 @@ ring, and this says the generic automorphism specializes to the automorphism tha
 theorem projectiveSpaceMatrixToAut_hom_comp_projectiveSpaceOverRingMap
     (S : Type u) [CommRing S] (φ : R →+* S)
     (M : Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
-    (projectiveSpaceMatrixToAut S n (Matrix.GeneralLinearGroup.map φ M)).hom ≫
+    (projectiveSpaceMatrixToAut S n (Matrix.GeneralLinearGroup.map φ M)).asIso.hom ≫
         projectiveSpaceOverRingMap n (ofHom φ) =
-      projectiveSpaceOverRingMap n (ofHom φ) ≫ (projectiveSpaceMatrixToAut R n M).hom := by
+      projectiveSpaceOverRingMap n (ofHom φ) ≫ (projectiveSpaceMatrixToAut R n M).asIso.hom := by
   have hN : (((Matrix.GeneralLinearGroup.map φ M)⁻¹ :
         Matrix.GeneralLinearGroup (Fin (n + 1)) S) :
         Matrix (Fin (n + 1)) (Fin (n + 1)) S) =
@@ -405,8 +405,8 @@ variable (S : Type u) [CommRing S] (φ : R →+* S)
 /-- The matrix action read in the slice category is the matrix action. -/
 theorem projectiveSpaceMatrixToAutOver_hom_left
     (M : Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
-    (projectiveSpaceMatrixToAutOver R n M).hom.left =
-      (projectiveSpaceMatrixToAut R n M).hom :=
+    (projectiveSpaceMatrixToAutOver R n M).asIso.hom.left =
+      (projectiveSpaceMatrixToAut R n M).asIso.hom :=
   rfl
 
 /-- The identification of the base change of `ℙⁿ_R` with `ℙⁿ_S` is the inverse of the comparison
@@ -420,17 +420,17 @@ theorem projectiveSpacePullbackIso_hom_left :
 theorem pullback_map_projectiveSpaceMatrixToAutOver_left_comp_fst
     (M : Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
     ((Over.pullback (Spec.map (ofHom φ))).map
-          (projectiveSpaceMatrixToAutOver R n M).hom).left ≫
+          (projectiveSpaceMatrixToAutOver R n M).asIso.hom).left ≫
         pullback.fst (projectiveSpaceOverRing n (.of R) ↘ Spec (.of R)) (Spec.map (ofHom φ)) =
       pullback.fst (projectiveSpaceOverRing n (.of R) ↘ Spec (.of R)) (Spec.map (ofHom φ)) ≫
-        (projectiveSpaceMatrixToAut R n M).hom :=
+        (projectiveSpaceMatrixToAut R n M).asIso.hom :=
   pullback.lift_fst _ _ _
 
 /-- The pullback of the matrix action along `Spec S ⟶ Spec R` is a morphism over `Spec S`. -/
 theorem pullback_map_projectiveSpaceMatrixToAutOver_left_comp_snd
     (M : Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
     ((Over.pullback (Spec.map (ofHom φ))).map
-          (projectiveSpaceMatrixToAutOver R n M).hom).left ≫
+          (projectiveSpaceMatrixToAutOver R n M).asIso.hom).left ≫
         pullback.snd (projectiveSpaceOverRing n (.of R) ↘ Spec (.of R)) (Spec.map (ofHom φ)) =
       pullback.snd (projectiveSpaceOverRing n (.of R) ↘ Spec (.of R)) (Spec.map (ofHom φ)) :=
   pullback.lift_snd _ _ _
@@ -440,10 +440,10 @@ the slice category. -/
 theorem pullback_map_projectiveSpaceMatrixToAutOver_left
     (M : Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
     ((Over.pullback (Spec.map (ofHom φ))).map
-          (projectiveSpaceMatrixToAutOver R n M).hom).left ≫
+          (projectiveSpaceMatrixToAutOver R n M).asIso.hom).left ≫
         (isPullback_projectiveSpaceOverMap n (Spec.map (ofHom φ))).isoPullback.inv =
       (isPullback_projectiveSpaceOverMap n (Spec.map (ofHom φ))).isoPullback.inv ≫
-        (projectiveSpaceMatrixToAut S n (Matrix.GeneralLinearGroup.map φ M)).hom :=
+        (projectiveSpaceMatrixToAut S n (Matrix.GeneralLinearGroup.map φ M)).asIso.hom :=
   comp_isoPullback_inv_eq _ _ _ _ _
     (isPullback_projectiveSpaceOverMap n (Spec.map (ofHom φ))).isoPullback_hom_fst
     (isPullback_projectiveSpaceOverMap n (Spec.map (ofHom φ))).isoPullback_hom_snd _ _ _
@@ -465,10 +465,10 @@ component over `Spec S` it is
 `AlgebraicGeometry.projectiveSpaceMatrixToAut_hom_comp_structureMorphism`. -/
 theorem pullback_map_projectiveSpaceMatrixToAutOver
     (M : Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
-    (Over.pullback (Spec.map (ofHom φ))).map (projectiveSpaceMatrixToAutOver R n M).hom ≫
+    (Over.pullback (Spec.map (ofHom φ))).map (projectiveSpaceMatrixToAutOver R n M).asIso.hom ≫
         (projectiveSpacePullbackIso φ n).hom =
       (projectiveSpacePullbackIso φ n).hom ≫
-        (projectiveSpaceMatrixToAutOver S n (Matrix.GeneralLinearGroup.map φ M)).hom :=
+        (projectiveSpaceMatrixToAutOver S n (Matrix.GeneralLinearGroup.map φ M)).asIso.hom :=
   Over.OverMorphism.ext (pullback_map_projectiveSpaceMatrixToAutOver_left R n S φ M)
 
 end OverBaseChange
@@ -508,14 +508,14 @@ single-factor compatibility
 `AlgebraicGeometry.pullback_map_projectiveSpaceMatrixToAutOver`. -/
 theorem pullback_map_projectiveSpacePowerMatrixAut
     (M : Fin m → Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
-    (Over.pullback (Spec.map (ofHom φ))).map (projectiveSpacePowerMatrixAut R n m M).hom ≫
+    (Over.pullback (Spec.map (ofHom φ))).map (projectiveSpacePowerMatrixAut R n m M).asIso.hom ≫
         (projectiveSpacePowerPullbackIso φ n m).hom =
       (projectiveSpacePowerPullbackIso φ n m).hom ≫
         (projectiveSpacePowerMatrixAut S n m
-          (fun i => Matrix.GeneralLinearGroup.map φ (M i))).hom := by
+          (fun i => Matrix.GeneralLinearGroup.map φ (M i))).asIso.hom := by
   refine Pi.hom_ext _ _ fun i => ?_
   have hl : ((Over.pullback (Spec.map (ofHom φ))).map
-          (projectiveSpacePowerMatrixAut R n m M).hom ≫
+          (projectiveSpacePowerMatrixAut R n m M).asIso.hom ≫
         (projectiveSpacePowerPullbackIso φ n m).hom) ≫
         Pi.π (fun _ : Fin m => (projectiveSpaceOverRing n (.of S)).asOver (Spec (.of S))) i =
       (Over.pullback (Spec.map (ofHom φ))).map
@@ -523,20 +523,20 @@ theorem pullback_map_projectiveSpacePowerMatrixAut
             (projectiveSpaceOverRing n (.of R)).asOver (Spec (.of R))) i) ≫
         (projectiveSpacePullbackIso φ n).hom ≫
           (projectiveSpaceMatrixToAutOver S n
-            (Matrix.GeneralLinearGroup.map φ (M i))).hom := by
+            (Matrix.GeneralLinearGroup.map φ (M i))).asIso.hom := by
     rw [Category.assoc, projectiveSpacePowerPullbackIso_hom_π, ← Category.assoc,
       ← Functor.map_comp, projectiveSpacePowerMatrixAut_hom_π, Functor.map_comp,
       Category.assoc, pullback_map_projectiveSpaceMatrixToAutOver]
   have hr : ((projectiveSpacePowerPullbackIso φ n m).hom ≫
         (projectiveSpacePowerMatrixAut S n m
-          (fun j => Matrix.GeneralLinearGroup.map φ (M j))).hom) ≫
+          (fun j => Matrix.GeneralLinearGroup.map φ (M j))).asIso.hom) ≫
         Pi.π (fun _ : Fin m => (projectiveSpaceOverRing n (.of S)).asOver (Spec (.of S))) i =
       (Over.pullback (Spec.map (ofHom φ))).map
           (Pi.π (fun _ : Fin m =>
             (projectiveSpaceOverRing n (.of R)).asOver (Spec (.of R))) i) ≫
         (projectiveSpacePullbackIso φ n).hom ≫
           (projectiveSpaceMatrixToAutOver S n
-            (Matrix.GeneralLinearGroup.map φ (M i))).hom := by
+            (Matrix.GeneralLinearGroup.map φ (M i))).asIso.hom := by
     rw [Category.assoc, projectiveSpacePowerMatrixAut_hom_π, ← Category.assoc,
       projectiveSpacePowerPullbackIso_hom_π, Category.assoc]
   exact hl.trans hr.symm
@@ -687,17 +687,17 @@ each coordinate this is
 theorem projectiveSpacePowerOverRingMap_comp_projectiveSpacePowerMatrixAut
     (M : Fin m → Matrix.GeneralLinearGroup (Fin (n + 1)) R) :
     projectiveSpacePowerOverRingMap R n S φ m ≫
-        (projectiveSpacePowerMatrixAut R n m M).hom.left =
+        (projectiveSpacePowerMatrixAut R n m M).asIso.hom.left =
       (projectiveSpacePowerMatrixAut S n m
-          (fun i => Matrix.GeneralLinearGroup.map φ (M i))).hom.left ≫
+          (fun i => Matrix.GeneralLinearGroup.map φ (M i))).asIso.hom.left ≫
         projectiveSpacePowerOverRingMap R n S φ m := by
   refine eq_of_comp_pi_left _ ((projectiveSpacePowerOver S n m).hom ≫ Spec.map (ofHom φ)) _ _
     ?_ ?_ ?_
-  · rw [Category.assoc, Over.w (projectiveSpacePowerMatrixAut R n m M).hom,
+  · rw [Category.assoc, Over.w (projectiveSpacePowerMatrixAut R n m M).asIso.hom,
       projectiveSpacePowerOverRingMap_comp_hom]
   · rw [Category.assoc, projectiveSpacePowerOverRingMap_comp_hom, ← Category.assoc,
       Over.w (projectiveSpacePowerMatrixAut S n m
-        (fun i => Matrix.GeneralLinearGroup.map φ (M i))).hom]
+        (fun i => Matrix.GeneralLinearGroup.map φ (M i))).asIso.hom]
   · intro i
     have hR := congrArg Over.Hom.left (projectiveSpacePowerMatrixAut_hom_π R n m M i)
     have hS := congrArg Over.Hom.left (projectiveSpacePowerMatrixAut_hom_π S n m
@@ -838,14 +838,14 @@ theorem pullbackSectionOfRetraction_comp_projectiveSpacePowerMatrixAut
     pullbackSectionOfRetraction (projectiveSpacePowerOver R n m) (Spec.map (ofHom α))
           (Spec.map (ofHom γ)) (specMap_comp_specMap_eq_id R α γ hγ) ≫
         ((Aut.autMulEquivOfIso (projectiveSpacePowerPullbackIso α n m)).symm
-          (projectiveSpacePowerMatrixAut A n m M)).hom.left ≫
+          (projectiveSpacePowerMatrixAut A n m M)).asIso.hom.left ≫
         pullback.fst (projectiveSpacePowerOver R n m).hom (Spec.map (ofHom α)) =
       (projectiveSpacePowerMatrixAut R n m
-        (fun i => Matrix.GeneralLinearGroup.map γ (M i))).hom.left := by
+        (fun i => Matrix.GeneralLinearGroup.map γ (M i))).asIso.hom.left := by
   have hΨ : ((Aut.autMulEquivOfIso (projectiveSpacePowerPullbackIso α n m)).symm
-        (projectiveSpacePowerMatrixAut A n m M)).hom.left =
+        (projectiveSpacePowerMatrixAut A n m M)).asIso.hom.left =
       (projectiveSpacePowerPullbackIso α n m).hom.left ≫
-        (projectiveSpacePowerMatrixAut A n m M).hom.left ≫
+        (projectiveSpacePowerMatrixAut A n m M).asIso.hom.left ≫
         (projectiveSpacePowerPullbackIso α n m).inv.left := by
     rfl
   rw [hΨ, Category.assoc, Category.assoc]
@@ -881,7 +881,7 @@ theorem pullbackSectionOfRetraction_comp_projectiveLinePowerGeneralLinearAction
             (algebraMap k (generalLinearTwoPowerCoordinateRing k m)) γ hγ) ≫
         projectiveLinePowerGeneralLinearAction k m =
       (projectiveSpacePowerMatrixAut k 1 m fun i =>
-        Matrix.GeneralLinearGroup.map γ (genericGeneralLinearTwoPower k m i)).hom.left := by
+        Matrix.GeneralLinearGroup.map γ (genericGeneralLinearTwoPower k m i)).asIso.hom.left := by
   rw [projectiveLinePowerGeneralLinearAction, projectiveLinePowerGenericAutBaseChange,
     projectiveLinePowerGenericAut]
   exact pullbackSectionOfRetraction_comp_projectiveSpacePowerMatrixAut k 1
@@ -906,10 +906,10 @@ theorem pullbackSectionOfRetraction_comp_projectiveLinePowerGeneralLinearAction_
             (generalLinearTwoPowerPoint k m M)
             (generalLinearTwoPowerPoint_comp_algebraMap k m M)) ≫
         projectiveLinePowerGeneralLinearAction k m =
-      (projectiveSpacePowerMatrixAut k 1 m M).hom.left := by
+      (projectiveSpacePowerMatrixAut k 1 m M).asIso.hom.left := by
   rw [pullbackSectionOfRetraction_comp_projectiveLinePowerGeneralLinearAction k m
     (generalLinearTwoPowerPoint k m M) (generalLinearTwoPowerPoint_comp_algebraMap k m M)]
-  exact congrArg (fun N => (projectiveSpacePowerMatrixAut k 1 m N).hom.left)
+  exact congrArg (fun N => (projectiveSpacePowerMatrixAut k 1 m N).asIso.hom.left)
     (funext fun i => generalLinearTwoPowerPoint_map_genericGeneralLinearTwoPower k m M i)
 
 end GenericSpecialize

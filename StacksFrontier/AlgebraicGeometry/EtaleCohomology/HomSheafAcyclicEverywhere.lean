@@ -49,7 +49,7 @@ def sheafSectionsIsoRestrictionGlobalSections (Λ : Type r) [Ring Λ] {X : Schem
     (W : X.Etale) :
     (sheafSections X.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)).obj (op W) ≅
       etaleModuleRestriction.{u, r} Λ W.hom ⋙ etaleModuleGlobalSections.{u, r} Λ W.left :=
-  (NatIso.ofComponents (fun F => F.val.mapIso (smallEtaleComposeIdIso W).symm.op)
+  (NatIso.ofComponents (fun F => F.obj.mapIso (smallEtaleComposeIdIso W).symm.op)
       (fun φ => (φ.hom.naturality (smallEtaleComposeIdIso W).inv.op).symm) :
     (sheafSections X.smallEtaleTopology (ModuleCat.{max (u + 1) r} Λ)).obj (op W) ≅
       etaleModuleRestriction.{u, r} Λ W.hom ⋙

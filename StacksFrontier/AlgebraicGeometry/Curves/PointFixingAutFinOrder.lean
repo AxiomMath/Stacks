@@ -94,61 +94,64 @@ private lemma overHom_eq_of_toRationalMap_eq {S : Scheme.{u}} {X Y : Over S} [Is
 automorphism of the underlying scheme over the base field. -/
 noncomputable def curveAutOfOverAut (C : Curve k) (a : Aut (Over.mk C.obj.structureMap)) :
     Aut C := by
-  letI : IsIso a.hom := ⟨a.inv, a.hom_inv_id, a.inv_hom_id⟩
-  letI : IsIso a.inv := ⟨a.hom, a.inv_hom_id, a.hom_inv_id⟩
-  letI : IsIso a.hom.left := (Over.forget _).map_isIso a.hom
-  letI : IsIso a.inv.left := (Over.forget _).map_isIso a.inv
-  letI : a.hom.left.IsOver (Spec (.of k)) := ⟨Over.w a.hom⟩
-  letI : a.inv.left.IsOver (Spec (.of k)) := ⟨Over.w a.inv⟩
-  refine
-    { hom := ObjectProperty.homMk ⟨a.hom.left.toRationalMap⟩
-      inv := ObjectProperty.homMk ⟨a.inv.left.toRationalMap⟩
+  letI : IsIso a.asIso.hom := ⟨a.asIso.inv, a.asIso.hom_inv_id, a.asIso.inv_hom_id⟩
+  letI : IsIso a.asIso.inv := ⟨a.asIso.hom, a.asIso.inv_hom_id, a.asIso.hom_inv_id⟩
+  letI : IsIso a.asIso.hom.left := (Over.forget _).map_isIso a.asIso.hom
+  letI : IsIso a.asIso.inv.left := (Over.forget _).map_isIso a.asIso.inv
+  letI : a.asIso.hom.left.IsOver (Spec (.of k)) := ⟨Over.w a.asIso.hom⟩
+  letI : a.asIso.inv.left.IsOver (Spec (.of k)) := ⟨Over.w a.asIso.inv⟩
+  refine Aut.of
+    { hom := ObjectProperty.homMk ⟨a.asIso.hom.left.toRationalMap⟩
+      inv := ObjectProperty.homMk ⟨a.asIso.inv.left.toRationalMap⟩
       hom_inv_id := ?_
       inv_hom_id := ?_ }
   · apply ObjectProperty.hom_ext
     apply Variety.Hom.ext
-    change a.hom.left.toRationalMap.comp a.inv.left.toRationalMap = _
-    rw [toRationalMap_comp', ← Over.comp_left, a.hom_inv_id]
+    change a.asIso.hom.left.toRationalMap.comp a.asIso.inv.left.toRationalMap = _
+    rw [toRationalMap_comp', ← Over.comp_left, a.asIso.hom_inv_id]
     rfl
   · apply ObjectProperty.hom_ext
     apply Variety.Hom.ext
-    change a.inv.left.toRationalMap.comp a.hom.left.toRationalMap = _
-    rw [toRationalMap_comp', ← Over.comp_left, a.inv_hom_id]
+    change a.asIso.inv.left.toRationalMap.comp a.asIso.hom.left.toRationalMap = _
+    rw [toRationalMap_comp', ← Over.comp_left, a.asIso.inv_hom_id]
     rfl
 
 /-- An automorphism of the scheme underlying a curve is determined by the automorphism it induces
 in category (2) of Tag 0BY1. -/
 theorem curveAutOfOverAut_injective (C : Curve k) : Function.Injective (curveAutOfOverAut C) := by
   intro a b hab
+  apply Aut.ext
   apply Iso.ext
   have : IsIntegral (Over.mk C.obj.structureMap).left := C.obj.isVariety.toIsIntegral
   have : IsSeparated (Over.mk C.obj.structureMap).hom := C.obj.isVariety.toIsSeparated
-  exact overHom_eq_of_toRationalMap_eq a.hom b.hom
-    (congrArg (fun e : Aut C ↦ e.hom.hom.toRationalMap) hab)
+  exact overHom_eq_of_toRationalMap_eq a.asIso.hom b.asIso.hom
+    (congrArg (fun e : Aut C ↦ e.asIso.hom.hom.toRationalMap) hab)
 
 /-- `AlgebraicGeometry.curveAutOfOverAut` as a homomorphism of groups. -/
 noncomputable def curveAutMonoidHom (C : Curve k) :
     Aut (Over.mk C.obj.structureMap) →* Aut C where
   toFun := curveAutOfOverAut C
   map_one' := by
+    apply Aut.ext
     apply Iso.ext
     apply ObjectProperty.hom_ext
     apply Variety.Hom.ext
     rfl
   map_mul' a b := by
+    apply Aut.ext
     apply Iso.ext
     apply ObjectProperty.hom_ext
     apply Variety.Hom.ext
-    have : IsIso b.hom := ⟨b.inv, b.hom_inv_id, b.inv_hom_id⟩
-    have : IsIso b.hom.left := (Over.forget _).map_isIso b.hom
-    change (b.hom.left ≫ a.hom.left).toRationalMap =
-      b.hom.left.toRationalMap.comp a.hom.left.toRationalMap
+    have : IsIso b.asIso.hom := ⟨b.asIso.inv, b.asIso.hom_inv_id, b.asIso.inv_hom_id⟩
+    have : IsIso b.asIso.hom.left := (Over.forget _).map_isIso b.asIso.hom
+    change (b.asIso.hom.left ≫ a.asIso.hom.left).toRationalMap =
+      b.asIso.hom.left.toRationalMap.comp a.asIso.hom.left.toRationalMap
     exact (toRationalMap_comp' _ _).symm
 
 /-- A faithful functor is injective on automorphism groups. -/
 private lemma mapAut_injective {C D : Type*} [Category C] [Category D] (F : C ⥤ D) [F.Faithful]
     (X : C) : Function.Injective (F.mapAut X) :=
-  fun _ _ h ↦ Iso.ext (F.map_injective (congrArg Iso.hom h))
+  fun _ _ h ↦ Aut.ext (Iso.ext (F.map_injective (congrArg (fun e ↦ e.asIso.hom) h)))
 
 /-! ### Automorphisms moving finitely many points -/
 
@@ -170,7 +173,7 @@ private lemma isOfFinOrder_perm_of_finite_support {α : Type*} (e : Equiv.Perm �
 /-- The permutation of the underlying space induced by an automorphism over the base. -/
 noncomputable def pointPermutation {X S : Scheme.{u}} (p : X ⟶ S) :
     Aut (Over.mk p) →* Equiv.Perm X where
-  toFun a := (Scheme.homeoOfIso ((Over.forget S).mapIso a)).toEquiv
+  toFun a := (Scheme.homeoOfIso ((Over.forget S).mapIso a.asIso)).toEquiv
   map_one' := by ext; rfl
   map_mul' _ _ := by ext; rfl
 
@@ -178,7 +181,7 @@ noncomputable def pointPermutation {X S : Scheme.{u}} (p : X ⟶ S) :
 automorphisms fixing every point form a finite group: a power of it fixes every point. -/
 theorem isOfFinOrder_of_finite_pointFixingAutSubgroup {X S : Scheme.{u}} (p : X ⟶ S)
     [Finite (pointFixingAutSubgroup p)] (a : Aut (Over.mk p))
-    (ha : {x | a.hom.left x ≠ x}.Finite) : IsOfFinOrder a := by
+    (ha : {x | a.asIso.hom.left x ≠ x}.Finite) : IsOfFinOrder a := by
   obtain ⟨n, hn, hp⟩ :=
     (isOfFinOrder_perm_of_finite_support (pointPermutation p a) ha).exists_pow_eq_one
   have hmem : a ^ n ∈ pointFixingAutSubgroup p := by
@@ -324,7 +327,7 @@ the equivalence of categories (2) and (3) of [Stacks, Tag 0BY1] to the normal pr
 where it moves only finitely many points, so a power of it fixes every point; the point-fixing
 automorphisms of a normal projective curve over a finite field form a finite group. -/
 theorem isOfFinOrder_curveAut_of_fixes_points [Finite k] (C : Curve k)
-    (a : Aut (Over.mk C.obj.structureMap)) (ha : ∀ x, a.hom.left x = x) : IsOfFinOrder a := by
+    (a : Aut (Over.mk C.obj.structureMap)) (ha : ∀ x, a.asIso.hom.left x = x) : IsOfFinOrder a := by
   let E := normalProjectiveCurveEquivalenceCurve k
   let P : NormalProjectiveCurve k := E.inverse.obj C
   let b : Aut P := E.inverse.mapAut C (curveAutOfOverAut C a)
@@ -337,14 +340,14 @@ theorem isOfFinOrder_curveAut_of_fixes_points [Finite k] (C : Curve k)
   have : IsNormal D.obj.toScheme := hPnormal
   have : IsProper D.obj.structureMap := isProper_of_isProjectiveMorphism _ hPproj
   have : IsCurve k C.obj.structureMap := C.property
-  have : IsIso a.hom := ⟨a.inv, a.hom_inv_id, a.inv_hom_id⟩
-  have : IsIso a.hom.left := (Over.forget _).map_isIso a.hom
+  have : IsIso a.asIso.hom := ⟨a.asIso.inv, a.asIso.hom_inv_id, a.asIso.inv_hom_id⟩
+  have : IsIso a.asIso.hom.left := (Over.forget _).map_isIso a.asIso.hom
   have hdimD : topologicalKrullDim D.obj.toScheme ≤ 1 :=
     (IsCurve.topologicalKrullDim_eq_one (k := k) (f := D.obj.structureMap)).le
   -- the intertwining rational map: the counit of the equivalence
   let i : D ≅ C := E.counitIso.app C
-  have hnat := E.counitIso.inv.naturality (curveAutOfOverAut C a).hom
-  have hmoved : {y | d.hom.left y ≠ y}.Finite := by
+  have hnat := E.counitIso.inv.naturality (curveAutOfOverAut C a).asIso.hom
+  have hmoved : {y | d.asIso.hom.left y ≠ y}.Finite := by
     have (E : Curve k) : LocallyOfFiniteType (E.obj.toScheme ↘ Spec (.of k)) ∧
         QuasiCompact (E.obj.toScheme ↘ Spec (.of k)) :=
       ⟨inferInstanceAs (LocallyOfFiniteType E.obj.structureMap),
@@ -353,7 +356,7 @@ theorem isOfFinOrder_curveAut_of_fixes_points [Finite k] (C : Curve k)
     obtain ⟨_, _⟩ := this D
     exact finite_moved_points_of_rational_intertwining k
       (X := C.obj.toScheme) (Y := D.obj.toScheme) hdimD
-      a.hom.left d.hom.left ha i.inv.hom.toRationalMap
+      a.asIso.hom.left d.asIso.hom.left ha i.inv.hom.toRationalMap
       (congrArg (fun q : C ⟶ D ↦ q.hom.toRationalMap) hnat)
   have : Finite (pointFixingAutSubgroup (F.obj P).hom) :=
     finite_pointFixingAutSubgroup_of_normal_curve k D.obj.toScheme D.obj.structureMap hdimD
@@ -375,10 +378,10 @@ theorem exists_iterate_comp_eq_id_of_fixes_points [Finite k] {X : Scheme.{u}}
   have : IsIso g := by
     have : IsIso ((Over.forget _).map g) := inferInstanceAs (IsIso f)
     exact isIso_of_reflects_iso g (Over.forget _)
-  let a : Aut (Over.mk C.obj.structureMap) := asIso g
+  let a : Aut (Over.mk C.obj.structureMap) := .of (asIso g)
   obtain ⟨n, hn, hpow⟩ := (isOfFinOrder_curveAut_of_fixes_points C a hpoints).exists_pow_eq_one
   refine ⟨n, hn, ?_⟩
-  have hiter (m : ℕ) : (fun h : X ⟶ X ↦ h ≫ f)^[m] (𝟙 X) = ((a ^ m).hom.left : X ⟶ X) := by
+  have hiter (m : ℕ) : (fun h : X ⟶ X ↦ h ≫ f)^[m] (𝟙 X) = ((a ^ m).asIso.hom.left : X ⟶ X) := by
     induction m with
     | zero => rfl
     | succ m ih =>

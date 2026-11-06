@@ -69,11 +69,11 @@ open CategoryTheory CategoryTheory.Functor CategoryTheory.Limits
 
 namespace Stacks.Sites.FibredCategory
 
--- `Fiber`, `fiberInclusion`, `chosenPullbacks` and `Over.post` are plain `def`s, so goals about
--- an object of a fibre, about a chosen pullback, or about the slice projection are not
--- type-correct at `implicit` transparency; see the implementation notes.
+-- `Fiber`, `fiberInclusion` and `chosenPullbacks` are plain `def`s, so goals about an object of
+-- a fibre or about a chosen pullback are not type-correct at `implicit` transparency; see the
+-- implementation notes. (Mathlib already marks `Over.post` `[implicit_reducible]`.)
 attribute [local implicit_reducible] Functor.Fiber Functor.Fiber.fiberInclusion
-  Functor.chosenPullbacks Over.post
+  Functor.chosenPullbacks
 
 universe uD vD uC vC w
 
@@ -374,7 +374,7 @@ private lemma cartesianSectionCocontinuous :
         (congrArg (fun k => k ≫ adj.counit.app V) hab).symm
     rw [heq, v.map_comp, v.map_comp]
     have hn := adj.unit.naturality b
-    dsimp at hn
+    simp only [Functor.comp_map, Functor.id_map] at hn
     rw [← IsIso.inv_comp_eq] at hn
     rw [← hn]
     simp only [Category.assoc]

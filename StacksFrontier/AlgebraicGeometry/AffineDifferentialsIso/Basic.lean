@@ -208,7 +208,7 @@ include hmul hres hzero
 sections pulled back from `S` along `k ≫ f`, read on the pushforward along `k` as a
 derivation of the structure sheaf of `X` along the comorphism of `f`. -/
 noncomputable def pushforwardDerivation :
-    ((Scheme.Modules.pushforward k).obj T).val.Derivation f.c where
+    PresheafOfModulesOfCommRing.Derivation ((Scheme.Modules.pushforward k).obj T).val f.c where
   d {W} := (E (k ⁻¹ᵁ W.unop)).comp (k.app W.unop).hom.toAddMonoidHom
   d_mul {W} a b := by
     have h1 : E (k ⁻¹ᵁ W.unop) ((k.app W.unop).hom (a * b)) =
@@ -319,7 +319,7 @@ theorem exists_relativeDifferentials_hom_of_affine (hV : IsAffineOpen V) (hUV : 
     (toStructuralDerivation f _
       (pushforwardDerivation hU.fromSpec f (fun W => E₀ W le_top) hmul hres hzero))
   exact ⟨fun W => E₀ W le_top, ψ, hd3, hres,
-    fun W a => PresheafOfModules.Derivation.congr_d hψ a⟩
+    fun W a => PresheafOfModulesOfCommRing.Derivation.congr_d hψ a⟩
 
 end Affine
 

@@ -62,13 +62,17 @@ abbrev etaleStage (n : ℕ) : AlgebraicSpaces D.B (limitBase D.system) D.contain
 /-- The projection `Uₙ ⟶ Xₙ`. -/
 abbrev etaleStageToStage (n : ℕ) :
     D.etaleStage j n ⟶ spaceAt D.system D.B D.containsLimitBase D.containsBaseAt D.X n :=
-  ObjectProperty.homMk (pullback.fst
-    (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n).hom j.hom)
+  ObjectProperty.homMk (@pullback.fst _ _ _ _ _
+    (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n).hom j.hom
+    ((inferInstance : HasPullbacks
+      ((BigFppfOver D.B (limitBase D.system) D.containsLimitBase)ᵒᵖ ⥤ Type u)).has_limit _))
 
 /-- The projection `Uₙ ⟶ U`. -/
 abbrev etaleStageToSpace (n : ℕ) : D.etaleStage j n ⟶ U :=
-  ObjectProperty.homMk (pullback.snd
-    (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n).hom j.hom)
+  ObjectProperty.homMk (@pullback.snd _ _ _ _ _
+    (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n).hom j.hom
+    ((inferInstance : HasPullbacks
+      ((BigFppfOver D.B (limitBase D.system) D.containsLimitBase)ᵒᵖ ⥤ Type u)).has_limit _))
 
 /-- The structure morphism `Uₙ ⟶ Spec Aₙ`, through `Xₙ`. -/
 abbrev etaleStageBaseProjection (n : ℕ) :

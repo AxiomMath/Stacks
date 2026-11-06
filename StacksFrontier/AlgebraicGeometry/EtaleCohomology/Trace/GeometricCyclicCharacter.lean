@@ -147,7 +147,7 @@ theorem exists_surjective_geometricFundamentalGroup_zmod [IsAlgClosure k K] [Com
     ext g
     show Multiplicative.ofAdd _ = 1 ↔ c g = 0
     rw [ofAdd_eq_one]
-    exact ⟨fun h => ULift.ext _ _ h, fun h => congrArg ULift.down h⟩
+    exact ⟨fun h => ULift.ext h, fun h => congrArg ULift.down h⟩
   · obtain ⟨g, hg⟩ := hsurj (show A.obj.obj.V from ULift.up (Multiplicative.toAdd t))
     exact ⟨g, by
       show Multiplicative.ofAdd (show ULift.{u + 1} (ZMod (ℓ ^ j)) from c g).down = t

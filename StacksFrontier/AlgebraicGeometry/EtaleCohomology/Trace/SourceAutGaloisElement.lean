@@ -57,7 +57,7 @@ theorem etaleFundamentalGroupMap_sourceAutElement {X Y : Scheme.{u}} [ConnectedS
       (z.map f).sourceAutElement α (by
         change α.hom ≫ z.hom ≫ f = z.hom ≫ f
         rw [← Category.assoc, hα]) := by
-  refine Iso.ext (NatTrans.ext (funext fun V => ?_))
+  refine Aut.ext (Iso.ext (NatTrans.ext (funext fun V => ?_)))
   ext q
   refine Subtype.ext ?_
   change (α.hom ≫ pullback.lift q.1 z.hom q.2) ≫ pullback.fst V.hom f = α.hom ≫ q.1
@@ -76,7 +76,7 @@ theorem galoisEquivEtaleFundamentalGroup_eq_sourceAutElement
     galoisEquivEtaleFundamentalGroup K L Ω σ =
       (algebraicClosureGeometricPoint K Ω).sourceAutElement
         (Scheme.Spec.mapIso (RingEquiv.toCommRingCatIso τ.toRingEquiv).op) hα := by
-  refine Iso.ext (NatTrans.ext (funext fun Y => ?_))
+  refine Aut.ext (Iso.ext (NatTrans.ext (funext fun Y => ?_)))
   ext p
   refine Subtype.ext ?_
   let y := (finiteEtaleFiberIso K L Ω).inv.app Y p

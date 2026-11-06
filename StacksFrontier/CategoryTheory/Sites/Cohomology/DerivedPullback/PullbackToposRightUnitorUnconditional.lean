@@ -487,6 +487,12 @@ variable {X Y : RingedTopos.{u, u, u}}
   [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   (f : RingedToposSiteHom X Y)
 
+/- Since Mathlib v4.35.0 instance search reaches weak sheafification through the section
+variables `HasSheafify _ AddCommGrpCat` (via `instHasWeakSheafifyOfHasSheafify`), which would make
+them hypotheses of the declarations below. With the bridge erased here, the global instance is
+found instead, as before the bump. -/
+attribute [-instance] instHasWeakSheafifyOfHasSheafify
+
 /-- The right unitor `sheafTensorUnitNatIso` is `tensorSheafUnitRightIso`. -/
 private lemma sheafTensorUnitNatIso_hom_app_eq (R : RingedTopos.{u, u, u})
     (A : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf R.O)) :

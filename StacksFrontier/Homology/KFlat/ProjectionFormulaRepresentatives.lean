@@ -313,7 +313,9 @@ theorem adjunctionTensorMap_derivedAdjunction_Qh (I : CochainComplex A ℤ)
   refine (derived_projection_chain G.mapDerivedCategory
     (Stacks.DerivedFunctor.derivedAdjunction adj RF β hA).counit _ _ _ _ _ _ hxa hm
     _ _ _ _ _ _ hτ _ _ hz _ _ hn₄.symm _ _ _ _ hhom _ _ _ hfac _ hβ _ _ rfl rfl _ rfl).trans ?_
-  exact (Adjunction.homEquiv_counit _ _ _ _).symm
+  simp only [comparisonRightQhIso, Iso.trans_hom, Iso.trans_inv, Functor.mapIso_hom,
+    Functor.mapIso_inv, Iso.app_hom, Iso.app_inv, Functor.map_comp, Category.assoc, Functor.id_obj]
+  rfl
 
 /-- **The projection-formula map of a derived adjunction is invertible at `(Qh I, Qh P)`** for
 a K-injective complex `I` and a K-flat complex `P`, as soon as the projection-formula map

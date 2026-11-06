@@ -82,19 +82,20 @@ private lemma comp_inv_eq_inv_comp_of_hom_comm_self {A B : C} (e : A ≅ B) {a :
   comp_inv_eq_inv_comp_of_hom_comm e e _ _ h
 
 /-- An intertwining of endomorphisms intertwines their powers. -/
-lemma end_pow_comp_of_comm {A B : C} (a : End A) (b : End B) (e : A ⟶ B) (h : a ≫ e = e ≫ b)
-    (m : ℕ) : (a ^ m : End A) ≫ e = e ≫ (b ^ m : End B) := by
+lemma end_pow_comp_of_comm {A B : C} (a : A ⟶ A) (b : B ⟶ B) (e : A ⟶ B) (h : a ≫ e = e ≫ b)
+    (m : ℕ) : (End.of a ^ m).asHom ≫ e = e ≫ (End.of b ^ m).asHom := by
   induction m with
-  | zero => simp only [pow_zero, End.one_def, Category.id_comp, Category.comp_id]
+  | zero => simp only [pow_zero, End.one_asHom, Category.id_comp, Category.comp_id]
   | succ m ih =>
-      rw [pow_succ, pow_succ, End.mul_def, End.mul_def, Category.assoc, ih, reassoc_of% h]
+      rw [pow_succ, pow_succ, End.mul_asHom, End.mul_asHom, Category.assoc, ih]
+      exact (reassoc_of% h) _
 
 /-- The power of an endomorphism in `ModuleCat` is the power of the underlying linear map. -/
 lemma moduleCat_end_pow_hom {R : Type*} [Ring R] {M : ModuleCat R} (a : End M) (m : ℕ) :
-    (a ^ m : End M).hom = a.hom ^ m := by
+    (a ^ m).asHom.hom = a.asHom.hom ^ m := by
   induction m with
   | zero => rfl
-  | succ m ih => rw [pow_succ, End.mul_def, ModuleCat.hom_comp, ih, pow_succ]; rfl
+  | succ m ih => rw [pow_succ, End.mul_asHom, ModuleCat.hom_comp, ih, pow_succ]; rfl
 
 /-- The components of the inverse of a natural isomorphism are monomorphisms. -/
 lemma mono_inv_app {D E : Type*} [Category* D] [Category* E] {F G : D ⥤ E} (e : F ≅ G) (X : D) :
@@ -120,8 +121,8 @@ lemma mono_map_inv_app {D E B : Type*} [Category* D] [Category* E] [Category* B]
 
 /-- A functor carries powers of an endomorphism to powers. -/
 lemma functor_map_end_pow {D : Type*} [Category* D] (F : C ⥤ D) {A : C} (a : End A) (m : ℕ) :
-    F.map (a ^ m : End A) = End.of (F.map a) ^ m :=
-  map_pow (F.mapEnd A) a m
+    F.map (a ^ m).asHom = (End.of (F.map a.asHom) ^ m).asHom :=
+  congrArg End.asHom (map_pow (F.mapEnd A) a m)
 
 end Squares
 
@@ -344,7 +345,7 @@ theorem closedPartStalkEmbedding_frobenius (G : EtaleModules.{u, 0} Λ X) :
         (closedPartStalkEmbedding Λ f j kbar iZ y k' xZ hxZ θ).app G =
       (closedPartStalkEmbedding Λ f j kbar iZ y k' xZ hxZ θ).app G ≫
         (End.of ((compactSupportSheafFrobenius Λ f j kbar p n hcard 0).app
-          ((etaleModuleClosedPart Λ iZ).obj G)) ^ (m + 1)) := by
+          ((etaleModuleClosedPart Λ iZ).obj G)) ^ (m + 1)).asHom := by
   set Y := Over.mk (iZ ≫ f)
   set Y' := extensionOver Y k'
   set x' := closedPartRationalPoint f iZ k' xZ hxZ
@@ -389,9 +390,9 @@ theorem closedPartStalkEmbedding_frobenius (G : EtaleModules.{u, 0} Λ X) :
   have h₁₀ := end_pow_comp_of_comm _ _ _ (NatTrans.congr_app
     (compactSupportSheafCohomologyRestrictClosedIso_hom_frobenius Λ f j kbar 0 iZ p n hcard) M)
     (m + 1)
-  rw [functor_map_end_pow F
+  rw [functor_map_end_pow F (End.of
     (canonicalCompactSupportFrobenius Λ (iZ ≫ f) (j.restrictClosed iZ) kbar p n hcard
-      ((sheafSingleComplex Λ).obj M))] at h₉
+      ((sheafSingleComplex Λ).obj M)))] at h₉
   exact comm_comp_of_comm h₁ (comm_comp_of_comm h₂ (comm_comp_of_comm h₃
     (comm_comp_of_comm (comm_comp_of_comm h₄ (comm_comp_of_comm h₅ h₆))
       (comm_comp_of_comm (comm_comp_of_comm h₇ (comm_comp_of_comm h₈ h₉)) h₁₀))))

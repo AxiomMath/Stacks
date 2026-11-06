@@ -244,6 +244,10 @@ public theorem isAdequate_cokernel_to_moduleExtension
   let φ' : F ⟶ E.obj M' := φ ≫ eM.hom
   let : (PresheafOfModules.toPresheaf R).ReflectsIsomorphisms :=
     toPresheaf_reflectsIsomorphisms
+  have : HasCoproducts.{max u v w} ((CommAlgCat.{max u v} A)ᵒᵖᵒᵖ ⥤ AddCommGrpCat.{max u v w}) :=
+    fun _ => functorCategoryHasColimitsOfShape
+  have : HasCoproducts.{max u v w} (ModuleValuedFunctor.{max u v w, v} A) :=
+    fun _ => PresheafOfModules.hasColimitsOfShape _ _
   let : HasExactColimitsOfShape (Discrete ι)
       (ModuleValuedFunctor.{max u v w, v} A) :=
     HasExactColimitsOfShape.domain_of_functor (Discrete ι)

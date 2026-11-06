@@ -51,7 +51,7 @@ namespace Stacks.CechSite
 open CategoryTheory CategoryTheory.Limits Opposite
 
 attribute [local implicit_reducible] cechFormalCoproduct cechFormalCoproductMap
-  CategoryTheory.PreZeroHypercover.map CategoryTheory.Over.post
+  CategoryTheory.PreZeroHypercover.map
 
 variable {C : Type u} [Category.{v} C] {D : Type u₂} [Category.{v₂} D]
   (u : C ⥤ D) {X : C} (E : PreZeroHypercover.{w} X)
@@ -101,7 +101,7 @@ theorem sliceCechComplexMapDegree_comp_π (n : ℕ)
           Q.obj (op (((cechSimplicialObject (E.map u)).obj
               (op (SimplexCategory.mk n))).obj l))) i ≫
         Q.map (cechProductMapOfFunctor u E n i).op ≫ (e _ (hK n i)).inv :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 include he in
 attribute [local implicit_reducible] CategoryTheory.Limits.FormalCoproduct.evalOp in
@@ -182,12 +182,12 @@ theorem isIso_sliceCechComplexMapDegree (n : ℕ)
   · apply Pi.hom_ext
     intro i
     have := h i
-    rw [Category.assoc, Pi.lift_π, ← Category.assoc, sliceCechComplexMapDegree_comp_π]
+    rw [Category.assoc, Pi.lift_comp_π, ← Category.assoc, sliceCechComplexMapDegree_comp_π]
     simp
   · apply Pi.hom_ext
     intro i
     have := h i
-    rw [Category.assoc, sliceCechComplexMapDegree_comp_π, ← Category.assoc, Pi.lift_π]
+    rw [Category.assoc, sliceCechComplexMapDegree_comp_π, ← Category.assoc, Pi.lift_comp_π]
     simp
 
 include he in

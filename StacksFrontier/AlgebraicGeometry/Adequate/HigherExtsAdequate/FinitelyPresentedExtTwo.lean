@@ -483,7 +483,6 @@ variable {Mod : Type z} [AddCommGroup Mod] [Module A Mod]
 lemma exists_basisTuple_tensor_eq {n : ℕ} (σ : TensorProduct A (Fin n → A) Mod) :
     ∃ z : Fin n → Mod, σ = ∑ j, (Pi.single j 1 : Fin n → A) ⊗ₜ[A] z j := by
   induction σ with
-  | zero => exact ⟨0, by simp⟩
   | tmul a s =>
       refine ⟨fun j => a j • s, ?_⟩
       conv_lhs => rw [pi_eq_sum_single a]
@@ -783,6 +782,11 @@ end ImageLift
 section Vanishing
 
 variable (A : Type u) [CommRing A] (M P : ModuleCat.{max u v w} A)
+
+/-- A finite free module, placed in a larger universe, is projective. -/
+private instance projective_finiteFreeModule (k : ℕ) :
+    Module.Projective A (finiteFreeModule.{z} A k) :=
+  inferInstanceAs (Module.Projective A (ULift.{z, u} (Fin k → A)))
 
 /-- Degree one Ext out of the module-valued functor of a finitely presented module vanishes,
 for Mathlib's natural-number-graded extension groups. -/

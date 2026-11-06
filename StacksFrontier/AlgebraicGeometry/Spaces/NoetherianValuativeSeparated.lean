@@ -61,10 +61,26 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut; a local instance below). -/
+theorem hasPullbacks_presheaf_noetherianValuativeSeparated :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- The pullback of two presheaves on the big fppf site over `S` exists (a local instance
+below, since instance search times out). -/
+theorem hasPullback_presheaf_noetherianValuativeSeparated
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+attribute [local instance high] hasPullbacks_presheaf_noetherianValuativeSeparated
+  hasPullback_presheaf_noetherianValuativeSeparated
+
 /-- A morphism `a : T ⟶ V` into a chart of `X ×_Y X` whose two projections to `X` agree factors
 through the base change `W ⟶ V` of the relative diagonal. -/
 theorem exists_comp_eq_of_isPullback_diagonal {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
-    {f : X ⟶ Y} {V W T : BigFppfOver B S hS} {chart : yoneda.obj V ⟶ pullback f f}
+    {f : X ⟶ Y} {V W T : BigFppfOver B S hS} {chart : yoneda.obj V ⟶ Limits.pullback f f}
     {p : yoneda.obj W ⟶ X} {π : W ⟶ V}
     (hsq : IsPullback p (yoneda.map π) (pullback.diagonal f) chart) (a : T ⟶ V)
     (ha : yoneda.map a ≫ chart ≫ pullback.fst f f = yoneda.map a ≫ chart ≫ pullback.snd f f) :
@@ -82,7 +98,7 @@ arrow, then a point of a chart `V` of `X ×_Y X` over a discrete valuation ring 
 lies in the base change `W` of the relative diagonal has equal projections to `X`. -/
 theorem chart_comp_fst_eq_snd_of_discreteValuativeUniqueness
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {f : X ⟶ Y} {V W : BigFppfOver B S hS}
-    {chart : yoneda.obj V ⟶ pullback f f} {p : yoneda.obj W ⟶ X} {π : W ⟶ V}
+    {chart : yoneda.obj V ⟶ Limits.pullback f f} {p : yoneda.obj W ⟶ X} {π : W ⟶ V}
     (hsq : IsPullback p (yoneda.map π) (pullback.diagonal f) chart)
     (hu : ∀ q : ValuativeSquare f, IsDiscreteValuationRing q.R → Subsingleton q.Lift)
     {R K : Type u} [CommRing R] [IsDomain R] [ValuationRing R] [Field K] [Algebra R K]
@@ -95,7 +111,7 @@ theorem chart_comp_fst_eq_snd_of_discreteValuativeUniqueness
       siteObject B S hS hK (Spec.map (CommRingCat.ofHom (algebraMap R K)) ≫ base) ⟶
         siteObject B S hS hR base) ≫ aV = kW ≫ π) :
     yoneda.map aV ≫ chart ≫ pullback.fst f f = yoneda.map aV ≫ chart ≫ pullback.snd f f := by
-  have hproj (k : pullback f f ⟶ X) (hk : pullback.diagonal f ≫ k = 𝟙 X) :
+  have hproj (k : Limits.pullback f f ⟶ X) (hk : pullback.diagonal f ≫ k = 𝟙 X) :
       yoneda.map (kW ≫ π) ≫ chart ≫ k = yoneda.map kW ≫ p := by
     rw [Functor.map_comp_assoc, ← reassoc_of% hsq.w, hk, Category.comp_id]
   let q : ValuativeSquare f :=
@@ -109,7 +125,7 @@ theorem chart_comp_fst_eq_snd_of_discreteValuativeUniqueness
       comm := by
         rw [← hproj _ (pullback.diagonal_fst f), ← hw]
         simp }
-  let hlift (k : pullback f f ⟶ X) (hk : pullback.diagonal f ≫ k = 𝟙 X)
+  let hlift (k : Limits.pullback f f ⟶ X) (hk : pullback.diagonal f ≫ k = 𝟙 X)
       (hf : k ≫ f = pullback.fst f f ≫ f) : q.Lift :=
     ⟨yoneda.map aV ≫ chart ≫ k, by rw [← Functor.map_comp_assoc, hw]; exact hproj k hk,
       by simp [q, hf]⟩
@@ -122,7 +138,7 @@ arrow, then every valuative square over a discrete valuation ring for the base c
 relative diagonal of `f` along a chart has a lift. -/
 theorem hasLift_of_isPullback_diagonal_of_discreteValuativeUniqueness
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {f : X ⟶ Y} {V W : BigFppfOver B S hS}
-    {chart : yoneda.obj V ⟶ pullback f f} {p : yoneda.obj W ⟶ X} {π : W ⟶ V}
+    {chart : yoneda.obj V ⟶ Limits.pullback f f} {p : yoneda.obj W ⟶ X} {π : W ⟶ V}
     (hsq : IsPullback p (yoneda.map π) (pullback.diagonal f) chart)
     [hπ : Mono ((BigFppfOver.toScheme B S hS).map π)]
     (hu : ∀ q : ValuativeSquare f, IsDiscreteValuationRing q.R → Subsingleton q.Lift)
@@ -181,7 +197,7 @@ theorem isSeparated_of_isQuasiSeparated_of_discreteValuativeUniqueness
     (isLocallyOfFiniteType_comp B S hS hdAlg hX hY _ f hlftFst hft) hNoeth
   obtain ⟨V, chart, hchartSurj, hchartEtale⟩ := hdAlg.exists_atlas
   have : IsLocallyNoetherian ((BigFppfOver.toScheme B S hS).obj V) :=
-    (exists_atlas_iff_forall_etale B S hS (pullback f f)
+    (exists_atlas_iff_forall_etale B S hS (Limits.pullback f f)
       (fun T : Scheme.{u} ↦ IsLocallyNoetherian T) hdAlg).mp hNoethSq V chart hchartEtale
   set W := hRep.pullback chart
   set p : yoneda.obj W ⟶ X := hRep.fst chart

@@ -164,7 +164,8 @@ theorem exists_isTriangulated_rightAdjoint_derivedQuasiCoherentι (X : Scheme.{u
   let (J : Type u) :
       HasColimitsOfShape (Discrete J) (DerivedCategory (SheafOfModules.{u} X.ringCatSheaf)) :=
     Stacks.SmallDerivedCategory.hasColimitsOfShape_discrete_derivedCategory _ J
-  have : HasCoproducts.{u} (derivedQuasiCoherent.{u, u} X).FullSubcategory := fun _ => inferInstance
+  have : HasCoproducts.{u} (derivedQuasiCoherent.{u, u} X).FullSubcategory := fun J =>
+    hasColimitsOfShape_of_closedUnderColimits (Discrete J) _
   have : ∀ J : Type u,
       PreservesColimitsOfShape (Discrete J) (derivedQuasiCoherent.{u, u} X).ι :=
     fun _ => inferInstance

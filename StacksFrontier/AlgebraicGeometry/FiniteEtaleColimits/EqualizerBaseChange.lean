@@ -261,7 +261,6 @@ theorem piScalarRight_lTensor_piPrecompAlgHom {R : Type u} [CommRing R] {ι ι' 
         (LinearMap.lTensor W (piPrecompAlgHom R ρ).toLinearMap z) j
       = TensorProduct.piScalarRight R R W ι z (ρ j) := by
   induction z with
-  | zero => simp
   | tmul w x => simp
   | add x y hx hy =>
     simp only [map_add, Pi.add_apply]
@@ -436,7 +435,6 @@ theorem isUnivExact_baseChange_of_isStableEqualizer [Module.Flat R T] {α β : B
       LinearMap.sub_apply]
     rw [hmap α, hmap β]
     induction z with
-    | zero => simp
     | tmul t b => simp
     | add x y hx hy => simp only [map_add, hx, hy, add_sub_add_comm]
 
@@ -535,7 +533,6 @@ theorem tensorProduct_map_eq_piPrecompAlgHom [Fintype ι] [DecidableEq κ] (T' :
   rw [AlgHom.comp_apply, AlgHom.comp_apply, AlgEquiv.coe_toAlgHom, AlgEquiv.coe_toAlgHom,
     AlgEquiv.apply_symm_apply]
   induction x with
-  | zero => simp
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul t y =>
     refine funext fun j ↦ ?_

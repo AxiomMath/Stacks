@@ -75,7 +75,7 @@ of `π₁(X, x̄)` transported along a path `t`. -/
 public theorem trace_rationalStalkMap_comp_rationalStalkEnd_pow_representationLAdicSheaf
     {s : GeometricPoint X.1} (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x)
     (a : GeometricPoint.Hom s s) (g : EtaleFundamentalGroup X.1 s)
-    (hg : g.hom = finiteEtaleFiberMap a) (A : Matrix (Fin r) (Fin r) ℤ_[ℓ])
+    (hg : g.asIso.hom = finiteEtaleFiberMap a) (A : Matrix (Fin r) (Fin r) ℤ_[ℓ])
     (hA : ∀ g, A * (ρ g).val = (ρ g).val * A) (n : ℕ) :
     LinearMap.trace ℚ_[ℓ] _
         (LAdicSheaf.rationalStalkMap (representationLAdicSheafMap B X x e₀ hρ hρ A hA) s ∘ₗ

@@ -173,6 +173,10 @@ section Geometric
 
 universe u
 
+/- Instance search for finite coproducts in `FiniteEtaleOver Y` otherwise wanders through the
+`Over` instances and times out; route it through `HasFiniteCoproducts` first. -/
+attribute [local instance high] hasColimitsOfShape_discrete
+
 /-- **Base change preserves the étale-local coequalizers of Stacks 0BN9.** For a morphism
 `f : X ⟶ Y` of schemes, a finite étale cover `A` of `Y` and maps `σ τ : κ → ι` of finite index
 types, the base-change functor `FÉt_Y ⥤ FÉt_X` preserves the coequalizer of the two

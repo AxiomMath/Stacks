@@ -79,7 +79,7 @@ lemma subsingleton_hom_quotient_single_of_ne (P Q : C) {q : ℤ} (hq : q ≠ 0) 
   have hz : ∀ h : (CochainComplex.singleFunctor C 0).obj P ⟶
       (CochainComplex.singleFunctor C q).obj Q, h = 0 := by
     intro h
-    ext n
+    refine HomologicalComplex.hom_ext _ _ fun n => ?_
     by_cases hn : n = 0
     · subst hn
       exact (HomologicalComplex.isZero_single_obj_X (ComplexShape.up ℤ) q Q 0

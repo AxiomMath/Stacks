@@ -104,7 +104,6 @@ theorem bijective_baseChange_pi
     e.bijective
   intro z
   induction z with
-  | zero => simp
   | tmul b m =>
       ext i
       show algebraMap R A (g i) • cG (b ⊗ₜ[R] m) = eG (b ⊗ₜ[R] (g i • m))

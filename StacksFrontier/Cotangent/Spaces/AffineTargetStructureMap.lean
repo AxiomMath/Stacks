@@ -260,7 +260,7 @@ theorem constantSheafInverseImageIso_hom_comp_chartBaseStructureMap :
       chartBaseStructureMap f := by
   refine (constantSheafInverseImageIso_hom_comp_eq f _).trans ?_
   refine ObjectProperty.hom_ext _ (sheafify_hom_ext _ _ _
-    (smallEtaleRingedTopos B S hS X).O.cond ?_)
+    (smallEtaleRingedTopos B S hS X).O.property ?_)
   refine NatTrans.ext (funext fun U => ?_)
   refine (toSheafify_comp_constantSheafGlobalSectionsAdj_homEquiv_symm_app X
     (chartBaseGlobalStructureMap f) U.unop).trans ?_

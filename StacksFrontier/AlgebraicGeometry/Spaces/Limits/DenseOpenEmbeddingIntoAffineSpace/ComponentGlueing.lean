@@ -25,6 +25,19 @@ namespace AlgebraicGeometry.Space
 attribute [local instance]
   AlgebraicGeometry.Space.preservesLimitsOfShape_walkingCospan_toScheme
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ComponentGlueing
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ComponentGlueing
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The preimage of a base-change-stable property of schemes under `toScheme` is stable under
 base change. -/
 private instance inverseImage_toScheme_isStableUnderBaseChange
@@ -387,7 +400,7 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
     yoneda.preimage ((jA c ≫ prod.snd) ≫ (ρ c).hom)
   have hcoord (c : I) : jA c ≫ prod.snd =
       yoneda.map (vSite c) ≫ (ρ c).inv := by
-    apply (cancel_mono (ρ c).hom).mp
+    apply ((ρ c).cancel_iso_hom_right _ _).mp
     simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
     exact (yoneda.map_preimage _).symm
   have hdisjoint : Pairwise (fun c d : I => Disjoint
@@ -718,7 +731,7 @@ public theorem exists_denseOpen_isImmersion_affineSpaceOver
   let V := Subfunctor.range q
   let e : yoneda.obj W ≅ V.toFunctor := asIso (Subfunctor.toRange q)
   have he : V.ι = e.inv ≫ q := by
-    rw [← cancel_epi e.hom, Iso.hom_inv_id_assoc]
+    rw [Iso.eq_inv_comp]
     exact Subfunctor.toRange_ι q
   have hV : AlgebraicGeometry.Space.IsOpenSubspace B S hS V :=
     isOpenSubspace_range_of_open B S hS q (AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS W) hq

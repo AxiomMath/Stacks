@@ -175,7 +175,7 @@ theorem exists_abelianEtaleStalkGerm_toSheafify
     ∃ (V : SmallEtale B (Spec (.of K)) hK)
       (q : (geometricPointFiber B (Spec (.of K)) hK sbar).obj V) (a : A),
       x = abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-        (constantEtaleSheaf B K hK A) ⟨V, q⟩
+        (constantEtaleSheaf B K hK A) ((geometricPointFiber B (Spec (.of K)) hK sbar).elementsMk V q)
         (ConcreteCategory.hom ((constantEtaleToSheafify B K hK A).app (op V)) a) :=
   Sites.exists_toPresheafFiber_toSheafify (fieldSitePoint B K hK sbar) (AddCommGrpCat.of A) x
 
@@ -186,7 +186,7 @@ theorem constantStalkIso_abelianEtaleStalkGerm (V : SmallEtale B (Spec (.of K)) 
     (q : (geometricPointFiber B (Spec (.of K)) hK sbar).obj V) (a : A) :
     ConcreteCategory.hom (constantStalkIso B K hK sbar A).hom
         (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-          (constantEtaleSheaf B K hK A) ⟨V, q⟩
+          (constantEtaleSheaf B K hK A) ((geometricPointFiber B (Spec (.of K)) hK sbar).elementsMk V q)
           (ConcreteCategory.hom ((constantEtaleToSheafify B K hK A).app (op V)) a)) = a :=
   Sites.constantSheafFiberIso_toSheafify_app (fieldSitePoint B K hK sbar)
     (AddCommGrpCat.of A) V q a
@@ -198,10 +198,11 @@ theorem abelianEtaleStalkGerm_constant_galoisFiberAction
     (σ : GeometricPoint.absoluteGaloisGroup sbar) (V : SmallEtale B (Spec (.of K)) hK)
     (q : (geometricPointFiber B (Spec (.of K)) hK sbar).obj V) (a : A) :
     abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar (constantEtaleSheaf B K hK A)
-        ⟨V, galoisFiberAction B K hK sbar σ q⟩
+        ((geometricPointFiber B (Spec (.of K)) hK sbar).elementsMk V
+          (galoisFiberAction B K hK sbar σ q))
         (ConcreteCategory.hom ((constantEtaleToSheafify B K hK A).app (op V)) a) =
       abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar (constantEtaleSheaf B K hK A)
-        ⟨V, q⟩ (ConcreteCategory.hom ((constantEtaleToSheafify B K hK A).app (op V)) a) :=
+        ((geometricPointFiber B (Spec (.of K)) hK sbar).elementsMk V q) (ConcreteCategory.hom ((constantEtaleToSheafify B K hK A).app (op V)) a) :=
   constantStalkIso_injective B K hK sbar A
     ((constantStalkIso_abelianEtaleStalkGerm B K hK sbar A V
       (galoisFiberAction B K hK sbar σ q) a).trans
@@ -217,13 +218,13 @@ theorem etaleGaloisModule_constantEtaleSheaf_rho_apply
     (x : ((etaleGaloisModule.{u, u + 1} B K hK sbar
       (constantEtaleSheaf B K hK A)).obj.obj.V : _)) :
     ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-      (constantEtaleSheaf B K hK A)).obj.obj.ρ σ) x = x := by
+      (constantEtaleSheaf B K hK A)).obj.obj.ρ σ).asHom x = x := by
   obtain ⟨V, q, a, hx⟩ := exists_abelianEtaleStalkGerm_toSheafify B K hK sbar A
     (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar (constantEtaleSheaf B K hK A) x)
   have hxs : x = (etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
       (constantEtaleSheaf B K hK A)).symm
         (abelianEtaleStalkGerm.{u, u + 1} B (Spec (.of K)) hK sbar
-          (constantEtaleSheaf B K hK A) ⟨V, q⟩
+          (constantEtaleSheaf B K hK A) ((geometricPointFiber B (Spec (.of K)) hK sbar).elementsMk V q)
           (ConcreteCategory.hom ((constantEtaleToSheafify B K hK A).app (op V)) a)) :=
     ((etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar
       (constantEtaleSheaf B K hK A)).symm_apply_apply x).symm.trans
@@ -235,9 +236,10 @@ theorem etaleGaloisModule_constantEtaleSheaf_rho_apply
           (constantEtaleSheaf B K hK A)).obj.obj.V : _) =>
         etaleGaloisModuleAddEquivStalk.{u, u + 1} B K hK sbar (constantEtaleSheaf B K hK A)
           (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar
-            (constantEtaleSheaf B K hK A)).obj.obj.ρ σ) z)) hxs).trans
+            (constantEtaleSheaf B K hK A)).obj.obj.ρ σ).asHom z)) hxs).trans
       (etaleGaloisModuleAddEquivStalk_rho_abelianEtaleStalkGerm.{u, u + 1} B K hK sbar
-        (constantEtaleSheaf B K hK A) σ ⟨V, q⟩
+        (constantEtaleSheaf B K hK A) σ
+        ((geometricPointFiber B (Spec (.of K)) hK sbar).elementsMk V q)
         (ConcreteCategory.hom ((constantEtaleToSheafify B K hK A).app (op V)) a))).trans
     (abelianEtaleStalkGerm_constant_galoisFiberAction B K hK sbar A σ V q a)
 
@@ -258,7 +260,7 @@ abbrev constantGAddCommGrp :
 
 /-- The action on the trivial module is the identity. -/
 theorem constantGAddCommGrp_rho (σ : GeometricPoint.absoluteGaloisGroup sbar) :
-    (constantGAddCommGrp K sbar A).obj.obj.ρ σ = 𝟙 _ := rfl
+    ((constantGAddCommGrp K sbar A).obj.obj.ρ σ).asHom = 𝟙 _ := rfl
 
 /-- The abelian group of the Galois module of a constant sheaf, identified with the value of the
 sheaf: the identification of Tag 04JQ followed by the stalk computation. -/
@@ -273,11 +275,11 @@ abbrev constantGaloisModuleIsoValue :
 hypothesis `CategoryTheory.Action.mkIso` asks for. -/
 @[sga "4½ Arcata 2.4.5" "more general"]
 theorem constantGaloisModuleIsoValue_comm (σ : GeometricPoint.absoluteGaloisGroup sbar) :
-    (etaleGaloisModule.{u, u + 1} B K hK sbar
-          (constantEtaleSheaf B K hK A)).obj.obj.ρ σ ≫
+    ((etaleGaloisModule.{u, u + 1} B K hK sbar
+          (constantEtaleSheaf B K hK A)).obj.obj.ρ σ).asHom ≫
         (constantGaloisModuleIsoValue B K hK sbar A).hom =
       (constantGaloisModuleIsoValue B K hK sbar A).hom ≫
-        (constantGAddCommGrp K sbar A).obj.obj.ρ σ := by
+        ((constantGAddCommGrp K sbar A).obj.obj.ρ σ).asHom := by
   refine Eq.trans ?_ (Category.comp_id (constantGaloisModuleIsoValue B K hK sbar A).hom).symm
   exact AddCommGrpCat.hom_ext (AddMonoidHom.ext fun x =>
     congrArg (ConcreteCategory.hom (constantGaloisModuleIsoValue B K hK sbar A).hom)

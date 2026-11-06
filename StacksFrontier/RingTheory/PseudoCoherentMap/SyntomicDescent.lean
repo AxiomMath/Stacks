@@ -103,7 +103,6 @@ def extendScalarsIdealIso {P T : Type u} [CommRing P] [CommRing T] (f : P →+* 
       (TensorProduct.rid P T) ∘ (LinearMap.lTensor T I.subtype) := by
     funext z
     induction z with
-    | zero => simp
     | tmul t x => simp [φ, l, Algebra.smul_def, mul_comm]
     | add a b ha hb =>
       simp only [map_add, Function.comp_apply] at *

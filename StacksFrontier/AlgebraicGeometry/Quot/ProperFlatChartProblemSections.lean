@@ -35,6 +35,11 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.Sheaf
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
+attribute [local instance high]
+  AlgebraicGeometry.Space.preservesFiniteProducts_smallEtalePostcomp_AlgebraExtensionEtaleRestriction
+  AlgebraicGeometry.Space.hasLimitsOfShape_discrete_EtaleRestrictionInverseImageGlobalSection
+  AlgebraicGeometry.Space.hasTerminal_topos_EtaleRestrictionInverseImageGlobalSection
+
 universe u
 
 namespace AlgebraicGeometry.Space

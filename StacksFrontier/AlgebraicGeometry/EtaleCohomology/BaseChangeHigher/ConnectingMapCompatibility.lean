@@ -374,7 +374,7 @@ public theorem natTransCommShift_derived (τ : F ⋙ G ⟶ G' ⋙ F')
     (hβ : NatTrans.CommShift (onHomotopy F F' G G' τ e) ℤ) :
     NatTrans.CommShift (derived F F' G G' τ e) ℤ := by
   have := Stacks.DerivedIndexing.natTransCommShiftRightDerivedFunctorPlusUnit F
-  let α := Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus ≫
+  let α := Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus ≫
     (Functor.associator DerivedCategory.Plus.Qh F.rightDerivedFunctorPlus
       G.rightDerivedFunctorPlus).hom
   let _ : (F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus).IsRightDerivedFunctor α
@@ -491,16 +491,17 @@ public theorem natTransCommShift_smallEtaleDerivedBaseChangeAb
     (h₂ : NatTrans.CommShift (Functor.mapHomotopyCategoryPlusCompIso
       (Iso.refl (smallEtalePullbackAb e ⋙ smallEtalePushforwardAb h))).hom ℤ) :
     NatTrans.CommShift (smallEtaleDerivedBaseChangeAb f' g h e w) ℤ := by
-  have hiso : IsIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnit :=
+  unfold smallEtaleDerivedBaseChangeAb
+  have hiso : IsIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso (smallEtalePullbackAb f')
   exact Stacks.Cohomology.BaseChange.natTransCommShift_derived (smallEtalePushforwardAb g)
     (smallEtalePushforwardAb h) (smallEtalePullbackAb f') (smallEtalePullbackAb e)
     (smallEtaleBaseChangeAb f' g h e w)
-    (asIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnit)
+    (asIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnith)
     (Stacks.Cohomology.BaseChange.natTransCommShift_onHomotopy (smallEtalePushforwardAb g)
       (smallEtalePushforwardAb h) (smallEtalePullbackAb f') (smallEtalePullbackAb e)
       (smallEtaleBaseChangeAb f' g h e w)
-      (asIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnit)
+      (asIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnith)
       (Stacks.DerivedIndexing.natTransCommShiftRightDerivedFunctorPlusUnit
         (smallEtalePullbackAb f'))
       hτ h₁ h₂)

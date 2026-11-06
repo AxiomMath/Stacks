@@ -502,7 +502,7 @@ private lemma toClass_bijective (a : Over U) : Function.Bijective (toClass p x y
       Category.comp_id _
     have e2 : 𝟙 ((p.chosenPullbacks.sliceFunctor x).obj a) ≫ (m'.down).1.1 = (m'.down).1.1 :=
       Category.id_comp _
-    refine ULift.ext _ _ (Subtype.ext (Subtype.ext ?_))
+    refine ULift.ext (Subtype.ext (Subtype.ext ?_))
     rw [← e1, ← h2, e2]
   · intro c
     obtain ⟨A, rfl⟩ := isoClassMk_surjective (U := a) c

@@ -123,7 +123,7 @@ theorem isDerivedComplete_of_forall_isNilpotent
     (((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).over V) (Over.mk (𝟙 V)) Over.mkIdTerminal
     (hI V f hf)
   refine isDerivedCompleteAt_of_isNilpotent ⟨n, ?_⟩
-  rw [smul_id_pow, hn, zero_smul]
+  rw [smul_pow, one_pow, hn, zero_smul]
 
 /-- **The inclusion `D_comp(𝒪) ⥤ D(𝒪)` has a left adjoint when the local sections of `ℐ` are
 nilpotent.** Every object is then derived complete, so the identity functor together with the

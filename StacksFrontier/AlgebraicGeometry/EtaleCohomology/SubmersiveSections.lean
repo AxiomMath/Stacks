@@ -108,6 +108,12 @@ universe u v
 
 namespace Stacks.EtaleCohomology
 
+/-- The Mathlib instance `Scheme.instHasSheafifyEtaleSmallEtaleTopology` (for `Category.{u}`
+coefficients) is tried first and its universe constraint fails hard while a universe level is
+still a metavariable; this instance for sheaves of types answers first. -/
+private instance (priority := high) hasSheafifySmallEtaleType (X : Scheme.{u}) :
+    HasSheafify X.smallEtaleTopology (Type (max (u + 1) v)) := inferInstance
+
 /-- The final object of the small étale site of `S`: the identity of `S`, viewed as an étale
 `S`-scheme. -/
 private abbrev smallEtaleFinal (S : Scheme.{u}) : S.Etale := Scheme.Etale.mk (𝟙 S)
@@ -637,22 +643,22 @@ private lemma geometricPointAt_apply {S : Scheme.{u}} (s : S) :
 private def pointSmallEtaleIdentityInitial
     (Ω : Type u) [Field Ω] [IsSepClosed Ω] :
     IsInitial (show (pointSmallEtale (𝟙 (Spec (.of Ω)))).fiber.Elements from
-      ⟨smallEtaleFinal (Spec (.of Ω)), Over.homMk (𝟙 _) (by
+      Functor.elementsMk _ (smallEtaleFinal (Spec (.of Ω))) (CategoryTheory.Over.homMk (𝟙 _) (by
         change (𝟙 _) ≫ (𝟙 _) = 𝟙 _
-        simp)⟩) := by
+        simp))) := by
   apply IsInitial.ofUniqueHom
     (fun U : (pointSmallEtale (𝟙 (Spec (.of Ω)))).fiber.Elements ↦
-      CategoryOfElements.homMk _ U
-      (MorphismProperty.Over.homMk U.2.left (CategoryTheory.Over.w U.2)) ?_)
+      Functor.Elements.homMk
+      (MorphismProperty.Over.homMk U.val.left (CategoryTheory.Over.w U.val)) ?_)
     (fun U morphism ↦ ?_)
   · apply Over.OverMorphism.ext
-    change (𝟙 _) ≫ U.2.left = U.2.left
+    change (𝟙 _) ≫ U.val.left = U.val.left
     exact Category.id_comp _
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     apply MorphismProperty.Over.Hom.ext
-    have h : 𝟙 _ ≫ morphism.1.left = U.2.left :=
-      congrArg (fun b ↦ b.left) morphism.2
-    exact (Category.id_comp morphism.1.left).symm.trans h
+    have h : 𝟙 _ ≫ morphism.hom.left = U.val.left :=
+      congrArg (fun b ↦ b.left) morphism.map_val
+    exact (Category.id_comp morphism.hom.left).symm.trans h
 
 /-- If the final object with its point is initial among the elements of the fibre functor, the
 germ of a global section is bijective. -/
@@ -660,13 +666,13 @@ private lemma globalSectionGerm_bijective_of_isInitial {S : Scheme.{u}}
     {Ω : Type u} [Field Ω] [IsSepClosed Ω] (x : Spec (.of Ω) ⟶ S)
     (F : Sheaf S.smallEtaleTopology (Type (max (u + 1) v)))
     (h : IsInitial (show (pointSmallEtale x).fiber.Elements from
-      ⟨smallEtaleFinal S, smallEtaleFinalPoint x⟩)) :
+      Functor.elementsMk _ (smallEtaleFinal S) (smallEtaleFinalPoint x))) :
     Function.Bijective (globalSectionGerm x F) := by
   have := globalSections_res_final_isIso F
   have : IsIso ((pointSmallEtale x).toPresheafFiber (smallEtaleFinal S)
       (smallEtaleFinalPoint x) F.obj) :=
     ((pointSmallEtale x).isColimitPresheafFiberCocone F.obj).isIso_ι_app_of_isTerminal
-      (Opposite.op ⟨smallEtaleFinal S, smallEtaleFinalPoint x⟩) h.op
+      (Opposite.op (Functor.elementsMk _ (smallEtaleFinal S) (smallEtaleFinalPoint x))) h.op
   exact (isIso_iff_bijective _).mp (inferInstanceAs (IsIso (F.ΓRes _ ≫
     (pointSmallEtale x).toPresheafFiber (smallEtaleFinal S) (smallEtaleFinalPoint x) F.obj)))
 
@@ -704,56 +710,56 @@ private def pointSmallEtaleFieldInitial
     (k : Type u) [Field k] [IsSepClosed k]
     {Ω : Type u} [Field Ω] [IsSepClosed Ω] (x : Spec (.of Ω) ⟶ Spec (.of k)) :
     IsInitial (show (pointSmallEtale x).fiber.Elements from
-      ⟨smallEtaleFinal (Spec (.of k)), Over.homMk x (by
+      Functor.elementsMk _ (smallEtaleFinal (Spec (.of k))) (CategoryTheory.Over.homMk x (by
         change x ≫ 𝟙 _ = x
-        simp)⟩) := by
+        simp))) := by
   classical
   let sectionOf (U : (pointSmallEtale x).fiber.Elements) :=
-    (exists_etale_field_section k x U.1 U.2).choose
+    (exists_etale_field_section k x U.obj U.val).choose
   have hsection (U : (pointSmallEtale x).fiber.Elements) :
-      sectionOf U ≫ U.1.hom = 𝟙 _ ∧ x ≫ sectionOf U = U.2.left :=
-    (exists_etale_field_section k x U.1 U.2).choose_spec
+      sectionOf U ≫ U.obj.hom = 𝟙 _ ∧ x ≫ sectionOf U = U.val.left :=
+    (exists_etale_field_section k x U.obj U.val).choose_spec
   apply IsInitial.ofUniqueHom
-    (fun U : (pointSmallEtale x).fiber.Elements ↦ CategoryOfElements.homMk _ U
+    (fun U : (pointSmallEtale x).fiber.Elements ↦ Functor.Elements.homMk
       (MorphismProperty.Over.homMk (sectionOf U) (hsection U).1) (by
         apply Over.OverMorphism.ext
         exact (hsection U).2))
     (fun U morphism ↦ ?_)
-  apply CategoryOfElements.ext
+  apply Functor.Elements.hom_ext
   apply MorphismProperty.Over.Hom.ext
   have : IsOpenImmersion (sectionOf U) :=
-    AlgebraicGeometry.Unramified.section_isOpenImmersion U.1.hom (sectionOf U) (hsection U).1
-  have hpoint := congrArg (fun a ↦ a.left (default : Spec (.of Ω))) morphism.2
-  change (x ≫ morphism.1.left) (default : Spec (.of Ω)) =
-    U.2.left (default : Spec (.of Ω)) at hpoint
-  have hrange : Set.range morphism.1.left ⊆ Set.range (sectionOf U) := by
+    AlgebraicGeometry.Unramified.section_isOpenImmersion U.obj.hom (sectionOf U) (hsection U).1
+  have hpoint := congrArg (fun a ↦ a.left (default : Spec (.of Ω))) morphism.map_val
+  change (x ≫ morphism.hom.left) (default : Spec (.of Ω)) =
+    U.val.left (default : Spec (.of Ω)) at hpoint
+  have hrange : Set.range morphism.hom.left ⊆ Set.range (sectionOf U) := by
     rintro _ ⟨z, rfl⟩
     refine ⟨(default : Spec (.of k)), ?_⟩
     have hx : x (default : Spec (.of Ω)) = (default : Spec (.of k)) :=
       Subsingleton.elim _ _
-    have hpoint' : morphism.1.left (default : Spec (.of k)) =
-        U.2.left (default : Spec (.of Ω)) :=
-      (congrArg (fun p ↦ morphism.1.left p) hx).symm.trans
-        ((Scheme.Hom.comp_apply x morphism.1.left
+    have hpoint' : morphism.hom.left (default : Spec (.of k)) =
+        U.val.left (default : Spec (.of Ω)) :=
+      (congrArg (fun p ↦ morphism.hom.left p) hx).symm.trans
+        ((Scheme.Hom.comp_apply x morphism.hom.left
           (default : Spec (.of Ω))).symm.trans hpoint)
     have hsectionPoint := congrArg (fun a ↦ a (default : Spec (.of Ω))) (hsection U).2
-    change sectionOf U (default : Spec (.of k)) = morphism.1.left z
+    change sectionOf U (default : Spec (.of k)) = morphism.hom.left z
     have hz : z = (default : Spec (.of k)) :=
       Subsingleton.elim (α := Spec (.of k)) _ _
     rw [hz]
     simpa only [Scheme.Hom.comp_apply, hx] using hsectionPoint.trans hpoint'.symm
-  let lift := IsOpenImmersion.lift (sectionOf U) morphism.1.left hrange
+  let lift := IsOpenImmersion.lift (sectionOf U) morphism.hom.left hrange
   have hlift : lift = 𝟙 (Spec (.of k)) := by
-    have h := congrArg (· ≫ U.1.hom)
-      (IsOpenImmersion.lift_fac (sectionOf U) morphism.1.left hrange)
-    have hm : morphism.1.left ≫ U.1.hom = 𝟙 (Spec (.of k)) :=
-      MorphismProperty.Over.w morphism.1
+    have h := congrArg (· ≫ U.obj.hom)
+      (IsOpenImmersion.lift_fac (sectionOf U) morphism.hom.left hrange)
+    have hm : morphism.hom.left ≫ U.obj.hom = 𝟙 (Spec (.of k)) :=
+      MorphismProperty.Over.w morphism.hom
     have h' := h.trans hm
     exact (Category.comp_id lift).symm.trans
       ((congrArg (lift ≫ ·) (hsection U).1).symm.trans
-        ((Category.assoc lift (sectionOf U) U.1.hom).symm.trans h'))
-  change morphism.1.left = sectionOf U
-  exact (IsOpenImmersion.lift_fac (sectionOf U) morphism.1.left hrange).symm.trans
+        ((Category.assoc lift (sectionOf U) U.obj.hom).symm.trans h'))
+  change morphism.hom.left = sectionOf U
+  exact (IsOpenImmersion.lift_fac (sectionOf U) morphism.hom.left hrange).symm.trans
     ((congrArg (· ≫ sectionOf U) hlift).trans (Category.id_comp (sectionOf U)))
 
 private lemma sieve_mem_smallEtaleTopology_of_geometricPoints
@@ -806,30 +812,30 @@ private lemma smallEtaleSheaf_isLocallySurjective_of_stalk_surjective
   change Φ.presheafFiber.obj F.obj at t
   change Φ.presheafFiber.map morphism.hom t = _ at ht
   obtain ⟨V, b, t, rfl⟩ := Φ.toPresheafFiber_jointly_surjective (P := F.obj) t
-  let W := IsCofiltered.min (show Φ.fiber.Elements from ⟨U, a⟩) ⟨V, b⟩
-  let leftMap := IsCofiltered.minToLeft (show Φ.fiber.Elements from ⟨U, a⟩) ⟨V, b⟩
-  let rightMap := IsCofiltered.minToRight (show Φ.fiber.Elements from ⟨U, a⟩) ⟨V, b⟩
-  have heq : Φ.toPresheafFiber W.1 W.2 G.obj
-      (morphism.hom.app (Opposite.op W.1) (F.obj.map rightMap.1.op t)) =
-      Φ.toPresheafFiber W.1 W.2 G.obj (G.obj.map leftMap.1.op s) := by
+  let W := IsCofiltered.min (Φ.fiber.elementsMk U a) (Φ.fiber.elementsMk V b)
+  let leftMap := IsCofiltered.minToLeft (Φ.fiber.elementsMk U a) (Φ.fiber.elementsMk V b)
+  let rightMap := IsCofiltered.minToRight (Φ.fiber.elementsMk U a) (Φ.fiber.elementsMk V b)
+  have heq : Φ.toPresheafFiber W.obj W.val G.obj
+      (morphism.hom.app (Opposite.op W.obj) (F.obj.map rightMap.hom.op t)) =
+      Φ.toPresheafFiber W.obj W.val G.obj (G.obj.map leftMap.hom.op s) := by
     rw [← GrothendieckTopology.Point.toPresheafFiber_naturality_apply,
       GrothendieckTopology.Point.toPresheafFiber_w_apply,
       GrothendieckTopology.Point.toPresheafFiber_w_apply,
-      leftMap.2, rightMap.2]
+      leftMap.map_val, rightMap.map_val]
     exact ht
   obtain ⟨Z, restriction, c, hc, heq⟩ :=
-    (Φ.toPresheafFiber_eq_iff' W.1 W.2 _ _).mp heq
-  refine ⟨Z, restriction ≫ leftMap.1, ?_, c, ?_⟩
-  · refine ⟨F.obj.map restriction.op (F.obj.map rightMap.1.op t), ?_⟩
+    (Φ.toPresheafFiber_eq_iff' W.obj W.val _ _).mp heq
+  refine ⟨Z, restriction ≫ leftMap.hom, ?_, c, ?_⟩
+  · refine ⟨F.obj.map restriction.op (F.obj.map rightMap.hom.op t), ?_⟩
     have hnat := ConcreteCategory.congr_hom (morphism.hom.naturality restriction.op)
-      (F.obj.map rightMap.1.op t)
+      (F.obj.map rightMap.hom.op t)
     change morphism.hom.app (Opposite.op Z) (F.obj.map restriction.op
-      (F.obj.map rightMap.1.op t)) = G.obj.map restriction.op
-        (morphism.hom.app (Opposite.op W.1) (F.obj.map rightMap.1.op t)) at hnat
+      (F.obj.map rightMap.hom.op t)) = G.obj.map restriction.op
+        (morphism.hom.app (Opposite.op W.obj) (F.obj.map rightMap.hom.op t)) at hnat
     exact (hnat.trans heq).trans
-      (ConcreteCategory.congr_hom (G.obj.map_comp leftMap.1.op restriction.op) s).symm
+      (ConcreteCategory.congr_hom (G.obj.map_comp leftMap.hom.op restriction.op) s).symm
   · rw [Functor.map_comp, types_comp_apply, hc]
-    exact leftMap.2
+    exact leftMap.map_val
 
 private lemma smallEtaleSheaf_isLocallyInjective_of_stalk_injective
     {S : Scheme.{u}}
@@ -915,7 +921,7 @@ private lemma constantPresheaf_germ_bijective
     (isColimitConstCocone Φ.fiber.Elementsᵒᵖ M)
   have he : Φ.toPresheafFiber W a P ≫ e.hom = 𝟙 M :=
     (Φ.isColimitPresheafFiberCocone P).comp_coconePointUniqueUpToIso_hom
-      (isColimitConstCocone Φ.fiber.Elementsᵒᵖ M) (Opposite.op ⟨W, a⟩)
+      (isColimitConstCocone Φ.fiber.Elementsᵒᵖ M) (Opposite.op (Φ.fiber.elementsMk W a))
   have he' : Φ.toPresheafFiber W a P = e.inv :=
     (cancel_mono e.hom).mp (he.trans e.inv_hom_id.symm)
   rw [he']

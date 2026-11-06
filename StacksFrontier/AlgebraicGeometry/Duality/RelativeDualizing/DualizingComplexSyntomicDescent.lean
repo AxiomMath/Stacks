@@ -184,9 +184,9 @@ def derivedPullbackRestrictionSquareIso {X Y X' Y' : Scheme.{u}} (f : X ⟶ Y) (
         (Scheme.Modules.restrictFunctor i).mapDerivedCategory ≅
       (Scheme.Modules.restrictFunctor j).mapDerivedCategory ⋙
         (Scheme.Modules.pullback g).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+  Functor.mapDerivedCategoryCompIso _ _ ≪≫
     Functor.mapDerivedCategoryCongr (pullbackRestrictionSquareIso f g i j h) ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).symm
+    (Functor.mapDerivedCategoryCompIso _ _).symm
 
 /-- **Along a flat morphism the derived pullback is degreewise pullback.** This is
 `AlgebraicGeometry.SpecField.derivedPullbackMapDerivedIso` with the exactness of degreewise
@@ -235,9 +235,9 @@ def affineModelPullbackDerivedIso {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f]
           Scheme.Modules.restrictFunctor hV.isoSpec.hom).mapDerivedCategory :=
   letI : PreservesFiniteLimits (ModuleCat.extendScalars.{u, u, u} (f.appLE U V hVU).hom) :=
     extendScalars_preservesFiniteLimits_of_flat'.{u, u} _ (f.flat_appLE hU hV hVU)
-  Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+  Functor.mapDerivedCategoryCompIso _ _ ≪≫
     Functor.mapDerivedCategoryCongr (affineModelPullbackIso f hU hV hVU) ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).symm ≪≫
+    (Functor.mapDerivedCategoryCompIso _ _).symm ≪≫
     (Functor.isoWhiskerRight
       (Stacks.LocalCohomology.derivedExtensionScalarsIsoMapDerivedCategory.{u, u, u}
         (f.appLE U V hVU).hom) _).symm

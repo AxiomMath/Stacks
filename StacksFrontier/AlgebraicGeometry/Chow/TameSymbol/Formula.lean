@@ -209,10 +209,6 @@ theorem normPushforward_eq_symbolValue (P : TameSymbolPreparation a B)
       (s : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
       Algebra (Localization.AtPrime q.asIdeal) (Localization.AtPrime (s.asIdeal.under C)) :=
     fun q s ↦ Localization.AtPrime.algebraOfLiesOver q.asIdeal (s.asIdeal.under C)
-  have hLies : ∀ (q : MaximalSpectrum B)
-      (s : MaximalSpectrum (Localization (Algebra.algebraMapSubmonoid C q.asIdeal.primeCompl))),
-      Localization.AtPrime.IsLiesOverAlgebra q.asIdeal (s.asIdeal.under C) :=
-    fun _ _ ↦ ⟨rfl⟩
   obtain ⟨N, hN⟩ := hquotC
   obtain ⟨t, htm, ht⟩ :=
     exists_mem_maximalIdeal_mem_nonZeroDivisors

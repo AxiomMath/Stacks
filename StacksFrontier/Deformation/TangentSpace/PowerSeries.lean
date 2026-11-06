@@ -74,7 +74,7 @@ public theorem finrank_tangentSpaceArtinian_of_isPowerSeriesOver [Module.Finite 
       rw [hΦ, hΦ] at hxy
       obtain ⟨h₁, h₂⟩ := Prod.ext_iff.mp hxy
       refine huniq x y h₁ fun i => ?_
-      refine TrivSqZeroExt.ext ?_ (ULift.ext _ _ (congrFun h₂ i))
+      refine TrivSqZeroExt.ext ?_ (ULift.ext (congrFun h₂ i))
       rw [fst_eq_zero_of_mem_maximalIdeal x (hc i), fst_eq_zero_of_mem_maximalIdeal y (hc i)]
     · rintro ⟨z, v⟩
       let T := artinianToComplete.obj (artinianDualNumbers Λ k)

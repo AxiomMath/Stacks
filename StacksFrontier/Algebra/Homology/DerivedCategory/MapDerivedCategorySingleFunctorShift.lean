@@ -147,7 +147,8 @@ lemma mapDerivedCategorySingleFunctorsIso_hom_hom_app (a : ℤ) (A : C₁) :
     Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom, Iso.refl_hom,
     Functor.whiskerLeft_app, Functor.associator_inv_app, DerivedCategory.Q_obj_single_obj,
     NatTrans.id_app, Category.comp_id]
-  exact congrArg (_ ≫ ·) (congrArg (_ ≫ ·) (Category.comp_id _))
+  erw [Category.comp_id, Category.id_comp]
+  rfl
 
 /-- **The single-functor comparisons of an exact functor commute with shifts.** For `A : C₁` and
 `q : ℤ`, write `s : (A[0])[-q] ≅ A[-q]` for the shift isomorphism of the single functors. Then

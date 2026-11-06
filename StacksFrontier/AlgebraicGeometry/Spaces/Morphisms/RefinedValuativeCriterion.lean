@@ -76,6 +76,27 @@ private theorem siteOverHasPullbacks (B : AlgebraicGeometry.BigFppfSite.{u})
 
 attribute [local instance] siteOverHasPullbacks
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_RefinedValuativeCriterion
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance hasLimitsOfShape_discrete_presheaf_RefinedValuativeCriterion
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+local instance (priority := high) hasPullback_presheaf_RefinedValuativeCriterion
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 open IsLocalRing in
 private theorem exists_prime_over_valuationRing_extension
     {A D : Type*} [CommRing A] [IsDomain A] [ValuationRing A]

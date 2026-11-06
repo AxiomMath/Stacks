@@ -9,6 +9,7 @@ public import Mathlib.RingTheory.Ideal.Maps
 public import Mathlib.RingTheory.Ideal.MinimalPrime.Basic
 public import Mathlib.RingTheory.Localization.Away.Basic
 public import Mathlib.RingTheory.Noetherian.Defs
+public import Mathlib.RingTheory.Noetherian.Nilpotent
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Category.Ring.FinitePresentation
@@ -463,7 +464,7 @@ private lemma isFilteredColimitOfSmooth_of_isSeparableExtension
     obtain ⟨C, hC, hAC, hBC⟩ := hdir A.down.1 A.down.2 B.down.1 B.down.2
     refine ⟨⟨⟨C, hC⟩⟩, homOfLE (show A ≤ (⟨⟨C, hC⟩⟩ : I) from hAC),
       homOfLE (show B ≤ (⟨⟨C, hC⟩⟩ : I) from hBC), ?_⟩
-    exact ULift.ext _ _ (Subtype.ext (congrArg ULift.down hab))
+    exact ULift.ext (Subtype.ext (congrArg ULift.down hab))
 
 private lemma isFilteredColimitOfSmooth_localization_of_dim_zero
     {k : Type u} {Λ : Type v} [Field k] [CommRing Λ] [Algebra k Λ]

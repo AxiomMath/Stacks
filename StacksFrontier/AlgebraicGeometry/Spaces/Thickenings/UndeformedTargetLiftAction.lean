@@ -386,16 +386,16 @@ U' ↦ {a' : U' → Y over B with a'|_U = a|_U}: an additive action on the secti
 theorem exists_liftActionSheafChart_addAction (hG : IsFirstOrderThickening C S hS X' G)
     (p : X' ⟶ Bs) (q : Y ⟶ Bs) (a : IsThickening.space C S hS hG.1 ⟶ Y) :
     ∃ act : ∀ U' : SmallEtale C S hS X'.1,
-        AddAction ((liftActionSheafChart C S hS hG.1 q a).val.obj (op U'))
+        AddAction ((liftActionSheafChart C S hS hG.1 q a).obj.obj (op U'))
           ((liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')),
       (∀ {U' U'' : SmallEtale C S hS X'.1} (k : U'' ⟶ U')
-          (θ : (liftActionSheafChart C S hS hG.1 q a).val.obj (op U'))
+          (θ : (liftActionSheafChart C S hS hG.1 q a).obj.obj (op U'))
           (x : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')),
         (liftsSubfunctor C S hS p q a.hom).toFunctor.map k.op ((act U').vadd θ x) =
-          (act U'').vadd ((liftActionSheafChart C S hS hG.1 q a).val.map k.op θ)
+          (act U'').vadd ((liftActionSheafChart C S hS hG.1 q a).obj.map k.op θ)
             ((liftsSubfunctor C S hS p q a.hom).toFunctor.map k.op x)) ∧
       ∀ (U' : SmallEtale C S hS X'.1)
-        (θ : (liftActionSheafChart C S hS hG.1 q a).val.obj (op U'))
+        (θ : (liftActionSheafChart C S hS hG.1 q a).obj.obj (op U'))
         (x : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U'))
         (T : SmallEtale C S hS X'.1) (m : T ⟶ U') (Q : SmallEtale C S hS Y.1)
         (ε : (SmallEtale.toOver C S hS X'.1).obj T ⟶ (SmallEtale.toOver C S hS Y.1).obj Q)

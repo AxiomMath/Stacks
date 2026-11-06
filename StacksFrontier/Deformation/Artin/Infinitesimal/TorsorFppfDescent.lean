@@ -241,9 +241,9 @@ public theorem nonempty_sections_of_cocycleBoundary
   obtain ⟨z⟩ := (inferInstance : Nonempty (F.obj (op X)))
   have hc := sub_add_eq_zero_of_vsub_faces
     (F.map p₀.op) (F.map p₁.op) (F.map q₀.op) (F.map q₁.op) (F.map q₂.op) e₀ e₁ e₂ hq₀ hq₁ hq₂
-    (fun t => by simp only [← FunctorToTypes.map_comp_apply, ← op_comp, h₀₁])
-    (fun t => by simp only [← FunctorToTypes.map_comp_apply, ← op_comp, h₀₂])
-    (fun t => by simp only [← FunctorToTypes.map_comp_apply, ← op_comp, h₁₂]) z
+    (fun t => by simp only [← Functor.map_comp_apply, ← op_comp, h₀₁])
+    (fun t => by simp only [← Functor.map_comp_apply, ← op_comp, h₀₂])
+    (fun t => by simp only [← Functor.map_comp_apply, ← op_comp, h₁₂]) z
   obtain ⟨a, ha⟩ := hexact _ hc
   obtain ⟨-, hiff⟩ :=
     Stacks.CechSite.injective_and_exists_eq_of_isSheafFor_singleton f p₀ p₁ hf hpb

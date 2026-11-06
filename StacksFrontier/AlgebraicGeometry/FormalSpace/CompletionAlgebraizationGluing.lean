@@ -704,6 +704,7 @@ end CompletionAlgebraization
 
 namespace CompletionAlgebraization
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Essential surjectivity of the functor of Stacks 0AR5, from algebraizations over a
 covering.** Let `Y₀` be a locally Noetherian algebraic space, `T ⊆ |Y₀|` closed and
 `g : W ⟶ Y₀_{/T}` an object of the right-hand collection of Stacks 0AR5. If, over each member

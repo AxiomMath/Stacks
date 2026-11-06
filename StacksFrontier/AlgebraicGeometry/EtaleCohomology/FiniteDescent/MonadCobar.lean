@@ -116,14 +116,14 @@ unit law `η_{TZ} ≫ μ_Z = 1` of the monad `T = L ⋙ R`, read in the opposite
 public theorem cos_comp_whiskerLeft_cod :
     cos adj ≫ Functor.whiskerLeft (mnd L R).op (cod adj) = 𝟙 _ := by
   ext ⟨Z⟩
-  exact congrArg Quiver.Hom.op (unit_comp_mu adj Z)
+  exact unit_comp_mu adj Z
 
 /-- The second counit identity of the comonad `(T.op, cod adj, cos adj)` on `Aᵒᵖ`: it is the right
 unit law `T(η_Z) ≫ μ_Z = 1` of the monad `T = L ⋙ R`, read in the opposite category. -/
 public theorem cos_comp_whiskerRight_cod :
     cos adj ≫ Functor.whiskerRight (cod adj) (mnd L R).op = 𝟙 _ := by
   ext ⟨Z⟩
-  exact congrArg Quiver.Hom.op (map_unit_comp_mu adj Z)
+  exact map_unit_comp_mu adj Z
 
 /-- Coassociativity of the comonad `(T.op, cod adj, cos adj)` on `Aᵒᵖ`: it is associativity
 `μ_{TZ} ≫ μ_Z = T(μ_Z) ≫ μ_Z` of the monad `T = L ⋙ R`, read in the opposite category. -/
@@ -131,7 +131,7 @@ public theorem cos_coassoc :
     cos adj ≫ Functor.whiskerLeft (mnd L R).op (cos adj)
       = cos adj ≫ Functor.whiskerRight (cos adj) (mnd L R).op := by
   ext ⟨Z⟩
-  exact congrArg Quiver.Hom.op (mu_comp_mu adj Z)
+  exact mu_comp_mu adj Z
 
 /-! ### The splitting produced by the left adjoint -/
 

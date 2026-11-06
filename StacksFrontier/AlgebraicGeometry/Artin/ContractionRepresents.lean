@@ -107,7 +107,9 @@ theorem complToSituationOpen_comp_ι_comp_f :
 /-- The composite `U' ⟶ X' ⟶ X` of the inclusion of `U'` with `f` is a monomorphism. -/
 instance mono_U'_ι_comp_f : Mono (c.U'.ι ≫ s.f) := by
   rw [← s.isoU_comp_ι]
-  infer_instance
+  have hι : Mono s.U.ι := ⟨fun _ _ e => NatTrans.ext <| funext fun V =>
+    ConcreteCategory.hom_ext _ _ fun x => Subtype.ext <| ConcreteCategory.congr_hom (congr_app e V) x⟩
+  exact mono_comp' (IsIso.mono_of_iso _) hι
 
 include hU in
 /-- When `|U| = |X| ∖ T`, the open subspace `U'` is the inverse image of `U` under `f`: the
@@ -400,6 +402,8 @@ theorem completionMap_comp_formalOfTriple (t : Triple c V)
   have : IsIso ((BigFppfOver.topology B S hS).toSheafify (X ⋙ uliftFunctor.{u + 1})) :=
     (BigFppfOver.topology B S hS).isIso_toSheafify
       (FormalSpace.isSheaf_comp_uliftFunctor B S hS s.isAlgebraicSpace_X)
+  have : Mono ((BigFppfOver.topology B S hS).toSheafify (X ⋙ uliftFunctor.{u + 1})) :=
+    IsIso.mono_of_iso _
   rw [← cancel_mono ((BigFppfOver.topology B S hS).toSheafify (X ⋙ uliftFunctor.{u + 1})),
     Category.assoc, formalOfTriple_comp_toSheafify, Category.assoc,
     ← toSheafify_comp_completionSheafInclusion, ← completionSheafMap_comp_xhat s t ω]
@@ -522,7 +526,7 @@ noncomputable def homToTriple : morOnLocallyNoetherian B S hS X ⟶ contractionF
 theorem homToTriple_app_injective (V : (LocallyNoetherianOver B S hS)ᵒᵖ) :
     Function.Injective ((s.homToTriple hU).app V) := by
   intro y₁ y₂ h
-  exact ULift.ext _ _ (yonedaEquiv.symm.injective
+  exact ULift.ext (yonedaEquiv.symm.injective
     (s.tripleOfHom_injective hU V.unop.obj V.unop.property
       (h : s.tripleOfHom hU V.unop.obj (yonedaEquiv.symm y₁.down) =
         s.tripleOfHom hU V.unop.obj (yonedaEquiv.symm y₂.down))))

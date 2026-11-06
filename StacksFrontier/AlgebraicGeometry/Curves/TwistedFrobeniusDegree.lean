@@ -72,7 +72,7 @@ theorem isIso_absoluteFrobenius_spec_of_perfectRing (k : Type u) [Field k] (p : 
   have h := specMap_eq_absoluteFrobeniusPow (frobeniusEquiv k p).toRingHom p 1 hS
     (fun a => by simp [frobenius_def])
   have h1 : absoluteFrobeniusPow (Spec (.of k)) p hS 1 = absoluteFrobenius (Spec (.of k)) p hS :=
-    by simp
+    by simp [absoluteFrobeniusPow]
   rw [← h1, ← h]
   have : IsIso (CommRingCat.ofHom (frobeniusEquiv k p).toRingHom) :=
     (RingEquiv.toCommRingCatIso (frobeniusEquiv k p)).isIso_hom
@@ -137,7 +137,7 @@ has degree `p`** ([Stacks, Tag 0CCF]). -/
 theorem degreeOver_absoluteFrobenius_curve :
     haveI := isDominant_absoluteFrobenius_curve p pX hX
     haveI : LocallyOfFiniteType (absoluteFrobenius X p hX) := by
-      simpa using locallyOfFiniteType_absoluteFrobeniusPow_curve p pX hX 1
+      simpa [absoluteFrobeniusPow] using locallyOfFiniteType_absoluteFrobeniusPow_curve p pX hX 1
     degreeOver (absoluteFrobenius X p hX) = p := by
   have hS : IsInCharacteristic (Spec (.of k)) p :=
     isInCharacteristic_spec k p (CharP.cast_eq_zero k p)
@@ -154,7 +154,7 @@ theorem degreeOver_absoluteFrobenius_curve :
     (not_constant_relativeFrobenius_curve p hS pX)
   have := isDominant_absoluteFrobenius_curve p pX hX
   have : LocallyOfFiniteType (absoluteFrobenius X p hX) := by
-    simpa using locallyOfFiniteType_absoluteFrobeniusPow_curve p pX hX 1
+    simpa [absoluteFrobeniusPow] using locallyOfFiniteType_absoluteFrobeniusPow_curve p pX hX 1
   rw [degreeOver_eq_degreeOver_of_isIso (absoluteFrobenius X p hX)
     (relativeFrobenius (Spec (.of k)) p hS (Over.mk pX)).left
     (pullback.fst pX (absoluteFrobenius (Spec (.of k)) p hS))
@@ -170,12 +170,13 @@ theorem degreeOver_absoluteFrobeniusPow_curve (n : ℕ) :
       degreeOver (absoluteFrobeniusPow X p hX (n + 1)) = p ^ (n + 1) := by
   have := isDominant_absoluteFrobenius_curve p pX hX
   have : LocallyOfFiniteType (absoluteFrobenius X p hX) := by
-    simpa using locallyOfFiniteType_absoluteFrobeniusPow_curve p pX hX 1
+    simpa [absoluteFrobeniusPow] using locallyOfFiniteType_absoluteFrobeniusPow_curve p pX hX 1
   have h1 := degreeOver_absoluteFrobenius_curve p pX hX
   have hpos : 0 < p := (Fact.out : p.Prime).pos
   induction n with
   | zero =>
-    have hF : absoluteFrobeniusPow X p hX (0 + 1) = absoluteFrobenius X p hX := by simp
+    have hF : absoluteFrobeniusPow X p hX (0 + 1) = absoluteFrobenius X p hX := by
+      simp [absoluteFrobeniusPow]
     have : IsDominant (absoluteFrobeniusPow X p hX (0 + 1)) := by rw [hF]; infer_instance
     refine ⟨inferInstance, ?_⟩
     have := locallyOfFiniteType_absoluteFrobeniusPow_curve p pX hX (0 + 1)

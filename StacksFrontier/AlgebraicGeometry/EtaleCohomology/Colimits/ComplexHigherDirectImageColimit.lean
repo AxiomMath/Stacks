@@ -121,10 +121,10 @@ theorem smallEtaleComplexPullbackComparison_naturality (a : ℤ) {X Y : Scheme.{
     (derivedPullbackAb f).map (plusComplexMap a α) ≫
         smallEtaleComplexPullbackComparison a f F' G' ι' =
       smallEtaleComplexPullbackComparison a f F G ι ≫ plusComplexMap a β := by
-  let : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit :=
+  let : IsIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb f).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   rw [smallEtaleComplexPullbackComparison_eq, smallEtaleComplexPullbackComparison_eq]
-  have hnat := (asIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnit).inv.naturality
+  have hnat := (asIso (smallEtalePullbackAb f).rightDerivedFunctorPlusUnith).inv.naturality
     (ObjectProperty.homMk ((HomotopyCategory.quotient _ _).map α) :
       CochainComplex.plusHomotopyObj a F ⟶ CochainComplex.plusHomotopyObj a F')
   simp only [Functor.comp_map] at hnat
@@ -710,7 +710,7 @@ theorem derivedPullback_map_singleFunctorPlusIsoCompQh_comp {Y T : Scheme.{u}} (
         (smallEtalePullbackAb e) 0).inv.app G ≫
         (DerivedCategory.Plus.singleFunctor _ 0).map φ ≫
           (Functor.singleFunctorPlusIsoCompQh 0).hom.app G' := by
-  let : IsIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnit :=
+  let : IsIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnith :=
     (smallEtalePullbackAb e).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have h1 := Stacks.DerivedFunctor.exactSingleFunctorRightDerivedPlusIso_hom_app
     (smallEtalePullbackAb e) G
@@ -741,7 +741,7 @@ theorem derivedPullback_map_singleFunctorPlusIsoCompQh_comp {Y T : Scheme.{u}} (
     0).hom.naturality φ
   simp only [Functor.comp_map] at h4
   exact key_d_chain h1 h2 ((Functor.map_comp _ _ _).symm.trans (congrArg _ h3)) h4
-    ((asIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnit).hom_inv_id_app _)
+    ((asIso (smallEtalePullbackAb e).rightDerivedFunctorPlusUnith).hom_inv_id_app _)
     ((Functor.map_comp _ _ _).symm.trans
       ((congrArg (smallEtalePullbackAb e).rightDerivedFunctorPlus.map
         (Iso.inv_hom_id_app (Functor.singleFunctorPlusIsoCompQh 0) G)).trans

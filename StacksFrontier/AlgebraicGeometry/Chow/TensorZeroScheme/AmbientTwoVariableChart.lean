@@ -387,7 +387,7 @@ theorem exists_fibreCoordinateTrivialization (V : Y.affineOpens)
           ⟨lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens),
             isAffineOpen_preimage_lineBundleProj Y M V⟩ =
       Ideal.span {e₀ ((lineBundlePullback Y M).presheaf.map (homOfLE le_top).op
-        (fibreCoordinate Y M))} :=
+                    (fibreCoordinate Y M))} :=
     Stacks.Divisors.zeroScheme_ideal_of_trivialization (lineBundleSpace Y M)
       (lineBundlePullback Y M) (fibreCoordinate Y M)
       ⟨lineBundleProj Y M ⁻¹ᵁ (V.1 : Y.Opens), isAffineOpen_preimage_lineBundleProj Y M V⟩
@@ -488,11 +488,12 @@ theorem zeroScheme_coord₁_ideal (V : Y.affineOpens)
     (Stacks.Divisors.zeroScheme (totalSpace Y L₁ L₂)
           ((Scheme.Modules.pullback (totalProj Y L₁ L₂)).obj L₁) (coord₁ Y L₁ L₂)).ideal
         ⟨totalProj Y L₁ L₂ ⁻¹ᵁ (V.1 : Y.Opens), isAffineOpen_preimage_totalProj Y L₁ L₂ V⟩ =
-      Ideal.span {((firstProj Y L₁ L₂).appLE (lineBundleProj Y L₁ ⁻¹ᵁ (V.1 : Y.Opens))
-          (totalProj Y L₁ L₂ ⁻¹ᵁ (V.1 : Y.Opens))
-          (le_of_eq (preimage_totalProj_eq_firstProj Y L₁ L₂ (V.1 : Y.Opens)))).hom
-        (e₁ ((Stacks.LineBundle.lineBundlePullback Y L₁).presheaf.map (homOfLE le_top).op
-          (Stacks.LineBundle.fibreCoordinate Y L₁)))} :=
+      Ideal.span
+        {((firstProj Y L₁ L₂).appLE (lineBundleProj Y L₁ ⁻¹ᵁ (V.1 : Y.Opens))
+            (totalProj Y L₁ L₂ ⁻¹ᵁ (V.1 : Y.Opens))
+            (le_of_eq (preimage_totalProj_eq_firstProj Y L₁ L₂ (V.1 : Y.Opens)))).hom
+          (e₁ ((Stacks.LineBundle.lineBundlePullback Y L₁).presheaf.map (homOfLE le_top).op
+            (Stacks.LineBundle.fibreCoordinate Y L₁)))} :=
   (congrArg (fun I : (totalSpace Y L₁ L₂).IdealSheafData =>
       I.ideal ⟨totalProj Y L₁ L₂ ⁻¹ᵁ (V.1 : Y.Opens),
         isAffineOpen_preimage_totalProj Y L₁ L₂ V⟩)
@@ -520,11 +521,12 @@ theorem zeroScheme_coord₂_ideal (V : Y.affineOpens)
     (Stacks.Divisors.zeroScheme (totalSpace Y L₁ L₂)
           ((Scheme.Modules.pullback (totalProj Y L₁ L₂)).obj L₂) (coord₂ Y L₁ L₂)).ideal
         ⟨totalProj Y L₁ L₂ ⁻¹ᵁ (V.1 : Y.Opens), isAffineOpen_preimage_totalProj Y L₁ L₂ V⟩ =
-      Ideal.span {((secondProj Y L₁ L₂).appLE (lineBundleProj Y L₂ ⁻¹ᵁ (V.1 : Y.Opens))
-          (totalProj Y L₁ L₂ ⁻¹ᵁ (V.1 : Y.Opens))
-          (le_of_eq (preimage_totalProj_eq_secondProj Y L₁ L₂ (V.1 : Y.Opens)))).hom
-        (e₂ ((Stacks.LineBundle.lineBundlePullback Y L₂).presheaf.map (homOfLE le_top).op
-          (Stacks.LineBundle.fibreCoordinate Y L₂)))} :=
+      Ideal.span
+        {((secondProj Y L₁ L₂).appLE (lineBundleProj Y L₂ ⁻¹ᵁ (V.1 : Y.Opens))
+            (totalProj Y L₁ L₂ ⁻¹ᵁ (V.1 : Y.Opens))
+            (le_of_eq (preimage_totalProj_eq_secondProj Y L₁ L₂ (V.1 : Y.Opens)))).hom
+          (e₂ ((Stacks.LineBundle.lineBundlePullback Y L₂).presheaf.map (homOfLE le_top).op
+            (Stacks.LineBundle.fibreCoordinate Y L₂)))} :=
   (congrArg (fun I : (totalSpace Y L₁ L₂).IdealSheafData =>
       I.ideal ⟨totalProj Y L₁ L₂ ⁻¹ᵁ (V.1 : Y.Opens),
         isAffineOpen_preimage_totalProj Y L₁ L₂ V⟩)

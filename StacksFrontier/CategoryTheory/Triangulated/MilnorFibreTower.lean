@@ -401,8 +401,8 @@ compatible family.** -/
 @[reassoc (attr := simp)]
 public theorem piLift_oneMinusShift : Limits.Pi.lift a.app ≫ oneMinusShift F = 0 :=
   Limits.Pi.hom_ext _ _ fun n ↦ by
-    rw [Category.assoc, oneMinusShift_π, comp_sub, Limits.Pi.lift_π, ← Category.assoc,
-      Limits.Pi.lift_π, a.naturality n, sub_self, zero_comp]
+    rw [Category.assoc, oneMinusShift_π, comp_sub, Limits.Pi.lift_comp_π, ← Category.assoc,
+      Limits.Pi.lift_comp_π, a.naturality n, sub_self, zero_comp]
 
 /-- **The canonical map from an augmented complex to the Milnor fibre of the tower.** Its
 first coordinate is the map to the product and its second coordinate is zero; it is a formula
@@ -430,7 +430,7 @@ public theorem augmentationMap_snd (n m : ℤ) (hnm : n + -1 = m) :
 @[reassoc (attr := simp)]
 public theorem augmentationMap_proj (n : ℕ) :
     augmentationMap a ≫ proj F n = a.app n := by
-  rw [proj, augmentationMap_fst_assoc, Limits.Pi.lift_π]
+  rw [proj, augmentationMap_fst_assoc, Limits.Pi.lift_comp_π]
 
 /-- **The canonical map out of an augmented complex is natural** in the augmented complex and
 the tower together. -/
@@ -443,8 +443,8 @@ public theorem augmentationMap_naturality {G : ℕᵒᵖ ⥤ CochainComplex A �
   · rw [Category.assoc, augmentationMap_fst, Category.assoc, mappingCoconeMap_fst,
       augmentationMap_fst_assoc]
     refine Limits.Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, Limits.Pi.lift_π, Category.assoc, Limits.Pi.map_π,
-      Limits.Pi.lift_π_assoc]
+    rw [Category.assoc, Limits.Pi.lift_comp_π, Category.assoc, Limits.Pi.map_π,
+      Limits.Pi.lift_comp_π_assoc]
     exact h n
   · rw [HomologicalComplex.comp_f, HomologicalComplex.comp_f, Category.assoc,
       augmentationMap_snd, comp_zero, Category.assoc, mappingCoconeMap_snd,

@@ -30,6 +30,19 @@ namespace AlgebraicGeometry.Artin.ContractionSituation
 
 attribute [local instance] Space.pointTopology
 
+/-- Pullbacks of fppf sheaves on `BigFppfOver B S hS`: instance search for them times out under
+Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_sheaf_ContractionClosedImmersionLocal
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks (FormalSpace.FppfSheaf B S hS) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+local instance (priority := high) hasLimit_cospan_sheaf_ContractionClosedImmersionLocal
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : FormalSpace.FppfSheaf B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 section Chart

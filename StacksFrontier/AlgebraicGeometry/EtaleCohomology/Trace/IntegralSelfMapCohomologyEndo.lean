@@ -71,7 +71,7 @@ theorem rightDerivedFunctorPlusCompIsoOfIso_inv_eq :
     (rightDerivedFunctorPlusCompIsoOfIso F G H e).inv =
       (Functor.rightDerivedFunctorPlusCompIsoOfExact F G H e).hom := by
   refine Iso.inv_ext ?_
-  refine Functor.rightDerived_ext H.rightDerivedFunctorPlus H.rightDerivedFunctorPlusUnit
+  refine Functor.rightDerived_ext H.rightDerivedFunctorPlus H.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A) _ _ _ (NatTrans.ext (funext fun K => ?_))
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, NatTrans.id_app]
   rw [← Category.assoc, unit_comp_rightDerivedFunctorPlusCompIsoOfIso_hom, Category.assoc,

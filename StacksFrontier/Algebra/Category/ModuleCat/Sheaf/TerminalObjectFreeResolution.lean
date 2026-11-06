@@ -65,15 +65,15 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
 
 /-- The ring of global sections `A = O(U₀)` over the terminal object, as a type. -/
-abbrev baseRing (U₀ : C) : Type w := O.val.obj (op U₀)
+abbrev baseRing (U₀ : C) : Type w := O.obj.obj (op U₀)
 
 /-- The morphism of presheaves of rings from the constant presheaf with value `A = O(U₀)` to
 `O`, given over `U` by restriction along the unique map `U ⟶ U₀`. -/
-abbrev baseCoefficientMap : constantRingPresheaf (C := C) (baseRing O U₀) ⟶ O.val :=
+abbrev baseCoefficientMap : constantRingPresheaf (C := C) (baseRing O U₀) ⟶ O.obj :=
   coefficientMap (baseRing O U₀) hU₀ (RingHom.id _)
 
 /-- The presheaf `U ↦ O(U) ⊗_A M`, as a functor of the `A`-module `M`. -/
-def baseChangePresheafFunctor : ModuleCat.{w} (baseRing O U₀) ⥤ PMod O.val :=
+def baseChangePresheafFunctor : ModuleCat.{w} (baseRing O U₀) ⥤ PMod O.obj :=
   constantModulePresheaf (C := C) (baseRing O U₀) ⋙ changeOfRings (baseCoefficientMap O hU₀)
 
 /-- **The functor `M ↦ O ⊗_A M`** from `A`-modules to sheaves of `O`-modules, where
@@ -170,27 +170,27 @@ lemma bijective_globalSectionsFunctor_map_unit (T : SheafOfModules.{w} (ringShea
     refine PresheafOfModules.sections_ext _ _ fun X => ?_
     rw [sections_val_eq_map O hU₀ T _ X, sections_val_eq_map O hU₀ T (T.unitHomEquiv y) X]
     congr 1
-    exact congrArg (fun φ => ModuleCat.Hom.hom φ (1 : O.val.obj (op U₀))) hxy
-  · refine ⟨T.unitHomEquiv.symm (sectionOfTerminal O hU₀ T (φ.hom (1 : O.val.obj (op U₀)))), ?_⟩
+    exact congrArg (fun φ => ModuleCat.Hom.hom φ (1 : O.obj.obj (op U₀))) hxy
+  · refine ⟨T.unitHomEquiv.symm (sectionOfTerminal O hU₀ T (φ.hom (1 : O.obj.obj (op U₀)))), ?_⟩
     refine ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
-    have e1 (a : O.val.obj (op U₀)) : O.val.map (hU₀.from U₀).op a = a := by simp
+    have e1 (a : O.obj.obj (op U₀)) : O.obj.map (hU₀.from U₀).op a = a := by simp
     let one : (globalSectionsFunctor O hU₀).obj (SheafOfModules.unit (ringSheaf J O)) :=
-      (1 : O.val.obj (op U₀))
+      (1 : O.obj.obj (op U₀))
     have key : ∀ m : (globalSectionsFunctor O hU₀).obj (SheafOfModules.unit (ringSheaf J O)),
-        φ.hom m = ((show O.val.obj (op U₀) from m) •
+        φ.hom m = ((show O.obj.obj (op U₀) from m) •
           (show T.val.obj (op U₀) from φ.hom one) : T.val.obj (op U₀)) := by
       intro m
       have h := φ.hom.map_smul (show baseRing O U₀ from m) one
       refine Eq.trans ?_ (h.trans ?_)
       · congr 1
-        show m = O.val.map (hU₀.from U₀).op (show O.val.obj (op U₀) from m) *
-          (1 : O.val.obj (op U₀))
+        show m = O.obj.map (hU₀.from U₀).op (show O.obj.obj (op U₀) from m) *
+          (1 : O.obj.obj (op U₀))
         rw [e1, mul_one]
-      · show (O.val.map (hU₀.from U₀).op (show O.val.obj (op U₀) from m) •
+      · show (O.obj.map (hU₀.from U₀).op (show O.obj.obj (op U₀) from m) •
           (show T.val.obj (op U₀) from φ.hom one) : T.val.obj (op U₀)) = _
         rw [e1]
     rw [key]
-    show ((show O.val.obj (op U₀) from m) • (show T.val.obj (op U₀) from
+    show ((show O.obj.obj (op U₀) from m) • (show T.val.obj (op U₀) from
       T.val.map (hU₀.from U₀).op (φ.hom one)) : T.val.obj (op U₀)) = _
     congr 1
     rw [hid, T.val.map_id]
@@ -305,7 +305,7 @@ lemma isLocallyInjective_of_injective_app_of_generate_mem {F₁ F₂ : Cᵒᵖ �
 section Flat
 
 variable (𝒰 : C → Prop) (hcov : ∀ X : C, Sieve.generate (fun Z (_ : Z ⟶ X) => 𝒰 Z) ∈ J X)
-  (hflat : ∀ Z, 𝒰 Z → (O.val.map (hU₀.from Z).op).hom.Flat)
+  (hflat : ∀ Z, 𝒰 Z → (O.obj.map (hU₀.from Z).op).hom.Flat)
 
 include hcov hflat
 
@@ -320,8 +320,8 @@ lemma baseChangeFunctor_map_mono {M' M : ModuleCat.{w} (baseRing O U₀)} (f : M
       ((PresheafOfModules.toPresheaf _).map ((baseChangePresheafFunctor O hU₀).map f)) := by
     refine isLocallyInjective_of_injective_app_of_generate_mem _ 𝒰 hcov fun Z hZ => ?_
     let := coefficientAlgebra (baseRing O U₀) hU₀ (RingHom.id _) (op Z)
-    have : Module.Flat (baseRing O U₀) (O.val.obj (op Z)) := hflat Z hZ
-    show Function.Injective (LinearMap.baseChange (O.val.obj (op Z)) f.hom)
+    have : Module.Flat (baseRing O U₀) (O.obj.obj (op Z)) := hflat Z hZ
+    show Function.Injective (LinearMap.baseChange (O.obj.obj (op Z)) f.hom)
     rw [LinearMap.baseChange_eq_ltensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _
       ((ModuleCat.mono_iff_injective f).1 inferInstance)
@@ -442,7 +442,7 @@ lemma isFree_of_isZero {F : SheafOfModules.{w} (ringSheaf J O)} (h : IsZero F) :
     (fun _ _ _ => h.eq_of_src _ _)⟩⟩
 
 variable (𝒰 : C → Prop) (hcov : ∀ X : C, Sieve.generate (fun Z (_ : Z ⟶ X) => 𝒰 Z) ∈ J X)
-  (hflat : ∀ Z, 𝒰 Z → (O.val.map (hU₀.from Z).op).hom.Flat)
+  (hflat : ∀ Z, 𝒰 Z → (O.obj.map (hU₀.from Z).op).hom.Flat)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 include hU₀ hcov hflat in

@@ -88,6 +88,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_EtaleSectionExtension :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_EtaleSectionExtension
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_EtaleSectionExtension B S hS).has_limit _
+
 /-! ### Descent of isomorphy along a surjective base change -/
 
 /-- A morphism whose base change along a surjective morphism is an isomorphism is surjective:
@@ -138,7 +149,7 @@ theorem isIso_of_isEtale_of_isSurjective_baseChange_isIso
       simp [he]
     have hcomp : IsIso (e.hom ≫ pullback.snd g (u ≫ p)) := by rw [heproj]; exact hinner
     have htarget : IsIso (pullback.snd g (u ≫ p)) := IsIso.of_isIso_comp_left e.hom _
-    exact universallyInjective_of_mono B S hS _ inferInstance
+    exact universallyInjective_of_mono B S hS _ (IsIso.mono_of_iso _)
   have hwit : ∃ (Z : BigFppfOver B S hS) (q : yoneda.obj Z ⟶ A),
       IsSurjective B S hS q ∧ UniversallyInjective B S hS (pullback.snd g q) :=
     ⟨U, u ≫ p, hgZ, hui⟩

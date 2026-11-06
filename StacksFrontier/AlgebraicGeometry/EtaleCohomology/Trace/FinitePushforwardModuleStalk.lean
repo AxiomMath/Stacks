@@ -170,14 +170,14 @@ public theorem finitePushforwardStalkToProduct_etaleStalkForgetIso
   obtain ⟨U, u', t, rfl⟩ :=
     (geometricPointSitePoint B Y.1 Y.property y).toPresheafFiber_jointly_surjective
       (P := (moduleDirectImage B f Λ G).obj) z
-  have h1 := etaleStalkForgetIso_germ B Λ Y.property y (moduleDirectImage B f Λ G).obj ⟨U, u'⟩ t
+  have h1 := etaleStalkForgetIso_germ B Λ Y.property y (moduleDirectImage B f Λ G).obj ⟨u'⟩ t
   have h2 := ConcreteCategory.congr_hom
-    (finitePushforwardModuleStalkComponent_germ B f y Λ G x ⟨U, u'⟩) t
+    (finitePushforwardModuleStalkComponent_germ B f y Λ G x ⟨u'⟩) t
   have h3 := etaleStalkForgetIso_germ B Λ X.property (geometricPointLift (B.inclusion.map f) y x)
-    G.obj (liftedEtaleNeighborhood B f y x ⟨U, u'⟩) t
+    G.obj (liftedEtaleNeighborhood B f y x ⟨u'⟩) t
   refine (congrArg (fun w => finitePushforwardStalkToProduct B f y (underlyingTypeSheaf B Λ G) w x)
     h1).trans ?_
-  refine (finitePushforwardStalkToProduct_germ B f y (underlyingTypeSheaf B Λ G) ⟨U, u'⟩ t
+  refine (finitePushforwardStalkToProduct_germ B f y (underlyingTypeSheaf B Λ G) ⟨u'⟩ t
     x).trans ?_
   refine h3.symm.trans ?_
   exact congrArg (etaleStalkForgetIso B Λ X.property (geometricPointLift (B.inclusion.map f) y x)
@@ -232,7 +232,9 @@ public theorem liftedEtaleNeighborhood_neighborhoodFunctor
         (liftedEtaleNeighborhood B f y' x' U) := by
   let := hasPullbacks_bigEtaleSite B
   let := preservesPullbacks_bigEtaleSiteInclusion B
-  refine Sigma.ext rfl (heq_of_eq (Subtype.ext ?_))
+  refine Functor.Elements.ext _ _ (by rfl) ?_
+  simp only [eqToHom_refl, Functor.map_id, types_id_apply]
+  refine Subtype.ext ?_
   apply ((IsPullback.of_hasPullback
     (Over.hom ((SmallEtale.inclusion B Y.1 Y.property).obj U.1)) f).map B.inclusion).hom_ext
   · refine (liftedEtaleNeighborhood_point_fst B f y x

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.Ring.Limits
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.CategoryTheory.Sites.Modules.LocallyRingedSites.Morphisms
 public import StacksFrontier.CategoryTheory.Sites.Modules.InverseImage.RingedTopos
@@ -77,12 +78,24 @@ open CategoryTheory CategoryTheory.Limits
 open Stacks.Sheaves.ToposPullback Stacks.Sheaves.ToposPushforward
 open Stacks.Sheaves.LocalRingedness
 
+attribute [-instance] CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
+
 namespace AlgebraicGeometry.RingedTopos
 
 universe w v u
 
 variable (X : RingedTopos.{v, u, w}) [X.J.HasSheafCompose (forget RingCat.{w})]
   [X.J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
+
+/-- Binary products of sheaves of sets, created by the inclusion into presheaves. Stated
+directly: instance search for them otherwise wanders into limits of presheaves of rings and
+times out. -/
+noncomputable local instance (priority := high) hasBinaryProduct_sheaf_type
+    {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} (A B : Sheaf J (Type w)) :
+    HasBinaryProduct A B :=
+  haveI : HasLimitsOfShape (Discrete WalkingPair) (Sheaf J (Type w)) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J (Type w))
+  HasLimitsOfShape.has_limit _
 
 /-- The underlying sheaf of rings of the structure sheaf. -/
 noncomputable abbrev ringStructureSheaf : Sheaf X.J RingCat.{w} :=
@@ -371,7 +384,9 @@ theorem pullbackRingSqIso_hom_comp_fst :
         ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O)).hom ≫ prod.fst =
       f.inverseImage.map prod.fst := by
   have := f.preservesFiniteLimits
-  exact prodComparison_fst (F := f.inverseImage) _ _
+  rw [pullbackRingSqIso, PreservesLimitPair.iso_hom]
+  exact prodComparison_fst f.inverseImage (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).ringSheaf
+    (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).ringSheaf
 
 /-- The inverse image of the inclusion of the units subsheaf, with its codomain spelled as the
 underlying sheaf of sets of the structure sheaf of the inverse-image ringed topos. -/

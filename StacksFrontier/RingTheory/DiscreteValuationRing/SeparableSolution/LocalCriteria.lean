@@ -384,7 +384,7 @@ private theorem finite_setOf_isMaximal_of_finite
   have : m.IsMaximal := hm
   refine ⟨hm.isPrime, ⟨?_⟩⟩
   exact (IsLocalRing.eq_maximalIdeal
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) m)).symm
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m)).symm
 
 theorem map_maximalIdeal_le_jacobson_of_isIntegral
     (A R : Type*) [CommRing A] [CommRing R] [IsLocalRing A]
@@ -395,7 +395,7 @@ theorem map_maximalIdeal_le_jacobson_of_isIntegral
   have : m.IsMaximal := hm
   rw [Ideal.map_le_iff_le_comap]
   exact (IsLocalRing.eq_maximalIdeal
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) m)).symm.le
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m)).symm.le
 
 private theorem finite_setOf_isMaximal_of_surjective
     {R S : Type*} [CommRing R] [CommRing S] (f : R →+* S)

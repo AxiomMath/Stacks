@@ -113,6 +113,11 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 attribute [local instance] pointTopology
 attribute [local instance] CategoryTheory.MorphismProperty.relative_isStableUnderBaseChange
 
+local instance (priority := high) hasPullback_presheaf_ZeroPointNeighbourhoods
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 lemma genericPoints_finite_of_zero_finite
     {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hY : IsAlgebraicSpace B S hS Y)

@@ -74,20 +74,20 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 /-- **The morphism `(X₀ ⊂ X') ⟶ (Y₀ ⊂ Y)` of closed subspaces**: `(X₀ ⊂ X') ≅ X₀ ⟶ Y₀ ≅
 (Y₀ ⊂ Y)`. -/
 abbrev towerRealizationClosedMap :
-    (⟨X'.closedSubspace.1.toFunctor, X'.closedSubspace.2.1⟩ : AlgebraicSpaces B S hS) ⟶
+    (⟨(Space.EtaleSquareZeroExtension.Realization.closedSubspace X').1.toFunctor, (Space.EtaleSquareZeroExtension.Realization.closedSubspace X').2.1⟩ : AlgebraicSpaces B S hS) ⟶
       ⟨(limitBaseSubspace ξ hsurj hsq e cR hcR c eLimit hc).1.toFunctor,
         (limitBaseSubspace ξ hsurj hsq e cR hcR c eLimit hc).2.1⟩ :=
-  X'.closedSpaceIso.inv ≫ towerStructureMap ξ 0 ≫
+  (Space.EtaleSquareZeroExtension.Realization.closedSpaceIso X').inv ≫ towerStructureMap ξ 0 ≫
     (limitBaseRangeIso ξ hsurj hsq e cR hcR c eLimit hc).hom
 
 /-- **The square `(X₀ ⊂ X') ⟶ (Y₀ ⊂ Y)` commutes**: `X₀ ⟶ X' ⟶ Y` is `X₀ ⟶ Y₀ ⟶ Y`. -/
 theorem towerRealization_sq :
-    Space.subspaceInclusion B S hS X'.ambient X'.closedSubspace ≫ X'.toBase =
+    Space.subspaceInclusion B S hS X'.ambient (Space.EtaleSquareZeroExtension.Realization.closedSubspace X') ≫ X'.toBase =
       towerRealizationClosedMap ξ hsurj hsq e cR hcR c eLimit hc X' ≫
         Space.subspaceInclusion B S hS (schemeSpace c.pt)
           (limitBaseSubspace ξ hsurj hsq e cR hcR c eLimit hc) :=
-  CategoryTheory.comp_eq_iso_inv_comp_comp_comp X'.closedSpaceIso _ _ _ _ _ _
-    X'.immersion_eq_closedSpaceIso_hom_comp X'.over_base
+  CategoryTheory.comp_eq_iso_inv_comp_comp_comp (Space.EtaleSquareZeroExtension.Realization.closedSpaceIso X') _ _ _ _ _ _
+    (Space.EtaleSquareZeroExtension.Realization.immersion_eq_closedSpaceIso_hom_comp X') X'.over_base
     (Space.rangeSpaceIso_hom_comp_subspaceInclusion B S hS (c.ι.app 0)
       (isSquareZeroClosedImmersion_limitBase ξ hsurj hsq e cR hcR c eLimit hc).1)
 
@@ -97,7 +97,7 @@ theorem isFlat_isProper_isFinitePresentation_towerRealizationClosedMap :
       Space.IsProper B S hS (towerRealizationClosedMap ξ hsurj hsq e cR hcR c eLimit hc X').hom ∧
       Space.IsFinitePresentation B S hS
         (towerRealizationClosedMap ξ hsurj hsq e cR hcR c eLimit hc X').hom :=
-  Space.isFlat_isProper_isFinitePresentation_iso_comp_comp_iso B S hS X'.closedSpaceIso.symm
+  Space.isFlat_isProper_isFinitePresentation_iso_comp_comp_iso B S hS (Space.EtaleSquareZeroExtension.Realization.closedSpaceIso X').symm
     (towerStructureMap ξ 0) (limitBaseRangeIso ξ hsurj hsq e cR hcR c eLimit hc)
     ⟨(ξ.obj 0).obj.property.2.1, (ξ.obj 0).obj.property.2.2, (ξ.obj 0).obj.property.1⟩
 

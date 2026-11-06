@@ -61,9 +61,9 @@ not syntactically so, and instance search does not see through that.
 
 In `precomposeUnit_app` the identity morphism contributed by
 `CategoryTheory.Functor.mapHomotopyCategoryCompIso` at `CategoryTheory.Iso.refl (F ⋙ w)` is
-removed by a `congrArg` into `CategoryTheory.Functor.map_id`, and the two leading identities are
-cancelled by the file-scoped `id_id_comp` rather than by `simp only [Category.id_comp]`, for the
-same reason: they sit at two different spellings of one object.
+removed by a `congrArg` into `CategoryTheory.Functor.map_id`; the identity `simp` leaves at the
+head of the composite, which sits at a different spelling of the object, is then cancelled by
+`Category.id_comp`.
 
 ## References
 
@@ -154,8 +154,7 @@ theorem precomposeUnit_app (K : HomotopyCategory C (ComplexShape.up ℤ)) :
             Rw.map (F.mapDerivedCategoryFactorsh.inv.app K) ≫ CategoryStruct.id _ := rfl
   rw [h2, h1]
   simp only [Category.id_comp, Category.comp_id]
-  refine id_id_comp _ _ _ _ ?_
-  exact Category.comp_id _
+  exact Category.id_comp _
 
 variable [Rw.IsRightDerivedFunctor α (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))]
 

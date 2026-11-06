@@ -15,6 +15,7 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.CechAcyclicity.FlasqueM
 public import StacksFrontier.Topology.Sheaves.Cohomology.CechAcyclicity.PushforwardOfAnInjective
 public import StacksFrontier.Topology.Sheaves.Functors.Module.RingedSpace
 import StacksCore.Tactic.StacksAttribute
+import all Mathlib.Algebra.Homology.DerivedCategory.RightDerivedFunctorPlus
 
 /-!
 # Flasque sheaves of modules are acyclic for pushforward
@@ -89,17 +90,17 @@ private lemma rightDerivedFunctorPlusUnit_isIso_of_preservesHomology
     {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
     [HasDerivedCategory A] [HasDerivedCategory B]
     (G : A ⥤ B) [G.Additive] [EnoughInjectives A] [G.PreservesHomology] :
-    IsIso G.rightDerivedFunctorPlusUnit := by
+    IsIso G.rightDerivedFunctorPlusUnith := by
   have hW : (HomotopyCategory.Plus.quasiIso A).IsInvertedBy
       (G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) := by
     intro X Y f hf
     exact Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso B)
       (G.mapHomotopyCategoryPlus.map f) (map_plus_quasiIso_of_preservesHomology G f hf)
   exact Functor.isIso_of_isRightDerivedFunctor_of_inverts G.rightDerivedFunctorPlus
-    G.rightDerivedFunctorPlusUnit hW
+    G.rightDerivedFunctorPlusUnith hW
 
 private lemma forget_rightDerivedFunctorPlusUnit_isIso {R : Type u} [Ring R] :
-    IsIso (forget₂ (ModuleCat.{u} R) AddCommGrpCat.{u}).rightDerivedFunctorPlusUnit := by
+    IsIso (forget₂ (ModuleCat.{u} R) AddCommGrpCat.{u}).rightDerivedFunctorPlusUnith := by
   let G := forget₂ (ModuleCat.{u} R) AddCommGrpCat.{u}
   have : G.PreservesHomology := by
     have : PreservesFiniteLimits G := inferInstance
@@ -137,33 +138,33 @@ private lemma isZero_sectionsDerivedPlus_of_isFlasque
   have hE : E.rightAcyclic F :=
     rightAcyclic_evaluation_of_isFlasque (F := F) (U := U)
       (R := structureSheafRing X) (by infer_instance)
-  have : IsIso G.rightDerivedFunctorPlusUnit := forget_rightDerivedFunctorPlusUnit_isIso
+  have : IsIso G.rightDerivedFunctorPlusUnith := forget_rightDerivedFunctorPlusUnit_isIso
   let β : S.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⟶
       DerivedCategory.Plus.Qh ⋙ E.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus :=
     Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl S)).inv
         DerivedCategory.Plus.Qh ≫
-      Functor.whiskerLeft E.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnit ≫
-      Functor.whiskerRight E.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus
-  let t := S.rightDerivedFunctorPlus.rightDerivedDesc S.rightDerivedFunctorPlusUnit
+      Functor.whiskerLeft E.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnith ≫
+      Functor.whiskerRight E.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus
+  let t := S.rightDerivedFunctorPlus.rightDerivedDesc S.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (SheafOfModules (structureSheafRing X)))
     (E.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus) β
-  have ht : S.rightDerivedFunctorPlusUnit ≫ Functor.whiskerLeft DerivedCategory.Plus.Qh t = β :=
+  have ht : S.rightDerivedFunctorPlusUnith ≫ Functor.whiskerLeft DerivedCategory.Plus.Qh t = β :=
     Functor.rightDerived_fac _ _ _ _ _
   have : IsIso t := (Functor.isIso_iff_rightAcyclic_obj_injective E G t ht).2 fun I _ =>
-    NatIso.isIso_app_of_isIso G.rightDerivedFunctorPlusUnit _
+    NatIso.isIso_app_of_isIso G.rightDerivedFunctorPlusUnith _
   have hβ : IsIso (β.app K) := by
     dsimp [β]
     have hcoh : IsIso (DerivedCategory.Plus.Qh.map
         ((Functor.mapHomotopyCategoryPlusCompIso (Iso.refl S)).inv.app K)) := by
       infer_instance
-    have hG : IsIso (G.rightDerivedFunctorPlusUnit.app (E.mapHomotopyCategoryPlus.obj K)) :=
-      NatIso.isIso_app_of_isIso G.rightDerivedFunctorPlusUnit _
-    have : IsIso (E.rightDerivedFunctorPlusUnit.app K) := hE
+    have hG : IsIso (G.rightDerivedFunctorPlusUnith.app (E.mapHomotopyCategoryPlus.obj K)) :=
+      NatIso.isIso_app_of_isIso G.rightDerivedFunctorPlusUnith _
+    have : IsIso (E.rightDerivedFunctorPlusUnith.app K) := hE
     exact IsIso.comp_isIso' hcoh (IsIso.comp_isIso' hG inferInstance)
-  have hfac : S.rightDerivedFunctorPlusUnit.app K ≫
+  have hfac : S.rightDerivedFunctorPlusUnith.app K ≫
       t.app (DerivedCategory.Plus.Qh.obj K) = β.app K := by
     simpa using congrArg (fun α => α.app K) ht
-  have : IsIso (S.rightDerivedFunctorPlusUnit.app K) := IsIso.of_isIso_fac_right hfac
+  have : IsIso (S.rightDerivedFunctorPlusUnith.app K) := IsIso.of_isIso_fac_right hfac
   have hsingle : IsZero ((DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} i).obj
       ((DerivedCategory.Plus.singleFunctor AddCommGrpCat.{u} 0).obj (S.obj F))) :=
     DerivedCategory.Plus.isZero_homology_of_isLE _ 0 i hi
@@ -173,7 +174,7 @@ private lemma isZero_sectionsDerivedPlus_of_isFlasque
       ((Functor.mapSingleFunctorCompQhIso S).app F))
   exact IsZero.of_iso hsource
     (asIso ((DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} i).map
-      (S.rightDerivedFunctorPlusUnit.app K))).symm
+      (S.rightDerivedFunctorPlusUnith.app K))).symm
 
 private lemma isZero_preimageHypercohomologyPresheaf_of_isFlasque
     {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)

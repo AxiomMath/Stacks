@@ -209,7 +209,7 @@ private def rightDerivedFunctorPlus_homologyIso_of_rightAcyclic
       DerivedCategory.Plus.Q.obj (F.mapCochainComplexPlus.obj M) :=
     F.rightDerivedFunctorPlus.mapIso (((ObjectProperty.isoMk _
       ((DerivedCategory.quotientCompQhIso A).app M.obj)) ≪≫ e).symm) ≪≫
-      (asIso (F.rightDerivedFunctorPlusUnit.app N)).symm ≪≫
+      (asIso (F.rightDerivedFunctorPlusUnith.app N)).symm ≪≫
       ObjectProperty.isoMk _
         (DerivedCategory.Qh.mapIso
           ((F.mapHomotopyCategoryFactors (ComplexShape.up ℤ)).app M.obj) ≪≫
@@ -299,7 +299,7 @@ def derivedPlusAdjunction {A B : Type*} [Category A] [Category B]
       ((Functor.associator _ _ _).symm ≪≫ Functor.isoWhiskerRight
         L.mapDerivedCategoryPlusFactorsh R.rightDerivedFunctorPlus)
   have : (R.rightDerivedFunctorPlus ⋙ L.mapDerivedCategoryPlus).IsRightDerivedFunctor
-      (Functor.whiskerRight R.rightDerivedFunctorPlusUnit L.mapDerivedCategoryPlus ≫
+      (Functor.whiskerRight R.rightDerivedFunctorPlusUnith L.mapDerivedCategoryPlus ≫
         (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso B) := by
     apply (HomotopyCategory.Plus.localizerMorphism_derives
       ((R.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) ⋙
@@ -309,7 +309,7 @@ def derivedPlusAdjunction {A B : Type*} [Category A] [Category B]
     infer_instance
   exact adj.mapHomotopyCategoryPlus.derived (HomotopyCategory.Plus.quasiIso A)
     (HomotopyCategory.Plus.quasiIso B) L.mapDerivedCategoryPlusFactorsh.hom
-    R.rightDerivedFunctorPlusUnit
+    R.rightDerivedFunctorPlusUnith
 
 /-- **The counit of `derivedPlusAdjunction` is invertible when `R` is fully faithful.** Every
 object of `D⁺(B)` is isomorphic to the image of a bounded below complex of injectives `N`, and
@@ -329,9 +329,9 @@ private theorem isIso_derivedPlusAdjunction_counit_app {A B : Type*} [Category A
   let M := (InjectiveObject.ι B).mapCochainComplexPlus.obj I
   let N := (HomotopyCategory.Plus.quotient B).obj M
   have : ∀ i : ℤ, Injective (N.obj.as.X i) := fun _ => inferInstance
-  have : IsIso (R.rightDerivedFunctorPlusUnit.app N) := inferInstance
+  have : IsIso (R.rightDerivedFunctorPlusUnith.app N) := inferInstance
   have : (R.rightDerivedFunctorPlus ⋙ L.mapDerivedCategoryPlus).IsRightDerivedFunctor
-      (Functor.whiskerRight R.rightDerivedFunctorPlusUnit L.mapDerivedCategoryPlus ≫
+      (Functor.whiskerRight R.rightDerivedFunctorPlusUnith L.mapDerivedCategoryPlus ≫
         (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso B) := by
     apply (HomotopyCategory.Plus.localizerMorphism_derives
       ((R.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) ⋙
@@ -341,16 +341,16 @@ private theorem isIso_derivedPlusAdjunction_counit_app {A B : Type*} [Category A
     infer_instance
   have hfac := adj.mapHomotopyCategoryPlus.derivedε_fac_app
     (HomotopyCategory.Plus.quasiIso B) L.mapDerivedCategoryPlusFactorsh.hom
-    R.rightDerivedFunctorPlusUnit N
-  change L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnit.app N) ≫
+    R.rightDerivedFunctorPlusUnith N
+  change L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnith.app N) ≫
     (derivedPlusAdjunction adj).counit.app (DerivedCategory.Plus.Qh.obj N) = _ at hfac
   have : IsIso ((derivedPlusAdjunction adj).counit.app (DerivedCategory.Plus.Qh.obj N)) := by
-    have : IsIso (L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnit.app N) ≫
+    have : IsIso (L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnith.app N) ≫
         (derivedPlusAdjunction adj).counit.app (DerivedCategory.Plus.Qh.obj N)) := by
       rw [hfac]
       infer_instance
     exact IsIso.of_isIso_comp_left
-      (L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnit.app N)) _
+      (L.mapDerivedCategoryPlus.map (R.rightDerivedFunctorPlusUnith.app N)) _
   exact (NatTrans.isIso_app_iff_of_iso _ ((ObjectProperty.isoMk _
     ((DerivedCategory.quotientCompQhIso B).app M.obj) :
       DerivedCategory.Plus.Qh.obj N ≅ DerivedCategory.Plus.Q.obj M) ≪≫ eY)).1 inferInstance
@@ -430,7 +430,7 @@ theorem derivedComparisonAdjunction_unit (S : CohomologyComparison C) (X : C) :
   have hη := (abelianComparisonAdjunction S.fineCoverage S.coarseCoverage S.coarse_le_fine
     X).mapHomotopyCategoryPlus.derivedη_fac_app
     (HomotopyCategory.Plus.quasiIso (AbelianSheaves S.coarseCoverage.toGrothendieck X))
-    εq.mapDerivedCategoryPlusFactorsh.hom εp.rightDerivedFunctorPlusUnit K
+    εq.mapDerivedCategoryPlusFactorsh.hom εp.rightDerivedFunctorPlusUnith K
   have hu := NatTrans.congr_app (derivedComparisonUnit_fac S X) K
   show (derivedComparisonAdjunction S X).unit.app (DerivedCategory.Plus.Qh.obj K) =
     (derivedComparisonUnit S X).app (DerivedCategory.Plus.Qh.obj K)
@@ -440,7 +440,7 @@ theorem derivedComparisonAdjunction_unit (S : CohomologyComparison C) (X : C) :
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusIdComparison _).app K ≫
           (abelianComparisonHomotopyUnit S X).app K ≫
           (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (εq ⋙ εp))).inv.app K) ≫
-        εp.rightDerivedFunctorPlusUnit.app (εq.mapHomotopyCategoryPlus.obj K) ≫
+        εp.rightDerivedFunctorPlusUnith.app (εq.mapHomotopyCategoryPlus.obj K) ≫
         εp.rightDerivedFunctorPlus.map (εq.mapDerivedCategoryPlusFactorsh.inv.app K) := by
     simpa [Functor.map_comp] using hu
   rw [hu', mapHomotopyCategoryPlus_unit_app S X K]

@@ -162,6 +162,7 @@ noncomputable def tensorSheafAssocLeft
       (Stacks.SheafOfModules.TensorSheafification.isIso_sheafify_map_toSheafify O hO (M.val ⊗
         N.val)))
 
+set_option maxHeartbeats 1600000 in
 /-- The comparison identifying the sheafification of `M ⊗ (N ⊗ P)` with
 `M ⊗_O (N ⊗_O P)`. -/
 noncomputable def tensorSheafAssocRight
@@ -482,6 +483,7 @@ theorem assoc_key
 
 section AssociatorData
 
+set_option maxHeartbeats 1600000 in
 /-- **The associativity constraint of the tensor product sheaf is the associator of the strict
 monoidal structure.** -/
 theorem Strict_associator_eq

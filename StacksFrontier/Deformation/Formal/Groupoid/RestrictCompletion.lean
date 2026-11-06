@@ -72,7 +72,9 @@ private theorem cofiberedCompletionRestrictionIso_naturality
     simpa only [isoH, Functor.comp_obj,
       cofiberedCompletionRestrictionIso_inv]
       using isoH.hom_inv_id
-  apply (cancel_mono (adj.unit.app H)).1
+  have hmono : Mono (adj.unit.app H) :=
+    @IsIso.mono_of_iso _ _ _ _ _ (cofiberedCompletionUnit_isIso H)
+  apply hmono.right_cancellation
   let cf := (cofiberedCompletion (Λ := Λ) (k := k)).map
     (((Functor.whiskeringLeft
       (ArtinianLocalAlgCat.{u, v, w} Λ k)

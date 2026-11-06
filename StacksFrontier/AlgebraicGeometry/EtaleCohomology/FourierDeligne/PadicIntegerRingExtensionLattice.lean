@@ -264,7 +264,7 @@ theorem free_padicIntegerRing_extension :
   have : FaithfulSMul (integralClosure ℤ_[ℓ] E) (integralClosure ℤ_[ℓ] L) :=
     (faithfulSMul_iff_algebraMap_injective _ _).2 hinj
   have : Module.IsTorsionFree (integralClosure ℤ_[ℓ] E) (integralClosure ℤ_[ℓ] L) :=
-    inferInstance
+    FaithfulSMul.to_isTorsionFree _ _
   exact ⟨Module.free_of_finite_type_torsion_free', hfin⟩
 
 /-- **Coordinates modulo `ℓᵏ` along an `O_E`-basis of `O_L`**: there are `e`, `β_i ∈ O_L/ℓᵏ` and

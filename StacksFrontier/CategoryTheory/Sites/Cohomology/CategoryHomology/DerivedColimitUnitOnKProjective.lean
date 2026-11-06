@@ -360,9 +360,9 @@ theorem totalDerivedColimitAdjunction_unit_app_Q_single (G : Cᵒᵖ ⥤ D) [Pro
           ((HomologicalComplex.singleMapHomologicalComplex
             (colim : (Cᵒᵖ ⥤ D) ⥤ D) (ComplexShape.up ℤ) 0).app G).hom).symm)).trans
       ((Functor.const Cᵒᵖ : D ⥤ (Cᵒᵖ ⥤ D)).mapDerivedCategory.map_comp _ _))).trans ?_
-  exact ((reassoc_of%
-      (qh_colimConstAdj_unit_app_single_comp_mapDerivedCategoryFactorsh_inv C D G)) _).trans
-    ((Category.assoc _ _ _).trans (rhs_leg_of_unit_app_Q_single C D G).symm)
+  refine ((reassoc_of%
+      (qh_colimConstAdj_unit_app_single_comp_mapDerivedCategoryFactorsh_inv C D G)) _).trans ?_
+  exact (rhs_leg_of_unit_app_Q_single C D G).symm
 
 end Stacks.CategoryHomology
 

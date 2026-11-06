@@ -370,7 +370,7 @@ lemma squareCotangentTermMap_universalSheafDerivation
     (x : (resolutionTerm.{u, v, w} J f n).obj.obj U) :
     (squareCotangentTermMap sq n).val.app U ((universalSheafDerivation J f n).d x) =
       (universalSheafDerivation J f' n).d ((sq.resolution n).hom.app U x) := by
-  have h := PresheafOfModules.Derivation.congr_d (X := U)
+  have h := PresheafOfModulesOfCommRing.Derivation.congr_d (X := U)
     ((cotangentSimplicialModule.{u, v, w} J f).derivationEquiv_eq_postcomp n
       (squareCotangentTermMap sq n)) x
   rw [squareCotangentTermMap_d] at h

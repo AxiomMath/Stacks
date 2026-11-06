@@ -220,18 +220,18 @@ variable {G : Type v} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [Com
 /-- Left translation by `σ` on the module coinduced from the normal subgroup `N`:
 `f ↦ σ • f(σ⁻¹ · -)`. -/
 def coindLeftTranslate (σ : G) (f : CoindRes N M) : CoindRes N M :=
-  ⟨fun x ↦ (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x)), fun h x ↦ by
+  ⟨fun x ↦ (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x)), fun h x ↦ by
       have hc : σ⁻¹ * (h : G) * σ ∈ N := by
         simpa using hN.conj_mem h h.2 σ⁻¹
-      change (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * ((h : G) * x))) =
-        (M.obj.obj.ρ h).hom ((M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x)))
+      change (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * ((h : G) * x))) =
+        (M.obj.obj.ρ h).asHom.hom ((M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x)))
       rw [show σ⁻¹ * ((h : G) * x) = (σ⁻¹ * h * σ) * (σ⁻¹ * x) by group,
         coindVal_mul f _ hc, ← ρ_mul_apply, ← ρ_mul_apply,
         show σ * (σ⁻¹ * (h : G) * σ) = h * σ by group],
     Subgroup.isOpen_mono (H₁ := rightStabilizer (coindVal f))
       (fun g hg x ↦ by
-        change (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * (x * g))) =
-          (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x))
+        change (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * (x * g))) =
+          (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x))
         rw [← mul_assoc, show coindVal f (σ⁻¹ * x * g) = coindVal f (σ⁻¹ * x) from hg _])
       (isOpen_rightStabilizer f)⟩
 
@@ -239,19 +239,19 @@ omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The value of `coindLeftTranslate N σ f` at `x` is `σ • f(σ⁻¹ * x)`. -/
 @[simp]
 lemma coindLeftTranslate_apply (σ : G) (f : CoindRes N M) (x : G) :
-    coindVal (coindLeftTranslate N σ f) x = (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x)) := rfl
+    coindVal (coindLeftTranslate N σ f) x = (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x)) := rfl
 
 /-- The map `f ↦ σ • f(σ⁻¹ · -) - f` on the underlying group of `Coind_N^G M`. -/
 def coindShiftSubHom (σ : G) : CoindRes N M →+ CoindRes N M where
   toFun f := coindLeftTranslate N σ f - f
   map_zero' := Subtype.ext (funext fun x ↦ by
-    change (M.obj.obj.ρ σ).hom 0 - 0 = 0
+    change (M.obj.obj.ρ σ).asHom.hom 0 - 0 = 0
     simp)
   map_add' f f' := Subtype.ext (funext fun x ↦ by
-    change (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x) + coindVal f' (σ⁻¹ * x)) -
+    change (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x) + coindVal f' (σ⁻¹ * x)) -
         (coindVal f x + coindVal f' x) =
-      ((M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x)) - coindVal f x) +
-        ((M.obj.obj.ρ σ).hom (coindVal f' (σ⁻¹ * x)) - coindVal f' x)
+      ((M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x)) - coindVal f x) +
+        ((M.obj.obj.ρ σ).asHom.hom (coindVal f' (σ⁻¹ * x)) - coindVal f' x)
     rw [map_add]
     abel)
 
@@ -259,7 +259,7 @@ omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The value of `coindShiftSubHom N σ f` at `x` is `σ • f(σ⁻¹ * x) - f(x)`. -/
 lemma coindShiftSubHom_apply (σ : G) (f : CoindRes N M) (x : G) :
     coindVal (coindShiftSubHom N σ f) x =
-      (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x)) - coindVal f x := rfl
+      (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x)) - coindVal f x := rfl
 
 /-- **The morphism `f ↦ σ • f(σ⁻¹ · -) - f` of `Coind_N^G M`.** It commutes with the action of
 `G` by right translation because left and right translations commute. -/
@@ -267,31 +267,31 @@ def coindShiftSub (σ : G) :
     (coinduction.{v, w} N).obj ((restriction N.subtype continuous_subtype_val).obj M) ⟶
       (coinduction.{v, w} N).obj ((restriction N.subtype continuous_subtype_val).obj M) :=
   (gModuleHomEquiv G _ _).symm ⟨coindShiftSubHom N σ, fun g f ↦ Subtype.ext (funext fun x ↦ by
-    change (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x * g)) - coindVal f (x * g) =
-      (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * (x * g))) - coindVal f (x * g)
+    change (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x * g)) - coindVal f (x * g) =
+      (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * (x * g))) - coindVal f (x * g)
     rw [mul_assoc])⟩
 
 omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The value of `coindShiftSub N σ` applied to `f` at `x` is `σ • f(σ⁻¹ * x) - f(x)`. -/
 lemma coindShiftSub_apply (σ : G) (f : CoindRes N M) (x : G) :
     coindVal (((coindShiftSub N σ).hom.hom.hom.hom f : CoindRes N M)) x =
-      (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x)) - coindVal f x := rfl
+      (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x)) - coindVal f x := rfl
 
 /-- The constant functions `x ↦ x • m`, the image of `M` in `Coind_N^G M`. -/
 def coindConstFun (m : M.obj.obj.V) : CoindRes N M :=
-  ⟨fun x ↦ (M.obj.obj.ρ x).hom m, fun h x ↦ by
-      change (M.obj.obj.ρ ((h : G) * x)).hom m = (M.obj.obj.ρ h).hom ((M.obj.obj.ρ x).hom m)
+  ⟨fun x ↦ (M.obj.obj.ρ x).asHom.hom m, fun h x ↦ by
+      change (M.obj.obj.ρ ((h : G) * x)).asHom.hom m = (M.obj.obj.ρ h).asHom.hom ((M.obj.obj.ρ x).asHom.hom m)
       rw [ρ_mul_apply],
     Subgroup.isOpen_mono (H₁ := elementStabilizer G M m)
       (fun g hg x ↦ by
-        change (M.obj.obj.ρ (x * g)).hom m = (M.obj.obj.ρ x).hom m
-        rw [ρ_mul_apply, show (M.obj.obj.ρ g).hom m = m from hg])
+        change (M.obj.obj.ρ (x * g)).asHom.hom m = (M.obj.obj.ρ x).asHom.hom m
+        rw [ρ_mul_apply, show (M.obj.obj.ρ g).asHom.hom m = m from hg])
       (isOpen_stabilizer ℤ G M m)⟩
 
 omit hN [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The value of `coindConstFun N m` at `x` is `x • m`. -/
 lemma coindConstFun_apply (m : M.obj.obj.V) (x : G) :
-    coindVal (coindConstFun N m) x = (M.obj.obj.ρ x).hom m := rfl
+    coindVal (coindConstFun N m) x = (M.obj.obj.ρ x).asHom.hom m := rfl
 
 /-- **The inclusion `M → Coind_N^G M`**, `m ↦ (x ↦ x • m)`: the unit of restriction and
 coinduction, written out. -/
@@ -300,26 +300,26 @@ def coindConst :
   (gModuleHomEquiv G _ _).symm
     ⟨{ toFun := coindConstFun N
        map_zero' := Subtype.ext (funext fun x ↦ by
-         change (M.obj.obj.ρ x).hom 0 = 0
+         change (M.obj.obj.ρ x).asHom.hom 0 = 0
          exact map_zero _)
        map_add' := fun a b ↦ Subtype.ext (funext fun x ↦ by
-         change (M.obj.obj.ρ x).hom (a + b) = (M.obj.obj.ρ x).hom a + (M.obj.obj.ρ x).hom b
+         change (M.obj.obj.ρ x).asHom.hom (a + b) = (M.obj.obj.ρ x).asHom.hom a + (M.obj.obj.ρ x).asHom.hom b
          exact map_add _ _ _) },
       fun g m ↦ Subtype.ext (funext fun x ↦ by
-        change (M.obj.obj.ρ x).hom ((M.obj.obj.ρ g).hom m) = (M.obj.obj.ρ (x * g)).hom m
+        change (M.obj.obj.ρ x).asHom.hom ((M.obj.obj.ρ g).asHom.hom m) = (M.obj.obj.ρ (x * g)).asHom.hom m
         rw [ρ_mul_apply])⟩
 
 omit hN [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- The value of `coindConst N` applied to `m` at `x` is `x • m`. -/
 lemma coindConst_apply (m : M.obj.obj.V) (x : G) :
-    coindVal ((coindConst N).hom.hom.hom.hom m : CoindRes N M) x = (M.obj.obj.ρ x).hom m := rfl
+    coindVal ((coindConst N).hom.hom.hom.hom m : CoindRes N M) x = (M.obj.obj.ρ x).asHom.hom m := rfl
 
 omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- `f ↦ σ • f(σ⁻¹ · -) - f` vanishes on the image of `coindConst N`. -/
 lemma coindShiftSub_coindConst (σ : G) (m : M.obj.obj.V) :
     (coindShiftSub N σ).hom.hom.hom.hom ((coindConst N).hom.hom.hom.hom m) = 0 :=
   Subtype.ext (funext fun x ↦ by
-    change (M.obj.obj.ρ σ).hom ((M.obj.obj.ρ (σ⁻¹ * x)).hom m) - (M.obj.obj.ρ x).hom m = 0
+    change (M.obj.obj.ρ σ).asHom.hom ((M.obj.obj.ρ (σ⁻¹ * x)).asHom.hom m) - (M.obj.obj.ρ x).asHom.hom m = 0
     rw [← ρ_mul_apply, mul_inv_cancel_left, sub_self])
 
 /-- The short complex `M → Coind_N^G M → Coind_N^G M`, the first map being `m ↦ (x ↦ x • m)`
@@ -332,7 +332,7 @@ def coindShiftShortComplex (M : ContinuousGModule.{v, max v w} G) (σ : G) :
 /-- The function `x ↦ x⁻¹ • f(x)` attached to an element of `Coind_N^G M`; it is invariant under
 left translation by `N`. -/
 def coindUntwist (f : CoindRes N M) (x : G) : M.obj.obj.V :=
-  (M.obj.obj.ρ x⁻¹).hom (coindVal f x)
+  (M.obj.obj.ρ x⁻¹).asHom.hom (coindVal f x)
 
 /-- The open normal subgroup `N ⊔ V`. -/
 def supOpenNormal (V : OpenNormalSubgroup G) : OpenNormalSubgroup G where
@@ -356,11 +356,11 @@ lemma coindUntwist_mul_right {f : CoindRes N M} {V : OpenNormalSubgroup G} (hV :
   have e1 : coindVal f (x * (n * u)) = coindVal f (x * n) := by
     rw [← mul_assoc]
     exact hV.1 hu (x * n)
-  have e2 : coindVal f (x * n) = (M.obj.obj.ρ (x * n * x⁻¹)).hom (coindVal f x) := by
+  have e2 : coindVal f (x * n) = (M.obj.obj.ρ (x * n * x⁻¹)).asHom.hom (coindVal f x) := by
     have := coindVal_mul f (x * n * x⁻¹) hc x
     rwa [show x * n * x⁻¹ * x = x * n by group] at this
   have hcu : x * u⁻¹ * x⁻¹ ∈ V.toSubgroup := V.isNormal'.conj_mem _ (V.inv_mem hu) x
-  have e3 : (M.obj.obj.ρ (x * u⁻¹ * x⁻¹)).hom (coindVal f x) = coindVal f x :=
+  have e3 : (M.obj.obj.ρ (x * u⁻¹ * x⁻¹)).asHom.hom (coindVal f x) = coindVal f x :=
     hV.2 x _ hcu
   unfold coindUntwist
   rw [e1, e2, ← ρ_mul_apply, show (x * (n * u))⁻¹ * (x * n * x⁻¹) = x⁻¹ * (x * u⁻¹ * x⁻¹) by
@@ -370,7 +370,7 @@ omit hN [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- An open normal subgroup adapted to `f` fixes the values of `x ↦ x⁻¹ • f(x)`. -/
 lemma ρ_coindUntwist {f : CoindRes N M} {V : OpenNormalSubgroup G} (hV : IsAdapted f V)
     (x u : G) (hu : u ∈ V.toSubgroup) :
-    (M.obj.obj.ρ u).hom (coindUntwist N f x) = coindUntwist N f x := by
+    (M.obj.obj.ρ u).asHom.hom (coindUntwist N f x) = coindUntwist N f x := by
   have hcu : x * u * x⁻¹ ∈ V.toSubgroup := V.isNormal'.conj_mem _ hu x
   unfold coindUntwist
   rw [← ρ_mul_apply, show u * x⁻¹ = x⁻¹ * (x * u * x⁻¹) by group, ρ_mul_apply, hV.2 x _ hcu]
@@ -378,7 +378,7 @@ lemma ρ_coindUntwist {f : CoindRes N M} {V : OpenNormalSubgroup G} (hV : IsAdap
 omit hN [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- `x • (x⁻¹ • f(x)) = f(x)`. -/
 lemma ρ_coindUntwist_self (f : CoindRes N M) (x : G) :
-    (M.obj.obj.ρ x).hom (coindUntwist N f x) = coindVal f x :=
+    (M.obj.obj.ρ x).asHom.hom (coindUntwist N f x) = coindVal f x :=
   ρ_apply_ρ_inv_apply M x _
 
 variable {N}
@@ -414,7 +414,7 @@ theorem mem_range_coindConst_of_coindShiftSub_eq_zero (f : CoindRes N M)
     (V : OpenNormalSubgroup G) (hV : IsAdapted f V)
     (hf : (coindShiftSub N σ).hom.hom.hom.hom f = 0) :
     f = (coindConst N).hom.hom.hom.hom (coindVal f 1) := by
-  have hT : ∀ x, (M.obj.obj.ρ σ).hom (coindVal f (σ⁻¹ * x)) = coindVal f x := fun x ↦
+  have hT : ∀ x, (M.obj.obj.ρ σ).asHom.hom (coindVal f (σ⁻¹ * x)) = coindVal f x := fun x ↦
     sub_eq_zero.mp (congrFun (congrArg Subtype.val hf) x)
   have hinv : ∀ x, coindUntwist N f (σ⁻¹ * x) = coindUntwist N f x := fun x ↦ by
     unfold coindUntwist
@@ -432,7 +432,7 @@ theorem mem_range_coindConst_of_coindShiftSub_eq_zero (f : CoindRes N M)
     rw [← hpow j x, ← one_mul (σ ^ j * x), coindUntwist_mul_right N hV 1 _ hj]
   apply Subtype.ext
   funext x
-  change coindVal f x = (M.obj.obj.ρ x).hom (coindVal f 1)
+  change coindVal f x = (M.obj.obj.ρ x).asHom.hom (coindVal f 1)
   rw [← ρ_coindUntwist_self N f x, hconst x]
   simp [coindUntwist]
 
@@ -467,25 +467,25 @@ theorem coindShiftSub_surjective (hM : ∀ x : M.obj.obj.V, ∃ k : ℕ, ℓ ^ k
     exact shiftSum_inv_mul_sub hW'W (coindUntwist_mul_right N hV) hφb (pow_mem_of_orderOf W σ)
       (pow_mem_of_orderOf W' σ) (fun i hi ↦ orderOf_dvd_of_pow_mem W' σ hi)
       (orderOf_pos_of_openNormal W' σ) hdvd (hgen W' hNW') x
-  have hψfix : ∀ x, ∀ u ∈ V.toSubgroup, (M.obj.obj.ρ u).hom (ψ x) = ψ x := fun x u hu ↦ by
+  have hψfix : ∀ x, ∀ u ∈ V.toSubgroup, (M.obj.obj.ρ u).asHom.hom (ψ x) = ψ x := fun x u hu ↦ by
     rw [hψ]
-    change (M.obj.obj.ρ u).hom (∑ i ∈ Finset.range _, coindUntwist N f (σ⁻¹ ^ i)) = _
+    change (M.obj.obj.ρ u).asHom.hom (∑ i ∈ Finset.range _, coindUntwist N f (σ⁻¹ ^ i)) = _
     rw [map_sum]
     exact Finset.sum_congr rfl fun i _ ↦ ρ_coindUntwist N hV _ u hu
-  let g : CoindRes N M := ⟨fun x ↦ (M.obj.obj.ρ x).hom (ψ x), fun h x ↦ by
-      change (M.obj.obj.ρ ((h : G) * x)).hom (ψ ((h : G) * x)) =
-        (M.obj.obj.ρ h).hom ((M.obj.obj.ρ x).hom (ψ x))
+  let g : CoindRes N M := ⟨fun x ↦ (M.obj.obj.ρ x).asHom.hom (ψ x), fun h x ↦ by
+      change (M.obj.obj.ρ ((h : G) * x)).asHom.hom (ψ ((h : G) * x)) =
+        (M.obj.obj.ρ h).asHom.hom ((M.obj.obj.ρ x).asHom.hom (ψ x))
       rw [ρ_mul_apply, hψl _ h.2],
     Subgroup.isOpen_mono (H₁ := V.toSubgroup ⊓ W'.toSubgroup)
       (fun u hu x ↦ by
-        change (M.obj.obj.ρ (x * u)).hom (ψ (x * u)) = (M.obj.obj.ρ x).hom (ψ x)
+        change (M.obj.obj.ρ (x * u)).asHom.hom (ψ (x * u)) = (M.obj.obj.ρ x).asHom.hom (ψ x)
         rw [hψr u hu.2, ρ_mul_apply, hψfix x u hu.1])
       (by
         rw [Subgroup.coe_inf]
         exact V.isOpen'.inter W'.isOpen')⟩
   refine ⟨g, Subtype.ext (funext fun x ↦ ?_)⟩
-  change (M.obj.obj.ρ σ).hom ((M.obj.obj.ρ (σ⁻¹ * x)).hom (ψ (σ⁻¹ * x))) -
-    (M.obj.obj.ρ x).hom (ψ x) = coindVal f x
+  change (M.obj.obj.ρ σ).asHom.hom ((M.obj.obj.ρ (σ⁻¹ * x)).asHom.hom (ψ (σ⁻¹ * x))) -
+    (M.obj.obj.ρ x).asHom.hom (ψ x) = coindVal f x
   rw [← ρ_mul_apply, mul_inv_cancel_left, ← map_sub, hψtel]
   exact ρ_coindUntwist_self N f x
 

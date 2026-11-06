@@ -78,7 +78,7 @@ lemma lanSection_comp_map {Y : D} {U U' : C} (φ : Y ⟶ u.obj U) (a : U ⟶ U')
     u.lanSection F (φ ≫ u.map a) t = u.lanSection F φ (F.map a.op t) := by
   have h := NatTrans.naturality_apply (u.op.lanUnit.app F) a.op t
   dsimp at h
-  simp only [lanSection, op_comp, FunctorToTypes.map_comp_apply, h]
+  simp only [lanSection, op_comp, Functor.map_comp_apply, h]
 
 variable [u.op.HasPointwiseLeftKanExtension F]
 

@@ -1189,6 +1189,13 @@ variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
   (F : PresheafOfModules.{w} (O ⋙ forget₂ CommRingCat RingCat))
 
+/-- Countable coproducts of sheaves of modules, stated directly: instance search for
+`HasColimit (Discrete.functor _)` in `SheafOfModules` times out under Lean v4.35.0. -/
+local instance : HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} (toRingCat J Osharp)) :=
+  haveI := PresheafOfModules.hasColimitsOfShape (toRingCat J Osharp).obj (Discrete ℕ)
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    (toRingCat J Osharp) (Discrete ℕ)
+
 /-- **The tensor-algebra universal property of the sheafified sectionwise tensor algebra.** -/
 theorem isTensorAlgebra_sectionwiseTensorAlgebra :
     GradedAlgebra.IsTensorAlgebra (sectionwiseTensorAlgebra J a F)

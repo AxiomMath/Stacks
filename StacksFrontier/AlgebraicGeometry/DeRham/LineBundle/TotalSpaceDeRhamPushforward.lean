@@ -139,10 +139,27 @@ the acyclicity above read at the unfolding of `CategoryTheory.Functor.rightAcycl
 the degreewise form of the identification that the de Rham cohomology half of
 [Stacks, Tag 0FUI] rests on. -/
 theorem Situation.isIso_rightDerivedFunctorPlusUnit_totalSpaceForms (p : ℕ) :
-    IsIso ((Scheme.Modules.pushforward D.totalSpaceToBase).rightDerivedFunctorPlusUnit.app
+    IsIso ((Scheme.Modules.pushforward D.totalSpaceToBase).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor D.totalSpace.Modules 0).obj
-        (Scheme.Hom.relativeDifferentialForms (D.totalSpaceToBase ≫ D.f) (p : ℤ)))) :=
-  D.rightAcyclic_pushforward_totalSpaceForms p
+        (Scheme.Hom.relativeDifferentialForms (D.totalSpaceToBase ≫ D.f) (p : ℤ)))) := by
+  have hac := D.rightAcyclic_pushforward_totalSpaceForms p
+  unfold Functor.rightAcyclic at hac
+  have : IsIso
+      ((Scheme.Modules.pushforward D.totalSpaceToBase).rightDerivedFunctorPlus.rightDerivedDesc
+      (Scheme.Modules.pushforward D.totalSpaceToBase).rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso _) _
+      (((Scheme.Modules.pushforward D.totalSpaceToBase).mapHomotopyCategoryPlus ⋙
+        DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso _))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  rw [← Functor.rightDerived_fac_app
+    (Scheme.Modules.pushforward D.totalSpaceToBase).rightDerivedFunctorPlus
+    (Scheme.Modules.pushforward D.totalSpaceToBase).rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso _) _
+    (((Scheme.Modules.pushforward D.totalSpaceToBase).mapHomotopyCategoryPlus ⋙
+      DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso _))] at hac
+  exact (isIso_comp_right_iff _ _).1 hac
 
 end Acyclic
 

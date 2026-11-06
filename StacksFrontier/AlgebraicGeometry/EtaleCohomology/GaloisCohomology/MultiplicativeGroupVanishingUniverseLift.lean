@@ -49,8 +49,8 @@ def unitsContinuousGModuleLift.{u, v} (K Ω : Type u) [Field K] [Field Ω] [Alge
 @[simp] theorem unitsContinuousGModuleLift_ρ_hom.{u, v} (K Ω : Type u) [Field K] [Field Ω]
     [Algebra K Ω] [IsGalois K Ω] (g : Gal(Ω/K))
     (a : (unitsContinuousGModuleLift.{u, v} K Ω).obj.obj.V) :
-    (((unitsContinuousGModuleLift.{u, v} K Ω).obj.obj.ρ g).hom a).down =
-      ((unitsContinuousGModule K Ω).obj.obj.ρ g).hom a.down := rfl
+    (((unitsContinuousGModuleLift.{u, v} K Ω).obj.obj.ρ g).asHom.hom a).down =
+      ((unitsContinuousGModule K Ω).obj.obj.ρ g).asHom.hom a.down := rfl
 
 /-- `H ¹(Gal(Ω/K), ULift Ωˣ) = 0` as a value of `continuousGroupCohomology.{u, v}`. -/
 theorem isZero_continuousGroupCohomology_unitsLift_one.{u, v} (K Ω : Type u) [Field K] [Field Ω]

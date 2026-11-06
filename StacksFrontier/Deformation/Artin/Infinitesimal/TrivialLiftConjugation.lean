@@ -37,7 +37,7 @@ open AlgebraicGeometry CategoryTheory
 
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberInclusion
-  CategoryTheory.Under.post CategoryTheory.BasedCategory.ofFunctor
+  CategoryTheory.BasedCategory.ofFunctor
   Deformation.Artin.predeformationCategory
 
 universe u v w
@@ -65,7 +65,7 @@ private theorem isIso_residueMorphism_dualPointObj :
   ArtinianLocalAlgCat.isIso_of_bijective_hom _
     ⟨fun _ _ h => (bijective_residueMap_dualPointObj Λ k).1 (congrArg ULift.down h),
       fun b => ⟨(bijective_residueMap_dualPointObj Λ k).2 b.down |>.choose,
-        ULift.ext _ _ ((bijective_residueMap_dualPointObj Λ k).2 b.down).choose_spec⟩⟩
+        ULift.ext ((bijective_residueMap_dualPointObj Λ k).2 b.down).choose_spec⟩⟩
 
 /-- **The pushforward of a point to the dual numbers is the trivial deformation.** For a point
 `y` of the predeformation category over the residue field and a choice `P` of its pushforwards,
@@ -150,7 +150,7 @@ public theorem exists_trivialLift_conjugation
             (dualNumbersUnderHom (p := D.projection) (x := y.1)) ≫
               eqToHom (yε.2.symm.trans (D.object_projection yε.1))).hom.toRingHom)) ∧
       ∃ Ψ : Aut yε ≃ (t ⟶ t),
-        (∀ a, (Ψ a).1.right = η.inv ≫ (D.morphisms yε.1 yε.1 a.hom.1).arrow ≫ η.hom) ∧
+        (∀ a, (Ψ a).1.right = η.inv ≫ (D.morphisms yε.1 yε.1 a.asIso.hom.1).arrow ≫ η.hom) ∧
         ∀ c : k, ∃ δ : t ⟶ t,
           δ.1.right ≫ η.inv ≫ (D.morphisms yε.1 yε.1
               (P.map (tangentScaling (p := D.projection) (x := y.1) c))).arrow ≫ η.hom =
@@ -187,7 +187,7 @@ public theorem exists_trivialLift_conjugation
     ((trivialAutEndEquiv B S hS iΛ toS hk p hp x₀ hx₀ hx (FGModuleCat.of k k)).trans
       (trivialEndEquiv B S hS iΛ toS hk p hp x₀ hx₀ hx (FGModuleCat.of k k))), ?_, ?_⟩
   · intro a
-    show (D.morphisms zε.1 zε.1 (ι.inv ≫ a.hom.1 ≫ ι.hom)).arrow = _
+    show (D.morphisms zε.1 zε.1 (ι.inv ≫ a.asIso.hom.1 ≫ ι.hom)).arrow = _
     rw [D.reversed_composition, D.reversed_composition, Category.assoc]
     rfl
   · intro c

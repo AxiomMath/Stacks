@@ -246,6 +246,21 @@ theorem mono_piComparison_rightDerivedPlus_one [HasExactLimitsOfShape (Discrete 
 
 end LeftExact
 
+/-- Products of sheaves of modules indexed by a type in the universe of the sections; named so
+that instance search does not time out finding them (Mathlib v4.35.0). -/
+instance (priority := high) hasLimitsOfShape_discrete_sheafOfModules
+    {X : Type u} [TopologicalSpace X] (O : Sheaf (Opens.grothendieckTopology X) RingCat.{u})
+    (I : Type u) : HasLimitsOfShape (Discrete I) (SheafOfModules.{u} O) :=
+  SheafOfModules.hasLimitsOfShape.{u} _ _
+
+/-- The limit of a discrete diagram of sheaves of modules, from
+`hasLimitsOfShape_discrete_sheafOfModules`, ahead of the generic instances whose search times
+out. -/
+instance (priority := high) hasLimit_discrete_sheafOfModules
+    {X : Type u} [TopologicalSpace X] {O : Sheaf (Opens.grothendieckTopology X) RingCat.{u}}
+    {I : Type u} (K : Discrete I ⥤ SheafOfModules.{u} O) : HasLimit K :=
+  (hasLimitsOfShape_discrete_sheafOfModules O I).has_limit K
+
 section Space
 
 attribute [local instance] HasDerivedCategory.standard

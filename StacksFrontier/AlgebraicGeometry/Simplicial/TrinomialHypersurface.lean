@@ -275,8 +275,8 @@ private noncomputable def trinomialLift (k : Type*) [CommRing k]
     trinomialRing k r s t →ₐ[k] B :=
   Ideal.Quotient.liftₐ _ (MvPolynomial.aeval a) (by
     intro p hp
-    have hle : Ideal.span {MvPolynomial.X (0 : Fin 3) ^ r +
-        MvPolynomial.X (1 : Fin 3) ^ s + MvPolynomial.X (2 : Fin 3) ^ t} ≤
+    have hle : Ideal.span {(MvPolynomial.X (0 : Fin 3) ^ r +
+        MvPolynomial.X (1 : Fin 3) ^ s + MvPolynomial.X (2 : Fin 3) ^ t)} ≤
         RingHom.ker (MvPolynomial.aeval (R := k) a).toRingHom := by
       rw [Ideal.span_singleton_le_iff_mem]
       simpa using ha

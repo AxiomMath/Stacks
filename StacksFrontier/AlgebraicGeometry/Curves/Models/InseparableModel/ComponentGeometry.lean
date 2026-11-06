@@ -5,6 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.Curves.GenusCurve.Basic
 public import StacksFrontier.AlgebraicGeometry.Variety.EulerChar.Cohomology
 public import StacksFrontier.AlgebraicGeometry.CohomologyZeroLinear.Basic
 public import StacksFrontier.AlgebraicGeometry.ProjBaseChange.IsIso
+public import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
 
 /-!
 # A regular model with an inseparable component: the geometry of the two components

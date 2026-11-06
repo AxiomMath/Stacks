@@ -93,7 +93,6 @@ theorem derivedPullbackUnitIsoGeneral_hom_naturality
   rw [← Functor.map_comp_assoc DerivedCategory.Q, h3, Functor.map_comp_assoc]
   rw (transparency := .default) [reassoc_of% h4]
   rw [← Functor.map_comp, ← Functor.map_comp, Iso.inv_hom_id_assoc]
-  rfl
 
 /-- **The identification `Lf^*(O_D[0]) ≅ O_C[0]` carries multiplication by a global section to
 multiplication by its image**: the derived pullback of multiplication by a global section `a` of

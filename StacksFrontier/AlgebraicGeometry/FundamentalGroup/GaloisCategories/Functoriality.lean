@@ -293,12 +293,9 @@ public def IsInnerConjugate {G' G : Type*} [Group G'] [Group G]
   ∃ g : G, ∀ x : G', h₂ x = g * h₁ x * g⁻¹
 
 private lemma aut_conjAut_eq_inner {C : Type uX} [Category.{vX, uX} C] {X : C}
-    (g a : Aut X) : g.conjAut a = g * a * g⁻¹ := by
-  show (show X ≅ X from g).conjAut a = _
+    (g a : Aut X) : g.asIso.conjAut a = g * a * g⁻¹ := by
   apply Aut.ext
-  rw [Iso.conjAut_hom, Iso.conj_apply]
-  simp only [Aut.Aut_mul_def, Aut.Aut_inv_def]
-  cat_disch
+  simp [Iso.conjAut_apply]
 
 private def liftFiberIso {C : Type u} [Category.{v} C]
     {A B : C ⥤ FintypeCat.{w}}
@@ -420,10 +417,9 @@ public theorem nonempty_galoisFunctorData_of_fiberIso
     refine NatIso.ofComponents (fun X => ?_) (fun f => ?_)
     · refine ObjectProperty.isoMk _ (Action.mkIso (t.app X).symm ?_)
       intro g
-      show (inducedHom F F' H t g).hom.app X ≫ t.inv.app X =
-        t.inv.app X ≫ g.hom.app (H.obj X)
+      show (inducedHom F F' H t g).asIso.hom.app X ≫ t.inv.app X =
+        t.inv.app X ≫ g.asIso.hom.app (H.obj X)
       simp [inducedHom, Iso.conjAut_hom, Iso.conj_apply, Functor.mapAut]
-      rfl
     · apply ObjectProperty.hom_ext
       apply Action.Hom.ext
       simp only [ContAction.res, ObjectProperty.lift, Action.res, Functor.comp_map]
@@ -459,7 +455,7 @@ public theorem galoisFunctorData_hom_innerConjugate
     {t₁ t₂ : H ⋙ F' ≅ F} (d₁ : GaloisFunctorData F F' H t₁)
     (d₂ : GaloisFunctorData F F' H t₂) :
     IsInnerConjugate d₁.hom.toMonoidHom d₂.hom.toMonoidHom := by
-  let g : Aut F := t₁.symm ≪≫ t₂
+  let g : Aut F := .of (t₁.symm ≪≫ t₂)
   refine ⟨g, fun x => ?_⟩
   rw [d₂.hom_toMonoidHom, d₁.hom_toMonoidHom]
   show t₂.conjAut
@@ -467,7 +463,7 @@ public theorem galoisFunctorData_hom_innerConjugate
     g *
       (t₁.conjAut (((Functor.whiskeringLeft C C' FintypeCat).obj H).mapAut F' x)) *
       g⁻¹
-  have ht : t₂ = t₁ ≪≫ g := by cat_disch
+  have ht : t₂ = t₁ ≪≫ g.asIso := by cat_disch
   rw [ht, Iso.trans_conjAut]
   exact aut_conjAut_eq_inner g _
 
@@ -546,16 +542,16 @@ public theorem nonempty_exactFunctorInducingData
   let y := (U'.mapIso c).inv.hom x
   change ((E'.inverse ⋙ E'.functor).obj A).obj.V at y
   show ConcreteCategory.hom (c.hom.hom.hom)
-      (ConcreteCategory.hom (((E'.inverse ⋙ E'.functor).obj A).obj.ρ a) y) =
-    ((h a).hom.app X).hom x
+      (ConcreteCategory.hom (((E'.inverse ⋙ E'.functor).obj A).obj.ρ a).asHom y) =
+    ((h a).asIso.hom.app X).hom x
   rw [← FintypeCat.comp_apply, ConcreteCategory.congr_hom (c.hom.hom.comm a) y,
     FintypeCat.comp_apply]
   have hy : ConcreteCategory.hom (c.hom.hom.hom) y = x := by
     show ConcreteCategory.hom (U'.mapIso c).hom.hom y = x
     exact ConcreteCategory.congr_hom ((U'.mapIso c).inv_hom_id) x
   rw [hy]
-  show ConcreteCategory.hom ((E.functor.obj X).obj.ρ (h a)) x = (h a).hom.app X x
-  show (h a) • x = (h a).hom.app X x
+  show ConcreteCategory.hom ((E.functor.obj X).obj.ρ (h a)).asHom x = (h a).asIso.hom.app X x
+  show (h a) • x = (h a).asIso.hom.app X x
   exact PreGaloisCategory.mulAction_def F (h a) x
 
 /-- The exact functor and fibre-functor isomorphism induced by a specified continuous

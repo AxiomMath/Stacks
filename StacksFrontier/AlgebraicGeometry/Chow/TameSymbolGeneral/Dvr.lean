@@ -123,7 +123,7 @@ ideal of the ring. -/
 private theorem comap_eq_maximalIdeal_of_isMaximal {B : Type u} [CommRing B] [Algebra A B]
     [Algebra.IsIntegral A B] (I : Ideal B) [I.IsMaximal] :
     I.comap (algebraMap A B) = IsLocalRing.maximalIdeal A :=
-  eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) I)
+  eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) I)
 
 /-- **The normalization of a discrete valuation ring has a single maximal ideal.** -/
 theorem card_normalizationDvrFamily_index :

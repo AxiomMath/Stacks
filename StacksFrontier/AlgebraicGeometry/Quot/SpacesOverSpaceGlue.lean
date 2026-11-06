@@ -281,7 +281,7 @@ theorem glue_ext {W : BigFppfOver B S hS} {t₁ t₂ : T.obj.obj (op W)} (e : pt
     (hx : (famMap G e).app (op W) x₁.1 = x₂.1) :
     (⟨t₁, x₁⟩ : GlueObj G W) = ⟨t₂, x₂⟩ := by
   have ht : t₁ = t₂ := by
-    simpa only [he, op_id, FunctorToTypes.map_id_apply] using fiber_as_eq e
+    simpa only [he, op_id, Functor.map_id_apply] using fiber_as_eq e
   subst ht
   rw [hom_ext_base e (𝟙 _) he, famMap_id_apply] at hx
   exact Sigma.ext rfl (heq_of_eq (Subtype.ext hx))
@@ -295,13 +295,13 @@ def glue : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u where
     rintro ⟨t, x⟩
     refine glue_ext G (ptHom (𝟙 W).unop rfl) rfl (restrictSec G (𝟙 W).unop t x) x ?_
     rw [famMap_restrictSec G _ _ _ _ rfl]
-    exact FunctorToTypes.map_id_apply _ _
+    exact Functor.map_id_apply (D := Type u) _ _ _
   map_comp {W W' W''} φ₁ φ₂ := by
     apply ConcreteCategory.hom_ext
     rintro ⟨t, x⟩
     have h : T.obj.map (φ₁ ≫ φ₂).unop.op t =
         T.obj.map (𝟙 W''.unop).op (T.obj.map φ₂.unop.op (T.obj.map φ₁.unop.op t)) := by
-      rw [op_id, FunctorToTypes.map_id_apply, ← FunctorToTypes.map_comp_apply]
+      rw [op_id, Functor.map_id_apply, ← Functor.map_comp_apply]
       rfl
     refine glue_ext G (ptHom (𝟙 W''.unop) h) rfl (restrictSec G (φ₁ ≫ φ₂).unop t x)
       (restrictSec G φ₂.unop _ (restrictSec G φ₁.unop t x)) ?_
@@ -315,7 +315,7 @@ def glue : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u where
             ((ptHom (𝟙 W''.unop) h ≫ ptHom φ₂.unop rfl) ≫ ptHom φ₁.unop rfl) (by
               change (𝟙 _ ≫ φ₂.unop) ≫ φ₁.unop = (φ₁ ≫ φ₂).unop
               rw [Category.id_comp, unop_comp]),
-          ← FunctorToTypes.map_comp_apply]
+          ← Functor.map_comp_apply]
         rfl
       · rw [famHom_famMap_apply, famHom_map_apply, (restrictSec G (φ₁ ≫ φ₂).unop t x).2,
           (restrictSec G φ₁.unop t x).2]
@@ -363,7 +363,7 @@ def famToGlue (a : (pointsCategory B S hS T).obj) : (fam G a).left.obj ⟶ glue 
     have h : T.obj.map ((famHom G a).app (op W'.unop) ((fam G a).left.obj.map φ.unop.op y)).op
         a.fiber.as =
           T.obj.map (𝟙 W'.unop).op (T.obj.map φ.unop.op (T.obj.map g.op a.fiber.as)) := by
-      rw [hg', op_id, FunctorToTypes.map_id_apply, ← FunctorToTypes.map_comp_apply, op_comp]
+      rw [hg', op_id, Functor.map_id_apply, ← Functor.map_comp_apply, op_comp]
     refine glue_ext G (ptHom (𝟙 W'.unop) h) rfl _ _ ?_
     apply ext_famMap G (ptHom φ.unop (rfl : T.obj.map φ.unop.op (T.obj.map g.op a.fiber.as) = _))
     · rw [← famMap_comp_apply, famMap_restrictSec G φ.unop _ _ (ptHom φ.unop rfl) rfl]
@@ -418,7 +418,7 @@ theorem isPullback_famToGlue (a : (pointsCategory B S hS T).obj) :
         exact Category.id_comp g
       have h : T.obj.map ((famHom G a).app W ((famMap G v).app W x.1)).op a.fiber.as =
           T.obj.map (𝟙 W.unop).op t := by
-        rw [hg, op_id, FunctorToTypes.map_id_apply]
+        rw [hg, op_id, Functor.map_id_apply]
         exact hz'.symm
       show famToGlueApp G a ((famMap G v).app W x.1) = ⟨t, x⟩
       refine glue_ext G (ptHom (𝟙 W.unop) h) rfl _ _ ?_

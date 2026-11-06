@@ -76,36 +76,36 @@ private lemma exists_invariant_multiple_of_action_hom
     (hAcont : A.IsContinuous)
     (hAdisc : DiscreteTopology ((forget₂ (Action (ModuleCat.{v} ℤ) G) TopCat).obj A))
     (f : A ⟶ B) (x : ↑A.V)
-    (hy : ∀ (g : G), ConcreteCategory.hom (B.ρ g)
+    (hy : ∀ (g : G), ConcreteCategory.hom (B.ρ g).asHom
       (ConcreteCategory.hom f.hom x) = ConcreteCategory.hom f.hom x) :
     ∃ n : ℕ, 0 < n ∧ ∃ z : ↑A.V,
-      (∀ g, ConcreteCategory.hom (A.ρ g) z = z) ∧
+      (∀ g, ConcreteCategory.hom (A.ρ g).asHom z = z) ∧
         ConcreteCategory.hom f.hom z = (n : ℤ) • ConcreteCategory.hom f.hom x := by
   let : CompactSpace G := hG.1
   let : TopologicalSpace (↑A.V) := ((forget₂ (ModuleCat.{v} ℤ) TopCat).obj A.V).str
   let : DiscreteTopology (↑A.V) := hAdisc
   let : MulAction G (↑A.V) :=
-    { smul g x := ConcreteCategory.hom (A.ρ g) x
-      one_smul x := by change ConcreteCategory.hom (A.ρ 1) x = x; simp
+    { smul g x := ConcreteCategory.hom (A.ρ g).asHom x
+      one_smul x := by change ConcreteCategory.hom (A.ρ 1).asHom x = x; simp
       mul_smul g h x := by
-        show ConcreteCategory.hom (A.ρ (g * h)) x =
-          ConcreteCategory.hom (A.ρ g) (ConcreteCategory.hom (A.ρ h) x)
+        show ConcreteCategory.hom (A.ρ (g * h)).asHom x =
+          ConcreteCategory.hom (A.ρ g).asHom (ConcreteCategory.hom (A.ρ h).asHom x)
         rw [map_mul]
         rfl }
   let : DistribMulAction G (↑A.V) :=
-    { smul_zero g := map_zero (ConcreteCategory.hom (A.ρ g))
-      smul_add g := map_add (ConcreteCategory.hom (A.ρ g)) }
+    { smul_zero g := map_zero (ConcreteCategory.hom (A.ρ g).asHom)
+      smul_add g := map_add (ConcreteCategory.hom (A.ρ g).asHom) }
   let : MulAction G (↑B.V) :=
-    { smul g x := ConcreteCategory.hom (B.ρ g) x
-      one_smul x := by change ConcreteCategory.hom (B.ρ 1) x = x; simp
+    { smul g x := ConcreteCategory.hom (B.ρ g).asHom x
+      one_smul x := by change ConcreteCategory.hom (B.ρ 1).asHom x = x; simp
       mul_smul g h x := by
-        show ConcreteCategory.hom (B.ρ (g * h)) x =
-          ConcreteCategory.hom (B.ρ g) (ConcreteCategory.hom (B.ρ h) x)
+        show ConcreteCategory.hom (B.ρ (g * h)).asHom x =
+          ConcreteCategory.hom (B.ρ g).asHom (ConcreteCategory.hom (B.ρ h).asHom x)
         rw [map_mul]
         rfl }
   let : DistribMulAction G (↑B.V) :=
-    { smul_zero g := map_zero (ConcreteCategory.hom (B.ρ g))
-      smul_add g := map_add (ConcreteCategory.hom (B.ρ g)) }
+    { smul_zero g := map_zero (ConcreteCategory.hom (B.ρ g).asHom)
+      smul_add g := map_add (ConcreteCategory.hom (B.ρ g).asHom) }
   let : ContinuousSMul G (↑A.V) := ⟨(Action.isContinuous_def A).mp hAcont⟩
   let f' : A.V ⟶ B.V := f.hom
   let d : (↑A.V) →+ (↑B.V) :=
@@ -114,8 +114,8 @@ private lemma exists_invariant_multiple_of_action_hom
       map_add' := f'.hom.map_add }
   have hd : ∀ (g : G) (a : ↑A.V), d (g • a) = g • d a := by
     intro g a
-    show f'.hom (ConcreteCategory.hom (A.ρ g) a) =
-      ConcreteCategory.hom (B.ρ g) (f'.hom a)
+    show f'.hom (ConcreteCategory.hom (A.ρ g).asHom a) =
+      ConcreteCategory.hom (B.ρ g).asHom (f'.hom a)
     simpa [f'] using ConcreteCategory.congr_hom (f.comm g) a
   exact finite_orbit_sum_fixed continuous_smul d hd x hy
 
@@ -168,7 +168,7 @@ private noncomputable def invariantsUnitAppSingle {C D : Type*} [Category C] [Ca
       HomotopyCategory.Plus.singleFunctor C 0 ⋙ DerivedCategory.Plus.Qh ⋙
         F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.homologyFunctor D 0 :=
   Functor.whiskerLeft (HomotopyCategory.Plus.singleFunctor C 0)
-    (Functor.whiskerRight F.rightDerivedFunctorPlusUnit
+    (Functor.whiskerRight F.rightDerivedFunctorPlusUnith
       (DerivedCategory.Plus.homologyFunctor D 0))
 
 private noncomputable def invariantsRightDerivedZeroIso {C D : Type*} [Category C]
@@ -178,7 +178,7 @@ private noncomputable def invariantsRightDerivedZeroIso {C D : Type*} [Category 
   have hunit : IsIso (invariantsUnitAppSingle F) := by
     have : ∀ X, IsIso ((invariantsUnitAppSingle F).app X) :=
       (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-        F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).2.2.2 inferInstance
+        F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).2.2.2 inferInstance
     exact NatIso.isIso_of_isIso_app _
   exact
     (Functor.isoWhiskerRight (Functor.mapSingleFunctorCompQhIso F)
@@ -194,7 +194,7 @@ private noncomputable def derivedRightDerivedCommShift {C D : Type*} [Category C
     [Abelian C] [Abelian D] [HasDerivedCategory C] [HasDerivedCategory D]
     (F : C ⥤ D) [F.Additive] [EnoughInjectives C] :
     F.rightDerivedFunctorPlus.CommShift ℤ :=
-  Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnit
+  Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso C) ℤ
 
 attribute [local instance] derivedRightDerivedCommShift
@@ -202,9 +202,9 @@ attribute [local instance] derivedRightDerivedCommShift
 private lemma derivedRightDerivedUnitCommShift {C D : Type*} [Category C] [Category D]
     [Abelian C] [Abelian D] [HasDerivedCategory C] [HasDerivedCategory D]
     (F : C ⥤ D) [F.Additive] [EnoughInjectives C] :
-    NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ :=
+    NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ :=
   Functor.IsRightDerivedFunctor.natTrans_commShift F.rightDerivedFunctorPlus
-    F.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C) ℤ
+    F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C) ℤ
 
 attribute [local instance] derivedRightDerivedUnitCommShift
 
@@ -213,7 +213,7 @@ private lemma derivedRightDerivedTriangulated {C D : Type*} [Category C] [Catego
     (F : C ⥤ D) [F.Additive] [EnoughInjectives C] :
     F.rightDerivedFunctorPlus.IsTriangulated :=
   Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus F _
-    F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlusUnith
 
 attribute [local instance] derivedRightDerivedTriangulated
 
@@ -356,7 +356,7 @@ private lemma exists_annihilator_degree_one
   obtain ⟨x, hx⟩ := surjective_action_forget_map_of_epi S.g hS.epi_g y0.1
   have hx' : ConcreteCategory.hom gA.hom x = y0.1 := hx
   have hy0 : ∀ g : G,
-      ConcreteCategory.hom (B.ρ g) (ConcreteCategory.hom gA.hom x) =
+      ConcreteCategory.hom (B.ρ g).asHom (ConcreteCategory.hom gA.hom x) =
         ConcreteCategory.hom gA.hom x := by
     intro g
     rw [hx']

@@ -151,6 +151,14 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on a big fppf site over a scheme (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_RegularCompletionProper
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The closed fibre of the completed base change -/
 
 variable (A : Type u) [CommRing A] [IsNoetherianRing A] [IsLocalRing A]

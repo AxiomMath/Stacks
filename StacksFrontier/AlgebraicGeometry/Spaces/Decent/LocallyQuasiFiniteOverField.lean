@@ -31,6 +31,26 @@ variable (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.Contains S)
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this). -/
+local instance hasPullbacks_presheaf_LocallyQuasiFiniteOverField :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_LocallyQuasiFiniteOverField
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Binary products of presheaves on the big fppf site. -/
+local instance hasBinaryProducts_presheaf_LocallyQuasiFiniteOverField :
+    HasBinaryProducts ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small discrete limits of presheaves on the big fppf site. -/
+local instance hasLimitsOfShape_discrete_presheaf_LocallyQuasiFiniteOverField (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-- The source of a quasi-compact, locally quasi-finite morphism to a finite scheme is finite. -/
 private theorem finite_of_quasiCompact_of_locallyQuasiFinite {X Y : Scheme.{u}} (f : X ⟶ Y)
     [QuasiCompact f] [LocallyQuasiFinite f] [Finite Y] : Finite X := by

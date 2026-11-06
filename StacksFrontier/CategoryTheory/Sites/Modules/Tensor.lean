@@ -80,7 +80,7 @@ the underlying presheaf of rings of `Osharp`. -/
 noncomputable instance monoidalCategoryAssociatedRing
     (Osharp : Sheaf J CommRingCat.{w}) :
     MonoidalCategory (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Osharp).obj) :=
-  PresheafOfModules.monoidalCategory (R := Osharp.obj)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := Osharp.obj)
 
 variable {O : Cᵒᵖ ⥤ CommRingCat.{w}} {Osharp : Sheaf J CommRingCat.{w}}
   (a : O ⟶ Osharp.obj)

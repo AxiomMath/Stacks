@@ -192,7 +192,7 @@ theorem FMap.app_precomp {P : (SmallEtale B S hS X.1)ᵒᵖ ⥤ Type*}
     (d : ChartDiagram B S hS X.1 Y.1 f.hom) {U' : SmallEtale B S hS X.1} (k : U' ⟶ d.U)
     (s : Q.obj (op d.V)) :
     ξ.app (d.precomp B S hS k) s = P.map k.op (ξ.app d s) :=
-  (congrArg (ξ.app (d.precomp B S hS k)) (FunctorToTypes.map_id_apply Q s).symm).trans
+  (congrArg (ξ.app (d.precomp B S hS k)) (Q.map_id_apply _ s).symm).trans
     (ξ.naturality d (d.precomp B S hS k) k (𝟙 d.V) (Category.comp_id _).symm s)
 
 end ChartCorrespondence
@@ -222,7 +222,7 @@ theorem _root_.CategoryTheory.Functor.sheafPushforwardContinuousIso_hom_app_hom_
 theorem map_op_comp_hom_map_inv_op {C : Type*} [Category C] (P : Cᵒᵖ ⥤ Type*) {A B Z' : C}
     (e : A ≅ B) (h : Z' ⟶ A) (x : P.obj (op A)) :
     P.map (h ≫ e.hom).op (P.map e.inv.op x) = P.map h.op x := by
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp, Category.assoc, e.hom_inv_id, Category.comp_id]
+  rw [← Functor.map_comp_apply, ← op_comp, Category.assoc, e.hom_inv_id, Category.comp_id]
 
 /-- `map_op_comp_hom_map_inv_op` for the components of a natural isomorphism. -/
 theorem map_op_comp_hom_app_map_inv_app_op {C D : Type*} [Category C] [Category D]

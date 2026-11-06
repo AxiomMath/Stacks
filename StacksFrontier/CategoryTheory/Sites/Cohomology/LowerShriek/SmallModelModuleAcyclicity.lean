@@ -350,6 +350,11 @@ theorem isSumOfExtensionByZeroUnits_sourceModulesEquivalence_obj
       ((sourceModulesEquivalence J K f O).functor.obj M) := by
   obtain ⟨ι, U, ⟨e⟩⟩ := hM
   refine ⟨ι, fun i => (equivalence.{w} (C := C)).inverse.obj (U i), ⟨?_⟩⟩
+  have : HasColimitsOfShape (Discrete ι)
+      (PresheafOfModules.{w} (inverseImageRing J K f (targetRing K O)).obj) :=
+    PresheafOfModules.hasColimitsOfShape _ _
+  have : HasColimitsOfShape (Discrete ι)
+      (SheafOfModules.{w} (inverseImageRing J K f (targetRing K O))) := inferInstance
   exact (Sigma.mapIso fun i =>
       (sourceModulesEquivalenceExtensionByZeroUnitIso J K f O (U i)).symm) ≪≫
     (PreservesCoproduct.iso (sourceModulesEquivalence J K f O).functor _).symm ≪≫

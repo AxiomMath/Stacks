@@ -63,32 +63,33 @@ open scoped IsMulCommutative
 commutativity assumption expresses that the structure sheaf is a sheaf of commutative
 rings. -/
 def globalSectionToEnd (f : (R.obj ⋙ forget RingCat).sections) :
-    End (𝟭 (_root_.SheafOfModules.{m} R)) where
-  app M := ⟨{
-    app U := ModuleCat.ofHom (LinearMap.lsmul (R.obj.obj U) (M.val.obj U) (f.val U))
-    naturality := by
-      intro U V i; ext x
-      change f.val V • M.val.map i x = M.val.map i (f.val U • x)
-      rw [M.val.map_smul]
-      exact congrArg (fun r => r • M.val.map i x) (f.property i).symm }⟩
-  naturality M N g := by
-    ext U x; exact (g.val.app U).hom.map_smul (f.val U) x |>.symm
+    End (𝟭 (_root_.SheafOfModules.{m} R)) :=
+  .of
+    { app M := ⟨{
+        app U := ModuleCat.ofHom (LinearMap.lsmul (R.obj.obj U) (M.val.obj U) (f.val U))
+        naturality := by
+          intro U V i; ext x
+          change f.val V • M.val.map i x = M.val.map i (f.val U • x)
+          rw [M.val.map_smul]
+          exact congrArg (fun r => r • M.val.map i x) (f.property i).symm }⟩
+      naturality M N g := by
+        ext U x; exact (g.val.app U).hom.map_smul (f.val U) x |>.symm }
 
 /-- On local sections, the natural endomorphism is scalar multiplication. -/
 @[simp] theorem globalSectionToEnd_apply
     (f : (R.obj ⋙ forget RingCat).sections)
     (M : _root_.SheafOfModules.{m} R) (U : Cᵒᵖ) (x : M.val.obj U) :
-    ((globalSectionToEnd R f).app M).val.app U x = f.val U • x := rfl
+    ((globalSectionToEnd R f).asHom.app M).val.app U x = f.val U • x := rfl
 
 /-- Powers of the natural endomorphism multiply by the corresponding scalar powers. -/
 @[simp] theorem globalSectionToEnd_pow_apply
     (f : (R.obj ⋙ forget RingCat).sections)
     (M : _root_.SheafOfModules.{m} R) (n : ℕ) (U : Cᵒᵖ) (x : M.val.obj U) :
-    (((globalSectionToEnd R f) ^ n).app M).val.app U x = (f.val U) ^ n • x := by
+    (((globalSectionToEnd R f) ^ n).asHom.app M).val.app U x = (f.val U) ^ n • x := by
   induction n generalizing x with
-  | zero => simp
+  | zero => simp [End.one_asHom]
   | succ n ih =>
-    show (((globalSectionToEnd R f) ^ n).app M).val.app U (f.val U • x) = _
+    show (((globalSectionToEnd R f) ^ n).asHom.app M).val.app U (f.val U • x) = _
     rw [ih, ← mul_smul, ← pow_succ]
 
 /-- The product of two of these endomorphisms acts on local sections by the product of the two
@@ -96,7 +97,7 @@ local scalars. -/
 @[simp] theorem globalSectionToEnd_mul_apply
     (f g : (R.obj ⋙ forget RingCat).sections)
     (M : _root_.SheafOfModules.{m} R) (U : Cᵒᵖ) (x : M.val.obj U) :
-    ((globalSectionToEnd R f * globalSectionToEnd R g).app M).val.app U x =
+    ((globalSectionToEnd R f * globalSectionToEnd R g).asHom.app M).val.app U x =
       (f.val U * g.val U) • x := by
   show f.val U • g.val U • x = _
   rw [mul_smul]
@@ -109,7 +110,7 @@ endomorphisms. -/
 theorem globalSectionToEnd_mul_of_val (a b c : (R.obj ⋙ forget RingCat).sections)
     (hc : ∀ U, c.val U = a.val U * b.val U) :
     globalSectionToEnd.{v, u, w, m} R c = globalSectionToEnd R a * globalSectionToEnd R b := by
-  refine NatTrans.ext (funext fun M => ?_)
+  refine End.ext (NatTrans.ext (funext fun M => ?_))
   ext U x
   rw [globalSectionToEnd_apply, globalSectionToEnd_mul_apply, hc]
 
@@ -132,7 +133,7 @@ def terminalSectionToEnd (T : C) (hT : IsTerminal T) (f : R.obj.obj (op T)) :
 @[simp] theorem terminalSectionToEnd_apply
     (T : C) (hT : IsTerminal T) (f : R.obj.obj (op T))
     (M : _root_.SheafOfModules.{m} R) (U : Cᵒᵖ) (x : M.val.obj U) :
-    ((terminalSectionToEnd R T hT f).app M).val.app U x =
+    ((terminalSectionToEnd R T hT f).asHom.app M).val.app U x =
       R.obj.map (hT.from U.unop).op f • x := rfl
 
 /-- **A section over a terminal object killing every local section of a sheaf of modules kills
@@ -147,7 +148,7 @@ annihilation behind [Stacks, Tag 0GA1] consumes it. -/
 theorem terminalSectionToEnd_app_eq_zero (T : C) (hT : IsTerminal T) (f : R.obj.obj (op T))
     (M : _root_.SheafOfModules.{m} R)
     (h : ∀ (U : Cᵒᵖ) (x : M.val.obj U), R.obj.map (hT.from U.unop).op f • x = 0) :
-    (terminalSectionToEnd R T hT f).app M = 0 := by
+    (terminalSectionToEnd R T hT f).asHom.app M = 0 := by
   ext U x
   exact h U x
 
@@ -155,7 +156,7 @@ theorem terminalSectionToEnd_app_eq_zero (T : C) (hT : IsTerminal T) (f : R.obj.
 @[simp] theorem terminalSectionToEnd_pow_apply
     (T : C) (hT : IsTerminal T) (f : R.obj.obj (op T))
     (M : _root_.SheafOfModules.{m} R) (n : ℕ) (U : Cᵒᵖ) (x : M.val.obj U) :
-    (((terminalSectionToEnd R T hT f) ^ n).app M).val.app U x =
+    (((terminalSectionToEnd R T hT f) ^ n).asHom.app M).val.app U x =
       (R.obj.map (hT.from U.unop).op f) ^ n • x := by
   simp only [terminalSectionToEnd, globalSectionToEnd_pow_apply, terminalSection]
 

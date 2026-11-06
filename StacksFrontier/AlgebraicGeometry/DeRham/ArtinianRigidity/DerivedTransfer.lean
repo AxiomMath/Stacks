@@ -195,7 +195,7 @@ variable [IsAffineHom q]
 `relativeBase q f` is an isomorphism at the de Rham complex of `W`, i.e. `q_*Ω^•_{W/S}` computes
 `Rq_*Ω^•_{W/S}`. -/
 theorem isIso_unit_deRhamPlus :
-    IsIso ((_root_.pushforward (relativeBase q f)).rightDerivedFunctorPlusUnit.app
+    IsIso ((_root_.pushforward (relativeBase q f)).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient _).obj (deRhamPlus q f))) :=
   CategoryTheory.Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _
     (rightAcyclic_pushforward_relativeBase_int q f)
@@ -211,7 +211,7 @@ def derivedDeRhamDirectImageIsoOfQuasiIso (h : QuasiIso (deRhamPushforwardChain 
       (asIso (DerivedCategory.Plus.Q.map (X := deRhamPlusBase f) (Y := deRhamPushforwardPlus q f)
           (ObjectProperty.homMk (deRhamPushforwardInt q f))) ≪≫
         qPushforwardIso q f ≪≫
-        asIso ((_root_.pushforward (relativeBase q f)).rightDerivedFunctorPlusUnit.app
+        asIso ((_root_.pushforward (relativeBase q f)).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient _).obj (deRhamPlus q f))) ≪≫
         (_root_.pushforward (relativeBase q f)).rightDerivedFunctorPlus.mapIso
           (qhQuotientIso (deRhamPlus q f))) ≪≫

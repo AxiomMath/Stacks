@@ -68,6 +68,17 @@ open ProjectiveQuot
 
 universe u
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Kernels in modules over a scheme, found once (instance search times out on the composites
+below). -/
+local instance hasKernels_schemeModules_FramedReading (X : Scheme.{u}) : HasKernels X.Modules :=
+  inferInstance
+
+/-- Kernels of morphisms of modules over a scheme, from `hasKernels_schemeModules_FramedReading`. -/
+local instance (priority := high) hasKernel_schemeModules_FramedReading {X : Scheme.{u}}
+    {M N : X.Modules} (f : M ⟶ N) : HasKernel f :=
+  HasKernels.has_limit f
+
 variable {B : BigFppfSite.{u}} {n : ℕ}
   {D : Space.QuotSituation B integerBase B.contains_integerBase} (E : ProjectiveFrame B n D)
   {W : BigFppfOver B integerBase B.contains_integerBase}
@@ -348,9 +359,10 @@ theorem absSub_pullback {W W' : BigFppfOver B integerBase B.contains_integerBase
         ((𝒯).obj W) W.left.property)
     (Scheme.Modules.pullback (_root_.AlgebraicGeometry.SmallEtale.schemeHom
       (associatedBigEtaleSite B) pg.left)) τ.hom (cokernel.π K.arrow)
-  have : IsIso (absReadingHom φ sp pa hT F₀ hF₀ τ) := by
+  have hIsoR : IsIso (absReadingHom φ sp pa hT F₀ hF₀ τ) := by
     unfold absReadingHom
     infer_instance
+  have : Epi (absReadingHom φ sp pa hT F₀ hF₀ τ) := IsIso.epi_of_iso _
   have := epi_comp (absReadingHom φ sp pa hT F₀ hF₀ τ)
     ((_root_.AlgebraicGeometry.SmallEtale.restrictModule (associatedBigEtaleSite B)
         ((𝒯).obj W) W.left.property).map

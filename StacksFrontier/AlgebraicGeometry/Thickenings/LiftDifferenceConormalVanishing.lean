@@ -168,6 +168,8 @@ theorem mapDifferenceApp_eq_zero_of_conormalSheafMap_eq
       (idealSheaf i.toLRSHom.toShHom)).val.app (op (b' ⁻¹ᵁ V)) Eb)
   -- Step 3: cancel the unit, which is an isomorphism for a first-order thickening.
   have := isIso_unit_app_idealSheaf i hsq
+  have : Mono ((modulePullbackPushforwardAdjunction i.toLRSHom.toShHom).unit.app
+      (idealSheaf i.toLRSHom.toShHom)) := IsIso.mono_of_iso _
   have hE : Ea = (idealSheaf i.toLRSHom.toShHom).val.map (homOfLE hab').op Eb :=
     Stacks.SheafOfModules.injective_val_app_of_mono_evaluation
       ((modulePullbackPushforwardAdjunction i.toLRSHom.toShHom).unit.app

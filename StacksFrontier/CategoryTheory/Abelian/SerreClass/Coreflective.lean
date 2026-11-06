@@ -3,6 +3,7 @@ module
 public import Mathlib.CategoryTheory.Abelian.Opposite
 public import Mathlib.CategoryTheory.Abelian.SerreClass.Bousfield
 public import Mathlib.CategoryTheory.Abelian.Transfer
+public import Mathlib.CategoryTheory.Adjunction.Opposites
 public import Mathlib.CategoryTheory.Limits.Preserves.Opposites
 public import Mathlib.CategoryTheory.Localization.Adjunction
 

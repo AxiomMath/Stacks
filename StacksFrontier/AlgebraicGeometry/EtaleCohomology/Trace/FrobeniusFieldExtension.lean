@@ -114,7 +114,7 @@ lemma geometricFrobeniusBaseChangePow_succ (m : ℕ) :
     geometricFrobeniusBaseChangePow Y kbar p q hcard (m + 1) =
       geometricFrobeniusBaseChange Y kbar p q hcard ≫
         geometricFrobeniusBaseChangePow Y kbar p q hcard m := by
-  simp only [pow_succ, End.mul_def]
+  simp only [geometricFrobeniusBaseChangePow, pow_succ, End.mul_asHom]
 
 /-- `π̄_Y ^ m` lies over the `q m`-fold absolute Frobenius of `Y`. -/
 @[reassoc]
@@ -126,12 +126,12 @@ lemma geometricFrobeniusBaseChangePow_fst (m : ℕ) :
   induction m with
   | zero =>
       rw [Nat.mul_zero, absoluteFrobeniusPow_zero]
-      simp only [pow_zero]
-      rfl
+      simp only [geometricFrobeniusBaseChangePow, pow_zero, End.one_asHom, Category.id_comp,
+        Category.comp_id]
   | succ m ih =>
       rw [geometricFrobeniusBaseChangePow_succ, Category.assoc, ih,
         geometricFrobeniusBaseChange_comp_fst_assoc, geometricFrobenius_left, Nat.mul_succ]
-      simp only [absoluteFrobeniusPow, pow_add, End.mul_def]
+      simp only [absoluteFrobeniusPow, pow_add, End.mul_asHom]
 
 /-- `π̄_Y ^ m` is the identity on the second factor. -/
 @[reassoc]
@@ -141,8 +141,7 @@ lemma geometricFrobeniusBaseChangePow_snd (m : ℕ) :
       pullback.snd Y.hom (specAlgebraMap k kbar) := by
   induction m with
   | zero =>
-      simp only [pow_zero]
-      rfl
+      simp only [geometricFrobeniusBaseChangePow, pow_zero, End.one_asHom, Category.id_comp]
   | succ m ih =>
       rw [geometricFrobeniusBaseChangePow_succ, Category.assoc, ih,
         geometricFrobeniusBaseChange_comp_snd]

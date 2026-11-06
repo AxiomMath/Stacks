@@ -696,6 +696,13 @@ private theorem algebraicSpaceMap_eq_relocalizedProjection
   rw [he] at h
   exact h.symm
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves of types (instance search times out without this shortcut). -/
+private instance (priority := high) presheaf_hasLimitsOfShape_discrete
+    {C : Type*} [Category* C] (J : Type) :
+    HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 private theorem algebraicSpaceMap_isPullback_of_restrictionIso
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {V U : BigFppfOver B S hS} (h : V ⟶ U)
@@ -1969,6 +1976,7 @@ private theorem limitPreserving_small
   exact ⟨E.inverse.obj i', E.inverse.map j, x', xU, δ, β, γ',
     hδ, hβ, hβiso, hγ', hcomm⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 private theorem etale_chart_of_open_immersion
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : BigFppfOver B S hS} (g : X ⟶ Y)

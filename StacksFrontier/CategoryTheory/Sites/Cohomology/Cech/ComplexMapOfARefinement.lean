@@ -97,7 +97,7 @@ theorem cechFormalCoproductMap_φ_comp_π
       Pi.π (fun a ↦ Over.mk (E.f (i a))) (r b) := by
   show Pi.lift (fun a ↦ Pi.π (fun b ↦ Over.mk (E.f (i b))) (r a)) ≫
       Pi.π (fun a ↦ Over.mk (E.f (i (r a)))) b = _
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 private theorem cechProductMapOver_comp_π
     {C : Type u} [Category.{v} C] {U V : C}
@@ -214,7 +214,7 @@ theorem evalOpMapCompPi
   show (Pi.lift (fun i : X.I ↦
     Pi.π (fun j : Y.I ↦ P.obj (op (Y.obj j))) (g.f i) ≫ P.map (g.φ i).op) ≫
       Pi.π (fun j : X.I ↦ P.obj (op (X.obj j))) i) = _
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
 
 /-- The degree `n` component of the map of Čech complexes: the map from the product of the values
 of `F` on the iterated fibre products of `G` to that for `E`, whose component at the tuple `i` is
@@ -264,7 +264,7 @@ theorem cechComplexMapDegree_comp_π_formal
       F.map (cechProductMap E G φ n i).op) ≫
     Pi.π (fun i : ToType (SimplexCategory.mk n) → E.I₀ ↦
       F.obj (op ((∏ᶜ (fun a ↦ Over.mk (E.f (i a)))).left))) i = _)
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
 
 
 /-- A degreewise family of maps commuting with each signed coface map commutes with the

@@ -331,7 +331,7 @@ theorem liftDifferenceDifferentialsHom_liftDifferenceDataOfHom :
   refine (eq_descendedDifferentialsHom B S hS b a C
     (liftDifferenceDataOfHom B S hS b a C f ι_smul θ).toQuotientDerivation
     (liftDifferenceDataOfHom_descend_eq_zero B S hS b a C f ι_smul θ) θ ?_).symm
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext V t
   exact (liftDifferenceDataOfHom_descend_apply B S hS b a C f ι_smul θ V t).symm
 

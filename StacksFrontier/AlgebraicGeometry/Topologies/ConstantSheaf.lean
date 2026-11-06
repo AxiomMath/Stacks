@@ -365,6 +365,7 @@ public def constantSheafIsoLocallyConstantMaps (S : Scheme.{u}) (G : Type (max (
     (hZ : Scheme.zariskiTopology.over S ≤ J) (hF : J ≤ Scheme.fpqcTopology.over S) :
     ((constantSheaf J (Type (max (u + 1) v))).obj G).obj ≅
       (locallyConstantMapsOver G S ⋙ forget GrpCat) :=
+  have : HasWeakSheafify J (Type (max (u + 1) v)) := inferInstance
   constantSheafIsoLocallyConstantMapsOfSheafification S G J hZ hF
 
 /-- The identification of the constant sheaf with locally constant maps sends the

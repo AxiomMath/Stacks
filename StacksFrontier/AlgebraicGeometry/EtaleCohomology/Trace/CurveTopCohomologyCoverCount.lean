@@ -52,17 +52,17 @@ variable {G : Type (u + 1)} [Group G] [TopologicalSpace G] [IsTopologicalGroup G
 /-- The action of `G` on the kernel of `b`. -/
 def kernelRepresentation :
     Representation (ZMod m) G (LinearMap.ker b.hom.hom.hom.hom.hom) where
-  toFun g := (P₀.obj.obj.obj.ρ g).hom.restrict fun x hx => by
+  toFun g := (P₀.obj.obj.obj.ρ g).asHom.hom.restrict fun x hx => by
     rw [LinearMap.mem_ker] at hx ⊢
-    rw [show b.hom.hom.hom.hom.hom ((P₀.obj.obj.obj.ρ g).hom x) =
-        (P.obj.obj.obj.ρ g).hom (b.hom.hom.hom.hom.hom x) from
+    rw [show b.hom.hom.hom.hom.hom ((P₀.obj.obj.obj.ρ g).asHom.hom x) =
+        (P.obj.obj.obj.ρ g).asHom.hom (b.hom.hom.hom.hom.hom x) from
       ConcreteCategory.congr_hom (b.hom.hom.hom.comm g) x, hx, map_zero]
   map_one' := by
     ext ⟨x, hx⟩
-    exact congrArg (fun f => f.hom x) (map_one P₀.obj.obj.obj.ρ)
+    exact congrArg (fun f => f.asHom.hom x) (map_one P₀.obj.obj.obj.ρ)
   map_mul' g h := by
     ext ⟨x, hx⟩
-    exact congrArg (fun f => f.hom x) (map_mul P₀.obj.obj.obj.ρ g h)
+    exact congrArg (fun f => f.asHom.hom x) (map_mul P₀.obj.obj.obj.ρ g h)
 
 open scoped Stacks.DiscreteModuleTopology in
 /-- **The kernel of a morphism of finite continuous modules**, with the restricted action. -/
@@ -139,7 +139,7 @@ theorem finite_and_natCard_compactSupportSheafCohomology_two_lisseEtaleSheaf_le_
     (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m)
       (EtaleFundamentalGroup X.1 (y.map g.hom)))
     (hM : ∀ s ∈ MulAction.stabilizer (EtaleFundamentalGroup X.1 (y.map g.hom))
-      (finiteEtaleOverSourcePoint hg y), ∀ v, (M.obj.obj.obj.ρ s).hom v = v) :
+      (finiteEtaleOverSourcePoint hg y), ∀ v, (M.obj.obj.obj.ρ s).asHom.hom v = v) :
     Finite ((compactSupportSheafCohomology (ZMod m) f j kbar 2).obj
         ((lisseEtaleSheaf B X (y.map g.hom) (ZMod m)).obj M)) ∧
     Nat.card ((compactSupportSheafCohomology (ZMod m) f j kbar 2).obj

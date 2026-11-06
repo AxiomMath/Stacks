@@ -2,6 +2,7 @@ module
 
 public import Mathlib.CategoryTheory.Adjunction.Triple
 public import Mathlib.CategoryTheory.Sites.CoverLifting
+public import Mathlib.CategoryTheory.Sites.Limits
 public import Mathlib.CategoryTheory.Sites.Pullback
 public import StacksFrontier.CategoryTheory.Filtered.AlmostDirected
 public import StacksFrontier.CategoryTheory.Filtered.SpanCocones

@@ -170,7 +170,7 @@ theorem isLimit_of_isLimit_of_isPullback {K : Type*} [Category* K] [IsCofiltered
             (hαβ j).isoPullback.hom ≫ pullback.snd (π.app j) g
           rw [IsPullback.isoPullback_hom_snd, IsPullback.isoPullback_hom_snd]
           simp)
-    have h1 : IsLimit ((Cones.postcompose e.hom).obj c') :=
+    have h1 : IsLimit ((Cone.postcompose e.hom).obj c') :=
       (IsLimit.postcomposeHomEquiv e c').symm hc'
     refine h1.ofIsoLimit (Cone.ext hL.isoPullback fun j => ?_)
     apply pullback.hom_ext
@@ -197,12 +197,12 @@ theorem isLimit_of_isLimit_of_isPullback {K : Type*} [Category* K] [IsCofiltered
       (isLimitOfPreserves (Over.pullback W.ι) hpb)
   -- the comparison morphism to the limit becomes an isomorphism after base change
   let ψ : ch ⟶ limit.cone Gh := (limit.isLimit Gh).liftConeMorphism ch
-  have hiso : IsIso ((Cones.functoriality Gh (Over.pullback g')).map ψ) :=
+  have hiso : IsIso ((Cone.functoriality Gh (Over.pullback g')).map ψ) :=
     IsLimit.hom_isIso hpb' (isLimitOfPreserves (Over.pullback g') (limit.isLimit Gh)) _
   have hisoL : IsIso ((Over.pullback g').map ψ.hom).left := by
     have : IsIso ((Over.pullback g').map ψ.hom) :=
       inferInstanceAs
-        (IsIso ((Cones.forget _).map ((Cones.functoriality Gh (Over.pullback g')).map ψ)))
+        (IsIso ((Cone.forget _).map ((Cone.functoriality Gh (Over.pullback g')).map ψ)))
     exact (Over.forget _).map_isIso ((Over.pullback g').map ψ.hom)
   have hsq : IsPullback ((Over.pullback g').map ψ.hom).left (pullback.fst πc g')
       (pullback.fst (limit Gh).hom g') ψ.hom.left := by
@@ -222,7 +222,7 @@ theorem isLimit_of_isLimit_of_isPullback {K : Type*} [Category* K] [IsCofiltered
         (inferInstance : QuasiCompact (pullback.fst (limit Gh).hom g'))⟩ hisoL
   have : IsIso ((Over.forget U).map ψ.hom) := hψ
   have : IsIso ψ.hom := isIso_of_reflects_iso ψ.hom (Over.forget U)
-  have : IsIso ψ := Cones.cone_iso_of_hom_iso ψ
+  have : IsIso ψ := Cone.cone_iso_of_hom_iso ψ
   refine ⟨(isLimitOfPreserves (Over.forget U)
     ((limit.isLimit Gh).ofIsoLimit (asIso ψ).symm)).ofIsoLimit
       (Cone.ext (Iso.refl _) fun j => ?_)⟩

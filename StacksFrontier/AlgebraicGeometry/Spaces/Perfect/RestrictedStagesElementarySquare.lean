@@ -35,6 +35,18 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_RestrictedStagesElementarySquare :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- A pullback of presheaves on the big fppf site over `S` exists. -/
+local instance (priority := high) hasPullback_presheaf_RestrictedStagesElementarySquare
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Maps
 
 variable {X₀ W₀ V₀ T T' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (w : W₀ ⟶ X₀) (U : Subfunctor W₀)

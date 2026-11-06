@@ -192,6 +192,19 @@ theorem isEmpty_points_pullback_of_preimage_range_eq_empty
 
 /-! ### Quasi-compactness of a morphism out of a coproduct -/
 
+/-- Pullbacks of fppf sheaves of sets, found once: instance search for them times out inside the
+proof below. -/
+instance (priority := high) hasPullbacks_sheaf_AlgebraicSpaceCoproductFinitePresentation :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type u)) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+/-- The pullback of two morphisms of fppf sheaves of sets, given directly so that instance search
+does not time out looking for it. -/
+instance (priority := high) hasLimit_cospan_sheaf_AlgebraicSpaceCoproductFinitePresentation
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type u)} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A morphism out of a coproduct of algebraic spaces over `S` is quasi-compact when its
 restrictions to the summands are and, over every affine test object of the site, all but
 finitely many of their base changes have no points.**

@@ -69,8 +69,6 @@ namespace AlgebraicGeometry.Stack
 
 universe u w
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
-
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- The diagonal `V ⟶ V ×_𝒳 V` of the canonical self-intersection of a 1-morphism from a scheme,
@@ -369,7 +367,7 @@ theorem twoMul_ringKrullDim_eq_of_chartPoints (D : VersalSituation.{u, w})
     rw [← hKa]
     have h1 := representingMap_app_hom D.B D.S D.hS T.pt.val Q eQ V δ.hom.hom uL
     have h2 := congrArg (fun t : yoneda.obj w₀.left ⟶ Q => t.app (op w₀.left) (𝟙 w₀.left)) hπa
-    simp only [FunctorToTypes.comp, yoneda_map_app] at h2
+    simp only [NatTrans.comp_app_apply, yoneda_map_app] at h2
     exact h1.symm.trans h2.symm
   let eψ := PresheafOfCategories.fiberIsoOfSectionOfObj_eq eQ
     (rfl : T.pt.val.val.p.obj r₀ = w₀.left) (Functor.congr_obj hK w₀) hsec
@@ -714,7 +712,7 @@ theorem hasLocalRingDimension_of_isVersal (D : VersalSituation.{u, w})
           t.app (op pw.siteObject) (eqToHom (Deformation.Artin.post_obj_injective
             (show (Over.post D.B.inclusion).obj pw.siteObject =
               (Over.post D.B.inclusion).obj w₀.left from hw₀.symm)))) hπa
-        simp only [FunctorToTypes.comp, yoneda_map_app] at h
+        simp only [NatTrans.comp_app_apply, yoneda_map_app] at h
         simp only [Space.FieldValuedPoint.map]
         congr 1
       have hch := Space.localRingDimension_eq_of_chartPoint D.B D.S D.hS hQ W a ha

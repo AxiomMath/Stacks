@@ -220,9 +220,9 @@ def moduleSectionsDerivedUnit (U : Opens X.carrier) :
     Functor.whiskerLeft
       (SheafOfModules.evaluation (structureSheafRing X) (op U)).mapHomotopyCategoryPlus
       (forget₂ (ModuleCat.{u} ((structureSheafRing X).obj.obj (op U)))
-        AddCommGrpCat.{u}).rightDerivedFunctorPlusUnit ≫
+        AddCommGrpCat.{u}).rightDerivedFunctorPlusUnith ≫
     Functor.whiskerRight
-      (SheafOfModules.evaluation (structureSheafRing X) (op U)).rightDerivedFunctorPlusUnit
+      (SheafOfModules.evaluation (structureSheafRing X) (op U)).rightDerivedFunctorPlusUnith
       (forget₂ (ModuleCat.{u} ((structureSheafRing X).obj.obj (op U)))
         AddCommGrpCat.{u}).rightDerivedFunctorPlus
 
@@ -243,9 +243,9 @@ def abelianSectionsDerivedUnit (U : Opens X.carrier) :
             (op U)))).inv DerivedCategory.Plus.Qh ≫
     Functor.whiskerLeft (SheafOfModules.toSheaf (structureSheafRing X)).mapHomotopyCategoryPlus
       ((sheafSections (Opens.grothendieckTopology X.carrier) AddCommGrpCat.{u}).obj
-        (op U)).rightDerivedFunctorPlusUnit ≫
+        (op U)).rightDerivedFunctorPlusUnith ≫
     Functor.whiskerRight
-      (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnit
+      (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnith
       ((sheafSections (Opens.grothendieckTopology X.carrier) AddCommGrpCat.{u}).obj
         (op U)).rightDerivedFunctorPlus
 
@@ -261,7 +261,7 @@ def moduleSectionsComparison (U : Opens X.carrier) :
   Functor.rightDerivedDesc _
     (SheafOfModules.evaluation (structureSheafRing X) (op U) ⋙
       forget₂ (ModuleCat.{u} ((structureSheafRing X).obj.obj (op U)))
-        AddCommGrpCat.{u}).rightDerivedFunctorPlusUnit
+        AddCommGrpCat.{u}).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (structureSheafRing X))) _
     (moduleSectionsDerivedUnit X U)
 
@@ -277,7 +277,7 @@ def abelianSectionsComparison (U : Opens X.carrier) :
   Functor.rightDerivedDesc _
     (SheafOfModules.evaluation (structureSheafRing X) (op U) ⋙
       forget₂ (ModuleCat.{u} ((structureSheafRing X).obj.obj (op U)))
-        AddCommGrpCat.{u}).rightDerivedFunctorPlusUnit
+        AddCommGrpCat.{u}).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (structureSheafRing X))) _
     (abelianSectionsDerivedUnit X U)
 
@@ -286,7 +286,7 @@ def abelianSectionsComparison (U : Opens X.carrier) :
 theorem moduleSectionsComparison_fac (U : Opens X.carrier) :
     (SheafOfModules.evaluation (structureSheafRing X) (op U) ⋙
         forget₂ (ModuleCat.{u} ((structureSheafRing X).obj.obj (op U)))
-          AddCommGrpCat.{u}).rightDerivedFunctorPlusUnit ≫
+          AddCommGrpCat.{u}).rightDerivedFunctorPlusUnith ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh (moduleSectionsComparison X U) =
         moduleSectionsDerivedUnit X U :=
   Functor.rightDerived_fac _ _ _ _ _
@@ -296,7 +296,7 @@ theorem moduleSectionsComparison_fac (U : Opens X.carrier) :
 theorem abelianSectionsComparison_fac (U : Opens X.carrier) :
     (SheafOfModules.evaluation (structureSheafRing X) (op U) ⋙
         forget₂ (ModuleCat.{u} ((structureSheafRing X).obj.obj (op U)))
-          AddCommGrpCat.{u}).rightDerivedFunctorPlusUnit ≫
+          AddCommGrpCat.{u}).rightDerivedFunctorPlusUnith ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh (abelianSectionsComparison X U) =
         abelianSectionsDerivedUnit X U :=
   Functor.rightDerived_fac _ _ _ _ _

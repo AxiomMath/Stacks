@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.LinearAlgebra.TensorProduct.Prod
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.KTheory.Grothendieck.Defs
 public import StacksFrontier.KTheory.Grothendieck.Product.BaseChange

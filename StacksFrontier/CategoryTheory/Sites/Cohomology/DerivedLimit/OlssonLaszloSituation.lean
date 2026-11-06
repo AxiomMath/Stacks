@@ -327,7 +327,7 @@ theorem epi_map_difference
   have h : G.map d ≫ piComparison G (fun n : ℕ ↦ K.obj ⟨n⟩) =
       piComparison G (fun n : ℕ ↦ K.obj ⟨n⟩) ≫ e := by
     ext n
-    simp only [Category.assoc, piComparison_comp_π, e, Pi.lift_π,
+    simp only [Category.assoc, piComparison_comp_π, e, Pi.lift_comp_π,
       Preadditive.comp_sub, ← G.map_comp, d]
     simp only [G.map_sub, G.map_comp, piComparison_comp_π_assoc]
   exact (epi_comp_iff_of_isIso (G.map d) (piComparison G (fun n : ℕ ↦ K.obj ⟨n⟩))).1 <| by

@@ -5,6 +5,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.IntegralClosure.GoingDown
 import Mathlib.Tactic.ENatToNat
+import Mathlib.RingTheory.KrullDimension.Polynomial
 
 public import StacksFrontier.RingTheory.NoetherNormalization
 public import StacksFrontier.RingTheory.RegularRing.Dimension
@@ -130,7 +131,7 @@ private lemma height_eq_of_module_finite_mvPolynomial (k : Type u) [Field k] {r 
     (hdim : ringKrullDim S = r) (𝔪 : Ideal S) [𝔪.IsMaximal] : 𝔪.height = r := by
   have : Algebra.IsIntegral (MvPolynomial (Fin r) k) S := Algebra.IsIntegral.of_finite _ _
   set 𝔮 : Ideal (MvPolynomial (Fin r) k) := 𝔪.comap (algebraMap _ S)
-  have : 𝔮.IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal 𝔪
+  have : 𝔮.IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal 𝔪
   have : 𝔪.LiesOver 𝔮 := ⟨rfl⟩
   refine le_antisymm (height_le_of_ringKrullDim_eq hdim 𝔪) ?_
   rw [Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown 𝔮 𝔪,
@@ -360,7 +361,7 @@ private lemma covBy_comap_of_surjective {R S : Type*} [CommRing R] [CommRing S] 
 /-- A polynomial ring in finitely many variables over a field has finite Krull dimension. -/
 private lemma finiteRingKrullDim_mvPolynomial (k : Type u) [Field k] (ι : Type*) [Finite ι] :
     FiniteRingKrullDim (MvPolynomial ι k) := by
-  rw [finiteRingKrullDim_iff_ne_bot_and_top, MvPolynomial.ringKrullDim_of_isNoetherianRing,
+  rw [finiteRingKrullDim_iff_ne_bot_and_top, MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite,
     ringKrullDim_eq_zero_of_field, zero_add]
   refine ⟨by simp, ?_⟩
   rw [← WithBot.coe_natCast, ← WithBot.coe_top, ne_eq, WithBot.coe_inj]

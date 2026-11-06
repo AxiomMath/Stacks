@@ -74,7 +74,7 @@ def boundedUnitPlus :
     boundedPushforwardToDerivedCategory f ⟶
       DerivedCategory.Plus.Qh ⋙
         ((modulePushforward f).rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) :=
-  Functor.whiskerRight (modulePushforward f).rightDerivedFunctorPlusUnit DerivedCategory.Plus.ι
+  Functor.whiskerRight (modulePushforward f).rightDerivedFunctorPlusUnith DerivedCategory.Plus.ι
 
 /-- The comparison `f_*K ⟶ Rf_*K` from the degreewise direct image of a bounded below complex
 to the unbounded derived direct image. -/
@@ -90,7 +90,7 @@ theorem boundedUnitPlus_app
     (K : HomotopyCategory.Plus (_root_.SheafOfModules.{u} (structureSheafRing X))) :
     (boundedUnitPlus f).app K =
       DerivedCategory.Plus.ι.map
-        ((modulePushforward f).rightDerivedFunctorPlusUnit.app K) :=
+        ((modulePushforward f).rightDerivedFunctorPlusUnith.app K) :=
   rfl
 
 omit [EnoughInjectives (_root_.SheafOfModules.{u} (structureSheafRing X))] in
@@ -111,12 +111,12 @@ instance isIso_boundedUnitPlus_app
     IsIso ((boundedUnitPlus f).app
       ((InjectiveObject.ι _).mapHomotopyCategoryPlus.obj Z)) := by
   rw [boundedUnitPlus_app]
-  have h : IsIso ((modulePushforward f).rightDerivedFunctorPlusUnit.app
+  have h : IsIso ((modulePushforward f).rightDerivedFunctorPlusUnith.app
       ((InjectiveObject.ι _).mapHomotopyCategoryPlus.obj Z)) :=
     (HomotopyCategory.Plus.localizerMorphism_derives
         ((modulePushforward f).mapHomotopyCategoryPlus ⋙
           DerivedCategory.Plus.Qh)).isIso_of_isRightDerivedFunctor
-      (modulePushforward f).rightDerivedFunctorPlusUnit Z
+      (modulePushforward f).rightDerivedFunctorPlusUnith Z
   exact Functor.map_isIso DerivedCategory.Plus.ι _
 
 /-- The comparison through the unbounded `Rf_*` is invertible on a bounded below complex of
@@ -177,7 +177,7 @@ the comparison `f_*K ⟶ Rf_*K`. -/
 theorem boundedDerivedPushforwardIso_hom_app
     (K : HomotopyCategory.Plus (_root_.SheafOfModules.{u} (structureSheafRing X))) :
     DerivedCategory.Plus.ι.map
-          ((modulePushforward f).rightDerivedFunctorPlusUnit.app K) ≫
+          ((modulePushforward f).rightDerivedFunctorPlusUnith.app K) ≫
         (boundedDerivedPushforwardIso f).hom.app (DerivedCategory.Plus.Qh.obj K) =
       (derivedPushforwardUnit f).app ((HomotopyCategory.Plus.ι _).obj K) :=
   NatTrans.congr_app (boundedDerivedPushforwardIso_fac f) K

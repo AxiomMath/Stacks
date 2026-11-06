@@ -59,6 +59,16 @@ namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this). -/
+local instance hasPullbacks_presheaf_inertiaQuotientStackSquare :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_inertiaQuotientStackSquare
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- For a groupoid `(U, R, s, t, c)` in algebraic spaces over `B`, the square
 
 ```

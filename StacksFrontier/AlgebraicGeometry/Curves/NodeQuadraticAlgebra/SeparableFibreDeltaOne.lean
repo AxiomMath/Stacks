@@ -301,7 +301,7 @@ public theorem isSeparable_quadraticAlgebra_of_deltaInvariant_eq_one_of_two_bran
   have hcontract : ∀ m : MaximalSpectrum C,
       maximalIdeal A = m.asIdeal.comap (algebraMap A C) := fun m =>
     (IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m.asIdeal)).symm
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m.asIdeal)).symm
   obtain ⟨t, -, -, hli, hsp, -⟩ :=
     exists_linearIndependent_quadraticAlgebra_of_deltaInvariant_eq_one A hdelta
   have hfinF : Module.Finite (ResidueField A) (quadraticAlgebra A) :=

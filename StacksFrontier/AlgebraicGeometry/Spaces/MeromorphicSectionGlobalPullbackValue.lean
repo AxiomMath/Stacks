@@ -111,6 +111,7 @@ theorem meromorphicSectionSheafDescendedHom_restrict
   descendedSection_restrict B S hS f G _ H i
     (FMap.compSource B S hS f (fmapMeromorphicSectionsSheafUp B S hS f M hf) α) U V k s
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The global pullback map of Stacks 0ENC, part (1) over a pair of étale charts.**  Let `U`
 be an étale scheme chart of `X` above the cartesian base change `X ×_Y V` of an étale scheme
 chart `V` of `Y`, and let the meromorphic section `s` of `M` be, over `V`, the image of a

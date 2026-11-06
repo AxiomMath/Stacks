@@ -66,6 +66,12 @@ namespace Stacks.CategoryTheory.Hypercovering
 variable {C : Type uC} [Category.{vC} C]
 variable {D : Type uD} [Category.{vD} D]
 
+/-- Coproducts of presheaves of types indexed by `Type w`, stated directly: instance search for
+it times out on Lean v4.35.0 (through `UnivLE`). -/
+private instance hasCoproducts_functor_type (K : Type uA) [Category.{vA} K] :
+    HasCoproducts.{w} (K ⥤ Type (max w r)) :=
+  fun _ => functorCategoryHasColimitsOfShape
+
 /-- Local surjectivity is unchanged when all values are lifted to a larger universe. -/
 private lemma locallySurjective_ulift
     (J : GrothendieckTopology C) {P Q : Cᵒᵖ ⥤ Type r} (f : P ⟶ Q)
@@ -427,7 +433,6 @@ private lemma locallySurjective_higher_map
         (R.map_comp_assoc _ _ _).symm
       _ = R.map (X.map i.hom) ≫ e.hom.app _ := by
         rw [unit_comp_matchingCone_π]
-        rfl
       _ = (e.app (X.obj m)).hom ≫ SC.map ((X ⋙ mapFormalCoproduct u).map i.hom) :=
         e.hom.naturality (X.map i.hom)
       _ = _ := by

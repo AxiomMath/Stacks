@@ -89,6 +89,9 @@ noncomputable def isColimit_frobeniusStageRestrictCocone_of_toSheaf (n : ℕ)
     (h : IsColimit ((_root_.SheafOfModules.toSheaf X.ringSheafOnOpens).mapCocone
       (frobeniusStageRestrictCocone X p hX n G))) :
     IsColimit (frobeniusStageRestrictCocone X p hX n G) :=
+  have : HasColimitsOfShape ℕ (PresheafOfModules.{u} X.ringSheafOnOpens.obj) :=
+    PresheafOfModules.hasColimitsOfShape _ _
+  have : HasColimitsOfShape ℕ (_root_.SheafOfModules.{u} X.ringSheafOnOpens) := inferInstance
   have := Stacks.SheafOfModules.reflectsColimitsOfShape_toSheaf.{0, 0}
     X.ringSheafOnOpens ℕ
   isColimitOfReflects (_root_.SheafOfModules.toSheaf X.ringSheafOnOpens) h

@@ -73,9 +73,8 @@ noncomputable def fiber_pullback_snd_homeomorphic_fiber
           ConcreteCategory.congr_hom (pullback.lift_fst first second compat) (toFun y)
       · simpa [lift, second, y.2] using
           ConcreteCategory.congr_hom (pullback.lift_snd first second compat) (toFun y)
-    right_inv := fun x => Subtype.ext (by
-      simpa [lift, first] using
-        ConcreteCategory.congr_hom (pullback.lift_fst first second compat) x)
+    right_inv := fun x => Subtype.ext
+      (ConcreteCategory.congr_hom (pullback.lift_fst first second compat) x)
     continuous_toFun :=
       ((pullback.fst f g).hom.continuous.comp continuous_subtype_val).subtype_mk _
     continuous_invFun := lift.hom.continuous.subtype_mk _ }

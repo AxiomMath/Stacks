@@ -62,8 +62,7 @@ universe u
 
 -- `Over.post`, the fibres of a functor and their inclusion are plain `def`s, so goals mentioning
 -- an object of the site read in `Over S` are not type-correct at `implicit` transparency.
-attribute [local implicit_reducible] CategoryTheory.Over.post
-  CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
+attribute [local implicit_reducible] CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {V : BigFppfOver B S hS}

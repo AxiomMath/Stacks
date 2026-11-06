@@ -331,7 +331,7 @@ theorem isIso_counit_mapDerivedCategory_of_cohomologySupportedOn
         ((NatTrans.mapDerivedCategory adjU.counit).app E)
         ((NatTrans.mapDerivedCategory adjV.counit).app E) ≫
       (Functor.mapDerivedCategoryIdIso
-        (C := Modules.{u, u} B S hS W.1 W.2)).hom.app E) :=
+        (Modules.{u, u} B S hS W.1 W.2)).hom.app E) :=
     (Triangle.isZero₁_iff_isIso₂ _ hδ).1 hPz
   have hinr := isIso_biprod_inr_of_isZero_fst
     ((etaleModulePullback.{u, u} B S hS (edsOpenHom B S hS hsq)
@@ -343,7 +343,7 @@ theorem isIso_counit_mapDerivedCategory_of_cohomologySupportedOn
   have hdesc := IsIso.of_isIso_comp_right (biprod.desc
     ((NatTrans.mapDerivedCategory adjU.counit).app E)
     ((NatTrans.mapDerivedCategory adjV.counit).app E))
-    ((Functor.mapDerivedCategoryIdIso (C := Modules.{u, u} B S hS W.1 W.2)).hom.app E)
+    ((Functor.mapDerivedCategoryIdIso (Modules.{u, u} B S hS W.1 W.2)).hom.app E)
   infer_instance
 
 end ExtensionByZero

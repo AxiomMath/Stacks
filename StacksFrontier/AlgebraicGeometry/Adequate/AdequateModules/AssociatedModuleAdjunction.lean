@@ -295,7 +295,7 @@ public theorem BigSite.faithful_associatedModuleQcoh (B : BigSite τ S) :
   B.adjunctionOfSheaf.faithful_comp_L_of_mono_unit_app
     (SheafOfModules.isQuasicoherent S.ringCatSheaf).ι (ObjectProperty.faithful_ι _) fun M => by
       have := B.isIso_adjunctionOfSheaf_unit_app M
-      exact inferInstanceAs (Mono (B.adjunctionOfSheaf.unit.app M.obj))
+      exact IsIso.mono_of_iso (B.adjunctionOfSheaf.unit.app M.obj)
 
 /-- **[Stacks, Tag 06VN], the functor `u`.** The associated-module functor
 `u : QCoh(𝒪_S) ⥤ Adeq(𝒪)`, `𝓕 ↦ 𝓕^a`, on a chosen big `τ`-site over `S`; it lands in the

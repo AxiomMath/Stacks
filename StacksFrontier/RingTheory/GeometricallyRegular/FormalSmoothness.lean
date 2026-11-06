@@ -566,7 +566,7 @@ private theorem flat_of_isFormallySmooth_of_isAdicComplete.{v, w}
   have : IsAdicComplete (maximalIdeal C) C :=
     isAdicComplete_of_surjective (Ideal.Quotient.mk J) Ideal.Quotient.mk_surjective
   let : Algebra (R ⧸ I) C :=
-    inferInstanceAs (Algebra (R ⧸ I) (S ⧸ I.map (algebraMap R S)))
+    show Algebra (R ⧸ I) (S ⧸ I.map (algebraMap R S)) from inferInstance
   let e : R ⧸ I ≃+* A := RingHom.quotientKerEquivOfSurjective hqA
   let a : A →+* C := (algebraMap (R ⧸ I) C).comp e.symm.toRingHom
   have ha : a.Flat := by
@@ -1249,7 +1249,7 @@ private theorem exists_kaehler_basis_powerSeries
   let D := KaehlerDifferential.D R (PowerSeries K)
   let v := D X
   let l := LinearMap.toSpanSingleton (PowerSeries K) _ v
-  let d := (PowerSeries.derivative K).restrictScalars R
+  let d := (PowerSeries.derivative (R := K)).restrictScalars R
   have hd : d.liftKaehlerDifferential v = 1 := by simp [v, D, d]
   have hinj : Function.Injective l := by
     intro a b h
@@ -1497,6 +1497,7 @@ private theorem geometricallyRegular_of_formallySmooth_essFiniteType
     (isAdicallyFormallySmooth_of_formallySmooth (R := K)
       (IsLocalRing.maximalIdeal (Localization.AtPrime q)))
 
+set_option synthInstance.maxHeartbeats 200000 in
 set_option backward.isDefEq.respectTransparency false in
 private theorem formallySmooth_quotient_X_pow_sub_C_sub_X
     {R : Type*} [CommRing R] (n : ℕ) (a : R) :

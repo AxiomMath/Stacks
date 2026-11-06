@@ -162,9 +162,14 @@ def presentationOfIsoSpec {R : CommRingCat.{u}} (e : T ≅ Spec R)
   have _hN := hN
   have _hz : (SheafOfModules.restrictScalars.{u} β).PreservesZeroMorphisms :=
     preservesZeroMorphisms_restrictScalars β
+  have _ha : HasColimitsOfSize.{u, u} AddCommGrpCat.{u} := inferInstance
+  have _hd : ∀ I : Type u, HasColimitsOfShape (Discrete I) AddCommGrpCat.{u} := fun _ ↦
+    inferInstance
   have _hc : ∀ I : Type u, PreservesColimitsOfShape (Discrete I)
       (SheafOfModules.restrictScalars.{u} β) := fun I ↦
     RestrictScalarsColimits.preservesColimitsOfShape_restrictScalars β (Discrete I)
+  have _hm : ∀ (I : Type u) (R : CommRingCat.{u}), HasColimitsOfShape (Discrete I) (ModuleCat.{u} R) :=
+    fun _ _ ↦ inferInstance
   have hfree : ∀ I : Type u,
       ((SheafOfModules.restrictScalars.{u} β).obj
         (SheafOfModules.free.{u} (R := B) I)).IsQuasicoherent := fun I ↦

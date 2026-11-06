@@ -76,8 +76,7 @@ private noncomputable def polynomialBaseChangeModuleIso
     { e.toAddEquiv with
       map_smul' := by
         intro p z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | tmul q s =>
             change e ((p * q) ⊗ₜ[R] s) = _
             dsimp [e]
@@ -86,8 +85,10 @@ private noncomputable def polynomialBaseChangeModuleIso
             simp only [Algebra.smul_def]
             ac_rfl
         | add x y hx hy =>
-            simp only [smul_add]
-            simpa using congrArg₂ (· + ·) hx hy }
+            rw [smul_add]
+            change e (p • x + p • y) = p • e (x + y)
+            rw [map_add, map_add, smul_add]
+            exact congrArg₂ (· + ·) hx hy }
   exact extendScalarsAlgebraMapObjIso (ModuleCat.of R S) ≪≫ le.toModuleIso
 
 /-- Restricting the `P`-module `A` to `R` along an `R`-algebra structure on `P` recovers `A`. -/

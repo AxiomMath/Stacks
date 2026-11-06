@@ -531,9 +531,9 @@ private theorem exists_directSum_powerSeries
   · let _ : Algebra ℤ (MvPowerSeries (Fin d) k) := Ring.toIntAlgebra _
     let θ : Fin d → Derivation ℤ (MvPowerSeries (Fin d) k)
         (MvPowerSeries (Fin d) k) := fun j =>
-      { toLinearMap := (MvPowerSeries.pderiv k j).toLinearMap.restrictScalars ℤ
-        map_one_eq_zero' := (MvPowerSeries.pderiv k j).map_one_eq_zero
-        leibniz' := (MvPowerSeries.pderiv k j).leibniz }
+      { toLinearMap := (MvPowerSeries.pderiv (R := k) j).toLinearMap.restrictScalars ℤ
+        map_one_eq_zero' := (MvPowerSeries.pderiv (R := k) j).map_one_eq_zero
+        leibniz' := (MvPowerSeries.pderiv (R := k) j).leibniz }
     let D : ∀ j, TwistedDerivation f n (θ j) := fun j => etaleCohomologyDerivation f (θ j) n
     exact MvPowerSeries.exists_linearEquiv_directSum_injectiveHull_of_leibniz k d hd
       (structureSheafCohomology f n) E i hi hT

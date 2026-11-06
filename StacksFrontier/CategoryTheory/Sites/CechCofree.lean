@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Homology.ShortComplex.Exact
 public import Mathlib.CategoryTheory.Preadditive.Injective.Basic
+public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 public import StacksFrontier.CategoryTheory.Sites.CechComplex
 
 /-!
@@ -160,7 +161,7 @@ composite. -/
 @[reassoc (attr := simp)]
 theorem cofreeOne_map_comp_cofreeOneπ {X Y : Cᵒᵖ} (f : X ⟶ Y) (g : V ⟶ Y.unop) :
     (cofreeOne V J).map f ≫ cofreeOneπ V J g = cofreeOneπ V J (g ≫ f.unop) :=
-  Limits.Pi.lift_π _ _
+  Limits.Pi.lift_comp_π _ _
 
 /-- The morphism into `(cofreeOne V J).obj (op W)` determined by a family of morphisms into
 `J` indexed by the morphisms `V ⟶ W`. -/
@@ -172,7 +173,7 @@ noncomputable def cofreeOneLift {W : C} {T : A} (f : (V ⟶ W) → (T ⟶ J)) :
 @[reassoc (attr := simp)]
 theorem cofreeOneLift_comp_cofreeOneπ {W : C} {T : A} (f : (V ⟶ W) → (T ⟶ J)) (g : V ⟶ W) :
     cofreeOneLift V J f ≫ cofreeOneπ V J g = f g :=
-  Limits.Pi.lift_π _ _
+  Limits.Pi.lift_comp_π _ _
 
 end One
 
@@ -246,7 +247,7 @@ theorem cofreeObjLift_comp_cofreeπ {W : C} {T : A}
     (f : ∀ k : κ, (obj k ⟶ W) → (T ⟶ val k)) (k : κ) (g : obj k ⟶ W) :
     cofreeObjLift obj val f ≫ cofreeπ obj val k g = f k g := by
   rw [cofreeπ, ← Category.assoc, show cofreeObjLift obj val f ≫ cofreeOuterπ obj val (op W) k =
-    cofreeOneLift (obj k) (val k) (f k) from Limits.Pi.lift_π _ _,
+    cofreeOneLift (obj k) (val k) (f k) from Limits.Pi.lift_comp_π _ _,
     cofreeOneLift_comp_cofreeOneπ]
 
 /-- A family of morphisms `Q.obj (op (obj k)) ⟶ val k` induces a morphism of presheaves

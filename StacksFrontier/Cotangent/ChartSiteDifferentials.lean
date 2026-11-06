@@ -113,7 +113,7 @@ def chartDifferentials :
 
 /-- The universal `Λ̲`-derivation of `𝒪` with values in `Ω_{𝒪/Λ̲}`. -/
 def universalChartDerivation :
-    (chartDifferentials.{u, w} Λ X structureMap).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (chartDifferentials.{u, w} Λ X structureMap).val
       (piSchemesDiagram.{u, w} Λ X structureMap).baseStructureMap.hom :=
   AlgebraicGeometry.SheafOfModules.universalDerivationOfSite.{u, u + 1,
     max w (u + 1), u} (constantBaseSheaf.{u, w} Λ X structureMap)
@@ -127,7 +127,7 @@ theorem existsUnique_desc_chartDerivation
     (F : _root_.SheafOfModules.{max w (u + 1)}
       ((Stacks.SheafOfModules.Tensor.ringSheaf (J := (topology Λ X structureMap)))
         (affineSheaf.{u, w} Λ X structureMap)))
-    (D : F.val.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val
       (piSchemesDiagram.{u, w} Λ X structureMap).baseStructureMap.hom) :
     ∃! f : chartDifferentials.{u, w} Λ X structureMap ⟶ F,
       (universalChartDerivation.{u, w} Λ X structureMap).postcomp f.val = D :=

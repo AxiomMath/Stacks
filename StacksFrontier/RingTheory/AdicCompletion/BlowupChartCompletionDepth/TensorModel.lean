@@ -420,7 +420,7 @@ theorem exists_sub_mem_ideal (x : Tensor I f Q) :
   have heq : algebraMap (Tensor I f Q) (Loc I f Q) (x + y) - ιB I f Q (b₁ + b₂) =
       (algebraMap (Tensor I f Q) (Loc I f Q) x - ιB I f Q b₁) +
         (algebraMap (Tensor I f Q) (Loc I f Q) y - ιB I f Q b₂) := by
-    rw [map_add (algebraMap (Tensor I f Q) (Loc I f Q)), map_add (ιB I f Q)]
+    rw [map_add (algebraMap (Tensor I f Q) (Loc I f Q)), (ιB I f Q).map_add b₁ b₂]
     abel
   rw [heq]
   exact add_mem h₁ h₂

@@ -493,8 +493,8 @@ theorem canHom_squareChain_coherence {Usq U₂ Uat Pw Px Px' Ux : Scheme.{u}}
     ← Functor.map_comp (pb rat), ← reassoc_of% m3, ← Functor.map_comp_assoc (pb n),
     ← Functor.map_comp_assoc (pb k₂), ← Functor.map_comp (pb rat), Category.assoc, hcan]
   -- the canonical identity
-  rw [← cancel_mono (canHom l rx (l ≫ rx) rfl X)]
-  simp only [Category.assoc, IsIso.inv_hom_id, Category.comp_id]
+  rw [IsIso.eq_comp_inv (canHom l rx (l ≫ rx) rfl X)]
+  simp only [Category.assoc]
   have hA : n ≫ rtc = l ≫ rx := by rw [← h10, ← hj', Category.assoc]
   have hB : n ≫ (k₂ ≫ rat) ≫ pc₁ = rsq := by rw [← h8, ← hk']; simp only [Category.assoc]
   have hC : n ≫ k₂ ≫ rat = k ≫ rat := by rw [← hk', Category.assoc]

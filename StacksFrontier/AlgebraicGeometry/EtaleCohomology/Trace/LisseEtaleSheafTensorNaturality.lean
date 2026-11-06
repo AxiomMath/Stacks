@@ -49,15 +49,15 @@ variable
   {P P' Q Q' R : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1 x)}
   (μ : P.obj.obj.obj.V →ₗ[Λ] Q.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
   (hμ : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P.obj.obj.obj.V) (b : Q.obj.obj.obj.V),
-    μ ((P.obj.obj.obj.ρ g).hom a) ((Q.obj.obj.obj.ρ g).hom b) = (R.obj.obj.obj.ρ g).hom (μ a b))
+    μ ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) = (R.obj.obj.obj.ρ g).asHom.hom (μ a b))
 
 /-- **The pairing of sections of Tag 0DV5 is natural in the first variable**: on `ℱ_f(s)` for
 `f : P' ⟶ P` it is the pairing of `μ ∘ (f × 1)` on `s`. -/
 theorem lisseSheafBilinear_map_left (f : P' ⟶ P)
     (μ' : P'.obj.obj.obj.V →ₗ[Λ] Q.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
     (hμ' : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P'.obj.obj.obj.V) (b : Q.obj.obj.obj.V),
-      μ' ((P'.obj.obj.obj.ρ g).hom a) ((Q.obj.obj.obj.ρ g).hom b) =
-        (R.obj.obj.obj.ρ g).hom (μ' a b))
+      μ' ((P'.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) =
+        (R.obj.obj.obj.ρ g).asHom.hom (μ' a b))
     (h : ∀ a b, μ' a b = μ (f.hom.hom.hom.hom.hom a) b) (U : (SmallEtale B X.1 X.2)ᵒᵖ)
     (s : ((lisseSheaf B X x Λ).obj P').obj.obj U) (t : ((lisseSheaf B X x Λ).obj Q).obj.obj U) :
     lisseSheafBilinear B X x Λ μ hμ U ((((lisseSheaf B X x Λ).map f).hom.app U).hom s) t =
@@ -72,8 +72,8 @@ theorem lisseSheafBilinear_map_left (f : P' ⟶ P)
 theorem lisseSheafBilinear_map_right (f : Q' ⟶ Q)
     (μ' : P.obj.obj.obj.V →ₗ[Λ] Q'.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
     (hμ' : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P.obj.obj.obj.V) (b : Q'.obj.obj.obj.V),
-      μ' ((P.obj.obj.obj.ρ g).hom a) ((Q'.obj.obj.obj.ρ g).hom b) =
-        (R.obj.obj.obj.ρ g).hom (μ' a b))
+      μ' ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q'.obj.obj.obj.ρ g).asHom.hom b) =
+        (R.obj.obj.obj.ρ g).asHom.hom (μ' a b))
     (h : ∀ a b, μ' a b = μ a (f.hom.hom.hom.hom.hom b)) (U : (SmallEtale B X.1 X.2)ᵒᵖ)
     (s : ((lisseSheaf B X x Λ).obj P).obj.obj U) (t : ((lisseSheaf B X x Λ).obj Q').obj.obj U) :
     lisseSheafBilinear B X x Λ μ hμ U s ((((lisseSheaf B X x Λ).map f).hom.app U).hom t) =
@@ -103,8 +103,8 @@ variable. -/
 theorem lisseEtaleSheafSubsiteBilinear_map_left (f : P' ⟶ P)
     (μ' : P'.obj.obj.obj.V →ₗ[Λ] Q.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
     (hμ' : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P'.obj.obj.obj.V) (b : Q.obj.obj.obj.V),
-      μ' ((P'.obj.obj.obj.ρ g).hom a) ((Q.obj.obj.obj.ρ g).hom b) =
-        (R.obj.obj.obj.ρ g).hom (μ' a b))
+      μ' ((P'.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) =
+        (R.obj.obj.obj.ρ g).asHom.hom (μ' a b))
     (h : ∀ a b, μ' a b = μ (f.hom.hom.hom.hom.hom a) b) (U : (SmallEtale B X.1 X.2)ᵒᵖ)
     (s : ((lisseEtaleSheaf B X x Λ).obj P').obj.obj ((SmallEtale.toEtaleSite B X.1 X.2).op.obj U))
     (t : ((lisseEtaleSheaf B X x Λ).obj Q).obj.obj ((SmallEtale.toEtaleSite B X.1 X.2).op.obj U)) :
@@ -131,8 +131,8 @@ variable. -/
 theorem lisseEtaleSheafSubsiteBilinear_map_right (f : Q' ⟶ Q)
     (μ' : P.obj.obj.obj.V →ₗ[Λ] Q'.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
     (hμ' : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P.obj.obj.obj.V) (b : Q'.obj.obj.obj.V),
-      μ' ((P.obj.obj.obj.ρ g).hom a) ((Q'.obj.obj.obj.ρ g).hom b) =
-        (R.obj.obj.obj.ρ g).hom (μ' a b))
+      μ' ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q'.obj.obj.obj.ρ g).asHom.hom b) =
+        (R.obj.obj.obj.ρ g).asHom.hom (μ' a b))
     (h : ∀ a b, μ' a b = μ a (f.hom.hom.hom.hom.hom b)) (U : (SmallEtale B X.1 X.2)ᵒᵖ)
     (s : ((lisseEtaleSheaf B X x Λ).obj P).obj.obj ((SmallEtale.toEtaleSite B X.1 X.2).op.obj U))
     (t : ((lisseEtaleSheaf B X x Λ).obj Q').obj.obj ((SmallEtale.toEtaleSite B X.1 X.2).op.obj U)) :
@@ -164,15 +164,15 @@ variable
   {P P' Q Q' R : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1 x)}
   (μ : P.obj.obj.obj.V →ₗ[Λ] Q.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
   (hμ : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P.obj.obj.obj.V) (b : Q.obj.obj.obj.V),
-    μ ((P.obj.obj.obj.ρ g).hom a) ((Q.obj.obj.obj.ρ g).hom b) = (R.obj.obj.obj.ρ g).hom (μ a b))
+    μ ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) = (R.obj.obj.obj.ρ g).asHom.hom (μ a b))
 
 /-- **The pairing of sections on Mathlib's small étale site is natural in the first variable**:
 `μ(ℱ_f s, t) = (μ ∘ (f × 1))(s, t)`, by uniqueness of the extension from the dense subsite. -/
 theorem lisseEtaleSheafBilinear_map_left (f : P' ⟶ P)
     (μ' : P'.obj.obj.obj.V →ₗ[Λ] Q.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
     (hμ' : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P'.obj.obj.obj.V) (b : Q.obj.obj.obj.V),
-      μ' ((P'.obj.obj.obj.ρ g).hom a) ((Q.obj.obj.obj.ρ g).hom b) =
-        (R.obj.obj.obj.ρ g).hom (μ' a b))
+      μ' ((P'.obj.obj.obj.ρ g).asHom.hom a) ((Q.obj.obj.obj.ρ g).asHom.hom b) =
+        (R.obj.obj.obj.ρ g).asHom.hom (μ' a b))
     (h : ∀ a b, μ' a b = μ (f.hom.hom.hom.hom.hom a) b) (V : X.1.Etaleᵒᵖ) :
     (lisseEtaleSheafBilinear B X x Λ μ hμ V).comp
         (((lisseEtaleSheaf B X x Λ).map f).hom.app V).hom =
@@ -212,8 +212,8 @@ variable.** -/
 theorem lisseEtaleSheafBilinear_map_right (f : Q' ⟶ Q)
     (μ' : P.obj.obj.obj.V →ₗ[Λ] Q'.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
     (hμ' : ∀ (g : EtaleFundamentalGroup X.1 x) (a : P.obj.obj.obj.V) (b : Q'.obj.obj.obj.V),
-      μ' ((P.obj.obj.obj.ρ g).hom a) ((Q'.obj.obj.obj.ρ g).hom b) =
-        (R.obj.obj.obj.ρ g).hom (μ' a b))
+      μ' ((P.obj.obj.obj.ρ g).asHom.hom a) ((Q'.obj.obj.obj.ρ g).asHom.hom b) =
+        (R.obj.obj.obj.ρ g).asHom.hom (μ' a b))
     (h : ∀ a b, μ' a b = μ a (f.hom.hom.hom.hom.hom b)) (V : X.1.Etaleᵒᵖ) :
     (lisseEtaleSheafBilinear B X x Λ μ hμ V).compl₂
         (((lisseEtaleSheaf B X x Λ).map f).hom.app V).hom =
@@ -256,8 +256,8 @@ theorem lisseEtaleSheafBilinear_map_right (f : Q' ⟶ Q)
 theorem lisseEtaleSheafTensorHom_adjoint (a : P' ⟶ P) (b : Q ⟶ Q')
     (μ' : P'.obj.obj.obj.V →ₗ[Λ] Q'.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V)
     (hμ' : ∀ (g : EtaleFundamentalGroup X.1 x) (p : P'.obj.obj.obj.V) (q : Q'.obj.obj.obj.V),
-      μ' ((P'.obj.obj.obj.ρ g).hom p) ((Q'.obj.obj.obj.ρ g).hom q) =
-        (R.obj.obj.obj.ρ g).hom (μ' p q))
+      μ' ((P'.obj.obj.obj.ρ g).asHom.hom p) ((Q'.obj.obj.obj.ρ g).asHom.hom q) =
+        (R.obj.obj.obj.ρ g).asHom.hom (μ' p q))
     (h : ∀ p q, μ (a.hom.hom.hom.hom.hom p) q = μ' p (b.hom.hom.hom.hom.hom q)) :
     (lisseEtaleSheaf B X x Λ).map a ▷ (lisseEtaleSheaf B X x Λ).obj Q ≫
         lisseEtaleSheafTensorHom B X x Λ μ hμ =
@@ -266,12 +266,12 @@ theorem lisseEtaleSheafTensorHom_adjoint (a : P' ⟶ P) (b : Q ⟶ Q')
   let ν : P'.obj.obj.obj.V →ₗ[Λ] Q.obj.obj.obj.V →ₗ[Λ] R.obj.obj.obj.V :=
     μ.comp a.hom.hom.hom.hom.hom
   have hν : ∀ (g : EtaleFundamentalGroup X.1 x) (p : P'.obj.obj.obj.V) (q : Q.obj.obj.obj.V),
-      ν ((P'.obj.obj.obj.ρ g).hom p) ((Q.obj.obj.obj.ρ g).hom q) =
-        (R.obj.obj.obj.ρ g).hom (ν p q) := fun g p q => by
+      ν ((P'.obj.obj.obj.ρ g).asHom.hom p) ((Q.obj.obj.obj.ρ g).asHom.hom q) =
+        (R.obj.obj.obj.ρ g).asHom.hom (ν p q) := fun g p q => by
     have hc := ConcreteCategory.congr_hom (a.hom.hom.hom.comm g) p
-    show μ (a.hom.hom.hom.hom.hom ((P'.obj.obj.obj.ρ g).hom p)) _ = _
-    rw [show a.hom.hom.hom.hom.hom ((P'.obj.obj.obj.ρ g).hom p) =
-      (P.obj.obj.obj.ρ g).hom (a.hom.hom.hom.hom.hom p) from hc, hμ]
+    show μ (a.hom.hom.hom.hom.hom ((P'.obj.obj.obj.ρ g).asHom.hom p)) _ = _
+    rw [show a.hom.hom.hom.hom.hom ((P'.obj.obj.obj.ρ g).asHom.hom p) =
+      (P.obj.obj.obj.ρ g).asHom.hom (a.hom.hom.hom.hom.hom p) from hc, hμ]
     rfl
   rw [lisseEtaleSheafTensorHom, lisseEtaleSheafTensorHom, Sheaf.whiskerRight_tensorDesc,
     Sheaf.whiskerLeft_tensorDesc]

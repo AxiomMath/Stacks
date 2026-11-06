@@ -56,20 +56,20 @@ theorem exists_toPresheafFiber_tuple (n : ℕ) :
   | zero =>
       intro _
       obtain ⟨e⟩ := IsCofiltered.nonempty (C := Φ.fiber.Elements)
-      exact ⟨e.1, e.2, Fin.elim0, fun i => i.elim0⟩
+      exact ⟨e.obj, e.val, Fin.elim0, fun i => i.elim0⟩
   | succ n ih =>
       intro a
       obtain ⟨Z₀, z₀, u, hu⟩ := Φ.toPresheafFiber_jointly_surjective (P := P) (a 0)
       obtain ⟨Z₁, z₁, b, hb⟩ := ih (fun i : Fin n => a i.succ)
-      let E₀ : Φ.fiber.Elements := ⟨Z₀, z₀⟩
-      let E₁ : Φ.fiber.Elements := ⟨Z₁, z₁⟩
+      let E₀ : Φ.fiber.Elements := Φ.fiber.elementsMk Z₀ z₀
+      let E₁ : Φ.fiber.Elements := Φ.fiber.elementsMk Z₁ z₁
       let Z : Φ.fiber.Elements := IsCofiltered.min E₀ E₁
       let l : Z ⟶ E₀ := IsCofiltered.minToLeft E₀ E₁
       let r : Z ⟶ E₁ := IsCofiltered.minToRight E₀ E₁
-      refine ⟨Z.1, Z.2, Fin.cons (P.map l.1.op u) (fun i => P.map r.1.op (b i)), fun i => ?_⟩
+      refine ⟨Z.obj, Z.val, Fin.cons (P.map l.hom.op u) (fun i => P.map r.hom.op (b i)), fun i => ?_⟩
       refine Fin.cases ?_ (fun i => ?_) i
-      · simpa [l.2] using hu
-      · simpa [r.2] using hb i
+      · simpa [l.map_val] using hu
+      · simpa [r.map_val] using hb i
 
 /-- **A finite tuple of equalities of germs at one neighbourhood holds after a single
 restriction.**  Each equality separately holds after some restriction, by

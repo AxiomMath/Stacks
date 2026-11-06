@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.Ideal.UFD
+public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.OrderOfVanishing.Noetherian
 public import StacksFrontier.RingTheory.Serre.Defs
 

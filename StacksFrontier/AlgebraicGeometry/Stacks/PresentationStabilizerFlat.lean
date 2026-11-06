@@ -76,7 +76,7 @@ theorem presentationStabilizerProjectionAlgebraicStacks_eq :
         (GroupoidInAlgebraicSpaces.stabilizerOverBase P.groupoid).property
         P.groupoid.objects.property
         (GroupoidInAlgebraicSpaces.stabilizer P.groupoid).hom :=
-  rfl
+  (rfl)
 
 /-- The swapped inertia–presentation square is a 2-fibre product of algebraic stacks. -/
 private noncomputable def isTwoFibreProduct_swap_inertiaPresentationSquare :

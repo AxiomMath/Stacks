@@ -67,7 +67,7 @@ The codomain of `Hom(U, V)(φ)` is recorded as `Hom(U, V)_m`, which is the produ
 `∏_{u ∈ U_m} V_m` by definition but not syntactically, so a composite of a structure map with a
 projection of that product is well formed only after unfolding `power`. `power_map_π` states such
 a composite in closed form; `power_map`, which describes the structure map alone, rewrites one into
-a `Limits.Pi.lift` whose codomain is again `Hom(U, V)_m`, where `Limits.Pi.lift_π` no longer
+a `Limits.Pi.lift` whose codomain is again `Hom(U, V)_m`, where `Limits.Pi.lift_comp_π` no longer
 applies, so it is generated without `@[simp]`.
 
 ### References
@@ -114,7 +114,7 @@ lemma power_map_π (V : SimplicialObject C) (U : CosimplicialObject (Type w))
     {m n : SimplexCategoryᵒᵖ} (φ : n ⟶ m) (u : U.obj m.unop) :
     (V.power U).map φ ≫ Pi.π (fun _ : U.obj m.unop => V.obj m) u
       = Pi.π (fun _ : U.obj n.unop => V.obj n) (U.map φ.unop u) ≫ V.map φ :=
-  Pi.lift_π ..
+  Pi.lift_comp_π ..
 
 end CategoryTheory.SimplicialObject
 
@@ -371,10 +371,10 @@ structure maps: the codomain of `Hom(U, V)(φ)` is recorded as `Hom(U, V)_n`, wh
 `∏_{u ∈ U_n} V_n` by definition but not syntactically, so a composite of a structure map with a
 projection of that product is well formed only up to unfolding `power`, and `rw` and `simp` refuse
 to rewrite inside one. `power_map_π` states such a composite once and for all and closes it by
-`Limits.Pi.lift_π`, so it is the identity to apply — by `exact`, or by congruence inside a larger
+`Limits.Pi.lift_comp_π`, so it is the identity to apply — by `exact`, or by congruence inside a larger
 composite — where rewriting is unavailable. For the same reason `power_map` is not a `simp` lemma:
 rewriting a composite `Hom(U, V)(φ) ≫ π u` with it leaves a `Limits.Pi.lift` whose codomain is
-still recorded as `Hom(U, V)_n`, where `Limits.Pi.lift_π` in turn no longer applies, so it takes a
+still recorded as `Hom(U, V)_n`, where `Limits.Pi.lift_comp_π` in turn no longer applies, so it takes a
 provable goal to a stuck one. It remains available for `rw` and `exact`.
 
 The name follows `CategoryTheory.Limits.FormalCoproduct.power` for the power of an object by a
@@ -425,7 +425,7 @@ lemma power_map_π (V : CosimplicialObject C) (U : SSet.{w})
     {m n : SimplexCategory} (φ : m ⟶ n) (u : U.obj (op n)) :
     (V.power U).map φ ≫ Pi.π (fun _ : U.obj (op n) => V.obj n) u
       = Pi.π (fun _ : U.obj (op m) => V.obj m) (U.map φ.op u) ≫ V.map φ :=
-  Pi.lift_π ..
+  Pi.lift_comp_π ..
 
 end CategoryTheory.CosimplicialObject
 

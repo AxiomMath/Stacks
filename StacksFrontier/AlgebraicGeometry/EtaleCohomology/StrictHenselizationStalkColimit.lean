@@ -98,7 +98,7 @@ theorem isIso_pushforwardStalkToSectionsAb_of_isColimit
         (etaleNeighborhoodDirectedNeighborhoods B S hS s U hU).op))
           ((strictHenselizationSectionsMap B S hS s f).app F)
     have : IsIso e := IsColimit.hom_isIso hc (h F) e
-    exact (Cocones.forget _).map_isIso e
+    exact (Cocone.forget _).map_isIso e
   exact NatIso.isIso_of_isIso_app _
 
 end AlgebraicGeometry

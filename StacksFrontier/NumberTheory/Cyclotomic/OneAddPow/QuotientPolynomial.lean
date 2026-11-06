@@ -694,7 +694,7 @@ theorem shapeProp_Pcand : shapeProp f (Pcand f) := by
   simp only []
   by_cases h1 : i = 1
   · subst h1
-    rw [ite_eq_left rfl, map_add, map_one, hqcoeff]
+    rw [ite_eq_left rfl, map_add q, map_one q, hqcoeff]
     have hp1 : (1 : ℕ) ≠ p := by omega
     simp [hp1]
   · rw [ite_eq_right h1, hqcoeff]

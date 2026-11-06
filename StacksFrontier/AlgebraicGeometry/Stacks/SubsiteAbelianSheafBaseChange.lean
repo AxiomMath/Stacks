@@ -119,7 +119,7 @@ attribute [local instance] hasPointwiseRightKanExtension_homFunctor
 theorem isSheaf_comp_forget_of_sheaf {C : Type*} [Category C] {J : GrothendieckTopology C}
     (G : Sheaf J AddCommGrpCat.{w}) : Presieve.IsSheaf J (G.obj ⋙ forget AddCommGrpCat.{w}) :=
   (isSheaf_iff_isSheaf_of_type _ _).mp
-    (Presheaf.isSheaf_comp_of_isSheaf J G.obj (forget AddCommGrpCat.{w}) G.cond)
+    (Presheaf.isSheaf_comp_of_isSheaf J G.obj (forget AddCommGrpCat.{w}) G.property)
 
 namespace LisseEtale
 

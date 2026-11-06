@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Category.Grp.Zero
 public import Mathlib.CategoryTheory.Adjunction.FullyFaithful
+public import Mathlib.Topology.Sheaves.PUnit
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.AssociatedSheafIsos
 
 /-!
@@ -156,7 +157,6 @@ theorem bijective_one_tmul (e : R ≃+* S) (he : ∀ r, algebraMap R S r = e r) 
   have hright : ∀ x : S ⊗[R] M, (1 : S) ⊗ₜ[R] (g x) = x := by
     intro x
     induction x with
-    | zero => simp
     | add a b ha hb => rw [map_add, TensorProduct.tmul_add, ha, hb]
     | tmul s m =>
       rw [hgt, TensorProduct.tmul_smul, TensorProduct.smul_tmul', Algebra.smul_def, he,

@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Artin.ContractionEqualizerRepresents
+import Mathlib.CategoryTheory.Sites.Limits
 import StacksFrontier.AlgebraicGeometry.FormalSpace.ClosedImmersion
 import StacksFrontier.AlgebraicGeometry.Spaces.ClosedImmersionCriteria
 import StacksFrontier.AlgebraicGeometry.Spaces.ClosedImmersionProper
@@ -126,6 +127,11 @@ theorem isClosedImmersion_pullbackSnd_offCenter (hp : Space.IsProper B S hS d.to
 `V_{/Z} ⟶ W` is a closed immersion: it is a base change of the diagonal of `W`. -/
 theorem isClosedImmersion_ι_EW (hW : FormalSpace.IsSeparatedMorphism B S hS (terminal.from c.W)) :
     FormalSpace.IsClosedImmersion B S hS (equalizer.ι d.xhat₁ d.xhat₂) := by
+  have : HasLimitsOfSize.{u + 1, u + 1} (FormalSpace.FppfSheaf B S hS) := inferInstance
+  have : HasLimitsOfShape WalkingCospan (FormalSpace.FppfSheaf B S hS) :=
+    (hasFiniteLimits_of_hasLimitsOfSize.{u + 1, u + 1} (FormalSpace.FppfSheaf B S hS)).out _
+  have : HasPullback (terminal.from c.W) (terminal.from c.W) :=
+    HasLimitsOfShape.has_limit _
   have hd : diag c.W = pullback.diagonal (terminal.from c.W) ≫ (prodIsoPullback c.W c.W).inv := by
     refine prod.hom_ext ?_ ?_ <;> simp
   have hdiag : FormalSpace.IsClosedImmersion B S hS (diag c.W) := by

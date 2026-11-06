@@ -141,7 +141,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 is locally surjective: the sections of `S` are locally in the image of `ρ`, and the values are a
 sheaf. -/
 public theorem derivation'_app_eq_zero_of_comp [Presheaf.IsLocallySurjective J ρ.hom]
-    (D : M.val.Derivation' (ρ ≫ c).hom) (U : Cᵒᵖ) (b : S.obj.obj U) :
+    (D : PresheafOfModulesOfCommRing.Derivation' M.val (ρ ≫ c).hom) (U : Cᵒᵖ) (b : S.obj.obj U) :
     D.d (c.hom.app U b) = 0 := by
   refine M.isSheaf.isSeparated U.unop (Presheaf.imageSieve ρ.hom b)
     (Presheaf.imageSieve_mem J ρ.hom b) _ _ ?_
@@ -159,7 +159,8 @@ public theorem derivation'_app_eq_zero_of_comp [Presheaf.IsLocallySurjective J �
 /-- The relative derivations for the base map `ρ ≫ c` and for the base map `c` are the same
 family of additive maps, when `ρ` is locally surjective. -/
 public noncomputable def derivation'CompEquiv [Presheaf.IsLocallySurjective J ρ.hom] :
-    M.val.Derivation' (ρ ≫ c).hom ≃ M.val.Derivation' c.hom where
+    PresheafOfModulesOfCommRing.Derivation' M.val (ρ ≫ c).hom ≃
+      PresheafOfModulesOfCommRing.Derivation' M.val c.hom where
   toFun D :=
     { d := D.d
       d_mul := D.d_mul
@@ -176,7 +177,8 @@ public noncomputable def derivation'CompEquiv [Presheaf.IsLocallySurjective J ρ
 /-- Relative derivations for two equal base maps. -/
 public noncomputable def derivation'CongrBase {c₁ c₂ : S ⟶ O} (h : c₁ = c₂)
     (M : SheafOfModules.{w} (ringSheaf O)) :
-    M.val.Derivation' c₁.hom ≃ M.val.Derivation' c₂.hom :=
+    PresheafOfModulesOfCommRing.Derivation' M.val c₁.hom ≃
+      PresheafOfModulesOfCommRing.Derivation' M.val c₂.hom :=
   Equiv.cast (by rw [h])
 
 end Base
@@ -239,7 +241,7 @@ omit [HasSheafify J AddCommGrpCat.{w}] in
 /-- A relative derivation of the reduced structure sheaf is determined by its values on the
 sections coming from the thickening, because those cover. -/
 public theorem derivation'_ext_of_reduction
-    (D E : T.values.val.Derivation' (T.f' ≫ T.reduction).hom)
+    (D E : PresheafOfModulesOfCommRing.Derivation' T.values.val (T.f' ≫ T.reduction).hom)
     (h : ∀ (U : Cᵒᵖ) (x : T.O'.obj.obj U),
       D.d (T.reduction.hom.app U x) = E.d (T.reduction.hom.app U x)) : D = E := by
   ext U y
@@ -258,7 +260,7 @@ public noncomputable def Derivation.descendDerivation
     (hker : ∀ (U : Cᵒᵖ) (a : T.O'.obj.obj U), T.reduction.hom.app U a = 0 →
       ∃ m : T.I.val.obj U, T.incl m = a)
     (δ : Derivation T) :
-    T.values.val.Derivation' (T.f' ≫ T.reduction).hom where
+    PresheafOfModulesOfCommRing.Derivation' T.values.val (T.f' ≫ T.reduction).hom where
   d := (δ.toQuotientDerivation T hker).descend
   d_mul := (δ.toQuotientDerivation T hker).descend_mul
   d_map := (δ.toQuotientDerivation T hker).descend_map
@@ -277,7 +279,8 @@ public theorem Derivation.descendDerivation_reduction
 derivation of the situation. -/
 public noncomputable def derivationOfDerivation'
     (hzero : ∀ (U : Cᵒᵖ) (m : T.I.val.obj U), T.reduction.hom.app U (T.incl m) = 0)
-    (D : T.values.val.Derivation' (T.f' ≫ T.reduction).hom) : Derivation T where
+    (D : PresheafOfModulesOfCommRing.Derivation' T.values.val (T.f' ≫ T.reduction).hom) :
+    Derivation T where
   toFun U x := D.d (T.reduction.hom.app U x)
   map_add' U x y := by
     have key : D.d (T.reduction.hom.app U (x + y)) =
@@ -304,7 +307,8 @@ public noncomputable def derivationEquivDerivation'
     (hker : ∀ (U : Cᵒᵖ) (a : T.O'.obj.obj U), T.reduction.hom.app U a = 0 →
       ∃ m : T.I.val.obj U, T.incl m = a)
     (hzero : ∀ (U : Cᵒᵖ) (m : T.I.val.obj U), T.reduction.hom.app U (T.incl m) = 0) :
-    Derivation T ≃ T.values.val.Derivation' (T.f' ≫ T.reduction).hom where
+    Derivation T ≃
+      PresheafOfModulesOfCommRing.Derivation' T.values.val (T.f' ≫ T.reduction).hom where
   toFun δ := δ.descendDerivation T hker
   invFun D := derivationOfDerivation' T hzero D
   left_inv δ :=
@@ -327,7 +331,8 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 over `O₁` with those values. -/
 public noncomputable def differentialsOfSiteHomEquiv (O₁ O₂ : Sheaf J CommRingCat.{max w u v})
     (φ : O₁ ⟶ O₂) (G : SheafOfModules.{max w u v} (ringSheaf O₂)) :
-    (moduleOfDifferentialsOfSite.{v, u, max w u v, w} O₁ O₂ φ ⟶ G) ≃ G.val.Derivation' φ.hom :=
+    (moduleOfDifferentialsOfSite.{v, u, max w u v, w} O₁ O₂ φ ⟶ G) ≃
+      PresheafOfModulesOfCommRing.Derivation' G.val φ.hom :=
   (derivationsFunctor.{w} O₁ O₂ φ).corepresentableBy.homEquiv
 
 end Differentials
@@ -371,7 +376,7 @@ diagram — the group acting on the morphisms filling it — are the relative de
 reduced structure sheaf `O₁` of the front square over its reduced base `O_{B₁}`, with values in
 the ideal module `𝒢₂` of the back square through the comparison `g`. -/
 public noncomputable def derivationEquivDifferentialsDerivation :
-    Derivation D.toSituation ≃ D.values.val.Derivation' D.front.f.hom :=
+    Derivation D.toSituation ≃ PresheafOfModulesOfCommRing.Derivation' D.values.val D.front.f.hom :=
   haveI : Presheaf.IsLocallySurjective J D.toSituation.reduction.hom :=
     D.front.locallySurjective
   haveI : Presheaf.IsLocallySurjective J D.front.baseReduction.hom :=

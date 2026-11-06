@@ -109,22 +109,22 @@ def isoSnd : T.x ≅ T.y where
 product: the composite `φ₁ ∘ φ₂⁻¹` of the first component of `φ` with the inverse of its second
 component. -/
 def diagonalAut : Aut T.x :=
-  isoFst hG T ≪≫ (isoSnd hG T).symm
+  .of (isoFst hG T ≪≫ (isoSnd hG T).symm)
 
 /-- The automorphism attached to `T` is `φ₁` followed by the inverse of `φ₂`. -/
 @[simp] lemma diagonalAut_hom :
-    (diagonalAut hG T).hom = (isoFst hG T).hom ≫ (isoSnd hG T).inv :=
+    (diagonalAut hG T).asIso.hom = (isoFst hG T).hom ≫ (isoSnd hG T).inv :=
   rfl
 
 /-- Its inverse is `φ₂` followed by the inverse of `φ₁`. -/
 @[simp] lemma diagonalAut_inv :
-    (diagonalAut hG T).inv = (isoSnd hG T).hom ≫ (isoFst hG T).inv :=
+    (diagonalAut hG T).asIso.inv = (isoSnd hG T).hom ≫ (isoFst hG T).inv :=
   rfl
 
 /-- The automorphism attached to an object of the second 2-fibre product is killed by `G`: the
 comparison square of the 2-fibre product identifies the images of the two components of its
 comparison isomorphism. -/
-lemma map_diagonalAut_hom : G.map (diagonalAut hG T).hom = 𝟙 (G.obj T.x) := by
+lemma map_diagonalAut_hom : G.map (diagonalAut hG T).asIso.hom = 𝟙 (G.obj T.x) := by
   rw [diagonalAut_hom, isoFst_hom, isoSnd_inv, G.map_comp,
     map_eq_of_hom_diagonal hG T.iso.hom, ← G.map_comp,
     show T.iso.hom.b ≫ T.iso.inv.b = 𝟙 T.x from (isoSnd hG T).hom_inv_id]
@@ -152,7 +152,7 @@ lemma isoSnd_inv_comp {T₁ T₂ : DiagonalFibreProduct hG} (φ : T₁ ⟶ T₂)
 /-- The automorphisms attached to the source and the target of a morphism of the second 2-fibre
 product are conjugate by its first component. -/
 lemma comp_diagonalAut_hom {T₁ T₂ : DiagonalFibreProduct hG} (φ : T₁ ⟶ T₂) :
-    φ.a ≫ (diagonalAut hG T₂).hom = (diagonalAut hG T₁).hom ≫ φ.a := by
+    φ.a ≫ (diagonalAut hG T₂).asIso.hom = (diagonalAut hG T₁).asIso.hom ≫ φ.a := by
   rw [diagonalAut_hom, diagonalAut_hom, ← Category.assoc, comp_isoFst_hom, Category.assoc,
     ← isoSnd_inv_comp, Category.assoc]
 
@@ -258,22 +258,22 @@ def isoOfAut (A : RelativeInertia G) :
     (diagonal hG).obj A.obj ≅ (diagonal hG).obj A.obj where
   hom :=
     { hbase := 𝟙 (p𝒮.obj A.obj)
-      a := A.auto.hom
+      a := A.auto.asIso.hom
       b := 𝟙 A.obj
-      ha := IsHomLift.of_fac' p𝒮 _ A.auto.hom rfl rfl
-        (by simp [map_eq_id_of_map_eq_id hG A.auto.hom A.cond])
+      ha := IsHomLift.of_fac' p𝒮 _ A.auto.asIso.hom rfl rfl
+        (by simp [map_eq_id_of_map_eq_id hG A.auto.asIso.hom A.cond])
       hb := IsHomLift.id rfl
       w := by simp [A.cond] }
   inv :=
     { hbase := 𝟙 (p𝒮.obj A.obj)
-      a := A.auto.inv
+      a := A.auto.asIso.inv
       b := 𝟙 A.obj
-      ha := IsHomLift.of_fac' p𝒮 _ A.auto.inv rfl rfl
-        (by simp [map_eq_id_of_map_eq_id hG A.auto.inv A.cond_inv])
+      ha := IsHomLift.of_fac' p𝒮 _ A.auto.asIso.inv rfl rfl
+        (by simp [map_eq_id_of_map_eq_id hG A.auto.asIso.inv A.cond_inv])
       hb := IsHomLift.id rfl
       w := by simp [A.cond_inv] }
-  hom_inv_id := Hom.ext' A.auto.hom_inv_id (Category.id_comp (𝟙 A.obj))
-  inv_hom_id := Hom.ext' A.auto.inv_hom_id (Category.id_comp (𝟙 A.obj))
+  hom_inv_id := Hom.ext' A.auto.asIso.hom_inv_id (Category.id_comp (𝟙 A.obj))
+  inv_hom_id := Hom.ext' A.auto.asIso.inv_hom_id (Category.id_comp (𝟙 A.obj))
 
 /-- The isomorphism attached to an automorphism is vertical: its base morphism is an identity. -/
 @[simp] lemma isoOfAut_hom_hbase (A : RelativeInertia G) :
@@ -287,7 +287,7 @@ def isoOfAut (A : RelativeInertia G) :
 
 /-- Its first component is the automorphism. -/
 @[simp] lemma isoOfAut_hom_a (A : RelativeInertia G) :
-    (isoOfAut hG A).hom.a = A.auto.hom :=
+    (isoOfAut hG A).hom.a = A.auto.asIso.hom :=
   rfl
 
 /-- Its second component is the identity. -/
@@ -297,7 +297,7 @@ def isoOfAut (A : RelativeInertia G) :
 
 /-- The first component of its inverse is the inverse automorphism. -/
 @[simp] lemma isoOfAut_inv_a (A : RelativeInertia G) :
-    (isoOfAut hG A).inv.a = A.auto.inv :=
+    (isoOfAut hG A).inv.a = A.auto.asIso.inv :=
   rfl
 
 /-- The second component of its inverse is the identity. -/
@@ -371,7 +371,7 @@ def unitHom (T : DiagonalFibreProduct hG) :
 /-- The automorphism attached to `T` composed with the second component of its comparison
 isomorphism is the first component. -/
 lemma diagonalAut_hom_comp_isoSnd_hom (T : DiagonalFibreProduct hG) :
-    (diagonalAut hG T).hom ≫ (isoSnd hG T).hom = (isoFst hG T).hom := by
+    (diagonalAut hG T).asIso.hom ≫ (isoSnd hG T).hom = (isoFst hG T).hom := by
   rw [diagonalAut_hom, Category.assoc, Iso.inv_hom_id, Category.comp_id]
 
 /-- The inverse of `CategoryTheory.TwoFibreProductOver.unitHom`: the identity on the first
@@ -420,7 +420,7 @@ lemma ofRelativeInertia_comp_toRelativeInertia :
     ofRelativeInertia hG ⋙ toRelativeInertia hG = 𝟭 (RelativeInertia G) :=
   CategoryTheory.Functor.ext
     (fun A => RelativeInertia.obj_ext rfl
-      (show A.auto.hom ≫ 𝟙 A.obj = 𝟙 A.obj ≫ A.auto.hom ≫ 𝟙 A.obj by simp))
+      (show A.auto.asIso.hom ≫ 𝟙 A.obj = 𝟙 A.obj ≫ A.auto.asIso.hom ≫ 𝟙 A.obj by simp))
     (fun A B f => RelativeInertiaHom.ext (by
       simp only [RelativeInertia.comp_hom, RelativeInertiaHom.eqToHom_hom]
       exact show f.hom = 𝟙 A.obj ≫ f.hom ≫ 𝟙 B.obj by simp))

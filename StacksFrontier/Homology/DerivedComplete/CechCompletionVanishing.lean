@@ -80,7 +80,7 @@ private lemma hom_subsingleton_of_isIso_smul_of_derivedLimit_isZero
   have hs : s ≫ d = 0 := by
     apply Pi.hom_ext
     intro n
-    simp only [d, s, Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+    simp only [d, s, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
       Linear.comp_smul, zero_comp]
     rw [← Category.id_comp (q (n + 1)), ← Linear.smul_comp]
     show q n - a ≫ q (n + 1) = 0

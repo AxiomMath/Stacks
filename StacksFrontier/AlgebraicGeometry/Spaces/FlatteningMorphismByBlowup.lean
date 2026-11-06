@@ -74,6 +74,17 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FlatteningMorphismByBlowup :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_FlatteningMorphismByBlowup
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The restriction of `i_*𝒪_W` over an open subspace of the base.**  For `g : Y ⟶ A`, an open
 subspace `U ⊆ A` and a closed subspace `W ⊆ Y`, the pullback of `i_*𝒪_W` to `Y_U = Y ×_A U` is
 `i_*𝒪_{W_U}` for the closed subspace `W_U = W ×_Y Y_U` of `Y_U`.  This is affine base change

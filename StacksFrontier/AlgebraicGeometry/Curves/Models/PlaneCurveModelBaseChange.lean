@@ -211,8 +211,8 @@ theorem irrelevant_le_map_mapHom :
     HomogeneousIdeal.mem_irrelevant_of_mem _ hi
       (Stacks.HomogeneousIdeal.mk_mem_quotientGrading _ ((mem_homogeneousSubmodule i _).2 hdeg))
   have h : Ideal.Quotient.mk (equationIdeal (MvPolynomial.map φ F) (hF.map φ)).toIdeal
-      (monomial m (coeff m q)) =
-      Ideal.Quotient.mk _ (MvPolynomial.C (coeff m q)) *
+      (monomial m (q.coeff m)) =
+      Ideal.Quotient.mk _ (MvPolynomial.C (q.coeff m)) *
         mapHom F hF φ (Ideal.Quotient.mk (equationIdeal F hF).toIdeal (monomial m 1)) := by
     show _ = _ * Ideal.Quotient.mk _ (MvPolynomial.map φ (monomial m 1))
     rw [← map_mul, MvPolynomial.map_monomial, map_one, C_mul_monomial, mul_one]
@@ -404,7 +404,7 @@ def baseChangeGradedInv :
     obtain ⟨q, hq, rfl⟩ := (Stacks.HomogeneousIdeal.mem_quotientGrading_iff _ x).mp hx
     have hq' : q.IsHomogeneous i := (mem_homogeneousSubmodule i q).1 hq
     set z : S ⊗[R] (MvPolynomial (Fin 3) R ⧸ (equationIdeal F hF).toIdeal) :=
-      ∑ m ∈ q.support, coeff m q ⊗ₜ[R]
+      ∑ m ∈ q.support, q.coeff m ⊗ₜ[R]
         Ideal.Quotient.mk (equationIdeal F hF).toIdeal (monomial m 1) with hzdef
     have hz : baseChangeEquiv F hF S z = Ideal.Quotient.mk _ q := by
       rw [hzdef, map_sum]

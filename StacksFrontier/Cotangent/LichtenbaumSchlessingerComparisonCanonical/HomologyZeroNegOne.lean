@@ -293,7 +293,7 @@ omit P in
 /-- The differential of the lifted cotangent complex out of degree `0` vanishes. -/
 theorem cotangentComplexULift_d_zero_one (x : (cotangentComplexULift.{u, v, w} A B).X 0) :
     (cotangentComplexULift.{u, v, w} A B).d 0 1 x = 0 :=
-  ULift.ext _ _ (((ModuleCat.isZero_iff_subsingleton).1
+  ULift.ext (((ModuleCat.isZero_iff_subsingleton).1
     (CommAlgCat.cotangentComplex_isZero_pos A (CommAlgCat.of A B) 1 (by decide))).elim _ _)
 
 /-! ### The isomorphisms on `H^{-1}` and `H⁰` -/
@@ -333,7 +333,7 @@ theorem isIso_homologyMap_lsChainMap_negOne :
       rw [map_sub, freeTensorToCotangent_lsComponentOne, hcomp, sub_eq_zero]
       exact (congrArg Subtype.val hh).symm
     obtain ⟨s, hs⟩ := P.exists_relationBoundary_eq _ hν
-    refine ⟨uliftUp.{u, v, w} (A := A) (B := B) (-1) x, ULift.ext _ _ hx,
+    refine ⟨uliftUp.{u, v, w} (A := A) (B := B) (-1) x, ULift.ext hx,
       (lichtenbaumSchlessingerComplex P).relationIso.inv s, ?_⟩
     apply ConcreteCategory.injective_of_mono_of_preservesPullback
       (lichtenbaumSchlessingerComplex P).freeIso.hom
@@ -364,7 +364,7 @@ theorem isIso_homologyMap_lsChainMap_negOne :
       exact hh
     obtain ⟨z, hz⟩ := HomologicalComplex.exists_of_mono_homologyMap (𝔼) (-2) (-1) 0
       (by simp) (by simp) x.down hm 0 hE
-    exact ⟨uliftUp.{u, v, w} (A := A) (B := B) (-2) z, ULift.ext _ _ hz⟩
+    exact ⟨uliftUp.{u, v, w} (A := A) (B := B) (-2) z, ULift.ext hz⟩
 
 /-- **The comparison map is an isomorphism on `H⁰`.** -/
 theorem isIso_homologyMap_lsChainMap_zero :
@@ -408,7 +408,7 @@ theorem isIso_homologyMap_lsChainMap_zero :
         Iso.inv_hom_id_apply, hk]
     obtain ⟨z, hz⟩ := HomologicalComplex.exists_of_mono_homologyMap (𝔼) (-1) 0 1
       (by simp) (by simp) x.down hm _ hE
-    exact ⟨uliftUp.{u, v, w} (A := A) (B := B) (-1) z, ULift.ext _ _ hz⟩
+    exact ⟨uliftUp.{u, v, w} (A := A) (B := B) (-1) z, ULift.ext hz⟩
 
 end Algebra.Presentation
 

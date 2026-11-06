@@ -265,10 +265,10 @@ theorem conormalDirectImageNu_smul_structureSharp (U : (SmallEtale B S hS X.1)�
 its scalars restricted along the split surjection `i_*(i^♯) : i_*i⁻¹𝒪_X ⟶ i_*𝒪_Z`, where `ν` is
 `AlgebraicGeometry.Space.conormalDirectImageNu`. -/
 noncomputable def conormalSplitIdealDerivation :
-    (PresheafOfModules.splitCoefficients
+    PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.splitCoefficients
         (directImageStructureSharpInverseImage B S hS
           (subspaceInclusion B S hS X Z)).hom
-        (conormalSplitTarget B S hS X Z).val).Derivation'
+        (conormalSplitTarget B S hS X Z).val))
       (conormalSplitBase B S hS X Z g).hom := by
   refine PresheafOfModules.splitIdealDerivation
     (directImageStructureSharpInverseImage B S hS (subspaceInclusion B S hS X Z)).hom
@@ -308,7 +308,8 @@ variable {E : Type u₀} [Category.{v₀} E] {S₀ R₀ : Eᵒᵖ ⥤ CommRingCa
 counterpart of `AlgebraicGeometry.Space.derivationSubtypeTransport`. -/
 noncomputable def derivationTransport
     {M N : PresheafOfModules.{w₀} (R₀ ⋙ forget₂ CommRingCat.{w₀} RingCat.{w₀})} (h : M = N)
-    (D : M.Derivation' φ) : N.Derivation' φ :=
+    (D : PresheafOfModulesOfCommRing.Derivation' M φ) :
+    PresheafOfModulesOfCommRing.Derivation' N φ :=
   h ▸ D
 
 /-- **The transport acts on the value of a derivation on a local section by a cast**, the cast
@@ -317,7 +318,7 @@ between two restrictions of scalars of one presheaf of modules the two section t
 and the cast disappears. -/
 theorem derivationTransport_d
     {M N : PresheafOfModules.{w₀} (R₀ ⋙ forget₂ CommRingCat.{w₀} RingCat.{w₀})} (h : M = N)
-    (D : M.Derivation' φ) (Y : Eᵒᵖ) (y : ToType (R₀.obj Y)) :
+    (D : PresheafOfModulesOfCommRing.Derivation' M φ) (Y : Eᵒᵖ) (y : ToType (R₀.obj Y)) :
     (derivationTransport h D).d y =
       cast (congrArg (fun K : PresheafOfModules.{w₀}
           (R₀ ⋙ forget₂ CommRingCat.{w₀} RingCat.{w₀}) ↦ ToType (K.obj Y)) h) (D.d y) := by
@@ -345,8 +346,9 @@ irreducible, so the identification is not definitional.  It is
 `AlgebraicGeometry.Space.restrictModuleAlong_moduleDirectImage`, transported along by
 `AlgebraicGeometry.Space.derivationTransport`. -/
 noncomputable def conormalSplitDerivation :
-    ((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj
-        (conormalModule B S hS X Z)).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation'
+      (((modulePushforward B S hS (subspaceInclusion B S hS X Z)).obj
+        (conormalModule B S hS X Z)).val)
       (structureSharpInverseImage B S hS g).hom :=
   derivationTransport
     (restrictModuleAlong_moduleDirectImage B S hS (subspaceInclusion B S hS X Z)
@@ -425,7 +427,7 @@ transpose of a *named* retraction with the derivation it came from exhausts the 
 budget. -/
 theorem map_derivationDirectImageEquiv_symm_pullbackUnitDerivation (f : X' ⟶ Y')
     (b : Y' ⟶ Bb') (C : Modules.{u, u} B S hS X'.1 X'.2)
-    (D : ((modulePushforward B S hS f).obj C).val.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation' (((modulePushforward B S hS f).obj C).val)
       (structureSharpInverseImage B S hS b).hom)
     (U : (SmallEtale B S hS Y'.1)ᵒᵖ)
     (t : ToType ((structureRingSheaf B S hS Y').obj.obj U)) :
@@ -435,7 +437,7 @@ theorem map_derivationDirectImageEquiv_symm_pullbackUnitDerivation (f : X' ⟶ Y
   Eq.trans
     (derivationDirectImageEquiv_d B S hS f b C
       ((derivationDirectImageEquiv B S hS f b C).symm D) U t).symm
-    (PresheafOfModules.Derivation.congr_d
+    (PresheafOfModulesOfCommRing.Derivation.congr_d
       ((derivationDirectImageEquiv B S hS f b C).apply_symm_apply D) t)
 
 /-- The transpose across `f^* ⊣ f_*` of the composite of a transposed map with `r` is the map
@@ -477,15 +479,15 @@ theorem submoduleTranspose_comp_derivationDirectImageEquiv_symm_eq_id (f : X' �
     (I : (SheafOfModules.unit (structureRingSheaf B S hS Y')).Submodule)
     (u : I.toSheafOfModules ⟶ (modulePushforward B S hS f).obj
       ((modulePullback B S hS f).obj (sheafOfDifferentials B S hS b)))
-    (E : ((modulePushforward B S hS f).obj
+    (E : PresheafOfModulesOfCommRing.Derivation' (((modulePushforward B S hS f).obj
       ((modulePullback B S hS f).obj
-        (sheafOfDifferentials B S hS b))).val.Derivation'
+        (sheafOfDifferentials B S hS b))).val)
       (structureSharpInverseImage B S hS b).hom)
     (hE : E = pullbackUnitDerivation B S hS f b)
     (hu : ∀ (U : (SmallEtale B S hS Y'.1)ᵒᵖ) (x : I.toSheafOfModules.val.obj U),
       (ModuleCat.Hom.hom (u.val.app U)) x = E.d x.1)
-    (D : ((modulePushforward B S hS f).obj
-      ((modulePullback B S hS f).obj I.toSheafOfModules)).val.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation' (((modulePushforward B S hS f).obj
+      ((modulePullback B S hS f).obj I.toSheafOfModules)).val)
       (structureSharpInverseImage B S hS b).hom)
     (hD : ∀ (U : (SmallEtale B S hS Y'.1)ᵒᵖ) (x : I.toSheafOfModules.val.obj U),
       D.d x.1 = ((modulePullbackAdjunction B S hS f).unit.app
@@ -639,7 +641,7 @@ theorem submoduleTranspose_comp_map_eq_submoduleTranspose (f : X' ⟶ Y')
     (b₁ : Y' ⟶ Bb₁) (b₂ : Y' ⟶ Bb₂)
     (I : (SheafOfModules.unit (structureRingSheaf B S hS Y')).Submodule)
     (Φ : sheafOfDifferentials B S hS b₁ ⟶ sheafOfDifferentials B S hS b₂)
-    (E : (sheafOfDifferentials B S hS b₂).val.Derivation'
+    (E : PresheafOfModulesOfCommRing.Derivation' ((sheafOfDifferentials B S hS b₂).val)
       (structureSharpInverseImage B S hS b₁).hom)
     (hΦ : (universalDerivation B S hS b₁).postcomp Φ.val = E)
     (hE : ∀ (U : (SmallEtale B S hS Y'.1)ᵒᵖ)
@@ -647,18 +649,18 @@ theorem submoduleTranspose_comp_map_eq_submoduleTranspose (f : X' ⟶ Y')
       E.d t = (universalDerivation B S hS b₂).d t)
     (u₁ : I.toSheafOfModules ⟶ (modulePushforward B S hS f).obj
       ((modulePullback B S hS f).obj (sheafOfDifferentials B S hS b₁)))
-    (D₁ : ((modulePushforward B S hS f).obj
+    (D₁ : PresheafOfModulesOfCommRing.Derivation' (((modulePushforward B S hS f).obj
       ((modulePullback B S hS f).obj
-        (sheafOfDifferentials B S hS b₁))).val.Derivation'
+        (sheafOfDifferentials B S hS b₁))).val)
       (structureSharpInverseImage B S hS b₁).hom)
     (hD₁ : D₁ = pullbackUnitDerivation B S hS f b₁)
     (hu₁ : ∀ (U : (SmallEtale B S hS Y'.1)ᵒᵖ) (x : I.toSheafOfModules.val.obj U),
       (ModuleCat.Hom.hom (u₁.val.app U)) x = D₁.d x.1)
     (u₂ : I.toSheafOfModules ⟶ (modulePushforward B S hS f).obj
       ((modulePullback B S hS f).obj (sheafOfDifferentials B S hS b₂)))
-    (D₂ : ((modulePushforward B S hS f).obj
+    (D₂ : PresheafOfModulesOfCommRing.Derivation' (((modulePushforward B S hS f).obj
       ((modulePullback B S hS f).obj
-        (sheafOfDifferentials B S hS b₂))).val.Derivation'
+        (sheafOfDifferentials B S hS b₂))).val)
       (structureSharpInverseImage B S hS b₂).hom)
     (hD₂ : D₂ = pullbackUnitDerivation B S hS f b₂)
     (hu₂ : ∀ (U : (SmallEtale B S hS Y'.1)ᵒᵖ) (x : I.toSheafOfModules.val.obj U),
@@ -687,20 +689,20 @@ theorem submoduleTranspose_comp_map_eq_submoduleTranspose (f : X' ⟶ Y')
       (((modulePushforward B S hS f).map
         ((modulePullback B S hS f).map Φ)).val.app U) y) (hu₁ U x)) ?_
   refine Eq.trans ?_ (hu₂ U x).symm
-  refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
     (pullbackUnitDerivation B S hS f b₁)
     ((modulePushforward B S hS f).map
       ((modulePullback B S hS f).map Φ)).val x.1).symm ?_
-  refine Eq.trans (PresheafOfModules.Derivation.congr_d
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.congr_d
     (pullbackUnitDerivation_postcomp_map_map B S hS f b₁
       (sheafOfDifferentials B S hS b₂) Φ E hΦ) x.1) ?_
-  refine Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply E
+  refine Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply E
     ((modulePullbackAdjunction B S hS f).unit.app
       (sheafOfDifferentials B S hS b₂)).val x.1) ?_
   refine Eq.trans (congrArg (fun m ↦ ModuleCat.Hom.hom
       (((modulePullbackAdjunction B S hS f).unit.app
         (sheafOfDifferentials B S hS b₂)).val.app U) m) (hE U x.1)) ?_
-  exact (PresheafOfModules.Derivation.postcomp_d_apply (universalDerivation B S hS b₂)
+  exact (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply (universalDerivation B S hS b₂)
     ((modulePullbackAdjunction B S hS f).unit.app
       (sheafOfDifferentials B S hS b₂)).val x.1).symm
 

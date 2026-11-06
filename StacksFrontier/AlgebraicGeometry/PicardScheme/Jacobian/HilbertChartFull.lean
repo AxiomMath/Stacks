@@ -103,12 +103,12 @@ theorem exists_representableBy_cohomologySubfunctor_spec
             Stacks.Picard.schemePullbackClass (bcProj f T) n -
               Stacks.Picard.schemePullbackClass (bcProj f T) n' := by
         rw [← hn, ← chartClass, hc, chartClass, hn']
-        abel
+        exact (add_sub_cancel_right _ _).symm
       rw [h1, show Stacks.Picard.schemePullbackClass (bcProj f T) (n - n') =
         Stacks.Picard.schemePullbackClass (bcProj f T) n -
           Stacks.Picard.schemePullbackClass (bcProj f T) n' from
         map_sub (Stacks.Picard.schemePullbackClassHom _) n n']
-      abel
+      exact add_sub_assoc _ _ _
     exact Over.OverMorphism.ext ((cancel_mono W.ι).1
       (congrArg CommaMorphism.left (hH.family.injective hZ)))
   have hsurj : ∀ {T : Over S}, Function.Surjective (toF (T := T)) := by

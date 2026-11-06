@@ -87,8 +87,8 @@ theorem tensorLeft_map_presheafSmul {O : Cᵒᵖ ⥤ CommRingCat.{w}}
     (f : (ringPresheaf O ⋙ forget RingCat).sections)
     (P : PresheafOfModules.{w} (ringPresheaf O)) :
     PresheafOfModules.tensorHom (O := O) (𝟙 F)
-        ((presheafSectionToEnd (ringPresheaf O) f).app P) =
-      (presheafSectionToEnd (ringPresheaf O) f).app
+        ((presheafSectionToEnd (ringPresheaf O) f).asHom.app P) =
+      (presheafSectionToEnd (ringPresheaf O) f).asHom.app
         (PresheafOfModules.tensorObj (O := O) F P) := by
   refine PresheafOfModules.tensorObj_hom_ext fun U x y ↦ ?_
   let r : ((ringPresheaf O).obj U) := f.val U
@@ -112,12 +112,12 @@ theorem sheafTensorObj_map_globalSectionToEnd
     (f : ((commRingSheafToRingSheaf O).obj ⋙ forget RingCat).sections)
     (G : _root_.SheafOfModules.{w} (commRingSheafToRingSheaf O)) :
     ((SheafOfModules.Tensor.sheafTensor O).obj F).map
-        ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).app G) =
-      (SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).app
+        ((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app G) =
+      (SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app
         (((SheafOfModules.Tensor.sheafTensor O).obj F).obj G) := by
   have h1 : PresheafOfModules.tensorHom (O := O.obj) (𝟙 F.val)
-        (((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).app G).val) =
-      (presheafSectionToEnd (commRingSheafToRingSheaf O).obj f).app
+        (((SheafOfModules.globalSectionToEnd (commRingSheafToRingSheaf O) f).asHom.app G).val) =
+      (presheafSectionToEnd (commRingSheafToRingSheaf O).obj f).asHom.app
         (PresheafOfModules.tensorObj (O := O.obj) F.val G.val) :=
     tensorLeft_map_presheafSmul (O := O.obj) F.val f G.val
   exact (congrArg (PresheafOfModules.sheafification (𝟙 (commRingSheafToRingSheaf O).obj)).map

@@ -60,7 +60,7 @@ def finiteTypeContinuousModuleIsoOfLinearEquiv
     {P Q : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ G}
     (f : P.obj.obj.obj.V ≃ₗ[Λ] Q.obj.obj.obj.V)
     (hf : ∀ (g : G) (v : P.obj.obj.obj.V),
-      f ((P.obj.obj.obj.ρ g).hom v) = (Q.obj.obj.obj.ρ g).hom (f v)) : P ≅ Q where
+      f ((P.obj.obj.obj.ρ g).asHom.hom v) = (Q.obj.obj.obj.ρ g).asHom.hom (f v)) : P ≅ Q where
   hom := ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ModuleCat.ofHom f.toLinearMap
       comm := fun g => by
@@ -71,7 +71,8 @@ def finiteTypeContinuousModuleIsoOfLinearEquiv
       comm := fun g => by
         ext w
         refine f.injective ?_
-        change f (f.symm ((Q.obj.obj.obj.ρ g).hom w)) = f ((P.obj.obj.obj.ρ g).hom (f.symm w))
+        change f (f.symm ((Q.obj.obj.obj.ρ g).asHom.hom w)) =
+          f ((P.obj.obj.obj.ρ g).asHom.hom (f.symm w))
         rw [hf, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply] }))
   hom_inv_id := by
     apply ObjectProperty.hom_ext
@@ -275,12 +276,12 @@ the automorphism `σ` of the fibre functor at `s̄` is precomposition with `a`, 
 `P` of the element that the path `t` transports `σ` to. -/
 theorem sheafFiber_comp_lisseEtaleSheafModuleFiberIso_hom {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a)
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (P : FiniteTypeContinuousModule.{0, u + 1, u + 1} Λ (EtaleFundamentalGroup X.1 x)) :
     (GrothendieckTopology.Point.Hom.sheafFiber (smallEtalePointHom X.1 a)).app
         ((lisseEtaleSheaf B X x Λ).obj P) ≫ (lisseEtaleSheafModuleFiberIso B X x Λ t P).hom =
       (lisseEtaleSheafModuleFiberIso B X x Λ t P).hom ≫
-        P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ) := by
+        (P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom := by
   have R2' := congrArg (fun α => α.app ((lisseSheaf B X x Λ).obj P))
     (sheafEquivCompSheafFiberIso_inv_naturality.{u, u + 1, 0} B X Λ a)
   have hsq := moduleCat_iso_hom_comm_of_inv_comm
@@ -293,7 +294,7 @@ theorem sheafFiber_comp_lisseEtaleSheafModuleFiberIso_hom {s : GeometricPoint X.
         ((lisseSheaf B X x Λ).obj P).obj ≫
           (lisseSheafStalkLinearEquiv B X x Λ t P).toModuleIso.hom =
       (lisseSheafStalkLinearEquiv B X x Λ t P).toModuleIso.hom ≫
-        P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ) := by
+        (P.obj.obj.obj.ρ (etaleFundamentalGroupMulEquiv t σ)).asHom := by
     ext v
     simp only [ModuleCat.hom_comp, LinearMap.comp_apply, LinearEquiv.toModuleIso_hom,
       ModuleCat.hom_ofHom, LinearEquiv.coe_coe]

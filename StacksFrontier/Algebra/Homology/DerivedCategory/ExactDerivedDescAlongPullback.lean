@@ -170,10 +170,10 @@ private theorem compIso_whiskerLeft_fac_app
           RΓ.map (Q'.mapDerivedCategoryFactorsh.inv.app J))
     (J : HomotopyCategory A₁ (ComplexShape.up ℤ)) :
     F.mapDerivedCategoryFactorsh.inv.app J ≫
-        ((Functor.mapDerivedCategoryCompIso e₁).inv ≫
+        ((Functor.mapDerivedCategoryCompIsoOfCompIso e₁).inv ≫
           Functor.whiskerLeft P.mapDerivedCategory V' ≫
             (Functor.associator _ _ _).inv ≫
-              Functor.whiskerRight (Functor.mapDerivedCategoryCompIso e₂).hom RΓ).app
+              Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso e₂).hom RΓ).app
           (DerivedCategory.Qh.obj J) =
       DerivedCategory.Qh.map ((mapHomotopyCategoryOfComp F R Γ
           (e₁.inv ≫ Functor.whiskerLeft P u' ≫ (Functor.associator P Q' Γ).inv ≫
@@ -212,10 +212,10 @@ public theorem compIso_whiskerLeft_eq_exactDerivedDesc
       DerivedCategory.Qh.map ((mapHomotopyCategoryOfComp F' Q' Γ u').app J) ≫
         η.app ((Q'.mapHomotopyCategory (ComplexShape.up ℤ)).obj J) ≫
           RΓ.map (Q'.mapDerivedCategoryFactorsh.inv.app J)) :
-    (Functor.mapDerivedCategoryCompIso e₁).inv ≫
+    (Functor.mapDerivedCategoryCompIsoOfCompIso e₁).inv ≫
         Functor.whiskerLeft P.mapDerivedCategory V' ≫
           (Functor.associator _ _ _).inv ≫
-            Functor.whiskerRight (Functor.mapDerivedCategoryCompIso e₂).hom RΓ =
+            Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso e₂).hom RΓ =
       exactDerivedDesc F R Γ RΓ η (e₁.inv ≫ Functor.whiskerLeft P u' ≫
         (Functor.associator P Q' Γ).inv ≫ Functor.whiskerRight e₂.hom Γ) :=
   Functor.rightDerived_ext F.mapDerivedCategory F.mapDerivedCategoryFactorsh.inv
@@ -253,7 +253,7 @@ private theorem whiskerLeft_compIso_fac_app
     F.mapDerivedCategoryFactorsh.inv.app J ≫
         (V ≫ Functor.whiskerLeft Q.mapDerivedCategory Res ≫
           (Functor.associator _ _ _).inv ≫
-            Functor.whiskerRight (Functor.mapDerivedCategoryCompIso e₃).hom RΓ).app
+            Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso e₃).hom RΓ).app
           (DerivedCategory.Qh.obj J) =
       DerivedCategory.Qh.map ((mapHomotopyCategoryOfComp F R Γ
           (u ≫ Functor.whiskerLeft Q r ≫ (Functor.associator Q I Γ).inv ≫
@@ -297,7 +297,7 @@ public theorem whiskerLeft_compIso_eq_exactDerivedDesc
           RΓ.map (I.mapDerivedCategoryFactorsh.inv.app J)) :
     V ≫ Functor.whiskerLeft Q.mapDerivedCategory Res ≫
         (Functor.associator _ _ _).inv ≫
-          Functor.whiskerRight (Functor.mapDerivedCategoryCompIso e₃).hom RΓ =
+          Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso e₃).hom RΓ =
       exactDerivedDesc F R Γ RΓ η (u ≫ Functor.whiskerLeft Q r ≫
         (Functor.associator Q I Γ).inv ≫ Functor.whiskerRight e₃.hom Γ) :=
   Functor.rightDerived_ext F.mapDerivedCategory F.mapDerivedCategoryFactorsh.inv

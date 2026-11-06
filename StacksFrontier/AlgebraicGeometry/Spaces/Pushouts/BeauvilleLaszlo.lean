@@ -832,6 +832,11 @@ theorem exists_etaleCovering_iff_isGlueable
     let : HasPullbacks (BigFppfOver B (Spec (.of R)) hX) := inferInstance
     let : HasBinaryProducts (BigFppfOver B (Spec (.of R)) hX) :=
       hasBinaryProducts_of_hasTerminal_and_pullbacks _
+    have hPshPb : HasPullbacks ((BigFppfOver B (Spec (.of R)) hX)ᵒᵖ ⥤ Type u) := by
+      set_option synthInstance.maxHeartbeats 400000 in infer_instance
+    have hPshPb' : ∀ {X₁ X₂ X₃ : (BigFppfOver B (Spec (.of R)) hX)ᵒᵖ ⥤ Type u}
+        (f₁ : X₁ ⟶ X₃) (f₂ : X₂ ⟶ X₃), HasLimit (cospan f₁ f₂) :=
+      fun _ _ => HasLimitsOfShape.has_limit _
     let Ppull (i : I) := pullback p (p₀ i)
     choose J X hZarCover hAtlas using fun i =>
       exists_zariski_cover_affine_etale_atlas B (Spec (.of R)) hX

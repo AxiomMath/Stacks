@@ -118,7 +118,6 @@ open CategoryTheory.Functor
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.ChoiceOfPullbacks.pullbackFunctor
-  CategoryTheory.Under.post
 
 variable {A C : Type u} [CommRing A] [CommRing C] (B : BigFppfSite.{u}) (S : Scheme.{u})
   (hS : B.Contains S) (toS : Spec (.of A) ⟶ S) (hA : B.Contains (Spec (.of A)))

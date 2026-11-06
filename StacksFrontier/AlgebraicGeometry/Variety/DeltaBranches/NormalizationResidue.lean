@@ -54,7 +54,7 @@ private theorem finite_maximalSpectrum_integralClosure
   let f : MaximalSpectrum B → (IsLocalRing.maximalIdeal A).primesOver B := fun q =>
     ⟨q.asIdeal, q.isMaximal.isPrime,
       ⟨(IsLocalRing.eq_maximalIdeal
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q.asIdeal)).symm⟩⟩
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) q.asIdeal)).symm⟩⟩
   exact Finite.of_injective f fun x y h => MaximalSpectrum.ext (congrArg Subtype.val h)
 
 /-- An algebraic extension of a separably closed field has separable degree one. -/
@@ -72,7 +72,7 @@ public noncomputable def normalizationResidueProductMap (A : Type u) [CommRing A
       ((m : MaximalSpectrum ↥(integralClosure A (FractionRing A))) →
         ↥(integralClosure A (FractionRing A)) ⧸ m.asIdeal) where
   toFun := fun b m => Ideal.Quotient.mk m.asIdeal b
-  map_add' := by intros; ext m; simp
+  map_add' := by intros; funext m; exact map_add (Ideal.Quotient.mk m.asIdeal) _ _
   map_smul' := by intros; ext m; simp [Algebra.smul_def]
 
 /-- The simultaneous residue map, modulo the image of the original ring in its normalization

@@ -73,7 +73,10 @@ theorem epi_modulePullback_comp_map {W U X : AlgebraicSpaces B S hS} (a : W ⟶ 
   have h₁ : Epi ((modulePullback B S hS b ⋙ modulePullback B S hS a).map φ) :=
     @Functor.map_epi _ _ _ _ _ (preservesEpimorphisms_modulePullback B S hS a) _ _ _ h
   rw [← NatIso.naturality_1 (modulePullbackCompIso B S hS a b) φ]
-  infer_instance
+  exact @epi_comp _ _ _ _ _ _
+    (@IsIso.epi_of_iso _ _ _ _ _ (((modulePullbackCompIso B S hS a b).app M).isIso_inv)) _
+    (@epi_comp _ _ _ _ _ _ h₁ _
+      (@IsIso.epi_of_iso _ _ _ _ _ (((modulePullbackCompIso B S hS a b).app N).isIso_hom)))
 
 /-- **An inverse image along a composite `a ≫ b` is invertible as soon as the inverse image along
 `b` is.** -/
@@ -104,7 +107,12 @@ theorem epi_modulePullback_map_of_isLocallySurjectiveAt {U X : AlgebraicSpaces B
     obtain ⟨m, hm⟩ := ha
     exact ⟨m, hm⟩
   rw [← NatIso.naturality_2 (modulePullbackIsoEtaleModulePullback B S hS j hj) φ]
-  infer_instance
+  exact @epi_comp _ _ _ _ _ _
+    (@IsIso.epi_of_iso _ _ _ _ _
+      (((modulePullbackIsoEtaleModulePullback B S hS j hj).app M).isIso_hom)) _
+    (@epi_comp _ _ _ _ _ _ he _
+      (@IsIso.epi_of_iso _ _ _ _ _
+        (((modulePullbackIsoEtaleModulePullback B S hS j hj).app N).isIso_inv)))
 
 /-! ### Charts landing in an open subspace -/
 

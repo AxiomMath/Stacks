@@ -273,6 +273,8 @@ public theorem isAdequate_cokernel_to_moduleExtension_on {ι : C ⥤ CommAlgCat.
   have hιQ (j : Discrete J) : colimit.ι G j ≫ eQ.hom =
       E.map (Sigma.ι (fun k => finiteFreeModule.{max u v w} A (m k)) j.as) :=
     ι_preservesColimitIso_inv E (Discrete.functor fun k => finiteFreeModule.{max u v w} A (m k)) j
+  -- Supplied directly: instance search for it times out.
+  have : HasColimitsOfShape (Discrete J) Cc := PresheafOfModules.hasColimitsOfShape _ _
   have hcompat : colim.map α ≫ eQ.hom = eP.hom ≫ E.map δ := by
     apply colimit.hom_ext
     intro j
@@ -284,6 +286,8 @@ public theorem isAdequate_cokernel_to_moduleExtension_on {ι : C ⥤ CommAlgCat.
   have : HasExactColimitsOfShape (Discrete J) Cc := by
     have : (PresheafOfModules.toPresheaf R).ReflectsIsomorphisms :=
       toPresheaf_reflectsIsomorphisms
+    have : HasCoproducts.{max u v w} (Cᵒᵖᵒᵖ ⥤ Ab.{max u v w}) :=
+      fun _ => functorCategoryHasColimitsOfShape
     exact HasExactColimitsOfShape.domain_of_functor (Discrete J)
       (PresheafOfModules.toPresheaf R)
   have : PreservesFiniteLimits (colim (J := Discrete J) (C := Cc)) :=

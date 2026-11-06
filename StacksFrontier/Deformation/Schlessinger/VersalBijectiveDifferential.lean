@@ -185,7 +185,8 @@ public noncomputable def pointClass
     (a : (Deformation.restrictedCoyoneda ξ.base).obj A) :
     (Deformation.isomorphismClasses (BasedCategory.ofFunctor p) hp).obj A :=
   let φ := (associatedMorphism hp ξ P).toBasedFunctor
-  Deformation.classOf (BasedCategory.ofFunctor p) hp ⟨φ.obj ⟨A, a⟩, φ.w_obj ⟨A, a⟩⟩
+  Deformation.classOf (BasedCategory.ofFunctor p) hp
+    ⟨φ.obj ((Deformation.restrictedCoyoneda ξ.base).elementsMk A a), φ.w_obj ((Deformation.restrictedCoyoneda ξ.base).elementsMk A a)⟩
 
 /-- The class of a pushforward is natural in the base: precomposing the point with a
 morphism of Artinian local algebras is pushing the class forward along it. -/
@@ -199,9 +200,9 @@ public theorem pointClass_naturality
       (Deformation.isomorphismClasses (BasedCategory.ofFunctor p) hp).map f
         (pointClass hp ξ P A a) := by
   let φ := (associatedMorphism hp ξ P).toBasedFunctor
-  let α : (Deformation.restrictedCoyoneda ξ.base).Elements := ⟨A, a⟩
+  let α : (Deformation.restrictedCoyoneda ξ.base).Elements := (Deformation.restrictedCoyoneda ξ.base).elementsMk A a
   let β : (Deformation.restrictedCoyoneda ξ.base).Elements :=
-    ⟨B, a ≫ Deformation.artinianToComplete.map f⟩
+    (Deformation.restrictedCoyoneda ξ.base).elementsMk B (a ≫ Deformation.artinianToComplete.map f)
   let g : α ⟶ β := ⟨f, rfl⟩
   have : (CategoryOfElements.π (Deformation.restrictedCoyoneda ξ.base)).IsHomLift f g :=
     IsHomLift.map (CategoryOfElements.π (Deformation.restrictedCoyoneda ξ.base)) g
@@ -210,7 +211,7 @@ public theorem pointClass_naturality
     IsHomLift.map (CategoryOfElements.π (Deformation.restrictedCoyoneda ξ.base)) g
   have := BasedFunctor.preserves_isHomLift φ f g
   exact (Deformation.map_classOf (BasedCategory.ofFunctor p) hp f
-    ⟨φ.obj ⟨A, a⟩, φ.w_obj _⟩ ⟨φ.obj ⟨B, _⟩, φ.w_obj _⟩ (φ.map g)).symm
+    ⟨φ.obj α, φ.w_obj _⟩ ⟨φ.obj β, φ.w_obj _⟩ (φ.map g)).symm
 
 /-- The class of the pushforward of `ξ` along the point `truncationPoint ξ.base n ≫ f` is the
 isomorphism class of any object of the fibre over `A` that receives a lift of `f` from the level
@@ -227,7 +228,7 @@ public lemma pointClass_of_lift
       Deformation.classOf (BasedCategory.ofFunctor p) hp ⟨x, hx⟩ := by
   let a := truncationPoint ξ.base n ≫ Deformation.artinianToComplete.map f
   let φ := associatedMorphism hp ξ P
-  let α : (Deformation.restrictedCoyoneda ξ.base).Elements := ⟨A, a⟩
+  let α : (Deformation.restrictedCoyoneda ξ.base).Elements := (Deformation.restrictedCoyoneda ξ.base).elementsMk A a
   have hpoint : p.IsHomLift (φ.factor α) (φ.pointInclusion α) := by
     have hh := (P (φ.factor α)).cocartesian
       ⟨ξ.level (φ.level α), ξ.level_eq (φ.level α)⟩ |>.toIsHomLift

@@ -167,11 +167,11 @@ theorem fibreCls_map {V' U : BigFppfOver B S hS} (f : V' ⟶ U)
   rw [D.fibreClassValue_map y p c φ]
   calc H.1.map (eqToHom x'.2.symm).op (H.1.map φ.hbase.op (D.fibreClassValue y p c x.1))
       = H.1.map (φ.hbase.op ≫ (eqToHom x'.2.symm).op) (D.fibreClassValue y p c x.1) :=
-        (FunctorToTypes.map_comp_apply H.1 φ.hbase.op (eqToHom x'.2.symm).op _).symm
+        (H.1.map_comp_apply φ.hbase.op (eqToHom x'.2.symm).op _).symm
     _ = H.1.map ((eqToHom x.2.symm).op ≫ f.op) (D.fibreClassValue y p c x.1) :=
         congrArg (fun g => H.1.map g (D.fibreClassValue y p c x.1)) (congrArg Quiver.Hom.op hmor)
     _ = H.1.map f.op (H.1.map (eqToHom x.2.symm).op (D.fibreClassValue y p c x.1)) :=
-        FunctorToTypes.map_comp_apply H.1 (eqToHom x.2.symm).op f.op _
+        H.1.map_comp_apply (eqToHom x.2.symm).op f.op _
 
 /-- The image in the base of the point attached to an object of the 2-fibre product is the
 morphism of schemes underlying `y(x) ⟶ y(V)`. -/
@@ -206,7 +206,7 @@ theorem fibreClassMap_eq_of_fibrePoint {P Q : (D.fibreProduct y).val.obj} (a : P
           (D.fibreClassHom y (modulePushforwardCoherence B S hS) Q))).down.1 :=
       h₁.trans (congrArg (fun z => z.down.1) (NatTrans.naturality_apply (D.fibrePointIso y p c).hom
         (D.fibreOverHomOf y a).op (D.fibreClassHom y (modulePushforwardCoherence B S hS) Q))).symm
-    exact ULift.ext _ _ (Subtype.ext h₂)
+    exact ULift.ext (Subtype.ext h₂)
   have hcH := ((D.fibrePointIso y p c).app (op (D.fibreTest y P))).toEquiv.injective hΦ
   exact D.homOfPullMap_injective _ _
     (hcH.trans (D.fibreHomFunctor_map_fibreClassHom y (modulePushforwardCoherence B S hS) a))

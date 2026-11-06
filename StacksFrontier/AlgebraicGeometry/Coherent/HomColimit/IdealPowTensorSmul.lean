@@ -330,7 +330,7 @@ public theorem smul_eq_zero_of_idealPowTensorToModule_eq_zero (I : X.IdealSheafD
   refine (congrArg (fun u : Γ(tensorModules (idealPow I n) G, W.1) ↦
     X.presheaf.map (homOfLE hWV).op a • u) heq).trans ?_
   refine (map_sum (((tensorModules (idealPow I n) G).smul (U := W.1)
-    (X.presheaf.map (homOfLE hWV).op a)).hom) _ Finset.univ).trans ?_
+    (X.presheaf.map (homOfLE hWV).op a)).asHom.hom) _ Finset.univ).trans ?_
   refine (Finset.sum_congr rfl fun j _ ↦
     smul_toTensorSheafSection_idealPow I n G aW haW (x j) (hs j) (b j)).trans ?_
   refine (map_sum ((Stacks.SheafOfModules.TensorStalkRingedSpace.sheafifyUnit X.toRingedSpace

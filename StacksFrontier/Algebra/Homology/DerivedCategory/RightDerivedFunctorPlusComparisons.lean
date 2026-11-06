@@ -110,7 +110,7 @@ This is the uniqueness of right derived functors, `Functor.rightDerivedNatIso`: 
 isomorphic functors `K⁺(𝒜) ⥤ D⁺(ℬ)` induced by `F` and by `G`. -/
 def rightDerivedFunctorPlusNatIso {F G : A ⥤ B} [F.Additive] [G.Additive] (e : F ≅ G) :
     F.rightDerivedFunctorPlus ≅ G.rightDerivedFunctorPlus :=
-  rightDerivedNatIso _ _ F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlusUnit
+  rightDerivedNatIso _ _ F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A)
     (isoWhiskerRight (mapHomotopyCategoryPlusNatIso e) DerivedCategory.Plus.Qh)
 

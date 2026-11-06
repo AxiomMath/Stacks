@@ -369,6 +369,10 @@ theorem unit_comp_pushforward_map_pullbackModuleMap (hh : h ≫ v'₂ = v'₁) (
     simp only [Scheme.Modules.pushforwardCongr_hom_app_app, eqToHom_refl, op_id,
       CategoryTheory.Functor.map_id]
     rfl
+  haveI : Mono ((Scheme.Modules.pushforward (h ≫ v'₂)).map
+      ((Scheme.Modules.pullbackComp h v'₂).inv.app F)) :=
+    inferInstanceAs (Mono ((Scheme.Modules.pushforward (h ≫ v'₂)).mapIso
+      ((Scheme.Modules.pullbackComp h v'₂).app F)).symm.hom)
   rw [Iso.trans_hom, hc, Category.comp_id, ← cancel_mono ((Scheme.Modules.pushforward
     (h ≫ v'₂)).map ((Scheme.Modules.pullbackComp h v'₂).inv.app F)), hu]
   simp only [pullbackModuleMap, Stacks.Sites.pullbackCompIso_hom, CategoryTheory.Functor.map_comp,
@@ -434,6 +438,7 @@ theorem baseChange_comp_directImageMap (w₁ : v'₁ ≫ f = f₁ ≫ v₁) (w�
   have hR := restriction_comp_directImageMap f v₁ v₂ v'₁ v'₂ f₁ f₂ φ h w₁ w₂ hφ hv hh F p
   have hU := unit_comp_pushforward_map_pullbackModuleMap v₁ v₂ φ hv
     (((Scheme.Modules.pushforward f).rightDerived p).obj F)
+  haveI : ∀ X, Mono (ηK.hom.app X) := fun X => inferInstanceAs (Mono (ηK.app X).hom)
   apply (adj₂.homEquiv _ _).injective
   rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit, CategoryTheory.Functor.map_comp,
     ← Category.assoc, unit_comp_map_baseChange, CategoryTheory.Functor.map_comp,

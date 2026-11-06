@@ -44,6 +44,7 @@ variable {N : SmallSite.BigModuleSheaf S}
   (R : CochainComplex.InjectiveResolution
     ((CochainComplex.singleFunctor (SmallSite.BigModuleSheaf S) 0).obj N))
 
+set_option maxHeartbeats 1600000 in
 /-- **The transition of the restricted resolutions, localized, is the localized transition of
 global sections applied to the resolution**: the three pieces (comparison along
 `S_{e(n)} ⟶ S_{e(n+1)}`, composition of restrictions of scalars, identification of the two
@@ -108,6 +109,7 @@ theorem levelResolutionTransition_square (n : ℕ) :
     (S.levelRestrictScalarsComp (hN.isLevel n) (hN.isLevel (n + 1)) (hN.le_succ n))
     R.cocomplex R.boundedBelow (S.levelStepResolutionHom hN R n) rfl
 
+set_option maxHeartbeats 1600000 in
 /-- The transition of the levels is, in `D(Mod_A)`, the transition of global sections applied to
 the resolution. -/
 theorem levelDerivedTransition_comp_levelResolutionQIso_app (n : ℕ) :

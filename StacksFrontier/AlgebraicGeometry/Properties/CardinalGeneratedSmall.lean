@@ -8,6 +8,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Generators
 public import Mathlib.Algebra.Module.TransferInstance
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.SheafOfModules
 public import Mathlib.CategoryTheory.Abelian.Subobject
+public import Mathlib.CategoryTheory.Adjunction.Limits
 public import Mathlib.CategoryTheory.ObjectProperty.Small
 public import Mathlib.Geometry.RingedSpace.Basic
 public import Mathlib.SetTheory.Cardinal.Basic
@@ -259,6 +260,37 @@ private theorem freeOpensYonedaEquiv_sheafificationHomEquiv_comp
     (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).homEquiv_naturality_right,
     PresheafOfModules.sheafificationAdjunction_homEquiv_apply]
   exact freeOpensYonedaEquiv_comp U _ _
+
+private instance hasCoproductsOfShape_presheafOfModules_prod
+    {C : Type u} [Preorder C] {J : GrothendieckTopology C}
+    (R : Sheaf J RingCat.{w}) (κ : Cardinal.{w}) [Small.{w} C] :
+    Limits.HasColimitsOfShape (Discrete (C × κ.out)) (PresheafOfModules.{w} R.obj) :=
+  haveI : Limits.HasColimitsOfShape (Discrete (Shrink.{w} (C × κ.out))) AddCommGrpCat.{w} :=
+    inferInstance
+  haveI : Limits.HasColimitsOfShape (Discrete (Shrink.{w} (C × κ.out)))
+      (PresheafOfModules.{w} R.obj) := PresheafOfModules.hasColimitsOfShape _ _
+  Limits.hasColimitsOfShape_of_equivalence
+    (Discrete.equivalence (equivShrink.{w} (C × κ.out)).symm)
+
+private instance hasCoproductsOfShape_sheafOfModules_prod
+    {C : Type u} [Preorder C] {J : GrothendieckTopology C}
+    (R : Sheaf J RingCat.{w}) (κ : Cardinal.{w}) [Small.{w} C]
+    [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}] :
+    Limits.HasColimitsOfShape (Discrete (C × κ.out)) (SheafOfModules.{w} R) where
+  has_colimit F :=
+    haveI : Limits.HasColimit (F ⋙ SheafOfModules.forget R) := inferInstance
+    haveI : IsIso (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).counit := inferInstance
+    haveI : Limits.PreservesColimitsOfSize.{max u w, max u w}
+        (PresheafOfModules.sheafification.{w} (𝟙 R.obj)) :=
+      (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).leftAdjoint_preservesColimits
+    haveI : Limits.HasColimit ((F ⋙ SheafOfModules.forget R) ⋙
+        PresheafOfModules.sheafification (𝟙 R.obj)) :=
+      ⟨⟨_, Limits.isColimitOfPreserves _ (Limits.colimit.isColimit _)⟩⟩
+    Limits.hasColimit_of_iso
+      (F := (F ⋙ SheafOfModules.forget R) ⋙ PresheafOfModules.sheafification (𝟙 R.obj))
+      (Functor.isoWhiskerLeft F
+      (asIso (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).counit).symm :
+        F ≅ (F ⋙ SheafOfModules.forget R) ⋙ PresheafOfModules.sheafification (𝟙 R.obj))
 
 private noncomputable abbrev cardinalUniversalSource
     {C : Type u} [Preorder C] {J : GrothendieckTopology C}

@@ -92,7 +92,7 @@ theorem vanishingCyclesMap_comp :
         (Functor.associator
             (smallEtaleDerivedPullbackAb (q ≫ strictHenselizationToBase B X hX x))
             (smallEtaleDerivedPullbackAb c) (smallEtaleDerivedGlobalSections T')).inv ≫
-          Functor.whiskerRight (Functor.mapDerivedCategoryCompIso
+          Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso
               (etaleStalkSectionsRestrictionCompIso B X hX x q c)).hom
             (smallEtaleDerivedGlobalSections T') := by
   rw [Stacks.DerivedFunctor.whiskerLeft_compIso_eq_exactDerivedDesc

@@ -165,13 +165,13 @@ theorem eq_zero_of_sectorExteriorBasis {N : Type*} [AddCommGroup N] (K : W →�
     induction g using Finsupp.induction_linear with
     | zero =>
         intro y hy
-        have hy0 : y = 0 := by rw [← hy, map_zero]
+        have hy0 : y = 0 := by rw [← hy, LinearEquiv.map_zero]
         subst hy0
         simp only [map_zero]
     | add g₁ g₂ hg₁ hg₂ =>
         intro y hy
         have hy2 : y = (sectorModuleEquiv A B W K i j).symm g₁ +
-            (sectorModuleEquiv A B W K i j).symm g₂ := by rw [← hy, map_add]
+            (sectorModuleEquiv A B W K i j).symm g₂ := by rw [← hy, LinearEquiv.map_add]
         subst hy2
         simp only [map_add]
         exact Eq.trans (congrArg₂ (· + ·) (hg₁ _ rfl) (hg₂ _ rfl)) (add_zero 0)

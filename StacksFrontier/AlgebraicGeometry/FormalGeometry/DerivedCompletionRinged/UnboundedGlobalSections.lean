@@ -369,7 +369,8 @@ theorem isDerivedComplete_derivedGlobalSectionsOverUnbounded
   intro a ha
   obtain ⟨n, hn⟩ := hρnil a ha
   refine isDerivedCompleteAt_of_isNilpotent ⟨n, ?_⟩
-  rw [smul_id_pow]
+  ext
+  rw [smul_id_pow, End.zero_asHom]
   exact smul_id_derivedGlobalSectionsOverUnbounded_eq_zero A X ρ (a ^ n)
     (by rw [map_pow, hn]) K
 

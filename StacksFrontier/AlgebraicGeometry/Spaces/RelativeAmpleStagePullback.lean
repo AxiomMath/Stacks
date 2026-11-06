@@ -50,6 +50,17 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_relativeAmpleStagePullback :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_relativeAmpleStagePullback
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Ampleness over the preimage of an open subspace of a stage.** Let `b ≫ fᵢ = f' ≫ a` be a
 commutative square of algebraic spaces, `Z` a base change of `fᵢ` along `a`, and suppose that the
 induced morphism `X' ⟶ Z` is affine. If the invertible `𝒪_{Xᵢ}`-module `Lᵢ` is ample over a

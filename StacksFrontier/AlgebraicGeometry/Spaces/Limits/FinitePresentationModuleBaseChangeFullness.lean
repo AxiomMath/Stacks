@@ -32,6 +32,20 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_FinitePresentationModuleBaseChangeFullness
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_FinitePresentationModuleBaseChangeFullness
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hZ : B.Contains (⊤_ Scheme.{u}))
 variable {I : Type u} [Category.{u} I] [IsCofiltered I]
@@ -130,7 +144,6 @@ theorem baseChangeCone_π_comp_fst {R' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} 
       pullback.fst (limit.π D i) r' ≫ limit.π D j.left := by
   dsimp [stageBaseChangeSystemFst, Over.pullback, Over.post, Cone.overPost]
   simp only [Over.homMk_left, pullback.lift_fst]
-  rfl
 
 /-- The projection of a member of the system of base changes to its stage, as a morphism of
 algebraic spaces. -/

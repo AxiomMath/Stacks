@@ -291,7 +291,7 @@ theorem satisfiesSetTheoreticCondition_of_isAlgebraicSpace_of_mono_of_epi
     · rw [Category.assoc, pullback.lift_snd, pullback.lift_snd, Category.id_comp]
   have : IsSplitEpi g := ⟨⟨k, hkg⟩⟩
   exact ⟨V, R, J.uliftYoneda.{u + 1}.obj V, pullback (q ≫ m) (q ≫ m), ⟨eV⟩,
-    ⟨hsq.isoIsPullback _ _ hpb⟩, q, inferInstance, g, inferInstance⟩
+    ⟨hsq.isoIsPullback _ _ hpb⟩, q, inferInstance, g, IsSplitEpi.epi g⟩
 
 /-- The completions of the members of a jointly surjective family of morphisms into `X` along
 the inverse images of a set `T` of points are jointly surjective onto `X_{/T}`: the completion
@@ -329,10 +329,7 @@ theorem epi_sigmaDesc_completionSheafMap {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Typ
     simp only [t, Sigma.ι_desc_assoc, Sigma.ι_desc, Category.assoc]
     exact ((Space.isPullback_completionSheafMap B S hS (a i) T).isoPullback_hom_snd).symm
   rw [hfac]
-  let _ : Epi t := hts.epi
-  let _ : Epi (Sigma.desc fun i ↦ pullback.snd (ψ i) φ) :=
-    (Sheaf.isLocallySurjective_iff_epi _).mp hbase
-  infer_instance
+  exact epi_comp' (IsSplitEpi.epi t) ((Sheaf.isLocallySurjective_iff_epi _).mp hbase)
 
 attribute [local instance] Space.pointTopology in
 /-- The inverse image of a closed set of points under a morphism from a represented presheaf is

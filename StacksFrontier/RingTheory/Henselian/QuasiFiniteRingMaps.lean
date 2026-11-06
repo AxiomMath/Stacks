@@ -159,7 +159,7 @@ private theorem exists_sub_mem_map_maximalIdeal (t : T) :
       exact ((local_hom_TFAE (algebraMap Rp Sq)).out 1 3).mp ‹_›
     exact h2 h1
   refine (Algebra.IsPushout.out (R := Rp) (S := Sq) (R' := Rh) (S' := T)).inductionOn t
-    (fun x => ∃ s : Sq, x - algebraMap Sq T s ∈ Q) ⟨0, by simp⟩ ?_ ?_ ?_
+    (motive := fun x => ∃ s : Sq, x - algebraMap Sq T s ∈ Q) ?_ ?_ ?_
   · intro a
     obtain ⟨b, hb⟩ := (residueField_map_bijective (R := Rp) (Rh := Rh)).2 (residue Rh a)
     obtain ⟨r, rfl⟩ := residue_surjective b
@@ -391,7 +391,7 @@ theorem isLocalization_and_finite_of_quasiFiniteAt
   -- Step 5: `e` is compatible with `T`, by the universal property of the pushout.
   have heT : ∀ x : T, e (algebraMap T S' x) = algebraMap T Sh x := fun x => by
     refine (Algebra.IsPushout.out (R := Rp) (S := Sq) (R' := Rh) (S' := T)).inductionOn x
-      (fun x => e (algebraMap T S' x) = algebraMap T Sh x) (by simp) ?_ ?_ ?_
+      (motive := fun x => e (algebraMap T S' x) = algebraMap T Sh x) ?_ ?_ ?_
     · intro a
       change e (algebraMap T S' (algebraMap Rh T a)) = algebraMap T Sh (algebraMap Rh T a)
       rw [← IsScalarTower.algebraMap_apply, ← IsScalarTower.algebraMap_apply, heRh]

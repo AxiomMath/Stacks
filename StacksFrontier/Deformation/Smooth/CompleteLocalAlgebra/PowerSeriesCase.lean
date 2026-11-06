@@ -40,47 +40,47 @@ private theorem restrictedRepresentableMap_isSmooth_iff_projection
     apply (restrictedCoyonedaProjection_lifts R).mpr
     intro B A q hq x
     let y := (hunique B).1.some
-    let yE : (restrictedCoyoneda L).Elements := ⟨B, y⟩
-    let xE : (restrictedCoyoneda R).Elements := ⟨A, x⟩
+    let yE : (restrictedCoyoneda L).Elements := Functor.elementsMk _ B y
+    let xE : (restrictedCoyoneda R).Elements := Functor.elementsMk _ A x
     let g : yE ⟶ (restrictedRepresentableMap f).obj xE :=
-      CategoryOfElements.homMk _ _ q ((hunique A).2.elim _ _)
+      Functor.Elements.homMk q ((hunique A).2.elim _ _)
     obtain ⟨x', h, a, hh, ha, ht⟩ := hs q hq yE xE g
       (IsHomLift.of_fac (p := (restrictedRepresentable L).p) q g rfl rfl rfl)
-    rcases x' with ⟨B', z⟩
+    rcases x' with @⟨B', z⟩
     have hB : B' = B := IsHomLift.domain_eq (p := (restrictedRepresentable R).p) q h
     subst B'
-    have hv : h.val = q := by
+    have hv : h.hom = q := by
       have he := IsHomLift.fac' (p := (restrictedRepresentable R).p) q h
-      change h.val = (𝟙 B) ≫ q ≫ (𝟙 A) at he
+      change h.hom = (𝟙 B) ≫ q ≫ (𝟙 A) at he
       simpa only [Category.id_comp, Category.comp_id] using he
     refine ⟨z, ?_⟩
     apply CompleteLocalAlgCat.Hom.ext
-    have hprop := congrArg CompleteLocalAlgCat.Hom.hom h.property
+    have hprop := congrArg CompleteLocalAlgCat.Hom.hom h.map_val
     simpa [xE, restrictedCoyoneda, restrictedCoyoneda_map_hom, hv] using hprop
   · intro hs B A q hq y x g hg
     let := hg
-    have hy : y.1 = B := IsHomLift.domain_eq (p := (restrictedRepresentable L).p) q g
-    have hx : x.1 = A := IsHomLift.codomain_eq (p := (restrictedRepresentable L).p) q g
-    rcases y with ⟨B', y⟩
-    rcases x with ⟨A', x⟩
+    have hy : y.obj = B := IsHomLift.domain_eq (p := (restrictedRepresentable L).p) q g
+    have hx : x.obj = A := IsHomLift.codomain_eq (p := (restrictedRepresentable L).p) q g
+    rcases y with @⟨B', y⟩
+    rcases x with @⟨A', x⟩
     dsimp at hy hx
     subst B'
     subst A'
     obtain ⟨z, hz⟩ := (restrictedCoyonedaProjection_lifts R).mp hs q hq x
-    let zE : (restrictedCoyoneda R).Elements := ⟨B, z⟩
-    let h : zE ⟶ ⟨A, x⟩ := CategoryOfElements.homMk _ _ q hz
-    let a : (restrictedRepresentableMap f).obj zE ⟶ ⟨B, y⟩ :=
-      CategoryOfElements.homMk _ _ (𝟙 B) ((hunique B).2.elim _ _)
+    let zE : (restrictedCoyoneda R).Elements := Functor.elementsMk _ B z
+    let h : zE ⟶ Functor.elementsMk _ A x := Functor.Elements.homMk q hz
+    let a : (restrictedRepresentableMap f).obj zE ⟶ Functor.elementsMk _ B y :=
+      Functor.Elements.homMk (𝟙 B) ((hunique B).2.elim _ _)
     refine ⟨zE, h, a, ?_, ?_, ?_⟩
     · exact IsHomLift.of_fac (p := (restrictedRepresentable R).p) q h rfl rfl rfl
     · exact IsHomLift.of_fac (p := (restrictedRepresentable L).p) (𝟙 B) a rfl rfl rfl
-    · apply CategoryOfElements.ext
-      show q = (𝟙 B) ≫ g.val
+    · apply Functor.Elements.hom_ext
+      show q = (𝟙 B) ≫ g.hom
       rw [Category.id_comp]
       have he := IsHomLift.fac (p := (restrictedRepresentable L).p) q g
-      change q = (𝟙 B) ≫ g.val ≫ (𝟙 A) at he
+      change q = (𝟙 B) ≫ g.hom ≫ (𝟙 A) at he
       rw [Category.id_comp] at he
-      exact he.trans (Category.comp_id g.val)
+      exact he.trans (Category.comp_id g.hom)
 
 omit [IsNoetherianRing Λ] [Module.Finite Λ k] in
 private theorem structureMap_isLocal_of_residueEquiv

@@ -407,7 +407,7 @@ theorem quasiIso_map_πTruncGE (Y : CochainComplex C ℤ)
       change Epi (φ.f (i - 1))
       rcases eq_or_lt_of_le (show 0 ≤ i - 1 by omega) with h | h
       · rw [← h]; exact hzero
-      · have := hpos (i - 1) h; infer_instance
+      · have := hpos (i - 1) h; exact IsIso.epi_of_iso (φ.f (i - 1))
     exact ShortComplex.quasiIso_of_epi_of_isIso_of_mono _
 
 end CochainComplex

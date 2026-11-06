@@ -412,7 +412,7 @@ public theorem etaleStalkLocallyConstantMapsAbHom_etaleGerm (W : SmallEtale B S 
       a (q.1.base (default : ↥t.source)) :=
   ConcreteCategory.congr_hom
     (colimit.ι_desc (etaleStalkLocallyConstantMapsAbCocone.{u, v} B S hS t A)
-      (op (⟨W, q⟩ : (geometricPointFiber B S hS t).Elements))) a
+      (op ((geometricPointFiber B S hS t).elementsMk W q))) a
 
 /-- The map from the coefficient group to the stalk of the locally constant maps: send `a : A`
 to the germ over the final object `S / S` of the constant map with value `a`. -/

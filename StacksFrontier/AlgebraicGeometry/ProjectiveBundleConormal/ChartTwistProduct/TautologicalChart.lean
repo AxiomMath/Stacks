@@ -88,7 +88,7 @@ theorem exists_tautologicalSectionOver_res_eq_smul (m : Γ(E, W)) :
     ∃ g : Γ((bundle E).scheme, tautologicalChart E W s),
       (tautologicalTwist E (symPieces E)).presheaf.map
             (homOfLE (tautologicalChart_le E W s)).op (tautologicalSectionOver E W m) =
-        ((tautologicalTwist E (symPieces E)).smul g).hom
+        ((tautologicalTwist E (symPieces E)).smul g).asHom.hom
           ((tautologicalTwist E (symPieces E)).presheaf.map
             (homOfLE (tautologicalChart_le E W s)).op (tautologicalSectionOver E W s)) :=
   exists_eq_smul_res_of_subset_nonvanishingLocusOn (tautologicalTwist E (symPieces E))
@@ -268,7 +268,7 @@ theorem hom_pullbackSection_smul_tautologicalSectionOver (hW : IsAffineOpen W)
       ((tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hV).op
         (tautologicalSectionOver E W s)))) ?_
   refine Eq.trans ((e.hom.val.app (op W)).hom.map_smul (eL c) _) ?_
-  refine Eq.trans (congrArg (fun y : Γ(Q.L, W) => (Q.L.smul (eL c)).hom y) hbase) ?_
+  refine Eq.trans (congrArg (fun y : Γ(Q.L, W) => (Q.L.smul (eL c)).asHom.hom y) hbase) ?_
   refine eL.injective ?_
   refine Eq.trans (eL.map_smul (eL c) (Q.q.val.app (op W) s)) ?_
   refine Eq.trans (congrArg (fun y : Γ(X, W) => eL c • y) hs) ?_

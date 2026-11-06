@@ -9,6 +9,7 @@ public import Mathlib.CategoryTheory.Sites.EpiMono
 public import Mathlib.CategoryTheory.Sites.LeftExact
 public import Mathlib.CategoryTheory.Sites.LocallySurjective
 public import Mathlib.CategoryTheory.Sites.Point.Conservative
+public import Mathlib.CategoryTheory.Sites.Point.Skyscraper
 public import StacksFrontier.CategoryTheory.Sites.Point.ConservativeFamily
 import StacksCore.Tactic.StacksAttribute
 

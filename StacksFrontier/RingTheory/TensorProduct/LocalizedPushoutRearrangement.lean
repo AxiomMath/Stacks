@@ -182,11 +182,9 @@ theorem rearrangeFwdHom_smul (x : A ⊗[R] R') (t : B ⊗[R] C) (m : M) :
     rearrangeFwdHom (A := A) (R' := R') (x • t) m =
       rearrangeFwdHom (A := A) (R' := R') t (x • m) := by
   induction x with
-  | zero => simp
   | add x y hx hy => simp [add_smul, hx, hy]
   | tmul a r' =>
       induction t with
-      | zero => simp
       | add t₁ t₂ h₁ h₂ => simp [smul_add, h₁, h₂]
       | tmul b c =>
           rw [smul_tmul_tmul halg, rearrangeFwdHom_tmul, rearrangeFwdHom_tmul, tmul_smul_eq,
@@ -238,7 +236,6 @@ include halg in
 theorem rearrangeBwdHom_smul (a : A) (b : B) (x : M ⊗[R'] C) :
     rearrangeBwdHom halg x (a • b) = rearrangeBwdHom halg (a • x) b := by
   induction x with
-  | zero => simp
   | add x y hx hy => simp [smul_add, hx, hy]
   | tmul m c =>
       rw [TensorProduct.smul_tmul' a m c, rearrangeBwdHom_tmul, rearrangeBwdHom_tmul,
@@ -268,20 +265,16 @@ def rearrange : ((B ⊗[R] C) ⊗[A ⊗[R] R'] M) ≃+ B ⊗[A] (M ⊗[R'] C) wh
   map_add' := (rearrangeFwd halg).map_add
   left_inv z := by
     induction z with
-    | zero => simp
     | add z w hz hw => simp [hz, hw]
     | tmul t m =>
         induction t with
-        | zero => simp
         | add t₁ t₂ h₁ h₂ => simp [TensorProduct.add_tmul, h₁, h₂]
         | tmul b c => simp
   right_inv x := by
     induction x with
-    | zero => simp
     | add x y hx hy => simp [hx, hy]
     | tmul b x =>
         induction x with
-        | zero => simp
         | add x y hx hy => simp [TensorProduct.tmul_add, hx, hy]
         | tmul m c => simp
 
@@ -362,7 +355,6 @@ def localizedBaseEquiv [Algebra (A ⊗[R] R') (B ⊗[R] C)]
             algebraMap (A ⊗[R] R') (B ⊗[R] C) y := by
         intro y
         induction y with
-        | zero => simp
         | add y₁ y₂ h₁ h₂ => simp [h₁, h₂]
         | tmul a r' => rw [halg, halg']; rfl
       rw [hcoe, hcoe, Algebra.smul_def, Algebra.smul_def, map_mul, hmap]

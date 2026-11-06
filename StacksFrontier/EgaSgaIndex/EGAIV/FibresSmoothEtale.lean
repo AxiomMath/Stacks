@@ -357,7 +357,7 @@ add_to_ega "IV 16.4.5" "special case" KaehlerDifferential.isBaseChange
 add_to_ega "IV 16.4.21" "special case" Algebra.Extension.exact_cotangentComplex_toKaehler
 add_to_ega "IV 16.4.24" "(i), special case" Algebra.Extension.formallySmooth_iff_split_injection
 add_to_ega "IV 16.4.24" "(i), special case" Algebra.FormallySmooth.iff_split_injection
-add_to_ega "IV 16.5.1" "more general" PresheafOfModules.Derivation'
+add_to_ega "IV 16.5.1" "more general" PresheafOfModulesOfCommRing.Derivation'
 add_to_ega "IV 16.5.3" "(i), affine case" CommRingCat.KaehlerDifferential.D
 add_to_ega "IV 16.5.3" "(ii)" CommRingCat.KaehlerDifferential.ext
 add_to_ega "IV 16.5.3" "(ii)" Derivation.liftKaehlerDifferential_comp

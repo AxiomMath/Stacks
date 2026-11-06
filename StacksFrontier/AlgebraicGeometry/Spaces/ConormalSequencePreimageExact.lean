@@ -231,7 +231,8 @@ private theorem exists_epi_conormalMap_eq_comp_aux
     (ObjectProperty.homMk (Subfunctor.homOfLe hle)) (preimageProjection B S hS g Z'')
     (subspaceInclusion_homOfLe_square B S hS (preimageSubspace B S hS g Z'') Z hle)
     (conormalEtaleRestrictionSquare B S hS g Z'') hsq).trans (Category.assoc _ _ _).symm⟩
-  infer_instance
+  exact @epi_comp _ _ _ _ _ _ (IsIso.epi_of_iso _) _
+    (Functor.map_epi _ _)
 
 /-- **The conormal map of the square factors through the conormal map of the chain by an
 epimorphism.**  Let `f : Z ⟶ Z''` make the square of [Stacks Project, Tag 04CP] over `g` commute

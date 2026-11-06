@@ -153,6 +153,17 @@ private lemma essentiallyOfFinitePresentation_atPrime {R : Type u} {S : Type v} 
   exact RingHom.EssentiallyOfFinitePresentation.of_isLocalization (C := C)
     (Submonoid.map (algebraMap S C) q.primeCompl)
 
+/-- Associated primes of `N ⊗[R] κ(P)` depend only on the prime `P`, not on how it is written. -/
+private lemma isAssociatedPrimeStacks_residueField_congr
+    {R : Type u} {S : Type v} {N : Type w} [CommRing R] [CommRing S] [Algebra R S]
+    [AddCommGroup N] [Module S N] [Module R N] [IsScalarTower R S N]
+    (P₁ P₂ : Ideal R) [P₁.IsPrime] [P₂.IsPrime] (q : Ideal S) (h : P₁ = P₂) :
+    IsAssociatedPrimeStacks S (N ⊗[R] P₁.ResidueField) q ↔
+      IsAssociatedPrimeStacks S (N ⊗[R] P₂.ResidueField) q := by
+  subst h
+  rfl
+
+set_option maxHeartbeats 400000 in
 open Module.associatedPrimes in
 /-- The hypothesis of Stacks 05DG over the local base `R_p`, in the presence of an `S`-algebra
 `A` playing the role of the fibre `κ(p) ⊗[R] S`.
@@ -340,10 +351,8 @@ private lemma exists_isPrime_comap_eq_of_algEquiv_closedFibre
       _ = Ideal.comap (algebraMap R Rp) (maximalIdeal Rp) := by rw [hr]
       _ = p := Localization.AtPrime.under_maximalIdeal (I := p)
   have hq0Fibre : IsAssociatedPrimeStacks S (N ⊗[R] (q0.under R).ResidueField) q0 := by
-    refine (isAssociatedPrimeStacks_congr
-      (TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S N)
-        (Ideal.residueFieldAlgEquiv (J := p) (K := q0.under R)
-          (AlgEquiv.refl (R := R) (A₁ := R)) hq0underR.symm).toLinearEquiv)).mp hq0N
+    exact (isAssociatedPrimeStacks_residueField_congr (S := S) (N := N) _ _ q0
+      hq0underR.symm).mp hq0N
   let : q0.IsPrime := hq0.1
   -- Lift `q0` to `S'` and push the lift into `S'_q`.
   obtain ⟨q0', hq0', hq0eq⟩ := himage q0 hq0Fibre

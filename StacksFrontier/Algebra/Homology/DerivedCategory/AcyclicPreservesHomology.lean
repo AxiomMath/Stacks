@@ -81,9 +81,7 @@ theorem rightAcyclic_cycles_and_preservesLeftHomologyOf_sc (K : CochainComplex C
     G.rightAcyclic (K.cycles n) ∧ G.PreservesLeftHomologyOf (K.sc n) := by
   induction n with
   | zero =>
-    refine ⟨(NatTrans.isIso_app_iff_of_iso G.rightDerivedFunctorPlusUnit
-      ((HomotopyCategory.Plus.singleFunctor C 0).mapIso
-        (asIso (K.homologyπ 0)).symm)).mp (hH 0), ?_⟩
+    refine ⟨(G.rightAcyclic).prop_of_iso (asIso (K.homologyπ 0)).symm (hH 0), ?_⟩
     exact G.preservesLeftHomology_of_zero_f (K.sc 0) (by simp [HomologicalComplex.sc]; rfl)
   | succ n ih =>
     have hp : (ComplexShape.up ℕ).prev (n + 1) = n := by simp
@@ -115,7 +113,7 @@ theorem isZero_rightDerivedPlus_of_neg {C D : Type*} [Category* C] [Category* D]
     (G : C ⥤ D) [G.Additive] (A : C) (q : ℤ) (hq : q < 0) :
     IsZero ((G.rightDerivedPlus q).obj A) :=
   ((G.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-    G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnit).1 q hq).obj A
+    G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith).1 q hq).obj A
 
 end CategoryTheory.Functor
 

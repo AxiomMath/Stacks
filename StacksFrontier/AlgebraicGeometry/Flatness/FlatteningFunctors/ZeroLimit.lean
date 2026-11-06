@@ -1,5 +1,8 @@
 module
 
+public import Mathlib.CategoryTheory.Adjunction.Limits
+public import Mathlib.CategoryTheory.Limits.Constructions.Over.Connected
+public import Mathlib.CategoryTheory.Limits.Preserves.Over
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Flatness.FlatteningFunctors.AffineChartBaseChange
 public import StacksFrontier.AlgebraicGeometry.Limits.AffineChartsAlongLimit

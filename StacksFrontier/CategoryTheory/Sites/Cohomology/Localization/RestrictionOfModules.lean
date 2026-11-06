@@ -13,6 +13,7 @@ public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.SheafOfModules
 public import Mathlib.CategoryTheory.Functor.Derived.RightDerived
 public import Mathlib.Algebra.Homology.DerivedCategory.ExactFunctor
 public import Mathlib.CategoryTheory.Functor.EpiMono
+public import Mathlib.CategoryTheory.Preadditive.LeftExact
 public import Mathlib.CategoryTheory.Localization.Adjunction
 public import Mathlib.CategoryTheory.Sites.EpiMono
 public import Mathlib.CategoryTheory.Sites.PreservesLocallyBijective

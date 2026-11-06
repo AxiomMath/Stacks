@@ -77,12 +77,12 @@ local notation "Bₚ" => Localization (Algebra.algebraMapSubmonoid B p.primeComp
 theorem isMaximal_of_comap_comap_eq (P : Ideal Bₚ) [P.IsPrime]
     (h : (P.comap (algebraMap B Bₚ)).comap (algebraMap A B) = p) : P.IsMaximal := by
   have : Algebra.IsIntegral (Localization.AtPrime p) Bₚ := Algebra.IsIntegral.of_finite _ _
-  apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := Localization.AtPrime p)
+  apply Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := Localization.AtPrime p)
   have hJ : (P.comap (algebraMap (Localization.AtPrime p) Bₚ)).comap
       (algebraMap A (Localization.AtPrime p)) = p := by
     rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq, IsScalarTower.algebraMap_eq A B Bₚ,
       ← Ideal.comap_comap, h]
-  rw [← IsLocalization.map_under p.primeCompl (Localization.AtPrime p)
+  rw [Ideal.under, ← IsLocalization.map_under p.primeCompl (Localization.AtPrime p)
     (P.comap (algebraMap (Localization.AtPrime p) Bₚ)), Ideal.under, hJ,
     IsLocalization.AtPrime.map_eq_maximalIdeal]
   infer_instance

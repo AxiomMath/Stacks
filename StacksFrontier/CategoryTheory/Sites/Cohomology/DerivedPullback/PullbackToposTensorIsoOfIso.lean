@@ -253,8 +253,7 @@ private theorem tensorFactor_pullbackModulesSiteIso_comp
   congr 1
   refine Prod.ext ?_ ?_ <;> simp
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The isomorphism `φ^* ≅ ψ^*` followed by `ψ^* ≅ Ψ^*` is `φ^* ≅ Φ^*` followed by the composite
 `Φ^* ≅ Ψ^*`. -/
 private theorem pullbackToposIsoOfIso_hom_app_comp_pullbackModulesSiteIso_inv_app

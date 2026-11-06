@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.Valuation.RationalPowerSeries.ValuationRing
+import Mathlib.Algebra.MonoidAlgebra.Ideal
 
 /-!
 # Power series with nonnegative rational exponents: completing at the radical of `(t)`

@@ -383,7 +383,9 @@ theorem tensor_hom_ext_of_sections (F G : S.Modules)
     pullback_hom_ext g F G N fun s t => by
       rw [sectionsMap_comparison_comp, sectionsMap_comparison_comp]
       exact hyp s t
-  exact (cancel_epi _).mp hc
+  have hiso : IsIso (pullbackTensorComparison g.toLRSHom.toShHom (ofScheme F) (ofScheme G)) :=
+    Stacks.PullbackTensorCoherence.isIso_pullbackTensorComparison _ _ _
+  exact (@IsIso.epi_of_iso _ _ _ _ _ hiso).left_cancellation u u' hc
 
 end Tensored
 

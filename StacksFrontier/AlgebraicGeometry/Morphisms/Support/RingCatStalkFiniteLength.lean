@@ -58,7 +58,7 @@ theorem isFiniteLength_of_ringEquiv_smul_eq {R S M : Type*} [Ring R] [Ring S] [A
   rw [isFiniteLength_iff_isNoetherian_isArtinian] at h ⊢
   obtain ⟨_, hA⟩ := h
   exact ⟨isNoetherian_of_linearEquiv f,
-    ⟨(Submodule.orderIsoMapComap f).symm.toOrderEmbedding.wellFounded hA.wf⟩⟩
+    (Submodule.orderIsoMapComap f).symm.toOrderEmbedding.wellFounded hA⟩
 
 namespace Stacks.Chow
 

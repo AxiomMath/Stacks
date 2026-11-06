@@ -112,6 +112,9 @@ private theorem schematicLocus_image_le
   obtain ⟨hZopen, hZrep⟩ :=
     isOpenSubspace_and_isRepresentable_schematicLocus_of_isAlgebraicSpace B S hS hF
   let : (schematicLocus B S hS F).toFunctor.IsRepresentable := hZrep
+  have : Mono ((schematicLocus B S hS F).ι ≫ e.hom) :=
+    @mono_comp _ _ _ _ _ _ (by infer_instance : Mono (schematicLocus B S hS F).ι) _
+      (IsIso.mono_of_iso e.hom)
   -- the image is isomorphic to the schematic locus, hence an algebraic space and representable
   have βiso : (schematicLocus B S hS F).toFunctor ≅
       (Subfunctor.range ((schematicLocus B S hS F).ι ≫ e.hom)).toFunctor :=
@@ -159,6 +162,7 @@ private theorem groupTranslation_factors_schematicLocus
   exact congrArg (fun f => f ≫ ((Over.forget Y).mapIso
     (GrpObj.mulRight (A := A.X) p)).hom) hz
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- **The schematic locus is translation-invariant on sections.** If some section `q` of a group
 algebraic space over `Y` factors through the schematic locus, then every section `p` does: `p` is
 the right translate of the identity section by `p`, and the identity section is the right
@@ -176,7 +180,7 @@ theorem all_groupSections_factor_of_one
       MonObj.one (X := A.X) := by
     simp only [GrpObj.mulRight, comp_lift_assoc, Category.comp_id,
       ← Category.assoc q (toUnit _)]
-    rw [show q ≫ toUnit A.X = 𝟙 _ by subsingleton, Category.id_comp,
+    rw [show q ≫ toUnit A.X = 𝟙 _ from toUnit_unique _ _, Category.id_comp,
       GrpObj.lift_comp_inv_right]
     simp
   rw [heq] at hone
@@ -185,8 +189,11 @@ theorem all_groupSections_factor_of_one
   have hpeq : (MonObj.one (X := A.X)) ≫ (GrpObj.mulRight (A := A.X) p).hom = p := by
     simp only [GrpObj.mulRight, comp_lift_assoc, Category.comp_id,
       ← Category.assoc (MonObj.one (X := A.X)) (toUnit _)]
-    rw [show (MonObj.one (X := A.X)) ≫ toUnit A.X = 𝟙 _ by subsingleton, Category.id_comp]
-    simpa using MonObj.lift_comp_one_left (A := 𝟙_ (Over Y)) (B := A.X) (𝟙 (𝟙_ (Over Y))) p
+    rw [show (MonObj.one (X := A.X)) ≫ toUnit A.X = 𝟙 _ from toUnit_unique _ _,
+      Category.id_comp]
+    have h := MonObj.lift_comp_one_left (A := 𝟙_ (Over Y)) (B := A.X) (𝟙 (𝟙_ (Over Y))) p
+    rw [Category.id_comp] at h
+    exact h
   rwa [hpeq] at hp
 
 /-- **A large algebraically closed extension inside the site.** For every cardinal `κ` below the

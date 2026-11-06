@@ -77,7 +77,7 @@ variable {E : Type u₃} [Category.{v₃} E] {T : Eᵒᵖ ⥤ RingCat.{u}}
 abelian presheaf at that object: `ModuleCat.smul`, as an endomorphism of `N.presheaf.obj X`. -/
 noncomputable def presheafSmul (N : PresheafOfModules.{a} T) (X : Eᵒᵖ) (r : T.obj X) :
     N.presheaf.obj X ⟶ N.presheaf.obj X :=
-  (N.obj X).smul r
+  ((N.obj X).smul r).asHom
 
 variable (N : PresheafOfModules.{a} T) (X : Eᵒᵖ)
 
@@ -167,7 +167,7 @@ theorem invertibleArrows_final [∀ x : C, (Over.post (X := x) F).IsEquivalence]
         rw [hf, Iso.hom_inv_id_assoc]))
     exact ⟨StructuredArrow.homMk c (by
       ext
-      exact congrArg Quiver.Hom.op (P.preimage w).w)⟩
+      exact (P.preimage w).w)⟩
   have : Nonempty (StructuredArrow k (invertibleArrows F y).ι) := ⟨t⟩
   exact zigzag_isConnected (fun b c => Zigzag.of_inv_hom (ht b).some (ht c).some)
 
@@ -334,11 +334,11 @@ theorem lanSmul_mul (y : Dᵒᵖ) (r s : R.obj y) :
 /-- The action of `R y` on the value at `y` of the left Kan extension of the abelian presheaf
 underlying `M`, as a ring homomorphism into its endomorphisms. -/
 noncomputable def lanScalar (y : Dᵒᵖ) : R.obj y →+* End ((abLan F R M).obj y) where
-  toFun r := lanSmul F R M y r
-  map_zero' := lanSmul_zero F R M y
-  map_one' := lanSmul_one F R M y
-  map_add' := lanSmul_add F R M y
-  map_mul' := lanSmul_mul F R M y
+  toFun r := End.of (lanSmul F R M y r)
+  map_zero' := End.ext (lanSmul_zero F R M y)
+  map_one' := End.ext (lanSmul_one F R M y)
+  map_add' r s := End.ext (lanSmul_add F R M y r s)
+  map_mul' r s := End.ext (lanSmul_mul F R M y r s)
 
 /-- The value at `y` of the left Kan extension, as an `R y`-module. -/
 noncomputable def lanModule (y : Dᵒᵖ) := ModuleCat.mkOfSMul (lanScalar F R M y)

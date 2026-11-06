@@ -112,7 +112,7 @@ theorem derivedCompleteSheaves_isWeakSerreClass_of_slicedObjectsSituation
       ((DerivedCategory.singleFunctor
         (SheafOfModules.{max u v} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) 0).map_isZero
           (isZero_zero _))
-    rw [show (1 : End E) = 0 from (IsZero.iff_id_eq_zero E).mp hE]
+    rw [show (1 : End E) = 0 from End.ext ((IsZero.iff_id_eq_zero E).mp hE)]
     simp
   · intro T hT h₀ h₁ h₃ h₄
     apply (isDerivedComplete_iff_derivedSections_of_slicedObjectsSituation X B I

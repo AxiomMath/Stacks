@@ -19,7 +19,7 @@ construction preserves compatibility with composition of the horizontal functors
   the image of a cochain complex.
 * `Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso_inv_comp_isoOfNatIso_hom`: the
   derived comparison induced by `e : F ⋙ G ≅ H` is
-  `CategoryTheory.Functor.mapDerivedCategoryCompIso e`.
+  `CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso e`.
 * `Stacks.DerivedCategoryComparisons.mapDerivedCategorySquare_comp_coherence`: compatibility with
   composition passes to derived squares.
 -/
@@ -80,13 +80,13 @@ theorem mapDerivedCategoryCompIso_inv_comp_isoOfNatIso_hom_app_Q (F : AY ⥤ AX)
 /-- The derived comparison induced by `e : F ⋙ G ≅ H` through
 `Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso` and
 `Stacks.DerivedCategoryComparisons.mapDerivedCategoryIsoOfNatIso` is
-`CategoryTheory.Functor.mapDerivedCategoryCompIso e`. -/
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso e`. -/
 theorem mapDerivedCategoryCompIso_inv_comp_isoOfNatIso_hom (F : AY ⥤ AX) (G : AX ⥤ EX)
     (H : AY ⥤ EX) [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F]
     [G.Additive] [PreservesFiniteLimits G] [PreservesFiniteColimits G]
     [H.Additive] [PreservesFiniteLimits H] [PreservesFiniteColimits H] (e : F ⋙ G ≅ H) :
     (mapDerivedCategoryCompIso F G).inv ≫ (mapDerivedCategoryIsoOfNatIso _ _ e).hom =
-      (Functor.mapDerivedCategoryCompIso e).hom :=
+      (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom :=
   Localization.natTrans_ext DerivedCategory.Q
     (HomologicalComplex.quasiIso AY (ComplexShape.up ℤ)) fun _ => rfl
 

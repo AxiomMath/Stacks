@@ -376,7 +376,10 @@ def baseChangeGeneratingSections {Z P : Scheme.{u}} {π : Z ⟶ Spec (.of R)} {g
     let e := (AffinePushforward.baseChangeNatTrans sq.flip.w).app
         (Scheme.unitModule (Spec (.of B))) ≫
       (Scheme.Modules.pushforward g').map (Scheme.Modules.pullbackUnitIso h).hom
-    have he : Epi e := epi_comp _ _
+    have he : Epi e :=
+      epi_comp' (IsIso.epi_of_iso _)
+        (IsIso.epi_of_iso ((Scheme.Modules.pushforward g').mapIso
+          (Scheme.Modules.pullbackUnitIso h)).hom)
     have hpe : (Scheme.Modules.pullback π).PreservesEpimorphisms :=
       Functor.preservesEpimorphisms_of_adjunction (Scheme.Modules.pullbackPushforwardAdjunction π)
     have hσ0 : Epi ((Scheme.Modules.pullback π).map σ0.π) :=

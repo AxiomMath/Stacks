@@ -79,7 +79,7 @@ an `𝒪_X`-linear map `Ω_{X/Y} ⟶ F` is the same thing as a `Y`-derivation of
 in `F`, the correspondence being composition with `d_{X/Y}`. -/
 def differentialsHomEquiv (f : X ⟶ Y) (F : Modules.{u, u} B S hS X.1 X.2) :
     (sheafOfDifferentials B S hS f ⟶ F) ≃
-      F.val.Derivation' (structureSharpInverseImage B S hS f).hom :=
+      PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom :=
   Equiv.ofBijective _ (bijective_universalDerivation_postcomp B S hS f F)
 
 /-- `AlgebraicGeometry.Space.differentialsHomEquiv` sends a morphism out of the sheaf of
@@ -96,7 +96,7 @@ maps `θ : a^*Ω_{Y/Z} ⟶ C` correspond bijectively to the `Z`-derivations `D :
 def derivationDirectImageEquiv (a : X ⟶ Y) (b : Y ⟶ Z)
     (C : Modules.{u, u} B S hS X.1 X.2) :
     ((modulePullback B S hS a).obj (sheafOfDifferentials B S hS b) ⟶ C) ≃
-      ((modulePushforward B S hS a).obj C).val.Derivation'
+      PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS a).obj C).val
         (structureSharpInverseImage B S hS b).hom :=
   ((modulePullbackAdjunction B S hS a).homEquiv _ _).trans
     (differentialsHomEquiv B S hS b ((modulePushforward B S hS a).obj C))

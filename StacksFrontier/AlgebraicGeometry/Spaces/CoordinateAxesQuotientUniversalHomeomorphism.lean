@@ -142,7 +142,7 @@ theorem coordinateSumMap_left_eq :
     rw [AffineSpace.SpecIso_inv_appTop_coord, AffineSpace.homOfVector_appTop_coord,
       ← CommRingCat.comp_apply, ← Scheme.ΓSpecIso_inv_naturality, CommRingCat.comp_apply]
     show (Scheme.ΓSpecIso (.of (NodalRing S.k))).inv (sumAlgHom S (MvPolynomial.X _)) = _
-    rw [sumAlgHom, MvPolynomial.aeval_X, map_add]
+    rw [sumAlgHom, MvPolynomial.aeval_X, RingHom.map_add (Scheme.ΓSpecIso (.of (NodalRing S.k))).inv.hom]
     rfl
 
 /-- The sum map `U ⟶ 𝔸¹_k` is an integral morphism of schemes. -/

@@ -6,7 +6,7 @@ public import Mathlib.Algebra.Homology.HomologicalComplexLimits
 public import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
 public import Mathlib.CategoryTheory.Limits.Shapes.Preorder.HasIterationOfShape
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.GoodDifferentialGradedResolutionColimit
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.MonoidalSheafTensor
 public import StacksFrontier.Homology.KFlat.Flat
@@ -327,7 +327,7 @@ theorem preservesColimit_totalFunctor_eval
     refine preservesColimit_of_evaluation _ _ (fun k => ?_)
     have : B ⋙ (evaluation (Discrete (↑(π ⁻¹' {n}))) (ModO R)).obj k = ev k.as := rfl
     rw [this]
-    infer_instance
+    exact comp_preservesColimit _ _
   have : PreservesColimit (D' ⋙ B) (colim (J := Discrete (↑(π ⁻¹' {n}))) (C := ModO R)) :=
     inferInstance
   have : PreservesColimit D' (B ⋙ colim) := comp_preservesColimit _ _

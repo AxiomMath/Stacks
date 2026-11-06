@@ -86,7 +86,7 @@ theorem exists_galoisCover_stabilizer_eq (U : Subgroup (EtaleFundamentalGroup X 
       rwa [hhom', hhom'] at h₂
   set ψ : F'.obj A ≃ F.obj A := (F.obj A).uSwitchEquiv
   have hψ : ∀ (σ : Aut F) (y : F'.obj A), ψ (φ σ • y) = σ • ψ y := fun σ y =>
-    (FintypeCat.uSwitchEquiv_naturality (σ.hom.app A) y).symm
+    (FintypeCat.uSwitchEquiv_naturality (σ.asIso.hom.app A) y).symm
   have hVU : ∀ g : Aut F, φ g ∈ V ↔ e g ∈ U := fun g => by
     change e (φ.symm (φ g)) ∈ U ↔ _
     rw [ContinuousMulEquiv.symm_apply_apply]
@@ -100,7 +100,7 @@ theorem exists_galoisCover_stabilizer_eq (U : Subgroup (EtaleFundamentalGroup X 
   have hinj : Function.Injective (F.map i) :=
     (ConcreteCategory.mono_iff_injective_of_preservesPullback (F.map i)).1 inferInstance
   have hequiv : ∀ (σ : Aut F) (w : F.obj Z), F.map i (σ • w) = σ • F.map i w := fun σ w =>
-    (congrArg (fun φ => φ w) (σ.hom.naturality i)).symm
+    (congrArg (fun φ => φ w) (σ.asIso.hom.naturality i)).symm
   have hstabZ : ∀ g : Aut F, g • z = z ↔ e g ∈ U := fun g => by
     rw [← hstab, ← hz, ← hequiv, hinj.eq_iff]
   have htransZ : ∀ w : F.obj Z, ∃ σ : Aut F, σ • z = w := fun w => by

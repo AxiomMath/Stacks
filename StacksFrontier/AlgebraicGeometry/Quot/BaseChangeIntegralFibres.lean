@@ -41,6 +41,17 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_baseChangeIntegralFibres :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_baseChangeIntegralFibres
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_baseChangeIntegralFibres.has_limit _
+
 /-- **Base changes to fields of a morphism with integral geometric fibres are integral.** Let
 `f : X ⟶ Y` be a morphism of algebraic spaces over `S` whose geometric fibres are integral, and
 let `T = Spec(k) ⟶ Y` be a test scheme over `Y` which is the spectrum of a field `k`. Then the

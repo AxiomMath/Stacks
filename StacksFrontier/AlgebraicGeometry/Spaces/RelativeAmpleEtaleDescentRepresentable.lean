@@ -40,6 +40,24 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullbacks_presheaf_relativeAmpleEtaleDescentRepresentable :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_relativeAmpleEtaleDescentRepresentable (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+private instance (priority := high) hasPullback_presheaf_relativeAmpleEtaleDescentRepresentable
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Relative ampleness descends along a surjective étale morphism of affine bases, for a
 representable source.** Let `g : V ⟶ U` be a morphism of algebraic spaces which are the affine
 schemes `V₀` and `U₀`, induced by a surjective étale `h₀ : V₀ ⟶ U₀`, let `f : X ⟶ U` be a

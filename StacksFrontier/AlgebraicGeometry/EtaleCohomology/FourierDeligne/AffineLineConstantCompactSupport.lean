@@ -386,11 +386,15 @@ theorem nonempty_equiv_compactSupportSheafCohomology_constantSheaf_zmod [Finite 
   let V := characterTwistContinuousModule (ZMod ℓ) (1 : G →* (ZMod ℓ)ˣ) (isOpen_ker_one (ZMod ℓ))
     (ModuleCat.of (ZMod ℓ) W)
   obtain ⟨eP⟩ := nonempty_lisseEtaleSheaf_iso_constantSheaf_of_trivial B 𝕌 x Λ P fun g => by
-    refine ModuleCat.hom_ext (LinearMap.ext fun v => ?_)
+    apply CategoryTheory.End.ext
+    apply ModuleCat.hom_ext
+    refine LinearMap.ext fun v => ?_
     show (((1 : G →* Λˣ) g : Λˣ) : Λ) • (v : W) = v
     rw [MonoidHom.one_apply, Units.val_one, one_smul]
   obtain ⟨eV⟩ := nonempty_lisseEtaleSheaf_iso_constantSheaf_of_trivial B 𝕌 x (ZMod ℓ) V fun g => by
-    refine ModuleCat.hom_ext (LinearMap.ext fun v => ?_)
+    apply CategoryTheory.End.ext
+    apply ModuleCat.hom_ext
+    refine LinearMap.ext fun v => ?_
     show (((1 : G →* (ZMod ℓ)ˣ) g : (ZMod ℓ)ˣ) : ZMod ℓ) • (v : W) = v
     rw [MonoidHom.one_apply, Units.val_one, one_smul]
   let e : finiteTypeContinuousModuleRestrictScalars ρ₂ V ≅

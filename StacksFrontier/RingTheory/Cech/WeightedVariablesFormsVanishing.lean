@@ -384,6 +384,7 @@ theorem cechι_mem_posPart {s t : Finset (Fin n)} (h : s ⊆ t)
   | h1 => rw [map_zero]; exact (posPart R m n a t).zero_mem
   | hadd z z' _ _ hz hz' => rw [map_add]; exact (posPart R m n a t).add_mem hz hz'
 
+set_option synthInstance.maxHeartbeats 80000 in
 /-- An element of the positive part has no component of weight `≤ 0`. -/
 theorem decompose_eq_zero_of_mem_posPart {t : Finset (Fin n)}
     {z : cechMod (yVar R m n) (Forms R m n a) t} (hz : z ∈ posPart R m n a t) {e : ℤ}
@@ -399,7 +400,7 @@ theorem decompose_eq_zero_of_mem_posPart {t : Finset (Fin n)}
   | hp k z hz => exact DirectSum.decompose_of_mem_ne _ hz (by omega)
   | h1 => rw [DirectSum.decompose_zero, DFinsupp.zero_apply, ZeroMemClass.coe_zero]
   | hadd z z' _ _ hz hz' =>
-      rw [DirectSum.decompose_add, DFinsupp.add_apply, AddSubgroup.coe_add, hz, hz', add_zero]
+      rw [DirectSum.decompose_add, DirectSum.add_apply, AddSubgroup.coe_add, hz, hz', add_zero]
 
 /-- **In the Čech complex of the forms, a cocycle whose components lie in the positive part is the
 coboundary of a cochain whose components lie in the positive part.** -/

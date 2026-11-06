@@ -284,8 +284,10 @@ theorem sliceHasWeakSheafify (J : GrothendieckTopology C) [HasWeakSheafify J (Ty
                 exact pullback.condition) ≫
               pullback.fst φ' η = pullback.fst φ η ≫ k.left :=
         pullback.lift_fst _ _ _
-      simpa [Over.pullback] using
-        congrArg (fun q => q.app (op W.unop.left) x.1) hSq
+      have h2 := congrArg (fun q => q.app (op W.unop.left) x.1) hSq
+      simp only [NatTrans.comp_app, ConcreteCategory.comp_apply] at h2
+      dsimp [Over.pullback]
+      exact h2
   have hUnderlying : CategoryTheory.OverShriek.sheafFiberUnderlying (U := U) J ≅
       CategoryTheory.OverShriek.sheafFiberFunctor J ⋙
         sheafToPresheaf (J.over U) (Type v) :=

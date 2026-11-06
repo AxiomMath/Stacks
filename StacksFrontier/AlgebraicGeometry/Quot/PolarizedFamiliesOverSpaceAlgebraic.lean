@@ -250,8 +250,8 @@ def toElementHom {X Y : PolarizedFamilyOver B S hS A} (f : X ⟶ Y) :
     change A.map (eqToHom (sliceProjection_obj_polarized hT X)).op X.point =
       A.map ((polarizedSliceProjection B hS hT).map f.polarizedHom).op
         (A.map (eqToHom (sliceProjection_obj_polarized hT Y)).op Y.point)
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, sliceProjection_map_comp_eqToHom, op_comp,
-      FunctorToTypes.map_comp_apply]
+    rw [← Functor.map_comp_apply, ← op_comp, sliceProjection_map_comp_eqToHom, op_comp,
+      Functor.map_comp_apply]
     exact congrArg _ f.point_comm.symm)⟩
 
 variable (B hS A) in
@@ -372,8 +372,8 @@ instance : (toTwoFibreProduct (A := A) hT).Full where
           (A.map (Over.homMk (PolarizedFamily.Hom.baseMap h.a) hφ :
             Over.mk X.toBase ⟶ Over.mk Y.toBase).op Y.point) := by
       refine hfib.trans ?_
-      refine (FunctorToTypes.map_comp_apply A _ _ _).symm.trans
-        (Eq.trans ?_ (FunctorToTypes.map_comp_apply A _ _ _))
+      refine (A.map_comp_apply _ _ _).symm.trans
+        (Eq.trans ?_ (A.map_comp_apply _ _ _))
       change A.map ((h.b.base ≫ eqToHom (sliceProjection_obj_polarized hT Y)).op) Y.point =
         A.map ((eqToHom (sliceProjection_obj_polarized hT X) ≫
           (Over.homMk (PolarizedFamily.Hom.baseMap h.a) hφ :
@@ -424,7 +424,7 @@ def ofTwoFibreProductElementIso (P : TwoFibreProductPt B hS A hT) :
       change A.map (eqToHom (sliceProjection_obj_polarized hT (ofTwoFibreProduct hT P))).op
           (A.map (eqToHom (ofTwoFibreProduct_base_eq' hT P)).op P.y.fiber.as) =
         A.map (eqToHom (ofTwoFibreProduct_base_eq hT P)).op P.y.fiber.as
-      rw [← FunctorToTypes.map_comp_apply, ← op_comp, eqToHom_trans])
+      rw [← Functor.map_comp_apply, ← op_comp, eqToHom_trans])
 
 /-- The base of the isomorphism `ofTwoFibreProductElementIso P` is the canonical `eqToHom`. -/
 theorem ofTwoFibreProductElementIso_hom_base (P : TwoFibreProductPt B hS A hT) :

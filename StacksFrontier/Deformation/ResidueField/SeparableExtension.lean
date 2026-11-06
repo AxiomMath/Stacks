@@ -179,7 +179,7 @@ theorem map_maximalIdeal_isMaximal :
 theorem map_maximalIdeal_le_of_isMaximal (N : Ideal (ring S R)) (hN : N.IsMaximal) :
     (maximalIdeal R).map (algebraMap R (ring S R)) ≤ N := by
   have hc : (N.comap (algebraMap R (ring S R))).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal N
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) N
   rw [Ideal.map_le_iff_le_comap, IsLocalRing.eq_maximalIdeal hc]
 
 /-- The extension of the maximal ideal of `R` lies in the kernel of the evaluation `R_l → l`. -/

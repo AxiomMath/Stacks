@@ -74,7 +74,7 @@ theorem bijective_sectionsRestrictSmallBaseChange_comparison
   have hP : Presheaf.IsSheaf (SpacesEtale.topology B S hS X)
       ((spacesBaseChange B S hS f).functor.op ⋙ H) :=
     (((spacesBaseChange B S hS f).functor.sheafPushforwardContinuous (Type t)
-      (SpacesEtale.topology B S hS X) (SpacesEtale.topology B S hS X')).obj ⟨H, hH⟩).cond
+      (SpacesEtale.topology B S hS X) (SpacesEtale.topology B S hS X')).obj ⟨H, hH⟩).property
   have hr' := bijective_restrictSectionsToCharts B S hS H hH hU'
   have hr := bijective_restrictSectionsToCharts B S hS
     ((spacesBaseChange B S hS f).functor.op ⋙ H) hP hU
@@ -92,7 +92,7 @@ theorem bijective_sectionsRestrictSmallBaseChange_comparison
     funext x
     apply Subtype.ext; funext V
     show H.map _ x = H.map (c.hom.app V.unop).op (H.map _ (H.map _ x))
-    simp only [← FunctorToTypes.map_comp_apply]
+    simp only [← Functor.map_comp_apply]
     exact congrArg (fun g => H.map g x) (Quiver.Hom.unop_inj
       ((SpacesEtale.isTerminal_idObj B S hS X').hom_ext _ _))
   exact (Function.Bijective.of_comp_iff _ hr').1 (hcomp ▸ hθ.comp (hr.comp hφ))
@@ -123,12 +123,12 @@ restriction of a global section of `P` to the charts `V ×_X X'` is a bijection 
 sections of the direct image of `P` along base change of charts. -/
 theorem bijective_sectionsRestrictSmallBaseChange
     (P : Sheaf (SmallEtale.topology B S hS X'.1) (Type u)) :
-    Function.Bijective (sectionsRestrictSmallBaseChange B S hS f hf P.val) := by
+    Function.Bijective (sectionsRestrictSmallBaseChange B S hS f hf P.obj) := by
   let e := (smallEtaleComparisonRestriction B S hS X').asEquivalence
   refine bijective_sectionsRestrictSmallBaseChange_of_iso B S hS f hf
     ((sheafToPresheaf _ _).mapIso (e.counitIso.app P)) ?_
   exact bijective_sectionsRestrictSmallBaseChange_comparison B S hS f hf
-    (e.inverse.obj P).val (e.inverse.obj P).cond
+    (e.inverse.obj P).obj (e.inverse.obj P).property
 
 /-- Restriction of a global section of an `𝒪_{X'}`-module to the base-changed charts, as a global
 section of the direct image. -/

@@ -51,7 +51,8 @@ private lemma mem_range_overPullback_map {B : Scheme.{u}} (X Y : Over B) (f : X 
   · rintro ⟨x, rfl⟩
     refine ⟨(pullback.fst X.hom g).base x, ?_⟩
     have h := congrArg (fun q => q.base x) (overPullback_map_left_fst g f)
-    simpa [Scheme.Hom.comp_base, TopCat.coe_comp] using h.symm
+    simp only [Scheme.Hom.comp_base, TopCat.coe_comp, Function.comp_apply] at h
+    exact h.symm
   · rintro ⟨x, hx⟩
     obtain ⟨z, hz₁, hz₂⟩ := Scheme.Pullback.exists_preimage_pullback x y hx
     let q := pullback.fst Y.hom g

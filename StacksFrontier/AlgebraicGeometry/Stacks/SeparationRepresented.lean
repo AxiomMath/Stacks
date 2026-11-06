@@ -249,7 +249,7 @@ theorem hasRelativeProperty_relativeDiagonal_of_prop_yoneda_diagonal
           ⟨T, hT⟩) ≫ hiso.hom =
       ObjectProperty.homMk (yoneda.map (pullback.diagonal k)) := by
     apply ObjectProperty.hom_ext
-    simpa [hiso] using hdiag
+    exact hdiag
   rwa [← MorphismProperty.cancel_right_of_respectsIso P _ hiso.hom, hfinal]
 
 /-- **The morphism of schemes underlying the diagonal of a morphism of the big fppf site of `S`

@@ -55,7 +55,6 @@ open CategoryTheory
 -- here so that `simp` and instance search can traverse that chain.
 attribute [local implicit_reducible] Deformation.restrictedRepresentable
   CategoryTheory.BasedCategory.ofFunctor CategoryTheory.BasedFunctor.comp
-  CategoryTheory.asIso
 
 universe u v w uF vF
 
@@ -307,7 +306,7 @@ public theorem associatedMorphism_map
       let htop : ξ.level N ⟶ ξ.level (max n m) :=
         eqToHom (congrArg ξ.level hmaxX.symm)
       let wX := X.toBasedFunctor.w_obj (f.obj α)
-      let gbase := eqToHom wX ≫ g.val
+      let gbase := eqToHom wX ≫ g.hom
       let : Category ((restrictedCoyoneda ξ.base).Elements) :=
         (restrictedRepresentable ξ.base).category
       let : Category ((restrictedCoyoneda η.base).Elements) :=
@@ -327,20 +326,20 @@ public theorem associatedMorphism_map
         apply IsHomLift.of_fac' p _ _ rfl rfl
         simp
       let := isStronglyCocartesian_of_isCofiberedInGroupoids hp (p.map H) H hHlift
-      have hXmap : p.IsHomLift g.val (X.toBasedFunctor.map (f.map g)) :=
-        @BasedFunctor.preserves_isHomLift _ _ _ _ X.toBasedFunctor _ _ _ _ g.val (f.map g)
+      have hXmap : p.IsHomLift g.hom (X.toBasedFunctor.map (f.map g)) :=
+        @BasedFunctor.preserves_isHomLift _ _ _ _ X.toBasedFunctor _ _ _ _ g.hom (f.map g)
           (IsHomLift.of_fac (restrictedRepresentable ξ.base).p _ _ rfl rfl rfl)
-      have hYmap : p.IsHomLift g.val (Y.toBasedFunctor.map g) :=
-        @BasedFunctor.preserves_isHomLift _ _ _ _ Y.toBasedFunctor _ _ _ _ g.val g
+      have hYmap : p.IsHomLift g.hom (Y.toBasedFunctor.map g) :=
+        @BasedFunctor.preserves_isHomLift _ _ _ _ Y.toBasedFunctor _ _ _ _ g.hom g
           (IsHomLift.of_fac (restrictedRepresentable η.base).p _ _ rfl rfl rfl)
       have hrightG : p.IsHomLift gbase (X.toBasedFunctor.map (f.map g) ≫ t β) := by
         have := ht_lift β
-        have := IsHomLift.comp p g.val (𝟙 β.1) (X.toBasedFunctor.map (f.map g)) (t β)
+        have := IsHomLift.comp p g.hom (𝟙 β.obj) (X.toBasedFunctor.map (f.map g)) (t β)
         rw [Category.comp_id] at this
         exact (IsHomLift.lift_eqToHom_comp_iff p _ _ wX).mpr this
       have hleftG : p.IsHomLift gbase (t α ≫ Y.toBasedFunctor.map g) := by
         have := ht_lift α
-        have := IsHomLift.comp p (𝟙 α.1) g.val (t α) (Y.toBasedFunctor.map g)
+        have := IsHomLift.comp p (𝟙 α.obj) g.hom (t α) (Y.toBasedFunctor.map g)
         rw [Category.id_comp] at this
         exact (IsHomLift.lift_eqToHom_comp_iff p _ _ wX).mpr this
       have hEq : T ≫ X.pointInclusion (f.obj α) ≫
@@ -399,8 +398,7 @@ public theorem associatedMorphism_map
       )
   let τ : BasedFunctor.comp f X.toBasedFunctor ≅ Y.toBasedFunctor :=
     BasedNatIso.mkNatIso ni (fun α ↦ by
-      simpa [ni, NatIso.ofComponents, verticalIso, asIso_hom,
-        restrictedRepresentable, BasedCategory.ofFunctor] using ht_lift α)
+      exact ht_lift α)
   refine ⟨τ, ?_⟩
   intro α
   refine ⟨hlevel α, ?_⟩

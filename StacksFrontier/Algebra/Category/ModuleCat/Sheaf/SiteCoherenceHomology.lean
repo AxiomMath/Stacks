@@ -4,6 +4,7 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SiteCoherenceFinit
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SiteCoherenceCokernels
 public import StacksFrontier.AlgebraicGeometry.Topologies.CoherentKernelOnSite
 public import Mathlib.CategoryTheory.ObjectProperty.FiniteProducts
+public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Colimits
 
 /-!
 # Retracts and finite sums of coherent sheaves of modules on a site
@@ -71,6 +72,11 @@ instance isClosedUnderFiniteCoproducts_isCoherentOnSite :
       (fun M : _root_.SheafOfModules.{w} R => _root_.SheafOfModules.IsCoherentOnSite M) where
   isClosedUnderColimitsOfShape I _ := by
     refine ⟨fun X ⟨h⟩ => ?_⟩
+    haveI : HasColimitsOfShape (Discrete I) (PresheafOfModules.{w} R.obj) :=
+      PresheafOfModules.hasColimitsOfShape _ _
+    haveI : HasColimitsOfShape (Discrete I) (_root_.SheafOfModules.{w} R) :=
+      SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+        R (Discrete I)
     let f : I → _root_.SheafOfModules.{w} R := fun j => h.diag.obj ⟨j⟩
     let e : X ≅ ∐ f :=
       h.isColimit.coconePointUniqueUpToIso (colimit.isColimit h.diag) ≪≫

@@ -223,12 +223,12 @@ noncomputable def pushforwardLaxMonoidal : (pushforward.{u} φ).LaxMonoidal wher
       (M₁.obj (F.op.obj X)) (M₂.obj (F.op.obj X)) (M₃.obj (F.op.obj X))
   left_unitality M := by
     ext1 X
-    exact (leftUnitor_hom_app ((pushforward φ).obj M) X).trans
+    exact (PresheafOfModulesOfCommRing.leftUnitor_hom_app ((pushforward φ).obj M) X).trans
       (Functor.LaxMonoidal.left_unitality
         (ModuleCat.restrictScalars (pushforwardRingHom φ X).hom) (M.obj (F.op.obj X)))
   right_unitality M := by
     ext1 X
-    exact (rightUnitor_hom_app ((pushforward φ).obj M) X).trans
+    exact (PresheafOfModulesOfCommRing.rightUnitor_hom_app ((pushforward φ).obj M) X).trans
       (Functor.LaxMonoidal.right_unitality
         (ModuleCat.restrictScalars (pushforwardRingHom φ X).hom) (M.obj (F.op.obj X)))
 

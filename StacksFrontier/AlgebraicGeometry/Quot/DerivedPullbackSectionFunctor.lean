@@ -451,7 +451,7 @@ def derivedPullbackSectionFunctorToBase (hc : DerivedPullbackCoherence B S hS hL
   app T := ↾fun _ => ⟨⟨testPoint T.unop, rfl⟩⟩
   naturality T T' g := by
     refine ConcreteCategory.hom_ext _ _ fun _ => ?_
-    exact ULift.ext _ _ (Subtype.ext (testPoint_naturality g.unop).symm)
+    exact ULift.ext (Subtype.ext (testPoint_naturality g.unop).symm)
 
 /-! ### The functor of part (1), and the two hypotheses -/
 

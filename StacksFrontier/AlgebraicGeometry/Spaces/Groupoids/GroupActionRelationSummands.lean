@@ -31,7 +31,7 @@ of a single point of the relation scheme, and so as a single point of the quotie
 
 The target composite is stated for the underlying morphism of schemes rather than inside the
 site. That is the form its consumers need — they move a point of the underlying scheme of
-`V` along the action — and it avoids naming the site morphism underlying `(a g).hom.left`,
+`V` along the action — and it avoids naming the site morphism underlying `(a g).asIso.hom.left`,
 which only exists as a preimage under the fully faithful inclusion of the site.
 
 ## References
@@ -76,10 +76,10 @@ theorem toScheme_map_siteActionRelationInclusion_comp_target
     (a : G →* Aut (underlyingOver B hS V)) (g : G) :
     (BigFppfOver.toScheme B S hS).map (siteActionRelationInclusion G B hS V hR g ≫
         siteActionRelationTarget G B hS V hR a) =
-      (a g).hom.left := by
+      (a g).asIso.hom.left := by
   rw [Functor.map_comp]
   change (Sigma.ι (fun _ : G ↦ underlyingOver B hS V) g).left ≫
-    (actionRelationTarget (underlyingOver B hS V) G a).left = (a g).hom.left
+    (actionRelationTarget (underlyingOver B hS V) G a).left = (a g).asIso.hom.left
   rw [← Over.comp_left, actionRelationTarget, Sigma.ι_desc]
 
 end AlgebraicGeometry.Space

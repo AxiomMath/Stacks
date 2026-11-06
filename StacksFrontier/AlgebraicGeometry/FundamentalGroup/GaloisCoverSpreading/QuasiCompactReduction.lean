@@ -237,8 +237,8 @@ theorem exists_galoisCover_of_isCompact
       (_hz : z ≫ Z.obj.hom = genericFiberSection f σ hσ),
       ∃ (Y : FiniteEtaleGaloisCover X G)
         (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-          e.hom = e.hom ≫ (Z.action g).hom)
+        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
+          e.hom = e.hom ≫ (Z.action g).asIso.hom)
     {S X : Scheme.{u}} (f : X ⟶ S) [IsNoetherian S] [IsIntegral S] [IsNormal S]
     [Smooth f] [GeometricallyConnected f]
     (σ : S ⟶ X) (hσ : σ ≫ f = 𝟙 S)
@@ -253,9 +253,11 @@ theorem exists_galoisCover_of_isCompact
     ∃ (Y : FiniteEtaleGaloisCover O.toScheme G)
       (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S) ∣_ O)).obj Y.obj ≅
         (finiteEtaleBaseChange (f.fiberι (genericPoint S) ⁻¹ᵁ O).ι).obj Z.obj),
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S) ∣_ O)).map (Y.action g).hom ≫
-        e.hom = e.hom ≫
-          (finiteEtaleBaseChange (f.fiberι (genericPoint S) ⁻¹ᵁ O).ι).map (Z.action g).hom := by
+      ∀ g : Gᵐᵒᵖ,
+        (finiteEtaleBaseChange (f.fiberι (genericPoint S) ∣_ O)).map (Y.action g).asIso.hom ≫
+          e.hom = e.hom ≫
+            (finiteEtaleBaseChange (f.fiberι (genericPoint S) ⁻¹ᵁ O).ι).map
+              (Z.action g).asIso.hom := by
   let U := f.fiberι (genericPoint S) ⁻¹ᵁ O
   have : CompactSpace O.toScheme := isCompact_iff_compactSpace.mp hOc
   have : GeometricallyConnected (O.ι ≫ f) := geometricallyConnected_ι_comp f σ hσ O hO
@@ -303,8 +305,8 @@ theorem exists_galoisCover_of_isCompact
   obtain ⟨Y, e₁, he₁⟩ := hqc (O.ι ≫ f) σO hσO' G hG ZO' zO hzO
   -- transport the comparison to `U`
   obtain ⟨n, hn, hnact⟩ := GaloisCoverLimits.exists_equivariant_isPullback_of_iso
-    ((O.ι ≫ f).fiberι (genericPoint S)) Y.obj ZO'.obj e₁ (fun g : Gᵐᵒᵖ ↦ (Y.action g).hom)
-    (fun g : Gᵐᵒᵖ ↦ (ZO'.action g).hom) he₁
+    ((O.ι ≫ f).fiberι (genericPoint S)) Y.obj ZO'.obj e₁ (fun g : Gᵐᵒᵖ ↦ (Y.action g).asIso.hom)
+    (fun g : Gᵐᵒᵖ ↦ (ZO'.action g).asIso.hom) he₁
   let p₁ : ZO'.obj.left ⟶ ZO.obj.left := pullback.fst ZO.obj.hom kinv
   have : IsIso p₁ := inferInstanceAs (IsIso (pullback.fst ZO.obj.hom kinv))
   have hp₁ : p₁ ≫ ZO.obj.hom = ZO'.obj.hom ≫ kinv := pullback.condition
@@ -315,16 +317,16 @@ theorem exists_galoisCover_of_isCompact
     · exact hp₁.symm
     · simp
     · rw [Iso.refl_hom, Category.comp_id, asIso_hom, hk₁]
-  have hact (g : Gᵐᵒᵖ) : (ZO.action g).hom.left ≫ P = P ≫ (Y.action g).hom.left := by
+  have hact (g : Gᵐᵒᵖ) : (ZO.action g).asIso.hom.left ≫ P = P ≫ (Y.action g).asIso.hom.left := by
     rw [← cancel_epi p₁]
-    have h₁ : (ZO'.action g).hom.left ≫ p₁ = p₁ ≫ (ZO.action g).hom.left :=
+    have h₁ : (ZO'.action g).asIso.hom.left ≫ p₁ = p₁ ≫ (ZO.action g).asIso.hom.left :=
       FiniteEtaleGaloisCover.baseChange_action_fst kinv ZO hZO' g
     simp only [P, ← Category.assoc, ← h₁]
     simp only [Category.assoc, IsIso.hom_inv_id, Category.id_comp]
     exact hnact g
   obtain ⟨e, he⟩ := GaloisCoverLimits.exists_equivariant_iso_of_isPullback
-    (f.fiberι (genericPoint S) ∣_ O) Y.obj ZO.obj P hP (fun g : Gᵐᵒᵖ ↦ (Y.action g).hom)
-    (fun g : Gᵐᵒᵖ ↦ (ZO.action g).hom) hact
+    (f.fiberι (genericPoint S) ∣_ O) Y.obj ZO.obj P hP (fun g : Gᵐᵒᵖ ↦ (Y.action g).asIso.hom)
+    (fun g : Gᵐᵒᵖ ↦ (ZO.action g).asIso.hom) hact
   exact ⟨Y, e, he⟩
 
 /-- **An extension over an open containing `O₀`.** A finite étale cover `F` of an open `W ⊇ O₀`
@@ -399,8 +401,8 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_quasiCompact_cas
       (_hz : z ≫ Z.obj.hom = genericFiberSection f σ hσ),
       ∃ (Y : FiniteEtaleGaloisCover X G)
         (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-          e.hom = e.hom ≫ (Z.action g).hom)) :
+        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
+          e.hom = e.hom ≫ (Z.action g).asIso.hom)) :
     ∀ {S X : Scheme.{u}} (f : X ⟶ S) [IsNoetherian S] [IsIntegral S] [IsNormal S]
       [Smooth f] [GeometricallyConnected f]
       (σ : S ⟶ X) (hσ : σ ≫ f = 𝟙 S)
@@ -411,8 +413,8 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_quasiCompact_cas
       (_hz : z ≫ Z.obj.hom = genericFiberSection f σ hσ),
       ∃ (Y : FiniteEtaleGaloisCover X G)
         (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-          e.hom = e.hom ≫ (Z.action g).hom := by
+        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
+          e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   intro S X f _ _ _ _ _ σ hσ G _ _ hG Z z hz
   -- the geometry of `X`
   have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f
@@ -540,11 +542,12 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_quasiCompact_cas
   let β := (c₁.app Y'.obj).symm ≪≫ c₂.app Y'.obj ≪≫
     (finiteEtaleBaseChange (f.fiberι (genericPoint S) ∣_ O₀)).mapIso e' ≪≫ e₀
   have hβ (g : Gᵐᵒᵖ) : (finiteEtaleBaseChange (f.fiberι (genericPoint S) ⁻¹ᵁ O₀).ι).map
-      ((finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y'.action g).hom) ≫ β.hom =
+      ((finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y'.action g).asIso.hom) ≫ β.hom =
       β.hom ≫
-        (finiteEtaleBaseChange (f.fiberι (genericPoint S) ⁻¹ᵁ O₀).ι).map (Z.action g).hom := by
-    have n₁ := c₁.inv.naturality (Y'.action g).hom
-    have n₂ := c₂.hom.naturality (Y'.action g).hom
+        (finiteEtaleBaseChange (f.fiberι (genericPoint S) ⁻¹ᵁ O₀).ι).map
+          (Z.action g).asIso.hom := by
+    have n₁ := c₁.inv.naturality (Y'.action g).asIso.hom
+    have n₂ := c₂.hom.naturality (Y'.action g).asIso.hom
     simp only [Functor.comp_map] at n₁ n₂
     simp only [β, Iso.trans_hom, Iso.symm_hom, Iso.app_hom, Iso.app_inv, Functor.mapIso_hom,
       Category.assoc]

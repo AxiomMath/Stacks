@@ -440,9 +440,7 @@ private lemma restrictFunctor_full (hB : Opens.IsBasis B) :
     have goal_eq : G.1.map (hZp.trans (le_iSup Vf p)).hom.op t =
         G.1.map hZV.hom.op (η.app (op ⟨V, hVB⟩) (F.1.map hVU.hom.op s)) :=
       lhs_eq.trans rhs_eq.symm
-    convert goal_eq using 1
-    · exact map_congr_of_hom_eq G.1 _ _ t
-    · exact map_congr_of_hom_eq G.1 _ _ _
+    convert goal_eq using 1 <;> exact map_congr_of_hom_eq G.1 _ _ _
   -- Step 2: Define the nat trans
   let app : ∀ (U : (Opens X)ᵒᵖ), F.1.obj U → G.1.obj U := fun U s => (app_exists U s).choose
   have app_prop : ∀ (U : (Opens X)ᵒᵖ) (s : F.1.obj U) (V : Opens X) (hVB : V ∈ B) (hVU : V ≤

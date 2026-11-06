@@ -102,6 +102,7 @@ noncomputable def isTerminal_toSlice_ofIso (W : T.Schemes)
       (Over.isoMk (f := Over.mk (eW.hom ≫ U.hom)) (g := U) eW rfl)
       (Over.OverMorphism.ext (Category.comp_id _))).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A sheaf of modules on `(Spaces/X)_fppf` with a global presentation on the slice at `U` is a
 base change presheaf `A ↦ 𝒪(A) ⊗ M` on the affine schemes over `U`.** -/
 theorem exists_toOver_iso_baseChange_of_hasGlobalPresentation

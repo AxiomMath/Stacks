@@ -139,9 +139,9 @@ theorem mem_smul_weightedHomogeneousSubmodule {I : Ideal S} (hI : RingHom.ker f 
   classical
   rw [x.as_sum]
   refine Submodule.sum_mem _ fun m hm => ?_
-  have hc : coeff m x ∈ I := hI (by
-    rw [RingHom.mem_ker, ← coeff_map, h0, coeff_zero])
-  rw [← mul_one (coeff m x), ← smul_eq_mul, ← smul_monomial]
+  have hc : x.coeff m ∈ I := hI (by
+    rw [RingHom.mem_ker, ← coeff_map, h0, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply])
+  rw [← mul_one (x.coeff m), ← smul_eq_mul, ← smul_monomial]
   refine Submodule.smul_mem_smul hc ?_
   intro m' hm'
   rw [coeff_monomial] at hm'

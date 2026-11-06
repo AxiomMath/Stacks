@@ -562,7 +562,8 @@ theorem eventually_isClosedImmersion_app_of_h07SR
     ∀ᶠ i in atTop, IsClosedImmersion B S hS (t.app (op i)) := by
   classical
   have hcomm' : ∀ j, c.π.app j ≫ t.app j = f := fun j => by
-    simpa using congrArg (fun α => α.app j) hcomm
+    have h := NatTrans.congr_app hcomm j
+    rwa [NatTrans.comp_app, Functor.const_map_app] at h
   obtain ⟨U, p, hU, hpSurj, hpEtale⟩ :=
     (isQuasiCompactSpace_iff_exists_affine_etale_surjective_cover B S hS Y hY).mp hYqc
   refine eventually_isClosedImmersion_app_of_isRepresentable_stage B S hS hZ D t c hc f hcomm'

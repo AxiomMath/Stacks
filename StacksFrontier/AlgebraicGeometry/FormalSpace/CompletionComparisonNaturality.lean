@@ -295,7 +295,7 @@ theorem completionSubfunctorRestrict_quotientStage
         ((BigAffineFppf.inclusion B S hS).map (g.stageMap J K hJ)).op
         ⟨ULift.up (quotientStageToAffine B S hS hA f I D hD J),
           quotientStage_hasImageIn B S hS hA f I D hD J⟩ :=
-  Subtype.ext (ULift.ext _ _ (stageMap_comp_quotientStageToAffine B S hS hA hC f φ I I' specMap
+  Subtype.ext (ULift.ext (stageMap_comp_quotientStageToAffine B S hS hA hC f φ I I' specMap
     D hD E hE hspec g hg J K hJ).symm)
 
 /-- The morphism of completion subfunctors carries the canonical section of `(Spec C)_{/V(I')}`

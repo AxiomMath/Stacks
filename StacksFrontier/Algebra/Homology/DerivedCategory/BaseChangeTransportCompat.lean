@@ -165,8 +165,8 @@ theorem isIso_derived_app_iff_of_natTransCompat
     (hG' : ∀ I : T, Injective I → G₁'.rightAcyclic (UT.obj I))
     (hτ : NatTransCompat aF aF' aG aG' τ τ₁) [UX.mapDerivedCategoryPlus.ReflectsIsomorphisms]
     (M : DerivedCategory.Plus T) :
-    IsIso ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit)).app M) ↔
-      IsIso ((derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnit)).app
+    IsIso ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith)).app M) ↔
+      IsIso ((derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnith)).app
         (UT.mapDerivedCategoryPlus.obj M)) := by
   simpa only [isIso_comp_left_iff, isIso_comp_right_iff, isIso_iff_of_reflects_iso] using
     (congrArg IsIso (derived_exactTransport_app hF hF' hG hG' hτ M)).to_iff

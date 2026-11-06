@@ -124,8 +124,8 @@ theorem reflectsIsomorphisms_associatedModule :
     reflectsEpimorphisms_associatedModule B S hS
   refine ⟨fun {X Y} f hf => ?_⟩
   have := hf
-  have : Mono f := hmono.reflects f inferInstance
-  have : Epi f := hepi.reflects f inferInstance
+  have : Mono f := hmono.reflects f (IsIso.mono_of_iso _)
+  have : Epi f := hepi.reflects f (IsIso.epi_of_iso _)
   exact isIso_of_mono_of_epi f
 
 section Derived

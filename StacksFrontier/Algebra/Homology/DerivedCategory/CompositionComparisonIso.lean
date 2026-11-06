@@ -135,7 +135,7 @@ unique because that unit exhibits `R(G ∘ F)` as a left Kan extension along
 noncomputable def rightDerivedFunctorPlusComp :
     (F ⋙ G).rightDerivedFunctorPlus ⟶
       F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus :=
-  (F ⋙ G).rightDerivedFunctorPlus.rightDerivedDesc (F ⋙ G).rightDerivedFunctorPlusUnit
+  (F ⋙ G).rightDerivedFunctorPlus.rightDerivedDesc (F ⋙ G).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso C) _ (rightComparisonUnit F G)
 
 /-- The factorization that characterises `CategoryTheory.Functor.rightDerivedFunctorPlusComp`:
@@ -143,10 +143,10 @@ its composite with the unit of `R(G ∘ F)` is the comparison transformation
 `G(F(K)) ⟶ RG(F(K)) ⟶ RG(RF(K))`.  This is the hypothesis `ht` of
 `CategoryTheory.Functor.isIso_iff_rightAcyclic_obj_injective`. -/
 lemma rightDerivedFunctorPlusComp_fac :
-    (F ⋙ G).rightDerivedFunctorPlusUnit ≫
+    (F ⋙ G).rightDerivedFunctorPlusUnith ≫
         Functor.whiskerLeft DerivedCategory.Plus.Qh (rightDerivedFunctorPlusComp F G) =
       rightComparisonUnit F G :=
-  (F ⋙ G).rightDerivedFunctorPlus.rightDerived_fac (F ⋙ G).rightDerivedFunctorPlusUnit
+  (F ⋙ G).rightDerivedFunctorPlus.rightDerived_fac (F ⋙ G).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso C) _ (rightComparisonUnit F G)
 
 /-- The factorization of `CategoryTheory.Functor.rightDerivedFunctorPlusComp` read at a bounded
@@ -155,12 +155,12 @@ is the unit of `RG` at `F(K)` followed by `RG` applied to the unit of `RF` at `K
 coherence isomorphism identifying the functor induced by `G ∘ F` on `K⁺(𝒜)` with the composite
 of the functors induced by `F` and by `G`. -/
 lemma rightDerivedFunctorPlusComp_fac_app (K : HomotopyCategory.Plus C) :
-    (F ⋙ G).rightDerivedFunctorPlusUnit.app K ≫
+    (F ⋙ G).rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedFunctorPlusComp F G).app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).inv.app K) ≫
-        G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) := by
+        G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) := by
   rw [← rightComparisonUnit_app F G K, ← rightDerivedFunctorPlusComp_fac F G]
   rfl
 
@@ -207,7 +207,7 @@ injective objects: both `R(G ∘ F)` and `RF ⋙ RG` are right derived functors 
 first. -/
 instance isIso_rightDerivedFunctorPlusComp : IsIso (rightDerivedFunctorPlusComp F G) :=
   ((F ⋙ G).rightDerivedFunctorPlus.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
-    (F ⋙ G).rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C) _
+    (F ⋙ G).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C) _
     (rightComparisonUnit F G)).1 inferInstance
 
 /-- **Composition of right derived functors on `D⁺`, as an isomorphism of functors.**  For `F`

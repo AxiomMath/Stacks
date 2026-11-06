@@ -235,6 +235,18 @@ section SinglePoint
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_SinglePointSpace :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, as a direct shortcut. -/
+local instance (priority := high) hasPullback_presheaf_SinglePointSpace
+    {P Q W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ W) (g : Q ⟶ W) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 047Z, part (1).** A decent algebraic space over `S` whose point set is a singleton
 is a scheme. -/
 @[stacks 047Z "part (1)"]

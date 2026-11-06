@@ -1268,7 +1268,7 @@ variable {C D : Type*} [Category C] [Category D] [Abelian C] [Abelian D]
 restricted to bounded below complexes of injectives, is a natural isomorphism
 `ι ⋙ F ⋙ Q ≅ ι ⋙ Q ⋙ RF` of functors `K⁺(ℐ) ⥤ D⁺(D)`: its components are invertible because a
 bounded below complex of injectives computes `RF` ([Stacks, Tag 05TH]), and its naturality is that
-of `F.rightDerivedFunctorPlusUnit`. -/
+of `F.rightDerivedFunctorPlusUnith`. -/
 private noncomputable def rightDerivedFunctorPlusUnitIsoOfInjective
     (F : C ⥤ D) [F.Additive] [EnoughInjectives C] :
     (HomotopyCategory.Plus.localizerMorphism C).functor ⋙
@@ -1276,9 +1276,9 @@ private noncomputable def rightDerivedFunctorPlusUnitIsoOfInjective
       (HomotopyCategory.Plus.localizerMorphism C).functor ⋙
         DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus :=
   NatIso.ofComponents
-    (fun K => asIso (F.rightDerivedFunctorPlusUnit.app
+    (fun K => asIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.localizerMorphism C).functor.obj K)))
-    (fun _ => F.rightDerivedFunctorPlusUnit.naturality _)
+    (fun _ => F.rightDerivedFunctorPlusUnith.naturality _)
 
 /-- Let `F : C ⥤ D` be an additive functor between abelian categories with `C` having enough
 injectives, let `ℐ ⊆ C` be the subcategory of injective objects, and let
@@ -1296,7 +1296,7 @@ public theorem exists_iso_rightDerivedFunctorPlus_of_comp_Qh_iso_id
       𝟭 (DerivedCategory.Plus C)) :
     ∃ e : j' ⋙ (HomotopyCategory.Plus.localizerMorphism C).functor ⋙
         F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅ F.rightDerivedFunctorPlus,
-      ∀ X, e.hom.app X = F.rightDerivedFunctorPlusUnit.app
+      ∀ X, e.hom.app X = F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.localizerMorphism C).functor.obj (j'.obj X)) ≫
           F.rightDerivedFunctorPlus.map (ε.hom.app X) :=
   ⟨Functor.isoWhiskerLeft j' (rightDerivedFunctorPlusUnitIsoOfInjective F) ≪≫

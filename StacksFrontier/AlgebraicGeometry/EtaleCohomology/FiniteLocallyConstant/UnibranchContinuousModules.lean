@@ -189,11 +189,11 @@ public theorem isOpen_continuousModuleKer [IsTopologicalGroup G]
   have hfin : Module.Finite R M.obj.obj.V := hM
   obtain ⟨S, hS, hspan⟩ := Submodule.fg_def.mp (Module.finite_def.mp hfin)
   refine (continuousModuleKer R G M).isOpen_of_one_mem_interior
-    (mem_interior.mpr ⟨⋂ x ∈ S, {g : G | (M.obj.obj.ρ g).hom x = x}, ?_, ?_, ?_⟩)
+    (mem_interior.mpr ⟨⋂ x ∈ S, {g : G | (M.obj.obj.ρ g).asHom.hom x = x}, ?_, ?_, ?_⟩)
   · intro g hg
     simp only [Set.mem_iInter] at hg
-    refine (mem_continuousModuleKer_iff R G M g).mpr (ModuleCat.hom_ext ?_)
-    rw [show (1 : End M.obj.obj.V) = 𝟙 _ from rfl, ModuleCat.hom_id]
+    refine (mem_continuousModuleKer_iff R G M g).mpr (End.ext (ModuleCat.hom_ext ?_))
+    rw [End.one_asHom, ModuleCat.hom_id]
     exact LinearMap.ext_on hspan fun x hx => hg x hx
   · exact hS.isOpen_biInter fun x _ => isOpen_stabilizer R G M x
   · exact Set.mem_iInter₂.mpr fun x _ => by simp

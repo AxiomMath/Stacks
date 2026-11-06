@@ -8,6 +8,7 @@ public import Mathlib.Basic.Real.Embedding
 public import Mathlib.FieldTheory.AlgebraicClosure
 public import Mathlib.FieldTheory.KummerExtension
 public import Mathlib.GroupTheory.Perm.Cycle.Type
+public import Mathlib.RingTheory.Norm.Basic
 public import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
 public import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
 public import Mathlib.RingTheory.Valuation.Integral

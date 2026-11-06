@@ -361,7 +361,7 @@ theorem natSumUnit_of (n : ℕ)
       DirectSum.of (fun m : ℕ =>
         (((symmetricAlgebra B S hS W G).piece (m : ℤ)).val.obj (op V) : Type u)) n
         (symPieceUnit B S hS W G hG V hV n x) :=
-  DFinsupp.mapRange_single (hf := fun _ => map_zero _)
+  DFinsupp.mapRange_single (hf := fun n => (symPieceUnit B S hS W G hG V hV n).map_zero)
 
 /-- The underlying additive map of `AlgebraicGeometry.Space.ofSymPowers` is the degreewise
 sheafification unit followed by the inclusion of the nonnegative degrees. -/

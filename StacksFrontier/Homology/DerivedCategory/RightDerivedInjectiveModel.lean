@@ -28,7 +28,7 @@ consumes.
 
 ## Implementation notes
 
-Mathlib's `CategoryTheory.Functor.rightDerivedFunctorPlusUnit` is a natural transformation out of
+Mathlib's `CategoryTheory.Functor.rightDerivedFunctorPlusUnith` is a natural transformation out of
 `G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh`, so its source at a complex `K` is the
 image of `K` under the localization functor factored through the homotopy category. The two
 localization functors `DerivedCategory.Plus.Q` and
@@ -107,7 +107,7 @@ def rightDerivedFunctorPlusUnitIso (J : CochainComplex.Plus (InjectiveObject C))
       G.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj
         ((HomotopyCategory.Plus.quotient C).obj
           ((InjectiveObject.ι C).mapCochainComplexPlus.obj J))) :=
-  asIso (G.rightDerivedFunctorPlusUnit.app _)
+  asIso (G.rightDerivedFunctorPlusUnith.app _)
 
 /-- **A right derived functor is computed on an injective resolution.** An object `X` of `D⁺(C)`
 lying in degrees `≥ n` is the image of a complex `J` of injective objects in degrees `≥ n`, and

@@ -147,9 +147,9 @@ theorem mem_automorphismsOfLift_iff {T : DerivedExtensionOfScalars f}
     {K₀ :
       DerivedCategory.Minus (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (O₀))))}
     {L : DerivedLift T K₀} (φ : Aut L.K.obj) :
-    φ ∈ automorphismsOfLift T L ↔ T.baseChange.map φ.hom = 𝟙 _ := by
+    φ ∈ automorphismsOfLift T L ↔ T.baseChange.map φ.asIso.hom = 𝟙 _ := by
   rw [automorphismsOfLift, MonoidHom.mem_ker]
-  exact ⟨fun h => (congrArg Iso.hom h :), fun h => Aut.ext h⟩
+  exact ⟨fun h => (congrArg (fun a => a.asIso.hom) h :), fun h => Aut.ext (Iso.ext h)⟩
 
 namespace DerivedReduction
 
@@ -208,7 +208,7 @@ theorem mem_triangle_autFixingMor₂_iff
     (K : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf (O)))))
     (φ : Aut K) :
     φ ∈ (R.triangle K).autFixingMor₂ ↔
-      φ.hom ≫ R.adjunction.unit.app K = R.adjunction.unit.app K :=
+      φ.asIso.hom ≫ R.adjunction.unit.app K = R.adjunction.unit.app K :=
   Triangle.mem_autFixingMor₂ (R.triangle K)
 
 /-- The connecting map of the reduction triangle of `K`, with its source and target written
@@ -274,12 +274,12 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 the adjunction, by the universal property of the unit. -/
 theorem automorphismsOfLift_eq_autFixingMor₂ :
     automorphismsOfLift T L = (R.triangle L.K.obj).autFixingMor₂ := by
-  have hiff : ∀ φ : Aut L.K.obj, T.baseChange.map φ.hom = 𝟙 _ ↔
-      φ.hom ≫ R.adjunction.unit.app L.K.obj = R.adjunction.unit.app L.K.obj := by
+  have hiff : ∀ φ : Aut L.K.obj, T.baseChange.map φ.asIso.hom = 𝟙 _ ↔
+      φ.asIso.hom ≫ R.adjunction.unit.app L.K.obj = R.adjunction.unit.app L.K.obj := by
     intro φ
-    have hn : φ.hom ≫ R.adjunction.unit.app L.K.obj =
-        R.adjunction.unit.app L.K.obj ≫ R.restriction.map (T.baseChange.map φ.hom) :=
-      R.adjunction.unit.naturality φ.hom
+    have hn : φ.asIso.hom ≫ R.adjunction.unit.app L.K.obj =
+        R.adjunction.unit.app L.K.obj ≫ R.restriction.map (T.baseChange.map φ.asIso.hom) :=
+      R.adjunction.unit.naturality φ.asIso.hom
     refine ⟨fun h => by rw [hn, h, CategoryTheory.Functor.map_id]; exact Category.comp_id _,
       fun hφ => (R.adjunction.homEquiv L.K.obj (T.baseChange.obj L.K.obj)).injective ?_⟩
     rw [Adjunction.homEquiv_unit, Adjunction.homEquiv_unit, CategoryTheory.Functor.map_id,

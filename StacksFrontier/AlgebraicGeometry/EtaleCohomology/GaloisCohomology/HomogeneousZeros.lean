@@ -53,7 +53,7 @@ lemma exists_nonzero_common_zero_of_isHomogeneous
     rintro _ ⟨i, rfl⟩
     show (MvPolynomial.aeval (0 : Fin n → k)) (f i) = 0
     rw [MvPolynomial.aeval_zero]
-    show MvPolynomial.coeff 0 (f i) = 0
+    show (f i).coeff 0 = 0
     exact MvPolynomial.IsHomogeneous.coeff_eq_zero (hf i)
       (by simpa using (Nat.ne_of_gt (hd i)).symm)
   have hzeroLocus : MvPolynomial.zeroLocus k I = {0} := by

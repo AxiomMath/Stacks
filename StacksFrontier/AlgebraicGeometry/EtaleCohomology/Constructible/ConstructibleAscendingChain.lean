@@ -121,7 +121,8 @@ public theorem isNoetherianObject_of_isConstructibleAbelianSheaf
     (F : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{u + 1})
     (hF : IsConstructibleAbelianSheaf B X F) :
     IsNoetherianObject F := by
-  let _ : AB5OfSize.{0, 0} AddCommGrpCat.{u + 1} := AB5OfSize_shrink AddCommGrpCat.{u + 1}
+  let _ : AB5OfSize.{0, 0} AddCommGrpCat.{u + 1} :=
+    AB5OfSize_shrink.{0, 0, u + 1, u + 1} AddCommGrpCat.{u + 1}
   exact isNoetherianObject_of_subobject_essentiallyConstant F
     (IsConstructibleAbelianSheaf B X) (fun _ _ => hsub) (fun M => hess (monoOverDiagram M)) hF
 

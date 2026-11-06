@@ -789,12 +789,12 @@ private lemma exists_eventual_model_comparison
     let q : Over (op iX) := (Over.map ((homOfLE kIX).op)).obj j
     have hq := hIsoX q
     show IsIso (FX₀.maps.app q)
-    exact IsIso.mk' ⟨GX₀.maps.app q, hq.2, hq.1⟩
+    exact ⟨GX₀.maps.app q, hq.1, hq.2⟩
   have hFY : IsIso (FY.maps.app j) := by
     let q : Over (op iY) := (Over.map ((homOfLE kIY).op)).obj j
     have hq := hIsoY q
     show IsIso (FY₀.maps.app q)
-    exact IsIso.mk' ⟨GY₀.maps.app q, hq.2, hq.1⟩
+    exact ⟨GY₀.maps.app q, hq.1, hq.2⟩
   exact ⟨hFX, hFY, hnat j hj⟩
 
 /-- **Stacks Project, Tag 0CNT, eventual flatness**, conditional on Tag 01ZM part (1).

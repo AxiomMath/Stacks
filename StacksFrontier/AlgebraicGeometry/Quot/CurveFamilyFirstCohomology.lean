@@ -71,7 +71,21 @@ attribute [local instance 5000] SheafOfModules.instAbelian
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instance. (Not `private`: the exposed definitions below
+cannot use private instances.) -/
+local instance (priority := high) hasPullbacks_presheaf_curveFamilyFirstCohomology
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_curveFamilyFirstCohomology
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W) (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 variable {B : BigFppfSite.{u}} {hZ : B.Contains integerBase}
+
 
 namespace CurveFamily
 

@@ -465,7 +465,7 @@ theorem exactSingleFunctorRightDerivedPlusIso_hom_app (Y : B) :
       (Functor.singleFunctorPlusIsoCompQh (A := D) 0).hom.app (G.obj Y) ≫
         DerivedCategory.Plus.Qh.map
           ((Functor.mapHomotopyCategoryPlusSingleFunctor G 0).inv.app Y) ≫
-        G.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor B 0).obj Y) ≫
+        G.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor B 0).obj Y) ≫
         G.rightDerivedFunctorPlus.map
           ((Functor.singleFunctorPlusIsoCompQh (A := B) 0).inv.app Y) := by
   have hnat := (exactMapDerivedCategoryPlusIso G).hom.naturality
@@ -528,7 +528,7 @@ theorem rightDerivedZeroUnit_eq (X : C) :
             DerivedCategory.Plus.Qh.map
               ((Functor.mapHomotopyCategoryPlusSingleFunctor T 0).inv.app X)) ≫
         (DerivedCategory.Plus.homologyFunctor D 0).map
-          (T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X)) ≫
+          (T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X)) ≫
         (DerivedCategory.Plus.homologyFunctor D 0).map
           (T.rightDerivedFunctorPlus.map
             ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app X)) := by
@@ -563,7 +563,7 @@ theorem rightDerivedZeroUnit_eq' (X : C) :
         (DerivedCategory.Plus.homologyFunctor D 0).map
           (DerivedCategory.Plus.Qh.map
               ((Functor.mapHomotopyCategoryPlusSingleFunctor T 0).inv.app X) ≫
-            T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
+            T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
             T.rightDerivedFunctorPlus.map
               ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app X)) :=
   (rightDerivedZeroUnit_eq T X).trans (split_chain
@@ -594,7 +594,7 @@ theorem rightDerivedZeroUnit_naturality {X Y : C} (f : X ⟶ Y) :
       (DerivedCategory.Plus.Qh.map z))
     ((Functor.mapHomotopyCategoryPlusSingleFunctor T 0).inv.naturality f)
   have h₂ := congrArg (DerivedCategory.Plus.homologyFunctor D 0).map
-    (T.rightDerivedFunctorPlusUnit.naturality ((HomotopyCategory.Plus.singleFunctor C 0).map f))
+    (T.rightDerivedFunctorPlusUnith.naturality ((HomotopyCategory.Plus.singleFunctor C 0).map f))
   have h₃ := congrArg (fun z => (DerivedCategory.Plus.homologyFunctor D 0).map
       (T.rightDerivedFunctorPlus.map z))
     ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.naturality f)
@@ -727,18 +727,18 @@ followed by the derived-functor unit of `RF'` and by `RF'` applied to the compar
 theorem derived_app_singleFunctor (X : A) :
     DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusSingleFunctor G 0).inv.app
         (F.obj X)) ≫
-      G.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor B 0).obj (F.obj X)) ≫
+      G.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor B 0).obj (F.obj X)) ≫
       G.rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Qh.map
             ((Functor.mapHomotopyCategoryPlusSingleFunctor F 0).inv.app X) ≫
-          F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X) ≫
+          F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X) ≫
           F.rightDerivedFunctorPlus.map
             ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app X)) ≫
       (derived F F' G G' τ (exactUnitIso G)).app ((DerivedCategory.Plus.singleFunctor A 0).obj X) =
     DerivedCategory.Plus.Qh.map ((HomotopyCategory.Plus.singleFunctor D 0).map (τ.app X)) ≫
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusSingleFunctor F' 0).inv.app
         (G'.obj X)) ≫
-      F'.rightDerivedFunctorPlusUnit.app
+      F'.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor C 0).obj (G'.obj X)) ≫
       F'.rightDerivedFunctorPlus.map
         ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app (G'.obj X)) ≫
@@ -747,9 +747,9 @@ theorem derived_app_singleFunctor (X : A) :
   rw [Stacks.DerivedFunctor.exactSingleFunctorRightDerivedPlusIso_hom_app]
   have hd := (derived F F' G G' τ (exactUnitIso G)).naturality
     ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app X)
-  have hG := (G.rightDerivedFunctorPlusUnit.naturality
+  have hG := (G.rightDerivedFunctorPlusUnith.naturality
     ((Functor.mapHomotopyCategoryPlusSingleFunctor F 0).inv.app X)).symm
-  have hF' := (F'.rightDerivedFunctorPlusUnit.naturality
+  have hF' := (F'.rightDerivedFunctorPlusUnith.naturality
     ((Functor.mapHomotopyCategoryPlusSingleFunctor G' 0).inv.app X)).symm
   simp only [Functor.comp_map] at hd hG hF'
   have ha := (derived_fac_app F F' G G' τ (exactUnitIso G)
@@ -778,11 +778,11 @@ functor `G'` moved to the left. -/
 theorem derived_app_singleFunctor' (X : A) :
     (DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusSingleFunctor G 0).inv.app
         (F.obj X)) ≫
-      G.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor B 0).obj (F.obj X)) ≫
+      G.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor B 0).obj (F.obj X)) ≫
       G.rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Qh.map
             ((Functor.mapHomotopyCategoryPlusSingleFunctor F 0).inv.app X) ≫
-          F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X) ≫
+          F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X) ≫
           F.rightDerivedFunctorPlus.map
             ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app X)) ≫
       (derived F F' G G' τ (exactUnitIso G)).app ((DerivedCategory.Plus.singleFunctor A 0).obj X)) ≫
@@ -791,7 +791,7 @@ theorem derived_app_singleFunctor' (X : A) :
     DerivedCategory.Plus.Qh.map ((HomotopyCategory.Plus.singleFunctor D 0).map (τ.app X)) ≫
       DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusSingleFunctor F' 0).inv.app
         (G'.obj X)) ≫
-      F'.rightDerivedFunctorPlusUnit.app
+      F'.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor C 0).obj (G'.obj X)) ≫
       F'.rightDerivedFunctorPlus.map
         ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app (G'.obj X)) := by
@@ -839,7 +839,7 @@ theorem map_rightDerivedZeroUnit_comp_derived (X : A) :
     Stacks.DerivedFunctor.rightDerivedZeroUnit_eq']
   have hnat := (Stacks.DerivedFunctor.exactRightDerivedPlusHomologyIso G 0).inv.naturality
     (DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusSingleFunctor F 0).inv.app X) ≫
-      F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X) ≫
+      F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X) ≫
       F.rightDerivedFunctorPlus.map ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app X))
   have h₂ := Stacks.DerivedFunctor.map_homologyQhSingleIso_hom_comp G (F.obj X)
   have hD := (map_comp₅ (DerivedCategory.Plus.homologyFunctor D 0) _ _ _ _ _).symm.trans

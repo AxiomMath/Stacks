@@ -239,12 +239,12 @@ theorem truncGETower_presentation
     Stacks.DerivedLimit.truncGETower_map_homOfLE_succ _ K n
   have hq (n : ℕ) : q ≫ Pi.π (fun n : ℕ ↦ tower.obj ⟨n⟩) n =
       (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app K :=
-    Pi.lift_π _ n
+    Pi.lift_comp_π _ n
   have hzero : q ≫ T.mor₂ = 0 := by
     show q ≫ diff = 0
     apply Pi.hom_ext
     intro n
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, hq n,
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hq n,
       ← Category.assoc, hq (n + 1), hmap, zero_comp]
     exact sub_eq_zero_of_eq
       (DerivedCategory.TStructure.t.π_natTransTruncGEOfLE_app _ _ (by omega) K).symm
@@ -253,11 +253,11 @@ theorem truncGETower_presentation
   have hIso : IsIso c := isIso_to_isDerivedLimit_truncGETower_of_derivedCategoryB
     S K hK L p ⟨δ, hT⟩ c (fun n ↦ by
       rw [← Category.assoc, ← hc]
-      exact Pi.lift_π _ n)
+      exact Pi.lift_comp_π _ n)
   refine ⟨hprod, L, c, p, δ, hT, ?_, hIso⟩
   intro n
   rw [← Category.assoc, ← hc]
-  exact Pi.lift_π _ n
+  exact Pi.lift_comp_π _ n
 
 /-- Transfer weak Serre membership from the eventual cohomology of an inverse system to a
 presented derived limit of that system. -/
@@ -360,7 +360,7 @@ theorem exists_presented_derivedLimit_map
         Pi.π (fun n : ℕ => tower.obj ⟨n⟩) (n + 1) ≫
           tower.map (homOfLE (Nat.le_succ n)).op) ≫
       Pi.π (fun n : ℕ => tower.obj ⟨n⟩) n) = _
-    simp only [Pi.lift_π]
+    simp only [Pi.lift_comp_π]
     rw [Functor.map_sub]
     simp only [Nat.succ_eq_add_one, homOfLE_leOfHom, Functor.map_comp, Category.assoc,
       limit.lift_π, Fan.mk_pt, Fan.mk_π_app, Preadditive.comp_sub, eπ, sub_right_inj, diff]

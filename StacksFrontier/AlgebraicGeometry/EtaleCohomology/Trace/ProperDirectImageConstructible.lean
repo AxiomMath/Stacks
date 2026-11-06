@@ -143,13 +143,21 @@ theorem isConstructibleEtaleModule_rightDerived_etaleModuleDirectImage_of_isProp
     IsBigSiteConstructibleEtaleModule B (B.obj Y hY) ℤ
       (((etaleModuleDirectImage.{u, 0} ℤ π).rightDerived p).obj M) := by
   have := isWeakSerreClass_isBigSiteConstructibleEtaleModule B (B.obj Y hY) ℤ
-  have : IsNoetherian (B.obj Y hY).obj := ‹IsNoetherian Y›
-  have h := hC (X := B.obj X hX) (Y := B.obj Y hY) π (CompactificationOf.ofProper π) ℤ M
-    hMc hMt p
-  exact (IsBigSiteConstructibleEtaleModule B (B.obj Y hY) ℤ).prop_of_iso
-    ((DerivedCategory.Plus.homologyFunctor _ (p : ℤ)).mapIso
-        ((derivedLowerShriekOfProperIso ℤ π).app _) ≪≫
-      ((Stacks.DerivedIndexing.rightDerivedIso _ p).app M).symm) h
+  have hN : IsNoetherian (B.obj Y hY).obj := ‹IsNoetherian Y›
+  -- the instances are given explicitly: instance search for them times out here
+  have hs : IsSeparated π := IsProper.toIsSeparated
+  have hl : LocallyOfFiniteType π := IsProper.toLocallyOfFiniteType
+  have hq : QuasiCompact π := inferInstance
+  have h : IsBigSiteConstructibleEtaleModule B (B.obj Y hY) ℤ
+      ((DerivedCategory.Plus.homologyFunctor _ (p : ℤ)).obj
+        ((derivedLowerShriek.{u, 0} π (CompactificationOf.ofProper π) ℤ).obj
+          ((DerivedCategory.Plus.singleFunctor _ 0).obj M))) :=
+    @hC (B.obj X hX) (B.obj Y hY) hN π hs hl hq (CompactificationOf.ofProper π) ℤ _ _ M
+      hMc hMt p
+  let e₁ := (DerivedCategory.Plus.homologyFunctor _ (p : ℤ)).mapIso
+    ((derivedLowerShriekOfProperIso ℤ π).app ((DerivedCategory.Plus.singleFunctor _ 0).obj M))
+  let e₂ := ((Stacks.DerivedIndexing.rightDerivedIso (etaleModuleDirectImage.{u, 0} ℤ π) p).app M)
+  exact (IsBigSiteConstructibleEtaleModule B (B.obj Y hY) ℤ).prop_of_iso (e₁ ≪≫ e₂.symm) h
 
 /-- The cohomology sheaves of the restriction of scalars to `ℤ` of an object of
 `D_ctf(X_étale, Λ)`, `Λ` finite and `X` quasi-compact and quasi-separated, are constructible and

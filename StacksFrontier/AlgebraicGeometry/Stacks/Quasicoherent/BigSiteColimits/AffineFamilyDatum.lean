@@ -254,7 +254,6 @@ theorem exists_family_datum_of_baseChange {N : PresheafOfModules.{y} R}
       e (s • y) i j = v₁ i j (s i) • e y i j := by
     intro s y
     induction y with
-    | zero => intro i j; simp
     | tmul t uu =>
       intro i j
       rw [TensorProduct.smul_tmul', smul_eq_mul, he, he, Pi.mul_apply, map_mul, mul_smul]
@@ -285,7 +284,6 @@ theorem exists_family_datum_of_baseChange {N : PresheafOfModules.{y} R}
         Module.Descent.counit A (∀ i, Bi i) (∀ i, N.obj (op (Y i))) x i := by
     intro x
     induction x with
-    | zero => intro i; simp only [map_zero, Pi.zero_apply]
     | tmul s uu =>
       intro i
       rw [he, hsmδ, hwδ, N.restrictₛₗ_restrictₛₗ_op, hδ₂, Module.Descent.counit_tmul]

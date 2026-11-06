@@ -117,7 +117,7 @@ theorem exists_isColimit_isConstructibleOnEveryBigSite_mono {X : Scheme.{u}} [Is
     { pt := F
       ι := c₁.ι ≫ (Functor.const I).map (e.counit.app F) }
   have hc₂ : IsColimit c₂ :=
-    (isColimitOfPreserves e.functor hc').ofIsoColimit (Cocones.ext (e.counitIso.app F) fun _ ↦ rfl)
+    (isColimitOfPreserves e.functor hc').ofIsoColimit (Cocone.ext (e.counitIso.app F) fun _ ↦ rfl)
   obtain ⟨D, ι, ⟨hc⟩, hD⟩ := exists_isColimit_mono_of_isColimit hc₂
   refine ⟨I, hI, hfilt, D, ι, ⟨hc⟩, fun j ↦ ⟨?_, (hD j).1⟩⟩
   obtain ⟨p, _⟩ := (hD j).2

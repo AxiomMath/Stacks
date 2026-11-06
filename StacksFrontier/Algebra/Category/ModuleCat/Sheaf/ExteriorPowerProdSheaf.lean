@@ -466,9 +466,9 @@ theorem span_germWedgeSet_eq_top (p : ℕ) (x : ↥X) :
     | mem w hw =>
         obtain ⟨v, rfl⟩ := hw
         exact Submodule.subset_span (symm_ιMulti_mem_germWedgeSet AF p x v)
-    | zero => rw [map_zero]; exact Submodule.zero_mem _
-    | add a b _ _ ha hb => rw [map_add]; exact Submodule.add_mem _ ha hb
-    | smul r a _ ha => rw [map_smul]; exact Submodule.smul_mem _ r ha
+    | zero => rw [LinearEquiv.map_zero]; exact Submodule.zero_mem _
+    | add a b _ _ ha hb => rw [LinearEquiv.map_add]; exact Submodule.add_mem _ ha hb
+    | smul r a _ ha => rw [LinearEquiv.map_smul]; exact Submodule.smul_mem _ r ha
   have hz := hspan (AF.exteriorPowerStalkEquiv p x z)
     (by rw [exteriorPower.ιMulti_span]; exact Submodule.mem_top)
   rwa [LinearEquiv.symm_apply_apply] at hz

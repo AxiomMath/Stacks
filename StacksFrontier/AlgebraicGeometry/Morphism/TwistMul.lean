@@ -368,9 +368,9 @@ public theorem relativeTwistMap_mul_of_sections (m n : ℤ) (h : IsMultiplicativ
           ((ψ.relativeMapDomain.toScheme.toRingedSpace)).IsSheaf⟩)).map
           (((relativeTwistMap ψ m), (relativeTwistMap ψ n)) : (_, _) ⟶ (_, _))) ≫
         pullbackRelativeTwistMul B ψ.relativeMapDomain.ι m n := by
-  refine (cancel_epi ((Stacks.PullbackTensorIso.pullbackTensorIso
-    (relativeMapHom ψ).toLRSHom.toShHom).hom.app
-      (relativeTwist A m, relativeTwist A n))).mp ?_
+  refine (Iso.cancel_iso_hom_left ((Stacks.PullbackTensorIso.pullbackTensorIso
+    (relativeMapHom ψ).toLRSHom.toShHom).app
+      (relativeTwist A m, relativeTwist A n)) _ _).mp ?_
   refine Eq.trans (Eq.trans (Category.assoc _ _ _).symm
     (congrArg (fun k => k ≫ relativeTwistMap ψ (m + n))
       (comparison_comp_pullbackRelativeTwistMul A (relativeMapHom ψ) m n))) ?_

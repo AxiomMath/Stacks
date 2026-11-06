@@ -146,7 +146,7 @@ public theorem hasNodalQuadraticRelation_of_deltaInvariant_eq_one_of_isPrincipal
   obtain ⟨beta, alpha, hrel'⟩ := hdec (t ^ 2)
   have hrel : algebraMap A B beta + algebraMap A B alpha * t = t ^ 2 := hrel'.symm
   have hrelQ : s ^ 2 = residue A alpha • s + residue A beta • (1 : quadraticAlgebra A) := by
-    rw [hsdef, ← map_pow, ← hrel, map_add, quotient_mk_algebraMap_integralClosure,
+    rw [hsdef, ← map_pow, ← hrel, RingHom.map_add, quotient_mk_algebraMap_integralClosure,
       quotient_mk_algebraMap_mul_integralClosure]
     ring
   have hnt : Nontrivial (quadraticAlgebra A) := Ideal.Quotient.nontrivial_iff.mpr
@@ -223,7 +223,7 @@ public theorem hasNodalQuadraticRelation_of_deltaInvariant_eq_one_of_isPrincipal
     · exact Submodule.subset_span ⟨⟨1⟩, rfl⟩
   refine (hasNodalQuadraticRelation_iff_exists_basis A).mpr
     ⟨x', y', Module.Basis.mk (hcotli.comp (fun i : BinaryIndex (ResidueField A) => i.down)
-      (fun a b h => ULift.ext _ _ h)) hcotsp, -beta, -alpha, 1, ?_, ?_, ?_, ?_⟩
+      (fun a b h => ULift.ext h)) hcotsp, -beta, -alpha, 1, ?_, ?_, ?_, ?_⟩
   · rw [Module.Basis.mk_apply]; rfl
   · rw [Module.Basis.mk_apply]; rfl
   · intro hz

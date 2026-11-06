@@ -48,7 +48,7 @@ private theorem identityPoint_fixed_galoisAction
     (k K : Type u) [Field k] [Field K] [Algebra k K]
     (G : Grp (Over (Spec (.of k)))) (σ : K ≃ₐ[k] K) :
     Scheme.forget.map
-      ((galoisActionOnBaseChange k K G.X).ρ (MulOpposite.op σ))
+      ((galoisActionOnBaseChange k K G.X).ρ (MulOpposite.op σ)).asHom
       (identityPoint K ((Over.pullback
         (Spec.map (CommRingCat.ofHom (algebraMap k K)))).mapGrp.obj G)) =
     identityPoint K ((Over.pullback
@@ -76,7 +76,7 @@ private theorem identityPoint_fixed_galoisAction
   have hsnd : unit ≫ pullback.snd G.X.hom g = 𝟙 (Spec (.of K)) :=
     Over.Hom.w (η[Over.mk (pullback.snd G.X.hom g)])
   let s := Spec.map (CommRingCat.ofHom σ.toRingEquiv.toRingHom)
-  let a := (galoisActionOnBaseChange k K G.X).ρ (MulOpposite.op σ)
+  let a := (galoisActionOnBaseChange k K G.X).ρ (MulOpposite.op σ) |>.asHom
   have hfstA : a ≫ pullback.fst G.X.hom g = pullback.fst G.X.hom g := by
     dsimp [a, galoisActionOnBaseChange]
     rw [pullback.map, pullback.lift_fst]
@@ -142,11 +142,11 @@ theorem geometricallyIrreducible_irreducibleComponent_of_identity
   let Act := galoisActionOnGeometricIrreducibleComponents k K G₀.X
   let Cbar : Act.V := ⟨Cₖ.1, Cₖ.2⟩
   have hfixed : ∀ σ : MulOpposite (K ≃ₐ[k] K),
-      ConcreteCategory.hom (Act.ρ σ) Cbar = Cbar := by
+      ConcreteCategory.hom (Act.ρ σ).asHom Cbar = Cbar := by
     intro σ
-    let Y : irreducibleComponents Gₖ.X.left := ConcreteCategory.hom (Act.ρ σ) Cbar
+    let Y : irreducibleComponents Gₖ.X.left := ConcreteCategory.hom (Act.ρ σ).asHom Cbar
     have hY : identityPoint K Gₖ ∈ (Y : Set Gₖ.X.left) := by
-      show identityPoint K Gₖ ∈ (ConcreteCategory.hom (Act.ρ σ) Cbar).1
+      show identityPoint K Gₖ ∈ (ConcreteCategory.hom (Act.ρ σ).asHom Cbar).1
       rw [galoisActionOnGeometricIrreducibleComponents_ρ_apply_coe]
       exact ⟨identityPoint K Gₖ, hCₖ, by
         simpa [G₀, Gₖ, Act] using identityPoint_fixed_galoisAction k K G₀ σ.unop⟩

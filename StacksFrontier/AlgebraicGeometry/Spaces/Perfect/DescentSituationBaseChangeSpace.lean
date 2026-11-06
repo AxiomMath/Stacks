@@ -55,6 +55,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (hT : IsAlgebraicSpace B S hS T) (hTqc : IsQuasiCompactSpace B S hS T)
   (hTqs : IsAbsolutelyQuasiSeparated B S hS hZ T) (u : T ⟶ Y)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_DescentSituationBaseChangeSpace :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_DescentSituationBaseChangeSpace
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A descent situation base changed along a quasi-compact quasi-separated algebraic space
 over `Y`.** If the stages of the situation map compatibly to a quasi-separated algebraic space
 `Y`, and `u : T ⟶ Y` has quasi-compact quasi-separated algebraic-space source, then the base

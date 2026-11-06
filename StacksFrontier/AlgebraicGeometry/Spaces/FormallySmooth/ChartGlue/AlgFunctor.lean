@@ -48,13 +48,13 @@ def algFunctor : P.FullSubcategory ⥤ Type u where
     f.app _ g = Y.map (specToT B S hS T' C.obj (hP C)).op y}
   map {C D} h := TypeCat.ofHom fun g ↦ ⟨X.map (specPMap B S hS T' P hP h).op g.1, by
     rw [f.naturality_apply (specPMap B S hS T' P hP h).op g.1, g.2,
-      ← FunctorToTypes.map_comp_apply, ← op_comp, specMap_specToT]⟩
+      ← Functor.map_comp_apply, ← op_comp, specMap_specToT]⟩
   map_id C := by
     apply ConcreteCategory.hom_ext
     intro g
     apply Subtype.ext
     change X.map (specMap B S hS T' (hP C) (hP C) (AlgHom.id _ _)).op g.1 = g.1
-    rw [specMap_id, op_id, FunctorToTypes.map_id_apply]
+    rw [specMap_id, op_id, Functor.map_id_apply]
   map_comp {C D E} h k := by
     apply ConcreteCategory.hom_ext
     intro g
@@ -62,7 +62,7 @@ def algFunctor : P.FullSubcategory ⥤ Type u where
     change X.map (specMap B S hS T' (hP C) (hP E) (k.hom.hom.comp h.hom.hom)).op g.1 =
       X.map (specMap B S hS T' (hP D) (hP E) k.hom.hom).op
         (X.map (specMap B S hS T' (hP C) (hP D) h.hom.hom).op g.1)
-    rw [specMap_comp B S hS T' (hP C) (hP D) (hP E), op_comp, FunctorToTypes.map_comp_apply]
+    rw [specMap_comp B S hS T' (hP C) (hP D) (hP E), op_comp, Functor.map_comp_apply]
 
 end AlgebraicGeometry.Space.ChartGlue
 

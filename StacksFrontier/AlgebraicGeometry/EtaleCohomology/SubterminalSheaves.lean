@@ -485,7 +485,7 @@ private theorem supportSection_on_open (B : BigEtaleSite.{u})
     exact F.obj.map e.hom.op (localSection i)
   have hcompatible : family.Compatible := by
     intro _ _ T _ _ _ _ _ _ _
-    exact (section_subsingleton
+    exact (section_subsingleton.{_, v, _}
       (SmallEtale.topology B S hS) F hF T).elim _ _
   exact ⟨hsf.amalgamate family hcompatible⟩
 
@@ -703,7 +703,7 @@ private noncomputable def supportSheafificationIso
     (Classical.choice (supportOpen_has_section B S hS F hF))
   have hαβ : α ≫ β = 𝟙 _ := by
     ext U x
-    exact (section_subsingleton (SmallEtale.topology B S hS)
+    exact (section_subsingleton.{_, v, _} (SmallEtale.topology B S hS)
       F hF U.unop).elim _ _
   have hβα : β ≫ α = 𝟙 _ := by
     ext U x

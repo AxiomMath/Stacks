@@ -300,7 +300,7 @@ theorem sum_properChowPushforward_chowGroupRestrict_dimPart [CompactSpace X] (m 
     ⟨fun i j hij ↦ by
       simpa only [Scheme.Opens.opensRange_ι] using
         (isClopenDecomposition_dimPart sX).disjoint i.down j.down
-          fun h ↦ hij (ULift.ext _ _ h), by
+          fun h ↦ hij (ULift.ext h), by
       simp only [Scheme.Opens.opensRange_ι]
       exact (ULift.down_surjective.iSup_comp (dimPart sX)).trans
         (isClopenDecomposition_dimPart sX).iSup_eq_top⟩ m _ fun i ↦ ?_

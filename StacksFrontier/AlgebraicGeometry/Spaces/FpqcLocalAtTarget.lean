@@ -537,7 +537,7 @@ private theorem respectsIso_of_coprod
     let iX : ∀ i : Fin 1, X₁ i ⟶ X := fun _ => e.inv
     let iY : ∀ i : Fin 1, Y₁ i ⟶ Z := fun _ => 𝟙 Z
     exact hcoprod 1 X₁ Y₁ (fun _ => f) X Z iX iY (e.hom ≫ f)
-      (Cofan.isColimitMkOfUnique e.symm (Fin 1))
+      (Cofan.isColimitMkOfUnique e (Fin 1))
       (Cofan.isColimitMkOfUnique (Iso.refl Z) (Fin 1))
       (by
         intro i
@@ -551,7 +551,7 @@ private theorem respectsIso_of_coprod
     let iY : ∀ i : Fin 1, Y₁ i ⟶ Z := fun _ => e.hom
     exact hcoprod 1 X₁ Y₁ (fun _ => f) X Z iX iY (f ≫ e.hom)
       (Cofan.isColimitMkOfUnique (Iso.refl X) (Fin 1))
-      (Cofan.isColimitMkOfUnique e (Fin 1))
+      (Cofan.isColimitMkOfUnique e.symm (Fin 1))
       (by
         intro i
         show f ≫ e.hom = 𝟙 X ≫ (f ≫ e.hom)

@@ -70,7 +70,7 @@ lemma epi_pi_lift_comp {I : Type u} {X Y : ModuleCat.{u} R} (f : X ⟶ Y) [Epi f
   funext g
   change (ModuleCat.piIsoPi (fun _ : I => Y)).hom _ g =
     (ModuleCat.piIsoPi (fun _ : I => Y)).hom y g
-  rw [key, ← hx g, ← key' X x g, ← ModuleCat.comp_apply, Pi.lift_π, ModuleCat.comp_apply]
+  rw [key, ← hx g, ← key' X x g, ← ModuleCat.comp_apply, Pi.lift_comp_π, ModuleCat.comp_apply]
 
 /-- The right adjoint of evaluation at an object, `M ↦ (j ↦ ∏_{j ⟶ k} M)`, preserves
 epimorphisms of modules, epimorphisms of diagrams being pointwise. -/

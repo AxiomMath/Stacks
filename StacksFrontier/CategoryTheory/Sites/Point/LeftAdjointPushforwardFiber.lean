@@ -150,7 +150,7 @@ lemma fiberFamilyToPushforwardSkyscraperApp_π (f : ∀ i, (Ψ i).sheafFiber.obj
         pushforwardSkyscraperπ K G Φ M W (e W ⟨i, w⟩) =
       (Ψ i).toPresheafFiber W w F.obj ≫ f i := by
   change Pi.lift _ ≫ Pi.π _ (e W ⟨i, w⟩) = _
-  rw [Pi.lift_π, Equiv.symm_apply_apply]
+  rw [Pi.lift_comp_π, Equiv.symm_apply_apply]
 
 /-- A family of maps out of the fibres at the `Ψ i` assembles into a map to the direct image of
 the skyscraper sheaf. -/

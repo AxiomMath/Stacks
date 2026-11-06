@@ -230,7 +230,7 @@ theorem X_pow_dvd_of_mul_eq (a b : planeRing R) (m n : ℕ)
   · exact MvPolynomial.coeff_modMonomial_of_le a hd
   · rw [MvPolynomial.coeff_modMonomial_of_not_le a hd]
     have hd0 : d 0 < m := by simpa only [Finsupp.single_le_iff, not_le] using hd
-    have hz := congrArg (MvPolynomial.coeff (d + Finsupp.single 1 n)) h
+    have hz := congrArg (fun p => p.coeff (d + Finsupp.single 1 n)) h
     rw [MvPolynomial.X_pow_eq_monomial, MvPolynomial.X_pow_eq_monomial,
       MvPolynomial.coeff_mul_monomial, mul_one] at hz
     have hnle : ¬ Finsupp.single (0 : Fin 2) m ≤ d + Finsupp.single 1 n := by

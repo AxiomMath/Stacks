@@ -211,7 +211,7 @@ def toRightDerivedPlus {X : C} (J : InjectiveResolution X) :
     DerivedCategory.Plus.Qh.obj (G.mapHomotopyCategoryPlus.obj
         ((HomotopyCategory.Plus.quotient C).obj J.plusObj)) ⟶
       G.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor C 0).obj X) :=
-  G.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient C).obj J.plusObj) ≫
+  G.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient C).obj J.plusObj) ≫
     G.rightDerivedFunctorPlus.map (DerivedCategory.Plus.qhQIso J.plusObj).hom ≫
     G.rightDerivedFunctorPlus.map J.plusQIso.inv
 
@@ -230,7 +230,7 @@ lemma toRightDerivedPlus_naturality {X Y : C} {f : X ⟶ Y} {J : InjectiveResolu
         ((HomotopyCategory.Plus.quotient C).map φ.plusHom)) ≫ toRightDerivedPlus G J' =
       toRightDerivedPlus G J ≫
         G.rightDerivedFunctorPlus.map ((DerivedCategory.Plus.singleFunctor C 0).map f) := by
-  have hn := G.rightDerivedFunctorPlusUnit.naturality
+  have hn := G.rightDerivedFunctorPlusUnith.naturality
     ((HomotopyCategory.Plus.quotient C).map φ.plusHom)
   dsimp only [Functor.comp_map] at hn
   dsimp only [toRightDerivedPlus]
@@ -263,7 +263,7 @@ identification of the resolution with the object it resolves. -/
 lemma toRightDerived_eq {X : C} (J : InjectiveResolution X) :
     J.toRightDerived G =
       (DerivedCategory.quotientCompQhIso D).inv.app _ ≫
-      (G.rightDerivedFunctorPlusUnit.app
+      (G.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient C).obj J.plusObj)).hom ≫
       (G.rightDerivedFunctorPlus.map (ObjectProperty.homMk
         ((DerivedCategory.quotientCompQhIso C).hom.app J.cochainComplex))).hom ≫

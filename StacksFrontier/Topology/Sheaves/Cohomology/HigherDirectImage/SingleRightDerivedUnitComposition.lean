@@ -192,17 +192,17 @@ of `(ΦM)[0]` cancelled: it relates the unit of `RΨ` at `(ΦM)[0]` to the unit 
 private lemma unit_bridge (M : A) :
     DerivedCategory.Plus.Qh.map
           (Ψ.mapHomotopyCategoryPlus.map (singleMapPlusHom Φ M)) ≫
-        (Ψ.rightDerivedFunctorPlusUnit.app
+        (Ψ.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.singleFunctor B 0).obj (Φ.obj M)) ≫
           Ψ.rightDerivedFunctorPlus.map
               ((Functor.singleFunctorPlusIsoCompQh (A := B) 0).inv.app (Φ.obj M)) ≫
             Ψ.rightDerivedFunctorPlus.map
               ((Functor.mapSingleFunctorCompQhIso Φ).inv.app M)) =
-      Ψ.rightDerivedFunctorPlusUnit.app
+      Ψ.rightDerivedFunctorPlusUnith.app
         (Φ.mapHomotopyCategoryPlus.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) :=
   (Category.assoc _ _ _).symm.trans
     ((CategoryTheory.eq_whisker
-          (Ψ.rightDerivedFunctorPlusUnit.naturality (singleMapPlusHom Φ M))
+          (Ψ.rightDerivedFunctorPlusUnith.naturality (singleMapPlusHom Φ M))
           (Ψ.rightDerivedFunctorPlus.map
               ((Functor.singleFunctorPlusIsoCompQh (A := B) 0).inv.app (Φ.obj M)) ≫
             Ψ.rightDerivedFunctorPlus.map
@@ -217,18 +217,18 @@ the identification for `Ψ`, the unit of `RΨ` at `(ΦM)[0]`, and the two identi
 `(ΦM)[0]`. -/
 private lemma unit_star (M : A) :
     (Functor.mapSingleFunctorCompQhIso Ψ).inv.app (Φ.obj M) ≫
-        (Ψ.rightDerivedFunctorPlusUnit.app
+        (Ψ.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.singleFunctor B 0).obj (Φ.obj M)) ≫
           Ψ.rightDerivedFunctorPlus.map
               ((Functor.singleFunctorPlusIsoCompQh (A := B) 0).inv.app (Φ.obj M)) ≫
             Ψ.rightDerivedFunctorPlus.map
               ((Functor.mapSingleFunctorCompQhIso Φ).inv.app M)) =
       (Functor.mapSingleFunctorCompQhIso (Φ ⋙ Ψ)).inv.app M ≫
-        Ψ.rightDerivedFunctorPlusUnit.app
+        Ψ.rightDerivedFunctorPlusUnith.app
           (Φ.mapHomotopyCategoryPlus.obj
             ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) :=
   (CategoryTheory.eq_whisker (mapSingleFunctorCompQhIso_inv_app_comp_app Φ Ψ M).symm
-        (Ψ.rightDerivedFunctorPlusUnit.app
+        (Ψ.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.singleFunctor B 0).obj (Φ.obj M)) ≫
           Ψ.rightDerivedFunctorPlus.map
               ((Functor.singleFunctorPlusIsoCompQh (A := B) 0).inv.app (Φ.obj M)) ≫
@@ -240,26 +240,26 @@ private lemma unit_star (M : A) :
 /-- The factorization of the comparison of [Stacks, Tag 05T2] through the unit of `R(Ψ ∘ Φ)`, at
 the complex `M[0]` of `K⁺(𝒜)`, with its coherence isomorphism cancelled. -/
 private lemma unit_fac (M : A) :
-    (Φ ⋙ Ψ).rightDerivedFunctorPlusUnit.app
+    (Φ ⋙ Ψ).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor A 0).obj M) ≫
         (Functor.rightDerivedFunctorPlusComp Φ Ψ).app
           (DerivedCategory.Plus.Qh.obj
             ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) =
-      Ψ.rightDerivedFunctorPlusUnit.app
+      Ψ.rightDerivedFunctorPlusUnith.app
           (Φ.mapHomotopyCategoryPlus.obj
             ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) ≫
         Ψ.rightDerivedFunctorPlus.map
-          (Φ.rightDerivedFunctorPlusUnit.app
+          (Φ.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) :=
   (Functor.rightDerivedFunctorPlusComp_fac_app Φ Ψ
       ((HomotopyCategory.Plus.singleFunctor A 0).obj M)).trans
     (Functor.qhMapCompIsoReflInv_comp Φ Ψ
       ((HomotopyCategory.Plus.singleFunctor A 0).obj M)
-      (Ψ.rightDerivedFunctorPlusUnit.app
+      (Ψ.rightDerivedFunctorPlusUnith.app
           (Φ.mapHomotopyCategoryPlus.obj
             ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) ≫
         Ψ.rightDerivedFunctorPlus.map
-          (Φ.rightDerivedFunctorPlusUnit.app
+          (Φ.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.singleFunctor A 0).obj M))))
 
 /-- **The unit `Φ(-)[0] ⟶ RΦ((-)[0])` is compatible with composition of the functors being
@@ -279,18 +279,18 @@ theorem singleRightDerivedUnit_comp_app (M : A) :
       (singleRightDerivedUnit Ψ).app (Φ.obj M) ≫
         Ψ.rightDerivedFunctorPlus.map ((singleRightDerivedUnit Φ).app M) := by
   have hL : ((Functor.mapSingleFunctorCompQhIso (Φ ⋙ Ψ)).inv.app M ≫
-        (Φ ⋙ Ψ).rightDerivedFunctorPlusUnit.app
+        (Φ ⋙ Ψ).rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.singleFunctor A 0).obj M) ≫
           (Φ ⋙ Ψ).rightDerivedFunctorPlus.map
             ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M)) ≫
       (Functor.rightDerivedFunctorPlusComp Φ Ψ).app
           ((DerivedCategory.Plus.singleFunctor A 0).obj M) =
       (Functor.mapSingleFunctorCompQhIso (Φ ⋙ Ψ)).inv.app M ≫
-        Ψ.rightDerivedFunctorPlusUnit.app
+        Ψ.rightDerivedFunctorPlusUnith.app
             (Φ.mapHomotopyCategoryPlus.obj
               ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) ≫
           Ψ.rightDerivedFunctorPlus.map
-              (Φ.rightDerivedFunctorPlusUnit.app
+              (Φ.rightDerivedFunctorPlusUnith.app
                 ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) ≫
             Ψ.rightDerivedFunctorPlus.map
               (Φ.rightDerivedFunctorPlus.map
@@ -308,25 +308,25 @@ theorem singleRightDerivedUnit_comp_app (M : A) :
                         ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M))).trans
                 (Category.assoc _ _ _))))))
   have hR : ((Functor.mapSingleFunctorCompQhIso Ψ).inv.app (Φ.obj M) ≫
-        Ψ.rightDerivedFunctorPlusUnit.app
+        Ψ.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.singleFunctor B 0).obj (Φ.obj M)) ≫
           Ψ.rightDerivedFunctorPlus.map
             ((Functor.singleFunctorPlusIsoCompQh (A := B) 0).inv.app (Φ.obj M))) ≫
       Ψ.rightDerivedFunctorPlus.map
         ((Functor.mapSingleFunctorCompQhIso Φ).inv.app M ≫
-          Φ.rightDerivedFunctorPlusUnit.app
+          Φ.rightDerivedFunctorPlusUnith.app
               ((HomotopyCategory.Plus.singleFunctor A 0).obj M) ≫
             Φ.rightDerivedFunctorPlus.map
               ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M)) =
       ((Functor.mapSingleFunctorCompQhIso Ψ).inv.app (Φ.obj M) ≫
-          Ψ.rightDerivedFunctorPlusUnit.app
+          Ψ.rightDerivedFunctorPlusUnith.app
               ((HomotopyCategory.Plus.singleFunctor B 0).obj (Φ.obj M)) ≫
             Ψ.rightDerivedFunctorPlus.map
                 ((Functor.singleFunctorPlusIsoCompQh (A := B) 0).inv.app (Φ.obj M)) ≫
               Ψ.rightDerivedFunctorPlus.map
                 ((Functor.mapSingleFunctorCompQhIso Φ).inv.app M)) ≫
         Ψ.rightDerivedFunctorPlus.map
-            (Φ.rightDerivedFunctorPlusUnit.app
+            (Φ.rightDerivedFunctorPlusUnith.app
               ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) ≫
           Ψ.rightDerivedFunctorPlus.map
             (Φ.rightDerivedFunctorPlus.map
@@ -335,7 +335,7 @@ theorem singleRightDerivedUnit_comp_app (M : A) :
   refine hL.trans (hR.trans ?_).symm
   exact ((CategoryTheory.eq_whisker (unit_star Φ Ψ M)
         (Ψ.rightDerivedFunctorPlus.map
-            (Φ.rightDerivedFunctorPlusUnit.app
+            (Φ.rightDerivedFunctorPlusUnith.app
               ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) ≫
           Ψ.rightDerivedFunctorPlus.map
             (Φ.rightDerivedFunctorPlus.map

@@ -187,7 +187,8 @@ theorem schemeTheoreticImageSubfunctor_eq_top_of_presentation {FX F : BigFppfOve
   have h₂ : schemeTheoreticImageSubfunctor B S hS (eX.inv ≫ yoneda.map a) = ⊤ := by
     rw [schemeTheoreticImageSubfunctor_congr_range B S hS _ (yoneda.map a)
       (isAlgebraicSpace_yoneda B S hS F) (by
-        rw [Subfunctor.range_comp, Subfunctor.range_eq_top eX.inv, Subfunctor.image_top])]
+        rw [Subfunctor.range_comp, (Subfunctor.epi_iff_range_eq_top eX.inv).1
+          (@IsIso.epi_of_iso _ _ _ _ eX.inv (Iso.isIso_inv eX)), Subfunctor.image_top])]
     exact h₁
   have hc : c = (eX.inv ≫ yoneda.map a) ≫ e.hom := by
     rw [Category.assoc, ha, Iso.inv_hom_id_assoc]

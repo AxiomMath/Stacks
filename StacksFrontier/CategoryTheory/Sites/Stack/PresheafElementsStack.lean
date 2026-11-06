@@ -72,7 +72,7 @@ noncomputable def objPresheafIso (P : Cᵒᵖ ⥤ Type vC) :
     (by
       intro U V f
       ext x
-      refine ULift.ext _ _ ?_
+      refine ULift.ext ?_
       exact discreteFiberEquiv_eq_map_of_isHomLift P f.unop x
         (Functor.pullbackFiber (discreteProjection P) x f.unop)
         (Functor.IsPreFibered.pullbackMap x.2 f.unop)

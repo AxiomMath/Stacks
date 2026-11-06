@@ -83,6 +83,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+private local instance (priority := high) hasPullbacks_presheaf_UniversalPurityOfFlatPure :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+private local instance (priority := high) hasPullback_presheaf_UniversalPurityOfFlatPure
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_UniversalPurityOfFlatPure B S hS).has_limit _
+
 /-- **The base change of a lift into a fibre product.** Let `L : U ⟶ Y₁ ×_Y X` be induced by
 `u : U ⟶ Y₁` and `e : U ⟶ X`, let `k : T ⟶ Y₁`, and let `R = U ×_{Y₁} T` (any pullback square
 `(a, b)`). Then the square formed by `a : R ⟶ U`, the induced `R ⟶ T ×_Y X`, `L`, and the induced

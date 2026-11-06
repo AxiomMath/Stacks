@@ -79,6 +79,15 @@ open Stacks.Sheaves Stacks.Sheaves.LocalGeneration
 
 universe v u v' u' w w'
 
+/-- Binary products of sheaves of sets, supplied directly (the term instance search finds
+upstream): here the search for them wanders into limits of presheaves of rings and times
+out. -/
+local instance (priority := high) hasBinaryProduct_sheaf_type {C : Type u} [Category.{v} C]
+    {J : GrothendieckTopology C} (X Y : Sheaf J (Type w)) :
+    HasBinaryProduct X Y :=
+  @instHasLimitOfHasLimitsOfShape _ _ _ _
+    (hasLimitsOfShape_discrete (C := Sheaf J (Type w)) WalkingPair) (pair X Y)
+
 /-! ### A linear combination of relations is a relation -/
 
 section Combination

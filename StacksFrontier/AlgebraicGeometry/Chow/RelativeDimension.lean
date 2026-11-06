@@ -3,6 +3,7 @@ module
 public import StacksFrontier.Topology.Dimension.DimensionFunctionIsCatenary
 public import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
 public import Mathlib.FieldTheory.FinTrdeg
+public import Mathlib.RingTheory.KrullDimension.Field
 public import StacksFrontier.AlgebraicGeometry.Chow.Vocabulary
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FiniteType.DimensionFormula
 public import StacksFrontier.AlgebraicGeometry.Variety.Defs.Dimension.NoetherianFibre
@@ -120,7 +121,7 @@ private lemma vanishingIdeal_closure_singleton_map {X Y : Scheme.{u}}
 
 /-- The closure of a point, as a closed subscheme, is integral: it is reduced and its
 underlying space is irreducible. -/
-private lemma pointClosureSubscheme_isIntegral {X : Scheme.{u}} (x : X) :
+lemma pointClosureSubscheme_isIntegral {X : Scheme.{u}} (x : X) :
     IsIntegral (Scheme.IdealSheafData.vanishingIdeal
       (TopologicalSpace.Closeds.closure ({x} : Set X))).subscheme := by
   let I := Scheme.IdealSheafData.vanishingIdeal

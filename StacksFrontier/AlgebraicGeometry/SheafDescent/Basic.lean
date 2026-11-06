@@ -71,7 +71,7 @@ Everything is indexed by `structureRingPresheaf O` rather than by
 * [Stacks Project, Tag 05NA](https://stacks.math.columbia.edu/tag/05NA)
 -/
 
-@[expose] public section
+@[expose] public noncomputable section
 
 open CategoryTheory MonoidalCategory Limits Opposite Stacks.SheafOfModules.TensorSheafification
 
@@ -240,6 +240,8 @@ noncomputable def dual : PresheafOfModules.{max u v w} (structureRingPresheaf O)
   map_comp f g := ModuleCat.hom_ext (LinearMap.ext fun φ ↦ DualSection.ext_app fun W h m ↦
     congrArg (fun k ↦ φ.app W k m) (Category.assoc h g.unop f.unop).symm)
 
+set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in
+set_option backward.isDefEq.respectTransparency false in
 /-- The evaluation morphism from `P` tensored with its dual to the monoidal unit: a section is
 evaluated at the identity of the object over which it lives. -/
 noncomputable def ev :
@@ -247,11 +249,10 @@ noncomputable def ev :
   app U := ModuleCat.MonoidalCategory.tensorLift
     (fun (m : P.obj U) (φ : DualSection O P U) ↦ φ.app U.unop (𝟙 U.unop) m)
     (fun m m' _ ↦ map_add _ m m') (fun a m _ ↦ map_smul _ a m) (fun _ _ _ ↦ rfl)
-    (fun a m φ ↦ by
-      change (structureRingPresheaf O).map (𝟙 U.unop).op a • φ.app U.unop (𝟙 U.unop) m =
-        a • φ.app U.unop (𝟙 U.unop) m
-      rw [ringMap_id_apply])
-  naturality {U V} f := ModuleCat.MonoidalCategory.tensor_ext fun m φ ↦ by
+    (fun a m φ ↦ (DualSection.smul_app (O := O) (P := P) a φ U.unop (𝟙 U.unop) m).trans
+      (by rw [ringMap_id_apply]))
+  naturality {U V} f := ModuleCat.MonoidalCategory.tensor_ext
+      fun (m : P.obj U) (φ : DualSection O P U) ↦ by
     have h := φ.naturality (𝟙 U.unop) f.unop m
     rw [Category.comp_id] at h
     change φ.app _ (𝟙 V.unop ≫ f.unop) (P.map f.unop.op m) =
@@ -346,6 +347,8 @@ theorem evInv_ev_tmul (m : P.obj (op U)) (φ : DualSection O P (op U)) :
     map_smul (TensorProduct.mk _ _ _ m) _ t.dualSection
   rw [hsym, ← TensorProduct.smul_tmul', ← hmk, ← hφ]
 
+set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in
+set_option backward.isDefEq.respectTransparency false in
 /-- Evaluation on sections over `U` is an isomorphism, as soon as `P` is trivialized over `U`. -/
 noncomputable def evAppEquiv :
     ((P ⊗ dual O P).obj (op U) : Type max u v w)
@@ -354,9 +357,12 @@ noncomputable def evAppEquiv :
   LinearEquiv.ofLinearMap ((ev O P).app (op U)).hom
     { toFun := fun r ↦ (t.θ U (𝟙 U)).symm r ⊗ₜ t.dualSection
       map_add' := fun r s ↦ by rw [map_add]; exact TensorProduct.add_tmul _ _ _
-      map_smul' := fun a r ↦ by rw [map_smul]; exact (TensorProduct.smul_tmul' _ _ _).symm }
-    (LinearMap.ext fun r ↦ (t.θ U (𝟙 U)).apply_symm_apply r)
-    (TensorProduct.ext' fun m φ ↦ t.evInv_ev_tmul m φ)
+      map_smul' := fun a r ↦ by rw [map_smul]; rfl }
+    (LinearMap.ext fun r ↦ by exact (t.θ U (𝟙 U)).apply_symm_apply r)
+    (LinearMap.ext fun x ↦ by
+      induction x using TensorProduct.inductionOn with
+      | tmul m φ => exact t.evInv_ev_tmul m φ
+      | add x y hx hy => rw [map_add, map_add, hx, hy])
 
 include t in
 /-- Evaluation on sections over `U` is bijective when `P` is trivialized over `U`. -/

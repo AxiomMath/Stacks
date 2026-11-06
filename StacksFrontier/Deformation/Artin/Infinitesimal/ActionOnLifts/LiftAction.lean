@@ -31,7 +31,6 @@ attribute [local implicit_reducible] Deformation.Artin.squareZeroRing
   CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.ChoiceOfPullbacks.pullbackFunctor
-  CategoryTheory.Under.post
 
 universe u v w
 
@@ -674,30 +673,30 @@ private theorem map_add_of_interchange (G : SiteModule A B ⥤ Type w)
       E (G.map (siteModuleInl A B hA M M) a) = (a, one M) := by
     intro a
     refine Prod.ext ((hEfst _).trans ?_) ((hEsnd _).trans ?_)
-    · rw [← FunctorToTypes.map_comp_apply, siteModuleInl_comp_fst,
-        FunctorToTypes.map_id_apply]
-    · rw [← FunctorToTypes.map_comp_apply, siteModuleInl_comp_snd]
+    · rw [← Functor.map_comp_apply, siteModuleInl_comp_fst,
+        Functor.map_id_apply]
+    · rw [← Functor.map_comp_apply, siteModuleInl_comp_snd]
       exact hmap_zero a
   have hinr : ∀ b : G.obj M,
       E (G.map (siteModuleInr A B hA M M) b) = (one M, b) := by
     intro b
     refine Prod.ext ((hEfst _).trans ?_) ((hEsnd _).trans ?_)
-    · rw [← FunctorToTypes.map_comp_apply, siteModuleInr_comp_fst]
+    · rw [← Functor.map_comp_apply, siteModuleInr_comp_fst]
       exact hmap_zero b
-    · rw [← FunctorToTypes.map_comp_apply, siteModuleInr_comp_snd,
-        FunctorToTypes.map_id_apply]
+    · rw [← Functor.map_comp_apply, siteModuleInr_comp_snd,
+        Functor.map_id_apply]
   have hsum_inl : ∀ a : G.obj M,
       G.map (siteModuleFst A B hA M M + siteModuleSnd A B hA M M)
         (G.map (siteModuleInl A B hA M M) a) = a := by
     intro a
-    rw [← FunctorToTypes.map_comp_apply, Preadditive.comp_add, siteModuleInl_comp_fst,
-      siteModuleInl_comp_snd, add_zero, FunctorToTypes.map_id_apply]
+    rw [← Functor.map_comp_apply, Preadditive.comp_add, siteModuleInl_comp_fst,
+      siteModuleInl_comp_snd, add_zero, Functor.map_id_apply]
   have hsum_inr : ∀ b : G.obj M,
       G.map (siteModuleFst A B hA M M + siteModuleSnd A B hA M M)
         (G.map (siteModuleInr A B hA M M) b) = b := by
     intro b
-    rw [← FunctorToTypes.map_comp_apply, Preadditive.comp_add, siteModuleInr_comp_fst,
-      siteModuleInr_comp_snd, zero_add, FunctorToTypes.map_id_apply]
+    rw [← Functor.map_comp_apply, Preadditive.comp_add, siteModuleInr_comp_fst,
+      siteModuleInr_comp_snd, zero_add, Functor.map_id_apply]
   let ν : G.obj M → G.obj M → G.obj M := fun a b =>
     G.map (siteModuleFst A B hA M M + siteModuleSnd A B hA M M) (E.symm (a, b))
   have hν : ∀ a b : G.obj M, ν a b =

@@ -78,6 +78,7 @@ variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (x : Geometr
 local instance neZero_prime_pow_curveLevelPairingExtension (n : ℕ) : NeZero (ℓ ^ n) :=
   ⟨pow_ne_zero _ (Fact.out : ℓ.Prime).ne_zero⟩
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The pairing of the levels is the evaluation of an exact pairing on `X`**: the lisse sheaves
 of the level modules of `ρ₀^∨` and `ρ₀` form an exact pairing whose evaluation is
 `Stacks.EtaleCohomology.levelTensorHom` (`Stacks.SheafDuality.exactPairingOfPerfect` at the

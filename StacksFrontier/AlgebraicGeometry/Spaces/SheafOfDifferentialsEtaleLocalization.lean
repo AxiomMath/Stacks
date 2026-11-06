@@ -45,7 +45,7 @@ commutativity of the square.
 
 ## Main definitions
 
-* `PresheafOfModules.Derivation'.precompBase` transports a relative derivation along a morphism
+* `PresheafOfModulesOfCommRing.Derivation'.precompBase` transports a relative derivation along a morphism
   of the presheaf of commutative rings it is taken relative to, in the direction in which no
   condition has to be checked: the underlying additive map is unchanged.
 * `AlgebraicGeometry.Space.sharpIsoHom` and `AlgebraicGeometry.Space.sharpIsoInv` are the two
@@ -58,8 +58,8 @@ commutativity of the square.
 
 ## Main results
 
-* `PresheafOfModules.Derivation'.precompBase_postcomp` and
-  `PresheafOfModules.Derivation'.precompBase_precompBase`: the two calculations with derivations
+* `PresheafOfModulesOfCommRing.Derivation'.precompBase_postcomp` and
+  `PresheafOfModulesOfCommRing.Derivation'.precompBase_precompBase`: the two calculations with derivations
   that the identification below adds to the two postcomposition lemmas it imports, each of them
   an equality of underlying additive maps.
 * `AlgebraicGeometry.Space.sheafOfDifferentialsIsoOfSharpIso`: if the structure maps of
@@ -75,11 +75,11 @@ commutativity of the square.
 
 ## Implementation notes
 
-A `PresheafOfModules.Derivation'` relative to `φ : A ⟶ 𝒪` is an additive map on the sections of
+A `PresheafOfModulesOfCommRing.Derivation'` relative to `φ : A ⟶ 𝒪` is an additive map on the sections of
 `𝒪` subject to the Leibniz rule and to vanishing on the image of `φ`; only the last condition
 mentions `A`.  So a derivation relative to `φ` is one relative to `e ≫ φ` for any `e`, with the
 *same* underlying additive map, and when `e` is invertible the two notions coincide.  That is
-`PresheafOfModules.Derivation'.precompBase`, and it is why no comparison of the two sheaves of
+`PresheafOfModulesOfCommRing.Derivation'.precompBase`, and it is why no comparison of the two sheaves of
 differentials has to be built by hand: both corepresent the same functor of derivations, by
 `AlgebraicGeometry.Space.universalDerivation_isUniversal`, and the identification is read off
 from `AlgebraicGeometry.Space.differentialsHomEquiv` in both directions.
@@ -114,7 +114,7 @@ open CategoryTheory
 
 universe v w v₂ u₂ u
 
-namespace PresheafOfModules.Derivation'
+namespace PresheafOfModulesOfCommRing.Derivation'
 
 variable {E : Type u₂} [Category.{v₂} E] {S₁ S₂ R : Eᵒᵖ ⥤ CommRingCat.{w}}
   {M N : PresheafOfModules.{v} (R ⋙ forget₂ CommRingCat.{w} RingCat.{w})}
@@ -124,7 +124,7 @@ variable {E : Type u₂} [Category.{v₂} E] {S₁ S₂ R : Eᵒᵖ ⥤ CommRing
 `a₂ : S₂ ⟶ R` whenever `a₂` factors as `e ≫ a₁`.  The underlying additive map is unchanged: the
 Leibniz rule and the compatibility with restriction do not mention the base, and the vanishing
 on the image of `a₂` is the vanishing on the image of `a₁` at the sections `e` produces. -/
-def precompBase (e : S₂ ⟶ S₁) (h : e ≫ a₁ = a₂) (D : M.Derivation' a₁) : M.Derivation' a₂ where
+def precompBase (e : S₂ ⟶ S₁) (h : e ≫ a₁ = a₂) (D : PresheafOfModulesOfCommRing.Derivation' M a₁) : PresheafOfModulesOfCommRing.Derivation' M a₂ where
   d := D.d
   d_mul := D.d_mul
   d_map := D.d_map
@@ -134,26 +134,26 @@ def precompBase (e : S₂ ⟶ S₁) (h : e ≫ a₁ = a₂) (D : M.Derivation' a
 
 /-- The transported derivation has the same underlying additive map. -/
 @[simp]
-lemma precompBase_d (e : S₂ ⟶ S₁) (h : e ≫ a₁ = a₂) (D : M.Derivation' a₁) {X : Eᵒᵖ}
+lemma precompBase_d (e : S₂ ⟶ S₁) (h : e ≫ a₁ = a₂) (D : PresheafOfModulesOfCommRing.Derivation' M a₁) {X : Eᵒᵖ}
     (x : R.obj X) : (precompBase e h D).d x = D.d x := rfl
 
 /-- Reading a derivation over a factored base commutes with postcomposition by a morphism of
 presheaves of modules, both operations acting on the underlying additive map alone. -/
-lemma precompBase_postcomp (e : S₂ ⟶ S₁) (h : e ≫ a₁ = a₂) (D : M.Derivation' a₁)
+lemma precompBase_postcomp (e : S₂ ⟶ S₁) (h : e ≫ a₁ = a₂) (D : PresheafOfModulesOfCommRing.Derivation' M a₁)
     (α : M ⟶ N) : (precompBase e h D).postcomp α = precompBase e h (D.postcomp α) := by
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext X z
   rfl
 
 /-- Reading a derivation over a factored base and back returns it. -/
 lemma precompBase_precompBase (e : S₂ ⟶ S₁) (h : e ≫ a₁ = a₂) (e' : S₁ ⟶ S₂)
-    (h' : e' ≫ a₂ = a₁) (D : M.Derivation' a₁) :
+    (h' : e' ≫ a₂ = a₁) (D : PresheafOfModulesOfCommRing.Derivation' M a₁) :
     precompBase e' h' (precompBase e h D) = D := by
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext X z
   rfl
 
-end PresheafOfModules.Derivation'
+end PresheafOfModulesOfCommRing.Derivation'
 
 namespace AlgebraicGeometry.Space
 
@@ -228,7 +228,7 @@ differ by an isomorphism `e` of their sources, then the two sheaves of different
 `Ω_{X/Y} ≅ Ω_{X/Z}`.
 
 Both sheaves corepresent the same functor of derivations — a `Y`-derivation and a `Z`-derivation
-are the same additive map, by `PresheafOfModules.Derivation'.precompBase` applied to `e` and to
+are the same additive map, by `PresheafOfModulesOfCommRing.Derivation'.precompBase` applied to `e` and to
 its inverse — so the identification is the one matching the two universal derivations.
 
 Applied to `ψ : U ⟶ V` and `ψ ≫ b : U ⟶ Y` for an étale `b : V ⟶ Y` this is the equality
@@ -244,36 +244,36 @@ def sheafOfDifferentialsIsoOfSharpIso
   inv := sharpIsoInv B S hS p q e he
   hom_inv_id := by
     refine (differentialsHomEquiv B S hS p (sheafOfDifferentials B S hS p)).injective ?_
-    refine Eq.trans (PresheafOfModules.Derivation'.postcomp_comp
+    refine Eq.trans (PresheafOfModulesOfCommRing.Derivation'.postcomp_comp
       (universalDerivation B S hS p) (sharpIsoHom B S hS p q e he).val
       (sharpIsoInv B S hS p q e he).val) ?_
-    refine Eq.trans (congrArg (fun T ↦ PresheafOfModules.Derivation.postcomp T
+    refine Eq.trans (congrArg (fun T ↦ PresheafOfModulesOfCommRing.Derivation.postcomp T
       (sharpIsoInv B S hS p q e he).val) (postcomp_sharpIsoHom B S hS p q e he)) ?_
-    refine Eq.trans (PresheafOfModules.Derivation'.precompBase_postcomp e.inv.hom
+    refine Eq.trans (PresheafOfModulesOfCommRing.Derivation'.precompBase_postcomp e.inv.hom
       (sharpFactorInv B S hS p q e he) (universalDerivation B S hS q)
       (sharpIsoInv B S hS p q e he).val) ?_
-    refine Eq.trans (congrArg (fun T ↦ PresheafOfModules.Derivation'.precompBase e.inv.hom
+    refine Eq.trans (congrArg (fun T ↦ PresheafOfModulesOfCommRing.Derivation'.precompBase e.inv.hom
       (sharpFactorInv B S hS p q e he) T) (postcomp_sharpIsoInv B S hS p q e he)) ?_
-    exact Eq.trans (PresheafOfModules.Derivation'.precompBase_precompBase e.hom.hom
+    exact Eq.trans (PresheafOfModulesOfCommRing.Derivation'.precompBase_precompBase e.hom.hom
         (sharpFactorHom B S hS p q e he) e.inv.hom (sharpFactorInv B S hS p q e he)
         (universalDerivation B S hS p))
-      (PresheafOfModules.Derivation'.postcomp_id (universalDerivation B S hS p)).symm
+      (PresheafOfModulesOfCommRing.Derivation'.postcomp_id (universalDerivation B S hS p)).symm
   inv_hom_id := by
     refine (differentialsHomEquiv B S hS q (sheafOfDifferentials B S hS q)).injective ?_
-    refine Eq.trans (PresheafOfModules.Derivation'.postcomp_comp
+    refine Eq.trans (PresheafOfModulesOfCommRing.Derivation'.postcomp_comp
       (universalDerivation B S hS q) (sharpIsoInv B S hS p q e he).val
       (sharpIsoHom B S hS p q e he).val) ?_
-    refine Eq.trans (congrArg (fun T ↦ PresheafOfModules.Derivation.postcomp T
+    refine Eq.trans (congrArg (fun T ↦ PresheafOfModulesOfCommRing.Derivation.postcomp T
       (sharpIsoHom B S hS p q e he).val) (postcomp_sharpIsoInv B S hS p q e he)) ?_
-    refine Eq.trans (PresheafOfModules.Derivation'.precompBase_postcomp e.hom.hom
+    refine Eq.trans (PresheafOfModulesOfCommRing.Derivation'.precompBase_postcomp e.hom.hom
       (sharpFactorHom B S hS p q e he) (universalDerivation B S hS p)
       (sharpIsoHom B S hS p q e he).val) ?_
-    refine Eq.trans (congrArg (fun T ↦ PresheafOfModules.Derivation'.precompBase e.hom.hom
+    refine Eq.trans (congrArg (fun T ↦ PresheafOfModulesOfCommRing.Derivation'.precompBase e.hom.hom
       (sharpFactorHom B S hS p q e he) T) (postcomp_sharpIsoHom B S hS p q e he)) ?_
-    exact Eq.trans (PresheafOfModules.Derivation'.precompBase_precompBase e.inv.hom
+    exact Eq.trans (PresheafOfModulesOfCommRing.Derivation'.precompBase_precompBase e.inv.hom
         (sharpFactorInv B S hS p q e he) e.hom.hom (sharpFactorHom B S hS p q e he)
         (universalDerivation B S hS q))
-      (PresheafOfModules.Derivation'.postcomp_id (universalDerivation B S hS q)).symm
+      (PresheafOfModulesOfCommRing.Derivation'.postcomp_id (universalDerivation B S hS q)).symm
 
 /-- **Stacks 04CU, the étale-base step is canonical.**  The identification of
 `AlgebraicGeometry.Space.sheafOfDifferentialsIsoOfSharpIso` carries the universal
@@ -289,7 +289,7 @@ lemma universalDerivation_sheafOfDifferentialsIsoOfSharpIso
       (universalDerivation B S hS q).d x := by
   have h := (differentialsHomEquiv B S hS p (sheafOfDifferentials B S hS q)).apply_symm_apply
     ((universalDerivation B S hS q).precompBase e.inv.hom (sharpFactorInv B S hS p q e he))
-  exact PresheafOfModules.Derivation.congr_d h x
+  exact PresheafOfModulesOfCommRing.Derivation.congr_d h x
 
 end SharpIso
 

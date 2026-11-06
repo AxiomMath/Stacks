@@ -91,8 +91,9 @@ presheaf of sets represented by `i : X' ⟶ X`: an étale chart `U ⟶ X'` is se
 chart `U ⟶ X` of `X` together with the point of `X'` that it is. -/
 def smallEtaleToElements (hi : IsEtale B S hS i.hom) :
     SmallEtale B S hS X'.1 ⥤ ((etaleChartPresheaf B S hS i).Elements)ᵒᵖ where
-  obj A := op ⟨op ((smallEtalePostcomp B S hS i hi).obj A), ⟨yonedaEquiv A.1.hom, rfl⟩⟩
-  map {A A'} g := Quiver.Hom.op (CategoryOfElements.homMk _ _
+  obj A := op ((etaleChartPresheaf B S hS i).elementsMk (op ((smallEtalePostcomp B S hS i hi).obj A))
+    ⟨yonedaEquiv A.1.hom, rfl⟩)
+  map {A A'} g := Quiver.Hom.op (Functor.Elements.homMk
     ((smallEtalePostcomp B S hS i hi).map g).op
     (Subtype.ext (by
       rw [etaleChartPresheaf_map_coe]
@@ -101,10 +102,10 @@ def smallEtaleToElements (hi : IsEtale B S hS i.hom) :
       rw [yonedaEquiv_naturality]
       exact congrArg yonedaEquiv (CostructuredArrow.w g.hom))))
   map_id A := by
-    refine Quiver.Hom.unop_inj (Subtype.ext ?_)
+    refine Quiver.Hom.unop_inj (Functor.Elements.hom_ext ?_)
     exact congrArg Quiver.Hom.op ((smallEtalePostcomp B S hS i hi).map_id A)
   map_comp {A A' A''} g g' := by
-    refine Quiver.Hom.unop_inj (Subtype.ext ?_)
+    refine Quiver.Hom.unop_inj (Functor.Elements.hom_ext ?_)
     exact congrArg Quiver.Hom.op ((smallEtalePostcomp B S hS i hi).map_comp g g')
 
 /-- The comparison functor followed by the projection of the site of elements is
@@ -130,14 +131,14 @@ instance smallEtaleToElements_faithful (hi : IsEtale B S hS i.hom) :
 instance smallEtaleToElements_full (hi : IsEtale B S hS i.hom) :
     (smallEtaleToElements B S hS i hi).Full where
   map_surjective {A A'} φ := by
-    obtain ⟨f, hf⟩ := φ
+    obtain ⟨⟨f, hf⟩⟩ := φ
     have hcompat : yoneda.map ((SmallEtale.toOver B S hS X.1).map f.unop) ≫ A'.1.hom =
         A.1.hom :=
       yonedaEquiv.injective
         ((yonedaEquiv_naturality _ _).symm.trans (congrArg Subtype.val hf))
     refine ⟨ObjectProperty.homMk (CostructuredArrow.homMk
       ((SmallEtale.toOver B S hS X.1).map f.unop) hcompat),
-      Quiver.Hom.unop_inj (Subtype.ext ?_)⟩
+      Quiver.Hom.unop_inj (Functor.Elements.hom_ext ?_)⟩
     exact congrArg Quiver.Hom.op ((SmallEtale.toOver B S hS X.1).map_injective rfl)
 
 /-- Every object of the site of elements of `etaleChartPresheaf` is isomorphic to the image of
@@ -147,7 +148,7 @@ theorem exists_iso_smallEtaleToElements (hi : IsEtale B S hS i.hom)
     (W : SmallEtale B S hS X.1) (s : EtaleChartSections B S hS i (op W)) :
     ∃ A : SmallEtale B S hS X'.1,
       Nonempty ((smallEtaleToElements B S hS i hi).obj A ≅
-        op (⟨op W, s⟩ : (etaleChartPresheaf B S hS i).Elements)) := by
+        op ((etaleChartPresheaf B S hS i).elementsMk (op W) s)) := by
   have ht : yonedaEquiv.symm s.1 ≫ i.hom = W.1.hom :=
     yonedaEquiv.injective (by rw [yonedaEquiv_comp, Equiv.apply_symm_apply]; exact s.2)
   have hA : IsEtaleChart B S hS X'.1 (CostructuredArrow.mk (yonedaEquiv.symm s.1)) :=
@@ -157,7 +158,7 @@ theorem exists_iso_smallEtaleToElements (hi : IsEtale B S hS i.hom)
         _ W.1.hom i.hom ((isEtale_iff_presheaf_of_yoneda B S hS W.1.hom).2 W.2) hi ht)
   refine ⟨⟨CostructuredArrow.mk (yonedaEquiv.symm s.1), hA⟩, ⟨Iso.op ?_⟩⟩
   refine
-    { hom := CategoryOfElements.homMk _ _
+    { hom := Functor.Elements.homMk
         (Quiver.Hom.op (ObjectProperty.homMk (CostructuredArrow.homMk
           (𝟙 ((SmallEtale.toOver B S hS X.1).obj W))
           (by
@@ -165,7 +166,7 @@ theorem exists_iso_smallEtaleToElements (hi : IsEtale B S hS i.hom)
             rw [ht]
             simp))))
         (Subtype.ext rfl)
-      inv := CategoryOfElements.homMk _ _
+      inv := Functor.Elements.homMk
         (Quiver.Hom.op (ObjectProperty.homMk (CostructuredArrow.homMk
           (𝟙 ((SmallEtale.toOver B S hS X.1).obj W))
           (by
@@ -177,16 +178,16 @@ theorem exists_iso_smallEtaleToElements (hi : IsEtale B S hS i.hom)
             (yonedaEquiv (yonedaEquiv.symm s.1)) = s.1
           rw [Equiv.apply_symm_apply]
           simp))
-      hom_inv_id := Subtype.ext (congrArg Quiver.Hom.op
+      hom_inv_id := Functor.Elements.hom_ext (congrArg Quiver.Hom.op
         ((SmallEtale.toOver B S hS X.1).map_injective (Category.id_comp _)))
-      inv_hom_id := Subtype.ext (congrArg Quiver.Hom.op
+      inv_hom_id := Functor.Elements.hom_ext (congrArg Quiver.Hom.op
         ((SmallEtale.toOver B S hS X.1).map_injective (Category.id_comp _))) }
 
 /-- The comparison functor to the site of elements is essentially surjective. -/
 instance smallEtaleToElements_essSurj (hi : IsEtale B S hS i.hom) :
     (smallEtaleToElements B S hS i hi).EssSurj where
   mem_essImage Z := by
-    obtain ⟨⟨⟨W⟩, s⟩⟩ := Z
+    obtain ⟨@⟨⟨W⟩, s⟩⟩ := Z
     exact exists_iso_smallEtaleToElements B S hS i hi W s
 
 /-- The comparison functor to the site of elements is an equivalence of categories. -/

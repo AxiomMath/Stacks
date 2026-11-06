@@ -1,7 +1,9 @@
 module
 
 public import Mathlib.Algebra.Category.Grp.Adjunctions
+public import Mathlib.Algebra.FiveLemma
 public import Mathlib.Algebra.Homology.DerivedCategory.Ext.MapBijective
+public import Mathlib.CategoryTheory.Abelian.Exact
 public import Mathlib.CategoryTheory.Sites.Over
 public import Mathlib.CategoryTheory.Sites.Pullback
 public import StacksFrontier.CategoryTheory.Sites.GlobalSections.CohomologyAtTheTerminalObject

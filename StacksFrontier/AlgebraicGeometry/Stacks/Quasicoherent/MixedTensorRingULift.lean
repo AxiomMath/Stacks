@@ -123,7 +123,7 @@ element of the ring is scaling by its lift. -/
 theorem ringULiftInvAddHom_smul (s : A) (z : M ⊗[A] N) :
     ringULiftInvAddHom.{r, m, n, d, c} A M N (s • z) =
       (ULift.up.{c} s) • ringULiftInvAddHom.{r, m, n, d, c} A M N z := by
-  refine TensorProduct.induction_on z (by simp) (fun x y ↦ ?_) (fun p q hp hq ↦ ?_)
+  refine TensorProduct.inductionOn z (fun x y ↦ ?_) (fun p q hp hq ↦ ?_)
   · rw [TensorProduct.smul_tmul', ringULiftInvAddHom_tmul, ringULiftInvAddHom_tmul]
     exact TensorProduct.smul_tmul' (ULift.up.{c} s) (ULift.up.{max d n} x) (ULift.up.{max d m} y)
   · rw [smul_add, map_add, map_add, hp, hq, smul_add]
@@ -132,7 +132,7 @@ theorem ringULiftInvAddHom_smul (s : A) (z : M ⊗[A] N) :
 theorem ringULiftHom_ringULiftInvAddHom (z : M ⊗[A] N) :
     ringULiftHom.{r, m, n, d, c} A M N (ringULiftInvAddHom.{r, m, n, d, c} A M N z) =
       ULift.up.{d} z := by
-  refine TensorProduct.induction_on z (by rw [map_zero, map_zero]; exact rfl) (fun x y ↦ ?_)
+  refine TensorProduct.inductionOn z (fun x y ↦ ?_)
     (fun p q hp hq ↦ ?_)
   · rw [ringULiftInvAddHom_tmul]
     rfl
@@ -238,7 +238,7 @@ noncomputable def tensorPresheafRingULiftDownIso :
   PresheafOfModules.isoMk (tensorRingULiftAppIso.{so, sm, r, w, m, n} 𝒪 F G) (by
     intro X Y f
     refine ModuleCat.hom_ext (LinearMap.ext fun z ↦ ?_)
-    refine TensorProduct.induction_on z ((map_zero _).trans (map_zero _).symm)
+    refine TensorProduct.inductionOn z
       (fun _ _ ↦ rfl) (fun p q hp hq ↦ ?_)
     exact ((map_add _ p q).trans (congrArg₂ (· + ·) hp hq)).trans (map_add _ p q).symm)
 

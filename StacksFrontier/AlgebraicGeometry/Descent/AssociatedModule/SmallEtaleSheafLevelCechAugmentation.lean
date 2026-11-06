@@ -58,6 +58,11 @@ namespace AlgebraicGeometry.SmallEtale
 
 variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Products of `𝒪`-modules on the small étale site, supplied directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance : HasProducts.{u} (SheafOfModules.{u} (structureSheaf B S hS)) :=
+  fun J => SheafOfModules.hasLimitsOfShape (Discrete J) _
+
 /-- **The augmentation of the sheaf-level Čech complex of a family of morphisms of the small
 étale site**: for an `𝒪`-module `ℱ`, the morphism of cochain complexes of `𝒪`-modules from the
 complex concentrated in degree `0` at `ℱ` to the sheaf-level Čech complex, whose degree-zero

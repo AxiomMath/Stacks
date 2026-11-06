@@ -227,7 +227,7 @@ theorem unboundedHigher_eq_boundedHigher (hbc : UnboundedFac F F' G G' τ RF uF 
       (Stacks.DerivedFunctor.exactRightDerivedPlusHomologyIso G (q : ℤ)).inv.app
         (F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A 0).obj X)) ≫
       (DerivedCategory.Plus.homologyFunctor D (q : ℤ)).map
-        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit)).app
+        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith)).app
           ((DerivedCategory.Plus.singleFunctor A 0).obj X)) ≫
       (DerivedCategory.Plus.homologyFunctor D (q : ℤ)).map
         (F'.rightDerivedFunctorPlus.map
@@ -393,8 +393,8 @@ theorem unboundedFac_conj (τ : F ⋙ G ⟶ G' ⋙ F') (τ' : F ⋙ P ⟶ P' ⋙
         ((NatTrans.mapHomotopyCategory ιx.inv (ComplexShape.up ℤ)).app K) =
       (NatTrans.mapHomotopyCategory τ (ComplexShape.up ℤ)).app K := by
     subst hτ
-    simp only [NatTrans.mapHomotopyCategory_app]
-    congr 1
+    simp only [NatTrans.mapHomotopyCategory_comp, NatTrans.comp_app]
+    rfl
   exact conj_chase c1 c2 (h K) c3 c4 (map_comp_three_eq DerivedCategory.Qh c5h)
 
 variable [RF.IsRightDerivedFunctor uF (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))]
@@ -488,7 +488,7 @@ theorem unboundedHigher_conj_eq_boundedHigher [EnoughInjectives B] (τ : F ⋙ G
       (Stacks.DerivedFunctor.exactRightDerivedPlusHomologyIso G (q : ℤ)).inv.app
         (F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A 0).obj X)) ≫
       (DerivedCategory.Plus.homologyFunctor D (q : ℤ)).map
-        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit)).app
+        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith)).app
           ((DerivedCategory.Plus.singleFunctor A 0).obj X)) ≫
       (DerivedCategory.Plus.homologyFunctor D (q : ℤ)).map
         (F'.rightDerivedFunctorPlus.map

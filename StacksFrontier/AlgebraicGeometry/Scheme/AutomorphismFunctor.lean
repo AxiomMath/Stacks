@@ -168,25 +168,25 @@ theorem endBaseChange_baseChange_comp {T T' T'' : Over S} (h : T' ⟶ T) (h' : T
 /-- The base change along `h : T' ⟶ T` of automorphisms, `Aut_T(X_T) →* Aut_{T'}(X_{T'})`. -/
 noncomputable def autBaseChange {T T' : Over S} (h : T' ⟶ T) :
     Aut ((Over.pullback T.hom).obj X) →* Aut ((Over.pullback T'.hom).obj X) where
-  toFun ψ :=
-    { hom := endBaseChange X h ψ.hom
-      inv := endBaseChange X h ψ.inv
-      hom_inv_id := by rw [← endBaseChange_comp, ψ.hom_inv_id, endBaseChange_id]
-      inv_hom_id := by rw [← endBaseChange_comp, ψ.inv_hom_id, endBaseChange_id] }
-  map_one' := Iso.ext (endBaseChange_id X h)
-  map_mul' ψ ψ' := Iso.ext (endBaseChange_comp X h ψ'.hom ψ.hom)
+  toFun ψ := .of
+    { hom := endBaseChange X h ψ.asIso.hom
+      inv := endBaseChange X h ψ.asIso.inv
+      hom_inv_id := by rw [← endBaseChange_comp, ψ.asIso.hom_inv_id, endBaseChange_id]
+      inv_hom_id := by rw [← endBaseChange_comp, ψ.asIso.inv_hom_id, endBaseChange_id] }
+  map_one' := Aut.ext (Iso.ext (endBaseChange_id X h))
+  map_mul' ψ ψ' := Aut.ext (Iso.ext (endBaseChange_comp X h ψ'.asIso.hom ψ.asIso.hom))
 
 /-- The underlying morphism of the base change of an automorphism `ψ` is the base change of
 `ψ.hom`. -/
 @[simp]
 theorem autBaseChange_hom {T T' : Over S} (h : T' ⟶ T) (ψ : Aut ((Over.pullback T.hom).obj X)) :
-    (autBaseChange X h ψ).hom = endBaseChange X h ψ.hom :=
+    (autBaseChange X h ψ).asIso.hom = endBaseChange X h ψ.asIso.hom :=
   rfl
 
 /-- The inverse of the base change of an automorphism `ψ` is the base change of `ψ.inv`. -/
 @[simp]
 theorem autBaseChange_inv {T T' : Over S} (h : T' ⟶ T) (ψ : Aut ((Over.pullback T.hom).obj X)) :
-    (autBaseChange X h ψ).inv = endBaseChange X h ψ.inv :=
+    (autBaseChange X h ψ).asIso.inv = endBaseChange X h ψ.asIso.inv :=
   rfl
 
 /-- **The automorphism functor** `T ↦ Aut_T(X ×_S T)` of an `S`-scheme `X`, on the category of
@@ -199,11 +199,11 @@ noncomputable def autFunctor : (Over S)ᵒᵖ ⥤ Type u where
   map_id T := by
     apply ConcreteCategory.hom_ext
     intro ψ
-    exact Iso.ext (endBaseChange_baseChange_id X ψ.hom)
+    exact Aut.ext (Iso.ext (endBaseChange_baseChange_id X ψ.asIso.hom))
   map_comp h h' := by
     apply ConcreteCategory.hom_ext
     intro ψ
-    exact Iso.ext (endBaseChange_baseChange_comp X h.unop h'.unop ψ.hom)
+    exact Aut.ext (Iso.ext (endBaseChange_baseChange_comp X h.unop h'.unop ψ.asIso.hom))
 
 /-- The value of the automorphism functor at `T` is the automorphism group of `X_T` over `T`. -/
 @[simp]
@@ -253,15 +253,15 @@ noncomputable def autFunctorIsoOfIso (e : X ≅ Y) : autFunctor X ≅ autFunctor
     intro T T' h
     apply ConcreteCategory.hom_ext
     intro ψ
-    exact Iso.ext (endBaseChange_conj e h.unop ψ.hom).symm)
+    exact Aut.ext (Iso.ext (endBaseChange_conj e h.unop ψ.asIso.hom).symm))
 
 /-- The isomorphism of automorphism functors induced by `e : X ≅ Y` sends an automorphism `ψ`
 of `X_T` to its conjugate by the base change of `e`. -/
 @[simp]
 theorem autFunctorIsoOfIso_hom_app_hom (e : X ≅ Y) (T : (Over S)ᵒᵖ)
     (ψ : Aut ((Over.pullback T.unop.hom).obj X)) :
-    ((autFunctorIsoOfIso e).hom.app T ψ).hom =
-      (Over.pullback T.unop.hom).map e.inv ≫ ψ.hom ≫ (Over.pullback T.unop.hom).map e.hom :=
+    ((autFunctorIsoOfIso e).hom.app T ψ).asIso.hom =
+      (Over.pullback T.unop.hom).map e.inv ≫ ψ.asIso.hom ≫ (Over.pullback T.unop.hom).map e.hom :=
   rfl
 
 /-! ### Representing objects -/

@@ -169,7 +169,7 @@ def globalSectionsToAmbientComparison :
       (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl _)).inv DerivedCategory.Plus.Qh ≫
     (Functor.associator _ _ _).hom ≫
     Functor.whiskerLeft (abelianAmbientRestriction A).mapHomotopyCategoryPlus
-      (ambientGlobalSections A).rightDerivedFunctorPlusUnit ≫
+      (ambientGlobalSections A).rightDerivedFunctorPlusUnith ≫
     (Functor.associator _ _ _).inv ≫
     Functor.whiskerRight (derivedAmbientRestrictionFactorsh A).inv
       (derivedAmbientGlobalSectionsFunctor A) ≫
@@ -184,7 +184,7 @@ def derivedGlobalSectionsToAmbient :
     derivedGlobalSectionsFunctor S ⟶
       derivedAmbientRestriction A ⋙ derivedAmbientGlobalSectionsFunctor A :=
   (globalSections S).rightDerivedFunctorPlus.rightDerivedDesc
-    (globalSections S).rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso _) _
+    (globalSections S).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso _) _
     (globalSectionsToAmbientComparison A)
 
 /-- **The derived restriction to `T` is the derived functor of the termwise restriction**: its
@@ -192,7 +192,7 @@ composite with the canonical map `Γ(Cris(X/S), K) ⟶ RΓ(Cris(X/S), K)` is
 `globalSectionsToAmbientComparison`. -/
 @[reassoc]
 theorem derivedGlobalSectionsToAmbient_fac :
-    (globalSections S).rightDerivedFunctorPlusUnit ≫
+    (globalSections S).rightDerivedFunctorPlusUnith ≫
         Functor.whiskerLeft DerivedCategory.Plus.Qh (derivedGlobalSectionsToAmbient A) =
       globalSectionsToAmbientComparison A :=
   Functor.rightDerived_fac _ _ _ _ _
@@ -201,7 +201,7 @@ theorem derivedGlobalSectionsToAmbient_fac :
 @[reassoc]
 theorem derivedGlobalSectionsToAmbient_fac_app (K : HomotopyCategory.Plus
     (Sheaf (smallTopology S) AddCommGrpCat.{u + 1})) :
-    (globalSections S).rightDerivedFunctorPlusUnit.app K ≫
+    (globalSections S).rightDerivedFunctorPlusUnith.app K ≫
         (derivedGlobalSectionsToAmbient A).app (DerivedCategory.Plus.Qh.obj K) =
       (globalSectionsToAmbientComparison A).app K :=
   NatTrans.congr_app (derivedGlobalSectionsToAmbient_fac A) K
@@ -212,10 +212,10 @@ theorem derivedGlobalSectionsToAmbient_fac_app (K : HomotopyCategory.Plus
 theorem derivedGlobalSectionsToAmbient_unique
     (τ : derivedGlobalSectionsFunctor S ⟶
       derivedAmbientRestriction A ⋙ derivedAmbientGlobalSectionsFunctor A)
-    (hτ : (globalSections S).rightDerivedFunctorPlusUnit ≫
+    (hτ : (globalSections S).rightDerivedFunctorPlusUnith ≫
         Functor.whiskerLeft DerivedCategory.Plus.Qh τ = globalSectionsToAmbientComparison A) :
     τ = derivedGlobalSectionsToAmbient A :=
-  Functor.rightDerived_ext _ (globalSections S).rightDerivedFunctorPlusUnit
+  Functor.rightDerived_ext _ (globalSections S).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso _) _ _ _
     (hτ.trans (derivedGlobalSectionsToAmbient_fac A).symm)
 

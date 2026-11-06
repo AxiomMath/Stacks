@@ -74,6 +74,17 @@ def StableUnderAlgebraicBaseChange
 
 variable {B S hS}
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ModificationExcisionProperties :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ModificationExcisionProperties
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_ModificationExcisionProperties.has_limit _
+
 /-- A base-change stable property is unchanged by precomposition with an isomorphism. -/
 theorem prop_comp_iso {P : MorphismProperty ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)}
     (hbc : StableUnderAlgebraicBaseChange B S hS P)
@@ -225,7 +236,7 @@ theorem isQuasiSeparated_iff_baseChangeFunctor_obj :
   refine prop_iff_prop_baseChangeFunctor_obj B S hS hbc ?_ ?_ ?_ f T hT hfT hf g
   · intro F G k _ _ hk
     have := hk
-    have : IsIso (pullback.diagonal k) := (pullback.isIso_diagonal_iff k).2 inferInstance
+    have : IsIso (pullback.diagonal k) := (pullback.isIso_diagonal_iff k).2 (IsIso.mono_of_iso k)
     exact isQuasiCompact_of_isClosedImmersion' B S hS
       (isClosedImmersion_of_isIso B S hS (pullback.diagonal k))
   · intro F G k hF hG U q hqs hqe h

@@ -114,6 +114,19 @@ private theorem isAlgebraicSpace_yoneda_base :
 
 /-! ### The base change -/
 
+omit [IsLocalRing A] in
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `Spec A` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_CompletionBaseChange :
+    HasPullbacks ((BigFppfOver B (Spec (.of A)) hA)ᵒᵖ ⥤ Type u) := inferInstance
+
+omit [IsLocalRing A] in
+local instance (priority := high) hasPullback_presheaf_CompletionBaseChange
+    {X Y Z : (BigFppfOver B (Spec (.of A)) hA)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {X : (BigFppfOver B (Spec (.of A)) hA)ᵒᵖ ⥤ Type u}
 variable (f : X ⟶ yoneda.obj (Over.mk (𝟙 (B.obj hA))))
 

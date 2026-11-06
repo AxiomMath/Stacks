@@ -238,6 +238,7 @@ private theorem completion_map_pow_isClosed
       exact ⟨y, hy, by simpa [heq y] using hye⟩
   exact (homeo.isClosed_image (s := _)).mp (himage.symm ▸ hclosedTarget)
 
+set_option synthInstance.maxHeartbeats 200000 in
 private theorem completedTensorProduct_adic_data
     {B A C : Type*} [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsLinearTopology B B] [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
@@ -294,7 +295,7 @@ private theorem completedTensorProduct_adic_data
   let P : Ideal X := Q 1 1
   have hP_eq : P = Ideal.map ι K := by
     have hcl : IsClosed (Ideal.map ι K : Set X) := by
-      simpa [pow_one] using completion_map_pow_isClosed K hKfg hKadic 1
+      simpa only [pow_one] using completion_map_pow_isClosed K hKfg hKadic 1
     have h := hQ_closure 1 1
     have hKseq_one : Kseq 1 1 = K := by simp [Kseq, K]
     rw [hKseq_one, Ideal.closure_eq_of_isClosed _ hcl] at h
@@ -310,9 +311,7 @@ private theorem completedTensorProduct_adic_data
       _ ⊆ closure (Ideal.map ι (K ^ n) : Set X) :=
         closure_mono (SetLike.coe_subset_coe.mpr (Ideal.map_mono (hKdiag_le n)))
       _ = (Ideal.map ι (K ^ n) : Set X) := by
-        simpa [ι] using congrArg (fun L : Ideal X => (L : Set X))
-          (Ideal.closure_eq_of_isClosed _
-            (completion_map_pow_isClosed K hKfg hKadic n))
+        exact (completion_map_pow_isClosed K hKfg hKadic n).closure_eq
   have hpower_le_Q (n : ℕ) : P ^ (n + n) ≤ Q n n := by
     rw [hPpow, hQ_closure]
     have hKpow : K ^ (n + n) ≤ Kseq n n := by
@@ -335,11 +334,9 @@ private theorem completedTensorProduct_adic_data
   have hQbasis :
       (nhds (0 : X)).HasBasis (fun _ : ℕ × ℕ => True)
         (fun p => (Q p.1 p.2 : Set X)) := by
-    simpa [Q, Iseq, Jseq] using
-      (TopologicalRing.hasBasis_projectionKernel (B := B) Iseq Jseq hBI hBJ)
+    exact TopologicalRing.hasBasis_projectionKernel (B := B) Iseq Jseq hBI hBJ
   have hQopen (m n : ℕ) : IsOpen (Q m n : Set X) := by
-    simpa [Q, Iseq, Jseq] using
-      TopologicalRing.isOpen_projectionKernel (B := B) Iseq Jseq hBI hBJ m n
+    exact TopologicalRing.isOpen_projectionKernel (B := B) Iseq Jseq hBI hBJ m n
   have hcofinal : ∀ U ∈ nhds (0 : X), ∃ n : ℕ,
       ((P ^ n : Ideal X) : Set X) ⊆ U := by
     intro U hU
@@ -357,9 +354,10 @@ private theorem completedTensorProduct_adic_data
       ((hQopen (n + n) (n + n)).mem_nhds (zero_mem _)) (SetLike.coe_subset_coe.mpr hsub))
   have hPadic : _root_.IsAdic P := isAdic_iff.mpr ⟨hPopen, hcofinal⟩
   have hPdef : TopologicalRing.IsIdealOfDefinition P :=
-    ⟨by simpa [P, Q] using hQopen 1 1, hcofinal⟩
+    ⟨hQopen 1 1, hcofinal⟩
   exact ⟨P, by simpa only [hP_eq] using hKfg.map ι, hPdef, hPadic⟩
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The completed tensor product of two pre-adic, linearly topologized algebras with finitely
 generated ideals of definition is adic. -/
 @[stacks 0GB4 "adic_finite"]
@@ -649,6 +647,7 @@ private lemma tensorProduct_adic_of_adic_factors
         (((I ^ mn.1).map f ⊔ (K ^ mn.2).map g : Ideal T) : Set T) from hq)
       (by simpa only [hP_eq, Submodule.coe_restrictScalars] using hsub)⟩
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- If the induced quotient map is of finite type, the completed tensor product
 of pre-adic Noetherian algebras is Noetherian. -/
 @[stacks 0GB4 "adic_noetherian"]
@@ -753,7 +752,8 @@ public theorem completedTensorProduct_isNoetherianRing
       simp [J, L, fA, fC, Ideal.map_sup, Ideal.map_map]
     have hclosureSet : (RingHom.ker P : Set S) =
         (Ideal.closure (NA.map (φ.comp fA) ⊔ NC.map (φ.comp fC)) : Set S) := by
-      simpa [S, φ, fA, fC, P, TopologicalRing.projectionKernel] using hclosure
+      rw [pow_one, pow_one, Ideal.add_eq_sup] at hclosure
+      exact hclosure
     have hkerClosure : RingHom.ker P =
         Ideal.closure (NA.map (φ.comp fA) ⊔ NC.map (φ.comp fC)) :=
       SetLike.coe_injective hclosureSet
@@ -808,6 +808,7 @@ private theorem hasBasis_open_ideal_le {R : Type*} [CommRing R] [TopologicalSpac
     (fun L hL => ⟨⟨L ⊓ I₀, hL.inter hI₀, inf_le_right⟩, trivial, inf_le_left⟩)
     (fun i _ => ⟨i.1, i.2.1, le_rfl⟩)
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The completed tensor product of pre-admissible linearly topologized
 algebras is admissible. -/
 @[stacks 0GB4 "admissible", ega "0 7.7.7" "admissibility"]
@@ -943,6 +944,7 @@ open Filter
 open scoped TensorProduct Topology
 
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The completed tensor product of two weakly pre-admissible linearly
 topologized rings is weakly admissible. -/
 @[stacks 0GB4 "weakly_admissible"]

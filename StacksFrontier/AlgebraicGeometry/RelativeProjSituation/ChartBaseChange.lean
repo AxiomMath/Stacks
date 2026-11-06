@@ -174,7 +174,6 @@ public theorem lTensor_awayMk_mulPowPiece (n m : ℕ) (h : n ≤ m)
         (LinearMap.lTensor ↥(ℬ 0) (mulPowPiece 𝒜 ha n m h) u)
       = LinearMap.lTensor ↥(ℬ 0) (awayMk 𝒜 ha n) u := by
   induction u with
-  | zero => simp
   | tmul b y => simp only [LinearMap.lTensor_tmul, awayMk_mulPowPiece]
   | add u v hu hv => simp only [map_add, hu, hv]
 
@@ -184,7 +183,6 @@ public theorem exists_lTensor (w : ↥(ℬ 0) ⊗[↥(𝒜 0)] Away 𝒜 a) :
     ∃ (n : ℕ) (u : ↥(ℬ 0) ⊗[↥(𝒜 0)] ↥(gradePieceSubmodule 𝒜 (n • d))),
       LinearMap.lTensor ↥(ℬ 0) (awayMk 𝒜 ha n) u = w := by
   induction w with
-  | zero => exact ⟨0, 0, map_zero _⟩
   | tmul b z =>
       obtain ⟨n, x, hx, rfl⟩ := Away.mk_surjective 𝒜 ha z
       exact ⟨n, b ⊗ₜ ⟨x, hx⟩, by rw [LinearMap.lTensor_tmul, awayMk_apply]⟩
@@ -206,7 +204,6 @@ public theorem equiv_lTensor_mulPowPiece (n m : ℕ) (h : n ≤ m)
     (hf (m • d)).equiv (LinearMap.lTensor ↥(ℬ 0) (mulPowPiece 𝒜 ha n m h) u)
       = mulPowPiece ℬ (f.map_mem ha) n m h ((hf (n • d)).equiv u) := by
   induction u with
-  | zero => simp
   | tmul b y =>
       rw [LinearMap.lTensor_tmul, IsBaseChange.equiv_tmul, IsBaseChange.equiv_tmul]
       refine Subtype.ext ?_
@@ -254,7 +251,6 @@ public theorem awayTensorLift_lTensor (n : ℕ)
     awayTensorLift (𝒜 := 𝒜) f (a := a) (LinearMap.lTensor ↥(ℬ 0) (awayMk 𝒜 ha n) u)
       = awayMk ℬ (f.map_mem ha) n ((hf (n • d)).equiv u) := by
   induction u with
-  | zero => simp
   | tmul b y =>
       rw [LinearMap.lTensor_tmul, awayTensorLift_tmul_awayMk f halg ha hmap,
         IsBaseChange.equiv_tmul]

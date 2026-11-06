@@ -142,9 +142,9 @@ theorem overFunctor_map_terminalSectionToEnd {C : Type u} [Category.{v} C]
     [∀ T : Cᵒᵖ, IsMulCommutative (R.obj.obj T)] (U : C) (W : Over U)
     (f : R.obj.obj (op U)) (M : _root_.SheafOfModules.{w} (R.over U)) :
     (_root_.SheafOfModules.overFunctor.{w} (R.over U) W).map
-        ((terminalSectionToEnd (R.over U) (Over.mk (𝟙 U)) Over.mkIdTerminal f).app M) =
+        ((terminalSectionToEnd (R.over U) (Over.mk (𝟙 U)) Over.mkIdTerminal f).asHom.app M) =
       (terminalSectionToEnd ((R.over U).over W) (Over.mk (𝟙 W)) Over.mkIdTerminal
-            (R.obj.map W.hom.op f)).app
+            (R.obj.map W.hom.op f)).asHom.app
         ((_root_.SheafOfModules.overFunctor.{w} (R.over U) W).obj M) :=
   map_globalSectionToEnd (F := Over.forget W) (S := (R.over U).over W) (R := R.over U)
     (𝟙 ((R.over U).over W))

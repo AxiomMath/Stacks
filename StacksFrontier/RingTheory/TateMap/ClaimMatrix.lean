@@ -54,7 +54,7 @@ variable {n d e₁ m e₂ N e}
 /-- The specialization of the matrix parameters to the coefficients of a matrix `M`. -/
 noncomputable def matrixSpec {A : Type u} [CommRing A]
     (M : Matrix (Fin N) (Fin N) (MvPolynomial (Fin N) A)) : matrixτ N e → A :=
-  fun x ↦ coeff (multiIndexExponent N e x.2) (M x.1.1 x.1.2)
+  fun x ↦ (M x.1.1 x.1.2).coeff (multiIndexExponent N e x.2)
 
 /-- **The generic matrix specializes to `M`** if every entry of `M` has total degree at most
 `e`. -/

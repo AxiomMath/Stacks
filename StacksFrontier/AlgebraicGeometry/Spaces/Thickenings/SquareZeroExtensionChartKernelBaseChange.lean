@@ -189,9 +189,6 @@ theorem SquareZeroExtension.isBaseChange_ker_app_of_isAffine
     obtain ⟨z, rfl⟩ := hbc.2 y
     clear hb
     induction z with
-    | zero =>
-      rw [map_zero]
-      exact (congrArg (· ∈ _) (map_zero (E.ι (op U)))).mpr (zero_mem _)
     | tmul c x =>
       obtain ⟨b, rfl⟩ := hqsurj c
       have key : E.ι (op U) ((rI.liftBaseChange

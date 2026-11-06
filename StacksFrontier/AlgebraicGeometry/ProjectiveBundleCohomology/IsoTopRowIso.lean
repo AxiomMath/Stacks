@@ -136,17 +136,18 @@ public theorem higherDirectImagePullback_projectionFormula (q : ℕ) {F : X.Modu
       (projectionFormulaTensorIso p G F q).hom ≫
       tensorMap ((directImageComparisonApp p p' (Scheme.Modules.pullback f)
           (pushforwardPullbackIso f p p' hbase) q F).hom ≫
-          ((Scheme.Modules.pushforward p').rightDerived q).map θ.hom) g.hom :=
-  projection_chase
-    (higherDirectImagePullback_rightDerivedIso_of f p p' hbase q
-      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-        ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj F).obj
-        ((Scheme.Modules.pullback p).obj G))
-      (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
-        ⟨X'.toRingedSpace.presheaf, X'.toRingedSpace.IsSheaf⟩).obj F').obj
-        ((Scheme.Modules.pullback p').obj G'))
+          ((Scheme.Modules.pushforward p').rightDerived q).map θ.hom) g.hom := by
+  have h := projection_chase
+      (higherDirectImagePullback_rightDerivedIso_of f p p' hbase q
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          ⟨X.toRingedSpace.presheaf, X.toRingedSpace.IsSheaf⟩).obj F).obj
+          ((Scheme.Modules.pullback p).obj G))
+        (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u}
+          ⟨X'.toRingedSpace.presheaf, X'.toRingedSpace.IsSheaf⟩).obj F').obj
+          ((Scheme.Modules.pullback p').obj G'))
       (tensorPullbackIso f.toLRSHom.toShHom θ (pullbackPullbackIso' f p p' hbase g)).hom)
-    (projectionFormulaTensorIso_pullback f p p' hbase g q θ) rfl rfl
+      (projectionFormulaTensorIso_pullback f p p' hbase g q θ) rfl rfl
+  exact h
 
 end ProjectionGeneric
 

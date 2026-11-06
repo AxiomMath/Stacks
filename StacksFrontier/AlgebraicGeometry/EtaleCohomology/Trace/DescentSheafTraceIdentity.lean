@@ -90,7 +90,7 @@ theorem perfectDerivedTrace_pow_descentSheaf_eq_sum (m : ℕ) (hm : 0 < m) (k' :
       perfectDerivedTrace R ⟨_, hperf⟩
           (((End.of (DerivedCategory.Plus.ι.map (canonicalCompactSupportFrobenius.{u, 0} R f j kbar
             p q hcard ((Stacks.DerivedIndexing.singlePlusFunctor (EtaleModules.{u, 0} R X) 0).obj
-              P)))) ^ m : End _)) =
+              P)))) ^ m : End _).asHom) =
         ∑ x ∈ (closedPointsDegreeLE f m).filter (fun x => residueDegree f x.1 ∣ m),
           residueDegree f x.1 • descentSheafLocalValue R f C τ a ha m x.1 := by
   obtain ⟨hs, hperf', h3⟩ := h03

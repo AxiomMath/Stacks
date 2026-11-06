@@ -1,6 +1,8 @@
 module
 
 public import StacksFrontier.RingTheory.Depth.Defs.Defs
+public import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+public import Mathlib.Algebra.Category.Grp.Zero
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic

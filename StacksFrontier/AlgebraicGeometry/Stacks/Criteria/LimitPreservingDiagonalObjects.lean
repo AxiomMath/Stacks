@@ -63,7 +63,6 @@ attribute [local implicit_reducible] Cat.category StrictBicategory.category
   Pseudofunctor.CoGrothendieck.forget BasedCategory.ofFunctor
   PresheafOfCategories.objEquiv Functor.Fiber Functor.Fiber.fiberInclusion
   Functor.ChoiceOfPullbacks.sliceFunctor TwoFibreProductOver.fst
-  Over.post
 
 namespace AlgebraicGeometry.Stack
 
@@ -172,7 +171,6 @@ theorem isLimitPreservingOnObjects_twoFibreProductDiagonal
     intro j
     apply Over.OverMorphism.ext
     simp [E, nestedOverToOver, nestedOverObject, D₀]
-    rfl
   have hγw : Fh.map γ.a ≫ w.1.iso.hom = Fh.map γ.b := by
     have h : Fh.map γ.a ≫ w.1.iso.hom = (Iso.refl (Fh.obj x.1)).hom ≫ Fh.map γ.b := γ.w
     rwa [Iso.refl_hom, Category.id_comp] at h

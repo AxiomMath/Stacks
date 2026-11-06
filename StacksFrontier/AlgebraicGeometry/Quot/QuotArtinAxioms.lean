@@ -88,7 +88,7 @@ theorem isEquivalence_fiberSquareComparison_fibredCategory
   let G := fiberSquareComparison p c j i j' i' w.symm
   have hcomp : ∀ t : F.obj (op Y'), F.map j.op (F.map j'.op t) = F.map i.op (F.map i'.op t) := by
     intro t
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp,
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
       w]
   have : G.Faithful := ⟨fun {_ _} _ _ _ => Subsingleton.elim _ _⟩
   have : G.Full := by

@@ -63,6 +63,19 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FlatImageSystemOfAlgebraicLimit :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FlatImageSystemOfAlgebraicLimit
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 attribute [local simp] pullback.lift_fst pullback.lift_snd pullback.lift_fst_assoc
   pullback.lift_snd_assoc
 
@@ -300,7 +313,9 @@ all of `U_l`: it is the base change of `Y ⟶ Y_l`, whose image is all of `Y_l`,
 morphism `U_l ⟶ Y_l` (Stacks 089E). -/
 lemma schemeTheoreticImage_d_of_algebraicLimit (algY : IsAlgebraicSpace B S hS Y)
     (l : Over M.n) : schemeTheoreticImageSubfunctor B S hS (M.d l) = ⊤ := by
-  rw [← (M.isPullback_d l).flip.isoPullback_hom_snd, schemeTheoreticImageSubfunctor_comp_of_epi,
+  rw [← (M.isPullback_d l).flip.isoPullback_hom_snd,
+    @schemeTheoreticImageSubfunctor_comp_of_epi _ _ _ _ _ _ _
+      (IsIso.epi_of_iso _) _,
     schemeTheoreticImageSubfunctor_pullback_snd_of_isFlat_of_isQuasiCompact' B S hS (M.pr l)
       ((tailCone GY leY).π.app l.left) (M.isAlgebraicSpace_Us l)
       (tailSystem_isAlgebraicSpace GY leY _) algY (M.isFlat_pr l)

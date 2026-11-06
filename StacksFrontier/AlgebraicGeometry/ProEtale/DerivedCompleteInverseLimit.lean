@@ -80,8 +80,8 @@ private lemma isDerivedLimit_map_of_preservesProduct
   have hmap : G.map d ≫ e.hom = e.hom ≫ d' := by
     refine Pi.hom_ext _ _ fun n => ?_
     dsimp [e, d, d']
-    simp only [Category.assoc, piComparison_comp_π, Pi.lift_π, Preadditive.comp_sub]
-    rw [← G.map_comp, Pi.lift_π, G.map_sub, G.map_comp, ← Category.assoc,
+    simp only [Category.assoc, piComparison_comp_π, Pi.lift_comp_π, Preadditive.comp_sub]
+    rw [← G.map_comp, Pi.lift_comp_π, G.map_sub, G.map_comp, ← Category.assoc,
       piComparison_comp_π]
   refine ⟨G.map p ≫ e.hom, e.inv ≫ G.map δ ≫ (G.commShiftIso (1 : ℤ)).hom.app L, ?_⟩
   apply isomorphic_distinguished _ (G.map_distinguished _ hT)

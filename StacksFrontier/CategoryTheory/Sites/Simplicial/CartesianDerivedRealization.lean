@@ -187,11 +187,8 @@ theorem biproduct_total {C : Type*} [Category C] [Preadditive C]
 theorem biproduct_lift_desc {C : Type*} [Category C] [Preadditive C]
     {ι : Type*} [Fintype ι] {L : ι → C} [HasBiproduct L] {X Y : C}
     (f : ∀ i, X ⟶ L i) (g : ∀ i, L i ⟶ Y) :
-    biproduct.lift f ≫ biproduct.desc g = ∑ i, f i ≫ g i := by
-  calc
-    _ = biproduct.lift f ≫ (∑ i, biproduct.π L i ≫ biproduct.ι L i) ≫
-        biproduct.desc g := by rw [biproduct_total]; simp
-    _ = _ := by simp [Preadditive.comp_sum, Preadditive.sum_comp]
+    biproduct.lift f ≫ biproduct.desc g = ∑ i, f i ≫ g i :=
+  biproduct.lift_desc
 
 end Biproducts
 

@@ -38,11 +38,11 @@ theorem isPushout_quotient_map (I : Ideal (PowerSeries k)) :
     Algebra.IsPushout (PowerSeries k) (PowerSeries k ⧸ I) B
       (B ⧸ I.map (algebraMap (PowerSeries k) B)) := by
   refine Algebra.IsPushout.symm ⟨IsBaseChange.of_equiv
-    (Ideal.qoutMapEquivTensorQout B (I := I)).symm ?_⟩
+    (Ideal.quotMapEquivTensorQuot B (I := I)).symm ?_⟩
   intro x
   obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective x
   rw [LinearEquiv.symm_apply_eq]
-  simp [Ideal.qoutMapEquivTensorQout, LinearEquiv.eq_symm_apply, Algebra.smul_def]
+  simp [Ideal.quotMapEquivTensorQuot, LinearEquiv.eq_symm_apply, Algebra.smul_def]
 
 /-- **Fitting ideals of a level of a local smoothing.** If `t^N` lies in the `d`-th Fitting ideal
 of `Ω_{B/k⟦t⟧}` with `d ≤ 1`, then for `n ≥ N` the image of `t^n` in `B / 𝔪^{n+1} B` lies in the

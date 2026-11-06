@@ -509,10 +509,10 @@ theorem HasTorAmplitude.overPullback {K : DerivedCategory (Sheaf J (ModuleCat.{w
   have : CochainComplex.IsStrictlyLE jP b := isStrictlyLE_mapHomologicalComplex jV P b
   have hjP := kFlat_of_isStrictlyLE jP b (fun n => sheafifiedFree_overPullback_obj (hP n))
   have hPk := kFlat_of_isStrictlyLE P b hP
-  let G' := (presheafToSheaf (J.over V) A).obj G.val
+  let G' := (presheafToSheaf (J.over V) A).obj G.obj
   let eG : G' ≅ G := asIso ((sheafificationAdjunction (J.over V) A).counit.app G)
   let T := (rowFunctor (curriedTensor _) jP).obj G'
-  let π := sheafPullbackOverForgetTensorIso V J Λ G.val
+  let π := sheafPullbackOverForgetTensorIso V J Λ G.obj
   let e₂ : (jl.mapHomologicalComplex (ComplexShape.up ℤ)).obj T ≅
       (rowFunctor (curriedTensor _) P).obj (jl.obj G') :=
     HomologicalComplex.Hom.isoOfComponents (fun p => π.app (P.X p))

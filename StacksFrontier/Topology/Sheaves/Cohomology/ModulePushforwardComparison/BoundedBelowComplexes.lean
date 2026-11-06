@@ -90,11 +90,11 @@ theorem isRightDerivedFunctor_comp_of_rightAcyclic_obj_injective (F : C ⥤ D) (
       (Functor.whiskerRight
           (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).inv
           DerivedCategory.Plus.Qh ≫
-        Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnit ≫
-        Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus)
+        Functor.whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnith ≫
+        Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus)
       (HomotopyCategory.Plus.quasiIso C) :=
   (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
-      (F ⋙ G).rightDerivedFunctorPlus (F ⋙ G).rightDerivedFunctorPlusUnit
+      (F ⋙ G).rightDerivedFunctorPlus (F ⋙ G).rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso C) _ _).2
     ((Functor.isIso_iff_rightAcyclic_obj_injective F G _
       (Functor.rightDerived_fac _ _ _ _ _)).2 h)
@@ -121,8 +121,8 @@ noncomputable def modulePushforwardDerivedUnit :
         (Iso.refl (modulePushforward f ⋙
           SheafOfModules.toSheaf (structureSheafRing Y)))).inv DerivedCategory.Plus.Qh ≫
     Functor.whiskerLeft (modulePushforward f).mapHomotopyCategoryPlus
-      (SheafOfModules.toSheaf (structureSheafRing Y)).rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight (modulePushforward f).rightDerivedFunctorPlusUnit
+      (SheafOfModules.toSheaf (structureSheafRing Y)).rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight (modulePushforward f).rightDerivedFunctorPlusUnith
       (SheafOfModules.toSheaf (structureSheafRing Y)).rightDerivedFunctorPlus
 
 /-- The unit from ordinary pushforward after forgetting to abelian sheaves to the composite
@@ -147,9 +147,9 @@ noncomputable def abelianPushforwardDerivedUnit :
     Functor.whiskerLeft (SheafOfModules.toSheaf (structureSheafRing X)).mapHomotopyCategoryPlus
       ((opensMap f).sheafPushforwardContinuous AddCommGrpCat.{u}
         (Opens.grothendieckTopology Y.carrier)
-        (Opens.grothendieckTopology X.carrier)).rightDerivedFunctorPlusUnit ≫
+        (Opens.grothendieckTopology X.carrier)).rightDerivedFunctorPlusUnith ≫
     Functor.whiskerRight
-      (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnit
+      (SheafOfModules.toSheaf (structureSheafRing X)).rightDerivedFunctorPlusUnith
       ((opensMap f).sheafPushforwardContinuous AddCommGrpCat.{u}
         (Opens.grothendieckTopology Y.carrier)
         (Opens.grothendieckTopology X.carrier)).rightDerivedFunctorPlus
@@ -165,10 +165,17 @@ instance isRightDerivedFunctor_modulePushforwardDerivedUnit :
       (modulePushforwardDerivedUnit f)
       (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (structureSheafRing X))) :=
   isRightDerivedFunctor_comp_of_rightAcyclic_obj_injective _ _ fun _ _ =>
-    have : IsIso (SheafOfModules.toSheaf (structureSheafRing Y)).rightDerivedFunctorPlusUnit :=
-      Stacks.Cohomology.HigherDirectImage.isIso_rightDerivedFunctorPlusUnit _
-    NatIso.isIso_app_of_isIso
-      (SheafOfModules.toSheaf (structureSheafRing Y)).rightDerivedFunctorPlusUnit _
+    have hinv :
+        (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (structureSheafRing Y))).IsInvertedBy
+        ((SheafOfModules.toSheaf (structureSheafRing Y)).mapHomotopyCategoryPlus ⋙
+          DerivedCategory.Plus.Qh) := fun _ _ φ hφ =>
+      Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso _) _
+        (Stacks.Cohomology.HigherDirectImage.quasiIso_mapHomotopyCategoryPlus_map
+          (SheafOfModules.toSheaf (structureSheafRing Y)) φ hφ)
+    by
+      unfold Functor.rightAcyclic
+      refine @NatIso.isIso_app_of_isIso _ _ _ _ _ _ _ ?_ _
+      exact Functor.isIso_of_isRightDerivedFunctor_of_inverts _ _ hinv
 
 /-- **The abelian side is a right derived functor.**  Deriving the forgetful functor and then
 deriving the abelian pushforward is a right derived functor of the composite, with

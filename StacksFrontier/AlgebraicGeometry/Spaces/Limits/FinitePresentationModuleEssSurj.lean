@@ -52,6 +52,18 @@ variable {i : I} {U₀ : BigAffineFppf B S hS}
   {f₀ : yoneda.obj ((BigAffineFppf.inclusion B S hS).obj U₀) ⟶ D.obj i}
   (C : AffineChartSystem B S hS i D U₀ f₀) (L : AffineChartSystem.LimitBridge C)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FinitePresentationModuleEssSurj :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, found directly. -/
+local instance (priority := high) hasPullback_presheaf_FinitePresentationModuleEssSurj
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 omit [IsCofiltered I] in
 /-- The kernel pair of the chart of a stage is quasi-compact over it, and its triple product is
 quasi-compact. -/

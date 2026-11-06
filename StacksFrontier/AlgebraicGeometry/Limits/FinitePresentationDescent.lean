@@ -243,6 +243,7 @@ theorem baseChangeCone_π_snd (j : Over i) :
 preserves limits, and `CategoryTheory.Over.forget i` is initial on a cofiltered category. -/
 def isLimitBaseChangeCone [IsCofiltered I] (hc : IsLimit c) :
     IsLimit (baseChangeCone D i X c) :=
+  haveI : IsConnected (Over i) := isConnected_of_isTerminal (Over i) Over.mkIdTerminal
   isLimitOfPreserves (Over.pullback X.hom ⋙ Over.forget _) (Over.isLimitConePost _ hc)
 
 /-- The over category of an essentially small category is essentially small. -/

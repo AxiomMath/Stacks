@@ -412,7 +412,7 @@ lemma koszulComplex_baseChange_chainComm (f : Fin r → R) (M : Type*) [AddCommG
       apply HomologicalComplex.shape; simp only [ComplexShape.down_Rel]; omega
     have hD : ((koszulComplexBaseChange (S := S) f M).d n m) = 0 := by
       apply HomologicalComplex.shape; simp only [ComplexShape.down_Rel]; omega
-    rw [hC, hD]; simp
+    rw [hC, hD]; simp only [ModuleCat.hom_zero, LinearMap.zero_apply]; exact (ePre m).symm.map_zero
 
 /-- The `i`-th homology of `seqComplexTensor (φ ∘ f) (S ⊗[R] M)` is `S`-linearly
 isomorphic to the `i`-th homology of the termwise base change `koszulComplexBaseChange f M`. -/

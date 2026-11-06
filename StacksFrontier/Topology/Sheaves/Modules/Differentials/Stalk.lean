@@ -75,7 +75,7 @@ namespace AlgebraicGeometry.SheafOfModules
 the unit of the sheafification adjunction for presheaves of modules. -/
 noncomputable def toSectionwiseDifferentialsSheaf {X : TopCat.{u}}
     {O₁ O₂ : TopCat.Sheaf CommRingCat.{max u v} X} (φ : O₁ ⟶ O₂) :
-    PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom ⟶
+    PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom ⟶
       (sectionwiseDifferentialsSheaf φ).val := by
   letI : HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{max u v} :=
     hasSheafifyEssentiallySmallSite.{_, _, _, _, max u v} _ _
@@ -83,7 +83,7 @@ noncomputable def toSectionwiseDifferentialsSheaf {X : TopCat.{u}}
     GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall.{_, _, _, _, max u v} _
   exact (PresheafOfModules.sheafificationAdjunction (J := Opens.grothendieckTopology X)
     (𝟙 (underlyingRingSheaf O₂).obj)).unit.app
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
 
 -- The former `@[stacks 08TD]` definition is `moduleOfDifferentialsIsoSectionwise`.
 add_to_stacks 08TD AlgebraicGeometry.SheafOfModules.moduleOfDifferentialsIsoSectionwise
@@ -98,8 +98,8 @@ theorem moduleOfDifferentialsIsoSectionwise_hom_app_d {X : TopCat.{u}}
     ((moduleOfDifferentialsIsoSectionwise φ).hom.val.app U).hom
         ((universalDerivation φ).d f) =
       ((toSectionwiseDifferentialsSheaf φ).app U).hom
-        ((PresheafOfModules.DifferentialsConstruction.derivation' φ.hom).d f) :=
-  PresheafOfModules.Derivation.congr_d
+        ((PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ.hom).d f) :=
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (moduleOfDifferentialsIsoSectionwise_compatible φ) f
 
 /-! ### The stalk of a presheaf of commutative rings as a direct limit -/

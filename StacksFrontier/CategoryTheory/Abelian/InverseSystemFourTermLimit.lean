@@ -103,7 +103,7 @@ theorem exists_sub_map_eq_of_isMittagLefflerCategorical {X : ℕᵒᵖ ⥤ Modul
     ((ModuleCat.piIsoPi (fun n : ℕ ↦ X.obj (op n))).inv k)
   refine ⟨fun n ↦ Pi.π (fun n : ℕ ↦ X.obj (op n)) n a, fun n ↦ ?_⟩
   have h := congrArg (Pi.π (fun n : ℕ ↦ X.obj (op n)) n) ha
-  rw [← ModuleCat.comp_apply, Pi.lift_π, ← ModuleCat.comp_apply,
+  rw [← ModuleCat.comp_apply, Pi.lift_comp_π, ← ModuleCat.comp_apply,
     ModuleCat.piIsoPi_inv_kernel_ι] at h
   simpa [ModuleCat.comp_apply] using h
 

@@ -87,6 +87,8 @@ theorem modulesPullbackSquareIso_inv_app_comp_pullbackId {P τ : Y₀ ⟶ Y₀} 
       (Scheme.Modules.pullback τ).map
         ((Scheme.Modules.pullbackCongr hP ≪≫ Scheme.Modules.pullbackId Y₀).hom.app E) := by
   subst hP
+  have : Epi ((modulesPullbackSquareIso w).hom.app E) :=
+    @IsIso.epi_of_iso _ _ _ _ _ (NatIso.hom_app_isIso _ _)
   rw [← cancel_epi ((modulesPullbackSquareIso w).hom.app E), Iso.hom_inv_id_app_assoc,
     modulesPullbackSquareIso_id_hom_app τ w E]
   simp only [Scheme.Modules.pullbackCongr, eqToIso_refl, Iso.refl_trans, Category.assoc,
@@ -213,6 +215,12 @@ def baseChange (g : S' ⟶ S) (𝓔 : Shtuka p f hcard X S r) : Shtuka p f hcard
   have := 𝓔.mono_j
   have := 𝓔.mono_t
   have := mono_pullback_productMap_map 𝓔.t 𝓔.isGraphLineBundle_cokernel_t g
+  have : IsIso ((frobeniusTwistBaseChangeIso p f hcard X g).hom.app 𝓔.E) :=
+    NatIso.hom_app_isIso _ _
+  have : Mono ((frobeniusTwistBaseChangeIso p f hcard X g).hom.app 𝓔.E) :=
+    @IsIso.mono_of_iso _ _ _ _ _ this
+  have : Epi ((frobeniusTwistBaseChangeIso p f hcard X g).hom.app 𝓔.E) :=
+    @IsIso.epi_of_iso _ _ _ _ _ (NatIso.hom_app_isIso _ _)
   { E := (Scheme.Modules.pullback (productMap g)).obj 𝓔.E
     E' := (Scheme.Modules.pullback (productMap g)).obj 𝓔.E'
     isFiniteLocallyFreeOfRank_E :=

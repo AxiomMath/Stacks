@@ -790,7 +790,7 @@ theorem bcHasFiniteCoverRefinements_univ (W : bcLimitSiteGen T X Z cY hcY B hD h
     intro i
     obtain ⟨Zc, gg, hh, hgg, heq⟩ := hle _ (hE' ▸ E'.sieve₀_f i)
     have hfac : (⟨E'.f i⟩ : AsSmall.up.obj (E'.X i) ⟶ W) =
-        (⟨hh⟩ : AsSmall.up.obj (E'.X i) ⟶ Zc) ≫ gg := ULift.ext _ _ heq
+        (⟨hh⟩ : AsSmall.up.obj (E'.X i) ⟶ Zc) ≫ gg := ULift.ext heq
     rw [hfac]
     exact S.downward_closed hgg _
 
@@ -944,9 +944,9 @@ theorem bcEqualizer_univ {U U' : bcLimitSiteGen T X Z cY hcY B hD hY} (a b : U �
       (equalizerObj B cY.pt hY (AsSmall.down.map a) (AsSmall.down.map b)),
     fun _ => Set.mem_univ _,
     fun _ => ⟨equalizerHom B cY.pt hY (AsSmall.down.map a) (AsSmall.down.map b)⟩,
-    fun _ => ULift.ext _ _ (equalizerHom_comp B cY.pt hY _ _), ?_⟩
+    fun _ => ULift.ext (equalizerHom_comp B cY.pt hY _ _), ?_⟩
   refine Sheaf.isLocallySurjective_sigmaDesc_equalizerLift_of_exists_covering a b _ _
-    (fun _ => ULift.ext _ _ (equalizerHom_comp B cY.pt hY _ _)) ?_
+    (fun _ => ULift.ext (equalizerHom_comp B cY.pt hY _ _)) ?_
   intro Y' α hα
   refine ⟨⊤, (bcPrecoverageGen T X Z cY hcY B hD hY).toGrothendieck.top_mem Y', ?_⟩
   intro Zc g _
@@ -954,7 +954,7 @@ theorem bcEqualizer_univ {U U' : bcLimitSiteGen T X Z cY hcY B hD hY} (a b : U �
       AsSmall.down.map (g ≫ α) ≫ AsSmall.down.map b := by
     rw [← AsSmall.down.map_comp, ← AsSmall.down.map_comp, Category.assoc, Category.assoc, hα]
   refine ⟨0, ⟨equalizerLift B cY.pt hY (AsSmall.down.map (g ≫ α)) hγ⟩, ?_⟩
-  exact ULift.ext _ _ (equalizerLift_comp B cY.pt hY (AsSmall.down.map (g ≫ α)) hγ)
+  exact ULift.ext (equalizerLift_comp B cY.pt hY (AsSmall.down.map (g ≫ α)) hγ)
 
 /-! ### Condition (3) of Stacks 0GN4: products -/
 
@@ -1001,8 +1001,8 @@ theorem bcProduct_univ [QuasiCompact X.hom] [QuasiSeparated X.hom]
   obtain ⟨A₀, c, q, hq, rfl⟩ := hg
   obtain ⟨z⟩ := hq
   refine ⟨idx z, c ≫ ⟨rj z⟩, ?_, ?_⟩
-  · exact congrArg (fun t => c ≫ t) (ULift.ext _ _ (hpj z))
-  · exact congrArg (fun t => c ≫ t) (ULift.ext _ _ (hqj z))
+  · exact congrArg (fun t => c ≫ t) (ULift.ext (hpj z))
+  · exact congrArg (fun t => c ≫ t) (ULift.ext (hqj z))
 
 
 /-! ### Stacks 0GN3 at this system, with no covering-set hypothesis left -/

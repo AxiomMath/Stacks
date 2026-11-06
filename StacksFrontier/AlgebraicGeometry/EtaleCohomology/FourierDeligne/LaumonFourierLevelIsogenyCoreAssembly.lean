@@ -260,7 +260,7 @@ def LaumonFourierRepresentationLevelIsogenyInput : Prop :=
           h ≫ h' = ℓ ^ c • 𝟙 _ ∧ h' ≫ h = ℓ ^ c • 𝟙 _ ∧
           ∀ (o : O) (o' : integralClosure ℤ_[ℓ] E), algebraMap O E o = algebraMap
             (integralClosure ℤ_[ℓ] E) E o' →
-            ℓ ^ t • ((LAdicSheaf.padicTowerMap (G.act o)).app (op N') ≫ h) =
+            ℓ ^ t • ((LAdicSheaf.padicTowerMap (G.act o).asHom).app (op N') ≫ h) =
               ℓ ^ t • (h ≫ (etaleModuleRestrictScalars
                 ((Ideal.Quotient.mk (Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)})).comp
                 (algebraMap ℤ_[ℓ] (integralClosure ℤ_[ℓ] E))) X.1).map
@@ -285,7 +285,7 @@ def LaumonFourierRepresentationLevelIsogenyInput : Prop :=
               ((Matrix.GeneralLinearGroup.map (Ideal.Quotient.mk
               (Ideal.span {(ℓ : integralClosure ℤ_[ℓ] E) ^ (N' + 1)}))).comp τO) (hτO (N' + 1))))) ≫
               h') =
-              ℓ ^ t • (h' ≫ (LAdicSheaf.padicTowerMap (G.act o)).app (op N'))
+              ℓ ^ t • (h' ≫ (LAdicSheaf.padicTowerMap (G.act o).asHom).app (op N'))
 
 /-- **The Fourier side of the level isogeny**: for an `O_E`-model `σ_E` of
 `σ' = σ₁ ⊗ L_{ψ'}(a xⁿ)`, there are exponents `c`, `t`, independent of the level `N'`, and at
@@ -413,12 +413,12 @@ def LaumonFourierFamilyLevelIsogenyInput : Prop :=
                             (hσO (N' + 1))))))))) ≫ h) =
               ℓ ^ t • (h ≫ (Functor.whiskerRight (Functor.whiskerRight
                 (LAdicSheaf.padicTowerMap ((laumonFourierFamilySheaf k' B hS b ψ' n a z p₀ σ₁
-                hσ₁).act o)) (lowerShriekHomology ℤ_[ℓ]
+                hσ₁).act o).asHom) (lowerShriekHomology ℤ_[ℓ]
                 (B.inclusion.map (laumonFamilyProjection k' B hS hL)) jg 1))
                 (etaleModuleInverseImage.{u, 0} ℤ_[ℓ] (B.inclusion.map jV'))).app (op N')) ∧
             ℓ ^ t • ((Functor.whiskerRight (Functor.whiskerRight
               (LAdicSheaf.padicTowerMap ((laumonFourierFamilySheaf k' B hS b ψ' n a z p₀ σ₁ hσ₁).act
-              o)) (lowerShriekHomology ℤ_[ℓ] (B.inclusion.map (laumonFamilyProjection k' B hS hL))
+              o).asHom) (lowerShriekHomology ℤ_[ℓ] (B.inclusion.map (laumonFamilyProjection k' B hS hL))
               jg 1)) (etaleModuleInverseImage.{u, 0} ℤ_[ℓ] (B.inclusion.map jV'))).app (op N') ≫
               h') =
               ℓ ^ t • (h' ≫ (etaleModuleRestrictScalars

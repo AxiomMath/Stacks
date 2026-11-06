@@ -59,6 +59,19 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_coherentStackPushforwardQuasiFinite
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_coherentStackPushforwardQuasiFinite
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_coherentStackPushforwardQuasiFinite B S hS).has_limit _
+
 /-- If a composite of four morphisms and its first, third and fourth factors are isomorphisms, so
 is its second factor. -/
 theorem isIso_of_isIso_comp₄ {C : Type*} [Category* C] {W X Y Z V : C} {a : W ⟶ X} {b : X ⟶ Y}

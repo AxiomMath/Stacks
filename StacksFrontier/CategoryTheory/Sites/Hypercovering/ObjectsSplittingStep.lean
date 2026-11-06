@@ -387,7 +387,7 @@ degenerate part at that index. -/
 theorem ι_comp_degenEpi [HasCoproduct S.degenFamily] (j : EpiOut M ⦋M + 1⦌) :
     S.ι j.target ≫ S.degenEpi j.target j.hom = Sigma.ι S.degenFamily j := by
   have h := S.inj_comp_degenEpi j.target j.hom (EpiOut.id M j.target)
-  rw [S.inj_epiOutId, ← Sigma.eqToHom_comp_ι _ (EpiOut.comp_epiOutId j), eqToHom_refl,
+  rw [S.inj_epiOutId, ← Sigma.eqToHom_comp_ι _ (EpiOut.comp_epiOutId j).symm, eqToHom_refl,
     Category.id_comp] at h
   exact h
 

@@ -164,8 +164,8 @@ theorem mono_etaleModuleLan_map_app
   have hnat : (extensionByZeroPresheafSectionIso j F V).hom ≫
       ((smallEtaleCompose j).op.lan.map α).app (op V) =
         Limits.Sigma.map
-          (f := fun φ : V ⟶ smallEtaleSource j => F.obj (op (sourceDescend j φ)))
-          (g := fun φ : V ⟶ smallEtaleSource j => F'.obj (op (sourceDescend j φ)))
+          (g := fun φ : V ⟶ smallEtaleSource j => F.obj (op (sourceDescend j φ)))
+          (f := fun φ : V ⟶ smallEtaleSource j => F'.obj (op (sourceDescend j φ)))
           (fun φ => α.app (op (sourceDescend j φ))) ≫
         (extensionByZeroPresheafSectionIso j F' V).hom := by
     refine Limits.Sigma.hom_ext _ _ fun φ => ?_
@@ -177,8 +177,8 @@ theorem mono_etaleModuleLan_map_app
     rw [← Category.assoc, hι, extensionByZeroSummandInclusion_naturality, ← hι F',
       Limits.Sigma.ι_map_assoc]
   have hσ : Mono (Limits.Sigma.map
-      (f := fun φ : V ⟶ smallEtaleSource j => F.obj (op (sourceDescend j φ)))
-      (g := fun φ : V ⟶ smallEtaleSource j => F'.obj (op (sourceDescend j φ)))
+      (g := fun φ : V ⟶ smallEtaleSource j => F.obj (op (sourceDescend j φ)))
+      (f := fun φ : V ⟶ smallEtaleSource j => F'.obj (op (sourceDescend j φ)))
       (fun φ => α.app (op (sourceDescend j φ)))) :=
     Stacks.Sites.OverModules.mono_sigmaMap.{u, r, max (u + 1) r} _ fun φ =>
       (NatTrans.mono_iff_mono_app α).1 hα (op (sourceDescend j φ))

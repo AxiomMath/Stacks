@@ -121,7 +121,7 @@ theorem homologyπ_app_zsmul_eq_zero
     (W : S.X.Opens)
     (hW : q • 𝟙 (((((sheafSections (opensTopology S) AddCommGrpCat.{u + 1}).obj
       (op W)).mapHomologicalComplex _).obj K).homology j) = 0)
-    (z : ToType ((K.sc j).cycles.val.obj (op W))) :
+    (z : ToType ((K.sc j).cycles.obj.obj (op W))) :
     (K.sc j).homologyπ.hom.app (op W) (q • z) = 0 := by
   have hmono : Function.Injective ((K.sc j).iCycles.hom.app (op W)) := by
     have : Mono (K.sc j).iCycles.hom := (sheafToPresheaf _ _).map_mono (K.sc j).iCycles

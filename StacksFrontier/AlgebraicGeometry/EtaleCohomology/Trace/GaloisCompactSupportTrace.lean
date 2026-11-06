@@ -133,13 +133,13 @@ lemma ratCircleHomMkHom_apply (M : Stacks.Injectives.ContinuousModule.{0, v, w} 
 trivial action: `t : M →+ ℚ/ℤ` with `t(g · x) = t(x)` for all `g ∈ Q`. -/
 def ratCircleHomMk (M : Stacks.Injectives.ContinuousModule.{0, v, w} ℤ Q)
     (t : M.obj.obj.V →+ AddCircle (1 : ℚ))
-    (ht : ∀ (g : Q) (x : M.obj.obj.V), t ((M.obj.obj.ρ g).hom x) = t x) :
+    (ht : ∀ (g : Q) (x : M.obj.obj.V), t ((M.obj.obj.ρ g).asHom.hom x) = t x) :
     M ⟶ trivialRatCircleULift.{v, w} Q :=
   ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ratCircleHomMkHom.{v, w} Q M t
       comm := fun g => ModuleCat.hom_ext (LinearMap.ext fun x => by
-        change (ratCircleHomMkHom.{v, w} Q M t).hom ((M.obj.obj.ρ g).hom x) =
-          ((trivialRatCircleULift.{v, w} Q).obj.obj.ρ g).hom
+        change (ratCircleHomMkHom.{v, w} Q M t).hom ((M.obj.obj.ρ g).asHom.hom x) =
+          ((trivialRatCircleULift.{v, w} Q).obj.obj.ρ g).asHom.hom
             ((ratCircleHomMkHom.{v, w} Q M t).hom x)
         rw [ratCircleHomMkHom_apply, ratCircleHomMkHom_apply, ht]
         rfl) })
@@ -148,7 +148,7 @@ omit [CompactSpace Q] in
 /-- `x ↦ t(x)`. -/
 lemma ratCircleHomMk_apply (M : Stacks.Injectives.ContinuousModule.{0, v, w} ℤ Q)
     (t : M.obj.obj.V →+ AddCircle (1 : ℚ))
-    (ht : ∀ (g : Q) (x : M.obj.obj.V), t ((M.obj.obj.ρ g).hom x) = t x) (x : M.obj.obj.V) :
+    (ht : ∀ (g : Q) (x : M.obj.obj.V), t ((M.obj.obj.ρ g).asHom.hom x) = t x) (x : M.obj.obj.V) :
     (ratCircleHomMk.{v, w} Q M t ht).hom.hom.hom.hom x = ULift.up (t x) :=
   ratCircleHomMkHom_apply.{v, w} Q M t x
 
@@ -160,7 +160,7 @@ def ratCircleHomMkOfForget {R : Type} [Ring R]
     (M : Stacks.Injectives.ContinuousModule.{0, v, w} R Q) (N : ModuleCat.{w} R)
     (g : (Stacks.Injectives.continuousModuleUnderlying.{0, v, w} R Q).obj M ⟶ N)
     (t : N →+ AddCircle (1 : ℚ))
-    (ht : ∀ (σ : Q) (x : M.obj.obj.V), t (g ((M.obj.obj.ρ σ).hom x)) = t (g x)) :
+    (ht : ∀ (σ : Q) (x : M.obj.obj.V), t (g ((M.obj.obj.ρ σ).asHom.hom x)) = t (g x)) :
     (continuousModuleForget.{0, v, w} R Q).obj M ⟶ trivialRatCircleULift.{v, w} Q :=
   ratCircleHomMk.{v, w} Q ((continuousModuleForget.{0, v, w} R Q).obj M)
     (t.comp (ConcreteCategory.hom g).toAddMonoidHom) (fun σ x => ht σ x)
@@ -171,7 +171,7 @@ lemma ratCircleHomMkOfForget_apply {R : Type} [Ring R]
     (M : Stacks.Injectives.ContinuousModule.{0, v, w} R Q) (N : ModuleCat.{w} R)
     (g : (Stacks.Injectives.continuousModuleUnderlying.{0, v, w} R Q).obj M ⟶ N)
     (t : N →+ AddCircle (1 : ℚ))
-    (ht : ∀ (σ : Q) (x : M.obj.obj.V), t (g ((M.obj.obj.ρ σ).hom x)) = t (g x))
+    (ht : ∀ (σ : Q) (x : M.obj.obj.V), t (g ((M.obj.obj.ρ σ).asHom.hom x)) = t (g x))
     (x : M.obj.obj.V) :
     (ratCircleHomMkOfForget.{v, w} Q M N g t ht).hom.hom.hom.hom x = ULift.up (t (g x)) :=
   ratCircleHomMk_apply.{v, w} Q ((continuousModuleForget.{0, v, w} R Q).obj M)
@@ -218,7 +218,7 @@ def cyclotomicNormalCoinvariantsAddHom :
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y).toMonoidHom.range.subtype)
     AddEquiv.ulift.toAddMonoidHom (fun g z => by
       have h := cyclotomicContinuousModule_ρ_eq_one_of_mem_range B X f kbar y n g.1 g.2
-      change (((cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.ρ g.1).hom z).down = z.down
+      change (((cyclotomicContinuousModule B X f kbar y n).obj.obj.obj.ρ g.1).asHom.hom z).down = z.down
       rw [h]
       rfl)
 
@@ -364,7 +364,7 @@ theorem compactSupportCyclotomicTrace_galois (hn : IsUnit ((n : ℕ) : kbar)) (�
             ((2 : ℕ) : ℤ)).obj (galoisDerivedCompactSupport (ZMod n) f j kbar
               ((Stacks.DerivedIndexing.singlePlusFunctor _ 0).obj
                 ((representationSheaf B X _ (ZMod n)).obj
-                  (cyclotomicContinuousModule B X f kbar y n))))).obj.obj.ρ σ).hom x)) =
+                  (cyclotomicContinuousModule B X f kbar y n))))).obj.obj.ρ σ).asHom.hom x)) =
       compactSupportCyclotomicTrace B X f kbar y n j hn
         ((galoisCompactSupportGroupForgetIso (ZMod n) f j kbar
           ((Stacks.DerivedIndexing.singlePlusFunctor _ 0).obj
@@ -820,6 +820,7 @@ lemma galoisCompactSupportForgetIso_hom_eq (K : CochainComplex.Plus (EtaleModule
     Functor.isoWhiskerRight_hom, Functor.whiskerRight_app, Functor.associator_hom_app,
     Functor.associator_inv_app, Iso.symm_hom, Category.id_comp, Category.comp_id]
 
+set_option maxHeartbeats 1000000 in
 /-- **The underlying map of `Hᵐ(Γ^Gal(I)) ≅ Hᵐ(RΓ^Gal_c(X_k̄, F))` is
 `Hᵐ(Γ(X̄_k̄, I|)) ≅ Hᵐ_c(X_k̄, F)`** (`Stacks.EtaleCohomology.galoisCompactSupportResolutionIso`),
 read through `U(Hᵐ(-)) ≅ Hᵐ(U -)` and `Stacks.EtaleCohomology.galoisCompactSupportGroupForgetIso`.

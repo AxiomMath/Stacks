@@ -306,7 +306,7 @@ lemma _root_.PresheafOfModules.nontrivial_tensorObj_obj_of_eval {C : Type*} [Cat
     (hsmul₁ : ∀ (r : O.obj X) m, l₁ (r • m) = χ r * l₁ m)
     (hsmul₂ : ∀ (r : O.obj X) m, l₂ (r • m) = χ r * l₂ m)
     (m₁ : M₁.obj X) (m₂ : M₂.obj X) (h₁ : l₁ m₁ = 1) (h₂ : l₂ m₂ = 1) :
-    Nontrivial ((PresheafOfModules.Monoidal.tensorObj M₁ M₂).obj X) := by
+    Nontrivial ((PresheafOfModulesOfCommRing.Monoidal.tensorObj M₁ M₂).obj X) := by
   let : Algebra (O.obj X) K := χ.toAlgebra
   let L₁ : M₁.obj X →ₗ[O.obj X] K :=
     { toFun := l₁

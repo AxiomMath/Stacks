@@ -69,6 +69,26 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on `BigFppfOver B U hU`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_SectionSpaceEtale
+    (B : BigFppfSite.{u}) (U : Scheme.{u}) (hU : B.Contains U) :
+    HasPullbacks ((BigFppfOver B U hU)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_SectionSpaceEtale
+    {B : BigFppfSite.{u}} {U : Scheme.{u}} {hU : B.Contains U}
+    {X Y Z : (BigFppfOver B U hU)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_SectionSpaceEtale B U hU).has_limit _
+
+/-- Discrete limits of presheaves on `BigFppfOver B U hU`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_SectionSpaceEtale
+    {B : BigFppfSite.{u}} {U : Scheme.{u}} {hU : B.Contains U} (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B U hU)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 variable {B : BigFppfSite.{u}} {U : Scheme.{u}} {hU : B.Contains U}
 
 /-! ### The space of sections is a sheaf -/
@@ -277,7 +297,8 @@ theorem mem_sectionEqualizer_iff (hW : IsAlgebraicSpace B U hU W) (hw : IsEtale 
   · intro h
     rw [← hefst, Category.assoc, Category.assoc, h]
   · intro h
-    rw [← cancel_epi e.hom, ← Category.assoc, ← Category.assoc, hefst, h]
+    refine (cancel_epi e.hom).1 ?_
+    rw [← Category.assoc, ← Category.assoc, hefst, h]
 
 end Equalizer
 
@@ -328,8 +349,8 @@ theorem mem_sectionSpaceChart_iff (hW : IsAlgebraicSpace B U hU W) (hw : IsEtale
     x ∈ (sectionSpaceChart ξ ξ').obj (op T) ↔
       ξ.app (op T) (x ≫ prod.fst) = ξ'.app (op T) (x ≫ prod.snd) := by
   rw [sectionSpaceChart, mem_sectionSpaceEqualizer_iff hW hw hZfin, app_eq_map_yonedaEquiv,
-    app_eq_map_yonedaEquiv, op_comp, op_comp, FunctorToTypes.map_comp_apply,
-    FunctorToTypes.map_comp_apply]
+    app_eq_map_yonedaEquiv, op_comp, op_comp, Functor.map_comp_apply,
+    Functor.map_comp_apply]
 
 /-- **The chart of the fibre product of two points of the space of sections is that fibre
 product.** -/

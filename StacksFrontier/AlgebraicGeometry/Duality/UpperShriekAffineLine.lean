@@ -198,7 +198,7 @@ theorem nonempty_upperShriekHomology_affineLineProj_iso :
     exact le_antisymm (iSup_le fun a => le_iSup V a.down)
       (iSup_le fun a => le_iSup (fun b : ULift.{u} A => V b.down) ⟨a⟩)
   have hdisj' : Pairwise (Function.onFun Disjoint fun a : ULift.{u} A => V a.down) :=
-    fun a b hab => hdisj (fun h => hab (ULift.ext _ _ h))
+    fun a b hab => hdisj (fun h => hab (ULift.ext h))
   obtain ⟨Φ, hΦ⟩ := SmoothLocus.exists_hom_restrict_eq_of_pairwise_disjoint _ hcov' hdisj' ψ
   have hΦs : ∀ x, IsIso ((Stacks.ConormalSequenceRight.stalkAb _ x).map Φ) := by
     intro x

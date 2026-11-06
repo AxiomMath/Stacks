@@ -75,6 +75,14 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_EtaleSquareGluing
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Compactifications glue across an elementary distinguished square** (Stacks 0F4B). Over a
 quasi-compact, quasi-separated algebraic space `Y` of finite type over `Spec ℤ`, let `U` be
 separated and of finite type over `Y` and let `(U₂ ⊆ U, f₁ : U₁ ⟶ U)` be an elementary

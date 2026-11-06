@@ -8,6 +8,7 @@ public import Mathlib.Topology.Sheaves.Abelian
 public import StacksFrontier.Topology.Sheaves.Cohomology.Vanishing.IrreducibleSpaces
 public import StacksFrontier.Topology.Sheaves.OpenImmersion.Restriction
 public import StacksFrontier.Topology.Sheaves.Sheaf.Constant
+import Mathlib.GroupTheory.SpecificGroups.Cyclic
 import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -80,13 +81,14 @@ private lemma exists_zmultiples_eq (H : AddSubgroup (ULift.{v} ℤ)) :
     refine ⟨?_, fun hz => ⟨ULift.up z, hz, rfl⟩⟩
     rintro ⟨x, hx, rfl⟩
     exact hx
-  obtain ⟨n, hn⟩ := Int.subgroup_cyclic (H.map e.toAddMonoidHom)
-  rw [← AddSubgroup.zmultiples_eq_closure] at hn
+  obtain ⟨n, hn⟩ := (AddSubgroup.isAddCyclic_iff_exists_zmultiples_eq_top _).mp
+    (H.map e.toAddMonoidHom).isAddCyclic
+  replace hn := hn.symm
   refine ⟨ULift.up n, ?_⟩
   ext x
   refine ⟨fun hx => ?_, fun hx => ?_⟩
   · obtain ⟨k, hk⟩ := AddSubgroup.mem_zmultiples_iff.mp (hn ▸ (hmem x.down).mpr hx)
-    exact AddSubgroup.mem_zmultiples_iff.mpr ⟨k, ULift.ext _ _ hk⟩
+    exact AddSubgroup.mem_zmultiples_iff.mpr ⟨k, ULift.ext hk⟩
   · obtain ⟨k, hk⟩ := AddSubgroup.mem_zmultiples_iff.mp hx
     exact (hmem x.down).mp (hn ▸ AddSubgroup.mem_zmultiples_iff.mpr ⟨k, congrArg ULift.down hk⟩)
 

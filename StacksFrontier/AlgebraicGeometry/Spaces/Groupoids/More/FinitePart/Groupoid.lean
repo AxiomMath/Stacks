@@ -83,6 +83,28 @@ universe u v w
 
 namespace AlgebraicGeometry.Space
 
+/-- Discrete limits of presheaves on the big fppf site, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_finitePartGroupoid
+    {C : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} (J : Type) :
+    HasLimitsOfShape (Discrete J) ((AlgebraicGeometry.BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+/-- Pullbacks of presheaves on the big fppf site, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_finitePartGroupoid
+    {C : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_finitePartGroupoid
+    {C : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (AlgebraicGeometry.BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_finitePartGroupoid.has_limit _
+
 private noncomputable def identityArrow
     {C : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
     (H : Deformation.GroupoidInFunctors ((AlgebraicGeometry.BigFppfOver C S hS)ᵒᵖ)) :

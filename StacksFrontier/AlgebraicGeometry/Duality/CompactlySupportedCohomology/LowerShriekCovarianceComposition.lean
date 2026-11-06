@@ -353,7 +353,7 @@ theorem lowerShriekPointsFunctorIsoStd_hom_app_app_lowerShriekOpenImmersionCompM
         (Stacks.Duality.openCompactification i) c cU ((restrictBoundedCoherentLift i.left).obj K)))
   have h₂ := ConcreteCategory.congr_hom (congr_app h₁ L) x
   exact h₂.trans
-    ((FunctorToTypes.comp _ _ _ _ _ x).trans ((FunctorToTypes.comp _ _ _ _ _ _).trans
+    ((NatTrans.comp_app_apply _ _ _ x).trans ((NatTrans.comp_app_apply _ _ _ _).trans
       (isoWhiskerLeft_isoWhiskerRight_coyoneda_inv_app _ _ _ _
         (upperShriekStdCompIso i f (Stacks.Duality.openCompactification i) c cU) _ L _)))
 

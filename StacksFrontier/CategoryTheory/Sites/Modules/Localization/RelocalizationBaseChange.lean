@@ -179,7 +179,7 @@ lemma OverPresheafAux.overArrowsPullbackEquiv_map₂ (α : H ⟶ K) (S : Over K)
     overArrowsPullbackEquiv α S W (x.map₂ g.left g.w) =
       (overArrowsPullbackEquiv α S Z x).map₂ g.left (by
         change yoneda.map g.left ≫ Z.hom ≫ α = W.hom ≫ α
-        rw [← Category.assoc, g.w]; simp) := by
+        rw [← Category.assoc, g.w]) := by
   apply OverArrows.ext
   simp only [overArrowsPullbackEquiv_val, OverArrows.map₂_val]
   exact NatTrans.naturality_apply (pullback.fst S.hom α) g.left.op x.val

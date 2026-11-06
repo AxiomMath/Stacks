@@ -65,7 +65,7 @@ private theorem invOfUnit_one_apply {F : Type*} [FunLike F R⟦X⟧ S⟦X⟧] [R
   invOfUnit_one_eq_of_mul_eq_one hu' (by rw [← map_mul, mul_invOfUnit_one hu, map_one])
 
 /-- The formal derivative commutes with the map induced by a ring homomorphism. -/
-theorem map_derivative (f : R →+* S) (u : R⟦X⟧) : map f (d⁄dX R u) = d⁄dX S (map f u) := by
+theorem map_derivative (f : R →+* S) (u : R⟦X⟧) : map f (d⁄dX u) = d⁄dX (map f u) := by
   ext n
   rw [coeff_map, coeff_derivative, coeff_derivative, coeff_map, map_mul, map_add, map_natCast,
     map_one]
@@ -81,7 +81,7 @@ theorem logDerivative_map (f : R →+* S) {u : R⟦X⟧} (hu : constantCoeff u =
 
 /-- The coefficient of `T ^ n` of `T u'` is `n` times that of `u`. -/
 theorem coeff_X_mul_derivative (u : R⟦X⟧) (n : ℕ) :
-    coeff n (X * d⁄dX R u) = n * coeff n u := by
+    coeff n (X * d⁄dX u) = n * coeff n u := by
   cases n with
   | zero => simp
   | succ n =>
@@ -101,7 +101,7 @@ theorem coeff_logDerivative_one_sub_C_mul_X (a : R) (m : ℕ) :
     | succ n =>
       rw [coeff_succ_X_mul, coeff_mk, pow_succ']
       simp
-  have hd : d⁄dX R (1 - C a * X) = -C a := by
+  have hd : d⁄dX (1 - C a * X) = -C a := by
     rw [map_sub, derivative_one, Derivation.leibniz, derivative_X, derivative_C]
     simp
   have hrw : X * -C a * PowerSeries.mk (fun n => a ^ n) =
@@ -134,7 +134,7 @@ evaluated at `T ^ δ`. -/
 theorem logDerivative_expand (δ : ℕ) (hδ : δ ≠ 0) {u : R⟦X⟧} (hu : constantCoeff u = 1) :
     logDerivative (expand δ hδ u) = (δ : R⟦X⟧) * expand δ hδ (logDerivative u) := by
   have hu' : constantCoeff (expand δ hδ u) = 1 := by simp [hu]
-  have hder : X * d⁄dX R (expand δ hδ u) = (δ : R⟦X⟧) * expand δ hδ (X * d⁄dX R u) := by
+  have hder : X * d⁄dX (expand δ hδ u) = (δ : R⟦X⟧) * expand δ hδ (X * d⁄dX u) := by
     ext n
     rw [coeff_X_mul_derivative, ← map_natCast (C (R := R)), coeff_C_mul, coeff_expand,
       coeff_expand]

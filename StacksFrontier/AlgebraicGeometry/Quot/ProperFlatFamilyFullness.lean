@@ -111,7 +111,7 @@ theorem pullbackBaseRestrict_cancel (f : X ⟶ yoneda.obj V) {p : U ⟶ W} {q : 
   obtain ⟨e, he⟩ := exists_iso_pullbackBaseRestrict f h
   rw [← he]
   simp only [Category.assoc]
-  exact (cancel_epi e.hom).symm
+  exact (Iso.cancel_iso_hom_left e _ _).symm
 
 /-- **The restriction of a morphism of base changes to a later base.** A morphism `w` of the base
 changes of `f` and `g` along `q` which lies over the base restricts, along a factorisation

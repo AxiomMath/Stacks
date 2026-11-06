@@ -81,10 +81,10 @@ theorem isPushout_toScheme_of_isFlat (hatlas : HasThickeningAffineAtlases B S hS
       (by simp)
   have haX'' : IsPullback (yoneda.map A.a) A.p' (qm ≫ eP.hom) a.hom :=
     haX'.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP (by simp) (by simp) (by simp)
-      (by simpa using hinl)
+      (hinl.trans (Category.id_comp _).symm)
   have hbY'' : IsPullback (yoneda.map A.b) A.q (qm ≫ eP.hom) b.hom :=
     hbYc.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP (by simp) (by simp) (by simp)
-      (by simpa using hinr)
+      (hinr.trans (Category.id_comp _).symm)
   have hback : i.hom ≫ a.hom = f.hom ≫ b.hom := by
     simpa only [ObjectProperty.FullSubcategory.comp_hom] using congrArg (fun φ => φ.hom) hE.w
   have hsides' : (schemeSpaceMap jY).hom ≫ (schemeSpaceMap cY).hom =

@@ -238,7 +238,7 @@ private theorem henselianLocalRing_of_isIntegral_aux {A B : Type u} [CommRing A]
     ((HenselianLocalRing.henselianLocalRing_and_finite_of_finite_of_quasiFiniteAt.{u, u, u} A).2.1 S
       inferInstance).1
   have : IsLocalHom (algebraMap S B) := ((local_hom_TFAE _).out 5 1 rfl rfl).mp
-    (eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (maximalIdeal B)))
+    (eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := S) (maximalIdeal B)))
   have hcoeffs : (↑g.coeffs : Set B) ⊆ S.toSubring := fun b hb => by
     obtain ⟨n, -, rfl⟩ := Polynomial.mem_coeffs_iff.mp hb
     exact coeff_mem_adjoin g
@@ -474,7 +474,7 @@ private theorem henselianLocalRing_tensorProduct [HenselianLocalRing B]
     (E.toMulEquiv.isField (Field.toIsField (ResidueField C)))
   have : IsLocalRing (B ⊗[A] C) := .of_unique_max_ideal ⟨I, hI, fun J hJ =>
     (hI.eq_of_le hJ.ne_top (Ideal.map_le_iff_le_comap.mpr
-      (eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal J)).ge)).symm⟩
+      (eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal J)).ge)).symm⟩
   exact ⟨HenselianLocalRing.of_isIntegral (A := B), eq_maximalIdeal hI⟩
 
 end TensorProduct

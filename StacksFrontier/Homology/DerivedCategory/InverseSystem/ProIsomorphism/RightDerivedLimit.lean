@@ -411,7 +411,7 @@ private lemma derivedLimit_isZero_of_proZero
       unfold Rlim.delta Rlim.shift
       apply Pi.hom_ext
       intro n
-      rw [Pi.lift_π, Preadditive.sub_comp, Category.id_comp, Pi.lift_π]
+      rw [Pi.lift_comp_π, Preadditive.sub_comp, Category.id_comp, Pi.lift_comp_π]
     show IsZero (cokernel _)
     rw [he]
     exact (hz (p - 1)).2

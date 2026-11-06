@@ -64,7 +64,8 @@ variable (T : DividedPowerScheme.{u}) (Y : Scheme.{u}) (f : T.scheme ⟶ Y)
 
 /-- The universal divided power derivation read as a derivation of `𝒪_T` along the comorphism of
 `f`: a divided power derivation kills every section pulled back from an open of the base. -/
-def dpComorphismDerivation : (dpDifferentialsSheaf T Y f).val.Derivation f.c where
+def dpComorphismDerivation :
+    PresheafOfModulesOfCommRing.Derivation (dpDifferentialsSheaf T Y f).val f.c where
   d {W} := AddMonoidHom.mk' (sheafApp T Y f W.unop) (sheafApp_add T Y f W.unop)
   d_mul a b := sheafApp_mul T Y f _ a b
   d_map i x := (sheafApp_naturality T Y f i.unop x).symm
@@ -90,7 +91,7 @@ derivation. -/
 theorem toDpDifferentials_d (W : T.scheme.Opens) (x : Γ(T.scheme, W)) :
     (toDpDifferentials T Y f).val.app (op W)
         ((Scheme.Hom.universalRelativeDerivation f).d x) = sheafApp T Y f W x :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (Scheme.Hom.existsUnique_hom_relativeDifferentials f _
       (dpStructuralDerivation T Y f)).choose_spec.1 x
 

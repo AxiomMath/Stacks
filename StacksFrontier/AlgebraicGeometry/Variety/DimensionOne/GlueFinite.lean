@@ -304,7 +304,9 @@ private lemma localRingHom_bijective_of_openImmersion
     ConcreteCategory.bijective_of_isIso (CommRingCat.ofHom g)
   have hIp : I = p.asIdeal.comap (RingEquiv.refl A).toRingHom := by
     have hIp' : I = p.asIdeal := hIq
-    simpa only [RingEquiv.toRingHom_refl, Ideal.comap_id] using hIp'
+    rw [hIp']
+    ext x
+    simp
   let e : Localization.AtPrime I ≃+* Localization.AtPrime p.asIdeal :=
     Localization.localRingEquiv I p.asIdeal (RingEquiv.refl A) hIp
   have hmap : Localization.localRingHom I q.asIdeal f hIq = g.comp e.toRingHom := by

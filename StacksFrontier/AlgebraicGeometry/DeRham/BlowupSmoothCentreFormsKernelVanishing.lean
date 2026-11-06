@@ -161,6 +161,18 @@ def coneFormsKernelIso (a : ℤ) :
       (zeroSection (truncationConeData (yGrading R m n))) (coneToBase R m n) a) :=
   kernelIsoOfEq (coneFormsRestriction.eq_1 R m n a) ≪≫ kernelCompMono _ _
 
+/-- `epi_homology_zero_derivedPushforward_map_of_epi_pushforward`, with the injectives of
+`𝒪_{X'}`-modules supplied by `SheafOfModules.isGrothendieckAbelianU`. -/
+private theorem epi_homology_zero_derivedPushforward_map_of_epi_pushforward_grothendieck
+    {X' Y' : Scheme.{u}} (f' : X' ⟶ Y') [HasDerivedCategory (ModuleSheaves X'.toRingedSpace)]
+    [HasDerivedCategory (ModuleSheaves Y'.toRingedSpace)] {M N : X'.Modules} (g : M ⟶ N)
+    (hg : Epi ((Scheme.Modules.pushforward f').map g)) :
+    Epi ((DerivedCategory.homologyFunctor _ 0).map
+      ((derivedPushforward f'.toLRSHom.toShHom).map
+        ((DerivedCategory.singleFunctor (ModuleSheaves X'.toRingedSpace) 0).map g))) := by
+  have _ := SheafOfModules.isGrothendieckAbelianU.{u, u, u} (structureSheafRing X'.toRingedSpace)
+  exact epi_homology_zero_derivedPushforward_map_of_epi_pushforward f' g hg
+
 /-- The source `L` of the cone `b : L ⟶ X`, read off `b` itself. -/
 abbrev coneSource : Scheme.{u} := (Arrow.mk (coneToAmbient R m n)).left
 
@@ -175,20 +187,35 @@ variable
 /-- `H⁰(Rb_*ρ)` is an epimorphism, `b_*ρ` being one (`epi_pushforward_coneFormsRestriction`). -/
 theorem epi_homology_zero_derivedPushforward_coneFormsRestriction (a : ℕ) :
     Epi ((@DerivedCategory.homologyFunctor _ _ _ iX 0).map
-      ((@derivedPushforward _ _ (coneToAmbient R m n).toLRSHom.toShHom iL iX).map
+      ((@derivedPushforward (coneSource R m n).toRingedSpace _
+        (coneToAmbient R m n).toLRSHom.toShHom iL iX).map
         ((@DerivedCategory.singleFunctor (ModuleSheaves (coneSource R m n).toRingedSpace) _ _ iL
           0).map (coneFormsRestriction R m n (a : ℤ))))) := by
-  have _ := SheafOfModules.isGrothendieckAbelianU.{u, u, u}
-    (structureSheafRing (coneSource R m n).toRingedSpace)
-  exact @epi_homology_zero_derivedPushforward_map_of_epi_pushforward _ _ (coneToAmbient R m n) iL
-    iX _ _ _ (coneFormsRestriction R m n (a : ℤ)) (epi_pushforward_coneFormsRestriction R m n a)
+  have hg : Epi ((@Scheme.Modules.pushforward (coneSource R m n) _ (coneToAmbient R m n)).map
+      (coneFormsRestriction R m n (a : ℤ))) := by
+    have := isClosedImmersion_zeroSection (truncationConeData (yGrading R m n))
+    have hN := AlgebraicGeometry.ProperCoherentFiniteType.isQuasicoherent_pushforward
+      (X := coneSource R m n) (coneToAmbient R m n) _
+      (AlgebraicGeometry.ProperCoherentFiniteType.isQuasicoherent_pushforward
+        (zeroSection (truncationConeData (yGrading R m n))) _
+        (Scheme.Hom.isQuasicoherent_relativeDifferentialForms
+          (zeroSection (truncationConeData (yGrading R m n)) ≫ coneToBase R m n) a))
+    have h₁ := Scheme.Hom.epi_pushforward_map_of_surjective_app_top (Y := coneSource R m n)
+      (coneToAmbient R m n) _
+      (Scheme.Hom.surjective_formsDirectImageComparison_app_top _ _ (zeroSection_comp_pi _) _
+        (coneProjection_comp_coneZeroSection_comp_coneToBase R m n) (a : ℤ))
+    rw [coneFormsRestriction, Functor.map_comp]
+    infer_instance
+  exact @epi_homology_zero_derivedPushforward_map_of_epi_pushforward_grothendieck (coneSource R m n)
+    _ (coneToAmbient R m n) iL iX _ _ (coneFormsRestriction R m n (a : ℤ)) hg
 
 /-- `H^q(Rb_*ρ)` is invertible as soon as the comparison of clause (3) of [Stacks, Tag 0FUR] is. -/
 theorem isIso_homology_derivedPushforward_coneFormsRestriction (a k : ℕ)
     (h : IsIso ((@DerivedCategory.homologyFunctor _ _ _ iX (k : ℤ)).map
       (@coneFormsDerivedComparison R _ m n iX iL iZ iP (a : ℤ)))) :
     IsIso ((@DerivedCategory.homologyFunctor _ _ _ iX (k : ℤ)).map
-      ((@derivedPushforward _ _ (coneToAmbient R m n).toLRSHom.toShHom iL iX).map
+      ((@derivedPushforward (coneSource R m n).toRingedSpace _
+        (coneToAmbient R m n).toLRSHom.toShHom iL iX).map
         ((@DerivedCategory.singleFunctor (ModuleSheaves (coneSource R m n).toRingedSpace) _ _ iL
           0).map (coneFormsRestriction R m n (a : ℤ))))) := by
   rw [coneFormsDerivedComparison_eq] at h
@@ -203,7 +230,8 @@ theorem isZero_homology_derivedPushforward_coneFormsKernel (a : ℕ)
       (@coneFormsDerivedComparison R _ m n iX iL iZ iP (a : ℤ))))
     (q : ℤ) (hq : 1 ≤ q) :
     IsZero ((@DerivedCategory.homologyFunctor _ _ _ iX q).obj
-      ((@derivedPushforward _ _ (coneToAmbient R m n).toLRSHom.toShHom iL iX).obj
+      ((@derivedPushforward (coneSource R m n).toRingedSpace _
+        (coneToAmbient R m n).toLRSHom.toShHom iL iX).obj
         ((@DerivedCategory.singleFunctor (ModuleSheaves (coneSource R m n).toRingedSpace) _ _ iL
           0).obj (kernel (coneFormsRestriction R m n (a : ℤ)))))) := by
   have := epi_coneFormsRestriction R m n a

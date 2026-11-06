@@ -340,7 +340,6 @@ private theorem pointDegree_eq_ofSchemeDegree (hdim : topologicalKrullDim X ≤ 
     rfl
   have h1 : x.left p = (BigFppfOver.toScheme B (Spec (.of k)) hk).map xB p := by
     rw [hxB]
-    rfl
   rw [h1, ← residueDegree_homEquiv, hc, ← residueDegree_ofSchemeAddEquivPicardFunctorOfCurve
     B hX k g hdim _ p, AddEquiv.apply_symm_apply]
 

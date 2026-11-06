@@ -56,6 +56,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_koszulLocusOnBaseUnconditional :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_koszulLocusOnBaseUnconditional
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_koszulLocusOnBaseUnconditional B S hS).has_limit _
+
 /-- The two spellings of the base change of `f : X ⟶ Y` along `g : Z' ⟶ Z` agree:
 `AlgebraicGeometry.Space.baseChangeOverBase` is the map of pullbacks induced by `f` and the
 identities of `Z'` and of `Z`. -/

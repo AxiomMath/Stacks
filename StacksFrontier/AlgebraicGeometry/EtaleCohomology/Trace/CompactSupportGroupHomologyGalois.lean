@@ -287,14 +287,18 @@ def geometricGroupHomologyTwistGaloisZero :
       (geometricGroupHomologyTwist B X f kbar Λ y hn).functor 0 :=
   letI := connectedSpace_of_isCurve B X f
   letI := connectedSpace_fieldBaseChange f kbar
-  Functor.whiskerRight ((restrictedHomologyZeroIso Λ (geometricFundamentalGroupMap B X f kbar
+  (Functor.whiskerRight ((restrictedHomologyZeroIso Λ (geometricFundamentalGroupMap B X f kbar
       (contains_fieldBaseChange_of_isCurve B X f kbar) y)).hom ≫
       geometricCoinvariantsGaloisAction B X f kbar Λ y σ ≫
       (restrictedHomologyZeroIso Λ (geometricFundamentalGroupMap B X f kbar
         (contains_fieldBaseChange_of_isCurve B X f kbar) y)).inv)
       (rootsOfUnityHomFunctor Λ kbar (Fintype.card Λ)) ≫
     Functor.whiskerLeft ((geometricGroupHomology B X f kbar Λ y).functor 0)
-      (rootsOfUnityHomGaloisPrecomp kbar Λ σ (Fintype.card Λ))
+      (rootsOfUnityHomGaloisPrecomp kbar Λ σ (Fintype.card Λ)) :
+    (geometricGroupHomology B X f kbar Λ y).functor 0 ⋙
+        rootsOfUnityHomFunctor Λ kbar (Fintype.card Λ) ⟶
+      (geometricGroupHomology B X f kbar Λ y).functor 0 ⋙
+        rootsOfUnityHomFunctor Λ kbar (Fintype.card Λ))
 
 variable (hcompOp : letI := connectedSpace_of_isCurve B X f
     letI := connectedSpace_fieldBaseChange f kbar

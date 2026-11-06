@@ -357,7 +357,7 @@ theorem isIso_homComparisonMonoidal_of_bound (ω : RingedSite.SchemeStdDerived T
       (toZariskiSmallModelHom E T hT)).Monoidal := derivedPullbackSmallModelMonoidal E T hT
     IsIso (RingedSite.homComparisonMonoidal (X := T.zariskiRingedSite)
       (Y := (smallModelRingedTopos E T hT).toRingedSite)
-      (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived (toZariskiSmallModelHom E T hT))
+      (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived.{u} (toZariskiSmallModelHom E T hT))
       X ω) := by
   let : HasDerivedCategory T.Modules := HasDerivedCategory.standard _
   let := HasDerivedCategory.standard
@@ -373,7 +373,8 @@ theorem isIso_homComparisonMonoidal_of_bound (ω : RingedSite.SchemeStdDerived T
   obtain ⟨bT, hbT⟩ := RingedSite.exists_bound_schemeDual T ω hω
   obtain ⟨n₀, hn₀⟩ := Stacks.Duality.isBoundedBelow_of_isDualizingComplex ω hω
   have hge : ω.IsGE n₀ := (DerivedCategory.isGE_iff ω n₀).2 hn₀
-  let P := Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived (toZariskiSmallModelHom E T hT)
+  let P :=
+    Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived.{u} (toZariskiSmallModelHom E T hT)
   refine (DerivedCategory.isIso_iff _ _).2 fun n => ?_
   let m := max bEt bT - n + 2
   let Tr := (DerivedCategory.TStructure.t.triangleLTGE m).obj X

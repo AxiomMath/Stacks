@@ -135,8 +135,8 @@ theorem koszulSingle_comp_koszulGeneratorsMap (i : Fin r) :
   rw [RingedSite.koszulGeneratorsMap, Preadditive.comp_sum]
   refine Eq.trans (Finset.sum_eq_single_of_mem i (Finset.mem_univ i) ?_) ?_
   · intro j _ hj
-    rw [← Category.assoc, koszulSingle, Pi.lift_π, ite_eq_right hj, zero_comp]
-  · rw [← Category.assoc, koszulSingle, Pi.lift_π, ite_eq_left rfl, Category.id_comp]
+    rw [← Category.assoc, koszulSingle, Pi.lift_comp_π, ite_eq_right hj, zero_comp]
+  · rw [← Category.assoc, koszulSingle, Pi.lift_comp_π, ite_eq_left rfl, Category.id_comp]
 
 /-- The monomial attached to the exponent vector of the `i`-th generator is `f_i^{n+1}`: every
 other factor carries the exponent zero. -/

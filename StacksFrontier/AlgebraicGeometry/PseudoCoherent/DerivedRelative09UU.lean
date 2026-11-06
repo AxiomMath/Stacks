@@ -153,9 +153,9 @@ public def derivedRestrictPushforwardIso {X P : Scheme.{u}} (i : X ⟶ P) [IsClo
     comp_preservesFiniteLimits _ _
   have : PreservesFiniteColimits (restrictFunctor (i ⁻¹ᵁ W).ι ⋙ pushforward (i ∣_ W)) :=
     comp_preservesFiniteColimits _ _
-  exact Functor.mapDerivedCategoryCompIso
+  exact Functor.mapDerivedCategoryCompIsoOfCompIso
       (Stacks.AlgebraicGeometry.AffinePushforward.restrictPushforwardIso i W) ≪≫
-    (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
       (Iso.refl (restrictFunctor (i ⁻¹ᵁ W).ι ⋙ pushforward (i ∣_ W)))).symm
 
 /-- **The local condition of Stacks 09UI crosses the restriction square.** Let `i : X ⟶ P` be a

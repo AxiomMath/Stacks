@@ -63,7 +63,7 @@ public theorem baseChange_character_eq_one_of_lift [ConnectedSpace Y] (s : Y ⟶
   refine (T.baseChange f).character_eq_of_smul y p₀ γ ((finiteEtaleFiberFunctor y).map σ q) ?_
   have hσ : γ • (finiteEtaleFiberFunctor y).map σ q =
       (finiteEtaleFiberFunctor y).map σ (γ • q) :=
-    ConcreteCategory.congr_hom (γ.hom.naturality σ) q
+    ConcreteCategory.congr_hom (γ.asIso.hom.naturality σ) q
   rw [hσ, hq (γ • q), (T.baseChange f).τ_zero, CategoryTheory.Functor.map_id]
   rfl
 

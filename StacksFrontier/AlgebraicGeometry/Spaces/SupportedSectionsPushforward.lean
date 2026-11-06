@@ -497,7 +497,6 @@ private theorem chart_complement_pullback
     apply ObjectProperty.hom_ext
     show yoneda.map q₀ ≫ U.1.hom = (yoneda.map p₀ ≫ Q.1.hom) ≫ f.hom
     rw [Category.assoc, ← hc, ← Category.assoc, hpq.w, Category.assoc, i.hom.w]
-    simp
   let b : KX.obj E ⟶ C.functor.obj (KY.obj U) :=
     ⟨Over.homMk ((C.isPullback (KY.obj U)).lift qq (KX.obj E).1.hom hbcomm)
       ((C.isPullback (KY.obj U)).lift_snd _ _ _)⟩

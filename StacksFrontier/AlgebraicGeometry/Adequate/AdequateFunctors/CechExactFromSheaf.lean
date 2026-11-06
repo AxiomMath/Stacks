@@ -154,7 +154,7 @@ public theorem injective_and_exists_eq_of_isSheafFor_singleton {C : Type u₂} [
   · obtain ⟨x, hx⟩ := hbij.2 ⟨y, hy⟩
     exact ⟨x, congrArg Subtype.val hx⟩
   · obtain ⟨x, hx⟩ := hy
-    rw [← hx, ← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply,
+    rw [← hx, ← Functor.map_comp_apply, ← Functor.map_comp_apply,
       ← op_comp, ← op_comp, hpb.w]
 
 /-- `Stacks.CechSite.injective_and_exists_eq_of_isSheafFor_singleton` for a sheaf on a site and

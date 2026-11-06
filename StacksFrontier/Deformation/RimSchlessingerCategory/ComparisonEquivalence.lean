@@ -41,7 +41,7 @@ open CategoryTheory CategoryTheory.Limits
 
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberCategory
-  CategoryTheory.Functor.Fiber.fiberInclusion CategoryTheory.Limits.PullbackCone.mk
+  CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Limits.CategoricalPullback.CatCommSqOver.toFunctorToCategoricalPullback
   PushforwardFunctor.toFunctor SquareComparisonFunctor.toFunctor
 

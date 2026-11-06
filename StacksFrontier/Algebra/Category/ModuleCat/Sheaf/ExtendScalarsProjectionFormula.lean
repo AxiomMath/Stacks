@@ -119,7 +119,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 the spelling the change-of-rings adjunction of Stacks 03CZ takes it in. -/
 lemma isSheaf_ringPresheaf_obj (O : Sheaf J CommRingCat.{w}) :
     Presheaf.IsSheaf J (ringPresheaf O.obj) :=
-  (Stacks.SheafOfModules.Tensor.ringSheaf O).cond
+  (Stacks.SheafOfModules.Tensor.ringSheaf O).property
 
 /-- **The base change of Stacks 03CU as a natural transformation of bifunctors**: the shape
 `Stacks.ProjectionFormula.adjunctionTensorMapSnd` takes its comparison in. Its components are

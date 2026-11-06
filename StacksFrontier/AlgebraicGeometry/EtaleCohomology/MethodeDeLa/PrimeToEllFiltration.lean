@@ -180,9 +180,9 @@ theorem pow_app_finiteEtaleBaseChange_eq_self {X Y : Scheme.{u}} [ConnectedSpace
     [ConnectedSpace Y] (f : X ⟶ Y) (x : GeometricPoint X) (V : FiniteEtaleOver Y)
     (σ : EtaleFundamentalGroup X x) (n : ℕ)
     (h : ∀ q : (finiteEtaleFiberFunctor (x.map f)).obj V,
-      (((etaleFundamentalGroupMap f x σ) ^ n).app V).hom q = q)
+      (((etaleFundamentalGroupMap f x σ) ^ n).asIso.app V).hom q = q)
     (p : (finiteEtaleFiberFunctor x).obj ((finiteEtaleBaseChange f).obj V)) :
-    ((σ ^ n).app ((finiteEtaleBaseChange f).obj V)).hom p = p := by
+    ((σ ^ n).asIso.app ((finiteEtaleBaseChange f).obj V)).hom p = p := by
   apply (finiteEtaleFiberProjectionEquiv f x V).injective
   show finiteEtaleFiberProjection f x V _ = finiteEtaleFiberProjection f x V p
   rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection, map_pow]
@@ -196,7 +196,7 @@ from the terminal cover of `X`, which every natural automorphism fixes. -/
 theorem etaleFundamentalGroupMap_app_lift {X Y : Scheme.{u}} [ConnectedSpace X]
     [ConnectedSpace Y] (f : X ⟶ Y) (x : GeometricPoint X) (V : FiniteEtaleOver Y)
     (i : X ⟶ V.left) (hi : i ≫ V.hom = f) (σ : EtaleFundamentalGroup X x) :
-    ((etaleFundamentalGroupMap f x σ).app V).hom
+    ((etaleFundamentalGroupMap f x σ).asIso.app V).hom
         ⟨x.hom ≫ i, by rw [Category.assoc, hi]; rfl⟩ =
       ⟨x.hom ≫ i, by rw [Category.assoc, hi]; rfl⟩ := by
   let W := (finiteEtaleBaseChange f).obj V
@@ -208,8 +208,8 @@ theorem etaleFundamentalGroupMap_app_lift {X Y : Scheme.{u}} [ConnectedSpace X]
   have hp₀ : finiteEtaleFiberProjection f x V p₀ =
       ⟨x.hom ≫ i, by rw [Category.assoc, hi]; rfl⟩ :=
     Subtype.ext ((Category.assoc _ _ _).trans (congrArg (x.hom ≫ ·) (pullback.lift_fst _ _ _)))
-  have hfix : (σ.app W).hom p₀ = p₀ := by
-    have hn := congrArg (fun g ↦ g pt) (σ.hom.naturality Δ)
+  have hfix : (σ.asIso.app W).hom p₀ = p₀ := by
+    have hn := congrArg (fun g ↦ g pt) (σ.asIso.hom.naturality Δ)
     simp only [types_comp_apply] at hn
     refine hn.trans ?_
     congr 1
@@ -254,10 +254,10 @@ theorem exists_relSeries_constantRankOneStep_of_stabilizer (hℓ : ℓ.Prime) (X
     (T : FiniteEtaleOver XS.1) [ConnectedSpace T.left] (t : GeometricPoint T.left)
     (hfix : have : NeZero ℓ := ⟨hℓ.ne_zero⟩
       ∀ τ : EtaleFundamentalGroup XS.1 (t.map T.hom),
-        (τ.app T).hom ⟨t.hom, rfl⟩ = ⟨t.hom, rfl⟩ → ∃ k : ℕ,
+        (τ.asIso.app T).hom ⟨t.hom, rfl⟩ = ⟨t.hom, rfl⟩ → ∃ k : ℕ,
           ∀ q : (finiteEtaleFiberFunctor (t.map T.hom)).obj
             ((representingCover B XS).obj (zmodFibreSetSheaf ℓ B XS ⟨F, hF⟩)),
-            ((τ ^ (ℓ ^ k)).app _).hom q = q) :
+            ((τ ^ (ℓ ^ k)).asIso.app _).hom q = q) :
     ∃ X : RelSeries (ConstantRankOneStep.{0} ℓ ((smallEtalePullbackZMod.{0} ℓ T.hom).obj F)),
       IsZero (Subobject.underlying.obj X.head) ∧ IsIso X.last.arrow := by
   have : NeZero ℓ := ⟨hℓ.ne_zero⟩
@@ -290,10 +290,10 @@ private theorem exists_relSeries_constantRankOneStep_of_fiberStabilizer (hℓ : 
     (T : FiniteEtaleOver XS.1) [ConnectedSpace T.left] (s : GeometricPoint XS.1)
     (y₀ : (finiteEtaleFiberFunctor s).obj T)
     (hfix : have : NeZero ℓ := ⟨hℓ.ne_zero⟩
-      ∀ τ : EtaleFundamentalGroup XS.1 s, (τ.app T).hom y₀ = y₀ → ∃ k : ℕ,
+      ∀ τ : EtaleFundamentalGroup XS.1 s, (τ.asIso.app T).hom y₀ = y₀ → ∃ k : ℕ,
         ∀ q : (finiteEtaleFiberFunctor s).obj
           ((representingCover B XS).obj (zmodFibreSetSheaf ℓ B XS ⟨F, hF⟩)),
-          ((τ ^ (ℓ ^ k)).app _).hom q = q) :
+          ((τ ^ (ℓ ^ k)).asIso.app _).hom q = q) :
     ∃ X : RelSeries (ConstantRankOneStep.{0} ℓ ((smallEtalePullbackZMod.{0} ℓ T.hom).obj F)),
       IsZero (Subobject.underlying.obj X.head) ∧ IsIso X.last.arrow := by
   have : NeZero ℓ := ⟨hℓ.ne_zero⟩
@@ -303,10 +303,10 @@ private theorem exists_relSeries_constantRankOneStep_of_fiberStabilizer (hℓ : 
     rw [y₀.2]
     rfl
   have key : ∀ (s' : GeometricPoint XS.1) (h : s = s') (τ : EtaleFundamentalGroup XS.1 s'),
-      (τ.app T).hom (h ▸ y₀) = h ▸ y₀ → ∃ k : ℕ,
+      (τ.asIso.app T).hom (h ▸ y₀) = h ▸ y₀ → ∃ k : ℕ,
         ∀ q : (finiteEtaleFiberFunctor s').obj
           ((representingCover B XS).obj (zmodFibreSetSheaf ℓ B XS ⟨F, hF⟩)),
-          ((τ ^ (ℓ ^ k)).app _).hom q = q := by
+          ((τ ^ (ℓ ^ k)).asIso.app _).hom q = q := by
     intro s' h
     subst h
     exact hfix
@@ -339,7 +339,7 @@ private theorem exists_primeToEll_finiteEtale_relSeries_of_openSubgroup (hℓ : 
       ∀ σ ∈ U.toSubgroup, ∃ k : ℕ,
         ∀ q : (finiteEtaleFiberFunctor s).obj
           ((representingCover B XS).obj (zmodFibreSetSheaf ℓ B XS ⟨F, hF⟩)),
-          ((σ ^ (ℓ ^ k)).app _).hom q = q) :
+          ((σ ^ (ℓ ^ k)).asIso.app _).hom q = q) :
     ∃ (T : Scheme.{u}) (f : T ⟶ XS.1) (d : ℕ), IsFinite f ∧ Etale f ∧
       Stacks.Morphisms.IsFiniteLocallyFreeOfRank f d ∧ ¬ ℓ ∣ d ∧
       ∃ X : RelSeries (ConstantRankOneStep.{0} ℓ ((smallEtalePullbackZMod.{0} ℓ f).obj F)),

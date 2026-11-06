@@ -137,7 +137,8 @@ def homAddSubgroup (M N : QuasicoherentModule B S hS G) :
     AddSubgroup (M.F.obj ⟶ N.F.obj) where
   carrier := {h | M.alpha ≫ (modulePullback B S hS G.source).map h =
     (modulePullback B S hS G.target).map h ≫ N.alpha}
-  zero_mem' := by simp
+  zero_mem' := by
+    simp only [Set.mem_ofPred_eq, Functor.map_zero, Limits.comp_zero, Limits.zero_comp]
   add_mem' {a b} ha hb := by
     simp only [Set.mem_ofPred_eq, Functor.map_add, Preadditive.comp_add,
       Preadditive.add_comp] at ha hb ⊢
@@ -276,7 +277,8 @@ def liftedLimitCone (hqc : c.pt.IsQuasicoherentOnSite) : Cone D where
         intro i j f
         apply QuasicoherentModule.Hom.ext
         change 𝟙 c.pt ≫ c.π.app j = c.π.app i ≫ (D.map f).hom
-        simpa using (c.w f).symm }
+        rw [Category.id_comp]
+        exact (c.w f).symm }
 
 /-- The underlying module of the limit quasi-coherent module is the limit of the underlying
 modules. -/
@@ -523,8 +525,14 @@ instance forget_reflectsIsomorphisms :
       rw [← Category.assoc, ← f.comm, Category.assoc, ← Functor.map_comp, IsIso.hom_inv_id,
         CategoryTheory.Functor.map_id, Category.comp_id, ← Category.assoc,
         ← Functor.map_comp, IsIso.hom_inv_id, CategoryTheory.Functor.map_id, Category.id_comp]
-    exact ⟨{ hom := inv f.hom, comm := (cancel_epi _).1 h },
-      QuasicoherentModule.Hom.ext (by simp), QuasicoherentModule.Hom.ext (by simp)⟩
+    have hepi : Epi ((modulePullback B S hS G.target).map f.hom) :=
+      @IsIso.epi_of_iso _ _ _ _ _ (Functor.map_isIso _ f.hom)
+    refine ⟨{ hom := inv f.hom, comm := (cancel_epi _).1 h },
+      QuasicoherentModule.Hom.ext ?_, QuasicoherentModule.Hom.ext ?_⟩
+    · rw [comp_hom, id_hom]
+      exact IsIso.hom_inv_id f.hom
+    · rw [comp_hom, id_hom]
+      exact IsIso.inv_hom_id f.hom
 
 /-- The forgetful functor preserves the limits that it lifts: the underlying cone of the lifted
 limit cone is the limit cone it was lifted from. -/

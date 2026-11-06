@@ -116,13 +116,14 @@ private lemma ghostEndo_pow_zero
     (a : ℤ) (n : ℕ) (X : DerivedCategory 𝒜)
     [X.IsGE a] [X.IsLE (a + n)]
     (f : End X)
-    (hf : ∀ i : ℤ, (DerivedCategory.homologyFunctor 𝒜 i).map f = 0) :
+    (hf : ∀ i : ℤ, (DerivedCategory.homologyFunctor 𝒜 i).map f.asHom = 0) :
     f ^ (n + 1) = 0 := by
   classical
   induction n generalizing X with
   | zero =>
       have : X.IsLE a := by simpa using (inferInstance : X.IsLE (a + (0 : ℕ)))
-      rw [hom_eq_zero_of_isLE_isGE X X a f (hf a)]
+      have hf0 : f = 0 := End.ext (by rw [hom_eq_zero_of_isLE_isGE X X a f.asHom (hf a)]; rfl)
+      rw [hf0]
       simp
   | succ n ih =>
       let b := a + (n : ℤ)
@@ -133,8 +134,8 @@ private lemma ghostEndo_pow_zero
       have hKLE : K.IsStrictlyLE (a + (n + 1 : ℕ)) := hKdata.2.1
       let e : X ≅ DerivedCategory.Q.obj K := Classical.choice hKdata.2.2
       let X' := DerivedCategory.Q.obj K
-      let f' : End X' := e.inv ≫ f ≫ e.hom
-      have hf' (i : ℤ) : (DerivedCategory.homologyFunctor 𝒜 i).map f' = 0 := by
+      let f' : End X' := .of (e.inv ≫ f.asHom ≫ e.hom)
+      have hf' (i : ℤ) : (DerivedCategory.homologyFunctor 𝒜 i).map f'.asHom = 0 := by
         dsimp [f']
         rw [Functor.map_comp, Functor.map_comp, hf i]
         simp
@@ -146,7 +147,7 @@ private lemma ghostEndo_pow_zero
       let T := (DerivedCategory.TStructure.t.triangleLEGE b (b + 1) (by omega)).obj X'
       have hobj₂ : T.obj₂ = X' := by rfl
       let fT : End T.obj₂ := hobj₂.symm ▸ f'
-      have hfT (i : ℤ) : (DerivedCategory.homologyFunctor 𝒜 i).map fT = 0 := by
+      have hfT (i : ℤ) : (DerivedCategory.homologyFunctor 𝒜 i).map fT.asHom = 0 := by
         cases hobj₂
         exact hf' i
       have hT := DerivedCategory.TStructure.t.triangleLEGE_distinguished b (b + 1)
@@ -165,12 +166,12 @@ private lemma ghostEndo_pow_zero
         have hb : b + 1 = a + (n + 1 : ℕ) := by dsimp [b]; omega
         rw [hb]
         infer_instance
-      have hzero₂ : fT ≫ T.mor₂ = 0 :=
-        hom_eq_zero_of_isLE_isGE T.obj₂ T.obj₃ (b + 1) (fT ≫ T.mor₂) <| by
+      have hzero₂ : fT.asHom ≫ T.mor₂ = 0 :=
+        hom_eq_zero_of_isLE_isGE T.obj₂ T.obj₃ (b + 1) (fT.asHom ≫ T.mor₂) <| by
           rw [Functor.map_comp, hfT (b + 1), zero_comp]
-      obtain ⟨h, hh⟩ := Pretriangulated.Triangle.coyoneda_exact₂ T hT fT hzero₂
-      let q : End T.obj₁ := T.mor₁ ≫ h
-      have hq (i : ℤ) : (DerivedCategory.homologyFunctor 𝒜 i).map q = 0 := by
+      obtain ⟨h, hh⟩ := Pretriangulated.Triangle.coyoneda_exact₂ T hT fT.asHom hzero₂
+      let q : End T.obj₁ := .of (T.mor₁ ≫ h)
+      have hq (i : ℤ) : (DerivedCategory.homologyFunctor 𝒜 i).map q.asHom = 0 := by
         by_cases hi : i ≤ b
         · have hiota : IsIso ((DerivedCategory.homologyFunctor 𝒜 i).map T.mor₁) := by
             apply isIso_homology_mor₁ T hT i
@@ -186,35 +187,30 @@ private lemma ghostEndo_pow_zero
           rw [Functor.map_comp, hhzero, comp_zero]
         · exact (DerivedCategory.isZero_of_isLE T.obj₁ b i (by omega)).eq_of_src _ _
       have hqpow : q ^ (n + 1) = 0 := ih T.obj₁ q hq
-      have hpower (m : ℕ) : fT ^ (m + 1) = h ≫ (q ^ m) ≫ T.mor₁ := by
+      have hpower (m : ℕ) : (fT ^ (m + 1)).asHom = h ≫ (q ^ m).asHom ≫ T.mor₁ := by
         induction m with
         | zero => simp [q, hh]
         | succ m ihm =>
-            calc
-              fT ^ (m.succ + 1) = fT ^ ((m + 1) + 1) := rfl
-              _ = (fT ^ (m + 1)) ≫ fT := by
-                rw [pow_succ']
-                simp [End.mul_def]
-              _ = (h ≫ (q ^ m) ≫ T.mor₁) ≫ (h ≫ T.mor₁) := by
-                rw [ihm, hh]
-              _ = h ≫ (q ^ (m + 1)) ≫ T.mor₁ := by
-                simp [q, pow_succ', End.mul_def, Category.assoc]
+            rw [pow_succ' fT (m + 1), End.mul_asHom, ihm, hh, pow_succ' q m, End.mul_asHom]
+            simp [q, Category.assoc]
       have hfpow : f' ^ (n + 2) = 0 := by
         have hfTpow : fT ^ (n + 2) = 0 := by
+          ext
           rw [hpower (n + 1), hqpow]
           simp
         cases hobj₂
         exact hfTpow
-      have hconj (m : ℕ) : (f' ^ m) = e.inv ≫ (f ^ m) ≫ e.hom := by
+      have hconj (m : ℕ) : (f' ^ m).asHom = e.inv ≫ (f ^ m).asHom ≫ e.hom := by
         induction m with
         | zero => simp [f', X']
         | succ m ihm =>
-            rw [pow_succ', ihm, pow_succ']
-            simp [f', End.mul_def, Category.assoc]
-      have hpow : (f ^ (n + 2)) = e.hom ≫ (f' ^ (n + 2)) ≫ e.inv := by
+            rw [pow_succ', End.mul_asHom, ihm, pow_succ', End.mul_asHom]
+            simp [f', Category.assoc]
+      have hpow : (f ^ (n + 2)).asHom = e.hom ≫ (f' ^ (n + 2)).asHom ≫ e.inv := by
         rw [hconj]
         simp [Category.assoc]
       rw [hfpow] at hpow
+      ext
       simpa using hpow
 
 /-- A functor carries powers of an endomorphism to powers of its image. -/
@@ -433,8 +429,8 @@ theorem cohomologicalDimension_lt_of_isZero_homology_localCohomologyDerived
     have hT := DerivedCategory.TStructure.t.triangleLEGE_distinguished (-(d : ℤ)) lo rfl K
     have hobj₁ : T.obj₁ = (DerivedCategory.TStructure.t.truncLE (-(d : ℤ))).obj K := rfl
     -- `f • 𝟙` is a ghost endomorphism of the truncation `U`, hence nilpotent.
-    let fU : End U := f • 𝟙 U
-    have hfU : ∀ i : ℤ, (DerivedCategory.homologyFunctor C i).map fU = 0 := by
+    let fU : End U := .of (f • 𝟙 U)
+    have hfU : ∀ i : ℤ, (DerivedCategory.homologyFunctor C i).map fU.asHom = 0 := by
       intro i
       by_cases hlow : i < lo
       · exact (DerivedCategory.isZero_of_isGE U lo i hlow).eq_of_src _ _
@@ -464,36 +460,36 @@ theorem cohomologicalDimension_lt_of_isZero_homology_localCohomologyDerived
           simpa using hcomp
     have hnil : fU ^ (n + 1) = 0 := ghostEndo_pow_zero lo n U fU hfU
     -- Nilpotency survives `RΓ_{V(I)}` and taking homology, where it reads as a power of `f`.
-    let gU : End (RF.obj U) := RF.map fU
+    let gU : End (RF.obj U) := RF.mapEnd U fU
     have hgU : gU ^ (n + 1) = 0 := by
       show ((RF.mapEnd U) fU) ^ (n + 1) = 0
       rw [map_end_pow RF U fU (n + 1), hnil]
-      exact RF.map_zero U U
-    let gm : End (Hm.obj (RF.obj U)) := Hm.map gU
+      exact End.ext (RF.map_zero U U)
+    let gm : End (Hm.obj (RF.obj U)) := Hm.mapEnd (RF.obj U) gU
     have hgmNil : gm ^ (n + 1) = 0 := by
       show ((Hm.mapEnd (RF.obj U)) gU) ^ (n + 1) = 0
       rw [map_end_pow Hm (RF.obj U) gU (n + 1), hgU]
-      exact Hm.map_zero _ _
-    have hgmApply : ∀ x : Hm.obj (RF.obj U), gm.hom x = f • x := by
+      exact End.ext (Hm.map_zero _ _)
+    have hgmApply : ∀ x : Hm.obj (RF.obj U), gm.asHom.hom x = f • x := by
       intro x
-      have hscalar : gm = f • 𝟙 (Hm.obj (RF.obj U)) := by
+      have hscalar : gm.asHom = f • 𝟙 (Hm.obj (RF.obj U)) := by
         show Hm.map (RF.map (f • 𝟙 U)) = _
         rw [Functor.map_smul, Functor.map_smul]
         simp
       rw [hscalar]
       show (f • 𝟙 (Hm.obj (RF.obj U))).hom x = f • x
       rw [ModuleCat.hom_smul, ModuleCat.hom_id, LinearMap.smul_apply, LinearMap.id_apply]
-    have hgmPow : ∀ (m : ℕ) (x : Hm.obj (RF.obj U)), (gm ^ m).hom x = f ^ m • x := by
+    have hgmPow : ∀ (m : ℕ) (x : Hm.obj (RF.obj U)), (gm ^ m).asHom.hom x = f ^ m • x := by
       intro m
       induction m with
       | zero => intro x; simp
       | succ m ih =>
           intro x
-          rw [pow_succ', End.mul_def, ModuleCat.hom_comp]
-          show gm.hom ((gm ^ m).hom x) = _
+          rw [pow_succ', End.mul_asHom, ModuleCat.hom_comp]
+          show gm.asHom.hom ((gm ^ m).asHom.hom x) = _
           rw [hgmApply, ih, smul_smul, ← pow_succ']
     have hkillU : ∀ x : Hm.obj (RF.obj U), f ^ (n + 1) • x = 0 := fun x ↦
-      (hgmPow (n + 1) x).symm.trans (congrArg (fun q : End (Hm.obj (RF.obj U)) => q.hom x) hgmNil)
+      (hgmPow (n + 1) x).symm.trans (congrArg (fun q : End (Hm.obj (RF.obj U)) => q.asHom.hom x) hgmNil)
     -- The connecting map of the truncation triangle transports that to the bottom truncation.
     let TR : Triangle (DerivedCategory C) := RF.mapTriangle.obj T
     have hTR : TR ∈ distinguishedTriangles := RF.map_distinguished T hT

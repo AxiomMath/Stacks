@@ -83,7 +83,7 @@ theorem nonempty_isColimit_mapCocone_of_overStage (h : IsColimit (P'.mapCocone c
     fun k z ↦ NatTrans.naturality_apply e.hom k.op z
   have comp : ∀ {X Y Z : C} (k : X ⟶ Y) (l : Y ⟶ Z) (z : P.obj (op Z)),
       P.map k.op (P.map l.op z) = P.map (k ≫ l).op z := fun k l z ↦ by
-    rw [op_comp, FunctorToTypes.map_comp_apply]
+    rw [op_comp, Functor.map_comp_apply]
   have hinv : ∀ {X : C'} (z : P.obj (op (Φ.obj X))), e.hom.app (op X) (e.inv.app (op X) z) = z :=
     fun z ↦ Iso.inv_hom_id_apply (e.app _) z
   have hφ' : ∀ A : Over i₀, c.π.app A.left ≫ ψ.inv.app A = φ.inv ≫ Φ.map (c'.π.app A) := by
@@ -259,7 +259,7 @@ theorem limitPreserving_homFunctor_of_affineBase {T₀ : BigFppfOver B S hS}
     isQuasiCompactSpace_yoneda_of_isAffine B S hS U hU
   have hpf : IsQuasiCompact B S hS (a.hom ≫ f.hom) :=
     isQuasiCompact_yoneda_of_isAffine B S hS (a.hom ≫ f.hom) hU hT₀
-  have hRqc : IsQuasiCompactSpace B S hS (pullback a.hom a.hom) :=
+  have hRqc :=
     isQuasiCompactSpace_selfPullback B S hS a.hom f.hom (isAlgebraicSpace_yoneda B S hS U)
       (isAlgebraicSpace_yoneda B S hS T₀) hUqc hqs hpf
   let R := overlapSpace (fun _ : PUnit.{1} ↦ a) PUnit.unit PUnit.unit

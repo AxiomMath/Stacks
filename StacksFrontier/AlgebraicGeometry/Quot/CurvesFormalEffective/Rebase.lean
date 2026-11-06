@@ -194,6 +194,13 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits IsLocalRing Cardinal
 
 universe u
 
+/-- Pullbacks of presheaves of types, supplied directly: instance search for them now times
+out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_CurvesRebaseDefs.{u₁, v₁, w₁}
+    {D : Type u₁} [Category.{v₁} D] {Z₁ Z₂ Z : D ⥤ Type w₁} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-! ### Local instances
 
 Mathlib registers `CategoryTheory.MorphismProperty.RespectsIso.inverseImage` as an instance,
@@ -326,6 +333,13 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits IsLocalRing Cardinal
 namespace AlgebraicGeometry
 
 universe u v w
+
+/-- Pullbacks of presheaves of types, supplied directly: instance search for them now times
+out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_CurvesRebase.{u₁, v₁, w₁}
+    {D : Type u₁} [Category.{v₁} D] {Z₁ Z₂ Z : D ⥤ Type w₁} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
 
 private theorem terminal_mem_of_integerBase_mem
     (B : AlgebraicGeometry.BigFppfSite.{u})

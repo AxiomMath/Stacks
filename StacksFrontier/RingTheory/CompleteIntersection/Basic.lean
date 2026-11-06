@@ -1,11 +1,15 @@
 module
 
 
+public import Mathlib.RingTheory.Ideal.Height
 public import StacksFrontier.RingTheory.CompleteIntersection.Defs
 import Mathlib.Order.CompletePartialOrder
+import Mathlib.RingTheory.Ideal.KrullsHeightTheorem
+import Mathlib.RingTheory.KrullDimension.Field
 import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.PicardGroup
 import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.Spectrum.Prime.Jacobson
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ENatToNat

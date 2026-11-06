@@ -384,7 +384,7 @@ theorem constToUnits_isLocallyInjective :
   · simp
   · have hne : ((zeta k n hn hnk a.down : kˣ) : k) -
         ((zeta k n hn hnk b.down : kˣ) : k) ≠ 0 := fun h =>
-      hab' (ULift.ext _ _ (zeta_injective k n hn hnk (sub_eq_zero.1 h)))
+      hab' (ULift.ext (zeta_injective k n hn hnk (sub_eq_zero.1 h)))
     have hval : structHom k f T.unop ((zeta k n hn hnk a.down : kˣ) : k) =
         structHom k f T.unop ((zeta k n hn hnk b.down : kˣ) : k) :=
       congrArg (fun z : ToType ((multiplicativeSheaf.{u, v} X).obj.obj T) =>

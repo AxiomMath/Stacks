@@ -35,7 +35,7 @@ theorem exists_etaleModuleRestrictScalars_map_eq {X : Scheme.{u}} {A B : EtaleMo
     (hφ : ∀ U (l : Λ') (x : A.obj.obj U), (φ.hom.app U).hom (l • x) =
       l • (show B.obj.obj U from (φ.hom.app U).hom x)) :
     ∃ ψ : A ⟶ B, (etaleModuleRestrictScalars ρ X).map ψ = φ := by
-  refine ⟨Sheaf.Hom.mk
+  refine ⟨ObjectProperty.homMk
     { app := fun U => ModuleCat.ofHom
         { toFun := (φ.hom.app U).hom
           map_add' := map_add (φ.hom.app U).hom

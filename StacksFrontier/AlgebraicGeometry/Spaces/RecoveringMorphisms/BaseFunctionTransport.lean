@@ -285,7 +285,9 @@ theorem baseFunctionTransport_comp
       baseFunctionTransport g r U := by
   refine (baseFunctionTransport_eq_comp_app
     (RingedToposHom.comp (X := smallEtaleRingedTopos B S hS X) (Y := smallEtaleRingedTopos B S hS Y)
-      (Z := smallEtaleRingedTopos B S hS Z) χ g) (g.toToposHom.inverseImage.map (terminal.from _))
+      (Z := smallEtaleRingedTopos B S hS Z) χ g)
+    (g.toToposHom.inverseImage.map (terminal.from (C := Sheaf (SmallEtale.topology B S hS Y.1) (Type u))
+      (χ.toToposHom.inverseImage.obj (⊤_ Sheaf (SmallEtale.topology B S hS Z.1) (Type u)))))
     (g.toToposHom.inverseImage.map (baseGlobalFunction Y r) ≫ g.fSharpSet) r ?_ U).trans
     (comp_inverseImageTerminal_app g _ _ U default)
   rw [RingedToposHom.fSharpSet_comp χ g]

@@ -68,18 +68,18 @@ def pointSmallEtaleSelfElement :
 an étale `S`-scheme `U` is itself the unique morphism of neighbourhoods from `(s, 𝟙)` to it. -/
 def isInitialPointSmallEtaleSelfElement :
     IsInitial (show (pointSmallEtale s).fiber.Elements from
-      ⟨Scheme.Etale.mk s, pointSmallEtaleSelfElement s⟩) := by
+      (pointSmallEtale s).fiber.elementsMk (Scheme.Etale.mk s) (pointSmallEtaleSelfElement s)) := by
   apply IsInitial.ofUniqueHom
     (fun U : (pointSmallEtale s).fiber.Elements ↦
-      CategoryOfElements.homMk _ U
-      (MorphismProperty.Over.homMk U.2.left (CategoryTheory.Over.w U.2)) ?_)
+      Functor.Elements.homMk
+      (MorphismProperty.Over.homMk U.val.left (CategoryTheory.Over.w U.val)) ?_)
     (fun U m ↦ ?_)
   · apply CategoryTheory.Over.OverMorphism.ext
-    change (𝟙 (Spec (.of Ω))) ≫ U.2.left = U.2.left
+    change (𝟙 (Spec (.of Ω))) ≫ U.val.left = U.val.left
     exact Category.id_comp _
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     apply MorphismProperty.Over.Hom.ext
-    exact (Category.id_comp m.1.left).symm.trans (congrArg (fun b ↦ b.left) m.2)
+    exact (Category.id_comp m.hom.left).symm.trans (congrArg (fun b ↦ b.left) m.map_val)
 
 variable (A : Type v) [Category.{w} A] [HasColimitsOfSize.{u, u} A]
 
@@ -95,7 +95,7 @@ def presheafFiberSelfIso :
     (evaluation S.Etaleᵒᵖ A).obj (op (Scheme.Etale.mk s)) ≅ (pointSmallEtale s).presheafFiber := by
   letI : ∀ P, IsIso ((sectionsToPresheafFiberSelf s A).app P) := fun P ↦
     ((pointSmallEtale s).isColimitPresheafFiberCocone P).isIso_ι_app_of_isTerminal
-      (op ⟨Scheme.Etale.mk s, pointSmallEtaleSelfElement s⟩)
+      (op ((pointSmallEtale s).fiber.elementsMk (Scheme.Etale.mk s) (pointSmallEtaleSelfElement s)))
       (isInitialPointSmallEtaleSelfElement s).op
   letI := NatIso.isIso_of_isIso_app (sectionsToPresheafFiberSelf s A)
   exact asIso (sectionsToPresheafFiberSelf s A)

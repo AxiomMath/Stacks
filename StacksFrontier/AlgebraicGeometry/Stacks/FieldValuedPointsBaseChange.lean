@@ -160,17 +160,17 @@ theorem nonempty_iso_of_iso_components (hF : F ⋙ p𝒮 = p𝒳) (hG : G ⋙ p�
   set ε : G.obj B.1.y ≅ G.obj B.1.y :=
     (F.mapIso a ≪≫ B.1.iso).symm ≪≫ (A.1.iso ≪≫ G.mapIso b) with hεdef
   have hεlift : p𝒮.IsHomLift (𝟙 U) ε.hom := isHomLift_discrepancy_hom hF hG a b α.inv.2 hbhom
-  have hεmem : ε ∈ p𝒮.verticalAut (G.obj B.1.y) := by
-    refine (Functor.mem_verticalAut_iff p𝒮 ε).mpr ?_
+  have hεmem : Aut.of ε ∈ p𝒮.verticalAut (G.obj B.1.y) := by
+    refine (Functor.mem_verticalAut_iff p𝒮 (Aut.of ε)).mpr ?_
     rw [IsHomLift.fac' p𝒮 (𝟙 U) ε.hom]
     simp
-  obtain ⟨γ, hγ⟩ := hsurj ⟨ε, hεmem⟩
+  obtain ⟨γ, hγ⟩ := hsurj ⟨Aut.of ε, hεmem⟩
   -- The lifted automorphism, read as an isomorphism, and the corrected `𝒴`-component.
-  let γ' : B.1.y ≅ B.1.y := γ.1
+  let γ' : B.1.y ≅ B.1.y := γ.1.asIso
   let b' : A.1.y ≅ B.1.y := b ≪≫ γ'.symm
   have hγhom : G.map γ'.hom = ε.hom := by
     simpa using congrArg
-      (fun z : p𝒮.verticalAut (G.obj B.1.y) => (z : Aut (G.obj B.1.y)).hom) hγ
+      (fun z : p𝒮.verticalAut (G.obj B.1.y) => (z : Aut (G.obj B.1.y)).asIso.hom) hγ
   have hγinv : G.map γ'.inv = ε.inv := (Iso.inv_eq_inv (G.mapIso γ') ε).2 hγhom
   have hγlift : p𝒴.IsHomLift (𝟙 U) γ'.hom := by
     refine IsHomLift.of_fac' p𝒴 (𝟙 U) γ'.hom hBy hBy ?_

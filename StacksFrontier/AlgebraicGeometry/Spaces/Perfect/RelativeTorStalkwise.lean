@@ -50,8 +50,8 @@ universe u w d e
 theorem CategoryTheory.GrothendieckTopology.Point.exists_nonempty_fiber_of_coversTop
     {C : Type*} [Category C] {J : GrothendieckTopology C} (Φ : J.Point.{w}) {ι : Type*}
     {Y : ι → C} (hY : J.CoversTop Y) : ∃ i, Nonempty (Φ.fiber.obj (Y i)) := by
-  obtain ⟨⟨W, w⟩⟩ := IsCofiltered.nonempty (C := Φ.fiber.Elements)
-  obtain ⟨Z, g, ⟨i, ⟨h⟩⟩, z, -⟩ := Φ.jointly_surjective _ (hY W) w
+  obtain ⟨e⟩ := IsCofiltered.nonempty (C := Φ.fiber.Elements)
+  obtain ⟨Z, g, ⟨i, ⟨h⟩⟩, z, -⟩ := Φ.jointly_surjective _ (hY e.obj) e.val
   exact ⟨i, ⟨Φ.fiber.map h z⟩⟩
 
 namespace Stacks

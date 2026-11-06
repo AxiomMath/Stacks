@@ -378,7 +378,7 @@ statements are reproved here with the coefficient universe free. The arguments a
 private abbrev FlasqueUnder {X : TopCat.{u}} {U : Opens X}
     {F G : TopCat.Sheaf AddCommGrpCat.{max u r} X} (g : F ⟶ G)
     (s : G.obj.obj (op U)) :=
-  StructuredArrow ⟨op U, s⟩ (Functor.whiskerRight g.hom
+  StructuredArrow (Functor.elementsMk _ _ s) (Functor.whiskerRight g.hom
     (CategoryTheory.forget AddCommGrpCat.{max u r})).mapElements
 
 /-- The category structure on `FlasqueUnder`, supplied explicitly. Instance search does not find
@@ -407,18 +407,18 @@ private lemma flasque_under_chains_bounded {X : TopCat.{u}}
       (em (i = j)).imp_right fun hij ↦ (hc i.property j.property fun he ↦ hij (Subtype.ext he)).symm
     · rfl
     all_goals
-      rw [← CategoryOfElements.map_snd h₁.some.2]
+      rw [← h₁.some.2.map_val]
       dsimp
       rw [← Functor.map_comp_apply]
       rfl
   have le₁ : iSup f ≤ U := iSup_le fun j ↦ leOfHom j.1.hom.1.unop
   have le₂ : ∀ i, i ∈ c → unop i.right.1 ≤ iSup f := fun i hi ↦ le_iSup f ⟨i, hi⟩
-  use StructuredArrow.mk (CategoryOfElements.homMk _ _ (homOfLE le₁).op
+  use StructuredArrow.mk (Functor.Elements.homMk (homOfLE le₁).op
     (eq_app_of_locally_eq ht (fun i ↦ leOfHom i.1.hom.1.unop)
-      (fun i ↦ (CategoryOfElements.map_snd i.1.hom).symm)).symm :
-      ⟨op U, s⟩ ⟶ (Functor.whiskerRight g.hom
-        (CategoryTheory.forget AddCommGrpCat.{max u r})).mapElements.obj ⟨op (iSup f), t⟩)
-  exact fun i hi ↦ ⟨StructuredArrow.homMk (CategoryOfElements.homMk _ _
+      (fun i ↦ (i.1.hom.map_val).symm)).symm :
+      Functor.elementsMk _ _ s ⟶ (Functor.whiskerRight g.hom
+        (CategoryTheory.forget AddCommGrpCat.{max u r})).mapElements.obj (Functor.elementsMk _ _ t))
+  exact fun i hi ↦ ⟨StructuredArrow.homMk (Functor.Elements.homMk
     (homOfLE (le₂ i hi)).op (ht ⟨i, hi⟩)) (by cat_disch)⟩
 
 /-- Given a short exact sequence of abelian sheaves with flasque first term, sections over any
@@ -435,7 +435,7 @@ private theorem epi_of_shortExact_generic {X : TopCat.{u}}
     (fun ⟨f⟩ ⟨g⟩ ↦ ⟨g ≫ f⟩)
   have tle : t.right.1.unop ≤ U := leOfHom t.hom.1.unop
   have tcomp : s |_ t.right.1.unop = S.g.hom.app t.right.1 t.right.2 :=
-    CategoryOfElements.map_snd t.hom
+    t.hom.map_val
   have : U ≤ t.right.1.unop := by
     intro x hx
     have hloc : CategoryTheory.Sheaf.IsLocallySurjective S.g :=
@@ -525,10 +525,10 @@ private theorem epi_of_shortExact_generic {X : TopCat.{u}}
         ((congrArg (fun z ↦ restrictOpen z (f 1 ⊓ f 0) hcomm) hglue).trans e1)
     have hle : iSup f ≤ U := iSup_le_iff.mpr (Fin.forall_fin_two.mpr ⟨tle, Wle⟩)
     let t₆ : FlasqueUnder S.g s :=
-      StructuredArrow.mk (S := ⟨op U, s⟩)
+      StructuredArrow.mk (S := Functor.elementsMk _ _ s)
         (T := (Functor.whiskerRight S.g.hom
           (CategoryTheory.forget AddCommGrpCat.{max u r})).mapElements)
-        (Y := ⟨op (iSup f), t₅⟩) <| CategoryOfElements.homMk _ _ (homOfLE hle).op (by
+        (Y := Functor.elementsMk _ _ t₅) <| Functor.Elements.homMk (homOfLE hle).op (by
           refine (eq_app_of_locally_eq ht₅ (by rw [Fin.forall_fin_two]; exact ⟨tle, Wle⟩) ?_).symm
           rw [Fin.forall_fin_two]
           refine ⟨tcomp.symm, ?_⟩
@@ -556,7 +556,7 @@ private theorem epi_of_shortExact_generic {X : TopCat.{u}}
             (t₁ + (S.f.hom.app (op W)) t₄) = S.X₃.obj.map (homOfLE Wle).op s
           exact hw)
     have ht₆ : Nonempty (t₆ ⟶ t) :=
-      ⟨StructuredArrow.homMk (CategoryOfElements.homMk _ _ (homOfLE (le_iSup f 0)).op (ht₅ 0))
+      ⟨StructuredArrow.homMk (Functor.Elements.homMk (homOfLE (le_iSup f 0)).op (ht₅ 0))
         (by cat_disch)⟩
     exact leOfHom ((ht t₆) ht₆).some.right.1.unop ((le_iSup f 1) hW)
   exact ⟨t.right.2 |_ U, by simp [map_restrict, ← tcomp, restrict_restrict]⟩
@@ -687,7 +687,7 @@ private lemma cechUliftHom_π {X : Type u} {I : Type u} [TopologicalSpace X]
         Pi.π (fun i : ToType a → ULift.{v} I =>
           P.obj (op (∏ᶜ (fun j : ULift.{v} I => U j.down) ∘ i))) s =
       Pi.π (fun i : ToType a → I => P.obj (op (∏ᶜ U ∘ i))) (fun j => (s j).down) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 @[reassoc (attr := simp)]
 private lemma cechUliftInv_π {X : Type u} {I : Type u} [TopologicalSpace X]
@@ -696,7 +696,7 @@ private lemma cechUliftInv_π {X : Type u} {I : Type u} [TopologicalSpace X]
     cechUliftInv U P a ≫ Pi.π (fun i : ToType a → I => P.obj (op (∏ᶜ U ∘ i))) t =
       Pi.π (fun i : ToType a → ULift.{v} I =>
         P.obj (op (∏ᶜ (fun j : ULift.{v} I => U j.down) ∘ i))) (fun j => ULift.up (t j)) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The cosimplicial structure map of a Čech object, in product form. -/
 private noncomputable def cechMap {X : Type u} {I : Type r} [TopologicalSpace X]
@@ -715,7 +715,7 @@ private lemma cechMap_π {X : Type u} {I : Type r} [TopologicalSpace X]
       Pi.π (fun i : ToType a → I => P.obj (op (∏ᶜ U ∘ i)))
           (i ∘ SimplexCategory.Hom.toOrderHom f) ≫
         P.map (Pi.lift (fun x => Pi.π (U ∘ i) (SimplexCategory.Hom.toOrderHom f x))).op :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- Reindexing along `ULift` commutes with the cosimplicial structure maps. -/
 @[reassoc (attr := simp)]

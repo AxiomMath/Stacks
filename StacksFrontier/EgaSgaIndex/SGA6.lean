@@ -398,8 +398,8 @@ add_to_sga "6 IV 2.1" HasDerivedCategory.standard
 add_to_sga "6 IV 2.1" "partial" ModuleCat
 add_to_sga "6 IV 2.6" "more general" Bimod
 add_to_sga "6 IV 2.6" "more general" Bimod.instCategory
-add_to_sga "6 IV 2.6" "special case" PresheafOfModules.Monoidal.tensorHom
-add_to_sga "6 IV 2.6" "special case" PresheafOfModules.Monoidal.tensorObj
+add_to_sga "6 IV 2.6" "special case" PresheafOfModulesOfCommRing.Monoidal.tensorHom
+add_to_sga "6 IV 2.6" "special case" PresheafOfModulesOfCommRing.Monoidal.tensorObj
 add_to_sga "6 IV 2.6" "special case" TensorProduct
 add_to_sga "6 IX 1.2" "Generic-point clause"
   AlgebraicGeometry.functionField_isFractionRing_of_affine

@@ -150,7 +150,7 @@ def twistedUnit (k : Y ⟶ T) (p : Y ⟶ X) (F : X.Modules) (b : Γ(T, ⊤)) :
     F ⟶ (Scheme.Modules.pushforward p).obj ((Scheme.Modules.pullback p).obj F) :=
   (Scheme.Modules.pullbackPushforwardAdjunction p).unit.app F ≫
     (Scheme.Modules.pushforward p).map
-      ((Scheme.smulEnd Y ((k.appLE ⊤ ⊤ (le_preimage_top k ⊤)).hom b)).app _)
+      ((Scheme.smulEnd Y ((k.appLE ⊤ ⊤ (le_preimage_top k ⊤)).hom b)).asHom.app _)
 
 /-- On sections over `U`, the twisted unit sends `x` to `b • p^* x`. -/
 theorem twistedUnit_app (k : Y ⟶ T) (p : Y ⟶ X) (F : X.Modules) (b : Γ(T, ⊤)) (U : X.Opens)
@@ -225,7 +225,6 @@ theorem sectionsBaseChangeEquiv_symm_smul (U : X.Opens) (r : Γ(X, U))
   obtain ⟨z, rfl⟩ := (sectionsBaseChangeEquiv H F U).surjective y
   rw [LinearEquiv.symm_apply_apply]
   induction z with
-  | zero => rw [map_zero, map_zero, map_zero, smul_zero]
   | tmul b x =>
     rw [LinearMap.lTensor_tmul, sectionsBaseChangeEquiv_tmul, sectionsBaseChangeEquiv_tmul]
     show (p.app U).hom r • (b • _) = b • pullbackUnitSections p F U (r • x)
@@ -277,7 +276,6 @@ def traceSections (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[Γ(S, ⊤)] Γ(S
           ((sectionsBaseChangeEquiv H F U).symm ((p.app U).hom r • pushforwardSection y))) = r • _
       rw [sectionsBaseChangeEquiv_symm_smul]
       induction (sectionsBaseChangeEquiv H F U).symm (pushforwardSection y) with
-      | zero => simp only [map_zero, smul_zero]
       | tmul b x =>
         simp only [LinearMap.lTensor_tmul, LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
         change (iX.appLE ⊤ U (le_preimage_top iX U)).hom (f b) • (r • x) =
@@ -315,7 +313,6 @@ def trace (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[Γ(S, ⊤)] Γ(S, ⊤)) 
           ((sectionsBaseChangeEquiv H F U).symm (pushforwardSection y))))
     rw [sectionsBaseChangeEquiv_symm_res]
     induction (sectionsBaseChangeEquiv H F U).symm (pushforwardSection y) with
-    | zero => simp only [map_zero]
     | tmul b x =>
       simp only [LinearMap.lTensor_tmul, LinearMap.rTensor_tmul, TensorProduct.lid_tmul]
       exact ((baseResHom iX F (leOfHom i)).map_smul (f b) x).symm
@@ -339,7 +336,7 @@ the trace of `f` is multiplication by `f(b)`. -/
 theorem twistedUnit_comp_trace (f : letI := baseAlgebra q; Γ(T, ⊤) →ₗ[Γ(S, ⊤)] Γ(S, ⊤))
     (b : Γ(T, ⊤)) :
     twistedUnit k p F b ≫ trace H F f =
-      (Scheme.smulEnd X ((iX.appLE ⊤ ⊤ (le_preimage_top iX ⊤)).hom (f b))).app F := by
+      (Scheme.smulEnd X ((iX.appLE ⊤ ⊤ (le_preimage_top iX ⊤)).hom (f b))).asHom.app F := by
   let := baseAlgebra q
   ext U x
   let := baseModule iX F U
@@ -367,12 +364,6 @@ theorem sum_trace_comp_twistedUnit {m : ℕ} (e : Fin m → Γ(T, ⊤))
   rw [← hz]
   clear hz
   induction z with
-  | zero =>
-    rw [map_zero]
-    show ∑ j, (twistedUnit k p F (e j)).app U ((trace H F (f j)).app U
-      (0 : Γ((Scheme.Modules.pushforward p).obj ((Scheme.Modules.pullback p).obj F), U))) = 0
-    refine Finset.sum_eq_zero fun j _ => ?_
-    rw [map_zero, map_zero]
   | tmul b x =>
     rw [sectionsBaseChangeEquiv_tmul]
     have h1 : ∀ j, (twistedUnit k p F (e j)).app U ((trace H F (f j)).app U
@@ -421,11 +412,33 @@ omit [EnoughInjectives B] in
 /-- The forward map of `rightDerivedFunctorPlusObjSingleIso F X hX`, written out as a
 composite. -/
 theorem rightDerivedFunctorPlusObjSingleIso_hom (X : A) (hX : F.rightAcyclic X)
-    [IsIso (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X))] :
+    [IsIso (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X))] :
     (rightDerivedFunctorPlusObjSingleIso F X hX).hom =
       F.rightDerivedFunctorPlus.map ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).hom.app X) ≫
-        inv (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) ≫
+        inv (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) ≫
         F.mapSingleFunctorCompQhIso.hom.app X := rfl
+
+omit [EnoughInjectives B] in
+/-- At an `F`-acyclic object `X`, the unit of `RF` is invertible at `X[0]`. -/
+private theorem isIso_rightDerivedFunctorPlusUnith_app_single (X : A) (hX : F.rightAcyclic X) :
+    IsIso (F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := by
+  have hX' : IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
+  have hd := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+    ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus
+    F.rightDerivedFunctorPlusUnith).1 inferInstance
+  rw [← Functor.rightDerived_fac_app _
+    ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+    (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus
+    F.rightDerivedFunctorPlusUnith]
+  infer_instance
 
 omit [EnoughInjectives B] in
 /-- The isomorphism `rightDerivedFunctorPlusObjSingleIso` is natural in the `F`-acyclic
@@ -436,18 +449,16 @@ theorem rightDerivedFunctorPlusObjSingleIso_hom_naturality {X X' : A} (φ : X �
         (rightDerivedFunctorPlusObjSingleIso F X' hX').hom =
       (rightDerivedFunctorPlusObjSingleIso F X hX).hom ≫
         (DerivedCategory.Plus.singleFunctor B 0).map (F.map φ) := by
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app
-    ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app
-    ((HomotopyCategory.Plus.singleFunctor A 0).obj X')) := hX'
+  have := isIso_rightDerivedFunctorPlusUnith_app_single F X hX
+  have := isIso_rightDerivedFunctorPlusUnith_app_single F X' hX'
   have hα := (Functor.singleFunctorPlusIsoCompQh (A := A) 0).hom.naturality φ
-  have hu := F.rightDerivedFunctorPlusUnit.naturality
+  have hu := F.rightDerivedFunctorPlusUnith.naturality
     ((HomotopyCategory.Plus.singleFunctor A 0).map φ)
   have hβ := (F.mapSingleFunctorCompQhIso).hom.naturality φ
   have hu' : F.rightDerivedFunctorPlus.map
         (DerivedCategory.Plus.Qh.map ((HomotopyCategory.Plus.singleFunctor A 0).map φ)) ≫
-      inv (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X')) =
-      inv (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) ≫
+      inv (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X')) =
+      inv (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) ≫
         DerivedCategory.Plus.Qh.map (F.mapHomotopyCategoryPlus.map
           ((HomotopyCategory.Plus.singleFunctor A 0).map φ)) := by
     rw [IsIso.comp_inv_eq, Category.assoc, IsIso.eq_inv_comp]
@@ -642,14 +653,14 @@ theorem smul_cohomologyIsoPushforward_inv [IsAffineHom p] (G : Y.Modules) [G.IsQ
         ((moduleGlobalSections Y).rightDerived n).obj G) =
       (cohomologyIsoPushforward p G n).inv.hom
         ((((moduleGlobalSections X).rightDerived n).map
-          ((Scheme.Modules.pushforward p).map ((Scheme.smulEnd Y r).app G))).hom w) := by
+          ((Scheme.Modules.pushforward p).map ((Scheme.smulEnd Y r).asHom.app G))).hom w) := by
   have hnat := cohomologyIsoPushforward_hom_naturality p (F := G) (F' := G)
-    ((Scheme.smulEnd Y r).app G) n
+    ((Scheme.smulEnd Y r).asHom.app G) n
   have hinv : (cohomologyIsoPushforward p G n).inv ≫
       (ModuleCat.restrictScalars p.appTop.hom).map
-        (((moduleGlobalSections Y).rightDerived n).map ((Scheme.smulEnd Y r).app G)) =
+        (((moduleGlobalSections Y).rightDerived n).map ((Scheme.smulEnd Y r).asHom.app G)) =
       ((moduleGlobalSections X).rightDerived n).map
-          ((Scheme.Modules.pushforward p).map ((Scheme.smulEnd Y r).app G)) ≫
+          ((Scheme.Modules.pushforward p).map ((Scheme.smulEnd Y r).asHom.app G)) ≫
         (cohomologyIsoPushforward p G n).inv := by
     rw [Iso.inv_comp_eq, ← Category.assoc, ← hnat, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
@@ -820,8 +831,7 @@ theorem bijective_cohomologyBaseChangeLinearMap [Stacks.Morphisms.IsFiniteLocall
   obtain ⟨m, e, f, he⟩ := exists_dualBasis_of_flat_of_finitePresentation Γ(S, ⊤) Γ(T, ⊤)
   refine Function.bijective_iff_has_inverse.2 ⟨cohomologyBaseChangeInv H F n e f, fun z => ?_,
     fun y => cohomologyBaseChangeLinearMap_cohomologyBaseChangeInv H F n e f he y⟩
-  induction z using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction z using TensorProduct.inductionOn with
   | tmul b x => exact cohomologyBaseChangeInv_cohomologyBaseChangeLinearMap_tmul H F n e f he b x
   | add z w hz hw => rw [map_add, map_add, hz, hw]
 

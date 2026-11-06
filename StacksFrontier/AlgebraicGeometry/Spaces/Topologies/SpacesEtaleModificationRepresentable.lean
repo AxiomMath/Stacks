@@ -188,7 +188,7 @@ theorem eq_of_isCompactChartOver_comp_eq (X₀ : SmallEtale B S hS X.1)
     exact ⟨⟨⟨T, hT⟩, t⟩, τ, hτ⟩
   have hmem : Sieve.generate E.presieve₀ ∈ J U.unop :=
     Precoverage.generate_mem_toGrothendieck ⟨E, rfl, hE⟩
-  have hsep := ((isSheaf_iff_isSheaf_of_type _ _).1 H.cond).isSeparated _ hmem
+  have hsep := ((isSheaf_iff_isSheaf_of_type _ _).1 H.property).isSeparated _ hmem
   refine hsep.ext fun V f hf => ?_
   obtain ⟨W, k, t, ⟨i⟩, rfl⟩ := hf
   show H.obj.map (k ≫ E.f i).op (α.hom.app U x) = H.obj.map (k ≫ E.f i).op (β.hom.app U x)
@@ -358,7 +358,7 @@ theorem exists_glued_isCompactChartOver (X₀ : SmallEtale B S hS X.1) {ι : Typ
   have hmem : Sieve.generate (Presieve.ofArrows (fun k : ULift.{u + 1} ι => C.obj (T k.down)) p) ∈
       J (C.obj V) :=
     Precoverage.generate_mem_toGrothendieck ⟨_, rfl, hcov⟩
-  have hGsheaf := (isSheaf_iff_isSheaf_of_type _ _).1 G.cond
+  have hGsheaf := (isSheaf_iff_isSheaf_of_type _ _).1 G.property
   have hsf : Presieve.IsSheafFor G.obj
       (Presieve.ofArrows (fun k : ULift.{u + 1} ι => C.obj (T k.down)) p) :=
     (Presieve.isSheafFor_iff_generate _).2 (hGsheaf _ hmem)
@@ -391,7 +391,7 @@ theorem exists_glued_isCompactChartOver (X₀ : SmallEtale B S hS X.1) {ι : Typ
           ← (schemePointsHomeomorph B S hS (T k'.down).1.left).symm_apply_apply b,
           schemePointsHomeomorph_symm_naturality, schemePointsHomeomorph_symm_naturality,
           Homeomorph.apply_symm_apply, Homeomorph.apply_symm_apply] at h₂
-        exact hjdisj k.down k'.down (fun h => hkk (ULift.ext _ _ h)) _ _ h₂
+        exact hjdisj k.down k'.down (fun h => hkk (ULift.ext h)) _ _ h₂
       let E₀ : PreZeroHypercover.{u + 1} W := ⟨PEmpty, PEmpty.elim, fun i => i.elim⟩
       have hE₀ : SpacesEtale.IsCovering B S hS X ⟨W, E₀⟩ := fun y => (hempty.false y).elim
       have hsep := hGsheaf.isSeparated _ (Precoverage.generate_mem_toGrothendieck
@@ -524,6 +524,7 @@ theorem exists_iso_yoneda_of_spacesModificationRestriction
   let R := spacesModificationRestriction B S hS f i j g w
   have : Epi (R.map e').fst := epi_map_of_surjective_restrictArrow B S hS f εf e' hsf
   have : Epi (R.map e').snd := epi_map_of_surjective_restrictArrow B S hS i εi e' hsi
+  have : R.ReflectsEpimorphisms := Functor.reflectsEpimorphisms_of_faithful R
   have : Epi e' := R.epi_of_epi_map (CategoricalPullback.epi_of_epi_fst_of_epi_snd _)
   obtain ⟨W, ⟨α⟩⟩ := exists_iso_yoneda_of_epi B S hS G Vsm
     ((sheafificationIso (J.yoneda.obj (C.obj Vsm))).inv ≫ e')

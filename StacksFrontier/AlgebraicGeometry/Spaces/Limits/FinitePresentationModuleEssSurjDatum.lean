@@ -91,6 +91,18 @@ theorem twistedComparison_eq_of_naturality {X' Q P V : AlgebraicSpaces B S hS} (
 
 end Naturality
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_FinitePresentationModuleEssSurjDatum :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, found directly. -/
+local instance (priority := high) hasPullback_presheaf_FinitePresentationModuleEssSurjDatum
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section PairMorphism
 
 variable {V : AlgebraicSpaces B S hS} (u : schemeSpace (C.siteDiagram.obj m) ⟶ V)

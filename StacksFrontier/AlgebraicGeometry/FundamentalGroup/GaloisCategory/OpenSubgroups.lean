@@ -82,7 +82,7 @@ private lemma isOpen_stabilizer (Y : FiniteEtaleOver X)
         Equiv.Perm ((finiteEtaleFiberFunctor x).obj Y)) :
         (finiteEtaleFiberFunctor x).obj Y → (finiteEtaleFiberFunctor x).obj Y) :=
     continuous_induced_dom.comp h2
-  have hcont : Continuous fun σ : EtaleFundamentalGroup X x ↦ (σ.app Y).hom y :=
+  have hcont : Continuous fun σ : EtaleFundamentalGroup X x ↦ (σ.asIso.app Y).hom y :=
     (continuous_apply y).comp h3
   exact hcont.isOpen_preimage {y} (isOpen_discrete _)
 
@@ -130,7 +130,7 @@ private lemma exists_stabilizer_eq_iInf_fin {n : ℕ} (Y : Fin n → FiniteEtale
   have hnat : ∀ (σ : EtaleFundamentalGroup X x) (j : Fin n),
       (finiteEtaleFiberFunctor x).map (Pi.π Y j) (σ • z) = σ • y j := by
     intro σ j
-    have h := ConcreteCategory.congr_hom (σ.hom.naturality (Pi.π Y j)) z
+    have h := ConcreteCategory.congr_hom (σ.asIso.hom.naturality (Pi.π Y j)) z
     rw [types_comp_apply, types_comp_apply] at h
     rw [← hz j]
     exact h.symm

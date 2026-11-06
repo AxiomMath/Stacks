@@ -102,15 +102,30 @@ public theorem coeffs_of_eq_smul_sq_affineLinear {k : Type*} [Field k] (a b c d 
     a = j * g ^ 2 ∧ b = 2 * (j * g * h) ∧ c = 2 * (j * g * i) ∧
       d = j * h ^ 2 ∧ e = 2 * (j * h * i) ∧ f = j * i ^ 2 := by
   rw [smul_sq_affineLinear_eq, sixTerm_eq_monomialSum, sixTerm_eq_monomialSum] at hid
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
-  [have hco := congrArg (MvPolynomial.coeff (0 : Fin 2 →₀ ℕ)) hid;
-    have hco := congrArg (MvPolynomial.coeff (Finsupp.single (0 : Fin 2) 1)) hid;
-    have hco := congrArg (MvPolynomial.coeff (Finsupp.single (1 : Fin 2) 1)) hid;
-    have hco := congrArg (MvPolynomial.coeff (Finsupp.single (0 : Fin 2) 2)) hid;
-    have hco := congrArg
-      (MvPolynomial.coeff (Finsupp.single (0 : Fin 2) 1 + Finsupp.single 1 1)) hid;
-    have hco := congrArg (MvPolynomial.coeff (Finsupp.single (1 : Fin 2) 2)) hid] <;>
-  · simp only [MvPolynomial.coeff_add, MvPolynomial.coeff_monomial] at hco
+  have key (m : Fin 2 →₀ ℕ) := congrArg (fun p : MvPolynomial (Fin 2) k => p.coeff m) hid
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
+  · have hco := key (0 : Fin 2 →₀ ℕ)
+    simp only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, MvPolynomial.coeff_monomial] at hco
+    norm_num [finsupp_fin_two_eq_iff] at hco
+    linear_combination hco
+  · have hco := key (Finsupp.single (0 : Fin 2) 1)
+    simp only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, MvPolynomial.coeff_monomial] at hco
+    norm_num [finsupp_fin_two_eq_iff] at hco
+    linear_combination hco
+  · have hco := key (Finsupp.single (1 : Fin 2) 1)
+    simp only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, MvPolynomial.coeff_monomial] at hco
+    norm_num [finsupp_fin_two_eq_iff] at hco
+    linear_combination hco
+  · have hco := key (Finsupp.single (0 : Fin 2) 2)
+    simp only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, MvPolynomial.coeff_monomial] at hco
+    norm_num [finsupp_fin_two_eq_iff] at hco
+    linear_combination hco
+  · have hco := key (Finsupp.single (0 : Fin 2) 1 + Finsupp.single 1 1)
+    simp only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, MvPolynomial.coeff_monomial] at hco
+    norm_num [finsupp_fin_two_eq_iff] at hco
+    linear_combination hco
+  · have hco := key (Finsupp.single (1 : Fin 2) 2)
+    simp only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, MvPolynomial.coeff_monomial] at hco
     norm_num [finsupp_fin_two_eq_iff] at hco
     linear_combination hco
 

@@ -788,6 +788,8 @@ private theorem compatibility_baseChange_right (a : Hom K L) (ha : a.IsDegreewis
     ha.baseChange.1 a₁ b x y)).trans
       (determinantLineBaseChangeMap_apply_baseChangeEquiv_tmul A K ψ _ _))
 
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 200000 in
 private theorem compatibility_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurjective)
     [Module.Finite R (LinearMap.ker a.neg)] [Module.Projective R (LinearMap.ker a.neg)]
     [Module.Finite R (LinearMap.ker a.zero)] [Module.Projective R (LinearMap.ker a.zero)]
@@ -811,11 +813,15 @@ private theorem compatibility_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurje
   obtain ⟨v, rfl⟩ := (baseChangeEquiv (R := R) (A := A) (M := L₁)).surjective y
   induction u using TensorProduct.induction_on with
   | zero => simp only [map_zero, TensorProduct.zero_tmul]
-  | add u u' hu hu' => simp only [map_add, TensorProduct.add_tmul, hu, hu']
+  | add u u' hu hu' =>
+      simp only [LinearEquiv.map_add, LinearMap.map_add, TensorProduct.add_tmul]
+      rw [hu, hu']
   | tmul a₁ x₀ =>
       induction v using TensorProduct.induction_on with
       | zero => simp only [map_zero, TensorProduct.tmul_zero]
-      | add v v' hv hv' => simp only [map_add, TensorProduct.tmul_add, hv, hv']
+      | add v v' hv hv' =>
+          simp only [LinearEquiv.map_add, LinearMap.map_add, TensorProduct.tmul_add]
+          rw [hv, hv']
       | tmul b y₀ =>
           refine (compatibility_baseChange_left A a ha D.kernelRankZero hr' c (D.equiv ψ) a₁ b
             x₀ y₀).trans ?_
@@ -824,6 +830,7 @@ private theorem compatibility_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurje
               (D.compatibility ψ x₀ y₀)).trans ?_
           exact (compatibility_baseChange_right A a ha c ψ a₁ b x₀ y₀).symm
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The equivalence of determinant lines of a degreewise-surjective quasi-isomorphism commutes
 with base change.** -/
 theorem detEquiv_baseChange (a : Hom K L) (ha : a.IsDegreewiseSurjective) (hqa : a.IsQuasiIso)

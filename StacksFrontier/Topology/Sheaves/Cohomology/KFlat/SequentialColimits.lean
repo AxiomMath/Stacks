@@ -57,6 +57,28 @@ noncomputable local instance (X : Cᵒᵖ) :
     CommRing ((Stacks.SheafOfModules.Tensor.ringSheaf R).obj.obj X) :=
   inferInstanceAs (CommRing (R.obj.obj X))
 
+set_option backward.isDefEq.respectTransparency false in
+/-- Presheaves of modules over `Stacks.SheafOfModules.Tensor.ringSheaf R` have `w`-small
+colimits. -/
+noncomputable local instance :
+    HasColimitsOfSize.{w, w}
+      (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
+  ⟨fun K _ => PresheafOfModules.hasColimitsOfShape _ K⟩
+
+set_option backward.isDefEq.respectTransparency false in
+/-- Coproducts of presheaves of modules over `Stacks.SheafOfModules.Tensor.ringSheaf R`. -/
+noncomputable local instance (K : Type w) :
+    HasColimitsOfShape (Discrete K)
+      (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
+set_option backward.isDefEq.respectTransparency false in
+/-- Coproducts of sheaves of modules over `Stacks.SheafOfModules.Tensor.ringSheaf R`. -/
+noncomputable local instance (K : Type w) :
+    HasColimitsOfShape (Discrete K)
+      (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
+
 
 /-- A sequential colimit of K-flat complexes of sheaves of modules is K-flat. -/
 @[stacks 06YE]

@@ -129,8 +129,8 @@ public theorem mulSheaf_pullbackGradedAlgebra_eq_pbMul (f : X ⟶ Y)
     SheafOfModules.GradedAlgebra.mulSheaf
         (Stacks.RingedSpace.pullbackGradedAlgebra f.toLRSHom.toShHom A) i j =
       TwistMulLeg.pbMul f (SheafOfModules.GradedAlgebra.mulSheaf A i j) :=
-  (cancel_epi ((Stacks.PullbackTensorIso.pullbackTensorIso f.toLRSHom.toShHom).hom.app
-      (A.piece i, A.piece j))).mp
+  (Iso.cancel_iso_hom_left ((Stacks.PullbackTensorIso.pullbackTensorIso f.toLRSHom.toShHom).app
+      (A.piece i, A.piece j)) _ _).mp
     ((comparison_comp_mulSheaf_pullbackGradedAlgebra f A i j).trans
       (TwistMulLeg.comparison_comp_pbMul f (SheafOfModules.GradedAlgebra.mulSheaf A i j)).symm)
 

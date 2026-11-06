@@ -254,8 +254,9 @@ theorem _root_.StacksDraft.DerivedInverseLimit.derivedRestrictScalarsComp_factor
     (congrArg (_ ≫ ·) (Category.assoc _ _ _))))).trans ?_
   refine (congrArg (_ ≫ ·) ((congrArg (_ ≫ ·) ((congrArg (_ ≫ ·) hn.symm).trans
     ((reassoc_of% hB) _))).trans ((reassoc_of% hFf) _))).trans ?_
-  exact (congrArg (_ ≫ ·) (Category.assoc _ _ _)).trans ((Iso.inv_hom_id_app_assoc
-    (DerivedCategory.quotientCompQhIso (ModuleCat.{u} A)) _ _).trans hD)
+  refine ((Iso.inv_hom_id_app_assoc
+    (DerivedCategory.quotientCompQhIso (ModuleCat.{u} A)) _ _).trans (hD.trans ?_))
+  congr 2
 
 attribute [local instance 10000] HasDerivedCategory.standard in
 /-- **Compatibility of the linear Leray identification with composition, for the derived

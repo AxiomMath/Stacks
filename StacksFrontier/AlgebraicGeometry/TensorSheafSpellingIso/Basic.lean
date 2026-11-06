@@ -73,7 +73,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 
 attribute [local instance] Stacks.SheafOfModules.monoidalCategory
 attribute [local implicit_reducible] Stacks.SheafOfModules.TensorSheafification.structureSheaf
-  PresheafOfModules.toPresheaf PresheafOfModules.Monoidal.tensorObj
+  PresheafOfModules.toPresheaf PresheafOfModulesOfCommRing.Monoidal.tensorObj
 
 /-- The right adjoint of module sheafification — forget the sheaf condition, then restrict
 scalars along the identity — written as a functor whose codomain is spelled over

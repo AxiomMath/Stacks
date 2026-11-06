@@ -170,7 +170,6 @@ theorem ideal_smul_pushforward_sections_eq (f : Y ⟶ X) [IsAffineHom f]
         (⊤ : Submodule Γ(Y, f ⁻¹ᵁ U) Γ(F, f ⁻¹ᵁ U)))
       (show Γ(F, f ⁻¹ᵁ U) from s)) using 1
   · simp only [Submodule.restrictScalars_top]
-  · rfl
 
 end Stacks.AlgebraicGeometry.AffineIdealPushforward
 

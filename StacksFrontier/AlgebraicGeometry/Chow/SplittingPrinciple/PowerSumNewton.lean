@@ -177,12 +177,16 @@ theorem map_coe_powerSumEval_closure {A B : Type*} [Ring A] [Ring B] (φ : A →
     {t : Set B} (hs : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x) (ht : ∀ x ∈ t, ∀ y ∈ t, x * y = y * x)
     (a : ℕ → A) (ha : ∀ i, a i ∈ s) (b : ℕ → B) (hb : ∀ i, b i ∈ t) (hab : ∀ i, φ (a i) = b i)
     (hst : ∀ x ∈ s, φ x ∈ Subring.closure t) (p : ℕ) :
-    φ ((@powerSumEval (Subring.closure s) (Subring.closureCommRingOfComm hs)
+    φ ((@powerSumEval (Subring.closure s)
+          (letI := Subring.isMulCommutative_closure fun x hx y hy _ => hs x hx y hy
+          open scoped IsMulCommutative in inferInstance)
         (fun i => ⟨a i, Subring.subset_closure (ha i)⟩) p : Subring.closure s) : A) =
-      ((@powerSumEval (Subring.closure t) (Subring.closureCommRingOfComm ht)
+      ((@powerSumEval (Subring.closure t)
+          (letI := Subring.isMulCommutative_closure fun x hx y hy _ => ht x hx y hy
+          open scoped IsMulCommutative in inferInstance)
         (fun i => ⟨b i, Subring.subset_closure (hb i)⟩) p : Subring.closure t) : B) := by
-  have := Subring.isMulCommutative_closure hs
-  have := Subring.isMulCommutative_closure ht
+  have := Subring.isMulCommutative_closure (s := s) fun x hx y hy _ => hs x hx y hy
+  have := Subring.isMulCommutative_closure (s := t) fun x hx y hy _ => ht x hx y hy
   have hle : Subring.closure s ≤ (Subring.closure t).comap φ := Subring.closure_le.mpr hst
   let ψ : Subring.closure s →+* Subring.closure t :=
     φ.restrict (Subring.closure s) (Subring.closure t) fun _ hx => hle hx

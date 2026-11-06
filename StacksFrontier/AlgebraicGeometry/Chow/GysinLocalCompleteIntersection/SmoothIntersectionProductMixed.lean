@@ -614,7 +614,7 @@ theorem isClopenDecomposition_dimPartPieceToPreimage (e : ℕ) :
       (dimPartPieceToPreimage sX sY f d.down e).opensRange := by
   simp only [dimPartPieceToPreimage, Scheme.Opens.opensRange_ι_morphismRestrict]
   have h := (isClopenDecomposition_dimPart sX).preimage (f ⁻¹ᵁ dimPart sY e).ι
-  exact ⟨fun i j hij ↦ h.disjoint _ _ fun h' ↦ hij (ULift.ext _ _ h'),
+  exact ⟨fun i j hij ↦ h.disjoint _ _ fun h' ↦ hij (ULift.ext h'),
     by rw [← h.iSup_eq_top]; exact Equiv.ulift.iSup_comp (g := fun d ↦ _ ⁻¹ᵁ dimPart sX d)⟩
 
 /-- `CH_n(X_d) = ∏_e CH_n(X_{d,e})`, the components being restriction to the pieces

@@ -115,11 +115,13 @@ algebras. -/
 def endAlgHomOfLinearFunctor {C D : Type*} [Category C] [Category D]
     [Preadditive C] [Preadditive D] [Linear R C] [Linear R D] (F : C ⥤ D) [F.Linear R]
     [F.Additive] (X : C) : End X →ₐ[R] End (F.obj X) where
-  __ := F.mapLinearMap R
-  map_zero' := F.map_zero X X
-  map_one' := F.map_id X
-  map_mul' f g := F.map_comp g f
+  toFun f := .of (F.map f.asHom)
+  map_zero' := by ext; exact F.map_zero X X
+  map_one' := by ext; exact F.map_id X
+  map_add' f g := by ext; exact F.map_add
+  map_mul' f g := by ext; exact F.map_comp g.asHom f.asHom
   commutes' r := by
+    ext
     change F.map (r • 𝟙 X) = r • 𝟙 (F.obj X)
     rw [F.map_smul, F.map_id]
 
@@ -162,16 +164,16 @@ def endAddEquivHochschildCohomologyZero (A : DifferentialGradedAlgebra.{u, u} R)
   refine AddEquiv.ofBijective
     (AddMonoidHom.mk'
       (fun f : End (diagonalDerived A) =>
-        (f ≫ (shiftFunctorZero (derivedCategory' (envelopingAlgebra A)) ℤ).inv.app
+        (f.asHom ≫ (shiftFunctorZero (derivedCategory' (envelopingAlgebra A)) ℤ).inv.app
           (diagonalDerived A) : hochschildCohomology A 0))
-      (fun f g => Preadditive.add_comp _ _ _ f g _)) ⟨?_, ?_⟩
+      (fun f g => Preadditive.add_comp _ _ _ f.asHom g.asHom _)) ⟨?_, ?_⟩
   · intro f g h
-    exact (Iso.cancel_iso_inv_right f g
+    exact End.ext ((Iso.cancel_iso_inv_right f.asHom g.asHom
       ((shiftFunctorZero (derivedCategory' (envelopingAlgebra A)) ℤ).app
-        (diagonalDerived A))).mp h
+        (diagonalDerived A))).mp h)
   · intro g
-    refine ⟨g ≫ (shiftFunctorZero (derivedCategory' (envelopingAlgebra A)) ℤ).hom.app
-      (diagonalDerived A), ?_⟩
+    refine ⟨.of (g ≫ (shiftFunctorZero (derivedCategory' (envelopingAlgebra A)) ℤ).hom.app
+      (diagonalDerived A)), ?_⟩
     change (g ≫ _) ≫ _ = g
     rw [Category.assoc, Iso.hom_inv_id_app, Category.comp_id]
 
@@ -391,21 +393,25 @@ def centerToDiagonalModuleEnd (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = ⊥) 
     Subalgebra.center R A.A →ₐ[R]
       End ((tensorEquivalence A A).equivalence.functor.obj (regularBimodule A)) := by
   refine {
-    toFun := fun z => (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA z)
+    toFun := fun z => .of ((tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA z))
     map_one' := ?_
     map_mul' := ?_
     map_zero' := ?_
     map_add' := ?_
     commutes' := ?_ }
-  · change (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA 1) = 𝟙 _
+  · ext : 1
+    change (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA 1) = 𝟙 _
     rw [centerDiagonalHom_one]
     exact CategoryTheory.Functor.map_id _ _
   · intro z z'
+    ext : 1
     change (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA (z * z')) =
       (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA z') ≫
         (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA z)
     rw [centerDiagonalHom_mul, CategoryTheory.Functor.map_comp]
-  · apply DifferentialGradedModule.Hom.ext
+  · apply End.ext
+    change (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA 0) = 0
+    apply DifferentialGradedModule.Hom.ext
     refine LinearMap.ext fun x => ?_
     apply ((tensorEquivalence A A).underlying (regularBimodule A)).injective
     have h1 := (tensorEquivalence A A).naturality (centerDiagonalHom hA 0) x
@@ -414,6 +420,10 @@ def centerToDiagonalModuleEnd (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = ⊥) 
     rw [h1, h4, map_zero]
     exact centerRegularHom_apply_zero hA _
   · intro z z'
+    apply End.ext
+    change (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA (z + z')) =
+      (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA z) +
+        (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA z')
     apply DifferentialGradedModule.Hom.ext
     refine LinearMap.ext fun x => ?_
     apply ((tensorEquivalence A A).underlying (regularBimodule A)).injective
@@ -428,13 +438,16 @@ def centerToDiagonalModuleEnd (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = ⊥) 
     rw [h1, h4, map_add, h2, h3]
     exact centerRegularHom_apply_add hA z z' _
   · intro r
+    apply End.ext
+    change (tensorEquivalence A A).equivalence.functor.map
+      (centerDiagonalHom hA (algebraMap R (Subalgebra.center R A.A) r)) = r • 𝟙 _
     apply DifferentialGradedModule.Hom.ext
     refine LinearMap.ext fun x => ?_
     apply ((tensorEquivalence A A).underlying (regularBimodule A)).injective
     have h1 := (tensorEquivalence A A).naturality
       (centerDiagonalHom hA (algebraMap R (Subalgebra.center R A.A) r)) x
-    have h4 : ((algebraMap R (End ((tensorEquivalence A A).equivalence.functor.obj
-        (regularBimodule A))) r)).toFun x = r • x := rfl
+    have h4 : (r • 𝟙 ((tensorEquivalence A A).equivalence.functor.obj
+        (regularBimodule A))).toFun x = r • x := rfl
     rw [h1, h4, map_smul]
     exact centerRegularHom_apply_algebraMap hA r _
 
@@ -451,13 +464,13 @@ def centerAlgEquivDiagonalEnd (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = ⊥) 
     Subalgebra.center R A.A ≃ₐ[R]
       End ((tensorEquivalence A A).equivalence.functor.obj (regularBimodule A)) :=
   AlgEquiv.ofBijective (centerToDiagonalModuleEnd hA) (by
-    change Function.Bijective
-      (fun z => (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA z))
-    exact Function.Bijective.comp
+    change Function.Bijective (End.homEquiv.symm ∘
+      (fun z => (tensorEquivalence A A).equivalence.functor.map (centerDiagonalHom hA z)))
+    exact End.homEquiv.symm.bijective.comp (Function.Bijective.comp
       (g := (tensorEquivalence A A).equivalence.functor.map
         (X := regularBimodule A) (Y := regularBimodule A))
       ⟨CategoryTheory.Functor.map_injective _, CategoryTheory.Functor.map_surjective _⟩
-      (centerDiagonalHom_bijective hA))
+      (centerDiagonalHom_bijective hA)))
 
 end Concentrated
 
@@ -587,13 +600,13 @@ theorem centerToDiagonalDerivedEnd_injective (hA : ∀ n : ℤ, n ≠ 0 → A.gr
     Function.Injective (centerToDiagonalDerivedEnd hA) := by
   intro z z' h
   have h' : (toHomotopyCategory (envelopingAlgebra A) ⋙
-        (quasiIsomorphisms' (envelopingAlgebra A)).Q).map (centerToDiagonalModuleEnd hA z) =
+        (quasiIsomorphisms' (envelopingAlgebra A)).Q).map (centerToDiagonalModuleEnd hA z).asHom =
       (toHomotopyCategory (envelopingAlgebra A) ⋙
         (quasiIsomorphisms' (envelopingAlgebra A)).Q).map
-          (centerToDiagonalModuleEnd hA z') := h
-  exact (centerAlgEquivDiagonalEnd hA).injective
+          (centerToDiagonalModuleEnd hA z').asHom := congrArg End.asHom h
+  exact (centerAlgEquivDiagonalEnd hA).injective (End.ext
     (concentrated_localization_map_injective _ _
-      (diagonalModule_concentrated hA) (diagonalModule_concentrated hA) h')
+      (diagonalModule_concentrated hA) (diagonalModule_concentrated hA) h'))
 
 /-- The centre of `A`, mapped into degree-zero Hochschild cohomology. -/
 def centerToHochschildCohomologyZero (hA : ∀ n : ℤ, n ≠ 0 → A.grading n = ⊥) :
@@ -666,12 +679,13 @@ theorem centerToDiagonalDerivedEnd_surjective (hA : ∀ n : ℤ, n ≠ 0 → A.g
     ((tensorEquivalence A A).equivalence.functor.obj (regularBimodule A))
     (diagonalModule_concentrated hA)
     ((tensorEquivalence A A).equivalence.functor.obj (regularBimodule A))
-    (diagonalModule_concentrated hA) g
-  obtain ⟨z, hz⟩ := (centerAlgEquivDiagonalEnd hA).surjective φ
-  have hz' : centerToDiagonalModuleEnd hA z = φ := hz
-  refine ⟨z, ?_⟩
+    (diagonalModule_concentrated hA) g.asHom
+  obtain ⟨z, hz⟩ := (centerAlgEquivDiagonalEnd hA).surjective (.of φ)
+  have hz' : centerToDiagonalModuleEnd hA z = .of φ := hz
+  refine ⟨z, End.ext ?_⟩
   show (toHomotopyCategory (envelopingAlgebra A) ⋙
-    (quasiIsomorphisms' (envelopingAlgebra A)).Q).map (centerToDiagonalModuleEnd hA z) = g
+    (quasiIsomorphisms' (envelopingAlgebra A)).Q).map (centerToDiagonalModuleEnd hA z).asHom =
+      g.asHom
   rw [hz']
   exact hφ
 

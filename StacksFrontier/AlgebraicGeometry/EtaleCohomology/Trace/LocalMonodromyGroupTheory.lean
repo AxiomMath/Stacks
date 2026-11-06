@@ -161,7 +161,7 @@ public theorem eq_one_of_forall_exists_coprime_pow {x : Matrix (Fin r) (Fin r) �
   have hall : ∀ k : ℕ, ∀ i j, (ℓ : ℤ_[ℓ]) ^ (k + 1) ∣ (x - 1) i j := fun k => by
     obtain ⟨m, hm, hmk⟩ := h (k + 1)
     exact dvd_sub_one_of_dvd_pow_sub_one hx hm k hmk
-  ext i j
+  refine Matrix.ext fun i j => ?_
   have : (x - 1) i j = 0 :=
     eq_zero_of_forall_pow_dvd fun n => (pow_dvd_pow _ (Nat.le_succ n)).trans (hall n i j)
   rwa [Matrix.sub_apply, sub_eq_zero] at this

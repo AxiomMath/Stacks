@@ -164,7 +164,7 @@ of `Y` attached to a group element `g`, as the fibre product
 `Y^g = Y ×_{(1, 1), Y ×_S Y, (g, 1)} Y` displayed in the source. -/
 @[stacks 0374 "the fixed-point scheme X^g as the displayed fibre product"]
 def fixedScheme (Y : Over S) (a : G →* Aut Y) (g : G) : Over S :=
-  pullback (prod.lift (𝟙 Y) (𝟙 Y)) (prod.lift (a g).hom (𝟙 Y))
+  pullback (prod.lift (𝟙 Y) (𝟙 Y)) (prod.lift (a g).asIso.hom (𝟙 Y))
 
 /-- The inclusion `Y^g → Y` of the fixed-point scheme, the first projection of the fibre
 product defining it. -/
@@ -177,7 +177,7 @@ variable {S G}
 components of the two legs are the identity of `Y`. -/
 lemma fixedSchemeIncl_eq_snd (Y : Over S) (a : G →* Aut Y) (g : G) :
     fixedSchemeIncl S G Y a g = pullback.snd _ _ := by
-  have h := pullback.condition (f := prod.lift (𝟙 Y) (𝟙 Y)) (g := prod.lift (a g).hom (𝟙 Y))
+  have h := pullback.condition (f := prod.lift (𝟙 Y) (𝟙 Y)) (g := prod.lift (a g).asIso.hom (𝟙 Y))
   have h2 := congrArg (· ≫ (prod.snd : Y ⨯ Y ⟶ Y)) h
   simp only [Category.assoc, prod.lift_snd, Category.comp_id] at h2
   exact h2
@@ -185,8 +185,8 @@ lemma fixedSchemeIncl_eq_snd (Y : Over S) (a : G →* Aut Y) (g : G) :
 /-- The defining identity of the fixed-point scheme: the automorphism attached to `g` acts
 as the identity on `Y^g`. -/
 lemma fixedSchemeIncl_comp_aut (Y : Over S) (a : G →* Aut Y) (g : G) :
-    fixedSchemeIncl S G Y a g ≫ (a g).hom = fixedSchemeIncl S G Y a g := by
-  have h := pullback.condition (f := prod.lift (𝟙 Y) (𝟙 Y)) (g := prod.lift (a g).hom (𝟙 Y))
+    fixedSchemeIncl S G Y a g ≫ (a g).asIso.hom = fixedSchemeIncl S G Y a g := by
+  have h := pullback.condition (f := prod.lift (𝟙 Y) (𝟙 Y)) (g := prod.lift (a g).asIso.hom (𝟙 Y))
   have h1 := congrArg (· ≫ (prod.fst : Y ⨯ Y ⟶ Y)) h
   simp only [Category.assoc, prod.lift_fst, Category.comp_id] at h1
   conv_lhs => rw [fixedSchemeIncl_eq_snd]
@@ -204,13 +204,13 @@ lemma fixedScheme_hom_ext {Y : Over S} {a : G →* Aut Y} {g : G} {T : Over S}
 
 /-- A `T`-point of `Y` fixed by `g` lifts to a `T`-point of the fixed-point scheme. -/
 def fixedSchemeLift {Y : Over S} {a : G →* Aut Y} {g : G} {T : Over S} (x : T ⟶ Y)
-    (hx : x ≫ (a g).hom = x) : T ⟶ fixedScheme S G Y a g :=
+    (hx : x ≫ (a g).asIso.hom = x) : T ⟶ fixedScheme S G Y a g :=
   pullback.lift x x (by ext <;> simp [hx])
 
 /-- The lift of a fixed `T`-point `x` of `Y` to `Y^g` composes with the inclusion to `x`. -/
 @[simp]
 lemma fixedSchemeLift_comp_incl {Y : Over S} {a : G →* Aut Y} {g : G} {T : Over S} (x : T ⟶ Y)
-    (hx : x ≫ (a g).hom = x) :
+    (hx : x ≫ (a g).asIso.hom = x) :
     fixedSchemeLift (a := a) (g := g) x hx ≫ fixedSchemeIncl S G Y a g = x :=
   pullback.lift_fst _ _ _
 
@@ -219,7 +219,7 @@ lemma fixedSchemeLift_comp_incl {Y : Over S} {a : G →* Aut Y} {g : G} {T : Ove
 automorphism attached to `g`. -/
 @[stacks 0374 "X^g = {x ∈ X | g(x) = x} as a functor of points"]
 def fixedSchemeHomEquiv (Y : Over S) (a : G →* Aut Y) (g : G) (T : Over S) :
-    (T ⟶ fixedScheme S G Y a g) ≃ {x : T ⟶ Y // x ≫ (a g).hom = x} where
+    (T ⟶ fixedScheme S G Y a g) ≃ {x : T ⟶ Y // x ≫ (a g).asIso.hom = x} where
   toFun φ := ⟨φ ≫ fixedSchemeIncl S G Y a g, by
     rw [Category.assoc, fixedSchemeIncl_comp_aut]⟩
   invFun x := fixedSchemeLift x.1 x.2
@@ -228,15 +228,15 @@ def fixedSchemeHomEquiv (Y : Over S) (a : G →* Aut Y) (g : G) (T : Over S) :
 
 /-- Two automorphisms of `Y` attached to group elements commute, because `G` does. -/
 lemma aut_hom_comm_of_commGroup (Y : Over S) (a : G →* Aut Y) (g h : G) :
-    (a h).hom ≫ (a g).hom = (a g).hom ≫ (a h).hom := by
+    (a h).asIso.hom ≫ (a g).asIso.hom = (a g).asIso.hom ≫ (a h).asIso.hom := by
   have hgh : a g * a h = a h * a g := by rw [← map_mul, ← map_mul, mul_comm]
-  exact congrArg Iso.hom hgh
+  exact congrArg (fun e : Aut Y => e.asIso.hom) hgh
 
 /-- The endomorphism of `Y^g` induced by the automorphism of `Y` attached to `h`. It exists
 because `G` is commutative: `h` carries the locus fixed by `g` into itself. -/
 def fixedSchemeMap (Y : Over S) (a : G →* Aut Y) (g h : G) :
     fixedScheme S G Y a g ⟶ fixedScheme S G Y a g :=
-  fixedSchemeLift (fixedSchemeIncl S G Y a g ≫ (a h).hom) (by
+  fixedSchemeLift (fixedSchemeIncl S G Y a g ≫ (a h).asIso.hom) (by
     rw [Category.assoc, aut_hom_comm_of_commGroup, ← Category.assoc,
       fixedSchemeIncl_comp_aut])
 
@@ -245,7 +245,7 @@ inclusion followed by the automorphism of `Y` attached to `h`. -/
 @[simp]
 lemma fixedSchemeMap_comp_incl (Y : Over S) (a : G →* Aut Y) (g h : G) :
     fixedSchemeMap Y a g h ≫ fixedSchemeIncl S G Y a g =
-      fixedSchemeIncl S G Y a g ≫ (a h).hom :=
+      fixedSchemeIncl S G Y a g ≫ (a h).asIso.hom :=
   fixedSchemeLift_comp_incl _ _
 
 /-- The endomorphism of `Y^g` induced by the identity of `G` is the identity. -/
@@ -270,18 +270,18 @@ attached to `h` commutes with the one attached to `g`, hence preserves `Y^g`. -/
 @[stacks 0374 "the induced action of G on X^g"]
 def fixedSchemeAut (Y : Over S) (a : G →* Aut Y) (g : G) :
     G →* Aut (fixedScheme S G Y a g) where
-  toFun h :=
+  toFun h := .of
     { hom := fixedSchemeMap Y a g h
       inv := fixedSchemeMap Y a g h⁻¹
       hom_inv_id := by rw [← fixedSchemeMap_mul, inv_mul_cancel, fixedSchemeMap_one]
       inv_hom_id := by rw [← fixedSchemeMap_mul, mul_inv_cancel, fixedSchemeMap_one] }
-  map_one' := Aut.ext (fixedSchemeMap_one Y a g)
-  map_mul' h k := Aut.ext (fixedSchemeMap_mul Y a g h k)
+  map_one' := Aut.ext (Iso.ext (fixedSchemeMap_one Y a g))
+  map_mul' h k := Aut.ext (Iso.ext (fixedSchemeMap_mul Y a g h k))
 
 /-- The automorphism of `Y^g` attached to `h` has underlying morphism `fixedSchemeMap Y a g h`. -/
 @[simp]
 lemma fixedSchemeAut_hom (Y : Over S) (a : G →* Aut Y) (g h : G) :
-    (fixedSchemeAut Y a g h).hom = fixedSchemeMap Y a g h := rfl
+    (fixedSchemeAut Y a g h).asIso.hom = fixedSchemeMap Y a g h := rfl
 
 end FixedScheme
 
@@ -308,7 +308,8 @@ def schemePointsAut (Z : Over S) (b : G →* Aut Z) :
 `schemePointsFunctor` of the automorphism of `Z` attached to `g`. -/
 @[simp]
 lemma schemePointsAut_hom (Z : Over S) (b : G →* Aut Z) (g : G) :
-    (schemePointsAut B S hS G Z b g).hom = (schemePointsFunctor B S hS).map (b g).hom := rfl
+    (schemePointsAut B S hS G Z b g).asIso.hom =
+      (schemePointsFunctor B S hS).map (b g).asIso.hom := rfl
 
 end Points
 
@@ -323,7 +324,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {G : Type w}
 /-- The functor `[[X/G]] ⥤ [[X'/G]]` attached to a `G`-equivariant map of sheaves
 `u : X → X'`: it keeps the object of the site and the torsor of a triple and composes its
 equivariant map with `u`. -/
-def mapTarget (u : X ⟶ X') (hu : ∀ g : G, (ρ g).hom ≫ u = u ≫ (ρ' g).hom) :
+def mapTarget (u : X ⟶ X') (hu : ∀ g : G, (ρ g).asIso.hom ≫ u = u ≫ (ρ' g).asIso.hom) :
     AbstractGroupQuotientStack.{t} B S hS G X ρ ⥤
       AbstractGroupQuotientStack.{t} B S hS G X' ρ' where
   obj A :=
@@ -352,7 +353,7 @@ def mapTarget (u : X ⟶ X') (hu : ∀ g : G, (ρ g).hom ≫ u = u ≫ (ρ' g).h
 `A` followed by `u`. -/
 @[simp]
 lemma mapTarget_obj_totalToTarget (u : X ⟶ X')
-    (hu : ∀ g : G, (ρ g).hom ≫ u = u ≫ (ρ' g).hom)
+    (hu : ∀ g : G, (ρ g).asIso.hom ≫ u = u ≫ (ρ' g).asIso.hom)
     (A : AbstractGroupQuotientStack.{t} B S hS G X ρ) (V : (BigFppfOver B S hS)ᵒᵖ)
     (p : A.Total V) :
     ((mapTarget u hu).obj A).totalToTarget V p = u.app V (A.totalToTarget V p) := rfl
@@ -360,7 +361,7 @@ lemma mapTarget_obj_totalToTarget (u : X ⟶ X')
 /-- The functor attached to an equivariant map of sheaves is a functor over the big fppf
 site: it does not change the object of the site under a triple. -/
 lemma mapTarget_comp_projection (u : X ⟶ X')
-    (hu : ∀ g : G, (ρ g).hom ≫ u = u ≫ (ρ' g).hom) :
+    (hu : ∀ g : G, (ρ g).asIso.hom ≫ u = u ≫ (ρ' g).asIso.hom) :
     mapTarget.{t} u hu ⋙ projection (ρ := ρ') = projection (ρ := ρ) := rfl
 
 end MapTarget
@@ -441,7 +442,7 @@ identity of `U` exactly when `φ` is fixed by `g`. Equivariance for the whole co
 of groups holds because `G` is commutative. -/
 def translationHom (g : G)
     (hA : ∀ (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V),
-      (ρ g).hom.app V (A.totalToTarget V p) = A.totalToTarget V p) : A ⟶ A where
+      (ρ g).asIso.hom.app V (A.totalToTarget V p) = A.totalToTarget V p) : A ⟶ A where
   base := 𝟙 A.base
   map := A.translationMap g
   map_naturality := fun {V W} h p => by
@@ -470,26 +471,27 @@ def translationHom (g : G)
 @[simp]
 lemma translationHom_base (g : G)
     (hA : ∀ (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V),
-      (ρ g).hom.app V (A.totalToTarget V p) = A.totalToTarget V p) :
+      (ρ g).asIso.hom.app V (A.totalToTarget V p) = A.totalToTarget V p) :
     (translationHom g hA).base = 𝟙 A.base := rfl
 
 /-- The map on total spaces of `translationHom g hA` is multiplication by `g`. -/
 @[simp]
 lemma translationHom_map (g : G)
     (hA : ∀ (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V),
-      (ρ g).hom.app V (A.totalToTarget V p) = A.totalToTarget V p) :
+      (ρ g).asIso.hom.app V (A.totalToTarget V p) = A.totalToTarget V p) :
     (translationHom g hA).map = A.translationMap g := rfl
 
 /-- If the equivariant map of an object of `[[X/G]]` is fixed by `g` then it is fixed by
 `g⁻¹`. -/
 lemma totalToTarget_fixed_inv {g : G}
     (hA : ∀ (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V),
-      (ρ g).hom.app V (A.totalToTarget V p) = A.totalToTarget V p)
+      (ρ g).asIso.hom.app V (A.totalToTarget V p) = A.totalToTarget V p)
     (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V) :
-    (ρ g⁻¹).hom.app V (A.totalToTarget V p) = A.totalToTarget V p := by
-  have h0 : (ρ g).hom ≫ (ρ g⁻¹).hom = 𝟙 X :=
-    congrArg Iso.hom (show ρ g⁻¹ * ρ g = 1 by rw [← map_mul, inv_mul_cancel, map_one])
-  have h1 : (ρ g⁻¹).hom.app V ((ρ g).hom.app V (A.totalToTarget V p)) =
+    (ρ g⁻¹).asIso.hom.app V (A.totalToTarget V p) = A.totalToTarget V p := by
+  have h0 : (ρ g).asIso.hom ≫ (ρ g⁻¹).asIso.hom = 𝟙 X :=
+    congrArg (fun e : Aut X => e.asIso.hom)
+      (show ρ g⁻¹ * ρ g = 1 by rw [← map_mul, inv_mul_cancel, map_one])
+  have h1 : (ρ g⁻¹).asIso.hom.app V ((ρ g).asIso.hom.app V (A.totalToTarget V p)) =
       A.totalToTarget V p := by
     simpa using types_congr_hom (NatTrans.congr_app h0 V) (A.totalToTarget V p)
   rwa [hA V p] at h1
@@ -498,25 +500,25 @@ lemma totalToTarget_fixed_inv {g : G}
 `α` of the source: its inverse is multiplication by `g⁻¹`. -/
 def translation (g : G)
     (hA : ∀ (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V),
-      (ρ g).hom.app V (A.totalToTarget V p) = A.totalToTarget V p) : Aut A where
-  hom := translationHom g hA
-  inv := translationHom g⁻¹ (totalToTarget_fixed_inv hA)
-  hom_inv_id := Hom.ext (Category.id_comp _) (by
-    funext V p
-    change A.translationMap g⁻¹ V (A.translationMap g V p) = p
-    exact A.translationMap_translationMap_inv g V p)
-  inv_hom_id := Hom.ext (Category.id_comp _) (by
-    funext V p
-    change A.translationMap g V (A.translationMap g⁻¹ V p) = p
-    rw [translationMap_mul, mul_inv_cancel, translationMap_one])
+      (ρ g).asIso.hom.app V (A.totalToTarget V p) = A.totalToTarget V p) : Aut A := .of
+  { hom := translationHom g hA
+    inv := translationHom g⁻¹ (totalToTarget_fixed_inv hA)
+    hom_inv_id := Hom.ext (Category.id_comp _) (by
+      funext V p
+      change A.translationMap g⁻¹ V (A.translationMap g V p) = p
+      exact A.translationMap_translationMap_inv g V p)
+    inv_hom_id := Hom.ext (Category.id_comp _) (by
+      funext V p
+      change A.translationMap g V (A.translationMap g⁻¹ V p) = p
+      rw [translationMap_mul, mul_inv_cancel, translationMap_one]) }
 
 /-- Multiplication by `g` lies over the identity of the object of the site, so it is an
 automorphism in the sense of the inertia of Stacks 034I. -/
 @[simp]
 lemma projection_map_translation (g : G)
     (hA : ∀ (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V),
-      (ρ g).hom.app V (A.totalToTarget V p) = A.totalToTarget V p) :
-    (projection (ρ := ρ)).map (translation g hA).hom = 𝟙 A.base := rfl
+      (ρ g).asIso.hom.app V (A.totalToTarget V p) = A.totalToTarget V p) :
+    (projection (ρ := ρ)).map (translation g hA).asIso.hom = 𝟙 A.base := rfl
 
 end Translation
 
@@ -558,9 +560,9 @@ omit [HasWeakSheafify (BigFppfOver.topology B S hS) GrpCat.{w}] in
 /-- The map `Y^g → Y` on functors of points is `G`-equivariant for the induced action on
 `Y^g` and the given action on `Y`. -/
 lemma fixedSchemePointsIncl_equivariant (g : G) (h : G) :
-    (schemePointsAut B S hS G (fixedScheme S G Y a g) (fixedSchemeAut Y a g) h).hom ≫
+    (schemePointsAut B S hS G (fixedScheme S G Y a g) (fixedSchemeAut Y a g) h).asIso.hom ≫
         fixedSchemePointsIncl B S hS G Y a g =
-      fixedSchemePointsIncl B S hS G Y a g ≫ (schemePointsAut B S hS G Y a h).hom := by
+      fixedSchemePointsIncl B S hS G Y a g ≫ (schemePointsAut B S hS G Y a h).asIso.hom := by
   rw [schemePointsAut_hom, schemePointsAut_hom, fixedSchemePointsIncl, fixedSchemeAut_hom,
     ← Functor.map_comp, ← Functor.map_comp, fixedSchemeMap_comp_incl]
 
@@ -568,7 +570,7 @@ omit [HasWeakSheafify (BigFppfOver.topology B S hS) GrpCat.{w}] in
 /-- The map `Y^g → Y` on functors of points, followed by the automorphism attached to `g`, is
 the map `Y^g → Y` itself. -/
 lemma fixedSchemePointsIncl_comp_aut (g : G) :
-    fixedSchemePointsIncl B S hS G Y a g ≫ (schemePointsAut B S hS G Y a g).hom =
+    fixedSchemePointsIncl B S hS G Y a g ≫ (schemePointsAut B S hS G Y a g).asIso.hom =
       fixedSchemePointsIncl B S hS G Y a g := by
   rw [schemePointsAut_hom, fixedSchemePointsIncl, ← Functor.map_comp,
     fixedSchemeIncl_comp_aut]
@@ -585,7 +587,7 @@ is `ι ≫ g = ι` for the inclusion `ι : Y^g → Y`. -/
 lemma totalToTarget_fixed (g : G) (A : fixedSchemeQuotient.{t} B S hS G Y a g)
     (V : (BigFppfOver B S hS)ᵒᵖ)
     (p : ((fixedSchemeQuotientToQuotient.{t} B S hS G Y a g).obj A).Total V) :
-    (schemePointsAut B S hS G Y a g).hom.app V
+    (schemePointsAut B S hS G Y a g).asIso.hom.app V
         (((fixedSchemeQuotientToQuotient.{t} B S hS G Y a g).obj A).totalToTarget V p) =
       ((fixedSchemeQuotientToQuotient.{t} B S hS G Y a g).obj A).totalToTarget V p := by
   exact types_congr_hom (NatTrans.congr_app (fixedSchemePointsIncl_comp_aut B S hS G Y a g) V) _
@@ -597,7 +599,7 @@ map is fixed by `g`, every value of that map factors uniquely through `Y^g`. -/
 theorem totalToTarget_factorsThroughFixedScheme (g : G)
     (A : schemeQuotient.{t} B S hS G Y a)
     (hA : ∀ (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V),
-      (schemePointsAut B S hS G Y a g).hom.app V (A.totalToTarget V p) =
+      (schemePointsAut B S hS G Y a g).asIso.hom.app V (A.totalToTarget V p) =
         A.totalToTarget V p)
     (V : (BigFppfOver B S hS)ᵒᵖ) (p : A.Total V) :
     ∃! y : (Over.post B.inclusion).obj V.unop ⟶ fixedScheme S G Y a g,

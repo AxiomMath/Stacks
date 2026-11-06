@@ -104,14 +104,13 @@ instance additive_sheafOverEquivSmall_inverse (V : SpacesEtale B S hS X) :
 spaces-étale site of `X` at `V` is additive. -/
 instance additive_sheafOverEquivSmall_functor (V : SpacesEtale B S hS X) :
     (sheafOverEquivSmall B S hS V AddCommGrpCat.{u + 1}).functor.Additive :=
-  have : (sheafOverEquivSmall B S hS V AddCommGrpCat.{u + 1}).symm.functor.Additive :=
-    additive_sheafOverEquivSmall_inverse B S hS X V
-  Equivalence.inverse_additive (sheafOverEquivSmall B S hS V AddCommGrpCat.{u + 1}).symm
+  Functor.additive_of_preserves_binary_products _
 
 /-- The restriction `ℱ ↦ ℱ|_{U_p}` is additive. -/
 instance additive_diagonalComplementQuotientRestriction :
-    (diagonalComplementQuotientRestriction B S hS X U n hsep).Additive :=
-  Functor.instAdditiveComp
+    (diagonalComplementQuotientRestriction B S hS X U n hsep).Additive := by
+  unfold diagonalComplementQuotientRestriction
+  exact Functor.instAdditiveComp
     ((topology B S hS X).overPullback AddCommGrpCat.{u + 1}
       (diagonalComplementQuotientObject B S hS X U n hsep))
     (sheafOverEquivSmall B S hS (diagonalComplementQuotientObject B S hS X U n hsep)
@@ -119,8 +118,9 @@ instance additive_diagonalComplementQuotientRestriction :
 
 /-- The restriction `ℱ ↦ ℱ|_{U_p}` is left exact. -/
 instance preservesFiniteLimits_diagonalComplementQuotientRestriction :
-    PreservesFiniteLimits (diagonalComplementQuotientRestriction B S hS X U n hsep) :=
-  comp_preservesFiniteLimits
+    PreservesFiniteLimits (diagonalComplementQuotientRestriction B S hS X U n hsep) := by
+  unfold diagonalComplementQuotientRestriction
+  exact comp_preservesFiniteLimits
     ((topology B S hS X).overPullback AddCommGrpCat.{u + 1}
       (diagonalComplementQuotientObject B S hS X U n hsep))
     (sheafOverEquivSmall B S hS (diagonalComplementQuotientObject B S hS X U n hsep)
@@ -133,7 +133,9 @@ instance preservesFiniteColimits_diagonalComplementQuotientRestriction :
   have h : PreservesFiniteColimits ((topology B S hS X).overPullback AddCommGrpCat.{u + 1}
       (diagonalComplementQuotientObject B S hS X U n hsep)) :=
     Stacks.Cohomology.LocalizedSite.preservesFiniteColimits_overPullback _ _
-  comp_preservesFiniteColimits
+  by
+  unfold diagonalComplementQuotientRestriction
+  exact comp_preservesFiniteColimits
     ((topology B S hS X).overPullback AddCommGrpCat.{u + 1}
       (diagonalComplementQuotientObject B S hS X U n hsep))
     (sheafOverEquivSmall B S hS (diagonalComplementQuotientObject B S hS X U n hsep)
@@ -152,7 +154,9 @@ instance preservesInjectiveObjects_diagonalComplementQuotientRestriction :
       (diagonalComplementQuotientObject B S hS X U n hsep)).PreservesInjectiveObjects :=
     Stacks.Cohomology.LocalizedSite.preservesInjectiveObjects_overPullback
       (topology B S hS X) (diagonalComplementQuotientObject B S hS X U n hsep)
-  Functor.preservesInjectiveObjects_comp
+  by
+  unfold diagonalComplementQuotientRestriction
+  exact Functor.preservesInjectiveObjects_comp
     ((topology B S hS X).overPullback AddCommGrpCat.{u + 1}
       (diagonalComplementQuotientObject B S hS X U n hsep))
     (sheafOverEquivSmall B S hS (diagonalComplementQuotientObject B S hS X U n hsep)
@@ -168,8 +172,9 @@ def diagonalComplementQuotientSectionsIso
     (F : Sheaf (topology B S hS X) AddCommGrpCat.{u + 1}) :
     ((diagonalComplementQuotientRestriction B S hS X U n hsep).obj F).obj.obj
         (op (diagonalComplementEtaleSource B S hS X U n hsep)) ≅
-      F.obj.obj (op (diagonalComplement B S hS X U n hsep)) :=
-  ((sheafToPresheaf ((topology B S hS X).over
+      F.obj.obj (op (diagonalComplement B S hS X U n hsep)) := by
+  unfold diagonalComplementQuotientRestriction
+  exact ((sheafToPresheaf ((topology B S hS X).over
         (diagonalComplementQuotientObject B S hS X U n hsep)) AddCommGrpCat.{u + 1}).mapIso
     ((sheafOverEquivSmall B S hS (diagonalComplementQuotientObject B S hS X U n hsep)
       AddCommGrpCat.{u + 1}).unitIso.app
@@ -187,11 +192,13 @@ theorem diagonalComplementQuotientSectionsIso_naturality
           (op (diagonalComplementEtaleSource B S hS X U n hsep)) s) =
       k.hom.app (op (diagonalComplement B S hS X U n hsep))
         ((diagonalComplementQuotientSectionsIso B S hS X U n hsep F).hom s) := by
-  exact congrArg (fun m => m.hom.app (op (diagonalComplementSlice B S hS X U n hsep)) s)
-    ((sheafOverEquivSmall B S hS (diagonalComplementQuotientObject B S hS X U n hsep)
+  unfold diagonalComplementQuotientRestriction at s ⊢
+  have h := (sheafOverEquivSmall B S hS (diagonalComplementQuotientObject B S hS X U n hsep)
       AddCommGrpCat.{u + 1}).unitIso.symm.hom.naturality
     (((topology B S hS X).overPullback AddCommGrpCat.{u + 1}
-      (diagonalComplementQuotientObject B S hS X U n hsep)).map k))
+      (diagonalComplementQuotientObject B S hS X U n hsep)).map k)
+  exact ConcreteCategory.congr_hom (NatTrans.congr_app ((sheafToPresheaf _ _).congr_map h)
+    (op (diagonalComplementSlice B S hS X U n hsep))) s
 
 /-- The comparison of sections over `W` carries the action of the symmetric group on `W` over
 `U_p` to its action on `W` over `X`. -/
@@ -202,8 +209,8 @@ theorem diagonalComplementQuotientSectionsIso_smul
       (op (diagonalComplementEtaleSource B S hS X U n hsep))) :
     (diagonalComplementQuotientSectionsIso B S hS X U n hsep F).hom
         (((diagonalComplementQuotientRestriction B S hS X U n hsep).obj F).obj.map
-          ((diagonalComplementQuotientAut B S hS X U n hsep σ).hom).op s) =
-      F.obj.map ((diagonalComplementAut B S hS X U n hsep σ.down).hom).op
+          ((diagonalComplementQuotientAut B S hS X U n hsep σ).asIso.hom).op s) =
+      F.obj.map ((diagonalComplementAut B S hS X U n hsep σ.down).asIso.hom).op
         ((diagonalComplementQuotientSectionsIso B S hS X U n hsep F).hom s) := by
   rw [← sliceToSmall_map_diagonalComplementSliceAut B S hS X U n hsep σ]
   exact NatTrans.naturality_apply
@@ -220,9 +227,9 @@ theorem diagonalComplementQuotientSectionsIso_inv_smul
     (σ : ULift.{u} (Equiv.Perm (Fin n)))
     (t : F.obj.obj (op (diagonalComplement B S hS X U n hsep))) :
     (diagonalComplementQuotientSectionsIso B S hS X U n hsep F).inv
-        (F.obj.map ((diagonalComplementAut B S hS X U n hsep σ.down).hom).op t) =
+        (F.obj.map ((diagonalComplementAut B S hS X U n hsep σ.down).asIso.hom).op t) =
       ((diagonalComplementQuotientRestriction B S hS X U n hsep).obj F).obj.map
-        ((diagonalComplementQuotientAut B S hS X U n hsep σ).hom).op
+        ((diagonalComplementQuotientAut B S hS X U n hsep σ).asIso.hom).op
         ((diagonalComplementQuotientSectionsIso B S hS X U n hsep F).inv t) := by
   have h := diagonalComplementQuotientSectionsIso_smul B S hS X U n hsep F σ
     ((diagonalComplementQuotientSectionsIso B S hS X U n hsep F).inv t)

@@ -62,7 +62,7 @@ namespace Deformation.Artin
 universe u v w
 
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
-  CategoryTheory.Functor.Fiber.fiberInclusion CategoryTheory.Under.post
+  CategoryTheory.Functor.Fiber.fiberInclusion
 
 /-- The `ULift` functor on modules is linear. -/
 instance moduleCatUliftFunctor_linear (R : Type u) [CommRing R] :
@@ -179,7 +179,7 @@ theorem isPullbackOfSquareZeroLift_infLiftClassEquiv
   have hg₂ : (𝟙 _ : (autPresheaf p hx).obj (op (algebraOver D B (Spec (.of A)) hA toSD₀ hD))) =
       (autPresheaf p hx).map (squareZeroArrow D B (Spec (.of A)) hA toSD₀ hD N).op
         ((autPresheaf p hx).map (squareZeroOverMap D B (Spec (.of A)) hA toSD₀ f).op g) := by
-    rwa [← FunctorToTypes.map_comp_apply, ← op_comp, hm]
+    rwa [← Functor.map_comp_apply, ← op_comp, hm]
   obtain ⟨φ, hφ, hc⟩ := exists_elemLift_hom (autPresheaf p hx) (𝟙 _)
     (squareZeroArrow D B (Spec (.of A)) hA toSD₀ hD M)
     (squareZeroArrow D B (Spec (.of A)) hA toSD₀ hD N)

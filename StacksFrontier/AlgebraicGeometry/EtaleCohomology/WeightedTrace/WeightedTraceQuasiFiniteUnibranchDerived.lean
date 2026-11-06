@@ -217,7 +217,7 @@ public theorem exists_weighting_derivedWeightedTraceMod_of_isGeometricallyUnibra
                   (pullbackMod.{u, u + 1, u} B Λ f) (fShriekMod.{u, u + 1, u} B Λ f)).inv ≫
                 NatTrans.mapDerivedCategory
                   (weightedTraceModTrans.{u, u + 1, u} B Λ f hw) ≫
-                Functor.mapDerivedCategoryIdIso.hom) ∧
+                (Functor.mapDerivedCategoryIdIso _).hom) ∧
           (∀ M : ModuleSheaf.{u, u + 1, u} B Y Λ,
               (weightedTraceModTrans.{u, u + 1, u} B Λ f hw).app M =
                 weightedTraceMod.{u, u + 1, u} B Λ f hw M) ∧

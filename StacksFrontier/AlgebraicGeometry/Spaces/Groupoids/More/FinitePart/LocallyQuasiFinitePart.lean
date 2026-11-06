@@ -76,6 +76,23 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasPullbacks_presheaf_locallyQuasiFinitePart :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+/-- Small products of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasProducts_presheaf_locallyQuasiFinitePart :
+    HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  fun _ => Limits.functorCategoryHasLimitsOfShape
+
+private instance (priority := high) hasPullback_presheaf_locallyQuasiFinitePart
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_locallyQuasiFinitePart B S hS).has_limit _
+
 /-- The comparison morphism `T ×_Y X' ⟶ T ×_Y X` induced by a monomorphism `X' ⟶ X` over `Y`
 is a monomorphism: its two components after the projections determine it, and the second one
 is cancelled by the monomorphism. -/
@@ -143,9 +160,13 @@ private lemma finiteOpenSubspace_eq_of_common_source {X Y T : AlgebraicSpaces B 
     · simpa only [Category.assoc] using hfst
     · simpa only [Category.assoc] using hsnd
   have hZeq : Z = Z' := by
+    have he : Epi e.hom := IsIso.epi_of_iso _
+    have he' : Epi e'.hom := IsIso.epi_of_iso _
     have hr := congrArg Subfunctor.range hι
-    simpa only [Subfunctor.range_comp, Subfunctor.range_eq_top, Subfunctor.image_top,
-      Subfunctor.range_ι] using hr
+    rwa [Subfunctor.range_comp e.hom Z.ι, Subfunctor.range_comp e'.hom Z'.ι,
+      @Subfunctor.range_eq_top _ _ _ _ _ he, @Subfunctor.range_eq_top _ _ _ _ _ he',
+      Subfunctor.image_top Z.ι, Subfunctor.image_top Z'.ι, Subfunctor.range_ι,
+      Subfunctor.range_ι] at hr
   subst Z'
   rfl
 

@@ -236,7 +236,6 @@ private theorem dualNumbers_not_smooth (k : Type u) [Field k] :
     have hsm : Algebra.Smooth k (TrivSqZeroExt k k) := by
       have hmap : (algebraMap k (TrivSqZeroExt k k)).Smooth := by
         convert hring using 1
-        ext x <;> simp [TrivSqZeroExt.algebraMap_eq_inl]
       exact (RingHom.smooth_algebraMap).mp hmap
     exact Algebra.isReduced_of_smooth k _
   let z : TrivSqZeroExt k k := TrivSqZeroExt.inr (1 : k)

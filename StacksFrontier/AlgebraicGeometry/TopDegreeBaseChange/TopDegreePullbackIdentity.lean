@@ -98,7 +98,6 @@ theorem mapHomotopyCategorySingleFunctor_hom_app_eq (n : ℤ) (M : C₁) :
       ((singleMapHomologicalComplex T (ComplexShape.up ℤ) n).hom.app M) ≫ 𝟙 _ ≫ 𝟙 _)
     ((T.mapHomotopyCategory (ComplexShape.up ℤ)).map_id _)) ?_
   simp only [Category.comp_id, Category.id_comp]
-  exact Category.id_comp _
 
 end Generic
 

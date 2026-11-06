@@ -222,7 +222,8 @@ theorem exists_covering_nsmul_id_zero_of_constant_fg
     ∃ R : Sieve Y, R ∈ J Y ∧ ∀ (V : C) (b : V ⟶ Y), R b →
       ∃ n : ℕ, n ≠ 0 ∧ n • 𝟙 ((J.overPullback AddCommGrpCat.{max u v w} V).obj F) = 0 := by
   classical
-  obtain ⟨S, hS⟩ : ∃ S : Finset A, AddSubgroup.closure (S : Set A) = ⊤ := hA.out
+  obtain ⟨S, hS⟩ : ∃ S : Finset A, AddSubgroup.closure (S : Set A) = ⊤ :=
+    let ⟨_, S, _, hS⟩ := AddGroup.fg_iff'.1 hA; ⟨S, hS⟩
   have htor : ∀ m : A, ∃ R : Sieve Y, R ∈ J Y ∧ ∀ (V : C) (g : V ⟶ Y), R g →
       ∃ k : ℕ, 0 < k ∧
         k • (F.obj.map g.op (trivSectionHom J AddCommGrpCat.{max u v w} A α m)) = 0 :=

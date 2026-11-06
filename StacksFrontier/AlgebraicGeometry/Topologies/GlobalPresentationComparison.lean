@@ -392,7 +392,7 @@ theorem uliftForPresentationMap_presentationRelationsHom_comp (P : N.Presentatio
   rw [← _root_.SheafOfModules.uliftForPresentationMap_comp,
     presentationRelationsHom_comp_generators_π]
   ext X x
-  exact ULift.ext _ _ rfl
+  exact ULift.ext rfl
 
 /-- **The universe lift of the presenting morphism of a `SheafOfModules.Presentation` is again a
 cokernel projection.** The presenting morphism is locally surjective, being an epimorphism, and

@@ -69,9 +69,9 @@ public theorem character_eq_of_hom [ConnectedSpace X] {T₁ T₂ : TorsorCover X
   apply Multiplicative.toAdd.injective
   refine (T₂.character_eq_of_smul x _ σ ((finiteEtaleFiberFunctor x).map h p₀) ?_).symm
   have hσ : σ • (finiteEtaleFiberFunctor x).map h p₀ = (finiteEtaleFiberFunctor x).map h (σ • p₀) :=
-    (ConcreteCategory.congr_hom (σ.hom.naturality h) p₀)
-  rw [hσ, T₁.smul_eq_character x p₀ σ p₀, ← FunctorToTypes.map_comp_apply, hh,
-    FunctorToTypes.map_comp_apply]
+    (ConcreteCategory.congr_hom (σ.asIso.hom.naturality h) p₀)
+  rw [hσ, T₁.smul_eq_character x p₀ σ p₀, ← ConcreteCategory.comp_apply, ← Functor.map_comp, hh,
+    Functor.map_comp, ConcreteCategory.comp_apply]
 
 variable [ConnectedSpace X] [ConnectedSpace Y]
 

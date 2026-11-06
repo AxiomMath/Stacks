@@ -28,14 +28,21 @@ universe u v
 
 namespace Stacks.EtaleCohomology
 
+/-- The Mathlib instance `Scheme.instHasSheafifyEtaleSmallEtaleTopology` (for `Category.{u}`
+coefficients) is tried first and its universe constraint fails hard while a universe level is
+still a metavariable; this instance for sheaves of types answers first. -/
+private instance (priority := high) hasSheafifySmallEtaleType' (X : Scheme.{u}) :
+    HasSheafify X.smallEtaleTopology (Type (max (u + 1) v)) := inferInstance
+
 /-- The canonical comparison on global sections, followed by restriction to the base change of
 an étale `S`-scheme `V`, is restriction to `V` followed by the unit of the inverse-image
 adjunction at `V`. -/
 public theorem globalSectionsSmallEtaleInverseImage_app_comp_ΓRes {T S : Scheme.{u}}
     (f : T ⟶ S) (G : Sheaf (smallEtaleTopology S) (Type (max (u + 1) v))) (V : S.Etale) :
-    (globalSectionsSmallEtaleInverseImage f).app G ≫
-        ((smallEtaleInverseImage f).obj G).ΓRes (Opposite.op ((smallEtaleBaseChange f).obj V)) =
-      G.ΓRes (Opposite.op V) ≫ smallEtaleUnitApp f G V :=
+    (globalSectionsSmallEtaleInverseImage.{u, v} f).app G ≫
+        ((smallEtaleInverseImage.{u, v} f).obj G).ΓRes
+          (Opposite.op ((smallEtaleBaseChange f).obj V)) =
+      G.ΓRes (Opposite.op V) ≫ smallEtaleUnitApp.{u, v} f G V :=
   globalSectionsComparisonApp_ΓRes f G V
 
 end Stacks.EtaleCohomology

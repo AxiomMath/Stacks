@@ -247,8 +247,8 @@ private theorem exists_shrink_mem_of_fibre_subset
       (congrArg (fun m => B.inclusion.map
           (pullback.fst (openObject B Y.obj Y.property U.1 W).obj.hom f) ≫ m)
         (openObjectι_map B Y.obj Y.property U.1 W))
-  refine ⟨⟨openObject B Y.obj Y.property U.1 W,
-      openObjectLift B Y.obj Y.property s U.1 U.2 W hWmem⟩,
+  refine ⟨Functor.elementsMk _ (openObject B Y.obj Y.property U.1 W)
+      (openObjectLift B Y.obj Y.property s U.1 U.2 W hWmem),
     ⟨openObjectι B Y.obj Y.property U.1 W,
       openObjectLift_map B Y.obj Y.property s U.1 U.2 W hWmem⟩, fun q w hqw => hWP ?_⟩
   change (i ≫ B.inclusion.map (pullback.fst U.1.obj.hom f)).base w ∈
@@ -409,7 +409,7 @@ private theorem exists_isOpen_finiteSupport_unique_mem (x : GeometricFiberPoint 
   have hid : Etale (B.inclusion.map (𝟙 X)) := by
     simpa using (inferInstance : Etale (𝟙 X.obj))
   let N : (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).Elements :=
-    ⟨⟨Over.mk (𝟙 X), hid⟩, ⟨x.1, by simp⟩⟩
+    Functor.elementsMk _ ⟨Over.mk (𝟙 X), hid⟩ ⟨x.1, by simp⟩
   obtain ⟨U, O, r, t, hfin, hrU, hrN, huniq⟩ := exists_finite_open_neighborhood B f s x N
   have hpb := (IsPullback.of_hasPullback U.1.obj.hom f).map B.inclusion
   have ht : (SmallEtale.toScheme B X.obj X.property).map t =
@@ -480,7 +480,7 @@ private theorem exists_shrink_supports_subset_opens
       (SmallEtale.toScheme B X.obj X.property).map ((smallEtaleBaseChange B f).map (l n).1) ≫
       (SmallEtale.toScheme B X.obj X.property).map
         ((smallEtaleBaseChange B f).map (g n).1) := by
-    have H : k.1 = (l n).1 ≫ (g n).1 := congrArg Subtype.val (hl n).symm
+    have H : k.1 = (l n).1 ≫ (g n).1 := congrArg Functor.Elements.Hom.hom (hl n).symm
     rw [H, Functor.map_comp, Functor.map_comp]
   have hz' : ((SmallEtale.toScheme B X.obj X.property).map
       ((smallEtaleBaseChange B f).map k.1)).base z ∈ (E n).1 := by
@@ -628,9 +628,9 @@ private theorem exists_cut_section
     have hxO : (fiberPointLift B f s U.1 U.2 x).base default ∈
         (O : Set ((SmallEtale.toScheme B X.obj X.property).obj (baseChange B f U.1))) := hx
     let N : (geometricPointFiber B X.obj X.property (x.toGeometricPoint B f s)).Elements :=
-      ⟨openObject B X.obj X.property (baseChange B f U.1) O,
-        openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f U.1)
-          (fiberPointElement B f s U.1 U.2 x) O hxO⟩
+      Functor.elementsMk _ (openObject B X.obj X.property (baseChange B f U.1) O)
+        (openObjectLift B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f U.1)
+          (fiberPointElement B f s U.1 U.2 x) O hxO)
     have hNι : N.2.1 ≫ O.ι = fiberPointLift B f s U.1 U.2 x :=
       openObjectLift_comp_ι B X.obj X.property (x.toGeometricPoint B f s) (baseChange B f U.1)
         (fiberPointElement B f s U.1 U.2 x) O hxO

@@ -89,7 +89,7 @@ variable {R : CommRingCat.{u}}
 `Γ(Spec R, 𝒪)` through `Γ(Spec R, 𝒪) ≅ R`. -/
 theorem moduleSpecΓFunctor_obj_smul (M : (Spec R).Modules) (c : R)
     (y : (moduleSpecΓFunctor (R := R)).obj M) :
-    c • y = (show (Spec R).ringCatSheaf.val.obj (Opposite.op ⊤) from (Scheme.ΓSpecIso R).inv c) •
+    c • y = (show (Spec R).ringCatSheaf.obj.obj (Opposite.op ⊤) from (Scheme.ΓSpecIso R).inv c) •
       (show (SheafOfModules.evaluation (Spec R).ringCatSheaf (Opposite.op ⊤)).obj M from y) :=
   rfl
 
@@ -190,9 +190,9 @@ theorem representedAssociatedModuleIdChartAddEquiv_smul
       (Opposite.op (idChart B S hS T))).obj
       ((representedAssociatedModule B S hS T (isAlgebraicSpace_yoneda B S hS T)).obj G)) :
     representedAssociatedModuleIdChartAddEquiv B S hS T G
-        ((show (ringedToposStructureRingSheaf B S hS (schemeSpace T)).val.obj
+        ((show (ringedToposStructureRingSheaf B S hS (schemeSpace T)).obj.obj
           (Opposite.op (idChart B S hS T)) from r) • a) =
-      (show ((BigFppfOver.toScheme B S hS).obj T).ringCatSheaf.val.obj (Opposite.op ⊤) from r) •
+      (show ((BigFppfOver.toScheme B S hS).obj T).ringCatSheaf.obj.obj (Opposite.op ⊤) from r) •
         representedAssociatedModuleIdChartAddEquiv B S hS T G a := by
   let X := (BigFppfOver.toScheme B S hS).obj T
   let W := (representedSmallEtaleEquivalence B S hS T).functor.obj (idChart B S hS T)
@@ -421,7 +421,7 @@ theorem derivedFibreBettiAt_eq_of_dominates
     fun q' f hf => by
       rw [derivedFibreBettiAt_congr (schemeSpace V) e, derivedFibreBettiAt_derivedPullback]
       exact congrArg _ (FieldValuedPoint.map_toSchemeSpace B S hS Y p q' f hf).symm
-  rw [key q f hf, key p (𝟙 V) (FunctorToTypes.map_id_apply _ _),
+  rw [key q f hf, key p (𝟙 V) (by rw [op_id, Y.1.map_id]; rfl),
     derivedFibreBettiAt_representedDerivedAssociatedModule,
     derivedFibreBettiAt_representedDerivedAssociatedModule]
   generalize schemePoint B S hS V (q.toSchemeSpace B S hS Y f) = x

@@ -126,7 +126,6 @@ theorem tmulMap_smul (R₁ R₂ R₁' R₂' : Type*)
     tmulMap R₁ R₂ R₁' R₂' p q hsq M M' φ hφ (s • t) =
       q s • tmulMap R₁ R₂ R₁' R₂' p q hsq M M' φ hφ t := by
   induction t with
-  | zero => simp
   | add a b ha hb => simp [ha, hb, smul_add]
   | tmul a x =>
     simp only [smul_tmul', smul_eq_mul]
@@ -148,6 +147,13 @@ theorem nat_sq (θ : O₁ ⟶ O₂) {X Y : Cᵒᵖ} (f : X ⟶ Y) :
   have h2 := congrArg (fun (m : O₁.obj X ⟶ O₂.obj Y) => m.hom z) this
   simp only [CommRingCat.comp_apply] at h2
   exact h2.symm
+
+/-- The `O(Y)`-module structure on a restriction of scalars along `O(f)`; instance search no
+longer sees through `O ⋙ forget₂ CommRingCat RingCat` to find it. -/
+local instance moduleRestrictScalarsObj (O : Cᵒᵖ ⥤ CommRingCat) {X Y : Cᵒᵖ} (f : X ⟶ Y)
+    (M : ModuleCat ((ringPresheaf O).obj Y)) :
+    Module (O.obj Y) ((ModuleCat.restrictScalars ((ringPresheaf O).map f).hom).obj M) :=
+  inferInstanceAs (Module ((ringPresheaf O).obj Y) M)
 
 theorem G_semilin (G : PMod O₁) {X Y : Cᵒᵖ} (f : X ⟶ Y) (r : O₁.obj X) (x : G.obj X) :
     (G.map f).hom (r • x) = (O₁.map f).hom r • (G.map f).hom x :=
@@ -191,8 +197,7 @@ private theorem cofObj_hom_ext (θ : O₁ ⟶ O₂) (G : PMod O₁) (X : Cᵒᵖ
     f = g := by
   let := (θ.app X).hom.toAlgebra
   refine ModuleCat.hom_ext (LinearMap.ext fun t => ?_)
-  induction t using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
+  induction t using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul a x => exact h a x
 
@@ -280,8 +285,7 @@ noncomputable def cofHom (θ : O₁ ⟶ O₂) {G H : PMod O₁} (φ : G ⟶ H) :
     let := (θ.app Y).hom.toAlgebra
     refine ModuleCat.hom_ext ?_
     refine LinearMap.ext (fun t => ?_)
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => simp only [map_add, ha, hb]
     | tmul a x =>
       simp only [ModuleCat.hom_comp, Function.comp_apply, LinearMap.coe_comp]
@@ -380,8 +384,7 @@ noncomputable def counitApp (θ : O₁ ⟶ O₂) {G : PMod O₁} {F : PMod O₂}
   have hAsmul : ∀ (s : O₂.obj X) (t : TensorProduct (O₁.obj X) (O₂.obj X) (G.obj X)),
       A (s • t) = s • A t := by
     intro s t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => simp only [smul_add, map_add, ha, hb]
     | tmul a x =>
       simp only [A, smul_tmul', smul_eq_mul, TensorProduct.liftAddHom_tmul,
@@ -433,8 +436,7 @@ noncomputable def counitHom (θ : O₁ ⟶ O₂) {G : PMod O₁} {F : PMod O₂}
     let := (θ.app Y).hom.toAlgebra
     refine ModuleCat.hom_ext ?_
     refine LinearMap.ext (fun t => ?_)
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => simp only [map_add, ha, hb]
     | tmul a x =>
       simp only [ModuleCat.hom_comp, Function.comp_apply, LinearMap.coe_comp]
@@ -541,8 +543,7 @@ noncomputable def homEquivCore (θ : O₁ ⟶ O₂) (G : PMod O₁) (F : PMod O�
     let := (θ.app X).hom.toAlgebra
     refine ModuleCat.hom_ext ?_
     refine LinearMap.ext (fun t => ?_)
-    induction t using TensorProduct.induction_on with
-    | zero => rw [map_zero, map_zero]
+    induction t using TensorProduct.inductionOn with
     | add a b ha hb => simp only [map_add, ha, hb]
     | tmul a x =>
       change (counitApp θ (unitHom θ ψ) X).hom (a ⊗ₜ[O₁.obj X] x) = (ψ.app X).hom (a ⊗ₜ[O₁.obj X] x)
@@ -587,8 +588,7 @@ noncomputable def changeOfRingsAdjunction (θ : O₁ ⟶ O₂) :
         let := (θ.app X).hom.toAlgebra
         refine ModuleCat.hom_ext ?_
         refine LinearMap.ext (fun t => ?_)
-        induction t using TensorProduct.induction_on with
-        | zero => rw [map_zero, map_zero]
+        induction t using TensorProduct.inductionOn with
         | add a b ha hb => simp only [map_add, ha, hb]
         | tmul a x =>
           change (counitApp θ (h ≫ g) X).hom (a ⊗ₜ[O₁.obj X] x) = _

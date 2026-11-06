@@ -469,13 +469,14 @@ theorem extensionEndomorphismCoordinates_spec {S : ShortComplex 𝒜} (hS : S.Sh
 from a monoid to the additive group `Hom(X₃, X₁)` read multiplicatively: composition of
 automorphisms is addition of coordinates. -/
 noncomputable def extensionAutomorphismCoordinates {S : ShortComplex 𝒜} (hS : S.ShortExact)
-    {M : Type*} [Monoid M] (ρ : M →* Aut S.X₂) (hi : ∀ a, S.f ≫ (ρ a).hom = S.f)
-    (hp : ∀ a, (ρ a).hom ≫ S.g = S.g) : M →* Multiplicative (S.X₃ ⟶ S.X₁) where
-  toFun a := Multiplicative.ofAdd (extensionEndomorphismCoordinates hS (ρ a).hom (hi a) (hp a))
+    {M : Type*} [Monoid M] (ρ : M →* Aut S.X₂) (hi : ∀ a, S.f ≫ (ρ a).asIso.hom = S.f)
+    (hp : ∀ a, (ρ a).asIso.hom ≫ S.g = S.g) : M →* Multiplicative (S.X₃ ⟶ S.X₁) where
+  toFun a :=
+    Multiplicative.ofAdd (extensionEndomorphismCoordinates hS (ρ a).asIso.hom (hi a) (hp a))
   map_one' := by
     have := hS.mono_f
     have := hS.epi_g
-    change extensionEndomorphismCoordinates hS (ρ 1).hom (hi 1) (hp 1) = 0
+    change extensionEndomorphismCoordinates hS (ρ 1).asIso.hom (hi 1) (hp 1) = 0
     apply (cancel_epi S.g).1
     apply (cancel_mono S.f).1
     rw [Category.assoc, extensionEndomorphismCoordinates_spec]
@@ -484,18 +485,18 @@ noncomputable def extensionAutomorphismCoordinates {S : ShortComplex 𝒜} (hS :
   map_mul' a b := by
     have := hS.mono_f
     have := hS.epi_g
-    change extensionEndomorphismCoordinates hS (ρ (a * b)).hom (hi (a * b)) (hp (a * b)) =
-      extensionEndomorphismCoordinates hS (ρ a).hom (hi a) (hp a) +
-        extensionEndomorphismCoordinates hS (ρ b).hom (hi b) (hp b)
+    change extensionEndomorphismCoordinates hS (ρ (a * b)).asIso.hom (hi (a * b)) (hp (a * b)) =
+      extensionEndomorphismCoordinates hS (ρ a).asIso.hom (hi a) (hp a) +
+        extensionEndomorphismCoordinates hS (ρ b).asIso.hom (hi b) (hp b)
     apply (cancel_epi S.g).1
     apply (cancel_mono S.f).1
     simp only [Category.assoc, Preadditive.comp_add, Preadditive.add_comp,
       extensionEndomorphismCoordinates_spec]
     rw [map_mul]
-    change (ρ b).hom ≫ (ρ a).hom - 𝟙 S.X₂ =
-      ((ρ a).hom - 𝟙 S.X₂) + ((ρ b).hom - 𝟙 S.X₂)
-    have h : (ρ b).hom ≫ ((ρ a).hom - 𝟙 S.X₂) = (ρ a).hom - 𝟙 S.X₂ := by
-      rw [← extensionEndomorphismCoordinates_spec hS (ρ a).hom (hi a) (hp a),
+    change (ρ b).asIso.hom ≫ (ρ a).asIso.hom - 𝟙 S.X₂ =
+      ((ρ a).asIso.hom - 𝟙 S.X₂) + ((ρ b).asIso.hom - 𝟙 S.X₂)
+    have h : (ρ b).asIso.hom ≫ ((ρ a).asIso.hom - 𝟙 S.X₂) = (ρ a).asIso.hom - 𝟙 S.X₂ := by
+      rw [← extensionEndomorphismCoordinates_spec hS (ρ a).asIso.hom (hi a) (hp a),
         ← Category.assoc, hp b]
     rw [Preadditive.comp_sub, Category.comp_id] at h
     rw [← h]
@@ -503,19 +504,19 @@ noncomputable def extensionAutomorphismCoordinates {S : ShortComplex 𝒜} (hS :
 
 /-- The coordinate `t` of `ρ a` satisfies `g ≫ t ≫ f = ρ a - 𝟙`. -/
 theorem extensionAutomorphismCoordinates_spec {S : ShortComplex 𝒜} (hS : S.ShortExact)
-    {M : Type*} [Monoid M] (ρ : M →* Aut S.X₂) (hi : ∀ a, S.f ≫ (ρ a).hom = S.f)
-    (hp : ∀ a, (ρ a).hom ≫ S.g = S.g) (a : M) :
+    {M : Type*} [Monoid M] (ρ : M →* Aut S.X₂) (hi : ∀ a, S.f ≫ (ρ a).asIso.hom = S.f)
+    (hp : ∀ a, (ρ a).asIso.hom ≫ S.g = S.g) (a : M) :
     S.g ≫ Multiplicative.toAdd (extensionAutomorphismCoordinates hS ρ hi hp a) ≫ S.f =
-      (ρ a).hom - 𝟙 S.X₂ :=
-  extensionEndomorphismCoordinates_spec hS (ρ a).hom (hi a) (hp a)
+      (ρ a).asIso.hom - 𝟙 S.X₂ :=
+  extensionEndomorphismCoordinates_spec hS (ρ a).asIso.hom (hi a) (hp a)
 
 /-- The coordinates are injective on a monoid acting faithfully. -/
 theorem extensionAutomorphismCoordinates_injective {S : ShortComplex 𝒜} (hS : S.ShortExact)
-    {M : Type*} [Monoid M] (ρ : M →* Aut S.X₂) (hi : ∀ a, S.f ≫ (ρ a).hom = S.f)
-    (hp : ∀ a, (ρ a).hom ≫ S.g = S.g) (hρ : Function.Injective ρ) :
+    {M : Type*} [Monoid M] (ρ : M →* Aut S.X₂) (hi : ∀ a, S.f ≫ (ρ a).asIso.hom = S.f)
+    (hp : ∀ a, (ρ a).asIso.hom ≫ S.g = S.g) (hρ : Function.Injective ρ) :
     Function.Injective (extensionAutomorphismCoordinates hS ρ hi hp) := by
   intro a b hab
-  refine hρ <| Aut.ext <| sub_left_injective (b := 𝟙 S.X₂) ?_
+  refine hρ <| Aut.ext <| Iso.ext <| sub_left_injective (b := 𝟙 S.X₂) ?_
   exact (extensionAutomorphismCoordinates_spec hS ρ hi hp a).symm.trans
     ((congrArg (fun t => S.g ≫ Multiplicative.toAdd t ≫ S.f) hab).trans
       (extensionAutomorphismCoordinates_spec hS ρ hi hp b))
@@ -524,8 +525,9 @@ theorem extensionAutomorphismCoordinates_injective {S : ShortComplex 𝒜} (hS :
 identity. -/
 theorem extensionAutomorphismCoordinates_smul {R : Type*} [Semiring R] [Linear R 𝒜]
     {S : ShortComplex 𝒜} (hS : S.ShortExact) {M : Type*} [Monoid M] (ρ : M →* Aut S.X₂)
-    (hi : ∀ a, S.f ≫ (ρ a).hom = S.f) (hp : ∀ a, (ρ a).hom ≫ S.g = S.g) (c : R) (a b : M)
-    (h : (ρ b).hom - 𝟙 S.X₂ = c • ((ρ a).hom - 𝟙 S.X₂)) :
+    (hi : ∀ a, S.f ≫ (ρ a).asIso.hom = S.f) (hp : ∀ a, (ρ a).asIso.hom ≫ S.g = S.g)
+    (c : R) (a b : M)
+    (h : (ρ b).asIso.hom - 𝟙 S.X₂ = c • ((ρ a).asIso.hom - 𝟙 S.X₂)) :
     Multiplicative.toAdd (extensionAutomorphismCoordinates hS ρ hi hp b) =
       c • Multiplicative.toAdd (extensionAutomorphismCoordinates hS ρ hi hp a) := by
   apply eq_of_comp_comp_eq hS

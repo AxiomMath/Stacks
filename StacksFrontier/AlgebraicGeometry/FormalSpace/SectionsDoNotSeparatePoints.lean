@@ -198,6 +198,8 @@ private theorem derivative_eq_constant_of_snd_eq_zero
     {R : Type u} [CommRing R] [IsAddTorsionFree R]
     {α : Type v} (x : derivativeSubring R α) (hx : x.val.snd = 0) :
     x = derivativeConstants R α (x.val.fst.coeff 0) := by
+  have : HasUniqueDiv R :=
+    ⟨fun _ hn a b h => eq_of_nsmul_eq_nsmul_of_addCommute hn (AddCommute.all a b) h⟩
   have hd : derivative x.val.fst = 0 := by
     rw [← x.property, hx, map_zero]
   exact Subtype.ext (TrivSqZeroExt.ext (eq_C_of_derivative_eq_zero hd) hx)
@@ -476,8 +478,8 @@ private theorem derivativeBigAffineDiagram_isThickening (K : Type u) [CommRing K
 private theorem mk_polynomial_le_power (R : Type u) [Semiring R] :
     Cardinal.mk R[X] ≤ Cardinal.mk R ^ Cardinal.aleph0 := by
   simpa only [Cardinal.mk_arrow, Cardinal.mk_nat, Cardinal.lift_uzero, Cardinal.lift_aleph0] using
-    Cardinal.mk_le_of_injective (f := fun p : R[X] => p.coeff)
-      (fun p q h => Polynomial.ext fun n => congrFun h n)
+    Cardinal.mk_le_of_injective (f := fun p : R[X] => (⇑p.coeff : ℕ → R))
+      (fun p q h => Polynomial.ext fun n => congrArg (fun c => c n) h)
 
 private theorem mk_sparseEmbedding_le_power {α : Type u} (s : CountableSubset α) :
     Cardinal.mk (SparseEmbedding s) ≤ Cardinal.aleph0 ^ Cardinal.mk s.val := by

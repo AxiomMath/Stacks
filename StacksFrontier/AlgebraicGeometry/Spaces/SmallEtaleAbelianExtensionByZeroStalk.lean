@@ -188,7 +188,7 @@ theorem stalkFamilyToSkyscraperApp_π
         restrictedSkyscraperπ B S hS f hf x M W (pushLift B S hS f hf W t w) =
       liftedGerm B S hS f x F t W w ≫ a t := by
   show Pi.lift _ ≫ Pi.π _ ((liftFiberEquiv B S hS f hf W) ⟨t, w⟩) = _
-  rw [Pi.lift_π, Equiv.symm_apply_apply]
+  rw [Pi.lift_comp_π, Equiv.symm_apply_apply]
 
 /-- A family of maps out of the stalks at the lifts assembles into a map to the restricted
 skyscraper sheaf. -/

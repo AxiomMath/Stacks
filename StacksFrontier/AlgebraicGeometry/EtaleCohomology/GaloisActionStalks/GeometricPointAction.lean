@@ -65,7 +65,7 @@ theorem etaleStalkSmul_eq_geometricPointStalkMap
   rw [hp]
   exact (colimit.ι_pre ((CategoryOfElements.π (geometricPointFiber B (Spec (.of K)) hK sbar)).op ⋙
     (sheafToPresheaf _ _).obj F) (neighborhoodFunctor B (Spec (.of K)) hK a).op
-    (op ⟨X, p⟩)).symm
+    (op (Functor.elementsMk _ X p))).symm
 
 /-- An automorphism of the field of a geometric point over the residue field at its image is an
 automorphism of the geometric point. -/

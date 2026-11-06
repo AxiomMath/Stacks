@@ -70,7 +70,8 @@ theorem connectedPullback_of_isProper_of_isIso_fSharp {X Y : AlgebraicSpaces B S
   obtain ⟨hrqc, hrmono⟩ := representedResidueFieldPointInNeighborhood_qc_mono B S hS U W e
   have hqmono : Mono (yonedaEquiv.symm q.value) := by
     have := hrmono
-    have h : Mono (yonedaEquiv.symm r.value ≫ e.hom) := mono_comp _ _
+    have h : Mono (yonedaEquiv.symm r.value ≫ e.hom) :=
+      @mono_comp _ _ _ _ _ _ hrmono _ (IsIso.mono_of_iso _)
     exact hq ▸ h
   have hqqc : IsQuasiCompact B S hS (yonedaEquiv.symm q.value) := by
     rw [hq]

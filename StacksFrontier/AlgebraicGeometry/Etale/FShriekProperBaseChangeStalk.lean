@@ -177,7 +177,8 @@ public instance isIso_geometricFibreComparison :
 public abbrev baseChangeNeighborhood
     (N : (geometricPointFiber B Y.obj Y.property (t.map (B.inclusion.map g))).Elements) :
     (geometricPointFiber B Y'.obj Y'.property t).Elements :=
-  ⟨baseChange B g N.1, geometricPointFiberBaseChangeEquiv B g t N.1 N.2⟩
+  (geometricPointFiber B Y'.obj Y'.property t).elementsMk (baseChange B g N.1)
+    (geometricPointFiberBaseChangeEquiv B g t N.1 N.2)
 
 /-- The comparison of geometric fibres is compatible with the morphisms to the étale base
 changes of a neighbourhood. -/
@@ -458,7 +459,8 @@ public theorem fShriekStalkToCompactSections_properSupportBaseChange
         (fShriekStalkToCompactSections B f (t.map (B.inclusion.map g)) ht F z) := by
   obtain ⟨W, q, a, rfl⟩ := exists_etaleGerm_eq B Y.obj Y.property _ _ z
   apply Subtype.ext
-  let N : (geometricPointFiber B Y.obj Y.property (t.map (B.inclusion.map g))).Elements := ⟨W, q⟩
+  let N : (geometricPointFiber B Y.obj Y.property (t.map (B.inclusion.map g))).Elements :=
+    Functor.elementsMk _ W q
   let fc' := (smallEtaleSheafPullbackFactoredCompIso B _ X' X (geometricFibreProj B f' t ht) p
     (geometricFibreProj B f' t ht ≫ p) rfl AddCommGrpCat.{max (u + 1) v}).hom.app F
   let fc := (smallEtaleSheafPullbackFactoredCompIso B _ _ X

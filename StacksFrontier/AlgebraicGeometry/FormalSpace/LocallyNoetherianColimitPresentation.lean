@@ -368,7 +368,7 @@ theorem exists_finiteOrderThickening_presentation_of_isLocallyNoetherian
     obtain ⟨m, hm⟩ := (sieve_arrows_iSup_iff _ g').mp hg'
     refine (sieve_arrows_iSup_iff _ (g' ≫ g)).mpr ⟨m, ?_⟩
     show X.obj.map (g' ≫ g).op ξ ∈ (neighbourhood hi m).obj (op W)
-    rw [op_comp, FunctorToTypes.map_comp_apply, ← hy, ← NatTrans.naturality_apply]
+    rw [op_comp, Functor.map_comp_apply, ← hy, ← NatTrans.naturality_apply]
     exact (hmemj j m _).mpr hm
   -- the charts of the neighbourhoods
   have hX_n : ∀ n : ℕ, Space.IsAlgebraicSpaceULift.{u + 1} B S hS

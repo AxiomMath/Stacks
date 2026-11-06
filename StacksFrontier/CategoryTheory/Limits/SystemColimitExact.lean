@@ -74,7 +74,7 @@ theorem isSystemColimit_iff_isIso_colimitDesc :
     IsSystemColimit A T B ψ ↔ IsIso (colimitDesc hT ψ hψ) := by
   rw [isSystemColimit_iff hT ψ hψ]
   refine ⟨fun ⟨hc⟩ => ?_, fun h => ⟨IsColimit.ofIsoColimit (colimit.isColimit _)
-    (Cocones.ext (@asIso _ _ _ _ (colimitDesc hT ψ hψ) h) (ι_colimitDesc hT ψ hψ))⟩⟩
+    (Cocone.ext (@asIso _ _ _ _ (colimitDesc hT ψ hψ) h) (ι_colimitDesc hT ψ hψ))⟩⟩
   have e : ((colimit.isColimit (functor A T hT)).coconePointUniqueUpToIso hc).hom =
       colimitDesc hT ψ hψ := colimit.hom_ext fun x =>
     (IsColimit.comp_coconePointUniqueUpToIso_hom _ _ x).trans (ι_colimitDesc hT ψ hψ x).symm

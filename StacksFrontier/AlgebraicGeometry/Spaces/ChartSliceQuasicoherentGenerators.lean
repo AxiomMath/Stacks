@@ -186,10 +186,13 @@ theorem isQuasicoherentOnSite_of_isColimit_cofan_over_chart {ι : Type w}
     (c : Cofan Gs) (hc : IsColimit c) (hGs : ∀ i, (Gs i).IsQuasicoherentOnSite) :
     c.pt.IsQuasicoherentOnSite := by
   let E := chartModuleSliceReindex B S hS X U
+  have hpres : PreservesColimit (Discrete.functor Gs) E :=
+    ((Adjunction.isEquivalence_preservesColimits.{w, w} E).preservesColimitsOfShape
+      (J := Discrete ι)).preservesColimit
   refine (isQuasicoherentOnSite_chartModuleSliceReindex_obj_iff B S hS X U c.pt).1 ?_
   exact isQuasicoherentOnSite_of_isColimit_cofan B S hS (chartSpace B S hS X U).1
     (chartSpace B S hS X U).2 (Cofan.mk (E.obj c.pt) fun i ↦ E.map (c.inj i))
-    ((Cofan.isColimitMapCoconeEquiv E _ c).toFun (isColimitOfPreserves E hc)) fun i ↦
+    ((Cofan.isColimitMapCoconeEquiv E _ c).toFun (hpres.preserves hc).some) fun i ↦
       (isQuasicoherentOnSite_chartModuleSliceReindex_obj_iff B S hS X U (Gs i)).2 (hGs i)
 
 /-- **The cokernel half of clause (3) of Stacks 03M1 on the slice of the small étale site at a

@@ -608,7 +608,7 @@ lemma injSection_ne_zero : injSection ≠ 0 := by
   intro h
   have h1 : (Pi.π (fun _ : op false ⟶ op false => AddCommGrpCat.of ℚ) (𝟙 _)) injSection =
       (1 : ℚ) := by
-    rw [injSection, ← ConcreteCategory.comp_apply, Pi.lift_π]
+    rw [injSection, ← ConcreteCategory.comp_apply, Pi.lift_comp_π]
     rfl
   rw [h] at h1
   exact one_ne_zero (h1.symm.trans (map_zero _))

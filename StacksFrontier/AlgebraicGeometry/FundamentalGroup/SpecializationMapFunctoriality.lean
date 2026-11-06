@@ -93,6 +93,7 @@ private theorem algebraMap_residue_algebraMap_eq_map {R T : Type u} [CommRing R]
   exact (Ideal.ResidueField.map_algebraMap (maximalIdeal R) (maximalIdeal T)
     (algebraMap R T) (IsLocalRing.maximalIdeal_comap (algebraMap R T)).symm r).symm
 
+set_option maxHeartbeats 400000 in
 /-- **Functoriality of the strict henselization** (Stacks 04GU), between strict henselizations
 taken with respect to the chosen separable closures of the two residue fields: a local
 homomorphism `R → S` of local rings induces a local `R`-algebra map `Rsh → Ssh`. The residue

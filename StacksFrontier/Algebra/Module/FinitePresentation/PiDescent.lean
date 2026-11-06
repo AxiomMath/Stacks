@@ -105,7 +105,6 @@ theorem of_forall_bijective_liftBaseChange_pi (A : Type*) [CommRing A] (M : Type
   have hfE : ∀ z, f.liftBaseChange (∀ i, Bi i) z = E z := by
     intro z
     induction z with
-    | zero => rw [map_zero, map_zero]
     | tmul b m =>
       refine funext fun i => ?_
       rw [LinearMap.liftBaseChange_tmul, hE]

@@ -112,7 +112,7 @@ public theorem finiteSupportTensorSectionsHom_smul_section
     finiteSupportTensorSectionsHom B Λ f F G V (a • t) =
       colim.map (finiteSupportDiagramMap B f
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
-            (SmallEtale.topology B X.obj X.property) F a) V) ≫
+            (SmallEtale.topology B X.obj X.property) F a).asHom V) ≫
         finiteSupportTensorSectionsHom B Λ f F G V t := by
   have hΘ :
       (tensorOpenSectionMap B Λ F ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)
@@ -120,7 +120,7 @@ public theorem finiteSupportTensorSectionsHom_smul_section
           (modPullbackUnitSection B Λ f G V (a • t))).finiteSupportDiagramHom B f =
         finiteSupportDiagramMap B f
             (Stacks.ModuleCatLift.sheafScalarEnd Λ
-              (SmallEtale.topology B X.obj X.property) F a) V ≫
+              (SmallEtale.topology B X.obj X.property) F a).asHom V ≫
           (tensorOpenSectionMap B Λ F ((modPullback.{u, v, max (u + 1) v} B Λ f).obj G)
             (baseChange B f V)
             (modPullbackUnitSection B Λ f G V t)).finiteSupportDiagramHom B f := by
@@ -179,7 +179,7 @@ public theorem modFiniteSupportTensorHom_smul_section
       a • modFiniteSupportTensorHom B Λ f F G V t x := by
   have hmor : (forget₂ (ModuleCat.{max (u + 1) v} Λ) AddCommGrpCat.{max (u + 1) v}).map
         (modFiniteSupportTensorHom B Λ f F G V (a • t)) =
-      (((modFiniteSupportPresheaf.{u, v, max (u + 1) v} B Λ f).obj F).obj (op V)).smul a ≫
+      ((((modFiniteSupportPresheaf.{u, v, max (u + 1) v} B Λ f).obj F).obj (op V)).smul a).asHom ≫
         (forget₂ (ModuleCat.{max (u + 1) v} Λ) AddCommGrpCat.{max (u + 1) v}).map
           (modFiniteSupportTensorHom B Λ f F G V t) := by
     show eqToHom ((finiteSupportPushforward.{u, max (u + 1) v} B f
@@ -190,7 +190,7 @@ public theorem modFiniteSupportTensorHom_smul_section
           (fun _ => inferInstance)).2.obj_eq
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X Λ).obj
             (F ⊗ (modPullback.{u, v, max (u + 1) v} B Λ f).obj G)) V).symm =
-      ((((modFiniteSupportPresheaf.{u, v, max (u + 1) v} B Λ f).obj F).obj (op V)).smul a) ≫
+      ((((modFiniteSupportPresheaf.{u, v, max (u + 1) v} B Λ f).obj F).obj (op V)).smul a).asHom ≫
         eqToHom ((finiteSupportPushforward.{u, max (u + 1) v} B f
           (fun _ => inferInstance)).2.obj_eq
           ((forgetModuleSheaf.{u, v, max (u + 1) v} B X Λ).obj F) V) ≫

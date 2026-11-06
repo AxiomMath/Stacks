@@ -96,7 +96,7 @@ private theorem coefficients_hom_ext {T T' : Scheme.{u}}
     {g₁ g₂ : (Scheme.Γ ⋙ additiveCoefficients.{u, 0}).obj (op T) ⟶
       (Scheme.Γ ⋙ additiveCoefficients.{u, 0}).obj (op T')}
     (h : ∀ b : Γ(T, ⊤), (g₁ (ULift.up b)).down = (g₂ (ULift.up b)).down) : g₁ = g₂ :=
-  AddCommGrpCat.hom_ext (AddMonoidHom.ext fun b => ULift.ext _ _ (h b.down))
+  AddCommGrpCat.hom_ext (AddMonoidHom.ext fun b => ULift.ext (h b.down))
 
 /-- Two morphisms of sheaves on the small étale site of `S` agree if they agree on all objects. -/
 private theorem sheaf_hom_ext_of_app {F G : Sheaf S.smallEtaleTopology AddCommGrpCat.{u + 1}}

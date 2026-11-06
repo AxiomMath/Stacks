@@ -88,6 +88,20 @@ open CategoryTheory CategoryTheory.Limits Opposite
 
 universe u w
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance AlgebraicGeometry.Space.hasPullbacks_presheaf_groupoidTranslate
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high)
+    AlgebraicGeometry.Space.hasPullback_presheaf_groupoidTranslate
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace Deformation.PointwiseGroupoid
 
 variable {U R : Type w} {source target : R → U}

@@ -195,10 +195,10 @@ by `g`, then its equivariant map to `Y` is fixed by `g`. -/
 lemma toTarget_fixed_of_auto {g : G}
     (Z : AbsoluteInertia (schemeQuotientProjection.{t} B S hS G Y a))
     (hZ : ∀ (W : (BigFppfOver B S hS)ᵒᵖ) (p : Z.obj.Total W),
-      Z.auto.hom.map W p = Z.obj.translationMap g W p)
+      Z.auto.asIso.hom.map W p = Z.obj.translationMap g W p)
     (W : (Over Z.obj.base)ᵒᵖ) (s : Z.obj.torsor.presheaf.obj W) :
-    Z.obj.toTarget W s ≫ (a g).hom = Z.obj.toTarget W s := by
-  have h1 := Z.auto.hom.totalToTarget_comp (op W.unop.left)
+    Z.obj.toTarget W s ≫ (a g).asIso.hom = Z.obj.toTarget W s := by
+  have h1 := Z.auto.asIso.hom.totalToTarget_comp (op W.unop.left)
     (⟨W.unop.hom, s⟩ : Z.obj.Total (op W.unop.left))
   rw [hZ (op W.unop.left) (⟨W.unop.hom, s⟩ : Z.obj.Total (op W.unop.left))] at h1
   exact (Z.obj.toTarget_equivariant W g s).symm.trans h1
@@ -207,7 +207,7 @@ lemma toTarget_fixed_of_auto {g : G}
 `[Y^g/G]`: its equivariant map to `Y` factors through `Y^g`. -/
 def fixedSchemePull {g : G} (Z : AbsoluteInertia (schemeQuotientProjection.{t} B S hS G Y a))
     (hZ : ∀ (W : (BigFppfOver B S hS)ᵒᵖ) (p : Z.obj.Total W),
-      Z.auto.hom.map W p = Z.obj.translationMap g W p) :
+      Z.auto.asIso.hom.map W p = Z.obj.translationMap g W p) :
     fixedSchemeQuotient.{t} B S hS G Y a g where
   base := Z.obj.base
   torsor := Z.obj.torsor
@@ -218,7 +218,7 @@ def fixedSchemePull {g : G} (Z : AbsoluteInertia (schemeQuotientProjection.{t} B
       ((congrArg (_ ≫ ·) (fixedSchemeLift_comp_incl _ _)).symm.trans (Category.assoc _ _ _).symm)))
   toTarget_equivariant W g' s := fixedScheme_hom_ext ((fixedSchemeLift_comp_incl _ _).trans
     ((Z.obj.toTarget_equivariant W g' s).trans
-      (((congrArg (· ≫ (a g').hom) (fixedSchemeLift_comp_incl _ _)).symm.trans
+      (((congrArg (· ≫ (a g').asIso.hom) (fixedSchemeLift_comp_incl _ _)).symm.trans
         (Category.assoc _ _ _)).trans
         ((congrArg (_ ≫ ·) (fixedSchemeMap_comp_incl Y a g g')).symm.trans
           (Category.assoc _ _ _).symm))))
@@ -229,7 +229,7 @@ object. -/
 def fixedSchemePullObjHom {g : G}
     (Z : AbsoluteInertia (schemeQuotientProjection.{t} B S hS G Y a))
     (hZ : ∀ (W : (BigFppfOver B S hS)ᵒᵖ) (p : Z.obj.Total W),
-      Z.auto.hom.map W p = Z.obj.translationMap g W p) :
+      Z.auto.asIso.hom.map W p = Z.obj.translationMap g W p) :
     (fixedSchemeQuotientToQuotient.{t} B S hS G Y a g).obj (fixedSchemePull Z hZ) ⟶ Z.obj where
   base := 𝟙 Z.obj.base
   map := fun _ p => p
@@ -244,12 +244,12 @@ def fixedSchemePullObjHom {g : G}
 automorphism is multiplication by `g` maps to that object by the identity of its torsor. -/
 def fixedSchemePullHom {g : G} (Z : AbsoluteInertia (schemeQuotientProjection.{t} B S hS G Y a))
     (hZ : ∀ (W : (BigFppfOver B S hS)ᵒᵖ) (p : Z.obj.Total W),
-      Z.auto.hom.map W p = Z.obj.translationMap g W p) :
+      Z.auto.asIso.hom.map W p = Z.obj.translationMap g W p) :
     (fixedQuotientToInertia.{t} B S hS G Y a g).obj (fixedSchemePull Z hZ) ⟶ Z where
   hom := fixedSchemePullObjHom Z hZ
   comm := by
     refine Hom.ext ?_ ?_
-    · change 𝟙 Z.obj.base ≫ Z.auto.hom.base = 𝟙 Z.obj.base ≫ 𝟙 Z.obj.base
+    · change 𝟙 Z.obj.base ≫ Z.auto.asIso.hom.base = 𝟙 Z.obj.base ≫ 𝟙 Z.obj.base
       rw [auto_base]
     · funext W p
       exact hZ W p
@@ -273,19 +273,19 @@ lemma inertia_locally_fixed (Z : AbsoluteInertia (schemeQuotientProjection.{t} B
   have hZ'V : Z'.obj.base = V := @IsHomLift.domain_eq _ _ _ _ _ _ _ _ _ f ψ.hom hψ₁
   have hψb : ψ.hom.base = eqToHom hZ'V ≫ f := base_of_isHomLift_tgt (A' := Z.obj) f ψ.hom hψ₁ hZ'V
   have htrans : ∀ (W : (BigFppfOver B S hS)ᵒᵖ) (p : Z'.obj.Total W),
-      Z'.auto.hom.map W p = Z'.obj.translationMap g W p := by
+      Z'.auto.asIso.hom.map W p = Z'.obj.translationMap g W p := by
     intro W p
-    have hc : ψ.hom.map W (Z'.auto.hom.map W p) = Z.auto.hom.map W (ψ.hom.map W p) :=
+    have hc : ψ.hom.map W (Z'.auto.asIso.hom.map W p) = Z.auto.asIso.hom.map W (ψ.hom.map W p) :=
       (congrFun (congrFun (congrArg Hom.map ψ.comm) W) p).symm
-    have h2 : Z.auto.hom.map W (ψ.hom.map W p) = Z.obj.translationMap g W (ψ.hom.map W p) :=
+    have h2 : Z.auto.asIso.hom.map W (ψ.hom.map W p) = Z.obj.translationMap g W (ψ.hom.map W p) :=
       hg W.unop (p.1 ≫ eqToHom hZ'V) (ψ.hom.map W p)
         (by rw [ψ.hom.fst_map, hψb]; exact (Category.assoc _ _ _).symm)
     have h3 : Z.obj.translationMap g W (ψ.hom.map W p) =
         ψ.hom.map W (Z'.obj.translationMap g W p) :=
       (ψ.hom.map_equivariant W _ p).symm
     refine (ψ.hom.bijOn_map W p.1).injOn ?_ rfl (hc.trans (h2.trans h3))
-    show (Z'.auto.hom.map W p).1 = p.1
-    rw [Z'.auto.hom.fst_map, auto_base, Category.comp_id]
+    show (Z'.auto.asIso.hom.map W p).1 = p.1
+    rw [Z'.auto.asIso.hom.fst_map, auto_base, Category.comp_id]
   refine ⟨g, fixedSchemePull Z' htrans, fixedSchemePullHom Z' htrans ≫ ψ, ?_⟩
   refine (RelativeInertia.isHomLift_π_comp_iff f _).mpr
     (isHomLift_of_base' (A' := Z.obj) f _ hZ'V ?_)

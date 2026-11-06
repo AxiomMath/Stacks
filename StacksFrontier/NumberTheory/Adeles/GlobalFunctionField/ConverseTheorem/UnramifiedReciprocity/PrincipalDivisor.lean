@@ -101,7 +101,7 @@ private theorem ord_ofHeightOneSpectrum_eq_multiplicity {F : Type u} [Field F] [
     (Q : HeightOneSpectrum (intClosure F y)) :
     (Place.ofHeightOneSpectrum (K := K) Q).ord y =
       multiplicity Q.asIdeal (Ideal.span {algebraMap (polySubalg F y) (intClosure F y)
-        (polyGen (k := F) y)}) :=
+                                            (polyGen (k := F) y)}) :=
   Place.ord_ofHeightOneSpectrum Q (algebraMap_polyGen_ne_zero hy)
 
 omit [Finite k] [Algebra (RatFunc k) K] [IsScalarTower k (RatFunc k) K] [FunctionField k K] in
@@ -144,7 +144,8 @@ public theorem exists_primesOver_of_ord_pos {y : K} (hy : Transcendental k y)
   have hbQ : algebraMap A B (polyGen (k := k) y) ∈ Q.asIdeal := by
     rw [ord_ofHeightOneSpectrum_eq_multiplicity hy Q] at hv
     have h1 := (Int.natCast_pos.1 hv).ne'
-    rwa [Ne, multiplicity_eq_zero, not_not, Ideal.dvd_span_singleton] at h1
+    rw [← Ideal.dvd_span_singleton]
+    exact not_not.mp (mt multiplicity_eq_zero_of_not_dvd h1)
   refine ⟨Q, ⟨Q.isPrime, ⟨?_⟩⟩, rfl⟩
   exact hpmax.eq_of_le (Ideal.IsPrime.ne_top inferInstance)
     (by rwa [Ideal.span_le, Set.singleton_subset_iff])
@@ -190,7 +191,7 @@ public theorem finsuppProd_sup_zero_principalDivisor {y : K} (hy : Transcendenta
     intro Q hQ
     rw [Finset.mem_coe, Finsupp.mem_support_iff, hval Q hQ, Nat.cast_ne_zero]
     have : Q.asIdeal.LiesOver p := hQ.2
-    exact (Ideal.ramificationIdx_pos (S := B) Q.asIdeal A).ne'
+    exact (Ideal.ramificationIdx_pos (S := B) (q := Q.asIdeal) (R := A)).ne'
   · -- Every zero of `y` is the place of a prime above `(y)`.
     intro v hv
     rw [Finset.mem_coe, Finsupp.mem_support_iff, Finsupp.sup_apply, Finsupp.coe_zero,

@@ -49,7 +49,7 @@ beyond the gluing.
 
 It is assembled from Mathlib's `AlgebraicGeometry.Scheme.Modules.restrictFunctorComp`,
 `restrictFunctorCongr` and `restrictFunctorId` at the level of functors, and carried to derived
-categories by `CategoryTheory.Functor.mapDerivedCategoryCompIso`. One fact about restriction along
+categories by `CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`. One fact about restriction along
 an isomorphism `k` is needed that Mathlib does not state: that `k_*` is restriction along `k⁻¹`,
 equivalently that `restrictFunctor k ⋙ pushforward k ≅ 𝟭`. Mathlib has the *other* composite,
 `AlgebraicGeometry.Scheme.Modules.restrictFunctorAdjCounitIso`, for any open immersion; whiskering
@@ -188,7 +188,7 @@ public def restrictFunctorOfLEIso {X : Scheme.{u}} {A W : X.Opens} (h : W ≤ A)
 
 /-- `AlgebraicGeometry.Scheme.Modules.restrictFunctorOfLEIso` at an object of the derived
 category. The functor isomorphism is carried across by
-`CategoryTheory.Functor.mapDerivedCategoryCompIso`, used twice: once at the identity isomorphism,
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`, used twice: once at the identity isomorphism,
 to split the induced functor of a composite, and once at the comparison itself. -/
 public def derivedRestrictOfLEObjIso {X : Scheme.{u}} {A W : X.Opens} (h : W ≤ A)
     (E : DerivedCategory X.Modules) :
@@ -196,10 +196,10 @@ public def derivedRestrictOfLEObjIso {X : Scheme.{u}} {A W : X.Opens} (h : W ≤
         ((restrictFunctor (A.ι ⁻¹ᵁ W).ι).mapDerivedCategory.obj
           ((restrictFunctor A.ι).mapDerivedCategory.obj E)) ≅
       (restrictFunctor W.ι).mapDerivedCategory.obj E :=
-  (Functor.mapDerivedCategoryCompIso (Iso.refl (restrictFunctor (A.ι ⁻¹ᵁ W).ι ⋙
+  (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl (restrictFunctor (A.ι ⁻¹ᵁ W).ι ⋙
       pushforward (Scheme.Opens.isoOfLE h).hom))).app
       ((restrictFunctor A.ι).mapDerivedCategory.obj E) ≪≫
-    (Functor.mapDerivedCategoryCompIso (restrictFunctorOfLEIso h)).app E
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (restrictFunctorOfLEIso h)).app E
 
 /-- **The local condition of Stacks 09UI transported from `W` to `ι_A⁻¹W`.** Let `W ≤ A` be opens
 of `X` and let `l : W ⟶ Y` be a closed immersion. If the derived pushforward of `E|_W` along `l`

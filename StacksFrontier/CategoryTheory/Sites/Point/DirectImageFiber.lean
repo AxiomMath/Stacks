@@ -239,13 +239,13 @@ theorem bijective_presheafFiberCompToPi (P : Sheaf K (Type (max w w₂)))
       refine ((isSheaf_iff_isSheaf_of_type _ _).1 P.property _
         (K.superset_covering hle hcov)).isSeparatedFor.ext fun T h hh => ?_
       obtain ⟨Y, k, f, ⟨i⟩, hk⟩ := hh
-      simp only [← FunctorToTypes.map_comp_apply, ← op_comp]
-      rw [← hk, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, heq i]
+      simp only [← Functor.map_comp_apply, ← op_comp]
+      rw [← hk, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, heq i]
     rw [← hg, ← Psi.toPresheafFiber_w_apply, ← Psi.toPresheafFiber_w_apply]
     exact congrArg _ hs
   · intro f
     choose W w s hs using fun i => (Phi i).toPresheafFiber_jointly_surjective (P := P.obj) (f i)
-    obtain ⟨⟨V₀, t₀⟩⟩ : Nonempty Psi.fiber.Elements := IsCofiltered.nonempty
+    obtain ⟨@⟨V₀, t₀⟩⟩ : Nonempty Psi.fiber.Elements := IsCofiltered.nonempty
     let A (i : ι) : (Phi i).fiber.Elements := (Phi i).fiber.elementsMk (W i) (w i)
     let A' (i : ι) : (Phi i).fiber.Elements :=
       (Phi i).fiber.elementsMk (uf.obj V₀) ((ε i).hom.app V₀ t₀)

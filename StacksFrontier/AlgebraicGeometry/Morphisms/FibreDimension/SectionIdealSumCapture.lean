@@ -952,6 +952,8 @@ private lemma finiteLocallyFreeOfRank_of_iso
     X := q.X
     coversTop := q.coversTop
     generators i :=
+      haveI : Epi ((SheafOfModules.overFunctor R (q.X i)).mapIso e).hom :=
+        IsIso.epi_of_iso _
       (q.generators i).ofEpi ((SheafOfModules.overFunctor R (q.X i)).mapIso e).hom
   }
   refine ⟨q', ?_, ?_⟩
@@ -1176,7 +1178,7 @@ private lemma exists_ideal_sum_on_spec
     ModuleCat.ofHom (Y := (moduleSpecΓFunctor (R := R)).obj N) φ
   have : Mono m := (ModuleCat.mono_iff_injective _).mpr hφ
   have hmm : Mono (tilde.map m) := mono_tilde_map m
-  have hmN : Mono N.fromTildeΓ := inferInstance
+  have hmN : Mono N.fromTildeΓ := IsIso.mono_of_iso _
   have : IsIso E.hom := E.isIso_hom
   have hmE : Mono E.hom := IsIso.mono_of_iso E.hom
   let ψ := E.hom ≫ tilde.map m ≫ N.fromTildeΓ

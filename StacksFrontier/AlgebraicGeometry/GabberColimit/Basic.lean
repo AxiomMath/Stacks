@@ -121,7 +121,6 @@ theorem span_range_restrict_eq_top [F.IsQuasicoherent] {U W : X.Opens} (hU : IsA
   have hbc := isBaseChange_restrictₗ F hW hU h
   refine Submodule.eq_top_iff'.mpr fun x ↦ ?_
   induction x using hbc.inductionOn with
-  | zero => exact zero_mem _
   | tmul m => exact Submodule.subset_span ⟨m, rfl⟩
   | smul s n hn => exact Submodule.smul_mem _ _ hn
   | add a b ha hb => exact Submodule.add_mem _ ha hb

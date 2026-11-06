@@ -505,7 +505,7 @@ lemma isLocalHom_of_isIntegral_tower
     IsLocalHom (algebraMap S T) := by
   let q := (IsLocalRing.maximalIdeal T).under S
   have hq : q.IsMaximal := by
-    apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := R)
+    apply Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R)
     change ((IsLocalRing.maximalIdeal T).comap
       ((algebraMap S T).comp (algebraMap R S))).IsMaximal
     rw [← IsScalarTower.algebraMap_eq, IsLocalRing.maximalIdeal_comap]

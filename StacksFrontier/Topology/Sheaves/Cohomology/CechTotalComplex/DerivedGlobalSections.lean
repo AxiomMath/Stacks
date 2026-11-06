@@ -178,7 +178,7 @@ noncomputable def globalSectionsToDerivedNat
       (DerivedCategory.Plus.QhCompιIsoιCompQh AddCommGrpCat.{u}).inv ≫
     Functor.whiskerRight
       (Functor.whiskerLeft (HomotopyCategory.Plus.quotient (SheafOfModules.{u} R))
-        (abelianGlobalSections X R).rightDerivedFunctorPlusUnit)
+        (abelianGlobalSections X R).rightDerivedFunctorPlusUnith)
       DerivedCategory.Plus.ι ≫
     Functor.whiskerRight
       (Functor.whiskerRight
@@ -302,6 +302,8 @@ theorem CechToDerivedGlobalSectionsSystem.map_eq_of_injective_resolution
           globalSectionsToDerived X R L ≫
             inv ((derivedGlobalSectionsFunctor X R).map f) := by
   have := isIso_globalSectionsToCechDerived_of_injective X R U hU L hL
+  have hf : Mono ((derivedGlobalSectionsFunctor X R).map f) :=
+    (derivedGlobalSectionsFunctor_map_isIso X R f).mono_of_iso
   rw [← cancel_mono ((derivedGlobalSectionsFunctor X R).map f),
     Category.assoc, Category.assoc, Category.assoc, IsIso.inv_hom_id,
     Category.comp_id, ← (S.map U hU).naturality f]

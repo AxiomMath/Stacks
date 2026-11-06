@@ -23,6 +23,20 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_schemeCase {B : BigFppfSite} {S : Scheme.{u}}
+    {hS : B.Contains S} {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+/-- Products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_schemeCase
+    {B : BigFppfSite} {S : Scheme.{u}} {hS : B.Contains S} (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 /-- The fibre product of the inclusions of two subfunctors is the inclusion of their
 intersection. -/
 private noncomputable def pullbackInfIso

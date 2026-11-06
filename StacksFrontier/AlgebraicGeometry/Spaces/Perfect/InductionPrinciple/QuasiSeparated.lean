@@ -212,6 +212,8 @@ private theorem isQuasiSeparated_yoneda_iff
   let : PreservesLimitsOfShape (Discrete WalkingPair) q :=
     preservesBinaryProducts_of_preservesTerminal_and_pullbacks q
   let : PreservesLimit (pair T T) yoneda := inferInstance
+  let : HasBinaryProducts ((BigFppfOver B Z hZ)ᵒᵖ ⥤ Type u) :=
+    functorCategoryHasLimitsOfShape
   rw [quasiSeparatedSpace_iff_quasiCompact_prod_lift]
   change P.presheaf (diag (yoneda.obj T)) ↔ Q (diag (q.obj T))
   rw [← map_diag_iff yoneda T P.presheaf]

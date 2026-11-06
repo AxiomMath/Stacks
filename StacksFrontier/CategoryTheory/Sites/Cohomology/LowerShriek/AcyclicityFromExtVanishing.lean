@@ -119,6 +119,18 @@ theorem lowerShriekAcyclic_of_preservesFiniteLimits
   rw [HomologicalComplex.exactAt_iff] at h
   exact h.map (lowerShriekModules J K f O)
 
+/- Instance search for coproducts of sheaves of modules times out since the Lean v4.35.0 bump;
+these local instances give the direct route. -/
+local instance (priority := high) hasColimitsOfShape_discrete_presheafOfModules_inverseImageRing
+    (L : Type w) :
+    HasColimitsOfShape (Discrete L) (PresheafOfModules.{w} (inverseImageRing J K f O).obj) :=
+  PresheafOfModules.hasColimitsOfShape (inverseImageRing J K f O).obj (Discrete L)
+
+local instance (priority := high) hasCoproducts_sheafOfModules_inverseImageRing :
+    HasCoproducts.{w} (SheafOfModules.{w} (inverseImageRing J K f O)) := fun L =>
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    (inverseImageRing J K f O) (Discrete L)
+
 /-- **The acyclicity statement of Stacks 07AC for modules follows from the vanishing of Stacks
 0D6X.** If `Ext^n(j_{U!} O_U, g^* I) = 0` for every object `U` of the source site, every
 injective `O_D`-module `I` and every `n ≥ 1`, then lower shriek carries every bounded above

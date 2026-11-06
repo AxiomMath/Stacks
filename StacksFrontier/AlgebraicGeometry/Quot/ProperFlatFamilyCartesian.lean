@@ -205,6 +205,17 @@ def ofIsPullbackHom (y : CartesianProperFlatSpaces B S hS) {W : BigFppfOver B S 
     ofIsPullback y X hX h a g sq ⟶ y :=
   homOfIsPullback (x := ofIsPullback y X hX h a g sq) a g sq
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ProperFlatFamilyCartesian :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ProperFlatFamilyCartesian
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The base change of a family along a morphism of schemes. -/
 noncomputable def baseChange (y : CartesianProperFlatSpaces B S hS) {W : BigFppfOver B S hS}
     (g : W ⟶ y.base) : CartesianProperFlatSpaces B S hS :=

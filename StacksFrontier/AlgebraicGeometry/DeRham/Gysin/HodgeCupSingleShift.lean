@@ -114,8 +114,9 @@ lemma singleNatShiftIso_hom_f
     (N : _root_.SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} X.sheaf))
     (c : ℕ) : ∃ h, (singleNatShiftIso N c).hom.f (c : ℤ) = eqToHom h := by
   have e₁ : ((CochainComplex.singleFunctors _).shiftIso (-(c : ℤ)) (c : ℤ) 0
-      (by omega)).symm.hom.app N =
-      ((CochainComplex.singleFunctors _).shiftIso (-(c : ℤ)) (c : ℤ) 0 (by omega)).inv.app N := rfl
+      (neg_add_cancel _)).symm.hom.app N =
+      ((CochainComplex.singleFunctors _).shiftIso (-(c : ℤ)) (c : ℤ) 0
+        (neg_add_cancel _)).inv.app N := rfl
   simp only [singleNatShiftIso, Iso.trans_hom, HomologicalComplex.comp_f, Iso.app_hom, e₁,
     Functor.mapIso_hom, Iso.symm_hom, CochainComplex.shiftFunctor_map_f',
     HomologicalComplex.extendSingleIso_hom_f]
@@ -130,6 +131,7 @@ lemma singleNatShiftIso_hom_f
     HomologicalComplex.extendXIso, HomologicalComplex.extend.XIso, HomologicalComplex.XIsoOfEq,
     eqToIso.hom, eqToIso.inv, eqToHom_trans, Category.assoc]
   repeat (first | exact ⟨_, rfl⟩ | apply AlgebraicGeometry.SheafOfModules.exists_eqToHom_comp)
+  all_goals omega
 
 /-- **The multiplication of `F[0]` and `G[-c]` is the shift of that of `F[0]` and `G[0]`**,
 through `singleNatShiftIso` and the commutation of the total tensor complex with the shift of

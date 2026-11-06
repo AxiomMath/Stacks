@@ -168,7 +168,7 @@ theorem flat_structureSheaf_map_schemeStack
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj U))
     (Z : FlatFppf B S hS (schemeStack.{u, w} B S hS U))
     (hZ : IsAffine ((BigFppfOver.toScheme B S hS).obj Z.obj.left)) :
-    ((structureSheaf B S hS (schemeStack.{u, w} B S hS U)).val.map
+    ((structureSheaf B S hS (schemeStack.{u, w} B S hS U)).obj.map
       ((isTerminalFlatObjectSchemeStackId.{u, w} B S hS U).from Z).op).hom.Flat := by
   have hflat : Flat ((BigFppfOver.toScheme B S hS).map Z.obj.hom) :=
     (flatObject_schemeStack_iff.{u, w} B S hS U Z.obj).1 Z.property

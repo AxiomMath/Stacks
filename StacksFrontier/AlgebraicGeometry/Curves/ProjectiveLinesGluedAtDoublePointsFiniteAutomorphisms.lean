@@ -342,19 +342,19 @@ theorem finite_aut_gluedCurve :
   have hdata : ∀ φ : Aut (Over.mk (gluedCurveToBase k pts hpts)), ∀ b : Bool,
       ∃ (b' : Bool) (σ : ProjectiveLinePermutingAut k pts),
         σ.1.hom ≫ gluedCurveComponent k pts hpts b' =
-          gluedCurveComponent k pts hpts b ≫ φ.hom.left := fun φ b ↦
-    exists_comp_gluedCurveComponent_eq ((Over.forget _).mapIso φ) (Over.w φ.hom) b
+          gluedCurveComponent k pts hpts b ≫ φ.asIso.hom.left := fun φ b ↦
+    exists_comp_gluedCurveComponent_eq ((Over.forget _).mapIso φ.asIso) (Over.w φ.asIso.hom) b
   let F : Aut (Over.mk (gluedCurveToBase k pts hpts)) →
       (Bool → Bool × ProjectiveLinePermutingAut k pts) :=
     fun φ b ↦ ((hdata φ b).choose, (hdata φ b).choose_spec.choose)
   refine Finite.of_injective F fun φ ψ h ↦ ?_
-  have key : φ.hom.left = ψ.hom.left := by
+  have key : φ.asIso.hom.left = ψ.asIso.hom.left := by
     refine gluedCurve_hom_ext k pts hpts fun b ↦ ?_
     have h1 : (hdata φ b).choose = (hdata ψ b).choose := congrArg Prod.fst (congrFun h b)
     have h2 : (hdata φ b).choose_spec.choose.1.hom = (hdata ψ b).choose_spec.choose.1.hom :=
       congrArg (fun σ : ProjectiveLinePermutingAut k pts ↦ σ.1.hom)
         (congrArg Prod.snd (congrFun h b))
     rw [← (hdata φ b).choose_spec.choose_spec, ← (hdata ψ b).choose_spec.choose_spec, h2, h1]
-  exact Iso.ext (Over.OverMorphism.ext key)
+  exact Aut.ext (Iso.ext (Over.OverMorphism.ext key))
 
 end AlgebraicGeometry

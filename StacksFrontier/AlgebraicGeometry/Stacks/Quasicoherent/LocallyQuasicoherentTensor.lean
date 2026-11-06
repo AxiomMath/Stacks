@@ -422,7 +422,7 @@ noncomputable def etaleTensorSheaf
       (R := ringStructureSheafCore B S hS p hp (etaleTopology B) (etaleTopology_le_topology B))
       (𝟙 (ringStructureSheafCore B S hS p hp (etaleTopology B)
         (etaleTopology_le_topology B)).obj)).obj
-    (PresheafOfModules.Monoidal.tensorObj
+    (PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (structureSheaf B S hS p hp (etaleTopology B) (etaleTopology_le_topology B)).obj)
       F.val G.val)
 
@@ -478,7 +478,7 @@ noncomputable def restrictModuleTensorObjIso (E : BigEtaleSite.{u}) (h : E.cutof
           (etaleTopology_le_topology B) G)).uliftSections.{u} ≅
       restrictModuleToSmallEtale B E h S hS p hp x (etaleTopology B)
         (etaleTopology_le_topology B)
-        (PresheafOfModules.Monoidal.tensorObj
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj
           (R := (structureSheaf B S hS p hp (etaleTopology B)
             (etaleTopology_le_topology B)).obj) F G) :=
   letI := isEquivalence_overPost B S hS p hp x
@@ -534,7 +534,7 @@ noncomputable def sheafificationRestrictModuleTensorObjIso
           (contains_base B E h S hS p x)).obj)).obj
       (restrictModuleToSmallEtale B E h S hS p hp x (etaleTopology B)
         (etaleTopology_le_topology B)
-        (PresheafOfModules.Monoidal.tensorObj
+        (PresheafOfModulesOfCommRing.Monoidal.tensorObj
           (R := (structureSheaf B S hS p hp (etaleTopology B)
             (etaleTopology_le_topology B)).obj) F.val G.val)) ≅
       (⟨restrictModuleToSmallEtale B E h S hS p hp x (etaleTopology B)
@@ -555,7 +555,7 @@ noncomputable def sheafificationRestrictModuleTensorObjIso
     (ringStructureSheafCore B S hS p hp (etaleTopology B) (etaleTopology_le_topology B))
     (localStructurePresheafIso B E h S hS p hp x (etaleTopology B)
       (etaleTopology_le_topology B)).hom
-    (PresheafOfModules.Monoidal.tensorObj
+    (PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (structureSheaf B S hS p hp (etaleTopology B)
         (etaleTopology_le_topology B)).obj) F.val G.val)
 

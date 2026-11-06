@@ -147,15 +147,17 @@ theorem coversTop_smallBaseChange :
   obtain ⟨q, -⟩ := (smallBaseChangeFiberMap_bijective B S hS g hg x N.chart).2
     ⟨N.point, N.point_comp⟩
   have := isCofiltered_geometricFiber_elements B S hS X'.1 X'.2 x
-  let a : (geometricFiber B S hS X'.1 x).Elements := ⟨V, p⟩
+  let a : (geometricFiber B S hS X'.1 x).Elements :=
+    (geometricFiber B S hS X'.1 x).elementsMk V p
   let b : (geometricFiber B S hS X'.1 x).Elements :=
-    ⟨(smallBaseChange B S hS g hg).obj N.chart, q⟩
+    (geometricFiber B S hS X'.1 x).elementsMk ((smallBaseChange B S hS g hg).obj N.chart) q
   let c := IsCofiltered.min a b
   let ca : c ⟶ a := IsCofiltered.minToLeft a b
   let cb : c ⟶ b := IsCofiltered.minToRight a b
-  refine ⟨c.1, ca.1, ⟨N.chart, ⟨cb.1⟩⟩,
-    (BigFppfOver.toScheme B S hS).map c.2.1 z', ?_⟩
-  have h1 : c.2.1 ≫ (SmallEtale.toOver B S hS X'.1).map ca.1 = p.1 := congrArg Subtype.val ca.2
+  refine ⟨c.obj, ca.hom, ⟨N.chart, ⟨cb.hom⟩⟩,
+    (BigFppfOver.toScheme B S hS).map c.val.1 z', ?_⟩
+  have h1 : c.val.1 ≫ (SmallEtale.toOver B S hS X'.1).map ca.hom = p.1 :=
+    congrArg Subtype.val ca.map_val
   rw [← Scheme.Hom.comp_apply, ← Functor.map_comp, h1, hz]
 
 /-! ### The localized pullback is right exact and carries the unit to the unit -/

@@ -53,6 +53,17 @@ attribute [local instance] etaleModulePullback_additive
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_HigherDirectImageBound :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_HigherDirectImageBound
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A uniform vanishing bound for the higher direct images of quasi-coherent modules along a
 morphism of algebraic spaces. -/
 abbrev HasBoundedHigherDirectImages {Y T : AlgebraicSpaces B S hS} (h : Y ⟶ T) : Prop :=

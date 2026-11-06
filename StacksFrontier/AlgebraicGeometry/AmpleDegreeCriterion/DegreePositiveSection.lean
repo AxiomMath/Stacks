@@ -86,6 +86,9 @@ Invertibility of a tensor power is not an instance in this development, so it is
 open CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace
 open Stacks.SheafOfModules (nonvanishingLocus nonvanishingOpen sectionsOfTop)
 open Stacks.SheafOfModules.Invertible (tensorPower tensorPower_isInvertible)
+-- `hasSheafifyOpensMax` leaves its second universe undetermined; instance search picks it for the
+-- tensor power sheaves here and the elaborator rejects the resulting term.
+attribute [-instance] Stacks.Cohomology.SpectralLimit.hasSheafifyOpensMax
 
 universe u
 

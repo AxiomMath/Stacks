@@ -65,7 +65,7 @@ variable (X) in
 /-- The sections of the structure sheaf of a ringed site form a sheaf of sets. -/
 theorem isSheaf_types : Presieve.IsSheaf X.J (X.O.obj ⋙ forget CommRingCat.{u}) :=
   (isSheaf_iff_isSheaf_of_type _ _).1
-    ((Presheaf.isSheaf_iff_isSheaf_forget X.J X.O.obj (forget CommRingCat.{u})).1 X.O.cond)
+    ((Presheaf.isSheaf_iff_isSheaf_forget X.J X.O.obj (forget CommRingCat.{u})).1 X.O.property)
 
 /-- Two sections of `O` which agree on the members of a covering sieve agree. -/
 theorem eq_of_locally_eq {U : X.C} {S : Sieve U} (hS : S ∈ X.J U)
@@ -283,7 +283,7 @@ def toCornerHom (n : ℤ) (U : X.Cᵒᵖ) : (X.O.obj.obj U : Type u) →+* E.Cor
 
 /-- The projection `O ⟶ O_n` onto the `n`-th factor, as a morphism of sheaves of rings. -/
 def proj (n : ℤ) : X.O ⟶ E.factor n :=
-  Sheaf.Hom.mk
+  ObjectProperty.homMk
     { app := fun U => CommRingCat.ofHom (E.toCornerHom n U)
       naturality := fun U V f => by
         ext s

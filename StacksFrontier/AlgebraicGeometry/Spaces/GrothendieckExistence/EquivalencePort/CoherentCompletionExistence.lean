@@ -74,6 +74,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (𝓘 : (SheafOfModules.unit
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).Submodule)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Kernels of `𝒪_F`-modules, found once (instance search for them times out). -/
+noncomputable instance (priority := high) hasKernels_modules_CoherentCompletionExistence :
+    HasKernels (Modules.{u, u} B S hS F hF) :=
+  inferInstance
+
+/-- Each kernel of `𝒪_F`-modules, from `hasKernels_modules_CoherentCompletionExistence`. -/
+noncomputable instance (priority := high) hasKernel_modules_CoherentCompletionExistence
+    {M N : Modules.{u, u} B S hS F hF} (f : M ⟶ N) : HasKernel f :=
+  HasKernels.has_limit f
+
 /-! ### Detecting isomorphisms and annihilation on the affine charts -/
 
 /-- **A morphism of `𝒪_F`-modules which is bijective on the sections over every affine étale

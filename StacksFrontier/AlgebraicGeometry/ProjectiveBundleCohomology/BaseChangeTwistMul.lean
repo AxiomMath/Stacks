@@ -302,8 +302,10 @@ public theorem shortExact_tautologicalPullbackSequence :
   have := epi_tautologicalMap E' hqc' D'
   have hpres : PreservesColimit (parallelPair (tautologicalSequence E hqc D).f 0)
       (Scheme.Modules.pullback (bundleBaseChange g E hqc E' hqc' hE)) :=
-    have := (Scheme.Modules.pullbackPushforwardAdjunction
-      (bundleBaseChange g E hqc E' hqc' hE)).leftAdjoint_preservesColimits
+    have : PreservesColimitsOfSize.{0, 0}
+        (Scheme.Modules.pullback (bundleBaseChange g E hqc E' hqc' hE)) :=
+      (Scheme.Modules.pullbackPushforwardAdjunction
+        (bundleBaseChange g E hqc E' hqc' hE)).leftAdjoint_preservesColimits
     inferInstance
   have hex := (exact_tautological E hqc D).map_of_epi_of_preservesCokernel
     (Scheme.Modules.pullback (bundleBaseChange g E hqc E' hqc' hE)) (epi_tautologicalMap E hqc D)

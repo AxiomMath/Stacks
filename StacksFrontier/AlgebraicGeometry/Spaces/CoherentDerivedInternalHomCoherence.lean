@@ -179,7 +179,7 @@ public theorem isFiniteType_kerObj_cokernelπ' {M N : SheafOfModules.{m} R} (φ 
         = Abelian.factorThruImage φ ≫ e.inv := by
       rw [← hfac, Category.assoc, e.hom_inv_id, Category.comp_id]
     rw [h1]
-    infer_instance
+    exact epi_comp' (Abelian.instEpiFactorThruImage φ) (IsIso.epi_of_iso e.inv)
   exact isFiniteType_of_locallySurjective
     (_root_.SheafOfModules.kerLift φ (cokernel.condition φ)).val
     (exists_cover_preimage_of_epi' (_root_.SheafOfModules.kerLift φ (cokernel.condition φ))) hM

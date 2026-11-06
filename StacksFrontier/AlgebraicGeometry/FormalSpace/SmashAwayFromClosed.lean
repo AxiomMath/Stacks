@@ -265,7 +265,7 @@ theorem isLocallySurjective_completionMap_toQuotientSheaf
     refine (BigFppfOver.topology B S hS).superset_covering ?_
       (Presheaf.imageSieve_mem (BigFppfOver.topology B S hS) (Space.toQuotientSheaf j) y)
     rintro W g ⟨x, hx⟩
-    refine ⟨⟨ULift.up x, ?_⟩, Subtype.ext (ULift.ext _ _ hx)⟩
+    refine ⟨⟨ULift.up x, ?_⟩, Subtype.ext (ULift.ext hx)⟩
     refine (hasImageIn_preimage_pointsMap_iff B S hS (Space.toQuotientSheaf j) T' W x).2 ?_
     rw [hx]
     exact (Space.completionSubfunctor B S hS (Space.quotientSheaf j).obj T').map g.op hy
@@ -316,7 +316,7 @@ theorem isLocallyInjective_completionMap_toQuotientSheaf
         simpa only [NatTrans.comp_app, ConcreteCategory.comp_apply] using
           congrArg (fun f => f.app (op (E.X i)) r) (Over.w j.source)
       rw [← hw, ← hra, NatTrans.naturality_apply]
-    exact Subtype.ext (ULift.ext _ _ (hra.trans ((hdiag (E.X i) r (hR ▸ h4)).trans hrb.symm)))
+    exact Subtype.ext (ULift.ext (hra.trans ((hdiag (E.X i) r (hR ▸ h4)).trans hrb.symm)))
 
 /-- **Conclusion (3) of Stacks 0AR9.** Let `j` be a pre-equivalence relation on `X'` over `X`
 and let `g : X'/R ⟶ X` restrict to the structure morphism of `X'`. If every section of `R`

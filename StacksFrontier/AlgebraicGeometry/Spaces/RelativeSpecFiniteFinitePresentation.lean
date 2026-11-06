@@ -127,7 +127,7 @@ theorem AlgebraSheaf.sectionsBelowCutoff_of_isFinite {X : AlgebraicSpaces B S hS
     rintro Z f ⟨_, h, _, ⟨O⟩, rfl⟩
     have := congrFun hxy O.down
     simp only [ρ] at this
-    rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, this]
+    rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply, this]
   calc #(A.right.obj.obj (op V))
       ≤ #(∀ O : (chartScheme V).affineOpens,
           A.right.obj.obj (op (openChart B S hS X.1 V O.1))) := mk_le_of_injective hρ
@@ -171,6 +171,17 @@ end AffineChart
 /-! ### Properties of the projection which are local on the target -/
 
 section Projection
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_relativeSpecFiniteFinitePresentation :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_relativeSpecFiniteFinitePresentation
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 variable {X : AlgebraicSpaces B S hS} (A : AlgebraSheaf.{u, u} B S hS X.1 X.2)
   (hA : AlgebraSheaf.SectionsBelowCutoff B S hS A) (hAq : A.IsQuasicoherent)

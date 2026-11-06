@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Category.Grp.AB
 public import Mathlib.Algebra.Category.ModuleCat.Colimits
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Abelian
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.EpiMono
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Generator
 public import Mathlib.Algebra.Homology.Functor
 public import Mathlib.AlgebraicTopology.SimplicialSet.StdSimplex

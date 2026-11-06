@@ -49,6 +49,10 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 variable {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+-- Pullbacks of presheaves on `BigFppfOver B S hS`: instance search for them times out under
+-- Lean v4.35.0, so use the shortcut instances declared in `Spaces.Morphisms.Unramified`.
+attribute [local instance high] hasPullbacks_presheaf_Unramified hasPullback_presheaf_Unramified
+
 /-- A base change of a universally closed morphism `f : X ⟶ Y` of algebraic spaces over `S`
 along a morphism to a space `Z` under which `X` and `Y` both lie is universally closed.
 

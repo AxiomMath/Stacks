@@ -94,7 +94,19 @@ theorem mono_pullback_ι_blowupFormsMap (a : ℕ) :
       (relativeDifferentialFormsMap (blowUpToBase i.ker) f (blowUpToBase i.ker ≫ f) (𝟙 S)
         (by simp) (a : ℤ)) ≫ c.blowupFormsRestrict (a : ℤ)) := by
     rw [c.restrict_blowupFormsMap]
-    exact mono_comp _ _
+    -- each instance supplied: the search through `NatTrans.app` times out on the functor category
+    refine @mono_comp _ _ _ _ _ _
+      (@IsIso.mono_of_iso _ _ _ _ _
+        (Iso.isIso_hom (Iso.app (Scheme.Modules.pullbackComp _ _) _))) _ ?_
+    refine @mono_comp _ _ _ _ _ _
+      (@IsIso.mono_of_iso _ _ _ _ _
+        (Iso.isIso_hom (Iso.app (Scheme.Modules.pullbackCongr _) _))) _ ?_
+    refine @mono_comp _ _ _ _ _ _
+      (@IsIso.mono_of_iso _ _ _ _ _
+        (Iso.isIso_hom (Iso.app (Scheme.Modules.pullbackComp _ _).symm _))) _ ?_
+    exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _
+      (Iso.isIso_hom ((Scheme.Modules.pullback (blowUpToBase i.ker ∣_ c.U)).mapIso
+        (asIso (c.ambientFormsRestrict (a : ℤ)))))) _ hM
   exact mono_of_mono _ (c.blowupFormsRestrict (a : ℤ))
 
 end BlowupEtaleChart

@@ -228,7 +228,7 @@ theorem pushforwardInverseImageDerivation_postcomp (phi : O₁ ⟶ O₂)
 theorem postcomp_postcomp {Z : TopCat.{u}} {R : (Opens Z)ᵒᵖ ⥤ CommRingCat.{u}}
     {S : (Opens Z)ᵒᵖ ⥤ CommRingCat.{u}} {psi : S ⟶ R}
     {M M' M'' : PresheafOfModules.{u} (R ⋙ forget₂ CommRingCat RingCat)}
-    (d : M.Derivation' psi) (a : M ⟶ M') (b : M' ⟶ M'') :
+    (d : PresheafOfModulesOfCommRing.Derivation' M psi) (a : M ⟶ M') (b : M' ⟶ M'') :
     (d.postcomp a).postcomp b = d.postcomp (a ≫ b) :=
   rfl
 
@@ -398,7 +398,7 @@ theorem isInverseImageDerivationComparison (phi : O₁ ⟶ O₂) :
       refine (hcomp δ₁ U b).trans (Eq.trans ?_ (hcomp δ₂ U b).symm)
       refine congrArg (fun z : ↥(N.val.obj ((opensMap f).op.obj U)) ↦
         TrivSqZeroExt.inl (inverseImageRingUnitApp f O₂ U b) + TrivSqZeroExt.inr z) ?_
-      exact PresheafOfModules.Derivation.congr_d hδ b
+      exact PresheafOfModulesOfCommRing.Derivation.congr_d hδ b
     refine derivation_ext O' N phi' fun V a ↦ ?_
     refine (sqZeroSectionApp_apply_snd O' N phi' δ₁ V a).symm.trans (Eq.trans ?_
       (sqZeroSectionApp_apply_snd O' N phi' δ₂ V a))
@@ -463,7 +463,7 @@ noncomputable def inverseImageDerivation
           ((inverseImageModuleUnit f O₂ M).val.app U).hom (d.d b)} :=
   ⟨Classical.choose ((isInverseImageDerivationComparison f phi (inverseImageModule f O₂ M)).2
       (d.postcomp (inverseImageModuleUnit f O₂ M).val)),
-    fun _U b => PresheafOfModules.Derivation.congr_d
+    fun _U b => PresheafOfModulesOfCommRing.Derivation.congr_d
       (Classical.choose_spec
         ((isInverseImageDerivationComparison f phi (inverseImageModule f O₂ M)).2
           (d.postcomp (inverseImageModuleUnit f O₂ M).val))) b⟩

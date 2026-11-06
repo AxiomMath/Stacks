@@ -73,7 +73,7 @@ theorem monomial_mem_pow_idealOfVars {n : ℕ} {s : Fin r →₀ ℕ} (hs : s.de
   rw [Finset.mem_singleton.1 (support_monomial_subset hx), hs]
 
 /-- A polynomial with zero constant coefficient lies in `(x₁, …, x_r)`. -/
-theorem mem_idealOfVars_of_coeff_zero {a : MvPolynomial (Fin r) A} (ha : coeff 0 a = 0) :
+theorem mem_idealOfVars_of_coeff_zero {a : MvPolynomial (Fin r) A} (ha : a.coeff 0 = 0) :
     a ∈ idealOfVars (Fin r) A := by
   rw [← pow_one (idealOfVars (Fin r) A)]
   refine (mem_pow_idealOfVars_iff' 1 a).2 fun x hx => ?_
@@ -163,7 +163,7 @@ theorem ker_quotientPowSucc_le (n : ℕ) :
   obtain ⟨q, rfl⟩ := Submodule.Quotient.mk_surjective _ y
   replace hy : (Submodule.Quotient.mk q : _ ⧸ idealOfVars (Fin r) A ^ n) = 0 := hy
   rw [Submodule.Quotient.mk_eq_zero] at hy
-  refine ⟨fun s => Submodule.Quotient.mk (C (coeff s.1 q)), ?_⟩
+  refine ⟨fun s => Submodule.Quotient.mk (C (q.coeff s.1)), ?_⟩
   rw [sumMulMonomial_mk, Submodule.Quotient.eq]
   refine (mem_pow_idealOfVars_iff' (n + 1) _).2 fun t ht => ?_
   rw [coeff_sub, coeff_sum]

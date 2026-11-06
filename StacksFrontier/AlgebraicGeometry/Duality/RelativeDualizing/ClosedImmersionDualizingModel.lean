@@ -174,9 +174,9 @@ def restrictInvPushforwardDerivedIso (h : a.hom ≫ i = i' ≫ b.hom) :
         (Scheme.Modules.pushforward i).mapDerivedCategory ≅
       (Scheme.Modules.pushforward i').mapDerivedCategory ⋙
         (Scheme.Modules.restrictFunctor b.inv).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso (Iso.refl _) ≪≫
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _) ≪≫
     Functor.mapDerivedCategoryCongr (restrictInvPushforwardIso i i' a b h) ≪≫
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _)).symm
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).symm
 
 /-- **`R ℰom(𝒪_Y, -)` transported along isomorphisms of schemes.** For closed immersions
 `i : Y ⟶ X` and `i' : Y' ⟶ X'` and isomorphisms `a : Y' ≅ Y`, `b : X' ≅ X` with
@@ -246,7 +246,7 @@ theorem isDualizingModelOn_derivedSheafHomExactSupport (K : DerivedCategory X.Mo
       ((tilde.functor Γ(X, U) ⋙
         Scheme.Modules.restrictFunctor hU.isoSpec.hom).mapDerivedCategory.obj ω) ≅
       (tilde.functor Γ(X, U)).mapDerivedCategory.obj ω :=
-    (Functor.mapDerivedCategoryCompIso (Iso.refl ((tilde.functor Γ(X, U) ⋙
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl ((tilde.functor Γ(X, U) ⋙
         Scheme.Modules.restrictFunctor hU.isoSpec.hom) ⋙
           Scheme.Modules.restrictFunctor hU.isoSpec.inv)) ≪≫
       Functor.mapDerivedCategoryCongr (Functor.associator _ _ _ ≪≫
@@ -254,7 +254,7 @@ theorem isDualizingModelOn_derivedSheafHomExactSupport (K : DerivedCategory X.Mo
   let eUnit : (Scheme.Modules.restrictFunctor (hU.preimage i).isoSpec.inv).mapDerivedCategory ⋙
       (Scheme.Modules.restrictFunctor (hU.preimage i).isoSpec.hom).mapDerivedCategory ≅
       𝟭 (DerivedCategory (i ⁻¹ᵁ U).toScheme.Modules) :=
-    Functor.mapDerivedCategoryCompIso (hU.preimage i).restrictIsoSpecInvCompIso ≪≫
+    Functor.mapDerivedCategoryCompIsoOfCompIso (hU.preimage i).restrictIsoSpecInvCompIso ≪≫
       Functor.mapDerivedCategoryId _
   let E := ((Stacks.Injectives.mapDerivedCategoryTargetModelIso (i ⁻¹ᵁ U).toScheme.Modules
         (Scheme.Modules.restrictFunctor (i ⁻¹ᵁ U).ι)).app _) ≪≫
@@ -269,7 +269,7 @@ theorem isDualizingModelOn_derivedSheafHomExactSupport (K : DerivedCategory X.Mo
               eCancel) ≪≫
           affineDerivedSheafHomExactSupportTildeIso _ _ (i.app U) ω
             (Dualizing.isBoundedBelow_of_bounded.{u, u} ω hωd.bounded)) ≪≫
-      (Functor.mapDerivedCategoryCompIso (Iso.refl _)).app _ ≪≫
+      (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _)).app _ ≪≫
       ((Stacks.Injectives.mapDerivedCategoryGrothendieckModelsIso (ModuleCat.{u} Γ(Y, i ⁻¹ᵁ U))
         (i ⁻¹ᵁ U).toScheme.Modules (tilde.functor Γ(Y, i ⁻¹ᵁ U) ⋙
           Scheme.Modules.restrictFunctor (hU.preimage i).isoSpec.hom)).app _).symm

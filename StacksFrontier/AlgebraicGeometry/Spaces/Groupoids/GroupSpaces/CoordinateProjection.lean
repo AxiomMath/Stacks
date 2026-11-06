@@ -419,13 +419,13 @@ noncomputable def isLimit_binaryFan_coordinateProjection (n : ℕ) (I : Finset (
     else s.snd ≫ Pi.π (fun _ : {j : Fin n // j ∉ I} => projectiveLineFunctor k B hk) ⟨j, h⟩)
     (fun s => ?_) (fun s => ?_) (fun s m hm₁ hm₂ => ?_)
   · refine Pi.hom_ext _ _ fun a => ?_
-    rw [Category.assoc, Pi.map'_comp_π, ← Category.assoc, Pi.lift_π]
+    rw [Category.assoc, Pi.map'_comp_π, ← Category.assoc, Pi.lift_comp_π]
     simp
   · refine Pi.hom_ext _ _ fun a => ?_
-    rw [Category.assoc, Pi.map'_comp_π, ← Category.assoc, Pi.lift_π]
+    rw [Category.assoc, Pi.map'_comp_π, ← Category.assoc, Pi.lift_comp_π]
     simp [a.2]
   · refine Pi.hom_ext _ _ fun j => ?_
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
     by_cases h : j ∈ I
     · rw [dif_pos h, ← hm₁, Category.assoc, Pi.map'_comp_π]
       simp

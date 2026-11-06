@@ -420,8 +420,8 @@ private lemma gabberEval_eq_C_scalarEval_of_support_bound.{v}
   apply Finset.sum_congr rfl
   intro m hm
   have hcoeff :
-      (algebraMap ℚ (Polynomial ℚ)) (MvPolynomial.coeff m p) =
-        Polynomial.C ((RingHom.id ℚ) (MvPolynomial.coeff m p)) := by simp
+      (algebraMap ℚ (Polynomial ℚ)) (p.coeff m) =
+        Polynomial.C ((RingHom.id ℚ) (p.coeff m)) := by simp
   rw [hcoeff, map_mul]
   congr 1
   rw [map_finsuppProd (Polynomial.C : ℚ →+* Polynomial ℚ) m

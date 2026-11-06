@@ -241,7 +241,9 @@ theorem exists_restrictHom_eq_of_limitHom_eq {b j : Iᵒᵖ} (e : j ⟶ b)
       (limit.π C.diagram b) (limit.w C.diagram e)).hom.app Y ≫ t ≫
         (Over.pullbackPasteIso (limit.π C.diagram j) (C.diagram.map e)
           (limit.π C.diagram b) (limit.w C.diagram e)).inv.app Z) h
-    simpa [limitHom, Over.transportHom] using this
+    simp only [limitHom, Over.transportHom, Category.assoc, Iso.hom_inv_id_app_assoc,
+      Iso.hom_inv_id_app] at this
+    exact (Category.comp_id _).symm.trans (this.trans (Category.comp_id _))
   obtain ⟨k, a, hk⟩ := Space.eventually_eq_of_baseChange_eq_of_siteContainsBaseChangeLimits
     (B := B) (S := S) (hS := hS) (hZ := hZ) (D := C.diagram) (hD := C.stage_isAlgebraicSpace)
     (hAffine := C.transition_affine) (hQc := C.stage_quasiCompact)

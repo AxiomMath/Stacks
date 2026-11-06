@@ -57,6 +57,22 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] pointTopology
 
+/- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ImmersionSchemeTheoreticallyDenseOpen :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ImmersionSchemeTheoreticallyDenseOpen
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_ImmersionSchemeTheoreticallyDenseOpen B S hS).has_limit _
+
+/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site times out;
+supply them directly. -/
+local instance (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 /-! ### Étale localization under either hypothesis -/
 
 section EtaleLocal
@@ -93,8 +109,10 @@ private theorem schemeTheoreticImageSubfunctor_eq_of_isPullback
     (hsq : IsPullback a b f g) :
     schemeTheoreticImageSubfunctor B S hS b =
       schemeTheoreticImageSubfunctor B S hS (pullback.snd f g) := by
-  rw [← hsq.isoIsPullback_hom_snd _ _ (IsPullback.of_hasPullback f g),
-    schemeTheoreticImageSubfunctor_comp_of_epi]
+  rw [← hsq.isoIsPullback_hom_snd _ _ (IsPullback.of_hasPullback f g)]
+  have : Epi (hsq.isoIsPullback _ _ (IsPullback.of_hasPullback f g)).hom :=
+    @IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_hom _)
+  exact schemeTheoreticImageSubfunctor_comp_of_epi B S hS _ _
 
 /-- The inverse of the isomorphism onto the range of a monomorphism `g` composes with `g` to the
 inclusion of the range. -/

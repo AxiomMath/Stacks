@@ -262,7 +262,7 @@ def homSigmaComparison :
 /-- The defining property of `AlgebraicGeometry.RingedSite.homSigmaComparison`. -/
 theorem homSigmaComparison_π (j : J) :
     homSigmaComparison X A B ≫ Pi.π (fun j => (sheafHomComplex X (A j) B).obj) j =
-      homMap X (Sigma.ι A j) (𝟙 B) := Pi.lift_π _ _
+      homMap X (Sigma.ι A j) (𝟙 B) := Pi.lift_comp_π _ _
 
 omit [HasProduct fun j => (sheafHomComplex X (A j) B).obj] in
 /-- **The induced maps of internal Hom complexes identify the sections of the internal Hom

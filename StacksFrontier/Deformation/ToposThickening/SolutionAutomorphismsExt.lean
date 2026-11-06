@@ -86,7 +86,7 @@ universal derivation of a section it is the derivation of that section. -/
 theorem derivationEquivHomDifferentials_app (D : f.Derivation G) (U : X.Cᵒᵖ)
     (x : X.O.obj.obj U) :
     (f.derivationEquivHomDifferentials G D).val.app U ((f.universalDerivation).d x) = D.d x :=
-  PresheafOfModules.Derivation.congr_d (f.postcomp_derivationEquivHomDifferentials G D) x
+  PresheafOfModulesOfCommRing.Derivation.congr_d (f.postcomp_derivationEquivHomDifferentials G D) x
 
 variable [HasDerivedCategory.{t} (Sheaf.targetModules.{u, v, w} X.J X.O)]
 
@@ -383,7 +383,7 @@ noncomputable def derivationEquivFSharp : Derivation P ≃ S.f.Derivation S.G wh
     have : Presheaf.IsLocallySurjective X.J ct :=
       (Presheaf.isLocallySurjective_iff_whisker_forget X.J P.reduction.hom).mp
         P.locallySurjective
-    refine PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext fun x => ?_)
+    refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext fun x => ?_)
     refine Sheaf.eq_of_isLocallySurjective_binary X.J ct MT
       (fun U (x _ : X.O.obj.obj U) => (descendDerivation P (derivationOfFSharp P D)).d x)
       (fun U (x _ : X.O.obj.obj U) => D.d x) ?_ ?_ ?_ U x x
@@ -446,7 +446,7 @@ theorem derivationToHomDifferentials_add (δ ε : Derivation P) :
     derivationToHomDifferentials P (δ + ε) =
       derivationToHomDifferentials P δ + derivationToHomDifferentials P ε := by
   apply (S.f.derivationEquivHomDifferentials (targetG S)).symm.injective
-  refine PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext fun x => ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext fun x => ?_)
   change ((S.f.derivationEquivHomDifferentials (targetG S)).symm
       (S.f.derivationEquivHomDifferentials (targetG S) (derivationEquivFSharp P (δ + ε)))).d x =
     (derivationToHomDifferentials P δ + derivationToHomDifferentials P ε).val.app U
@@ -503,7 +503,7 @@ theorem incl_extZeroToHomDifferentials_autMulEquivExtZero (a : P.AutomorphismGro
     P.incl ((S.f.extZeroToHomDifferentials (targetG S)
         (Multiplicative.toAdd (autMulEquivExtZero P a))).val.app U
           ((S.f.universalDerivation).d (P.reduction.hom.app U x))) =
-      a.hom.hom.hom.hom.app U x - x := by
+      a.asIso.hom.hom.hom.hom.app U x - x := by
   change P.incl ((S.f.extZeroToHomDifferentials (targetG S)
       (S.f.homDifferentialsEquivExtZero (targetG S)
       (derivationToHomDifferentials P (autEquivDerivation P a)))).val.app U _) = _

@@ -187,7 +187,7 @@ theorem epsilon_pushforwardCube :
       ((epsilonDirectImageSquare f' ≫ₕ abelianDirectImageSquare f g g' f' h).whiskerBottom
         (𝟙 _)).whiskerTop (𝟙 _) := by
   ext M : 3
-  ext U : 1
+  refine NatTrans.ext (funext fun U => ?_)
   show 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _ ≫ M.obj.map _ ≫ 𝟙 _ =
     𝟙 _ ≫ ((𝟙 _ ≫ ((𝟙 _ ≫ M.obj.map _) ≫ (M.obj.map _ ≫ 𝟙 _)) ≫ 𝟙 _ ≫ 𝟙 _ ≫ 𝟙 _) ≫ 𝟙 _)
   simp only [Category.id_comp, Category.comp_id]

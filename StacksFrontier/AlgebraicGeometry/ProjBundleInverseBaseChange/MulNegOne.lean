@@ -106,9 +106,9 @@ theorem tensorProductBraiding_naturality
     (tensorProductIso 𝒪 h𝒪 e f).hom ≫ (tensorProductBraiding 𝒪 h𝒪 M' N').hom =
       (tensorProductBraiding 𝒪 h𝒪 M N).hom ≫ (tensorProductIso 𝒪 h𝒪 f e).hom := by
   let : MonoidalCategory (PresheafOfModules.{w} (structureSheaf 𝒪 h𝒪).obj) :=
-    PresheafOfModules.monoidalCategory (R := 𝒪)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := 𝒪)
   let : SymmetricCategory (PresheafOfModules.{w} (structureSheaf 𝒪 h𝒪).obj) :=
-    PresheafOfModules.symmetricCategory (R := 𝒪)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := 𝒪)
   show (sheafify 𝒪 h𝒪).map (e.hom.val ⊗ₘ f.hom.val) ≫
       (sheafify 𝒪 h𝒪).map (β_ M'.val N'.val).hom =
     (sheafify 𝒪 h𝒪).map (β_ M.val N.val).hom ≫

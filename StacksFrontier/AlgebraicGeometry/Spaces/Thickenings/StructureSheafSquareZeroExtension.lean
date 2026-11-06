@@ -145,20 +145,20 @@ structure SquareZeroExtension {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) where
   /-- `ℐ` is quasi-coherent as an `𝒪_X`-module: condition (2) of the source. -/
   quasicoherent : I.IsQuasicoherentOnSite
   /-- The inclusion `ℐ ⟶ 𝒜`, on the sections over each object of the small étale site. -/
-  ι (U : (SmallEtale B S hS X.1)ᵒᵖ) : I.val.obj U →+ A.val.obj U
+  ι (U : (SmallEtale B S hS X.1)ᵒᵖ) : I.val.obj U →+ A.obj.obj U
   /-- The inclusion commutes with restriction. -/
   naturality {U V : (SmallEtale B S hS X.1)ᵒᵖ} (g : U ⟶ V) (x : I.val.obj U) :
-    ι V (I.val.map g x) = A.val.map g (ι U x)
+    ι V (I.val.map g x) = A.obj.map g (ι U x)
   /-- The inclusion lands in the kernel of `π`. -/
   mem_kernel (U : (SmallEtale B S hS X.1)ᵒᵖ) (x : I.val.obj U) :
     π.hom.app U (ι U x) = 0
   /-- Every section killed by `π` comes from a *unique* section of `ℐ`, so the image of the
   inclusion is exactly the kernel and the inclusion is injective. -/
-  exact_kernel (U : (SmallEtale B S hS X.1)ᵒᵖ) (a : A.val.obj U)
+  exact_kernel (U : (SmallEtale B S hS X.1)ᵒᵖ) (a : A.obj.obj U)
       (ha : π.hom.app U a = 0) : ∃! x, ι U x = a
   /-- The action of `𝒜` on `ℐ` factors through `π`, which is what makes `ℐ` an `𝒪_X`-module. -/
-  smul_lift (U : (SmallEtale B S hS X.1)ᵒᵖ) (a : A.val.obj U) (x : I.val.obj U) :
-    ι U (((I.val.obj U).smul (π.hom.app U a)).hom x) = a * ι U x
+  smul_lift (U : (SmallEtale B S hS X.1)ᵒᵖ) (a : A.obj.obj U) (x : I.val.obj U) :
+    ι U (((I.val.obj U).smul (π.hom.app U a)).asHom.hom x) = a * ι U x
   /-- `ℐ` is an ideal of square zero in `𝒜`: condition (1) of the source. -/
   square_zero (U : (SmallEtale B S hS X.1)ᵒᵖ) (x y : I.val.obj U) :
     ι U x * ι U y = 0
@@ -175,7 +175,7 @@ there.**  This is `mem_kernel` and `exact_kernel` read as a description of the i
 `ker(𝒜(U) ⟶ 𝒪_X(U))`. -/
 theorem SquareZeroExtension.mem_ker_iff {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
     (E : SquareZeroExtension B S hS f) (U : (SmallEtale B S hS X.1)ᵒᵖ)
-    (a : E.A.val.obj U) :
+    (a : E.A.obj.obj U) :
     a ∈ RingHom.ker (E.π.hom.app U).hom ↔ ∃ x, E.ι U x = a := by
   rw [RingHom.mem_ker]
   exact ⟨fun ha => (E.exact_kernel U a ha).exists, fun ⟨x, hx⟩ => hx ▸ E.mem_kernel U x⟩
@@ -194,7 +194,7 @@ def SquareZeroExtension.idealToKer {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
 image under `ι`. -/
 theorem SquareZeroExtension.coe_idealToKer {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
     (E : SquareZeroExtension B S hS f) (U : (SmallEtale B S hS X.1)ᵒᵖ) (x : E.I.val.obj U) :
-    ((SquareZeroExtension.idealToKer B S hS E U x : E.A.val.obj U)) = E.ι U x := rfl
+    ((SquareZeroExtension.idealToKer B S hS E U x : E.A.obj.obj U)) = E.ι U x := rfl
 
 /-- **The sections of `ℐ` over an object of the small étale site are exactly the kernel ideal of
 `π` there.**  Injectivity is the uniqueness half of `exact_kernel` and surjectivity is its
@@ -227,8 +227,8 @@ field `naturality`, read in the kernel. -/
 theorem SquareZeroExtension.idealToKer_naturality {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
     (E : SquareZeroExtension B S hS f) {U V : (SmallEtale B S hS X.1)ᵒᵖ} (m : U ⟶ V)
     (x : E.I.val.obj U) :
-    ((SquareZeroExtension.idealToKer B S hS E V (E.I.val.map m x) : E.A.val.obj V)) =
-      E.A.val.map m (SquareZeroExtension.idealToKer B S hS E U x) :=
+    ((SquareZeroExtension.idealToKer B S hS E V (E.I.val.map m x) : E.A.obj.obj V)) =
+      E.A.obj.map m (SquareZeroExtension.idealToKer B S hS E U x) :=
   E.naturality m x
 
 /-- **The identification of `ℐ` with the kernel ideal carries the action of `𝒜` through `π`**: a
@@ -236,9 +236,9 @@ section `a` of `𝒜` acts on the kernel ideal by multiplication, and on `ℐ` t
 the field `smul_lift`, read in the kernel. -/
 theorem SquareZeroExtension.idealToKer_smul {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
     (E : SquareZeroExtension B S hS f) (U : (SmallEtale B S hS X.1)ᵒᵖ)
-    (a : E.A.val.obj U) (x : E.I.val.obj U) :
+    (a : E.A.obj.obj U) (x : E.I.val.obj U) :
     SquareZeroExtension.idealToKer B S hS E U
-        (((E.I.val.obj U).smul (E.π.hom.app U a)).hom x) =
+        (((E.I.val.obj U).smul (E.π.hom.app U a)).asHom.hom x) =
       a • SquareZeroExtension.idealToKer B S hS E U x :=
   Subtype.ext (E.smul_lift U a x)
 

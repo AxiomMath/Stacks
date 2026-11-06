@@ -368,7 +368,7 @@ def isLimitIntegerAffineNhdsCone (S : BigFppfOver B integerBase hZ) (s : (𝒯).
     NatIso.ofComponents (fun i => Iso.refl _) (fun {i j} e => by
       simp only [Iso.refl_hom]
       rfl)
-  ((IsLimit.postcomposeHomEquiv α _).symm hl).ofIsoLimit (Cones.ext (Iso.refl _) fun i => by
+  ((IsLimit.postcomposeHomEquiv α _).symm hl).ofIsoLimit (Cone.ext (Iso.refl _) fun i => by
     change (Scheme.affineNhdsSpecStalkCone ((𝒯).obj S) s).π.app i ≫ 𝟙 _ =
       𝟙 _ ≫ (Scheme.affineNhdsSpecStalkCone ((𝒯).obj S) s).π.app i
     simp)

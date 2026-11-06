@@ -124,8 +124,8 @@ noncomputable def derivedSectionsUnit :
         (Iso.refl (modulePushforward f ⋙ secF (structureSheafRing Y) ⊤))).inv
       DerivedCategory.Plus.Qh ≫
     Functor.whiskerLeft (modulePushforward f).mapHomotopyCategoryPlus
-      (secF (structureSheafRing Y) ⊤).rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight (modulePushforward f).rightDerivedFunctorPlusUnit
+      (secF (structureSheafRing Y) ⊤).rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight (modulePushforward f).rightDerivedFunctorPlusUnith
       (secF (structureSheafRing Y) ⊤).rightDerivedFunctorPlus
 
 /-- **`R f_*` followed by `R Γ(Y, -)` is a right derived functor of `Γ(X, -)`.** The hypothesis
@@ -151,7 +151,7 @@ noncomputable def rightDerivedFunctorPlusCompIso :
       (modulePushforward f).rightDerivedFunctorPlus ⋙
         (secF (structureSheafRing Y) ⊤).rightDerivedFunctorPlus :=
   Functor.rightDerivedNatIso _ _
-    (secF (structureSheafRing X) (⊤ : Opens X.carrier)).rightDerivedFunctorPlusUnit
+    (secF (structureSheafRing X) (⊤ : Opens X.carrier)).rightDerivedFunctorPlusUnith
     (derivedSectionsUnit f)
     (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (structureSheafRing X))) (Iso.refl _)
 
@@ -166,12 +166,30 @@ noncomputable def derivedPushforwardSingleIso {F : SheafOfModules.{u} (structure
         ((DerivedCategory.Plus.singleFunctor (SheafOfModules.{u} (structureSheafRing X)) 0).obj F) ≅
       (DerivedCategory.Plus.singleFunctor (SheafOfModules.{u} (structureSheafRing Y)) 0).obj
         ((modulePushforward f).obj F) :=
-  have : IsIso ((modulePushforward f).rightDerivedFunctorPlusUnit.app
+  have : IsIso ((modulePushforward f).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor
-        (SheafOfModules.{u} (structureSheafRing X)) 0).obj F)) := hF
+        (SheafOfModules.{u} (structureSheafRing X)) 0).obj F)) := by
+    -- `rightDerivedFunctorPlusUnith` is not exposed: compare it with the unit of
+    -- `totalRightDerived` (the one `rightAcyclic` uses), both units of right derived functors.
+    have : IsIso ((modulePushforward f).rightDerivedFunctorPlus.rightDerivedDesc
+        (modulePushforward f).rightDerivedFunctorPlusUnith
+        (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (structureSheafRing X))) _
+        (((modulePushforward f).mapHomotopyCategoryPlus ⋙
+          DerivedCategory.Plus.Qh).totalRightDerivedUnit DerivedCategory.Plus.Qh
+          (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (structureSheafRing X))))) :=
+      (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+    have hF' := hF
+    unfold Functor.rightAcyclic at hF'
+    rw [← Functor.rightDerived_fac_app (modulePushforward f).rightDerivedFunctorPlus
+      (modulePushforward f).rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (structureSheafRing X))) _
+      (((modulePushforward f).mapHomotopyCategoryPlus ⋙
+        DerivedCategory.Plus.Qh).totalRightDerivedUnit DerivedCategory.Plus.Qh
+        (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} (structureSheafRing X))))] at hF'
+    exact (isIso_comp_right_iff _ _).1 hF'
   (modulePushforward f).rightDerivedFunctorPlus.mapIso
       ((Functor.singleFunctorPlusIsoCompQh 0).app F) ≪≫
-    (asIso ((modulePushforward f).rightDerivedFunctorPlusUnit.app
+    (asIso ((modulePushforward f).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor
         (SheafOfModules.{u} (structureSheafRing X)) 0).obj F))).symm ≪≫
     (Functor.mapSingleFunctorCompQhIso (modulePushforward f)).app F

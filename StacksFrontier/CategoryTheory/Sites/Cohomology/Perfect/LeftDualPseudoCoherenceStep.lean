@@ -289,7 +289,8 @@ theorem isPseudoCoherentFrom_Q_of_tail
     have : IsIso lift := HomologicalComplex.Hom.isIso_of_components lift
     exact isPseudoCoherentFrom_of_isStrictlyPerfect_approximation X E hE
       (DerivedCategory.Q.obj (K.stupidTrunc (embeddingUpIntGE (k + 1)))) k
-      (DerivedCategory.Q.map lift) (fun _ _ => inferInstance) inferInstance
+      (DerivedCategory.Q.map lift) (fun _ _ => Functor.map_isIso _ _)
+      (IsIso.epi_of_iso (f := (DerivedCategory.homologyFunctor _ k).map (DerivedCategory.Q.map lift)))
   · -- the term in degree `k`
     let P := (HomologicalComplex.single _ (ComplexShape.up ℤ) k).obj F
     refine isPseudoCoherentFrom_of_isStrictlyPerfect_approximation X P

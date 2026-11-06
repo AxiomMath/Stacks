@@ -2,6 +2,7 @@ module
 
 public import Mathlib.CategoryTheory.Subobject.WellPowered
 public import Mathlib.SetTheory.Cardinal.Arithmetic
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.EpiMono
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.ModulesOnACategory.BrownRepresentability
 import StacksCore.Tactic.StacksAttribute
 

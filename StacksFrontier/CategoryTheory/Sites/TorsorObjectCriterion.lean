@@ -104,7 +104,7 @@ The last condition is the disjointness of the copies as the topology sees it; th
 are formal. -/
 theorem translationSieve_mem_of_isPullback {T R : C} {w : W ⟶ T} {p₁ p₂ : R ⟶ W}
     (hT : ∀ (V : C) (f f' : V ⟶ T), f = f') (hpb : IsPullback p₁ p₂ w w) (ι : G → (W ⟶ R))
-    (hι₁ : ∀ g : G, ι g ≫ p₁ = 𝟙 W) (hι₂ : ∀ g : G, ι g ≫ p₂ = (act g).hom)
+    (hι₁ : ∀ g : G, ι g ≫ p₁ = 𝟙 W) (hι₂ : ∀ g : G, ι g ≫ p₂ = (act g).asIso.hom)
     (hcov : ∀ ⦃V : C⦄ (d : V ⟶ R), summandSieve ι d ∈ J V) {V : C} (φ ψ : V ⟶ W) :
     translationSieve act φ ψ ∈ J V := by
   have hw : φ ≫ w = ψ ≫ w := hT V _ _
@@ -125,9 +125,9 @@ theorem translationSieve_mem_of_isPullback {T R : C} {w : W ⟶ T} {p₁ p₂ : 
 into `W` out of the objects of some class which reaches every object that the empty sieve does
 not cover. -/
 theorem eq_one_of_comp_act_of_free_on {P : C → Prop}
-    (hfree : ∀ ⦃V' : C⦄, P V' → ∀ (φ : V' ⟶ W) (g : G), φ ≫ (act g).hom = φ → g = 1) {V : C}
+    (hfree : ∀ ⦃V' : C⦄, P V' → ∀ (φ : V' ⟶ W) (g : G), φ ≫ (act g).asIso.hom = φ → g = 1) {V : C}
     (hV : (⊥ : Sieve V) ∉ J V → ∃ V' : C, P V' ∧ Nonempty (V' ⟶ V)) (φ : V ⟶ W) (g : G)
-    (hg : φ ≫ (act g).hom = φ) :
+    (hg : φ ≫ (act g).asIso.hom = φ) :
     (⊥ : Sieve V) ∈ J V ∨ g = 1 := by
   by_cases hbot : (⊥ : Sieve V) ∈ J V
   · exact Or.inl hbot
@@ -146,10 +146,10 @@ every object the empty sieve does not cover. -/
 theorem isTorsorObject_of_isPullback {act : G →* Aut W} {J : GrothendieckTopology C} {T R : C}
     {w : W ⟶ T} {p₁ p₂ : R ⟶ W} {P : C → Prop} (hT : ∀ (V : C) (f f' : V ⟶ T), f = f')
     (hpb : IsPullback p₁ p₂ w w) (ι : G → (W ⟶ R)) (hι₁ : ∀ g : G, ι g ≫ p₁ = 𝟙 W)
-    (hι₂ : ∀ g : G, ι g ≫ p₂ = (act g).hom)
+    (hι₂ : ∀ g : G, ι g ≫ p₂ = (act g).asIso.hom)
     (hcov : ∀ ⦃V : C⦄ (d : V ⟶ R), summandSieve ι d ∈ J V)
     (hsplit : ∀ V : C, splittingSieve W V ∈ J V)
-    (hfree : ∀ ⦃V' : C⦄, P V' → ∀ (φ : V' ⟶ W) (g : G), φ ≫ (act g).hom = φ → g = 1)
+    (hfree : ∀ ⦃V' : C⦄, P V' → ∀ (φ : V' ⟶ W) (g : G), φ ≫ (act g).asIso.hom = φ → g = 1)
     (htest : ∀ V : C, (⊥ : Sieve V) ∉ J V → ∃ V' : C, P V' ∧ Nonempty (V' ⟶ V)) :
     IsTorsorObject act J where
   splittingSieve_mem := hsplit
@@ -161,8 +161,8 @@ torsor over the final object, for every topology.** Both of the sieves asked to 
 then the maximal sieve. -/
 theorem isTorsorObject_of_simplyTransitive {act : G →* Aut W} (J : GrothendieckTopology C)
     (hsplit : ∀ V : C, Nonempty (V ⟶ W))
-    (htrans : ∀ {V : C} (φ ψ : V ⟶ W), ∃ g : G, ψ = φ ≫ (act g).hom)
-    (hfree : ∀ {V : C} (φ : V ⟶ W) (g : G), φ ≫ (act g).hom = φ → g = 1) :
+    (htrans : ∀ {V : C} (φ ψ : V ⟶ W), ∃ g : G, ψ = φ ≫ (act g).asIso.hom)
+    (hfree : ∀ {V : C} (φ : V ⟶ W) (g : G), φ ≫ (act g).asIso.hom = φ → g = 1) :
     IsTorsorObject act J where
   splittingSieve_mem V := splittingSieve_mem_of_le (J.top_mem V) fun V' _ _ => hsplit V'
   translationSieve_mem {V} φ ψ := by
@@ -186,16 +186,16 @@ theorem bot_notMem_trivial (X : C) : (⊥ : Sieve X) ∉ GrothendieckTopology.tr
 translations: the automorphism attached to `g` is `g` itself. -/
 def singleObjAut (G : Type w) [Group G] : G →* Aut (SingleObj.star G) where
   toFun g :=
-    { hom := g
-      inv := g⁻¹
-      hom_inv_id := by rw [SingleObj.comp_as_mul, inv_mul_cancel, SingleObj.id_as_one]
-      inv_hom_id := by rw [SingleObj.comp_as_mul, mul_inv_cancel, SingleObj.id_as_one] }
-  map_one' := Aut.ext rfl
-  map_mul' _ _ := Aut.ext rfl
+    .of { hom := g
+          inv := g⁻¹
+          hom_inv_id := by rw [SingleObj.comp_as_mul, inv_mul_cancel, SingleObj.id_as_one]
+          inv_hom_id := by rw [SingleObj.comp_as_mul, mul_inv_cancel, SingleObj.id_as_one] }
+  map_one' := Aut.ext (Iso.ext rfl)
+  map_mul' _ _ := Aut.ext (Iso.ext rfl)
 
 /-- The underlying morphism of the automorphism `singleObjAut G g` is `g`. -/
 @[simp]
-theorem singleObjAut_hom (g : G) : (singleObjAut G g).hom = g := rfl
+theorem singleObjAut_hom (g : G) : (singleObjAut G g).asIso.hom = g := rfl
 
 /-- **A group is a torsor over itself.** The single object of the one-object groupoid of `G`,
 acted on by `G` through its own translations, satisfies the three conditions of

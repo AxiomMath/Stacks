@@ -85,10 +85,19 @@ def pushforwardKernelUnitComparisonIso {W V : Scheme.{u}} (j : V ⟶ W) (w : W �
       kernel (pushforwardUnitComparison (Z := Z) j w hw) :=
   haveI : PreservesLimits (Scheme.Modules.pushforward w) :=
     (Scheme.Modules.pullbackPushforwardAdjunction w).rightAdjoint_preservesLimits
+  haveI : Mono ((Scheme.Modules.pushforwardComp j w).hom.app (Scheme.unitModule V) ≫
+      eqToHom (congrArg
+        (fun f : V ⟶ Z => (Scheme.Modules.pushforward f).obj (Scheme.unitModule V)) hw)) :=
+    @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ (((Scheme.Modules.pushforwardComp j w).app
+      (Scheme.unitModule V)).isIso_hom)) _ (@IsIso.mono_of_iso _ _ _ _ _ (eqToIso (congrArg
+        (fun f : V ⟶ Z => (Scheme.Modules.pushforward f).obj (Scheme.unitModule V)) hw)).isIso_hom)
   PreservesKernel.iso (Scheme.Modules.pushforward w)
       (Scheme.Modules.unitToPushforwardUnit j) ≪≫
     (kernelCompMono (Scheme.Modules.pushforward w |>.map
-        (Scheme.Modules.unitToPushforwardUnit j)) _).symm ≪≫
+        (Scheme.Modules.unitToPushforwardUnit j))
+        ((Scheme.Modules.pushforwardComp j w).hom.app (Scheme.unitModule V) ≫
+          eqToHom (congrArg
+            (fun f : V ⟶ Z => (Scheme.Modules.pushforward f).obj (Scheme.unitModule V)) hw))).symm ≪≫
       kernelIsoOfEq (pushforwardUnitComparison_eq j w hw).symm
 
 end Comparison

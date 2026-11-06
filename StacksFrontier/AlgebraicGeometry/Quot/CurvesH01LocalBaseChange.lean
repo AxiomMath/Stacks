@@ -55,6 +55,10 @@ namespace AlgebraicGeometry
 
 attribute [local instance] Space.pointTopology
 
+/- The pullback shortcut instances of `CurvesH01` (instance search for pullbacks of presheaves on
+the big fppf site times out without them), reused so that statements agree with that file's. -/
+attribute [local instance high] hasPullbacks_presheaf_curvesH01 hasPullback_presheaf_curvesH01
+
 namespace CurveFamily
 
 variable {B : BigFppfSite.{u}} {hZ : B.Contains integerBase}

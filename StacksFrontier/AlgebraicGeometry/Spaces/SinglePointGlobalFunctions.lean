@@ -56,6 +56,19 @@ theorem degreeOfFieldHom_eq_one_of_bijective {K L : Type u} [Field K] [Field L] 
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Shortcut instance: instance search for products of presheaves on the big fppf site times
+out in Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_singlePointGlobalFunctions
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    (J : Type) : Limits.HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+/-- Shortcut instance: `u`-small products of presheaves on the big fppf site. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_singlePointGlobalFunctions'
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    (J : Type u) : Limits.HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-- On a reduced decent algebraic space whose space of points is a subsingleton the
 monomorphism from the spectrum of the residue field at a point is an isomorphism.
 
@@ -70,8 +83,11 @@ theorem isIso_residueFieldMorphism_of_subsingleton_points
     exists_iso_yoneda_spec_of_subsingleton_points B S hS hF hdec ⟨x⟩ hsub hred
   let _ : Field k := hk
   let P := (residueFieldRepresentative B S hS F hdec x).1
-  have _ : Mono (residueFieldMorphism B S hS F hdec x) :=
+  have hmono : Mono (residueFieldMorphism B S hS F hdec x) :=
     (residueFieldRepresentative B S hS F hdec x).2.2
+  have hε : Mono ε.hom := ⟨fun g h w => by simpa using congrArg (· ≫ ε.inv) w⟩
+  have : Mono (residueFieldMorphism B S hS F hdec x ≫ ε.hom) :=
+    @mono_comp _ _ _ _ _ _ hmono _ hε
   have hne : Nonempty (points B S hS (yoneda.obj (P.siteObject B S hS F))) :=
     ⟨(P.tautologicalPoint B S hS F).class B S hS (yoneda.obj (P.siteObject B S hS F))⟩
   rcases isEmpty_points_or_isIso_of_mono_to_fieldSpectrum B S hS M e

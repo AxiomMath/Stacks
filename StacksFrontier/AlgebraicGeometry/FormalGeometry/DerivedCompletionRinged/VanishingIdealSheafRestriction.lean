@@ -97,9 +97,9 @@ theorem overMap_map_terminalSectionToEnd {C : Type u} [Category.{v} C]
     [∀ W : Cᵒᵖ, IsMulCommutative (R.obj.obj W)] {V U : C} (a : V ⟶ U)
     (f : R.obj.obj (op U)) (M : _root_.SheafOfModules.{w} (R.over U)) :
     (_root_.SheafOfModules.overMap.{w} R a).map
-        ((terminalSectionToEnd (R.over U) (Over.mk (𝟙 U)) Over.mkIdTerminal f).app M) =
+        ((terminalSectionToEnd (R.over U) (Over.mk (𝟙 U)) Over.mkIdTerminal f).asHom.app M) =
       (terminalSectionToEnd (R.over V) (Over.mk (𝟙 V)) Over.mkIdTerminal
-            (R.obj.map a.op f)).app
+            (R.obj.map a.op f)).asHom.app
         ((_root_.SheafOfModules.overMap.{w} R a).obj M) :=
   map_globalSectionToEnd (F := Over.map a) (S := R.over V) (R := R.over U)
     (Sheaf.pushforwardOverMapIso R a).inv
@@ -179,7 +179,7 @@ theorem IsDerivedCompleteAtSection.restrict
   let aV : CatCenter (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over V)) :=
     overTerminalRingHom X V (((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj.map a.op f)
   have hmap : ∀ M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U),
-      Φ.map (aU.app M) = aV.app (Φ.obj M) :=
+      Φ.map (aU.asHom.app M) = aV.asHom.app (Φ.obj M) :=
     Stacks.SheafOfModules.overMap_map_terminalSectionToEnd
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a f
   have hsmulD : ∀ L : DerivedCategory
@@ -188,8 +188,8 @@ theorem IsDerivedCompleteAtSection.restrict
     fun L ↦ Stacks.SheafOfModules.DerivedRestrictScalars.mapDerivedCategory_map_smul_id
       Φ aU aV
       (fun Z ↦ Stacks.SemilinearFunctor.map_smul_id_mapHomologicalComplex Φ aU aV
-        (fun M ↦ (congrArg Φ.map (Category.comp_id (aU.app M))).trans
-          ((hmap M).trans (Category.comp_id (aV.app (Φ.obj M))).symm))
+        (fun M ↦ (congrArg Φ.map (Category.comp_id (aU.asHom.app M))).trans
+          ((hmap M).trans (Category.comp_id (aV.asHom.app (Φ.obj M))).symm))
         (ComplexShape.up ℤ) Z) L
   -- restricting to `V` is restricting to `U` and then along `Over.map a`
   let i₁ := Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso

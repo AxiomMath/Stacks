@@ -195,13 +195,14 @@ theorem numberOfBranches_eq_two_of_nonempty_algEquiv_adicCompletion_quotient_X_m
     (f : AdicCompletion (maximalIdeal A) A ≃ₐ[k]
       (MvPowerSeries (Fin 2) (ResidueField A) ⧸
         Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) (ResidueField A)) *
-          MvPowerSeries.X 1})) :
+                      MvPowerSeries.X 1})) :
     numberOfBranchesOfLocalRing A = 2 := by
   let B := AdicCompletion (maximalIdeal A) A
   have hB : IsNodalAlgebra k B :=
     isNodalAlgebra_adicCompletion_of_isNodalAlgebra_of_isNoetherianRing k A hA
   have hspanq : Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) (ResidueField A)) *
-      MvPowerSeries.X 1} = Ideal.span {nodalBinaryQuadratic (0 : ResidueField A) 1 0} := by
+                              MvPowerSeries.X 1} =
+      Ideal.span {nodalBinaryQuadratic (0 : ResidueField A) 1 0} := by
     rw [nodalBinaryQuadratic_zero_one_zero]
   let f' := f.trans (Ideal.quotientEquivAlgOfEq k hspanq)
   obtain ⟨τ, x, y, e, α, β, γ, he₀, he₁, hα, hβ, hγ, hrel⟩ :=
@@ -240,7 +241,7 @@ theorem nonempty_algEquiv_adicCompletion_quotient_X_mul_X_of_numberOfBranches_eq
     Nonempty (AdicCompletion (maximalIdeal A) A ≃ₐ[k]
       (MvPowerSeries (Fin 2) (ResidueField A) ⧸
         Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) (ResidueField A)) *
-          MvPowerSeries.X 1})) := by
+                      MvPowerSeries.X 1})) := by
   let B := AdicCompletion (maximalIdeal A) A
   have hB : IsNodalAlgebra k B :=
     isNodalAlgebra_adicCompletion_of_isNodalAlgebra_of_isNoetherianRing k A hA
@@ -285,7 +286,7 @@ public theorem nonempty_algEquiv_adicCompletion_quotient_X_mul_X_iff_numberOfBra
     Nonempty (AdicCompletion (maximalIdeal A) A ≃ₐ[k]
         (MvPowerSeries (Fin 2) (ResidueField A) ⧸
           Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) (ResidueField A)) *
-            MvPowerSeries.X 1})) ↔
+                        MvPowerSeries.X 1})) ↔
       numberOfBranchesOfLocalRing A = 2 :=
   ⟨fun ⟨f⟩ ↦
     numberOfBranches_eq_two_of_nonempty_algEquiv_adicCompletion_quotient_X_mul_X k A hA f,

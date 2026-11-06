@@ -263,13 +263,13 @@ theorem isIso_globalSectionsComplexComparison_of_isDerivedLimit
     rw [hq, Category.assoc, piComparison_comp_π, ← Functor.map_comp, hc n]
   refine CochainComplex.isIso_of_isDerivedLimit_of_eventually_isIso_homologyMap Y τ
     (v := fun n => globalSectionsComplexComparison f K ≫ q ≫ Pi.π Y n)
-    (fun n => ?_) _ q δ' hT' (Pi.hom_ext _ _ fun n => by rw [Category.assoc, Pi.lift_π])
+    (fun n => ?_) _ q δ' hT' (Pi.hom_ext _ _ fun n => by rw [Category.assoc, Pi.lift_comp_π])
     (fun r => (-r).toNat) (fun r n hn => ?_) (fun r n hn => ?_)
   · -- the cone is compatible with the transition maps
     have h0 : q ≫ (Pi.lift fun n : ℕ => Pi.π Y n - Pi.π Y (n + 1) ≫ τ n) = 0 :=
       comp_distTriang_mor_zero₁₂ _ hT'
     have h1 := h0 =≫ Pi.π Y n
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, zero_comp, sub_eq_zero] at h1
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, zero_comp, sub_eq_zero] at h1
     simp only [Category.assoc]
     rw [← h1]
   · -- below the bound the tower vanishes

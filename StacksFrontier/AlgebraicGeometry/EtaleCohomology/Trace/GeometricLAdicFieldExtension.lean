@@ -286,14 +286,14 @@ private lemma conj_symm {D : Type*} [Category* D] {A₀ B₀ : D} (e : A₀ ≅ 
 
 /-- A functor carries the powers of an endomorphism to the powers of its image. -/
 lemma map_end_pow {C D : Type*} [Category* C] [Category* D] (G : C ⥤ D) {Y : C} (a : Y ⟶ Y)
-    (e : ℕ) : G.map ((End.of a) ^ e) = (End.of (G.map a)) ^ e :=
-  (G.mapEnd Y).map_pow (End.of a) e
+    (e : ℕ) : G.map ((End.of a) ^ e).asHom = ((End.of (G.map a)) ^ e).asHom :=
+  congrArg End.asHom ((G.mapEnd Y).map_pow (End.of a) e)
 
 /-- **At a finite level, the identification carries `(π_X^*) ^ (m + 1)` to `π_{X'}^*`.** -/
 lemma geometricCompactSupportFieldExtensionIso_comm (n : ℕ) :
     ((End.of ((geometricCompactSupportPadicCohomologyPullback B X ℓ f j kbar i
         (canonicalCompactSupportFrobeniusNatTrans.{u, 0} ℤ_[ℓ] f j kbar p q hcard)).app
-          (LAdicSheaf.padicLevel B X ℓ F n))) ^ (m + 1)) ≫
+          (LAdicSheaf.padicLevel B X ℓ F n))) ^ (m + 1)).asHom ≫
       (geometricCompactSupportFieldExtensionIso B X ℓ f j k' kbar F i n).hom =
     (geometricCompactSupportFieldExtensionIso B X ℓ f j k' kbar F i n).hom ≫
       (geometricCompactSupportPadicCohomologyPullback B (fieldExtensionScheme B X f k') ℓ
@@ -312,7 +312,8 @@ lemma geometricCompactSupportFieldExtensionIso_comm (n : ℕ) :
   have h := square_paste hc' hN.symm
   show ((End.of ((DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} ℤ_[ℓ]) i).map
       (canonicalCompactSupportFrobenius.{u, 0} ℤ_[ℓ] f j kbar p q hcard
-        ((padicCoefficientComplex B X ℓ).obj (LAdicSheaf.padicLevel B X ℓ F n))))) ^ (m + 1)) ≫
+        ((padicCoefficientComplex B X ℓ).obj (LAdicSheaf.padicLevel B X ℓ F n))))) ^
+          (m + 1)).asHom ≫
       (DerivedCategory.Plus.homologyFunctor (ModuleCat.{u + 1} ℤ_[ℓ]) i).map _ = _
   rw [← map_end_pow]
   exact map_comp_eq_of_comp_eq (DerivedCategory.Plus.homologyFunctor _ i) h
@@ -328,16 +329,17 @@ private lemma limit_square {D : Type*} [Category* D] {L L' M M' : D} {Φ : L ⟶
 /-- The `(m + 1)`-st power of `π_X^*` on the limit lies over the `(m + 1)`-st powers at the finite
 levels. -/
 lemma geometricCompactlySupportedFrobenius_pow_π (e n : ℕ) :
-    ((End.of (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F i)) ^ e) ≫
+    ((End.of (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F i)) ^
+      e).asHom ≫
         LAdicSheaf.geometricCompactlySupportedCohomologyπ B X ℓ f j kbar F i n =
       LAdicSheaf.geometricCompactlySupportedCohomologyπ B X ℓ f j kbar F i n ≫
         ((End.of ((geometricCompactSupportPadicCohomologyPullback B X ℓ f j kbar i
           (canonicalCompactSupportFrobeniusNatTrans.{u, 0} ℤ_[ℓ] f j kbar p q hcard)).app
-            (LAdicSheaf.padicLevel B X ℓ F n))) ^ e) := by
+            (LAdicSheaf.padicLevel B X ℓ F n))) ^ e).asHom := by
   induction e with
   | zero => exact (Category.id_comp _).trans (Category.comp_id _).symm
   | succ e ih =>
-      rw [pow_succ, pow_succ, End.mul_def, End.mul_def, Category.assoc, ih, ← Category.assoc,
+      rw [pow_succ, pow_succ, End.mul_asHom, End.mul_asHom, Category.assoc, ih, ← Category.assoc,
         ← Category.assoc]
       congr 1
       exact LAdicSheaf.geometricCompactlySupportedCohomologyPullback_π B X ℓ f j kbar F i _ n
@@ -345,7 +347,7 @@ lemma geometricCompactlySupportedFrobenius_pow_π (e n : ℕ) :
 /-- **On `Hⁱ_c`, the identification carries `(π_X^*) ^ (m + 1)` to `π_{X'}^*`.** -/
 theorem LAdicSheaf.fieldExtensionCohomologyIso_comm :
     ((End.of (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F i)) ^
-        (m + 1)) ≫ (LAdicSheaf.fieldExtensionCohomologyIso B X ℓ f j k' kbar F i).hom =
+        (m + 1)).asHom ≫ (LAdicSheaf.fieldExtensionCohomologyIso B X ℓ f j k' kbar F i).hom =
       (LAdicSheaf.fieldExtensionCohomologyIso B X ℓ f j k' kbar F i).hom ≫
         LAdicSheaf.geometricCompactlySupportedFrobenius B (fieldExtensionScheme B X f k') ℓ
           (pullback.snd f (specAlgebraMap k k')) (compactificationFieldBaseChange f j k') kbar p
@@ -380,7 +382,7 @@ theorem LAdicSheaf.trace_rationalGeometricCompactlySupportedFrobenius_fieldExten
   have hl := congrArg ModuleCat.Hom.hom h
   simp only [ModuleCat.hom_comp] at hl
   have hp : ((End.of (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p q
-      hcard F i)) ^ (m + 1)).hom =
+      hcard F i)) ^ (m + 1)).asHom.hom =
       (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard F i).hom ^
         (m + 1) := by
     have h₀ := map_pow (ModuleCat.endRingEquiv

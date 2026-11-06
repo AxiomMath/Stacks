@@ -322,6 +322,21 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Shortcut instance: instance search for products of presheaves on the big fppf site times
+out in Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_fibreFlatnessFieldValuedPoint
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+/-- Shortcut instance: pullbacks of presheaves on the big fppf site (instance search times out
+in Lean v4.35.0). -/
+local instance (priority := high) hasPullback_presheaf_fibreFlatnessFieldValuedPoint
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Precomposing a local homomorphism with the identification of two equal rings keeps it
 local. -/
 private theorem isLocalHom_eqToHom_comp {R₁ R₂ T : CommRingCat.{u + 1}} (e : R₁ = R₂) (ψ : R₂ ⟶ T)

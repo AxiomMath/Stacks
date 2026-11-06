@@ -30,42 +30,42 @@ variable {C : Type u} [Category.{u} C]
 -- Auxiliary lemmas used to define the stalk transformation.
 
 /-- The neighbourhood diagrams for `p` and `p'` are related through the functor
-`CategoryOfElements.map t : u'.Elements ⥤ u.Elements` induced by `t : u' → u`. -/
+`NatTrans.mapElements t : u'.Elements ⥤ u.Elements` induced by `t : u' → u`. -/
 theorem diag_eq (uu uu' : C ⥤ Type u) (t : uu' ⟶ uu) (F : Cᵒᵖ ⥤ Type u) :
-    ((CategoryOfElements.map t).op ⋙ ((CategoryOfElements.π uu).op ⋙ F))
-      = ((CategoryOfElements.π uu').op ⋙ F) := by
+    ((NatTrans.mapElements t).op ⋙ ((Functor.Elements.π uu).op ⋙ F))
+      = ((Functor.Elements.π uu').op ⋙ F) := by
   rw [← Functor.assoc,
-      show (CategoryOfElements.map t).op ⋙ (CategoryOfElements.π uu).op
-        = (CategoryOfElements.map t ⋙ CategoryOfElements.π uu).op from rfl,
-      CategoryOfElements.map_π]
+      show (NatTrans.mapElements t).op ⋙ (Functor.Elements.π uu).op
+        = (NatTrans.mapElements t ⋙ Functor.Elements.π uu).op from rfl,
+      NatTrans.mapElements_comp_π]
 
 /-- `F_{p'}` may be read either as the colimit over the neighbourhoods of `p'` or as the
-colimit over the neighbourhoods of `p` reindexed along `CategoryOfElements.map t`: by `diag_eq`
+colimit over the neighbourhoods of `p` reindexed along `NatTrans.mapElements t`: by `diag_eq`
 the two diagrams are equal, hence so are the colimits.  The `eqToHom` of this equality is the
 first factor of `tStalkApp`. -/
 theorem stalk_colimit_eq (uu uu' : C ⥤ Type u) (t : uu' ⟶ uu) (F : Cᵒᵖ ⥤ Type u) :
-    colimit ((CategoryOfElements.π uu').op ⋙ F)
-      = colimit ((CategoryOfElements.map t).op ⋙ ((CategoryOfElements.π uu).op ⋙ F)) := by
+    colimit ((Functor.Elements.π uu').op ⋙ F)
+      = colimit ((NatTrans.mapElements t).op ⋙ ((Functor.Elements.π uu).op ⋙ F)) := by
   rw [diag_eq]
 
 /-- The component at `F` of the canonical stalk transformation
 `t_stalk : F_{p'} → F_p` induced by `t : u' → u`.  Concretely it is the
-colimit-comparison map `colimit.pre` along `CategoryOfElements.map t`, i.e. on
+colimit-comparison map `colimit.pre` along `NatTrans.mapElements t`, i.e. on
 representatives `[(U, x', s)] ↦ [(U, t_U(x'), s)]`. -/
 noncomputable def tStalkApp (uu uu' : C ⥤ Type u) (t : uu' ⟶ uu) (F : Cᵒᵖ ⥤ Type u) :
     (presheafStalk uu').obj F ⟶ (presheafStalk uu).obj F :=
   eqToHom (stalk_colimit_eq uu uu' t F) ≫
-    colimit.pre ((CategoryOfElements.π uu).op ⋙ F) (CategoryOfElements.map t).op
+    colimit.pre ((Functor.Elements.π uu).op ⋙ F) (NatTrans.mapElements t).op
 
 /-- Cocone behaviour of `tStalkApp`: precomposing it with the colimit leg at `j` gives the
-leg at `(CategoryOfElements.map t).op.obj j`.  Indeed, up to the `eqToHom` identifying the
+leg at `(NatTrans.mapElements t).op.obj j`.  Indeed, up to the `eqToHom` identifying the
 two (equal) diagrams, `tStalkApp` is the comparison map `colimit.pre` for the reindexing
-functor `(CategoryOfElements.map t).op`, and the `eqToHom` contributes nothing on legs
+functor `(NatTrans.mapElements t).op`, and the `eqToHom` contributes nothing on legs
 because it is `colim.map (eqToHom _)`, whose component is `eqToHom_refl = 𝟙`. -/
 theorem ι_tStalkApp (uu uu' : C ⥤ Type u) (t : uu' ⟶ uu) (F : Cᵒᵖ ⥤ Type u)
     (j : uu'.Elementsᵒᵖ) :
-    colimit.ι ((CategoryOfElements.π uu').op ⋙ F) j ≫ tStalkApp uu uu' t F =
-      colimit.ι ((CategoryOfElements.π uu).op ⋙ F) ((CategoryOfElements.map t).op.obj j) := by
+    colimit.ι ((Functor.Elements.π uu').op ⋙ F) j ≫ tStalkApp uu uu' t F =
+      colimit.ι ((Functor.Elements.π uu).op ⋙ F) ((NatTrans.mapElements t).op.obj j) := by
   unfold tStalkApp
   have key : eqToHom (stalk_colimit_eq uu uu' t F)
       = colim.map (eqToHom (diag_eq uu uu' t F).symm) := by
@@ -81,7 +81,7 @@ theorem tStalk_naturality (uu uu' : C ⥤ Type u) (t : uu' ⟶ uu)
     {F G : Cᵒᵖ ⥤ Type u} (φ : F ⟶ G) :
     (presheafStalk uu').map φ ≫ tStalkApp uu uu' t G =
       tStalkApp uu uu' t F ≫ (presheafStalk uu).map φ := by
-  refine colimit.hom_ext (F := (CategoryOfElements.π uu').op ⋙ F) fun j => ?_
+  refine colimit.hom_ext (F := (Functor.Elements.π uu').op ⋙ F) fun j => ?_
   rw [presheafStalk_map, presheafStalk_map, ← Category.assoc, ι_colimMap,
       Category.assoc, ι_tStalkApp,
       ← Category.assoc, ι_tStalkApp, ι_colimMap]
@@ -104,7 +104,7 @@ at `op ⟨U, x'⟩` applied to `s`, since `(map t).op.obj (op ⟨U, x'⟩)` is `
 theorem tStalkApp_stalkMk (uu uu' : C ⥤ Type u) (t : uu' ⟶ uu) (F : Cᵒᵖ ⥤ Type u)
     (U : C) (x' : uu'.obj U) (s : F.obj (Opposite.op U)) :
     tStalkApp uu uu' t F (stalkMk uu' F U x' s) = stalkMk uu F U (t.app U x') s := by
-  have h := ι_tStalkApp uu uu' t F (Opposite.op ⟨U, x'⟩)
+  have h := ι_tStalkApp uu uu' t F (Opposite.op (uu'.elementsMk U x'))
   have h2 := ConcreteCategory.congr_hom h s
   exact h2
 

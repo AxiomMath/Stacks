@@ -45,6 +45,7 @@ variable {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) {R : Type*} [CommRing R]
   (φ : R →+* GlobalSectionRing
     (Stacks.SheafOfModules.Tensor.ringSheaf (structureSheaf B S hS X.1 X.2)))
 
+set_option maxHeartbeats 800000 in
 /-- **`Ext^i(NL_{X/Y}, 𝒪_X)` is `Hom(NL_model, 𝒪_model[i])`, `R`-linearly.** -/
 def modelHomLinearEquivNaiveCotangentExt
     [HasDerivedCategory.{w}

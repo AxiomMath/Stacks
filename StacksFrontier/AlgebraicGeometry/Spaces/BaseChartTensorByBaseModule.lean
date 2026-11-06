@@ -114,7 +114,7 @@ terminal chart `V₀` of `Y` is a global regular function on `Y` by
 `X` by the comparison of **Stacks 0732**, and is restricted to the chart `U`. -/
 def baseChartRingHom (f : X ⟶ Y) {V₀ : SmallEtale B S hS Y.1} (hV₀ : IsTerminal V₀)
     (U : (SmallEtale B S hS X.1)ᵒᵖ) :
-    baseChartRing B S hS Y V₀ →+* (structureSheaf B S hS X.1 X.2).val.obj U :=
+    baseChartRing B S hS Y V₀ →+* (structureSheaf B S hS X.1 X.2).obj.obj U :=
   (globalFunctionsChartRestriction B S hS X U.unop).comp
     ((globalSectionsRingHomSite B S hS f).comp
       (globalSectionsChartRingEquiv B S hS Y hV₀).symm.toRingHom)
@@ -128,7 +128,7 @@ restriction maps of the structure sheaf,
 constant presheaf of rings are identities, so no condition is imposed on the ring map itself. -/
 def baseChartCoefficientMap (f : X ⟶ Y) {V₀ : SmallEtale B S hS Y.1} (hV₀ : IsTerminal V₀) :
     constantRingPresheaf (C := SmallEtale B S hS X.1) (baseChartRing B S hS Y V₀) ⟶
-      (structureSheaf B S hS X.1 X.2).val where
+      (structureSheaf B S hS X.1 X.2).obj where
   app U := CommRingCat.ofHom (baseChartRingHom B S hS f hV₀ U)
   naturality {U W} g := by
     refine (Category.id_comp _).trans (CommRingCat.hom_ext (RingHom.ext fun a => ?_))

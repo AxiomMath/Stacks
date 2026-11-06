@@ -46,7 +46,7 @@ the kernel, each holding by `rfl`.
 
 *The one square that is not literal naturality.* The middle factor of
 `Stacks.Cohomology.AffineComparison.rightDerivedFunctorPlusObjSingleIso` is the *inverse* of a
-component of `CategoryTheory.Functor.rightDerivedFunctorPlusUnit`, which is invertible only at
+component of `CategoryTheory.Functor.rightDerivedFunctorPlusUnith`, which is invertible only at
 the acyclic object and therefore is not a natural isomorphism. `inv_square` turns the naturality
 square of the unit into the square across its inverse, which is all that is needed.
 
@@ -111,16 +111,32 @@ theorem rightDerivedFunctorPlusObjSingleIso_naturality (X : A) (hX : F.rightAcyc
         (rightDerivedFunctorPlusObjSingleIso F X hX).hom =
       (rightDerivedFunctorPlusObjSingleIso F X hX).hom ≫
         (DerivedCategory.Plus.singleFunctor B 0).map (F.map u) :=
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := by
+    have hX' : IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app
+        ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
+    have hd := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith).1 inferInstance
+    rw [← Functor.rightDerived_fac_app _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith]
+    infer_instance
   comp_two_squares
     (map_comp_square F.rightDerivedFunctorPlus
       ((Functor.singleFunctorPlusIsoCompQh 0).hom.naturality u))
     (comp_two_squares
       (inv_square
-        (asIso (F.rightDerivedFunctorPlusUnit.app
+        (asIso (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor A 0).obj X)))
-        (F.rightDerivedFunctorPlusUnit.naturality
+        (F.rightDerivedFunctorPlusUnith.naturality
           ((HomotopyCategory.Plus.singleFunctor A 0).map u)))
       (F.mapSingleFunctorCompQhIso.hom.naturality u))
 

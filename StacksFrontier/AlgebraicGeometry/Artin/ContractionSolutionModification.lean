@@ -59,6 +59,32 @@ namespace AlgebraicGeometry.Artin.ContractionSituation
 
 attribute [local instance] Space.pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ContractionSolutionModification
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ContractionSolutionModification
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_ContractionSolutionModification.has_limit _
+
+/-- Pullbacks of fppf sheaves in `Type (u + 1)` on `BigFppfOver B S hS`: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_sheaf_ContractionSolutionModification
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+local instance (priority := high) hasLimit_cospan_sheaf_ContractionSolutionModification
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     (c : ContractionSituation B S hS) {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (α : contractionFunctor c ≅ morOnLocallyNoetherian B S hS X)

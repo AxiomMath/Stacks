@@ -8,6 +8,7 @@ public import Mathlib.CategoryTheory.MorphismProperty.Ind
 public import Mathlib.CategoryTheory.Presentable.StrongGenerator
 public import Mathlib.RingTheory.Flat.Localization
 public import Mathlib.RingTheory.Ideal.Pure
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import Mathlib.RingTheory.RingHom.Etale
 public import Mathlib.RingTheory.RingHom.Locally
 public import Mathlib.RingTheory.Smooth.NoetherianDescent
@@ -968,7 +969,7 @@ theorem Algebra.IsIndZariski.of_equiv {A B A' B' : Type*}
   exact isIndZariski_ofEquivAux
     (ULift.ringEquiv.trans (eA.trans ULift.ringEquiv.symm))
     (ULift.ringEquiv.trans (eB.trans ULift.ringEquiv.symm))
-    (fun a ↦ ULift.ext _ _ (he a.down)) hi
+    (fun a ↦ ULift.ext (he a.down)) hi
 
 /-- The composition of two ind-Zariski algebra maps, in a single universe. -/
 private theorem commAlgCat_ind_localIso_comp {A B C : Type u} [CommRing A] [CommRing B]

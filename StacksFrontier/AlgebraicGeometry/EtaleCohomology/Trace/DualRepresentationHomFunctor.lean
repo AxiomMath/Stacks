@@ -97,21 +97,24 @@ def dualRepModule : ModuleCat.{w} (MonoidAlgebra A H) :=
 
 /-- The right action of `Λ` on `N^∨`, as a ring morphism `Λ →+* (End_{A[H]} N^∨)ᵐᵒᵖ`. -/
 def dualRepRightAction : Λ →+* (End (dualRepModule (A := A) ρ))ᵐᵒᵖ where
-  toFun l := MulOpposite.op (ModuleCat.ofHom (dualRepRightMul (A := A) ρ l))
+  toFun l := MulOpposite.op (End.of (ModuleCat.ofHom (dualRepRightMul (A := A) ρ l)))
   map_one' := by
     apply MulOpposite.unop_injective
+    apply End.ext
     refine ModuleCat.hom_ext (LinearMap.ext fun φ => ?_)
     apply (DualRep.equiv (restrictRep (A := A) ρ)).injective
     ext y
     exact congrArg (DualRep.equiv _ φ) (one_smul Λ y)
   map_mul' l l' := by
     apply MulOpposite.unop_injective
+    apply End.ext
     refine ModuleCat.hom_ext (LinearMap.ext fun φ => ?_)
     apply (DualRep.equiv (restrictRep (A := A) ρ)).injective
     ext y
     exact congrArg (DualRep.equiv _ φ) (mul_smul l l' y)
   map_zero' := by
     apply MulOpposite.unop_injective
+    apply End.ext
     refine ModuleCat.hom_ext (LinearMap.ext fun φ => ?_)
     apply (DualRep.equiv (restrictRep (A := A) ρ)).injective
     ext y
@@ -119,6 +122,7 @@ def dualRepRightAction : Λ →+* (End (dualRepModule (A := A) ρ))ᵐᵒᵖ whe
     rw [zero_smul, map_zero]
   map_add' l l' := by
     apply MulOpposite.unop_injective
+    apply End.ext
     refine ModuleCat.hom_ext (LinearMap.ext fun φ => ?_)
     apply (DualRep.equiv (restrictRep (A := A) ρ)).injective
     ext y
@@ -134,13 +138,13 @@ def homFunctorRegularMap :
     ((ULift.moduleEquiv (R := MonoidAlgebra A H)).symm.toLinearMap.comp
       (dualRepHom (restrictRep (A := A) ρ) y))
   map_add' y y' := by
-    refine ModuleCat.hom_ext (LinearMap.ext fun φ => ULift.ext _ _ ?_)
+    refine ModuleCat.hom_ext (LinearMap.ext fun φ => ULift.ext ?_)
     change ∑ g : H, single g (DualRep.equiv _ φ ((ρ g) (y + y'))) =
       ∑ g : H, single g (DualRep.equiv _ φ ((ρ g) y)) +
         ∑ g : H, single g (DualRep.equiv _ φ ((ρ g) y'))
     simp only [map_add, single_add, sum_add_distrib]
   map_smul' l y := by
-    refine ModuleCat.hom_ext (LinearMap.ext fun φ => ULift.ext _ _ ?_)
+    refine ModuleCat.hom_ext (LinearMap.ext fun φ => ULift.ext ?_)
     change ∑ g : H, single g (DualRep.equiv _ φ ((ρ g) (l • y))) =
       ∑ g : H, single g (DualRep.equiv _ (dualRepRightMul (A := A) ρ l φ) ((ρ g) y))
     simp only [dualRepRightMul_apply, map_smul]
@@ -158,7 +162,7 @@ theorem bijective_homFunctorRegularMap {n : ℕ} [NeZero n] {Λ : Type} [Ring Λ
         (ModuleCat.Hom.hom F φ).down) h
   · obtain ⟨y, hy⟩ := hb.2 ((ULift.moduleEquiv (R := MonoidAlgebra (ZMod n) H)).toLinearMap.comp
       f.hom)
-    exact ⟨y, ModuleCat.hom_ext (LinearMap.ext fun φ => ULift.ext _ _ (congrArg (fun F => F φ) hy))⟩
+    exact ⟨y, ModuleCat.hom_ext (LinearMap.ext fun φ => ULift.ext (congrArg (fun F => F φ) hy))⟩
 
 /-- A finite projective module `P` is a retract of a finite free module: there are maps
 `σ j : P ⟶ R` and `π j : R ⟶ P` with `∑ j, σ j ≫ π j = 𝟙 P`. -/
@@ -212,7 +216,7 @@ theorem preservesFiniteProjective_homFunctor {n : ℕ} [NeZero n] {Λ : Type} [R
         show ∑ j, ((g j : X ⟶ Rw) + g' j) ≫ πj j = ∑ j, _ + ∑ j, _
         rw [← Finset.sum_add_distrib]
         exact Finset.sum_congr rfl fun j _ => Preadditive.add_comp _ _ _ _ _ _
-      map_smul' := fun l g => sum_comp_comp (dualRepRightAction (A := ZMod n) ρ l).unop _ _ }
+      map_smul' := fun l g => sum_comp_comp (dualRepRightAction (A := ZMod n) ρ l).unop.asHom _ _ }
   have hri : r.comp i = LinearMap.id := LinearMap.ext fun f => by
     show ∑ j, ((show X ⟶ P from f) ≫ σj j) ≫ πj j = f
     rw [sum_comp_comp, hsum, Category.comp_id]
@@ -232,6 +236,7 @@ theorem dualRepRightAction_algebraMap (a : A) :
     dualRepRightAction (A := A) ρ (algebraMap A Λ a) =
       Stacks.EtaleCohomology.centralScalars (A := A) (dualRepModule (A := A) ρ) a := by
   apply MulOpposite.unop_injective
+  apply End.ext
   refine ModuleCat.hom_ext (LinearMap.ext fun φ => ?_)
   apply (DualRep.equiv (restrictRep (A := A) ρ)).injective
   ext y

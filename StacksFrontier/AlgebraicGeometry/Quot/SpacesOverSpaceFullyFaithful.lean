@@ -45,6 +45,20 @@ attribute [local implicit_reducible] Stack.fibredCategory BasedCategory.ofFuncto
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {P : MorphismProperty (AlgebraicSpaces B S hS)} {T : AlgebraicSpaces B S hS}
 
+-- Instance search for presheaf pullbacks on the big fppf site needs more than the default budget.
+set_option synthInstance.maxHeartbeats 400000
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_spacesOverSpaceFullyFaithful :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_spacesOverSpaceFullyFaithful
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Sections
 
 variable (X : Over T)
@@ -62,7 +76,7 @@ theorem pointMap_ptOf {W : BigFppfOver B S hS} (s : yoneda.obj W ⟶ X.left.obj)
 /-- The section over `W` of the base change of `X` along the point of `T` under `s`, named by
 `s`. -/
 def secOf {W : BigFppfOver B S hS} (s : yoneda.obj W ⟶ X.left.obj) :
-    yoneda.obj W ⟶ pullback (pointMap (ptOf X s)).hom X.hom.hom :=
+    yoneda.obj W ⟶ Limits.pullback (pointMap (ptOf X s)).hom X.hom.hom :=
   pullback.lift (𝟙 _) s (by rw [Category.id_comp, pointMap_ptOf])
 
 /-- The section `secOf X s` composed with the first projection is the identity. -/
@@ -80,7 +94,7 @@ theorem secOf_snd {W : BigFppfOver B S hS} (s : yoneda.obj W ⟶ X.left.obj) :
 /-- Every point of a base change of `X` along a point `a` of `T` is a section named by a point of
 `X`, transported along a morphism of points of `T` into `a`. -/
 theorem exists_eq_secOf_comp {W : BigFppfOver B S hS} {a : (pointsCategory B S hS T).obj}
-    (p : yoneda.obj W ⟶ pullback (pointMap a).hom X.hom.hom) (q : yoneda.obj W ⟶ X.left.obj)
+    (p : yoneda.obj W ⟶ Limits.pullback (pointMap a).hom X.hom.hom) (q : yoneda.obj W ⟶ X.left.obj)
     (hq : p ≫ pullback.snd _ _ = q) :
     ∃ v : ptOf X q ⟶ a, p = secOf X q ≫ (baseChangeCommaMap X v).left.hom := by
   subst hq
@@ -116,7 +130,7 @@ theorem isIso_of_isIso_baseChangeCommaHom {X Y : Over T} (φ : X ⟶ Y)
     have hT : s₂ ≫ X.hom.hom = s₁ ≫ X.hom.hom := by
       have hw : φ.left.hom ≫ Y.hom.hom = X.hom.hom := congrArg (fun k => k.hom) (Over.w φ)
       rw [← hw, ← Category.assoc, ← hs, Category.assoc]
-    let σ₂ : yoneda.obj W ⟶ pullback (pointMap (ptOf X s₁)).hom X.hom.hom :=
+    let σ₂ : yoneda.obj W ⟶ Limits.pullback (pointMap (ptOf X s₁)).hom X.hom.hom :=
       pullback.lift (𝟙 _) s₂ (by rw [Category.id_comp, pointMap_ptOf, hT])
     have key : secOf X s₁ ≫ (baseChangeCommaHom φ (ptOf X s₁)).left.hom =
         σ₂ ≫ (baseChangeCommaHom φ (ptOf X s₁)).left.hom := by
@@ -165,7 +179,7 @@ theorem app_right_eq (a : (pointsCategory B S hS T).obj) :
 /-- The map of base changes underlying a component of a 2-morphism between base-change
 functors. -/
 abbrev appLeft (a : (pointsCategory B S hS T).obj) :
-    pullback (pointMap a).hom X.1.of.hom.hom ⟶ pullback (pointMap a).hom Y.1.of.hom.hom :=
+    Limits.pullback (pointMap a).hom X.1.of.hom.hom ⟶ Limits.pullback (pointMap a).hom Y.1.of.hom.hom :=
   (η.app a).hom.hom.left.hom
 
 /-- The map `appLeft η a` commutes with the first projections to the point `a`. -/

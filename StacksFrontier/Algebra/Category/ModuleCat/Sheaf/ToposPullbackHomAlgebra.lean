@@ -157,7 +157,7 @@ lemma piObjMk_map_piπ {ι : Type} [Finite ι] {A : ι → D} (x : P.obj (∏ᶜ
 @[simp]
 lemma map_piLift_apply {ι : Type} [Finite ι] {Z : D} {A : ι → D} (g : ∀ i, Z ⟶ A i)
     (z : P.obj Z) : P.map (Pi.lift g) z = piObjMk (fun i => P.map (g i) z) :=
-  piObjMk_ext (fun i => by rw [map_piπ_piObjMk, ← P.map_comp_apply, Pi.lift_π])
+  piObjMk_ext (fun i => by rw [map_piπ_piObjMk, ← P.map_comp_apply, Pi.lift_comp_π])
 
 /-- The product comparison of a functor `Ψ` for a finite product, computed on elements after
 applying a finite-product-preserving functor `P` to types. -/
@@ -198,7 +198,7 @@ lemma coyoneda_prodObjMk {A B Z : Sheaf J (Type w)} (a : Z ⟶ A) (b : Z ⟶ B) 
 /-- The element of `(Z ⟶ ∏ᵢ Aᵢ)` determined by a family of morphisms is their lift. -/
 lemma coyoneda_piObjMk {ι : Type} [Finite ι] {A : ι → Sheaf J (Type w)} {Z : Sheaf J (Type w)}
     (g : ∀ i, Z ⟶ A i) : piObjMk (P := coyoneda.obj (op Z)) g = Limits.Pi.lift g :=
-  piObjMk_ext (fun i => by rw [map_piπ_piObjMk]; exact (Limits.Pi.lift_π g i).symm)
+  piObjMk_ext (fun i => by rw [map_piπ_piObjMk]; exact (Limits.Pi.lift_comp_π g i).symm)
 
 /-- The unique morphism to the terminal sheaf is the distinguished element of the singleton
 `(Z ⟶ ⊤)`. -/
@@ -658,8 +658,8 @@ lemma map_piLift_comp_piComparison {ι : Type} [Finite ι] (A : ι → Sheaf K (
     Φ.map (Limits.Pi.lift g) ≫ Limits.piComparison Φ A =
       Limits.Pi.lift (fun i => Φ.map (g i)) :=
   Limits.Pi.hom_ext _ _ (fun i => by
-    rw [Category.assoc, Limits.piComparison_comp_π, ← Φ.map_comp, Limits.Pi.lift_π,
-      Limits.Pi.lift_π])
+    rw [Category.assoc, Limits.piComparison_comp_π, ← Φ.map_comp, Limits.Pi.lift_comp_π,
+      Limits.Pi.lift_comp_π])
 
 omit [J.HasSheafCompose (forget RingCat.{ww})] [K.HasSheafCompose (forget RingCat.{ww'})]
   [J.HasSheafCompose (forget AddCommGrpCat.{ww})]

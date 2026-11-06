@@ -137,7 +137,6 @@ theorem chowToGradedCoherentKZero_injective
         (cls k).toIntLinearMap z) = z := by
     intro z
     induction z with
-    | zero => simp
     | tmul q α =>
       rw [TensorProduct.map_tmul, TensorProduct.lift.tmul]
       show q • ψ (cls k α) = q ⊗ₜ[ℤ] α
@@ -173,13 +172,11 @@ theorem rationalCoherentKZeroToChowHomology_surjective
   refine surjective_of_exists_triangular_preimage _ lo ?_ ?_
   · intro j hj m
     induction m with
-    | zero => rfl
     | tmul q α =>
       rw [chowGroup_eq_zero C f (fun x ↦ by have := hlo x; lia) α, TensorProduct.tmul_zero]
     | add a b ha hb => rw [ha, hb, add_zero]
   · intro k m
     induction m with
-    | zero => exact ⟨0, by simp, fun j _ ↦ by simp⟩
     | tmul q α =>
       obtain ⟨x, hx⟩ := toGradedCoherentKZero_surjective C f k (cls k α)
       refine ⟨q ⊗ₜ[ℤ] (x : CoherentKZero X), ?_, fun j hj ↦ ?_⟩

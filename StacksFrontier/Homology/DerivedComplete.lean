@@ -75,9 +75,8 @@ variable {A : Type*} [CommSemiring A]
 
 /-- Powers of the action of a scalar on `K`: `(f • 𝟙 K)ᵉ = fᵉ • 𝟙 K`. -/
 theorem smul_id_pow {C : Type*} [Category C] [Preadditive C] [Linear A C] (K : C) (f : A) (e : ℕ) :
-    (f • (1 : End K)) ^ e = f ^ e • 𝟙 K := by
-  rw [smul_pow, one_pow]
-  rfl
+    ((f • (1 : End K)) ^ e).asHom = f ^ e • 𝟙 K := by
+  rw [smul_pow, one_pow, End.smul_asHom, End.one_asHom]
 
 /-- An additive `A`-linear functor preserves nilpotence of the action of `f`. -/
 theorem isNilpotent_smul_id_map {C E : Type*} [Category C] [Category E] [Preadditive C]
@@ -85,9 +84,10 @@ theorem isNilpotent_smul_id_map {C E : Type*} [Category C] [Category E] [Preaddi
     {f : A} (hf : IsNilpotent (f • (1 : End L))) :
     IsNilpotent (f • (1 : End (F.obj L))) := by
   obtain ⟨e, he⟩ := hf
-  rw [smul_id_pow] at he
-  refine ⟨e, ?_⟩
-  rw [smul_id_pow]
+  replace he := congr($(he).asHom)
+  rw [smul_id_pow, End.zero_asHom] at he
+  refine ⟨e, End.ext ?_⟩
+  rw [smul_id_pow, End.zero_asHom]
   have h1 : F.map (f ^ e • 𝟙 L) = f ^ e • 𝟙 (F.obj L) := by
     rw [Functor.Linear.map_smul, CategoryTheory.Functor.map_id]
   rw [he, Functor.map_zero] at h1
@@ -104,7 +104,7 @@ def milnorMap {C : Type*} [Category C] [Preadditive C] [HasProductsOfShape ℕ C
 theorem milnorMap_π {C : Type*} [Category C] [Preadditive C] [HasProductsOfShape ℕ C]
     (D : ℕ → C) (t : ∀ n, D (n + 1) ⟶ D n) (n : ℕ) :
     milnorMap D t ≫ Pi.π D n = Pi.π D n - Pi.π D (n + 1) ≫ t n := by
-  rw [milnorMap, Pi.lift_π]
+  rw [milnorMap, Pi.lift_comp_π]
 
 /-- The endomorphism `1 - f • shift` of `∏ₙ K`, that is, `(xₙ) ↦ (xₙ - f·xₙ₊₁)`. -/
 def oneSubSmulShift {C : Type*} [Category C] [Preadditive C] [Linear A C]
@@ -183,15 +183,17 @@ theorem isDerivedCompleteAt_of_isNilpotent {C : Type*} [Category C] [Preadditive
     [HasProductsOfShape ℕ C] {L : C} {f : A} (hf : IsNilpotent (f • (1 : End L))) :
     IsDerivedCompleteAt L f := by
   obtain ⟨e, he⟩ := hf
-  rw [smul_id_pow] at he
+  replace he := congr($(he).asHom)
+  rw [smul_id_pow, End.zero_asHom] at he
   rw [isDerivedCompleteAt_iff_isIso]
   set P : C := ∏ᶜ fun _ : ℕ => L
-  set S : End P := Pi.lift (fun n : ℕ => f • Pi.π (fun _ : ℕ => L) (n + 1)) with hS
-  have hSpi : ∀ m : ℕ, S ≫ Pi.π (fun _ : ℕ => L) m = f • Pi.π (fun _ : ℕ => L) (m + 1) := by
+  set S : End P := .of (Pi.lift (fun n : ℕ => f • Pi.π (fun _ : ℕ => L) (n + 1))) with hS
+  have hSpi : ∀ m : ℕ, S.asHom ≫ Pi.π (fun _ : ℕ => L) m
+      = f • Pi.π (fun _ : ℕ => L) (m + 1) := by
     intro m
-    rw [hS, Pi.lift_π]
+    rw [hS, Pi.lift_comp_π]
   have key : ∀ (k n : ℕ),
-      (S ^ k) ≫ Pi.π (fun _ : ℕ => L) n = f ^ k • Pi.π (fun _ : ℕ => L) (n + k) := by
+      (S ^ k).asHom ≫ Pi.π (fun _ : ℕ => L) n = f ^ k • Pi.π (fun _ : ℕ => L) (n + k) := by
     intro k
     induction k with
     | zero =>
@@ -199,15 +201,17 @@ theorem isDerivedCompleteAt_of_isNilpotent {C : Type*} [Category C] [Preadditive
         simp
     | succ k ih =>
         intro n
-        have hpow : (S ^ (k + 1) : End P) = S ≫ (S ^ k) := by
-          rw [pow_succ]; rfl
+        have hpow : (S ^ (k + 1) : End P).asHom = S.asHom ≫ (S ^ k).asHom := by
+          rw [pow_succ, End.mul_asHom]
         rw [hpow, Category.assoc, ih n, Linear.comp_smul, hSpi]
         rw [smul_smul, pow_succ]
         rfl
   have hSe : (S ^ e : End P) = 0 := by
+    apply End.ext
+    rw [End.zero_asHom]
     apply Limits.limit.hom_ext
     intro j
-    have hj : ∀ n : ℕ, (S ^ e) ≫ Pi.π (fun _ : ℕ => L) n = 0 := by
+    have hj : ∀ n : ℕ, (S ^ e).asHom ≫ Pi.π (fun _ : ℕ => L) n = 0 := by
       intro n
       rw [key e n]
       have : f ^ e • Pi.π (fun _ : ℕ => L) (n + e)
@@ -216,16 +220,15 @@ theorem isDerivedCompleteAt_of_isNilpotent {C : Type*} [Category C] [Preadditive
       rw [this, he]
       simp
     simpa using hj j.as
-  have hsplit : oneSubSmulShift L f = (1 : End P) - S := by
+  have hsplit : oneSubSmulShift L f = ((1 : End P) - S).asHom := by
     apply Limits.limit.hom_ext
     intro j
     rw [oneSubSmulShift_π L f j.as]
-    have h1 : (1 : End P) = 𝟙 P := rfl
-    rw [Preadditive.sub_comp, h1, Category.id_comp, hSpi]
+    rw [End.sub_asHom, End.one_asHom, Preadditive.sub_comp, Category.id_comp, hSpi]
   have hnil : IsNilpotent S := ⟨e, hSe⟩
   have hunit : IsUnit ((1 : End P) - S) := hnil.isUnit_one_sub
-  rw [← hsplit] at hunit
-  exact (CategoryTheory.isUnit_iff_isIso (X := P) (oneSubSmulShift L f)).mp hunit
+  rw [hsplit]
+  exact (CategoryTheory.isUnit_iff_isIso (X := P) ((1 : End P) - S)).mp hunit
 
 /-- If `T(D n, f) = 0` for every `n`, then `T(∏ₙ D n, f) = 0`. -/
 theorem isDerivedCompleteAt_pi {C : Type*} [Category C] [Preadditive C] [Linear A C]
@@ -245,15 +248,15 @@ theorem isDerivedCompleteAt_pi {C : Type*} [Category C] [Preadditive C] [Linear 
     intro j
     apply Limits.Pi.hom_ext
     intro n
-    simp only [ehom, einv, Category.assoc, Category.id_comp, Limits.Pi.lift_π,
-      Limits.Pi.lift_π_assoc]
+    simp only [ehom, einv, Category.assoc, Category.id_comp, Limits.Pi.lift_comp_π,
+      Limits.Pi.lift_comp_π_assoc]
   have hih : einv ≫ ehom = 𝟙 Y := by
     apply Limits.Pi.hom_ext
     intro n
     apply Limits.Pi.hom_ext
     intro j
-    simp only [ehom, einv, Category.assoc, Category.id_comp, Limits.Pi.lift_π,
-      Limits.Pi.lift_π_assoc]
+    simp only [ehom, einv, Category.assoc, Category.id_comp, Limits.Pi.lift_comp_π,
+      Limits.Pi.lift_comp_π_assoc]
   have : ∀ n : ℕ, IsIso (oneSubSmulShift (D n) f) := fun n =>
     isDerivedCompleteAt_iff_isIso.mp (hD n)
   let g : Y ⟶ Y := Limits.Pi.map (fun n : ℕ => oneSubSmulShift (D n) f)
@@ -265,7 +268,7 @@ theorem isDerivedCompleteAt_pi {C : Type*} [Category C] [Preadditive C] [Linear 
     apply Limits.Pi.hom_ext
     intro n
     simp only [oneSubSmulShift, milnorMap, ehom, einv, g, Category.assoc,
-      Limits.Pi.lift_π, Limits.Pi.lift_π_assoc,
+      Limits.Pi.lift_comp_π, Limits.Pi.lift_comp_π_assoc,
       Limits.Pi.map_π_assoc,
       Preadditive.sub_comp, Preadditive.comp_sub, Linear.smul_comp,
       Linear.comp_smul, Category.comp_id]

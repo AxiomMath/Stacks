@@ -174,7 +174,7 @@ private theorem adequateValueKernelEquiv_naturality
     adequateValueKernelEquiv_coe q i Y (F.map f x)]
   let U := presheafOfModulesUliftFunctor.{max u v} (algebraRingDiagramOn ι)
   have hu : (U.obj F).map f (ULift.up x) = ULift.up ((F.map f) x) :=
-    ULift.ext _ _ (presheafOfModulesUlift_map_apply (algebraRingDiagramOn ι) F f (ULift.up x))
+    ULift.ext (presheafOfModulesUlift_map_apply (algebraRingDiagramOn ι) F f (ULift.up x))
   have hi := PresheafOfModules.naturality_apply i.hom f (ULift.up x)
   have hk := PresheafOfModules.naturality_apply (kernel.ι q) f
     (i.hom.app X (ULift.up x))

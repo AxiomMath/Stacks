@@ -181,6 +181,9 @@ noncomputable def representedFibreIso :
     (yoneda.obj (representedFibreObject B S hS α p) :
         (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) ≅
       (fibreAtFieldValuedPoint B S hS (representedSpaceMap B S hS α) p).1 :=
+  -- instance search for this pullback times out: supply it from `HasLimitsOfShape`
+  letI : HasPullback (yoneda.map α) (fieldMorphism B S hS (yoneda.obj V) p) :=
+    HasLimitsOfShape.has_limit _
   (isPullback_yoneda_representedFibreProjection B S hS α p).isoIsPullback _ _
     (IsPullback.of_hasPullback (yoneda.map α) (fieldMorphism B S hS (yoneda.obj V) p))
 

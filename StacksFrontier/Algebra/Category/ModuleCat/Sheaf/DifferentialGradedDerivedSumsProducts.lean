@@ -165,7 +165,7 @@ def isLimitQuotientFan {T : Type max u v w}
     change (HomotopyCategory.quotient A).map
         (Pi.lift fun j => (HomotopyCategory.quotient A).preimage (s.proj j)) ≫
       (HomotopyCategory.quotient A).map (Pi.π I t) = s.proj t
-    rw [← Functor.map_comp, Pi.lift_π, Functor.map_preimage]
+    rw [← Functor.map_comp, Pi.lift_comp_π, Functor.map_preimage]
   · intro s m hm
     rw [fan_mk_proj] at hm
     have hpre : (HomotopyCategory.quotient A).map
@@ -175,7 +175,7 @@ def isLimitQuotientFan {T : Type max u v w}
       (Pi.lift fun t => (HomotopyCategory.quotient A).preimage (s.proj t))).2
       ⟨homotopyIntoProduct I (∏ᶜ I) (Pi.π I) (productIsProduct I) fun t => ?_⟩
     refine (HomotopyCategory.quotient_map_eq_iff _ _).1 ?_
-    rw [Pi.lift_π, Functor.map_preimage, Functor.map_comp, hpre]
+    rw [Pi.lift_comp_π, Functor.map_preimage, Functor.map_comp, hpre]
     exact hm t
 
 /-- For a family of K-injective right differential graded modules, the image of their product,

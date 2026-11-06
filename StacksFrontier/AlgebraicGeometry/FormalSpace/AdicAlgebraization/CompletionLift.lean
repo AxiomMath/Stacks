@@ -94,7 +94,7 @@ theorem map_eq_map_of_comp_ι_eq {U : BigFppfOver B S hS} {n₁ n₂ : ℕ}
     apply (cancel_mono (idealNeighbourhoodι I (max n₁ n₂))).1
     rw [Category.assoc, Category.assoc, idealNeighbourhoodTransition_comp_ι,
       idealNeighbourhoodTransition_comp_ι, h]
-  rw [← hx h₁, ← hx h₂, ← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply,
+  rw [← hx h₁, ← hx h₂, ← Functor.map_comp_apply, ← Functor.map_comp_apply,
     ← op_comp, ← op_comp, e]
 
 omit [IsNoetherianRing A] in
@@ -165,7 +165,7 @@ theorem completionValue_comp {U V : BigFppfOver B S hS}
   obtain ⟨n, l, hl⟩ := exists_factor_idealNeighbourhood φ hφ
   rw [completionValue_eq x hx hV φ hφ l hl,
     completionValue_eq x hx hU _ _ (g ≫ l) (by rw [Category.assoc, hl]),
-    op_comp, FunctorToTypes.map_comp_apply]
+    op_comp, Functor.map_comp_apply]
 
 include x hx in
 /-- The morphism `x̂` on the completion subfunctor, restricted to affine objects. -/

@@ -267,11 +267,11 @@ theorem initiallySmall_geometricFiber_elements (hF : IsAlgebraicSpace B S hS F)
   apply initiallySmall_of_essentiallySmall_weakly_initial_objectProperty
     (Functor.Elements.precomp (affineChartsToSmallEtale B S hS F U.chart)
       (geometricFiber B S hS F x)).essImage
-  rintro ⟨V, p⟩
+  rintro @⟨V, p⟩
   let V' : SmallEtaleNeighborhood x := ⟨V, p.1, p.2⟩
   obtain ⟨W, f, g, -⟩ := IsCofilteredOrEmpty.cone_objs U V'
   obtain ⟨A, a, j, hj⟩ := exists_affine_refinement B S hS F x U W f
-  refine ⟨_, ⟨⟨A, a⟩, ⟨Iso.refl _⟩⟩, ⟨⟨j ≫ g.hom, ?_⟩⟩⟩
+  refine ⟨_, ⟨Functor.elementsMk _ A a, ⟨Iso.refl _⟩⟩, ⟨⟨j ≫ g.hom, ?_⟩⟩⟩
   show (geometricFiber B S hS F x).map g.hom
     ((geometricFiber B S hS F x).map j a) = p
   rw [hj]
@@ -318,9 +318,11 @@ theorem etaleSitePointStalkIsoComponent_toPresheafFiber (x : GeometricPoint B S 
         (Opposite.op ⟨U, p.1, p.2⟩) a := by
   let D := (CategoryOfElements.π (geometricFiber B S hS F x)).op ⋙ P
   show fiberColimitEquiv B S hS F x P
-    ((Types.colimitEquivColimitType D) (colimit.ι D (Opposite.op ⟨U, p⟩) a)) = _
-  rw [Types.colimitEquivColimitType_apply]
-  rfl
+    ((Types.colimitEquivColimitType D)
+      (colimit.ι D (Opposite.op ((geometricFiber B S hS F x).elementsMk U p)) a)) = _
+  exact (congrArg (fiberColimitEquiv B S hS F x P)
+    (Types.colimitEquivColimitType_apply D
+      (Opposite.op ((geometricFiber B S hS F x).elementsMk U p)) a)).trans rfl
 
 /-- The stalk at the point of the small étale site determined by a geometric point is
 isomorphic to the geometric stalk, naturally in the presheaf. -/

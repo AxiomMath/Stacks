@@ -219,7 +219,7 @@ def isomPresheafIso :
     (by
       intro W W' f
       ext s
-      exact ULift.ext _ _ (isomSection_naturality x y f.unop s.down))).symm
+      exact ULift.ext (isomSection_naturality x y f.unop s.down))).symm
 
 end Fibre
 

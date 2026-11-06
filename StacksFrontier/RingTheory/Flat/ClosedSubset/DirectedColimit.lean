@@ -290,7 +290,6 @@ theorem TensorProduct.exists_rep_and_eventually_zero_of_directedColimit
       t (Module.DirectLimit.of R Λ _ (fun i j h => (f i j h).rTensor M) i z) =
         (ρ i).rTensor M z := by
     induction z with
-    | zero => simp
     | add z y hz hy => simp only [map_add, hz, hy]
     | tmul a m => simp [t, e, l]
   constructor
@@ -313,7 +312,6 @@ noncomputable def AlgHom.rTensorSemilinear
   __ := (f.toLinearMap.rTensor M).toAddHom
   map_smul' b z := by
     induction z with
-    | zero => simp
     | tmul c m => simp [TensorProduct.smul_tmul']
     | add z y hz hy => simp_all
 
@@ -349,7 +347,6 @@ theorem AlgHom.isBaseChange_rTensorSemilinear
   show (TensorProduct.AlgebraTensorModule.cancelBaseChange S B C C M)
     (1 ⊗ₜ[B] z) = f.rTensorSemilinear M z
   induction z with
-  | zero => simp
   | tmul b m =>
     rw [TensorProduct.AlgebraTensorModule.cancelBaseChange_tmul,
       AlgHom.rTensorSemilinear_tmul]

@@ -161,7 +161,7 @@ theorem essentiallySmall_isAffineBounded :
       (Q := fun M => ∃ f : boundedUniversalSource B S hS p hp ⟶ M, Epi f) ?_) fun Y => ?_
   · rintro Y ⟨G, hG, ⟨e⟩⟩
     obtain ⟨φ, hφ⟩ := exists_epi_boundedUniversalSource B S hS p hp G hG
-    exact ⟨φ ≫ e.hom, epi_comp _ _⟩
+    exact ⟨φ ≫ e.hom, epi_comp' hφ (IsIso.epi_of_iso e.hom)⟩
   · by_cases h : ∃ G₀, (IsAffineBounded B S hS p hp ⊓
         fun G => Nonempty ((ObjectProperty.ι _).obj G ≅ Y)) G₀
     · obtain ⟨G₀, -, ⟨e₀⟩⟩ := h

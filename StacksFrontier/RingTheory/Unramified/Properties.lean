@@ -395,7 +395,6 @@ private theorem subsingleton_tensor_of_span_eq_top {S₀ : Type*} [CommRing S₀
     exact fun n ↦ (hK.ge Submodule.mem_top : n ∈ K)
   refine subsingleton_of_forall_eq 0 fun z ↦ ?_
   induction z with
-  | zero => rfl
   | tmul b n =>
       rw [show b ⊗ₜ[R₀] n = b • ((1 : B) ⊗ₜ[R₀] n) by
         rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one], key n, smul_zero]

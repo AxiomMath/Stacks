@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Generators
 public import Mathlib.AlgebraicGeometry.Modules.Sheaf
 public import Mathlib.AlgebraicGeometry.Noetherian
+public import Mathlib.AlgebraicGeometry.Properties
 public import Mathlib.Topology.KrullDimension
 public import Mathlib.Topology.NoetherianSpace
 public import StacksFrontier.AlgebraicGeometry.Cohomology.GlobalGeneration.Stalks

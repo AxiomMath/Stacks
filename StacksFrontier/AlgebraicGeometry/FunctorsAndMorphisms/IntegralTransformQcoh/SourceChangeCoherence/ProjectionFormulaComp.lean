@@ -62,7 +62,6 @@ section Paste
 
 open Stacks.AlgebraicGeometry.AffinePushforward
 
-attribute [local implicit_reducible] CategoryTheory.TwoSquare
 
 namespace Scheme.Modules
 
@@ -166,7 +165,6 @@ section AlongComposite
 open Stacks.RingedSpace PresheafOfModules TopologicalSpace
 open scoped TensorProduct
 
-attribute [local implicit_reducible] CategoryTheory.TwoSquare
 
 /-- A four-fold composite of morphisms of sheaves of modules, evaluated at a local section
 through the values of the four factors. -/

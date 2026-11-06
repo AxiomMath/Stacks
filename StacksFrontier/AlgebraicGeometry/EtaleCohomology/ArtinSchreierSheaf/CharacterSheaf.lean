@@ -77,15 +77,16 @@ public def representationCoefficientSheaf {O : Type} [CommRing O] [Algebra ℤ_[
   toLAdicSheaf := representationLAdicSheaf B X x
     (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ
   act := RingHom.mk'
-    { toFun := fun o => representationLAdicSheafMap B X x
-        (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) hρ hρ (μ o) (hμ o)
-      map_one' := (representationLAdicSheafMap_congr B X x hρ (map_one μ) _ _).trans
+    { toFun := fun o => End.of (representationLAdicSheafMap B X x
+        (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) hρ hρ (μ o) (hμ o))
+      map_one' := End.ext <| (representationLAdicSheafMap_congr B X x hρ (map_one μ) _ _).trans
         (representationLAdicSheafMap_one B X x _ hρ)
-      map_mul' := fun o o' => (representationLAdicSheafMap_congr B X x hρ (map_mul μ o o') _
+      map_mul' := fun o o' => End.ext <|
+        (representationLAdicSheafMap_congr B X x hρ (map_mul μ o o') _
           (fun g => by
             rw [Matrix.mul_assoc, hμ o', ← Matrix.mul_assoc, hμ o, Matrix.mul_assoc])).trans
         (representationLAdicSheafMap_mul B X x _ hρ hρ hρ (μ o') (hμ o') (μ o) (hμ o)) }
-    fun o o' => (representationLAdicSheafMap_congr B X x hρ (map_add μ o o') _
+    fun o o' => End.ext <| (representationLAdicSheafMap_congr B X x hρ (map_add μ o o') _
         (fun g => by rw [Matrix.add_mul, Matrix.mul_add, hμ o, hμ o'])).trans
       (representationLAdicSheafMap_add B X x _ hρ hρ (μ o) (μ o') (hμ o) (hμ o'))
 
@@ -95,7 +96,8 @@ public theorem representationCoefficientSheaf_act {O : Type} [CommRing O] [Algeb
     (ρ : EtaleFundamentalGroup X.1 x →* GL (Fin r) ℤ_[ℓ]) (hρ : Continuous ρ)
     (μ : O →+* Matrix (Fin r) (Fin r) ℤ_[ℓ]) (hμ : ∀ o g, μ o * (ρ g).val = (ρ g).val * μ o)
     (o : O) :
-    (representationCoefficientSheaf B X x ρ hρ μ hμ).act o = representationLAdicSheafMap B X x
+    ((representationCoefficientSheaf B X x ρ hρ μ hμ).act o).asHom =
+      representationLAdicSheafMap B X x
       (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) hρ hρ (μ o) (hμ o) :=
   rfl
 
@@ -195,7 +197,7 @@ by `χ(g)`**, where `g ∈ π₁(X, x̄)` is the transport along `t` of the auto
 functor at `s̄` given by precomposition with `a`. -/
 public theorem characterSheafStalkLinearEquiv_stalkEnd {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a)
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (v : LAdicSheaf.stalk B X ℓ (characterSheaf B X x b χ hχ).toLAdicSheaf s) :
     characterSheafStalkLinearEquiv B X x b χ hχ t ((characterSheaf B X x b χ hχ).stalkEnd a v) =
       (χ (etaleFundamentalGroupMulEquiv t σ) : O) *
@@ -209,7 +211,7 @@ public theorem characterSheafStalkLinearEquiv_stalkEnd {s : GeometricPoint X.1}
     intro n
     rw [LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv]
     show T.equiv n ((finiteLevelStalkEnd B X ℓ _ a n).hom (v.1 n)) i = _
-    have hl := congrArg ULift.down (ULift.ext _ _
+    have hl := congrArg ULift.down (ULift.ext
       (representationLevelStalkIso_geometricPointStalkMap B X x _ hχ t a σ hσ (n + 1) (v.1 n)))
     change T.equiv n ((finiteLevelStalkEnd B X ℓ _ a n).hom (v.1 n)) =
       levelRepresentation _ (n + 1) _ (T.equiv n (v.1 n)) at hl
@@ -225,7 +227,7 @@ public theorem characterSheafStalkLinearEquiv_stalkEnd {s : GeometricPoint X.1}
 /-- **The geometric point action on the stalk of `ℱ_χ` is the scalar `χ(g)`.** -/
 public theorem characterSheaf_stalkEnd_eq_smul {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a) :
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a) :
     (characterSheaf B X x b χ hχ).stalkEnd a =
       (χ (etaleFundamentalGroupMulEquiv t σ) : O) • LinearMap.id := by
   refine LinearMap.ext fun v => ?_

@@ -412,7 +412,7 @@ theorem isIso_properDerivedImageComparison_of_properMap
         (Sheaf (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v})),
       IsIso (((Over.pullback f).sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) v}
           (S.zariskiTopology.over Y)
-          (S.zariskiTopology.over X)).rightDerivedFunctorPlusUnit.app
+          (S.zariskiTopology.over X)).rightDerivedFunctorPlusUnith.app
         ((S.abelianComparisonInverseImage.{u, w, max (u + 1) v} X).mapHomotopyCategoryPlus.obj
           ((InjectiveObject.ι _).mapHomotopyCategoryPlus.obj K)))) :
     IsIso (properDerivedImageComparison.{u, w, v} S f) :=

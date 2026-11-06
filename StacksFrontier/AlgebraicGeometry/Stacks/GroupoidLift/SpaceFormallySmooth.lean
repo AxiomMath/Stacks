@@ -58,7 +58,7 @@ theorem formallySmooth_of_isSmooth_unconditional {X Y : (BigFppfOver B S hS)ᵒ�
   · rw [← NatTrans.naturality_apply, hz]
     simp only [xr]
     rw [← yonedaEquiv_comp, pullback.lift_fst, Equiv.apply_symm_apply]
-  · rw [← FunctorToTypes.comp, pullback.condition, FunctorToTypes.comp, hzπ]
+  · rw [← NatTrans.comp_app_apply, pullback.condition, NatTrans.comp_app_apply, hzπ]
     exact yonedaEquiv.apply_symm_apply y
 
 end AlgebraicGeometry.Space

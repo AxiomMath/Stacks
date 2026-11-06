@@ -61,7 +61,7 @@ variable (n : ℕ) (i : Fin (n + 1) → E.I₀)
 theorem cechProductMap_comp_π_left (b : Fin (n + 1)) :
     cechProductMap E G φ n i ≫ (Pi.π (fun a ↦ Over.mk (G.f (φ.s₀ (i a)))) b).left =
       (Pi.π (fun a ↦ Over.mk (E.f (i a))) b).left ≫ φ.h₀ (i b) := by
-  rw [cechProductMap, ← Over.comp_left, Pi.lift_π]
+  rw [cechProductMap, ← Over.comp_left, Pi.lift_comp_π]
   rfl
 
 variable [IsIso f] [∀ j, IsIso (φ.h₀ j)]
@@ -86,7 +86,7 @@ followed by the inverse of the component `φ.h₀ (i b)`. -/
 theorem cechProductMapInv_comp_π_left (b : Fin (n + 1)) :
     cechProductMapInv φ n i ≫ (Pi.π (fun a ↦ Over.mk (E.f (i a))) b).left =
       (Pi.π (fun a ↦ Over.mk (G.f (φ.s₀ (i a)))) b).left ≫ inv (φ.h₀ (i b)) := by
-  rw [cechProductMapInv, ← Over.comp_left, Pi.lift_π]
+  rw [cechProductMapInv, ← Over.comp_left, Pi.lift_comp_π]
   rfl
 
 /-- **The maps of iterated fibre products induced by an isomorphism of families are

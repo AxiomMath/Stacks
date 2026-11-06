@@ -230,7 +230,7 @@ private lemma chart_relation_mem_pi (π : R)
       (Localization.AtPrime (q.comap (chartQuot V rel crel hJ i).toRingHom))
       (Ideal.Quotient.mk (chartIdeal V rel crel i) (crel ij)) ∈
     Ideal.span {algebraMap R
-      (Localization.AtPrime (q.comap (chartQuot V rel crel hJ i).toRingHom)) π} := by
+                  (Localization.AtPrime (q.comap (chartQuot V rel crel hJ i).toRingHom)) π} := by
   classical
   let Jc := chartIdeal V rel crel i
   let p := q.comap (chartQuot V rel crel hJ i).toRingHom

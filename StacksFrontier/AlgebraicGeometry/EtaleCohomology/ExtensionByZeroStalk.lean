@@ -321,7 +321,7 @@ public lemma stalkFamilyToSkyscraperApp_π
         restrictedSkyscraperπ B X hX U x M W (pushLift B X hX U x W p w) =
       liftedGerm B X hX U x F p W w ≫ f p := by
   show Pi.lift _ ≫ Pi.π _ ((liftFiberEquiv B X hX U x W) ⟨p, w⟩) = _
-  rw [Pi.lift_π, Equiv.symm_apply_apply]
+  rw [Pi.lift_comp_π, Equiv.symm_apply_apply]
 
 /-- A family of maps out of the stalks at the lifts assembles into a map to the restricted
 skyscraper sheaf. -/
@@ -554,12 +554,12 @@ public theorem stalkExtensionByZeroIso_germ
     (stalkExtensionByZeroIso B X hX U x F).hom
       ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B X hX x)).op ⋙
           ((abelianExtensionByZero B X hX U).obj F).obj)
-          (op ⟨(smallEtalePostcompose B X hX U).obj W, q⟩))
+          (op (Functor.elementsMk _ ((smallEtalePostcompose B X hX U).obj W) q)))
         (((abelianExtensionByZeroAdjunction B X hX U).unit.app F).hom.app (op W) s)) =
       (Sigma.ι (fun p : geometricPointLifts B X hX U x => liftedStalk B X hX U x F p) p)
         ((colimit.ι ((CategoryOfElements.π (geometricPointFiber B U.obj.left.1
             U.obj.left.property (geometricPointOfLift B X hX U x p))).op ⋙ F.obj)
-          (op ⟨W, w⟩)) s) := by
+          (op (Functor.elementsMk _ W w))) s) := by
   obtain rfl : q = pushLift B X hX U x W p w := Subtype.ext hq
   have h := (extensionStalkAdjunction B X hX U x).homEquiv_leftAdjointUniq_hom_app
     (directSumAdjunction B X hX U x) F

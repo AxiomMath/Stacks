@@ -148,6 +148,8 @@ def IsCoproductOfAffines {B : BigFppfSite.{u}} {hZ : B.Contains (⊤_ Scheme.{u}
     (_ : ∀ k, IsAffine ((BigFppfOver.toScheme B _ hZ).obj (W k))) (c : ∀ k, W k ⟶ V₀),
     Nonempty (IsColimit (Cofan.mk V₀ c))
 
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 1600000 in
 /-- **The gluing step of Stacks 09DS.** Over `Spec ℤ`, let `f : X ⟶ Y` be separated and of finite
 presentation, with `Y` the presheaf represented by an object `V` of the site which is a coproduct
 of affine objects `Tᵢ`, indexed by a type of size below the cutoff of the site. If `Coh_{X₀/V₀}` is
@@ -178,6 +180,10 @@ theorem isAlgebraicStack_of_coproductAffine {B : BigFppfSite.{u}}
   let J := BigFppfOver.topology B (⊤_ Scheme.{u}) hZ
   have : J.Subcanonical := BigFppfOver.subcanonical B _ hZ
   have : HasSheafify J (Type u) := bigFppfOver_hasSheafify B _ hZ
+  have : HasLimitsOfShape WalkingCospan (Sheaf J (Type u)) := inferInstance
+  have : ∀ {X Y Z : Sheaf J (Type u)} (f : X ⟶ Z) (g : Y ⟶ Z), HasPullback f g :=
+    fun _ _ => HasLimitsOfShape.has_limit _
+  have : HasColimitsOfShape (Discrete I) (Sheaf J (Type u)) := inferInstance
   let incl := BigAffineFppf.inclusion B (⊤_ Scheme.{u}) hZ
   -- the target, as a coproduct of representable sheaves
   have hcG : IsColimit (Cofan.mk (J.yoneda.obj V) fun i => J.yoneda.map (c i)) :=
@@ -186,7 +192,7 @@ theorem isAlgebraicStack_of_coproductAffine {B : BigFppfSite.{u}}
   have hGu := isUniversalColimit_of_isColimit_sheafOfTypes J hcG
   -- the source as a sheaf, and the structure morphism
   let Xsh : Sheaf J (Type u) := ⟨D.X.1, D.X.2.isSheaf⟩
-  let a : Xsh ⟶ J.yoneda.obj V := ⟨D.f.hom ≫ eY.hom⟩
+  let a : Xsh ⟶ J.yoneda.obj V := ObjectProperty.homMk (D.f.hom ≫ eY.hom)
   have hsqa : IsPullback (𝟙 D.X.1) a.hom D.f.hom eY.inv :=
     IsPullback.of_horiz_isIso (CommSq.mk (by simp [a]))
   have hYV : IsAlgebraicSpace B _ hZ (yoneda.obj V) := isAlgebraicSpace_yoneda B _ hZ V
@@ -255,7 +261,7 @@ theorem isAlgebraicStack_of_coproductAffine {B : BigFppfSite.{u}}
   have hYV₀ : IsAlgebraicSpace B _ hZ (yoneda.obj V₀) := isAlgebraicSpace_yoneda B _ hZ V₀
   -- the glued morphism, cartesian over each summand
   let fj' : ∀ i, Xj i ⟶ yoneda.obj (St i) := fj
-  let fs : ∀ i, Xs i ⟶ J.yoneda.obj (St i) := fun i => ⟨fj' i⟩
+  let fs : ∀ i, Xs i ⟶ J.yoneda.obj (St i) := fun i => ObjectProperty.homMk (fj' i)
   let f₀s : X₀s ⟶ J.yoneda.obj V₀ := Sigma.desc fun i => fs i ≫ J.yoneda.map (c₀ i)
   let yc : ∀ i, yoneda.obj (St i) ⟶ yoneda.obj V₀ := fun i => yoneda.map (c₀ i)
   have hsq₀ : ∀ i, IsPullback (Sigma.ι Xs i).hom (fj' i) f₀s.hom (yc i) := fun i =>
@@ -297,9 +303,9 @@ theorem isAlgebraicStack_of_coproductAffine {B : BigFppfSite.{u}}
   have hq : ∀ i, c i ≫ q = p i ≫ c₀ i := fun i => Cofan.IsColimit.fac hV _ i
   have hXcolim := hGu.isColimitCofanPullback a
   let κs : Xsh ⟶ X₀s := Cofan.IsColimit.desc hXcolim fun i =>
-    (⟨k i ≫ (Sigma.ι Xs i).hom⟩ : P i ⟶ X₀s)
+    (ObjectProperty.homMk (k i ≫ (Sigma.ι Xs i).hom) : P i ⟶ X₀s)
   have hκ : ∀ i, pullback.fst a (J.yoneda.map (c i)) ≫ κs =
-      (⟨k i ≫ (Sigma.ι Xs i).hom⟩ : P i ⟶ X₀s) := fun i =>
+      (ObjectProperty.homMk (k i ≫ (Sigma.ι Xs i).hom) : P i ⟶ X₀s) := fun i =>
     Cofan.IsColimit.fac hXcolim _ i
   have hsqi : ∀ i, IsPullback (k i ≫ (Sigma.ι Xs i).hom)
       (pullback.snd a (J.yoneda.map (c i))).hom f₀s.hom (yoneda.map (c i) ≫ yoneda.map q) := by

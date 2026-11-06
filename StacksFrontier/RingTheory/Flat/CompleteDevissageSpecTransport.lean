@@ -250,11 +250,11 @@ public noncomputable def Ideal.fiberRingEquivOfRingEquiv {R : Type u} [CommRing 
   { toFun := F
     invFun := G
     left_inv := fun x => by
-      refine TensorProduct.induction_on x (by simp) (fun x b => ?_) (fun y z hy hz => ?_)
+      refine TensorProduct.inductionOn x (fun x b => ?_) (fun y z hy hz => ?_)
       · rw [hF, hG, RingEquiv.symm_apply_apply]
       · rw [map_add, map_add, hy, hz]
     right_inv := fun y => by
-      refine TensorProduct.induction_on y (by simp) (fun y b => ?_) (fun u v hu hv => ?_)
+      refine TensorProduct.inductionOn y (fun y b => ?_) (fun u v hu hv => ?_)
       · rw [hG, hF, RingEquiv.apply_symm_apply]
       · rw [map_add, map_add, hu, hv]
     map_mul' := map_mul F
@@ -322,8 +322,7 @@ public lemma TensorProduct.congrRingEquiv_smul {B : Type u} [CommRing B] {T : Ty
     [Module B M] (t : T) (x : TensorProduct B T M) :
     TensorProduct.congrRingEquiv Φ hΦ M (t • x)
       = Φ t • TensorProduct.congrRingEquiv Φ hΦ M x := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul t₀ m =>
       rw [TensorProduct.smul_tmul', smul_eq_mul, TensorProduct.congrRingEquiv_tmul,
         TensorProduct.congrRingEquiv_tmul, map_mul, TensorProduct.smul_tmul', smul_eq_mul]

@@ -36,6 +36,13 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (X : AlgebraicSpaces B S hS)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_selfProdQuasiCompact
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace SpacesEtale
 
 /-- If `X` is a quasi-compact algebraic space over `S` and the structure morphism of `U` is a

@@ -51,6 +51,17 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ChartFlatness :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ChartFlatness
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Range
 
 variable {W T X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -63,7 +74,7 @@ theorem range_modificationSection (f : X ⟶ W) (U : Subfunctor W) [IsIso (pullb
   refine le_antisymm ?_ ?_
   · rintro A _ ⟨x, rfl⟩
     show (pullback.snd f b).app A ((modificationSection f U b).app A x) ∈ (U.preimage b).obj A
-    rw [← FunctorToTypes.comp, modificationSection_snd]
+    rw [← NatTrans.comp_app_apply, modificationSection_snd]
     exact x.2
   · set O := (U.preimage b).preimage (pullback.snd f b)
     let t : O.toFunctor ⟶ (U.preimage b).toFunctor := (U.preimage b).fromPreimage _

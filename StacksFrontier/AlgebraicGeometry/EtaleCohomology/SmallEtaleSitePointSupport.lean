@@ -142,16 +142,16 @@ public def siteOpenι (X : SmallEtale B S hS)
 over an object with affine underlying scheme. -/
 public theorem exists_isAffine_refinement_fiber
     (p : (SmallEtale.topology B S hS).Point.{max u w}) (a : p.fiber.Elements) :
-    ∃ b : p.fiber.Elements, IsAffine ((SmallEtale.toScheme B S hS).obj b.1) ∧
+    ∃ b : p.fiber.Elements, IsAffine ((SmallEtale.toScheme B S hS).obj b.obj) ∧
       Nonempty (b ⟶ a) := by
-  let X := (SmallEtale.toScheme B S hS).obj a.1
-  let Y (U : X.affineOpens) := siteOpen B S hS a.1 U.1
-  let f (U : X.affineOpens) := siteOpenι B S hS a.1 U.1
+  let X := (SmallEtale.toScheme B S hS).obj a.obj
+  let Y (U : X.affineOpens) := siteOpen B S hS a.obj U.1
+  let f (U : X.affineOpens) := siteOpenι B S hS a.obj U.1
   obtain ⟨U, b, hb⟩ := sitePoint_cover_surjective B S hS p Y f (fun x => by
     obtain ⟨U, hU, hxU, -⟩ := exists_isAffineOpen_mem_and_subset
       (X := X) (x := x) (U := ⊤) (by trivial)
-    exact ⟨⟨U, hU⟩, ⟨⟨x, hxU⟩, rfl⟩⟩) (fun U => inferInstanceAs (Etale U.1.ι)) a.2
-  exact ⟨⟨Y U, b⟩, U.2, ⟨⟨f U, hb⟩⟩⟩
+    exact ⟨⟨U, hU⟩, ⟨⟨x, hxU⟩, rfl⟩⟩) (fun U => inferInstanceAs (Etale U.1.ι)) a.val
+  exact ⟨p.fiber.elementsMk (Y U) b, U.2, ⟨Functor.Elements.homMk (f U) hb⟩⟩
 
 /-- The open complement of an open subset which is also closed. -/
 public abbrev opensCompl {T : Scheme.{u}} (U : T.Opens)
@@ -265,34 +265,34 @@ public theorem openFiber_inter_nonempty (p : (SmallEtale.topology B S hS).Point.
   let Y := (opensToBoundedEtale B S hS).obj V
   let x : F.obj X := Classical.choice hU
   let y : F.obj Y := Classical.choice hV
-  let a : F.Elements := ⟨X, x⟩
-  let b : F.Elements := ⟨Y, y⟩
+  let a : F.Elements := F.elementsMk X x
+  let b : F.Elements := F.elementsMk Y y
   let z := IsCofiltered.min a b
   let fU : z ⟶ a := IsCofiltered.minToLeft a b
   let fV : z ⟶ b := IsCofiltered.minToRight a b
   let W : S.Opens := U ⊓ V
-  let ZS : Scheme := (SmallEtale.toScheme B S hS).obj z.1
-  let gU : ZS ⟶ U.toScheme := (SmallEtale.toScheme B S hS).map fU.val
-  let gV : ZS ⟶ V.toScheme := (SmallEtale.toScheme B S hS).map fV.val
+  let ZS : Scheme := (SmallEtale.toScheme B S hS).obj z.obj
+  let gU : ZS ⟶ U.toScheme := (SmallEtale.toScheme B S hS).map fU.hom
+  let gV : ZS ⟶ V.toScheme := (SmallEtale.toScheme B S hS).map fV.hom
   have hbase : gU ≫ U.ι = gV ≫ V.ι := by
     have h₁ := congrArg (fun f => B.inclusion.map f)
-      (Over.w ((SmallEtale.inclusion B S hS).map fU.val))
+      (Over.w ((SmallEtale.inclusion B S hS).map fU.hom))
     have h₂ := congrArg (fun f => B.inclusion.map f)
-      (Over.w ((SmallEtale.inclusion B S hS).map fV.val))
+      (Over.w ((SmallEtale.inclusion B S hS).map fV.hom))
     change gU ≫ U.ι = _ at h₁
     change gV ≫ V.ι = _ at h₂
     exact h₁.trans h₂.symm
   let g : ZS ⟶ W.toScheme := (isPullback_opens_inf U V).lift gU gV hbase
   have hgU : g ≫ S.homOfLE inf_le_left = gU := (isPullback_opens_inf U V).lift_fst _ _ _
-  let g' : B.inclusion.obj z.1.obj.left ⟶
+  let g' : B.inclusion.obj z.obj.obj.left ⟶
       B.inclusion.obj ((opensToBoundedEtale B S hS).obj W).obj.left := by
     simpa [ZS, opensToBoundedEtale, SmallEtale.toScheme, BigEtaleOver.toScheme,
       BigEtaleOver.forget, BigEtaleSite.inclusion, schemeBelowInclusion,
       schemeSizeBelow] using g
-  let k : z.1 ⟶ (opensToBoundedEtale B S hS).obj W := by
+  let k : z.obj ⟶ (opensToBoundedEtale B S hS).obj W := by
     apply ObjectProperty.homMk
     refine Over.homMk (B.inclusion.preimage
-      (X := z.1.obj.left)
+      (X := z.obj.obj.left)
       (Y := ((opensToBoundedEtale B S hS).obj W).obj.left) g') ?_
     apply B.inclusion.map_injective
     show B.inclusion.map (B.inclusion.preimage g') ≫ _ = _
@@ -300,14 +300,14 @@ public theorem openFiber_inter_nonempty (p : (SmallEtale.topology B S hS).Point.
     have hg' : g' = g := by
       simp [g', ZS, opensToBoundedEtale, BigEtaleSite.inclusion, schemeBelowInclusion]
     rw [hg']
-    show g ≫ W.ι = B.inclusion.map z.1.obj.hom
+    show g ≫ W.ι = B.inclusion.map z.obj.obj.hom
     calc
       g ≫ W.ι = (g ≫ S.homOfLE inf_le_left) ≫ U.ι := by
         simp [Category.assoc, Scheme.homOfLE_ι]
       _ = gU ≫ U.ι := by rw [hgU]
-      _ = B.inclusion.map z.1.obj.hom :=
-        congrArg (fun f => B.inclusion.map f) (Over.w ((SmallEtale.inclusion B S hS).map fU.val))
-  exact ⟨F.map k z.2⟩
+      _ = B.inclusion.map z.obj.obj.hom :=
+        congrArg (fun f => B.inclusion.map f) (Over.w ((SmallEtale.inclusion B S hS).map fU.hom))
+  exact ⟨F.map k z.val⟩
 
 /-- The open fibre functor is local on open covers: if it is nonempty on an open `U` covered by
 opens `V i`, it is nonempty on some `V i`. -/

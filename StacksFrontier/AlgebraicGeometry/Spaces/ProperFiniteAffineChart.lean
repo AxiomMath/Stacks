@@ -69,6 +69,17 @@ theorem exists_iso_siteHom_canonicalSiteFieldPoint (U : BigFppfOver B S hS) (u :
   refine ⟨Over.isoMk (Iso.refl _) (ObjectProperty.hom_ext _ h₁), ?_⟩
   exact Over.OverMorphism.ext <| ObjectProperty.hom_ext _ <| hρ.trans (Category.id_comp _).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_ProperFiniteAffineChart :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ProperFiniteAffineChart
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A finite affine chart diagram at a point with finite fibre.** Let `g : Z ⟶ Y` be a proper
 morphism of decent algebraic spaces and `η` a point of `|Y|` with finite fibre. Then there is a
 cartesian square of étale scheme charts of `g` with affine schemes, whose morphism of schemes is

@@ -128,7 +128,7 @@ def supportedPointsHom : P ⟶ yoneda.obj (Over.mk (q ≫ j)) ⋙ uliftFunctor.{
     (hP g.unop ⟨a⟩).choose_spec a
   naturality g₁ g₂ h := by
     ext a
-    exact ULift.ext _ _ (supportedPoint_naturality j q P e h.unop _ _ _ _ a)
+    exact ULift.ext (supportedPoint_naturality j q P e h.unop _ _ _ _ a)
 
 /-- The comparison morphism `supportedPointsHom` is bijective at every object. -/
 theorem bijective_supportedPointsHom_app (g : (Over U)ᵒᵖ) :
@@ -139,7 +139,7 @@ theorem bijective_supportedPointsHom_app (g : (Over U)ᵒᵖ) :
       congrArg (fun s => s.down.left) haa
     exact (P.mapIso (mapObjMkIso j _ (hP g.unop ⟨a⟩).choose_spec).op).toEquiv.injective
       ((e.app (op (Over.mk (hP g.unop ⟨a⟩).choose))).toEquiv.injective
-        (ULift.ext _ _ (Over.OverMorphism.ext h1)))
+        (ULift.ext (Over.OverMorphism.ext h1)))
   · let t₀ : g.unop.left ⟶ Z := s.down.left ≫ q
     have ht₀ : t₀ ≫ j = g.unop.hom := by
       simpa [t₀] using Over.w s.down
@@ -154,7 +154,7 @@ theorem bijective_supportedPointsHom_app (g : (Over U)ᵒᵖ) :
         (Over.homMk s.down.left rfl : Over.mk t₀ ⟶ Over.mk q) :=
       (congrArg (fun x => (e.hom.app (op (Over.mk t₀)) x).down) hb).trans
         (congrArg ULift.down (Iso.inv_hom_id_app_apply e _ _))
-    exact ULift.ext _ _ (Over.OverMorphism.ext (congrArg (fun m => m.left) hl))
+    exact ULift.ext (Over.OverMorphism.ext (congrArg (fun m => m.left) hl))
 
 /-- **A presheaf supported on a monomorphism and representable there is representable.**
 Let `j : Z ⟶ U` be a monomorphism and `P` a presheaf on `C/U` such that every object of `C/U`

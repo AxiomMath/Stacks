@@ -55,7 +55,6 @@ theorem sourceChangeMap_comp (f : X' ⟶ X) (g : X'' ⟶ X') :
 theorem sourceChangeMap_id : sourceChangeMap R X X Y (𝟙 X) = 𝟙 (pullback X.hom Y.hom) := by
   rw [sourceChangeMap]
   convert pullback.map_id (f := X.hom) (g := Y.hom) using 2
-  exact Over.id_left X
 
 /-- Inverse image along `f × id_Y`, on quasi-coherent modules: the change of source of Tag 0FZF,
 as a functor of the kernel. -/

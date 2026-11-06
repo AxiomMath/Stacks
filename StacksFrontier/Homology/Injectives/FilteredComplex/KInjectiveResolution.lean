@@ -432,7 +432,7 @@ private lemma stepCorrectionMap_π_self [IsGrothendieckAbelian.{w'} A]
         (stepData K R p).t := by
   classical
   unfold stepCorrectionMap correctionTail correctionProduct
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
   simp only [dite_eq_left le_rfl]
   have h : (opHomOfLE (le_refl p) : op p ⟶ op p) = 𝟙 _ := Subsingleton.elim _ _
   simp [h]
@@ -449,7 +449,7 @@ private lemma stepCorrectionMap_π_le [IsGrothendieckAbelian.{w'} A]
           (stepData K R q).t := by
   classical
   unfold stepCorrectionMap correctionTail correctionProduct
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
   simp only [dite_eq_left h]
 
 /-- The `q`-th component of the `p`-th correction map for `p < q`. -/
@@ -463,7 +463,7 @@ private lemma stepCorrectionMap_π_gt [IsGrothendieckAbelian.{w'} A]
         Pi.π (fun r : {r : ℤ // p < r} => (stepData K R r.1).E) ⟨q, h⟩ := by
   classical
   unfold stepCorrectionMap correctionTail correctionProduct
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
   simp [not_le.mpr h]
 
 /-- Evaluating the tail product in a fixed degree is again a product. -/
@@ -622,7 +622,7 @@ private lemma stepGraphTransition_tail_π [IsGrothendieckAbelian.{w'} A]
           Pi.π (fun r : ℤ => (stepData K R r).E) q.1 := by
   rw [← Category.assoc]
   unfold stepGraphTransition
-  rw [biprod.lift_snd, Pi.lift_π]
+  rw [biprod.lift_snd, Pi.lift_comp_π]
 
 /-- The transition maps are compatible with the inclusions into the ambient
 complex, so the steps really do form a filtration. -/
@@ -770,7 +770,7 @@ private lemma ambientMap_correction_π [IsGrothendieckAbelian.{w'} A]
     (biprod.snd : ambient K R ⟶ correctionProduct K R)
     (Pi.π (fun r : ℤ => (stepData K R r).E) q)]
   unfold ambientMap
-  rw [biprod.lift_snd, Category.assoc, Pi.lift_π]
+  rw [biprod.lift_snd, Category.assoc, Pi.lift_comp_π]
 
 /-- The first coordinate of the step comparison map. -/
 private lemma stepComparison_fst [IsGrothendieckAbelian.{w'} A]
@@ -795,7 +795,7 @@ private lemma stepComparison_tail_π [IsGrothendieckAbelian.{w'} A]
           Pi.π (fun r : ℤ => (stepData K R r).E) q := by
   rw [← Category.assoc]
   unfold stepComparison
-  rw [biprod.lift_snd, Pi.lift_π]
+  rw [biprod.lift_snd, Pi.lift_comp_π]
 
 /-- The step comparison maps are compatible with the inclusions of the
 filtration steps, so they assemble into a morphism of filtered complexes. -/

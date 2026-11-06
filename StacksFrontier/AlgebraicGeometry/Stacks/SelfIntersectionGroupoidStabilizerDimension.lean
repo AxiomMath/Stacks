@@ -158,6 +158,17 @@ namespace AlgebraicGeometry.Stack
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_SelfIntersectionGroupoidStabilizerDimension :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_SelfIntersectionGroupoidStabilizerDimension
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The canonical 2-fibre product of `p ≫ q` with itself is represented by the fibre product
 of the underlying objects of the site.** Let `q : 𝒴₀ ⟶ T` be a 1-morphism of algebraic stacks
 over `S` to the algebraic stack represented by an object `T` of the site and let

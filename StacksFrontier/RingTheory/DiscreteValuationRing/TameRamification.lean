@@ -275,7 +275,7 @@ private lemma isSeparable_and_coprime_ramificationIdx_of_isTamelyRamified
       (A₁ := R ⧸ IsLocalRing.maximalIdeal R) (B₁ := D ⧸ n)
       (A₂ := B ⧸ p) (B₂ := C ⧸ q) ebase.symm etop.symm (by
       ext z
-      simpa only [RingHom.comp_apply, RingEquiv.coe_toRingHom,
+      simpa only [RingHom.comp_apply, RingEquiv.coe_toRingHom, AlgEquiv.coe_toRingEquiv,
         ebase, etop, n, B, C] using hcomm z)
   · have hchar : ringChar (R ⧸ IsLocalRing.maximalIdeal R) =
         ringChar (integralClosure A L ⧸ p) := by
@@ -355,7 +355,7 @@ theorem isTamelyRamified_tower
   let : q.IsPrime := hq.isPrime
   let : Field (C ⧸ q) := Ideal.Quotient.field q
   let p := q.comap (algebraMap B C)
-  have hp : p.IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q
+  have hp : p.IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) q
   let : p.IsMaximal := hp
   let : p.IsPrime := hp.isPrime
   let : Field (B ⧸ p) := Ideal.Quotient.field p

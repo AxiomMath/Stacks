@@ -155,9 +155,10 @@ public theorem ker_eq_idealPowerMultiple (N : GradedModuleCat.{u, u, u} (grading
   refine submodule_eq_of_isBasis (isBasis_consecutiveChart L hL) fun ch => ?_
   have hR : (Stacks.Algebraization.idealPowerMultiple (zeroScheme X L s) k
       (restrictedTilde L hL N)).obj (op ch.nv) =
-      Ideal.span {Stacks.SectionRingChartMap.chartRingMap L ch.prod le_rfl
-        ((Stacks.DegreeOneUnitAway.chartRatio ch.cR_mem ch.bR_mem ch.cR_mul_bR
-          (sectionElt_mem L s)) ^ k)} •
+      Ideal.span
+        {Stacks.SectionRingChartMap.chartRingMap L ch.prod le_rfl
+            ((Stacks.DegreeOneUnitAway.chartRatio ch.cR_mem ch.bR_mem ch.cR_mul_bR
+              (sectionElt_mem L s)) ^ k)} •
         (⊤ : Submodule Γ(X, ch.nv) Γ(restrictedTilde L hL N, ch.nv)) := by
     rw [show (Stacks.Algebraization.idealPowerMultiple (zeroScheme X L s) k
         (restrictedTilde L hL N)).obj (op ch.nv) =

@@ -268,7 +268,7 @@ omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrp
 /-- Multiplication by the empty subproduct is the identity. -/
 theorem awaySmul_pow_app_prodGlobalSection_empty (k : ℕ)
     (M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
-    ((awaySmul X (prodGlobalSection f (∅ : Finset (Fin r))) ^ k).app M) = 𝟙 M :=
+    ((awaySmul X (prodGlobalSection f (∅ : Finset (Fin r))) ^ k).asHom.app M) = 𝟙 M :=
   SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext
     (LinearMap.ext fun x => by
       rw [awaySmul_pow_app_apply, globalSectionVal_prodGlobalSection, Finset.prod_empty,
@@ -280,14 +280,14 @@ omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrp
 theorem awayModuleCoconeι_prodGlobalSection_empty (k : ℕ) :
     awayModuleCoconeι X (prodGlobalSection f (∅ : Finset (Fin r))) k =
       unitToAwayModule X (prodGlobalSection f (∅ : Finset (Fin r))) := by
-  have hinv : inv ((awaySmul X (prodGlobalSection f (∅ : Finset (Fin r))) ^ k).app
+  have hinv : inv ((awaySmul X (prodGlobalSection f (∅ : Finset (Fin r))) ^ k).asHom.app
       (awayModule X (prodGlobalSection f (∅ : Finset (Fin r))))) =
       𝟙 (awayModule X (prodGlobalSection f (∅ : Finset (Fin r)))) :=
     IsIso.inv_eq_of_hom_inv_id (by
       rw [awaySmul_pow_app_prodGlobalSection_empty]
       exact Category.id_comp _)
   show unitToAwayModule X (prodGlobalSection f (∅ : Finset (Fin r))) ≫
-    inv ((awaySmul X (prodGlobalSection f (∅ : Finset (Fin r))) ^ k).app
+    inv ((awaySmul X (prodGlobalSection f (∅ : Finset (Fin r))) ^ k).asHom.app
       (awayModule X (prodGlobalSection f (∅ : Finset (Fin r))))) = _
   exact (congrArg (fun w => unitToAwayModule X (prodGlobalSection f (∅ : Finset (Fin r))) ≫ w)
     hinv).trans (Category.comp_id _)
@@ -501,7 +501,7 @@ theorem structureSheafHomIso_inv_comp_homMap_comp_koszulDualComplexIsoCoeff_f_ze
             ((0 : ℤ) + (r : ℤ)) (show koszulTopDeg r = (0 : ℤ) + (r : ℤ) by ring) =≫
           Pi.π (fun T : Idx r ((0 : ℤ) + (r : ℤ)) =>
             (koszulPowerFunctorOn X f ℱ n).obj T.1) S).trans
-          (Pi.lift_π _ S)))
+          (Pi.lift_comp_π _ S)))
   refine Eq.trans ?_ hR.symm
   have hA : (structureSheafHomIso X (singleSheafComplex X ℱ)).inv.f 0 ≫
       evalAtOneHom X (singleSheafComplex X ℱ) 0 =

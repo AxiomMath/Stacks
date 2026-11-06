@@ -90,6 +90,18 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_EtaleLocalTfae :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Shortcut for the limit of a cospan of presheaves on the big fppf site. -/
+local instance (priority := high) hasPullback_presheaf_EtaleLocalTfae
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Étaleness of a base change of `f : X ⟶ Y` to a representable presheaf agrees with the
 chart condition of Tag 03MJ at étaleness of morphisms of schemes: the fibre product of two
 algebraic spaces over an algebraic space is an algebraic space, so condition (7) of Tag 03XT

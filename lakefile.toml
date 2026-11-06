@@ -16,7 +16,7 @@ weak.linter.overlappingInstances = false
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "16edf57de7933555826307a3d81b4391a3657a09"
+rev = "v4.35.0"
 
 [[lean_lib]]
 name = "StacksCore"

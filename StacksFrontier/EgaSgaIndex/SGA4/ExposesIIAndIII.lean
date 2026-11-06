@@ -7,9 +7,11 @@ import Mathlib.Algebra.Category.MonCat.Adjunctions
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Mathlib.CategoryTheory.Adjunction.Triple
 import Mathlib.CategoryTheory.EquivalenceRelation
+import Mathlib.CategoryTheory.Generator.Sheaf
 import Mathlib.CategoryTheory.Monoidal.Grp
 import Mathlib.CategoryTheory.MorphismProperty.Representable
 import Mathlib.CategoryTheory.Sites.Coherent.SheafComparison
+import Mathlib.CategoryTheory.Sites.Preserves
 import Mathlib.CategoryTheory.Sites.Subcanonical
 import Mathlib.CategoryTheory.Sites.Types
 import Mathlib.Condensed.Limits
@@ -151,7 +153,7 @@ add_to_sga "4 II 3.2" "clause 4, (ii) ⇒ (i)" CategoryTheory.GrothendieckTopolo
 add_to_sga "4 II 3.2" CategoryTheory.GrothendieckTopology.plusFunctor
 add_to_sga "4 II 3.2" CategoryTheory.GrothendieckTopology.plusObj
 add_to_sga "4 II 3.2" "more general"
-  CategoryTheory.GrothendieckTopology.preserveFiniteLimits_plusFunctor
+  CategoryTheory.GrothendieckTopology.preservesFiniteLimits_plusFunctor
 add_to_sga "4 II 3.2" "more general"
   CategoryTheory.GrothendieckTopology.preservesLimitsOfShape_plusFunctor
 add_to_sga "4 II 3.2" CategoryTheory.GrothendieckTopology.toPlus

@@ -85,7 +85,6 @@ attribute [local implicit_reducible] ModuleCat.restrictScalars
   CategoryTheory.Arrow.cechConerve
   CategoryTheory.cechNerveTerminalFrom
   CategoryTheory.Limits.FormalCoproduct.cosimplicialObjectFunctor
-  CategoryTheory.Over.post
   CategoryTheory.PreZeroHypercover.singleton
   Stacks.CechSite.cechFormalCoproduct
   Stacks.CechSite.cechFormalCoproductMap
@@ -253,7 +252,7 @@ private noncomputable def nerveMapIso
   apply Pi.hom_ext
   intro i
   simp only [PreservesProduct.iso_hom, Functor.comp_map, cechNerveTerminalFrom,
-    Category.assoc, piComparison_comp_π, ← G.map_comp, Pi.lift_π]
+    Category.assoc, piComparison_comp_π, ← G.map_comp, Pi.lift_comp_π]
 
 private noncomputable def algSpecNerveIso
     (R : CommRingCat.{u}) (A : CommAlgCat R) :
@@ -269,7 +268,7 @@ private noncomputable def nerveIsoOfIso
   apply Pi.hom_ext
   intro i
   simp only [cechNerveTerminalFrom, Category.assoc, Pi.mapIso_hom_π,
-    Pi.lift_π_assoc, Pi.lift_π]
+    Pi.lift_comp_π_assoc, Pi.lift_comp_π]
 
 private noncomputable def singletonNerveIsoOfArrowIso
     {C : Type*} [Category C] {X Y X' Y' : C}
@@ -335,15 +334,15 @@ private noncomputable def conerveProductComponentIso
     · intro i
       rw [unop_comp, unop_id, Category.comp_id, Quiver.Hom.unop_op, ← Category.assoc,
         WidePushout.ι_desc]
-      exact congrArg Quiver.Hom.unop (Pi.lift_π (fun i => (WidePushout.ι fs i).op) i)
+      exact congrArg Quiver.Hom.unop (Pi.lift_comp_π (fun i => (WidePushout.ι fs i).op) i)
     · rw [← WidePushout.arrow_ι fs 0]
       simp only [Category.assoc]
       congr 1
       rw [unop_comp, unop_id, Category.comp_id, Quiver.Hom.unop_op, ← Category.assoc,
         WidePushout.ι_desc]
-      exact congrArg Quiver.Hom.unop (Pi.lift_π (fun i => (WidePushout.ι fs i).op) 0)
+      exact congrArg Quiver.Hom.unop (Pi.lift_comp_π (fun i => (WidePushout.ι fs i).op) 0)
   · refine Pi.hom_ext _ _ fun i => ?_
-    rw [Category.assoc, Category.id_comp, Pi.lift_π]
+    rw [Category.assoc, Category.id_comp, Pi.lift_comp_π]
     exact congrArg Quiver.Hom.op (WidePushout.ι_desc fs q ps hw i)
 
 private noncomputable def conerveProductIso
@@ -355,7 +354,7 @@ private noncomputable def conerveProductIso
   apply Pi.hom_ext
   intro i
   simp only [Category.assoc, conerveProductComponentIso, cechNerveTerminalFrom,
-    Functor.op_map, Pi.lift_π]
+    Functor.op_map, Pi.lift_comp_π]
   apply Quiver.Hom.unop_inj
   simp only [unop_comp, Quiver.Hom.unop_op]
   exact WidePushout.ι_desc _ _ _ _ i
@@ -647,7 +646,7 @@ public noncomputable def singletonCechComplexIso
         exact productUniqueIso _
       intro n m g
       change Pi.lift _ ≫ Pi.π _ (fun _ => PUnit.unit) = Pi.π _ (fun _ => PUnit.unit) ≫ _
-      rw [Pi.lift_π]
+      rw [Pi.lift_comp_π]
       rfl)
 
 /-- **[Stacks, Tag 06VL], the positive degrees.** For an adequate sheaf of modules `F` on a chosen

@@ -259,8 +259,7 @@ theorem isWeaklyAssociatedPoint_restrictToChart_of_isWeaklyAssociatedPrime_of_is
         (chartRestrictionPresheafOfModules B S hS Z.2 W G).presheaf (chartPoint B S hS Z.1 W)))
   have hφ : ∀ a z, φ.toAddEquiv (a • z) = e a • φ.toAddEquiv z := by
     intro a z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul b m =>
         rw [TensorProduct.smul_tmul']
         show φ ((a * b) ⊗ₜ m) = e a • φ (b ⊗ₜ m)

@@ -49,7 +49,6 @@ attribute [local implicit_reducible] CategoryTheory.Functor.sheafPushforwardCont
 attribute [local implicit_reducible] TopCat.Sheaf sheafCompose
 attribute [local implicit_reducible] SheafOfModules.unit PresheafOfModules.unit
 attribute [local implicit_reducible] AlgebraicGeometry.Scheme.Modules.Hom
-attribute [local implicit_reducible] CategoryTheory.Subfunctor.toFunctor
 attribute [local implicit_reducible] AlgebraicGeometry.Scheme.Modules.pullback
 attribute [local implicit_reducible] AlgebraicGeometry.Scheme.Modules.pseudofunctor
 attribute [local implicit_reducible] CategoryTheory.Bicategory.Adj.forget₁

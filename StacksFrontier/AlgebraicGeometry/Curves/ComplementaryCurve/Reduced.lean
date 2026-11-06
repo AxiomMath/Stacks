@@ -3,6 +3,7 @@ module
 public import Mathlib.AlgebraicGeometry.Morphisms.Integral
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Mathlib.RingTheory.LocalProperties.Reduced
+public import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
 public import StacksFrontier.AlgebraicGeometry.Curves.IsNode
 public import StacksFrontier.AlgebraicGeometry.Properties.Normal
 public import StacksFrontier.AlgebraicGeometry.Properties.Regular

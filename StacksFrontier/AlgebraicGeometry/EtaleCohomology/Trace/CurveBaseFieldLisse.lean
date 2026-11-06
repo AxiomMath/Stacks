@@ -74,8 +74,8 @@ omit [Finite k] [Finite Λ] in
 /-- The action of the image of `g` on `Q₀` is the action of `g` on `Q`. -/
 theorem lisseBaseFieldModule_ρ_apply (g : EtaleFundamentalGroup U.1 x) (v : Q.obj.obj.obj.V) :
     ((lisseBaseFieldModule B U k f x hs Λ Q hQ).obj.obj.obj.ρ
-        (etaleFundamentalGroupMap f x g)).hom v =
-      (Q.obj.obj.obj.ρ g).hom v :=
+        (etaleFundamentalGroupMap f x g)).asHom v =
+      (Q.obj.obj.obj.ρ g).asHom v :=
   have := compactSpace_etaleFundamentalGroup U.1 x
   have := t2Space_etaleFundamentalGroup (Spec (.of k)) (x.map f)
   finiteTypeContinuousModuleDescentRepresentation_apply Λ (etaleFundamentalGroupMap f x) hs Q hQ g v

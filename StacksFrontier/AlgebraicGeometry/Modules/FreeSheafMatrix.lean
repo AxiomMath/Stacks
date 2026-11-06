@@ -107,8 +107,8 @@ functions. -/
 theorem unitEndValue_comp
     (s t : SheafOfModules.unit X.ringCatSheaf ⟶ SheafOfModules.unit X.ringCatSheaf) :
     unitEndValue (s ≫ t) = unitEndValue s * unitEndValue t := by
-  have key : ∀ (f : X.ringCatSheaf.val.obj (op ⊤) →ₗ[X.ringCatSheaf.val.obj (op ⊤)]
-      X.ringCatSheaf.val.obj (op ⊤)) (x : X.ringCatSheaf.val.obj (op ⊤)), f x = x * f 1 :=
+  have key : ∀ (f : X.ringCatSheaf.obj.obj (op ⊤) →ₗ[X.ringCatSheaf.obj.obj (op ⊤)]
+      X.ringCatSheaf.obj.obj (op ⊤)) (x : X.ringCatSheaf.obj.obj (op ⊤)), f x = x * f 1 :=
     fun f x => by rw [← smul_eq_mul, ← f.map_smul, smul_eq_mul, mul_one]
   exact key (t.val.app (op ⊤)).hom (unitEndValue s)
 

@@ -114,7 +114,7 @@ public theorem not_isRegularLocalRing_localization_nodalModelOrigin {π : R}
   have hJ : (Ideal.span ({nodalEquation R (π ^ m)} : Set (MvPolynomial (Fin 2) R))).map
         (algebraMap (MvPolynomial (Fin 2) R) (Localization.AtPrime (nodalOriginIdeal R π)))
       = Ideal.span {algebraMap (MvPolynomial (Fin 2) R)
-        (Localization.AtPrime (nodalOriginIdeal R π)) (nodalEquation R (π ^ m))} := by
+                      (Localization.AtPrime (nodalOriginIdeal R π)) (nodalEquation R (π ^ m))} := by
     simp [Ideal.map_span]
   refine not_isRegularLocalRing_quotient_span_singleton_of_mem_sq hnzd hsq ?_
   rw [← hJ]

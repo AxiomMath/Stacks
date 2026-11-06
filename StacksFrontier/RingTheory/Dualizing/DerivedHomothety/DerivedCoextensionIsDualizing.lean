@@ -103,7 +103,7 @@ def derivedTensorUnitModuleHom (M : ModuleCat.{max v u} A) :
     refine LinearMap.ext fun y => ?_
     have hy : (y.down : A) •
         (ULift.up 1 : (derivedTensorUnitModule.{u, v} A : Type (max v u))) = y :=
-      ULift.ext _ _ (mul_one y.down)
+      ULift.ext (mul_one y.down)
     change (y.down : A) • h.hom (ULift.up 1) = h.hom y
     exact (map_smul h.hom y.down (ULift.up 1)).symm.trans (congrArg h.hom hy)
   right_inv x := one_smul A x

@@ -71,6 +71,27 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_SeparatedRepresentable
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_SeparatedRepresentable
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site, as a shortcut (instance search times
+out without it). -/
+local instance hasLimitsOfShape_discrete_presheaf_SeparatedRepresentable
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-- The maps on points of the two sides of a commutative square agree. -/
 private theorem pointsMap_comm_of_comp_eq
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)

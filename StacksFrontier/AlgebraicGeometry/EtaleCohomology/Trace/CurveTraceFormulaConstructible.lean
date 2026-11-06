@@ -253,6 +253,10 @@ theorem cohomologicalTraceFormula_extensionByZero_of_curveTraceCore_of_isConstru
     Set.range_eq_univ.1 (Scheme.IdealSheafData.range_subschemeι_vanishingIdeal TC)
   let XB : B.Scheme := B.obj X' (Scheme.size_lt_of_isClosedImmersion i X.property)
   let iB : XB ⟶ X := ObjectProperty.homMk i
+  have : LocallyOfFiniteType i :=
+    ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType i).mp
+      ((IsClosedImmersion.iff_isFinite_and_mono i).mp inferInstance).1).2
+  have : LocallyOfFiniteType (i ≫ f) := MorphismProperty.comp_mem _ i f ‹_› ‹_›
   have : IsLocallyNoetherian X' := LocallyOfFiniteType.isLocallyNoetherian (i ≫ f)
   have : CompactSpace X' := QuasiCompact.compactSpace_of_compactSpace (i ≫ f)
   have : IsNoetherian X' := { }
@@ -288,6 +292,10 @@ theorem cohomologicalTraceFormula_extensionByZero_of_curveTraceCore_of_construct
     Set.range_eq_univ.1 (Scheme.IdealSheafData.range_subschemeι_vanishingIdeal TC)
   let XB : B.Scheme := B.obj X' (Scheme.size_lt_of_isClosedImmersion i X.property)
   let iB : XB ⟶ X := ObjectProperty.homMk i
+  have : LocallyOfFiniteType i :=
+    ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType i).mp
+      ((IsClosedImmersion.iff_isFinite_and_mono i).mp inferInstance).1).2
+  have : LocallyOfFiniteType (i ≫ f) := MorphismProperty.comp_mem _ i f ‹_› ‹_›
   let K' := (etaleModuleInverseImage.{u, 0} Λ i).mapCochainComplexPlus.obj K
   have : IsLocallyNoetherian X' := LocallyOfFiniteType.isLocallyNoetherian (i ≫ f)
   have : CompactSpace X' := QuasiCompact.compactSpace_of_compactSpace (i ≫ f)
@@ -331,6 +339,10 @@ theorem cohomologicalTraceFormula_extensionByZero_of_curveTraceCore_of_locallyCo
   have hi : Function.Surjective i.base :=
     Set.range_eq_univ.1 (Scheme.IdealSheafData.range_subschemeι_vanishingIdeal TC)
   have hdim' := topologicalKrullDim_le_one_of_surjective_isClosedImmersion i hi hdim
+  have : LocallyOfFiniteType i :=
+    ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType i).mp
+      ((IsClosedImmersion.iff_isFinite_and_mono i).mp inferInstance).1).2
+  have : LocallyOfFiniteType (i ≫ f) := MorphismProperty.comp_mem _ i f ‹_› ‹_›
   exact cohomologicalTraceFormula_single_of_surjective_isClosedImmersion Λ kbar p q hcard f J i hi
     F hFs fun hFs' => cohomologicalTraceFormula_extensionByZero_of_curveTraceCore_of_dense Λ kbar
       p q hcard hcore (i ≫ f) hdim' (J.restrictClosed i) _ hFs' ⊤

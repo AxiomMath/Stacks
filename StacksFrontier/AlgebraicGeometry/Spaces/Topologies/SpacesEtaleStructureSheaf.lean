@@ -115,6 +115,19 @@ namespace AlgebraicGeometry.Space.SpacesEtale
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (X : AlgebraicSpaces B S hS)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Presheaves of types on the big fppf site of `S` have pullbacks. Recorded here because
+instance search for it times out at the default budget under this file's imports. -/
+private instance hasPullbacksPresheaf : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+/-- Any cospan of presheaves of types on the big fppf site of `S` has a limit, read off
+`hasPullbacksPresheaf` so that instance search does not have to find it. -/
+private instance (priority := high) hasLimitCospanPresheaf
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  (hasPullbacksPresheaf B S hS).has_limit (cospan f g)
+
 /-! ### Morphisms of the spaces-étale site -/
 
 /-- A morphism of the spaces-étale site of `X` is étale as a morphism of algebraic spaces:

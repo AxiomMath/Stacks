@@ -225,7 +225,6 @@ private theorem flat_localizedModule_baseChange_iff {A B C R M : Type*} [CommRin
   let Sq := Localization.AtPrime p
   let Tr := Localization.AtPrime q
   let : Algebra Sq Tr := Localization.AtPrime.algebraOfLiesOver (A := S) (B := T) p q
-  have _ : Localization.AtPrime.IsLiesOverAlgebra p q := ⟨rfl⟩
   let moduleSqTr : Module Sq Tr := Algebra.toModule
   let : Module Sq Tr := moduleSqTr
   let : SMul Sq Tr := moduleSqTr.toDistribMulAction.toDistribSMul.toSMul
@@ -253,7 +252,7 @@ private theorem flat_localizedModule_baseChange_iff {A B C R M : Type*} [CommRin
   have _ : IsScalarTower R Sq Tr := IsScalarTower.of_algebraMap_eq fun r ↦ by
     have hloc (s : S) :
         algebraMap Sq Tr (algebraMap S Sq s) = algebraMap T Tr (algebraMap S T s) := by
-      rw [Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq, Localization.localRingHom_to_map]
+      rw [Localization.AtPrime.algebraMap_eq, Localization.localRingHom_to_map]
     calc
       algebraMap R Tr r = algebraMap T Tr (algebraMap R T r) := rfl
       _ = algebraMap T Tr (algebraMap S T (algebraMap R S r)) := by

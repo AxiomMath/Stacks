@@ -67,14 +67,14 @@ theorem representedAffineSections_map_associated_smul
 
 /-- The image of a global function on `U` in the structure sheaf over the top chart. -/
 noncomputable def representedAffineTopChartSection (a : Γ((BigFppfOver.toScheme B S hS).obj U, ⊤)) :
-    (smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).val.obj
+    (smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).obj.obj
       (op (representedAffineTopChart B S hS U)) :=
   ((structurePresheaf B S hS (yoneda.obj U)).map
     (toSelfChart B S hS U (representedAffineTopChart B S hS U)).op).hom a
 
 /-- The action of a section of the ring sheaf on a section of a sheaf of modules. -/
 def sheafSectionSmul {C : Type (u + 1)} [Category.{u} C] {J : GrothendieckTopology C}
-    {R : Sheaf J RingCat.{u}} (F : SheafOfModules.{u} R) (V : C) (r : R.val.obj (op V))
+    {R : Sheaf J RingCat.{u}} (F : SheafOfModules.{u} R) (V : C) (r : R.obj.obj (op V))
     (t : F.val.obj (op V)) : F.val.obj (op V) := r • t
 
 /-- `Γ(U) ⟶ Γ(Spec Γ(U)) ⟶ Γ(U)` is the identity. -/
@@ -142,10 +142,10 @@ theorem conj_app_selfChart_one_of_sections_map_eq_smul
     (a : Γ((BigFppfOver.toScheme B S hS).obj U, ⊤))
     (hφ : (representedAffineSections B S hS U).map φ = a • 𝟙 _) :
     ((e.inv ≫ φ ≫ e.hom).val.app (op (selfChart B S hS U))).hom
-      (1 : (smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).val.obj
+      (1 : (smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).obj.obj
         (op (selfChart B S hS U))) = a := by
   have hV : ((e.inv ≫ φ ≫ e.hom).val.app (op (representedAffineTopChart B S hS U))).hom
-      (1 : (smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).val.obj
+      (1 : (smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).obj.obj
         (op (representedAffineTopChart B S hS U))) =
       representedAffineTopChartSection B S hS U a := by
     have key : ∀ y : F.val.obj (op (representedAffineTopChart B S hS U)),
@@ -174,14 +174,14 @@ theorem conj_app_selfChart_one_of_sections_map_eq_smul
     exact mul_one (representedAffineTopChartSection B S hS U a)
   have hnat := PresheafOfModules.naturality_apply (e.inv ≫ φ ≫ e.hom).val
     (toSelfChart B S hS U (representedAffineTopChart B S hS U)).op
-    (1 : (smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).val.obj
+    (1 : (smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).obj.obj
       (op (selfChart B S hS U)))
   apply representedAffineTopChartSection_injective B S hS U
   refine Eq.trans ?_ hV
   refine hnat.symm.trans (congrArg ((e.inv ≫ φ ≫ e.hom).val.app
     (op (representedAffineTopChart B S hS U))).hom ?_)
   exact map_one
-    ((smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).val.map
+    ((smallEtaleRingSheaf B S hS (yoneda.obj U) (isAlgebraicSpace_yoneda B S hS U)).obj.map
       (toSelfChart B S hS U (representedAffineTopChart B S hS U)).op).hom
 
 /-- Conjugating a scalar endomorphism by a retraction. -/

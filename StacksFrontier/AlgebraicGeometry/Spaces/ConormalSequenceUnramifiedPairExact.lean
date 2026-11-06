@@ -199,7 +199,7 @@ theorem exists_conormalMap_comp_thickeningConormalFirstMap_exact {X' Z' : Algebr
     ∃ hc : conormalMap B S hS (thickeningClosedSubspace B S hS hZ) W c f hsq ≫
         thickeningConormalFirstMap B S hS hZ g he = 0,
       (ShortComplex.mk _ _ hc).Exact ∧ Epi (thickeningConormalFirstMap B S hS hZ g he) := by
-  have : IsIso (thickeningSheafOfDifferentialsMap B S hS hZ g) := he
+  have hmono : Mono (thickeningSheafOfDifferentialsMap B S hS hZ g) := IsIso.mono_of_iso _
   have hZt := IsNthOrderThickening.isThickening B S hS hZ.firstOrder
   have hepi := epi_thickeningConormalFirstMap B S hS g hZ he
     (conormalSequenceFirstMap_comp_pullbackDifferentialsMap_thickening B S hS hZ g)
@@ -207,7 +207,7 @@ theorem exists_conormalMap_comp_thickeningConormalFirstMap_exact {X' Z' : Algebr
   have key := thickeningConormalFirstMap_comp_thickeningSheafOfDifferentialsMap B S hS hZ g he
   have : Epi (conormalSequenceFirstMap B S hS (thickeningClosedSubspace B S hS hZ) (p ≫ g)) := by
     rw [← key]
-    exact epi_comp _ _
+    exact epi_comp' hepi (IsIso.epi_of_iso _)
   have hex := exact_conormalMap_conormalSequenceFirstMap B S hS
     (thickeningClosedSubspace B S hS hZ) c W f hsq hZt q (p ≫ g) hb hΩ
   have hc0 := conormalMap_comp_conormalSequenceFirstMap_eq_zero B S hS
@@ -220,8 +220,9 @@ theorem exists_conormalMap_comp_thickeningConormalFirstMap_exact {X' Z' : Algebr
   refine ⟨hc, ?_, hepi⟩
   have hsc : ShortComplex.mk _ _ hc ≅ ShortComplex.mk _ _ hc0 :=
     ShortComplex.isoMk (Iso.refl _) (Iso.refl _)
-      (asIso (thickeningSheafOfDifferentialsMap B S hS hZ g)) (by simp)
-      (by simpa using key.symm)
+      (@asIso _ _ _ _ (thickeningSheafOfDifferentialsMap B S hS hZ g) he)
+      (by simp only [Iso.refl_hom, Category.id_comp, Category.comp_id])
+      (by simp only [Iso.refl_hom, Category.id_comp, asIso_hom, key])
   exact (ShortComplex.exact_iff_of_iso hsc).mpr hex
 
 /-- **Stacks 06BE.**  Let `i : Z ⟶ X` and `j : Z ⟶ Y` be formally unramified morphisms of
@@ -271,7 +272,8 @@ theorem exists_conormalPairSequence_exact (g : X ⟶ Y) {i : Z ⟶ X} {j : Z ⟶
       rw [← Category.assoc, h1, Category.assoc, ← hij]
       rfl
     rw [h]
-    exact formallyUnramified_comp _ _ (formallyUnramified_of_mono _) tj.formallyUnramified
+    exact formallyUnramified_comp _ _ (haveI : Mono ti.sourceIso.inv := IsIso.mono_of_iso _
+      formallyUnramified_of_mono _) tj.formallyUnramified
     )
 
 end UnramifiedPair

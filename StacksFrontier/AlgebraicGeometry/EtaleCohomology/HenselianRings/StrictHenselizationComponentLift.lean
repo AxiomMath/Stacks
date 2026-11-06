@@ -111,7 +111,7 @@ public theorem base_eq_closedPoint_of_isIntegralHom {A R : Type u} [CommRing A] 
   have hcm : (Ideal.comap (algebraMap R A) (p z).asIdeal).IsMaximal :=
     hcomap ▸ IsLocalRing.maximalIdeal.isMaximal R
   have hmax : ((p z).asIdeal).IsMaximal :=
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := R) (S := A) (p z).asIdeal hcm
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) (S := A) (p z).asIdeal hcm
   exact PrimeSpectrum.ext (IsLocalRing.eq_maximalIdeal hmax)
 
 /-- **The lifting property, with the hypothesis on the point supplied by integrality.** The

@@ -197,6 +197,7 @@ private theorem sheaf_hom_app_apply_congr {C : Type*} [Category C] {J : Grothend
 variable {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
   (Dg : Iᵒᵖ ⥤ B.Scheme) (c : Cone (Dg ⋙ B.inclusion)) (hX : B.Contains c.pt)
 
+set_option maxHeartbeats 1000000 in
 /-- **Sections of an inverse image of a sheaf of modules over a limit come from a stage** (the
 surjectivity half of Stacks 09YN, the degree zero case of Stacks 09YQ, for sheaves of modules on
 the small étale sites of Stacks 021B). Let `X = lim X_i` be the limit of a directed inverse system

@@ -82,7 +82,7 @@ theorem uliftUnit_hom_eq_zero_of_isTerminal {T₀ : D} (hT : IsTerminal T₀)
     rw [h3, smul_zero] at hm
     refine Eq.trans ?_ hm
     congr 1
-    exact ULift.ext _ _ (mul_one a).symm
+    exact ULift.ext (mul_one a).symm
   exact hs a
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {R : Sheaf J RingCat.{r}}
@@ -97,7 +97,7 @@ theorem hom_over_eq_zero_of_hasGlobalPresentation {T P : SheafOfModules.{m} R} (
     refine Cofan.IsColimit.hom_ext hP' _ _ fun i => ?_
     rw [comp_zero]
     refine uliftUnit_hom_eq_zero_of_isTerminal (Over.mkIdTerminal (X := y)) ?_ _
-    exact ⟨fun c d => ULift.ext _ _ (hP.elim c.down d.down)⟩
+    exact ⟨fun c d => ULift.ext (hP.elim c.down d.down)⟩
   have h1 : uliftForPresentationMap (φ.over y) = 0 :=
     Cofork.IsColimit.hom_ext hb (by simpa using h0)
   ext X x

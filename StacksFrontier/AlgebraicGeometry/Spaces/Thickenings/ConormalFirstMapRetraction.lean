@@ -509,7 +509,7 @@ theorem eq_zero_of_forall_affineChart_map_eq_zero (U : SmallEtale B S hS X.1)
   have hsep : Presheaf.IsSeparated (SmallEtale.topology B S hS X.1)
       ((structureRingSheaf B S hS X).obj ⋙ CategoryTheory.forget RingCat.{u}) :=
     ((sheafCompose (SmallEtale.topology B S hS X.1)
-      (CategoryTheory.forget RingCat.{u})).obj (structureRingSheaf B S hS X)).cond.isSeparated
+      (CategoryTheory.forget RingCat.{u})).obj (structureRingSheaf B S hS X)).property.isSeparated
   obtain ⟨I, Yc, a, haff, hcov, -⟩ := SmallEtale.exists_affine_etale_ofArrows B S hS X.1 U
   refine hsep U (Sieve.ofArrows Yc a) hcov s 0 ?_
   rintro K f ⟨K', g, m, ⟨j⟩, rfl⟩

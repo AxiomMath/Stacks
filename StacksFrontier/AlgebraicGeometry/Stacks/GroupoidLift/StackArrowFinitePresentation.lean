@@ -477,7 +477,7 @@ private theorem exists_arrowChart_finitePresentation_aux (h𝒳 : IsAlgebraicSta
     have h1 : X.map m.op ξ = aU.app _ (m ≫ s) := (NatTrans.naturality_apply aU m.op s).symm
     rw [h1, hms]
     have h2 : aU.app _ (r ≫ k) = X.map r.op (aU.app _ k) := NatTrans.naturality_apply aU r.op k
-    rw [h2, hk, ← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [h2, hk, ← Functor.map_comp_apply, ← op_comp]
   have hmj : m ≫ j₁ = jc := by
     have h := congrArg (π.app (op c)) hm
     rw [app_map_eq, app_map_eq, r₀.2] at h
@@ -501,8 +501,8 @@ private theorem exists_arrowChart_finitePresentation_aux (h𝒳 : IsAlgebraicSta
       apply Subtype.ext
       show X.map (specOverMap (sectionsMap m hmj)).op (X.map (sectionsHom U₁ j₁).op ξ) =
         X.map (specOverMap f₁).op r₀.1
-      rw [← FunctorToTypes.map_comp_apply, ← op_comp, specOverMap_sectionsMap, op_comp,
-        FunctorToTypes.map_comp_apply, hm, ← FunctorToTypes.map_comp_apply, ← op_comp, hf₁]
+      rw [← Functor.map_comp_apply, ← op_comp, specOverMap_sectionsMap, op_comp,
+        Functor.map_comp_apply, hm, ← Functor.map_comp_apply, ← op_comp, hf₁]
     rw [hpt, relToArr_map, hr₀]
     exact Arr.map_idt f₁ w
 

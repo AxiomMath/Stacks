@@ -5,6 +5,7 @@ public import Mathlib.Topology.Algebra.OpenSubgroup
 public import Mathlib.Topology.LocallyConstant.Basic
 public import Mathlib.Topology.Homeomorph.Lemmas
 public import Mathlib.GroupTheory.OrderOfElement
+public import Mathlib.Topology.Separation.Connected
 
 /-!
 # Extending a Frobenius-invariant character across the closure of a Frobenius

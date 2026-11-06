@@ -119,6 +119,15 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (X : AlgebraicSpaces B S hS)
 
+attribute [local instance 5000] SmallEtale.instHasSheafify
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The global sections functor of abelian sheaves with coefficients in `u + 1` on the small
+étale site (instance search times out without this shortcut). -/
+local instance hasGlobalSectionsFunctor_moduleCohomologyAbelianComparison :
+    HasGlobalSectionsFunctor (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u + 1} :=
+  hasGlobalSectionsFunctor_of_hasLimitsOfShape _ _
+
 /-- The underlying abelian sheaf of an `𝒪_X`-module, with its sections raised to the universe
 `u + 1` of the objects of the small étale site. -/
 abbrev moduleToAbelianSheaf :
@@ -226,6 +235,7 @@ local instance hasExt_sheaf_u :
     HasExt.{u + 1} (Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u}) :=
   HasExt.standard _
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- `Ext` groups in the universe `u + 1` between abelian sheaves on the small étale site with
 coefficients in `u + 1`: the category of these sheaves is Grothendieck abelian, the site being
 essentially small. -/

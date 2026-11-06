@@ -205,17 +205,29 @@ section Site
 variable (R : Type w) [CommRing R] {U₀ : C} (hU₀ : IsTerminal U₀)
   (J : GrothendieckTopology C)
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] (O : Sheaf J CommRingCat.{w})
-  (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (α : R →+* O.val.obj (op U₀))
+  (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (α : R →+* O.obj.obj (op U₀))
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- The rings of sections of `ringSheaf J O` are commutative (instance search no longer sees
+through the composite with `forget₂`). -/
+local instance commRingRingSheafObj (X : Cᵒᵖ) : CommRing ((ringSheaf J O).obj.obj X) :=
+  inferInstanceAs (CommRing (O.obj.obj X))
+
+omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
+/-- The rings of sections of `ringSheaf J O` are commutative, in unbundled form. -/
+local instance isMulCommutativeRingSheafObj (X : Cᵒᵖ) :
+    IsMulCommutative ((ringSheaf J O).obj.obj X) :=
+  inferInstanceAs (IsMulCommutative (O.obj.obj X))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The sections of the presheaf-level tensor functor on a morphism, on a pure tensor. -/
 theorem tensorByBaseModulePresheaf_map_app_tmul {M N : ModuleCat.{w} R} (ψ : M ⟶ N) (X : Cᵒᵖ)
-    (s : 𝓕.val.obj X) (b : O.val.obj X)
+    (s : 𝓕.val.obj X) (b : O.obj.obj X)
     (m : ((constantModulePresheaf (C := C) R).obj M).obj X) :
-    letI := ((coefficientMap R hU₀ (O := O.val) α).app X).hom.toAlgebra
+    letI := ((coefficientMap R hU₀ (O := O.obj) α).app X).hom.toAlgebra
     (((tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).map ψ).app X).hom
-        (s ⊗ₜ[O.val.obj X] (b ⊗ₜ[(constantRingPresheaf (C := C) R).obj X] m))
-      = s ⊗ₜ[O.val.obj X] (b ⊗ₜ[(constantRingPresheaf (C := C) R).obj X]
+        (s ⊗ₜ[O.obj.obj X] (b ⊗ₜ[(constantRingPresheaf (C := C) R).obj X] m))
+      = s ⊗ₜ[O.obj.obj X] (b ⊗ₜ[(constantRingPresheaf (C := C) R).obj X]
           (((constantModulePresheaf (C := C) R).map ψ).app X).hom m) := by
   let := ((coefficientMap R hU₀ (O := O.obj) α).app X).hom.toAlgebra
   show (𝓕.val.obj X ◁ ((changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).map
@@ -225,9 +237,9 @@ theorem tensorByBaseModulePresheaf_map_app_tmul {M N : ModuleCat.{w} R} (ψ : M 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- Tensoring on the left with a fixed presheaf of modules commutes with multiplication by a
 section over the terminal object. -/
-theorem tensorLeft_map_presheafMult (F : PMod O.val) (a : O.val.obj (op U₀)) (N : PMod O.val) :
-    (tensorLeft F).map (presheafMult hU₀ O.val a N)
-      = presheafMult hU₀ O.val a ((tensorLeft F).obj N) := by
+theorem tensorLeft_map_presheafMult (F : PMod O.obj) (a : O.obj.obj (op U₀)) (N : PMod O.obj) :
+    (tensorLeft F).map (presheafMult hU₀ O.obj a N)
+      = presheafMult hU₀ O.obj a ((tensorLeft F).obj N) := by
   refine PresheafOfModules.hom_ext fun X => ?_
   refine ModuleCat.hom_ext (TensorProduct.ext' fun s t => ?_)
   show s ⊗ₜ[O.obj.obj X] ((O.obj.map (hU₀.from X.unop).op a) • t)
@@ -238,10 +250,10 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- Extension of scalars along the coefficient map carries the action of a scalar on the
 identity to multiplication by the image of that scalar. -/
 theorem changeOfRings_constantModulePresheaf_map_smul_id (N : ModuleCat.{w} R) (r : R) :
-    (changeOfRings (coefficientMap R hU₀ (O := O.val) α)).map
+    (changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).map
         ((constantModulePresheaf (C := C) R).map (r • 𝟙 N))
-      = presheafMult hU₀ O.val (α r)
-          ((changeOfRings (coefficientMap R hU₀ (O := O.val) α)).obj
+      = presheafMult hU₀ O.obj (α r)
+          ((changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).obj
             ((constantModulePresheaf (C := C) R).obj N)) := by
   refine (homEquivCore (coefficientMap R hU₀ (O := O.obj) α) _ _).injective ?_
   refine PresheafOfModules.hom_ext fun X => ?_
@@ -278,7 +290,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 multiplication by the image of that scalar. -/
 theorem tensorByBaseModulePresheaf_map_smul_id (N : ModuleCat.{w} R) (r : R) :
     (tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).map (r • 𝟙 N)
-      = presheafMult hU₀ O.val (α r) ((tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).obj N) := by
+      = presheafMult hU₀ O.obj (α r) ((tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).obj N) := by
   show (tensorLeft 𝓕.val).map ((changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).map
       ((constantModulePresheaf (C := C) R).map (r • 𝟙 N))) = _
   rw [changeOfRings_constantModulePresheaf_map_smul_id, tensorLeft_map_presheafMult]
@@ -289,7 +301,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 to multiplication by the image of that scalar.** -/
 theorem tensorByBaseModulePresheaf_map_smul {M N : ModuleCat.{w} R} (r : R) (φ : M ⟶ N) :
     (tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).map (r • φ) =
-      presheafMult hU₀ O.val (α r) ((tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).obj M) ≫
+      presheafMult hU₀ O.obj (α r) ((tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).obj M) ≫
         (tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).map φ := by
   have key : r • φ = φ ≫ (r • 𝟙 N) := by
     rw [Linear.comp_smul, Category.comp_id]
@@ -303,12 +315,12 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}] in
 /-- Multiplication by a section over the terminal object, on a sheaf of modules, is
 multiplication by that section on the underlying presheaf. -/
-theorem forget_map_terminalSectionToEnd (a : O.val.obj (op U₀))
+theorem forget_map_terminalSectionToEnd (a : O.obj.obj (op U₀))
     (G : SheafOfModules.{w} (ringSheaf J O)) :
     (SheafOfModules.forget (ringSheaf J O) ⋙
           PresheafOfModules.restrictScalars (𝟙 (ringSheaf J O).obj)).map
-        ((Stacks.SheafOfModules.terminalSectionToEnd (ringSheaf J O) U₀ hU₀ a).app G)
-      = presheafMult hU₀ O.val a
+        ((Stacks.SheafOfModules.terminalSectionToEnd (ringSheaf J O) U₀ hU₀ a).asHom.app G)
+      = presheafMult hU₀ O.obj a
         ((SheafOfModules.forget (ringSheaf J O) ⋙
           PresheafOfModules.restrictScalars (𝟙 (ringSheaf J O).obj)).obj G) := by
   refine PresheafOfModules.hom_ext fun X => ?_
@@ -318,13 +330,13 @@ theorem forget_map_terminalSectionToEnd (a : O.val.obj (op U₀))
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- **Sheafification carries multiplication by a section over the terminal object to
 multiplication by that section.** -/
-theorem sheafify_map_presheafMult (a : O.val.obj (op U₀)) (N : PMod O.val) :
-    (sheafify J O).map (presheafMult hU₀ O.val a N)
-      = (Stacks.SheafOfModules.terminalSectionToEnd (ringSheaf J O) U₀ hU₀ a).app
+theorem sheafify_map_presheafMult (a : O.obj.obj (op U₀)) (N : PMod O.obj) :
+    (sheafify J O).map (presheafMult hU₀ O.obj a N)
+      = (Stacks.SheafOfModules.terminalSectionToEnd (ringSheaf J O) U₀ hU₀ a).asHom.app
         ((sheafify J O).obj N) := by
   show (PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).map
       (presheafMult hU₀ O.obj a N)
-    = (Stacks.SheafOfModules.terminalSectionToEnd (ringSheaf J O) U₀ hU₀ a).app
+    = (Stacks.SheafOfModules.terminalSectionToEnd (ringSheaf J O) U₀ hU₀ a).asHom.app
       ((PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)).obj N)
   refine ((PresheafOfModules.sheafificationAdjunction
     (𝟙 (ringSheaf J O).obj)).homEquiv N _).injective ?_

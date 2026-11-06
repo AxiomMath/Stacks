@@ -117,11 +117,16 @@ theorem exists_refinement_lerayTermMap_eq_zero_of_killedSystem (M : ProperModel 
       ((forall_nsmul_eq_zero_iff_nsmul_id_eq_zero _).2 (nsmul_id_cokernel_eq_zero d hG))
   have hHQ : Subsingleton (Sheaf.H.{u + 1} (cokernel d) p) := by
     refine (subsingleton_sheafH_iff_geometricClosedFibre_of_isProper M.f x hx _ hQ p).2 ?_
-    refine subsingleton_H_of_forall_mem_smallEtaleSupport_two_mul_lt Ω (pullback.snd M.f x) _
-      (torsionSheafProperty_etaleAbelianInverseImage.{u, 0} (pullback.fst M.f x) _ hQ) p
-      fun y hy ↦ ?_
-    obtain ⟨a, haq, ha1, hya⟩ := hsupp y hy
-    exact ⟨a, by omega, hya⟩
+    have hT := torsionSheafProperty_etaleAbelianInverseImage.{u, 0} (pullback.fst M.f x) _ hQ
+    have key := @subsingleton_H_of_forall_mem_smallEtaleSupport_two_mul_lt Ω _ inferInstance _
+      (pullback.snd M.f x) ?_ ?_ _ hT p fun y hy ↦ by
+        obtain ⟨a, haq, ha1, hya⟩ := hsupp y hy
+        exact ⟨a, by omega, hya⟩
+    · exact key
+    · have : IsProper (pullback.snd M.f x) := inferInstance
+      exact QuasiCompact.compactSpace_of_compactSpace (pullback.snd M.f x)
+    · have : IsProper (pullback.snd M.f x) := inferInstance
+      exact this.toLocallyOfFiniteType
   obtain ⟨i, z, hz⟩ := exists_sheafH_map_eq_of_mono_colimitDesc K ι p hHQ c
   obtain ⟨M', φ, hφ⟩ := hkill i
   exact ⟨M', φ, hz ▸ φ.lerayTermMap_sheafHMap_eq_zero_of_kills F p q (ι.app i) hφ z⟩

@@ -219,12 +219,13 @@ theorem derivedSheafHomSourceShiftIsoOfKInjective_hom_naturality
     have h := derivedSheafHomComparison_naturality X u v
     rw [Iso.eq_inv_comp, ← Category.assoc, ← h]
     simp
-  rw [derivedSheafHomSourceShiftIsoOfKInjective_hom,
-    derivedSheafHomSourceShiftIsoOfKInjective_hom, Category.assoc,
-    reassoc_of% (derivedSheafHomComparison_naturality X
+  have hn := derivedSheafHomComparison_naturality X
       ((CategoryTheory.shiftFunctor
         (CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ)
-        b).map u) v),
+        b).map u) v
+  rw [derivedSheafHomSourceShiftIsoOfKInjective_hom,
+    derivedSheafHomSourceShiftIsoOfKInjective_hom, Category.assoc,
+    reassoc_of% hn,
     reassoc_of% hs, CategoryTheory.Functor.commShiftIso_hom_naturality_assoc, ht]
   simp only [Category.assoc]
 

@@ -166,7 +166,7 @@ omit [IsDomain R] in
 /-- **The defining identity of `Stacks.Trace.integralTrace`:** it is a preimage in `R` of the
 field trace. -/
 @[simp] theorem algebraMap_integralTrace (x : integralClosure R L) :
-    algebraMap R K (integralTrace R K x) = Algebra.trace K L (x : L) :=
+    algebraMap R K (integralTrace R K (L := L) x) = Algebra.trace K L (x : L) :=
   (exists_algebraMap_eq_trace R K x).choose_spec
 
 omit [IsDomain R] in

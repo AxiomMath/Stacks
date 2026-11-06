@@ -7,6 +7,7 @@ public import Mathlib.RingTheory.KrullDimension.Regular
 import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
 import Mathlib.RingTheory.MvPowerSeries.Equiv
 import Mathlib.RingTheory.PowerSeries.Ideal
+import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.TotallySplit
 public import StacksCore.Tactic.StacksAttribute

@@ -59,7 +59,6 @@ theorem IsBaseChange.of_algEquiv {R S S' M N : Type*} [CommSemiring R] [CommSemi
       = hf.equiv (TensorProduct.congr e.toLinearEquiv (LinearEquiv.refl R M) x) := by
     intro x
     induction x with
-    | zero => simp
     | tmul s m => simp [hf.equiv_tmul, he]
     | add x y hx hy => simp [hx, hy]
   have hbij : Function.Bijective (f.liftBaseChange S) := by

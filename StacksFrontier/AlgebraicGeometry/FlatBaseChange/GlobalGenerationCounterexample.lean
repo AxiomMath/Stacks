@@ -416,7 +416,7 @@ lemma two_mul_mem_zInv_three_iff {x : ℤ} {n : ℕ} :
 lemma exists_eq_div_of_mem_zInv_three {q : K.{u}} (h : q ∈ zInv 3) :
     ∃ x : ℤ, ∃ n : ℕ, q = ⟨(x : ℚ) / 3 ^ n⟩ := by
   obtain ⟨n, x, hx⟩ := h
-  refine ⟨x, n, ULift.ext _ _ ?_⟩
+  refine ⟨x, n, ULift.ext ?_⟩
   simp only [Nat.cast_ofNat] at hx
   rw [← hx]
   field_simp

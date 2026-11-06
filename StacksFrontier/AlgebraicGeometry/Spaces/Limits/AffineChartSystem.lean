@@ -235,7 +235,6 @@ theorem stageBaseChangeCone_π_comp_fst (j : Over i₀) :
       stageBaseChangeConeFst B S hS i₀ D U₀ f₀ ≫ limit.π D j.left := by
   dsimp [stageBaseChangeFst, stageBaseChangeConeFst, Over.pullback, Over.post, Cone.overPost]
   simp only [Over.homMk_left, pullback.lift_fst]
-  rfl
 
 /-- Projecting the canonical cone to a stage and then to `U₀` is its own projection to
 `U₀`. -/

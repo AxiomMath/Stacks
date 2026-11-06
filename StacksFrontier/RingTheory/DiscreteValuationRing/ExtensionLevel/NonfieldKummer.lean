@@ -414,7 +414,8 @@ private theorem normalization_ramificationIdx_eq_degree
     Module.isTorsionFree_iff_algebraMap_injective.mpr injective
   have contractedMaximal :
       ((IsLocalRing.maximalIdeal Normalization).comap (algebraMap Base Normalization)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (IsLocalRing.maximalIdeal Normalization)
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := Base)
+      (IsLocalRing.maximalIdeal Normalization)
   let : (IsLocalRing.maximalIdeal Normalization).LiesOver (IsLocalRing.maximalIdeal Base) :=
     ⟨(IsLocalRing.eq_maximalIdeal contractedMaximal).symm⟩
   have nonzero : IsLocalRing.maximalIdeal Base ≠ ⊥ := IsDiscreteValuationRing.not_a_field Base

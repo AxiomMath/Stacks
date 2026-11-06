@@ -93,7 +93,7 @@ variable {k : Type u} [Field k] {S : Scheme.{u}} {p : S ⟶ Spec (.of k)} [IsPro
 /-- **The automorphisms over `k` of a surface with Wehler relations form an infinite set**: the
 powers of `τ = σ ∘ ρ` are pairwise distinct. -/
 theorem infinite_setOf_comp_eq (h : WehlerRelations k p hS H A ρ σ) :
-    {g : Aut S | g.hom ≫ p = p}.Infinite := by
+    {g : Aut S | g.asIso.hom ≫ p = p}.Infinite := by
   have hinj : Function.Injective fun n : ℕ => (σ * ρ) ^ n := by
     refine injective_pow_iff_not_isOfFinOrder.mpr fun hfin => ?_
     obtain ⟨n, hn, h1⟩ := (isOfFinOrder_iff_pow_eq_one).mp hfin
@@ -104,14 +104,14 @@ theorem infinite_setOf_comp_eq (h : WehlerRelations k p hS H A ρ σ) :
 and `(𝓐 · (τ^n)^*𝓐) ≥ (𝓐 · 𝓐) + n`. -/
 private theorem pow_pullback_isAmple_and_intersectionNumber
     (h : WehlerRelations k p hS H A ρ σ) (n : ℕ) :
-    Scheme.Modules.IsAmple S ((Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj A) ∧
-      intersectionNumber k p (𝟙 S) 2 hS.le ![(Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj A,
-        (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj A] =
+    Scheme.Modules.IsAmple S ((Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A) ∧
+      intersectionNumber k p (𝟙 S) 2 hS.le ![(Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A,
+        (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A] =
         intersectionNumber k p (𝟙 S) 2 hS.le ![A, A] ∧
       intersectionNumber k p (𝟙 S) 2 hS.le ![A, A] + n ≤
         intersectionNumber k p (𝟙 S) 2 hS.le
-          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj A] := by
-  have : IsIso ((σ * ρ) ^ n).hom := @Iso.isIso_hom _ _ S S _
+          ![A, (Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A] := by
+  have : IsIso ((σ * ρ) ^ n).asIso.hom := @Iso.isIso_hom _ _ S S _
   obtain ⟨hamp, hself⟩ :=
     isAmple_pullback_and_intersectionNumber_eq k p hS _ (h.pow_hom_comp n) A h.isAmple
   exact ⟨hamp, hself, h.intersectionNumber_add_le_pow_pullback n⟩
@@ -138,13 +138,13 @@ theorem exists_isEffectiveCartierDivisor_intersectionNumber_gt
           ![Stacks.Divisors.divisorSheaf D₁, Stacks.Divisors.divisorSheaf D₂] := by
   obtain ⟨n, hn⟩ := exists_nat_gt (N - intersectionNumber k p (𝟙 S) 2 hS.le ![A, A])
   obtain ⟨hamp, hself, hgrow⟩ := h.pow_pullback_isAmple_and_intersectionNumber n
-  have : IsIso ((σ * ρ) ^ n).hom := @Iso.isIso_hom _ _ S S _
+  have : IsIso ((σ * ρ) ^ n).asIso.hom := @Iso.isIso_hom _ _ S S _
   obtain ⟨D₁, hD₁, ⟨e₁⟩⟩ := exists_isEffectiveCartierDivisor_iso_of_mem_nonvanishingLocus A s hy
-  have hy' : ((σ * ρ) ^ n).hom.base (((σ * ρ) ^ n).inv.base y) ∈
+  have hy' : ((σ * ρ) ^ n).asIso.hom.base (((σ * ρ) ^ n).asIso.inv.base y) ∈
       Stacks.Ample.nonvanishingLocus A s := by
-    rw [← Scheme.Hom.comp_apply, ((σ * ρ) ^ n).inv_hom_id]; exact hy
+    rw [← Scheme.Hom.comp_apply, ((σ * ρ) ^ n).asIso.inv_hom_id]; exact hy
   obtain ⟨D₂, hD₂, ⟨e₂⟩⟩ := exists_isEffectiveCartierDivisor_iso_of_mem_nonvanishingLocus
-    ((Scheme.Modules.pullback ((σ * ρ) ^ n).hom).obj A) _
+    ((Scheme.Modules.pullback ((σ * ρ) ^ n).asIso.hom).obj A) _
     (Stacks.TwistPullbackPinned.mem_nonvanishingLocus_pullbackGlobalSections _ A s hy')
   have := hD₁
   have := hD₂
@@ -199,13 +199,13 @@ theorem not_exists_hilbertFunction_bound (h : WehlerRelations k p hS H A ρ σ) 
     intersectionNumber k p (𝟙 S) 2 hS.le ![A, A])
   set g := (σ * ρ) ^ n with hg
   have hgp := h.pow_hom_comp n
-  have : IsIso g.hom := @Iso.isIso_hom _ _ S S g
+  have : IsIso g.asIso.hom := @Iso.isIso_hom _ _ S S g.asIso
   obtain ⟨hamp, -, hgrow⟩ := h.pow_pullback_isAmple_and_intersectionNumber n
-  have hB := hilbertFunction_pullback_of_isIso k p A g.hom hgp
-  have hbound := hΦ A ((Scheme.Modules.pullback g.hom).obj A) h.isAmple hamp 1
+  have hB := hilbertFunction_pullback_of_isIso k p A g.asIso.hom hgp
+  have hbound := hΦ A ((Scheme.Modules.pullback g.asIso.hom).obj A) h.isAmple hamp 1
   rw [hB, hilbertFunction_one] at hbound
   have hAB := intersectionNumber_two_eq_eulerCharacteristic k p hS.le
-    ![A, (Scheme.Modules.pullback g.hom).obj A]
+    ![A, (Scheme.Modules.pullback g.asIso.hom).obj A]
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hAB
   have hB1 := congrFun hB 1
   rw [hilbertFunction_one, hilbertFunction_one] at hB1
@@ -297,7 +297,7 @@ the ample module `𝒪(1, 1, 1)|_X`, the cyclic permutation `ρ` and the coverin
 theorem wehlerRelations_cyclicTriquadric :
     WehlerRelations ℚ cyclicTriquadricToBase topologicalKrullDim_cyclicTriquadric
       cyclicTriquadricPencil cyclicTriquadricAmple
-      cyclicTriquadricRotation cyclicTriquadricInvolution :=
+      (Aut.of cyclicTriquadricRotation) (Aut.of cyclicTriquadricInvolution) :=
   WehlerRelations.of_isos_of_twist
     (surfaceRotation_hom_toBase _ _)
     (triquadraticSurfaceInvolution_toBase _ _ _)
@@ -327,17 +327,18 @@ theorem exists_mem_nonvanishingLocus_cyclicTriquadric :
 
 /-- The automorphisms of the cyclically symmetric triquadric over `ℚ` form an infinite set. -/
 theorem infinite_setOf_comp_cyclicTriquadricToBase :
-    {g : Aut cyclicTriquadric | g.hom ≫ cyclicTriquadricToBase = cyclicTriquadricToBase}.Infinite :=
+    {g : Aut cyclicTriquadric | g.asIso.hom ≫ cyclicTriquadricToBase = cyclicTriquadricToBase}.Infinite :=
   wehlerRelations_cyclicTriquadric.infinite_setOf_comp_eq
 
 /-- **The automorphism `τ = σ ∘ ρ`** of the cyclically symmetric triquadric. -/
 def cyclicTriquadricAutomorphism : Aut cyclicTriquadric :=
-  HMul.hMul (α := Aut cyclicTriquadric) (β := Aut cyclicTriquadric) cyclicTriquadricInvolution
-    cyclicTriquadricRotation
+  HMul.hMul (α := Aut cyclicTriquadric) (β := Aut cyclicTriquadric)
+    (Aut.of cyclicTriquadricInvolution)
+    (Aut.of cyclicTriquadricRotation)
 
 /-- `τ` is an automorphism over `ℚ`. -/
 theorem cyclicTriquadricAutomorphism_hom_comp :
-    cyclicTriquadricAutomorphism.hom ≫ cyclicTriquadricToBase = cyclicTriquadricToBase := by
+    cyclicTriquadricAutomorphism.asIso.hom ≫ cyclicTriquadricToBase = cyclicTriquadricToBase := by
   have h := wehlerRelations_cyclicTriquadric.pow_hom_comp 1
   rw [pow_one] at h
   exact h
@@ -401,8 +402,8 @@ theorem exists_surface_not_bounded :
       (hS : topologicalKrullDim S = (2 : ℕ)),
       (∃ A : S.Modules, ∃ (_ : SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 A),
         Scheme.Modules.IsAmple S A) ∧
-      (∃ τ : Aut S, τ.hom ≫ p = p ∧ ¬ IsOfFinOrder τ) ∧
-      {g : Aut S | g.hom ≫ p = p}.Infinite ∧
+      (∃ τ : Aut S, τ.asIso.hom ≫ p = p ∧ ¬ IsOfFinOrder τ) ∧
+      {g : Aut S | g.asIso.hom ≫ p = p}.Infinite ∧
       (¬ ∃ Φ : (ℕ → ℤ) → (ℕ → ℤ) → ℕ → ℤ, ∀ (N L : S.Modules)
         [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 N]
         [SheafOfModules.IsInvertible S.presheaf S.ringCatSheaf.2 L],

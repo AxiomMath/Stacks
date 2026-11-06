@@ -61,6 +61,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_etaleIso :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_etaleIso
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {A A' G P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- If the base change of `g : G ⟶ A` along `p : A' ⟶ A` is an isomorphism and `p` is
@@ -130,13 +141,15 @@ theorem isIso_of_isEtale_of_isIso_pullback_of_isSurjective
     have _ := hfst
     exact isIso_of_iso_hom_comp_eq
       ((pullbackRightPullbackFstIso p g u).trans (pullbackSymmetry (u ≫ p) g)) _
-      (pullback.fst u (pullback.fst p g)) (by simp)
+      (pullback.fst u (pullback.fst p g))
+      (by rw [Iso.trans_hom, Category.assoc, pullbackSymmetry_hom_comp_snd,
+        pullbackRightPullbackFstIso_hom_fst])
   have htfae := (universallyInjective_tfae B S hS hG hA g).out 4 1
   have hui : UniversallyInjective B S hS g := by
     apply htfae.mp
     refine ⟨U, u ≫ p, hchart, ?_⟩
     have _ := hiso
-    exact universallyInjective_of_mono B S hS _ inferInstance
+    exact universallyInjective_of_mono B S hS _ (IsIso.mono_of_iso _)
   exact isIso_of_isOpenImmersion_of_surjective_pointsMap B S hS g
     (isOpenImmersion_of_isEtale_of_universallyInjective B S hS hG hA g hg hui) hgsurj
 

@@ -159,6 +159,17 @@ open AlgebraicGeometry.Space
 variable {S : Scheme.{u}} (G : GroupoidScheme S) (C : BigFppfSite.{u}) (hS : C.Contains S)
   (hU : C.Contains G.objects.left) (hR : C.Contains G.arrows.left)
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+instance (priority := high) hasPullbacks_presheaf_restrictionArrows :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+instance (priority := high) hasPullback_presheaf_restrictionArrows
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_restrictionArrows C hS).has_limit _
+
 /-! ### The site contains the schemes of the comparison -/
 
 include hR in

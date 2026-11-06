@@ -142,8 +142,7 @@ theorem mapHomotopyCategoryOfComp_comp_left (F F' : A₁ ⥤ A₃) [F.Additive] 
     (mapHomotopyCategoryOfComp F G H (σ ≫ τ)).app J =
       (NatTrans.mapHomotopyCategory σ (ComplexShape.up ℤ)).app J ≫
         (mapHomotopyCategoryOfComp F' G H τ).app J := by
-  rw [mapHomotopyCategoryOfComp_app, mapHomotopyCategoryOfComp_app,
-    NatTrans.mapHomotopyCategory_app]
+  rw [mapHomotopyCategoryOfComp_app, mapHomotopyCategoryOfComp_app]
   refine Eq.trans (congrArg (HomotopyCategory.quotient A₃ (ComplexShape.up ℤ)).map
       (?_ : (NatTrans.mapHomologicalComplex (σ ≫ τ) (ComplexShape.up ℤ)).app J.as =
         (NatTrans.mapHomologicalComplex σ (ComplexShape.up ℤ)).app J.as ≫
@@ -555,6 +554,7 @@ section Square
 variable (B : BigEtaleSite.{u}) {X S : Scheme.{u}} (hS : B.Contains S) (f : X ⟶ S)
   (s : GeometricPoint S) (t : GeometricPoint (strictHenselization B S hS s))
 
+set_option maxHeartbeats 1600000 in
 /-- The sheaf-level square of Stacks 0GJ8 in the vocabulary of the original maps, with the
 restriction of sections along `id_X × c` written out as restriction of global sections followed
 by the composition isomorphism for inverse images. -/
@@ -879,7 +879,6 @@ private theorem unitSquare
   rw [Stacks.DerivedFunctor.mapHomotopyCategory_whiskerLeft_app]
   simp only [Category.assoc]
   erw [Iso.inv_hom_id_app_assoc]
-  rfl
 
 /-- **Stacks 0GJ9.** For `K` in `D(X_etale)` the specialization map on the stalk of `Rf_*K` at a
 geometric point `s` of `S`, and pullback along `id_X × c` on global sections over the base change

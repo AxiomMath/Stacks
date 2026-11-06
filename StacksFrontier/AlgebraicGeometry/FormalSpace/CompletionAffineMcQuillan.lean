@@ -429,7 +429,7 @@ theorem supportStageSection_transition {J K : SupportIdeal I} (h : J.1 ≤ K.1) 
         (supportStageSection B S hS hA f I J) =
       supportStageSection B S hS hA f I K := by
   exact sheafify_map_toSheafify_app B S hS _ _ _ <|
-    Subtype.ext <| ULift.ext _ _ <| supportStageToAffine_transition B S hS hA f I h
+    Subtype.ext <| ULift.ext <| supportStageToAffine_transition B S hS hA f I h
 
 /-- The morphism from a quotient stage into the completion `X_{/V(I)}`, corresponding under
 Yoneda's lemma for sheaves to the canonical section over that stage. -/
@@ -648,7 +648,7 @@ private theorem zeroLocusCompletion_map_supportStageSection (U : BigAffineFppf B
       (GrothendieckTopology.toSheafify (BigFppfOver.topology B S hS)
         (Space.completionSubfunctor B S hS (yoneda.obj (affineOver B S hS hA f))
           (zeroLocusPoints B S hS hA f I)).toFunctor).app (Opposite.op U.1) x := by
-  exact sheafify_map_toSheafify_app B S hS _ _ _ <| Subtype.ext <| ULift.ext _ _ hk
+  exact sheafify_map_toSheafify_app B S hS _ _ _ <| Subtype.ext <| ULift.ext hk
 
 /-- The comparison morphism sends the section attached to a supported section back to that
 section, which is one half of its being an isomorphism. -/

@@ -337,7 +337,6 @@ lemma chartEquiv_res (U V W : Y.affineOpens) (hV : IsBasicIn (U : Y.Opens) V)
   have hα : IsBaseChange Γ(Y, V) (semilinearToLinear _ (chartSectionₛₗ U (T.obj U) hV.le)) :=
     isBaseChangeAlong_chartSectionₛₗ_of_isBasicIn U (T.obj U) hV
   induction s using hα.inductionOn with
-  | zero => simp only [map_zero]
   | tmul m =>
     show T.chartEquiv U W hW (chartSection U (T.obj U) W m) =
       T.map hWV (T.chartEquiv U V hV (chartSection U (T.obj U) V m))

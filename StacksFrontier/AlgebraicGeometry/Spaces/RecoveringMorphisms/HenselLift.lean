@@ -48,6 +48,21 @@ attribute [local instance] smallEtaleTopology_subcanonical
 
 open Sheaf
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Finite products of sheaves of sets on a small étale site, supplied directly: under Lean
+v4.35.0 instance search for them times out in this file. -/
+local instance (priority := high) hasFiniteProducts_sheaf_henselLift
+    {Z : AlgebraicSpaces B S hS} :
+    HasFiniteProducts (Sheaf (SmallEtale.topology B S hS Z.1) (Type u)) :=
+  inferInstance
+
+/-- `F ↦ (g⁻¹F)_x̄` preserves finite products, supplied directly: under Lean v4.35.0 instance
+search for it times out in this file. -/
+local instance (priority := high) preservesFiniteProducts_invStalk_henselLift
+    (g : RingedToposHom (smallEtaleRingedTopos B S hS X) (smallEtaleRingedTopos B S hS Y))
+    (x : GeometricPoint B S hS X.1) : PreservesFiniteProducts (invStalk g x) :=
+  ⟨fun n => PreservesFiniteLimits.preservesFiniteLimits (Discrete (Fin n))⟩
+
 section Germ
 
 variable (x : GeometricPoint B S hS X.1)
@@ -289,7 +304,7 @@ theorem sectionsFunctor_map_presEval (U : SmallEtale B S hS Y.1)
         (MvPolynomial.map ((BigFppfOver.toScheme B S hS).map
           (show U ⟶ V₀ from (sectionsFunctor _ (op U)).map prod.fst z).hom.left).appTop.hom
           (P j)) := by
-  rw [presEval, Pi.lift_π]
+  rw [presEval, Pi.lift_comp_π]
   refine (sectionsFunctor_map_evalHom (ringO_mul_comm Y) (yonedaRingHom V₀) (P j) (op U) z).trans
     ?_
   rw [sectionsEvalRingHom_comp_yonedaRingHom]
@@ -317,7 +332,7 @@ theorem sectionsFunctor_map_presι_snd (U : SmallEtale B S hS Y.1)
       ((BigFppfOver.toScheme B S hS).map (show U ⟶ V' from s').hom.left).appTop.hom
         (presCoord c pres i) := by
   show (sectionsFunctor _ (op U)).map (presι c pres ≫ prod.snd ≫ Pi.π _ i) s' = _
-  rw [presι, prod.lift_snd_assoc, Pi.lift_π, sectionsFunctor_map_secToHom]
+  rw [presι, prod.lift_snd_assoc, Pi.lift_comp_π, sectionsFunctor_map_secToHom]
   rfl
 
 /-- **`presι` equalizes the polynomial map and zero.** -/
@@ -327,7 +342,7 @@ theorem presι_comp_presEval :
   obtain ⟨U⟩ := U
   refine Functor.piObjMk_ext fun j ↦ ?_
   rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, Category.assoc, Category.assoc,
-    Functor.map_comp_apply, sectionsFunctor_map_presEval, presZero, Pi.lift_π,
+    Functor.map_comp_apply, sectionsFunctor_map_presEval, presZero, Pi.lift_comp_π,
     Functor.map_comp_apply, sectionsFunctor_map_hom_ringZero]
   simp only [sectionsFunctor_map_presι_snd, sectionsFunctor_map_presι_fst]
   have hcomp : (BigFppfOver.toScheme B S hS).map ((show U ⟶ V' from s') ≫ c).hom.left =
@@ -356,7 +371,7 @@ theorem existsUnique_sectionsFunctor_presι (U : SmallEtale B S hS Y.1)
     have h := congrArg ((sectionsFunctor _ (op U)).map
       (Pi.π (fun _ : Fin n => ringSheaf (ringO Y)) j)) hz
     rwa [← Functor.map_comp_apply, ← Functor.map_comp_apply,
-      sectionsFunctor_map_presEval, presZero, Pi.lift_π, sectionsFunctor_map_hom_ringZero] at h
+      sectionsFunctor_map_presEval, presZero, Pi.lift_comp_π, sectionsFunctor_map_hom_ringZero] at h
   let e := Stacks.EtaleCohomology.homOverEquivSolutions (chartSch U) (chartSch V')
     ((BigFppfOver.toScheme B S hS).map c.hom.left)
     ((BigFppfOver.toScheme B S hS).map t.hom.left) P pres
@@ -478,7 +493,7 @@ instance mono_presChartTheta : Mono (presChartTheta f c pres) := by
     have := congrArg (E.map (prod.snd ≫ Pi.π _ i)) (show E.map (presChartTheta f c pres) d₁ =
       E.map (presChartTheta f c pres) d₂ from h)
     rwa [← types_comp_apply (E.map _), ← types_comp_apply (E.map _) (E.map (prod.snd ≫ _)),
-      ← Functor.map_comp, presChartTheta, prod.lift_snd_assoc, Pi.lift_π] at this
+      ← Functor.map_comp, presChartTheta, prod.lift_snd_assoc, Pi.lift_comp_π] at this
   apply Subtype.ext
   apply (BigFppfOver.toScheme B S hS).map_injective
   refine eq_of_presCoord c pres _ _ ?_ fun i ↦ h₂ i
@@ -527,11 +542,11 @@ theorem invStalk_map_presEval_eq_iff
           (prod.snd ≫ Pi.π (fun _ : Fin n => ringSheaf (ringO Y)) i) z)
         (MvPolynomial.map (stalkCoordRingHom g x V₀ ((invStalk g x).map prod.fst z)) (P j)) :=
     fun j ↦ by
-      rw [presEval, Pi.lift_π]
+      rw [presEval, Pi.lift_comp_π]
       exact map_evalHom (ringO_mul_comm Y) (yonedaRingHom V₀) (P j) (invStalk g x) z
   have key0 : ∀ j, (invStalk g x).map (presZero (V₀ := V₀) (n := n) ≫ Pi.π _ j) z = 0 :=
     fun j ↦ by
-      rw [presZero, Pi.lift_π]
+      rw [presZero, Pi.lift_comp_π]
       exact map_hom_ringZero (invStalk g x) z
   refine ⟨fun h j ↦ ?_, fun h ↦ Functor.piObjMk_ext fun j ↦ ?_⟩
   · have := congrArg ((invStalk g x).map (Pi.π (fun _ : Fin n => ringSheaf (ringO Y)) j)) h
@@ -555,7 +570,7 @@ theorem stalk_chartFiber_ext
     exact h₁
   · have e : presChartTheta f c pres ≫ prod.snd ≫ Pi.π _ i =
         chartFiberCoordinate B S hS f V' (presCoord c pres i) := by
-      rw [presChartTheta, prod.lift_snd_assoc, Pi.lift_π]
+      rw [presChartTheta, prod.lift_snd_assoc, Pi.lift_comp_π]
     rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← Functor.map_comp_apply,
       ← Functor.map_comp_apply, e]
     exact h₂ i
@@ -577,7 +592,7 @@ theorem invStalk_map_presι_snd
     (invStalk g x).map (prod.snd ≫ Pi.π (fun _ : Fin n => ringSheaf (ringO Y)) i)
         ((invStalk g x).map (presι c pres) σ') =
       stalkCoordRingHom g x V' σ' (presCoord c pres i) := by
-  rw [← Functor.map_comp_apply, presι, prod.lift_snd_assoc, Pi.lift_π]
+  rw [← Functor.map_comp_apply, presι, prod.lift_snd_assoc, Pi.lift_comp_π]
   rfl
 
 variable [StrictlyHenselianLocalRing (invStalkRing g x)]

@@ -110,6 +110,20 @@ theorem bigPHSmallEtale_inverseImageCommIso_conjugate {X Y : P.Spaces} (f : Y �
 
 /-! ### The small étale site of scheme charts -/
 
+/-- Restriction of sheaves along the chart functor `smallEtaleToPH` is a right adjoint: its left
+adjoint is the pullback of sheaves built by left Kan extension and sheafification. (Instance
+search no longer finds this unaided since Lean v4.35.0.) -/
+instance smallEtaleToPH_sheafPushforwardContinuous_isRightAdjoint (X : P.Spaces) :
+    ((smallEtaleToPH P X).sheafPushforwardContinuous (Type (u + 1))
+      (Space.SmallEtale.topology P.fppfSite S P.fppf_mem X.1)
+      (BigPHSpaceOver.topology P X)).IsRightAdjoint :=
+  have : HasWeakSheafify (BigPHSpaceOver.topology P X) (Type (u + 1)) := inferInstance
+  have : ∀ F : (Space.SmallEtale P.fppfSite S P.fppf_mem X.1)ᵒᵖ ⥤ Type (u + 1),
+      (smallEtaleToPH P X).op.HasLeftKanExtension F := fun _ => inferInstance
+  (Functor.sheafPullbackConstruction.sheafAdjunctionContinuous (smallEtaleToPH P X) (Type (u + 1))
+    (Space.SmallEtale.topology P.fppfSite S P.fppf_mem X.1)
+    (BigPHSpaceOver.topology P X)).isRightAdjoint
+
 /-- The second diagram on inverse images, for the presentation of the small étale topos by the
 site of scheme charts. For a morphism `f : X ⟶ Y` of algebraic spaces of the ph site, with `a` the
 restriction along the chart functor `smallEtaleToPH` and `a⁻¹` its left adjoint,

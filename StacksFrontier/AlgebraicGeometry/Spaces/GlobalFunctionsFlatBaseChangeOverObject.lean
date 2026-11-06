@@ -82,7 +82,6 @@ theorem bijective_of_tensor_equalizer {A T G C D G' C' D' : Type*} [CommRing A] 
     convert this using 1
     ext x
     induction x with
-    | zero => simp only [map_zero]
     | tmul t c => rfl
     | add x y hx hy => simp only [map_add, hx, hy]
   refine ⟨fun x y hxy => hmap (hiC.1 ?_), fun y => ?_⟩
@@ -364,7 +363,6 @@ theorem overObjectBaseChangeTensorRingEquiv_naturality {Z Z' U V : BigFppfOver B
           (AlgHom.id Γ((BigFppfOver.toScheme B S hS).obj Z, ⊤)
             Γ((BigFppfOver.toScheme B S hS).obj Z', ⊤)) ρ x) := by
   induction x with
-  | zero => simp only [map_zero]
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul t c =>
     rw [overObjectBaseChangeTensorRingEquiv_tmul, Algebra.TensorProduct.map_tmul,
@@ -538,7 +536,6 @@ theorem bijective_globalFunctions_baseChange_of_flat (hZ : B.Contains (⊤_ Sche
     exact hbij'.1 (Subtype.ext hst)
   · intro x
     induction x with
-    | zero => simp only [map_zero]
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul t s =>
       rw [hΦ, map_mul, Algebra.TensorProduct.map_tmul]

@@ -182,7 +182,6 @@ theorem mateEquiv_commSqTwoSquare_paste_horiz_app (M : F.obj (.mk (op X))) :
     refine TwoSquare.ext _ _ fun d => ?_
     simp [TwoSquare.whiskerTop, TwoSquare.whiskerBottom, TwoSquare.whiskerLeft,
       TwoSquare.whiskerRight, mateEquiv]
-    simp only [← Functor.map_comp, ψ.naturality]
   rw [hc, hm af af'', mateEquiv_vcomp af af' af'']
   simp [TwoSquare.vComp]
 

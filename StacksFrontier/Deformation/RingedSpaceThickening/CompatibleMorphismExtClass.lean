@@ -107,7 +107,10 @@ theorem derivedPullbackNaiveCotangentMap_eq :
   unfold derivedPullbackNaiveCotangentMap derivedPullbackComparisonOnComplex
   rw [e']
   simp only [Category.assoc]
-  exact congrArg _ (congrArg _ (congrArg (· ≫ _) (Category.id_comp _).symm))
+  first
+    | exact congrArg _ (congrArg _ (Category.id_comp _).symm)
+    | (simp only [Category.id_comp]; done)
+    | (simp only [Category.id_comp]; rfl)
 
 namespace LiftGluing
 

@@ -174,7 +174,7 @@ scalars, the extension/restriction adjunction, and the universal property of the
 def degreeZeroHomEquivDerivation
     (N : SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf D.front.O)) :
     (reducedDegreeZero D ⟶ N) ≃
-      (reducedPushforwardModule D N).val.Derivation'
+      PresheafOfModulesOfCommRing.Derivation' (reducedPushforwardModule D N).val
         (freeAlgebraSheafCoefficientMap J D.front.OB (pairPresheaf D)).hom :=
   (tensorDifferentialsIso.{v, u, max u v w, max u v w} J D.front.OB
       (freeAlgebraSheaf J D.front.OB (pairPresheaf D)) D.front.O
@@ -239,7 +239,7 @@ theorem exists_degreeZeroHom_on_generators
         k.app X e := by
   obtain ⟨Θ, hΘ⟩ := Stacks.SheafOfModules.exists_derivation_of_polynomialVariable J D.front.OB
     (pairPresheaf D) (reducedPolynomialUnit D) (reducedPushforwardModule D N) k
-  let Θ' : (reducedPushforwardModule D N).val.Derivation'
+  let Θ' : PresheafOfModulesOfCommRing.Derivation' (reducedPushforwardModule D N).val
       (freeAlgebraSheafCoefficientMap J D.front.OB (pairPresheaf D)).hom := Θ
   refine ⟨(degreeZeroHomEquivDerivation D N).symm Θ', fun X e => ?_⟩
   refine (degreeZeroHomEquivDerivation_d D N _ X _).symm.trans ?_

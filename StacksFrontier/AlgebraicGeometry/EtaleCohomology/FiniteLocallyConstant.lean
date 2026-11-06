@@ -264,7 +264,7 @@ public def constToYoneda :
   app Z := TypeCat.ofHom (fun i ↦ ULift.up (Z.unop.hom ≫ sheetHom B hS U V h i.down))
   naturality Z Z' f := by
     ext i
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     change Z'.unop.hom ≫ sheetHom B hS U V h i.down =
       f.unop.left ≫ Z.unop.hom ≫ sheetHom B hS U V h i.down
     rw [← Category.assoc, Over.w f.unop]
@@ -285,7 +285,7 @@ public theorem isLocallyInjective_constToYoneda :
       (constToYoneda B hS U V h) where
   equalizerSieve_mem {Z} x y hxy := by
     by_cases hij : x.down = y.down
-    · rw [show x = y from ULift.ext _ _ hij, Presheaf.equalizerSieve_self_eq_top]
+    · rw [show x = y from ULift.ext hij, Presheaf.equalizerSieve_self_eq_top]
       exact ((SmallEtale.topology B S hS).over V).top_mem _
     · have h1 : Z.unop.hom ≫ sheetHom B hS U V h x.down =
           Z.unop.hom ≫ sheetHom B hS U V h y.down := congrArg ULift.down hxy
@@ -319,7 +319,7 @@ public theorem isLocallySurjective_constToYoneda :
       refine hom_ext B hS ?_
       simp only [Functor.map_comp, toScheme_map_openHom, toScheme_map_sheetHom, Category.assoc]
       exact (hfac k).symm
-    exact ⟨ULift.up (idx k), ULift.ext _ _ key⟩
+    exact ⟨ULift.up (idx k), ULift.ext key⟩
 
 /-- **The local constancy.** On an object of the small étale site over which `U` has sheet
 data, the restriction of the sheaf represented by `U` is the constant sheaf on the finite set

@@ -120,13 +120,13 @@ def objSingleIsoOfPreservesHomology {A : Type*} [Category* A] [Abelian A]
     [HasDerivedCategory B] (F : A ⥤ B) [F.Additive] [F.PreservesHomology] (M : A) :
     F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A 0).obj M) ≅
       (DerivedCategory.Plus.singleFunctor B 0).obj (F.obj M) := by
-  have hu : IsIso (F.rightDerivedFunctorPlusUnit.app
+  have hu : IsIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) :=
     (NatTrans.isIso_iff_isIso_app _).mp
       (F.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology) _
   refine F.rightDerivedFunctorPlus.mapIso
     ((Functor.singleFunctorPlusIsoCompQh 0).app M) ≪≫
-    (asIso (F.rightDerivedFunctorPlusUnit.app
+    (asIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj M))).symm ≪≫ ?_
   exact DerivedCategory.Plus.ι.preimageIso
     (DerivedCategory.Qh.mapIso ((F.mapHomotopyCategoryFactors (ComplexShape.up ℤ)).app

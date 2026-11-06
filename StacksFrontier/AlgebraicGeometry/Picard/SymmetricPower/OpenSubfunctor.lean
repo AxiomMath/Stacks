@@ -82,7 +82,7 @@ theorem comp {χ : H ⟶ G} {ι : G ⟶ F} (hχ : IsOpenSubfunctorHom χ) (hι :
   obtain ⟨V₂, hV₂⟩ := hχ.locus V₁ q
   have key : ∀ {T' : Scheme.{u}} (g₁ : T' ⟶ V₁),
       F.map (g₁ ≫ V₁.ι).op p = ι.app _ (G.map g₁.op q) := fun g₁ => by
-    rw [NatTrans.naturality_apply ι g₁.op q, hq, op_comp, FunctorToTypes.map_comp_apply]
+    rw [NatTrans.naturality_apply ι g₁.op q, hq, op_comp, Functor.map_comp_apply]
   refine ⟨V₁.ι ''ᵁ V₂, fun T' g => ?_⟩
   constructor
   · rintro ⟨c, hc⟩
@@ -142,7 +142,7 @@ theorem isOpenImmersion_presheaf {C : Scheme.{u}} {χ : yoneda.obj C ⟶ F}
     simp
   have hsq : ∀ (T' : Scheme.{u}) (φ : T' ⟶ V.toScheme),
       χ.app (op T') (φ ≫ c) = g.app (op T') (φ ≫ V.ι) := fun T' φ => by
-    rw [app_comp_eq_map, hc, hg, op_comp, FunctorToTypes.map_comp_apply]
+    rw [app_comp_eq_map, hc, hg, op_comp, Functor.map_comp_apply]
   refine ⟨V, yoneda.map c, V.ι, ?_, inferInstance⟩
   refine isPullback_of_app ?_ fun T' => ?_
   · ext T' φ
@@ -161,7 +161,7 @@ theorem isOpenImmersion_presheaf {C : Scheme.{u}} {χ : yoneda.obj C ⟶ F}
       refine ⟨φ, ?_, hφ⟩
       apply h.injective
       show χ.app _ (φ ≫ c) = _
-      rw [app_comp_eq_map, hc, e, ← hφ, op_comp, FunctorToTypes.map_comp_apply]
+      rw [app_comp_eq_map, hc, e, ← hφ, op_comp, Functor.map_comp_apply]
 
 end IsOpenSubfunctorHom
 
@@ -209,8 +209,8 @@ theorem inImage_of_openCover (hF : Presheaf.IsSheaf Scheme.zariskiTopology F) {C
       apply hinj (op (pullback (𝒰.f i) (𝒰.f j)))
       show χ.app (op (pullback (𝒰.f i) (𝒰.f j))) (pullback.fst (𝒰.f i) (𝒰.f j) ≫ c i) =
         χ.app (op (pullback (𝒰.f i) (𝒰.f j))) (pullback.snd (𝒰.f i) (𝒰.f j) ≫ c j)
-      rw [app_comp_eq_map, app_comp_eq_map, hc i, hc j, ← FunctorToTypes.map_comp_apply,
-        ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp, pullback.condition]
+      rw [app_comp_eq_map, app_comp_eq_map, hc i, hc j, ← Functor.map_comp_apply,
+        ← Functor.map_comp_apply, ← op_comp, ← op_comp, pullback.condition]
   refine ⟨𝒰.glueMorphisms c hcompat, ?_⟩
   have hsh : Presieve.IsSheafFor F (Presieve.ofArrows 𝒰.X 𝒰.f) := by
     rw [isSheaf_iff_isSheaf_of_type,
@@ -219,7 +219,7 @@ theorem inImage_of_openCover (hF : Presheaf.IsSheaf Scheme.zariskiTopology F) {C
   rw [Presieve.isSheafFor_arrows_iff] at hsh
   have hx : Presieve.Arrows.Compatible F 𝒰.f (fun i => F.map (𝒰.f i).op p) := by
     intro i j Z gi gj e
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp, e]
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp, e]
   obtain ⟨t, -, ht⟩ := hsh _ hx
   have h1 : χ.app _ (𝒰.glueMorphisms c hcompat) = t := ht _ fun i => by
     rw [← app_comp_eq_map, Scheme.Cover.ι_glueMorphisms, hc]
@@ -254,7 +254,7 @@ theorem isOpenSubfunctor_of_affine (hF : Presheaf.IsSheaf Scheme.zariskiTopology
     let g' : W'.toScheme ⟶ W := IsOpenImmersion.lift W.ι (W'.ι ≫ g) hr
     have hg' : g' ≫ W.ι = W'.ι ≫ g := IsOpenImmersion.lift_fac _ _ _
     have himg : InImage χ (F.map g'.op (F.map W.ι.op p)) := by
-      rw [← FunctorToTypes.map_comp_apply, ← op_comp, hg', op_comp, FunctorToTypes.map_comp_apply]
+      rw [← Functor.map_comp_apply, ← op_comp, hg', op_comp, Functor.map_comp_apply]
       exact hg.map _
     obtain ⟨O, hO, hOim⟩ := hloc W (F.map W.ι.op p) W' g' himg ⟨t', ht'W'⟩
     refine TopologicalSpace.Opens.mem_sSup.mpr ⟨W.ι ''ᵁ O, ?_, ?_⟩
@@ -264,7 +264,7 @@ theorem isOpenSubfunctor_of_affine (hF : Presheaf.IsSheaf Scheme.zariskiTopology
         rfl)
       have he : e.inv ≫ O.ι ≫ W.ι = (W.ι ''ᵁ O).ι := IsOpenImmersion.isoOfRangeEq_inv_fac _ _ _
       show InImage χ (F.map (W.ι ''ᵁ O).ι.op p)
-      rw [← he, op_comp, FunctorToTypes.map_comp_apply, op_comp, FunctorToTypes.map_comp_apply]
+      rw [← he, op_comp, Functor.map_comp_apply, op_comp, Functor.map_comp_apply]
       exact hOim.map _
     · refine ⟨g' ⟨t', ht'W'⟩, hO, ?_⟩
       show (g' ≫ W.ι) ⟨t', ht'W'⟩ = g t'
@@ -277,8 +277,8 @@ theorem isOpenSubfunctor_of_affine (hF : Presheaf.IsSheaf Scheme.zariskiTopology
       (fun t' => (g ⁻¹ᵁ O t').ι) (fun t' => ⟨t', ⟨t', hgO t'⟩, rfl⟩)
     refine inImage_of_openCover hF hinj' _ 𝒰 fun t' => ?_
     show InImage χ (F.map (g ⁻¹ᵁ O t').ι.op (F.map g.op p))
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← morphismRestrict_ι, op_comp,
-      FunctorToTypes.map_comp_apply]
+    rw [← Functor.map_comp_apply, ← op_comp, ← morphismRestrict_ι, op_comp,
+      Functor.map_comp_apply]
     exact (hO t').map _
 
 end AlgebraicGeometry

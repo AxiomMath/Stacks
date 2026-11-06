@@ -61,6 +61,19 @@ variable (Λ : Type) [Ring Λ] {X Y : Scheme.{u}} {f : X ⟶ Y}
 
 section Units
 
+-- the structure projections of `Stacks.Models.RegularModelSituation` are global instances whose
+-- conclusions (`QuasiCompact ?f`, ...) match every goal and send instance search through
+-- `Submodule ?R ?R`; they are irrelevant here
+attribute [-instance] Stacks.Models.RegularModelSituation.commRingR
+  Stacks.Models.RegularModelSituation.isDomainR
+  Stacks.Models.RegularModelSituation.isDiscreteValuationRingR
+  Stacks.Models.RegularModelSituation.fieldK Stacks.Models.RegularModelSituation.algebraRK
+  Stacks.Models.RegularModelSituation.isFractionRingRK Stacks.Models.RegularModelSituation.fieldk
+  Stacks.Models.RegularModelSituation.algebraRk Stacks.Models.RegularModelSituation.isCurve
+  Stacks.Models.RegularModelSituation.smooth Stacks.Models.RegularModelSituation.flat
+  Stacks.Models.RegularModelSituation.locallyOfFiniteType
+  Stacks.Models.RegularModelSituation.quasiCompact
+
 /-- The unit of the unbounded derived direct image is invertible at a K-injective complex, read
 through the equivalence of the localization at quasi-isomorphisms of complexes with that of the
 homotopy category. -/
@@ -81,7 +94,11 @@ lemma isIso_etaleModuleDerivedDirectImageUnboundedUnit_app_of_rightAcyclic {A B 
     (L : CochainComplex (EtaleModules.{u, 0} Λ A) ℤ)
     (hL : ∀ i, (etaleModuleDirectImage.{u, 0} Λ a).rightAcyclic (L.X i)) :
     IsIso ((etaleModuleDerivedDirectImageUnboundedUnit.{u, 0} Λ a).app L) := by
-  obtain ⟨d, hd⟩ := exists_topologicalKrullDim_fiber_le a
+  obtain ⟨d, hd⟩ :=
+    @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le _ _ a
+      (IsProper.toLocallyOfFiniteType (f := a))
+      (@AlgebraicGeometry.instQuasiCompactOfUniversallyClosed _ _ _
+        (IsProper.toUniversallyClosed (f := a))) ‹_›
   let F := etaleModuleDirectImage.{u, 0} Λ a
   let RF := etaleModuleDerivedDirectImageUnbounded.{u, 0} Λ a
   let α := Stacks.Injectives.KInjectiveResolution.homotopyCategoryUnit F RF
@@ -97,13 +114,17 @@ lemma isIso_etaleModuleDerivedDirectImageUnboundedUnit_app_of_rightAcyclic {A B 
       infer_instance
     dsimp only [P]
     rw [Functor.computesRightDerived_iff_isIso_app _ DerivedCategory.Plus.Qh
-      F.rightDerivedFunctorPlus (HomotopyCategory.Plus.quasiIso _) F.rightDerivedFunctorPlusUnit _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso _))
+      (HomotopyCategory.Plus.quasiIso _)
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso _)) _
       (fun K => ?_)]
     · exact hZ
     · let r : (HomotopyCategory.Plus.localizerMorphism _).RightResolution K := Classical.arbitrary _
       exact ⟨_, r.w, r.hw, inferInstance⟩
   have h07K7 := Functor.hasRightDerivedFunctor_of_isZero_rightDerived F
-    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
+    F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
     P
     (fun _ => Iff.rfl)
     (fun Z => ⟨Injective.under Z, Injective.ι Z, inferInstance,

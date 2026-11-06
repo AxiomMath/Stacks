@@ -125,7 +125,7 @@ theorem isDerivedLimitWithProjections_Q_of_isLimit
     rfl
   · apply Pi.hom_ext
     intro n
-    simp only [Category.assoc, piComparison_comp_π, T₂, Triangle.mk_mor₂, Pi.lift_π,
+    simp only [Category.assoc, piComparison_comp_π, T₂, Triangle.mk_mor₂, Pi.lift_comp_π,
       DerivedCategory.triangleOfSES, Preadditive.comp_sub, e,
       PreservesProduct.iso_hom]
     simp only [piComparison_comp_π_assoc]
@@ -389,7 +389,7 @@ private theorem mkQ_eq_map_comp_postcompose_π (I : Ideal Λ) (A : ModuleCat.{u}
     ModuleCat.ofHom (uliftIdeal I ^ (n + 1) • ⊤ :
         Submodule (ULift.{u} Λ) ((AdicKoszul.moduleUniverseLift.{u, u} Λ).obj A)).mkQ =
       (AdicKoszul.moduleUniverseLift.{u, u} Λ).map φ ≫
-        ((Cones.postcompose (adicQuotientSystemUliftIso I A).inv).obj
+        ((Cone.postcompose (adicQuotientSystemUliftIso I A).inv).obj
           ((AdicKoszul.moduleUniverseLift.{u, u} Λ).mapCone c)).π.app ⟨n⟩ := by
   ext x
   let a : A := ULift.down (x : ULift.{u} A)
@@ -522,7 +522,7 @@ theorem exists_iso_reflection_single_of_flat (A : ModuleCat.{u} Λ) [Module.Flat
   have h₁ := (hlim K).comp_of_hasEventualInverses τ.hom (hasEventualInverses_of_isIso _)
   let ν := adicQuotientSystemUliftIso I A
   let c' : Cone (AdicCompletionTor.adicQuotientSystem J Pm) :=
-    (Cones.postcompose ν.inv).obj (V.mapCone c)
+    (Cone.postcompose ν.inv).obj (V.mapCone c)
   have hc' : IsLimit c' := (IsLimit.postcomposeInvEquiv ν _).symm (isLimitOfPreserves V hc)
   have h₂ := isDerivedLimitWithProjections_single_of_isLimit
     (AdicCompletionTor.surjective_adicQuotientSystem_map_succ J Pm) c' hc'

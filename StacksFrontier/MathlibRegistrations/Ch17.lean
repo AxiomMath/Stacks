@@ -60,8 +60,8 @@ add_to_stacks 01BO SheafOfModules.instIsQuasicoherentOfIsFinitePresentation
 -- Definition: an `O_1`-derivation of an `O_2`-module, for a map of sheaves of rings `O_1 → O_2`.
 add_to_stacks 01UN
   "for presheaves of modules over any category; Stacks' sheaf case is `F.val.Derivation' φ.hom`"
-  PresheafOfModules.Derivation'
+  PresheafOfModulesOfCommRing.Derivation'
 add_to_stacks 01UN
   "the structure: additive on sections, compatible with restriction, Leibniz rule, \
     kills the image of `φ`"
-  PresheafOfModules.Derivation
+  PresheafOfModulesOfCommRing.Derivation

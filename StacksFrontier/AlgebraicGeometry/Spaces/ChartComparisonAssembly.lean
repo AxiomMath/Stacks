@@ -287,6 +287,17 @@ end ChartComparison
 
 section SectionSpaces
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ChartComparisonAssembly :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ChartComparisonAssembly
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_ChartComparisonAssembly B S hS).has_limit _
+
 /-- **Stacks 05XQ for the fibre data of Stacks 05YD.**  Let `z : Z ⟶ Q` be a finite locally free
 morphism of algebraic spaces over `S`, let `U` be an object of the big fppf category over `S`,
 let `Z_U` be an algebraic space exhibited as a base change `U ×_{a, Q} Z` of `z`, and let
@@ -338,9 +349,9 @@ theorem isSurjective_restrictionOfScalars_projection_of_isPullback
   let c : pullback (yoneda.map τ) ζ.hom ⟶
       pullback (yoneda.map τ) (yoneda.map (hrep.snd a)) :=
     pullback.map (yoneda.map τ) ζ.hom (yoneda.map τ) (yoneda.map (hrep.snd a))
-      (𝟙 _) e.hom (𝟙 _) (by simp) (by simpa using he.symm)
+      (𝟙 _) e.hom (𝟙 _) (by simp) (by rw [Category.comp_id, he])
   have hliftover : (c ≫ σ') ≫ w.hom = pullback.snd (yoneda.map τ) ζ.hom := by
-    refine (cancel_mono e.hom).1 ?_
+    refine (Iso.cancel_iso_hom_right _ _ e).1 ?_
     calc ((c ≫ σ') ≫ w.hom) ≫ e.hom = c ≫ (σ' ≫ (w.hom ≫ e.hom)) := by simp
       _ = pullback.snd (yoneda.map τ) ζ.hom ≫ e.hom := by simp [hσ', c]
   let pr : RestrictionPair B S hS w ζ (yoneda.obj T) := ⟨yoneda.map τ, c ≫ σ', hliftover⟩

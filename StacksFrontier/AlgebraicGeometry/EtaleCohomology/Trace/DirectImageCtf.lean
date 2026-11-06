@@ -70,10 +70,12 @@ theorem directImagePreservesCtf
     (B : BigEtaleSite.{u}) (Λ : Type) [Ring Λ] [Finite Λ] (k : Type u) [Field k] [Fintype k]
     (hcop : Nat.Coprime (Nat.card Λ) (Fintype.card k)) :
     DirectImagePreservesCtf B Λ k := by
-  intro X Y U fY _ h _ _ jU _ hfib K₀ hK₀ J ψ hψ hJ
+  intro X Y U fY hfYp h _ hhfY jU _ hfib K₀ hK₀ J ψ hψ hJ
   have := hψ
   have : CompactSpace Y.obj := QuasiCompact.compactSpace_of_compactSpace fY
   have : CompactSpace X.obj := QuasiCompact.compactSpace_of_compactSpace (h ≫ fY)
+  have : LocallyOfFiniteType (h ≫ fY) := hhfY.toLocallyOfFiniteType
+  have : LocallyOfFiniteType fY := hfYp.toLocallyOfFiniteType
   have hXl : IsLocallyNoetherian X.obj := LocallyOfFiniteType.isLocallyNoetherian (h ≫ fY)
   have hYl : IsLocallyNoetherian Y.obj := LocallyOfFiniteType.isLocallyNoetherian fY
   have : IsNoetherian X.obj := { }

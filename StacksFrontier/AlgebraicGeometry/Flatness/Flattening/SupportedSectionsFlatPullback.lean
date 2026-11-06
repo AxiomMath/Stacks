@@ -220,6 +220,12 @@ lemma exists_pullbackSupportedSectionsIso_of_flat {Y : Scheme.{u}} (j : Y ⟶ X)
   have : PreservesFiniteLimits P :=
     AlgebraicGeometry.preservesFiniteLimits_modulesPullback_of_flat j
   obtain ⟨e₀, h₀⟩ := exists_supportedSectionsPullbackKernelIso U F
+  have : L.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_isLeftAdjoint _
+  have : (Scheme.Modules.pushforward V.ι).PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isRightAdjoint _
+  have : Mono (L.map α) := IsIso.mono_of_iso _
+  have : Mono (adj.unit.app (P.obj ((Scheme.Modules.pullback U.ι ⋙
+      Scheme.Modules.pushforward U.ι).obj F))) := IsIso.mono_of_iso _
   obtain ⟨e₁, h₁⟩ := exists_kernelIso_of_comp_eq_zero_iff α (adj.unit.app (P.obj F))
     (comp_eq_zero_iff_comp_unit_eq_zero adj α)
   obtain ⟨e₂, h₂⟩ := exists_supportedSectionsPullbackKernelIso V (P.obj F)

@@ -89,8 +89,9 @@ theorem sheafTensorRight_map_globalSectionToEnd
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G).map
           ((Stacks.SheafOfModules.globalSectionToEnd
-            (Stacks.SheafOfModules.Tensor.ringSheaf O) a).app M) =
-      (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf O) a).app
+            (Stacks.SheafOfModules.Tensor.ringSheaf O) a).asHom.app M) =
+      (Stacks.SheafOfModules.globalSectionToEnd
+        (Stacks.SheafOfModules.Tensor.ringSheaf O) a).asHom.app
         (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G).obj M) := by
   refine ((PresheafOfModules.sheafificationAdjunction
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).homEquiv _ _).injective ?_
@@ -100,7 +101,7 @@ theorem sheafTensorRight_map_globalSectionToEnd
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)).unit.naturality
     (((PresheafOfModules.tensorBifunctor.{v, u, w, w, w} O.obj).flip.obj G.val).map
       ((Stacks.SheafOfModules.globalSectionToEnd
-        (Stacks.SheafOfModules.Tensor.ringSheaf O) a).app M).val)).symm).trans ?_
+        (Stacks.SheafOfModules.Tensor.ringSheaf O) a).asHom.app M).val)).symm).trans ?_
   refine PresheafOfModules.hom_ext fun U => ?_
   refine ModuleCat.MonoidalCategory.tensor_ext fun x y => ?_
   exact (((PresheafOfModules.sheafificationAdjunction
@@ -122,8 +123,9 @@ theorem globalSectionToEnd_app_sheafTensorRight_eq_zero
     (a : ((Stacks.SheafOfModules.Tensor.ringSheaf O).obj ⋙ forget RingCat.{w}).sections)
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O))
     (hM : (Stacks.SheafOfModules.globalSectionToEnd
-      (Stacks.SheafOfModules.Tensor.ringSheaf O) a).app M = 0) :
-    (Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf O) a).app
+      (Stacks.SheafOfModules.Tensor.ringSheaf O) a).asHom.app M = 0) :
+    (Stacks.SheafOfModules.globalSectionToEnd
+      (Stacks.SheafOfModules.Tensor.ringSheaf O) a).asHom.app
       (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G).obj M) = 0 := by
   let :=
     Stacks.SheafOfModules.FlatSheafification.sheafTensorRight_preservesZeroMorphisms J O G

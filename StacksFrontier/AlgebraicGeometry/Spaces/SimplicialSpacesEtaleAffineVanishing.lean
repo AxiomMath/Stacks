@@ -151,12 +151,14 @@ local instance hasExt_degreeModules :
 local instance additive_degreeRestrictModules : (degreeRestrictModules (U := U) n).Additive where
   map_add := by intros; rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Restriction of modules to degree `n` is left exact: it is a right adjoint. -/
 local instance preservesFiniteLimits_degreeRestrictModules :
     PreservesFiniteLimits (degreeRestrictModules (U := U) n) :=
   haveI : (degreeRestrictModules (U := U) n).IsRightAdjoint :=
     Stacks.Sheaves.ToposPullback.isRightAdjoint_restrictionModules _ _ _ _
-  inferInstance
+  ⟨fun _ _ _ => (Adjunction.ofIsRightAdjoint
+    (degreeRestrictModules (U := U) n)).rightAdjoint_preservesLimits.preservesLimitsOfShape⟩
 
 /-- Restriction of modules to degree `n` is right exact: the inclusion of the degree is
 cocontinuous, so restriction is a left adjoint. -/
@@ -166,7 +168,8 @@ local instance preservesFiniteColimits_degreeRestrictModules :
     ((ringedSite U).restrictModulesAdjunctionRestrictionSquarePullbackMate
       (SpacesEtale.topology T.schemeSite S T.scheme_mem (U.obj (op n)))
       (degreeInclusion U n)).isLeftAdjoint
-  inferInstance
+  ⟨fun _ _ _ => (Adjunction.ofIsLeftAdjoint
+    (degreeRestrictModules (U := U) n)).leftAdjoint_preservesColimits.preservesColimitsOfShape⟩
 
 /-- **The restriction to degree `n` of an injective `𝒪_U`-module has no higher cohomology over
 any object of `(U_n)_{spaces,étale}`** (Stacks 0D6X for the inclusion of the degree, which is

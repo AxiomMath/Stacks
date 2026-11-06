@@ -68,8 +68,8 @@ theorem class_map_relocalizeRep_eq {W : BigFppfOver B V hV}
   refine FieldValuedPoint.class_eq_class_of_hasCommonExtension B S hS _
     ⟨_, FieldValuedPoint.dominates_refl B S hS _ _, 𝟙 _, ?_⟩
   show X.left.map _ (X.left.map _ (X.left.map _ x.1)) = X.left.map _ x.1
-  refine (congrArg (X.left.map _) (FunctorToTypes.map_comp_apply X.left _ _ x.1).symm).trans
-    ((FunctorToTypes.map_comp_apply X.left _ _ x.1).symm.trans
+  refine (congrArg (X.left.map _) (X.left.map_comp_apply _ _ x.1).symm).trans
+    ((X.left.map_comp_apply _ _ x.1).symm.trans
     (congrArg (fun k => X.left.map k x.1) (Quiver.Hom.unop_inj (Over.OverMorphism.ext ?_))))
   show 𝟙 _ ≫ 𝟙 _ ≫ p.value.left = p.value.left
   rw [Category.id_comp, Category.id_comp]

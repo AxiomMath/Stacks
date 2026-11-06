@@ -62,7 +62,7 @@ public theorem coeff_polynomialOfSupportCoeffs
     {R₁ : Type u} {R₂ : Type v} {σ : Type z}
     [CommSemiring R₁] [CommSemiring R₂] [DecidableEq σ]
     (p : MvPolynomial σ R₁) (c : (σ →₀ ℕ) → R₂) (e : σ →₀ ℕ) :
-    MvPolynomial.coeff e (polynomialOfSupportCoeffs p c) =
+    (polynomialOfSupportCoeffs p c).coeff e =
       if e ∈ p.support then c e else 0 := by
   classical
   simp [polynomialOfSupportCoeffs, MvPolynomial.coeff_sum, MvPolynomial.coeff_monomial,
@@ -79,11 +79,11 @@ public theorem exists_eq_C_mul_of_map_eq_zero
     (p : MvPolynomial σ R') (hp : MvPolynomial.map q p = 0) :
     ∃ b : MvPolynomial σ R', p = MvPolynomial.C f * b := by
   classical
-  have hcoeff (e : σ →₀ ℕ) : q (MvPolynomial.coeff e p) = 0 := by
-    have he := congrArg (MvPolynomial.coeff e) hp
+  have hcoeff (e : σ →₀ ℕ) : q (p.coeff e) = 0 := by
+    have he := congrArg (fun r : MvPolynomial σ R => r.coeff e) hp
     simpa [MvPolynomial.coeff_map] using he
-  have hdiv (e : σ →₀ ℕ) : ∃ c : R', MvPolynomial.coeff e p = f * c := by
-    have he : MvPolynomial.coeff e p ∈ RingHom.ker q := RingHom.mem_ker.mpr (hcoeff e)
+  have hdiv (e : σ →₀ ℕ) : ∃ c : R', p.coeff e = f * c := by
+    have he : p.coeff e ∈ RingHom.ker q := RingHom.mem_ker.mpr (hcoeff e)
     rw [hker] at he
     exact Ideal.mem_span_singleton.mp he
   choose c hc using hdiv
@@ -103,12 +103,12 @@ public theorem exists_map_eq_and_coeff_mem_annihilator
     [CommRing R'] [CommRing R]
     (q : R' →+* R) (hq : Function.Surjective q) (f : R')
     (p : MvPolynomial σ R)
-    (hp : ∀ e, MvPolynomial.coeff e p ∈ Ideal.map q (Ideal.span {f}).annihilator) :
+    (hp : ∀ e, p.coeff e ∈ Ideal.map q (Ideal.span {f}).annihilator) :
     ∃ a : MvPolynomial σ R', MvPolynomial.map q a = p ∧
-      ∀ e, MvPolynomial.coeff e a ∈ (Ideal.span {f}).annihilator := by
+      ∀ e, a.coeff e ∈ (Ideal.span {f}).annihilator := by
   classical
   have hcoeff (e : σ →₀ ℕ) :
-      ∃ a : R', a ∈ (Ideal.span {f}).annihilator ∧ q a = MvPolynomial.coeff e p :=
+      ∃ a : R', a ∈ (Ideal.span {f}).annihilator ∧ q a = p.coeff e :=
     (Ideal.mem_map_iff_of_surjective q hq).mp (hp e)
   choose c hc using hcoeff
   refine ⟨polynomialOfSupportCoeffs p c, ?_, ?_⟩
@@ -116,7 +116,7 @@ public theorem exists_map_eq_and_coeff_mem_annihilator
       MvPolynomial.map q (polynomialOfSupportCoeffs p c) =
           ∑ e ∈ p.support, MvPolynomial.monomial e (q (c e)) := by
         simp [polynomialOfSupportCoeffs]
-      _ = ∑ e ∈ p.support, MvPolynomial.monomial e (MvPolynomial.coeff e p) := by
+      _ = ∑ e ∈ p.support, MvPolynomial.monomial e (p.coeff e) := by
         apply Finset.sum_congr rfl
         intro e _
         rw [(hc e).2]
@@ -153,7 +153,7 @@ public theorem eval_mul_mem_smul_top
     {R : Type u} {A : Type v} {σ : Type z}
     [CommRing R] [Ring A] [Algebra R A]
     (I : Ideal R) (ψ : MvPolynomial σ R →ₐ[R] A)
-    (p : MvPolynomial σ R) (hp : ∀ e, MvPolynomial.coeff e p ∈ I)
+    (p : MvPolynomial σ R) (hp : ∀ e, p.coeff e ∈ I)
     (a : A) : ψ p * a ∈ I • (⊤ : Submodule R A) := by
   classical
   rw [p.as_sum, map_sum, Finset.sum_mul]

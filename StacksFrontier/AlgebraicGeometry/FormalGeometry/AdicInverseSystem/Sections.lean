@@ -259,7 +259,6 @@ private lemma fromSpec_map_app {X : Scheme.{u}} (U : X.affineOpens)
   have hh := congrArg (fun k => k r) h
   simp only [Category.assoc, ← Functor.map_comp, ConcreteCategory.comp_apply] at hh
   convert hh using 2
-  congr 2
 
 /-- The pushforward along `Spec Γ(X, U) ⟶ X` of a module annihilated by an ideal of `Γ(X, U)` is
 annihilated by that ideal over every affine open of `X`.

@@ -242,7 +242,7 @@ lemma homRes_one {T : Scheme.{u}} {K : T ⟶ Y} (h : 𝟙 T ≫ K = K) {A B : Y.
     (φ : HomAt K A B) : homRes (𝟙 T) h φ = φ := by
   have hb := presheafHom_map_eq_homRes A B (𝟙 (Over.mk K)) φ
   have hid : (modulePullbackPseudofunctor.presheafHom A B).map (𝟙 (Over.mk K)).op φ = φ :=
-    FunctorToTypes.map_id_apply _ _
+    Functor.map_id_apply _ _ _
   exact (homRes_congr (by simp) _ _ φ).trans (hb.symm.trans hid)
 
 /-- Transports along the identity compose. -/

@@ -208,7 +208,7 @@ public theorem exists_representsParameterPoint_of_movingLine
         linearSubspace k (ParameterModule k V) L ∧
       RepresentsParameterPoint k V p (lineEnd k V L mu) := by
   have hcl : IsClosed ({(movingLineι k V L).base
-      (linearFunctionalPoint k (lineSpace k V L) mu hmu)} :
+                          (linearFunctionalPoint k (lineSpace k V L) mu hmu)} :
         Set (projectiveSpaceOfModule k (ParameterModule k V))) := by
     have h := (movingLineι k V L).isClosedMap
       ({linearFunctionalPoint k (lineSpace k V L) mu hmu} : Set (movingLine k V L))

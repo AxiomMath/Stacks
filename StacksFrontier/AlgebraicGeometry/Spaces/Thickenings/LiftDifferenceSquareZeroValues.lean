@@ -332,6 +332,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
       (⟨W₀.1.toFunctor, W₀.2.1⟩ : AlgebraicSpaces B S hS))
 
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The sections of `i^{-1}𝒪_X` over any object of the small étale site of `Z` commute. -/
 private theorem inverseImage_structureRingSheaf_mul_comm
     (V : (SmallEtale B S hS (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces B S hS).1)ᵒᵖ)

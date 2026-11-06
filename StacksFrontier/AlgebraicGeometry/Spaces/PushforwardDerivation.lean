@@ -126,6 +126,16 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.Sheaf CategoryTheory.Fu
 
 universe u
 
+universe w₁ v₁ u₁
+
+/-! Instance search for binary products of sheaves of sets tries the default-priority `HasLimit`
+instances before the low-priority one through `HasLimitsOfShape`, and under the current imports
+those time out; the shortcut instance below goes there directly. -/
+
+local instance (priority := high) hasLimit_pair_sheafType {C : Type u₁} [Category.{v₁} C]
+    {J : GrothendieckTopology C} (X Y : Sheaf J (Type w₁)) : HasLimit (pair X Y) :=
+  HasLimitsOfShape.has_limit _
+
 namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
@@ -133,7 +143,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- A derivation, read as a morphism of the underlying sheaves of sets. -/
 noncomputable def derivationHom (p' : X' ⟶ Y') (M : Modules.{u, u} B S hS X'.1 X'.2)
-    (D : M.val.Derivation' (structureSharpInverseImage B S hS p').hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' M.val (structureSharpInverseImage B S hS p').hom) :
     CategoryTheory.Sheaf.ringSheaf.{u, u, u + 1} (structureRingSheaf B S hS X') ⟶
       CategoryTheory.Sheaf.moduleSheaf.{u, u, u + 1} (structureRingSheaf B S hS X') M :=
   CategoryTheory.Sheaf.unaryOpHom (fun _ a ↦ D.d a) (fun g a ↦ (D.d_map g a).symm)
@@ -150,7 +160,7 @@ theorem derivationHom_universalDerivation (p' : X' ⟶ Y') :
 section Pushforward
 
 variable (p' : X' ⟶ Y') (M : Modules.{u, u} B S hS X'.1 X'.2)
-  (D : M.val.Derivation' (structureSharpInverseImage B S hS p').hom)
+  (D : PresheafOfModulesOfCommRing.Derivation' M.val (structureSharpInverseImage B S hS p').hom)
 
 /-- Additivity of a derivation, as an identity of morphisms out of a product. -/
 theorem ringAddHom_comp_derivationHom_eq :
@@ -312,7 +322,7 @@ and a `Y'`-derivation `D : 𝒪_{X'} ⟶ M`, the composite `f_*D ∘ f♯ : 𝒪
 `Y`-derivation of `𝒪_X` with values in the direct image of `M`. -/
 noncomputable def pushforwardDerivation (f : X' ⟶ X) (p : X ⟶ Y) (q : Y' ⟶ Y)
     (hcomm : f ≫ p = p' ≫ q) :
-    ((modulePushforward B S hS f).obj M).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' ((modulePushforward B S hS f).obj M).val
       (structureSharpInverseImage B S hS p).hom where
   d {U} := AddMonoidHom.mk'
     (fun t ↦ (pushforwardDerivationHom B S hS p' M D f).hom.app U t)
@@ -388,7 +398,7 @@ theorem derivationDirectImageEquiv_sheafOfDifferentialsMap_comp
         (sheafOfDifferentialsMap B S hS f p p' q hcomm ≫ g) =
       pushforwardDerivation B S hS p' M
         ((universalDerivation B S hS p').postcomp g.val) f p q hcomm := by
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext U t
   refine Eq.trans (congrArg
     (fun m ↦ ((m.val.app U).hom) ((universalDerivation B S hS p).d t))

@@ -97,14 +97,14 @@ theorem bijective_globalSectionsEval (hV : IsTerminal V) (M : SheafOfModules.{w}
     · intro X Y f
       show (M.val.presheaf ⋙ forget _).map f
         ((M.val.presheaf ⋙ forget _).map (hV.from X.unop).op _) = _
-      rw [← FunctorToTypes.map_comp_apply,
+      rw [← Functor.map_comp_apply,
         show (hV.from X.unop).op ≫ f = (hV.from Y.unop).op from
           Quiver.Hom.unop_inj (hV.hom_ext _ _)]
-    · refine ULift.ext _ _ ?_
+    · refine ULift.ext ?_
       show (M.val.presheaf ⋙ forget _).map (hV.from V).op
         (show (M.val.presheaf ⋙ forget _).obj (op V) from x.down) = x.down
       rw [show (hV.from V).op = 𝟙 (op V) from Quiver.Hom.unop_inj (hV.hom_ext _ _),
-        FunctorToTypes.map_id_apply]
+        Functor.map_id_apply]
 
 /-- **The global-sections functor is evaluation at a terminal object of the site**, read over the
 ring of global sections and lifted to the universe of the compatible families. -/

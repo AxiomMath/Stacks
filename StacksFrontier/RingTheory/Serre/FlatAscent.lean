@@ -518,13 +518,12 @@ theorem property_Rk_of_flat_of_fibre_of_base
     (Localization.localRingHom p q (algebraMap R S) hp).toAlgebra
   have hAM : algebraMap (Localization.AtPrime p) (Localization.AtPrime q)
       = Localization.localRingHom p q (algebraMap R S) hp := rfl
-  have hLOA : Localization.AtPrime.IsLiesOverAlgebra p q := ⟨hAM⟩
   have hST : IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q) := by
     apply IsScalarTower.of_algebraMap_eq
     intro x
     rw [hAM, Localization.localRingHom_to_map, ← IsScalarTower.algebraMap_apply]
   have hFlat : Module.Flat (Localization.AtPrime p) (Localization.AtPrime q) :=
-    instFlatAtPrimeOfIsLiesOverAlgebra p q
+    inferInstance
   have hLocalHom : IsLocalHom (algebraMap (Localization.AtPrime p) (Localization.AtPrime q)) := by
     rw [hAM]
     infer_instance

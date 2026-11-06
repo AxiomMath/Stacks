@@ -36,6 +36,7 @@ public import Mathlib.Algebra.Lie.OfAssociative
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Algebra
 public import Mathlib.RingTheory.PicardGroup
 public import Mathlib.RingTheory.Ideal.Pure
+public import Mathlib.RingTheory.Ideal.IdempotentFG
 public import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.ENatToNat

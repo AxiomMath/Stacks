@@ -281,7 +281,7 @@ theorem exists_liftComm
         ∀ (r : R) (x : SymmetricAlgebra R M), Φ (r • x) = r • Φ x := by
   let _ : Algebra R T := Algebra.ofModule h₁ h₂
   let _ := Algebra.isMulCommutative_adjoin R (s := Set.range γ)
-    (by rintro _ ⟨m, rfl⟩ _ ⟨m', rfl⟩; exact hγ m m')
+    (by rintro _ ⟨m, rfl⟩ _ ⟨m', rfl⟩ -; exact hγ m m')
   set f : M →ₗ[R] Algebra.adjoin R (Set.range γ) :=
     { toFun := fun m => ⟨γ m, Algebra.subset_adjoin ⟨m, rfl⟩⟩
       map_add' := fun m m' => Subtype.ext (map_add γ m m')

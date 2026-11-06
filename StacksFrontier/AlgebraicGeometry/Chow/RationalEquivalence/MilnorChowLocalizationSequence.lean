@@ -77,6 +77,32 @@ universe u
 
 namespace Stacks.Chow
 
+/-- The group structure of locally finite Milnor K-chains, stated once so that instance search
+does not rediscover it through the subgroup coercion. -/
+instance (priority := high) addCommGroupMilnorChainGroup_milnorChowLocalizationSequence
+    {C : ChowSituation.{u}} {X : Scheme.{u}} (p : X ⟶ C.S) (m : ℤ) (n : ℕ) :
+    AddCommGroup (MilnorChainGroup C p m n) :=
+  inferInstance
+
+/-- The group structure of pointwise Milnor K₁-chains, stated once for the same reason. -/
+instance (priority := high) addCommGroupPointwiseKOneGroup_milnorChowLocalizationSequence
+    {C : ChowSituation.{u}} {X : Scheme.{u}} (p : X ⟶ C.S) (k : ℤ) :
+    AddCommGroup (PointwiseKOneGroup C p k) :=
+  inferInstance
+
+/-- The additive unital structure of locally finite Milnor K-chains, read off the group
+structure above, so that instance search does not descend into the ambient product. -/
+instance (priority := high) addZeroClassMilnorChainGroup_milnorChowLocalizationSequence
+    {C : ChowSituation.{u}} {X : Scheme.{u}} (p : X ⟶ C.S) (m : ℤ) (n : ℕ) :
+    AddZeroClass (MilnorChainGroup C p m n) :=
+  AddMonoid.toAddZeroClass
+
+/-- The additive unital structure of pointwise Milnor K₁-chains, for the same reason. -/
+instance (priority := high) addZeroClassPointwiseKOneGroup_milnorChowLocalizationSequence
+    {C : ChowSituation.{u}} {X : Scheme.{u}} (p : X ⟶ C.S) (k : ℤ) :
+    AddZeroClass (PointwiseKOneGroup C p k) :=
+  AddMonoid.toAddZeroClass
+
 variable (C : ChowSituation.{u}) {X Y : Scheme.{u}} (p : X ⟶ C.S) [LocallyOfFiniteType p]
   (i : Y ⟶ X) [IsClosedImmersion i] (V : X.Opens)
 

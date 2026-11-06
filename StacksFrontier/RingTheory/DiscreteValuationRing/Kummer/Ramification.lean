@@ -121,7 +121,7 @@ theorem isDiscreteValuationRing_A' [IsDomain (A' π n)] (hn : 2 ≤ n) (hπ : Ir
     intro M hM
     simp only [Set.mem_ofPred_eq] at hM
     have hcomap : (Ideal.comap (algebraMap A (A' π n)) M).IsMaximal :=
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (hI := hM) M
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (hI := hM) M
     have heq : Ideal.comap (algebraMap A (A' π n)) M = IsLocalRing.maximalIdeal A :=
       IsLocalRing.eq_maximalIdeal hcomap
     have hpi : π ∈ Ideal.comap (algebraMap A (A' π n)) M := by rw [heq]; exact pi_mem_max

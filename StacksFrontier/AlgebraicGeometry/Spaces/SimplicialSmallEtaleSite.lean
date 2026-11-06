@@ -468,7 +468,7 @@ theorem isSheaf_pullbackFunctor_op_comp
     (pairFst_comp (E.f i) (E.f j))
   change P.map ((pullbackFunctor h).map (pairFst (E.f i) (E.f j))).op (x i) =
     P.map ((pullbackFunctor h).map (pairSnd (E.f i) (E.f j))).op (x j) at hc
-  rw [← h₁, ← h₂, op_comp, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply,
+  rw [← h₁, ← h₂, op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply,
     hc]
 
 /-- **Stacks 0DE7.** Base change along a morphism `h : X ⟶ Y` of simplicial algebraic spaces is

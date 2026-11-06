@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import StacksFrontier.AlgebraicGeometry.Divisors.AssociatedPoints.Finiteness
 public import StacksFrontier.AlgebraicGeometry.Morphisms.QuasiSeparated.LocalizedRestriction
 public import StacksFrontier.AlgebraicGeometry.QcohLimits.Sections

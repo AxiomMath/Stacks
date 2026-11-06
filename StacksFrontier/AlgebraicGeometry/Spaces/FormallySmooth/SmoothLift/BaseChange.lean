@@ -498,7 +498,10 @@ theorem Framing.baseChange_bijective [Module.Flat D.A R'.R] :
   have key : ∀ x, θ' (Fr.baseChange R' x) = Post (H ((θ.toLinearMap.rTensor R'.R) x)) := by
     intro x
     induction x using TensorProduct.induction_on with
-    | zero => simp [Post, H]
+    | zero =>
+      rw [(Fr.baseChange R').map_zero, θ'.map_zero, (θ.toLinearMap.rTensor R'.R).map_zero,
+        H.map_zero]
+      exact (LinearEquiv.congrRight κ).map_zero.symm
     | tmul δ b =>
       apply Derivation.liftKaehlerDifferential_unique
       ext a

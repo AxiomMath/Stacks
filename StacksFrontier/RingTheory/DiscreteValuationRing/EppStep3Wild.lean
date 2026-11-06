@@ -617,7 +617,7 @@ theorem exists_finite_extension_nonempty_tensorProduct_algEquiv_of_conditionB
           rw [hmul]
           exact mul_mem (hFmem z) ⟨1 ⊗ₜ y, by
             simp [hΘdef, Algebra.TensorProduct.lift_tmul]⟩
-        | add x y hx hy => rw [map_add]; exact add_mem hx hy
+        | add x y hx hy => rw [show ψ (x + y) = ψ x + ψ y from map_add ψ.toRingEquiv x y]; exact add_mem hx hy
       have hsurj : Function.Surjective Θ := by
         intro m
         obtain ⟨x, hx⟩ := hmem m

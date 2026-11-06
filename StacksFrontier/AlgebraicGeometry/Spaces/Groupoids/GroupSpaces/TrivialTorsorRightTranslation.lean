@@ -114,6 +114,17 @@ variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
 
 variable {U U' U'' : BigFppfOver 𝒞 S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_TrivialTorsorRightTranslation :
+    HasPullbacks ((BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_TrivialTorsorRightTranslation
+    {X Y Z : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Aliases in the bare fibre-product spelling -/
 
 /-- The multiplication of `G_U`, read as a morphism of bare fibre products. -/

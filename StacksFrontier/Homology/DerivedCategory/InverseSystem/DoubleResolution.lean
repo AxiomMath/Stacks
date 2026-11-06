@@ -48,8 +48,8 @@ private theorem map_shortExactResolutionUnit_quasiIsoAt_zero_aux
     QuasiIsoAt ((F.mapHomologicalComplex (ComplexShape.up ℤ)).map
       (shortExactResolutionUnit S)) 0 := by
   rw [quasiIsoAt_iff' _ (-1) 0 1 (by simp) (by simp),
-    ShortComplex.quasiIso_iff_of_zeros _ (by simp; rfl) (by simp; rfl)
-      (by simp [HomologicalComplex.double_d_eq_zero₀]; rfl)]
+    ShortComplex.quasiIso_iff_of_zeros _ (by simp) (by simp)
+      (by simp [HomologicalComplex.double_d_eq_zero₀])]
   constructor
   · refine ShortComplex.exact_of_iso (ShortComplex.isoMk
       (F.mapIso (HomologicalComplex.singleObjXSelf (ComplexShape.up ℤ) 0 S.X₁)).symm
@@ -91,7 +91,7 @@ private theorem map_shortExactResolutionUnit_quasiIso_aux
     · subst i
       apply ((G.obj L).exactAt_iff' 0 1 2 (by simp) (by simp)).2
       apply (((G.obj L).sc' 0 1 2).exact_iff_epi (by
-        simp [G, L, HomologicalComplex.double_d_eq_zero₀]; rfl)).2
+        simp [G, L, HomologicalComplex.double_d_eq_zero₀])).2
       show Epi (F.map (L.d 0 1))
       dsimp [L]
       rw [HomologicalComplex.double_d _ _ (by norm_num), F.map_comp, F.map_comp]

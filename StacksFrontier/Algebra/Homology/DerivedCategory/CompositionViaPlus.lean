@@ -160,7 +160,7 @@ theorem boundedDerivedIso_hom_comp_rightDerivedFunctorPlusComp
     boundedUnitPlus_app]
   exact chase_comp
     (map_comp_eq_three DerivedCategory.Plus.ι (rightDerivedFunctorPlusComp_fac_app F G L))
-    ((boundedDerivedIso G RG αG hresB).hom.naturality (F.rightDerivedFunctorPlusUnit.app L))
+    ((boundedDerivedIso G RG αG hresB).hom.naturality (F.rightDerivedFunctorPlusUnith.app L))
     (boundedDerivedIso_hom_app G RG αG hresB (F.mapHomotopyCategoryPlus.obj L))
     (map_comp_eq RG (boundedDerivedIso_hom_app F RF αF hresA L))
     (boundedDerivedIso_hom_app (F ⋙ G) RFG αFG hresA L)

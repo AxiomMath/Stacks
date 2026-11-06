@@ -7,6 +7,7 @@ public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.Idempotents
 public import Mathlib.RingTheory.PicardGroup
+public import Mathlib.RingTheory.Artinian.Ring
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
 import StacksCore.Tactic.EgaSgaAttribute

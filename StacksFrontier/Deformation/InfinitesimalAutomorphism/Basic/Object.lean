@@ -40,11 +40,11 @@ public noncomputable def pushforwardEndomorphism
     (hf : p.IsHomLift g f) (a : Aut x') : x.1 ⟶ x.1 := by
   letI := hf
   letI := isStronglyCocartesian_of_isCofiberedInGroupoids hp g f hf
-  letI : p.IsHomLift (𝟙 A') a.hom.val := a.hom.2
-  letI : p.IsHomLift g (a.hom.val ≫ f) :=
-    IsHomLift.comp_lift_id_left p g f a.hom.val
+  letI : p.IsHomLift (𝟙 A') a.asIso.hom.val := a.asIso.hom.2
+  letI : p.IsHomLift g (a.asIso.hom.val ≫ f) :=
+    IsHomLift.comp_lift_id_left p g f a.asIso.hom.val
   exact Functor.IsStronglyCocartesian.map p g f
-    (Category.comp_id g).symm (a.hom.val ≫ f)
+    (Category.comp_id g).symm (a.asIso.hom.val ≫ f)
 
 public instance pushforwardEndomorphism_isHomLift
     (hp : IsCofiberedInGroupoids p) (g : A' ⟶ A) (f : x'.1 ⟶ x.1)
@@ -59,19 +59,19 @@ square. -/
 public lemma hom_comp_eq_comp_pushforwardEndomorphism
     (hp : IsCofiberedInGroupoids p) (g : A' ⟶ A) (f : x'.1 ⟶ x.1)
     (hf : p.IsHomLift g f) (a : Aut x') :
-    a.hom.val ≫ f = f ≫ pushforwardEndomorphism hp g f hf a := by
+    a.asIso.hom.val ≫ f = f ≫ pushforwardEndomorphism hp g f hf a := by
   let := hf
   let := isStronglyCocartesian_of_isCofiberedInGroupoids hp g f hf
-  let : p.IsHomLift (𝟙 A') a.hom.val := a.hom.2
-  let : p.IsHomLift g (a.hom.val ≫ f) :=
-    IsHomLift.comp_lift_id_left p g f a.hom.val
+  let : p.IsHomLift (𝟙 A') a.asIso.hom.val := a.asIso.hom.2
+  let : p.IsHomLift g (a.asIso.hom.val ≫ f) :=
+    IsHomLift.comp_lift_id_left p g f a.asIso.hom.val
   exact (Functor.IsStronglyCocartesian.fac p g f
-    (Category.comp_id g).symm (a.hom.val ≫ f)).symm
+    (Category.comp_id g).symm (a.asIso.hom.val ≫ f)).symm
 
 /-- The induced endomorphism is the identity when the automorphism fixes `f`. -/
 private lemma pushforwardEndomorphism_eq_id_of_comp_eq
     (hp : IsCofiberedInGroupoids p) (g : A' ⟶ A) (f : x'.1 ⟶ x.1)
-    (hf : p.IsHomLift g f) (a : Aut x') (h : a.hom.val ≫ f = f) :
+    (hf : p.IsHomLift g f) (a : Aut x') (h : a.asIso.hom.val ≫ f = f) :
     pushforwardEndomorphism hp g f hf a = 𝟙 x.1 := by
   let := hf
   let := isStronglyCocartesian_of_isCofiberedInGroupoids hp g f hf
@@ -104,7 +104,7 @@ private lemma pushforwardEndomorphism_mul
       (pushforwardEndomorphism hp g f hf a)
   apply Functor.IsStronglyCocartesian.ext p g f (𝟙 A)
   rw [← hom_comp_eq_comp_pushforwardEndomorphism hp g f hf (a * b)]
-  show (b.hom.val ≫ a.hom.val) ≫ f =
+  show (b.asIso.hom.val ≫ a.asIso.hom.val) ≫ f =
     f ≫ (pushforwardEndomorphism hp g f hf b ≫
       pushforwardEndomorphism hp g f hf a)
   rw [Category.assoc, hom_comp_eq_comp_pushforwardEndomorphism hp g f hf a,
@@ -116,23 +116,23 @@ the source. -/
 @[implicit_reducible]
 public noncomputable def pushforwardAutomorphism
     (hp : IsCofiberedInGroupoids p) (g : A' ⟶ A) (f : x'.1 ⟶ x.1)
-    (hf : p.IsHomLift g f) (a : Aut x') : Aut x where
-  hom := ⟨pushforwardEndomorphism hp g f hf a,
-    pushforwardEndomorphism_isHomLift hp g f hf a⟩
-  inv := ⟨pushforwardEndomorphism hp g f hf a.symm,
-    pushforwardEndomorphism_isHomLift hp g f hf a.symm⟩
-  hom_inv_id := by
-    apply Functor.Fiber.hom_ext
-    change pushforwardEndomorphism hp g f hf a ≫
-      pushforwardEndomorphism hp g f hf a.symm = 𝟙 x.1
-    rw [← pushforwardEndomorphism_mul hp g f hf a.symm a,
-      ← Aut.Aut_inv_def, inv_mul_cancel, pushforwardEndomorphism_one]
-  inv_hom_id := by
-    apply Functor.Fiber.hom_ext
-    change pushforwardEndomorphism hp g f hf a.symm ≫
-      pushforwardEndomorphism hp g f hf a = 𝟙 x.1
-    rw [← pushforwardEndomorphism_mul hp g f hf a a.symm,
-      ← Aut.Aut_inv_def, mul_inv_cancel, pushforwardEndomorphism_one]
+    (hf : p.IsHomLift g f) (a : Aut x') : Aut x := .of
+  { hom := ⟨pushforwardEndomorphism hp g f hf a,
+      pushforwardEndomorphism_isHomLift hp g f hf a⟩
+    inv := ⟨pushforwardEndomorphism hp g f hf a⁻¹,
+      pushforwardEndomorphism_isHomLift hp g f hf a⁻¹⟩
+    hom_inv_id := by
+      apply Functor.Fiber.hom_ext
+      change pushforwardEndomorphism hp g f hf a ≫
+        pushforwardEndomorphism hp g f hf a⁻¹ = 𝟙 x.1
+      rw [← pushforwardEndomorphism_mul hp g f hf a⁻¹ a,
+        inv_mul_cancel, pushforwardEndomorphism_one]
+    inv_hom_id := by
+      apply Functor.Fiber.hom_ext
+      change pushforwardEndomorphism hp g f hf a⁻¹ ≫
+        pushforwardEndomorphism hp g f hf a = 𝟙 x.1
+      rw [← pushforwardEndomorphism_mul hp g f hf a a⁻¹,
+        mul_inv_cancel, pushforwardEndomorphism_one] }
 
 /-- Pushing fibre automorphisms forward along a morphism is a group
 homomorphism. -/
@@ -143,11 +143,13 @@ public noncomputable def pushforwardAutomorphismHom
   toFun := pushforwardAutomorphism hp g f hf
   map_one' := by
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     change pushforwardEndomorphism hp g f hf 1 = 𝟙 x.1
     exact pushforwardEndomorphism_one hp g f hf
   map_mul' a b := by
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     change pushforwardEndomorphism hp g f hf (a * b) =
       pushforwardEndomorphism hp g f hf b ≫ pushforwardEndomorphism hp g f hf a
@@ -173,15 +175,16 @@ public lemma mem_relativeInfinitesimalAutomorphisms
 public lemma mem_relativeInfinitesimalAutomorphisms_iff
     (hp : IsCofiberedInGroupoids p) (g : A' ⟶ A) (f : x'.1 ⟶ x.1)
     (hf : p.IsHomLift g f) (a : Aut x') :
-    a ∈ relativeInfinitesimalAutomorphisms hp g f hf ↔ a.hom.val ≫ f = f := by
+    a ∈ relativeInfinitesimalAutomorphisms hp g f hf ↔ a.asIso.hom.val ≫ f = f := by
   rw [mem_relativeInfinitesimalAutomorphisms]
   constructor
   · intro h
-    have hhom := congrArg (fun b : Aut x ↦ b.hom.val) h
+    have hhom := congrArg (fun b : Aut x ↦ b.asIso.hom.val) h
     change pushforwardEndomorphism hp g f hf a = 𝟙 x.1 at hhom
     rw [hom_comp_eq_comp_pushforwardEndomorphism hp g f hf a, hhom, Category.comp_id]
   · intro h
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     exact pushforwardEndomorphism_eq_id_of_comp_eq hp g f hf a h
 
@@ -225,7 +228,7 @@ public theorem mem_infinitesimalAutomorphismsAlongSplitPair_iff
     (g : A₀ ⟶ Aε) (e : Aε ⟶ A₀) (hge : g ≫ e = 𝟙 A₀)
     (i : x₀.1 ⟶ xε.1) (hi : p.IsHomLift g i) (a : Aut xε) :
     a ∈ infinitesimalAutomorphismsAlongSplitPair hp g e hge i hi ↔
-      a.hom.val ≫ (canonicalRetraction hp g e hge i hi).1 =
+      a.asIso.hom.val ≫ (canonicalRetraction hp g e hge i hi).1 =
         (canonicalRetraction hp g e hge i hi).1 :=
   mem_relativeInfinitesimalAutomorphisms_iff hp e
     (canonicalRetraction hp g e hge i hi).1
@@ -291,7 +294,7 @@ public theorem mem_infinitesimalAutomorphisms_iff
     (g : A₀ ⟶ Aε) (e : Aε ⟶ A₀) (hpair : IsCanonicalDualNumberPair g e)
     (i : x₀.1 ⟶ xε.1) (hi : p.IsHomLift g i) (a : Aut xε) :
     a ∈ infinitesimalAutomorphisms hp g e hpair i hi ↔
-      a.hom.val ≫ (canonicalRetraction hp g e hpair.split i hi).1 =
+      a.asIso.hom.val ≫ (canonicalRetraction hp g e hpair.split i hi).1 =
         (canonicalRetraction hp g e hpair.split i hi).1 :=
   mem_infinitesimalAutomorphismsAlongSplitPair_iff hp g e hpair.split i hi a
 

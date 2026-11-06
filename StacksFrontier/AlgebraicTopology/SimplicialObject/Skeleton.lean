@@ -693,7 +693,6 @@ public theorem isLeast_subobject_mk_skAdj_counit_app (U : SimplicialObject A) (n
         (factors_iff_comp_cokernel_π_eq_zero P _).mp (hP X.unop.obj.len X.unop.property φ.unop)
       dsimp only [Functor.LeftExtension.mk, StructuredArrow.mk_hom_eq_self]
       rw [comp_zero, comp_zero, NatTrans.naturality_assoc, reassoc_of% hid, hg]
-      exact Category.id_comp _
     exact Subobject.mk_le_of_comm (P.factorThru _ hfac) (P.factorThru_arrow _ hfac)
 
 end CategoryTheory.SimplicialObject

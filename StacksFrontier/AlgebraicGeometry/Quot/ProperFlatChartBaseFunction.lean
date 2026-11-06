@@ -30,6 +30,35 @@ open Stacks.Sheaves.ToposPushforward (inverseImageCommRingFunctor)
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
+attribute [local instance high]
+  AlgebraicGeometry.Space.preservesFiniteProducts_smallEtalePostcomp_AlgebraExtensionEtaleRestriction
+  AlgebraicGeometry.Space.hasLimitsOfShape_discrete_EtaleRestrictionInverseImageGlobalSection
+  AlgebraicGeometry.Space.hasTerminal_topos_EtaleRestrictionInverseImageGlobalSection
+  AlgebraicGeometry.Space.hasLimitsOfShape_discreteF_ProperFlatDeformationMapGlobalSection
+  AlgebraicGeometry.Space.hasLimitsOfShape_discrete₀_ProperFlatDeformationMapGlobalSection
+  AlgebraicGeometry.Space.hasDiscreteLimits_topos_ProperFlatDeformationMapGlobalSection
+  AlgebraicGeometry.Space.hasTerminal_topos_ProperFlatDeformationMapGlobalSection
+
+-- Lean v4.35.0: `HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u)` (for `⊤_ Sheaf J (Type u)`)
+-- exceeds the default typeclass budget.
+set_option synthInstance.maxHeartbeats 400000
+
+/-- File-local shortcut: the inverse image of a morphism of topoi preserves finite products
+(instance search through the generic paths times out). -/
+local instance (priority := high) preservesFiniteProducts_inverseImage_properFlatChartBaseFunction
+    {E : Type*} [Category E] {F : Type*} [Category F] (f : MorphismOfTopoi E F) :
+    PreservesFiniteProducts f.inverseImage :=
+  haveI := f.preservesFiniteLimits
+  inferInstance
+
+/-- File-local shortcut: the inverse image of a morphism of topoi preserves the terminal
+object (instance search through the generic paths times out). -/
+local instance (priority := high) isIso_terminalComparison_inverseImage_properFlatChartBaseFunction
+    {E : Type*} [Category E] {F : Type*} [Category F] [HasTerminal E] [HasTerminal F]
+    (f : MorphismOfTopoi E F) : IsIso (terminalComparison f.inverseImage) :=
+  haveI := f.preservesFiniteLimits
+  inferInstance
+
 universe u
 
 namespace AlgebraicGeometry.Space.ProperFlatLift

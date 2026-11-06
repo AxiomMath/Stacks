@@ -154,12 +154,12 @@ theorem infinitesimalAutomorphisms_spaceDeformation_eq_top
   set r := (canonicalRetraction hp g e hpair.split i hi).1
   apply Over.OverMorphism.ext
   apply FlatAlgebraicSpaceFamily.Hom.ext
-  · show a.hom.val.left.base ≫ r.left.base = r.left.base
+  · show a.asIso.hom.val.left.base ≫ r.left.base = r.left.base
     rw [spaceFiberEnd_base_eq_id, Category.id_comp]
-  · show r.left.map ≫ a.hom.val.left.map = r.left.map
+  · show r.left.map ≫ a.asIso.hom.val.left.map = r.left.map
     refine (cancel_epi (spaceSpecialMap B hΛ hSpec X hX toK x₀.1)).mp ?_
     rw [← Category.assoc, spaceSpecialMap_comp B hΛ hSpec X hX toK r,
-      spaceSpecialMap_comp B hΛ hSpec X hX toK a.hom.val]
+      spaceSpecialMap_comp B hΛ hSpec X hX toK a.asIso.hom.val]
 
 /-- **`Inf(𝓓_X)` is the full automorphism group of the point in its fibre**, by
 `Deformation.Examples.infinitesimalAutomorphisms_spaceDeformation_eq_top`. -/
@@ -185,20 +185,20 @@ def spaceInfinitesimalAutomorphismGroupMulEquivAut
 abbrev spaceFiberAutMap {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     {y : (spaceDeformationProjection B hΛ hSpec X hX toK).Fiber A} (a : Aut y) :
     y.1.left.space ⟶ y.1.left.space :=
-  a.hom.val.left.map
+  a.asIso.hom.val.left.map
 
 /-- The self-map of a fibre automorphism commutes with the structure morphism. -/
 theorem spaceFiberAutMap_comp_toBase {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     {y : (spaceDeformationProjection B hΛ hSpec X hX toK).Fiber A} (a : Aut y) :
     spaceFiberAutMap B hΛ hSpec X hX toK a ≫ y.1.left.toBase = y.1.left.toBase :=
-  spaceFiberEnd_map_comp_toBase B hΛ hSpec X hX toK a.hom
+  spaceFiberEnd_map_comp_toBase B hΛ hSpec X hX toK a.asIso.hom
 
 /-- The self-map of a fibre automorphism fixes the special-fibre map. -/
 theorem spaceSpecialMap_comp_spaceFiberAutMap {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     {y : (spaceDeformationProjection B hΛ hSpec X hX toK).Fiber A} (a : Aut y) :
     spaceSpecialMap B hΛ hSpec X hX toK y.1 ≫ spaceFiberAutMap B hΛ hSpec X hX toK a =
       spaceSpecialMap B hΛ hSpec X hX toK y.1 :=
-  spaceSpecialMap_comp B hΛ hSpec X hX toK a.hom.val
+  spaceSpecialMap_comp B hΛ hSpec X hX toK a.asIso.hom.val
 
 /-- **The group law of fibre automorphisms is composition of self-maps**, in the order of the
 contravariance of the space component: `(a * b).map = a.map ≫ b.map`. -/
@@ -218,9 +218,10 @@ theorem spaceFiberAutMap_one {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
 theorem spaceFiberAutMap_injective {A : ArtinianLocalAlgCat.{u, u, u} Λ k}
     {y : (spaceDeformationProjection B hΛ hSpec X hX toK).Fiber A} :
     Function.Injective (spaceFiberAutMap B hΛ hSpec X hX toK (y := y)) := fun a b h =>
-  Aut.ext <| Functor.Fiber.hom_ext <| Over.OverMorphism.ext <| FlatAlgebraicSpaceFamily.Hom.ext
-    ((spaceFiberEnd_base_eq_id B hΛ hSpec X hX toK a.hom).trans
-      (spaceFiberEnd_base_eq_id B hΛ hSpec X hX toK b.hom).symm) h
+  Aut.ext <| Iso.ext <| Functor.Fiber.hom_ext <| Over.OverMorphism.ext <|
+    FlatAlgebraicSpaceFamily.Hom.ext
+    ((spaceFiberEnd_base_eq_id B hΛ hSpec X hX toK a.asIso.hom).trans
+      (spaceFiberEnd_base_eq_id B hΛ hSpec X hX toK b.asIso.hom).symm) h
 
 end Deformation.Examples
 

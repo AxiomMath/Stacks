@@ -125,17 +125,17 @@ def koszulEnd (e : Fin r → ℕ) :
 theorem koszulEnd_app_apply (e : Fin r → ℕ)
     (M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     (U : X.Cᵒᵖ) (x : M.val.obj U) :
-    ((koszulEnd X f e).app M).val.app U x = koszulRingValue X f e U • x := rfl
+    ((koszulEnd X f e).asHom.app M).val.app U x = koszulRingValue X f e U • x := rfl
 
 /-- The component at `𝒪` of multiplication by a monomial is
 `AlgebraicGeometry.RingedSite.koszulScalar`. -/
 theorem koszulEnd_app_unit (e : Fin r → ℕ) :
-    (koszulEnd X f e).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) =
+    (koszulEnd X f e).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) =
       koszulScalar X f e := rfl
 
 /-- **Composing multiplications by monomials adds exponents.** -/
 theorem koszulEnd_comp (e e' : Fin r → ℕ) :
-    koszulEnd X f e ≫ koszulEnd X f e' = koszulEnd X f (e + e') := by
+    (koszulEnd X f e).asHom ≫ (koszulEnd X f e').asHom = (koszulEnd X f (e + e')).asHom := by
   ext M U x
   show koszulRingValue X f e' U • (koszulRingValue X f e U • x) =
     koszulRingValue X f (e + e') U • x
@@ -201,13 +201,13 @@ multiplication by `f_S^k`**, on every sheaf of `𝒪`-modules. This is the compu
 the comparison with the Čech system natural. -/
 theorem awaySmul_pow_app_eq_of_subset {S T : Finset (Fin r)} (hST : S ⊆ T) (k : ℕ)
     (M : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
-    ((awaySmul X (prodGlobalSection f T)) ^ k).app M =
-      (koszulEnd X f (koszulIndicator (T \ S) k)).app M ≫
-        ((awaySmul X (prodGlobalSection f S)) ^ k).app M := by
+    ((awaySmul X (prodGlobalSection f T)) ^ k).asHom.app M =
+      (koszulEnd X f (koszulIndicator (T \ S) k)).asHom.app M ≫
+        ((awaySmul X (prodGlobalSection f S)) ^ k).asHom.app M := by
   rw [awaySmul_pow_eq_koszulEnd, awaySmul_pow_eq_koszulEnd, ← NatTrans.comp_app, koszulEnd_comp]
   exact congrArg
     (fun α : End (𝟭 (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) =>
-      α.app M)
+      α.asHom.app M)
     (koszulEnd_congr X f fun i => (koszulIndicator_sdiff_add S T hST k i).symm)
 
 variable [HasWeakSheafify X.J CommRingCat.{u}]
@@ -251,13 +251,13 @@ theorem koszulScalar_comp_awayModuleCoconeι {S T : Finset (Fin r)} (hST : S ⊆
       awayModuleCoconeι X (prodGlobalSection f S) (n + 1) ≫ awayModuleTransition X f hST :=
   comp_inv_comm (unitToAwayModule X (prodGlobalSection f S))
     (unitToAwayModule X (prodGlobalSection f T)) (awayModuleTransition X f hST)
-    (((awaySmul X (prodGlobalSection f T)) ^ (n + 1)).naturality
+    (((awaySmul X (prodGlobalSection f T)) ^ (n + 1)).asHom.naturality
       (awayModuleTransition X f hST))
     (awaySmul_pow_app_eq_of_subset X f hST (n + 1) (awayModule X (prodGlobalSection f S)))
-    ((koszulEnd X f (koszulIndicator (T \ S) (n + 1))).naturality
-      (((awaySmul X (prodGlobalSection f S)) ^ (n + 1)).app
+    ((koszulEnd X f (koszulIndicator (T \ S) (n + 1))).asHom.naturality
+      (((awaySmul X (prodGlobalSection f S)) ^ (n + 1)).asHom.app
         (awayModule X (prodGlobalSection f S))))
-    ((koszulEnd X f (koszulIndicator (T \ S) (n + 1))).naturality
+    ((koszulEnd X f (koszulIndicator (T \ S) (n + 1))).asHom.naturality
       (unitToAwayModule X (prodGlobalSection f S)))
     (unitToAwayModule_comp_awayModuleTransition X f hST)
 

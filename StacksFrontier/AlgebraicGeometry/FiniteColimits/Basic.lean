@@ -120,6 +120,7 @@ noncomputable def coprodPresentationRel {M N : SheafOfModules.{w} R}
       ((freeHomEquiv _).symm Q.relations.s ≫ kernel.ι Q.generators.π) ≫
     (freeSumIso P.generators.I Q.generators.I).hom
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The relations leg composed with the generators leg of the presentation of `M ⨿ N` is
 zero. -/
 theorem coprodPresentationRel_comp_π {M N : SheafOfModules.{w} R}
@@ -129,6 +130,7 @@ theorem coprodPresentationRel_comp_π {M N : SheafOfModules.{w} R}
   simp only [Category.assoc, Iso.hom_inv_id_assoc]
   rw [coprod_map_comp_eq_zero (by simp) (by simp), comp_zero]
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The presentation of `M ⨿ N` built from presentations of `M` and of `N`: if `M` is the
 cokernel of a map `free ι₁ ⟶ free σ₁` and `N` the cokernel of `free ι₂ ⟶ free σ₂`, then `M ⨿ N`
 is the cokernel of the induced map `free (ι₁ ⊕ ι₂) ⟶ free (σ₁ ⊕ σ₂)`. -/

@@ -283,7 +283,7 @@ theorem derivation_d_eq_zero_of_isLocallySurjective (f : X ⟶ Y)
     (hsharp : Presheaf.IsLocallySurjective (SmallEtale.topology B S hS X.1)
       (structureSharpInverseImage B S hS f).hom)
     (F : Modules.{u, u} B S hS X.1 X.2)
-    (D : F.val.Derivation' (structureSharpInverseImage B S hS f).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS f).hom)
     {U : SmallEtale B S hS X.1}
     (x : ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U) : CommRingCat.{u})) :
     D.d x = 0 := by
@@ -306,8 +306,9 @@ theorem derivation_eq_of_isLocallySurjective (f : X ⟶ Y)
     (hsharp : Presheaf.IsLocallySurjective (SmallEtale.topology B S hS X.1)
       (structureSharpInverseImage B S hS f).hom)
     (F : Modules.{u, u} B S hS X.1 X.2)
-    (D D' : F.val.Derivation' (structureSharpInverseImage B S hS f).hom) : D = D' := by
-  apply PresheafOfModules.Derivation.ext
+    (D D' : PresheafOfModulesOfCommRing.Derivation' F.val
+      (structureSharpInverseImage B S hS f).hom) : D = D' := by
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext W z
   exact (derivation_d_eq_zero_of_isLocallySurjective B S hS f hsharp F D z).trans
     (derivation_d_eq_zero_of_isLocallySurjective B S hS f hsharp F D' z).symm

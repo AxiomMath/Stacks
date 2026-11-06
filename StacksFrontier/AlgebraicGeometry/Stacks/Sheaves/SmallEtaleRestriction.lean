@@ -409,8 +409,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
           pullback.fst (jy.obj W).hom fpb ≫
           Over.Hom.left (qy.asEquivalence.counitIso.inv.app (jy.obj W)))
       hqxStepToMap
-    convert hstep using 1
-    rfl
+    convert hstep using 1 <;> rfl
   have hbetaMapDecomp :
       B.inclusion.map (Over.Hom.left (hbeta.app W)) =
         B.inclusion.map (Over.Hom.left (hcomm.hom.app (qx.inv.obj (jx.obj (bc.obj W))))) ≫
@@ -454,9 +453,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
     have hfirst :
         B.inclusion.map (Over.Hom.left (hbeta.app W)) ≫ B.inclusion.map ey.left = middle := by
       rw [hbetaMapDecomp, hcommLeftMap', Over.map_map_left]
-      convert hsuffix using 1
-      simp only [Category.assoc]
-      rfl
+      convert hsuffix using 1 <;> (try simp only [Category.assoc]) <;> rfl
     have hsecond : middle =
         B.inclusion.map ex.left ≫
           (B.inclusion.map (Over.Hom.left (hbase.hom.app W)) ≫
@@ -487,7 +484,6 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
         ((Over.Hom.left (hbase.hom.app W)).hom ≫ (pullback.fst (jy.obj W).hom fpb).hom) =
       (Over.Hom.left ex).hom ≫ (pullback.fst W.obj.hom a).hom
     rw [hbaseProjectionHom]
-    rfl
   have hα : qyff.preimage (hbeta.app W) = candidate := by
     apply qy.map_injective
     rw [qyff.map_preimage]
@@ -495,8 +491,7 @@ theorem restrictionPushforwardComparison_app {𝒳 : Type v} [Category.{w} 𝒳]
     apply B.inclusion.map_injective
     apply (cancel_mono (B.inclusion.map ey.left)).mp
     exact hbeta_factor.trans hprojectionAfterEx |>.trans (by
-      rw [← hproj_factor, hcandidateMap]
-      rfl)
+      rw [← hproj_factor, hcandidateMap])
   show F.map (((Over.forget y).map (qyff.preimage (hbeta.app W))).op) = F.map f'.op
   rw [hα]
   rfl
@@ -620,8 +615,9 @@ private theorem isContinuous_overPost_cutoff (U : Scheme.{u}) (hU : E.Contains U
       exact Precoverage.generate_mem_toGrothendieck ⟨Wfam, rfl, hW'⟩
     rw [← congrArg Sieve.generate hPres] at hbase
     dsimp [G, K]
-    rw [GrothendieckTopology.mem_over_iff, Sieve.overEquiv_functorPushforward_post,
-      Sieve.overEquiv_generate]
+    rw [GrothendieckTopology.mem_over_iff]
+    erw [Sieve.overEquiv_functorPushforward_post]
+    rw [Sieve.overEquiv_generate]
     have hsrc : Sieve.generate
         (Presieve.functorPushforward (Over.forget (E.obj U hU)) C.presieve₀) =
         Sieve.generate C₀.2.presieve₀ := by

@@ -164,6 +164,7 @@ theorem isQuasicoherentOnSite_modulePushforward_of_affine_target {X : AlgebraicS
     ((modulePushforward B S hS g).obj F).IsQuasicoherentOnSite := by
   obtain ⟨U, R, t, s, hU, hsurj, hpb, hR⟩ :=
     exists_chart_relation_of_isQuasiCompactSpace B S hS hX
+  have := hpb.hasPullback
   have hRqc : IsQuasiCompactSpace B S hS (chartSpace B S hS X R).1 := by
     have := hU
     have := hV

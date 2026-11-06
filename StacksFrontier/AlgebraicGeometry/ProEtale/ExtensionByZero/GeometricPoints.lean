@@ -147,9 +147,9 @@ theorem exists_geometricPoint_lift_of_proetaleCover
       (isSeparable_and_isAlgebraic_residueField_of_weaklyEtale A B
         (weaklyEtale_stalkMap (f i) x) p q hpq).2
     let eY : S.residueField (f i x) ≃+* p.ResidueField :=
-      IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)
+      IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p) |>.toRingEquiv
     let eX : (X i).residueField x ≃+* q.ResidueField :=
-      IsLocalization.AtPrime.equivQuotMaximalIdeal q (Localization.AtPrime q)
+      IsLocalization.AtPrime.equivQuotMaximalIdeal q (Localization.AtPrime q) |>.toRingEquiv
     let α : p.ResidueField →+* K := a.hom.comp eY.symm.toRingHom
     let : Algebra p.ResidueField K := α.toAlgebra
     let c : q.ResidueField →ₐ[p.ResidueField] K := IsAlgClosed.lift

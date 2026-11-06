@@ -108,7 +108,7 @@ public theorem etaleStalkSheafificationMap_etaleGerm
         ((toSheafify (SmallEtale.topology B X hX) P).app (op V) a) :=
   (ConcreteCategory.comp_apply _ _ a).symm.trans
     ((ConcreteCategory.congr_hom (colimit_ι_comp_etaleStalkSheafificationMap B X hX s P
-        (op (⟨V, q⟩ : (geometricPointFiber B X hX s).Elements))) a).trans
+        (op ((geometricPointFiber B X hX s).elementsMk V q))) a).trans
       (ConcreteCategory.comp_apply _ _ a))
 
 end Sheafification

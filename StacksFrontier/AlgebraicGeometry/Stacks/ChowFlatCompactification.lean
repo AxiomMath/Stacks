@@ -256,7 +256,7 @@ theorem hasCompactifiableCovers_of_isFlat {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
   have hOW : ∀ j, Subfunctor.range (ι j) ≤ W.preimage g := by
     rintro j T _ ⟨y, rfl⟩
     show g.app T ((ι j).app T y) ∈ W.obj T
-    rw [← FunctorToTypes.comp, hιq j, FunctorToTypes.comp]
+    rw [← NatTrans.comp_app_apply, hιq j, NatTrans.comp_app_apply]
     exact ((q j).app T y).2
   have hx : ∀ j, ∃ x : algebraicSpaceStack.{u, w} B S hS (Subfunctor.range (ι j)).toFunctor
       (hO j).1 ⟶ 𝒳, Nonempty (x ≫ f ≅ algebraicSpaceStackMap.{u, w} B S hS (hO j).1 hY

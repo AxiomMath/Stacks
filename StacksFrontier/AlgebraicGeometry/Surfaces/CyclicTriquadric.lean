@@ -200,8 +200,8 @@ theorem prime_chartPolynomial (c : Fin 3 → Fin 2) :
 
 /-- The quotient of `ℚ[x₀, x₁, x₂]` by a local equation is a domain. -/
 instance isDomain_quotient_chartPolynomial (c : Fin 3 → Fin 2) :
-    IsDomain (MvPolynomial (Fin 3) ℚ ⧸ Ideal.span {map (Int.castRingHom ℚ)
-      (triquadraticChartPolynomial cyclicTriquadricCoefficients c)}) :=
+    IsDomain (MvPolynomial (Fin 3) ℚ ⧸ Ideal.span
+      {map (Int.castRingHom ℚ) (triquadraticChartPolynomial cyclicTriquadricCoefficients c)}) :=
   (Ideal.Quotient.isDomain_iff_prime _).mpr
     ((Ideal.span_singleton_prime (prime_chartPolynomial c).ne_zero).mpr (prime_chartPolynomial c))
 

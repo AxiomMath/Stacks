@@ -182,6 +182,18 @@ theorem irreducibleSpace_of_smooth_of_isIso_appTop (k : Type u) [Field k] {X : S
       (isGeometricallyNormal_of_smooth f)).out 1 3).1 hf
   exact GeometricallyIrreducible.irreducibleSpace_of_subsingleton f
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instance. -/
+local instance (priority := high) hasPullbacks_presheaf_moduliSmoothCurvesStable
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_moduliSmoothCurvesStable
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W) (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
 /-! ### The fibres of a family of curves over field-valued points -/

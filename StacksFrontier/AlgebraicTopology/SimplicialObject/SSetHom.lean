@@ -5,6 +5,7 @@ public import Mathlib.AlgebraicTopology.SimplicialSet.Basic
 public import Mathlib.AlgebraicTopology.SimplicialSet.Finite
 public import Mathlib.AlgebraicTopology.SimplicialSet.FiniteProd
 public import Mathlib.Basic.Countable.Basic
+public import Mathlib.Basic.Finite.Sigma
 public import Mathlib.CategoryTheory.Limits.Final
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
 public import StacksFrontier.AlgebraicTopology.SimplicialObject.Copower
@@ -179,10 +180,12 @@ instance instCountableCategoryElements (U : SSet.{0}) [∀ n, Finite (U.obj n)] 
   have hHomOp : ∀ a b : SimplexCategoryᵒᵖ, Finite (a ⟶ b) := fun a b =>
     have := hHom b.unop a.unop
     Finite.of_equiv _ (opEquiv a b).symm
-  refine ⟨inferInstanceAs (Countable (Σ n : SimplexCategoryᵒᵖ, U.obj n)), ?_⟩
+  refine ⟨Countable.of_equiv (Σ n : SimplexCategoryᵒᵖ, U.obj n)
+    ⟨fun p => .mk p.2, fun x => ⟨x.obj, x.val⟩, fun _ => rfl, fun _ => rfl⟩, ?_⟩
   intro x y
   have := hHomOp ((CategoryOfElements.π U).obj x) ((CategoryOfElements.π U).obj y)
-  exact Subtype.countable
+  exact Function.Injective.countable (f := fun f : x ⟶ y => f.hom)
+    fun _ _ h => Functor.Elements.Hom.ext h
 
 /-- The diagram `U.Elements ⥤ C` sending `⟨n, u⟩` to `V_n` and a morphism lying over
 `f : n ⟶ n'` to `V(f)`. -/
@@ -229,27 +232,30 @@ noncomputable def simpHomFamilyEquiv
     (V : SimplicialObject C) (X : C) :
     SimpHomConeFamily U V X ≃ ((prodConstSSet U).obj X ⟶ V) where
   toFun s :=
-    { app := fun n => Sigma.desc (fun u => s.leg (U.elementsMk n u))
+    { app := fun n => Sigma.desc (fun u => show X ⟶ V.obj n from s.leg (U.elementsMk n u))
       naturality := fun n n' f => Sigma.hom_ext _ _ fun u => by
         rw [← Category.assoc, show Sigma.ι
               (fun (_ : U.obj n) => ((SimplicialObject.const C).obj X).obj n) u
               ≫ ((prodConstSSet U).obj X).map f
             = Sigma.ι (fun (_ : U.obj n') => X) (U.map f u) from
           prodConstSSet_ι_map U X f u, Sigma.ι_desc, ← Category.assoc, Sigma.ι_desc]
-        have h := s.leg_comp (CategoryOfElements.homMk (U.elementsMk n u)
-          (U.elementsMk n' (U.map f u)) f rfl)
-        rw [Functor.comp_map, CategoryOfElements.π_map, CategoryOfElements.homMk_coe] at h
+        have h := s.leg_comp (Functor.Elements.homMk (x := U.elementsMk n u)
+          (y := U.elementsMk n' (U.map f u)) f rfl)
         exact h.symm }
   invFun θ :=
-    { leg := fun p => Sigma.ι (fun (_ : U.obj p.fst) => X) p.snd ≫ θ.app p.fst
+    { leg := fun p => Sigma.ι (fun (_ : U.obj p.obj) => X) p.val ≫ θ.app p.obj
       leg_comp := fun {p q} f => by
-        have hmap : (simpHomDiagram U V).map f = V.map f.val := rfl
-        rw [hmap, Category.assoc, ← θ.naturality f.val, ← Category.assoc, prodConstSSet_ι_map,
-          f.property] }
-  left_inv s := by ext p; exact Sigma.ι_desc _ _
+        have hmap : (simpHomDiagram U V).map f = V.map f.hom := rfl
+        rw [hmap]
+        change (Sigma.ι (fun (_ : U.obj p.obj) => X) p.val ≫ θ.app p.obj) ≫ V.map f.hom =
+          Sigma.ι (fun (_ : U.obj q.obj) => X) q.val ≫ θ.app q.obj
+        rw [Category.assoc, ← θ.naturality f.hom, ← Category.assoc, prodConstSSet_ι_map,
+          f.map_val] }
+  left_inv s := SimpHomConeFamily.ext (funext fun p => Sigma.ι_desc _ _)
   right_inv θ :=
     SimplicialObject.hom_ext _ _ fun n => Sigma.hom_ext _ _ fun u => Sigma.ι_desc _ _
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The bijection assembled from `simpHomLimitEquiv` and `simpHomFamilyEquiv` is natural in `X`:
 precomposing `g : X' ⟶ lim 𝒱` with `α : X ⟶ X'` corresponds to precomposing the unwound
 simplicial morphism with `α × U`. -/
@@ -403,7 +409,7 @@ private def costructuredArrowMk {k : ℕ} (hk : k ≤ N) (v : U _⦋k⦌) (φ : 
 
 /-- Every object of `CostructuredArrow (dimLE U N).ι z` is of the form `costructuredArrowMk`. -/
 private lemma eq_costructuredArrowMk (x : CostructuredArrow (dimLE U N).ι z) :
-    x = costructuredArrowMk U N z x.left.property x.left.obj.2 x.hom.val.unop x.hom.property := rfl
+    x = costructuredArrowMk U N z x.left.property x.left.obj.2 x.hom.hom.unop x.hom.map_val := rfl
 
 /-- A morphism between two such objects: the target simplex `v'` is the image `U(ψ)(v)` of
 the source simplex and the presentation `φ` of `z` factors as `φ' ≫ ψ`. -/
@@ -414,13 +420,13 @@ private lemma nonempty_hom {k k' : ℕ} (hk : k ≤ N) (hk' : k' ≤ N) (v : U _
     Nonempty (costructuredArrowMk U N z hk v φ h ⟶ costructuredArrowMk U N z hk' v' φ' h') :=
   ⟨CostructuredArrow.homMk (ObjectProperty.homMk (P := dimLE U N)
       (show U.elementsMk (op ⦋k⦌) v ⟶ U.elementsMk (op ⦋k'⦌) v' from ⟨ψ.op, hv⟩))
-    (Subtype.ext (op_comp.symm.trans (congrArg Quiver.Hom.op hφ)))⟩
+    (Functor.Elements.Hom.ext (op_comp.symm.trans (congrArg Quiver.Hom.op hφ)))⟩
 
 /-- The homomorphisms of `U.Elements` between two simplices form a finite set. -/
 private lemma finite_elements_hom (x y : U.Elements) : Finite (x ⟶ y) := by
   have : Finite (x.1 ⟶ y.1) :=
     Finite.of_equiv _ (Opposite.equivToOpposite (α := (y.1.unop ⟶ x.1.unop)))
-  exact Finite.of_injective (fun f : x ⟶ y => f.1) fun a b h => Subtype.ext h
+  exact Finite.of_injective (fun f : x ⟶ y => f.1) fun a b h => Functor.Elements.Hom.ext h
 
 /-- The simplices of dimension `≤ N` of a simplicial set with finitely many simplices in
 each dimension form a finite set. -/
@@ -507,7 +513,7 @@ private lemma initial_ι : (dimLE U (2 * d)).ι.Initial where
     refine zigzag_isConnected fun x y => ?_
     rw [eq_costructuredArrowMk U (2 * d) z x, eq_costructuredArrowMk U (2 * d) z y]
     exact zigzag_obj U d z x.left.property y.left.property x.left.obj.2 y.left.obj.2
-      x.hom.val.unop y.hom.val.unop x.hom.property y.hom.property
+      x.hom.hom.unop y.hom.hom.unop x.hom.map_val y.hom.map_val
 
 end
 
@@ -634,8 +640,8 @@ private lemma limObj_hom_ext {X : C} {f g : X ⟶ limObj V A}
 `π_a ≫ V(θ) = π_{A(θ)(a)}`. -/
 private lemma limπ_comp_map {m m' : SimplexCategoryᵒᵖ} (θ : m ⟶ m') (a : A.obj m) :
     limπ V A m a ≫ V.map θ = limπ V A m' (A.map θ a) :=
-  limit.w (diag V A) (CategoryOfElements.homMk (A.elementsMk m a)
-    (A.elementsMk m' (A.map θ a)) θ rfl)
+  limit.w (diag V A) (Functor.Elements.homMk (x := A.elementsMk m a)
+    (y := A.elementsMk m' (A.map θ a)) θ rfl)
 
 /-- The object `limObj V A` represents `X ↦ Mor(X × A, V)`: a morphism `X ⟶ limObj V A` is the
 same thing as a family of morphisms `X ⟶ V_m` indexed by the `m`-simplices of `A` and compatible

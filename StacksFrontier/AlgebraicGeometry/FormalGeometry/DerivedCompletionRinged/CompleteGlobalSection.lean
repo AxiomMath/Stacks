@@ -88,8 +88,8 @@ theorem overFunctor_map_globalSectionToEnd {C : Type u} [Category.{v} C]
     {J : GrothendieckTopology C} (R : Sheaf J RingCat.{w})
     [∀ T : Cᵒᵖ, IsMulCommutative (R.obj.obj T)] (U : C)
     (s : (R.obj ⋙ forget RingCat).sections) (M : _root_.SheafOfModules.{m} R) :
-    (_root_.SheafOfModules.overFunctor.{m} R U).map ((globalSectionToEnd R s).app M) =
-      (terminalSectionToEnd (R.over U) (Over.mk (𝟙 U)) Over.mkIdTerminal (s.val (op U))).app
+    (_root_.SheafOfModules.overFunctor.{m} R U).map ((globalSectionToEnd R s).asHom.app M) =
+      (terminalSectionToEnd (R.over U) (Over.mk (𝟙 U)) Over.mkIdTerminal (s.val (op U))).asHom.app
         ((_root_.SheafOfModules.overFunctor.{m} R U).obj M) :=
   map_globalSectionToEnd (F := Over.forget U) (S := R.over U) (R := R) (𝟙 (R.over U)) s
     (terminalSection (R.over U) (Over.mk (𝟙 U)) Over.mkIdTerminal (s.val (op U)))
@@ -156,14 +156,14 @@ theorem overFunctor_mapDerivedCategory_map_smul_id (U : X.C)
   let aU : CatCenter (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O).over U)) :=
     overTerminalRingHom X U (globalSectionVal h (op U))
   have hmap : ∀ M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O),
-      G.map (a.app M) = aU.app (G.obj M) :=
+      G.map (a.asHom.app M) = aU.asHom.app (G.obj M) :=
     Stacks.SheafOfModules.overFunctor_map_globalSectionToEnd
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) U (awayFamily X h)
   exact Stacks.SheafOfModules.DerivedRestrictScalars.mapDerivedCategory_map_smul_id
     G a aU
     (fun Z ↦ Stacks.SemilinearFunctor.map_smul_id_mapHomologicalComplex G a aU
-      (fun M ↦ (congrArg G.map (Category.comp_id (a.app M))).trans
-        ((hmap M).trans (Category.comp_id (aU.app (G.obj M))).symm))
+      (fun M ↦ (congrArg G.map (Category.comp_id (a.asHom.app M))).trans
+        ((hmap M).trans (Category.comp_id (aU.asHom.app (G.obj M))).symm))
       (ComplexShape.up ℤ) Z) L
 
 /-- **Derived completeness at a global section is detected slice by slice.** If the restriction

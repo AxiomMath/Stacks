@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.Sites.CoverLifting
+public import Mathlib.CategoryTheory.Sites.Limits
 public import Mathlib.CategoryTheory.Sites.Pullback
 public import StacksCore.Tactic.StacksAttribute
 

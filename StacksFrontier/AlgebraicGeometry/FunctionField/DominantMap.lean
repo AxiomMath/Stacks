@@ -114,7 +114,7 @@ theorem residueFieldMap_comp_genericResidueEquivOfDominant {X Y : Scheme.{u}} (f
       (Y.residue (f (genericPoint X))).hom =
     (X.residue (genericPoint X)).hom.comp
       (f.stalkMap (genericPoint X)).hom at hnatural
-  simpa only [genericResidueEquivOfDominant, RingEquiv.toRingHom_trans,
+  simpa only [genericResidueEquivOfDominant, RingEquiv.toRingHom_trans, RingEquiv.toRingHom_trans',
     genericResidueEquiv, functionFieldMap, stalkResidueEquiv_toRingHom,
     TopCat.Presheaf.stalkCongr_hom, commRingCatIsoToRingEquiv_toRingHom,
     CategoryTheory.Iso.commRingCatIsoToRingEquiv_toRingHom,

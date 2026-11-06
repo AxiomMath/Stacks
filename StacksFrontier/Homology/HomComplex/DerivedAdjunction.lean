@@ -3200,7 +3200,7 @@ private theorem modelCurryIso_comparison (d : DerivedHomData R)
       DerivedCategory.Q.map (Stacks.HomComplex.Currying.curryIso K L I).hom := by
   dsimp [modelCurryIso]
   simp only [Category.assoc, ← d.hom.map_comp_assoc]
-  simp
+  simp [-prod_id, Prod.mkHom, ← prod_id']
 
 private theorem exists_kFlat_right_fraction
     {K L : CochainComplex (ModuleCat R) ℤ}
@@ -3523,7 +3523,7 @@ private def modelCurryLeft (d : DerivedHomData R)
   let W := (HomologicalComplex.quasiIso (ModuleCat R) (ComplexShape.up ℤ)).op
   let e : Q ⋙ F ≅ Q ⋙ G := NatIso.ofComponents
     (fun K => modelCurryIso d K.unop L I hL) (fun f => by
-      simpa [F, G, firstVariable, iteratedHomFunctor, tensorHomFunctor, Q]
+      simpa [-prod_id, F, G, firstVariable, iteratedHomFunctor, tensorHomFunctor, Q]
         using modelCurryIso_naturality_left d (I := I) hL f.unop)
   letI : Localization.Lifting Q W (Q ⋙ F) F := ⟨Iso.refl _⟩
   letI : Localization.Lifting Q W (Q ⋙ G) G := ⟨Iso.refl _⟩
@@ -3559,7 +3559,7 @@ private theorem modelCurryIso_naturality_left_derived (d : DerivedHomData R)
         (𝟙 (DerivedCategory.Q.obj I)) := by
   have h := (modelCurryLeft d L I hL).hom.naturality f.op
   simp only [modelCurryLeft_app] at h
-  simpa [firstVariable, iteratedHomFunctor, tensorHomFunctor, homMap] using h
+  simpa [-prod_id, firstVariable, iteratedHomFunctor, tensorHomFunctor, homMap] using h
 
 private abbrev middleVariable (K M : DerivedCategory (ModuleCat R)) :
     (DerivedCategory (ModuleCat R))ᵒᵖ ⥤
@@ -3837,7 +3837,7 @@ private theorem modelCurryIso_homZero_map (d : DerivedHomData R)
   dsimp only [modelCurryIso, Iso.trans_hom, CategoryTheory.Functor.mapIso_hom,
     Iso.symm_hom, CategoryTheory.Iso.prod, CategoryTheory.Prod.mkHom, Iso.op, Iso.refl]
   simp only [Category.assoc, ← d.hom.map_comp_assoc]
-  simp
+  simp [-prod_id, Prod.mkHom, ← prod_id']
   have hc := congrArg (fun f => DerivedCategory.Q.map f ≫
     (d.homIso (K ⊗ L) I).inv ≫
       homMap d (d.tensorIso K L hL).hom (𝟙 (DerivedCategory.Q.obj I)))

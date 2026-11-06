@@ -100,7 +100,7 @@ theorem etaleRingedSiteFSharp_comp :
   apply Sheaf.hom_ext
   refine sheafify_hom_ext (J := etaleSmallModelTopology.{u, r} Z)
     (P := (Functor.const (AsSmall.{max (u + 1) r} Z.Etale)ᵒᵖ).obj
-      (CommRingCat.of (ULift.{max (u + 1) r} Λ))) _ _ (Sheaf.cond _) ?_
+      (CommRingCat.of (ULift.{max (u + 1) r} Λ))) _ _ (ObjectProperty.FullSubcategory.property _) ?_
   ext V x
   let := Functor.isContinuous_comp (etaleSmallModelBaseChange.{u, r} b)
     (etaleSmallModelBaseChange.{u, r} a)

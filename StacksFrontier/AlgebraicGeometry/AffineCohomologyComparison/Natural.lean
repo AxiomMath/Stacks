@@ -68,7 +68,7 @@ public def singleRightDerivedUnit :
       DerivedCategory.Plus.singleFunctor A 0 ⋙ F.rightDerivedFunctorPlus :=
   (Functor.mapSingleFunctorCompQhIso F).inv ≫
     Functor.whiskerLeft (HomotopyCategory.Plus.singleFunctor A 0)
-      F.rightDerivedFunctorPlusUnit ≫
+      F.rightDerivedFunctorPlusUnith ≫
     Functor.whiskerRight (Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv
       F.rightDerivedFunctorPlus
 
@@ -77,8 +77,24 @@ omit [EnoughInjectives B] in
 `rightDerivedFunctorPlusObjSingleIso`. -/
 public theorem singleRightDerivedUnit_app (X : A) (hX : F.rightAcyclic X) :
     (singleRightDerivedUnit F).app X = (rightDerivedFunctorPlusObjSingleIso F X hX).inv := by
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := by
+    have hX' : IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app
+        ((HomotopyCategory.Plus.singleFunctor A 0).obj X)) := hX
+    have hd := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith).1 inferInstance
+    rw [← Functor.rightDerived_fac_app _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))
+      (HomotopyCategory.Plus.quasiIso A) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith]
+    infer_instance
   simp [singleRightDerivedUnit, rightDerivedFunctorPlusObjSingleIso, asIso]
 
 omit [EnoughInjectives B] in

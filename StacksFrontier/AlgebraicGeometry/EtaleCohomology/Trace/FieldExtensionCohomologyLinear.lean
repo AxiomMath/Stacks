@@ -168,7 +168,7 @@ public theorem
         ((LAdicSheaf.rationalFieldExtensionCohomologyIso B X ℓ f j k' kbar
           F.toLAdicSheaf i).inv.hom v) := by
   have h := congrArg (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
-    (LAdicSheaf.fieldExtensionCohomologyIso_hom_naturality B X ℓ f j k' kbar i (F.act o))
+    (LAdicSheaf.fieldExtensionCohomologyIso_hom_naturality B X ℓ f j k' kbar i (F.act o).asHom)
   rw [Functor.map_comp, Functor.map_comp] at h
   exact iso_inv_conj_apply _ _ _ h v
 
@@ -221,9 +221,10 @@ public theorem LAdicSheaf.CoefficientSheaf.rationalFieldExtensionCohomologyLinea
   rw [Functor.map_comp, Functor.map_comp] at h
   have hpow : (ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
       ((End.of (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard
-        F.toLAdicSheaf i)) ^ (m + 1)) = (End.of πX) ^ (m + 1) :=
-    ((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).mapEnd _).map_pow _ _
-  have hp : ((End.of πX) ^ (m + 1)).hom = πX.hom ^ (m + 1) := by
+        F.toLAdicSheaf i)) ^ (m + 1)).asHom = ((End.of πX) ^ (m + 1)).asHom :=
+    congrArg End.asHom
+      (((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).mapEnd _).map_pow _ _)
+  have hp : ((End.of πX) ^ (m + 1)).asHom.hom = πX.hom ^ (m + 1) := by
     have h₀ := map_pow (ModuleCat.endRingEquiv
       (LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F.toLAdicSheaf i))
       (End.of πX) (m + 1)
@@ -240,7 +241,7 @@ public theorem LAdicSheaf.CoefficientSheaf.rationalFieldExtensionCohomologyLinea
     rfl
   have hP : ∀ w, ((ModuleCat.extendScalars.{0, 0, u + 1} (algebraMap ℤ_[ℓ] ℚ_[ℓ])).map
       ((End.of (LAdicSheaf.geometricCompactlySupportedFrobenius B X ℓ f j kbar p q hcard
-        F.toLAdicSheaf i)) ^ (m + 1))).hom w = (πX.hom ^ (m + 1)) w := by
+        F.toLAdicSheaf i)) ^ (m + 1)).asHom).hom w = (πX.hom ^ (m + 1)) w := by
     intro w
     rw [hpow]
     exact LinearMap.congr_fun hp w

@@ -194,6 +194,7 @@ theorem surjective_globalFunctionsMap_of_isClosedImmersion
   have : AlgebraicGeometry.IsClosedImmersion
       ((BigFppfOver.toScheme B S hS).map (hp.rep.snd e.inv)) := hp.property_snd e.inv
   have : IsIso (hp.rep.fst e.inv) := hsq.isIso_fst_of_isIso
+  have : Epi (hp.rep.fst e.inv) := IsIso.epi_of_iso _
   have hsurj : Function.Surjective
       ((BigFppfOver.toScheme B S hS).map (hp.rep.snd e.inv)).appTop :=
     (AlgebraicGeometry.IsClosedImmersion.isAffine_surjective_of_isAffine

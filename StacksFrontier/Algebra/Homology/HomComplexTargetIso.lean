@@ -75,7 +75,8 @@ theorem targetIso_hom_apply_v (e : M ≅ M') (n : ℤ) (z : Cochain K M n)
     (p q : ℤ) (hpq : p + n = q) :
     (AddCommGrpCat.Hom.hom ((targetIso K e).hom.f n) z).v p q hpq =
       z.v p q hpq ≫ e.hom.f q := by
-  simp [targetIso_hom_apply]
+  rw [targetIso_hom_apply]
+  simp
 
 end CochainComplex.HomComplex
 

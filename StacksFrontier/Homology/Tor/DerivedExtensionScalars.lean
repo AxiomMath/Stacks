@@ -1019,7 +1019,7 @@ private def rightDerivedPlusCompIso (G : C ⥤ D) [G.Additive]
   have : E.IsEquivalence := {}
   let U := I ⋙ G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ⋙ DerivedCategory.Plus.ι
   let β : U ⟶ E ⋙ (G.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) :=
-    whiskerRight (whiskerLeft I G.rightDerivedFunctorPlusUnit) DerivedCategory.Plus.ι
+    whiskerRight (whiskerLeft I G.rightDerivedFunctorPlusUnith) DerivedCategory.Plus.ι
   let γ : U ⟶ E ⋙ (DerivedCategory.Plus.ι ⋙ H) :=
     whiskerLeft (I ⋙ HomotopyCategory.Plus.ι C) α
   have : IsIso β := by

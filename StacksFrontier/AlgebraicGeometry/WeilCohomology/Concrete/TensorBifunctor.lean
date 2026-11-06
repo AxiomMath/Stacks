@@ -452,24 +452,26 @@ theorem composition_tensorBlock (hmul : Δ.FlatPullbackMul) (hproj : Δ.Projecti
         (tensorBlock k sA sA' sC sC' Δ hA hA' hC hC' (r + s) (r' + s')
           (composition k sA sB sC Δ hA hB hC r s x y)
           (composition k sA' sB' sC' Δ hA' hB' hC' r' s' x' y')) := by
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
   | tmul q a =>
-    induction x' using TensorProduct.induction_on with
-    | zero => simp
+    induction x' using TensorProduct.inductionOn with
     | add a' b' ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
     | tmul q' a' =>
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | add a'' b'' ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
       | tmul p c =>
-        induction y' using TensorProduct.induction_on with
-        | zero => simp
+        induction y' using TensorProduct.inductionOn with
         | add a'' b'' ha hb => simp only [map_add, ha, hb]
         | tmul p' c' =>
-          rw [tensorBlock_tmul, tensorBlock_tmul, composition_tmul, composition_tmul,
-            composition_tmul, tensorBlock_tmul, correspondenceCongr_tmul,
+          rw [tensorBlock_tmul k sA sA' sB sB' Δ hA hA' hB hB' r r',
+            tensorBlock_tmul k sB sB' sC sC' Δ hB hB' hC hC' s s',
+            composition_tmul k (prodBase sA sA') (prodBase sB sB') (prodBase sC sC') Δ hP hQ hR
+              (r + r') (s + s'),
+            composition_tmul k sA sB sC Δ hA hB hC r s,
+            composition_tmul k sA' sB' sC' Δ hA' hB' hC' r' s',
+            tensorBlock_tmul k sA sA' sC sC' Δ hA hA' hC hC' (r + s) (r' + s'),
+            correspondenceCongr_tmul,
             show q * q' * (p * p') = q * p * (q' * p') by ring]
           congr 1
           exact ((chowGroupDegreeEquiv_eq_iff_heq _ _ _ _ _).2

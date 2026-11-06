@@ -126,7 +126,7 @@ theorem surjective_algebraMap_ulift (h : Function.Surjective (algebraMap R S)) :
     Function.Surjective (algebraMap (ULift.{u} R) (ULift.{u} S)) := by
   intro y
   obtain ⟨x, hx⟩ := h y.down
-  exact ⟨ULift.up x, by rw [algebraMap_ulift_apply]; exact ULift.ext _ _ hx⟩
+  exact ⟨ULift.up x, by rw [algebraMap_ulift_apply]; exact ULift.ext hx⟩
 
 end Surj
 
@@ -153,7 +153,7 @@ theorem ker_algebraMap_ulift :
       (RingHom.ker (algebraMap R S)).map (algebraMap R (ULift.{u} R)) := by
   ext x
   rw [RingHom.mem_ker, mem_map_self_ulift R, RingHom.mem_ker, algebraMap_ulift_apply]
-  exact ⟨fun h => congrArg ULift.down h, fun h => ULift.ext _ _ h⟩
+  exact ⟨fun h => congrArg ULift.down h, fun h => ULift.ext h⟩
 
 /-- Extending an ideal to `ULift R` and then pushing it to `ULift S` is pushing it to `S` and then
 extending. -/

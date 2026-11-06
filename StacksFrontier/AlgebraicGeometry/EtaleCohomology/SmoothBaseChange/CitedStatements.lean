@@ -170,8 +170,8 @@ def GaloisCoversExtendFromGenericFiber : Prop :=
     (_hz : z ≫ Z.obj.hom = genericFiberSection f σ hσ),
     ∃ (Y : FiniteEtaleGaloisCover X G)
       (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-        e.hom = e.hom ≫ (Z.action g).hom
+      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
+        e.hom = e.hom ≫ (Z.action g).asIso.hom
 
 end Stacks.EtaleCohomology.SmoothBaseChange
 

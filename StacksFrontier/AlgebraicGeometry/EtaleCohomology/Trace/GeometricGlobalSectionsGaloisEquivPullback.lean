@@ -123,7 +123,7 @@ theorem isIso_constantSheafΓAdj_counit_geometricRepresentationSheafPullback
         ((representationSheaf B X (y.map (fieldBaseChangeObjProj B X f kbar
           (contains_fieldBaseChange_of_isCurve B X f kbar)).hom) Λ).obj ρ))) :=
   isIso_constantSheafΓAdj_counit_geometricRepresentationSheaf B X f kbar Λ y ρ
-    (fun g => ModuleCat.hom_ext (hρ g))
+    (fun g => CategoryTheory.End.ext (ModuleCat.hom_ext (hρ g)))
 
 /-- The global sections of `ℱ_ρ|_{X_k̄}` are finite when `π₁(X_k̄)` acts trivially. -/
 theorem finite_geometricGlobalSectionsPullback

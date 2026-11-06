@@ -106,7 +106,7 @@ variable (B : BigEtaleSite.{u}) {X Y : Scheme.{u}} (hX : B.Contains X) (f : X �
 /-- The Zariski restriction of Stacks 04CS depends on the derivation only through the derivation.
 -/
 public theorem zariskiRestriction_congr
-    {D₁ D₂ : PresheafOfModules.Derivation'
+    {D₁ D₂ : PresheafOfModulesOfCommRing.Derivation'
       (R := (commRingStructureSheaf B X hX).obj) F.val ψ} (h : D₁ = D₂)
     (hD₁ : ∀ (W : Y.Opens) (b : Γ(Y, W)), D₁.d (pullbackSection B hX f W b) = 0)
     (hD₂ : ∀ (W : Y.Opens) (b : Γ(Y, W)), D₂.d (pullbackSection B hX f W b) = 0) :
@@ -127,7 +127,7 @@ annihilates the image of `f_small^♯`, and
 public theorem ofEtaleDerivation_pullbackSection_eq_zero (D : EtaleDerivation B f F)
     (W : Y.obj.Opens) (b : Γ(Y.obj, W)) :
     (ofEtaleDerivation B f D).d (pullbackSection B X.property (schemeHom B f) W b) = 0 :=
-  d_pullbackSection_eq_zero B f D (fun _ s ↦ PresheafOfModules.Derivation'.d_app D s) W b
+  d_pullbackSection_eq_zero B f D (fun _ s ↦ PresheafOfModulesOfCommRing.Derivation'.d_app D s) W b
 
 /-- **The restriction of a `Y_étale`-derivation of `𝒪_{X_étale}` to the small Zariski site of
 `X`**: an ordinary `Y`-derivation of `𝒪_X` with values in the restriction `ε_*𝓕`.  Over an open
@@ -145,7 +145,7 @@ public theorem ofEtaleDerivation_postcomp_etaleAssociatedDerivation
     (g : associatedRelativeDifferentials B X.property (schemeHom B f) ⟶ F) :
     ofEtaleDerivation B f ((etaleAssociatedDerivation B f).postcomp g.val) =
       (associatedDerivation B X.property (schemeHom B f)).postcomp g.val :=
-  PresheafOfModules.Derivation.ext (funext fun _ ↦ AddMonoidHom.ext fun _ ↦ rfl)
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ ↦ AddMonoidHom.ext fun _ ↦ rfl)
 
 /-- **The comparison map of Stacks 04CS, read as a map on `Y_étale`-derivations, is a
 bijection.**  A `Y_étale`-derivation of `𝒪_{X_étale}` with values in `𝓕` is the same thing as a

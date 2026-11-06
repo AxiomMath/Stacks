@@ -59,6 +59,11 @@ namespace Stacks.Sheaves.LocalRingedness
 
 universe t w v u w' v' u'
 
+-- Mathlib's instance deriving `HasBinaryProduct (G.obj X) (G.obj Y)` from a preserved
+-- product sends the search for `ringSheaf R ⨯ ringSheaf R` into `Sheaf J RingCat`, where it
+-- times out.
+attribute [-instance] CategoryTheory.Limits.instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
+
 /-! ### The local-unit map under a functor to types preserving finite products -/
 
 section Transport
@@ -145,7 +150,7 @@ section under the first projection. -/
 @[simp]
 lemma sectionsFunctor_map_fst_pullbackRingSqIso_hom (X : Cᵒᵖ)
     (z : (Sheaf.sectionsFunctor J X).obj (Φ.obj (ringSq R))) :
-    (Sheaf.sectionsFunctor J X).map prod.fst
+    (Sheaf.sectionsFunctor.{w} J X).map prod.fst
         ((Sheaf.sectionsFunctor J X).map (pullbackRingSqIso J Φ R).hom z) =
       (Φ ⋙ Sheaf.sectionsFunctor J X).map prod.fst z := by
   rw [sectionsFunctor_map_pullbackRingSqIso_hom]
@@ -156,7 +161,7 @@ section under the second projection. -/
 @[simp]
 lemma sectionsFunctor_map_snd_pullbackRingSqIso_hom (X : Cᵒᵖ)
     (z : (Sheaf.sectionsFunctor J X).obj (Φ.obj (ringSq R))) :
-    (Sheaf.sectionsFunctor J X).map prod.snd
+    (Sheaf.sectionsFunctor.{w} J X).map prod.snd
         ((Sheaf.sectionsFunctor J X).map (pullbackRingSqIso J Φ R).hom z) =
       (Φ ⋙ Sheaf.sectionsFunctor J X).map prod.snd z := by
   rw [sectionsFunctor_map_pullbackRingSqIso_hom]

@@ -270,7 +270,7 @@ private noncomputable def basisPiIso
         dsimp only [l, p, Iso.trans_hom]
         rw [Category.assoc, Category.assoc, ModuleCat.piIsoPi_hom_ker_subtype,
           PreservesProduct.iso_hom, piComparison_comp_π, ← ev.map_comp]
-        simp only [e, Pi.lift_π]
+        simp only [e, Pi.lift_comp_π]
       change l.hom α i = _
       rw [show l.hom α i = (ev.map (basisEval X F G (ι i))).hom α from
         congrArg (fun f => f.hom α) hi]

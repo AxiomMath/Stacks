@@ -96,6 +96,7 @@ theorem isComplexHigherDirectImageColimit_single_bound_iff (n q b b' : ℤ)
         ((HomologicalComplex.single _ (ComplexShape.up ℤ) n).obj 𝓖) (singleι G ιG n) :=
   Iff.rfl
 
+
 include hcX hιG hpres in
 /-- The colimit assertion for a system of sheaves placed in degree `k ≥ 0`, with a lower bound
 `B ≤ 0`, by moving the sheaves up from degree zero. -/

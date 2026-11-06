@@ -628,7 +628,7 @@ theorem mem_diagonalComplementPoints_pointsMap_lift (U : SpacesEtale B S hS X) (
       diagonalComplementPoints B S hS X U n := by
   rw [mem_diagonalComplementPoints_iff]
   intro i j hij hmem
-  rw [pointsMap_mem_collisionPoints_iff, Pi.lift_π, Pi.lift_π] at hmem
+  rw [pointsMap_mem_collisionPoints_iff, Pi.lift_comp_π, Pi.lift_comp_π] at hmem
   exact Set.eq_empty_iff_forall_notMem.1 (hempty i j hij) y hmem
 
 /-- **Stacks 0726, local surjectivity.** Every section of the `n`-th exterior power of the free
@@ -675,7 +675,7 @@ theorem isLocallySurjective_signTwistToExteriorPower (U : SpacesEtale B S hS X) 
             diagonalComplementι B S hS X U n hsep ≫ Pi.π (fun _ : Fin n => U) i =
           g ≫ a i := by
         intro i
-        rw [← Category.assoc, diagonalComplementLift_ι, Pi.lift_π]
+        rw [← Category.assoc, diagonalComplementLift_ι, Pi.lift_comp_π]
       rw [signTwistToExteriorPower_app_twistedGenerator,
         presheafExteriorPower_map_ιMulti_of]
       exact congrArg (fun k => exteriorPower.ιMulti ℤ n k)
@@ -738,7 +738,7 @@ theorem diagonalComplementComponents_comp_aut (U : SpacesEtale B S hS X) (n : �
     (hsep : IsSeparated B S hS U.1.hom.hom) {V : SpacesEtale B S hS X}
     (ψ : V ⟶ diagonalComplement B S hS X U n hsep) (σ : Equiv.Perm (Fin n)) (i : Fin n) :
     diagonalComplementComponents B S hS X U n hsep
-        (ψ ≫ (diagonalComplementAut B S hS X U n hsep σ).hom) i =
+        (ψ ≫ (diagonalComplementAut B S hS X U n hsep σ).asIso.hom) i =
       diagonalComplementComponents B S hS X U n hsep ψ (σ⁻¹ i) :=
   comp_diagonalComplementAut_comp_π B S hS X U n hsep ψ σ i
 
@@ -786,7 +786,7 @@ theorem quotient_mk_eq_zero_of_signTwistToExteriorPower_app_eq_zero (U : SpacesE
       (QuotientAddGroup.mk' (characterRelations (diagonalComplement B S hS X U n hsep)
         (diagonalComplementAut B S hS X U n hsep) Equiv.Perm.sign V.unop))) ?_ z hz
   · intro a b σ hab
-    have hcomp : a = b ≫ (diagonalComplementAut B S hS X U n hsep σ⁻¹).hom := by
+    have hcomp : a = b ≫ (diagonalComplementAut B S hS X U n hsep σ⁻¹).asIso.hom := by
       refine eq_of_diagonalComplementComponents_eq B S hS X U n hsep (funext fun i => ?_)
       rw [diagonalComplementComponents_comp_aut, inv_inv]
       exact congrFun hab i
@@ -903,7 +903,7 @@ theorem freeAction_and_bijective_koszulHomToSignSections (U : SpacesEtale B S hS
     (hsep : IsSeparated B S hS U.1.hom.hom) :
     (∀ (V : SpacesEtale B S hS X) (φ : V ⟶ diagonalComplement B S hS X U (p + 1) hsep)
         (σ : Equiv.Perm (Fin (p + 1))),
-        φ ≫ (diagonalComplementAut B S hS X U (p + 1) hsep σ).hom = φ →
+        φ ≫ (diagonalComplementAut B S hS X U (p + 1) hsep σ).asIso.hom = φ →
           (⊥ : Sieve V) ∈ topology B S hS X V ∨ σ = 1) ∧
       (∀ F : Sheaf (topology B S hS X) AddCommGrpCat.{u + 1},
         Function.Bijective (koszulHomToSignSections B S hS X U p hsep F).hom) ∧

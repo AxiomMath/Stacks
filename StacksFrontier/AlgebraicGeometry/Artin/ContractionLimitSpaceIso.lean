@@ -37,6 +37,22 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ContractionLimitSpaceIso :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ContractionLimitSpaceIso
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+local instance (priority := high) hasPullback_bigFppfOver_ContractionLimitSpaceIso
+    {X Y Z : BigFppfOver B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  have := hasPullbacks_bigFppfOver B S hS
+  HasLimitsOfShape.has_limit _
+
 /-- The last step of `exists_stage_isIso_of_isLimit_baseChange`: a section at a stage which,
 composed with the projection, agrees with the identity on an étale atlas at a later stage, makes
 the projection an isomorphism there. -/
@@ -175,7 +191,7 @@ theorem exists_stage_isIso_of_isLimit_baseChange
       z ≫ p = ν ≫ yoneda.map ψL → z' ≫ p = ν ≫ yoneda.map ψL → z = z' := by
     intro W ν z z' hz hz'
     have e : pullback.lift ν z hz.symm = pullback.lift ν z' hz'.symm :=
-      (cancel_mono (pullback.fst (yoneda.map ψL) p)).1
+      (@cancel_mono _ _ _ _ _ (pullback.fst (yoneda.map ψL) p) (IsIso.mono_of_iso _) _ _).1
         (by rw [pullback.lift_fst, pullback.lift_fst])
     simpa only [pullback.lift_snd] using congrArg (· ≫ pullback.snd (yoneda.map ψL) p) e
   -- the section at the stage `k₁`

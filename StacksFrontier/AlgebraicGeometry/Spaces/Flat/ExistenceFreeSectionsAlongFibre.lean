@@ -168,6 +168,12 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without it). -/
+local instance (priority := high) hasPullback_presheaf_ExistenceFreeSectionsAlongFibre
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks Project, Tag 0CVW**, reduced to the affine étale chart of the target at the
 prescribed point.
 

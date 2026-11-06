@@ -71,9 +71,9 @@ public theorem residueField_finite_of_quasiFiniteAt {X Y : Scheme.{u}} (f : X �
   let : Localization.AtPrime.IsLiesOverAlgebra p P := inferInstance
   have hfinite : Module.Finite p.ResidueField P.ResidueField := inferInstance
   let eR : IsLocalRing.ResidueField R ≃+* p.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)).toRingEquiv
   let eA : IsLocalRing.ResidueField A ≃+* P.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal P (Localization.AtPrime P)
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal P (Localization.AtPrime P)).toRingEquiv
   let : Algebra (IsLocalRing.ResidueField R) (IsLocalRing.ResidueField A) :=
     (IsLocalRing.ResidueField.map φ).toAlgebra
   have hcompat : (algebraMap p.ResidueField P.ResidueField).comp eR.toRingHom =
@@ -84,13 +84,6 @@ public theorem residueField_finite_of_quasiFiniteAt {X Y : Scheme.{u}} (f : X �
         (eR (IsLocalRing.residue R r)) =
       eA ((IsLocalRing.ResidueField.map φ) (IsLocalRing.residue R r))
     rw [IsLocalRing.ResidueField.map_residue]
-    show algebraMap p.ResidueField P.ResidueField
-        ((IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p))
-          (Ideal.Quotient.mk _ r)) =
-      (IsLocalization.AtPrime.equivQuotMaximalIdeal P (Localization.AtPrime P))
-        (Ideal.Quotient.mk _ (φ r))
-    rw [IsLocalization.AtPrime.equivQuotMaximalIdeal_apply_mk,
-      IsLocalization.AtPrime.equivQuotMaximalIdeal_apply_mk]
     show algebraMap p.ResidueField P.ResidueField
         (algebraMap R p.ResidueField r) = algebraMap A P.ResidueField (φ r)
     exact Ideal.ResidueField.map_algebraMap p P φ

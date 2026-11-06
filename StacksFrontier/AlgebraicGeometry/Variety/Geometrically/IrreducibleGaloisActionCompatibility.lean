@@ -100,7 +100,7 @@ public theorem galoisActionOnGeometricIrreducibleComponents_fixed_iff_and_compat
     (∀ Tbar : (galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).V,
       (∀ σ : MulOpposite (ksep ≃ₐ[k] ksep),
         ConcreteCategory.hom
-          ((galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).ρ σ) Tbar = Tbar) ↔
+          ((galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).ρ σ).asHom Tbar = Tbar) ↔
         ∃ T : irreducibleComponents X,
           GeometricallyIrreducible
             ((Scheme.IdealSheafData.vanishingIdeal
@@ -121,11 +121,11 @@ public theorem galoisActionOnGeometricIrreducibleComponents_fixed_iff_and_compat
               IsSepClosure.sep_closed k) X f
             (ConcreteCategory.hom
               ((galoisActionOnGeometricIrreducibleComponents k ksep' (Over.mk f)).ρ
-                (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))) Z) =
+                (MulOpposite.op (AlgEquiv.restrictScalars k σ.unop))).asHom Z) =
           ConcreteCategory.hom
             ((galoisActionOnGeometricIrreducibleComponents k ksep (Over.mk f)).ρ
               (MulOpposite.op
-                ((AlgEquiv.restrictNormalHom ksep) (AlgEquiv.restrictScalars k σ.unop))))
+                ((AlgEquiv.restrictNormalHom ksep) (AlgEquiv.restrictScalars k σ.unop)))).asHom
             (irreducibleComponentsBaseChangeComparisonEquiv k ksep ksep' (hsep :=
               IsSepClosure.sep_closed k) X f Z) := by
   have : IsSepClosed ksep := IsSepClosure.sep_closed k

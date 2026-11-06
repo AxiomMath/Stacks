@@ -108,6 +108,9 @@ private theorem sectionEquiv_forgetFSharp (V : SmallEtale B S hS Y.1)
       chartFiberCoordinate B S hS f V b :=
   sectionEquivChartFiberHom_fSharp B S hS f V b
 
+-- The product instances on sheaves of sets need more than the default budget under Lean v4.35.0.
+set_option maxHeartbeats 800000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The description of the sections of `f_*F` by maps out of `chartFiber f V` is natural in
 `V`**, for `V` affine: restricting a section along `j : V' ⟶ V` precomposes the corresponding
 map with postcomposition by `j`.

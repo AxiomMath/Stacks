@@ -114,6 +114,7 @@ section GlobalMap
 
 variable {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (M : Modules.{u, u} B S hS Y.1 Y.2)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0ENC, part (1), for the sheafification of the sectionwise localizations.**  When
 pullbacks of meromorphic functions are defined for `f`, there is a canonical map on global
 sections

@@ -245,7 +245,7 @@ private theorem localTensorTotalSummand_restrict
         ((localTensorTotalSummand Rc U K L n p q hnpq).hom
           (a ⊗ₜ[(structureSheaf Rc).obj.obj (op U)] b)) := by
   refine Eq.trans (congrArg (fun z => (localTensorTotalSummand Rc W K L n p q hnpq).hom z)
-    (PresheafOfModules.Monoidal.tensorObj_map_tmul (homOfLE hWU).op a b).symm) ?_
+    (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul (homOfLE hWU).op a b).symm) ?_
   exact PresheafOfModules.naturality_apply
     (HomologicalComplex.ιTensorObj (underlyingComplex Rc K) (underlyingComplex Rc L)
         n p q hnpq ≫

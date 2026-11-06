@@ -98,6 +98,13 @@ section Internal
 
 open Sheaf
 
+/-- Binary products of sheaves of sets on a small étale site, supplied directly: under Lean
+v4.35.0 instance search for them times out in this file. -/
+local instance (priority := high) hasBinaryProduct_sheaf_inverseImageStalk
+    {Z : AlgebraicSpaces B S hS} (A A' : Sheaf (SmallEtale.topology B S hS Z.1) (Type u)) :
+    HasBinaryProduct A A' :=
+  (inferInstance : HasBinaryProducts (Sheaf (SmallEtale.topology B S hS Z.1) (Type u))).has_limit _
+
 /-- The functor `g⁻¹` followed by sections over `W`. -/
 abbrev invSections (W : SmallEtale B S hS X.1) :
     Sheaf (SmallEtale.topology B S hS Y.1) (Type u) ⥤ Type u :=

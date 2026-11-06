@@ -144,7 +144,7 @@ lemma hasTotal_ofSize :
     ∀ K : HomologicalComplex₂ (ModOfSize.{v, u, w} R)
       (ComplexShape.up ℤ) (ComplexShape.up ℤ), K.HasTotal (ComplexShape.up ℤ) := by
   have := hasColimitsOfSize_zero_ofSize.{v, u, w} R
-  exact fun _ ↦ inferInstance
+  exact fun _ _ ↦ (HasColimitsOfSize.has_colimits_of_shape _).has_colimit _
 
 /-- **Sequential colimits of sheaves of modules are exact**, which is Stacks 03DB at a shape
 shrunk to `ℕ`. -/

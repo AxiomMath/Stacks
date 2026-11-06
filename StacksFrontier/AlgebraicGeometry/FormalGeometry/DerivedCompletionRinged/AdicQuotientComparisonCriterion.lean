@@ -72,7 +72,7 @@ theorem not_isIso_of_cone_of_forall_hom_eq_zero (T : ℕᵒᵖ ⥤ D)
   have hg' : Pi.lift u = g ≫ p := hg
   have hg0 : g = 0 := (Preadditive.IsIso.comp_right_eq_zero g (inv c)).1 (hY _)
   refine hm ?_
-  rw [← Pi.lift_π u m, hg', hg0, zero_comp, zero_comp]
+  rw [← Pi.lift_comp_π u m, hg', hg0, zero_comp, zero_comp]
 
 /-- **Raising the degree of a cone along a tower of distinguished triangles with constant
 middle term.** Suppose each `Aₙ --αₙ--> B --βₙ--> Tₙ --γₙ--> Aₙ[1]` is distinguished, the `γₙ`

@@ -79,7 +79,7 @@ corresponding member of the family. -/
 @[simp] lemma productHomFamilyEquiv_symm_π {I : Type u} {D : Type w}
     [Category.{v, w} D] (F : I → D) [HasProduct F] (X : D)
     (g : ∀ i, X ⟶ F i) (i : I) :
-    (productHomFamilyEquiv F X).symm g ≫ Pi.π F i = g i := Pi.lift_π _ _
+    (productHomFamilyEquiv F X).symm g ≫ Pi.π F i = g i := Pi.lift_comp_π _ _
 
 /-- The `i`-th member of the family attached to a morphism into a product is its composite with
 the `i`-th projection. -/

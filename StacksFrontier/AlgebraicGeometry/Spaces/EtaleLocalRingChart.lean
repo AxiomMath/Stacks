@@ -71,11 +71,6 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {x : GeometricPoint B S hS F}
 
-/- Objects of a category of elements are pairs, and the comparison functors below are built
-by pairing; the elaborator has to see through `CategoryTheory.Functor.Elements` to check
-that. -/
-attribute [local implicit_reducible] CategoryTheory.Functor.Elements
-
 /-- The scheme underlying the chart of a small étale neighbourhood of a geometric point of an
 algebraic space. -/
 abbrev neighborhoodChartScheme (V : SmallEtaleNeighborhood x) : Scheme.{u} :=
@@ -201,7 +196,7 @@ instance commonToChart_faithful
     (commonToChart V E hV).Faithful where
   map_injective {U T} a b h := by
     apply ObjectProperty.hom_ext
-    apply Subtype.ext
+    apply Functor.Elements.hom_ext
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
@@ -272,8 +267,8 @@ instance commonInclusion_initial
   have hqf : q ≫ (j ≫ f) = (chartGeometricPoint V).hom := by
     rw [← Category.assoc, hq]
     exact U.2.2
-  exact ⟨⟨⟨T, ⟨q, hqf⟩⟩, hB⟩, ⟨⟨ObjectProperty.homMk
-    (Over.homMk (ObjectProperty.homMk j) rfl), Subtype.ext hq⟩⟩⟩
+  exact ⟨⟨Functor.elementsMk _ T ⟨q, hqf⟩, hB⟩, ⟨Functor.Elements.homMk (ObjectProperty.homMk
+    (Over.homMk (ObjectProperty.homMk j) rfl)) (Subtype.ext hq)⟩⟩
 
 /-- `AlgebraicGeometry.Space.commonToChart` is initial: every small étale neighbourhood
 refining the chart is itself refined by a scheme étale neighbourhood lying in both sites. -/
@@ -301,7 +296,7 @@ theorem commonToChart_initial
     ⟨Over.mk (ObjectProperty.homMk (j ≫ f) : E.obj (Spec R) hE ⟶
       E.obj (neighborhoodChartScheme V) hV), (show Etale (j ≫ f) from inferInstance)⟩
   let U : (commonNeighborhoodProperty V E hV).FullSubcategory :=
-    ⟨⟨T, ⟨q, hqf⟩⟩, hB⟩
+    ⟨Functor.elementsMk _ T ⟨q, hqf⟩, hB⟩
   let j' : ((commonToChart V E hV).obj U).left.chart.obj.left ⟶
       W.left.chart.obj.left := Over.homMk (ObjectProperty.homMk j) (by
         apply ObjectProperty.hom_ext
@@ -467,8 +462,8 @@ lemma boundedNeighborhood_eq
       (_root_.AlgebraicGeometry.SmallEtale.toScheme E A hA).obj T.1)
     (hf : HEq (E.inclusion.map U.1.obj.hom) (E.inclusion.map T.1.obj.hom))
     (hp : HEq U.2.1 T.2.1) : U = T := by
-  rcases U with ⟨⟨⟨⟨W, hW⟩, ⟨⟨⟩⟩, f⟩, hf'⟩, ⟨p, hp'⟩⟩
-  rcases T with ⟨⟨⟨⟨W', hW'⟩, ⟨⟨⟩⟩, f'⟩, hf''⟩, ⟨p', hp''⟩⟩
+  rcases U with @⟨⟨⟨⟨W, hW⟩, ⟨⟨⟩⟩, f⟩, hf'⟩, ⟨p, hp'⟩⟩
+  rcases T with @⟨⟨⟨⟨W', hW'⟩, ⟨⟨⟩⟩, f'⟩, hf''⟩, ⟨p', hp''⟩⟩
   dsimp at hs
   subst W'
   obtain rfl : f = f' := by
@@ -532,10 +527,10 @@ lemma etaleLocalRingEquivOnCommonNeighborhoods_germ
   have hW : E.Contains (neighborhoodChartScheme W) := hs ▸ U.unop.1.obj.left.property
   have hf' : Etale (neighborhoodChartMap f) := etale_neighborhoodChartMap f
   let T : schemeNeighborhoods V E hV :=
-    ⟨⟨Over.mk (ObjectProperty.homMk (neighborhoodChartMap f) :
-      E.obj (neighborhoodChartScheme W) hW ⟶ E.obj (neighborhoodChartScheme V) hV), hf'⟩,
+    Functor.elementsMk _ ⟨Over.mk (ObjectProperty.homMk (neighborhoodChartMap f) :
+      E.obj (neighborhoodChartScheme W) hW ⟶ E.obj (neighborhoodChartScheme V) hV), hf'⟩
       ⟨(chartGeometricPoint W).hom,
-        congrArg (BigFppfOver.toScheme B S hS).map f.point_comp⟩⟩
+        congrArg (BigFppfOver.toScheme B S hS).map f.point_comp⟩
   obtain rfl : U = Opposite.op T := congrArg Opposite.op (boundedNeighborhood_eq E
     (neighborhoodChartScheme V) hV (chartGeometricPoint V) T U.unop hs hf hp).symm
   let C : (commonNeighborhoodProperty V E hV).FullSubcategory :=
@@ -589,9 +584,9 @@ lemma etaleLocalRingEquivChart_nonempty
   refine ⟨⟨(etaleLocalRingEquivOnCommonNeighborhoods hF V E hV).val, fun a ↦ ?_,
     etaleLocalRingEquivOnCommonNeighborhoods_germ hF V E hV⟩⟩
   let U : schemeNeighborhoods V E hV :=
-    ⟨⟨Over.mk (𝟙 (E.obj (neighborhoodChartScheme V) hV)),
-      (show Etale (𝟙 (neighborhoodChartScheme V)) from inferInstance)⟩,
-      ⟨(chartGeometricPoint V).hom, Category.comp_id _⟩⟩
+    Functor.elementsMk _ ⟨Over.mk (𝟙 (E.obj (neighborhoodChartScheme V) hV)),
+      (show Etale (𝟙 (neighborhoodChartScheme V)) from inferInstance)⟩
+      ⟨(chartGeometricPoint V).hom, Category.comp_id _⟩
   rw [etaleLocalRingEquivOnCommonNeighborhoods_germ hF V E hV V (𝟙 V)
     (Opposite.op U) a rfl HEq.rfl HEq.rfl]
   symm

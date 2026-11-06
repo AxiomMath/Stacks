@@ -400,7 +400,7 @@ theorem faithfullyFlat_ulift [Module.FaithfullyFlat R A] :
   have : Module.FaithfullyFlat R (ULift.{u} A) :=
     Module.FaithfullyFlat.of_linearEquiv R A ULift.moduleEquiv
   have : IsScalarTower (ULift.{v} R) R (ULift.{u} A) :=
-    ⟨fun x y z => ULift.ext _ _ (mul_smul x.down y z.down)⟩
+    ⟨fun x y z => ULift.ext (mul_smul x.down y z.down)⟩
   exact Module.FaithfullyFlat.trans (ULift.{v} R) R (ULift.{u} A)
 
 /-- Away from the augmentation, the differential of the extended Amitsur complex is the

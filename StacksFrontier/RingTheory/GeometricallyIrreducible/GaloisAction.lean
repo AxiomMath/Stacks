@@ -270,14 +270,7 @@ instance continuousSMul_gal :
   rw [continuousSMul_iff_stabilizer_isOpen]
   -- It suffices to show each stabilizer is open.  We induct on the tensor `x`.
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero =>
-      -- The stabilizer of `0` is the whole group.
-      have : MulAction.stabilizer (kbar ≃ₐ[k] kbar) (0 : kbar ⊗[k] K) = ⊤ := by
-        ext σ
-        simp [MulAction.mem_stabilizer_iff]
-      rw [this]
-      exact isOpen_univ
+  induction x using TensorProduct.inductionOn with
   | tmul a b =>
       -- `a` is integral over `k`, so `L = k(a)` is a finite intermediate field,
       -- whose fixing subgroup is open and contained in the stabilizer.
@@ -411,8 +404,7 @@ theorem gal_acts_transitively_on_primes_of_normal
         u.toRingHom.comp (Algebra.TensorProduct.congr σ₀
           (AlgEquiv.refl (R := k) (A₁ := K))).toAlgHom.toRingHom := by
     refine RingHom.ext fun x ↦ ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a b =>
         simpa [u, Algebra.ofId_apply] using
           congrArg (fun y : kbar ↦ y ⊗ₜ[k] b)

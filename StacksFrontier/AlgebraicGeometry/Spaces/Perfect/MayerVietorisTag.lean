@@ -239,7 +239,7 @@ theorem mayerVietoris_shortExact_and_mem_distTriang :
                   (etaleModuleLowerShriekAdjunction B S hS (edsEtaleHom B S hS hsq)
                     (isEtale_edsEtaleHom B S hS hsq)).counit).app E) ≫
               (Functor.mapDerivedCategoryIdIso
-                (C := Modules.{u, u} B S hS W.1 W.2)).hom.app E) δ ∈
+                (Modules.{u, u} B S hS W.1 W.2)).hom.app E) δ ∈
           distTriang (DerivedCategory (Modules.{u, u} B S hS W.1 W.2)) :=
   by
   have h := fun F : Modules.{u, u} B S hS W.1 W.2 =>

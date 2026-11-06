@@ -131,7 +131,7 @@ theorem subsingleton_obj_of_isAffineOverAffineOpen {F' : (BigFppfOver B S hS)ᵒ
               Functor.map_comp, Functor.FullyFaithful.map_preimage]
             exact congrArg (ci.inv ≫ ·) (c.w f).symm } }
   have hKc : IsLimit ((bigFppfOverToOver B hS).mapCone c') :=
-    IsLimit.ofIsoLimit hc (Cones.ext ci fun l => (Iso.hom_inv_id_assoc ci (c.π.app l)).symm.trans
+    IsLimit.ofIsoLimit hc (Cone.ext ci fun l => (Iso.hom_inv_id_assoc ci (c.π.app l)).symm.trans
       (congrArg (ci.hom ≫ ·) (hK.map_preimage (Y := D'.obj l) _).symm))
   have : IsConnected Λᵒᵖ := IsCofiltered.isConnected _
   have hc' : IsLimit ((BigFppfOver.toScheme B S hS).mapCone c') :=
@@ -141,7 +141,7 @@ theorem subsingleton_obj_of_isAffineOverAffineOpen {F' : (BigFppfOver B S hS)ᵒ
   obtain ⟨l, x', rfl⟩ := exists_eq_map_of_isColimit_mapCocone F' D' c' hcol x
   obtain ⟨m, y', rfl⟩ := exists_eq_map_of_isColimit_mapCocone F' D' c' hcol y
   rw [← c'.w (IsCofiltered.minToLeft l m), ← c'.w (IsCofiltered.minToRight l m), op_comp, op_comp,
-    FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply]
+    Functor.map_comp_apply, Functor.map_comp_apply]
   exact congrArg _ (@Subsingleton.elim _ (hsub (G.obj (D.obj (IsCofiltered.min l m)))) _ _)
 
 /-- **A limit preserving Zariski sheaf whose values on the locally Noetherian objects are

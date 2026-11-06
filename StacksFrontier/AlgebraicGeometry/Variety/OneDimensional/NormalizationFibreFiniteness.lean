@@ -156,7 +156,7 @@ private theorem liesOver_maximalIdeal_of_isMaximal {X : Scheme.{u}}
   have := isIntegral_normalizationPushforwardStalk hfin x
   have : M.asIdeal.IsMaximal := M.isMaximal
   exact ⟨(IsLocalRing.eq_maximalIdeal
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal M.asIdeal)).symm⟩
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := X.presheaf.stalk x) M.asIdeal)).symm⟩
 
 /-- **The fibres of the normalization of a one-dimensional locally Noetherian scheme are
 finite.** The fibre over `x` is the maximal spectrum of the pushforward stalk, whose maximal

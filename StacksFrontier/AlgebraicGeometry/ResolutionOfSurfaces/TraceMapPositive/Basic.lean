@@ -92,7 +92,7 @@ private theorem coeff_divided_deriv {p : ℕ} [Fact p.Prime] {R : Type*} [CommRi
   calc
     (k : R) * (q ^ p).coeff (p * k) =
         e ((k : MvPolynomial ℕ ℤ) * (Q ^ p).coeff (p * k)) := by
-      rw [map_mul, ← hcoeffQ]
+      rw [map_mul e, ← hcoeffQ]
       simp
     _ = e ((Q ^ (p - 1) * Polynomial.derivative Q).coeff (p * k - 1)) :=
       congrArg e (coeff_divided_deriv_univ p k (Fact.out : p.Prime).pos hk Q)

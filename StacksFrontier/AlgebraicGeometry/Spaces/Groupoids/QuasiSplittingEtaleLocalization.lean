@@ -135,6 +135,19 @@ namespace AlgebraicGeometry.Space
 
 open Stacks.Groupoids.GroupoidScheme
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_quasiSplittingEtaleLocalization
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S} :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_quasiSplittingEtaleLocalization
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_quasiSplittingEtaleLocalization.has_limit _
+
 variable {S : Scheme.{u}} (G : Stacks.Groupoids.GroupoidScheme S)
   (C : BigFppfSite.{u}) (hS : C.Contains S) (hU : C.Contains G.objects.left)
   (hR : C.Contains G.arrows.left) (u : G.objects.left)
@@ -416,7 +429,7 @@ theorem QuasiSplittingSituation.exists_fiberOpens_identity (D : QuasiSplittingSi
       exact D.sourceQuasiFiniteAtIdentity.2)
   refine ⟨W, fun x => ?_, hfin⟩
   have hWx : (x ∈ W) = (x ∈ ({(D.groupoid.source.left.fiberHomeo D.u).symm
-      ⟨D.groupoid.identity.left D.u, hsrc⟩} :
+                                ⟨D.groupoid.identity.left D.u, hsrc⟩} :
       Set (D.groupoid.source.left.fiber D.u))) := congrArg (x ∈ ·) hW
   have hfib : D.groupoid.source.left.fiberι D.u
       ((D.groupoid.source.left.fiberHomeo D.u).symm

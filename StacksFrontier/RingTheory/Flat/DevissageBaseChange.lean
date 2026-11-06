@@ -85,7 +85,6 @@ private theorem bijective_baseChange_iff_of_tmul {B : Type*} [CommRing B]
     Function.Bijective (f.baseChange K) ↔ Function.Bijective f' := by
   refine bijective_congr eX eY fun z => ?_
   induction z with
-  | zero => simp
   | tmul k x => simpa using h k x
   | add a b ha hb => simpa using congr($ha + $hb)
 

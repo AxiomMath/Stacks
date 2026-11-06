@@ -306,9 +306,10 @@ the Hom group inside the heartbeat budget. -/
 private theorem components_add {C : Type*} [Category C] [Preadditive C]
     [Limits.HasFiniteBiproducts C] {J : Type} [Finite J] {f : J → C} (φ ψ : End (⨁ f))
     (j i : J) :
-    biproduct.ι f j ≫ (φ + ψ) ≫ biproduct.π f i =
-      biproduct.ι f j ≫ φ ≫ biproduct.π f i + biproduct.ι f j ≫ ψ ≫ biproduct.π f i := by
-  rw [Preadditive.add_comp, Preadditive.comp_add]
+    biproduct.ι f j ≫ (φ + ψ).asHom ≫ biproduct.π f i =
+      biproduct.ι f j ≫ φ.asHom ≫ biproduct.π f i +
+        biproduct.ι f j ≫ ψ.asHom ≫ biproduct.π f i := by
+  rw [End.add_asHom, Preadditive.add_comp, Preadditive.comp_add]
 
 /-- The entry morphisms are additive in the matrix. -/
 private theorem matrixEntryHom_add (M N : endomorphismMatrices A n) (i j : Fin (n + 1)) :
@@ -321,15 +322,16 @@ private theorem matrixEntryHom_add (M N : endomorphismMatrices A n) (i j : Fin (
 
 /-- The underlying function of the comparison map: the matrix of multiplications. -/
 public def matrixToEndFun (M : endomorphismMatrices A n) : End (projTwistSum A n) :=
-  biproduct.matrix fun j i => matrixEntryHom A n M i j
+  End.of (biproduct.matrix fun j i => matrixEntryHom A n M i j)
 
 /-- **The `(i, j)` component of the endomorphism attached to a matrix is multiplication by its
 `(i, j)` entry.** -/
 @[simp] public theorem components_matrixToEndFun (M : endomorphismMatrices A n)
     (j i : Fin (n + 1)) :
-    biproduct.ι (twistFamily A n) j ≫ matrixToEndFun A n M ≫
+    biproduct.ι (twistFamily A n) j ≫ (matrixToEndFun A n M).asHom ≫
         biproduct.π (twistFamily A n) i = matrixEntryHom A n M i j := by
-  rw [← Category.assoc, matrixToEndFun, biproduct.ι_matrix, biproduct.lift_π]
+  dsimp only [matrixToEndFun]
+  rw [← Category.assoc, biproduct.ι_matrix, biproduct.lift_π]
 
 /-- The entry of a product of two matrices of the algebra, as an element of the degree-`(j - i)`
 piece: the sum over `k` of the products of entries. -/
@@ -349,8 +351,8 @@ on the twist sum `P` by multiplication entry by entry, and that action is a ring
 public def matrixToEnd : endomorphismMatrices A n →+* End (projTwistSum A n) where
   toFun := matrixToEndFun A n
   map_one' := by
-    refine biproduct_matrix_ext _ _ fun j i => ?_
-    rw [components_matrixToEndFun, End.one_def, Category.id_comp, biproduct.ι_π]
+    refine End.ext (biproduct_matrix_ext _ _ fun j i => ?_)
+    rw [components_matrixToEndFun, End.one_asHom, Category.id_comp, biproduct.ι_π]
     rcases eq_or_ne j i with rfl | hji
     · rw [dif_pos rfl, eqToHom_refl, matrixEntryHom, twistMulHom_apply]
       exact (twistMul_congr (polyGrading A n) _ (one_mem_integerGrading (polyGrading A n))
@@ -361,11 +363,11 @@ public def matrixToEnd : endomorphismMatrices A n →+* End (projTwistSum A n) w
         (integerGrading (polyGrading A n) ((j : ℤ) - (i : ℤ)))) (by ring) (by ring)
         (Matrix.one_apply_ne (Ne.symm hji))).trans (twistMul_zero (polyGrading A n) _ _ _ (by ring))
   map_mul' M N := by
-    refine biproduct_matrix_ext _ _ fun j i => ?_
-    rw [components_matrixToEndFun, End.mul_def, ← Category.assoc,
+    refine End.ext (biproduct_matrix_ext _ _ fun j i => ?_)
+    rw [components_matrixToEndFun, End.mul_asHom, ← Category.assoc,
       Stacks.AlgebraicGeometry.ProjKoszulComplex.biproduct_ι_comp_comp_π
         (twistFamily A n) (twistFamily A n) (twistFamily A n)
-        (matrixToEndFun A n N) (matrixToEndFun A n M) j i]
+        (matrixToEndFun A n N).asHom (matrixToEndFun A n M).asHom j i]
     simp only [components_matrixToEndFun]
     rw [matrixEntryHom, matrixEntry_mul, map_sum]
     refine Finset.sum_congr rfl fun k _ => ?_
@@ -373,18 +375,18 @@ public def matrixToEnd : endomorphismMatrices A n →+* End (projTwistSum A n) w
       twistMulHom_apply, twistMul_comp]
     exact twistMul_congr (polyGrading A n) _ _ (by ring) (by ring) rfl
   map_zero' := by
-    refine biproduct_matrix_ext _ _ fun j i => ?_
-    rw [components_matrixToEndFun, zero_comp, comp_zero, matrixEntryHom]
+    refine End.ext (biproduct_matrix_ext _ _ fun j i => ?_)
+    rw [components_matrixToEndFun, End.zero_asHom, zero_comp, comp_zero, matrixEntryHom]
     exact (twistMulHom (polyGrading A n) _ _ _ (by ring)).map_zero
   map_add' M N := by
-    refine biproduct_matrix_ext _ _ fun j i => ?_
+    refine End.ext (biproduct_matrix_ext _ _ fun j i => ?_)
     rw [components_matrixToEndFun, components_add, components_matrixToEndFun,
       components_matrixToEndFun]
     exact matrixEntryHom_add A n M N i j
 
 /-- The comparison map on a matrix, read off entry by entry. -/
 public theorem components_matrixToEnd (M : endomorphismMatrices A n) (j i : Fin (n + 1)) :
-    biproduct.ι (twistFamily A n) j ≫ matrixToEnd A n M ≫
+    biproduct.ι (twistFamily A n) j ≫ (matrixToEnd A n M).asHom ≫
         biproduct.π (twistFamily A n) i = matrixEntryHom A n M i j :=
   components_matrixToEndFun A n M j i
 

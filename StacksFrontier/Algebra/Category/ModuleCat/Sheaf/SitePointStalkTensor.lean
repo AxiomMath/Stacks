@@ -234,7 +234,7 @@ lemma exists_eq_nbhd {W U : C} {z : Φ.fiber.obj W} {x : Φ.fiber.obj U}
       ⟨b, hb⟩).1,
     (IsCofiltered.eqHom (show Φ.fiber.elementsMk W z ⟶ Φ.fiber.elementsMk U x from ⟨a, ha⟩)
       ⟨b, hb⟩).2,
-    congrArg Subtype.val (IsCofiltered.eq_condition
+    congrArg CategoryTheory.Functor.Elements.Hom.hom (IsCofiltered.eq_condition
       (show Φ.fiber.elementsMk W z ⟶ Φ.fiber.elementsMk U x from ⟨a, ha⟩) ⟨b, hb⟩)⟩
 
 omit [LocallySmall.{w} C] in

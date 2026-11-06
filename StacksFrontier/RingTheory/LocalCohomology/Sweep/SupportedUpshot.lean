@@ -74,7 +74,7 @@ private def supportedPlusUnit :
     Functor.whiskerLeft (supportedSectionsFunctor.{u, v} A T).mapHomotopyCategoryPlus
       ((supportModuleProperty A T :
         ObjectProperty (ModuleCat.{max u v} A)).ι.mapDerivedCategoryPlusFactorsh).inv ≫
-    Functor.whiskerRight (supportedSectionsFunctor.{u, v} A T).rightDerivedFunctorPlusUnit
+    Functor.whiskerRight (supportedSectionsFunctor.{u, v} A T).rightDerivedFunctorPlusUnith
       (supportModuleProperty A T :
         ObjectProperty (ModuleCat.{max u v} A)).ι.mapDerivedCategoryPlus
 
@@ -100,7 +100,7 @@ theorem nonempty_rightDerivedFunctorPlus_supportedSections_comp_iso :
   ⟨Functor.rightDerivedUnique _
     (sectionsWithSupportInFunctor.{u, v} A T).rightDerivedFunctorPlus
     (supportedPlusUnit.{u, v} A T)
-    (sectionsWithSupportInFunctor.{u, v} A T).rightDerivedFunctorPlusUnit
+    (sectionsWithSupportInFunctor.{u, v} A T).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (ModuleCat.{max u v} A))⟩
 
 end PlusComparison

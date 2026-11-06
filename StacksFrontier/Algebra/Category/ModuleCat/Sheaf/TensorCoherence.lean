@@ -388,6 +388,12 @@ and `𝒪 ⊗ G ≅ G`, so the result is a finite direct sum of copies of `G`. -
 theorem isCoherent_tensor_free (hG : IsCoherent G) (I : Type w) [Finite I] :
     IsCoherent (((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G).obj
       (SheafOfModules.free I)) := by
+  have : HasColimitsOfShape (Discrete I)
+      (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :=
+    PresheafOfModules.hasColimitsOfShape _ _
+  have : HasColimitsOfShape (Discrete I)
+      (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf _ _
   have hpc : PreservesColimitsOfSize.{w, w}
       ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, v, w, w, w} O).flip.obj G) :=
     Stacks.preservesColimitsOfSize_sheafTensorRight O G

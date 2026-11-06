@@ -140,6 +140,14 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site times out;
+supply them directly. -/
+local instance hasLimitsOfSize_presheaf_UniversalThickeningEtaleLocalization :
+    HasLimitsOfSize.{0, 0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+local instance hasLimitsOfShape_discrete_presheaf_UniversalThickeningEtaleLocalization
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  HasLimitsOfSize.has_limits_of_shape _
+
 /-! ### Descending the base along a formally étale morphism -/
 
 /-- **The converse of Stacks 0604.**  Let `V ⊂ V'` be a first-order thickening of algebraic

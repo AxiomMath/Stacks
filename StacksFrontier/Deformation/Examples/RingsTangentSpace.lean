@@ -236,7 +236,6 @@ public theorem firstOrderConormalHom_smul (hπ : Function.Surjective π)
     firstOrderConormalHom (V := V) π hπ (p' • x)
       = q' * firstOrderConormalHom (V := V) π hπ x := by
   induction x with
-  | zero => simp
   | tmul p v =>
     rw [TensorProduct.smul_tmul', smul_eq_mul,
       firstOrderConormalHom_tmul π hπ hker _ _ (q' * (reductionSection π hπ p))
@@ -267,7 +266,6 @@ public theorem reduction_firstOrderConormalHom (hπ : Function.Surjective π)
     (hπa : IsFirstOrderReduction V π) (x : P ⊗[k] V) :
     π (firstOrderConormalHom π hπ x) = 0 := by
   induction x with
-  | zero => simp
   | tmul p v =>
     change π ((inr v : TrivSqZeroExt k V) • reductionSection π hπ p) = 0
     rw [map_smul_apply π hπa, fst_inr, map_zero, zero_mul]
@@ -325,7 +323,6 @@ private theorem conormalCompare_surjective (hπa : IsFirstOrderReduction V π)
     Function.Surjective (conormalCompare π hπa) := by
   intro x
   induction x with
-  | zero => exact ⟨0, map_zero _⟩
   | tmul p v =>
     obtain ⟨q, hq⟩ := hπ p
     refine ⟨(⟨inr v, (mem_kerIdeal_iff_inr k V _).2 rfl⟩ : ↥(kerIdeal k V)) ⊗ₜ q, ?_⟩
@@ -343,7 +340,6 @@ private theorem firstOrderConormalHom_conormalCompare (hπa : IsFirstOrderReduct
     firstOrderConormalHom π hπ (conormalCompare π hπa z)
       = (kerIdeal k V).tensorSMulHom Q z := by
   induction z with
-  | zero => simp
   | tmul i q =>
     change firstOrderConormalHom π hπ (π q ⊗ₜ[k] (i : TrivSqZeroExt k V).snd)
       = (i : TrivSqZeroExt k V) • q

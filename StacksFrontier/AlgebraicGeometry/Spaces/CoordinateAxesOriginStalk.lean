@@ -94,7 +94,7 @@ theorem ker_originRingMap :
     have hp : MvPolynomial.constantCoeff p = 0 := by
       rw [RingHom.mem_ker] at ha
       simpa [originRingMap, originPolynomialMap, MvPolynomial.constantCoeff_eq,
-        MvPolynomial.eval₂_eq', MvPolynomial.coeff] using ha
+        MvPolynomial.eval₂_eq'] using ha
     have hmem : p ∈ Ideal.span (MvPolynomial.X '' (Set.univ : Set Bool)) := by
       rw [MvPolynomial.mem_ideal_span_X_image]
       intro m hm

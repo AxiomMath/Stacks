@@ -419,8 +419,8 @@ private lemma bSubalg_phiHom_comp_quotientMap
     (hIa : Ideal.span {algebraMap A₁' A₁ f} ≤
       (Ideal.span {algebraMap A₂' A₂ (a' f)}).comap a)
     (hIb : Ideal.span {algebraMap B₁' (bSubalg A₁' A₁ f t n B₁' g φ₁' iA₁ hT₁ hn2t hφg₁) g} ≤
-      (Ideal.span {algebraMap B₂' (bSubalg A₂' A₂ (a' f) t n B₂' (b' g) φ₂' iA₂ hT₂ hn2t hφg₂)
-        (b' g)}).comap b) :
+      (Ideal.span {(algebraMap B₂'
+        (bSubalg A₂' A₂ (a' f) t n B₂' (b' g) φ₂' iA₂ hT₂ hn2t hφg₂) (b' g))}).comap b) :
     (bSubalg_phiHom A₂' A₂ (a' f) t n B₂' (b' g) φ₂' iA₂ ht0 hT₂ hn2t hn2t1 hg₂ hφg₂).comp
         (Ideal.quotientMap _ a hIa) =
       (Ideal.quotientMap _ b hIb).comp

@@ -99,7 +99,7 @@ theorem isIso_derivedPullbackSheafHomMap_iff_isIso_homComparisonMonoidal
         (isMorphismOfSites_toZariskiSmallModelHom_u B S hS) E F) ↔
       IsIso (RingedSite.homComparisonMonoidal (X := S.zariskiRingedSite)
         (Y := (smallModelRingedTopos B S hS).toRingedSite)
-        (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived (toZariskiSmallModelHom B S hS))
+        (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived.{u} (toZariskiSmallModelHom B S hS))
         E F) :=
   RingedToposSiteHom.isIso_derivedPullbackSheafHomMap_iff_isIso_homComparisonMonoidal
     (toZariskiSmallModelHom B S hS) (isMorphismOfSites_toZariskiSmallModelHom_u B S hS)

@@ -503,9 +503,9 @@ private theorem exists_over_coprod_factorization {S : Scheme.{u}} {T X Y : Over 
       Over.OverMorphism.ext hf'⟩
   rcases exists_coprod_factorization (r.left ≫ e.inv) with h | h
   · exact Or.inl (key _ coprod.inl
-      (by rw [PreservesColimitPair.iso_hom]; exact coprodComparison_inl _) h)
+      (by rw [PreservesColimitPair.iso_hom]; exact coprodComparison_inl (Over.forget S) X Y) h)
   · exact Or.inr (key _ coprod.inr
-      (by rw [PreservesColimitPair.iso_hom]; exact coprodComparison_inr _) h)
+      (by rw [PreservesColimitPair.iso_hom]; exact coprodComparison_inr (Over.forget S) X Y) h)
 
 /-- Away from characteristic two, the coordinate of the formal disk differs from its
 negative. -/
@@ -633,9 +633,9 @@ theorem exists_setTheoreticallyInvariant_not_invariant (hchar : (2 : k) ≠ 0)
   let Q : Over (⊤_ ((BigFppfOver B (Spec (.of k)) hS)ᵒᵖ ⥤ Type u)) :=
     Over.mk (terminal.from (involutionQuotient k B hS).obj)
   let n : D ⟶ D := Over.homMk (yoneda.map (siteDiskNegation k B hS hD))
-    (Subsingleton.elim _ _)
+    (terminal.hom_ext _ _)
   let j : PreRelation D D := prod.lift n (𝟙 D)
-  let φ : D ⟶ Q := Over.homMk (diskToInvolutionQuotient k B hS hD) (Subsingleton.elim _ _)
+  let φ : D ⟶ Q := Over.homMk (diskToInvolutionQuotient k B hS hD) (terminal.hom_ext _ _)
   have hs : j.source = 𝟙 D := prod.lift_snd _ _
   have ht : j.target = n := prod.lift_fst _ _
   have hna := siteDiskNegation_comp_diskToInvolutionQuotient k B hS hD

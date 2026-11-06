@@ -40,14 +40,16 @@ variable (B : BigEtaleSite.{u}) {X : Scheme.{u}} (hX : B.Contains X)
 theorem ι_etaleStalkIsoSmallEtaleStalkAb_hom (t : GeometricPoint X)
     (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}) (U : SmallEtale B X hX)
     (x : (geometricPointFiber B X hX t).obj U) :
-    colimit.ι ((CategoryOfElements.π (geometricPointFiber B X hX t)).op ⋙
+    colimit.ι ((Functor.Elements.π (geometricPointFiber B X hX t)).op ⋙
         (((SmallEtale.toEtaleSite B X hX).sheafPushforwardContinuous AddCommGrpCat.{u + 1}
-          (SmallEtale.topology B X hX) X.smallEtaleTopology).obj F).obj) (op ⟨U, x⟩) ≫
+          (SmallEtale.topology B X hX) X.smallEtaleTopology).obj F).obj)
+        (op ((geometricPointFiber B X hX t).elementsMk U x)) ≫
         (etaleStalkIsoSmallEtaleStalkAb B hX t F).hom =
       (Scheme.pointSmallEtale t.hom).toPresheafFiber ((SmallEtale.toEtaleSite B X hX).obj U)
         (Over.homMk x.1 x.2) F.obj :=
   Functor.Final.ι_colimitIso_hom (neighborhoodInclusionPublic B X hX t).op
-    ((CategoryOfElements.π (Scheme.pointSmallEtale t.hom).fiber).op ⋙ F.obj) (op ⟨U, x⟩)
+    ((Functor.Elements.π (Scheme.pointSmallEtale t.hom).fiber).op ⋙ F.obj)
+    (op ((geometricPointFiber B X hX t).elementsMk U x))
 
 end AlgebraicGeometry
 

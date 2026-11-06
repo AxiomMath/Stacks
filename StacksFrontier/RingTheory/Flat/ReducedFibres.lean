@@ -17,6 +17,7 @@ public import Mathlib.NumberTheory.Height.Projectivization
 public import Mathlib.NumberTheory.LucasLehmer
 public import Mathlib.NumberTheory.SelbergSieve
 public import Mathlib.RingTheory.Radical.NatInt
+public import Mathlib.RingTheory.TensorProduct.Pi
 public import Mathlib.Tactic.Echelon.Zsqrtd
 public import Mathlib.Tactic.NormNum.Irrational
 public import Mathlib.Tactic.NormNum.IsCoprime

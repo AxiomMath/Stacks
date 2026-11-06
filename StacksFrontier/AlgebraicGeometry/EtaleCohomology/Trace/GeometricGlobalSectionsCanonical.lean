@@ -74,8 +74,8 @@ omit [Fintype Λ] in
 theorem bijective_uliftFunctor_map {A A' : ModuleCat.{u + 1} Λ} (g : A ⟶ A')
     (h : Function.Bijective g) :
     Function.Bijective ((ModuleCat.uliftFunctor.{0, u + 1} Λ).map g) :=
-  ⟨fun _ _ hab ↦ ULift.ext _ _ (h.1 (congrArg ULift.down hab)),
-    fun z ↦ ⟨⟨(h.2 z.down).choose⟩, ULift.ext _ _ (h.2 z.down).choose_spec⟩⟩
+  ⟨fun _ _ hab ↦ ULift.ext (h.1 (congrArg ULift.down hab)),
+    fun z ↦ ⟨⟨(h.2 z.down).choose⟩, ULift.ext (h.2 z.down).choose_spec⟩⟩
 
 /-- The image `N` of `π₁(X_k̄, η̄) ⟶ π₁(X, η̄)`. -/
 abbrev geometricFundamentalGroupRange :

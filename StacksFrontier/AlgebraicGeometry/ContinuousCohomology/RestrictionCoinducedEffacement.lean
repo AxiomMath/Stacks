@@ -52,8 +52,8 @@ def coindRestrictMap (V : OpenSubgroup G) (U : OpenSubgroup Γ)
   (Stacks.GroupCohomology.homEquiv R G _ _).symm
     ⟨LinearMap.funLeft R _ s, fun g f ↦ by
       funext x
-      change (M.obj.obj.ρ (φ g)).hom (f (g⁻¹ • s x)) =
-        (M.obj.obj.ρ (φ g)).hom (f (s ((φ g)⁻¹ • x)))
+      change (M.obj.obj.ρ (φ g)).asHom.hom (f (g⁻¹ • s x)) =
+        (M.obj.obj.ρ (φ g)).asHom.hom (f (s ((φ g)⁻¹ • x)))
       rw [← map_inv, hs]⟩
 
 /-- `f ↦ f ∘ s` carries the constant functions to the constant functions. -/

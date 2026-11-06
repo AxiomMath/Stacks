@@ -297,7 +297,6 @@ factors. -/
 theorem towerIdealMulMap_apply (K : Ideal R) (z : M ⊗[R] ↥K) :
     towerIdealMulMap M T K z = idealMulMap M K (TensorProduct.comm R M ↥K z) := by
   induction z with
-  | zero => simp
   | tmul m x => simp
   | add z z' hz hz' => simp [hz, hz']
 

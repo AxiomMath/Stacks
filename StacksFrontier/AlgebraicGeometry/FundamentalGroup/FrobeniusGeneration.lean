@@ -176,8 +176,10 @@ public def element (c : FrobeniusData base x) : EtaleFundamentalGroup X base :=
 /-- Composing the path with an element of `π₁(X, base)` conjugates the Frobenius element by
 that element. -/
 public theorem element_path_trans (c : FrobeniusData base x) (g : EtaleFundamentalGroup X base) :
-    ({c with path := c.path ≪≫ g} : FrobeniusData base x).element = g * c.element * g⁻¹ :=
-  (Iso.trans_conjAut c.path g c.localElement).trans (Iso.conjAut_apply g _)
+    ({c with path := c.path ≪≫ g.asIso} : FrobeniusData base x).element =
+      g * c.element * g⁻¹ :=
+  (Iso.trans_conjAut c.path g.asIso c.localElement).trans
+    (Aut.ext (by rw [Iso.conjAut_apply]; rfl))
 
 end FrobeniusData
 

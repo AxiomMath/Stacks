@@ -10,6 +10,7 @@ import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.CategoryTheory.ObjectProperty.Orthogonal
 public import Mathlib.CategoryTheory.Triangulated.Generators
+import Mathlib.CategoryTheory.ObjectProperty.ClosureShift
 import Mathlib.CategoryTheory.Triangulated.Orthogonal
 public import Mathlib.CategoryTheory.Triangulated.Triangulated
 import Mathlib.Combinatorics.Enumerative.DyckWord

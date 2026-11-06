@@ -72,21 +72,21 @@ theorem rightDerivedFunctorPlus_natTrans_ext (F : C ⥤ D) [F.Additive]
       α.app (DerivedCategory.Plus.Q.obj K) =
         (mapCochainComplexPlusDerivedUnit F).app K ≫ β.app (DerivedCategory.Plus.Q.obj K)) :
     α = β := by
-  refine Functor.rightDerived_ext _ F.rightDerivedFunctorPlusUnit
+  refine Functor.rightDerived_ext _ F.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso C) _ α β (NatTrans.ext (funext fun L => ?_))
   obtain ⟨K, rfl⟩ := HomotopyCategory.Plus.quotient_obj_surjective L
   have key : ∀ γ : F.rightDerivedFunctorPlus ⟶ G,
-      F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient C).obj K) ≫
+      F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient C).obj K) ≫
           γ.app (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.quotient C).obj K)) =
         (DerivedCategory.Plus.quotientCompQhIso D).hom.app (F.mapCochainComplexPlus.obj K) ≫
           ((mapCochainComplexPlusDerivedUnit F).app K ≫ γ.app (DerivedCategory.Plus.Q.obj K)) ≫
             G.map ((DerivedCategory.Plus.quotientCompQhIso C).inv.app K) := by
     intro γ
     simp only [mapCochainComplexPlusDerivedUnit_app, Category.assoc, Iso.hom_inv_id_app_assoc]
-    exact nat_conj _ γ _
-  show F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient C).obj K) ≫
+    exact (nat_conj _ γ _).trans (Category.assoc _ _ _)
+  show F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient C).obj K) ≫
       α.app (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.quotient C).obj K)) =
-    F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient C).obj K) ≫
+    F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient C).obj K) ≫
       β.app (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.quotient C).obj K))
   rw [key α, key β, h K]
 

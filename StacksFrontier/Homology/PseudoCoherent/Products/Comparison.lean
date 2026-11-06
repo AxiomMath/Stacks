@@ -24,7 +24,7 @@ public import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Products
 public import Mathlib.CategoryTheory.Localization.Adjunction
 public import Mathlib.CategoryTheory.Monoidal.Closed.Braided
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Mathlib.Data.Int.ConditionallyCompleteOrder
+public import Mathlib.Order.Int.ConditionallyCompleteOrder
 public import Mathlib.Tactic.TFAE
 public import StacksFrontier.Algebra.Homology.KFlat
 public import StacksFrontier.Algebra.Homology.PseudoCoherent
@@ -549,7 +549,7 @@ noncomputable def moduleTensorRingPowerComparison
           Limits.Pi.map (fun _ : A => f)
     apply Pi.hom_ext
     intro a
-    simp only [Category.assoc, Pi.lift_π, Pi.map_π, Pi.lift_π_assoc]
+    simp only [Category.assoc, Pi.lift_comp_π, Pi.map_π, Pi.lift_comp_π_assoc]
     apply ModuleCat.hom_ext
     apply TensorProduct.ext
     ext x r
@@ -559,7 +559,7 @@ private lemma moduleTensorRingPowerComparison_comp_pi
     (S : Type v) [CommRing S] (A : Type v) (M : ModuleCat.{v} S) (a : A) :
     (moduleTensorRingPowerComparison S A).app M ≫ Pi.π (fun _ : A => M) a =
       ModuleCat.ofHom ((LinearMap.proj a).comp (TensorProduct.piScalarRightHom S S M A)) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 private lemma finite_of_epi_moduleTensorRingPowerComparison
     (S : Type v) [CommRing S] (M : ModuleCat.{v} S)

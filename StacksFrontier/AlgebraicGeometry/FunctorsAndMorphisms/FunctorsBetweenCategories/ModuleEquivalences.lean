@@ -93,7 +93,7 @@ public theorem center_toCatCenter_bijective (R : Type u) [CommRing R] :
     Function.Bijective (CategoryTheory.Linear.toCatCenter R (ModuleCat.{u} R)) := by
   constructor
   · intro a b h
-    simpa [centerEval, CategoryTheory.Linear.toCatCenter_apply_app] using
+    simpa [centerEval, CategoryTheory.Linear.toCatCenter_apply_asHom_app, CategoryTheory.CatCenter.app] using
       congrArg (centerEval R) h
   · intro z
     refine ⟨centerEval R z, ?_⟩
@@ -101,7 +101,7 @@ public theorem center_toCatCenter_bijective (R : Type u) [CommRing R] :
     intro M
     apply ModuleCat.hom_ext
     ext x
-    simp [CategoryTheory.Linear.toCatCenter_apply_app, center_apply]
+    simp [CategoryTheory.Linear.toCatCenter_apply_asHom_app, CategoryTheory.CatCenter.app, center_apply]
 
 /-- **The centre of `ModuleCat R` is `R`**, for `R` a commutative ring: the canonical ring
 morphism `R →+* CatCenter (ModuleCat R)`, which sends `r` to the natural endomorphism
@@ -125,7 +125,7 @@ private theorem centerLoc_bijective {C D : Type*} [Category* C] [Category* D]
       CategoryTheory.CatCenter.localization_app] using
       congrArg (fun z : CategoryTheory.CatCenter D => z.app (F.obj X)) h
   · intro b
-    let α : CategoryTheory.CatCenter C := {
+    let α : CategoryTheory.CatCenter C := .of {
       app := fun X => FF.preimage (b.app (F.obj X))
       naturality := by
         intro X Y f
@@ -208,7 +208,7 @@ private theorem centerRingEquiv_app_comp (R : Type u) [CommRing R] (r : R)
     {X Y : ModuleCat.{u} R} (f : X ⟶ Y) : (centerRingEquiv R r).app X ≫ f = r • f := by
   have hs : (centerRingEquiv R r).app X = r • (𝟙 X) := by
     show (CategoryTheory.Linear.toCatCenter R (ModuleCat.{u} R) r).app X = _
-    simp [CategoryTheory.Linear.toCatCenter_apply_app]
+    simp [CategoryTheory.Linear.toCatCenter_apply_asHom_app, CategoryTheory.CatCenter.app]
   simp [hs]
 
 private theorem functor_linear_of_centers

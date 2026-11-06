@@ -363,6 +363,13 @@ theorem liftClassesToDeformationClasses_injective :
 
 /-! ### Every flat deformation comes from a lift -/
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_ProperFlatSquareZeroLiftDeformation
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A cartesian square of families is a strongly cartesian morphism** (the converse of
 `AlgebraicGeometry.isPullback_commaHomAsSpaceMap_of_isStronglyCartesian`, Stacks 04U9). -/
 theorem isStronglyCartesian_of_isPullback_commaHomAsSpaceMap

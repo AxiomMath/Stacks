@@ -199,13 +199,13 @@ public theorem comp_finiteEtaleBaseChange_map_galoisAutHom (A : PointedGaloisCov
   rw [hg, h1, finiteEtaleFiberFunctor_map_finiteEtaleBaseChange_projectionEquiv_symm, h2]
   have hnat : (finiteEtaleFiberFunctor y).map g (σ • B.basePt) =
       σ • (finiteEtaleFiberFunctor y).map g B.basePt :=
-    (ConcreteCategory.congr_hom (σ.hom.naturality g) B.basePt).symm
+    (ConcreteCategory.congr_hom (σ.asIso.hom.naturality g) B.basePt).symm
   rw [hnat, hg]
   apply (finiteEtaleFiberProjectionEquiv f y A.obj).injective
   rw [Equiv.apply_symm_apply]
   refine ((etaleFundamentalGroupMap_finiteEtaleFiberProjection f y A.obj σ
     ((finiteEtaleFiberProjectionEquiv f y A.obj).symm A.basePt)).trans ?_).symm
-  show ((etaleFundamentalGroupMap f y σ).app A.obj).hom
+  show ((etaleFundamentalGroupMap f y σ).asIso.app A.obj).hom
     ((finiteEtaleFiberProjectionEquiv f y A.obj) ((finiteEtaleFiberProjectionEquiv f y A.obj).symm
       A.basePt)) = _
   rw [Equiv.apply_symm_apply]

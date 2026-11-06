@@ -98,6 +98,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
       (ringStructureSheafCore B S hS p hp .fppf)).ι]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0GQL, part (1).**  Let `φ : 𝓕 → 𝓖` be a map of quasi-coherent `𝒪_𝒳`-modules.  The
 cokernel of `φ` in `QCoh(𝒪_𝒳)`, included into `Mod(𝒪_𝒳)` together with its projection, is a
 cokernel of `φ` in `Mod(𝒪_𝒳)`.
@@ -120,6 +121,7 @@ def isColimitCokernelCoforkMapQuasicoherentInclusion
         (ringStructureSheafCore B S hS p hp .fppf)).ι.map φ) 0) :=
   isColimitOfHasCokernelOfPreservesColimit _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0GQL, part (1), the quasi-coherence half.**  The cokernel of a map of quasi-coherent
 `𝒪_𝒳`-modules computed in `Mod(𝒪_𝒳)` is quasi-coherent, because it is isomorphic to the
 inclusion of the cokernel computed in `QCoh(𝒪_𝒳)`. -/
@@ -280,11 +282,11 @@ def isLimitKernelForkFlatBaseChangeQuasicoherator
       simp only [Category.assoc, h1 F, Category.comp_id]
     refine hQlim.uniq (KernelFork.ofι (g' ≫ adj.unit.app F) (hfork g' hg')) m ?_
     rintro (_ | _)
-    · simpa using hkey
+    · exact hkey
     · have hone : m ≫ Q.map (kernel.ι (i.map φ)) ≫ Q.map (i.map φ) =
-          g' ≫ adj.unit.app F ≫ Q.map (i.map φ) := by
-        rw [← Category.assoc, hkey, Category.assoc]
-      simpa using hone
+          (g' ≫ adj.unit.app F) ≫ Q.map (i.map φ) := by
+        rw [← Category.assoc, hkey]
+      exact hone
 
 end AlgebraicGeometry.Stack
 

@@ -140,6 +140,13 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves of types on the site, supplied directly: under Mathlib v4.35.0 the
+instance search for `HasPullback` there first tries `Adhesive.hasPullback_of_mono_left` and times
+out searching for `Mono`. -/
+local instance (priority := high) hasPullback_presheaf_ImageRepresentableInduction
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) : HasPullback f g :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Sections of the image lie over the image of `t` -/
 
 /-- A section over an object `a` of the site of the image `U ⊆ X` of an open subspace

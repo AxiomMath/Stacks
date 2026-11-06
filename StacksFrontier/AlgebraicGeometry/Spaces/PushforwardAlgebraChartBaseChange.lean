@@ -58,6 +58,15 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Restriction of sheaves of sets along chart base change preserves finite products (instance
+search times out finding this at its use sites). -/
+instance preservesFiniteProducts_smallBaseChange_pushforwardAlgebraChartBaseChange
+    (g : Over X) (hg : yoneda.relativelyRepresentable g.hom.hom) :
+    PreservesFiniteProducts ((smallBaseChange B S hS g.hom hg).sheafPushforwardContinuous
+      (Type u) (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS g.left.1)) :=
+  inferInstance
+
 /-! ### The comparison on sheaves of rings -/
 
 /-- **The direct image `g_* 𝒪_Y` of sheaves of rings is restriction along chart base change**,

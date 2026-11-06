@@ -117,7 +117,7 @@ theorem eq_zero_of_restrictToChartScheme_comp_eq_zero (A : SmallEtale B S hS F) 
         ((openChartFunctor B S hS F A).obj V)) := hV
     obtain ⟨t, ht⟩ := exists_eq_sum_of_jointlyEpi φ hM hN hφ _ hW x.down
     have hx : x = ∑ i, (P.map (φ i)).app (op V) (ULift.up (t i)) := by
-      refine ULift.ext _ _ ?_
+      refine ULift.ext ?_
       classical
       have hdown : ∀ s : Finset (Fin r),
           (∑ i ∈ s, (P.map (φ i)).app (op V) (ULift.up (t i))).down =

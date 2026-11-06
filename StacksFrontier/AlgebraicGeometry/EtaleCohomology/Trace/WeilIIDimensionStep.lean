@@ -135,10 +135,14 @@ theorem LAdicSheaf.isPointwiseMixedOfWeightLE_higherDirectImage
     show (B.inclusion.map g).fiberι y.1 ≫ B.inclusion.map g ≫ fW = _
     rw [Scheme.Hom.fiber_fac_assoc, fromSpecResidueField_comp_eq_specMap_algebraMap]
     rfl
+  have : LocallyOfFiniteType (B.inclusion.map ιF) :=
+    AlgebraicGeometry.instLocallyOfFiniteTypeOfIsClosedImmersion _
+  have : LocallyOfFiniteType (B.inclusion.map g ≫ fW) :=
+    locallyOfFiniteType_comp (B.inclusion.map g) fW
   have : LocallyOfFiniteType ((B.inclusion.map g).fiberToSpecResidueField y.1 ≫
       Spec.map (CommRingCat.ofHom (algebraMap k (W.1.residueField y.1)))) := by
     rw [← heq]
-    infer_instance
+    exact locallyOfFiniteType_comp (B.inclusion.map ιF) (B.inclusion.map g ≫ fW)
   have hmF := (LAdicSheaf.IsPointwiseMixedOfWeightLE.inverseImage U ℓ ιF (B.inclusion.map g ≫ fW)
     hm hcl).congr
     heq

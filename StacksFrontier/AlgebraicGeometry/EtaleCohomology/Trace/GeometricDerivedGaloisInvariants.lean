@@ -173,7 +173,7 @@ lemma galoisAction_geometricInvariantsGlobalSectionsIsoCanonical_hom
         (geometricFundamentalGroupMap B X f K (contains_fieldBaseChange_of_isCurve B X f K) y) ⋙
       continuousModuleRingInvariants.{0, u + 1, u + 1} Λ
         (EtaleFundamentalGroup (Stacks.Frobenius.fieldBaseChange (Over.mk f) K) y)).obj ρ)
-    (ha : (ρ.obj.obj.obj.ρ γ).hom a.1 ∈ continuousModuleInvariantsSubmodule Λ _
+    (ha : (ρ.obj.obj.obj.ρ γ).asHom.hom a.1 ∈ continuousModuleInvariantsSubmodule Λ _
       ((finiteTypeContinuousModuleToRes Λ
         (geometricFundamentalGroupMap B X f K
             (contains_fieldBaseChange_of_isCurve B X f K) y)).obj ρ)) :
@@ -184,7 +184,7 @@ lemma galoisAction_geometricInvariantsGlobalSectionsIsoCanonical_hom
             (contains_fieldBaseChange_of_isCurve B X f K)).hom) Λ).obj ρ)
             ((geometricInvariantsGlobalSectionsIsoCanonical B X f K Λ y).hom.app ρ a) =
       (geometricInvariantsGlobalSectionsIsoCanonical B X f K Λ y).hom.app ρ
-          ⟨(ρ.obj.obj.obj.ρ γ).hom a.1, ha⟩ := by
+          ⟨(ρ.obj.obj.obj.ρ γ).asHom.hom a.1, ha⟩ := by
   have h := geometricInvariantsGlobalSectionsIsoCanonical_inv_galois B X f K Λ y ρ γ
     ((geometricInvariantsGlobalSectionsIsoCanonical B X f K Λ y).hom.app ρ a)
   have h1 : ∀ b, (geometricInvariantsGlobalSectionsIsoCanonical B X f K Λ y).inv.app ρ
@@ -194,7 +194,8 @@ lemma galoisAction_geometricInvariantsGlobalSectionsIsoCanonical_hom
   have h3 : ∀ c, (geometricInvariantsGlobalSectionsIsoCanonical B X f K Λ y).hom.app ρ
       ((geometricInvariantsGlobalSectionsIsoCanonical B X f K Λ y).inv.app ρ c) = c := fun c ↦ by
     simp [← ConcreteCategory.comp_apply]
-  exact (h3 _).symm.trans (congrArg _ (Subtype.ext (a2 := ⟨(ρ.obj.obj.obj.ρ γ).hom a.1, ha⟩) h))
+  exact (h3 _).symm.trans
+    (congrArg _ (Subtype.ext (a2 := ⟨(ρ.obj.obj.obj.ρ γ).asHom.hom a.1, ha⟩) h))
 
 /-- **The degree-zero comparison with its Galois action**: `N^{π₁(X_{k̄})} ⟶ Γ(X_{k̄}, ℱ_N)` as a
 morphism of discrete `Λ`-`Aut(k̄/k)`-modules, natural in the continuous discrete
@@ -230,14 +231,14 @@ def geometricGaloisInvariantsToSections :
           exact this
         let P := FiniteStableSubmodule.orbitSpan N {x.1} (Set.finite_singleton _)
         have hP : x.1 ∈ P.1 := FiniteStableSubmodule.subset_orbitSpan N _ _ (Set.mem_singleton _)
-        have hγP : (N.obj.obj.ρ γ).hom x.1 ∈ P.1 := P.2.1 γ x.1 hP
+        have hγP : (N.obj.obj.ρ γ).asHom.hom x.1 ∈ P.1 := P.2.1 γ x.1 hP
         have hρ := kernelInvariantsQuotientRepresentation_apply Λ
             (geometricGaloisProjection B X f K y)
           (surjective_geometricGaloisProjection B X f K y) N γ x
         let xσ := ModuleCat.Hom.hom
             (((kernelInvariantsFunctor Λ (geometricGaloisProjection B X f K y)
           (surjective_geometricGaloisProjection B X f K y)).obj N).obj.obj.ρ
-            (geometricGaloisProjection B X f K y γ)) x
+            (geometricGaloisProjection B X f K y γ)).asHom x
         have h1 := geometricInvariantsToSections_app_apply B X Λ f K
           (contains_fieldBaseChange_of_isCurve B X f K) y
           (geometricInvariantsGlobalSectionsIsoCanonical B X f K Λ y) N P
@@ -252,7 +253,7 @@ def geometricGaloisInvariantsToSections :
               (geometricFundamentalGroupMap B X f K (contains_fieldBaseChange_of_isCurve B X f K) y)
               (geometricGaloisProjection B X f K y) (surjective_geometricGaloisProjection B X f K y)
               (ker_geometricGaloisProjection B X f K y).symm).hom.app N x) hP
-        have ha : (P.toFinite.obj.obj.obj.ρ γ).hom
+        have ha : (P.toFinite.obj.obj.obj.ρ γ).asHom.hom
             (⟨x.1, hP⟩ : P.1) ∈ continuousModuleInvariantsSubmodule Λ _
               ((finiteTypeContinuousModuleToRes Λ
                 (geometricFundamentalGroupMap B X f K
@@ -284,7 +285,7 @@ def geometricGaloisInvariantsToSections :
               (y.map (fieldBaseChangeObjProj B X f K
               (contains_fieldBaseChange_of_isCurve B X f K)).hom) Λ ⋙
             Stacks.EtaleCohomology.galoisGlobalSections Λ (Over.mk f) K).obj N).obj.obj.ρ
-              (geometricGaloisProjection B X f K y γ)) z) h2.symm)
+              (geometricGaloisProjection B X f K y γ)).asHom z) h2.symm)
         refine Eq.trans ?_ h4.symm
         refine congrArg (geometricSectionsIncl B X Λ f K
             (contains_fieldBaseChange_of_isCurve B X f K) y N P) ?_

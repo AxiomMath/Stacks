@@ -54,6 +54,23 @@ attribute [local instance] AlgebraicGeometry.preservesPullbacks_bigFppfOverToSch
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ThickeningAffineGluingSchemes :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ThickeningAffineGluingSchemes
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasLimitsOfShape_discrete_presheaf_ThickeningAffineGluingSchemes (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-- A morphism isomorphic, via a commutative square, to an affine morphism is affine. -/
 private theorem isAffineHom_of_comm_sq_of_isIso {X Y X' Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     {f : X ⟶ Y} {f' : X' ⟶ Y'} {k : X' ⟶ X} {g : Y' ⟶ Y} [IsIso k] [IsIso g]

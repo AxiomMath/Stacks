@@ -108,8 +108,8 @@ lemma isDerivedLimit_map_of_preservesProduct
     apply Pi.hom_ext
     intro n
     dsimp [e, d, d']
-    simp only [Category.assoc, piComparison_comp_π, Pi.lift_π, Preadditive.comp_sub]
-    rw [← G.map_comp, Pi.lift_π, G.map_sub, G.map_comp, ← Category.assoc,
+    simp only [Category.assoc, piComparison_comp_π, Pi.lift_comp_π, Preadditive.comp_sub]
+    rw [← G.map_comp, Pi.lift_comp_π, G.map_sub, G.map_comp, ← Category.assoc,
       piComparison_comp_π]
   refine ⟨e.inv ≫ G.map δ ≫ (G.commShiftIso (1 : ℤ)).hom.app K, ?_⟩
   apply isomorphic_distinguished _ (G.map_distinguished _ hT)

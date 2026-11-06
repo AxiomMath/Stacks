@@ -762,7 +762,7 @@ private lemma stalkToLimit_succ (s : PointBlowupSequence.{u}) (n : ℕ)
       (CommRingCat.Hom.hom
           ((Limits.colimit.cocone (stalkStageDiagram s)).ι.app (ULift.up (n + 1))))
           (localStepMap s n y) := by
-    convert hcomp using 1; rfl
+    convert hcomp using 1
   have hh := hw'.trans hcomp'
   convert hh using 1; rfl
 

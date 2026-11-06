@@ -100,7 +100,7 @@ theorem ranObjEquiv_naturality_right {y₁ y₂ : Q.FullSubcategory} (b : y₁ �
     ranObjEquiv f P hPQ y₁ ℋ (((subsiteFunctor f P hPQ).op.ran.obj ℋ).map b.op s) =
       ((P.ι ⋙ f).op.ran.obj ℋ).map (Q.ι.map b).op (ranObjEquiv f P hPQ y₂ ℋ s) := by
   refine ranObjObj_ext (P.ι ⋙ f) ℋ fun x a => ?_
-  rw [ranObjEquiv_apply, ← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply,
+  rw [ranObjEquiv_apply, ← Functor.map_comp_apply, ← Functor.map_comp_apply,
     ← op_comp, ← op_comp, ranObjEquiv_apply]
   rfl
 
@@ -172,8 +172,9 @@ theorem subsiteRanBaseChange_counit (ℱ : 𝒳ᵒᵖ ⥤ Type w) (y : Q.FullSub
         (op ((subsiteFunctor f P hPQ).obj x).obj) ⟶ ℱ.obj (op x.obj) => g
           ((f.op.ran.obj ℱ).map (Q.ι.map a).op t))
       (Stacks.SheafOfModules.ranBaseChange_fac (subsiteRanSquare f P hPQ) ℱ (op x))
-    exact h.trans (congrArg (fun u => (f.op.ranCounit.app ℱ).app (op x.obj) u)
-      (FunctorToTypes.map_id_apply _ _))
+    refine h.trans (congrArg (fun u => (f.op.ranCounit.app ℱ).app (op x.obj) u) ?_)
+    rw [subsiteRanSquare_natTrans_app]
+    exact Functor.map_id_apply (f.op.ran.obj ℱ) _ _
   rw [key, hfac]
 
 end BaseChange

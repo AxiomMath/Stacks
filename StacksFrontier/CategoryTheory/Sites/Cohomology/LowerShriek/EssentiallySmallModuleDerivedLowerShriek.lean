@@ -73,6 +73,11 @@ theorem exists_epi_isSumOfExtensionByZeroUnits_of_essentiallySmall [EssentiallyS
   let e := equivSmallModel.{w} C
   let σ : Type w := Σ V : SmallModel.{w} C, (M.val.obj (op (e.inverse.obj V)) : Type w)
   let U : σ → C := fun i => e.inverse.obj i.1
+  have : HasColimitsOfShape (Discrete σ) (PresheafOfModules.{w} R.obj) :=
+    PresheafOfModules.hasColimitsOfShape _ _
+  have : HasCoproduct fun i : σ => extensionByZeroUnit R (U i) :=
+    (SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      R (Discrete σ)).has_colimit _
   refine ⟨∐ fun i : σ => extensionByZeroUnit R (U i), ⟨σ, U, ⟨Iso.refl _⟩⟩,
     Sigma.desc fun i =>
       (Stacks.Sites.ExtensionByZero.extensionByZeroUnitHomEquiv J R (U i) M).symm i.2, ⟨?_⟩⟩

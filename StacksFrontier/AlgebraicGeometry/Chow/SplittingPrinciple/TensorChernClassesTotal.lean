@@ -374,7 +374,7 @@ theorem chernClassSub_tensorObj_one (E F : X.Modules) (r s : ℕ)
           homComponent 1 (GenuineChern.chernFamily C T.sP
             ((Scheme.Modules.pullback T.π).obj F) s) := by
     have h := congrArg (Subring.subtype (chernSubring C T.sP)) hup
-    simpa only [map_add, map_mul, map_natCast, Subring.coe_subtype, coe_chernClassSub] using h
+    simpa only [Subring.coe_add, Subring.coe_mul, Subring.coe_natCast, Subring.coe_subtype, coe_chernClassSub] using h
   have hint1 : Intertwines T.pullbackChow (GenuineChern.chernFamily C sX E r)
       (GenuineChern.chernFamily C T.sP ((Scheme.Modules.pullback T.π).obj E) r) :=
     GenuineChern.intertwines_chernFamily C sX E r T.sP T.π T.hsP _ T.relDim _ (Iso.refl _)
@@ -395,7 +395,7 @@ theorem chernClassSub_tensorObj_one (E F : X.Modules) (r s : ℕ)
           homComponent 1 (GenuineChern.chernFamily C sX E r)
         + (r : GradedCapFamily (chowGroup C sX)) *
           homComponent 1 (GenuineChern.chernFamily C sX F s) := by
-    simp only [map_add, map_mul, map_natCast, Subring.coe_subtype, coe_chernClassSub]
+    simp only [Subring.coe_add, Subring.coe_mul, Subring.coe_natCast, Subring.coe_subtype, coe_chernClassSub]
   have hrhs := ((Intertwines.natCast (pull := T.pullbackChow) s).mul
       (hint1.homComponent 1)).add
     ((Intertwines.natCast (pull := T.pullbackChow) r).mul (hint2.homComponent 1))
@@ -499,7 +499,8 @@ theorem chernClassSub_tensorObj_two (E F : X.Modules) (r s : ℕ)
             homComponent 1 (GenuineChern.chernFamily C T.sP
               ((Scheme.Modules.pullback T.π).obj E) r)) := by
     have h := congrArg (Subring.subtype (chernSubring C T.sP)) hup
-    simpa only [map_add, map_sub, map_mul, map_one, map_pow, map_natCast, Subring.coe_subtype,
+    simpa only [Subring.coe_add, AddSubgroupClass.coe_sub, Subring.coe_mul, Subring.coe_one,
+      Subring.coe_pow, Subring.coe_natCast, Subring.coe_subtype,
       coe_chernClassSub, pow_two] using h
   have hint1 : Intertwines T.pullbackChow (GenuineChern.chernFamily C sX E r)
       (GenuineChern.chernFamily C T.sP ((Scheme.Modules.pullback T.π).obj E) r) :=
@@ -534,7 +535,8 @@ theorem chernClassSub_tensorObj_two (E F : X.Modules) (r s : ℕ)
         + (s.choose 2 : GradedCapFamily (chowGroup C sX)) *
           (homComponent 1 (GenuineChern.chernFamily C sX E r) *
             homComponent 1 (GenuineChern.chernFamily C sX E r)) := by
-    simp only [map_add, map_sub, map_mul, map_one, map_natCast, Subring.coe_subtype,
+    simp only [Subring.coe_add, AddSubgroupClass.coe_sub, Subring.coe_mul, Subring.coe_one,
+      Subring.coe_natCast, Subring.coe_subtype,
       coe_chernClassSub, pow_two]
   have hrhs1 := ((Intertwines.natCast (pull := T.pullbackChow) s).mul
       (hint1.homComponent 2)).add

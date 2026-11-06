@@ -391,6 +391,24 @@ private lemma isLocallyOfFinitePresentation_of_isIso_precomp
   refine h U V (a ≫ inv e) b φ (MorphismProperty.RespectsIso.postcomp E (inv e) a ha) hb ?_
   simpa only [Category.assoc, IsIso.inv_hom_id_assoc] using hφ
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasLimits_presheaf :
+    HasLimitsOfSize.{0, 0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+private instance (priority := high) hasPullback_presheaf
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The eventual isomorphism -/
 
 /-- **An isomorphism onto a directed limit is eventually an isomorphism onto the stages.**  Let
@@ -426,7 +444,8 @@ theorem eventually_isIso_comp_limitπ
       refine isLocallyOfFinitePresentation_of_comp B S contains hC (algebraicStage i) algebraicBase
         (c.π.app (op i)) (t.app (op i)) ?_ (finiteType i)
       have hi : c.π.app (op i) ≫ t.app (op i) = s := by
-        simpa using congrArg (fun η => η.app (op i)) commutes
+        simpa only [NatTrans.comp_app, Functor.const_map_app] using
+          congrArg (fun η => η.app (op i)) commutes
       rwa [hi]
     let i₀ : I := Classical.choice ‹Nonempty I›
     obtain ⟨U₀, q₀, hAffine₀, hSurjective₀, hEtale₀⟩ :=

@@ -397,7 +397,7 @@ noncomputable def chartTrans (a : yoneda.obj U₀ ⟶ X) (haq : a ≫ p = yoneda
     corep (κ := B.cutoff) (chartAlgebra U₀ q) ⟶ chartedFunctor T' X p where
   app P := TypeCat.ofHom fun ρ => ⟨a.app _ (chartHom U₀ q ρ), by
     have := congrArg (fun t => t.app (op (specOver T' P)) (chartHom U₀ q ρ)) haq
-    simp only [FunctorToTypes.comp] at this
+    simp only [NatTrans.comp_app_apply] at this
     rw [this]
     exact chartHom_comp U₀ q ρ⟩
   naturality P Q f := by

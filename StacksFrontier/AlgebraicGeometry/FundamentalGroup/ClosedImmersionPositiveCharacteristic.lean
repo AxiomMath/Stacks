@@ -74,13 +74,13 @@ on the fibre of any cover mapping into it by a monomorphism. -/
 private theorem app_eq_self_of_mono_factor {Z : Scheme.{u}} [ConnectedSpace Z]
     (z : GeometricPoint Z) (σ : EtaleFundamentalGroup Z z) {V W : FiniteEtaleOver Z}
     (j : V ⟶ W) [Mono j.left]
-    (hW : ∀ y : finiteEtaleFiber z W, (σ.app W).hom y = y)
+    (hW : ∀ y : finiteEtaleFiber z W, (σ.asIso.app W).hom y = y)
     (y : finiteEtaleFiber z V) :
-    (σ.app V).hom y = y := by
+    (σ.asIso.app V).hom y = y := by
   apply injective_finiteEtaleFiberFunctor_map z j
-  have hn := congrArg (fun f ↦ f y) (NatTrans.naturality σ.hom j)
-  change (σ.app W).hom ((finiteEtaleFiberFunctor z).map j y)
-    = (finiteEtaleFiberFunctor z).map j ((σ.app V).hom y) at hn
+  have hn := congrArg (fun f ↦ f y) (NatTrans.naturality σ.asIso.hom j)
+  change (σ.asIso.app W).hom ((finiteEtaleFiberFunctor z).map j y)
+    = (finiteEtaleFiberFunctor z).map j ((σ.asIso.app V).hom y) at hn
   rw [hW] at hn
   exact hn.symm
 
@@ -90,10 +90,10 @@ private theorem app_eq_self_of_finiteEtaleBaseChange {Z X : Scheme.{u}} [Connect
     [ConnectedSpace X] (i : Z ⟶ X) (z : GeometricPoint Z) (σ : EtaleFundamentalGroup Z z)
     (hσ : etaleFundamentalGroupMap i z σ = 1) (U : FiniteEtaleOver X)
     (y : finiteEtaleFiber z ((finiteEtaleBaseChange i).obj U)) :
-    (σ.app ((finiteEtaleBaseChange i).obj U)).hom y = y := by
+    (σ.asIso.app ((finiteEtaleBaseChange i).obj U)).hom y = y := by
   apply (finiteEtaleFiberProjectionEquiv i z U).injective
   show finiteEtaleFiberProjection i z U
-      ((σ.app ((finiteEtaleBaseChange i).obj U)).hom y) = _
+      ((σ.asIso.app ((finiteEtaleBaseChange i).obj U)).hom y) = _
   rw [etaleFundamentalGroupMap_finiteEtaleFiberProjection i z U σ y, hσ]
   rfl
 

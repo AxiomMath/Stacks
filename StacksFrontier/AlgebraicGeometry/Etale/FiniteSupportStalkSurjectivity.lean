@@ -379,11 +379,11 @@ public theorem exists_listSum_generators_eq_etaleStalk
   let : Small.{max u v} (FiniteSupport B f V) := hsmall V
   obtain ⟨l, hl⟩ := exists_colimitListSum_finiteSupportDiagram B f F V
     (eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F V) c)
-  refine ⟨⟨V, u⟩, l, ?_⟩
+  refine ⟨Functor.elementsMk _ V u, l, ?_⟩
   have hcl : (eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F V).symm ≫
       colimit.ι (etaleStalkDiagram B Y.obj Y.property s
         ((finiteSupportPushforward B f hsmall).1.obj F))
-        (op (⟨V, u⟩ : (geometricPointFiber B Y.obj Y.property s).Elements)))
+        (op (Functor.elementsMk (geometricPointFiber B Y.obj Y.property s) V u)))
       (AddCommGrpCat.colimitListSum (finiteSupportDiagram B f F V) l) = g := by
     rw [hl]
     refine Eq.trans ?_ hc
@@ -392,7 +392,7 @@ public theorem exists_listSum_generators_eq_etaleStalk
       rw [eqToHom_trans, eqToHom_refl]
     exact congrArg (colimit.ι (etaleStalkDiagram B Y.obj Y.property s
       ((finiteSupportPushforward B f hsmall).1.obj F))
-      (op (⟨V, u⟩ : (geometricPointFiber B Y.obj Y.property s).Elements)))
+      (op (Functor.elementsMk (geometricPointFiber B Y.obj Y.property s) V u)))
       (ConcreteCategory.congr_hom h0 c)
   refine Eq.trans ?_ hcl
   rw [AddCommGrpCat.colimitListSum_eq]
@@ -400,7 +400,7 @@ public theorem exists_listSum_generators_eq_etaleStalk
     (eqToHom ((finiteSupportPushforward B f hsmall).2.obj_eq F V).symm ≫
       colimit.ι (etaleStalkDiagram B Y.obj Y.property s
         ((finiteSupportPushforward B f hsmall).1.obj F))
-        (op (⟨V, u⟩ : (geometricPointFiber B Y.obj Y.property s).Elements))).hom
+        (op (Functor.elementsMk (geometricPointFiber B Y.obj Y.property s) V u))).hom
     (l.map (fun pr => (colimit.ι (finiteSupportDiagram B f F V) pr.1) pr.2))).symm
   rw [List.map_map]
   rfl

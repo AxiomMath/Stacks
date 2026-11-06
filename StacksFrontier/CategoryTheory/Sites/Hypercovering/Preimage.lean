@@ -61,7 +61,7 @@ variable {X Y : TopCat.{u}} (f : X ⟶ Y)
 /-- The preimage functor on opens preserves finite limits. -/
 instance preservesFiniteLimits_opensMap : PreservesFiniteLimits (Opens.map f) :=
   inferInstanceAs
-    (PreservesFiniteLimits (OrderHomClass.toOrderHom f.frameHom).toFunctor)
+    (PreservesFiniteLimits (OrderHom.ofClass f.frameHom).toFunctor)
 
 /-- **The covering clause of Tag 00WV for the preimage functor on opens.** The preimage of a
 covering family of an open `V` of `Y` is a covering family of `f⁻¹V`. -/

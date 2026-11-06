@@ -696,8 +696,7 @@ private lemma exists_surjective_affineBlowup_map
 private lemma map_ideal_le_span_affineBlowup
     {A : Type*} [CommRing A] (I : Ideal A) (a : A) :
     Ideal.map (algebraMap A (affineBlowupAlgebra I a (Localization.Away a))) I ≤
-      Ideal.span {algebraMap A
-        (affineBlowupAlgebra I a (Localization.Away a)) a} := by
+      Ideal.span {algebraMap A (affineBlowupAlgebra I a (Localization.Away a)) a} := by
   rw [Ideal.map_le_iff_le_comap]
   intro x hx
   exact Ideal.mem_span_singleton.mpr ⟨⟨IsLocalization.mk' (Localization.Away a) x

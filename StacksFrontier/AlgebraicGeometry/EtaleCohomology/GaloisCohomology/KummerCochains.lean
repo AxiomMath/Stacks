@@ -106,9 +106,11 @@ theorem exists_dOne_eq_kummer [IsSepClosed Ω] (p : ℕ) (hp : p.Prime) [NeZero 
     intro g h j
     simp only [hfdef, hεfix]
     rw [← hεmul, ← hεmul, hF g h j]
+  have H : ∀ (L : FiniteGaloisIntermediateField K Ω) (C : Gal(↥L/K) × Gal(↥L/K) → Lˣ),
+      IsMulCocycle₂ C → IsMulCoboundary₂ C := fun L C hC ↦
+    isMulCoboundary₂_of_brauer (fun y _ ↦ hBr y) C hC
   obtain ⟨x₁, hx₁lc, hx₁⟩ :=
-    exists_isLocallyConstant_isMulCoboundary₂_of_forall_finiteGalois
-      (fun _ C hC ↦ isMulCoboundary₂_of_brauer (fun y _ ↦ hBr y) C hC) f hflc hfcoc
+    exists_isLocallyConstant_isMulCoboundary₂_of_forall_finiteGalois H f hflc hfcoc
   have hu : IsMulCocycle₁ fun g ↦ (x₁ g) ^ p := by
     intro g h
     have h1 : (g • x₁ h) ^ p / (x₁ (g * h)) ^ p * (x₁ g) ^ p = 1 := by

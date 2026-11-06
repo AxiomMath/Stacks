@@ -170,6 +170,40 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimits_presheaf_etalePushoutAlgebraic :
+    HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_etalePushoutAlgebraic
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimits_sheaf_etalePushoutAlgebraic :
+    HasLimitsOfSize.{u, u} (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
+
+/-- Pullbacks of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_sheaf_etalePushoutAlgebraic
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type u)} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks in slices of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_overSheaf_etalePushoutAlgebraic
+    {T : Sheaf (BigFppfOver.topology B S hS) (Type u)} {X Y Z : Over T} (f : X ⟶ Z)
+    (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Locality on the source along one étale surjection -/
 
 /-- A morphism of algebraic spaces is étale as soon as its composite with an étale surjective
@@ -337,6 +371,9 @@ theorem isAlgebraicSpace_of_isPullback_of_isEtale
   have hsr : rel.source = tb := prod.lift_snd _ _
   have hkernelP : IsKernelPair q.hom ((Over.forget base.obj).map sb)
       ((Over.forget base.obj).map tb) := hk.map (sheafToPresheaf J (Type u))
+  haveI : HasLimitsOfShape WalkingCospan (Over base) :=
+    Over.hasLimitsOfShape_of_isConnected (B := base)
+  haveI : HasPullback tb sb := HasLimitsOfShape.has_limit _
   have hrel : IsEquivalenceRelation rel.target rel.source := by
     rw [htr, hsr]
     exact (equivalenceRelation_of_isKernelPair_map (Over.forget base.obj) sb tb q.hom

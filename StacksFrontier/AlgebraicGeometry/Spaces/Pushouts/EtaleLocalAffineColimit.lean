@@ -89,6 +89,13 @@ attribute [local instance] pointTopology
 
 variable (site : BigFppfSite.{u}) (S : Scheme.{u}) (hS : site.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_EtaleLocalAffineColimit
+    {X Y Z : (BigFppfOver site S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Objects of the limit of the étale sites and their realizations -/
 
 /-- A cartesian family of algebraic spaces étale over the members of a diagram of algebraic

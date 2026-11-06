@@ -222,7 +222,7 @@ theorem isGE_rightDerivedFunctorPlus_of_isStrictlyGE {A B : Type*} [Category* A]
     exact isIso_of_reflects_iso _ DerivedCategory.Plus.ι
   have : IsIso (F.mapHomologicalComplexDerivedUnit R.boundedBelow) :=
     inferInstanceAs (IsIso ((F.mapHomologicalComplexQhIso R.boundedBelow).inv ≫
-      DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+      DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient _).obj ⟨R.cocomplex, R.boundedBelow⟩))))
   have : CochainComplex.IsStrictlyGE ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj
       R.cocomplex) a := (CochainComplex.isStrictlyGE_iff _ _).2 fun i hi =>

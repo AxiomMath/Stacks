@@ -102,6 +102,17 @@ theorem isIso_of_isEtale_of_universallyInjective_of_isSurjective
 
 end Criterion
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_isoDescent {B : BigFppfSite.{u}} {S : Scheme.{u}}
+    {hS : B.Contains S} : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_isoDescent {B : BigFppfSite.{u}}
+    {S : Scheme.{u}} {hS : B.Contains S} {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The base change `f_i : X_i ⟶ Y_i` of `f₀` to a stage is itself a base change of `f₀`, along
 the projections of `X_i` and `Y_i` to `X₀` and `Y₀`. -/
 private theorem isPullback_mapAt_aux

@@ -156,7 +156,7 @@ theorem mapDerivedCategoryPlusNatTrans_app_single (τ : T ⟶ S) (X : A) :
   refine DerivedCategory.Plus.ι.map_injective ?_
   simp only [Functor.map_comp, Category.assoc]
   rw [← reassoc_of% H1, reassoc_of% h2]
-  refine congrArg (_ ≫ ·) ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) ?_))
+  refine congrArg (_ ≫ ·) (congrArg (_ ≫ ·) ?_)
   exact ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) h3')).trans
     ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) H4))
 

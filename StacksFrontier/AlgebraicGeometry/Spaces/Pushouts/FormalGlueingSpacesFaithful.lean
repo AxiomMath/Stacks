@@ -172,6 +172,18 @@ private theorem isIso_overPullback_map_homMk {C : Type*} [Category C] [HasPullba
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance (priority := high) hasPullback_presheaf
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S`. -/
+private instance hasPullbacks_presheaf :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-- Two morphisms of algebraic spaces over `X` whose restrictions to `U` and to `Y` agree are
 equal. This is the content of the faithfulness of the functor of Stacks 0AF3, read at the level
 of `Over X`. -/
@@ -188,6 +200,7 @@ private theorem eq_of_overPullback_map_eq (D : FormalGlueingSituation B S hS)
     ⟨pullback.lift (𝟙 T₂.left) (𝟙 T₂.left) rfl, pullback.lift_fst _ _ _,
       pullback.lift_snd _ _ _⟩
   have : IsSplitMono d := IsSplitMono.mk' ⟨pullback.fst T₂.hom T₂.hom, hdfst⟩
+  have : Mono d := IsSplitMono.mono d
   -- the pair `(a₀, b₀)`, kept opaque
   obtain ⟨m, hmfst, hmsnd⟩ : ∃ m : T₁.left ⟶ pullback T₂.hom T₂.hom,
       m ≫ pullback.fst T₂.hom T₂.hom = a₀.left ∧
@@ -249,7 +262,7 @@ theorem injective_formalGlueingFunctor_map (D : FormalGlueingSituation B S hS)
     have h1 := (formalGlueingFunctor D).2.hom.naturality a
     have h2 := (formalGlueingFunctor D).2.hom.naturality b
     rw [hcomp] at h1
-    exact (cancel_epi ((formalGlueingFunctor D).2.hom.app X₁)).1 (h1.symm.trans h2)
+    exact (((formalGlueingFunctor D).2.app X₁).cancel_iso_hom_left _ _).1 (h1.symm.trans h2)
   exact (ObjectProperty.ι _).map_injective
     (eq_of_overPullback_map_eq D X₁.property X₂.property a.hom b.hom
       (congrArg CommaMorphism.left key) (congrArg CommaMorphism.right key))

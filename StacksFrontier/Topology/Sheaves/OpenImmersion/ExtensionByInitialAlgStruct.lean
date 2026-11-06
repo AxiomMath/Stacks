@@ -61,6 +61,19 @@ as an open in `X`. -/
 noncomputable def opensFunctor (X : TopCat.{u}) (U : Opens X) : Opens (U : Type _) ⥤ Opens X :=
   IsOpenMap.functor (f := openInclusion X U) U.isOpen.isOpenMap_subtype_val
 
+/-- Pointwise left Kan extensions along `(opensFunctor X U).op` exist when `C` has colimits.
+Stated explicitly: since Lean v4.35.0 the instance search for the `∀ F` form times out. -/
+instance opensFunctor_op_hasPointwiseLeftKanExtension (X : TopCat.{u}) (U : Opens X)
+    {C : Type u} [Category.{u} C] [HasColimits C] (F : (Opens (U : Type _))ᵒᵖ ⥤ C) :
+    (opensFunctor X U).op.HasPointwiseLeftKanExtension F :=
+  fun _ => inferInstance
+
+/-- Left Kan extensions along `(opensFunctor X U).op` exist when `C` has colimits. -/
+instance opensFunctor_op_hasLeftKanExtension (X : TopCat.{u}) (U : Opens X)
+    {C : Type u} [Category.{u} C] [HasColimits C] (F : (Opens (U : Type _))ᵒᵖ ⥤ C) :
+    (opensFunctor X U).op.HasLeftKanExtension F :=
+  Functor.HasLeftKanExtension.mk _ (Functor.pointwiseLeftKanExtensionUnit _ F)
+
 /-- The **presheaf extension by initial** `j_{p!}`.
 
 This is the functor `Presheaf C U ⥤ Presheaf C X` defined as the left Kan extension of a

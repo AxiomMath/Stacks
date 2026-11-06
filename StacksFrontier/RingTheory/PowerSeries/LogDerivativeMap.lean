@@ -23,7 +23,7 @@ namespace PowerSeries
 variable {R S : Type*} [CommRing R] [CommRing S] (φ : R →+* S)
 
 /-- The derivative commutes with a change of coefficients. -/
-theorem derivative_map (u : R⟦X⟧) : d⁄dX S (map φ u) = map φ (d⁄dX R u) := by
+theorem derivative_map (u : R⟦X⟧) : d⁄dX (map φ u) = map φ (d⁄dX u) := by
   ext n
   simp [coeff_derivative]
 

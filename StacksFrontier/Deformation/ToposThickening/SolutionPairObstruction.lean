@@ -331,7 +331,7 @@ theorem descendApp_map {U V : Cᵒᵖ} (g : U ⟶ V) (p : kernelIdeal φ.hom U) 
     rw [op_comp, Functor.map_comp_apply]
     rfl
   · refine Eq.trans ?_ (map_descendApp ρ hρ p (f ≫ g.unop) _ hk)
-    exact (FunctorToTypes.map_comp_apply (typeSheaf (G := G)).obj g f.op _).symm
+    exact (((typeSheaf (G := G)).obj).map_comp_apply g f.op _).symm
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The descended values are additive. -/
@@ -543,7 +543,7 @@ theorem coeff_eq_zero_of_map_eq_zero {E : X.Cᵒᵖ ⥤ Type (max u v w)} {Z : X
     (m : E.obj Z →₀ ℕ) :
     ((inverseImageCommRingFunctor S.f.toToposHom).map S.baseReduction).hom.app Z
       (q.coeff m) = 0 :=
-  (MvPolynomial.coeff_map _ q m).symm.trans (congrArg (fun q ↦ MvPolynomial.coeff m q) hq)
+  (MvPolynomial.coeff_map _ q m).symm.trans (congrArg (fun q ↦ q.coeff m) hq)
 
 namespace CompatibleFirstOrderThickening
 

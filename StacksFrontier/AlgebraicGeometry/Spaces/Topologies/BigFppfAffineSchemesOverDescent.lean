@@ -173,7 +173,7 @@ theorem faithfullyFlat_pi_of_fppf (W : AffineSchemesOver T V) {ι : Type} [Finit
     have : Module.FaithfullyFlat R (ULift.{u + 1} B) :=
       Module.FaithfullyFlat.of_linearEquiv R B ULift.moduleEquiv
     have : IsScalarTower (ULift.{u + 1} R) R (ULift.{u + 1} B) :=
-      ⟨fun x y z => ULift.ext _ _ (mul_smul x.down y z.down)⟩
+      ⟨fun x y z => ULift.ext (mul_smul x.down y z.down)⟩
     exact Module.FaithfullyFlat.trans (ULift.{u + 1} R) R (ULift.{u + 1} B)
   have h2 := (RingHom.faithfullyFlat_algebraMap_iff).2 h1
   let eW : (ringPresheaf (T := T) (V := V)).obj (op W) ≃+* ULift.{u + 1} Γ(G.obj W.obj.left, ⊤) :=
@@ -364,6 +364,7 @@ theorem baseChangeIsSheaf (V₀ : T.Schemes)
       (isTerminalOfIso V₀ hV₀ e) :=
   fun M => isSheaf_baseChangePresheaf _ M
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The sheaf of modules `M^a` on the slice `(Spaces/X)_fppf/V`** attached to a module `M` over
 the ring of an affine scheme `V₀` identified with `V`: the unique sheaf of modules whose sections
 over an affine scheme `A` over `V` are `𝒪(A) ⊗_{𝒪(V₀)} M`. -/

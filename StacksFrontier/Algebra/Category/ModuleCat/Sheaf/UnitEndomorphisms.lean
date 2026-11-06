@@ -46,27 +46,27 @@ variable {T : C} (hT : IsTerminal T)
 /-- The sections of the structure sheaf over `T`, as a module over itself, are `O(T)`. -/
 def unitObjEquiv :
     (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).val.obj (op T) ≃
-      O.val.obj (op T) :=
+      O.obj.obj (op T) :=
   Equiv.refl _
 
 /-- Evaluation at `1` over the terminal object, `End(O) → O(T)`. -/
 def unitEndEval
     (f : End (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O))) :
-    O.val.obj (op T) :=
-  unitObjEquiv O ((f.val.app (op T)).hom ((unitObjEquiv O).symm 1))
+    O.obj.obj (op T) :=
+  unitObjEquiv O ((f.asHom.val.app (op T)).hom ((unitObjEquiv O).symm 1))
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- An endomorphism of the structure sheaf acts over `T` as multiplication by its value at `1`. -/
 lemma unit_app_eq
     (f : End (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)))
-    (x : O.val.obj (op T)) :
-    unitObjEquiv O ((f.val.app (op T)).hom ((unitObjEquiv O).symm x)) = x * unitEndEval O f := by
-  have h := (f.val.app (op T)).hom.map_smul
-    (show (Stacks.SheafOfModules.Tensor.ringSheaf O).val.obj (op T) from x)
+    (x : O.obj.obj (op T)) :
+    unitObjEquiv O ((f.asHom.val.app (op T)).hom ((unitObjEquiv O).symm x)) = x * unitEndEval O f := by
+  have h := (f.asHom.val.app (op T)).hom.map_smul
+    (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj (op T) from x)
     ((unitObjEquiv O).symm 1)
-  have h1 : (show (Stacks.SheafOfModules.Tensor.ringSheaf O).val.obj (op T)
+  have h1 : (show (Stacks.SheafOfModules.Tensor.ringSheaf O).obj.obj (op T)
       from x) • (unitObjEquiv O).symm 1 = (unitObjEquiv O).symm x :=
-    mul_one (show O.val.obj (op T) from x)
+    mul_one (show O.obj.obj (op T) from x)
   rw [h1] at h
   rw [h]
   rfl
@@ -75,22 +75,22 @@ lemma unit_app_eq
 terminal object is a ring isomorphism `End(O) ≃+* O(T)`. -/
 def unitEndRingEquiv :
     End (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) ≃+*
-      O.val.obj (op T) where
+      O.obj.obj (op T) where
   toFun := unitEndEval O (T := T)
-  invFun a :=
+  invFun a := End.of <|
     (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)).unitHomEquiv.symm
       ((FiniteTypeKernel.sectionsEquivOfTerminal
         (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) hT).symm
           ((unitObjEquiv O).symm a))
   left_inv f := by
-    change (_root_.SheafOfModules.unit
+    change End.of ((_root_.SheafOfModules.unit
         (Stacks.SheafOfModules.Tensor.ringSheaf O)).unitHomEquiv.symm
       ((FiniteTypeKernel.sectionsEquivOfTerminal
         (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) hT).symm
         (FiniteTypeKernel.sectionsEquivOfTerminal
           (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) hT
           ((_root_.SheafOfModules.unit
-            (Stacks.SheafOfModules.Tensor.ringSheaf O)).unitHomEquiv f))) = f
+            (Stacks.SheafOfModules.Tensor.ringSheaf O)).unitHomEquiv f.asHom)))) = f
     rw [Equiv.symm_apply_apply, Equiv.symm_apply_apply]
   right_inv a := by
     change unitObjEquiv O (FiniteTypeKernel.sectionsEquivOfTerminal
@@ -103,9 +103,9 @@ def unitEndRingEquiv :
             ((unitObjEquiv O).symm a))))) = a
     rw [Equiv.apply_symm_apply, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
   map_mul' f g := by
-    change unitObjEquiv O ((f.val.app (op T)).hom
+    change unitObjEquiv O ((f.asHom.val.app (op T)).hom
       ((unitObjEquiv O).symm
-        (unitObjEquiv O ((g.val.app (op T)).hom ((unitObjEquiv O).symm 1))))) =
+        (unitObjEquiv O ((g.asHom.val.app (op T)).hom ((unitObjEquiv O).symm 1))))) =
         unitEndEval O f * unitEndEval O g
     exact (unit_app_eq O f _).trans (mul_comm _ _)
   map_add' f g := rfl
@@ -119,7 +119,7 @@ lemma unitEndRingEquiv_apply
 
 /-- `ρ : O(T) → End(O)`, the inverse of evaluation at `1`, as a ring homomorphism. -/
 abbrev unitEndRingHom :
-    O.val.obj (op T) →+*
+    O.obj.obj (op T) →+*
       End (_root_.SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
   (unitEndRingEquiv O hT).symm.toRingHom
 

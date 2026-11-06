@@ -1121,7 +1121,7 @@ public theorem isIso_lift_representingHomOfChart (i : I) :
       (by simp only [Iso.refl_hom, Category.id_comp]; rfl)
       (by simp only [Iso.refl_hom, Category.id_comp]; rfl)
       (by simp only [Iso.refl_hom, Category.comp_id]; rfl)
-      (by simp)
+      (by simp; exact (Over.w w.inv).symm)
   have hcmp : IsIso (prodComparison (smallEtaleToOver B X) (V i) W) := inferInstance
   have hfst : (prod.lift ((smallEtaleToOver B X).map (A i).hom)
         ((smallEtaleToOver B X).map (representingHomOfChart B X F V A e C W w i))).left ≫
@@ -1225,7 +1225,7 @@ public lemma localSheafIso_compat (Z : SmallEtale B X.1 X.2) (i j : I)
   have hFF := smallEtaleToOverFullyFaithful B X
   refine Iso.ext ?_
   ext T s
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show ((localSheafIso B X F V A e C W w i).hom.hom.app
       (Opposite.op ((Over.map a).obj T.unop)) s).down =
     ((localSheafIso B X F V A e C W w j).hom.hom.app

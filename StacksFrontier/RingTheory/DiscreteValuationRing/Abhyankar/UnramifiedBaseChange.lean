@@ -143,7 +143,6 @@ private theorem isIntegralClosure_tensorProduct_of_smooth
           algebraMap S (S ⊗[R] K) s = (TensorProduct.toIntegralClosure R S K y).val := by
         clear hy
         induction y with
-        | zero => exact ⟨0, by simp⟩
         | add a b ha hb =>
           obtain ⟨s, hs⟩ := ha
           obtain ⟨t, ht⟩ := hb

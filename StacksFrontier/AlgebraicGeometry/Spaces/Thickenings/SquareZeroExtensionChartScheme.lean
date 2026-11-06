@@ -319,7 +319,7 @@ def chartSchemeExtension (V : SmallEtale B S hS X.1) :
     refine Eq.trans ?_ (E.smul_lift (op ((openChartFunctor B S hS X.1 V).obj W.unop)) a x)
     congr 1
     exact congrArg (fun r => ((E.I.val.obj (op ((openChartFunctor B S hS X.1 V).obj W.unop))).smul
-        r).hom x)
+        r).asHom x)
       (ConcreteCategory.congr_hom
         ((Scheme.restrictFunctorΓ (X := chartScheme V)).hom_inv_id_app W) _)
   square_zero W x y := E.square_zero _ x y

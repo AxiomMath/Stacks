@@ -949,14 +949,14 @@ is invertible. -/
 lemma inv_unit_naturality {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
     [HasDerivedCategory A] [HasDerivedCategory B] (Φ : A ⥤ B) [Φ.Additive] [EnoughInjectives A]
     {Y Z : HomotopyCategory.Plus A} (g : Y ⟶ Z)
-    [IsIso (Φ.rightDerivedFunctorPlusUnit.app Y)]
-    [IsIso (Φ.rightDerivedFunctorPlusUnit.app Z)] :
-    inv (Φ.rightDerivedFunctorPlusUnit.app Y) ≫
+    [IsIso (Φ.rightDerivedFunctorPlusUnith.app Y)]
+    [IsIso (Φ.rightDerivedFunctorPlusUnith.app Z)] :
+    inv (Φ.rightDerivedFunctorPlusUnith.app Y) ≫
         (Φ.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map g =
       Φ.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map g) ≫
-        inv (Φ.rightDerivedFunctorPlusUnit.app Z) := by
-  rw [← cancel_mono (Φ.rightDerivedFunctorPlusUnit.app Z), Category.assoc, Category.assoc,
-    IsIso.inv_hom_id, Category.comp_id, Φ.rightDerivedFunctorPlusUnit.naturality g,
+        inv (Φ.rightDerivedFunctorPlusUnith.app Z) := by
+  rw [← cancel_mono (Φ.rightDerivedFunctorPlusUnith.app Z), Category.assoc, Category.assoc,
+    IsIso.inv_hom_id, Category.comp_id, Φ.rightDerivedFunctorPlusUnith.naturality g,
     IsIso.inv_hom_id_assoc]
   rfl
 
@@ -975,11 +975,11 @@ lemma derivedPlusResolutionIso_naturality {A B : Type*} [Category* A] [Category*
         (derivedPlusResolutionIso Φ J).hom := by
   have hdI : (derivedPlusResolutionIso Φ I).hom =
       Φ.rightDerivedFunctorPlus.map (resolutionDerivedIso I).hom ≫
-        inv (Φ.rightDerivedFunctorPlusUnit.app
+        inv (Φ.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I))) := rfl
   have hdJ : (derivedPlusResolutionIso Φ J).hom =
       Φ.rightDerivedFunctorPlus.map (resolutionDerivedIso J).hom ≫
-        inv (Φ.rightDerivedFunctorPlusUnit.app
+        inv (Φ.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus J))) := rfl
   rw [hdI, hdJ, Category.assoc, inv_unit_naturality, ← Category.assoc, ← Functor.map_comp,
     resolutionDerivedIso_naturality f I J ψ hψ, Functor.map_comp, Category.assoc]

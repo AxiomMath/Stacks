@@ -42,11 +42,12 @@ namespace Stacks.Cohomology.SiteModules
 
 /-- **Multiplication by `c` on `R`-modules**, as an endomorphism of the identity functor of
 `ModuleCat R`. -/
-def smulEndId {R : Type t} [CommRing R] (c : R) : End (𝟭 (ModuleCat.{w'} R)) where
-  app M := c • 𝟙 M
-  naturality M N g := by
-    simp only [Functor.id_obj, Functor.id_map, Linear.comp_smul, Linear.smul_comp,
-      Category.comp_id, Category.id_comp]
+def smulEndId {R : Type t} [CommRing R] (c : R) : End (𝟭 (ModuleCat.{w'} R)) :=
+  .of
+    { app M := c • 𝟙 M
+      naturality M N g := by
+        simp only [Functor.id_obj, Functor.id_map, Linear.comp_smul, Linear.smul_comp,
+          Category.comp_id, Category.id_comp] }
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.HasSheafCompose (forget₂ CommRingCat.{r} RingCat.{r})]

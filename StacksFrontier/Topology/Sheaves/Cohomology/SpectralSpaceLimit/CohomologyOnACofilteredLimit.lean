@@ -217,6 +217,10 @@ abbrev sections (X : TopCat.{u}) (U : Opens X) :
 /-- Evaluation of an abelian sheaf on an open subset is an additive functor. -/
 instance (X : TopCat.{u}) (U : Opens X) : (sections.{u, w} X U).Additive := ⟨rfl⟩
 
+/-- Evaluation of an abelian sheaf on an open subset preserves zero morphisms. -/
+instance (X : TopCat.{u}) (U : Opens X) : (sections.{u, w} X U).PreservesZeroMorphisms :=
+  Functor.preservesZeroMorphisms_of_additive _
+
 /-- Pushforward of abelian sheaves along a continuous map is an additive functor. -/
 instance {X Y : TopCat.{u}} (f : X ⟶ Y) :
     (TopCat.Sheaf.pushforward AddCommGrpCat.{max u w} f).Additive := ⟨rfl⟩
@@ -237,10 +241,10 @@ def sectionsComplexMap {X Y : TopCat.{u}} (f : X ⟶ Y)
     {J : CochainComplex (X.Sheaf AddCommGrpCat.{max u w}) ℕ}
     (ψ : I ⟶ ((TopCat.Sheaf.pushforward AddCommGrpCat f).mapHomologicalComplex _).obj J)
     (V : Opens Y) (U : Opens X) (h : U ≤ (Opens.map f).obj V) :
-    ((sections Y V).mapHomologicalComplex _).obj I ⟶
-      ((sections X U).mapHomologicalComplex _).obj J :=
-  ((sections Y V).mapHomologicalComplex _).map ψ ≫
-    ((restrictSections f V U h).mapHomologicalComplex _).app J
+    ((sections.{u, w} Y V).mapHomologicalComplex _).obj I ⟶
+      ((sections.{u, w} X U).mapHomologicalComplex _).obj J :=
+  ((sections.{u, w} Y V).mapHomologicalComplex _).map ψ ≫
+    ((restrictSections.{u, w} f V U h).mapHomologicalComplex _).app J
 
 /-- A morphism on native sheaf cohomology is specified by a coherent identification with
 right-derived evaluation and a map of injective resolutions extending the additive `f`-map. -/

@@ -45,6 +45,7 @@ attribute [local instance] coherentAmbientMonoidal coherentAmbientBraided cohere
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {𝒳 : AlgebraicStacks.{u, w} B S hS} {R : Type u} [CommRing R]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0GRR.** Let `𝒳` be a Noetherian algebraic stack with affine diagonal (over `Spec ℤ`,
 as in the source), `R` a Noetherian ring (with `Spec R` in the site) and
 `F : Coh(𝒪_𝒳) ⥤ Mod^{fg}_R` a right exact tensor functor (additive, preserving finite colimits,

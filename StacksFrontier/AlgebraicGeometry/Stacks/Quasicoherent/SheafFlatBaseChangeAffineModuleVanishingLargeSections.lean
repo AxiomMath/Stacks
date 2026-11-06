@@ -66,7 +66,7 @@ abbrev structureSheafULift : Sheaf (associatedTopology B S hS p B.topology) Ring
       forget₂ CommRingCat RingCat,
     GrothendieckTopology.HasSheafCompose.isSheaf _
       (Stacks.UniverseLift.isSheaf_comp_commRingCatULift _
-        (structureSheaf B S hS p hp B.topology le_rfl).cond)⟩
+        (structureSheaf B S hS p hp B.topology le_rfl).property)⟩
 
 include E h in
 /-- **Higher module cohomology of `LQCoh^fbc` over an affine object vanishes**, at module

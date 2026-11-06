@@ -117,6 +117,18 @@ attribute [local instance] MorphismProperty.IsStableUnderBaseChange.respectsIso
   MorphismProperty.relative_isMultiplicative
   CategoryTheory.Functor.map_isIso
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_Effectivity (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_Effectivity
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **[Stacks, Tag 0E7R] for a tower of representable levels.** Let `A` be a complete local
 Noetherian ring and let `Fₙ` be algebraic spaces over the thickenings `Spec (A / 𝔪ⁿ⁺¹)` with
 cartesian squares, `F₀` proper of dimension at most one. If every `Fₙ` is representable, then the

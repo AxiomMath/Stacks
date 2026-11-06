@@ -100,7 +100,7 @@ theorem Ideal.exists_isMaximal_comap_eq_of_isLocalization
     rw [← Ideal.over_def (q.map (algebraMap B C)) (p.map (algebraMap A Ap))]
     infer_instance
   exact ⟨q.map (algebraMap B C),
-    Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := Ap) _ hunder,
+    Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := Ap) _ hunder,
     ⟨(IsLocalRing.eq_maximalIdeal hunder).symm⟩, IsLocalization.under_map_of_isPrime_disjoint
       (Algebra.algebraMapSubmonoid B p.primeCompl) C inferInstance hd⟩
 

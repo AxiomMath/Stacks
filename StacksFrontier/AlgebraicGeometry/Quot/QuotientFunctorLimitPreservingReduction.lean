@@ -59,6 +59,13 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 namespace QuotientSituation
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_QuotientFunctorLimitPreservingReduction
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The chart step over an affine base -/
 
 /-- A quasi-compact algebraic space has an affine scheme `U` with a surjective étale morphism

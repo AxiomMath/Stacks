@@ -164,11 +164,9 @@ theorem cancelBaseChange_symm_smul (c : A ⊗[R] B) (z : M ⊗[R] N) :
     (cancelBaseChange R A B M N).symm (c • z) =
       c • (cancelBaseChange R A B M N).symm z := by
   induction c with
-  | zero => rw [zero_smul, zero_smul, map_zero]
   | add c c' hc hc' => rw [add_smul, map_add, hc, hc', add_smul]
   | tmul a b =>
     induction z with
-    | zero => rw [smul_zero, map_zero, smul_zero]
     | add z z' hz hz' => rw [smul_add, map_add, hz, hz', map_add, smul_add]
     | tmul m n =>
       rw [pushoutModule_smul_tmul_tmul, cancelBaseChange_symm_tmul, cancelBaseChange_symm_tmul,

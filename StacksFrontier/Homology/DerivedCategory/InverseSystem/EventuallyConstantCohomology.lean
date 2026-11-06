@@ -145,7 +145,7 @@ theorem map_piLift_sub_comp_piComparison
           Pi.π (fun n : ℕ ↦ H.obj (X n)) (n + 1) ≫ H.map (τ n)) := by
   rw [map_piLift_comp_piComparison]
   refine Pi.hom_ext _ _ fun n ↦ ?_
-  rw [Pi.lift_π, Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+  rw [Pi.lift_comp_π, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
     piComparison_comp_π, H.map_sub, H.map_comp, ← Category.assoc,
     piComparison_comp_π]
 where
@@ -153,7 +153,7 @@ where
       [HasProduct fun n : ℕ ↦ H.obj (X n)] (w : ∀ n : ℕ, (∏ᶜ X) ⟶ X n) :
       H.map (Pi.lift w) ≫ piComparison H X = Pi.lift (fun n ↦ H.map (w n)) := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_π, Pi.lift_π]
+    rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_comp_π, Pi.lift_comp_π]
 
 /-- **An eventually constant tower computes the cohomology of its derived limit.** Let `(Fₙ)`
 be an inverse system in `D(A)` presented as a derived limit by a distinguished triangle with

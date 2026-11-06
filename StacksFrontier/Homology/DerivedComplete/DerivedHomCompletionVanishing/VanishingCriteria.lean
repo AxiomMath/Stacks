@@ -150,9 +150,9 @@ private theorem isIso_map_productDifference_iff
       piComparison F (fun _ : ℕ => K) ≫ Pi.lift fun n : ℕ =>
         Pi.π (fun _ : ℕ => F.obj K) n - f • Pi.π (fun _ : ℕ => F.obj K) (n + 1) := by
     refine Pi.hom_ext _ _ fun n => ?_
-    simp only [Category.assoc, piComparison_comp_π, Pi.lift_π,
+    simp only [Category.assoc, piComparison_comp_π, Pi.lift_comp_π,
       Preadditive.comp_sub, Linear.comp_smul]
-    rw [← F.map_comp, Pi.lift_π, F.map_sub, F.map_smul]
+    rw [← F.map_comp, Pi.lift_comp_π, F.map_sub, F.map_smul]
   rw [← isIso_comp_right_iff _ (piComparison F (fun _ : ℕ => K)), hcomp,
     isIso_comp_left_iff]
 
@@ -232,28 +232,28 @@ private theorem derivedLimitZero_iff_forall_homologyLimitZero
 
 private theorem exists_smul_eq_id_of_iso {R : Type*} [CommRing R] {C : Type*} [Category C]
     [Preadditive C] [Linear R C] (f : R) {X Y : C} (i : X ≅ Y) (v : End Y)
-    (hv : f • v = 𝟙 Y) : ∃ u : End X, f • u = 𝟙 X := by
-  refine ⟨i.hom ≫ v ≫ i.inv, ?_⟩
-  show f • (i.hom ≫ v ≫ i.inv) = 𝟙 X
+    (hv : f • v.asHom = 𝟙 Y) : ∃ u : End X, f • u.asHom = 𝟙 X := by
+  refine ⟨.of (i.hom ≫ v.asHom ≫ i.inv), ?_⟩
+  show f • (i.hom ≫ v.asHom ≫ i.inv) = 𝟙 X
   rw [← Linear.comp_smul, ← Linear.smul_comp, hv, Category.id_comp, Iso.hom_inv_id]
 
 private theorem eq_zero_of_isIso_difference {R : Type*} [CommRing R] {C : Type*} [Category C]
     [Preadditive C] [Linear R C] (f : R) {E K : C} [HasProduct fun _ : ℕ => K]
-    (u : End E) (hu : f • u = 𝟙 E) (φ : E ⟶ K)
+    (u : End E) (hu : f • u.asHom = 𝟙 E) (φ : E ⟶ K)
     [IsIso (Pi.lift fun n : ℕ =>
       Pi.π (fun _ : ℕ => K) n - f • Pi.π (fun _ : ℕ => K) (n + 1))] :
     φ = 0 := by
   set d : (∏ᶜ fun _ : ℕ => K) ⟶ ∏ᶜ fun _ : ℕ => K := Pi.lift fun n : ℕ =>
     Pi.π (fun _ : ℕ => K) n - f • Pi.π (fun _ : ℕ => K) (n + 1) with hd
-  have hψ : (Pi.lift fun n : ℕ => (u ^ n : End E) ≫ φ) ≫
+  have hψ : (Pi.lift fun n : ℕ => (u ^ n : End E).asHom ≫ φ) ≫
       d = (0 : E ⟶ ∏ᶜ fun _ : ℕ => K) ≫ d := by
     rw [hd]
     apply Pi.hom_ext
     intro n
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, Linear.comp_smul,
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Linear.comp_smul,
       zero_comp]
-    rw [sub_eq_zero, ← Linear.smul_comp, pow_succ', End.mul_def]
-    have hcomp : (f • ((u ^ n : End E) ≫ u)) = (u ^ n : End E) := by
+    rw [sub_eq_zero, ← Linear.smul_comp, pow_succ', End.mul_asHom]
+    have hcomp : (f • ((u ^ n : End E).asHom ≫ u.asHom)) = (u ^ n : End E).asHom := by
       rw [← Linear.comp_smul, hu, Category.comp_id]
     rw [hcomp]
   have := (cancel_mono _).1 hψ
@@ -262,10 +262,10 @@ private theorem eq_zero_of_isIso_difference {R : Type*} [CommRing R] {C : Type*}
 private theorem exists_smul_eq_id_restrictScalars_complex (A : Type u) [CommRing A] (f : A)
     (M : CochainComplex (ModuleCat.{u} (Localization.Away f)) ℤ) :
     ∃ w : End (((ModuleCat.restrictScalars.{u} (algebraMap A (Localization.Away f))
-      ).mapHomologicalComplex (ComplexShape.up ℤ)).obj M), f • w = 𝟙 _ := by
-  refine ⟨((ModuleCat.restrictScalars.{u} (algebraMap A (Localization.Away f))
+      ).mapHomologicalComplex (ComplexShape.up ℤ)).obj M), f • w.asHom = 𝟙 _ := by
+  refine ⟨.of (((ModuleCat.restrictScalars.{u} (algebraMap A (Localization.Away f))
       ).mapHomologicalComplex (ComplexShape.up ℤ)).map
-    ((IsLocalization.Away.invSelf (S := Localization.Away f) f) • 𝟙 M), ?_⟩
+    ((IsLocalization.Away.invSelf (S := Localization.Away f) f) • 𝟙 M)), ?_⟩
   apply HomologicalComplex.hom_ext
   intro n
   apply ModuleCat.hom_ext
@@ -286,13 +286,14 @@ private theorem exists_smul_eq_id_restrictScalars_complex (A : Type u) [CommRing
 private theorem exists_smul_eq_id_restrictScalars_derived (A : Type u) [CommRing A] (f : A)
     (E : DerivedCategory (ModuleCat.{u} (Localization.Away f))) :
     ∃ z : End ((ModuleCat.restrictScalars.{u} (algebraMap A (Localization.Away f))
-      ).mapDerivedCategory.obj E), f • z = 𝟙 _ := by
+      ).mapDerivedCategory.obj E), f • z.asHom = 𝟙 _ := by
   let F := ModuleCat.restrictScalars.{u} (algebraMap A (Localization.Away f))
   obtain ⟨w, hw⟩ := exists_smul_eq_id_restrictScalars_complex A f
     (DerivedCategory.Q.objPreimage E)
   refine exists_smul_eq_id_of_iso f
     (F.mapDerivedCategory.mapIso (DerivedCategory.Q.objObjPreimageIso E).symm ≪≫
-      F.mapDerivedCategoryFactors.app _) (DerivedCategory.Q.map w) ?_
+      F.mapDerivedCategoryFactors.app _) (.of (DerivedCategory.Q.map w.asHom)) ?_
+  show f • DerivedCategory.Q.map w.asHom = _
   rw [← Functor.map_smul, hw]
   exact DerivedCategory.Q.map_id _
 

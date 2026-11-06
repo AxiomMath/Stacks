@@ -377,7 +377,7 @@ theorem isZero_ext_unit_iff_isZero_ext_uliftUnit (𝒳 : AlgebraicStacks.{u, w} 
   let := enoughInjectives_moduleRingSheaf B S hS 𝒳 τ
   have : HasExt.{u + 1} (SheafOfModules.{u}
       (Stacks.RelativeCech.moduleRingSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids τ)) :=
-    hasExt_of_enoughInjectives.{u + 1} _
+    @hasExt_of_enoughInjectives.{u + 1} _ _ _ (locallySmall_self _) ‹_›
   exact Iff.trans ⟨isZero_extFunctorObj_of_isZero_chgUniv _ _ i,
     isZero_extFunctorObj_of_isZero_chgUniv _ _ i⟩
     ((stackModuleCohomologyULiftIso τ 𝒳 i).app N).isZero_iff

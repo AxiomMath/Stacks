@@ -124,7 +124,7 @@ theorem chartLocalRingToEtaleLocalRing_germ_open {x : GeometricPoint B S hS X}
     ⟨Over.mk (ObjectProperty.homMk W.ι : E.obj W.toScheme hWsize ⟶ E.obj Y hV), by
       show Etale W.ι
       infer_instance⟩
-  let n : (geometricPointFiber E Y hV g).Elementsᵒᵖ := op ⟨W', pt, hpt⟩
+  let n : (geometricPointFiber E Y hV g).Elementsᵒᵖ := op ((geometricPointFiber E Y hV g).elementsMk W' ⟨pt, hpt⟩)
   let pW : W.toScheme := pt (closedPoint g.residueField)
   have hpW : W.ι pW = chartPoint B S hS X V :=
     (Scheme.Hom.comp_apply pt W.ι _).symm.trans

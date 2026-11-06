@@ -236,7 +236,7 @@ theorem preimage_eq_subschemePoints_of_isCutOutBy {Z : Subfunctor X}
   · obtain ⟨ι, V', π, hV', hπ, hcov⟩ := exists_affine_open_family T.unop
     rw [mem_preimage_iff_map]
     refine hZ.mem_of_family _ π (fun k => by have := hπ k; infer_instance) hcov fun k => ?_
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← mem_preimage_iff_map]
+    rw [← Functor.map_comp_apply, ← op_comp, ← mem_preimage_iff_map]
     exact (haff _ (hV' k) _).2 ((subschemePoints B S hS _).map (π k).op ht)
 
 /-! ### The sheaf property -/
@@ -411,7 +411,7 @@ theorem preimage_eq_subschemePoints_sigma {Z : Subfunctor X} (hZ : IsEtaleLocalO
     show g.app T t ∈ Z.obj T
     rw [← map_op_yonedaEquiv]
     refine hZ.mem_of_family _ π (fun k => by have := hπ k; infer_instance) hπcov fun k => ?_
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← mem_preimage_iff_map, ← hs k,
+    rw [← Functor.map_comp_apply, ← op_comp, ← mem_preimage_iff_map, ← hs k,
       ← mem_preimage_comp_iff, hY k, mem_subschemePoints_mk_iff]
     have hpb := sigmaMap_component_pullback Y (fun i => (BigFppfOver.toScheme B S hS).obj (W i))
       f k

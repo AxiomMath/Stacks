@@ -60,7 +60,7 @@ theorem MvPolynomial.natDegree_aeval_X_le {R σ : Type*} [CommRing R] (P : MvPol
   rw [MvPolynomial.aeval_def, MvPolynomial.eval₂_eq]
   refine Polynomial.natDegree_sum_le_of_forall_le _ _ fun d hd => ?_
   refine (Polynomial.natDegree_mul_le).trans ?_
-  rw [show (algebraMap R (Polynomial R) (MvPolynomial.coeff d P)).natDegree = 0 from
+  rw [show (algebraMap R (Polynomial R) (P.coeff d)).natDegree = 0 from
     Polynomial.natDegree_C _, zero_add]
   refine (Polynomial.natDegree_prod_le _ _).trans ?_
   refine (Finset.sum_le_sum fun i _ => Polynomial.natDegree_pow_le_of_le _

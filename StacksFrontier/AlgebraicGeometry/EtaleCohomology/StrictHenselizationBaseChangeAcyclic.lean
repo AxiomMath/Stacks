@@ -59,7 +59,7 @@ abbrev strictHenselizationDirectedLimitCone :
 def isLimitStrictHenselizationDirectedLimitCone :
     IsLimit (strictHenselizationDirectedLimitCone B S hS s U hU f) :=
   IsLimit.ofIsoLimit (isLimitEtaleNeighborhoodDirectedBaseChangeCone B S hS s U hU f)
-    (Cones.ext (etaleNeighborhoodDirectedBaseChangeConePtIso B S hS s U hU f) (fun _ => by simp))
+    (Cone.ext (etaleNeighborhoodDirectedBaseChangeConePtIso B S hS s U hU f) (fun _ => by simp))
 
 /-- The projection from `X ×_S Spec(𝒪^{sh}_{S,s})` to `X_U`. -/
 abbrev strictHenselizationToSourceOverOpen :

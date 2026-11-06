@@ -95,6 +95,14 @@ theorem isIso_restrictionBaseChange_affineRestriction_iff
     (Over.forget U) (bigFppfRingSheaf T X) N ((toSlice T U).op.map k.op)
   exact h₁.trans h₂
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_bigFppfAffineCartesianModules
+    (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver T.schemeSite S T.scheme_mem)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-- **A sheaf of modules presented over an affine scheme `W` over `U` is cartesian over every
 morphism of affine schemes into `W`.** -/
 theorem isIso_restrictionBaseChange_of_hasGlobalPresentation

@@ -464,7 +464,6 @@ theorem stalkFibreDegreewise_app
               (Sheaf.Γ (smallEtaleTopology (geometricFibre f s)) Ab.{u + 1}))).app J) := by
   rw [← DerivedCategory.Qh.map_comp, ← DerivedCategory.Qh.map_comp,
     Stacks.DerivedFunctor.mapHomotopyCategoryOfComp_comp_three, stalkFibreDegreewise_eq]
-  rfl
 
 /-- **The composition clause of Stacks 0GIX, at a complex.** Precomposed with the unit of the
 derivation of direct image, the composite of the two canonical maps of Stacks 0GIX and the usual

@@ -91,6 +91,13 @@ attribute [local instance] pointTopology
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_relativeDimensionDenseOpen
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ R) (g : Q ⟶ R) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Transporting the open subspace to a chart -/
 
 /-- The points of an open subspace form an open subset of the points of the ambient algebraic
@@ -378,6 +385,7 @@ private theorem exists_chart_fiberDimension_le (hX : IsAlgebraicSpace B S hS X)
 
 /-! ### The theorem -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0878.** A flat morphism of algebraic spaces over `S` locally of finite type has
 relative dimension at most `d` if its restriction over a dense open subspace of the target does,
 provided the morphism is locally of finite presentation or the open immersion is quasi-compact. -/

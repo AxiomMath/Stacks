@@ -246,7 +246,7 @@ theorem preservesLimitsOfShape_of_hasEnoughObjects
           simp only [Functor.mapCone_π_app, Functor.comp_map, ← Functor.map_comp]
           exact congrArg _ h }
     have _ := IsLimit.hom_isIso h₁ h₂ φ
-    exact inferInstanceAs (IsIso ((Cones.forget _).map φ))
+    exact inferInstanceAs (IsIso ((Cone.forget _).map φ))
   have _ : Mono ((limit.isLimit (K ⋙ Φ)).lift (Φ.mapCone c)) :=
     mono_of_hasEnoughObjects hB _ fun V hV ↦ by
       have _ := key hV

@@ -77,7 +77,7 @@ abbrev diagonalScalar (a : Γ(X, ⊤)) :
     Stacks.RelativeSpec.AlgebraSheaf.moduleOfAlgebra D.diagonalAlgebra ⟶
       Stacks.RelativeSpec.AlgebraSheaf.moduleOfAlgebra D.diagonalAlgebra :=
   (Stacks.SheafOfModules.terminalSectionToEnd D.W.ringCatSheaf ⊤ isTerminalTop
-    (D.proj.appTop a)).app _
+    (D.proj.appTop a)).asHom.app _
 
 /-- **A scalar of `Γ(X, 𝒪_X)` acting on `Δ_*𝒪_X` in `D(𝒪_W)` is the image of its action on the
 module.** -/

@@ -97,7 +97,7 @@ theorem exists_linearEquiv_sheafFiber_of_isLocallyConstantWith (Q : ModuleCat.{u
   have : ∀ V : Y.Etale, (Y.smallEtaleTopology.over V).WEqualsLocallyBijective
       (ModuleCat.{u + 1} Λ) := fun _ =>
     Stacks.ConstantSheaf.wEqualsLocallyBijective_moduleCat.{u, u + 1, u + 1, 0} _ Λ
-  obtain ⟨⟨X, x⟩⟩ : Nonempty Φ.fiber.Elements := IsCofiltered.nonempty
+  obtain ⟨@⟨X, x⟩⟩ : Nonempty Φ.fiber.Elements := IsCofiltered.nonempty
   obtain ⟨I, V, f, hcov, htriv⟩ := hN X
   obtain ⟨Y₀, g, ⟨Z, p, q, ⟨i⟩, rfl⟩, y₀, -⟩ := Φ.jointly_surjective _ hcov x
   obtain ⟨E, hE, ⟨e⟩⟩ := htriv i

@@ -80,7 +80,7 @@ def cechNerveTerminalFromCompIso (A : D) :
       refine Limits.Pi.hom_ext _ _ fun k => ?_
       simp only [Functor.comp_map, PreservesProduct.iso_hom]
       dsimp only [cechNerveTerminalFrom]
-      simp only [Category.assoc, piComparison_comp_π, Limits.Pi.lift_π, ← G.map_comp])
+      simp only [Category.assoc, piComparison_comp_π, Limits.Pi.lift_comp_π, ← G.map_comp])
 
 end PreservesProducts
 

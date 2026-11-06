@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.UniversallyClosed
+public import Mathlib.AlgebraicGeometry.Morphisms.Immersion
 public import Mathlib.AlgebraicGeometry.ValuativeCriterion
 import StacksCore.Tactic.StacksAttribute
 

@@ -240,7 +240,7 @@ lemma cechCosimplicial_map_comp_π {m n : SimplexCategory} (θ : m ⟶ n)
     (cechCosimplicial X E).map θ ≫ Pi.π (cechFactor X E (n := n.len)) i =
       Pi.π (cechFactor X E (n := m.len)) (i ∘ θ.toOrderHom) ≫ (coindPresheaf X).map (Pi.lift
         fun a ↦ Pi.π (fun b ↦ Over.mk (E.f (i b))) (θ.toOrderHom a)).left.op :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 omit [IsAffine U.left] [Finite E.I₀] [∀ (k : E.I₀), IsAffine (E.X k).left] in
 /-- Elementwise form of `cechCosimplicial_map_comp_π`. -/
@@ -269,6 +269,7 @@ def cechCosimplicialIso :
     rw [cechFactorEquiv_map, map_prodHomeomorph_symm]
     rfl)
 
+set_option synthInstance.maxHeartbeats 80000 in
 include hX in
 /-- **The positive-degree Čech cohomology of the coinduced sheaf along a finite affine covering
 vanishes**, for a pro-discrete module. -/

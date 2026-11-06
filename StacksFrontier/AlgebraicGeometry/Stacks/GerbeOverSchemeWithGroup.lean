@@ -80,7 +80,7 @@ def IsGerbeOverSchemeWithGroup (𝒳 : Stack.AlgebraicStacks.{u, w} B S hS) (G :
     ∃ band : ∀ x : 𝒳.val.val.obj, 𝒳.val.val.p.verticalAut x ≃* (baseOver x ⟶ G),
       ∀ (x y : 𝒳.val.val.obj) (f : x ⟶ y) (a : 𝒳.val.val.p.verticalAut x)
         (b : 𝒳.val.val.p.verticalAut y),
-        (a : Aut x).hom ≫ f = f ≫ (b : Aut y).hom →
+        (a : Aut x).asIso.hom ≫ f = f ≫ (b : Aut y).asIso.hom →
           (band x a).left = (𝒳.val.val.p.map f).left.hom ≫ (band y b).left
 
 end AlgebraicGeometry.Stack.AlgebraicStacks

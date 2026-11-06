@@ -373,14 +373,14 @@ remark's reason, and for an `(A, n, c)`-module and `a ∈ I^c` it is
 theorem kernel_map_pullbackDualMap_smul_eq_zero
     (hs : ∃ (r : ℕ) (α : F ⟶ finFreeSheaf Y r) (β : finFreeSheaf Y r ⟶ F),
       α ≫ β = (Stacks.SheafOfModules.terminalSectionToEnd
-        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).app F) :
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).asHom.app F) :
     kernel.map (pullbackDualMap f F) (pullbackDualMap f F)
         ((ringedSitePullback f).map (dualModuleSheafMap Y
           ((Stacks.SheafOfModules.terminalSectionToEnd
-            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).app F)))
+            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).asHom.app F)))
         (dualModuleSheafMap X ((ringedSitePullback f).map
           ((Stacks.SheafOfModules.terminalSectionToEnd
-            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).app F)))
+            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).asHom.app F)))
         (pullbackDualMap_naturality f _) = 0 :=
   kernel_map_pullbackDualMap_eq_zero f _ hs
 
@@ -390,14 +390,14 @@ of modules annihilates the cokernel of `can`.**  The cokernel half of
 theorem cokernel_map_pullbackDualMap_smul_eq_zero
     (hs : ∃ (r : ℕ) (α : F ⟶ finFreeSheaf Y r) (β : finFreeSheaf Y r ⟶ F),
       α ≫ β = (Stacks.SheafOfModules.terminalSectionToEnd
-        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).app F) :
+        ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).asHom.app F) :
     cokernel.map (pullbackDualMap f F) (pullbackDualMap f F)
         ((ringedSitePullback f).map (dualModuleSheafMap Y
           ((Stacks.SheafOfModules.terminalSectionToEnd
-            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).app F)))
+            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).asHom.app F)))
         (dualModuleSheafMap X ((ringedSitePullback f).map
           ((Stacks.SheafOfModules.terminalSectionToEnd
-            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).app F)))
+            ((Stacks.SheafOfModules.Tensor.ringSheaf (J := Y.J)) Y.O) T hT s).asHom.app F)))
         (pullbackDualMap_naturality f _) = 0 :=
   cokernel_map_pullbackDualMap_eq_zero f _ hs
 

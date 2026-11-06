@@ -3,6 +3,7 @@ module
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Basic
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.Basic
 public import Mathlib.CategoryTheory.Generator.Basic
+public import Mathlib.CategoryTheory.Preadditive.LeftExact
 public import StacksFrontier.AlgebraicGeometry.Properties.GabberResult.Abelian
 import StacksCore.Tactic.EgaSgaAttribute
 

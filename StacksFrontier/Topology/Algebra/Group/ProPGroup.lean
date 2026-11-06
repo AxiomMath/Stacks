@@ -4,6 +4,8 @@ public import Mathlib.GroupTheory.Sylow
 public import Mathlib.Topology.Algebra.OpenSubgroup
 import Mathlib.CategoryTheory.CofilteredSystem
 import Mathlib.Topology.Algebra.ClopenNhdofOne
+import Mathlib.Topology.Algebra.Group.Pointwise
+import Mathlib.Topology.Separation.Regular
 
 /-!
 # Pro-`p` groups and maximal pro-`p` subgroups
@@ -95,6 +97,12 @@ namespace IsMaximalProPSubgroup
 
 variable {p : ℕ} [hp : Fact p.Prime] {G : Type u} [Group G] [TopologicalSpace G]
   [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] {H : Subgroup G}
+
+/-- A compact totally disconnected topological group is zero-dimensional. -/
+private instance : ZeroDimensionalSpace G :=
+  haveI : T2Space G := IsTopologicalGroup.t2Space_iff_one_closed.mpr
+    (connectedComponent_eq_singleton (1 : G) ▸ isClosed_connectedComponent)
+  inferInstance
 
 /-- The map between the quotients by two nested normal subgroups. -/
 private abbrev quotMap {N N' : Subgroup G} [N.Normal] [N'.Normal] (h : N ≤ N') :

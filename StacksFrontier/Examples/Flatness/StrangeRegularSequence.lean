@@ -149,7 +149,7 @@ private theorem genOps_comm (a : Module.End ℚ Ex) (ha : a ∈ genOps)
 private abbrev ExAlg := Subring.closure genOps
 
 private theorem exAlgComm : IsMulCommutative ExAlg :=
-  Subring.isMulCommutative_closure genOps_comm
+  Subring.isMulCommutative_closure fun a ha b hb _ => genOps_comm a ha b hb
 
 open scoped IsMulCommutative in
 private noncomputable instance instExAlgCommRing : CommRing ExAlg := by
@@ -339,7 +339,7 @@ private theorem proj0_qEmbed (v : ℤ →₀ ℚ) : proj0 (qEmbed v) = v := by
   ext j
   rw [proj0_apply]
   show (Finsupp.mapDomain qzero v) (.q 0 j) = v j
-  simpa [qzero] using Finsupp.mapDomain_apply qzero_injective v j
+  simpa [qzero] using Finsupp.mapDomain_apply_of_injective qzero_injective v j
 
 private noncomputable def shiftDown : (ℤ →₀ ℚ) →ₗ[ℚ] (ℤ →₀ ℚ) :=
   Finsupp.lmapDomain ℚ ℚ (fun j : ℤ => j - 1)
@@ -353,7 +353,7 @@ private theorem shiftDown_apply (v : ℤ →₀ ℚ) (j : ℤ) : shiftDown v j =
   calc
     (Finsupp.mapDomain (fun k : ℤ => k - 1) v) j =
         (Finsupp.mapDomain (fun k : ℤ => k - 1) v) ((j + 1) - 1) := by congr 1; omega
-    _ = v (j + 1) := by rw [Finsupp.mapDomain_apply hi v (j + 1)]
+    _ = v (j + 1) := by rw [Finsupp.mapDomain_apply_of_injective hi v (j + 1)]
 
 private theorem exXY_span_eq_top :
     (Ideal.ofList [(MvPolynomial.X 0 : MvPolynomial (Fin 3) ℚ),
@@ -493,13 +493,13 @@ private theorem pBasis_pos_action_coeff (f : MvPolynomial (Fin 3) ℚ) :
             simp [p00Coeff]
 
 private theorem p00Coeff_smul_basis0 (f : MvPolynomial (Fin 3) ℚ) :
-    p00Coeff (f • pBasis 0) = MvPolynomial.coeff 0 f := by
+    p00Coeff (f • pBasis 0) = f.coeff 0 := by
   induction f using MvPolynomial.induction_on with
   | C r => rw [exC_smul]; simp [p00Coeff, p00, pBasis]
   | add f g hf hg =>
       rw [add_smul]
       show p00Coeff (f • pBasis 0) + p00Coeff (g • pBasis 0) =
-        MvPolynomial.coeff 0 f + MvPolynomial.coeff 0 g
+        f.coeff 0 + g.coeff 0
       rw [hf, hg]
   | mul_X f n hf =>
       rw [mul_smul]
@@ -508,20 +508,20 @@ private theorem p00Coeff_smul_basis0 (f : MvPolynomial (Fin 3) ℚ) :
           rw [exX_smul, opX_pBasis]
           have hcoeff : p00Coeff (f • pBasis 1) = 0 :=
             pBasis_pos_action_coeff f 1 (by omega)
-          show p00Coeff (f • pBasis 1) = MvPolynomial.coeff 0 (f * MvPolynomial.X 0)
+          show p00Coeff (f • pBasis 1) = (f * MvPolynomial.X 0).coeff 0
           rw [hcoeff]
           simp [MvPolynomial.coeff_mul]
       | succ j =>
           by_cases hj : j = 0
           · subst j
             show p00Coeff (f • ((MvPolynomial.X 1 : MvPolynomial (Fin 3) ℚ) • pBasis 0)) =
-              MvPolynomial.coeff 0 (f * MvPolynomial.X 1)
+              (f * MvPolynomial.X 1).coeff 0
             rw [exY_smul, opY_pBasis]
             simp [p00Coeff, MvPolynomial.coeff_mul]
           · have hj2 : j = 1 := by omega
             subst j
             show p00Coeff (f • ((MvPolynomial.X 2 : MvPolynomial (Fin 3) ℚ) • pBasis 0)) =
-              MvPolynomial.coeff 0 (f * MvPolynomial.X 2)
+              (f * MvPolynomial.X 2).coeff 0
             rw [exZ_smul, opZ_pBasis]
             simp [p00Coeff, MvPolynomial.coeff_mul]
 
@@ -817,18 +817,15 @@ private theorem ext_main :
         aug ((c : StrangeExt)) * aug (u.2 : StrangeExt) :=
       map_mul aug (c : StrangeExt) (u.2 : StrangeExt)
     have : aug c * aug u.2 = 0 := by
-      have hcoeffZero' : MvPolynomial.coeff 0
-          (TrivSqZeroExt.fst ((c : StrangeExt) * (u.2 : StrangeExt))) = 0 := by
+      have hcoeffZero' : (TrivSqZeroExt.fst ((c : StrangeExt) * (u.2 : StrangeExt))).coeff 0 = 0 := by
         rw [← hconstant]
         exact hcoeffZero
       have hprod' : aug ((c : StrangeExt) * (u.2 : StrangeExt)) =
-          MvPolynomial.coeff 0
-            (TrivSqZeroExt.fst ((c : StrangeExt) * (u.2 : StrangeExt))) := by
+          (TrivSqZeroExt.fst ((c : StrangeExt) * (u.2 : StrangeExt))).coeff 0 := by
         simp [aug, MvPolynomial.constantCoeff_eq]
       calc
         aug c * aug u.2 = aug ((c : StrangeExt) * (u.2 : StrangeExt)) := hprod.symm
-        _ = MvPolynomial.coeff 0
-            (TrivSqZeroExt.fst ((c : StrangeExt) * (u.2 : StrangeExt))) := hprod'
+        _ = (TrivSqZeroExt.fst ((c : StrangeExt) * (u.2 : StrangeExt))).coeff 0 := hprod'
         _ = 0 := hcoeffZero'
     exact (mul_ne_zero hauC hauU) this
   have hδ : δ ≠ 0 := fun hzero => hnot (Ideal.Quotient.eq_zero_iff_mem.mp hzero)

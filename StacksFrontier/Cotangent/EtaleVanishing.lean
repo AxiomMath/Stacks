@@ -134,7 +134,6 @@ theorem bijective_algebraMap_tensorProduct_of_surjective
   · have hmul := congrArg (Algebra.TensorProduct.lmul' (S := B) A) hxy
     simpa using hmul
   · induction z with
-    | zero => exact ⟨0, map_zero _⟩
     | tmul b b' =>
         obtain ⟨a, rfl⟩ := h b'
         refine ⟨algebraMap A B a * b, ?_⟩

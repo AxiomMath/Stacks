@@ -185,59 +185,59 @@ public noncomputable def associatedProjection
     (𝓕 : BasedCategory.{v₁, u₁} (C))
     (h𝓕 : IsCofiberedInGroupoids 𝓕.p) :
     BasedFunctor 𝓕 (BasedCategory.ofFunctor
-      (CategoryOfElements.π (associatedClassesFunctor 𝓕 h𝓕))) := by
+      (Functor.Elements.π (associatedClassesFunctor 𝓕 h𝓕))) := by
   classical
   let F := associatedClassesFunctor 𝓕 h𝓕
   refine {
     toFunctor := {
       obj := fun a => Functor.elementsMk F (𝓕.p.obj a)
         (Quotient.mk _ (Fiber.mk rfl : Fiber 𝓕.p (𝓕.p.obj a)))
-      map := fun {a b} f => CategoryOfElements.homMk _ _ (𝓕.p.map f)
+      map := fun {a b} f => Functor.Elements.homMk (𝓕.p.map f)
         (associatedClasses_map_lift 𝓕 h𝓕 (𝓕.p.map f) f rfl rfl (by infer_instance))
-      map_id a := CategoryOfElements.ext _ _ _ (𝓕.p.map_id a)
-      map_comp f g := CategoryOfElements.ext _ _ _ (𝓕.p.map_comp f g) }
+      map_id a := Functor.Elements.hom_ext (𝓕.p.map_id a)
+      map_comp f g := Functor.Elements.hom_ext (𝓕.p.map_comp f g) }
     w := rfl }
 
 /-- A fibre of the projection from the category of elements of a type-valued functor has at most
 one morphism between any two objects. -/
 public theorem elementsFiber_isThin {𝒞 : Type u₂} [Category.{v₂} 𝒞]
     (F : 𝒞 ⥤ Type u₁) (A : 𝒞) :
-    Quiver.IsThin (Fiber (CategoryOfElements.π F) A) := by
-  refine fun x y => ⟨fun f g => Fiber.hom_ext (CategoryOfElements.ext _ _ _ ?_)⟩
-  have : (CategoryOfElements.π F).IsHomLift (𝟙 A) f.1 := f.2
-  have : (CategoryOfElements.π F).IsHomLift (𝟙 A) g.1 := g.2
-  exact (IsHomLift.fac' (CategoryOfElements.π F) (𝟙 A) f.1).trans
-    (IsHomLift.fac' (CategoryOfElements.π F) (𝟙 A) g.1).symm
+    Quiver.IsThin (Fiber (Functor.Elements.π F) A) := by
+  refine fun x y => ⟨fun f g => Fiber.hom_ext (Functor.Elements.hom_ext ?_)⟩
+  have : (Functor.Elements.π F).IsHomLift (𝟙 A) f.1 := f.2
+  have : (Functor.Elements.π F).IsHomLift (𝟙 A) g.1 := g.2
+  exact (IsHomLift.fac' (Functor.Elements.π F) (𝟙 A) f.1).trans
+    (IsHomLift.fac' (Functor.Elements.π F) (𝟙 A) g.1).symm
 
 /-- Isomorphic objects of a fibre of the projection from the category of elements of a
 type-valued functor are equal. -/
 public theorem elementsFiber_skeletal {𝒞 : Type u₂} [Category.{v₂} 𝒞]
-    (F : 𝒞 ⥤ Type u₁) (A : 𝒞) : Skeletal (Fiber (CategoryOfElements.π F) A) := by
-  rintro ⟨⟨X, q⟩, hx⟩ ⟨⟨Y, r⟩, hy⟩ ⟨e⟩
+    (F : 𝒞 ⥤ Type u₁) (A : 𝒞) : Skeletal (Fiber (Functor.Elements.π F) A) := by
+  rintro ⟨@⟨X, q⟩, hx⟩ ⟨@⟨Y, r⟩, hy⟩ ⟨e⟩
   change X = A at hx
   change Y = A at hy
   subst X Y
-  have : (CategoryOfElements.π F).IsHomLift (𝟙 A) e.hom.1 := e.hom.2
-  have hbase : (e.hom.1).val = 𝟙 A := by
-    simpa [CategoryOfElements.π] using IsHomLift.fac' (CategoryOfElements.π F) (𝟙 A) e.hom.1
-  obtain rfl : q = r := by simpa [hbase] using (e.hom.1).2
+  have : (Functor.Elements.π F).IsHomLift (𝟙 A) e.hom.1 := e.hom.2
+  have hbase : (e.hom.1).hom = 𝟙 A := by
+    simpa [Functor.Elements.π] using IsHomLift.fac' (Functor.Elements.π F) (𝟙 A) e.hom.1
+  obtain rfl : q = r := by simpa [hbase] using (e.hom.1).map_val
   rfl
 
 /-- The element of `F.obj A` represented by an object of the fibre over `A` of the category of
 elements of `F`. -/
 public def elementsFiberValue {𝒞 : Type u₂} [Category.{v₂} 𝒞]
     (F : 𝒞 ⥤ Type u₁) (A : 𝒞)
-    (z : Fiber (CategoryOfElements.π F) A) : F.obj A :=
-  F.map (eqToHom z.2) z.1.2
+    (z : Fiber (Functor.Elements.π F) A) : F.obj A :=
+  F.map (eqToHom z.2) z.1.val
 
 /-- Two objects of the fibre over `A` of the category of elements of `F` that represent the same
 element of `F.obj A` are isomorphic. -/
 public theorem elementsFiberIsoOfValueEq {𝒞 : Type u₂} [Category.{v₂} 𝒞]
     (F : 𝒞 ⥤ Type u₁) (A : 𝒞)
-    (z z' : Fiber (CategoryOfElements.π F) A)
+    (z z' : Fiber (Functor.Elements.π F) A)
     (h : elementsFiberValue F A z = elementsFiberValue F A z') : Nonempty (z ≅ z') := by
-  rcases z with ⟨⟨X, x⟩, hx⟩
-  rcases z' with ⟨⟨Y, y⟩, hy⟩
+  rcases z with ⟨@⟨X, x⟩, hx⟩
+  rcases z' with ⟨@⟨Y, y⟩, hy⟩
   change X = A at hx
   change Y = A at hy
   let e : X ≅ Y := eqToIso (hx.trans hy.symm)
@@ -248,15 +248,14 @@ public theorem elementsFiberIsoOfValueEq {𝒞 : Type u₂} [Category.{v₂} �
         simp [e]
       _ = F.map (eqToHom hy.symm) (F.map (eqToHom hy) y) := by rw [← h]
       _ = y := by simp
-  let : Category.{v₂} (Functor.Elements F) := CategoryTheory.categoryOfElements F
   let i : (Functor.elementsMk F X x) ≅ Functor.elementsMk F Y y :=
-    CategoryOfElements.isoMk (F := F) _ _ e he
-  have hi : (CategoryOfElements.π F).IsHomLift (𝟙 A) i.hom := by
-    apply IsHomLift.of_fac (CategoryOfElements.π F) (𝟙 A) i.hom hx hy
-    simp [i, e, CategoryOfElements.π]
-  have hii : (CategoryOfElements.π F).IsHomLift (𝟙 A) i.inv := by
-    apply IsHomLift.of_fac (CategoryOfElements.π F) (𝟙 A) i.inv hy hx
-    simp [i, e, CategoryOfElements.π]
+    Functor.Elements.isoMk (F := F) e he
+  have hi : (Functor.Elements.π F).IsHomLift (𝟙 A) i.hom := by
+    apply IsHomLift.of_fac (Functor.Elements.π F) (𝟙 A) i.hom hx hy
+    simp [i, e, Functor.Elements.π]
+  have hii : (Functor.Elements.π F).IsHomLift (𝟙 A) i.inv := by
+    apply IsHomLift.of_fac (Functor.Elements.π F) (𝟙 A) i.inv hy hx
+    simp [i, e, Functor.Elements.π]
   exact ⟨{
     hom := ⟨i.hom, hi⟩
     inv := ⟨i.inv, hii⟩
@@ -320,7 +319,7 @@ public structure IsomorphismClassesData
   classes : (C) ⥤ Type u₁
   /-- The canonical map into the category of elements of `classes`. -/
   projection : BasedFunctor 𝓕
-    (BasedCategory.ofFunctor (CategoryOfElements.π classes))
+    (BasedCategory.ofFunctor (Functor.Elements.π classes))
   /-- At each base object, the value is the quotient of the fibre by isomorphism. -/
   classes_eq : ∀ A, classes.obj A =
     Quotient (isIsomorphicSetoid (Fiber 𝓕.p A))
@@ -347,7 +346,7 @@ public noncomputable def isomorphismClassesData
       full := {
         map_surjective := by
           intro a b g
-          let f := g.val
+          let f := g.hom
           let : 𝓕.p.op.IsFibered := h𝓕.isFibered
           obtain ⟨c, qop, hcart⟩ :=
             IsPreFibered.exists_isCartesian 𝓕.p.op (by rfl) f.op
@@ -365,7 +364,7 @@ public noncomputable def isomorphismClassesData
           have hclassg : F.map f
               (Quotient.mk _ (Fiber.mk rfl : Fiber 𝓕.p (𝓕.p.obj a))) =
               Quotient.mk _ (Fiber.mk rfl : Fiber 𝓕.p (𝓕.p.obj b)) :=
-            g.property
+            g.map_val
           have hclassq := associatedClasses_map_lift 𝓕 h𝓕 f q rfl hd hq
           have hclass :
               Quotient.mk (isIsomorphicSetoid (Fiber 𝓕.p (𝓕.p.obj b)))
@@ -382,17 +381,18 @@ public noncomputable def isomorphismClassesData
             have : 𝓕.p.IsHomLift (𝟙 (𝓕.p.obj b)) eArrow := e.hom.2
             exact IsHomLift.comp_lift_id_right' 𝓕.p f q (𝓕.p.obj b) eArrow
           refine ⟨candidate, ?_⟩
-          apply CategoryOfElements.ext
-          let G := CategoryOfElements.π F
+          apply Functor.Elements.hom_ext
+          let G := Functor.Elements.π F
           let fG : G.obj (φ.obj a) ⟶ G.obj (φ.obj b) := f
+          have : 𝓕.p.IsHomLift fG candidate := hcandidate
           have : G.IsHomLift fG (φ.toFunctor.map candidate) :=
             BasedFunctor.preserves_isHomLift φ fG candidate
           have : G.IsHomLift fG g := by
-            simpa [fG, G, f, CategoryOfElements.π] using
+            simpa [fG, G, f, Functor.Elements.π] using
               (CategoryTheory.IsHomLift.map G g)
           have h1 := IsHomLift.eq_of_isHomLift G fG (φ.toFunctor.map candidate)
           have h2 := IsHomLift.eq_of_isHomLift G fG g
-          simpa [G, CategoryOfElements.π] using h1.symm.trans h2 }
+          simpa [G, Functor.Elements.π] using h1.symm.trans h2 }
       fiber_essSurj := fun A => {
         mem_essImage := by
           intro z
@@ -416,7 +416,7 @@ public noncomputable abbrev toIsomorphismClasses
     (𝓕 : BasedCategory.{v₁, u₁} (C))
     (h𝓕 : IsCofiberedInGroupoids 𝓕.p) :
     BasedFunctor 𝓕 (BasedCategory.ofFunctor
-      (CategoryOfElements.π (isomorphismClassesData 𝓕 h𝓕).classes)) :=
+      (Functor.Elements.π (isomorphismClassesData 𝓕 h𝓕).classes)) :=
   (isomorphismClassesData 𝓕 h𝓕).projection
 
 /-- The canonical morphism from a category cofibered in groupoids to its associated functor of
@@ -432,7 +432,7 @@ public theorem isSmooth_toIsomorphismClasses
   let data := isomorphismClassesData 𝓕 h𝓕
   let φ := data.projection
   let : φ.toFunctor.Full := data.quotient.full
-  let target := BasedCategory.ofFunctor (CategoryOfElements.π data.classes)
+  let target := BasedCategory.ofFunctor (Functor.Elements.π data.classes)
   have hy : target.p.obj y = B := IsHomLift.domain_eq target.p f g
   let z : Fiber target.p B := Fiber.mk hy
   let : (fiberFunctor φ B).EssSurj := data.quotient.fiber_essSurj B
@@ -514,15 +514,15 @@ theorem map_classOf {A B : C} (f : A ⟶ B) (x : Fiber 𝓕.p A) (y : Fiber 𝓕
     (a : x.1 ⟶ y.1) [𝓕.p.IsHomLift f a] :
     (isomorphismClasses 𝓕 h𝓕).map f (classOf 𝓕 h𝓕 x) = classOf 𝓕 h𝓕 y := by
   let q := toIsomorphismClasses 𝓕 h𝓕
-  have : (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕)).IsHomLift f (q.map a) :=
+  have : (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕)).IsHomLift f (q.map a) :=
     BasedFunctor.preserves_isHomLift q f a
-  have h := IsHomLift.fac (CategoryOfElements.π (isomorphismClasses 𝓕 h𝓕)) f (q.map a)
+  have h := IsHomLift.fac (Functor.Elements.π (isomorphismClasses 𝓕 h𝓕)) f (q.map a)
   dsimp only [classOf]
   rw [h]
   exact (map_cast _ ((q.w_obj x.1).trans x.2) ((q.w_obj y.1).trans y.2)
-    (q.map a).val (q.obj x.1).2).trans
+    (q.map a).hom (q.obj x.1).val).trans
       (congrArg (cast (congrArg (isomorphismClasses 𝓕 h𝓕).obj
-        ((q.w_obj y.1).trans y.2))) (q.map a).property)
+        ((q.w_obj y.1).trans y.2))) (q.map a).map_val)
 
 /-- Every associated class has an object representative in the fibre. -/
 theorem classOf_surjective (A : C) : Function.Surjective (classOf 𝓕 h𝓕 (A := A)) := by
@@ -572,7 +572,7 @@ noncomputable def isomorphismClassesMap :
   app A := ↾fun z ↦ ⟨mapIsomorphismClasses h𝓕 h𝓖 φ A z.down⟩
   naturality {A B} f := by
     ext z
-    exact ULift.ext _ _ (mapIsomorphismClasses_naturality h𝓕 h𝓖 φ f z.down)
+    exact ULift.ext (mapIsomorphismClasses_naturality h𝓕 h𝓖 φ f z.down)
 
 end
 

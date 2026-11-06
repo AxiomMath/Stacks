@@ -32,7 +32,8 @@ is `Stacks.PullbackModel.quasiIso_extendScalars_of_projective_sections` below.
 
 * `KaehlerDifferential.congrAlgebraIso`: the differentials of two *equal* `A`-algebra structures
   on the same ring agree, with the universal derivations matching. This is what identifies the
-  sections of Mathlib's `PresheafOfModules.DifferentialsConstruction.relativeDifferentials'`,
+  sections of Mathlib's
+  `PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'`,
   which are formed for the algebra structure `(algebraMap A P).toAlgebra` induced by the ring
   map, with `Ω[P⁄A]` for the algebra structure instance resolution finds.
 * `CommAlgCat.smallPolynomialStructureCommPresheaf`,
@@ -279,7 +280,7 @@ between `CommAlgCat.smallPolynomialCotangentModulePresheaf` and
 `CommAlgCat.polynomialRelativeDifferentialsBaseChange`. -/
 def smallPolynomialDifferentials :
     PresheafOfModules.{u} (smallPolynomialStructurePresheaf A B κ) :=
-  PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
     (smallPolynomialBaseHom A B κ)
 
 /-- The algebra structure induced by the structure map of an `A`-algebra is the one instance
@@ -372,7 +373,7 @@ lemma extendScalarsDifferentialsObjIso_inv_naturality
         ((congrArg (fun y => (smallPolynomialDifferentials A B κ).map g y)
             (kaehlerDifferentialSectionsIso_inv_D A
               ((smallSiteToOver A B κ).obj V).left p)).trans
-          (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d
+          (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
             (smallPolynomialBaseHom A B κ) g p))).trans
       (kaehlerDifferentialSectionsIso_hom_d A ((smallSiteToOver A B κ).obj W).left _))
 

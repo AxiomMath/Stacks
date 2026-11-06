@@ -337,7 +337,7 @@ def columnZeroIso : W.column 0 ≅ W.carrierCosimplicial :=
   NatIso.ofComponents
     (fun n => AddEquiv.toAddCommGrpIso ((W.columnZeroEquiv n.len).trans AddEquiv.ulift.symm))
     (fun {_ _} phi => AddCommGrpCat.ext fun x =>
-      ULift.ext _ _ (W.columnZeroEquiv_tensorMap phi x))
+      ULift.ext (W.columnZeroEquiv_tensorMap phi x))
 
 /-- **The cohomology of the Moore complex of the column `a = 0` of the double complex is the
 cohomology of the Moore complex of `M(•)`.**

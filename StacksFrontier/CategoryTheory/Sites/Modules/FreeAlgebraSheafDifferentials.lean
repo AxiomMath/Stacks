@@ -219,7 +219,7 @@ noncomputable def polynomialVariableAlong :
 sets. -/
 noncomputable def derivationAtVariables
     (F : _root_.SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf Q))
-    (D : F.val.Derivation' φ.hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val φ.hom) :
     E ⟶ F.val.presheaf ⋙ forget AddCommGrpCat.{max u v w} :=
   polynomialVariableAlong J A E α ≫
     { app := fun X => TypeCat.ofHom fun x => D.d x
@@ -233,7 +233,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] [HasWeakSheafify J AddC
 `MvPolynomial.X e` under `α`. -/
 lemma derivationAtVariables_app
     (F : _root_.SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf Q))
-    (D : F.val.Derivation' φ.hom) (X : Cᵒᵖ) (e : E.obj X) :
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val φ.hom) (X : Cᵒᵖ) (e : E.obj X) :
     (derivationAtVariables J A E α F D).app X e = D.d (α.app X (MvPolynomial.X e)) := rfl
 
 variable [Presheaf.IsLocallySurjective J α] [Presheaf.IsLocallyInjective J α]
@@ -243,7 +243,7 @@ the variables.** -/
 noncomputable def derivationAtVariablesEquiv
     (hα : polynomialCoefficientMap J A E ≫ α = φ.hom)
     (F : _root_.SheafOfModules.{max u v w} (Stacks.SheafOfModules.Tensor.ringSheaf Q)) :
-    F.val.Derivation' φ.hom ≃
+    PresheafOfModulesOfCommRing.Derivation' F.val φ.hom ≃
       (E ⟶ F.val.presheaf ⋙ forget AddCommGrpCat.{max u v w}) := by
   refine Equiv.ofBijective (derivationAtVariables J A E α F) ⟨?_, ?_⟩
   · intro D₁ D₂ h

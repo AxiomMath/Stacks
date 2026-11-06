@@ -468,6 +468,7 @@ theorem isUnramifiedAt_of_formallyUnramified_localAtGen {F K'' N : Type*} [Field
     IsScalarTower.of_algebraMap_eq fun _ ↦ rfl
   exact isUnramifiedAt_of_isLocalization_integralClosure (Rf := localAtGen hs) _ hM P hdisj
 
+set_option maxHeartbeats 1600000 in
 /-- **Abhyankar's lemma at a Kummer level**, in the form used for `𝐆_m`. Let `O` be a discrete
 valuation ring with uniformizer `π`, fraction field `K ⊆ Ω` and a tame field factor `L ⊆ Ω`
 whose ramification indices divide `e`, invertible in the finite field `k ⊆ O`. Let `K'' ⊆ Ω`
@@ -671,6 +672,7 @@ theorem ringChar_residue_originPoint :
 
 variable [Finite k]
 
+set_option maxHeartbeats 1600000 in
 /-- **Abhyankar's lemma at the boundary point `(x)`.** For a finite unramified cover of
 `𝐆_{m,k}` tame at `(x)` and a point of it over `x ↦ u`, there is `E₀` prime to `q` such that at
 every Kummer level `s^e = u` with `E₀ ∣ e` and `q ∤ e`, the integral closure of `F[s]` in
@@ -747,8 +749,8 @@ theorem exists_forall_isUnramifiedAt_of_tame (φ : Ring k →+* C) (hfin : φ.Fi
     have := hPl
     have hc : P.comap (algebraMap O (integralClosure O L)) = maximalIdeal O :=
       (Ideal.LiesOver.over (P := P) (p := maximalIdeal O)).symm
-    have hmax : P.IsMaximal := Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := O) P (by
-      rw [hc]
+    have hmax : P.IsMaximal := Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := O) P (by
+      rw [Ideal.under, hc]
       infer_instance)
     rcases (htameL P hmax hPl).2 with h0 | h
     · rw [ringChar_residue_originPoint] at h0

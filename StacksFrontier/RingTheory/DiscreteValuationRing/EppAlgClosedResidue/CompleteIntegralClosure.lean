@@ -368,7 +368,7 @@ private theorem isIntegralClosure_of_valuationRing
     rw [Ideal.comap_comap, show f.toRingHom.comp (algebraMap R T) = algebraMap R S from
       RingHom.ext f.commutes, IsLocalRing.maximalIdeal_comap]
   have hqmax : q.IsMaximal := by
-    apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := R)
+    apply Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R)
     change (q.under R).IsMaximal
     rw [hqR]
     infer_instance

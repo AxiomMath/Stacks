@@ -136,7 +136,7 @@ private lemma isLocalHom_algebraMap (R : Type*) [CommRing R] [IsLocalRing R] (A 
     [CommRing A] [IsLocalRing A] [Algebra R A] [Algebra.IsIntegral R A] :
     IsLocalHom (algebraMap R A) :=
   ((local_hom_TFAE (algebraMap R A)).out 5 1).mp
-    (eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (maximalIdeal A)))
+    (eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) (maximalIdeal A)))
 
 /-- For a *local* algebra `A` integral over `R`, being unramified along the fibre over the maximal
 ideal of `R` is formal unramifiedness of `A` itself: the only prime of `A` lying over

@@ -270,6 +270,10 @@ section Coproduct
 variable {C : Type*} [Category.{u} C] {J : GrothendieckTopology C} (R : Sheaf J RingCat.{u})
   [HasWeakSheafify J AddCommGrpCat.{u}] [J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
+-- Instance search for these coproducts times out on Mathlib v4.35.0; supply them directly.
+local instance (J' : Type u) : HasColimitsOfShape (Discrete J') (PresheafOfModules.{u} R.obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
 /-- **The coproduct of `r` copies of the structure sheaf is the free module on
 `ULift (Fin r)`**, over an arbitrary sheaf of rings. Both morphisms are defined by the universal
 property of the coproduct, `SheafOfModules.free` being a coproduct by definition; see the

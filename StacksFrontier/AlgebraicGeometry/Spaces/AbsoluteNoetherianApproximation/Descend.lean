@@ -156,7 +156,7 @@ theorem exists_etaleSchemeSystem_of_stages
     SiteContainsBaseChangeLimits.of_isPullback _ g hsq hAff hconv
   have hlimY : IsLimit (yoneda.mapCone (Cone.mk W wπ)) :=
     ((IsLimit.postcomposeInvEquiv α _).symm hc).ofIsoLimit
-      (Cones.ext (Iso.refl _) (fun j => by simp [hyw]))
+      (Cone.ext (Iso.refl _) (fun j => by simp [hyw]))
   refine ⟨Ws, g, wπ, het, hsq, fun j => ?_, fun j => ?_, hAffSch, fun j => ?_, fun j => ?_,
     ⟨isLimitMapConeToSchemeOfIsLimitMapConeYoneda Ws hAffSch hconvWs _ hlimY⟩⟩
   · exact compactSpace_of_isQuasiCompactSpace_yoneda_obj B (⊤_ Scheme.{u}) hZ

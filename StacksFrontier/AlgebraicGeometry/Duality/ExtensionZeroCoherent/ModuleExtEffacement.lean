@@ -5,6 +5,7 @@ public import Mathlib.AlgebraicGeometry.Modules.Sheaf
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
 public import Mathlib.CategoryTheory.Abelian.Injective.Ext
 public import Mathlib.CategoryTheory.Abelian.Injective.Resolution
+public import Mathlib.CategoryTheory.Abelian.Refinements
 
 /-!
 # Effacing a positive-degree `Ext`-class by an epimorphism

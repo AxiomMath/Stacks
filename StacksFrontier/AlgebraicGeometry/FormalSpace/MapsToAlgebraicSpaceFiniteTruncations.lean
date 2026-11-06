@@ -292,8 +292,8 @@ public theorem existsUnique_section_of_compatible_truncations_of_finite
       (hJ₂ i) hX (Ti i) (Iso.refl _) (Wi i) (fun _ => Iso.refl _) (ιi i)
       (fun n => by rw [hιi]; simp) (τi i) (K2 i)
       (fun n => X.map (wi i n).op (x n)) (fun n => by
-        rw [← FunctorToTypes.map_comp_apply, ← op_comp, K3, op_comp,
-          FunctorToTypes.map_comp_apply, hx])
+        rw [← Functor.map_comp_apply, ← op_comp, K3, op_comp,
+          Functor.map_comp_apply, hx])
   choose yi hyi huniq using hloc
   -- the identification of `T` with the spectrum of the product
   let eU : (BigFppfOver.toScheme B S hS).obj T ≅ Spec (.of (Π i, Ai i)) :=
@@ -318,10 +318,10 @@ public theorem existsUnique_section_of_compatible_truncations_of_finite
       (fun i => Ai i ⧸ Ji i n) (W n) eUn (fun i => Wi i n) (fun _ => Iso.refl _) (fun i => wi i n)
       hjn (fun i => X.map (wi i n).op (x n))
     refine (hzuniq _ fun i => ?_).trans (hzuniq _ fun i => rfl).symm
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← K1, op_comp, FunctorToTypes.map_comp_apply,
+    rw [← Functor.map_comp_apply, ← op_comp, ← K1, op_comp, Functor.map_comp_apply,
       hy, hyi]
   refine ⟨y, hrestr, fun y' hy' => hyuniq y' fun i => huniq i _ fun n => ?_⟩
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp, K1, op_comp, FunctorToTypes.map_comp_apply, hy']
+  rw [← Functor.map_comp_apply, ← op_comp, K1, op_comp, Functor.map_comp_apply, hy']
 
 end AlgebraicGeometry.FormalSpace
 

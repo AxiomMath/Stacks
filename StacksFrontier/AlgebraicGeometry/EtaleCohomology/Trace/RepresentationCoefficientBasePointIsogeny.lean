@@ -53,10 +53,10 @@ public theorem representationCoefficientSheafBasePointIso_hom_act {r : ℕ}
     (hμ' : ∀ o g, μ o * ((τ.comp (etaleFundamentalGroupBasePointHom t).toMonoidHom) g).val =
       ((τ.comp (etaleFundamentalGroupBasePointHom t).toMonoidHom) g).val * μ o) (o : O) :
     (representationLAdicSheafBasePointIso B X t hτ).hom ≫
-        (representationCoefficientSheaf B X x'
+        ((representationCoefficientSheaf B X x'
           (τ.comp (etaleFundamentalGroupBasePointHom t).toMonoidHom)
-          (hτ.comp (etaleFundamentalGroupBasePointHom t).continuous) μ hμ').act o =
-      (representationCoefficientSheaf B X x τ hτ μ hμ).act o ≫
+          (hτ.comp (etaleFundamentalGroupBasePointHom t).continuous) μ hμ').act o).asHom =
+      ((representationCoefficientSheaf B X x τ hτ μ hμ).act o).asHom ≫
         (representationLAdicSheafBasePointIso B X t hτ).hom :=
   representationLAdicSheafResIso_hom_naturality B X _ _ (etaleFundamentalGroupBasePointHom t)
     (canonicalFiniteLocallyConstantAbelianSheafEquivalenceBasePointInverseIso B X t) hτ hτ (μ o)
@@ -88,10 +88,10 @@ public theorem exists_basePoint_representationSheafCommutantCoefficientSheaf_iso
           (ρ.comp (etaleFundamentalGroupBasePointHom t).toMonoidHom)
           (hρ.comp (etaleFundamentalGroupBasePointHom t).continuous)) α),
         algebraMap _ E o₁ = algebraMap _ E o₂ →
-        φ ≫ (representationSheafCommutantCoefficientSheaf B X x'
+        φ ≫ ((representationSheafCommutantCoefficientSheaf B X x'
           (ρ.comp (etaleFundamentalGroupBasePointHom t).toMonoidHom)
-          (hρ.comp (etaleFundamentalGroupBasePointHom t).continuous) α hα').act o₂ =
-          (representationSheafCommutantCoefficientSheaf B X x ρ hρ α hα).act o₁ ≫ φ := by
+          (hρ.comp (etaleFundamentalGroupBasePointHom t).continuous) α hα').act o₂).asHom =
+          ((representationSheafCommutantCoefficientSheaf B X x ρ hρ α hα).act o₁).asHom ≫ φ := by
   have := compactSpace_etaleFundamentalGroup X.1 x
   have := compactSpace_etaleFundamentalGroup X.1 x'
   set φ₀ := (etaleFundamentalGroupBasePointHom t).toMonoidHom
@@ -170,9 +170,9 @@ public theorem exists_basePoint_restrictScalarsRepCoefficientSheaf_isogeny :
             (restrictScalarsRep b (σ.comp (etaleFundamentalGroupBasePointHom t).toMonoidHom)) hσ')
           (restrictScalarsScalarAlgHom b m)),
         algebraMap _ E o₁ = algebraMap _ E o₂ →
-        φ ≫ (restrictScalarsRepCoefficientSheaf B X x' b
-          (σ.comp (etaleFundamentalGroupBasePointHom t).toMonoidHom) hσ').act o₂ =
-          (restrictScalarsRepCoefficientSheaf B X x b σ hσ).act o₁ ≫ φ :=
+        φ ≫ ((restrictScalarsRepCoefficientSheaf B X x' b
+          (σ.comp (etaleFundamentalGroupBasePointHom t).toMonoidHom) hσ').act o₂).asHom =
+          ((restrictScalarsRepCoefficientSheaf B X x b σ hσ).act o₁).asHom ≫ φ :=
   exists_basePoint_representationSheafCommutantCoefficientSheaf_isogeny B X t
     (restrictScalarsRep b σ) hσ (restrictScalarsScalarAlgHom b m)
     (restrictScalarsScalarAlgHom_commute b σ)

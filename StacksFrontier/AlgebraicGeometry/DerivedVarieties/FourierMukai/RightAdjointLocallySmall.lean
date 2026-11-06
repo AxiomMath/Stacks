@@ -93,8 +93,7 @@ def derivedTensorRightIso (P : DerivedCategory X.Modules) :
     NatIso.ofComponents (fun A => (Functor.Monoidal.μIso E.functor A P₀).symm)
       (fun {A A'} φ => by
         dsimp
-        rw [Functor.Monoidal.μIso_inv, Functor.Monoidal.μIso_inv,
-          Functor.OplaxMonoidal.δ_natural_left])
+        rw [Functor.OplaxMonoidal.δ_natural_left])
   Functor.isoWhiskerLeft E.inverse μ ≪≫ (Functor.associator _ _ _).symm ≪≫
     Functor.isoWhiskerRight E.counitIso _ ≪≫ Functor.leftUnitor _ ≪≫
     (tensoringRight _).mapIso (E.counitIso.app P)

@@ -103,7 +103,7 @@ theorem cofaceMap_comp_π (P : Cᵒᵖ ⥤ A) (n : ℕ) (i : Fin (n + 2)) (j : (
       Limits.Pi.π (fun k : (E.obj (op ⦋n⦌)).I ↦ P.obj (op ((E.obj (op ⦋n⦌)).obj k)))
           ((E.map (SimplexCategory.δ i).op).f j) ≫
         P.map ((E.map (SimplexCategory.δ i).op).φ j).op :=
-  Limits.Pi.lift_π _ _
+  Limits.Pi.lift_comp_π _ _
 
 /-! ### The shape of the Čech-style complex -/
 
@@ -149,7 +149,7 @@ theorem terminalAug_comp_π (P : Cᵒᵖ ⥤ A) (n : ℕ) (i : (E.obj (op ⦋n�
     terminalAug E hT P n ≫
         Limits.Pi.π (fun k : (E.obj (op ⦋n⦌)).I ↦ P.obj (op ((E.obj (op ⦋n⦌)).obj k))) i =
       P.map (hT.from ((E.obj (op ⦋n⦌)).obj i)).op :=
-  Limits.Pi.lift_π _ _
+  Limits.Pi.lift_comp_π _ _
 
 omit [Preadditive A] in
 /-- **Composing the augmentation with a coface map gives the augmentation one degree up.**  This

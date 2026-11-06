@@ -258,7 +258,7 @@ theorem isZero_rightDerived_integralTransformIntegrand_of_exactFunctor
     change Epi (((Scheme.Modules.pushforward (pullback.snd X.hom Y.hom)).rightDerived 0).map
       ((integralTransformIntegrand R X Y K).map
         (cokernel.π (biproduct.lift fun i => (cechUnit (V (e.symm i))).app G))))
-    exact epi_of_epi_fac hnat.symm
+    exact @epi_of_epi_fac _ _ _ _ _ _ _ _ (epi_comp' hepi (IsIso.epi_of_iso _)) hnat.symm
   have hall : ∀ n : ℕ, ∀ G : Scheme.QuasicoherentModules X.left,
       IsZero (((Scheme.Modules.pushforward (pullback.snd X.hom Y.hom)).rightDerived (n + 1)).obj
         ((integralTransformIntegrand R X Y K).obj G)) := by

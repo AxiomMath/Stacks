@@ -225,6 +225,12 @@ open PresheafOfModules
 
 variable {C : Type u₁} [Category.{v₁} C] {R R' : Cᵒᵖ ⥤ CommRingCat.{u}} (α : R ⟶ R')
 
+/-- The sections of `O ⋙ forget₂ CommRingCat RingCat` form a commutative ring: instance search
+does not unfold `⋙`. -/
+noncomputable local instance commRingObjForget₂ (O : Cᵒᵖ ⥤ CommRingCat.{u}) (X : Cᵒᵖ) :
+    CommRing ((O ⋙ forget₂ CommRingCat RingCat).obj X) :=
+  inferInstanceAs (CommRing (O.obj X))
+
 /-- A morphism of presheaves of commutative rings, read as a morphism of presheaves of
 not necessarily commutative rings. -/
 abbrev toRingCat : (R ⋙ forget₂ CommRingCat RingCat) ⟶ (R' ⋙ forget₂ CommRingCat RingCat) :=

@@ -145,8 +145,20 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_etaleSplitQuasiFiniteReduction :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_etaleSplitQuasiFiniteReduction
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The first paragraph: reduction to an affine base -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **An affine étale neighbourhood of the target over which the relevant set of points of the
 base change is finite.** Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is
 locally of finite type, let `y` be a point of `|Y|` and let `x₁, …, x_n` be points of `|X|`

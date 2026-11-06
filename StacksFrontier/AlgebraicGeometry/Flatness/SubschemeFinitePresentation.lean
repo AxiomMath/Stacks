@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
+public import Mathlib.RingTheory.RingHom.FinitePresentation
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FinitePresentationPoint
 
 /-!

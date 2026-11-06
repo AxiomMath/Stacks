@@ -281,8 +281,8 @@ private lemma isSplitEpi_one_sub_shift_of_proZero (G : ℕᵒᵖ ⥤ C)
   apply Pi.hom_ext
   intro n
   let M := max (N n) (N (n + 1) + 1)
-  rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, Pi.lift_π, ← Category.assoc,
-    Pi.lift_π, Preadditive.sum_comp, Category.id_comp]
+  rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π, ← Category.assoc,
+    Pi.lift_comp_π, Preadditive.sum_comp, Category.id_comp]
   simp_rw [hsucc]
   have h₁ := hstable n M (le_max_left _ _)
   have h₂ := hstable (n + 1) (M - 1) (by omega)

@@ -108,7 +108,7 @@ private theorem qcq_comp_comp_rdIso_inv [EnoughInjectives A] (N : CochainComplex
         T.mapDerivedCategoryPlus.map ((DerivedCategory.Plus.quotientCompQhIso A).hom.app N)) :
     (DerivedCategory.Plus.quotientCompQhIso B).hom.app (T.mapCochainComplexPlus.obj N) ≫ e ≫
         T.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus.inv.app (DerivedCategory.Plus.Q.obj N) =
-      T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj N) ≫
+      T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj N) ≫
         T.rightDerivedFunctorPlus.map ((DerivedCategory.Plus.quotientCompQhIso A).hom.app N) := by
   have h₂ := Functor.unit_comp_rightDerivedFunctorPlusIsoMapDerivedCategoryPlus_hom_app T
     ((HomotopyCategory.Plus.quotient A).obj N)
@@ -319,7 +319,7 @@ private theorem ι_map_unit_comp_boundedDerivedSectionsIso
       (DerivedCategory.quotientCompQhIso _).inv.app
           ((_root_.SheafOfModules.evaluation (structureSheafRing V)
             (op ⊤)).mapCochainComplexPlus.obj N).obj ≫
-        DerivedCategory.Plus.ι.map ((sectionsOverOpen V ⊤).rightDerivedFunctorPlusUnit.app
+        DerivedCategory.Plus.ι.map ((sectionsOverOpen V ⊤).rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient _).obj N)) ≫
         DerivedCategory.Plus.ι.map ((sectionsOverOpen V ⊤).rightDerivedFunctorPlus.map
           ((DerivedCategory.Plus.quotientCompQhIso _).hom.app N)) :=

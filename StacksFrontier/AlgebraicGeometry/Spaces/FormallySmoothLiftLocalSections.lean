@@ -256,7 +256,7 @@ theorem mem_liftingProblemLifts_topChart_iff (i : T ⟶ T')
       show yoneda.map k ≫ yonedaEquiv.symm z =
         t ≫ (squareZeroRangeIso B S hS i hi).inv ≫ yonedaEquiv.symm x
       rw [hpx, yonedaEquiv_symm_naturality_left, ← h.1, hk, op_comp,
-        FunctorToTypes.map_comp_apply]
+        Functor.map_comp_apply]
 
 /-! ### The covering sieve of solvable charts -/
 

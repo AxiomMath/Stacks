@@ -247,7 +247,7 @@ theorem exists_singleFunctor_twists_epi
       (DerivedCategory.homologyFunctorFactors (projectiveSpaceOver n (Spec (.of A))).Modules j)
       ψ).2 (epi_homologyMap_mkHomFromSingle φ hφ)
   rw [Functor.map_comp, Functor.map_comp]
-  infer_instance
+  exact @epi_comp _ _ _ _ _ _ (IsIso.epi_of_iso _) _ (@epi_comp _ _ _ _ _ _ hQ _ (IsIso.epi_of_iso _))
 
 /-! ### The induction -/
 

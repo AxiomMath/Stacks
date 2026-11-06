@@ -351,8 +351,8 @@ def schemePointToBase : BigFppfOver B V.left.1 V.left.2 ⥤ BaseObjects Y where
     congr 2
     ext
     simp [Over.w f]))
-  map_id t := ULift.ext _ _ (CostructuredArrow.hom_ext _ _ ((Over.map V.hom).map_id t))
-  map_comp f f' := ULift.ext _ _ (CostructuredArrow.hom_ext _ _ ((Over.map V.hom).map_comp f f'))
+  map_id t := ULift.ext (CostructuredArrow.hom_ext _ _ ((Over.map V.hom).map_id t))
+  map_comp f f' := ULift.ext (CostructuredArrow.hom_ext _ _ ((Over.map V.hom).map_comp f f'))
 
 /-- **`(Sch/V)_{fppf}` satisfies (RS\*)**, as a category over the big fppf site of `S` through
 `Over.map V.hom`: it is an algebraic stack

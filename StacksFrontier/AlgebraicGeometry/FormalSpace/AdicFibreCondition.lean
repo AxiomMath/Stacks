@@ -254,7 +254,7 @@ private theorem exists_isPullback_upliftedSheaf
     apply (adj.homEquiv _ X').symm_apply_eq.mpr
     apply uliftYonedaEquiv.injective
     show ULift.up (yonedaEquiv g₀) = Sheaf.sectionEquiv 𝒥 g
-    exact ULift.ext _ _ (yonedaEquiv.apply_symm_apply _)
+    exact ULift.ext (yonedaEquiv.apply_symm_apply _)
   refine ⟨H.map z ≫ eZ.hom, ?_⟩
   apply (hz.map H).of_iso (Iso.refl _) eZ (Iso.refl _) eX
   · exact (Category.id_comp (H.map z ≫ eZ.hom)).symm

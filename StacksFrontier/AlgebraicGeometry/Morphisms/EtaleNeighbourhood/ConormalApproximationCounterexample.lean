@@ -202,14 +202,13 @@ theorem not_exists_uniform_congruence_bound (u : D) (hu : ∀ n : ℕ, ¬ u ^ (n
     rw [hbot, Submodule.mem_bot, sub_eq_zero] at hsub
     rw [hsub, ring_power_eq, hJpow (0 + N + 1), Ideal.mem_span_singleton] at hq
     obtain ⟨c, hc⟩ := hq
-    refine hu N ⟨MvPolynomial.coeff (Finsupp.single 0 1) c, ?_⟩
-    have hL : MvPolynomial.coeff (Finsupp.single 0 1)
-        (MvPolynomial.X 0 * MvPolynomial.C (u ^ N) : MvPolynomial (Fin 1) D) = u ^ N := by
+    refine hu N ⟨c.coeff (Finsupp.single 0 1), ?_⟩
+    have hL : (MvPolynomial.X 0 * MvPolynomial.C (u ^ N) : MvPolynomial (Fin 1) D).coeff
+        (Finsupp.single 0 1) = u ^ N := by
       rw [mul_comm, MvPolynomial.coeff_C_mul]
       simp
-    have hR : MvPolynomial.coeff (Finsupp.single 0 1)
-        (MvPolynomial.C (u ^ (0 + N + 1)) * c : MvPolynomial (Fin 1) D) =
-        u ^ (N + 1) * MvPolynomial.coeff (Finsupp.single 0 1) c := by
+    have hR : (MvPolynomial.C (u ^ (0 + N + 1)) * c : MvPolynomial (Fin 1) D).coeff
+        (Finsupp.single 0 1) = u ^ (N + 1) * c.coeff (Finsupp.single 0 1) := by
       rw [MvPolynomial.coeff_C_mul, zero_add]
     rw [← hL, ← hR, hc]
   obtain ⟨y, hy⟩ := e.map_grade N (mk J N ⟨R₁.mkQ (MvPolynomial.C (u ^ N)), hmem⟩)

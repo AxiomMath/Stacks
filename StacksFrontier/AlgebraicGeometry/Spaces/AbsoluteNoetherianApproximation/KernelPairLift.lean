@@ -97,6 +97,7 @@ theorem exists_lift_gluedRelation_of_kernelPair
       rw [hzs, Functor.map_comp, Functor.map_comp, Category.assoc, Category.assoc, hE.w]
     have hst : g ≫ sE = g ≫ tE := by
       apply Yoneda.fullyFaithful.map_injective
+      haveI : Mono (pullback.fst Z.ι f) := IsIso.mono_of_iso _
       have := congrArg (· ≫ pullback.snd Z.ι f) ((cancel_mono (pullback.fst Z.ι f)).1
         ((pullback.lift_fst z (yoneda.map (g ≫ sE)) hzs).trans
           (pullback.lift_fst z (yoneda.map (g ≫ tE)) hzt).symm))

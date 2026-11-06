@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Topology.Spectral.ConstructibleTopology
+public import Mathlib.Topology.WithTopology
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic

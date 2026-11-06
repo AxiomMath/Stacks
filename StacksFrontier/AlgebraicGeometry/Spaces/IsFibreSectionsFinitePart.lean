@@ -78,6 +78,19 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Z Q : AlgebraicSpaces B S hS}
 
+/-- Pullbacks in presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_IsFibreSectionsFinitePart
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_IsFibreSectionsFinitePart :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-! ### The ambient base change of `x` -/
 
 section Ambient
@@ -226,7 +239,7 @@ theorem range_pairLift_ι_comp_pairAmbientProjection
     (p : RestrictionPair B S hS x z (yoneda.obj T)) :
     (Subfunctor.range (pairLift p)).ι ≫ pairAmbientProjection x z p.base =
       (pairLiftRangeIso p).inv := by
-  apply (cancel_epi (pairLiftRangeIso p).hom).1
+  apply (Iso.cancel_iso_hom_left (pairLiftRangeIso p) _ _).1
   rw [← Category.assoc, pairLiftRangeIso_hom_comp_ι, pairLift_comp_pairAmbientProjection,
     Iso.hom_inv_id]
 
@@ -410,7 +423,8 @@ theorem rangePairLiftRestrictMap_comp_snd {T T' : BigFppfOver B S hS} (h : T' �
         pullback.snd p.base (x ≫ z).hom =
       (Subfunctor.range (pairLift (RestrictionPair.restrict (yoneda.map h) p))).ι ≫
         pullback.snd (RestrictionPair.restrict (yoneda.map h) p).base (x ≫ z).hom := by
-  apply (cancel_epi (pairLiftRangeIso (RestrictionPair.restrict (yoneda.map h) p)).hom).1
+  apply (Iso.cancel_iso_hom_left
+    (pairLiftRangeIso (RestrictionPair.restrict (yoneda.map h) p)) _ _).1
   rw [rangePairLiftRestrictMap, Category.assoc, Iso.hom_inv_id_assoc, Category.assoc,
     pairLiftRangeIso_hom_comp_ι_comp_snd p,
     pairLiftRangeIso_hom_comp_ι_comp_snd (RestrictionPair.restrict (yoneda.map h) p),

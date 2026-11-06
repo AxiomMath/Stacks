@@ -118,7 +118,7 @@ chart's global functions define.  It is the source of
 `AlgebraicGeometry.Space.SquareZeroExtension.reductionChartSpec`. -/
 def structureSheafChartSpec (X : AlgebraicSpaces B S hS) :
     SmallEtale B S hS X.1 ⥤ Scheme.{u} :=
-  (smallEtaleRingedTopos B S hS X).O.val.rightOp ⋙ Scheme.Spec
+  (smallEtaleRingedTopos B S hS X).O.obj.rightOp ⋙ Scheme.Spec
 
 /-- **The spectra of the sections of `f^{-1}𝒪_Y`, as a diagram on the small étale site of `X`**:
 `U ↦ Spec((f^{-1}𝒪_Y)(U))`.
@@ -129,7 +129,7 @@ This is the target of the two structure morphisms
 available on the charts. -/
 def inverseImageChartSpec {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) :
     SmallEtale B S hS X.1 ⥤ Scheme.{u} :=
-  (inverseImageStructureCommRingSheaf B S hS f).val.rightOp ⋙ Scheme.Spec
+  (inverseImageStructureCommRingSheaf B S hS f).obj.rightOp ⋙ Scheme.Spec
 
 /-- **The structure map of `f`, read on the chart diagrams**: the natural transformation
 `Spec(𝒪_X(U)) ⟶ Spec((f^{-1}𝒪_Y)(U))` induced by the inverse-image form
@@ -178,16 +178,16 @@ restriction back around into `Spec(𝒜(U)) ⟶ Spec(𝒜(V))`.
 Its arrows between affine charts are étale, by
 `AlgebraicGeometry.Space.SquareZeroExtension.etale_chartSpec_map_of_isAffine`. -/
 def chartSpec : SmallEtale B S hS X.1 ⥤ Scheme.{u} :=
-  E.A.val.rightOp ⋙ Scheme.Spec
+  E.A.obj.rightOp ⋙ Scheme.Spec
 
 /-- The chart diagram over a chart is the spectrum of the sections of `𝒜` there. -/
 theorem chartSpec_obj (U : SmallEtale B S hS X.1) :
-    (chartSpec B S hS E).obj U = Spec (E.A.val.obj (op U)) :=
+    (chartSpec B S hS E).obj U = Spec (E.A.obj.obj (op U)) :=
   rfl
 
 /-- The chart diagram on an arrow is `Spec` of the restriction map of `𝒜`. -/
 theorem chartSpec_map {U V : SmallEtale B S hS X.1} (h : U ⟶ V) :
-    (chartSpec B S hS E).map h = Spec.map (E.A.val.map h.op) :=
+    (chartSpec B S hS E).map h = Spec.map (E.A.obj.map h.op) :=
   rfl
 
 /-- **The arrows of the chart diagram between affine charts are étale**, with no hypothesis
@@ -203,11 +203,11 @@ theorem etale_chartSpec_map_of_isAffine {U V : SmallEtale B S hS X.1} (h : U ⟶
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj U)))
     (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj V))) :
     Etale ((chartSpec B S hS E).map h) := by
-  let : Algebra (E.A.val.obj (op V)) (E.A.val.obj (op U)) := (E.A.val.map h.op).hom.toAlgebra
-  have halg : RingHom.Etale (E.A.val.map h.op).hom :=
+  let : Algebra (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) := (E.A.obj.map h.op).hom.toAlgebra
+  have halg : RingHom.Etale (E.A.obj.map h.op).hom :=
     SquareZeroExtension.algebraEtale_app_of_isAffine B S hS E h hU hV
       (RingHom.algebraMap_toAlgebra _)
-  show Etale (Spec.map (E.A.val.map h.op))
+  show Etale (Spec.map (E.A.obj.map h.op))
   exact (HasRingHomProperty.Spec_iff (P := @Etale)).mpr halg
 
 /-- **The reduction of a square-zero extension, read on the chart diagrams**: the natural

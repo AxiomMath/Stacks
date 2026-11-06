@@ -153,16 +153,16 @@ public theorem isogenyRationalStalkEquiv_rationalStalkIntegralRingHom {s : Geome
   have := compactSpace_etaleFundamentalGroup X.1 x
   set T := representationLevelTrivialization B X x (integralModel ρ hρ)
     (continuous_integralModel ρ hρ) t
-  have hcomp : LAdicSheaf.rationalStalkMap (ψ ≫ F.act o ≫ φ) s
+  have hcomp : LAdicSheaf.rationalStalkMap (ψ ≫ (F.act o).asHom ≫ φ) s
       (LAdicSheaf.rationalStalkMap φ s v) =
       ((ℓ ^ N : ℕ) : ℚ_[ℓ]) • LAdicSheaf.rationalStalkMap φ s
-        (LAdicSheaf.rationalStalkMap (F.act o) s v) := by
+        (LAdicSheaf.rationalStalkMap (F.act o).asHom s v) := by
     rw [← LinearMap.comp_apply, ← LAdicSheaf.rationalStalkMap_comp, ← Category.assoc, hφψ,
       LAdicSheaf.rationalStalkMap_comp, LinearMap.comp_apply, LAdicSheaf.rationalStalkMap_nsmul_id,
       LinearMap.smul_apply, LinearMap.id_apply, map_smul, LAdicSheaf.rationalStalkMap_comp,
       LinearMap.comp_apply]
   have hM := LAdicSheaf.LevelTrivialization.rationalStalkEquiv_rationalStalkMap T T
-    (isogenyCoefficientEnd B X x F ρ hρ φ ψ o) (isogenyCoefficientMatrix B X x F ρ hρ φ ψ o)
+    (isogenyCoefficientEnd B X x F ρ hρ φ ψ o).asHom (isogenyCoefficientMatrix B X x F ρ hρ φ ψ o)
     (fun w => representationLevelTrivialization_stalkEquiv_stalkMap_of_hom B X x
       (continuous_integralModel ρ hρ) (continuous_integralModel ρ hρ) t _ w)
     (LAdicSheaf.rationalStalkMap φ s v)
@@ -170,16 +170,23 @@ public theorem isogenyRationalStalkEquiv_rationalStalkIntegralRingHom {s : Geome
     isogenyCoefficientRingHom_apply, Matrix.smul_mulVec]
   calc _ = (((ℓ ^ N : ℕ) : ℚ_[ℓ]))⁻¹ • (((ℓ ^ N : ℕ) : ℚ_[ℓ]) •
         T.rationalStalkEquiv (LAdicSheaf.rationalStalkMap φ s
-          (LAdicSheaf.rationalStalkMap (F.act o) s v))) := by
+          (LAdicSheaf.rationalStalkMap (F.act o).asHom s v))) := by
         rw [smul_smul,
           inv_mul_cancel₀ (Nat.cast_ne_zero.2 (pow_ne_zero _ (Fact.out : ℓ.Prime).ne_zero)),
           one_smul]
         rfl
     _ = (((ℓ ^ N : ℕ) : ℚ_[ℓ]))⁻¹ • T.rationalStalkEquiv
-          (LAdicSheaf.rationalStalkMap (isogenyCoefficientEnd B X x F ρ hρ φ ψ o) s
+          (LAdicSheaf.rationalStalkMap (isogenyCoefficientEnd B X x F ρ hρ φ ψ o).asHom s
             (LAdicSheaf.rationalStalkMap φ s v)) :=
+        have hE : (isogenyCoefficientEnd B X x F ρ hρ φ ψ o).asHom =
+            ψ ≫ (F.act o).asHom ≫ φ := rfl
+        have hcomp' : LAdicSheaf.rationalStalkMap (isogenyCoefficientEnd B X x F ρ hρ φ ψ o).asHom s
+            (LAdicSheaf.rationalStalkMap φ s v) =
+            ((ℓ ^ N : ℕ) : ℚ_[ℓ]) • LAdicSheaf.rationalStalkMap φ s
+              (LAdicSheaf.rationalStalkMap (F.act o).asHom s v) := by
+          rw [hE]; exact hcomp
         congrArg (_ • ·) ((T.rationalStalkEquiv.map_smul _ _).symm.trans
-          (congrArg T.rationalStalkEquiv hcomp.symm))
+          (congrArg T.rationalStalkEquiv hcomp'.symm))
     _ = _ := by
         rw [hM, Nat.cast_pow]
         rfl

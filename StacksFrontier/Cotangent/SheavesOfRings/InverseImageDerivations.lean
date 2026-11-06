@@ -126,6 +126,11 @@ naturality of the unit `P' ⟶ f_*f⁻¹P'`, but that identification is not defi
 
 open CategoryTheory CategoryTheory.Limits CategoryTheory.Functor CategoryTheory.Sheaf
 
+-- Since Mathlib v4.35.0 this instance is tried first on products of sheaves of sets of the
+-- form `(sheafCompose J (forget _)).obj R`, and its search through limits of presheaves of
+-- rings times out.
+attribute [-instance] instHasBinaryProductObjOfPreservesLimitDiscreteWalkingPairPair
+
 namespace PresheafOfModules.Derivation'
 
 universe v u v₂ u₂
@@ -137,9 +142,9 @@ variable {D : Type u₂} [Category.{v₂} D] {S R₁ R₂ : Dᵒᵖ ⥤ CommRing
 /-- Precomposition of a derivation by a morphism `q : R₁ ⟶ R₂` of presheaves of commutative
 rings under `S`: an `R₂/S`-derivation with values in `M` is an `R₁/S`-derivation with values in
 `M` viewed as a presheaf of `R₁`-modules by restriction of scalars along `q`. -/
-noncomputable def precomp (d : M.Derivation' a₂) (h : a₁ ≫ q = a₂) :
-    ((restrictScalars (whiskerRight q (forget₂ CommRingCat.{u} RingCat.{u}))).obj
-      M).Derivation' a₁ where
+noncomputable def precomp (d : PresheafOfModulesOfCommRing.Derivation' M a₂) (h : a₁ ≫ q = a₂) :
+    PresheafOfModulesOfCommRing.Derivation'
+      ((restrictScalars (whiskerRight q (forget₂ CommRingCat.{u} RingCat.{u}))).obj M) a₁ where
   d {X} := d.d.comp (q.app X).hom.toAddMonoidHom
   d_mul {X} x y := by
     change d.d ((q.app X).hom (x * y)) = _
@@ -156,8 +161,9 @@ noncomputable def precomp (d : M.Derivation' a₂) (h : a₁ ≫ q = a₂) :
 /-- The precomposed derivation `d.precomp q h` sends a section `x` to `d` of its image
 under `q`. -/
 @[simp]
-lemma precomp_d_apply (d : M.Derivation' a₂) (h : a₁ ≫ q = a₂) {X : Dᵒᵖ} (x : R₁.obj X) :
-    (d.precomp q h).d x = d.d ((q.app X).hom x) :=
+lemma precomp_d_apply (d : PresheafOfModulesOfCommRing.Derivation' M a₂) (h : a₁ ≫ q = a₂)
+    {X : Dᵒᵖ} (x : R₁.obj X) :
+    (PresheafOfModules.Derivation'.precomp q d h).d x = d.d ((q.app X).hom x) :=
   rfl
 
 end PresheafOfModules.Derivation'
@@ -226,14 +232,15 @@ noncomputable abbrev commRingSetHom :
   (sheafCompose J (forget RingCat.{w})).map ((Stacks.forgetCommRingSheaf.{v, u, w} J).map a)
 
 /-- The morphism of underlying sheaves of sets belonging to a derivation. -/
-noncomputable def derivationSheafHom (d : M.val.Derivation' a.hom) :
+noncomputable def derivationSheafHom (d : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) :
     Sheaf.ringSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂) ⟶
       Sheaf.moduleSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂) M :=
   Sheaf.unaryOpHom (fun _ x ↦ d.d x) fun g x ↦ (d.d_map g x).symm
 
 /-- On sections, `derivationSheafHom a M d` acts as the derivation `d`. -/
 @[simp]
-lemma sectionsFunctor_map_derivationSheafHom (d : M.val.Derivation' a.hom) (X : Cᵒᵖ)
+lemma sectionsFunctor_map_derivationSheafHom
+    (d : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) (X : Cᵒᵖ)
     (x : (Sheaf.sectionsFunctor J X).obj
       (Sheaf.ringSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂))) :
     (Sheaf.sectionsFunctor J X).map (derivationSheafHom a M d) x = d.d x := rfl
@@ -256,7 +263,7 @@ def IsDerivationHom
         prod.snd ≫ commRingSetHom a ≫ d
 
 /-- The morphism of sheaves of sets of a derivation is additive, stated diagrammatically. -/
-lemma derivationSheafHom_add (d : M.val.Derivation' a.hom) :
+lemma derivationSheafHom_add (d : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) :
     Sheaf.ringAddHom ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂) ≫
         derivationSheafHom a M d =
       prod.map (derivationSheafHom a M d) (derivationSheafHom a M d) ≫
@@ -272,7 +279,7 @@ lemma derivationSheafHom_add (d : M.val.Derivation' a.hom) :
 
 /-- The morphism of sheaves of sets of a derivation satisfies the Leibniz rule, stated
 diagrammatically. -/
-lemma derivationSheafHom_mul (d : M.val.Derivation' a.hom) :
+lemma derivationSheafHom_mul (d : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) :
     Sheaf.ringMulHom ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂) ≫
         derivationSheafHom a M d =
       leibnizHom ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂) M
@@ -286,7 +293,7 @@ lemma derivationSheafHom_mul (d : M.val.Derivation' a.hom) :
 
 /-- The morphism of sheaves of sets of a derivation is constant along the image of `a`, stated
 diagrammatically. -/
-lemma derivationSheafHom_base (d : M.val.Derivation' a.hom) :
+lemma derivationSheafHom_base (d : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) :
     (prod.fst : Sheaf.ringSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₁) ⨯
         Sheaf.ringSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₁) ⟶ _) ≫
         commRingSetHom a ≫ derivationSheafHom a M d =
@@ -382,7 +389,7 @@ axioms is a derivation. -/
 noncomputable def ofDerivationHom
     (d : Sheaf.ringSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂) ⟶
       Sheaf.moduleSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂) M)
-    (h : IsDerivationHom a M d) : M.val.Derivation' a.hom where
+    (h : IsDerivationHom a M d) : PresheafOfModulesOfCommRing.Derivation' M.val a.hom where
   d {X} := AddMonoidHom.mk' ((Sheaf.sectionsFunctor J X).map d)
     (isDerivationHom_add_apply h.1 X)
   d_mul {_} x y := isDerivationHom_mul_apply h.2.1 _ x y
@@ -394,7 +401,7 @@ variable (a M)
 /-- Derivations of `M` over `a` are the same thing as morphisms of the underlying sheaves of
 sets satisfying the three diagrammatic derivation axioms. -/
 noncomputable def derivationHomEquiv :
-    M.val.Derivation' a.hom ≃
+    PresheafOfModulesOfCommRing.Derivation' M.val a.hom ≃
       {d : Sheaf.ringSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂) ⟶
         Sheaf.moduleSheaf ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, w} (J := J)) O₂) M //
         IsDerivationHom a M d} where
@@ -406,7 +413,7 @@ noncomputable def derivationHomEquiv :
 
 /-- The morphism underlying `derivationHomEquiv a M d` is `derivationSheafHom a M d`. -/
 @[simp]
-lemma derivationHomEquiv_apply_coe (d : M.val.Derivation' a.hom) :
+lemma derivationHomEquiv_apply_coe (d : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) :
     (derivationHomEquiv a M d).1 = derivationSheafHom a M d := rfl
 
 end DerivationHom
@@ -699,9 +706,9 @@ This is the module-level half of Stacks 08TQ, and the transposition is the hom-s
 Stacks 03D3 (`Stacks.Sheaves.RingedToposModules.toposModulesHomEquiv`) read on underlying
 sheaves of sets. -/
 noncomputable def inverseImageDerivationEquiv :
-    M.val.Derivation' (f.inverseImageRing.map a).hom ≃
-      ((directImageModules f
-        ((Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', w'} (J := K)) P)).obj M).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' M.val (f.inverseImageRing.map a).hom ≃
+      PresheafOfModulesOfCommRing.Derivation' ((directImageModules f
+        ((Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', w'} (J := K)) P)).obj M).val
         a.hom :=
   (derivationHomEquiv (f.inverseImageRing.map a) M).trans
     ((Equiv.subtypeEquiv (f.adj.homEquiv _ _) (isDerivationHom_transpose_iff f a M)).trans
@@ -712,7 +719,7 @@ noncomputable def inverseImageDerivationEquiv :
 /-- `inverseImageDerivationEquiv` is the hom-set bijection of `f⁻¹ ⊣ f_*` on the morphisms of
 underlying sheaves of sets belonging to the two derivations. -/
 lemma derivationSheafHom_inverseImageDerivationEquiv
-    (d : M.val.Derivation' (f.inverseImageRing.map a).hom) :
+    (d : PresheafOfModulesOfCommRing.Derivation' M.val (f.inverseImageRing.map a).hom) :
     derivationSheafHom a
         ((directImageModules f
           ((Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', w'} (J := K)) P)).obj M)
@@ -735,7 +742,8 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 
 /-- The morphism of underlying sheaves of sets of a derivation postcomposed with a morphism of
 sheaves of modules is that of the derivation, followed by the morphism. -/
-lemma derivationSheafHom_postcomp (k : M ⟶ N) (d : M.val.Derivation' a.hom) :
+lemma derivationSheafHom_postcomp (k : M ⟶ N)
+    (d : PresheafOfModulesOfCommRing.Derivation' M.val a.hom) :
     derivationSheafHom a N (d.postcomp k.val) =
       derivationSheafHom a M d ≫
         (Sheaf.moduleSheafFunctor
@@ -757,7 +765,7 @@ variable {D : Type u'} [Category.{v'} D] {K : GrothendieckTopology D}
 
 /-- The transposition of derivations is natural in the coefficient module. -/
 lemma inverseImageDerivationEquiv_postcomp (k : M' ⟶ N')
-    (d : M'.val.Derivation' (f.inverseImageRing.map b).hom) :
+    (d : PresheafOfModulesOfCommRing.Derivation' M'.val (f.inverseImageRing.map b).hom) :
     inverseImageDerivationEquiv f b N' (d.postcomp k.val) =
       (inverseImageDerivationEquiv f b M' d).postcomp
         ((directImageModules f
@@ -771,8 +779,8 @@ lemma inverseImageDerivationEquiv_postcomp (k : M' ⟶ N')
 
 /-- The inverse transposition of derivations is natural in the coefficient module. -/
 lemma inverseImageDerivationEquiv_symm_postcomp (k : M' ⟶ N')
-    (D : ((directImageModules f
-        ((Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', w'} (J := K)) P)).obj M').val.Derivation'
+    (D : PresheafOfModulesOfCommRing.Derivation' ((directImageModules f
+        ((Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', w'} (J := K)) P)).obj M').val
       b.hom) :
     ((inverseImageDerivationEquiv f b M').symm D).postcomp k.val =
       (inverseImageDerivationEquiv f b N').symm
@@ -804,11 +812,13 @@ variable {A : Sheaf J CommRingCat.{w}} {a₁ : A ⟶ O₁} {a₂ : A ⟶ O₂}
 /-- The morphism of underlying sheaves of sets of a derivation precomposed with a morphism `q`
 of sheaves of commutative rings is the underlying morphism of `q`, followed by that of the
 derivation. -/
-lemma derivationSheafHom_precomp (q : O₁ ⟶ O₂) (d : M.val.Derivation' a₂.hom)
+lemma derivationSheafHom_precomp (q : O₁ ⟶ O₂)
+    (d : PresheafOfModulesOfCommRing.Derivation' M.val a₂.hom)
     (h : a₁.hom ≫ q.hom = a₂.hom) :
     derivationSheafHom a₁
         ((SheafOfModules.restrictScalars
-          ((Stacks.forgetCommRingSheaf.{v, u, w} J).map q)).obj M) (d.precomp q.hom h) =
+          ((Stacks.forgetCommRingSheaf.{v, u, w} J).map q)).obj M)
+          (PresheafOfModules.Derivation'.precomp q.hom d h) =
       commRingSetHom q ≫ derivationSheafHom a₂ M d :=
   Sheaf.hom_ext_sections fun _ _ ↦ rfl
 
@@ -850,7 +860,7 @@ actions of `P₁` on `f_*M` obtained from the two sides of the naturality square
 injective for fixed base morphism and coefficient module, the equation below determines the
 derivation. -/
 lemma derivationSheafHom_inverseImageDerivationEquiv_precomp (hq : a₁ ≫ q = a₂)
-    (d : M'.val.Derivation' (f.inverseImageRing.map a₂).hom) :
+    (d : PresheafOfModulesOfCommRing.Derivation' M'.val (f.inverseImageRing.map a₂).hom) :
     derivationSheafHom.{w', v', u'} a₁
         ((directImageModules f
           ((Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', w'} (J := K)) P₁)).obj
@@ -859,7 +869,7 @@ lemma derivationSheafHom_inverseImageDerivationEquiv_precomp (hq : a₁ ≫ q = 
         (inverseImageDerivationEquiv.{w, w', v, u, v', u'} f a₁
           ((SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf.{v, u, w} J).map
             (f.inverseImageRing.map q))).obj M')
-          (d.precomp (f.inverseImageRing.map q).hom
+          (PresheafOfModules.Derivation'.precomp (f.inverseImageRing.map q).hom d
             (inverseImageRing_map_hom_comp f q hq))) =
       commRingSetHom.{w', v', u'} q ≫
         derivationSheafHom.{w', v', u'} a₂
@@ -874,11 +884,12 @@ lemma derivationSheafHom_inverseImageDerivationEquiv_precomp (hq : a₁ ≫ q = 
 transpose of the precomposition of `d` by `f⁻¹q` takes a section `x` of `P₁` to the value of
 the transpose of `d` at `q x`. -/
 lemma inverseImageDerivationEquiv_precomp_d (hq : a₁ ≫ q = a₂)
-    (d : M'.val.Derivation' (f.inverseImageRing.map a₂).hom) (X : Dᵒᵖ) (x : P₁.obj.obj X) :
+    (d : PresheafOfModulesOfCommRing.Derivation' M'.val (f.inverseImageRing.map a₂).hom) (X : Dᵒᵖ)
+    (x : P₁.obj.obj X) :
     (inverseImageDerivationEquiv.{w, w', v, u, v', u'} f a₁
           ((SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf.{v, u, w} J).map
             (f.inverseImageRing.map q))).obj M')
-          (d.precomp (f.inverseImageRing.map q).hom
+          (PresheafOfModules.Derivation'.precomp (f.inverseImageRing.map q).hom d
             (inverseImageRing_map_hom_comp f q hq))).d x =
       (inverseImageDerivationEquiv.{w, w', v, u, v', u'} f a₂ M' d).d ((q.hom.app X).hom x) :=
   congrArg (fun m ↦ (Sheaf.sectionsFunctor K X).map m x)

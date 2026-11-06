@@ -46,7 +46,7 @@ private theorem isSeparable_of_isSeparableExtension_of_isIntegral {k K : Type*} 
   let L : IntermediateField k K := IntermediateField.adjoin k {x}
   have : FiniteDimensional k L := IntermediateField.adjoin.finiteDimensional hx
   obtain ⟨s, hsBasis, hsSep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := L)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := L)
   rw [Set.isEmpty_coe_sort.mp hsBasis.1.isEmpty_of_isAlgebraic,
     IntermediateField.adjoin_empty] at hsSep
   have : Algebra.IsSeparable k L := Algebra.IsSeparable.trans k (⊥ : IntermediateField k L) L

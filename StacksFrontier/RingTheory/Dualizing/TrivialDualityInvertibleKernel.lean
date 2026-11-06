@@ -249,8 +249,8 @@ theorem ker_conormalDualBaseChange
       rwa [conormalDualBaseChange_apply_tmul, one_mul] at hx
     let θ : kernelModule.{u, v} R A →ₗ[R] kernelModule.{u, v} R A :=
       { toFun := fun x => ULift.up ⟨φ x, hφI x⟩
-        map_add' := fun x y => ULift.ext _ _ (Subtype.ext (map_add φ x y))
-        map_smul' := fun r x => ULift.ext _ _ (Subtype.ext (map_smul φ r x)) }
+        map_add' := fun x y => ULift.ext (Subtype.ext (map_add φ x y))
+        map_smul' := fun r x => ULift.ext (Subtype.ext (map_smul φ r x)) }
     obtain ⟨r, hr⟩ := (Module.Invertible.toModuleEnd_bijective R
       (kernelModule.{u, v} R A)).2 θ
     refine ⟨r, LinearMap.ext fun x => ?_⟩
@@ -343,11 +343,11 @@ theorem kernelShortComplex_shortExact (hf : Function.Surjective (algebraMap R A)
     intro x hx
     exact ⟨ULift.up ⟨x.down, RingHom.mem_ker.2 (congrArg ULift.down hx)⟩, rfl⟩
   mono_f := (ModuleCat.mono_iff_injective _).mpr (fun _ _ hxy =>
-    ULift.ext _ _ (Subtype.ext (congrArg ULift.down hxy)))
+    ULift.ext (Subtype.ext (congrArg ULift.down hxy)))
   epi_g := (ModuleCat.epi_iff_surjective _).mpr (by
     intro y
     obtain ⟨r, hr⟩ := hf y.down
-    exact ⟨ULift.up r, ULift.ext _ _ hr⟩)
+    exact ⟨ULift.up r, ULift.ext hr⟩)
 
 /-- `R` itself is projective, so the middle term of the resolution is. -/
 instance : Projective (kernelShortComplex.{u, v} (R := R) (A := A)).X₂ :=
@@ -384,7 +384,7 @@ theorem kernelHomEquivDual_map_range :
   · rintro ⟨ψ, ⟨g, rfl⟩, rfl⟩
     refine ⟨(ConcreteCategory.hom g (ULift.up (1 : R))).down, LinearMap.ext fun x => ?_⟩
     have hsm : (x.down : R) • (ULift.up (1 : R) : ULift.{v} R) = ULift.up (x.down : R) :=
-      ULift.ext _ _ (mul_one _)
+      ULift.ext (mul_one _)
     have h2 := congrArg ULift.down
       ((ConcreteCategory.hom g).map_smul (x.down : R) (ULift.up (1 : R)))
     rw [hsm] at h2
@@ -416,12 +416,12 @@ theorem linearMap_lift_eq_zero (hf : Function.Surjective (algebraMap R A))
     (hI : Module.Invertible R (RingHom.ker (algebraMap R A)))
     (g : ULift.{v} A →ₗ[R] ULift.{max v u} R) : g = 0 := by
   have hone : g (ULift.up 1) = 0 := by
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     change (g (ULift.up 1)).down = (0 : R)
     apply eq_zero_of_mul_kernel_eq_zero hI
     intro x
     have hx : (x : R) • (ULift.up (1 : A) : ULift.{v} A) = 0 := by
-      refine ULift.ext _ _ ?_
+      refine ULift.ext ?_
       change (x : R) • (1 : A) = (0 : A)
       rw [Algebra.smul_def, mul_one]
       exact RingHom.mem_ker.mp x.property
@@ -432,7 +432,7 @@ theorem linearMap_lift_eq_zero (hf : Function.Surjective (algebraMap R A))
   refine LinearMap.ext fun y => ?_
   obtain ⟨r, hr⟩ := hf y.down
   have hy : y = r • (ULift.up (1 : A) : ULift.{v} A) := by
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     change y.down = (r : R) • (1 : A)
     rw [Algebra.smul_def, mul_one, hr]
   rw [hy, map_smul, hone, smul_zero, LinearMap.zero_apply]
@@ -516,7 +516,7 @@ def restrictedLiftIso :
     (ModuleCat.restrictScalars (algebraMap R A)).obj (ModuleCat.of A (ULift.{v} A)) ≅
       ModuleCat.of R (ULift.{v} A) :=
   restrictScalarsIdIso.{u, v} (ULift.{v} A)
-    (fun r x => ULift.ext _ _ (Algebra.smul_def r x.down))
+    (fun r x => ULift.ext (Algebra.smul_def r x.down))
 
 /-- The right-derived unit of coextension of scalars, for which `Dualizing.derivedHom` has the
 universal property. -/

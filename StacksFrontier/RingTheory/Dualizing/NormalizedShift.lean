@@ -184,6 +184,10 @@ theorem isDerivedHomothetyQuasiIso_of_shift
     intro i
     obtain rfl | hi := eq_or_ne i 0
     · rw [HomologicalComplex.comp_f]
+      unfold homothety
+      erw [HomologicalComplex.mkHomFromSingle_f, HomologicalComplex.mkHomFromSingle_f,
+        Category.assoc]
+      congr 1
       ext a
       change ULift.{v} R at a
       show (e.hom.f 0).hom (ULift.up

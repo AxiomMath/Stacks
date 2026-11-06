@@ -3,6 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.Limits.ClosedImmersionFinitePresentationLimit
 public import StacksFrontier.AlgebraicGeometry.Morphisms.FinitePresentation.LocallyNoetherian
 public import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
+import Mathlib.RingTheory.Localization.Finiteness
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

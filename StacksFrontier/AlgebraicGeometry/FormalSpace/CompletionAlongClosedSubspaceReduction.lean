@@ -604,7 +604,7 @@ noncomputable def closedSubspaceToCompletionSubfunctor :
   naturality := by
     intro U V i
     ext x
-    exact Subtype.ext (ULift.ext _ _ rfl)
+    exact Subtype.ext (ULift.ext rfl)
 
 /-- **The canonical morphism `Z ⟶ X^∧_Z` from a closed subspace into the completion of `X`
 along it**, the stage `Z = Z_0` of the colimit presentation of Stacks 0GXU. -/

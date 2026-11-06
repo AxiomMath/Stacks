@@ -41,7 +41,7 @@ variable {R : Type*} [CommRing R]
 /-- The logarithmic derivative `T · u' · u⁻¹` of a formal power series, computed with the
 inverse that exists when the constant coefficient is `1`.  Away from that case the definition
 carries no meaning. -/
-noncomputable def logDerivative (u : R⟦X⟧) : R⟦X⟧ := X * d⁄dX R u * invOfUnit u 1
+noncomputable def logDerivative (u : R⟦X⟧) : R⟦X⟧ := X * d⁄dX u * invOfUnit u 1
 
 /-- A power series with constant coefficient `1` is inverted by `invOfUnit _ 1`. -/
 theorem mul_invOfUnit_one {u : R⟦X⟧} (hu : constantCoeff u = 1) : u * invOfUnit u 1 = 1 :=
@@ -55,8 +55,10 @@ theorem constantCoeff_invOfUnit_one (u : R⟦X⟧) :
 
 /-- A power series with vanishing derivative is its own constant coefficient, provided the
 additive group of the coefficient ring is torsion free. -/
-theorem eq_C_of_derivative_eq_zero [IsAddTorsionFree R] {u : R⟦X⟧} (h : d⁄dX R u = 0) :
+theorem eq_C_of_derivative_eq_zero [IsAddTorsionFree R] {u : R⟦X⟧} (h : d⁄dX u = 0) :
     u = C (constantCoeff u) :=
+  haveI : HasUniqueDiv R :=
+    ⟨fun _ hn a b hab => eq_of_nsmul_eq_nsmul_of_addCommute hn (AddCommute.all a b) hab⟩
   derivative.ext (by rw [h, derivative_C]) (by simp)
 
 /-- The inverse of a product of two series with constant coefficient `1`. -/
@@ -69,7 +71,7 @@ theorem invOfUnit_one_mul {u v : R⟦X⟧} (hu : constantCoeff u = 1) (hv : cons
 
 /-- The Leibniz rule for the derivative of power series, with multiplication in place of `•`. -/
 private theorem derivative_mul_eq (a b : R⟦X⟧) :
-    d⁄dX R (a * b) = a * d⁄dX R b + b * d⁄dX R a := by
+    d⁄dX (a * b) = a * d⁄dX b + b * d⁄dX a := by
   rw [Derivation.leibniz, smul_eq_mul, smul_eq_mul]
 
 /-- The logarithmic derivative has vanishing constant coefficient, being a multiple of `T`. -/
@@ -87,8 +89,8 @@ theorem logDerivative_mul {u v : R⟦X⟧} (hu : constantCoeff u = 1) (hv : cons
   have hu' := mul_invOfUnit_one hu
   have hv' := mul_invOfUnit_one hv
   rw [logDerivative, logDerivative, logDerivative, invOfUnit_one_mul hu hv, derivative_mul_eq]
-  linear_combination (X * d⁄dX R v * invOfUnit v 1) * hu' +
-    (X * d⁄dX R u * invOfUnit u 1) * hv'
+  linear_combination (X * d⁄dX v * invOfUnit v 1) * hu' +
+    (X * d⁄dX u * invOfUnit u 1) * hv'
 
 /-- The logarithmic derivative of a finite product of series with constant coefficient `1`. -/
 theorem logDerivative_finsetProd {ι : Type*} (s : Finset ι) (f : ι → R⟦X⟧)
@@ -120,18 +122,18 @@ theorem eq_of_logDerivative_eq [IsAddTorsionFree R] {u v : R⟦X⟧}
     (h : logDerivative u = logDerivative v) : u = v := by
   have hu' := mul_invOfUnit_one hu
   have hv' := mul_invOfUnit_one hv
-  have hcross : d⁄dX R u * v = d⁄dX R v * u := by
+  have hcross : d⁄dX u * v = d⁄dX v * u := by
     refine X_mul_cancel ?_
     have h' : logDerivative u * (u * v) = logDerivative v * (u * v) := by rw [h]
     rw [logDerivative, logDerivative] at h'
-    linear_combination h' - (X * d⁄dX R u * v) * hu' + (X * d⁄dX R v * u) * hv'
-  have hleib : v * d⁄dX R (invOfUnit v 1) + invOfUnit v 1 * d⁄dX R v = 0 := by
-    have hc := congrArg (d⁄dX R) hv'
+    linear_combination h' - (X * d⁄dX u * v) * hu' + (X * d⁄dX v * u) * hv'
+  have hleib : v * d⁄dX (invOfUnit v 1) + invOfUnit v 1 * d⁄dX v = 0 := by
+    have hc := congrArg (fun w : R⟦X⟧ => d⁄dX w) hv'
     rwa [derivative_mul_eq, derivative_one] at hc
-  have hzero : d⁄dX R (u * invOfUnit v 1) = 0 := by
+  have hzero : d⁄dX (u * invOfUnit v 1) = 0 := by
     rw [derivative_mul_eq]
     linear_combination (invOfUnit v 1 * u) * hleib + (invOfUnit v 1 ^ 2) * hcross -
-      (u * d⁄dX R (invOfUnit v 1) + invOfUnit v 1 * d⁄dX R u) * hv'
+      (u * d⁄dX (invOfUnit v 1) + invOfUnit v 1 * d⁄dX u) * hv'
   have hone : u * invOfUnit v 1 = 1 := by
     rw [eq_C_of_derivative_eq_zero hzero]
     simp [hu]
@@ -150,17 +152,17 @@ theorem coeff_logDerivative_congr {u v : R⟦X⟧} {m : ℕ} (hu : constantCoeff
       linear_combination invOfUnit v 1 * hu' - invOfUnit u 1 * hv'
     rw [he, ← neg_sub]
     exact h.neg_right.mul_left _
-  have hder : (X : R⟦X⟧) ^ (m + 1) ∣ X * d⁄dX R u - X * d⁄dX R v := by
+  have hder : (X : R⟦X⟧) ^ (m + 1) ∣ X * d⁄dX u - X * d⁄dX v := by
     obtain ⟨g, hg⟩ := h
-    have hsub : X * d⁄dX R u - X * d⁄dX R v = X * d⁄dX R (u - v) := by rw [map_sub]; ring
-    refine ⟨X * d⁄dX R g + ((m : R⟦X⟧) + 1) * g, ?_⟩
+    have hsub : X * d⁄dX u - X * d⁄dX v = X * d⁄dX (u - v) := by rw [map_sub]; ring
+    refine ⟨X * d⁄dX g + ((m : R⟦X⟧) + 1) * g, ?_⟩
     rw [hsub, hg, Derivation.leibniz, derivative_pow, derivative_X]
     push_cast
     simp only [smul_eq_mul]
     ring
   have hsplit : logDerivative u - logDerivative v
-      = (X * d⁄dX R u - X * d⁄dX R v) * invOfUnit u 1
-        + X * d⁄dX R v * (invOfUnit u 1 - invOfUnit v 1) := by
+      = (X * d⁄dX u - X * d⁄dX v) * invOfUnit u 1
+        + X * d⁄dX v * (invOfUnit u 1 - invOfUnit v 1) := by
     simp only [logDerivative]
     ring
   have hdvd : (X : R⟦X⟧) ^ (m + 1) ∣ logDerivative u - logDerivative v := by

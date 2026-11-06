@@ -156,7 +156,9 @@ theorem twistPicardClass_add (m m' : ℤ) :
 
 /-- The Picard class of `𝒪_X(0)` vanishes: it is its own double. -/
 theorem twistPicardClass_zero : twistPicardClass I 0 = 0 := by
-  simpa using twistPicardClass_add I 0 0
+  have h := twistPicardClass_add I 0 0
+  rw [add_zero] at h
+  exact left_eq_add.mp h
 
 /-- The Picard class of `𝒪_X(-1)` is the negative of that of `𝒪_X(1)`. -/
 theorem twistPicardClass_neg_one :

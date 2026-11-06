@@ -245,15 +245,15 @@ abbrev frobeniusPowCohomologyEndo (m n : ℕ) (hn : n ≠ 0)
 /-- `π̄ ^ 1 = π̄`. -/
 lemma geometricFrobeniusBaseChangePow_one :
     geometricFrobeniusBaseChangePow Y kbar p q hcard 1 =
-      geometricFrobeniusBaseChange Y kbar p q hcard :=
-  pow_one (End.of (geometricFrobeniusBaseChange Y kbar p q hcard))
+      geometricFrobeniusBaseChange Y kbar p q hcard := by
+  simp only [geometricFrobeniusBaseChangePow, pow_one]
 
 /-- `π̄ ^ (m + 1) = π̄ ^ m ≫ π̄`. -/
 lemma geometricFrobeniusBaseChangePow_succ' (m : ℕ) :
     geometricFrobeniusBaseChangePow Y kbar p q hcard (m + 1) =
       geometricFrobeniusBaseChangePow Y kbar p q hcard m ≫
-        geometricFrobeniusBaseChange Y kbar p q hcard :=
-  pow_succ' (End.of (geometricFrobeniusBaseChange Y kbar p q hcard)) m
+        geometricFrobeniusBaseChange Y kbar p q hcard := by
+  simp only [geometricFrobeniusBaseChangePow, pow_succ', End.mul_asHom]
 
 /-- **The `m`-th power of `π_Y^*`.**  The `(m + 1)`-st power of the canonical endomorphism of
 `RΓ(Y_k̄, C|_{Y_k̄})` is the endomorphism attached to the base change twist of `π̄ ^ (m + 1)` over
@@ -272,6 +272,7 @@ theorem frobeniusRestrictionCohomologyEndo_pow
   | zero =>
       obtain rfl : n = q := by omega
       rw [pow_one, frobeniusRestrictionCohomologyEndo_eq_derivedTwistEndo]
+      refine congrArg End.of ?_
       exact (derivedTwistEndo_baseChangeTwist_congr Λ (fieldBaseChangeProj Y kbar) _ _ _ _ w _ _ _
         (geometricFrobeniusBaseChangePow_one Y kbar p _ hcard).symm _ _ C).symm
   | succ m ih =>
@@ -283,7 +284,9 @@ theorem frobeniusRestrictionCohomologyEndo_pow
       rw [pow_succ, ih (q * (m + 1)) hqm rfl
           ((geometricFrobeniusBaseChangePow_fst Y kbar p q hcard (m + 1)))
           (geometricFrobeniusBaseChangePow_snd Y kbar p q hcard (m + 1)).symm,
-        frobeniusRestrictionCohomologyEndo_eq_derivedTwistEndo, End.mul_def]
+        frobeniusRestrictionCohomologyEndo_eq_derivedTwistEndo]
+      ext1
+      rw [End.mul_asHom]
       exact (derivedTwistEndo_baseChangeTwist_comp Λ (fieldBaseChangeProj Y kbar) _ _ _ _ _ _ _ _
         _ _ w _ _ hs _ _ _ (geometricFrobeniusBaseChangePow_succ' Y kbar p q hcard (m + 1))
         (absoluteFrobeniusPow_add_eq_comp p (isInCharacteristic_of_over Y))

@@ -3,6 +3,7 @@ module
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Basic
 public import StacksFrontier.Algebra.Homology.DerivedCategory.Ext.Basic
 import StacksFrontier.Algebra.Homology.DerivedCategory.MapDerivedCategoryComparisons
+import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughInjectives
 public import StacksFrontier.Homology.Tor.DerivedChangeOfRingsAdjunction
 public import Mathlib.RingTheory.SimpleModule.InjectiveProjective
 public import StacksCore.Tactic.StacksAttribute
@@ -670,7 +671,7 @@ public theorem extIntoFieldEquivDualBaseChangeHomology_restrictScalars
           (Functor.mapHomologicalComplexCompIso
               (ModuleCat.restrictScalarsComp f g).symm (ComplexShape.up ℤ)).hom.app C ≫
             (H.mapCochainComplexSingleFunctor 0).hom.app K := by
-        ext n
+        refine HomologicalComplex.hom_ext _ _ fun n => ?_
         by_cases hn : n = 0
         · subst n
           simp [Functor.mapCochainComplexSingleFunctor,

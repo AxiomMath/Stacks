@@ -76,7 +76,7 @@ def BaseChangeComparisonStatement (pX : X ⥤ C) (pY' : Y' ⥤ C) (pY : Y ⥤ C)
       BaseChangeFibreProduct pX pY' pY F G,
     (∀ A : RelativeInertia (TwoFibreProductOver.snd pX pY' pY F G),
       (Θ.obj A).x.obj = A.obj.x ∧
-      HEq (Θ.obj A).x.auto.hom A.auto.hom.a ∧
+      HEq (Θ.obj A).x.auto.asIso.hom A.auto.asIso.hom.a ∧
       (Θ.obj A).y = A.obj ∧
       HEq (Θ.obj A).iso.hom (𝟙 A.obj.x)) ∧
     (∀ {A B : RelativeInertia (TwoFibreProductOver.snd pX pY' pY F G)} (φ : A ⟶ B),
@@ -201,10 +201,11 @@ def cexBaseChangeObj : TwoFibreProductOver cexPX cexPY cexPY cexF cexG where
 
 /-- The automorphism of the unique object of `X` given by `σ`. -/
 def cexSigmaAuto : Aut (SingleObj.star CexM) where
-  hom := cexSigma
-  inv := cexSigmaInv
-  hom_inv_id := inv_mul_cancel (Multiplicative.ofAdd (1 : ℤ))
-  inv_hom_id := mul_inv_cancel (Multiplicative.ofAdd (1 : ℤ))
+  asIso :=
+    { hom := cexSigma
+      inv := cexSigmaInv
+      hom_inv_id := inv_mul_cancel (Multiplicative.ofAdd (1 : ℤ))
+      inv_hom_id := mul_inv_cancel (Multiplicative.ofAdd (1 : ℤ)) }
 
 /-- The object `(⋆, σ)` of `I_{X/Y}`: the condition `F σ = id` is vacuous since `Y` is
 terminal. -/
@@ -228,12 +229,12 @@ def cexBadObj : BaseChangeFibreProduct cexPX cexPY cexPY cexF cexG where
 `Y'`-component is an identity, which forces the common base morphism to be an identity,
 which forces the `X`-component to be an identity because `pX` is the identity functor. -/
 lemma cex_auto_a_eq_one (A : RelativeInertia (TwoFibreProductOver.snd cexPX cexPY cexPY
-    cexF cexG)) : cexVal A.auto.hom.a = 1 := by
-  have hbase : cexVal A.auto.hom.hbase = 1 := by
-    have := A.auto.hom.hb
-    exact (cex_map_eq_of_isHomLift cexPY A.auto.hom.hbase A.auto.hom.b).symm
-  have := A.auto.hom.ha
-  exact (cex_map_eq_of_isHomLift cexPX A.auto.hom.hbase A.auto.hom.a).trans hbase
+    cexF cexG)) : cexVal A.auto.asIso.hom.a = 1 := by
+  have hbase : cexVal A.auto.asIso.hom.hbase = 1 := by
+    have := A.auto.asIso.hom.hb
+    exact (cex_map_eq_of_isHomLift cexPY A.auto.asIso.hom.hbase A.auto.asIso.hom.b).symm
+  have := A.auto.asIso.hom.ha
+  exact (cex_map_eq_of_isHomLift cexPX A.auto.asIso.hom.hbase A.auto.asIso.hom.a).trans hbase
 
 /-- **The naive reading of Tag 06PQ is false.** Without a hypothesis relating `F`
 to the structure functors there is no comparison 1-morphism with the prescribed action which
@@ -251,7 +252,7 @@ theorem not_baseChangeComparisonStatement :
   obtain ⟨A, ⟨u⟩⟩ : ∃ A, Nonempty (Θ.obj A ⟶ cexBadObj) :=
     ⟨Θ.objPreimage cexBadObj, ⟨(Θ.objObjPreimageIso cexBadObj).hom⟩⟩
   -- The automorphism of the `I_{X/Y}`-component of `Θ A` is the identity.
-  have hauto : cexVal (Θ.obj A).x.auto.hom = 1 :=
+  have hauto : cexVal (Θ.obj A).x.auto.asIso.hom = 1 :=
     (congrArg cexVal (eq_of_heq (hobj A).2.1)).trans (cex_auto_a_eq_one A)
   -- The commuting square of the `I_{X/Y}`-component of `u` reads `σ c = c`.
   have hcomm := congrArg cexVal u.a.comm

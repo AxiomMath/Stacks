@@ -159,14 +159,14 @@ automorphisms of `A` over `X`, then `τ = τ'`: the element of the geometric fib
 a geometric point of `V` is fixed by `τ⁻¹ τ'`, and `Aut A` acts freely on the fibres of a
 connected object. -/
 theorem aut_eq_of_comp_eq {A : FiniteEtaleOver X} [IsConnected A] {V : Scheme.{u}} [Nonempty V]
-    (c : V ⟶ A.left) {τ τ' : Aut A} (h : c ≫ τ.hom.left = c ≫ τ'.hom.left) : τ = τ' := by
+    (c : V ⟶ A.left) {τ τ' : Aut A} (h : c ≫ τ.asIso.hom.left = c ≫ τ'.asIso.hom.left) : τ = τ' := by
   let v : V := Classical.arbitrary V
   let x' := (V.algClosedPoint v).map (c ≫ A.hom)
   refine evaluation_aut_injective_of_isConnected (finiteEtaleFiberFintypeFunctor X x') A
     (fiberPointOfComp v c) ?_
   apply Subtype.ext
-  change ((finiteEtaleFiberFintypeFunctor X x').map τ.hom (fiberPointOfComp v c)).1 =
-    ((finiteEtaleFiberFintypeFunctor X x').map τ'.hom (fiberPointOfComp v c)).1
+  change ((finiteEtaleFiberFintypeFunctor X x').map τ.asIso.hom (fiberPointOfComp v c)).1 =
+    ((finiteEtaleFiberFintypeFunctor X x').map τ'.asIso.hom (fiberPointOfComp v c)).1
   rw [finiteEtaleFiberFintypeFunctor_map_fiberPointOfComp,
     finiteEtaleFiberFintypeFunctor_map_fiberPointOfComp, h]
 
@@ -177,8 +177,8 @@ at the geometric point of `W` at `w`, the composites with `a` and `b` are two el
 geometric fibre of `A`, on which `Aut A` acts transitively. -/
 theorem exists_aut_mem_agreeLocus {A : FiniteEtaleOver X} [IsGalois A] {W : Scheme.{u}}
     (a b : W ⟶ A.left) (hab : a ≫ A.hom = b ≫ A.hom) (w : W) :
-    ∃ (τ : Aut A) (h : (a ≫ τ.hom.left) ≫ A.hom = b ≫ A.hom),
-      w ∈ Scheme.Hom.agreeLocus A.hom (a ≫ τ.hom.left) b h := by
+    ∃ (τ : Aut A) (h : (a ≫ τ.asIso.hom.left) ≫ A.hom = b ≫ A.hom),
+      w ∈ Scheme.Hom.agreeLocus A.hom (a ≫ τ.asIso.hom.left) b h := by
   let x' := (W.algClosedPoint w).map (a ≫ A.hom)
   let F := finiteEtaleFiberFintypeFunctor X x'
   let ea : F.obj A := fiberPointOfComp w a
@@ -186,10 +186,10 @@ theorem exists_aut_mem_agreeLocus {A : FiniteEtaleOver X} [IsGalois A] {W : Sche
       rw [Category.assoc, ← hab]
       rfl⟩ : finiteEtaleFiber x' A)
   obtain ⟨τ, hτ⟩ := MulAction.exists_smul_eq (Aut A) ea eb
-  have hτ' : (W.algClosedPoint w).hom ≫ a ≫ τ.hom.left = (W.algClosedPoint w).hom ≫ b := by
+  have hτ' : (W.algClosedPoint w).hom ≫ a ≫ τ.asIso.hom.left = (W.algClosedPoint w).hom ≫ b := by
     rw [← finiteEtaleFiberFintypeFunctor_map_fiberPointOfComp]
     exact congrArg Subtype.val hτ
-  have hw : (a ≫ τ.hom.left) ≫ A.hom = b ≫ A.hom := by
+  have hw : (a ≫ τ.asIso.hom.left) ≫ A.hom = b ≫ A.hom := by
     rw [Category.assoc, MorphismProperty.Over.w, hab]
   refine ⟨τ, hw, ?_⟩
   rw [← Scheme.algClosedPointHom_apply W w default]

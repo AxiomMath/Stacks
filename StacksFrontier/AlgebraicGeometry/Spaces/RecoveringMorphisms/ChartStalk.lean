@@ -213,8 +213,8 @@ theorem exists_chartStalk_prod (V V' : SmallEtale B S hS Y.1) (t : chartStalk f 
     (P := (chartFiber B S hS f V).toFunctor) t
   obtain ⟨U', y', c', rfl⟩ := (sitePt x).toPresheafFiber_jointly_surjective
     (P := (chartFiber B S hS f V').toFunctor) t'
-  let e : (sitePt x).fiber.Elements := ⟨U, y⟩
-  let e' : (sitePt x).fiber.Elements := ⟨U', y'⟩
+  let e : (sitePt x).fiber.Elements := Functor.elementsMk _ U y
+  let e' : (sitePt x).fiber.Elements := Functor.elementsMk _ U' y'
   let m := IsCofiltered.min e e'
   let a := IsCofiltered.minToLeft e e'
   let b := IsCofiltered.minToRight e e'
@@ -307,8 +307,8 @@ theorem exists_rep_of_chartStalkMap_eq {V V' P : SmallEtale B S hS Y.1} (j : V �
     (P := (chartFiber B S hS f V).toFunctor) t
   obtain ⟨U₂, y₂, c₂, rfl⟩ := (sitePt x).toPresheafFiber_jointly_surjective
     (P := (chartFiber B S hS f V').toFunctor) t'
-  let e₁ : (sitePt x).fiber.Elements := ⟨U₁, y₁⟩
-  let e₂ : (sitePt x).fiber.Elements := ⟨U₂, y₂⟩
+  let e₁ : (sitePt x).fiber.Elements := Functor.elementsMk _ U₁ y₁
+  let e₂ : (sitePt x).fiber.Elements := Functor.elementsMk _ U₂ y₂
   let m := IsCofiltered.min e₁ e₂
   let a := IsCofiltered.minToLeft e₁ e₂
   let b := IsCofiltered.minToRight e₁ e₂

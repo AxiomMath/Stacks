@@ -139,7 +139,7 @@ private noncomputable abbrev productFunctor (_V : Type v)
   map_id M := by
     apply Pi.hom_ext
     intro n
-    rw [ModuleInverseLimit.productMap, Pi.lift_π]
+    rw [ModuleInverseLimit.productMap, Pi.lift_comp_π]
     simp
   map_comp f g := by
     apply Pi.hom_ext
@@ -154,9 +154,9 @@ private noncomputable abbrev limitToProductNatTrans (V : Type v)
   naturality X Y f := by
     apply Pi.hom_ext
     intro n
-    simp only [Category.assoc, ModuleInverseLimit.productMap, Pi.lift_π,
+    simp only [Category.assoc, ModuleInverseLimit.productMap, Pi.lift_comp_π,
       ModuleInverseLimit.inverseLimitToProduct]
-    rw [Pi.lift_π_assoc, ModuleInverseLimit.inverseLimit_map_π]
+    rw [Pi.lift_comp_π_assoc, ModuleInverseLimit.inverseLimit_map_π]
 
 set_option backward.isDefEq.respectTransparency false in
 private noncomputable abbrev differenceNatTrans (V : Type v)
@@ -169,8 +169,8 @@ private noncomputable abbrev differenceNatTrans (V : Type v)
     apply Pi.hom_ext
     intro n
     simp only [ModuleInverseLimit.productMap, Preadditive.comp_sub, Preadditive.sub_comp,
-      Category.assoc, Pi.lift_π, Category.comp_id, Category.id_comp]
-    rw [Pi.lift_π_assoc, Pi.lift_π_assoc]
+      Category.assoc, Pi.lift_comp_π, Category.comp_id, Category.id_comp]
+    rw [Pi.lift_comp_π_assoc, Pi.lift_comp_π_assoc]
     congr 1
     simp only [Category.assoc]
     rw [(ModuleInverseLimit.moduleDiagramMap A f).naturality]
@@ -183,8 +183,8 @@ private noncomputable local instance productFunctor_additive (A : ℕᵒᵖ ⥤ 
       ModuleInverseLimit.productMap A f + ModuleInverseLimit.productMap A g
     apply Pi.hom_ext
     intro n
-    rw [ModuleInverseLimit.productMap, Pi.lift_π, Preadditive.add_comp,
-      ModuleInverseLimit.productMap, Pi.lift_π, ModuleInverseLimit.productMap, Pi.lift_π]
+    rw [ModuleInverseLimit.productMap, Pi.lift_comp_π, Preadditive.add_comp,
+      ModuleInverseLimit.productMap, Pi.lift_comp_π, ModuleInverseLimit.productMap, Pi.lift_comp_π]
     rfl
 
 set_option backward.isDefEq.respectTransparency false in
@@ -235,7 +235,7 @@ private noncomputable def productProjection (A : ℕᵒᵖ ⥤ RingCat.{u}) (n :
   app M := Pi.π (fun n : ℕ => (ModuleInverseLimit.moduleDiagram A M).obj (Opposite.op n)) n
   naturality X Y f := by
     change ModuleInverseLimit.productMap A f ≫ Pi.π _ n = _
-    rw [ModuleInverseLimit.productMap, Pi.lift_π]
+    rw [ModuleInverseLimit.productMap, Pi.lift_comp_π]
     rfl
 
 set_option backward.isDefEq.respectTransparency false in
@@ -266,16 +266,16 @@ private noncomputable def productComplexIsLimit (A : ℕᵒᵖ ⥤ RingCat.{u})
         change ((Pi.lift fun n => (s.π.app ⟨n⟩).f i) ≫
             ModuleInverseLimit.productMap A (L.d i j)) ≫ Pi.π _ n =
           (s.pt.d i j ≫ Pi.lift fun n => (s.π.app ⟨n⟩).f j) ≫ Pi.π _ n
-        rw [Category.assoc, ModuleInverseLimit.productMap, Pi.lift_π, ← Category.assoc,
-          Pi.lift_π, Category.assoc, Pi.lift_π]
+        rw [Category.assoc, ModuleInverseLimit.productMap, Pi.lift_comp_π, ← Category.assoc,
+          Pi.lift_comp_π, Category.assoc, Pi.lift_comp_π]
         simpa [ModuleInverseLimit.moduleDiagramFunctor, ModuleInverseLimit.moduleDiagramMap] using
           (s.π.app ⟨n⟩).comm i j }
   refine { lift := lift, fac := ?_, uniq := ?_ }
   · rintro s ⟨n⟩
-    exact HomologicalComplex.hom_ext _ _ fun i => Pi.lift_π _ _
+    exact HomologicalComplex.hom_ext _ _ fun i => Pi.lift_comp_π _ _
   · intro s m hm
     refine HomologicalComplex.hom_ext _ _ fun i => Pi.hom_ext _ _ fun n => ?_
-    rw [Pi.lift_π]
+    rw [Pi.lift_comp_π]
     simpa [productProjection] using congrArg (fun f => f.f i) (hm ⟨n⟩)
 
 set_option backward.isDefEq.respectTransparency false in
@@ -308,7 +308,7 @@ public lemma isDerivedLimit_of_fan
     intro n
     dsimp only [Triangle.mk_mor₂, Iso.symm_hom]
     show (_ ≫ a.inv) ≫ p n = (a.inv ≫ g) ≫ p n
-    rw [Category.assoc, hai, Pi.lift_π, Category.assoc, hg,
+    rw [Category.assoc, hai, Pi.lift_comp_π, Category.assoc, hg,
       Preadditive.comp_sub, ← Category.assoc, hai, hai]
   · simp
 
@@ -393,7 +393,7 @@ private lemma difference_comp_projection (A : ℕᵒᵖ ⥤ RingCat.{u})
   show (differenceNatTrans (ULift.{v} PUnit) A).app (L.X p) ≫ Pi.π X n =
     Pi.π X n - Pi.π X (n + 1) ≫
       (ModuleInverseLimit.moduleDiagram A (L.X p)).map (homOfLE (Nat.le_succ n)).op
-  simp only [X, Preadditive.sub_comp, Category.id_comp, Pi.lift_π]
+  simp only [X, Preadditive.sub_comp, Category.id_comp, Pi.lift_comp_π]
 
 set_option backward.isDefEq.respectTransparency false in
 /-- **Stacks 0CQD.** The right-derived inverse-limit functor for compatible modules over an
@@ -559,8 +559,8 @@ private lemma map_difference_comp
     G.map (difference E) ≫ a = a ≫ difference N := by
   apply Pi.hom_ext
   intro n
-  simp only [Category.assoc, ha, difference, Pi.lift_π, Preadditive.comp_sub]
-  rw [← Category.assoc, ← G.map_comp, Pi.lift_π, G.map_sub, G.map_comp,
+  simp only [Category.assoc, ha, difference, Pi.lift_comp_π, Preadditive.comp_sub]
+  rw [← Category.assoc, ← G.map_comp, Pi.lift_comp_π, G.map_sub, G.map_comp,
     Preadditive.sub_comp, Category.assoc]
   have hn := η.naturality (homOfLE (Nat.le_succ n)).op
   dsimp only [Functor.comp_map] at hn
@@ -698,7 +698,7 @@ public theorem inverseLimit_hasRightDerivedFunctor_and_homology_shortExact
   have hdL' : L.d 0 1 ≫ e₁.hom = e₀.hom ≫ δH (p - 1) := by
     rw [← cancel_epi e₀.inv, Iso.inv_hom_id_assoc, hdL]
     exact Pi.hom_ext _ _ fun n => by
-      simp only [δH, difference, MH, Preadditive.sub_comp, Category.id_comp, Pi.lift_π]
+      simp only [δH, difference, MH, Preadditive.sub_comp, Category.id_comp, Pi.lift_comp_π]
   let eR1 := (H 1).mapIso eL ≪≫
     homologyOneIsoCokernel L ((hL 2 (by omega) (by omega)).eq_of_tgt _ _) ≪≫
       cokernel.mapIso (L.d 0 1) (δH (p - 1)) e₀ e₁ hdL'
@@ -707,7 +707,7 @@ public theorem inverseLimit_hasRightDerivedFunctor_and_homology_shortExact
   have heLim : eLim.hom ≫ kernel.ι (δH p) = Pi.lift fun n : ℕ => limit.π (MH p) (Opposite.op n) :=
     IsLimit.conePointUniqueUpToIso_hom_comp _ _ WalkingParallelPair.zero
   refine ⟨eH (p - 1), eH p, eP (p - 1), eP p, hP (p - 1), hP p,
-    hd (p - 1), hd p, eR1, eLim, hc, ha, fun n => by rw [← Category.assoc, heLim, Pi.lift_π], ?_⟩
+    hd (p - 1), hd p, eR1, eLim, hc, ha, fun n => by rw [← Category.assoc, heLim, Pi.lift_comp_π], ?_⟩
   let i := cokernel.desc (δH (p - 1)) ((eP (p - 1)).inv ≫ c) hc
   let q₀ := kernel.lift (δH p) ((H p).map a ≫ (eP p).hom) ha
   let q := q₀ ≫ eLim.inv

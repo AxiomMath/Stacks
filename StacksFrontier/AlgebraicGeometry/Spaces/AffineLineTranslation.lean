@@ -62,7 +62,7 @@ variable (k : Type u) [Field k]
 /-- Translation by one on the affine line over `k`, sending the standard coordinate to that
 coordinate plus one. -/
 def translationByOne : Aut (affineLine k) :=
-  Over.isoMk
+  .of <| Over.isoMk
     { hom := AffineSpace.homOfVector (affineLine k).hom
         (fun _ => AffineSpace.coord (Spec (.of k)) PUnit.unit +
           (1 : Γ(AffineSpace PUnit.{u + 1} (Spec (.of k)), ⊤)))
@@ -91,25 +91,24 @@ def translationAction : Multiplicative ℤ →* Aut (affineLine k) :=
 `x ↦ x + n`. -/
 @[stacks 02Z7 "translation_quotient"]
 theorem translationAction_apply (n : ℤ) :
-    ((translationAction k (Multiplicative.ofAdd n)).hom.left).appTop
+    ((translationAction k (Multiplicative.ofAdd n)).asIso.hom.left).appTop
       (AffineSpace.coord (Spec (.of k)) PUnit.unit) =
       AffineSpace.coord (Spec (.of k)) PUnit.unit +
         (n : Γ(AffineSpace PUnit.{u + 1} (Spec (.of k)), ⊤)) := by
   let a := translationByOne k
   let c : Γ((affineLine k).left, ⊤) := AffineSpace.coord (Spec (.of k)) PUnit.unit
-  change ((a ^ n).hom.left).appTop c = c + (n : Γ((affineLine k).left, ⊤))
-  have hgen : a.hom.left.appTop c = c + ((1 : ℤ) : Γ((affineLine k).left, ⊤)) := by
-    change ((translationByOne k).hom.left).appTop c = _
+  change ((a ^ n).asIso.hom.left).appTop c = c + (n : Γ((affineLine k).left, ⊤))
+  have hgen : a.asIso.hom.left.appTop c = c + ((1 : ℤ) : Γ((affineLine k).left, ⊤)) := by
+    change ((translationByOne k).asIso.hom.left).appTop c = _
     simp [c, translationByOne]
-  have hgen_inv : a⁻¹.hom.left.appTop c = c + ((-1 : ℤ) : Γ((affineLine k).left, ⊤)) := by
-    change ((translationByOne k).inv.left).appTop c = _
+  have hgen_inv : a⁻¹.asIso.hom.left.appTop c = c + ((-1 : ℤ) : Γ((affineLine k).left, ⊤)) := by
+    change ((translationByOne k).asIso.inv.left).appTop c = _
     simp [c, translationByOne, sub_eq_add_neg]
   have hmul : ∀ (x y : Aut (affineLine k)) (p q : ℤ),
-      x.hom.left.appTop c = c + p → y.hom.left.appTop c = c + q →
-        (x * y).hom.left.appTop c = c + (p + q : ℤ) := by
+      x.asIso.hom.left.appTop c = c + p → y.asIso.hom.left.appTop c = c + q →
+        (x * y).asIso.hom.left.appTop c = c + (p + q : ℤ) := by
     intro x y p q hx hy
-    rw [Aut.Aut_mul_def (affineLine k)]
-    change (y.hom.left ≫ x.hom.left).appTop c = _
+    change (y.asIso.hom.left ≫ x.asIso.hom.left).appTop c = _
     rw [Scheme.Hom.comp_appTop, CommRingCat.comp_apply, hx, map_add, map_intCast, hy]
     push_cast
     ring
@@ -151,7 +150,7 @@ theorem translationAction_residueFieldFaithful [CharZero k] :
     exact hne (by simpa [hzero] using (ofAdd_toAdd g).symm)
   have hg : Multiplicative.ofAdd g.toAdd = g := by simp
   set U : Scheme.{u} := AffineSpace PUnit.{u + 1} (Spec (.of k)) with hU
-  set f : U ⟶ U := (translationAction k g).hom.left with hf
+  set f : U ⟶ U := (translationAction k g).asIso.hom.left with hf
   have heval : U.Γevaluation x (f.appTop (AffineSpace.coord (Spec (.of k)) PUnit.unit)) =
       U.Γevaluation x (AffineSpace.coord (Spec (.of k)) PUnit.unit) := by
     calc

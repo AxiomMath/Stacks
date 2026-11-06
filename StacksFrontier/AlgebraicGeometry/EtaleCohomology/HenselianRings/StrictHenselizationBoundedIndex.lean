@@ -143,9 +143,10 @@ def etaleNeighborhoodBoundedStage (d : EtaleNeighborhoodBoundedIndex s ι₀) :
   have hc : E.Contains (Spec (boundedPresRing d.1.1)) :=
     (size_spec_boundedPresRing_le ι₀ d.1.1).trans_lt hS
   have := d.2.1
-  ⟨⟨Over.mk (ObjectProperty.homMk (boundedPresMap ι₀ d.1.1) :
+  (geometricPointFiber E S hS s).elementsMk
+    ⟨Over.mk (ObjectProperty.homMk (boundedPresMap ι₀ d.1.1) :
       E.obj (Spec (boundedPresRing d.1.1)) hc ⟶ E.obj S hS),
-    (inferInstanceAs (Etale (boundedPresMap ι₀ d.1.1)))⟩, ⟨d.1.2, d.2.2⟩⟩
+    (inferInstanceAs (Etale (boundedPresMap ι₀ d.1.1)))⟩ ⟨d.1.2, d.2.2⟩
 
 /-- The scheme underlying a stage of the bounded family is the spectrum of the presented
 algebra. -/
@@ -279,10 +280,10 @@ that is by a ring homomorphism `A' ⟶ A`. -/
 theorem mk_hom_etaleNeighborhoodBounded_le (d d' : EtaleNeighborhoodBounded E hS s ι₀) :
     #(d ⟶ d') ≤ max ℵ₀ #R ^ max ℵ₀ #R := by
   have hinj : Function.Injective (fun f : d ⟶ d' =>
-      (SmallEtale.toScheme E S hS).map ((etaleNeighborhoodBoundedFunctor E hS s ι₀).map f).1) := by
+      (SmallEtale.toScheme E S hS).map ((etaleNeighborhoodBoundedFunctor E hS s ι₀).map f).hom) := by
     intro f g h
     apply InducedCategory.hom_ext
-    apply Subtype.ext
+    apply Functor.Elements.hom_ext
     apply ObjectProperty.hom_ext
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext

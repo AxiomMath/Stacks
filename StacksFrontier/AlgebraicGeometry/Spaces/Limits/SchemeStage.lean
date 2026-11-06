@@ -265,8 +265,11 @@ private noncomputable def affineOpenSubspaceIso
   let j := affineOpenInclusion B S hS F.reprX U
   let p := yoneda.map j ≫ F.reprW.hom
   letI : Mono j := affineOpenInclusion_mono B S hS F.reprX U
-  letI : Mono (yoneda.map j) := inferInstance
-  letI : Mono p := inferInstance
+  letI : Mono (yoneda.map j) :=
+    have : ∀ X, Mono ((yoneda.map j).app X) := fun _ =>
+      (mono_iff_injective _).2 fun _ _ h => (cancel_mono j).1 h
+    NatTrans.mono_of_mono_app _
+  letI : Mono p := mono_comp' this (IsIso.mono_of_iso F.reprW.hom)
   change yoneda.obj (affineOpenObject B S hS F.reprX U) ≅ (Subfunctor.range p).toFunctor
   exact asIso (Subfunctor.toRange p)
 
@@ -281,8 +284,11 @@ private theorem affineOpenSubspace_isOpen
   let j := affineOpenInclusion B S hS F.reprX U
   let p : A ⟶ F := yoneda.map j ≫ F.reprW.hom
   let : Mono j := affineOpenInclusion_mono B S hS F.reprX U
-  let : Mono (yoneda.map j) := inferInstance
-  let : Mono p := inferInstance
+  let : Mono (yoneda.map j) :=
+    have : ∀ X, Mono ((yoneda.map j).app X) := fun _ =>
+      (mono_iff_injective _).2 fun _ _ h => (cancel_mono j).1 h
+    NatTrans.mono_of_mono_app _
+  let : Mono p := mono_comp' this (IsIso.mono_of_iso F.reprW.hom)
   have hA : AlgebraicGeometry.IsAlgebraicSpace B S hS A :=
     AlgebraicGeometry.isAlgebraicSpace_yoneda B S hS (affineOpenObject B S hS F.reprX U)
   have hj : AlgebraicGeometry.Space.IsOpenImmersion B S hS (yoneda.map j) := by

@@ -199,7 +199,7 @@ theorem Problem.exists_lift (𝔓 : Problem D) (hf : IsSmooth B S hS 𝔓.f) :
     (fun k => O (Bk k)) mk hmet hmsurj (fun k => (z' k).1) (fun k l => by
       have P := isPullback_tensor (Bk k) (Bk l)
       rw [← P.isoPullback_inv_fst, ← P.isoPullback_inv_snd, op_comp, op_comp,
-        FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply]
+        Functor.map_comp_apply, Functor.map_comp_apply]
       exact congrArg _ (congrArg Subtype.val (hz' k l)))
   refine ⟨z, ?_, ?_⟩
   · refine eq_of_forall_map_eq 𝔓.hX (fun k => O₀ (Bk k)) (fun k => mO₀ (toBase (Bk k)))
@@ -237,9 +237,9 @@ theorem formallySmooth_of_isSmooth_of_isAlgebraicSpace {X Y : (BigFppfOver B S h
   refine ⟨X.map (eT' i hi).inv.op z, ?_, ?_⟩
   · change X.map (incl (baseAlg (baseOf i hi))).op z = X.map (eT i hi).hom.op x at hz1
     rw [map_map, hsq, ← map_map, hz1, map_map, Iso.inv_hom_id, op_id,
-      FunctorToTypes.map_id_apply]
+      Functor.map_id_apply]
   · change f.app _ z = Y.map (eT' i hi).hom.op y at hz2
     rw [NatTrans.naturality_apply, hz2, map_map, Iso.inv_hom_id, op_id,
-      FunctorToTypes.map_id_apply]
+      Functor.map_id_apply]
 
 end AlgebraicGeometry.Space

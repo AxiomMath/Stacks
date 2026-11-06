@@ -77,6 +77,17 @@ namespace Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_GorensteinEtaleCharts :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_GorensteinEtaleCharts
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_GorensteinEtaleCharts B S hS).has_limit _
+
 /-- **Stacks 0E15.** The fibres of `f` over the points of the étale scheme chart
 `g : h_V ⟶ Y` are Gorenstein algebraic spaces. -/
 abbrev HasGorensteinFibersOnChart (f : X ⟶ Y) (V : BigFppfOver B S hS)

@@ -59,26 +59,26 @@ public theorem isSmooth_of_subsingleton_restrictedCoyoneda
       ∃ a : z ⟶ w, 𝓖.p.map a = eqToHom h)
     (hthin : ∀ {z w : 𝓖.obj} (s t : z ⟶ w), 𝓖.p.map s = 𝓖.p.map t → s = t)
     (Φ : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R))) 𝓖) :
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R))) 𝓖) :
     IsSmooth Φ := by
   intro B₀ A₀ f hf y x g hg
   let : 𝓖.p.IsHomLift f g := hg
-  obtain ⟨A', α⟩ := x
+  obtain @⟨A', α⟩ := x
   have hA : A' = A₀ :=
     (BasedFunctor.w_obj Φ _).symm.trans (IsHomLift.codomain_eq 𝓖.p f g)
   subst hA
   obtain ⟨α'⟩ := (hR B₀).1
   have hcompat : (restrictedCoyoneda R).map f α' = α := (hR A').2.elim _ _
   let z₀ : (BasedCategory.ofFunctor
-    (CategoryOfElements.π (restrictedCoyoneda R))).obj := ⟨B₀, α'⟩
+    (Functor.Elements.π (restrictedCoyoneda R))).obj := (restrictedCoyoneda R).elementsMk B₀ α'
   let x₁ : (BasedCategory.ofFunctor
-    (CategoryOfElements.π (restrictedCoyoneda R))).obj := ⟨A', α⟩
-  let hm : z₀ ⟶ x₁ := ⟨f, hcompat⟩
+    (Functor.Elements.π (restrictedCoyoneda R))).obj := (restrictedCoyoneda R).elementsMk A' α
+  let hm : z₀ ⟶ x₁ := Functor.Elements.homMk f hcompat
   have hΦz : 𝓖.p.obj (Φ.obj z₀) = B₀ := BasedFunctor.w_obj Φ z₀
   have hy : 𝓖.p.obj y = B₀ := IsHomLift.domain_eq 𝓖.p f g
   obtain ⟨a, ha⟩ := hvert (Φ.obj z₀) y (hΦz.trans hy.symm)
   let hmor : (BasedCategory.ofFunctor
-      (CategoryOfElements.π (restrictedCoyoneda R))).p.IsHomLift f hm :=
+      (Functor.Elements.π (restrictedCoyoneda R))).p.IsHomLift f hm :=
     IsHomLift.of_fac _ _ _ rfl rfl rfl
   let hverta : 𝓖.p.IsHomLift (𝟙 B₀) a :=
     IsHomLift.of_fac' 𝓖.p (𝟙 B₀) a hΦz hy (by rw [ha]; simp)

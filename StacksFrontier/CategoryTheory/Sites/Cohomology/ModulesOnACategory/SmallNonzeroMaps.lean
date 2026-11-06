@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.ModulesOnACategory.BrownRepresentabilityFromSizeBound
+import Mathlib.Algebra.Category.ModuleCat.Presheaf.EpiMono
 import StacksCore.Tactic.StacksAttribute
 
 /-!

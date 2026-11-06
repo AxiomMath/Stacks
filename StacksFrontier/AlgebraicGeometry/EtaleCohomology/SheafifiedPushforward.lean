@@ -168,7 +168,7 @@ public theorem sheafifiedPushforwardMap_stalk
               AddCommGrpCat.{u + 1}
               (SmallEtale.topology B S.obj S.property)
               (SmallEtale.topology B T.obj T.property)).unit.app F).hom.app (op U) ≫
-            colimit.ι D (op ⟨(smallEtaleBaseChange B g).obj U, p'⟩) ≫
+            colimit.ι D (op (Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U) p')) ≫
             colim.map (Functor.whiskerLeft
               ((CategoryOfElements.π
                 (geometricPointFiber B T.obj T.property s')).op)
@@ -176,7 +176,7 @@ public theorem sheafifiedPushforwardMap_stalk
           α.app (op U) ≫
             ((SmallEtale.topology B T.obj T.property).toSheafify G').app
               (op ((smallEtaleBaseChange B g).obj U)) ≫
-              colimit.ι D' (op ⟨(smallEtaleBaseChange B g).obj U, p'⟩) := by
+              colimit.ι D' (op (Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U) p')) := by
   intro F D D' U p'
   let adj := (smallEtaleBaseChange B g).sheafAdjunctionContinuous
     AddCommGrpCat.{u + 1} (SmallEtale.topology B S.obj S.property)
@@ -196,7 +196,7 @@ public theorem sheafifiedPushforwardMap_stalk
       _ = β := by
         simp [sheafifiedPushforwardAdjoint, F, Gsheaf, adj, push, β]
   let j : (geometricPointFiber B T.obj T.property s').Elements :=
-    ⟨(smallEtaleBaseChange B g).obj U, p'⟩
+    Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U) p'
   let unitAt : F.obj.obj (op U) ⟶ D.obj (op j) := (adj.unit.app F).hom.app (op U)
   have hcomponent' : unitAt ≫
       (sheafifiedPushforwardAdjoint B g G G' α).hom.app
@@ -244,14 +244,13 @@ public theorem sheafifiedPushforwardMap_stalk
             (op ((smallEtaleBaseChange B g).obj U)) ≫ colimit.ι D' (op j)) := by rfl
     _ = ((((SmallEtale.topology B S.obj S.property).toSheafify G).app (op U) ≫ unitAt) ≫
           (sheafifiedPushforwardAdjoint B g G G' α).hom.app
-            (op ((smallEtaleBaseChange B g).obj U))) ≫ colimit.ι D' (op j) := by
-      rw [← Category.assoc]
+            (op ((smallEtaleBaseChange B g).obj U))) ≫ colimit.ι D' (op j) :=
+      (Category.assoc _ _ _).symm
     _ = (α.app (op U) ≫
           ((SmallEtale.topology B T.obj T.property).toSheafify G').app
-            (op ((smallEtaleBaseChange B g).obj U))) ≫ colimit.ι D' (op j) := by
-      simpa only [Category.assoc] using
-        congrArg (fun f => f ≫ colimit.ι D' (op j)) hbase
-    _ = _ := by rw [Category.assoc]
+            (op ((smallEtaleBaseChange B g).obj U))) ≫ colimit.ι D' (op j) :=
+      congrArg (fun f => f ≫ colimit.ι D' (op j)) ((Category.assoc _ _ _).trans hbase)
+    _ = _ := Category.assoc _ _ _
 
 end AlgebraicGeometry
 

@@ -122,9 +122,9 @@ def diagonalComplementPresheafAut : Equiv.Perm (Fin n) →*
 underlying the automorphism `σ` of `W`. -/
 @[simp]
 theorem diagonalComplementPresheafAut_hom (σ : Equiv.Perm (Fin n)) :
-    (diagonalComplementPresheafAut B S hS X U n hsep σ).hom =
+    (diagonalComplementPresheafAut B S hS X U n hsep σ).asIso.hom =
       ((toSpaces B S hS X).map
-        (diagonalComplementAut B S hS X U n hsep σ).hom).hom :=
+        (diagonalComplementAut B S hS X U n hsep σ).asIso.hom).hom :=
   rfl
 
 /-- The action of `S_n` on the scheme representing `W`, transported along the identification
@@ -137,26 +137,27 @@ def diagonalComplementSchemeAut : Equiv.Perm (Fin n) →* Aut V :=
 /-- Under the Yoneda embedding, the automorphism of `V` given by `σ` is the conjugate by `e` of
 the action of `σ` on the presheaf underlying `W`. -/
 theorem yoneda_map_diagonalComplementSchemeAut_hom (σ : Equiv.Perm (Fin n)) :
-    yoneda.map (diagonalComplementSchemeAut B S hS X U n hsep V e σ).hom =
+    yoneda.map (diagonalComplementSchemeAut B S hS X U n hsep V e σ).asIso.hom =
       e.hom ≫ ((toSpaces B S hS X).map
-        (diagonalComplementAut B S hS X U n hsep σ).hom).hom ≫ e.inv := by
+        (diagonalComplementAut B S hS X U n hsep σ).asIso.hom).hom ≫ e.inv := by
   show yoneda.map (Yoneda.fullyFaithful.preimage
-      (e.hom ≫ (diagonalComplementPresheafAut B S hS X U n hsep σ).hom ≫ e.inv)) = _
+      (e.hom ≫ (diagonalComplementPresheafAut B S hS X U n hsep σ).asIso.hom ≫ e.inv)) = _
   rw [Functor.FullyFaithful.map_preimage, diagonalComplementPresheafAut_hom]
 
 /-- The morphism `yoneda.obj V ⟶ W` fixed by a permutation fixing the morphism `V ⟶ V` it
 acts by. -/
 theorem comp_diagonalComplementAut_eq_of_comp_schemeAut_eq
     {T : BigFppfOver B S hS} (m : T ⟶ V) (σ : Equiv.Perm (Fin n))
-    (hm : m ≫ (diagonalComplementSchemeAut B S hS X U n hsep V e σ).hom = m) :
+    (hm : m ≫ (diagonalComplementSchemeAut B S hS X U n hsep V e σ).asIso.hom = m) :
     (yoneda.map m ≫ e.hom) ≫ ((toSpaces B S hS X).map
-        (diagonalComplementAut B S hS X U n hsep σ).hom).hom =
+        (diagonalComplementAut B S hS X U n hsep σ).asIso.hom).hom =
       yoneda.map m ≫ e.hom := by
   have h : yoneda.map m ≫ yoneda.map
-      (diagonalComplementSchemeAut B S hS X U n hsep V e σ).hom = yoneda.map m := by
+      (diagonalComplementSchemeAut B S hS X U n hsep V e σ).asIso.hom = yoneda.map m := by
     rw [← Functor.map_comp, hm]
   rw [yoneda_map_diagonalComplementSchemeAut_hom] at h
-  simpa using congrArg (fun k => k ≫ e.hom) h
+  simpa only [Category.assoc, Iso.inv_hom_id, Category.comp_id] using
+    congrArg (fun k => k ≫ e.hom) h
 
 /-- Freeness of the action of `S_n` on `W` against a representable test object: a morphism
 `yoneda.obj T ⟶ W` from a representable with a point, fixed by `σ`, forces `σ = 1`. -/
@@ -165,7 +166,7 @@ theorem eq_one_of_yoneda_comp_diagonalComplementAut (T : BigFppfOver B S hS)
       (underlying B S hS X (diagonalComplement B S hS X U n hsep)).obj)
     (t : points B S hS (yoneda.obj T)) (σ : Equiv.Perm (Fin n))
     (hx : x ≫ ((toSpaces B S hS X).map
-      (diagonalComplementAut B S hS X U n hsep σ).hom).hom = x) :
+      (diagonalComplementAut B S hS X U n hsep σ).asIso.hom).hom = x) :
     σ = 1 :=
   eq_one_of_comp_diagonalComplementAut_of_nonempty_points B S hS X U n hsep
     (T := ⟨yoneda.obj T, isAlgebraicSpace_yoneda B S hS T⟩)
@@ -177,10 +178,10 @@ theorem residueFieldMap_comp_schemeAut_eq (w : V.left.1)
     (hw : B.Contains (Spec (.of (V.left.1.residueField w)))) (σ : Equiv.Perm (Fin n))
     (h : V.left.1.fromSpecResidueField w ≫
       ((Functor.mapAut V (Over.post B.inclusion)).comp
-        (diagonalComplementSchemeAut B S hS X U n hsep V e) σ).hom.left =
+        (diagonalComplementSchemeAut B S hS X U n hsep V e) σ).asIso.hom.left =
       V.left.1.fromSpecResidueField w) :
     residueFieldMap B S hS V w hw ≫
-        (diagonalComplementSchemeAut B S hS X U n hsep V e σ).hom =
+        (diagonalComplementSchemeAut B S hS X U n hsep V e σ).asIso.hom =
       residueFieldMap B S hS V w hw :=
   Over.OverMorphism.ext (B.inclusion.map_injective h)
 
@@ -197,7 +198,7 @@ theorem actsNontriviallyOnFixedResidueFields_diagonalComplementSchemeAut :
     B.residueField_spec_contains V.left.2 w
   have hbase := fromSpecResidueField_comp_of_residueFieldMap_eq
     (((Functor.mapAut V (Over.post B.inclusion)).comp
-      (diagonalComplementSchemeAut B S hS X U n hsep V e) σ).hom.left) w hw hres
+      (diagonalComplementSchemeAut B S hS X U n hsep V e) σ).asIso.hom.left) w hw hres
   have hm := residueFieldMap_comp_schemeAut_eq B S hS X U n hsep V e w hcon σ hbase
   have hfix := comp_diagonalComplementAut_eq_of_comp_schemeAut_eq B S hS X U n hsep V e
     (residueFieldMap B S hS V w hcon) σ hm
@@ -316,7 +317,7 @@ theorem diagonalComplementPointsIso_hom_app_smul (T : (BigFppfOver B S hS)ᵒᵖ
     (x : (underlying B S hS X (diagonalComplement B S hS X U n hsep)).obj.obj T) :
     (diagonalComplementPointsIso B S hS X U n hsep V e).hom.app T (σ • x) =
       (diagonalComplementPointsIso B S hS X U n hsep V e).hom.app T x ≫
-        (diagonalComplementOverAut B S hS X U n hsep V e (MulEquiv.ulift σ)).hom := by
+        (diagonalComplementOverAut B S hS X U n hsep V e (MulEquiv.ulift σ)).asIso.hom := by
   have h := congrArg (fun k => k.app T (e.inv.app T x))
     (yoneda_map_diagonalComplementSchemeAut_hom B S hS X U n hsep V e σ.down)
   simp only [yoneda_map_app, NatTrans.comp_app, types_comp_apply,
@@ -324,7 +325,7 @@ theorem diagonalComplementPointsIso_hom_app_smul (T : (BigFppfOver B S hS)ᵒᵖ
   rw [diagonalComplementPointsIso_hom_app, diagonalComplementPointsIso_hom_app,
     diagonalComplementMulAction_smul]
   show _ = (Over.post B.inclusion).map (e.inv.app T x) ≫
-    (Over.post B.inclusion).map (diagonalComplementSchemeAut B S hS X U n hsep V e σ.down).hom
+    (Over.post B.inclusion).map (diagonalComplementSchemeAut B S hS X U n hsep V e σ.down).asIso.hom
   rw [← Functor.map_comp]
   exact congrArg (Over.post B.inclusion).map h.symm
 

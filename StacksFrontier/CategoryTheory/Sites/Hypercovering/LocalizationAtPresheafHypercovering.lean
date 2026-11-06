@@ -123,7 +123,7 @@ theorem isLocallySurjective_iff_of_sections {P Q : Cᵒᵖ ⥤ Type t} (φ : P �
     exact (NatTrans.naturality_apply φ k.op (eP Z p')).trans
       ((congrArg (Q.map k.op) ((hcomp Z p').trans (congrArg (eQ Z) hp'))).trans
         ((congrArg (Q.map k.op) (hnat f q')).trans
-          (FunctorToTypes.map_comp_apply Q f.left.op k.op _).symm))
+          (Q.map_comp_apply f.left.op k.op _).symm))
   · rw [hK]
     refine J.superset_covering ?_ (Presheaf.imageSieve_mem J φ (eQ Z q))
     rintro V g ⟨p, hp⟩

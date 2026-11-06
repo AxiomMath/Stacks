@@ -133,7 +133,6 @@ private theorem rTensor_injective_of_restrictScalars {R R' : Type*} [CommRing R]
   have hsq : ∀ x : X ⊗[R'] Q, eY (f.rTensor Q x) = (f.restrictScalars R).rTensor Q (eX x) := by
     intro x
     induction x with
-    | zero => simp
     | tmul x q => rfl
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]
   intro x y hxy

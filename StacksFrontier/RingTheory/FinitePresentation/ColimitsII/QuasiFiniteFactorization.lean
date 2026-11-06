@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.FinitePresentation.ColimitsII.FaithfullyFlatModel
+public import Mathlib.RingTheory.Spectrum.Prime.Jacobson
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -513,8 +514,8 @@ theorem Algebra.exists_quasiFinite_faithfullyFlat_finitePresentation_of_isNoethe
   refine ⟨(i : t) → T i, inferInstance, inferInstance, inferInstance, inferInstance, ?_, ?_,
     inferInstance⟩
   · refine ⟨fun P _ => ?_⟩
-    exact Module.Finite.equiv (TensorProduct.piRight R P.ResidueField P.ResidueField
-      fun i : t => T i).symm.toLinearEquiv
+    exact Module.Finite.equiv (_root_.TensorProduct.piRight R P.ResidueField P.ResidueField
+      fun i : t => T i).symm
   · have : Module.Flat R ((i : t) → T i) :=
       Module.Flat.of_linearEquiv (DFinsupp.linearEquivFunOnFintype (R := R)
         (M := fun i : t => T i)).symm

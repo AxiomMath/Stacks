@@ -75,10 +75,10 @@ def dualHomOfSection {W : X.Etale} (c : G.equivariantMaps Λ M ρ W) :
     ModuleCat.BimoduleHom.Obj (MonoidAlgebra (ZMod n) H) (Dual n ρ) (G.RegularSections n W) :=
   (ModuleCat.BimoduleHom.toLinearMap _).symm
     { toFun := G.dualHomValue c
-      map_add' φ ψ := Subtype.ext (LocallyConstant.ext fun z ↦ ULift.ext _ _ (by
+      map_add' φ ψ := Subtype.ext (LocallyConstant.ext fun z ↦ ULift.ext (by
         change ofM (c.1 z) (φ + ψ) = ofM (c.1 z) φ + ofM (c.1 z) ψ
         exact map_add _ _ _))
-      map_smul' r φ := Subtype.ext (LocallyConstant.ext fun z ↦ ULift.ext _ _ (by
+      map_smul' r φ := Subtype.ext (LocallyConstant.ext fun z ↦ ULift.ext (by
         change ofM (c.1 z) (r • φ) = r * ofM (c.1 z) φ
         exact map_smul _ _ _)) }
 
@@ -97,11 +97,11 @@ def dualHomLinear (W : X.Etale) :
       ModuleCat.BimoduleHom.Obj (MonoidAlgebra (ZMod n) H) (Dual n ρ) (G.RegularSections n W) where
   toFun := G.dualHomOfSection
   map_add' c c' := (ModuleCat.BimoduleHom.ext_iff' _).2 fun φ ↦ Subtype.ext
-    (LocallyConstant.ext fun z ↦ ULift.ext _ _ (by
+    (LocallyConstant.ext fun z ↦ ULift.ext (by
       change ofM (c.1 z + c'.1 z) φ = ofM (c.1 z) φ + ofM (c'.1 z) φ
       rw [ofM_add, LinearMap.add_apply]))
   map_smul' l c := (ModuleCat.BimoduleHom.ext_iff' _).2 fun φ ↦ Subtype.ext
-    (LocallyConstant.ext fun z ↦ ULift.ext _ _ (by
+    (LocallyConstant.ext fun z ↦ ULift.ext (by
       change ofM (l • c.1 z) φ = ofM (c.1 z) (MulOpposite.op l • φ)
       rw [ofM_smul]))
 
@@ -140,7 +140,7 @@ lemma dualHomLinear_bijective (W : X.Etale) : Function.Bijective (G.dualHomLinea
       rw [ofM_rho, hc₀, hc₀]
       exact congrArg ULift.down ((ModuleCat.BimoduleHom.toLinearMap _ Ψ φ).2 h z)
     · refine (ModuleCat.BimoduleHom.ext_iff' _).2 fun φ ↦ Subtype.ext
-        (LocallyConstant.ext fun z ↦ ULift.ext _ _ ?_)
+        (LocallyConstant.ext fun z ↦ ULift.ext ?_)
       change ofM (c₀ z) φ = G.pointEval Ψ z φ
       rw [hc₀]
 
@@ -163,7 +163,7 @@ def dualHomDescentIso :
         ext Ψ : 2
         apply (G.dualHomLinearEquiv (n := n) (ρ := ρ) W'.unop).injective
         refine (ModuleCat.BimoduleHom.ext_iff' _).2 fun φ ↦ Subtype.ext
-          (LocallyConstant.ext fun z ↦ ULift.ext _ _ ?_)
+          (LocallyConstant.ext fun z ↦ ULift.ext ?_)
         rw [ModuleCat.hom_comp, ModuleCat.hom_comp, LinearMap.comp_apply, LinearMap.comp_apply]
         refine (congrArg (fun Ψ' ↦ ((ModuleCat.BimoduleHom.toLinearMap _ Ψ' φ).1 z).down)
           ((G.dualHomLinearEquiv (n := n) (ρ := ρ) W'.unop).apply_symm_apply _)).trans ?_

@@ -218,12 +218,8 @@ instance Adjunction.mapHomotopyCategoryAdjunction_commShift :
     mapHomotopyCategoryFactors, NatTrans.comp_app, rightUnitor_hom_app, leftUnitor_inv_app,
     whiskerRight_app, associator_hom_app, Quotient.lift.isLift_inv, associator_inv_app, comp_id,
     id_comp]
-  exact (comp_id _).symm.trans (congrArg (CategoryStruct.comp
-    ((HomotopyCategory.quotient B (ComplexShape.up ℤ)).map
-      ((Adjunction.mapHomologicalComplexAdjunction adj (ComplexShape.up ℤ)).unit.app K)))
-    ((id_comp _).trans ((F.mapHomotopyCategory (ComplexShape.up ℤ)).map_id
-      ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj
-        ((G.mapHomologicalComplex (ComplexShape.up ℤ)).obj K)))).symm)
+  rw [Functor.map_id]
+  exact (comp_id _).symm
 
 end MapHomotopyCategory
 

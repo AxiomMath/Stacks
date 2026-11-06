@@ -51,12 +51,12 @@ theorem derivedUnit_eq_derivedPlusAdjunction_unit (adj : f ⊣ g) :
   rw [derivedUnit_app_Qh]
   have h := Adjunction.derivedη_fac_app adj.mapHomotopyCategoryPlus
     (HomotopyCategory.Plus.quasiIso D₀) f.mapDerivedCategoryPlusFactorsh.hom
-    g.rightDerivedFunctorPlusUnit K
+    g.rightDerivedFunctorPlusUnith K
   have h' : (adj.mapHomotopyCategoryPlus.derivedη (HomotopyCategory.Plus.quasiIso D₀)
-      f.mapDerivedCategoryPlusFactorsh.hom g.rightDerivedFunctorPlusUnit).app
+      f.mapDerivedCategoryPlusFactorsh.hom g.rightDerivedFunctorPlusUnith).app
         (DerivedCategory.Plus.Qh.obj K) =
       (DerivedCategory.Plus.Qh.map (adj.mapHomotopyCategoryPlus.unit.app K) ≫
-        g.rightDerivedFunctorPlusUnit.app (f.mapHomotopyCategoryPlus.obj K)) ≫
+        g.rightDerivedFunctorPlusUnith.app (f.mapHomotopyCategoryPlus.obj K)) ≫
           g.rightDerivedFunctorPlus.map (f.mapDerivedCategoryPlusFactorsh.inv.app K) := by
     rw [← h, Category.assoc, ← Functor.map_comp, Iso.hom_inv_id_app]
     exact (Category.comp_id _).symm.trans

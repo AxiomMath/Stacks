@@ -102,7 +102,7 @@ theorem flat_of_isAbsoluteIntegralClosure {k : Type u} [Field k] (p : ℕ) [Fact
     ((isNagataRing_tfae (R := k)).out 1 2).mp IsNagataRing.of_field
   have : IsNagataRing (MvPolynomial (Fin n) k) := hk _
   refine IsAbsoluteIntegralClosure.flat_of_isRegularRing p ?_ hB
-  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field,
+  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite, ringKrullDim_eq_zero_of_field,
     Nat.card_eq_fintype_card, Fintype.card_fin, zero_add]
   exact_mod_cast hn
 

@@ -298,7 +298,10 @@ private theorem map_quasiIso_of_rightAcyclic_terms
   let LP : CochainComplex.Plus A := ⟨L, hL⟩
   let fp : KP ⟶ LP := ObjectProperty.homMk f
   let q := HomotopyCategory.Plus.quotient A
-  let α := F.rightDerivedFunctorPlusUnit
+  let α := (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+    DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)
+  let R := (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerived
+    DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)
   have : IsIso (α.app (q.obj KP)) :=
     Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic F K hK hKA
   have : IsIso (α.app (q.obj LP)) :=
@@ -308,14 +311,14 @@ private theorem map_quasiIso_of_rightAcyclic_terms
       ((HomotopyCategory.quotient_map_mem_quasiIso_iff f).2 (show QuasiIso f from inferInstance))
   have heq : (F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map (q.map fp) =
       α.app (q.obj KP) ≫
-        (DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus).map (q.map fp) ≫
+        (DerivedCategory.Plus.Qh ⋙ R).map (q.map fp) ≫
           inv (α.app (q.obj LP)) := by
     rw [← Category.assoc, ← α.naturality (q.map fp), Category.assoc, IsIso.hom_inv_id,
       Category.comp_id]
   have : IsIso ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map (q.map fp)) := by
     rw [heq]
     show IsIso (α.app (q.obj KP) ≫
-      F.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map (q.map fp)) ≫
+      R.map (DerivedCategory.Plus.Qh.map (q.map fp)) ≫
         inv (α.app (q.obj LP)))
     infer_instance
   have : IsIso ((DerivedCategory.Plus.ι (C := B)).map

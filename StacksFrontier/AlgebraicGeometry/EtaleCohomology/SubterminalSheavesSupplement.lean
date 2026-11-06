@@ -644,6 +644,7 @@ public theorem openRepresentable_obj_subsingleton.{u₁, v₁}
   apply (cancel_mono W.ι).1
   exact (Over.w x.down).trans (Over.w y.down).symm
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The sheaf on the small étale site represented by an open subscheme is a subsheaf of the
 final sheaf.** This is the direction opposite to Stacks 04HV, and the input through which a
 morphism of topoi out of the small étale topos is fed to it: the presheaf has at most one

@@ -219,6 +219,9 @@ theorem exists_lift_of_kernelPair
   obtain ⟨d₁, d₂, h₁s, h₁t, h₂s, h₂t⟩ := exists_kernelPair_faces hR hR₃.w
   have hb : yoneda.map t ≫ w = yoneda.map s ≫ w := hR.w.symm
   have hd : yoneda.map d₀ ≫ (yoneda.map s ≫ w) = yoneda.map q ≫ w := hR₃.w.symm
+  have : Mono e.hom := ⟨fun g h hgh => by
+    simpa only [Category.assoc, Iso.hom_inv_id, Category.comp_id] using
+      congrArg (· ≫ e.inv) hgh⟩
   have hC : IsPullback (levelMap π k s (v := yoneda.map s ≫ w) rfl) (levelMap π k t hb) ρ ρ := by
     refine IsPullback.of_map_of_faithful yoneda ?_
     rw [hρ]

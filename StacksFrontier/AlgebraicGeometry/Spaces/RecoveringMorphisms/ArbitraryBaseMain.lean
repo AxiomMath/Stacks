@@ -73,7 +73,7 @@ def chartPointMap (V : SmallEtale B S hS Y.1) [IsAffine (chartSch V)] :
       change Y.1.map (chartOverHom hb V U'.unop ((invRep g V).obj.map i s)).op _ =
         Y.1.map i.unop.hom.left.op (Y.1.map (chartOverHom hb V U.unop s).op _)
       rw [show i = i.unop.op from rfl, chartOverHom_restrict, op_comp,
-        FunctorToTypes.map_comp_apply]
+        Functor.map_comp_apply]
       rfl }⟩
 
 /-- The value of `g⁻¹h_V ⟶ Ŷ` at a section `s`: the composite of `f_s` with the chart `V`. -/
@@ -93,7 +93,7 @@ theorem map_comp_chartPointMap {V V' : SmallEtale B S hS Y.1} [IsAffine (chartSc
   show Y.1.map (chartOverHom hb V U.unop ((g.toToposHom.inverseImage.map
       ((SmallEtale.topology B S hS Y.1).yoneda.map c)).hom.app (op U.unop) s)).op _ =
     Y.1.map (chartOverHom hb V' U.unop s).op _
-  rw [chartOverHom_map, op_comp, FunctorToTypes.map_comp_apply, yonedaEquiv_naturality]
+  rw [chartOverHom_map, op_comp, Functor.map_comp_apply, yonedaEquiv_naturality]
   congr 2
   exact CostructuredArrow.w c.hom
 

@@ -125,7 +125,7 @@ public theorem prod_resCard_pow_ord_le_of_prime {A : Type u} [CommRing A] [IsDed
   set s₁ := s.filter fun v => b ∈ (Q v).asIdeal
   have hmul0 : ∀ v ∈ s, b ∉ (Q v).asIdeal → multiplicity (Q v).asIdeal (Ideal.span {b}) = 0 := by
     intro v _ hb
-    rwa [multiplicity_eq_zero, Ideal.dvd_span_singleton]
+    exact multiplicity_eq_zero_of_not_dvd (by rwa [Ideal.dvd_span_singleton])
   have hprod : ∏ v ∈ s, v.resCard ^ (v.ord (algebraMap B K b)).toNat =
       ∏ v ∈ s₁, v.resCard ^ (v.ord (algebraMap B K b)).toNat := by
     refine (Finset.prod_filter_of_ne fun v hv hne => ?_).symm
@@ -298,6 +298,7 @@ public theorem finite_residueField_of_mem (v : Place K) (hx : x ∈ v.1) :
 
 section FundamentalInequality
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The rank of the integral closure of `k[x]` over `k[x]` is `[K : k(x)]`. -/
 public theorem finrank_intClosure :
     Module.finrank (polySubalg k x) (intClosure k x) = Module.finrank k⟮x⟯ K := by
@@ -324,6 +325,7 @@ public theorem card_quotient_span_polySubalgMap (hx : Transcendental k x) {f : k
   rw [Module.natCard_eq_pow_finrank (K := k), (AdjoinRoot.powerBasis hf).finrank,
     AdjoinRoot.powerBasis_dim]
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- The fundamental inequality at a prime polynomial: for any finite set `s` of places containing
 `x`, `∏_{v ∈ s} q_v ^ ord_v (f(x)) ≤ #k ^ ([K : k(x)] · deg f)`. -/
 public theorem prod_resCard_pow_ord_le_of_prime (hx : Transcendental k x) {f : k[X]}

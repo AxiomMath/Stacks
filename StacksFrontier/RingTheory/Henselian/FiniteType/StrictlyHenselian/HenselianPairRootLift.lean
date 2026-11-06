@@ -828,7 +828,7 @@ theorem henselian_pair_mA (R : Type) [CommRing R] [HenselianLocalRing R] (A : Ty
   simp only [Set.mem_ofPred_eq] at hQ
   rw [Ideal.map_le_iff_le_comap]
   have hmax : (Q.comap (algebraMap R A)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal Q
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) Q
   rw [IsLocalRing.eq_maximalIdeal hmax]
 
 /-- **The henselian-pair property in quadratic form.** Single-root Hensel lifting for

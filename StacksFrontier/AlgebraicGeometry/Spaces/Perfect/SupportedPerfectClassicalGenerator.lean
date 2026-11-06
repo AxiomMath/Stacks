@@ -89,6 +89,8 @@ theorem triangEnvelope_singleton_eq_isPerfect_of_supported (X : AlgebraicSpaces 
   have := hasCoproducts_quasicoherentDerivedCategory_ringUniverse B S hS X.1 X.2
   have := fun J : Type u =>
     isClosedUnderColimitsOfShape_quasicoherentDerivedSupportedOn X T hT J
+  have : HasCoproducts.{u} (quasicoherentDerivedSupportedOn X T).FullSubcategory := fun J =>
+    hasColimitsOfShape_of_closedUnderColimits (Discrete J) _
   let G' : (quasicoherentDerivedSupportedOn X T).FullSubcategory := ⟨⟨G, hGq⟩, hGs⟩
   have hcp := isCompactObject_iff_isPerfect_of_supported X hXqc hXqs T hT hTc
   rw [triangEnvelope_eq_isCompactObject_of_locallySmall G' ((hcp G').2 hG)

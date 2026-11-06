@@ -57,7 +57,7 @@ theorem reflectsIsomorphisms_injectivesContinuousModuleUnderlying :
 /-- The `R`-submodule of `G`-invariants of a continuous discrete `R`-`G`-module. -/
 def continuousModuleInvariantsSubmodule (M : Stacks.Injectives.ContinuousModule.{u, v, w} R G) :
     Submodule R M.obj.obj.V where
-  carrier := {x | ∀ g : G, (M.obj.obj.ρ g).hom x = x}
+  carrier := {x | ∀ g : G, (M.obj.obj.ρ g).asHom.hom x = x}
   zero_mem' := fun _ ↦ map_zero _
   add_mem' := fun ha hb g ↦ by rw [map_add, ha g, hb g]
   smul_mem' := fun a _ hx g ↦ by rw [map_smul, hx g]
@@ -69,7 +69,7 @@ def continuousModuleRingInvariants :
   map {M N} f := ModuleCat.ofHom
     { toFun := fun x ↦ ⟨f.hom.hom.hom x.1, fun g ↦
         (ConcreteCategory.congr_hom (f.hom.hom.comm g) x.1).symm.trans
-          (congrArg _ (x.2 g))⟩
+          (congrArg _ ((x.2 : ∀ g : G, _) g))⟩
       map_add' := fun _ _ ↦ Subtype.ext (map_add _ _ _)
       map_smul' := fun _ _ ↦ Subtype.ext (map_smul _ _ _) }
 
@@ -90,8 +90,8 @@ instance continuousModuleRingInvariants_additive :
 /-- An `R`-module with the trivial `G`-action, as a continuous discrete `R`-`G`-module. -/
 def continuousModuleTrivialFunctor :
     ModuleCat.{w} R ⥤ Stacks.Injectives.ContinuousModule.{u, v, w} R G where
-  obj N := ⟨⟨Action.trivial G N, by
-      rw [Action.isContinuous_def, continuous_prod_of_discrete_right]
+  obj N := ⟨⟨Action.trivial G N, (Action.isContinuous_def _).2 <| by
+      rw [continuous_prod_of_discrete_right]
       exact fun _ => continuous_const⟩, ⟨rfl⟩⟩
   map f := ObjectProperty.homMk (ObjectProperty.homMk { hom := f, comm := fun _ ↦ rfl })
 
@@ -134,7 +134,7 @@ variable (R : Type u) [CommRing R] (G : Type v) [Group G] [TopologicalSpace G]
 def continuousModuleRingInvariantsIso :
     continuousModuleRingInvariants.{u, v, w} R G ≅ continuousModuleInvariants.{u, v, w} R G :=
   NatIso.ofComponents (fun _ ↦ LinearEquiv.toModuleIso
-    { toFun := fun x ↦ ⟨x.1, fun g ↦ x.2 g⟩
+    { toFun := fun x ↦ ⟨x.1, fun g ↦ (x.2 : ∀ g : G, _) g⟩
       invFun := fun x ↦ ⟨x.1, fun g ↦ x.2 g⟩
       left_inv := fun _ ↦ rfl
       right_inv := fun _ ↦ rfl

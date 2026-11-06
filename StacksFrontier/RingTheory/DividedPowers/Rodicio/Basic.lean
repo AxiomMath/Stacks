@@ -68,7 +68,7 @@ public def GulliksenObstruction : Prop :=
     (F r : Fin m → MvPolynomial (Fin n) R)
     (_ : ∑ j, r j * F j = 0)
     (_ : ∀ (j : Fin m) (d : Fin n →₀ ℕ),
-      MvPolynomial.coeff d (r j) ∈ Ideal.map q (Ideal.span {f}).annihilator)
+      (r j).coeff d ∈ Ideal.map q (Ideal.span {f}).annihilator)
     (F' r' : Fin m → MvPolynomial (Fin n) R')
     (g : MvPolynomial (Fin n) R')
     (_ : ∀ j, MvPolynomial.map q (F' j) = F j)
@@ -188,7 +188,7 @@ public theorem injective_mapQ_maximalIdeal_of_gulliksenObstruction
   have hlift0 : ∑ j, rr' j * FF' j = (1 : MvPolynomial (Fin 0) (A ⧸ I')) * MvPolynomial.C f := by
     simpa only [one_mul] using sum_C_mul_C_eq_C I' d F r (x : A) hrel
   have hcoeff (j : Fin d) (e : Fin 0 →₀ ℕ) :
-      MvPolynomial.coeff e (rr j) ∈ Ideal.map q (Ideal.span {f}).annihilator := by
+      (rr j).coeff e ∈ Ideal.map q (Ideal.span {f}).annihilator := by
     obtain rfl : e = 0 := Subsingleton.elim e 0
     simpa [rr, CC, q, f, MvPolynomial.coeff_C] using
       mk_mem_map_annihilator_of_mem_maximalIdeal I I' hI'I hmI' x (r j) (hr j)

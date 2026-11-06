@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.Algebra.Homology.DerivedCategory.CompositionOfRightDerivedFunctors
+public import StacksFrontier.Algebra.Homology.DerivedCategory.RightDerivedFunctorPlusResolution
 public import StacksFrontier.Algebra.Homology.RightDerivedEdge
 public import StacksFrontier.Homology.DerivedIndexing.Basic
 
@@ -139,27 +140,27 @@ def rightDerivedPlusCompUnit :
       DerivedCategory.Plus.Qh ⋙ P.rightDerivedFunctorPlus ⋙ Q.rightDerivedFunctorPlus :=
   Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (P ⋙ Q))).inv
       DerivedCategory.Plus.Qh ≫
-    Functor.whiskerLeft P.mapHomotopyCategoryPlus Q.rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight P.rightDerivedFunctorPlusUnit Q.rightDerivedFunctorPlus
+    Functor.whiskerLeft P.mapHomotopyCategoryPlus Q.rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight P.rightDerivedFunctorPlusUnith Q.rightDerivedFunctorPlus
 
 /-- The canonical transformation `t : R(Q ∘ P) ⟶ RQ ∘ RP` of [Stacks, Tag 05T2], induced by
 `rightDerivedPlusCompUnit` through the universal property of right derivation. -/
 def rightDerivedPlusCompTrans :
     (P ⋙ Q).rightDerivedFunctorPlus ⟶
       P.rightDerivedFunctorPlus ⋙ Q.rightDerivedFunctorPlus :=
-  Functor.rightDerivedDesc _ (P ⋙ Q).rightDerivedFunctorPlusUnit
+  Functor.rightDerivedDesc _ (P ⋙ Q).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso C) _ (rightDerivedPlusCompUnit P Q)
 
 /-- The factorization that characterises `rightDerivedPlusCompTrans`. -/
 theorem rightDerivedPlusCompTrans_fac :
-    (P ⋙ Q).rightDerivedFunctorPlusUnit ≫
+    (P ⋙ Q).rightDerivedFunctorPlusUnith ≫
         Functor.whiskerLeft DerivedCategory.Plus.Qh (rightDerivedPlusCompTrans P Q) =
       rightDerivedPlusCompUnit P Q :=
   Functor.rightDerived_fac _ _ _ _ _
 
 /-- The factorization that characterises `rightDerivedPlusCompTrans`, componentwise. -/
 theorem rightDerivedPlusCompTrans_fac_app (K : HomotopyCategory.Plus C) :
-    (P ⋙ Q).rightDerivedFunctorPlusUnit.app K ≫
+    (P ⋙ Q).rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedPlusCompTrans P Q).app (DerivedCategory.Plus.Qh.obj K) =
       (rightDerivedPlusCompUnit P Q).app K :=
   Functor.rightDerived_fac_app _ _ _ _ _ K
@@ -184,12 +185,7 @@ instance isIso_rightDerivedPlusCompTrans [P.PreservesInjectiveObjects] :
   intro I hI
   have : Injective I := hI
   have : Injective (P.obj I) := P.injective_obj_of_injective hI
-  change IsIso (Q.rightDerivedFunctorPlusUnit.app
-    ((HomotopyCategory.Plus.singleFunctor D 0).obj (P.obj I)))
-  have hinj : ∀ m : ℤ,
-      Injective (((HomotopyCategory.Plus.singleFunctor D 0).obj (P.obj I)).obj.as.X m) :=
-    injective_single_obj_as_X (P.obj I)
-  infer_instance
+  exact Q.rightAcyclic_of_injective (P.obj I)
 
 /-- The composition isomorphism `R(Q ∘ P) ≅ RQ ∘ RP` for `P` preserving injective objects,
 [Stacks, Tag 015M]. -/
@@ -206,7 +202,7 @@ def rightDerivedPlusUnitSingle :
       DerivedCategory.Plus.singleFunctor C 0 ⋙ P.rightDerivedFunctorPlus :=
   (Functor.mapSingleFunctorCompQhIso P).inv ≫
     Functor.whiskerLeft (HomotopyCategory.Plus.singleFunctor C 0)
-      P.rightDerivedFunctorPlusUnit ≫
+      P.rightDerivedFunctorPlusUnith ≫
     Functor.whiskerRight (Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv
       P.rightDerivedFunctorPlus
 
@@ -906,7 +902,7 @@ omit [EnoughInjectives D] [P.PreservesInjectiveObjects] in
 lemma rightDerivedPlusUnitSingle_app (X : C) :
     (rightDerivedPlusUnitSingle P).app X =
       (Functor.mapSingleFunctorCompQhIso P).inv.app X ≫
-        P.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
+        P.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
           P.rightDerivedFunctorPlus.map
             ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app X) := rfl
 
@@ -919,13 +915,13 @@ theorem rightDerivedPlusUnitSingle_app_comp_map_singleIsoResPlusQh (X : C) :
         P.rightDerivedFunctorPlus.map ((singleIsoResPlusQh (C := C)).hom.app X) =
       (singleIsoResPlusQh (C := D)).hom.app (P.obj X) ≫
         DerivedCategory.Plus.Qh.map (extendResolutionComparisonPlus P X) ≫
-          P.rightDerivedFunctorPlusUnit.app (resPlus.obj X) := by
-  have hnat : P.rightDerivedFunctorPlusUnit.app
+          P.rightDerivedFunctorPlusUnith.app (resPlus.obj X) := by
+  have hnat : P.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
         P.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map (resUnitPlusApp X)) =
       DerivedCategory.Plus.Qh.map (P.mapHomotopyCategoryPlus.map (resUnitPlusApp X)) ≫
-        P.rightDerivedFunctorPlusUnit.app (resPlus.obj X) :=
-    (P.rightDerivedFunctorPlusUnit.naturality (resUnitPlusApp X)).symm
+        P.rightDerivedFunctorPlusUnith.app (resPlus.obj X) :=
+    (P.rightDerivedFunctorPlusUnith.naturality (resUnitPlusApp X)).symm
   rw [rightDerivedPlusUnitSingle_app, Category.assoc, Category.assoc,
     ← P.rightDerivedFunctorPlus.map_comp,
     singleFunctorPlusIsoCompQh_inv_app_comp_singleIsoResPlusQh_hom_app,
@@ -1057,8 +1053,8 @@ omit [P.PreservesInjectiveObjects] in
 `P(K)`, followed by `RQ` applied to the unit of `RP` at `K`. -/
 lemma rightDerivedPlusCompUnit_app (K : HomotopyCategory.Plus C) :
     (rightDerivedPlusCompUnit P Q).app K =
-      Q.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj K) ≫
-        Q.rightDerivedFunctorPlus.map (P.rightDerivedFunctorPlusUnit.app K) := by
+      Q.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj K) ≫
+        Q.rightDerivedFunctorPlus.map (P.rightDerivedFunctorPlusUnith.app K) := by
   have hid : (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (P ⋙ Q))).inv.app K = 𝟙 _ :=
     ObjectProperty.hom_ext _ rfl
   simp only [rightDerivedPlusCompUnit, NatTrans.comp_app, Functor.whiskerRight_app,
@@ -1089,7 +1085,7 @@ theorem map_rightDerivedPlusUnitSingle_app_comp_rightDerivedPlusCompIso_inv_app 
         Q.rightDerivedFunctorPlus.map
             (DerivedCategory.Plus.Qh.map (extendResolutionComparisonPlus P X)) ≫
           Q.rightDerivedFunctorPlus.map
-            (P.rightDerivedFunctorPlusUnit.app (resPlus.obj X)) :=
+            (P.rightDerivedFunctorPlusUnith.app (resPlus.obj X)) :=
     (Q.rightDerivedFunctorPlus.map_comp _ _).symm.trans
       ((congrArg Q.rightDerivedFunctorPlus.map
           (rightDerivedPlusUnitSingle_app_comp_map_singleIsoResPlusQh P X)).trans
@@ -1101,12 +1097,12 @@ theorem map_rightDerivedPlusUnitSingle_app_comp_rightDerivedPlusCompIso_inv_app 
     ((rightDerivedPlusCompIso P Q).app (DerivedCategory.Plus.Qh.obj (resPlus.obj X))) ?_
   exact residual_square _ _ ((rightDerivedPlusCompIso P Q).hom.app _) _ _ _ _ _ _ _
     ((resDerivedIso Q).hom.app (P.obj X)) _
-    (Q.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj (resPlus.obj X))) _ _
+    (Q.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj (resPlus.obj X))) _ _
     (Iso.inv_hom_id_app _ _) (Iso.inv_hom_id_app _ _) (Iso.inv_hom_id_app _ _)
     ((rightDerivedPlusCompIso P Q).hom.naturality ((singleIsoResPlusQh (C := C)).hom.app X))
     ((rightDerivedPlusCompTrans_fac_app P Q (resPlus.obj X)).trans
       (rightDerivedPlusCompUnit_app P Q (resPlus.obj X)))
-    (Q.rightDerivedFunctorPlusUnit.naturality (extendResolutionComparisonPlus P X)) hK
+    (Q.rightDerivedFunctorPlusUnith.naturality (extendResolutionComparisonPlus P X)) hK
 
 /-- The components of `Stacks.DerivedIndexing.rightDerivedPlusEdge`. -/
 lemma rightDerivedPlusEdge_app (i : ℤ) (X : C) :

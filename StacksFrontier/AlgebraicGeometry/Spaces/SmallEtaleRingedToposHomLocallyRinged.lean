@@ -130,12 +130,20 @@ each of them the fibre of `f⁻¹𝒪_Y ⟶ 𝒪_X` is the map of étale local r
 @[stacks 04KJ]
 theorem smallEtaleRingedToposHom_isLocallyRinged :
     (smallEtaleRingedToposHom B S hS f).IsLocallyRinged := by
+  haveI : HasLimitsOfShape WalkingCospan (Sheaf (smallEtaleRingedTopos B S hS X).J (Type u)) :=
+    HasFiniteLimits.out _
+  haveI : HasPullback (RingedTopos.unitsιOf (smallEtaleRingedTopos B S hS X).O)
+      (RingedTopos.forgetRingMap (smallEtaleRingedToposHom B S hS f).fSharpInverseImage) :=
+    HasLimitsOfShape.has_limit _
+  have hP : ∀ Φ : (ObjectProperty.ofObj
+      (fun z : GeometricPoint B S hS X.1 => etaleSitePoint B S hS X.1 z X.2)).FullSubcategory,
+      PreservesFiniteLimits (Φ.obj.sheafFiber (A := Type u)) := fun _ => inferInstance
   refine RingedToposHom.isLocallyRinged_of_reflectsUnitsObj
     (X := smallEtaleRingedTopos B S hS X) (Y := smallEtaleRingedTopos B S hS Y)
     (smallEtaleRingedToposHom B S hS f)
     (ι := (ObjectProperty.ofObj
       (fun z : GeometricPoint B S hS X.1 => etaleSitePoint B S hS X.1 z X.2)).FullSubcategory)
-    (fun Φ => Φ.obj.sheafFiber (A := Type u)) (fun _ => inferInstance)
+    (fun Φ => Φ.obj.sheafFiber (A := Type u)) hP
     (fun {F G} ψ hψ => by
       have : ∀ Φ : (ObjectProperty.ofObj (fun z : GeometricPoint B S hS X.1 =>
           etaleSitePoint B S hS X.1 z X.2)).FullSubcategory,

@@ -192,6 +192,18 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out). -/
+local instance (priority := high) hasPullbacks_presheaf_PurityAscentSpecStalk :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, supplied directly: instance search
+for them now times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_PurityAscentSpecStalk
+    {Z₁ Z₂ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Stacks 0CVB, the implication (1) implies (4) -/
 
 /-- **Purity above `y` excludes every impurity whose test scheme is a cofiltered limit of

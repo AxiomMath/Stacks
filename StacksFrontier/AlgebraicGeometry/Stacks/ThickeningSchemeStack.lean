@@ -184,7 +184,8 @@ theorem isThickeningHom_of_isClosedImmersion_of_surjective_pointsMap
           = (asIso (Subfunctor.toRange i.hom)).inv ≫
             (Subfunctor.toRange i.hom ≫ (Subfunctor.range i.hom).ι) :=
             (congrArg (fun k => (asIso (Subfunctor.toRange i.hom)).inv ≫ k) hfactor).symm
-        _ = (Subfunctor.range i.hom).ι := by simp
+        _ = (Subfunctor.range i.hom).ι :=
+          (asIso (Subfunctor.toRange i.hom)).inv_hom_id_assoc _
     rwa [heq] at h
   · intro y
     obtain ⟨x, hx⟩ := hs y

@@ -204,7 +204,6 @@ public theorem hom_map_surjective_of_base_surjective
         X.carrier →ₗ[X.base] Y.carrier) := H.isBaseChange
   intro y
   induction y using hbc.inductionOn with
-  | zero => exact ⟨0, map_zero H.map⟩
   | tmul z => exact ⟨z, rfl⟩
   | smul s n hn =>
       obtain ⟨z, hz⟩ := hn

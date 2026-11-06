@@ -234,7 +234,7 @@ public def constToSplitYoneda :
   app Z := TypeCat.ofHom fun i ↦ ULift.up (splitSheetHom B hV ι Z.unop i.down)
   naturality Z Z' f := by
     ext i
-    refine ULift.ext _ _ (hom_ext B hV ?_)
+    refine ULift.ext (hom_ext B hV ?_)
     have e1 : (SmallEtale.toScheme B V hV).map (splitSheetHom B hV ι Z'.unop i.down)
         = B.inclusion.map Z'.unop.obj.hom ≫ Sigma.ι (fun _ : ι ↦ V) i.down := rfl
     have e2 : (SmallEtale.toScheme B V hV).map
@@ -262,7 +262,7 @@ public instance isLocallyInjective_constToSplitYoneda :
     Presheaf.IsLocallyInjective (SmallEtale.topology B V hV) (constToSplitYoneda B hV ι) where
   equalizerSieve_mem {Z} x y hxy := by
     by_cases hij : x.down = y.down
-    · rw [show x = y from ULift.ext _ _ hij, Presheaf.equalizerSieve_self_eq_top]
+    · rw [show x = y from ULift.ext hij, Presheaf.equalizerSieve_self_eq_top]
       exact (SmallEtale.topology B V hV).top_mem _
     · have h1 : splitSheetHom B hV ι Z.unop x.down = splitSheetHom B hV ι Z.unop y.down :=
         congrArg ULift.down hxy
@@ -290,7 +290,7 @@ public instance isLocallySurjective_constToSplitYoneda :
         (fun k ↦ openHom B hV Z (q k) (hq k)) fun x ↦ (hcov x).imp fun k hk ↦ hk)
     rw [Sieve.ofArrows, Sieve.generate_le_iff]
     rintro T f ⟨k⟩
-    refine ⟨ULift.up (idx k), ULift.ext _ _ (hom_ext B hV ?_)⟩
+    refine ⟨ULift.up (idx k), ULift.ext (hom_ext B hV ?_)⟩
     have e1 : (SmallEtale.toScheme B V hV).map
           (splitSheetHom B hV ι (openObj B hV Z (q k) (hq k)) (idx k))
         = (q k ≫ B.inclusion.map Z.obj.hom) ≫ Sigma.ι (fun _ : ι ↦ V) (idx k) := rfl

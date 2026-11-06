@@ -122,7 +122,7 @@ theorem hom_ext_of_toScheme {f g : y ⟶ y'} (hb : f.baseMap = g.baseMap)
   have hyo := congrArg yoneda.map hsite
   rw [yoneda_map_totalSiteMap, yoneda_map_totalSiteMap] at hyo
   refine Hom.ext hb (ObjectProperty.hom_ext _ ?_)
-  simpa using hyo
+  simpa only [Iso.cancel_iso_hom_left, Iso.cancel_iso_inv_right] using hyo
 
 end CurveFamily
 
@@ -542,7 +542,6 @@ theorem underPost_isHomLift_of_isHomLift_right {U V : Under ((curvesProjectionOv
   have := hm
   simp only [Under.comp_right, Under.eqToHom_right, Under.post_map, Under.homMk_right]
   rw [IsHomLift.fac' (curvesProjectionOver B hZ) g.right m.right]
-  rfl
 
 include hφ₁ hφ₂ hφ₁' hφ₂' in
 /-- **Morphisms of lifts over `k[M × N]` are glued from their two restrictions.** -/

@@ -61,6 +61,7 @@ theorem isClosedImmersion_glued
   have hrep : IsClosedImmersion B S hS (yoneda.map (α.siteApp V₂)) :=
     presheaf_yoneda_map_of_inverseImage B S hS inferInstance _ hα
   have hpb := α.isPullback_glued pr₁ pr₂ hsq hsurj
+  haveI := hpb.hasPullback
   have : (closedImmersionPresheafProperty B S hS).IsStableUnderBaseChange :=
     MorphismProperty.relative_isStableUnderBaseChange _
   have : MorphismProperty.RespectsIso (closedImmersionPresheafProperty B S hS) :=

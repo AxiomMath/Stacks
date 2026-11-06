@@ -191,7 +191,7 @@ theorem completionSheaf_hom_ext_of_univ {V : BigFppfOver B S hS}
         (Space.completionSubfunctor B S hS (yoneda.obj V) Z).toFunctor ≫ Θ.hom).app U
           ⟨ULift.up f, hf⟩ =
         Y.obj.map f.op (Θ.hom.app (op V) (completionIdSection B S hS V Z hZ)) :=
-    (congrArg _ (Subtype.ext (ULift.ext _ _ (Category.comp_id f).symm))).trans
+    (congrArg _ (Subtype.ext (ULift.ext (Category.comp_id f).symm))).trans
       (NatTrans.naturality_apply ((BigFppfOver.topology B S hS).toSheafify
         (Space.completionSubfunctor B S hS (yoneda.obj V) Z).toFunctor ≫ Θ.hom)
         (X := op V) (Y := U) f.op ⟨ULift.up (𝟙 V), hid⟩)

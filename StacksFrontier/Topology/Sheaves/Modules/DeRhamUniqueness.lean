@@ -116,7 +116,7 @@ modules and which is needed here for a presheaf that is not of that form.
 
 @[expose] public section
 
-open CategoryTheory Opposite TopologicalSpace PresheafOfModules
+open CategoryTheory Opposite TopologicalSpace PresheafOfModules PresheafOfModulesOfCommRing
 
 universe u
 

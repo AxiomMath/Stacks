@@ -3,6 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.GabberColimit.Basic
 public import StacksFrontier.AlgebraicGeometry.TorsionQuasicoherent.Local
 public import StacksFrontier.AlgebraicGeometry.Properties.CardinalGenerated
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 
 /-!
 # The cardinally generated quasi-coherent submodule containing a given section

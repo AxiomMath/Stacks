@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.Valuation.RationalPowerSeries.CoefficientRing
+import Mathlib.Algebra.MonoidAlgebra.Ideal
 
 /-!
 # Power series with nonnegative rational exponents: the completion as a ring of series

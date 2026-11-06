@@ -122,6 +122,16 @@ section Sym
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (W : AlgebraicSpaces B S hS) (F : SheafOfModules.{u} (structureRingSheaf B S hS W))
 
+/-- Coproducts of presheaves of modules on the small étale site, supplied directly: instance
+search for them times out. -/
+private instance (priority := high) hasColimitsOfShape_discrete_symAlgSheafQcoh (J : Type) :
+    HasColimitsOfShape (Discrete J) (PresheafOfModules.{u} (structureRingSheaf B S hS W).obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
+private instance (priority := high) hasCoproduct_piece_symAlgSheafQcoh :
+    HasCoproduct fun n : ℤ => (symmetricAlgebra B S hS W F).piece n :=
+  inferInstance
+
 /-- `Sym(ℱ)` has no nonzero piece in a negative degree.  This is
 `PresheafOfModules.isZero_symmetricAlgebraSheafify_piece` instantiated at the small étale site of
 an algebraic space. -/
@@ -207,6 +217,7 @@ def symDirectSumIsoUnderlyingModule :
     eqToIso (AlgebraSheaf.underlyingModule_eq_restrictScalars
       (symmetricAlgebraSheaf B S hS W F)).symm
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The module underlying the algebra sheaf `Sym(ℱ)` is the coproduct `∐_{n ∈ ℤ} Symⁿ(ℱ)` of the
 homogeneous pieces of the graded `Sym(ℱ)`. -/
 def symCoprodIsoUnderlyingModule :
@@ -217,6 +228,7 @@ def symCoprodIsoUnderlyingModule :
 
 /-! ### Quasi-coherence -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The coproduct `∐_{n ∈ ℤ} Symⁿ(ℱ)` is quasi-coherent once every piece of `Sym(ℱ)` in a
 non-negative degree is.
 

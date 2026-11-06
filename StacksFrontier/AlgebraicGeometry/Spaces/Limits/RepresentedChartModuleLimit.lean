@@ -202,6 +202,7 @@ end PairMap
 
 /-! ### Fullness along a limit of quasi-compact quasi-separated schemes -/
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **A morphism of inverse images to the limit descends to a stage**, for a cofiltered system
 of schemes with affine transition morphisms whose stage `T i₀` is quasi-compact and
 quasi-separated (Stacks 01ZR (2), read on the represented algebraic spaces). -/

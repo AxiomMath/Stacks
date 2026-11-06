@@ -435,6 +435,12 @@ theorem isPullback_bundleCoverToSpace :
   rw [← (isPullback_chartBaseChange ψ).w]
   exact h
 
+/-- Presheaves on the site have pullbacks (instance search for it times out). -/
+instance (priority := high) hasPullback_presheaf_bigFppfOver
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) : HasPullback f g :=
+  have : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := functorCategoryHasLimitsOfShape
+  HasLimitsOfShape.has_limit _
+
 /-- The fibre product `T ×_X 𝐏(ℰ)` as a presheaf. -/
 abbrev bundleFibre : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u :=
   pullback (projectiveBundleProj E hfree).hom ψ.hom

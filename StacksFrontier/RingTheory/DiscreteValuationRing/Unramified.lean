@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.GroupWithZero.Action.Regular
 public import Mathlib.Algebra.Field.ULift
 public import Mathlib.FieldTheory.Galois.Basic
 public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
@@ -388,7 +389,7 @@ theorem integralClosure_finite_dedekind_and_degree_eq_sum_ramification_inertia
         rw [Ideal.liesOver_iff]
         exact (IsLocalRing.maximal_ideal_unique A).unique
           (IsLocalRing.maximalIdeal.isMaximal A)
-          (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) q)
+          (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) q)
       let Q : p.primesOver B := ⟨q, hq.isPrime, hlo⟩
       refine ⟨e Q, ?_, ?_⟩
       · simp [m, Q]
@@ -522,7 +523,7 @@ private theorem isUnramifiedWithRespectTo_iff_formallyUnramified
     let := Localization.AtPrime.algebraOfLiesOver p m
     obtain ⟨he, hs⟩ := h m hm hmp
     apply (Algebra.isUnramifiedAt_iff_map_eq A p m).mpr
-    refine ⟨inferInstance, ?_⟩
+    refine ⟨Algebra.isSeparable_residueField_iff.mpr hs, ?_⟩
     apply (Ideal.IsDedekindDomain.ramificationIdx'_eq_one_iff ?_ ?_).mp he
     · intro hm0
       have hp0 : p = ⊥ := by simpa [hm0, Ideal.under_bot] using (m.over_def p)
@@ -534,7 +535,7 @@ private theorem isUnramifiedWithRespectTo_iff_formallyUnramified
     · rw [Ideal.ramificationIdx'_eq_ramificationIdx p m
         (IsDiscreteValuationRing.not_a_field A)]
       exact Ideal.ramificationIdx_eq_one m A
-    · infer_instance
+    · exact Algebra.isSeparable_residueField_iff.mp inferInstance
 
 /-- An intermediate Dedekind domain of a formally unramified integral extension is itself
 formally unramified. -/

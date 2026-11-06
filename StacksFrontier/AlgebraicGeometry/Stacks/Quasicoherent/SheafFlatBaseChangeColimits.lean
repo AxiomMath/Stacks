@@ -227,7 +227,7 @@ def isColimitMapCoconeFppfToEtaleModules {K : Type u} [Category.{u} K]
                 ((congrArg SheafOfModules.Hom.val (colimit.w (D ⋙ R) f)).trans
                   (Category.comp_id _).symm) } }
   have hc' : IsColimit (R.mapCocone c') := colimit.isColimit (D ⋙ R)
-  exact hc'.ofIsoColimit ((Cocones.functoriality D R).mapIso
+  exact hc'.ofIsoColimit ((Cocone.functoriality D R).mapIso
     (hc.uniqueUpToIso (isColimitOfReflects R hc'))).symm
 
 /-- **The fppf half of Stacks 0771, part (5).**  `LQCoh^fbc(𝒪_𝒳)` is closed under small colimits in

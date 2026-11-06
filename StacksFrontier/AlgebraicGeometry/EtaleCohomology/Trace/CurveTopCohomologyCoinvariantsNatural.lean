@@ -48,7 +48,8 @@ private theorem levelCoinvariantsModule_ρ_eq_one_of_mem {G : Type (u + 1)} [Gro
     [TopologicalSpace G] [IsTopologicalGroup G] (H : Subgroup G) [H.Normal] {ℓ : ℕ} [Fact ℓ.Prime]
     {r : ℕ} (ρ : G →* GL (Fin r) ℤ_[ℓ]) (hρ : Continuous ρ) (k : ℕ) [NeZero (ℓ ^ k)] {g : G}
     (hg : g ∈ H) : (levelCoinvariantsModule H ρ hρ k).obj.obj.obj.ρ g = 1 :=
-  ModuleCat.hom_ext (LinearMap.ext fun v => levelCoinvariantsRepresentation_eq_of_mem H ρ k hg v)
+  End.ext
+    (ModuleCat.hom_ext (LinearMap.ext fun v => levelCoinvariantsRepresentation_eq_of_mem H ρ k hg v))
 
 /-! ### Trivial geometric monodromy -/
 
@@ -74,7 +75,7 @@ theorem exists_addEquiv_compactSupportSheafCohomology_two_lisseEtaleSheaf_of_tri
         ((lisseEtaleSheaf B U x (ZMod m)).obj Q) ≃+ Q.obj.obj.obj.V,
       (∀ t, θ (((compactSupportSheafFrobenius (ZMod m) f j kbar p q hcard 2).app
           ((lisseEtaleSheaf B U x (ZMod m)).obj Q)).hom t) =
-        (p ^ q : ℕ) • (Q.obj.obj.obj.ρ φ).hom (θ t)) ∧
+        (p ^ q : ℕ) • (Q.obj.obj.obj.ρ φ).asHom.hom (θ t)) ∧
       ∀ (g : Q ⟶ Q) t, θ (((compactSupportSheafCohomology (ZMod m) f j kbar 2).map
           ((lisseEtaleSheaf B U x (ZMod m)).map g)).hom t) = g.hom.hom.hom.hom.hom (θ t) := by
   obtain ⟨u₀, _, h₀, hu₀⟩ := exists_isIso_twist_lisseEtaleSheaf_baseField_natural B U f kbar m p q

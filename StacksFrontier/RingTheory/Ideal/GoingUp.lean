@@ -40,6 +40,6 @@ contraction to the field is the zero ideal, which is maximal. -/
 @[stacks 00GS "(3) If `S` is integral over `k` then every prime of `S` is a maximal ideal."]
 theorem Algebra.IsIntegral.isMaximal_of_isPrime {k S : Type*} [Field k] [CommRing S] [Algebra k S]
     [Algebra.IsIntegral k S] (P : Ideal S) [P.IsPrime] : P.IsMaximal :=
-  Ideal.isMaximal_of_isIntegral_of_isMaximal_comap P <| by
-    rw [Ideal.eq_bot_of_prime (P.comap (algebraMap k S))]
+  Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := k) P <| by
+    rw [Ideal.eq_bot_of_prime (P.under k)]
     exact Ideal.bot_isMaximal

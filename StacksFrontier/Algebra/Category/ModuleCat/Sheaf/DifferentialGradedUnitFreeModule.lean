@@ -330,11 +330,11 @@ def sigmaPresheaf (P : ℤ → (Cᵒᵖ ⥤ Type t)) : Cᵒᵖ ⥤ Type t where
   map_id U := by
     ext ⟨n, p⟩
     · rfl
-    · exact heq_of_eq (FunctorToTypes.map_id_apply (P n) p)
+    · exact heq_of_eq ((P n).map_id_apply U p)
   map_comp {U V W} f g := by
     ext ⟨n, p⟩
     · rfl
-    · exact heq_of_eq (FunctorToTypes.map_comp_apply (P n) f g p)
+    · exact heq_of_eq ((P n).map_comp_apply f g p)
 
 /-- The degree of a local section of `⨿ₙ P n`. -/
 def sigmaDegree (P : ℤ → (Cᵒᵖ ⥤ Type t)) :

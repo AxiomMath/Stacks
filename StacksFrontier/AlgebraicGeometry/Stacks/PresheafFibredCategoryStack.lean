@@ -44,7 +44,7 @@ comparison with the quotient stack's object universe an extra step.
 
 Only the sheaf property of the algebraic space is used. The route is Stacks 0430
 (`CategoryTheory.Functor.isStackInSets_iff_isSheaf_objPresheaf`) applied twice: once to Mathlib's
-category of elements `CategoryTheory.CategoryOfElements.π`, whose presheaf of objects is the
+category of elements `CategoryTheory.Functor.Elements.π`, whose presheaf of objects is the
 presheaf itself, and once to its universe-raised form, whose presheaf of objects is the same
 because `CategoryTheory.ULiftHom` does not change the objects and the chosen pullback in a
 category fibred in sets is unique. The fibred category of the presheaf is then identified with
@@ -81,56 +81,53 @@ universe u₀ v₀ w₀ v₁ w₁
 
 private theorem elementsOpp_isFiberedInSets
     {D : Type u₀} [Category.{v₀} D] (F : Dᵒᵖ ⥤ Type w₀) :
-    (CategoryOfElements.π F).leftOp.IsFiberedInSets := by
-  let : Category.{v₀} F.Elements := CategoryTheory.categoryOfElements F
+    (Functor.Elements.π F).leftOp.IsFiberedInSets := by
   refine ⟨fun {U V} f x hx => ?_⟩
   cases x with
   | op a =>
-    rcases a with ⟨aU, asec⟩
+    obtain @⟨aU, asec⟩ := a
     change aU.unop = U at hx
     obtain rfl := Opposite.unop_eq_iff_eq_op.mp hx
-    let b : F.Elements := ⟨Opposite.op V, F.map f.op asec⟩
-    let g := CategoryOfElements.homMk
-      (⟨Opposite.op U, asec⟩ : F.Elements) b f.op rfl
-    let φ : Opposite.op b ⟶ Opposite.op (⟨Opposite.op U, asec⟩ : F.Elements) :=
+    let b : F.Elements := F.elementsMk (Opposite.op V) (F.map f.op asec)
+    let g : F.elementsMk (Opposite.op U) asec ⟶ b := Functor.Elements.homMk f.op rfl
+    let φ : Opposite.op b ⟶ Opposite.op (F.elementsMk (Opposite.op U) asec) :=
       Quiver.Hom.op g
     let yφ : Σ y : F.Elementsᵒᵖ, y ⟶
-        Opposite.op (⟨Opposite.op U, asec⟩ : F.Elements) := ⟨Opposite.op b, φ⟩
-    have hy : (CategoryOfElements.π F).leftOp.obj yφ.1 = V := rfl
-    have hfac : (CategoryOfElements.π F).leftOp.map yφ.2 =
+        Opposite.op (F.elementsMk (Opposite.op U) asec) := ⟨Opposite.op b, φ⟩
+    have hy : (Functor.Elements.π F).leftOp.obj yφ.1 = V := rfl
+    have hfac : (Functor.Elements.π F).leftOp.map yφ.2 =
         eqToHom hy ≫ f ≫ eqToHom hx.symm := by
       simp [yφ, φ, g, b]
-      rfl
     refine ⟨yφ, ⟨hy, hfac⟩, ?_⟩
     rintro ⟨z, ψ⟩ ⟨hz, hψ⟩
     cases z with
     | op z₀ =>
-      rcases z₀ with ⟨zU, zsec⟩
+      obtain @⟨zU, zsec⟩ := z₀
       obtain rfl := Opposite.unop_eq_iff_eq_op.mp (show zU.unop = V from hz)
-      have hbase : ψ.unop.val = f.op := by
+      have hbase : ψ.unop.hom = f.op := by
         have h := congrArg Quiver.Hom.op hψ
         simpa [yφ, φ, g, b, hy, hz, hx, Functor.leftOp] using h
       obtain rfl : zsec = F.map f.op asec := by
-        have hp := ψ.unop.property
+        have hp := ψ.unop.map_val
         rw [hbase] at hp
         exact hp.symm
       dsimp [yφ, b]
       congr 1
       apply Quiver.Hom.unop_inj
-      apply CategoryOfElements.ext
+      apply Functor.Elements.hom_ext
       exact hbase
 
 private def elementsFiberEquiv {D : Type u₀} [Category.{v₀} D]
     (F : Dᵒᵖ ⥤ Type w₀) (U : D) :
-    (CategoryOfElements.π F).leftOp.Fiber U ≃ F.obj (Opposite.op U) where
+    (Functor.Elements.π F).leftOp.Fiber U ≃ F.obj (Opposite.op U) where
   toFun x := by
-    rcases x with ⟨⟨⟨⟨V⟩, s⟩⟩, h⟩
+    rcases x with ⟨⟨@⟨⟨V⟩, s⟩⟩, h⟩
     change V = U at h
     subst U
     exact s
-  invFun s := ⟨Opposite.op ⟨Opposite.op U, s⟩, rfl⟩
+  invFun s := ⟨Opposite.op (F.elementsMk (Opposite.op U) s), rfl⟩
   left_inv := by
-    rintro ⟨⟨⟨⟨V⟩, s⟩⟩, h⟩
+    rintro ⟨⟨@⟨⟨V⟩, s⟩⟩, h⟩
     change V = U at h
     subst U
     rfl
@@ -138,18 +135,18 @@ private def elementsFiberEquiv {D : Type u₀} [Category.{v₀} D]
 
 private theorem elementsFiberEquiv_natural {D : Type u₀} [Category.{v₀} D]
     (F : Dᵒᵖ ⥤ Type w₀) {U V : D} (f : V ⟶ U)
-    (x : (CategoryOfElements.π F).leftOp.Fiber U) :
+    (x : (Functor.Elements.π F).leftOp.Fiber U) :
     letI := elementsOpp_isFiberedInSets F
-    elementsFiberEquiv F V ((Functor.objPresheaf (CategoryOfElements.π F).leftOp).map f.op x) =
+    elementsFiberEquiv F V ((Functor.objPresheaf (Functor.Elements.π F).leftOp).map f.op x) =
       F.map f.op (elementsFiberEquiv F U x) := by
   let := elementsOpp_isFiberedInSets F
-  let p := (CategoryOfElements.π F).leftOp
+  let p := (Functor.Elements.π F).leftOp
   let := (Functor.IsFiberedInSets.isFiberedInGroupoids p).isFibered
-  rcases x with ⟨⟨⟨⟨U⟩, s⟩⟩, rfl⟩
-  let x : p.Fiber U := ⟨Opposite.op ⟨Opposite.op U, s⟩, rfl⟩
-  let y : p.Fiber V := ⟨Opposite.op ⟨Opposite.op V, F.map f.op s⟩, rfl⟩
-  let φ : y.1 ⟶ x.1 := (CategoryOfElements.homMk _ _ f.op rfl).op
-  have : p.IsHomLift f φ := IsHomLift.of_fac' p f φ rfl rfl (by simp [p, φ]; rfl)
+  rcases x with ⟨⟨@⟨⟨U⟩, s⟩⟩, rfl⟩
+  let x : p.Fiber U := ⟨Opposite.op (F.elementsMk (Opposite.op U) s), rfl⟩
+  let y : p.Fiber V := ⟨Opposite.op (F.elementsMk (Opposite.op V) (F.map f.op s)), rfl⟩
+  let φ : y.1 ⟶ x.1 := (Functor.Elements.homMk (x := x.1.unop) (y := y.1.unop) f.op rfl).op
+  have : p.IsHomLift f φ := IsHomLift.of_fac' p f φ rfl rfl (by simp [p, φ])
   have hy : Functor.pullbackFiber p x f = y := Subtype.ext
     (Functor.IsFiberedInSets.eq_of_isHomLift p f
       (Functor.IsPreFibered.pullbackMap x.2 f) φ).choose
@@ -174,7 +171,7 @@ private theorem isStack_of_natEquiv_isSheaf {D : Type u₀} [Category.{v₀} D]
 
 private theorem elementsOpp_isStack {D : Type u₀} [Category.{v₀} D]
     (J : GrothendieckTopology D) (F : Dᵒᵖ ⥤ Type w₀)
-    (hF : Presheaf.IsSheaf J F) : (CategoryOfElements.π F).leftOp.IsStack J := by
+    (hF : Presheaf.IsSheaf J F) : (Functor.Elements.π F).leftOp.IsStack J := by
   let := elementsOpp_isFiberedInSets F
   exact isStack_of_natEquiv_isSheaf _ J F hF (fun {U} => elementsFiberEquiv F U)
     fun f x => elementsFiberEquiv_natural F f x
@@ -199,10 +196,10 @@ theorem isFiberedInSets_uliftHom {D : Type u₀} [Category.{v₀} D]
 
 /-- The projection from the opposite of the category of elements of a presheaf is faithful. -/
 private theorem faithful_categoryOfElements_π_leftOp {D : Type u₀} [Category.{v₀} D]
-    (F : Dᵒᵖ ⥤ Type w₀) : (CategoryOfElements.π F).leftOp.Faithful := by
+    (F : Dᵒᵖ ⥤ Type w₀) : (Functor.Elements.π F).leftOp.Faithful := by
   refine ⟨fun h => ?_⟩
   apply Quiver.Hom.unop_inj
-  apply CategoryOfElements.ext
+  apply Functor.Elements.hom_ext
   exact congrArg Quiver.Hom.op h
 
 private theorem isStack_uliftHom {D : Type u₀} [Category.{v₀} D]
@@ -232,23 +229,23 @@ private theorem isStack_uliftHom {D : Type u₀} [Category.{v₀} D]
 private def pointsToElements
     (F : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :
     (fibredCategory C S hS F).val.obj ⥤ F.Elementsᵒᵖ where
-  obj x := Opposite.op ⟨Opposite.op x.base, x.fiber.as⟩
-  map f := (CategoryOfElements.homMk _ _ f.base.op
+  obj x := Opposite.op (F.elementsMk (Opposite.op x.base) x.fiber.as)
+  map f := (Functor.Elements.homMk f.base.op
     (Discrete.eq_of_hom f.fiber).symm).op
   map_id x := by
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     rfl
   map_comp f g := by
     apply Quiver.Hom.unop_inj
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     rfl
 
 private def elementsToPoints
     (F : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :
     F.Elementsᵒᵖ ⥤ (fibredCategory C S hS F).val.obj where
-  obj x := ⟨x.unop.1.unop, Discrete.mk x.unop.2⟩
-  map f := ⟨f.unop.val.unop, eqToHom (congrArg Discrete.mk f.unop.property.symm)⟩
+  obj x := ⟨x.unop.obj.unop, Discrete.mk x.unop.val⟩
+  map f := ⟨f.unop.hom.unop, eqToHom (congrArg Discrete.mk f.unop.map_val.symm)⟩
   map_id x := by
     refine Pseudofunctor.CoGrothendieck.Hom.ext
       (F := ((F ⋙ CategoryTheory.typeToGrpd) ⋙ Grpd.forgetToCat).toPseudofunctor') _ _ ?_ ?_
@@ -273,7 +270,7 @@ private abbrev liftedElementsBasedCategory
     BasedCategory.{u + 1, u + 1} (BigFppfOver C S hS) :=
   BasedCategory.ofFunctor
     ((ULiftHom.down : ULiftHom.{u + 1} F.Elementsᵒᵖ ⥤ F.Elementsᵒᵖ) ⋙
-      (CategoryOfElements.π F).leftOp)
+      (Functor.Elements.π F).leftOp)
 
 /-- **The projection of the category fibred in sets of a presheaf is faithful.** A morphism of a
 category of elements is determined by the morphism of the site it lies over, its fibre component
@@ -297,10 +294,10 @@ private noncomputable def liftedPointsEquivalenceOverElements
   letI : (fibredCategory C S hS F).val.p.Faithful :=
     faithful_fibredCategory_projection F
   letI : (liftedPointsBasedCategory F).p.Faithful :=
-    ⟨fun h => ULift.ext _ _ ((fibredCategory C S hS F).val.p.map_injective h)⟩
+    ⟨fun h => ULift.ext ((fibredCategory C S hS F).val.p.map_injective h)⟩
   letI := faithful_categoryOfElements_π_leftOp F
   letI : (liftedElementsBasedCategory F).p.Faithful :=
-    ⟨fun h => ULift.ext _ _ ((CategoryOfElements.π F).leftOp.map_injective h)⟩
+    ⟨fun h => ULift.ext ((Functor.Elements.π F).leftOp.map_injective h)⟩
   refine {
     hom := ⟨hom, rfl⟩
     inv := ⟨inv, rfl⟩
@@ -370,7 +367,7 @@ theorem liftedFibredCategory_isStack
       (BigFppfOver.topology C S hS) := by
   let := elementsOpp_isFiberedInSets X.obj
   let : ((ULiftHom.down : ULiftHom.{u + 1} X.obj.Elementsᵒᵖ ⥤ X.obj.Elementsᵒᵖ) ⋙
-      (CategoryOfElements.π X.obj).leftOp).IsFiberedInSets :=
+      (Functor.Elements.π X.obj).leftOp).IsFiberedInSets :=
     isFiberedInSets_uliftHom _
   exact (liftedPointsEquivalenceOfElements X.obj).symm.isStack _
     (liftedElements_isStack X.obj X.property.isSheaf)

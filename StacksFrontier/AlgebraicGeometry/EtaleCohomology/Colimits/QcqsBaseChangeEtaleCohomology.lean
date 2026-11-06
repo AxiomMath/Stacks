@@ -679,7 +679,7 @@ def etaleCohomologyColimit_baseChange_qcqs_etale_isColimit [QuasiCompact X.hom]
       (qcqsCoconeVertexIsoEtaleCohomology T X Z cY hcY B hD hY 𝒢 i W p hdLimit).hom) :=
   IsColimit.ofIsoColimit
     (etaleCohomologyColimit_baseChange_qcqs_isColimit T X Z cY hcY B hD hY F 𝒢 ι hcolim i W p E)
-    (Cocones.ext
+    (Cocone.ext
       (qcqsCoconeVertexIsoEtaleCohomology T X Z cY hcY B hD hY 𝒢 i W p hdLimit) fun _ => rfl)
 
 
@@ -777,7 +777,7 @@ theorem subsingleton_globalSections_of_hdLimit_zero
         (op ((bcToLimitSmallGen T X Z cY hcY B hD hY i).obj W))).rightDerived 0) ≅
       raisedAffineEtaleCohomologyFunctor B cY.pt hY 0)
     (hzero : Subsingleton
-      (𝒢.val.obj (op ((bcToLimitSmallGen T X Z cY hcY B hD hY i).obj W)))) :
+      (𝒢.obj.obj (op ((bcToLimitSmallGen T X Z cY hcY B hD hY i).obj W)))) :
     Subsingleton
       ((constantSheaf (bcPrecoverageGen T X Z cY hcY B hD hY).toGrothendieck
         Ab.{u + 1}).obj (AddCommGrpCat.of (ULift.{u + 1} ℤ)) ⟶ 𝒢) :=

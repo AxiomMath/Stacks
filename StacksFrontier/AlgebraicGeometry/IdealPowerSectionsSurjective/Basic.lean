@@ -211,7 +211,7 @@ public theorem exists_sectionOfHom_eq (hI : I.FG)
   refine Eq.trans (LocalizedModule.mk_eq.mpr ⟨1, ?_⟩)
     (hY _ (hYmem a ha) x.1 hax x.2).symm
   refine congrArg (fun z => (1 : (x.1 : PrimeSpectrum (ULift.{v} A)).asIdeal.primeCompl) • z)
-    (ULift.ext _ _ ?_)
+    (ULift.ext ?_)
   exact hψ ⟨a ^ (N₀ + n), hIN (Ideal.pow_mem_pow (hs ▸ Ideal.subset_span ha) (N₀ + n))⟩ a ha
 
 /-- **Stacks Project, Tag 01PM, surjectivity.** For a finitely generated ideal `I` and a module

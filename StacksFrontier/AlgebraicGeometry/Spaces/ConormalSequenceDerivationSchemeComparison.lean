@@ -78,9 +78,9 @@ Everything is an instance of a general statement already in the library.
   `AlgebraicGeometry.SmallEtale.d_structureSharp_eq_zero`.
 * The compatibility is proved on values: the transport of a derivation and
   `AlgebraicGeometry.Space.Derivation'.ofChartPullback` both leave the underlying additive map
-  untouched, so after `PresheafOfModules.Derivation.ext` the goal is the two factors'
+  untouched, so after `PresheafOfModulesOfCommRing.Derivation.ext` the goal is the two factors'
   compatibilities applied in turn, each by
-  `PresheafOfModules.Derivation.congr_d`.
+  `PresheafOfModulesOfCommRing.Derivation.congr_d`.
 * The last two statements are
   `AlgebraicGeometry.Space.pullbackUnitDerivation_postcomp_map_map` and
   `AlgebraicGeometry.Space.kernelIdealUnitDifferential_val_app_apply_map_map` — which are stated
@@ -141,14 +141,14 @@ the composite of the two directions of the isomorphism being the identity. -/
 theorem postcomp_differentialsIso_inv :
     (universalDerivation B f).postcomp (differentialsIso B f).inv.val =
       etaleAssociatedDerivation B f := by
-  refine Eq.trans (congrArg (fun D => PresheafOfModules.Derivation.postcomp D
+  refine Eq.trans (congrArg (fun D => PresheafOfModulesOfCommRing.Derivation.postcomp D
     (differentialsIso B f).inv.val) (postcomp_differentialsIso_hom B f).symm) ?_
   refine Eq.trans (PresheafOfModules.Derivation.postcomp_postcomp
     (etaleAssociatedDerivation B f) (differentialsIso B f).hom.val
     (differentialsIso B f).inv.val).symm ?_
   refine Eq.trans (congrArg (fun m => (etaleAssociatedDerivation B f).postcomp m)
     (congrArg SheafOfModules.Hom.val (differentialsIso B f).hom_inv_id)) ?_
-  exact PresheafOfModules.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
+  exact PresheafOfModulesOfCommRing.Derivation.ext (funext fun _ => AddMonoidHom.ext fun _ => rfl)
 
 end AlgebraicGeometry.SmallEtale
 
@@ -193,7 +193,7 @@ This is built exactly as `AlgebraicGeometry.Space.transportedUniversalDerivation
 `AlgebraicGeometry.Space.representedAssociatedDifferentialsIso` carries the spaces-level
 universal derivation to. -/
 noncomputable def transportedAssociatedDerivation (α : U ⟶ V) :
-    PresheafOfModules.Derivation' (R := structurePresheaf B S hS (yoneda.obj U))
+    PresheafOfModulesOfCommRing.Derivation' (R := structurePresheaf B S hS (yoneda.obj U))
       ((representedAssociatedModule B S hS U (schemeSpace U).property).obj
         (Scheme.Hom.relativeDifferentials ((BigFppfOver.toScheme B S hS).map α))).val
       (structureSharpInverseImage B S hS (schemeSpaceMap α)).hom :=
@@ -210,7 +210,7 @@ noncomputable def transportedAssociatedDerivation (α : U ⟶ V) :
         (associatedBigEtaleSite B) α.left
         (_root_.AlgebraicGeometry.SmallEtale.etaleAssociatedDerivation
           (associatedBigEtaleSite B) α.left)
-        (fun _ s => PresheafOfModules.Derivation'.d_app _ s) W t))
+        (fun _ s => PresheafOfModulesOfCommRing.Derivation'.d_app _ s) W t))
 
 /-- **The comparison isomorphism of Stacks 04CS carries the universal derivation to `d^a`.**
 This is the compatibility of
@@ -226,7 +226,7 @@ theorem postcomp_representedAssociatedDifferentialsIso (α : U ⟶ V) :
     (universalDerivation B S hS (schemeSpaceMap α)).postcomp
         (representedAssociatedDifferentialsIso B S hS α).hom.val =
       transportedAssociatedDerivation B S hS α := by
-  refine PresheafOfModules.Derivation.ext (funext fun W => AddMonoidHom.ext fun x => ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun W => AddMonoidHom.ext fun x => ?_)
   show ((((representedModulePushforward B S hS U).map
       (_root_.AlgebraicGeometry.SmallEtale.differentialsIso (associatedBigEtaleSite B)
         α.left).inv).val.app W)).hom
@@ -235,8 +235,8 @@ theorem postcomp_representedAssociatedDifferentialsIso (α : U ⟶ V) :
   refine Eq.trans (congrArg (fun y => ((((representedModulePushforward B S hS U).map
       (_root_.AlgebraicGeometry.SmallEtale.differentialsIso (associatedBigEtaleSite B)
         α.left).inv).val.app W)).hom y)
-    (PresheafOfModules.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α) x)) ?_
-  exact PresheafOfModules.Derivation.congr_d
+    (PresheafOfModulesOfCommRing.Derivation.congr_d (postcomp_schemeDifferentialsHom B S hS α) x)) ?_
+  exact PresheafOfModulesOfCommRing.Derivation.congr_d
     (_root_.AlgebraicGeometry.SmallEtale.postcomp_differentialsIso_inv (associatedBigEtaleSite B)
       α.left)
     (X := op ((representedSmallEtaleEquivalence B S hS U).functor.obj W.unop)) x
@@ -293,7 +293,7 @@ theorem kernelIdealUnitDifferential_val_app_apply_representedAssociatedDifferent
               (Scheme.Hom.relativeDifferentials
                 ((BigFppfOver.toScheme B S hS).map α)))).val.app W))
         ((transportedAssociatedDerivation B S hS α).d x.1) :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (pullbackUnitDerivation_postcomp_representedAssociatedDifferentialsIso B S hS α φ) x.1
 
 end AlgebraicGeometry.Space

@@ -90,7 +90,7 @@ theorem IsDerivedLimitWithProjections.nonempty_isLimit_mapCone_homology
     | op n =>
       refine (hq n).trans (Eq.trans ?_ (limit.lift_π
         ((DerivedCategory.homologyFunctor (ModuleCat.{u} A) r).mapCone h.cone) (op n)).symm)
-      rw [← Functor.map_comp, Pi.lift_π]
+      rw [← Functor.map_comp, Pi.lift_comp_π]
       rfl
   rw [hql] at this
   have : IsIso ((limit.isLimit (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) r)).lift

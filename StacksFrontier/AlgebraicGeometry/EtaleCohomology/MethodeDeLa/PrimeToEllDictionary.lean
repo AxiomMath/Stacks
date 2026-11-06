@@ -124,7 +124,7 @@ theorem rho_eq_one_groupRingFiniteTypeContinuousModule (π : G →* K)
     rw [Representation.asAlgebraHom_single, one_smul] at h
     rw [h, htriv (π σ) _]
     exact (RestrictScalars.addEquiv Λ (MonoidAlgebra Λ K) (ToType M.obj)).symm_apply_apply m
-  exact ModuleCat.hom_ext (LinearMap.ext key)
+  exact End.ext (ModuleCat.hom_ext (LinearMap.ext key))
 
 /-- The action attached to the module over the group ring of a representation `τ` is `τ` itself,
 read through Mathlib's unit isomorphism for `Rep.equivalenceModuleMonoidAlgebra`. -/

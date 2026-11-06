@@ -89,7 +89,7 @@ theorem mem_blowUpChartOpen_iff (U : X.affineOpens) (a : I.ideal U) (x : blowUp 
     x ∈ (blowUpChartOpen I U a).1 ↔
       IdealSheafData.stalk (exceptionalIdeal I) x =
         Ideal.span {((blowUpToBase I).stalkMap x).hom
-          (X.presheaf.germ U.1 (blowUpToBase I x) hx (a : Γ(X, U.1)))} := by
+                      (X.presheaf.germ U.1 (blowUpToBase I x) hx (a : Γ(X, U.1)))} := by
   let := (reesSituation I).sectionRingGradedRing U.1
   let := (reesSituation I).sectionRingGradingGradedRing U.1
   rw [← mem_affineBlowupStandardOpen_iff_exceptionalIdeal_stalk_eq_span I U a x hx,

@@ -380,17 +380,17 @@ public theorem exists_finiteEtaleOver_fiber_equiv {S : Scheme.{u}} [ConnectedSpa
     (s : GeometricPoint S) (A : ContAction FintypeCat.{u} (EtaleFundamentalGroup S s)) :
     ∃ (T : FiniteEtaleOver S) (e : (finiteEtaleFiberFunctor s).obj T ≃ A.obj.V),
       ∀ (σ : EtaleFundamentalGroup S s) (y : (finiteEtaleFiberFunctor s).obj T),
-        e (σ • y) = (A.obj.ρ σ).hom (e y) := by
+        e (σ • y) = (A.obj.ρ σ).asHom.hom (e y) := by
   obtain ⟨E, α, hα⟩ := exists_finiteEtaleEquivalence S s
   refine ⟨E.inverse.obj A, (α.app (E.inverse.obj A)).toEquiv.symm.trans
     (((forget₂ (ContAction FintypeCat.{u} (EtaleFundamentalGroup S s)) FintypeCat.{u} ⋙
       FintypeCat.incl).mapIso (E.counitIso.app A)).toEquiv), fun σ y ↦ ?_⟩
   have h₁ : (α.app (E.inverse.obj A)).toEquiv.symm (σ • y) =
-      ((E.functor.obj (E.inverse.obj A)).obj.ρ σ).hom
+      ((E.functor.obj (E.inverse.obj A)).obj.ρ σ).asHom.hom
         ((α.app (E.inverse.obj A)).toEquiv.symm y) := by
     apply (α.app (E.inverse.obj A)).toEquiv.symm_apply_eq.2
     refine ((hα (E.inverse.obj A) σ ((α.app (E.inverse.obj A)).toEquiv.symm y)).trans ?_).symm
-    show (σ.app (E.inverse.obj A)).hom
+    show (σ.asIso.hom.app (E.inverse.obj A)).hom
       ((α.app (E.inverse.obj A)).toEquiv ((α.app (E.inverse.obj A)).toEquiv.symm y)) = σ • y
     rw [Equiv.apply_symm_apply]
     rfl
@@ -414,7 +414,7 @@ public theorem exists_finiteEtaleOver_quotient_fiber_equiv {S : Scheme.{u}} [Con
   refine ⟨T, e.trans (FintypeCat.uSwitchEquiv _), fun σ y ↦ ?_⟩
   show FintypeCat.uSwitchEquiv _ (e (σ • y)) = σ • FintypeCat.uSwitchEquiv _ (e y)
   rw [he]
-  exact (FintypeCat.uSwitchEquiv_naturality (((quotientContAction U).obj.ρ σ)) (e y)).symm
+  exact (FintypeCat.uSwitchEquiv_naturality ((quotientContAction U).obj.ρ σ).asHom (e y)).symm
 
 /-- **The cover `Y/H` attached to a subgroup `H` of a discrete quotient of `π₁(S, s̄)`.** Its
 geometric fibre is a single orbit of cardinality the index of `H`, and the stabiliser of its

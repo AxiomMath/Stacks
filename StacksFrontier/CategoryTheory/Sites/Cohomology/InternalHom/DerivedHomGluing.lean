@@ -109,8 +109,8 @@ theorem isSheaf_homology_presheafComplex_of_isStrictlyGE
   refine ObjectProperty.prop_of_isLimit (P := Presheaf.IsSheaf X.J (A := AddCommGrpCat.{u}))
     ((presheafComplex X J).cyclesIsKernel 0 1 (by simp)) ?_
   rintro (_ | _)
-  · exact ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj (J.X 0)).cond
-  · exact ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj (J.X 1)).cond
+  · exact ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj (J.X 0)).property
+  · exact ((SheafOfModules.toSheaf (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj (J.X 1)).property
 
 /-- **The negative cohomology presheaves of a K-injective complex acyclic in negative degrees
 vanish**: `H^i(Γ(U, M)) = 0` for `i < 0` and every `U`. -/
@@ -238,9 +238,9 @@ objects covering the site. -/
 lemma abelianGlobalSection_ext {F : Sheaf X.J AddCommGrpCat.{u}} {ι : Type*} {Y : ι → X.C}
     (hY : X.J.CoversTop Y) {s t : (abelianGlobalSectionsFunctor.{u} X).obj F}
     (h : ∀ i, s.val (op (Y i)) = t.val (op (Y i))) : s = t := by
-  let G : Sheaf X.J (Type u) := ⟨F.val ⋙ CategoryTheory.forget AddCommGrpCat.{u},
-    isSheaf_forget_of_isSheaf F.cond⟩
-  have key : (⟨s.val, fun f => s.property f⟩ : G.val.sections) = ⟨t.val, fun f => t.property f⟩ :=
+  let G : Sheaf X.J (Type u) := ⟨F.obj ⋙ CategoryTheory.forget AddCommGrpCat.{u},
+    isSheaf_forget_of_isSheaf F.property⟩
+  have key : (⟨s.val, fun f => s.property f⟩ : G.obj.sections) = ⟨t.val, fun f => t.property f⟩ :=
     hY.sections_ext G h
   exact Subtype.ext (congrArg Subtype.val key)
 
@@ -250,13 +250,13 @@ omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrp
 /-- A compatible family of sections of a sheaf of abelian groups over a family of objects
 covering the site comes from a global section. -/
 lemma exists_abelianGlobalSection {F : Sheaf X.J AddCommGrpCat.{u}} {ι : Type*} {Y : ι → X.C}
-    (hY : X.J.CoversTop Y) (y : ∀ i, F.val.obj (op (Y i)))
+    (hY : X.J.CoversTop Y) (y : ∀ i, F.obj.obj (op (Y i)))
     (hy : ∀ (Z : X.C) (i j : ι) (a : Z ⟶ Y i) (b : Z ⟶ Y j),
-      F.val.map a.op (y i) = F.val.map b.op (y j)) :
+      F.obj.map a.op (y i) = F.obj.map b.op (y j)) :
     ∃ s : (abelianGlobalSectionsFunctor.{u} X).obj F, ∀ i, s.val (op (Y i)) = y i := by
   obtain ⟨t, ht, -⟩ := Presheaf.FamilyOfElementsOnObjects.IsCompatible.existsUnique_section
-    (F := F.val ⋙ CategoryTheory.forget AddCommGrpCat.{u}) (x := y) (fun Z i j a b => hy Z i j a b)
-    hY (isSheaf_forget_of_isSheaf F.cond)
+    (F := F.obj ⋙ CategoryTheory.forget AddCommGrpCat.{u}) (x := y) (fun Z i j a b => hy Z i j a b)
+    hY (isSheaf_forget_of_isSheaf F.property)
   exact ⟨⟨t.val, fun f => t.property f⟩, ht⟩
 
 omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]

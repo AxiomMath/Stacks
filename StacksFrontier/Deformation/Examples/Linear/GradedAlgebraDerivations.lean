@@ -495,10 +495,10 @@ private theorem gradedFiberAut_base
     {Z : ProjectiveGradedAlgebra.{u, w, w, max w m} Λ k}
     {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
     (x : (objectsOverFunctor ProjectiveGradedAlgebra.projection Z).Fiber A) (a : Aut x) :
-    a.hom.val.left.base = 𝟙 x.1.left.base := by
-  have := a.hom.property
+    a.asIso.hom.val.left.base = 𝟙 x.1.left.base := by
+  have := a.asIso.hom.property
   simpa [ProjectiveGradedAlgebra.projection] using
-    IsHomLift.fac' (objectsOverFunctor ProjectiveGradedAlgebra.projection Z) (𝟙 A) a.hom.val
+    IsHomLift.fac' (objectsOverFunctor ProjectiveGradedAlgebra.projection Z) (𝟙 A) a.asIso.hom.val
 
 /-- An automorphism in the fibre fixes the image of the base. -/
 private theorem gradedFiberAut_map_algebraMap
@@ -507,9 +507,9 @@ private theorem gradedFiberAut_map_algebraMap
     {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
     (x : (objectsOverFunctor ProjectiveGradedAlgebra.projection Z).Fiber A) (a : Aut x)
     (s : x.1.left.base) :
-    a.hom.val.left.map (algebraMap x.1.left.base x.1.left.carrier s) =
+    a.asIso.hom.val.left.map (algebraMap x.1.left.base x.1.left.carrier s) =
       algebraMap x.1.left.base x.1.left.carrier s := by
-  have hh := a.hom.val.left.map_smul s 1
+  have hh := a.asIso.hom.val.left.map_smul s 1
   rw [gradedFiberAut_base x a] at hh
   simpa [Algebra.smul_def] using hh
 
@@ -519,7 +519,8 @@ private theorem gradedFiberAut_ext
     {A : ArtinianLocalAlgCat.{u, w, w} Λ k}
     {x : (objectsOverFunctor ProjectiveGradedAlgebra.projection Z).Fiber A}
     {a b : Aut x}
-    (h : ∀ y, a.hom.val.left.map y = b.hom.val.left.map y) : a = b := by
+    (h : ∀ y, a.asIso.hom.val.left.map y = b.asIso.hom.val.left.map y) : a = b := by
+  apply Aut.ext
   apply Iso.ext
   apply Subtype.ext
   apply Over.OverMorphism.ext
@@ -693,7 +694,7 @@ private theorem coordinateDerivationAut_apply
       (E y).fst ∈ grading d ∧ (E y).snd ∈ grading d)
     (hr : ∀ y, (E y).fst = x.1.hom.map y)
     (D : degreeZeroDerivations grading) (y : x.1.left.carrier) :
-    E ((coordinateDerivationAut P grading x E c hs hm hr D).hom.val.left.map y) =
+    E ((coordinateDerivationAut P grading x E c hs hm hr D).asIso.hom.val.left.map y) =
       derivationDualNumberAlgHom D.val (E y) := E.apply_symm_apply _
 
 /-- Distinct degree-preserving derivations give distinct automorphisms. -/
@@ -717,9 +718,9 @@ private theorem coordinateDerivationAut_injective
   apply Derivation.ext
   intro p
   have he' := congrArg (fun a : Aut x =>
-    (E (a.hom.val.left.map (E.symm (TrivSqZeroExt.inl p)))).snd) he
-  change (E ((coordinateDerivationAut P grading x E c hs hm hr D).hom.val.left.map _)).snd =
-    (E ((coordinateDerivationAut P grading x E c hs hm hr D').hom.val.left.map _)).snd at he'
+    (E (a.asIso.hom.val.left.map (E.symm (TrivSqZeroExt.inl p)))).snd) he
+  change (E ((coordinateDerivationAut P grading x E c hs hm hr D).asIso.hom.val.left.map _)).snd =
+    (E ((coordinateDerivationAut P grading x E c hs hm hr D').asIso.hom.val.left.map _)).snd at he'
   rw [coordinateDerivationAut_apply, coordinateDerivationAut_apply,
     E.apply_symm_apply, derivationDualNumberAlgHom_inl,
     derivationDualNumberAlgHom_inl] at he'
@@ -743,11 +744,11 @@ private theorem exists_coordinateDerivationAut_eq
     (hr : ∀ y, (E y).fst = x.1.hom.map y) (a : Aut x) :
     ∃ D, coordinateDerivationAut P grading x E c hs hm hr D = a := by
   let fr : DualNumber P →+* DualNumber P :=
-    E.toRingHom.comp (a.hom.val.left.map.comp E.symm.toRingHom)
+    E.toRingHom.comp (a.asIso.hom.val.left.map.comp E.symm.toRingHom)
   have hbase (s : x.1.left.base) : fr (dualNumberRingHom (algebraMap k P) (c s)) =
       dualNumberRingHom (algebraMap k P) (c s) := by
     rw [← map_algebraMap_of_map_smul E _ hs]
-    show E (a.hom.val.left.map (E.symm (E (algebraMap _ _ s)))) = _
+    show E (a.asIso.hom.val.left.map (E.symm (E (algebraMap _ _ s)))) = _
     rw [E.symm_apply_apply, gradedFiberAut_map_algebraMap x a]
   let f : DualNumber P →ₐ[k] DualNumber P :=
     { fr with
@@ -760,10 +761,10 @@ private theorem exists_coordinateDerivationAut_eq
     show fr DualNumber.eps = DualNumber.eps
     simpa only [hh'] using hbase (c.symm DualNumber.eps)
   have hared (y : x.1.left.carrier) :
-      x.1.hom.map (a.hom.val.left.map y) = x.1.hom.map y :=
-    RingHom.congr_fun (congrArg ProjectiveGradedAlgebra.Hom.map a.hom.val.w) y
+      x.1.hom.map (a.asIso.hom.val.left.map y) = x.1.hom.map y :=
+    RingHom.congr_fun (congrArg ProjectiveGradedAlgebra.Hom.map a.asIso.hom.val.w) y
   have hred (p : P) : (f (TrivSqZeroExt.inl p)).fst = p := by
-    show (E (a.hom.val.left.map (E.symm (TrivSqZeroExt.inl p)))).fst = p
+    show (E (a.asIso.hom.val.left.map (E.symm (TrivSqZeroExt.inl p)))).fst = p
     rw [hr, hared, ← hr, E.apply_symm_apply]
     rfl
   let D := derivationOfDualNumberAlgHom f hred
@@ -773,18 +774,18 @@ private theorem exists_coordinateDerivationAut_eq
     apply (derivationDualNumberAlgHom_preservesGrading_iff grading D).mp
     intro d z hz
     rw [hD]
-    show (E (a.hom.val.left.map (E.symm z))).fst ∈ grading d ∧
-      (E (a.hom.val.left.map (E.symm z))).snd ∈ grading d
+    show (E (a.asIso.hom.val.left.map (E.symm z))).fst ∈ grading d ∧
+      (E (a.asIso.hom.val.left.map (E.symm z))).snd ∈ grading d
     apply (hm d _).mp
-    apply a.hom.val.left.map_mem
+    apply a.asIso.hom.val.left.map_mem
     apply (hm d _).mpr
     change z.fst ∈ grading d ∧ z.snd ∈ grading d at hz
     simpa only [E.apply_symm_apply] using hz
   refine ⟨⟨D, hdegree⟩, gradedFiberAut_ext fun y => E.injective ?_⟩
   show E ((coordinateDerivationAut P grading x E c hs hm hr
-    ⟨D, hdegree⟩).hom.val.left.map y) = _
+    ⟨D, hdegree⟩).asIso.hom.val.left.map y) = _
   rw [coordinateDerivationAut_apply, hD]
-  show E (a.hom.val.left.map (E.symm (E y))) = _
+  show E (a.asIso.hom.val.left.map (E.symm (E y))) = _
   rw [E.symm_apply_apply]
 
 /-- In dual-number coordinates, the automorphisms of a lift over the identity which fix the
@@ -816,10 +817,10 @@ private noncomputable def coordinateAutEquiv
       map_mul' := fun D D' => by
         refine gradedFiberAut_ext fun y => E.injective ?_
         change E ((coordinateDerivationAut P grading x E c hs hm hr
-            (D.toAdd + D'.toAdd)).hom.val.left.map y) =
-          E ((coordinateDerivationAut P grading x E c hs hm hr D.toAdd).hom.val.left.map
+            (D.toAdd + D'.toAdd)).asIso.hom.val.left.map y) =
+          E ((coordinateDerivationAut P grading x E c hs hm hr D.toAdd).asIso.hom.val.left.map
             ((coordinateDerivationAut P grading x E c hs hm hr
-              D'.toAdd).hom.val.left.map y))
+              D'.toAdd).asIso.hom.val.left.map y))
         rw [coordinateDerivationAut_apply, coordinateDerivationAut_apply,
           coordinateDerivationAut_apply]
         exact AlgHom.congr_fun

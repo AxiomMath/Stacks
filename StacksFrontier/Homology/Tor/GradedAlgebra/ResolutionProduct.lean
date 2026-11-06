@@ -230,6 +230,9 @@ theorem resolution_unit_exists
   refine ⟨(P.complex.fromSingle₀Equiv _).symm η₀, ?_⟩
   show P.π.f 0 ((1 : R) • e) = (1 : B)
   simpa only [one_smul] using he
+
+set_option maxHeartbeats 2000000 in
+-- Tensor products of complexes require additional reductions.
 theorem resolution_mul_one
     (B : AlgCat.{max u v, u} R)
     (P : ProjectiveResolution (ModuleCat.of R B))

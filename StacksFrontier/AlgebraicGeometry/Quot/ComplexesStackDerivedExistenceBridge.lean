@@ -326,8 +326,8 @@ theorem spaceToLimitBase_id_comp :
     L.spaceToLimitBase (𝟙 L.T) ≫ yoneda.map L.limitTestSchemeIso.inv = (D.projection L.T).hom := by
   have h : yoneda.map (CommaMorphism.left (𝟙 L.T) ≫ L.limitTestSchemeIso.hom) ≫
       yoneda.map L.limitTestSchemeIso.inv = 𝟙 _ := by
-    rw [← Functor.map_comp, CostructuredArrow.id_left, Category.id_comp, Iso.hom_inv_id,
-      CategoryTheory.Functor.map_id]
+    rw [← Functor.map_comp]
+    simp
   exact (congrArg (fun x => (D.projection L.T).hom ≫ x) h).trans (Category.comp_id _)
 
 /-- The structure morphism of `X_T` read over `Spec (lim R_n)`, extended to `S`, is the

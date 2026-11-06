@@ -112,7 +112,7 @@ public def isogenyCoefficientEnd (o : O) :
     End (representationLAdicSheaf B X x
       (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x)
       (integralModel ρ hρ) (continuous_integralModel ρ hρ)) :=
-  ψ ≫ F.act o ≫ φ
+  End.of (ψ ≫ (F.act o).asHom ≫ φ)
 
 /-- **The matrix of `ψ ∘ o ∘ φ`**, an integral matrix commuting with the integral model of `ρ`
 (`Stacks.EtaleCohomology.representationLAdicSheafHomMatrix`). -/
@@ -135,20 +135,23 @@ variable (N : ℕ)
 public theorem isogenyCoefficientEnd_mul (hφψ : φ ≫ ψ = (ℓ ^ N) • 𝟙 _) (o o' : O) :
     isogenyCoefficientEnd B X x F ρ hρ φ ψ o * isogenyCoefficientEnd B X x F ρ hρ φ ψ o' =
       (ℓ ^ N) • isogenyCoefficientEnd B X x F ρ hρ φ ψ (o * o') := by
-  change (ψ ≫ F.act o' ≫ φ) ≫ (ψ ≫ F.act o ≫ φ) = (ℓ ^ N) • (ψ ≫ F.act (o * o') ≫ φ)
+  ext
+  change (ψ ≫ (F.act o').asHom ≫ φ) ≫ (ψ ≫ (F.act o).asHom ≫ φ) =
+    (ℓ ^ N) • (ψ ≫ (F.act (o * o')).asHom ≫ φ)
   simp only [Category.assoc]
   rw [reassoc_of% hφψ, Preadditive.nsmul_comp, Category.id_comp, Preadditive.comp_nsmul,
-    Preadditive.comp_nsmul, map_mul, End.mul_def, Category.assoc]
+    Preadditive.comp_nsmul, map_mul, End.mul_asHom, Category.assoc]
 
 /-- `ψ ∘ 1 ∘ φ = ψ ∘ φ`. -/
 private theorem isogenyCoefficientEnd_one_eq :
-    isogenyCoefficientEnd B X x F ρ hρ φ ψ 1 = ψ ≫ φ := by
-  change ψ ≫ F.act 1 ≫ φ = _
-  rw [map_one, End.one_def, Category.id_comp]
+    (isogenyCoefficientEnd B X x F ρ hρ φ ψ 1).asHom = ψ ≫ φ := by
+  change ψ ≫ (F.act 1).asHom ≫ φ = _
+  rw [map_one, End.one_asHom, Category.id_comp]
 
 /-- `ψ ∘ 1 ∘ φ = ℓᴺ` when `ψ φ = ℓᴺ`. -/
 public theorem isogenyCoefficientEnd_one (hψφ : ψ ≫ φ = (ℓ ^ N) • 𝟙 _) :
     isogenyCoefficientEnd B X x F ρ hρ φ ψ 1 = (ℓ ^ N) • 1 := by
+  ext
   rw [isogenyCoefficientEnd_one_eq, hψφ]
   rfl
 
@@ -160,12 +163,14 @@ public theorem isogenyCoefficientMatrix_mul_mul (hφψ : φ ≫ ψ = (ℓ ^ N) �
   rw [isogenyCoefficientMatrix, isogenyCoefficientMatrix, isogenyCoefficientMatrix, ← map_mul,
     isogenyCoefficientEnd_mul B X x F ρ hρ φ ψ N hφψ, map_nsmul]
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The matrix of `ψ ∘ 1 ∘ φ` is `ℓᴺ` when `ψ φ = ℓᴺ`. -/
 public theorem isogenyCoefficientMatrix_one (hψφ : ψ ≫ φ = (ℓ ^ N) • 𝟙 _) :
     isogenyCoefficientMatrix B X x F ρ hρ φ ψ 1 = (ℓ ^ N) • 1 := by
   rw [isogenyCoefficientMatrix, isogenyCoefficientEnd_one B X x F ρ hρ φ ψ N hψφ, map_nsmul,
     map_one]
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The matrix of `ψ ∘ o ∘ φ` is additive in `o`. -/
 public theorem isogenyCoefficientMatrix_add (o o' : O) :
     isogenyCoefficientMatrix B X x F ρ hρ φ ψ (o + o') =
@@ -173,16 +178,18 @@ public theorem isogenyCoefficientMatrix_add (o o' : O) :
         isogenyCoefficientMatrix B X x F ρ hρ φ ψ o' := by
   have h : isogenyCoefficientEnd B X x F ρ hρ φ ψ (o + o') =
       isogenyCoefficientEnd B X x F ρ hρ φ ψ o + isogenyCoefficientEnd B X x F ρ hρ φ ψ o' := by
-    change ψ ≫ F.act (o + o') ≫ φ = (ψ ≫ F.act o ≫ φ) + (ψ ≫ F.act o' ≫ φ)
-    rw [map_add, Preadditive.add_comp, Preadditive.comp_add]
+    ext
+    change ψ ≫ (F.act (o + o')).asHom ≫ φ = (ψ ≫ (F.act o).asHom ≫ φ) + (ψ ≫ (F.act o').asHom ≫ φ)
+    rw [map_add, End.add_asHom, Preadditive.add_comp, Preadditive.comp_add]
   rw [isogenyCoefficientMatrix, isogenyCoefficientMatrix, isogenyCoefficientMatrix, h, map_add]
 
 /-- The matrix of `ψ ∘ 0 ∘ φ` is zero. -/
 public theorem isogenyCoefficientMatrix_zero :
     isogenyCoefficientMatrix B X x F ρ hρ φ ψ 0 = 0 := by
   have h : isogenyCoefficientEnd B X x F ρ hρ φ ψ 0 = 0 := by
-    change ψ ≫ F.act 0 ≫ φ = 0
-    rw [map_zero, Limits.zero_comp, Limits.comp_zero]
+    ext
+    change ψ ≫ (F.act 0).asHom ≫ φ = 0
+    rw [map_zero, End.zero_asHom, Limits.zero_comp, Limits.comp_zero]
   rw [isogenyCoefficientMatrix, h, map_zero]
 
 /-- The matrix of `ψ ∘ c ∘ φ` for `c ∈ ℤ_ℓ` is `c ℓᴺ`. -/
@@ -193,7 +200,8 @@ public theorem isogenyCoefficientMatrix_algebraMap (hψφ : ψ ≫ φ = (ℓ ^ N
   rw [isogenyCoefficientMatrix, representationLAdicSheafEndMatrix_apply,
     isogenyCoefficientEnd_one_eq] at h1
   rw [isogenyCoefficientMatrix, representationLAdicSheafEndMatrix_apply]
-  change representationLAdicSheafHomMatrix B X x _ _ (ψ ≫ F.act (algebraMap ℤ_[ℓ] O c) ≫ φ) = _
+  change representationLAdicSheafHomMatrix B X x _ _
+    (ψ ≫ (F.act (algebraMap ℤ_[ℓ] O c)).asHom ≫ φ) = _
   rw [F.act_algebraMap]
   refine (representationLAdicSheafHomMatrix_comp_scalarEnd_comp B X x
     (continuous_integralModel ρ hρ) (continuous_integralModel ρ hρ) ψ φ c).trans ?_
@@ -252,8 +260,8 @@ public instance isogenyCoefficientAlgebra.isMulCommutative (hφψ : φ ≫ ψ = 
     (hψφ : ψ ≫ φ = (ℓ ^ N) • 𝟙 _) :
     IsMulCommutative (isogenyCoefficientAlgebra B X x F ρ hρ φ ψ N hφψ hψφ) :=
   Algebra.isMulCommutative_adjoin ℚ_[ℓ] (by
-    rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩
-    rw [← map_mul, mul_comm, map_mul])
+    rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩ -
+    exact (Commute.all a b).map _)
 
 /-- The rational action of `O`, with values in the commutative subalgebra it generates. -/
 public def isogenyCoefficientRingHom' (hφψ : φ ≫ ψ = (ℓ ^ N) • 𝟙 _)

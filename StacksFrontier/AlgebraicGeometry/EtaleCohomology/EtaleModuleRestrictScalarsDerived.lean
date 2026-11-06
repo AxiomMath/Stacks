@@ -80,32 +80,32 @@ complex `K`, applying `r_M` to the unit of `RG'` and then the comparison is the 
 `r_M(G'(K)) ≅ G(r_A(K))` followed by the unit of `RG` at `r_A(K)`. -/
 theorem map_unit_comp_rightDerivedRestrictionIso_hom_app (e : G' ⋙ rM ≅ rA ⋙ G)
     (hac : ∀ I : A', Injective I → G.rightAcyclic (rA.obj I)) (K : HomotopyCategory.Plus A') :
-    rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnit.app K) ≫
+    rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnith.app K) ≫
         (rightDerivedRestrictionIso G' G rA rM e hac).hom.app (DerivedCategory.Plus.Qh.obj K) =
       rM.mapDerivedCategoryPlusFactorsh.hom.app (G'.mapHomotopyCategoryPlus.obj K) ≫
         DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ rM))).hom.app K ≫
             (mapHomotopyCategoryPlusNatIso e).hom.app K ≫
             (mapHomotopyCategoryPlusCompIso (Iso.refl (rA ⋙ G))).inv.app K) ≫
-        G.rightDerivedFunctorPlusUnit.app (rA.mapHomotopyCategoryPlus.obj K) ≫
+        G.rightDerivedFunctorPlusUnith.app (rA.mapHomotopyCategoryPlus.obj K) ≫
         G.rightDerivedFunctorPlus.map (rA.mapDerivedCategoryPlusFactorsh.inv.app K) := by
-  have hN : (G' ⋙ rM).rightDerivedFunctorPlusUnit.app K ≫
+  have hN : (G' ⋙ rM).rightDerivedFunctorPlusUnith.app K ≫
       (rightDerivedFunctorPlusNatIso e).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusNatIso e).hom.app K) ≫
-        (rA ⋙ G).rightDerivedFunctorPlusUnit.app K :=
+        (rA ⋙ G).rightDerivedFunctorPlusUnith.app K :=
     rightDerivedNatTrans_app _ _ _ _ (HomotopyCategory.Plus.quasiIso A') _ K
-  have hMn : rM.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K) ≫
+  have hMn : rM.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K) ≫
       (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus rM).hom.app
         (G'.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) =
       (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus rM).hom.app
         (DerivedCategory.Plus.Qh.obj (G'.mapHomotopyCategoryPlus.obj K)) ≫
-      rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnit.app K) :=
+      rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnith.app K) :=
     (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus rM).hom.naturality _
-  have key : rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnit.app K) =
+  have key : rM.mapDerivedCategoryPlus.map (G'.rightDerivedFunctorPlusUnith.app K) =
       rM.mapDerivedCategoryPlusFactorsh.hom.app (G'.mapHomotopyCategoryPlus.obj K) ≫
         DerivedCategory.Plus.Qh.map
           ((mapHomotopyCategoryPlusCompIso (Iso.refl (G' ⋙ rM))).hom.app K) ≫
-        (G' ⋙ rM).rightDerivedFunctorPlusUnit.app K ≫
+        (G' ⋙ rM).rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedFunctorPlusComp G' rM).app (DerivedCategory.Plus.Qh.obj K) ≫
         (Functor.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus rM).hom.app
           (G'.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) := by
@@ -147,18 +147,18 @@ variable {C D E : Type*} [Category* C] [Category* D] [Category* E]
 `RH`**: it is the identification `H(K) ≅ G(F(K))` followed by the units of `RG` and `RF`. -/
 theorem unit_comp_rightDerivedFunctorPlusCompIsoOfIso_hom_app (e : F ⋙ G ≅ H)
     (K : HomotopyCategory.Plus C) :
-    H.rightDerivedFunctorPlusUnit.app K ≫
+    H.rightDerivedFunctorPlusUnith.app K ≫
         (Stacks.EtaleCohomology.rightDerivedFunctorPlusCompIsoOfIso F G H e).hom.app
           (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusCompIso e).inv.app K) ≫
-        G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) := by
-  have h1 : H.rightDerivedFunctorPlusUnit.app K ≫
+        G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) := by
+  have h1 : H.rightDerivedFunctorPlusUnith.app K ≫
       (Stacks.EtaleCohomology.rightDerivedFunctorPlusIsoOfCompIso F G H e).inv.app
         (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map
         ((Stacks.EtaleCohomology.mapHomotopyCategoryPlusIsoOfCompIso F G H e).inv.app K) ≫
-        (F ⋙ G).rightDerivedFunctorPlusUnit.app K :=
+        (F ⋙ G).rightDerivedFunctorPlusUnith.app K :=
     rightDerivedNatTrans_app _ _ _ _ (HomotopyCategory.Plus.quasiIso C) _ K
   simp only [Stacks.EtaleCohomology.rightDerivedFunctorPlusCompIsoOfIso, Iso.trans_hom,
     Iso.symm_hom, NatTrans.comp_app]

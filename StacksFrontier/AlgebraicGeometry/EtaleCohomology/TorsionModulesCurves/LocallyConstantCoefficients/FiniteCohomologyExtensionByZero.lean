@@ -119,6 +119,9 @@ theorem exists_dense_opens_isNormal_of_isReduced
   have : IsFinite ν := isFinite_normalizationOverField k π
   have : IsNormal (normalizationSchemeOverField k π) :=
     Scheme.isNormal_normalizationScheme X (finite_irreducibleComponents_of_locallyOfFiniteType k π)
+  -- supplied explicitly: instance search for `LocallyOfFiniteType (ν ≫ π)` times out
+  have : LocallyOfFiniteType ν := IsFinite.instLocallyOfFiniteType ν
+  have : LocallyOfFiniteType (ν ≫ π) := locallyOfFiniteType_comp ν π
   have := isNoetherian_of_finiteType (ν ≫ π)
   have : Finite (irreducibleComponents X) :=
     NoetherianSpace.finite_irreducibleComponents.to_subtype
@@ -266,6 +269,9 @@ theorem module_finite_cohomology_extensionByZero_of_isFiniteTypeLocallyConstant
   -- the reduced curve
   have hXr : topologicalKrullDim X.reduction ≤ 1 :=
     (topologicalKrullDim_le_of_isIntegralHom i).trans hX
+  -- supplied explicitly: instance search for `LocallyOfFiniteType (i ≫ π)` times out
+  have : LocallyOfFiniteType i := IsFinite.instLocallyOfFiniteType i
+  have : LocallyOfFiniteType (i ≫ π) := locallyOfFiniteType_comp i π
   have hfin := module_finite_cohomology_extensionByZero_of_isReduced Λ (i ≫ π) hXr j'
     ((etaleModuleInverseImage.{u, r} Λ i').obj G)
     (isFiniteTypeLocallyConstantModuleSheaf_etaleModuleInverseImage Λ i' G hG) hℓ hn

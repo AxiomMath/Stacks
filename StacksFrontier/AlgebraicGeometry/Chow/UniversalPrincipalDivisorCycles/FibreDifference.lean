@@ -294,8 +294,8 @@ theorem idealStalk_eq_span_germ_lineChartCoordinate {S : Scheme.{u}}
       Ideal.span {(affineLineOver S).presheaf.map (homOfLE le_top).op (affineCoordinate S)})
     (z : relativeProjectiveLine S) (hz : z ∈ h ''ᵁ ⊤) :
     IdealSheafData.stalk I z =
-      Ideal.span {((relativeProjectiveLine S).presheaf.germ (h ''ᵁ ⊤) z hz)
-        (lineChartCoordinate h)} := by
+      Ideal.span
+        {((relativeProjectiveLine S).presheaf.germ (h ''ᵁ ⊤) z hz) (lineChartCoordinate h)} := by
   have hzr : z ∈ Set.range h.base := by
     simpa [Scheme.Hom.image_top_eq_opensRange] using hz
   obtain ⟨y, rfl⟩ := hzr
@@ -323,7 +323,7 @@ theorem idealStalk_comap_eq_span_germ_lineChartCoordinate {S Y : Scheme.{u}}
     (k : Y ⟶ relativeProjectiveLine S) (ξ : Y) (hξ : ξ ∈ k ⁻¹ᵁ (h ''ᵁ ⊤)) :
     IdealSheafData.stalk (I.comap k) ξ =
       Ideal.span {(Y.presheaf.germ (k ⁻¹ᵁ (h ''ᵁ ⊤)) ξ hξ)
-        (k.appLE (h ''ᵁ ⊤) (k ⁻¹ᵁ (h ''ᵁ ⊤)) le_rfl (lineChartCoordinate h))} := by
+                    (k.appLE (h ''ᵁ ⊤) (k ⁻¹ᵁ (h ''ᵁ ⊤)) le_rfl (lineChartCoordinate h))} := by
   rw [AlgebraicGeometry.IdealSheafData.stalk_comap I k ξ,
     idealStalk_eq_span_germ_lineChartCoordinate h I hI (k ξ) hξ, Ideal.map_span,
     Set.image_singleton, appLE_germ_eq k le_rfl ξ hξ (lineChartCoordinate h)]

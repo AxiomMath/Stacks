@@ -142,8 +142,7 @@ noncomputable def torInDegreeIso
     simp only [TorInDegree, dite_eq_left hn] at g ⊢
     exact g ≪≫ (((moduleTensorBifunctor R).obj X').leftDerived n.toNat).mapIso f
   · simp only [TorInDegree, dite_eq_right hn]
-    exact (ModuleCat.isZero_iff_subsingleton.mpr inferInstance).iso
-      (ModuleCat.isZero_iff_subsingleton.mpr inferInstance)
+    refine IsZero.iso ?_ ?_ <;> exact ModuleCat.isZero_iff_subsingleton.mpr inferInstance
 
 /-- Restriction of scalars along `f : A →+* B` commutes with homology: the `i`-th homology of
 the restriction of scalars of a cochain complex `T` of `B`-modules is isomorphic to the

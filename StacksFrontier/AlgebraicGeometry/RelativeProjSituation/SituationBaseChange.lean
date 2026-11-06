@@ -231,10 +231,8 @@ public theorem irrelevant_le_map {U V : s.base.affineOpens} (h : U ≤ V) :
   have hbc : IsBaseChange ↥Γ(s.base, U.1) rho :=
     isBaseChange_restrict_of_isAffineOpen (s.pieceNat i) (isAffineOpen V) (isAffineOpen U)
       h (fun _ => rfl) rho (fun _ => rfl)
-  refine hbc.inductionOn a
-    (fun b => DirectSum.of (s.sectionPieces U.1) i b ∈
-      (((s.chartGrading V)₊).map (s.gradedRestrict h)).toAddSubmonoid) ?_ ?_ ?_ ?_
-  · exact map_zero (DirectSum.of (s.sectionPieces U.1) i) ▸ zero_mem _
+  refine hbc.inductionOn (motive := fun b => DirectSum.of (s.sectionPieces U.1) i b ∈
+      (((s.chartGrading V)₊).map (s.gradedRestrict h)).toAddSubmonoid) a ?_ ?_ ?_
   · intro m
     show DirectSum.of (s.sectionPieces U.1) i
         ((s.pieceNat i).presheaf.map (homOfLE (show U.1 ≤ V.1 from h)).op m) ∈ _

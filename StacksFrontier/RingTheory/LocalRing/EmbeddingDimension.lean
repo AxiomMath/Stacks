@@ -1,5 +1,8 @@
 module
 
+public import Mathlib.Algebra.Category.ModuleCat.Projective
+public import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
+public import Mathlib.Algebra.Module.SpanRankOperations
 public import Mathlib.Algebra.Category.ModuleCat.ProjectiveDimension
 public import Mathlib.Algebra.Module.StablyFree.Basic
 public import Mathlib.Algebra.Order.Floor.Extended

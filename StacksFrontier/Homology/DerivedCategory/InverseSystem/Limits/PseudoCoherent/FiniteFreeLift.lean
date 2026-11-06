@@ -417,7 +417,7 @@ lemma epi_pi_difference_of_surjective
   intro ⟨n⟩
   show Pi.π M n ((Pi.lift fun n ↦ Pi.π M n - Pi.π M (n + 1) ≫ g n) z) =
     Pi.π M n x
-  rw [← ConcreteCategory.comp_apply, Pi.lift_π]
+  rw [← ConcreteCategory.comp_apply, Pi.lift_comp_π]
   show Pi.π M n z - g n (Pi.π M (n + 1) z) = Pi.π M n x
   rw [hz, hz]
   rw [(hg n (y n - Pi.π M n x)).choose_spec]

@@ -34,11 +34,11 @@ theorem mem_ker_lmapDomain_sub_id_iff (f : T →₀ K) :
     Finsupp.lmapDomain_apply]
   constructor
   · intro h t
-    simpa [Finsupp.mapDomain_apply σ.injective] using (DFunLike.congr_fun h (σ t)).symm
+    simpa [Finsupp.mapDomain_apply_of_injective σ.injective] using (DFunLike.congr_fun h (σ t)).symm
   · intro h
     ext t
     obtain ⟨t', rfl⟩ := σ.surjective t
-    rw [Finsupp.mapDomain_apply σ.injective, h]
+    rw [Finsupp.mapDomain_apply_of_injective σ.injective, h]
 
 /-- **The invariants of a transitive permutation on the free module on a finite nonempty set
 form a line.** -/

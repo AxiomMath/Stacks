@@ -87,14 +87,15 @@ lemma catCenterValue_mem (z : CatCenter (ModuleCat.{u} A)) :
 
 /-- A central element of `A` acts on every `A`-module, naturally in the module, giving a central
 element of the category `ModuleCat A`. -/
-def centerToCatCenter (a : Subalgebra.center R A) : CatCenter (ModuleCat.{u} A) where
-  app M := ModuleCat.ofHom
-    { toFun m := (a : A) • m
-      map_add' x y := smul_add _ x y
-      map_smul' c m := by
-        change (a : A) • c • m = c • (a : A) • m
-        rw [smul_smul, smul_smul, Subalgebra.mem_center_iff.1 a.2 c] }
-  naturality _ _ f := by ext m; exact ((ModuleCat.Hom.hom f).map_smul _ _).symm
+def centerToCatCenter (a : Subalgebra.center R A) : CatCenter (ModuleCat.{u} A) :=
+  End.of
+    { app := fun M => ModuleCat.ofHom
+        { toFun m := (a : A) • m
+          map_add' x y := smul_add _ x y
+          map_smul' c m := by
+            change (a : A) • c • m = c • (a : A) • m
+            rw [smul_smul, smul_smul, Subalgebra.mem_center_iff.1 a.2 c] }
+      naturality := fun _ _ f => by ext m; exact ((ModuleCat.Hom.hom f).map_smul _ _).symm }
 
 /-- The component of `ModuleCat.centerToCatCenter R A a` at `M` sends `m` to `a • m`. -/
 @[simp]

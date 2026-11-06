@@ -67,7 +67,7 @@ lemma presheafFiberOverIso_hom_toPresheafFiber' {A : Type*} [Category A]
         ((GrothendieckTopology.Point.presheafFiberOverIso Φ x A).app P).hom =
       Φ.toPresheafFiber W.left y.val P :=
   Functor.Final.ι_colimitIso_hom (GrothendieckTopology.Point.overElements Φ x).op
-    ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op ⟨W, y⟩)
+    ((Functor.Elements.π Φ.fiber).op ⋙ P) (op ((Φ.over x).fiber.elementsMk W y))
 
 /-- The fibre comparison of the structure sheaf takes ring germs to ring germs. -/
 lemma overRingFiberIso_ringStalkGerm (W : Over V) (y : (Φ.over x).fiber.obj W)

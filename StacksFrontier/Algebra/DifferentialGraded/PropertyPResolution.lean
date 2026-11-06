@@ -254,7 +254,7 @@ private lemma isInternal_comap_addEquiv {ι X Y : Type*} [DecidableEq ι]
 private def uliftModule {A : DGAlgebra.{u, v} R} (M : DGModule.{u, w, v} A) :
     DGModule.{u, max v w, v} A where
   carrier := ULift.{v} M.carrier
-  smul_def r x := ULift.ext _ _ (M.smul_def r x.down)
+  smul_def r x := ULift.ext (M.smul_def r x.down)
   grading n := (M.grading n).comap AddEquiv.ulift.toAddMonoidHom
   d := ULift.moduleEquiv.symm.toLinearMap.comp (M.d.comp ULift.moduleEquiv.toLinearMap)
 
@@ -263,8 +263,8 @@ private lemma uliftModule_isLawful {A : DGAlgebra.{u, v} R}
   isInternal := isInternal_comap_addEquiv M.grading hM.isInternal AddEquiv.ulift
   grading_smul n m x a hx ha := hM.grading_smul n m x.down a hx ha
   d_mem n x hx := hM.d_mem n x.down hx
-  d_comp_d x := ULift.ext _ _ (hM.d_comp_d x.down)
-  leibniz n m x a hx ha := ULift.ext _ _ (hM.leibniz n m x.down a hx ha)
+  d_comp_d x := ULift.ext (hM.d_comp_d x.down)
+  leibniz n m x a hx ha := ULift.ext (hM.leibniz n m x.down a hx ha)
 
 private def uliftHom {A : DGAlgebra.{u, v} R} (M : DGModule.{u, w, v} A) :
     DGModule.Hom (uliftModule M) M where
@@ -829,11 +829,11 @@ private lemma resolution_total_isQuasiIsomorphism {A : DGAlgebra.{u, v} R}
     exact ⟨x, hx, congrArg ULift.down hxy⟩
   · intro n y hy hd
     obtain ⟨x, hx, hdx, hxy⟩ := (resolutionCover hA hM 0).cocycles n
-      (ULift.up y) hy (ULift.ext _ _ hd)
+      (ULift.up y) hy (ULift.ext hd)
     exact ⟨x, hx, hdx, congrArg ULift.down hxy⟩
   · intro n x hx hfx
     have hk : x ∈ (homKernel (resolutionCover hA hM 0).map).toSubmodule :=
-      ULift.ext _ _ hfx
+      ULift.ext hfx
     obtain ⟨y, hy, hyx⟩ := (resolutionCover hA hM 1).degreewise n ⟨x, hk⟩ hx
     exact ⟨y, hy, congrArg Subtype.val hyx⟩
   · exact resolutionMap_exact hA hM

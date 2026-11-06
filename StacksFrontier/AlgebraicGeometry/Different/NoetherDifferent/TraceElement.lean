@@ -307,8 +307,8 @@ theorem noetherPairing_localize [IsNoetherianRing A] [IsNoetherianRing B]
       _ = algebraMap B Bg (algebraMap F.middle B (algebraMap A F.middle a)) := by
         rw [IsScalarTower.algebraMap_apply A F.middle B])
   let eJ := diagonalAnnihilatorBaseChangeEquiv F
-  have he0 : eJ 0 = 0 := map_zero eJ
-  have headd : ∀ z t, eJ (z + t) = eJ z + eJ t := fun z t => map_add eJ z t
+  have he0 : eJ 0 = 0 := eJ.map_zero
+  have headd : ∀ z t, eJ (z + t) = eJ z + eJ t := fun z t => eJ.map_add z t
   induction ω using dualizingModule.induction_on generalizing j with
   | zero => simp only [map_zero, LinearMap.zero_apply, map_zero]
   | add ω η hω hη =>

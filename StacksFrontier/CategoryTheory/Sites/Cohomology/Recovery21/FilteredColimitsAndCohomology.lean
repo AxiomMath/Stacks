@@ -833,7 +833,7 @@ private noncomputable def deltaFunctorColimitPost
     { app := fun F => colimit.post F (D.functor n)
       naturality := by
         intro F G φ
-        exact (colimit.map_post (F := F) (α := φ) (D.functor n)).symm }
+        exact (colimit.map_post (α := φ) (D.functor n)).symm }
   comm := by
     intro S hS n
     apply colimit.hom_ext

@@ -204,7 +204,7 @@ private theorem derivedHom_isLE_of_injectiveAmplitude
   obtain ⟨I, hIa, hIb, hIi, ⟨eI⟩⟩ := hY
   have hX' : X'.IsGE n := by
     show (m.inverse.mapDerivedCategory.{(max u v) + 1, (max u v) + 1,
-      max u v, max u v, max (u + 1) (v + 1), max (u + 1) (v + 1)}.obj X).IsGE n
+      max u v, max (u + 1) (v + 1), max u v, max (u + 1) (v + 1)}.obj X).IsGE n
     exact isGE_mapDerivedCategory m.inverse X n hX
   let I' : CochainComplex (ModuleCat.{max u v} (ULift.{max u v} R)) ℤ :=
     (m.inverse.mapHomologicalComplex.{0, max u v, max (u + 1) (v + 1),
@@ -235,7 +235,7 @@ private theorem derivedHom_isLE_of_injectiveAmplitude
   have eI' : Nonempty (Y' ≅ DerivedCategory.Q.obj I') := by
     refine ⟨e.inverse.mapIso eI ≪≫
       (m.inverse.mapDerivedCategoryFactors.{(max u v) + 1,
-        (max u v) + 1, max u v, max u v, max (u + 1) (v + 1),
+        (max u v) + 1, max u v, max (u + 1) (v + 1), max u v,
         max (u + 1) (v + 1)}.app I)⟩
   obtain ⟨F, hF, ⟨eF⟩⟩ := X'.exists_iso_Q_obj_of_isGE n
   let : I'.IsStrictlyGE a := hI'GE

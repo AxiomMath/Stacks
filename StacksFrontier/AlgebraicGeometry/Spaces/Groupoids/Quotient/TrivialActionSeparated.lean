@@ -105,7 +105,8 @@ the transport along the identification of that space with `B`. -/
 private theorem trivialActionGroupoid_objectsToBase_hom :
     A.groupoid.objectsToBase.hom =
       eqToHom (trivialActionGroupoid_objects_obj B G hG A) := by
-  simpa using eq_eqToHom_comp_of_heq A.groupoid.objectsToBase.hom (𝟙 B.obj)
+  simpa only [Category.comp_id] using
+    eq_eqToHom_comp_of_heq A.groupoid.objectsToBase.hom (𝟙 B.obj)
     (trivialActionGroupoid_objects_obj B G hG A) A.objectsToBase_eq
 
 /-- A morphism from the arrow space to the object space of the action groupoid of the trivial

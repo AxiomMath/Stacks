@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Discriminant.ProductFactorization
+public import Mathlib.LinearAlgebra.TensorProduct.Prod
 
 /-!
 # The dualizing module of a product factorization

@@ -120,6 +120,20 @@ namespace AlgebraicGeometry.Space
 
 variable (C : BigFppfSite.{u}) {S : Scheme.{u}} (hS : C.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B T hT`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_SpaceRestriction
+    (B : BigFppfSite.{u}) (T : Scheme.{u}) (hT : B.Contains T) :
+    HasPullbacks ((BigFppfOver B T hT)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+/-- Pullbacks of presheaves on `BigFppfOver B T hT`, given directly. -/
+local instance (priority := high) hasPullback_presheaf_SpaceRestriction
+    (B : BigFppfSite.{u}) (T : Scheme.{u}) (hT : B.Contains T)
+    {X Y Z : (BigFppfOver B T hT)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_SpaceRestriction B T hT).has_limit _
+
 /-! ### Objects and morphisms of the site are schemes over `S` -/
 
 /-- The big fppf site over `S` contains the scheme over `S` underlying any of its objects. -/
@@ -365,6 +379,11 @@ namespace AlgebraicGeometry.GroupoidInAlgebraicSpaces
 
 variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS}
+
+/- Pullback instances declared above, which instance search does not find
+under Lean v4.35.0. -/
+attribute [local instance high] Space.hasPullbacks_presheaf_SpaceRestriction
+  Space.hasPullback_presheaf_SpaceRestriction
 
 /-- The two underlying arrows of a composable pair of arrows of a restriction are composable in
 the ambient groupoid: the source of the one composed last is the target of the one composed

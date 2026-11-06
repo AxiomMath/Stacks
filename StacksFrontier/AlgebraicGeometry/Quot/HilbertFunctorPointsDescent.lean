@@ -82,6 +82,18 @@ universe u
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y : AlgebraicSpaces B S hS}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_HilbertFunctorPointsDescent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, at high priority. -/
+local instance (priority := high) hasPullback_presheaf_HilbertFunctorPointsDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The section of `X_V` over `V` through which a morphism `g : V ⟶ X_T` from a scheme of the
 site factors: its first projection is that of `g` and its second projection is the identity, the
 base change being taken along the chart `V ⟶ T` given by the second projection of `g`. -/

@@ -773,7 +773,7 @@ private lemma under_eq_maximalIdeal_of_isMaximal {R : Type*} [CommRing R] [IsLoc
   have := hm'
   have : Algebra.IsIntegral R S' := Algebra.IsIntegral.of_finite R S'
   rw [Ideal.under_def]
-  exact eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m')
+  exact eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) m')
 
 /-- If `S` is the localization at a prime `q` of an `R`-algebra `T` and `R → S` is a local
 homomorphism of local rings, then `q` contracts to the maximal ideal of `R`. -/

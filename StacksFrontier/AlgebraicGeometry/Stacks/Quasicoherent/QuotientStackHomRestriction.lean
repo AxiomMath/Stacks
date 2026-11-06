@@ -284,7 +284,7 @@ theorem chartedGluedHom_chart (W : Space.SmallEtale C S hS G.objects.obj)
   let ι : Wj ⟶ W := ObjectProperty.homMk (CostructuredArrow.homMk (π j) rfl)
   let c : ChartedPoint G := ⟨T', hT', G.objects.obj.map (e ≫ π j).op (yonedaEquiv W.obj.hom),
     Wj, hV j, e, by
-      rw [op_comp, FunctorToTypes.map_comp_apply]
+      rw [op_comp, Functor.map_comp_apply]
       exact congrArg (G.objects.obj.map e.op) (chartPointHom_eq ι).symm⟩
   have hsp : pointwiseSpecial G (e ≫ π j) (yonedaEquiv W.obj.hom) =
       c.special ≫ chartPointHom G ι := by

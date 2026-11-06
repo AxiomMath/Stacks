@@ -62,7 +62,7 @@ the unit is the identity if `a' = a` and zero otherwise. -/
 @[reassoc (attr := simp)]
 theorem unitPiι_π {A : Type*} [DecidableEq A] [HasProduct fun _ : A => 𝟙_ C] (a a' : A) :
     unitPiι (C := C) a ≫ Pi.π _ a' = if a' = a then 𝟙 _ else 0 :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 omit [MonoidalPreadditive C] in
 /-- The sum over `a` of the `a`-th projection followed by the `a`-th inclusion is the identity of
@@ -116,7 +116,7 @@ theorem mate_comp_π_of_evaluation (ea : A ≃ A') (eb : B ≃ B')
           Pi.π (fun _ : A => 𝟙_ C) a) ≫ (λ_ (𝟙_ C)).hom := by
       intro a
       rw [← Category.assoc, ← tensorHom_id, tensorHom_comp_tensorHom, Category.id_comp,
-        Pi.lift_π, Equiv.symm_apply_apply, sum_tensor, Preadditive.sum_comp]
+        Pi.lift_comp_π, Equiv.symm_apply_apply, sum_tensor, Preadditive.sum_comp]
     have hR : ∀ b : B, _ ◁ g ≫ (Pi.π (fun _ : B' => 𝟙_ C) (eb b) ⊗ₘ
           Pi.π (fun _ : B => 𝟙_ C) b) ≫ (λ_ (𝟙_ C)).hom =
         ∑ a, (Pi.π (fun _ : B' => 𝟙_ C) (eb b) ⊗ₘ
@@ -131,7 +131,7 @@ theorem mate_comp_π_of_evaluation (ea : A ≃ A') (eb : B ≃ B')
       Finset.sum_comm]
     exact Finset.sum_congr rfl fun b _ => Finset.sum_congr rfl fun a _ =>
       tensorHom_comp_leftUnitor_swap _ _ _
-  rw [← hh, Pi.lift_π, Equiv.symm_apply_apply]
+  rw [← hh, Pi.lift_comp_π, Equiv.symm_apply_apply]
 
 section Biproduct
 

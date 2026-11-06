@@ -197,16 +197,18 @@ private lemma exists_notMem_forall_mul_mem_of_flat
       I.map (algebraMap B (Localization.Away g₁)) ⊔
         Ideal.span {algebraMap B (Localization.Away g₁) h} := by
     rw [Ideal.map_sup, Ideal.map_span, Set.image_singleton]
-  have hmap : Ideal.span {algebraMap B
-        (Localization.Away g₁ ⧸ I.map (algebraMap B (Localization.Away g₁))) h} =
+  have hmap : Ideal.span {(algebraMap B
+                            (Localization.Away g₁ ⧸
+                              I.map (algebraMap B (Localization.Away g₁)))) h} =
       (Ideal.span {algebraMap B (Localization.Away g₁) h}).map
         (Ideal.Quotient.mkₐ A (I.map (algebraMap B (Localization.Away g₁)))) := by
     rw [Ideal.map_span, Set.image_singleton]
     rfl
   have hCquot : Module.Flat A
       ((Localization.Away g₁ ⧸ I.map (algebraMap B (Localization.Away g₁))) ⧸
-        Ideal.span {algebraMap B
-          (Localization.Away g₁ ⧸ I.map (algebraMap B (Localization.Away g₁))) h}) := by
+        Ideal.span {(algebraMap B
+                      (Localization.Away g₁ ⧸
+                        I.map (algebraMap B (Localization.Away g₁)))) h}) := by
     refine Module.Flat.of_linearEquiv
       (M := Localization.Away g₁ ⧸
         (I ⊔ Ideal.span {h}).map (algebraMap B (Localization.Away g₁)))

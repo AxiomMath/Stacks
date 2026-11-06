@@ -326,21 +326,22 @@ theorem reesShift_add (i : ℕ) (b b' : ↥(reesGrading I i)) :
   refine Sigma.hom_ext _ _ fun n => ?_
   rw [Preadditive.comp_add, ι_reesShift, ι_reesShift, ι_reesShift, ← Preadditive.add_comp,
     ← idealMultipleMap_add]
-  exact idealMultipleMap_comp_ι_congr φ F I rfl (by simp [reesCoeff]) _ _
+  exact idealMultipleMap_comp_ι_congr φ F I rfl
+    (by rw [reesCoeff, LinearEquiv.map_add]; rfl) _ _
 
 /-- Multiplication by the zero element of degree `i` is zero. -/
 theorem reesShift_zero (i : ℕ) : reesShift φ F I i 0 = 0 := by
   refine Sigma.hom_ext _ _ fun n => ?_
   rw [comp_zero, ι_reesShift]
   rw [idealMultipleMap_congr φ F _ (show reesCoeff I (0 : ↥(reesGrading I i)) = 0 by
-    simp [reesCoeff]) _ (fun b _ => by rw [mul_zero]; exact Submodule.zero_mem _),
+    rw [reesCoeff, LinearEquiv.map_zero]; rfl) _ (fun b _ => by rw [mul_zero]; exact Submodule.zero_mem _),
     idealMultipleMap_zero, zero_comp]
 
 /-- `reesShift` as an additive map in the homogeneous element. -/
 def reesShiftHom (i : ℕ) : ↥(reesGrading I i) →+ End (reesModule φ F I) where
-  toFun := reesShift φ F I i
-  map_zero' := reesShift_zero φ F I i
-  map_add' := reesShift_add φ F I i
+  toFun b := End.of (reesShift φ F I i b)
+  map_zero' := End.ext (reesShift_zero φ F I i)
+  map_add' b b' := End.ext (reesShift_add φ F I i b b')
 
 /-- The element underlying the unit of the graded Rees algebra is `1`. -/
 theorem reesCoeff_one :
@@ -369,12 +370,12 @@ theorem reesShift_mul {i j : ℕ} (b : ↥(reesGrading I i)) (b' : ↥(reesGradi
 
 /-- **The action of the graded Rees algebra `⨁ₙ Iⁿ` on `⨁ₙ Iⁿ F`.** -/
 def reesActionHom : (⨁ n, ↥(reesGrading I n)) →+* End (reesModule φ F I) :=
-  DirectSum.toSemiring (reesShiftHom φ F I) (reesShift_one φ F I)
-    (fun b b' => (reesShift_mul φ F I b b').trans (End.mul_def _ _).symm)
+  DirectSum.toSemiring (reesShiftHom φ F I) (End.ext (reesShift_one φ F I))
+    (fun b b' => End.ext (reesShift_mul φ F I b b'))
 
 /-- A homogeneous element `b` of degree `i` acts on `⨁ₙ Iⁿ F` by `reesShift`. -/
 theorem reesActionHom_of {i : ℕ} (b : ↥(reesGrading I i)) :
-    reesActionHom φ F I (DirectSum.of _ i b) = reesShift φ F I i b :=
+    reesActionHom φ F I (DirectSum.of _ i b) = End.of (reesShift φ F I i b) :=
   DirectSum.toSemiring_of _ _ _ _ _
 
 /-- **The action of the Rees algebra `A[It]` on `⨁ₙ Iⁿ F`**, through its homogeneous
@@ -384,7 +385,8 @@ def reesAction : reesAlgebra I →+* End (reesModule φ F I) :=
 
 /-- On the elements of `A` the action of the Rees algebra is multiplication by the functions. -/
 theorem reesAction_algebraMap (a : A) :
-    reesAction φ F I (algebraMap A (reesAlgebra I) a) = globalSmul _ (φ a) (reesModule φ F I) := by
+    reesAction φ F I (algebraMap A (reesAlgebra I) a) =
+      End.of (globalSmul _ (φ a) (reesModule φ F I)) := by
   let b : ↥(reesGrading I 0) := ⟨algebraMap A (reesAlgebra I) a,
     SetLike.algebraMap_mem_graded (reesGrading I) a⟩
   have hb : reesCoeff I b = a := by
@@ -392,6 +394,7 @@ theorem reesAction_algebraMap (a : A) :
     simp [b]
   show reesActionHom φ F I (DirectSum.decompose (reesGrading I) (b : reesAlgebra I)) = _
   rw [DirectSum.decompose_coe, reesActionHom_of]
+  congr 1
   refine Sigma.hom_ext _ _ fun n => ?_
   rw [ι_reesShift, comp_globalSmul]
   refine (idealMultipleMap_comp_ι_congr φ F I (Nat.zero_add n) hb _
@@ -434,7 +437,7 @@ theorem exists_finset_span_reesAction_eq_top (hF : IsCoherent B S hS X.1 X.2 F)
     (hU : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U)) :
     ∃ g : Finset ((reesModule φ F I).val.obj (op U)),
       Submodule.span (chartRing B S hS X.1 X.2 U)
-        {x | ∃ r, ∃ y ∈ g, x = (reesAction φ F I r).val.app (op U) y} = ⊤ := by
+        {x | ∃ r, ∃ y ∈ g, x = (reesAction φ F I r).asHom.val.app (op U) y} = ⊤ := by
   classical
   have := moduleFinite_sections_of_isCoherent B S hS X.1 X.2 F hF hU
   obtain ⟨s, hs⟩ := Module.Finite.fg_top (R := chartRing B S hS X.1 X.2 U)
@@ -442,7 +445,7 @@ theorem exists_finset_span_reesAction_eq_top (hF : IsCoherent B S hS X.1 X.2 F)
   refine ⟨s.image fun t => (reesDegreeZero φ F I).val.app (op U) t, ?_⟩
   set P := Submodule.span (chartRing B S hS X.1 X.2 U)
     {x | ∃ r, ∃ y ∈ s.image fun t => (reesDegreeZero φ F I).val.app (op U) t,
-      x = (reesAction φ F I r).val.app (op U) y}
+      x = (reesAction φ F I r).asHom.val.app (op U) y}
   have key : ∀ (n : ℕ) (a : A) (ha : a ∈ I ^ n) (t : F.val.obj (op U)),
       (idealMultipleFactor φ F (I ^ n) ha ≫
         Sigma.ι (fun n => idealMultiple φ F (I ^ n)) n).val.app (op U) t ∈ P := by
@@ -456,7 +459,7 @@ theorem exists_finset_span_reesAction_eq_top (hF : IsCoherent B S hS X.1 X.2 F)
         Finset.mem_image_of_mem _ ht, ?_⟩
       have hr : reesAction φ F I ((DirectSum.decomposeRingEquiv (reesGrading I)).symm
           (DirectSum.of _ n (reesGradingEquivPow I n ⟨a, ha⟩))) =
-          reesShift φ F I n (reesGradingEquivPow I n ⟨a, ha⟩) := by
+          End.of (reesShift φ F I n (reesGradingEquivPow I n ⟨a, ha⟩)) := by
         rw [reesAction, RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom,
           RingEquiv.apply_symm_apply, reesActionHom_of]
       rw [hr, ← reesDegreeZero_reesShift φ F I n ha]
@@ -551,21 +554,24 @@ theorem cohomologyReesComparison_smul (b : ⨁ n, ↥(reesGrading I n))
     (y : ⨁ n, cohomologyIdealPower φ F I p n) :
     letI := (cohomologyIdealPowerSystem φ F I p).gmodule
     cohomologyReesComparison φ F I p (b • y) =
-      cohomologyResMap φ p (reesActionHom φ F I b) (cohomologyReesComparison φ F I p y) := by
+      cohomologyResMap φ p (reesActionHom φ F I b).asHom
+        (cohomologyReesComparison φ F I p y) := by
   let := (cohomologyIdealPowerSystem φ F I p).gmodule
   induction b using DirectSum.induction_on with
-  | zero => rw [zero_smul, map_zero, map_zero, cohomologyResMap_zero]; rfl
+  | zero => rw [zero_smul, map_zero, map_zero, End.zero_asHom, cohomologyResMap_zero]; rfl
   | of i b =>
     induction y using DirectSum.induction_on with
     | zero => rw [smul_zero, map_zero, map_zero]
     | of j x =>
       rw [DirectSum.Gmodule.of_smul_of, cohomologyReesComparison_of, cohomologyReesComparison_of,
-        reesActionHom_of, cohomologyResMap_comp_apply, ι_reesShift,
+        reesActionHom_of]
+      dsimp only
+      rw [cohomologyResMap_comp_apply, ι_reesShift,
         ← cohomologyResMap_comp_apply]
       rfl
     | add y y' hy hy' => rw [smul_add, map_add, hy, hy', map_add, map_add]
   | add b b' hb hb' =>
-    rw [add_smul, map_add, hb, hb', map_add, cohomologyResMap_add]
+    rw [add_smul, map_add, hb, hb', RingHom.map_add, End.add_asHom, cohomologyResMap_add]
     rfl
 
 end Comparison

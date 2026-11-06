@@ -306,9 +306,9 @@ theorem exists_uniform_hasTorAmplitude_derivedRestriction [CompactSpace X.obj]
         (constantCoefficientRingedSite.{u, max (u + 1) r, r} B X Λ) V).obj E) a b := by
     intro x
     let Ψ := (geometricSitePoint B X (.ofPoint X.obj x)).ulift.{max (u + 1) r}
-    obtain ⟨⟨U, x₀⟩⟩ := IsCofiltered.nonempty (C := Ψ.fiber.Elements)
+    obtain ⟨P⟩ := IsCofiltered.nonempty (C := Ψ.fiber.Elements)
     obtain ⟨V, -, y, a, b, -, hab⟩ :=
-      exists_hasTorAmplitude_derivedRestriction_of_point T E hE Ψ x₀
+      exists_hasTorAmplitude_derivedRestriction_of_point T E hE Ψ P.val
     refine ⟨V, a, b, ⟨y.down.1 default, ?_⟩, hab⟩
     have h := congrArg (fun g => g default) y.down.2
     simp only [Scheme.Hom.comp_apply] at h

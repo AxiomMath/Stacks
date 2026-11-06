@@ -157,15 +157,15 @@ theorem isFiniteLocallyFree_actionRelationTarget {S : Scheme.{u}} (U : Over S) (
     (actionRelationTarget U G a) ?_
   refine isFiniteLocallyFree_sigmaDesc _ fun i => ?_
   have h : (Sigma.ι (fun _ : G => U) ((equivShrink.{u} G).symm i) ≫
-      actionRelationTarget U G a).left = (a ((equivShrink.{u} G).symm i)).hom.left := by
+      actionRelationTarget U G a).left = (a ((equivShrink.{u} G).symm i)).asIso.hom.left := by
     rw [show Sigma.ι (fun _ : G => U) ((equivShrink.{u} G).symm i) ≫
-      actionRelationTarget U G a = (a ((equivShrink.{u} G).symm i)).hom from by
+      actionRelationTarget U G a = (a ((equivShrink.{u} G).symm i)).asIso.hom from by
         simp [actionRelationTarget]]
-  have _ : IsIso (a ((equivShrink.{u} G).symm i)).hom.left :=
-    ((Over.forget S).mapIso (a ((equivShrink.{u} G).symm i))).isIso_hom
+  have _ : IsIso (a ((equivShrink.{u} G).symm i)).asIso.hom.left :=
+    ((Over.forget S).mapIso (a ((equivShrink.{u} G).symm i)).asIso).isIso_hom
   rw [h]
   simpa using MorphismProperty.RespectsIso.precomp (@IsFiniteLocallyFree.{u})
-    (a ((equivShrink.{u} G).symm i)).hom.left (𝟙 U.left) (isFiniteLocallyFree_id U.left)
+    (a ((equivShrink.{u} G).symm i)).asIso.hom.left (𝟙 U.left) (isFiniteLocallyFree_id U.left)
 
 section Quotient
 

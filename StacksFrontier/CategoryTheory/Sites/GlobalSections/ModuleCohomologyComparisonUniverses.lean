@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.CategoryTheory.Sites.GlobalSections.ModuleCohomologyComparisonDef
+public import Mathlib.Algebra.Category.Grp.Limits
 import all StacksFrontier.CategoryTheory.Sites.GlobalSections.ModuleCohomologyComparison
 
 /-!
@@ -219,8 +220,16 @@ public theorem injective_forget_obj
     Injective ((SheafOfModules.forget R).obj I) :=
   (PresheafOfModules.sheafificationAdjunction (𝟙 R.obj)).map_injective I inferInstance
 
+/-- Abelian presheaves have products indexed by `Type w`, stated directly so that instance search
+does not time out. -/
+local instance hasLimitsOfShape_discrete_presheaf (K : Type w) :
+    HasLimitsOfShape (Discrete K) (Cᵒᵖ ⥤ Ab.{w}) :=
+  functorCategoryHasLimitsOfShape
+
 /-- Global sections of abelian sheaves form an additive functor. -/
 local instance gamma_additive : (Sheaf.Γ J Ab.{w}).Additive :=
+  have : HasBinaryProducts (Sheaf J Ab.{w}) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J Ab.{w})
   Functor.additive_of_preserves_binary_products _
 
 /-- The forgetful functor from module sheaves to abelian sheaves preserves finite colimits. -/

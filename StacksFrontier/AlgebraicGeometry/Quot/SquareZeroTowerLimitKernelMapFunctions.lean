@@ -43,7 +43,23 @@ All in the namespace `AlgebraicGeometry.ProperFlatFibre`:
 
 open CategoryTheory CategoryTheory.Limits CategoryTheory.Sheaf Opposite
 
-universe u
+universe u v u' w
+
+/-- Products of presheaves of sets on the site of a ringed topos, given directly: instance search
+for them times out under Lean v4.35.0. -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_SquareZeroTowerLimitKernelMapFunctions
+    {C : Type u'} [Category.{v} C] (K : Type u) :
+    HasLimitsOfShape (Discrete K) (Cᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+/-- The terminal sheaf of sets on a site, given directly: instance search for it times out under
+Lean v4.35.0. -/
+local instance (priority := high) hasTerminal_sheaf_SquareZeroTowerLimitKernelMapFunctions
+    {C : Type u'} [Category.{v} C] (J : GrothendieckTopology C) : HasTerminal (Sheaf J (Type w)) :=
+  haveI : HasLimitsOfShape (Discrete PEmpty.{1}) (Cᵒᵖ ⥤ Type w) :=
+    functorCategoryHasLimitsOfShape
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J (Type w))
 
 attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 

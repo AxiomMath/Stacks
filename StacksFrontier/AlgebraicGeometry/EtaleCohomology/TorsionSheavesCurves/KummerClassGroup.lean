@@ -140,7 +140,7 @@ theorem sheafH_one_multiplicativeSheaf_of_classGroup {ℓ : ℕ} (hℓ : ℓ ≠
     rw [hker]
     have : Finite {y : closedPoints Y | y.1 ∉ Set.range j.base} :=
       (hfin.preimage Subtype.val_injective.injOn).to_subtype
-    exact ⟨(Set.toFinite _).toFinset, by rw [Set.Finite.coe_toFinset]⟩
+    exact (AddSubgroup.fg_iff _).2 ⟨_, rfl, Set.toFinite _⟩
   let pt := fun y : closedPoints Y =>
     (QuotientAddGroup.mk (Finsupp.single y (1 : ℤ)) : closedPointClassGroup Y)
   have hgen := closure_range_closedPointClassGroup_single Y

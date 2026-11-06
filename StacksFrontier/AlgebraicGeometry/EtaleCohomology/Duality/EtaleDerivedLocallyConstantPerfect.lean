@@ -57,6 +57,16 @@ local instance hasSheafify_etaleSmallModel_over_moduleCat (S : Scheme.{u}) (R : 
     HasSheafify ((etaleSmallModelTopology.{u, 0} S).over V) (ModuleCat.{u + 1} R) :=
   Stacks.ModuleSheaf.hasSheafify_over_moduleCat.{u + 1, 0, u + 1, u + 1} R _ V
 
+/-- `Stacks.ConstantSheaf.hasSheafify_over_moduleCat` with its universes pinned to the slices of
+the small model and the coefficient universe `u + 1`; instance search leaves the constraint
+`u + 1 =?= max (u + 1) ?x` stuck. -/
+local instance hasSheafify_etaleSmallModel_over_moduleCat_succ (S : Scheme.{u})
+    (R : Type (u + 1)) [Ring R] (V : AsSmall.{u + 1} S.Etale) :
+    HasSheafify ((etaleSmallModelTopology.{u, 0} S).over V) (ModuleCat.{u + 1} R) :=
+  Stacks.ConstantSheaf.hasSheafify_over_moduleCat.{u + 1, u + 1, u + 1, u + 1} _ R V
+
+attribute [-instance] Stacks.ConstantSheaf.hasSheafify_over_moduleCat
+
 variable {Λ : Type} [Field Λ] {S : Scheme.{u}}
 
 /-- **A locally constant sheaf of finite type, read as a module over the constant ringed site
@@ -78,12 +88,13 @@ theorem isFiniteTypeLocallyConstantModuleSheaf_toModuleSheaf_etaleModulesEquival
       (etaleSmallModelTopology.{u, 0} S) S.smallEtaleTopology
       (AsSmall.equiv : S.Etale ≌ AsSmall.{u + 1} S.Etale).inverse Λ N hN
   have h₂ := Stacks.ConstantSheaf.isFiniteTypeLocallyConstant_of_coefficientEquivalence
-    (etaleSmallModelTopology.{u, 0} S) (uliftScalars.{u, 0} Λ)
+    (etaleSmallModelTopology.{u, 0} S)
+    (uliftScalars.{u, 0} Λ : ModuleCat.{u + 1} Λ ≌ ModuleCat.{u + 1} (ULift.{u + 1} Λ))
     (fun M : ModuleCat.{u + 1} Λ => ModuleCat.isFG Λ M)
     (fun M hM => by
       have := (ModuleCat.isFG_iff _).1 hM
       exact (ModuleCat.isFG_iff _).2
-        (ModuleCat.moduleFinite_restrictScalars_of_ringEquiv (ULift.ringEquiv (R := Λ)) M))
+        (ModuleCat.moduleFinite_restrictScalars_of_ringEquiv (ULift.ringEquiv : ULift.{u + 1} Λ ≃+* Λ) M))
     _ h₁ _ (Iso.refl _)
   exact ObjectProperty.prop_of_iso
     (Stacks.ConstantSheaf.IsFiniteTypeLocallyConstantModuleSheaf.{u + 1, u + 1, 0}

@@ -117,7 +117,7 @@ public lemma isZero_cokernel_difference_of_eventually_iso
         Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) (n + 1) ≫ F.map (homOfLE (Nat.le_succ n)).op := by
     apply Pi.hom_ext
     intro n
-    rw [Rlim.delta_comp_π, Pi.lift_π]
+    rw [Rlim.delta_comp_π, Pi.lift_comp_π]
   rw [← hd]
   exact hz
 

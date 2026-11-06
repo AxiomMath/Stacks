@@ -161,8 +161,8 @@ theorem nonempty_homology_iso_free (M : BottomModel K a ψ A) {r : ℕ}
 compatible with pullback of endomorphisms of the structure sheaf. -/
 def pullback (M : BottomModel K a ψ A) (g : Y' ⟶ Y) {R' : Type u} [CommRing R']
     (ψ' : R' →+* End (ringedToposUnit Y')) (θ : R →+* R')
-    (hθ : ∀ x, (ψ' (θ x) : (ringedToposUnit Y') ⟶ (ringedToposUnit Y')) =
-      (pbUnitIso g).inv ≫ (pb g).map (ψ x : _ ⟶ _) ≫ (pbUnitIso g).hom) :
+    (hθ : ∀ x, (ψ' (θ x)).asHom =
+      (pbUnitIso g).inv ≫ (pb g).map (ψ x).asHom ≫ (pbUnitIso g).hom) :
     BottomModel ((smallEtaleDerivedModulePullback B S hS g).obj K) a ψ' (A.map θ) :=
   haveI := M.isStrictlyLE
   haveI := M.isStrictlyGE

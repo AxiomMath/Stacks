@@ -139,15 +139,15 @@ public theorem eq_of_tangentClassAt_boundaryObject_eq
   obtain ⟨e⟩ := (tangentClassAt_eq_iff.{u, v, w} (productBased.{u, v, w} pF f g)
     (isDeformationCategory_productBased.{u, v, w} pF f g hH hG hF) M _ _).mp h
   have hcomp : (boundaryCompareFst.{u, v, w} f PH PF hF.predeformation.cofibered M).inv ≫
-        Functor.Fiber.fiberInclusion.map α.hom ≫
+        Functor.Fiber.fiberInclusion.map α.asIso.hom ≫
           (boundaryCompareSnd.{u, v, w} f g hzy hcmp PG PF hF.predeformation.cofibered M).hom =
       (boundaryCompareFst.{u, v, w} f PH PF hF.predeformation.cofibered M).inv ≫
-        Functor.Fiber.fiberInclusion.map α'.hom ≫
+        Functor.Fiber.fiberInclusion.map α'.asIso.hom ≫
           (boundaryCompareSnd.{u, v, w} f g hzy hcmp PG PF hF.predeformation.cofibered M).hom :=
     iso_hom_eq_of_isThin hXthin hYthin
       (PH.obj (squareZeroCrossUnder.{u, v, w} ((f ⋙ pF).obj y₀) M)).2
       (PG.obj (squareZeroCrossUnder.{u, v, w} ((g ⋙ pF).obj z₀) M)).2 _ _ e.hom.1 e.hom.2
-  refine Aut.ext (Functor.Fiber.hom_ext ?_)
+  refine Aut.ext (Iso.ext (Functor.Fiber.hom_ext ?_))
   exact (cancel_mono
     (boundaryCompareSnd.{u, v, w} f g hzy hcmp PG PF hF.predeformation.cofibered M).hom).mp
       ((cancel_epi

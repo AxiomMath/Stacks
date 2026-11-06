@@ -186,7 +186,7 @@ theorem eq_pushforward_pullTw_add_of_isColimit (hA : W.PoincareDuality) (hB : W.
 /-- A coproduct cofan is the cofan of its two coprojections. -/
 def isColimitMkOfIsColimit {X Y : (SmoothProjectiveScheme k).FullSubcategory} {c : BinaryCofan X Y}
     (hc : IsColimit c) : IsColimit (BinaryCofan.mk (P := c.pt) c.inl c.inr) :=
-  hc.ofIsoColimit (Cocones.ext (Iso.refl _) (by rintro ⟨⟨⟩⟩ <;> exact Category.comp_id _))
+  hc.ofIsoColimit (Cocone.ext (Iso.refl _) (by rintro ⟨⟨⟩⟩ <;> exact Category.comp_id _))
 
 /-- **The decomposition `a = i_*(i^*a) + j_*(j^*a)`** on an arbitrary coproduct `c` of `X` and `Y`,
 for `X`, `Y` nonempty and equidimensional of the same dimension `d`. -/

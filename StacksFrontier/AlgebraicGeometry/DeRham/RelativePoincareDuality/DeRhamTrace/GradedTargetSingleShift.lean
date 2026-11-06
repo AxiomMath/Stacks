@@ -88,7 +88,7 @@ theorem pushforwardComparisonQ_singleShift (M : SheafOfModules.{u} (structureShe
       DerivedCategory.Q.map (((CochainComplex.singleFunctors _).shiftIso n (-n) 0 (by
           omega)).hom.app
         ((modulePushforward f).obj M)) := by
-    simp [DerivedCategory.singleFunctors]; rfl
+    simp [DerivedCategory.singleFunctors]
   have F6 : ((DerivedCategory.singleFunctors (SheafOfModules.{u} (structureSheafRing Y))).shiftIso
       (2 * n) (-n) n (by omega)).inv.app ((modulePushforward f).obj M) =
       DerivedCategory.Q.map (((CochainComplex.singleFunctors _).shiftIso (2 * n) (-n) n
@@ -96,7 +96,7 @@ theorem pushforwardComparisonQ_singleShift (M : SheafOfModules.{u} (structureShe
       (DerivedCategory.Q.commShiftIso (2 * n)).hom.app
         ((HomologicalComplex.single _ (ComplexShape.up ℤ) n).obj ((modulePushforward f).obj M)) :=
             by
-    simp [DerivedCategory.singleFunctors]; rfl
+    simp [DerivedCategory.singleFunctors]
   exact Stacks.GradedTargetChase.singleShift_chase (pushforwardComplex f) DerivedCategory.Q
       DerivedCategory.Q
     (derivedPushforward f) _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ F1 F2 F3

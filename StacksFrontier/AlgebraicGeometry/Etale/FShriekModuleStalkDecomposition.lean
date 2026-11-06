@@ -94,11 +94,11 @@ universe w r t u₁ v₁ u₂ v₂ u₃ v₃
 public def whiskerRightEndRingHom {K : Type u₁} [Category.{v₁} K] {A : Type u₂}
     [Category.{v₂} A] [Preadditive A] {Bc : Type u₃} [Category.{v₃} Bc] [Preadditive Bc]
     (P : K ⥤ A) (H : A ⥤ Bc) [H.Additive] : End P →+* End (P ⋙ H) where
-  toFun α := Functor.whiskerRight α H
-  map_one' := NatTrans.ext (funext fun U => H.map_id (P.obj U))
-  map_mul' _ _ := NatTrans.ext (funext fun _ => H.map_comp _ _)
-  map_zero' := NatTrans.ext (funext fun _ => H.map_zero _ _)
-  map_add' _ _ := NatTrans.ext (funext fun _ => H.map_add)
+  toFun α := .of (Functor.whiskerRight α.asHom H)
+  map_one' := End.ext (NatTrans.ext (funext fun U => H.map_id (P.obj U)))
+  map_mul' _ _ := End.ext (NatTrans.ext (funext fun _ => H.map_comp _ _))
+  map_zero' := End.ext (NatTrans.ext (funext fun _ => H.map_zero _ _))
+  map_add' _ _ := End.ext (NatTrans.ext (funext fun _ => H.map_add))
 
 /-- The fibre functor of a point of a site on presheaves with values in a preadditive category is
 additive: it is the colimit of the restriction of a presheaf along the projection from the
@@ -131,19 +131,23 @@ over all sheaves; its naturality is the `Λ`-linearity of a morphism of sheaves 
 `Λ`-modules. -/
 public def sheafScalarNatEnd :
     Λ →+* End (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})) where
-  toFun a :=
-    { app := fun F => sheafScalarEnd Λ J F a
+  toFun a := .of
+    { app := fun F => (sheafScalarEnd Λ J F a).asHom
       naturality := fun _ _ φ => (sheafScalarEnd_naturality Λ J φ a).symm }
-  map_one' := NatTrans.ext (funext fun F => map_one (sheafScalarEnd Λ J F))
-  map_mul' a b := NatTrans.ext (funext fun F => map_mul (sheafScalarEnd Λ J F) a b)
-  map_zero' := NatTrans.ext (funext fun F => map_zero (sheafScalarEnd Λ J F))
-  map_add' a b := NatTrans.ext (funext fun F => map_add (sheafScalarEnd Λ J F) a b)
+  map_one' := End.ext (NatTrans.ext (funext fun F =>
+    congrArg End.asHom (map_one (sheafScalarEnd Λ J F))))
+  map_mul' a b := End.ext (NatTrans.ext (funext fun F =>
+    congrArg End.asHom (map_mul (sheafScalarEnd Λ J F) a b)))
+  map_zero' := End.ext (NatTrans.ext (funext fun F =>
+    congrArg End.asHom (map_zero (sheafScalarEnd Λ J F))))
+  map_add' a b := End.ext (NatTrans.ext (funext fun F =>
+    congrArg End.asHom (map_add (sheafScalarEnd Λ J F) a b)))
 
 /-- The component of `sheafScalarNatEnd Λ J a` at a sheaf `F` of `Λ`-modules is multiplication
 by `a` on the abelian sheaf underlying `F`. -/
 @[simp]
 public lemma sheafScalarNatEnd_app (a : Λ) (F : Sheaf J (ModuleCat.{w} Λ)) :
-    (sheafScalarNatEnd.{w} Λ J a).app F = sheafScalarEnd Λ J F a :=
+    (sheafScalarNatEnd.{w} Λ J a).asHom.app F = (sheafScalarEnd Λ J F a).asHom :=
   rfl
 
 variable (H : Sheaf J AddCommGrpCat.{w} ⥤ AddCommGrpCat.{w}) [H.Additive]
@@ -172,7 +176,7 @@ public lemma valueLift_comp_forget₂ :
 /-- Multiplication by a scalar on the lift is the image under `H` of multiplication by that
 scalar on the underlying abelian sheaf. -/
 public lemma valueLift_obj_smul (F : Sheaf J (ModuleCat.{w} Λ)) (a : Λ) :
-    ((valueLift.{w} Λ J H).obj F).smul a = H.map (sheafScalarEnd Λ J F a) :=
+    (((valueLift.{w} Λ J H).obj F).smul a).asHom = H.map (sheafScalarEnd Λ J F a).asHom :=
   rfl
 
 /-- The map the lift induces on a morphism, read on underlying abelian groups. -/
@@ -195,7 +199,8 @@ variable (Λ : Type r) [Ring Λ] {C₁ : Type u₁} [Category.{v₁} C₁] {C₂
 /-- Multiplication by a scalar on the abelian sheaf underlying the lift of an additive functor
 `G` is the image under `G` of multiplication by that scalar. -/
 public lemma sheafScalarEnd_moduleLiftObj (F : Sheaf J₁ (ModuleCat.{w} Λ)) (a : Λ) :
-    sheafScalarEnd Λ J₂ (moduleLiftObj Λ J₁ J₂ G F) a = G.map (sheafScalarEnd Λ J₁ F a) :=
+    (sheafScalarEnd Λ J₂ (moduleLiftObj Λ J₁ J₂ G F) a).asHom =
+      G.map (sheafScalarEnd Λ J₁ F a).asHom :=
   rfl
 
 end Lift
@@ -307,10 +312,10 @@ public lemma forget₂_map_moduleFiberStalks_map (s : GeometricPoint Y.obj)
 map that multiplication by that scalar on the underlying abelian sheaf induces on stalks. -/
 public lemma moduleFiberStalks_smul (s : GeometricPoint Y.obj)
     (F : ModuleSheaf.{u, v, r} B X Λ) (a : Λ) :
-    ((moduleFiberStalks.{u, v, r} B Λ f s).obj F).smul a =
+    (((moduleFiberStalks.{u, v, r} B Λ f s).obj F).smul a).asHom =
       AddCommGrpCat.ofHom (fiberStalksMap.{u, max (u + 1) v r} B f s
         (Stacks.ModuleCatLift.sheafScalarEnd Λ
-          (SmallEtale.topology B X.obj X.property) F a)) :=
+          (SmallEtale.topology B X.obj X.property) F a).asHom) :=
   rfl
 
 /-- **The scalar action on `⊕_{f(x̄) = ȳ} F_x̄` is summandwise the scalar action on the stalks of
@@ -320,10 +325,10 @@ public lemma moduleFiberStalks_smul_apply (s : GeometricPoint Y.obj)
     (F : ModuleSheaf.{u, v, r} B X Λ) (a : Λ)
     (z : fiberStalks.{u, max (u + 1) v r} B f s
       ((forgetModuleSheaf.{u, v, r} B X Λ).obj F)) :
-    (((moduleFiberStalks.{u, v, r} B Λ f s).obj F).smul a).hom z =
+    (((moduleFiberStalks.{u, v, r} B Λ f s).obj F).smul a).asHom.hom z =
       DirectSum.map (fun x : GeometricFiberPoint B f s =>
         (((moduleEtaleStalkFunctor.{u, v, r} B Λ X
-          (x.toGeometricPoint B f s)).obj F).smul a).hom) z :=
+          (x.toGeometricPoint B f s)).obj F).smul a).asHom.hom) z :=
   rfl
 
 variable [LocallyOfFiniteType (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)]
@@ -347,7 +352,7 @@ public def moduleFShriekStalkIso (s : GeometricPoint Y.obj)
         (moduleFiberStalks_smul.{u, v, r} B Λ f s F a)).trans
         (fShriekStalkIso_natural.{u, max v r} B f s
           (Stacks.ModuleCatLift.sheafScalarEnd Λ
-            (SmallEtale.topology B X.obj X.property) F a)).symm
+            (SmallEtale.topology B X.obj X.property) F a).asHom).symm
 
 /-- **The `Λ`-linear stalk decomposition is the canonical one**: its underlying map of abelian
 groups is the decomposition `AlgebraicGeometry.SmallEtale.fShriekStalkIso` of Stacks 0F5F. With

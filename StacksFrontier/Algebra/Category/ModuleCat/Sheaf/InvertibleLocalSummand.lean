@@ -324,7 +324,7 @@ theorem isSplitMono_of_dualBasis [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
     rfl
   refine ⟨Pi.lift α, ⟨⟨∑ j, Pi.π _ j ≫ ρ j, ?_⟩⟩⟩
   rw [Preadditive.comp_sum]
-  simpa only [← Category.assoc, Pi.lift_π] using key
+  simpa only [← Category.assoc, Pi.lift_comp_π] using key
 
 end Splitting
 

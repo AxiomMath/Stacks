@@ -47,6 +47,17 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] pointTopology
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0; supply the functor-category instances (file-unique names). -/
+local instance (priority := high) hasPullbacks_presheaf_PurityEtaleChartSpecialization :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_PurityEtaleChartSpecialization
+    {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W) (g : Z ⟶ W) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
 /-- **Purity above `y` specializes the relative assassin of an étale base change into the
 fibre.**  Let `P` be a situation of Stacks 0CV6 whose module is pure above `y`, let
 `b : V ⟶ Y` be étale from a scheme of the site and `v ∈ |V|` a point over `y`, and let

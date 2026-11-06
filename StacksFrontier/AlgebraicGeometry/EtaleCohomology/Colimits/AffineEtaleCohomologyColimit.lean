@@ -198,7 +198,7 @@ theorem presieve_map_down_up {A : Type*} [Category* A] {X : AsSmall.{w} A}
 def isTerminal_asSmallUp {A : Type*} [Category* A] {Z : A} (h : IsTerminal Z) :
     IsTerminal ((AsSmall.up : A ⥤ AsSmall.{w} A).obj Z) :=
   IsTerminal.ofUniqueHom (fun W => AsSmall.up.map (h.from (AsSmall.down.obj W)))
-    fun _ _ => ULift.ext _ _ (h.hom_ext _ _)
+    fun _ _ => ULift.ext (h.hom_ext _ _)
 
 /-- Terminality transports back along an equivalence. -/
 def isTerminal_of_functorObj {A : Type*} [Category* A] {E₁ : Type*} [Category* E₁] (e : A ≌ E₁)
@@ -246,7 +246,7 @@ theorem toLimitSmall_obj_descends (Z : limitSite D c B hX) :
     ∃ (i : (sys D c B hD hX hc).I) (Y : (sys D c B hD hX hc).C i),
       (toLimitSmall D c B hD hX hc i).obj Y = Z := by
   obtain ⟨i, Y, h⟩ := affineEtaleSiteColimit_obj_descends D c B hD hX hc (AsSmall.down.obj Z)
-  exact ⟨i, Y, ULift.ext _ _ h⟩
+  exact ⟨i, Y, ULift.ext h⟩
 
 /-- **Stacks 0EYL, morphisms**, on the raised site: every morphism between objects descended from
 one stage descends after increasing the stage. -/
@@ -260,7 +260,7 @@ theorem toLimitSmall_hom_descends
           eqToHom (Functor.congr_obj (toLimitSmall_transition D c B hD hX hc a) Z).symm := by
   obtain ⟨j, a, g, hg⟩ :=
     affineEtaleSiteColimit_hom_descends D c B hD hX hc i Y Z (ULift.down f)
-  refine ⟨j, a, g, ULift.ext _ _ ?_⟩
+  refine ⟨j, a, g, ULift.ext ?_⟩
   simp only [down_comp, eqToHom_down]
   exact hg
 

@@ -150,8 +150,8 @@ omit hY in
 /-- The trivial lift of `z₀` over `k[V]` restricts to `z₀`. -/
 theorem trivElem_sqArrow (V : FGModuleCat.{u} k) :
     M.presheaf.map (sqArrow hS toS hk V).op (D.trivElem M toS hk z₀ V) = z₀ := by
-  rw [trivElem, ← FunctorToTypes.map_comp_apply, ← op_comp, sqArrow_sqRetraction, op_id,
-    FunctorToTypes.map_id_apply]
+  rw [trivElem, ← Functor.map_comp_apply, ← op_comp, sqArrow_sqRetraction, op_id,
+    Functor.map_id_apply]
 
 omit hY in
 /-- For `f : V ⟶ W`, the restriction of the trivial lift over `k[V]` along `k[V] ⟶ k[W]` is the
@@ -159,7 +159,7 @@ trivial lift over `k[W]`. -/
 theorem trivElem_sqMap {V W : FGModuleCat.{u} k} (f : V ⟶ W) :
     M.presheaf.map (sqMap hS toS hk f).op (D.trivElem M toS hk z₀ V) =
       D.trivElem M toS hk z₀ W := by
-  rw [trivElem, trivElem, ← FunctorToTypes.map_comp_apply, ← op_comp, sqMap_sqRetraction]
+  rw [trivElem, trivElem, ← Functor.map_comp_apply, ← op_comp, sqMap_sqRetraction]
 
 omit hY in
 /-- For `f : V ⟶ W`, a section over `k[V]` restricting to `z₀` has restriction along
@@ -168,7 +168,7 @@ theorem sqMap_sqArrow_apply {V W : FGModuleCat.{u} k} (f : V ⟶ W)
     (z : M.presheaf.obj (op (sqObj hS toS hk V)))
     (hz : M.presheaf.map (sqArrow hS toS hk V).op z = z₀) :
     M.presheaf.map (sqArrow hS toS hk W).op (M.presheaf.map (sqMap hS toS hk f).op z) = z₀ := by
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp, sqArrow_sqMap, hz]
+  rw [← Functor.map_comp_apply, ← op_comp, sqArrow_sqMap, hz]
 
 /-- The underlying module of `𝒦₀`. -/
 abbrev kerMod₀ : Modules.{u, u} B S hS (D.space (D.sq₀ ι toS hk)).1 (D.space (D.sq₀ ι toS hk)).2 :=

@@ -281,8 +281,9 @@ private theorem exists_approx_of_isAffineSpace_aux {Y : (BigFppfOver B S hS)ᵒ�
     have sqY : IsPullback (yoneda.map s') (yoneda.map r) (yoneda.map (s₀ i)) (yoneda.map q') := by
       rw [hs']
       exact hsr.isPullback _
-    have hw : s' ≫ s₀ i = r ≫ q' := yoneda.map_injective (by simpa using sqY.w)
-    have sqS := (IsPullback.of_map yoneda hw (by simpa using sqY)).map F
+    have hw : s' ≫ s₀ i = r ≫ q' :=
+      yoneda.map_injective (by rw [Functor.map_comp, Functor.map_comp]; exact sqY.w)
+    have sqS := (IsPullback.of_map yoneda hw sqY).map F
     have sqS' : IsPullback (F.map r) (F.map s') q (A i) := sqS.flip
     have key : J₀.comap (F.map r) ≤ (I i).comap (F.map s') := by
       rw [← idealPoints_le_iff]
@@ -292,7 +293,7 @@ private theorem exists_approx_of_isAffineSpace_aux {Y : (BigFppfOver B S hS)ᵒ�
       refine hT₀p i W.unop (k ≫ r) _ ?_ hk
       have h1 := congrArg (fun m => m.app W (k ≫ s')) (sq0 i).w
       have h2 := congrArg (fun m => m.app W (k ≫ r)) hq'φ
-      simp only [FunctorToTypes.comp, yoneda_map_app] at h1 h2
+      simp only [NatTrans.comp_app_apply, yoneda_map_app] at h1 h2
       show (Ω i).ι.app W ((b i).app W (k ≫ s')) = _
       rw [h1, ← h2]
       show φ.app W ((k ≫ s') ≫ s₀ i) = φ.app W ((k ≫ r) ≫ q')
@@ -465,7 +466,7 @@ theorem hasFinitePresentationApproximation_of_isElementaryDistinguishedSquare
     obtain ⟨k', hk'⟩ := (mem_obj_iff_exists_comp B S hS U₀ sq (op Y) k).1 hkU
     have hp₀k : p₀.app (op Y) k' = ω := by
       have h1 := congrArg (fun m => m.app (op Y) k') sq.w
-      simp only [FunctorToTypes.comp, yoneda_map_app] at h1
+      simp only [NatTrans.comp_app_apply, yoneda_map_app] at h1
       apply Subtype.ext
       show U₀.ι.app (op Y) (p₀.app (op Y) k') = U₀.ι.app (op Y) ω
       rw [h1]
@@ -527,7 +528,7 @@ theorem hasFinitePresentationApproximation_of_isElementaryDistinguishedSquare
     refine hT₀p Y (k ≫ prj) ((U₀.fromPreimage f).app (op Y) ω) ?_ hωT
     have h1 := congrArg (fun m => m.app (op Y) ω) (Subfunctor.fromPreimage_ι U₀ f)
     have h2 := congrArg (fun m => m.app (op Y) k) hpVf
-    simp only [FunctorToTypes.comp, yoneda_map_app] at h1 h2
+    simp only [NatTrans.comp_app_apply, yoneda_map_app] at h1 h2
     rw [h1, hω, h2]
     rfl
   obtain ⟨T₂, hT₂, hT₂f, hCT₂, hT₂Ω, hT₂p⟩ := exists_closedSubspace_approx_of_isAffineSpace hV

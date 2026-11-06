@@ -2,6 +2,7 @@ module
 
 public import Mathlib.CategoryTheory.Adjunction.Limits
 public import Mathlib.CategoryTheory.Limits.Preserves.Finite
+public import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Terminal
 public import Mathlib.CategoryTheory.Limits.Types.Products
 import StacksCore.Tactic.EgaSgaAttribute
 

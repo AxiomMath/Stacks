@@ -225,6 +225,17 @@ end GlueMaps
 
 section Torsors
 
+local instance (priority := high) hasPullbacks_presheaf_torsorsWithEquivariantMap
+    {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S} :
+    HasPullbacks ((BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_torsorsWithEquivariantMap
+    {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
+    {X Y Z : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_torsorsWithEquivariantMap.has_limit _
+
 variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
   {B : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u} (hB : IsAlgebraicSpace 𝒞 S hS B)
   (G : GroupAlgebraicSpace 𝒞 S hS B hB)

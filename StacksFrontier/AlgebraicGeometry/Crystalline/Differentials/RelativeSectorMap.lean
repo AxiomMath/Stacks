@@ -262,6 +262,7 @@ def sectorGenerator (L : W →₀ ℕ) (i : ℕ)
   dividedPowerPolynomialMonomial (B : Type uB) L •
     exteriorPower.wedgeMul i j (coefficientFormsMap A B W i omega) (variableWedge A B W j v)
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- **The de Rham differential of a coefficient form wedged with variable differentials.**
 The correction term of the bigraded Leibniz rule drops out, because a wedge of variable
 differentials is closed, and what is left is the differential of the coefficient. -/
@@ -299,7 +300,7 @@ theorem dividedPowerDeRham_wedgeMul_variableWedge (i : ℕ)
           exteriorPower.degCongr (Nat.add_succ i j)
             (exteriorPower.wedgeMul i (j + 1) (coefficientFormsMap A B W i omega) z))
       (dividedPowerDeRham_variableWedge A B W j v)) ?_
-    rw [map_zero, map_zero, smul_zero]
+    rw [LinearMap.map_zero, LinearEquiv.map_zero, smul_zero]
   exact Eq.trans (congrArg₂ (· + ·) hfirst hsecond) (add_zero _)
 
 /-- **Wedging one variable differential onto a sector generator.**  Moving `d x_w` past the
@@ -694,6 +695,7 @@ private theorem sectorValue_cons (K : W →₀ ℕ) (i j : ℕ) (v : Fin j → (
     sectorGenerator A B W (K - finsetMultiIndex t) i omega (j + 1)
       (Fin.cons (u : W) (Subtype.val ∘ v))) (image_fin_cons (u : W) (Subtype.val ∘ v))
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- **The de Rham differential on a sector generator of the `K`-sector**, in the form the
 operator identity is proved from: on the wedge of the standard generators indexed by a tuple
 `v` of variables in `supp K`, tensored with a coefficient form `ω`. -/
@@ -896,6 +898,7 @@ private theorem relativeSectorMap_dividedPowerDeRham_of_symm_single (K : W →�
                       (Set.powersetCard.ofFinEmbEquiv.symm I k) (1 : (B : Type uB)))
                   ⊗ₜ[(B : Type uB)] omega)))) hD.symm
 
+set_option synthInstance.maxHeartbeats 100000 in
 /-- **The de Rham differential on the `K`-sector.**  Through the sector map, the divided power
 de Rham differential of `P` is the total differential of the bicomplex
 `Kos(supp K) ⊗_B Ω^*_{B/A,δ}`: the horizontal differential `1 ⊗ d_B`, plus `(-1)^i` times the
@@ -919,9 +922,9 @@ theorem relativeSectorMap_dividedPowerDeRham (K : W →₀ ℕ) (i j : ℕ)
   classical
   obtain ⟨f, rfl⟩ := (sectorModuleEquiv A B W K i j).symm.surjective x
   induction f using Finsupp.induction_linear with
-  | zero => simp only [map_zero, dividedPowerDeRham_zero, smul_zero, add_zero]
+  | zero => simp only [LinearEquiv.map_zero, LinearMap.map_zero, dividedPowerDeRham_zero, smul_zero, add_zero]
   | add f g hf hg =>
-    simp only [map_add, dividedPowerDeRham_add, smul_add]
+    simp only [LinearEquiv.map_add, LinearMap.map_add, dividedPowerDeRham_add, smul_add]
     exact Eq.trans (congrArg₂ (· + ·) hf hg) (by abel)
   | single I omega =>
     exact relativeSectorMap_dividedPowerDeRham_of_symm_single A B W K i j I omega _ rfl

@@ -163,8 +163,8 @@ instance sliceToChartModuleFunctor_full : (sliceToChartModuleFunctor B S hS X).F
       ChartModuleGlueingData.hom_ext B S hS X hap⟩
     refine (chartModuleSliceReindex B S hS X V).map_injective ?_
     rw [Functor.map_comp, Functor.map_comp]
-    refine (cancel_epi
-      (chartModuleInverseImageSliceIsoApp B S hS X f (D.sheaf U)).hom).mp ?_
+    refine (Iso.cancel_iso_hom_left
+      (chartModuleInverseImageSliceIsoApp B S hS X f (D.sheaf U)) _ _).mp ?_
     refine comp_cancel_rearrange
       ((chartModuleInverseImage B S hS X f).map (ChartModuleGlueingData.Hom.app γ U))
       (chartModuleInverseImageSliceApp B S hS X f (E.sheaf U))

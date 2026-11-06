@@ -88,7 +88,7 @@ lemma uliftGeometricPointFiberPostcomposeEquiv_naturality
         (uliftGeometricPointFiberPostcomposeEquiv.{u, r} B X U x W ⟨p, w⟩) =
       uliftGeometricPointFiberPostcomposeEquiv.{u, r} B X U x V
         ⟨p, (uliftLiftedSitePoint.{u, r} B X U x p.down).fiber.map f w⟩ :=
-  ULift.ext _ _ (pushLift_map B X.obj X.property U x f p.down w.down)
+  ULift.ext (pushLift_map B X.obj X.property U x f p.down w.down)
 
 variable (Λ : Type r) [Ring Λ]
 

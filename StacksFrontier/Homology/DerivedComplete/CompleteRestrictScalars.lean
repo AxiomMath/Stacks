@@ -59,7 +59,7 @@ private lemma restrictScalars_map_oneSubSmulShift
         oneSubSmulShift ((ModuleCat.restrictScalars φ).obj M) f := by
   apply limit.hom_ext
   rintro ⟨n⟩
-  simp only [oneSubSmulShift, milnorMap, Category.assoc, piComparison_comp_π, Pi.lift_π,
+  simp only [oneSubSmulShift, milnorMap, Category.assoc, piComparison_comp_π, Pi.lift_comp_π,
     Preadditive.comp_sub, Linear.comp_smul, Category.comp_id, ← Functor.map_comp,
     Functor.map_sub]
   ext x

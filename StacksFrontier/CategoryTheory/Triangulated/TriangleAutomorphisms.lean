@@ -94,16 +94,17 @@ theorem HasSquareZeroMor₁.comp_eq_zero (h : T.HasSquareZeroMor₁) (t s : T.ob
 first morphism. Its inverse is `𝟙 - t ≫ T.mor₁`. -/
 @[simps]
 def unipotent (h : T.HasSquareZeroMor₁) (t : T.obj₂ ⟶ T.obj₁) : Aut T.obj₂ where
-  hom := 𝟙 T.obj₂ + t ≫ T.mor₁
-  inv := 𝟙 T.obj₂ - t ≫ T.mor₁
-  hom_inv_id := by
-    simp only [Preadditive.add_comp, Preadditive.comp_sub, Category.id_comp, Category.comp_id,
-      h.comp_eq_zero t t]
-    abel
-  inv_hom_id := by
-    simp only [Preadditive.sub_comp, Preadditive.comp_add, Category.id_comp, Category.comp_id,
-      h.comp_eq_zero t t]
-    abel
+  asIso :=
+    { hom := 𝟙 T.obj₂ + t ≫ T.mor₁
+      inv := 𝟙 T.obj₂ - t ≫ T.mor₁
+      hom_inv_id := by
+        simp only [Preadditive.add_comp, Preadditive.comp_sub, Category.id_comp,
+          Category.comp_id, h.comp_eq_zero t t]
+        abel
+      inv_hom_id := by
+        simp only [Preadditive.sub_comp, Preadditive.comp_add, Category.id_comp,
+          Category.comp_id, h.comp_eq_zero t t]
+        abel }
 
 /-- The unipotent automorphisms `𝟙 + t ≫ T.mor₁`, as a homomorphism from the group of
 morphisms `T.obj₂ ⟶ T.obj₁` written multiplicatively. It is a homomorphism because the
@@ -113,18 +114,18 @@ def unipotentHom (h : T.HasSquareZeroMor₁) :
     Multiplicative (T.obj₂ ⟶ T.obj₁) →* Aut T.obj₂ where
   toFun t := unipotent h (Multiplicative.toAdd t)
   map_one' := by
-    refine Aut.ext ?_
+    refine Aut.ext (Iso.ext ?_)
     have hl : (unipotent h (Multiplicative.toAdd
-        (1 : Multiplicative (T.obj₂ ⟶ T.obj₁)))).hom =
+        (1 : Multiplicative (T.obj₂ ⟶ T.obj₁)))).asIso.hom =
           𝟙 T.obj₂ + (0 : T.obj₂ ⟶ T.obj₁) ≫ T.mor₁ := rfl
-    have hr : (1 : Aut T.obj₂).hom = 𝟙 T.obj₂ := rfl
+    have hr : (1 : Aut T.obj₂).asIso.hom = 𝟙 T.obj₂ := rfl
     rw [hl, hr, zero_comp, add_zero]
   map_mul' t s := by
-    refine Aut.ext ?_
-    have hl : (unipotent h (Multiplicative.toAdd (t * s))).hom =
+    refine Aut.ext (Iso.ext ?_)
+    have hl : (unipotent h (Multiplicative.toAdd (t * s))).asIso.hom =
         𝟙 T.obj₂ + (Multiplicative.toAdd t + Multiplicative.toAdd s) ≫ T.mor₁ := rfl
     have hr : (unipotent h (Multiplicative.toAdd t) *
-        unipotent h (Multiplicative.toAdd s)).hom =
+        unipotent h (Multiplicative.toAdd s)).asIso.hom =
           (𝟙 T.obj₂ + Multiplicative.toAdd s ≫ T.mor₁) ≫
             (𝟙 T.obj₂ + Multiplicative.toAdd t ≫ T.mor₁) := rfl
     rw [hl, hr]
@@ -137,21 +138,21 @@ variable (T)
 /-- The automorphisms of `T.obj₂` that fix `T.mor₂`, equivalently that induce the identity on
 `T.obj₃` through `T.mor₂`. -/
 def autFixingMor₂ : Subgroup (Aut T.obj₂) where
-  carrier := {φ | φ.hom ≫ T.mor₂ = T.mor₂}
+  carrier := {φ | φ.asIso.hom ≫ T.mor₂ = T.mor₂}
   mul_mem' {a b} ha hb := by
-    change a.hom ≫ T.mor₂ = T.mor₂ at ha
-    change b.hom ≫ T.mor₂ = T.mor₂ at hb
-    exact (Category.assoc b.hom a.hom T.mor₂).trans (by rw [ha, hb])
+    change a.asIso.hom ≫ T.mor₂ = T.mor₂ at ha
+    change b.asIso.hom ≫ T.mor₂ = T.mor₂ at hb
+    exact (Category.assoc b.asIso.hom a.asIso.hom T.mor₂).trans (by rw [ha, hb])
   one_mem' := Category.id_comp T.mor₂
   inv_mem' {a} ha := by
-    change a.hom ≫ T.mor₂ = T.mor₂ at ha
-    exact (Iso.inv_comp_eq a).2 ha.symm
+    change a.asIso.hom ≫ T.mor₂ = T.mor₂ at ha
+    exact (Iso.inv_comp_eq a.asIso).2 ha.symm
 
 omit [Preadditive C] in
 /-- An automorphism `φ` of `T.obj₂` lies in `T.autFixingMor₂` if and only if
-`φ.hom ≫ T.mor₂ = T.mor₂`. -/
+`φ.asIso.hom ≫ T.mor₂ = T.mor₂`. -/
 theorem mem_autFixingMor₂ {φ : Aut T.obj₂} :
-    φ ∈ T.autFixingMor₂ ↔ φ.hom ≫ T.mor₂ = T.mor₂ := Iff.rfl
+    φ ∈ T.autFixingMor₂ ↔ φ.asIso.hom ≫ T.mor₂ = T.mor₂ := Iff.rfl
 
 /-- The first morphism `T.obj₃⟦-1⟧ ⟶ T.obj₁` of the inverse rotation of `T`, with its source
 and target written out. -/
@@ -188,11 +189,11 @@ theorem exists_comp_invRotateMor₁ (hT : T ∈ distTriang C) {X : C} (t : X ⟶
 /-- An automorphism of `T.obj₂` fixes `T.mor₂` exactly when it is unipotent along `T.mor₁`.
 The forward implication is exactness of `Hom(T.obj₂, -)` along the triangle. -/
 theorem mem_autFixingMor₂_iff_exists (hT : T ∈ distTriang C) (φ : Aut T.obj₂) :
-    φ ∈ T.autFixingMor₂ ↔ ∃ t : T.obj₂ ⟶ T.obj₁, φ.hom = 𝟙 T.obj₂ + t ≫ T.mor₁ := by
+    φ ∈ T.autFixingMor₂ ↔ ∃ t : T.obj₂ ⟶ T.obj₁, φ.asIso.hom = 𝟙 T.obj₂ + t ≫ T.mor₁ := by
   rw [mem_autFixingMor₂]
   constructor
   · intro hφ
-    obtain ⟨t, ht⟩ := Triangle.coyoneda_exact₂ T hT (φ.hom - 𝟙 T.obj₂)
+    obtain ⟨t, ht⟩ := Triangle.coyoneda_exact₂ T hT (φ.asIso.hom - 𝟙 T.obj₂)
       (by rw [Preadditive.sub_comp, Category.id_comp, hφ, sub_self])
     exact ⟨t, sub_eq_iff_eq_add'.1 ht⟩
   · rintro ⟨t, ht⟩
@@ -206,29 +207,29 @@ theorem unipotentHom_range (hT : T ∈ distTriang C) (h : T.HasSquareZeroMor₁)
   refine le_antisymm (fun φ hφ => ?_) (fun φ hφ => ?_)
   · obtain ⟨t, ht⟩ := hφ
     refine (mem_autFixingMor₂_iff_exists hT φ).2 ⟨Multiplicative.toAdd t, ?_⟩
-    rw [← ht, unipotentHom_apply, unipotent_hom]
+    rw [← ht, unipotentHom_apply, unipotent_asIso_hom]
   · obtain ⟨t, ht⟩ := (mem_autFixingMor₂_iff_exists hT φ).1 hφ
-    refine ⟨Multiplicative.ofAdd t, Aut.ext ?_⟩
-    rw [unipotentHom_apply, unipotent_hom]
+    refine ⟨Multiplicative.ofAdd t, Aut.ext (Iso.ext ?_)⟩
+    rw [unipotentHom_apply, unipotent_asIso_hom]
     exact ht.symm
 
 /-- A unipotent automorphism `𝟙 + t ≫ T.mor₁` is the identity exactly when `t` factors
 through the morphism `T.obj₃⟦-1⟧ ⟶ T.obj₁` of the inverse rotation of `T`. -/
 theorem unipotentHom_ker (hT : T ∈ distTriang C) (h : T.HasSquareZeroMor₁) :
     (unipotentHom h).ker = AddSubgroup.toSubgroup T.connecting.range := by
-  have hone : (1 : Aut T.obj₂).hom = 𝟙 T.obj₂ := rfl
+  have hone : (1 : Aut T.obj₂).asIso.hom = 𝟙 T.obj₂ := rfl
   ext t
   rw [MonoidHom.mem_ker, Multiplicative.mem_toSubgroup, AddMonoidHom.mem_range]
   constructor
   · intro ht
-    have h1 : (unipotentHom h t).hom = (1 : Aut T.obj₂).hom := by rw [ht]
-    rw [unipotentHom_apply, unipotent_hom, hone] at h1
+    have h1 : (unipotentHom h t).asIso.hom = (1 : Aut T.obj₂).asIso.hom := by rw [ht]
+    rw [unipotentHom_apply, unipotent_asIso_hom, hone] at h1
     obtain ⟨g, hg⟩ := exists_comp_invRotateMor₁ hT (Multiplicative.toAdd t)
       (add_left_cancel (h1.trans (add_zero _).symm))
     exact ⟨g, hg.symm⟩
   · rintro ⟨g, hg⟩
-    refine Aut.ext ?_
-    rw [unipotentHom_apply, unipotent_hom, hone, ← hg, connecting_apply, Category.assoc,
+    refine Aut.ext (Iso.ext ?_)
+    rw [unipotentHom_apply, unipotent_asIso_hom, hone, ← hg, connecting_apply, Category.assoc,
       invRotateMor₁_comp_mor₁ hT, comp_zero, add_zero]
 
 /-- **The cokernel presentation.** The automorphisms of `T.obj₂` fixing `T.mor₂` are the

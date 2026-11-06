@@ -58,6 +58,17 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_OffDiagonalBoundary :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_OffDiagonalBoundary
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Over a closed subset where `f` is an isomorphism, `U₁ ×_U U₁` is the diagonal.** Let
 `f : U₁ ⟶ U` be a morphism which is an isomorphism over the reduced closed subspace of `U` on a
 closed set `Z`. A point of `U₁ ×_U U₁` whose first coordinate maps into `Z` lies on the
@@ -284,6 +295,9 @@ private theorem pointsMap_eq_of_pointsMap_comp_eq {P Q V W X : (BigFppfOver B S 
     rw [← pointsMap_comp_apply, hx, ← pointsMap_comp_apply, he, pointsMap_comp_apply])
 
 section StepOne
+
+-- Instance search for `Mono (j ≫ ψ)` (the simp lemma's side condition) times out.
+attribute [-simp] pullbackSymmetry_hom_of_mono_eq
 
 variable {X Y : AlgebraicSpaces B S hS} {π : X ⟶ Y} {V U U₁ : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   {ι : V ⟶ X.1} {ψ : V ⟶ U} {q : U ⟶ Y.1} {j : U₁ ⟶ V}

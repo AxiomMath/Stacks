@@ -239,7 +239,9 @@ public theorem universallyInjective_of_mono_associatedAdequate_map {M N : Module
     (φ : M ⟶ N) (hφ : Mono ((associatedAdequate B).map φ)) : UniversallyInjective φ.hom := by
   let := abelian_adequate B
   apply universallyInjective_of_mono_moduleExtensionOn_map B φ
-  have := preservesFiniteLimits_affineSections B
+  have hpl := preservesFiniteLimits_affineSections B
+  have : PreservesLimitsOfShape WalkingCospan (adequateSections B) :=
+    hpl.preservesFiniteLimits WalkingCospan
   have : (adequateSections B).PreservesMonomorphisms :=
     preservesMonomorphisms_of_preservesLimitsOfShape _
   have h1 : Mono ((adequateSections B).map ((associatedAdequate B).map φ)) :=

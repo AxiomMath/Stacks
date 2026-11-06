@@ -247,7 +247,7 @@ theorem IntegralClosedSubspace.ambientGenericPoint_closureImage
       pointsMap D.site D.base D.base_mem X f (Z.ambientGenericPoint D.site D.base D.base_mem) := by
   have hgen := Z.isGenericPoint_ambientGenericPoint D.site D.base D.base_mem hX
   have hstep : closure ({pointsMap D.site D.base D.base_mem X f
-        (Z.ambientGenericPoint D.site D.base D.base_mem)} :
+                          (Z.ambientGenericPoint D.site D.base D.base_mem)} :
         Set (points D.site D.base D.base_mem Y)) =
       closure (pointsMap D.site D.base D.base_mem X f ''
         subspacePointSet D.site D.base D.base_mem X Z.subspace) := by

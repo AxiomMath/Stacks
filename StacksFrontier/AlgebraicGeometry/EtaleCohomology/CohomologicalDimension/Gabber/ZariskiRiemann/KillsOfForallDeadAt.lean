@@ -78,7 +78,7 @@ theorem toSheafify_comp_hom_app_of (U : C) {M : Sheaf J AddCommGrpCat.{max w v}}
   congr 1
   change _ = FreeAbelianGroup.map _ _
   refine Eq.trans ?_ (FreeAbelianGroup.map_of_apply _).symm
-  exact congrArg FreeAbelianGroup.of (ULift.ext _ _ (Category.comp_id _).symm)
+  exact congrArg FreeAbelianGroup.of (ULift.ext (Category.comp_id _).symm)
 
 end Stacks.Sites.FreeRepresentable
 
@@ -107,7 +107,11 @@ theorem presheafFiber_map_freeRepULift_comp_eq_zero {Y : Scheme.{u}} {Ω : Type 
     (Scheme.pointSmallEtale t).presheafFiber.map ψ.hom ≫ T = 0 := by
   let Φ := Scheme.pointSmallEtale t
   let P := uliftYoneda.{u + 1}.obj W ⋙ AddCommGrpCat.free.{u + 1}
-  refine (cancel_epi (Φ.presheafFiber.map (toSheafify Y.smallEtaleTopology P))).1 ?_
+  have hI : IsIso (Φ.presheafFiber.map (toSheafify Y.smallEtaleTopology P)) :=
+    Φ.W_isInvertedBy_presheafFiber _ (GrothendieckTopology.W_toSheafify _ P)
+  refine ((asIso (Φ.presheafFiber.map (toSheafify Y.smallEtaleTopology P))).cancel_iso_hom_left
+    _ _).1 ?_
+  rw [asIso_hom]
   rw [← Functor.map_comp_assoc, comp_zero]
   refine Φ.presheafFiber_hom_ext fun V ℓ => ?_
   rw [Φ.toPresheafFiber_naturality_assoc, comp_zero]

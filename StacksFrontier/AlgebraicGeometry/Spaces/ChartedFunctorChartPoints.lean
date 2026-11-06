@@ -213,7 +213,7 @@ theorem exists_isChartPoint_of_etale (hX : IsAlgebraicSpace B S hS X) (hp : IsSm
     rw [hρ₁, hm₁]
     show a₀.app _ (ι₁ ≫ g) = _
     have : a₀.app _ (ι₁ ≫ g) = X.map ι₁.op (a₀.app _ g) := NatTrans.naturality_apply a₀ ι₁.op g
-    rw [this, hga, ← FunctorToTypes.map_comp_apply, ← op_comp]
+    rw [this, hga, ← Functor.map_comp_apply, ← op_comp]
   -- lift the étale algebra `A₁` over `Γ(T') ⧸ J` to an étale algebra over `Γ(T')`
   obtain ⟨P₁, φ, e, hφE, hφS, hqE, hqS, hme⟩ := exists_etale_lift_of_quot J hJ m₁ hm₁ES.1 hm₁ES.2
   have hee : BoundedAlg.ofHom e.toAlgHom ≫ BoundedAlg.ofHom e.symm.toAlgHom = 𝟙 _ :=
@@ -223,8 +223,8 @@ theorem exists_isChartPoint_of_etale (hX : IsAlgebraicSpace B S hS X) (hp : IsSm
       (f := BoundedAlg.toAlgHom φ))) x =
       (chartedFunctor T' X p).map (BoundedAlg.ofHom e.symm.toAlgHom)
         ((chartedFunctor T' X p).map m₁ x) := by
-    rw [← hme, FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply _
-      (BoundedAlg.ofHom e.toAlgHom), hee, FunctorToTypes.map_id_apply]
+    rw [← hme, Functor.map_comp_apply, ← Functor.map_comp_apply _
+      (BoundedAlg.ofHom e.toAlgHom), hee, Functor.map_id_apply]
   rw [h1, ← hpt]
   exact EtaleChart.IsChartPoint.map c ⟨ρ₁, rfl⟩ _
 

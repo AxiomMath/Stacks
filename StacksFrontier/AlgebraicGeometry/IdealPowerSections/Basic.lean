@@ -304,7 +304,7 @@ public lemma liftedNumerator_cross (n : ℕ) (φ : (I ^ n : Ideal A) →ₗ[A] M
     (a b : ↥(liftedIdeal.{u, v} A I)) :
     ((b : ULift.{v} A) ^ n) • liftedNumerator A I M n φ a =
       ((a : ULift.{v} A) ^ n) • liftedNumerator A I M n φ b := by
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   exact smul_apply_comm (S := I ^ n) φ
     (Ideal.pow_mem_pow ((mem_liftedIdeal A I).mp a.2) n)
     (Ideal.pow_mem_pow ((mem_liftedIdeal A I).mp b.2) n)
@@ -342,7 +342,7 @@ public lemma sectionOfHom_inclusion {m n : ℕ} (hmn : m ≤ n) (φ : (I ^ m : I
   apply Subtype.ext
   funext x
   refine fractionSectionFun_congr (fun a => ?_) x
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   exact smul_apply_comm (S := I ^ m) φ
     (Ideal.pow_le_pow_right hmn (Ideal.pow_mem_pow ((mem_liftedIdeal A I).mp a.2) n))
     (Ideal.pow_mem_pow ((mem_liftedIdeal A I).mp a.2) m)

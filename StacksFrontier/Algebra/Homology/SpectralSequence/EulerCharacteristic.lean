@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.ModuleCat.Kernels
-public import Mathlib.Data.Int.SuccPred
+public import Mathlib.Order.SuccPred.Int
 public import StacksFrontier.Algebra.Homology.EulerCharacteristicHomology
 public import StacksFrontier.Algebra.Homology.SpectralSequence.AbutsTo
 
@@ -118,10 +118,11 @@ theorem finrank_eq_finsum_finrank_cokernel_ofLE {H : ModuleCat.{v} k} (F : ℤ �
     · rw [Finset.Ico_self, Finset.sum_empty, hb]
       exact HomologicalComplex.finrank_eq_zero_of_isZero hz
   have hQ : ∀ p ≤ b, Q p := by
-    intro p hp
-    induction p, hp using Int.le_induction_down with
-    | base => exact hQb
-    | pred n hn ih => exact hstep (n - 1) (by omega) (by simpa using ih)
+    intro p
+    induction p using Int.inductionOn' (b := b) with
+    | zero => exact fun _ => hQb
+    | succ n hn _ => exact fun h => absurd h (by omega)
+    | pred n hn ih => exact fun _ => hstep (n - 1) (by omega) (by simpa using ih hn)
   have hzero (p : ℤ) (hp : p < a ∨ b ≤ p) : g p = 0 := by
     have := isIso_ofLE_of_eq (hF (by omega : p ≤ p + 1)) <| by
       rcases hp with hp | hp
@@ -188,10 +189,13 @@ theorem eulerChar_page_eq (r : ℤ) (hr : r₀ ≤ r) (S : Set (ℤ × ℤ)) (hS
     (∀ pq, Module.Finite k ((E.page r' (hr.trans hr')).X pq)) ∧
       (∀ pq ∉ S, IsZero ((E.page r' (hr.trans hr')).X pq)) ∧
       (E.page r' (hr.trans hr')).eulerChar = (E.page r hr).eulerChar := by
-  induction r', hr' using Int.le_induction with
-  | base => exact ⟨hfin, hsupp, rfl⟩
+  revert hr'
+  induction r' using Int.inductionOn' (b := r) with
+  | zero => exact fun _ => ⟨hfin, hsupp, rfl⟩
+  | pred n hn _ => exact fun h => absurd h (by omega)
   | succ n hn ih =>
-    obtain ⟨h₁, h₂, h₃⟩ := ih
+    intro _
+    obtain ⟨h₁, h₂, h₃⟩ := ih hn
     obtain ⟨h₄, h₅, h₆⟩ := E.eulerChar_page_succ n (hr.trans hn) S hS h₁ h₂
     exact ⟨h₄, h₅, h₆.trans h₃⟩
 

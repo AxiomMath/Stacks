@@ -145,6 +145,7 @@ public theorem isNilpotent_smul_id_idealPowerQuotientTower (I : Ideal R)
     (M : ModuleCat.{max u v} R) (n : ℕᵒᵖ) {a : R} (ha : a ∈ I) :
     IsNilpotent (a • (1 : End ((idealPowerQuotientTower.{u, v} I M).obj n))) :=
   ⟨n.unop, by
+    refine End.ext ?_
     rw [smul_id_pow]
     exact smul_id_idealPowerQuotientTower_eq_zero I M n (Ideal.pow_mem_pow ha n.unop)⟩
 

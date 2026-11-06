@@ -108,7 +108,7 @@ private lemma sum_pi_eq_id {n : ℕ} (G : SheafOfModules.{w} R) :
       Pi.lift (fun k : Fin n ↦ if j = k then 𝟙 G else 0)) ≫ Pi.π _ k
       = if j = k then Pi.π (fun _ : Fin n ↦ G) k else 0 := by
     intro j
-    rw [Category.assoc, Pi.lift_π]
+    rw [Category.assoc, Pi.lift_comp_π]
     by_cases hjk : j = k
     · subst hjk; simp
     · simp [hjk]

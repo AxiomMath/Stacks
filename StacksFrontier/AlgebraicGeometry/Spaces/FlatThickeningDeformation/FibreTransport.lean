@@ -62,6 +62,15 @@ section RingTransport
 
 variable {X X₀ W : AlgebraicSpaces B S hS} (ρ : X ≅ X₀) (g : X₀ ⟶ W)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Restriction of sheaves of sets along `ρ` preserves finite products; found directly, as
+instance search times out on it under Lean v4.35.0. -/
+local instance (priority := high) preservesFiniteProducts_smallEtalePostcomp_FibreTransport
+    {X X₀ : AlgebraicSpaces B S hS} (a : X ⟶ X₀) (ha : IsEtale B S hS a.hom) :
+    Limits.PreservesFiniteProducts ((smallEtalePostcomp B S hS a ha).sheafPushforwardContinuous
+      (Type u) (SmallEtale.topology B S hS X.1) (SmallEtale.topology B S hS X₀.1)) :=
+  inferInstance
+
 /-- The restriction functor of sheaves of rings along `ρ`. -/
 abbrev fibreRingRes :=
   Deformation.AlgebraExtension.ringRes (J := SmallEtale.topology B S hS X₀.1)

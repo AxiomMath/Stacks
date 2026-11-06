@@ -110,7 +110,7 @@ theorem eq_id_of_comp_self {P : PolarizedFamily B} (e : P ⟶ P) (hb : e.baseMap
     ((Scheme.Modules.pullbackComp (𝟙 P.total) (𝟙 P.total)).symm.app P.lineBundle ≪≫
       (Scheme.Modules.pullback (𝟙 P.total)).mapIso φ ≪≫
         (Scheme.Modules.pullbackId P.total).app P.lineBundle).hom at h4
-  simp only [Iso.trans_hom, Functor.mapIso_hom, Iso.app_hom, cancel_epi] at h4
+  simp only [Iso.trans_hom, Iso.cancel_iso_hom_left] at h4
   have h5 : φ = (Scheme.Modules.pullbackId P.total).app P.lineBundle := Iso.ext h4
   subst h5
   rfl

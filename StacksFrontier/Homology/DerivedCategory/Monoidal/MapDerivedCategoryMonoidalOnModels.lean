@@ -227,7 +227,8 @@ theorem Functor.mapDerivedCategoryMonoidal_μ_Qh {K L : CochainComplex A ℤ}
         F.mapDerivedCategory.map δA := h
   rw [h']
   simp only [Category.assoc, ← Functor.map_comp, hδ, Functor.map_id]
-  exact comp_map_comp_id_comp_id _ _ _ _ _
+  refine Eq.trans ?_ (comp_map_comp_id_comp_id (DerivedCategory.Qh (C := B)) _ _ _ _)
+  simp only [Category.assoc]
 
 omit [BraidedCategory (CochainComplex A ℤ)] [BraidedCategory (CochainComplex B ℤ)]
   [F.Monoidal] [MonoidalCategory A] [MonoidalCategory B]
@@ -355,7 +356,9 @@ theorem Functor.mapDerivedCategoryMonoidal_μ_Q {K L : CochainComplex A ℤ}
     exact congrArg _ (comp_comp_map_inv_comp_map_hom _ _ _ _)
   have hq := (DerivedCategory.quotientCompQhIso B).hom.naturality
     (Functor.LaxMonoidal.μ (F.mapHomologicalComplex (ComplexShape.up ℤ)) K L)
-  exact tensor_comp_assemble _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ hnat hB hμ hq
+  refine Eq.trans ?_ (tensor_comp_assemble _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ hnat hB hμ hq)
+  simp only [Category.assoc]
+  rfl
 
 end Derived
 

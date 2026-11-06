@@ -173,6 +173,7 @@ theorem commute_powerSumTotal (E F : X.Modules) (r s : ℕ)
   · rw [powerSumTotal_zero]
     exact (Nat.cast_commute _ _).symm
   rw [powerSumTotal_of_ne_zero C sX E r hp, powerSumTotal_of_ne_zero C sX F s hq]
+  unfold Commute SemiconjBy
   exact congrArg Subtype.val (mul_comm (AlgebraicGeometry.powerSumEval (chernSeq C sX E r) p)
     (AlgebraicGeometry.powerSumEval (chernSeq C sX F s) q))
 

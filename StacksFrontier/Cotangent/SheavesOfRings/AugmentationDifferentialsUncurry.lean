@@ -136,7 +136,7 @@ theorem derivationEquiv_comp_d (D : CotangentSimplicialModuleData J f) (n : Simp
     {M M' : targetModules J B} (g : D.object.obj n ⟶ M) (k : M ⟶ M') (U : Cᵒᵖ)
     (x : ((resolutionCommRing J f).obj n).obj.obj U) :
     (D.derivationEquiv n M' (g ≫ k)).d x = k.val.app U ((D.derivationEquiv n M g).d x) :=
-  PresheafOfModules.Derivation.congr_d (D.naturality n g k) x
+  PresheafOfModulesOfCommRing.Derivation.congr_d (D.naturality n g k) x
 
 /-- **The family of degreewise derivations of a morphism into the fibrewise reading is
 compatible**, in the sense of `CategoryTheory.Sheaf.simplicialDerivationOfFamily`. -/
@@ -152,7 +152,7 @@ theorem derivationEquiv_app_naturality (D : CotangentSimplicialModuleData J f)
           (τ.app m)).d x) :=
   ((D.simplex_naturality α (((fibrewiseMod C J (targetRing J (B := B))).obj N).obj n)
         (τ.app n) U x).symm.trans
-      (PresheafOfModules.Derivation.congr_d
+      (PresheafOfModulesOfCommRing.Derivation.congr_d
         (congrArg (fun g => D.derivationEquiv m
           (((fibrewiseMod C J (targetRing J (B := B))).obj N).obj n) g) (τ.naturality α)) x)).trans
     (derivationEquiv_comp_d D m (τ.app m)
@@ -186,14 +186,14 @@ def cotangentFibreMorphism (D : CotangentSimplicialModuleData J f)
   naturality m n α :=
     (D.derivationEquiv m
         (((fibrewiseMod C J (targetRing J (B := B))).obj N).obj n)).injective
-      (PresheafOfModules.Derivation.ext (funext fun U => AddMonoidHom.ext fun x =>
+      (PresheafOfModulesOfCommRing.Derivation.ext (funext fun U => AddMonoidHom.ext fun x =>
         ((D.simplex_naturality α (((fibrewiseMod C J (targetRing J (B := B))).obj N).obj n)
               (cotangentFibreApp D d n) U x).trans
-            ((PresheafOfModules.Derivation.congr_d
+            ((PresheafOfModulesOfCommRing.Derivation.congr_d
                 (derivationEquiv_cotangentFibreApp D d n) _).trans
               (simplicialDerivationFibre_naturality d α U x))).trans
           (((congrArg (fun y => ((fibrewiseModMap C J (targetRing J (B := B)) α).app N).val.app U y)
-              (PresheafOfModules.Derivation.congr_d
+              (PresheafOfModulesOfCommRing.Derivation.congr_d
                 (derivationEquiv_cotangentFibreApp D d m) x)).symm).trans
             (derivationEquiv_comp_d D m (cotangentFibreApp D d m)
               (((fibrewiseMod C J (targetRing J (B := B))).obj N).map α) U x).symm)))
@@ -220,8 +220,8 @@ def cotangentUncurryDerivationEquiv (D : CotangentSimplicialModuleData J f)
             (((simplicialUncurryAdjunction J (B := B)).homEquiv D.object N g).app n)))).trans
       (((simplicialUncurryAdjunction J (B := B)).homEquiv D.object N).symm_apply_apply g)
   right_inv d :=
-    PresheafOfModules.Derivation.ext (funext fun X => AddMonoidHom.ext fun x =>
-      PresheafOfModules.Derivation.congr_d
+    PresheafOfModulesOfCommRing.Derivation.ext (funext fun X => AddMonoidHom.ext fun x =>
+      PresheafOfModulesOfCommRing.Derivation.congr_d
         ((congrArg (fun τ : D.object ⟶ (fibrewiseMod C J (targetRing J (B := B))).obj N =>
             D.derivationEquiv (op X.unop.1)
               (((fibrewiseMod C J (targetRing J (B := B))).obj N).obj (op X.unop.1))
@@ -262,7 +262,7 @@ theorem cotangentUncurryDerivationEquiv_naturality (D : CotangentSimplicialModul
     cotangentUncurryDerivationEquiv D N' (b ≫ k) =
       (cotangentUncurryDerivationEquiv D N b).postcomp
         ((SheafOfModules.restrictScalars (simplicialAugmentationRing J f)).map k).val := by
-  refine PresheafOfModules.Derivation.ext (funext fun X => AddMonoidHom.ext fun x => ?_)
+  refine PresheafOfModulesOfCommRing.Derivation.ext (funext fun X => AddMonoidHom.ext fun x => ?_)
   rw [cotangentUncurryDerivationEquiv_d, postcomp_restrictScalars_d,
     Adjunction.homEquiv_naturality_right]
   exact (derivationEquiv_comp_d D (op X.unop.1) _ _ (op X.unop.2) x).trans

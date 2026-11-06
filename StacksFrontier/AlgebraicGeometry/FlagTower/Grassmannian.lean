@@ -90,6 +90,7 @@ private theorem kernelSubobject_eq_of_comp_eq {L L' : T.Modules} {p : M ⟶ L} {
   subst h; exact (kernelSubobject_comp_mono p g).symm
 
 omit [Epi π] in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Taking preimages along `π` is monotone. -/
 theorem comapSub_mono {S S' : Subobject Q} (h : S ≤ S') : comapSub π S ≤ comapSub π S' :=
   (kernelSubobject_comp_le (π ≫ cokernel.π S.arrow) _).trans_eq

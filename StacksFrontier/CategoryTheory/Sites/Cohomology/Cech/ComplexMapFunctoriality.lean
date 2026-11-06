@@ -116,7 +116,7 @@ theorem cechProductMap_comp_π_left_heterogeneous {f : U ⟶ V} (φ : E.HomOver 
     cechProductMap E G φ n i ≫ (Pi.π (fun a ↦ Over.mk (G.f (φ.s₀ (i a)))) b).left =
       (Pi.π (fun a ↦ Over.mk (E.f (i a))) b).left ≫ φ.h₀ (i b) := by
   rw [← cechProductMapSlice_left, ← Over.comp_left]
-  simp only [cechProductMapSlice, Pi.lift_π, Over.homMk_left]
+  simp only [cechProductMapSlice, Pi.lift_comp_π, Over.homMk_left]
 
 /-- The map of iterated fibre products induced by the identity morphism of a family is the
 identity. -/

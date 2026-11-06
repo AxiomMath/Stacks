@@ -275,7 +275,7 @@ theorem bijective_completionMap_app_of_isAffine (hI : I.FG)
       huniq ((BigFppfOver.toScheme B S hS).map x.1.down)
         (((BigFppfOver.toScheme B S hS).map_comp x.1.down G).symm.trans
           (congrArg (BigFppfOver.toScheme B S hS).map hx))
-    exact Subtype.ext (ULift.ext _ _
+    exact Subtype.ext (ULift.ext
       ((BigFppfOver.toScheme B S hS).map_injective
         ((e x₁ rfl).trans (e x₂ h').symm)))
   · have hy' := (hasImageIn_zeroLocusPoints_iff B S hS hA s I V y).mp hy
@@ -299,7 +299,7 @@ theorem bijective_completionMap_app_of_isAffine (hI : I.FG)
       simp only [PrimeSpectrum.mem_zeroLocus, SetLike.coe_subset_coe] at hp
       rw [SetLike.coe_subset_coe]
       exact Ideal.map_le_iff_le_comap.mpr hp
-    refine ⟨⟨⟨x⟩, hx⟩, Subtype.ext (ULift.ext _ _ ?_)⟩
+    refine ⟨⟨⟨x⟩, hx⟩, Subtype.ext (ULift.ext ?_)⟩
     apply Over.OverMorphism.ext
     apply ObjectProperty.hom_ext
     exact hz
@@ -337,7 +337,8 @@ isomorphism of locally Noetherian formal algebraic spaces is again one. -/
 theorem isRigEtaleOverWithNoetherianSource_pullback (W : Over Y)
     (hW : IsRigEtaleOverWithNoetherianSource B S hS Y W) :
     IsRigEtaleOverWithNoetherianSource B S hS Y₁ ((Over.pullback e).obj W) := by
-  let i : pullback W.hom e ≅ W.left := asIso (pullback.fst W.hom e)
+  haveI : HasPullback W.hom e := hasPullback_of_right_iso W.hom e
+  let i : Limits.pullback W.hom e ≅ W.left := asIso (pullback.fst W.hom e)
   exact ⟨isFormalAlgebraicSpace_of_iso B S hS i hW.1,
     isLocallyNoetherian_of_iso B S hS i.symm hW.2.1,
     isRigEtale_pullback_snd_of_isLocallyNoetherian B S hS W.hom e hW.2.1 hY hY₁ hW.2.2

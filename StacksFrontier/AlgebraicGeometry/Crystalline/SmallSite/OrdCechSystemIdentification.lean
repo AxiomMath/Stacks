@@ -228,7 +228,7 @@ def ordCechLift {Z : AddCommGrpCat.{u + 1}} {n : ℕ}
 theorem ordCechLift_comp_ordCechπ {Z : AddCommGrpCat.{u + 1}} {n : ℕ}
     (f : ∀ β : OrdCechTuple Λ n, Z ⟶ T.tupleSections F β.1) (β : OrdCechTuple Λ n) :
     ordCechLift T F f ≫ ordCechπ T F n β = f β :=
-  Pi.lift_π f β
+  Pi.lift_comp_π f β
 
 /-- Two maps into the alternating Čech module agree as soon as they agree after composing with
 every projection. -/

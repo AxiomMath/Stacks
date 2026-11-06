@@ -235,7 +235,7 @@ public theorem scalarEndOfTerminal_naturality
     {M N : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)} (g : M ⟶ N) :
     scalarEndOfTerminal X hT r M ≫ g = g ≫ scalarEndOfTerminal X hT r N :=
   ((Stacks.SheafOfModules.terminalSectionToEnd
-    (Stacks.SheafOfModules.Tensor.ringSheaf X.O) T hT r).naturality g).symm
+    (Stacks.SheafOfModules.Tensor.ringSheaf X.O) T hT r).asHom.naturality g).symm
 
 end RingedSite
 

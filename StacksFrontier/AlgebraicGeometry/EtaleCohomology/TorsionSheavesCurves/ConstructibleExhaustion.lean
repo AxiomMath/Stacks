@@ -146,7 +146,9 @@ variable (ℓ : ℕ)
 def uliftZModEndRingHom {D : Type*} [Category D] [Preadditive D] (A : D) (h : ℓ • 𝟙 A = 0) :
     ULift.{u + 1} (ZMod ℓ) →+* End A :=
   haveI : CharP (End A) (ringChar (End A)) := ringChar.charP _
-  (ZMod.castHom (ringChar.dvd (by rwa [← nsmul_one])) (End A)).comp
+  (ZMod.castHom (ringChar.dvd (by
+      rw [← nsmul_one]; apply End.addEquiv.injective
+      rw [map_nsmul, map_zero]; exact h)) (End A)).comp
     (ULift.ringEquiv (R := ZMod ℓ)).toRingHom
 
 /-- A sheaf of modules over `ℤ/ℓℤ` is killed by `ℓ` as an abelian sheaf. -/

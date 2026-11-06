@@ -189,7 +189,7 @@ theorem spec_hom_ext (g g' : specDifferentials f hU ⟶ P)
     ((Scheme.Hom.universalRelativeDerivation f).postcomp
       (((Scheme.Modules.restrictAdjunction hU.fromSpec).homEquiv
         (Scheme.Hom.relativeDifferentials f) P) g).val)).unique rfl ?_
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext W a
   exact ((homEquiv_d f hU g' W.unop a).trans (h _ _).symm).trans
     (homEquiv_d f hU g W.unop a).symm

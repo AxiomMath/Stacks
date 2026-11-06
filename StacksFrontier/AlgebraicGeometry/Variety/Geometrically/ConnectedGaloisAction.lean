@@ -65,17 +65,17 @@ public noncomputable def connectedComponentsAction {G : Type u} [Group G]
     (X : Action TopCat.{u} G) : Action (Type u) G := by
   let : MulAction G X.V := Action.instMulAction X
   let : MulAction G (ConnectedComponents X.V) :=
-    { smul g C := (X.ρ g).hom.continuous.connectedComponentsMap C
+    { smul g C := (X.ρ g).asHom.hom.continuous.connectedComponentsMap C
       one_smul C := by
         obtain ⟨x, rfl⟩ := ConnectedComponents.surjective_coe C
-        change (X.ρ 1).hom.continuous.connectedComponentsMap _ = _
+        change (X.ρ 1).asHom.hom.continuous.connectedComponentsMap _ = _
         simp only [Continuous.connectedComponentsMap_mk]
         congr 1
         exact one_smul G x
       mul_smul g h C := by
         obtain ⟨x, rfl⟩ := ConnectedComponents.surjective_coe C
-        change (X.ρ (g * h)).hom.continuous.connectedComponentsMap _ =
-          (X.ρ g).hom.continuous.connectedComponentsMap _
+        change (X.ρ (g * h)).asHom.hom.continuous.connectedComponentsMap _ =
+          (X.ρ g).asHom.hom.continuous.connectedComponentsMap _
         simp only [Continuous.connectedComponentsMap_mk]
         congr 1
         exact mul_smul g h x }
@@ -106,12 +106,12 @@ public theorem galoisActionOnGeometricConnectedComponents_ρ_apply_mk
     (X : Over (Spec (.of R))) (σ : MulOpposite (S ≃ₐ[R] S))
     (x : (galoisActionOnBaseChange R S X).V) :
     ConcreteCategory.hom
-        ((galoisActionOnGeometricConnectedComponents R S X).ρ σ)
+        ((galoisActionOnGeometricConnectedComponents R S X).ρ σ).asHom
         (ConnectedComponents.mk x) =
       ConnectedComponents.mk
         (ConcreteCategory.hom
           (((Scheme.forgetToTop.mapAction (MulOpposite (S ≃ₐ[R] S))).obj
-            (galoisActionOnBaseChange R S X)).ρ σ) x) :=
+            (galoisActionOnBaseChange R S X)).ρ σ).asHom x) :=
   rfl
 
 section BaseExtension
@@ -160,9 +160,9 @@ private lemma connectedComponentsMap_bijective_of_iso {A B : Scheme.{u}}
 second by `specMapAlgAut`. -/
 private lemma galoisActionOnBaseChange_comp_projections (K : Type u) [Field K] [Algebra k K]
     (τ : K ≃ₐ[k] K) :
-    (galoisActionOnBaseChange k K X).ρ (MulOpposite.op τ) ≫
+    ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op τ)).asHom ≫
         pullback.fst X.hom (spectrumMap k K) = pullback.fst X.hom (spectrumMap k K) ∧
-      (galoisActionOnBaseChange k K X).ρ (MulOpposite.op τ) ≫
+      ((galoisActionOnBaseChange k K X).ρ (MulOpposite.op τ)).asHom ≫
           pullback.snd X.hom (spectrumMap k K) =
         pullback.snd X.hom (spectrumMap k K) ≫ specMapAlgAut k K τ := by
   constructor <;>
@@ -186,10 +186,10 @@ public theorem galoisActionOnGeometricConnectedComponents_baseChange
     p.continuous.connectedComponentsMap
         (ConcreteCategory.hom
           ((galoisActionOnGeometricConnectedComponents k kbar' X).ρ
-            (MulOpposite.op (σ.restrictScalars k))) C) =
+            (MulOpposite.op (σ.restrictScalars k))).asHom C) =
       ConcreteCategory.hom
         ((galoisActionOnGeometricConnectedComponents k kbar X).ρ
-          (MulOpposite.op ((σ.restrictScalars k).restrictNormal kbar)))
+          (MulOpposite.op ((σ.restrictScalars k).restrictNormal kbar))).asHom
         (p.continuous.connectedComponentsMap C) := by
   have hspec :
       specMapAlgAut k kbar' (σ.restrictScalars k) ≫
@@ -204,10 +204,10 @@ public theorem galoisActionOnGeometricConnectedComponents_baseChange
   obtain ⟨hfstq, hsndq⟩ := galoisActionOnBaseChange_comp_projections k X kbar' (σ.restrictScalars k)
   obtain ⟨hfstr, hsndr⟩ := galoisActionOnBaseChange_comp_projections k X kbar
     ((σ.restrictScalars k).restrictNormal kbar)
-  set q := (galoisActionOnBaseChange k kbar' X).ρ
-    (MulOpposite.op (σ.restrictScalars k))
-  set r := (galoisActionOnBaseChange k kbar X).ρ
-    (MulOpposite.op ((σ.restrictScalars k).restrictNormal kbar))
+  set q := ((galoisActionOnBaseChange k kbar' X).ρ
+    (MulOpposite.op (σ.restrictScalars k))).asHom
+  set r := ((galoisActionOnBaseChange k kbar X).ρ
+    (MulOpposite.op ((σ.restrictScalars k).restrictNormal kbar))).asHom
   have hqp : q ≫ p = p ≫ r := by
     apply pullback.hom_ext
     · simp only [Category.assoc, hp₁, hfstq, hfstr]

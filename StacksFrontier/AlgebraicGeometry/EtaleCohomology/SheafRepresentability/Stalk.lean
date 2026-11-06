@@ -81,7 +81,7 @@ theorem colimit_ι_comp_yonedaCompEtaleStalkPresheafFunctorIso_hom (X : SmallEta
       Functor.isoWhiskerRight_hom, NatTrans.comp_app, etaleStalkPresheafFunctor,
       Functor.comp_map, Functor.whiskerRight_app, Functor.comp_obj, colim_map,
       Functor.whiskeringLeft_obj_map, Functor.whiskeringLeft_obj_obj]
-    rw [ι_colimMap_assoc]
+    erw [ι_colimMap_assoc]
     congr 1
     exact IsColimit.comp_coconePointUniqueUpToIso_hom (colimit.isColimit _)
       (Functor.Elements.isColimitCoconeπOpCompShrinkYonedaObj

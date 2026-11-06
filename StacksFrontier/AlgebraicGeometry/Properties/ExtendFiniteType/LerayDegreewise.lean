@@ -156,11 +156,25 @@ def mapHomotopyCategoryPlusSingleObjIso (n : ℤ) (X : C) :
 def rightDerivedFunctorPlusSingleObjIso (M : C) (hM : F.rightAcyclic M) :
     F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor C 0).obj M) ≅
       (DerivedCategory.Plus.singleFunctor D 0).obj (F.obj M) :=
-  have : IsIso (F.rightDerivedFunctorPlusUnit.app
-    ((HomotopyCategory.Plus.singleFunctor C 0).obj M)) := hM
+  have : IsIso (F.rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor C 0).obj M)) := by
+    have hM' : IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C)).app
+        ((HomotopyCategory.Plus.singleFunctor C 0).obj M)) := hM
+    have hφ := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C))
+      (HomotopyCategory.Plus.quasiIso C) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith).1 inferInstance
+    rw [← Functor.rightDerived_fac_app _
+      ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C))
+      (HomotopyCategory.Plus.quasiIso C) F.rightDerivedFunctorPlus
+      F.rightDerivedFunctorPlusUnith ((HomotopyCategory.Plus.singleFunctor C 0).obj M)]
+    infer_instance
   F.rightDerivedFunctorPlus.mapIso
       ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).app M) ≪≫
-    (asIso (F.rightDerivedFunctorPlusUnit.app
+    (asIso (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor C 0).obj M))).symm ≪≫
     DerivedCategory.Plus.Qh.mapIso (mapHomotopyCategoryPlusSingleObjIso F 0 M) ≪≫
     ((Functor.singleFunctorPlusIsoCompQh (A := D) 0).app (F.obj M)).symm

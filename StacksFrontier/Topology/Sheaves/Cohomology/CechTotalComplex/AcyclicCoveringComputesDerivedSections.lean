@@ -397,7 +397,7 @@ private theorem globalSectionsToDerivedNat_app_eq
           ((HomotopyCategory.Plus.quotient (SheafOfModules.{u} R) ⋙
             (abelianGlobalSections X R).mapHomotopyCategoryPlus).obj L) ≫
         (DerivedCategory.Plus.ι (C := AddCommGrpCat.{u})).map
-          ((abelianGlobalSections X R).rightDerivedFunctorPlusUnit.app
+          ((abelianGlobalSections X R).rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient (SheafOfModules.{u} R)).obj L)) ≫
         (DerivedCategory.Plus.ι (C := AddCommGrpCat.{u})).map
           ((abelianGlobalSections X R).rightDerivedFunctorPlus.map
@@ -414,7 +414,7 @@ theorem isIso_globalSectionsToDerived_of_injective
     (L : CochainComplex.Plus (SheafOfModules.{u} R))
     (hL : ∀ n : ℤ, Injective (L.1.X n)) :
     IsIso ((globalSectionsToDerivedNat X R).app L) := by
-  have hunit : IsIso ((abelianGlobalSections X R).rightDerivedFunctorPlusUnit.app
+  have hunit : IsIso ((abelianGlobalSections X R).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient (SheafOfModules.{u} R)).obj L)) := by
     refine Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun n => ?_
     have := hL n

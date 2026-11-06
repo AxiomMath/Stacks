@@ -87,22 +87,22 @@ variable (R S : Type u) [CommRing R] [CommRing S] [Algebra R S] (X : Over (Spec 
 automorphism `σ` of `S`. -/
 abbrev galoisTwist (σ : S ≃ₐ[R] S) :
     SchemeOver.baseChange R S X ⟶ SchemeOver.baseChange R S X :=
-  (galoisActionOnBaseChange R S X).ρ (MulOpposite.op σ)
+  ((galoisActionOnBaseChange R S X).ρ (MulOpposite.op σ)).asHom
 
 /-- The identity automorphism of `S` induces the identity of the base change. -/
 @[simp]
 theorem galoisTwist_one : galoisTwist R S X 1 = 𝟙 (SchemeOver.baseChange R S X) := by
-  change (galoisActionOnBaseChange R S X).ρ (MulOpposite.op (1 : S ≃ₐ[R] S)) = _
-  rw [show MulOpposite.op (1 : S ≃ₐ[R] S) = 1 from rfl, map_one, End.one_def]
+  change ((galoisActionOnBaseChange R S X).ρ (MulOpposite.op (1 : S ≃ₐ[R] S))).asHom = _
+  rw [show MulOpposite.op (1 : S ≃ₐ[R] S) = 1 from rfl, map_one, End.one_asHom]
   rfl
 
 /-- The twists compose in the same order as the automorphisms: the twists are a right action of
 the automorphism group, which is why pullback along them is a left action. -/
 theorem galoisTwist_mul (σ τ : S ≃ₐ[R] S) :
     galoisTwist R S X (σ * τ) = galoisTwist R S X σ ≫ galoisTwist R S X τ := by
-  change (galoisActionOnBaseChange R S X).ρ (MulOpposite.op (σ * τ)) = _
+  change ((galoisActionOnBaseChange R S X).ρ (MulOpposite.op (σ * τ))).asHom = _
   rw [show MulOpposite.op (σ * τ) = MulOpposite.op τ * MulOpposite.op σ from rfl, map_mul,
-    End.mul_def]
+    End.mul_asHom]
 
 /-- A twist is the identity in the `X`-coordinate, so it does not move the projection `X_S → X`.
 This is what makes a class pulled back from `X` Galois-fixed. -/

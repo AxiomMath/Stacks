@@ -343,7 +343,6 @@ public theorem tensorRightMap_tmul (P : Type w) [CommRing P] [Algebra k P] (f : 
 public theorem tensorRightMap_id (P : Type w) [CommRing P] [Algebra k P]
     (x : P ⊗[k] V) : tensorRightMap P (LinearMap.id : V →ₗ[k] V) x = x := by
   induction x with
-  | zero => exact map_zero _
   | tmul p v => rfl
   | add x y hx hy => rw [map_add, hx, hy]
 
@@ -371,7 +370,6 @@ public theorem map_firstOrderConormalHom
     h (firstOrderConormalHom π hπ x)
       = firstOrderConormalHom π' hπ' (tensorRightMap P f x) := by
   induction x with
-  | zero => simp only [map_zero]
   | tmul p v =>
     have hlift : π' (h (reductionSection π hπ p)) = p := by
       rw [hcomm, apply_reductionSection]

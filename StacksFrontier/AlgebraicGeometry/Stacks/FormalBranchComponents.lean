@@ -476,7 +476,7 @@ theorem closure_basePointMap_eq_of_hom (𝒳 : AlgebraicStacks.{u, w} B S hS)
           (Bicategory.InducedBicategory.mkHom
             (objectMorphism B S hS 𝒳.val (Functor.Fiber.mk (a := x) rfl))) ''
         closure {(BigFppfOver.toScheme B S hS).map (eqToHom hy.symm ≫ 𝒳.val.val.p.map m)
-          (baseOverPoint B S hS A hA P)}) := by
+                   (baseOverPoint B S hS A hA P)}) := by
   let := Stack.pointTopology B S hS 𝒳.val
   simp only [basePointMap]
   rw [objectPointMap_map B S hS 𝒳 m, ← Scheme.Hom.comp_apply,
@@ -491,7 +491,7 @@ theorem closure_map_baseOverPoint_mem_irreducibleComponents (𝒳 : AlgebraicSta
     (hm : Flat ((BigFppfOver.toScheme B S hS).map (𝒳.val.val.p.map m)))
     {P : Ideal A.R} (hP : P ∈ minimalPrimes A.R) :
     closure {(BigFppfOver.toScheme B S hS).map (eqToHom hy.symm ≫ 𝒳.val.val.p.map m)
-        (baseOverPoint B S hS A hA ⟨P, hP.1.1⟩)} ∈
+               (baseOverPoint B S hS A hA ⟨P, hP.1.1⟩)} ∈
       irreducibleComponents ((BigFppfOver.toScheme B S hS).obj (𝒳.val.val.p.obj x)) := by
   have : Flat ((BigFppfOver.toScheme B S hS).map (eqToHom hy.symm ≫ 𝒳.val.val.p.map m)) := by
     rw [CategoryTheory.Functor.map_comp, eqToHom_map]
@@ -895,11 +895,11 @@ theorem closure_basePointMap_mem_irreducibleComponents {P : Ideal ξ.base}
     (hP : P ∈ minimalPrimes ξ.base) :
     letI := Stack.pointTopology D.B D.S D.hS D.𝒳.val
     closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳
-        (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P, hP.1.1⟩} ∈
+               (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P, hP.1.1⟩} ∈
       irreducibleComponents (AlgebraicStacks.points D.B D.S D.hS D.𝒳) ∧
     VersalSituation.fieldPoint D iΛ x₀ hx₀ ∈
       closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳
-        (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P, hP.1.1⟩} := by
+                 (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P, hP.1.1⟩} := by
   let := Stack.pointTopology D.B D.S D.hS D.𝒳.val
   constructor
   · have hc := AlgebraicStacks.closure_baseOverPoint_mem_irreducibleComponents D.B D.S D.hS
@@ -933,7 +933,7 @@ def formalBranchComponent
         VersalSituation.fieldPoint D iΛ x₀ hx₀ ∈ Z} :=
   letI := Stack.pointTopology D.B D.S D.hS D.𝒳.val
   ⟨closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳
-      (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P.1, P.2.1.1⟩},
+              (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy ⟨P.1, P.2.1.1⟩},
     closure_basePointMap_mem_irreducibleComponents D iΛ hiΛ x₀ hx₀ hfinite ξ hξ Ry P.2⟩
 
 /-- The value of the map of Stacks 0DRB at a branch is the closure of the image of its generic
@@ -943,8 +943,8 @@ theorem coe_formalBranchComponent
     letI := Stack.pointTopology D.B D.S D.hS D.𝒳.val
     (formalBranchComponent D iΛ hiΛ x₀ hx₀ hfinite ξ hξ Ry P).1 =
       closure {AlgebraicStacks.basePointMap D.B D.S D.hS D.𝒳
-        (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy
-          ⟨P.1, P.2.1.1⟩} :=
+                 (Deformation.Artin.completeLocalAlgFormalBase iΛ hfinite ξ.base) hA y hy
+                 ⟨P.1, P.2.1.1⟩} :=
   rfl
 
 /-- **Stacks 0DRB, surjectivity.** Every irreducible component of `|𝒳|` through `x₀` is the image

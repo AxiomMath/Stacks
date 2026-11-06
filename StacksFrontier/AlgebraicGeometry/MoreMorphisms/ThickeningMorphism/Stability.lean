@@ -2,6 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.Affine
 public import Mathlib.AlgebraicGeometry.Morphisms.QuasiCompact
+public import Mathlib.AlgebraicGeometry.PullbackCarrier
 public import Mathlib.LinearAlgebra.TensorProduct.RightExactness
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Thickenings

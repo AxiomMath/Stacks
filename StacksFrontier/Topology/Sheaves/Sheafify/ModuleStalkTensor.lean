@@ -327,7 +327,8 @@ theorem tensorPresheaf_map_tmul (W W' : TopologicalSpace.Opens X)
     letI := (α.app (Opposite.op W)).hom.toAlgebra
     letI := (α.app (Opposite.op W')).hom.toAlgebra
     (tensorPresheafOfModules O O' α F).presheaf.map j.op (s ⊗ₜ[O.obj (Opposite.op W)] m)
-      = (O'.map j.op).hom s ⊗ₜ[O.obj (Opposite.op W')] (F.map j.op m) := by
+      = (O'.map j.op).hom s ⊗ₜ[O.obj (Opposite.op W')]
+        (show F.obj (Opposite.op W') from F.map j.op m) := by
   let := (α.app (Opposite.op W)).hom.toAlgebra
   let := (α.app (Opposite.op W')).hom.toAlgebra
   simp [tensorPresheafOfModules]

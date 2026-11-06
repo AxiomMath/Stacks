@@ -511,7 +511,8 @@ theorem factorwise_rank_one_of_geometricallyIrreducible (W : WeilCohomologyTheor
   · exact (tensorEquivSelf e₀).finrank_eq.trans (Module.finrank_self (K i))
   · have e : ∀ i, K i ⊗[A] W.gradeOverSpec p hp (2 * d) ≃ₗ[A] K i := fun i ↦
       ((Classical.choice
-        (Module.nonempty_linearEquiv_of_finrank_eq_one (hdim i))).symm).restrictScalars A
+        (haveI := Module.Free.of_divisionRing (K i) (K i ⊗[A] W.gradeOverSpec p hp (2 * d))
+        Module.nonempty_linearEquiv_of_finrank_eq_one (hdim i))).symm).restrictScalars A
     exact ⟨((LinearEquiv.ofBijective (LinearMap.pi fun i ↦ Algebra.linearMap A (K i)) hK) ≪≫ₗ
       (LinearEquiv.piCongrRight e).symm ≪≫ₗ (piFactorEquiv K hK _).symm)⟩
 

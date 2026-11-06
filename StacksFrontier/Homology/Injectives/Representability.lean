@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.Coseparator
+public import Mathlib.CategoryTheory.Abelian.Subobject
 public import Mathlib.CategoryTheory.Adjunction.AdjointFunctorTheorems
 public import Mathlib.CategoryTheory.Limits.Opposites
 public import Mathlib.CategoryTheory.Limits.Yoneda

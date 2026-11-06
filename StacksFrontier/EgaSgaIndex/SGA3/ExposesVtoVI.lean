@@ -589,7 +589,6 @@ add_to_sga "3 VIB 8.2" "special case" AddSubgroup.lowerCentralSeries_zero_eq_bot
 add_to_sga "3 VIB 8.2" "special case" Subgroup.lowerCentralSeries
 add_to_sga "3 VIB 8.2" "(i), special case" Subgroup.lowerCentralSeries_one_eq_bot_iff
 add_to_sga "3 VIB 8.2" "special case" derivedSeries
-add_to_sga "3 VIB 8.2" "special case" lowerCentralSeries
 add_to_sga "3 VIB 8.2.1" "special case" AddGroup.IsNilpotent
 add_to_sga "3 VIB 8.2.1" "special case" AddSubgroup.isNilpotent_iff_lowerCentralSeries
 add_to_sga "3 VIB 8.2.1" "partial" AddSubgroup.isNilpotent_of_lowerCentralSeries_eq_bot
@@ -603,8 +602,6 @@ add_to_sga "3 VIB 8.2.1" "special case" Subgroup.isNilpotent_iff_lowerCentralSer
 add_to_sga "3 VIB 8.2.1" "Nilpotent of class n"
   Subgroup.lowerCentralSeries_eq_bot_iff_nilpotencyClass_le
 add_to_sga "3 VIB 8.2.1" "special case" Subgroup.nilpotent_iff_lowerCentralSeries
-add_to_sga "3 VIB 8.2.1" "Nilpotent of class n" lowerCentralSeries_eq_bot_iff_nilpotencyClass_le
-add_to_sga "3 VIB 8.2.1" "special case" nilpotent_iff_lowerCentralSeries
 add_to_sga "3 VIB 8.4" "(ii), special case" Algebra.Smooth.flat
 add_to_sga "3 VIB 8.4" "(ii), special case" Algebra.Smooth.of_formallySmooth_fiber
 add_to_sga "3 VIB 8.4" "(ii)" AlgebraicGeometry.instFlatOfSmooth
@@ -721,7 +718,7 @@ add_to_sga "3 VIB 11.8.0" "partial" LinearMap.convNonUnitalNonAssocRing
 add_to_sga "3 VIB 11.8.0" "partial" LinearMap.convNonUnitalNonAssocSemiring
 add_to_sga "3 VIB 11.8.0" "partial" LinearMap.convNonUnitalRing
 add_to_sga "3 VIB 11.8.0" "partial" LinearMap.convNonUnitalSemiring
-add_to_sga "3 VIB 11.8.0" "unit of C∨ given by ε" LinearMap.convOne
+add_to_sga "3 VIB 11.8.0" "unit of C∨ given by ε" LinearMap.convOne_def
 add_to_sga "3 VIB 11.8.0" "underlying ring of C∨" LinearMap.convRing
 add_to_sga "3 VIB 11.8.0" "partial" LinearMap.convSemiring
 add_to_sga "3 VIB 11.8.0" "partial" Module.Dual

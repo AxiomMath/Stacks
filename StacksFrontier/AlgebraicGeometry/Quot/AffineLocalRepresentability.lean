@@ -102,6 +102,23 @@ def IsAffineFinitePresentationRepresentedOver (R : (SchemesOver Y)ᵒᵖ ⥤ Typ
 
 attribute [local instance] preservesLimitsOfShape_walkingCospan_toScheme
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_affineLocalRepresentability :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasProducts_presheaf_affineLocalRepresentability (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_affineLocalRepresentability
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The test scheme over `Y` obtained by composing a morphism `q : c ⟶ Z.left` of the big fppf
 site with the structure morphism of the test scheme `Z`. -/
 abbrev precompTest (Z : SchemesOver Y) {c : BigFppfOver B S hS} (q : c ⟶ Z.left) :

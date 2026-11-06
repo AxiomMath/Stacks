@@ -404,7 +404,8 @@ public theorem mem_range_transitionClassifyingToProd_of_isClosed_singleton
     (tpPar_base_transitionClassifyingToProd pt hpt c u u' w g a f hf e₁ f' hf' e₂ _ hzx f₃ hf₃
       (fun φ => by rw [hgval φ, heq])).trans hf₃eq.symm
   have hclfstΨ : IsClosed ({(tpFst k V).base
-      ((transitionClassifyingToProd k V X Y hXc hYc b).base (σ.base a))} : Set (prodTwo k V)) :=
+                              ((transitionClassifyingToProd k V X Y hXc hYc b).base (σ.base a))} :
+      Set (prodTwo k V)) :=
     isClosed_singleton_base_comp_of_comp_eq_id _ _ _ (tpFst_comp_toSpec k V)
       (σ ≫ transitionClassifyingToProd k V X Y hXc hYc b) hΨspec a
   have hclfstt : IsClosed ({(tpFst k V).base t} : Set (prodTwo k V)) :=

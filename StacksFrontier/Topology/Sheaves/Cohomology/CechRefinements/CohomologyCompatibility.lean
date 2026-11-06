@@ -92,19 +92,8 @@ in the derived category; the bounded-below one is obtained from the unbounded on
 the fully faithful embedding, so its image under that embedding is the unbounded one. -/
 lemma ι_map_quotientCompQhIso_hom_app (K : CochainComplex.Plus A) :
     DerivedCategory.Plus.ι.map ((quotientCompQhIso A).hom.app K) =
-      (DerivedCategory.quotientCompQhIso A).hom.app K.obj := by
-  have hstep : DerivedCategory.Plus.ι.map ((quotientCompQhIso A).hom.app K) =
-      𝟙 _ ≫ DerivedCategory.Qh.map
-          ((HomotopyCategory.Plus.quotientCompιIso A).hom.app K) ≫
-        (DerivedCategory.quotientCompQhIso A).hom.app K.obj := by
-    rw [quotientCompQhIso, Functor.fullyFaithfulCancelRight_hom_app,
-      CategoryTheory.Functor.map_preimage]
-    rfl
-  have hz : DerivedCategory.Qh.map
-      ((HomotopyCategory.Plus.quotientCompιIso A).hom.app K) = 𝟙 _ :=
-    CategoryTheory.Functor.map_id _ _
-  rw [hstep, hz]
-  exact (Category.id_comp _).trans (Category.id_comp _)
+      (DerivedCategory.quotientCompQhIso A).hom.app K.obj :=
+  rfl
 
 /-- The inverse form of `DerivedCategory.Plus.ι_map_quotientCompQhIso_hom_app`. -/
 lemma ι_map_quotientCompQhIso_inv_app (K : CochainComplex.Plus A) :
@@ -228,7 +217,7 @@ lemma mapCochainComplexPlusDerivedUnit_app_comp_map_eq_resolutionIso_inv
         T.rightDerivedFunctorPlus.map w.inv =
       (DerivedCategory.Plus.quotientCompQhIso B).inv.app
           (T.mapCochainComplexPlus.obj ⟨I.cocomplex, I.boundedBelow⟩) ≫
-        T.rightDerivedFunctorPlusUnit.app
+        T.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient A).obj ⟨I.cocomplex, I.boundedBelow⟩) ≫
           T.rightDerivedFunctorPlus.map
             (CochainComplex.InjectiveResolution.qhIso Z I).inv := by
@@ -237,7 +226,7 @@ lemma mapCochainComplexPlusDerivedUnit_app_comp_map_eq_resolutionIso_inv
     refine congrArg (fun z => (DerivedCategory.Plus.quotientCompQhIso B).inv.app
         (T.mapCochainComplexPlus.obj ⟨I.cocomplex, I.boundedBelow⟩) ≫ z)
       ((Category.assoc _ _ _).trans (congrArg (fun z =>
-        T.rightDerivedFunctorPlusUnit.app
+        T.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj ⟨I.cocomplex, I.boundedBelow⟩) ≫ z) hcancel))
   have hQh : (T.mapHomologicalComplexQhIso I.boundedBelow).inv =
       (DerivedCategory.quotientCompQhIso B).inv.app
@@ -254,7 +243,7 @@ lemma mapCochainComplexPlusDerivedUnit_app_comp_map_eq_resolutionIso_inv
   refine Eq.trans (congrArg DerivedCategory.Plus.ι.map hA) ?_
   refine (DerivedCategory.Plus.ι.map_comp _ _).trans ?_
   refine Eq.trans (congrArg (fun z => z ≫ DerivedCategory.Plus.ι.map
-    (T.rightDerivedFunctorPlusUnit.app
+    (T.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient A).obj ⟨I.cocomplex, I.boundedBelow⟩) ≫
       T.rightDerivedFunctorPlus.map (CochainComplex.InjectiveResolution.qhIso Z I).inv))
     ((DerivedCategory.Plus.ι_map_quotientCompQhIso_inv_app

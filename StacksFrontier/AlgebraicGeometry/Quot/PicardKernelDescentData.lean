@@ -155,6 +155,17 @@ theorem modulePullback_comp_map_eq_iff {X Y W : AlgebraicSpaces B S hS} (f : X �
 
 /-! ### A trivialization of an invertible module along a covering family of test schemes -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_PicardKernelDescentData :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_PicardKernelDescentData
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace PicardSituation
 
 variable (s : PicardSituation B S hS)

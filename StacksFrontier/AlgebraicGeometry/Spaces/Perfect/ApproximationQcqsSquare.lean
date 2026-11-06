@@ -40,6 +40,14 @@ attribute [local instance 10000] HasDerivedCategory.standard
 attribute [local instance] etaleModulePullback_additive
   preservesFiniteLimits_etaleModulePullback preservesFiniteColimits_etaleModulePullback
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_ApproximationQcqsSquare
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 variable {W : AlgebraicSpaces B S hS} {V : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -155,7 +163,8 @@ theorem approximationHolds_of_eds (T : Set (points B S hS W.1))
           (DerivedCategory.homologyFunctor _ i).mapIso eV.symm
       have key : ∀ {F G : Sheaf (SmallEtale.topology B S hS V) AddCommGrpCat.{u}} (e : F ≅ G),
           supportOfSheaf B S hS V F ⊆ supportOfSheaf B S hS V G := fun e =>
-        supportOfSheaf_subset_of_mono B S hS V hsq.isAlgebraicSpace e.hom
+        @supportOfSheaf_subset_of_mono B S hS V hsq.isAlgebraicSpace _ _ e.hom
+          (IsIso.mono_of_iso e.hom)
       exact (key ((SheafOfModules.toSheaf _).mapIso e)).trans (hPsupp i)
   · refine isIso_of_eds B S hS hsq _ ⟨0, (hQUi i).eq_of_src _ _, (hEU i hi.le).eq_of_src _ _⟩ ?_
     rw [hVmap i, Functor.map_comp]

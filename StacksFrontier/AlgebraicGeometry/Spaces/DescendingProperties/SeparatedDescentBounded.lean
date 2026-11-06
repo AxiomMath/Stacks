@@ -297,6 +297,13 @@ end Relocalize
 
 section Descent
 
+/-- Pullbacks in presheaves on the big fppf site of `S`, as a shortcut (instance search for
+`HasLimit (cospan f g)` there times out without it). -/
+private instance (priority := high) hasPullback_presheaf_separatedDescentBounded
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable (hZ : B.Contains (⊤_ Scheme.{u}))
 
 namespace DescentSituation

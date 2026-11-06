@@ -33,7 +33,7 @@ namespace Deformation.Artin
 
 -- `Over.post` and the fibres of a functor are plain `def`s, so goals mentioning an object of the
 -- site read in `Over S` are not type-correct at `implicit` transparency.
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
 
@@ -58,10 +58,9 @@ theorem finite_residueField_of_isClosed_of_field {k : Type u} [Field k] {X : Sch
   let : Algebra.FiniteType k (X.residueField x) := by
     show RingHom.FiniteType (algebraMap k (X.residueField x))
     convert hcomp using 1
-    · rfl
-    · simp only [RingHom.algebraMap_toAlgebra]
-      rw [← Scheme.Γevaluation_naturality]
-      simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
+    simp only [RingHom.algebraMap_toAlgebra]
+    rw [← Scheme.Γevaluation_naturality]
+    simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
   exact finite_of_finite_type_of_isJacobsonRing _ _
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}

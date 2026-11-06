@@ -252,7 +252,7 @@ def smallerBaseULiftYonedaIso (U₀ : BigFppfOver B V hV) :
     smallerBaseULift B V S hV hS g (uliftYoneda.{u + 1}.obj U₀) ≅
       uliftYoneda.{u + 1}.obj ((Over.map g).obj U₀) :=
   NatIso.ofComponents (fun T => (smallerBaseULiftYonedaEquiv B V S hV hS g U₀ (unop T)).toIso)
-    (fun _ => by ext; exact ULift.ext _ _ (Over.OverMorphism.ext rfl))
+    (fun _ => by ext; exact ULift.ext (Over.OverMorphism.ext rfl))
 
 /-- The comparison `AlgebraicGeometry.FormalSpace.smallerBaseULiftYonedaIso` is natural in the
 object of the big fppf site of `V`. -/
@@ -262,7 +262,7 @@ theorem smallerBaseULiftYonedaIso_hom_naturality {U₀ U₁ : BigFppfOver B V hV
       (smallerBaseULiftYonedaIso B V S hV hS g U₀).hom ≫
         uliftYoneda.{u + 1}.map ((Over.map g).map m) := by
   ext
-  exact ULift.ext _ _ (Over.OverMorphism.ext rfl)
+  exact ULift.ext (Over.OverMorphism.ext rfl)
 
 /-- The chart of the attached presheaf obtained from a chart `a` over `V`: the induced morphism
 read through `AlgebraicGeometry.FormalSpace.smallerBaseULiftYonedaIso`. -/
@@ -301,7 +301,7 @@ theorem smallerBaseChart_comp_hom {G : (BigFppfOver B V hV)ᵒᵖ ⥤ Type (u + 
       uliftYoneda.{u + 1}.map (relocalizeOverHom B V S hV hS g U₀) := by
   rw [smallerBaseChart, Category.assoc, smallerBaseULiftMap_comp_hom]
   ext
-  exact ULift.ext _ _ (Over.OverMorphism.ext rfl)
+  exact ULift.ext (Over.OverMorphism.ext rfl)
 
 /-- **Every chart of an attached presheaf is an attached chart.** A morphism from the
 universe-lifted representable presheaf of `U` to the attached presheaf of `G` is a section over

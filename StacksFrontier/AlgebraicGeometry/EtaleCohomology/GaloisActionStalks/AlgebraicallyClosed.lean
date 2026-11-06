@@ -135,8 +135,8 @@ private lemma forget_isEquivalence (G : Type u) [Group G] [TopologicalSpace G]
     map_surjective {X Y} f := by
       refine ⟨{ hom := f, comm := ?_ }, rfl⟩
       intro g
-      have hX : X.ρ g = 𝟙 X.V := by rw [Subsingleton.elim g 1]; simp
-      have hY : Y.ρ g = 𝟙 Y.V := by rw [Subsingleton.elim g 1]; simp
+      have hX : (X.ρ g).asHom = 𝟙 X.V := by rw [Subsingleton.elim g 1]; simp
+      have hY : (Y.ρ g).asHom = 𝟙 Y.V := by rw [Subsingleton.elim g 1]; simp
       rw [hX, hY]
       exact (Category.id_comp f).trans (Category.comp_id f).symm }
   let F := (ObjectProperty.ι _ : DiscreteContAction (Type v) G ⥤ ContAction (Type v) G) ⋙
@@ -144,9 +144,8 @@ private lemma forget_isEquivalence (G : Type u) [Group G] [TopologicalSpace G]
     Action.forget (Type v) G
   let : F.EssSurj := {
     mem_essImage X := by
-      let Y : ContAction (Type v) G := ⟨Action.trivial G X, by
-        rw [Action.isContinuous_def]
-        exact continuous_snd⟩
+      let Y : ContAction (Type v) G := ⟨Action.trivial G X,
+        (Action.isContinuous_def (Action.trivial G X)).2 continuous_snd⟩
       let Z : DiscreteContAction (Type v) G := ⟨Y, by
         exact inferInstanceAs (DiscreteTopology (TopCat.discrete.obj X))⟩
       exact ⟨Z, ⟨Iso.refl _⟩⟩ }
@@ -204,8 +203,8 @@ private abbrev canonicalGeometricPoint : GeometricPoint (Spec (.of K)) :=
 canonical geometric point of the spectrum of an algebraically closed field. -/
 private abbrev canonicalPointFinalElement :
     (geometricPointFiber B (Spec (.of K)) hK (canonicalGeometricPoint K)).Elements :=
-  ⟨SmallEtale.final B (Spec (.of K)) hK,
-    ⟨𝟙 (Spec (.of K)), by simp [SmallEtale.final, canonicalGeometricPoint]⟩⟩
+  Functor.elementsMk _ (SmallEtale.final B (Spec (.of K)) hK)
+    ⟨𝟙 (Spec (.of K)), by simp [SmallEtale.final, canonicalGeometricPoint]⟩
 
 /-- The final étale object with the identity lift is a terminal index for the colimit computing
 the stalk at the canonical geometric point: an étale neighbourhood of that point is an étale
@@ -217,7 +216,7 @@ private def canonicalPointFiberTerminalIndex :
   let xT := (canonicalPointFinalElement B K hK).2
   let eT := canonicalPointFinalElement B K hK
   let lift (X : (geometricPointFiber B (Spec (.of K)) hK s).Elements) : eT ⟶ X := by
-    rcases X with ⟨V, x⟩
+    rcases X with @⟨V, x⟩
     let q : B.inclusion.obj (B.obj (Spec (.of K)) hK) ⟶
         B.inclusion.obj V.obj.left := x.1
     have hq : (B.inclusion.preimage q) ≫ V.obj.hom = 𝟙 (B.obj (Spec (.of K)) hK) := by
@@ -230,15 +229,15 @@ private def canonicalPointFiberTerminalIndex :
       change 𝟙 (Spec (.of K)) ≫ B.inclusion.map (B.inclusion.preimage q) = q
       rw [B.inclusion.map_preimage]
       simp
-    exact CategoryOfElements.homMk _ _ f hf
+    exact Functor.Elements.homMk f hf
   refine IsTerminal.ofUniqueHom (fun X => (lift X.unop).op) (fun X f => ?_)
   apply Quiver.Hom.unop_inj
-  apply CategoryOfElements.ext
+  apply Functor.Elements.hom_ext
   apply (SmallEtale.toScheme B (Spec (.of K)) hK).map_injective
-  have hv := congrArg Subtype.val (f.unop.property.trans (lift X.unop).property.symm)
+  have hv := congrArg Subtype.val (f.unop.map_val.trans (lift X.unop).map_val.symm)
   dsimp [geometricPointFiber] at hv
-  change xT.1 ≫ (SmallEtale.toScheme B (Spec (.of K)) hK).map f.unop.val =
-    xT.1 ≫ (SmallEtale.toScheme B (Spec (.of K)) hK).map (lift X.unop).val at hv
+  change xT.1 ≫ (SmallEtale.toScheme B (Spec (.of K)) hK).map f.unop.hom =
+    xT.1 ≫ (SmallEtale.toScheme B (Spec (.of K)) hK).map (lift X.unop).hom at hv
   simp only [xT] at hv
   exact hv
 
@@ -252,11 +251,11 @@ private def etaleStalkIsoEvaluationAtCanonicalPoint :
   let tI := op (canonicalPointFinalElement B K hK)
   have htI : IsTerminal tI := canonicalPointFiberTerminalIndex B K hK
   refine NatIso.ofComponents (fun F => colimitIsoTerminalIndex
-    ((CategoryOfElements.π (geometricPointFiber B (Spec (.of K)) hK s)).op ⋙ F.obj)
+    ((Functor.Elements.π (geometricPointFiber B (Spec (.of K)) hK s)).op ⋙ F.obj)
     tI htI) ?_
   intro F G α
   exact colimitIsoTerminalIndex_naturality (Functor.whiskerLeft
-    (CategoryOfElements.π (geometricPointFiber B (Spec (.of K)) hK s)).op α.hom) tI htI
+    (Functor.Elements.π (geometricPointFiber B (Spec (.of K)) hK s)).op α.hom) tI htI
 
 /-- **Stacks Project, Tag 04JN.** Over an algebraically closed field, taking global sections is
 an equivalence from the small étale topos to the category of sets. -/
@@ -289,7 +288,7 @@ private lemma etaleStalkIsoEvaluationAtCanonicalPoint_hom_app_etaleStalkGerm
   let tI : (geometricPointFiber B (Spec (.of K)) hK
     (canonicalGeometricPoint K)).Elementsᵒᵖ := op (canonicalPointFinalElement B K hK)
   let hI : IsTerminal tI := canonicalPointFiberTerminalIndex B K hK
-  let G := (CategoryOfElements.π (geometricPointFiber B (Spec (.of K)) hK
+  let G := (Functor.Elements.π (geometricPointFiber B (Spec (.of K)) hK
     (canonicalGeometricPoint K))).op ⋙ F.obj
   show (colimitIsoTerminalIndex G tI hI).hom (colimit.ι G tI z) = z
   have hfrom : hI.from tI = 𝟙 tI := hI.hom_ext _ _
@@ -428,7 +427,8 @@ theorem etaleStalkIsoPullbackGlobalSections_inv_app_etaleStalkGerm (s : Geometri
   let U : (geometricPointFiber B (Spec (.of s.residueField)) hK s₀).Elements :=
     canonicalPointFinalElement B s.residueField hK
   let V₀ : (geometricPointFiber B S hS (s₀.map (B.inclusion.map f))).Elements :=
-    ⟨V.1, ⟨V.2.1, V.2.2.trans (canonicalGeometricPoint_map_hom B S hS s hK).symm⟩⟩
+    Functor.elementsMk _ V.1
+      ⟨V.2.1, V.2.2.trans (canonicalGeometricPoint_map_hom B S hS s hK).symm⟩
   have hδ : δ.inv.app F (etaleStalkGerm.{u, u + 1} B S hS s F V t) =
       etaleStalkGerm.{u, u + 1} B S hS (s₀.map (B.inclusion.map f)) F V₀ t := by
     have h := congrArg (fun k => k t) (CategoryOfElements.ι_sheafColimIsoOfNatIso_hom

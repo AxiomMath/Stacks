@@ -138,14 +138,14 @@ public theorem pointElement_comp_act (a : x.source ⟶ C.cover.left)
 /-- **Powers.** If `s ∘ a ∘ (act g) = a` for an endomorphism `s` of the source of `x`, then
 `sⁿ ∘ a ∘ (act gⁿ) = a`. -/
 public theorem pow_comp_act_pow {s : End x.source} {g : H} (a : x.source ⟶ C.cover.left)
-    (hs : s ≫ a ≫ C.act g = a) (n : ℕ) : (s ^ n : End x.source) ≫ a ≫ C.act (g ^ n) = a := by
+    (hs : s.asHom ≫ a ≫ C.act g = a) (n : ℕ) : (s ^ n).asHom ≫ a ≫ C.act (g ^ n) = a := by
   induction n with
   | zero =>
-    rw [pow_zero, pow_zero, C.act_one]
+    rw [pow_zero, pow_zero, C.act_one, End.one_asHom]
     exact (Category.id_comp _).trans (Category.comp_id _)
   | succ n ih =>
-    rw [pow_succ, End.mul_def, pow_succ', C.act_mul, Category.assoc,
-      ← Category.assoc a, ← Category.assoc (s ^ n : End x.source), ih, hs]
+    rw [pow_succ, End.mul_asHom, pow_succ', C.act_mul, Category.assoc,
+      ← Category.assoc a, ← Category.assoc (s ^ n).asHom, ih, hs]
 
 /-- **Compatibility of group elements along a morphism of geometric points.** Let `j : y ⟶ x` be
 a morphism of geometric points, `τ` an endomorphism of `y` and `σ` one of `x` with
@@ -159,7 +159,7 @@ public theorem pointElement_comp_eq_pow {y : GeometricPoint X} (j : GeometricPoi
       C.pointElement a ha σ ^ n := by
   refine C.pointElement_eq_of_comp_act _ _ ?_
   rw [Category.assoc, ← Category.assoc τ.hom, h, Category.assoc,
-    C.pow_comp_act_pow a (C.comp_act_pointElement a ha σ) n]
+    C.pow_comp_act_pow (s := End.of σ.hom) a (C.comp_act_pointElement a ha σ) n]
 
 /-! ### The stalk -/
 

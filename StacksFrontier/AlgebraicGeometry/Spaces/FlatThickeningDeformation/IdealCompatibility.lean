@@ -104,7 +104,7 @@ variable {C : Type*} [Category C] {J : GrothendieckTopology C}
 the underlying map of `a ≫ b` sends `x` to `b (a (p x))`. -/
 theorem sections_comp_forget_map_comp {T : Sheaf J (Type w)} {R₁ R₂ R₃ : Sheaf J CommRingCat.{w}}
     (p : T ⟶ (sheafCompose J (forget CommRingCat.{w})).obj R₁) (a : R₁ ⟶ R₂) (b : R₂ ⟶ R₃)
-    (U : Cᵒᵖ) (x : T.val.obj U) :
+    (U : Cᵒᵖ) (x : T.obj.obj U) :
     (Sheaf.sectionsFunctor J U).map (p ≫ (sheafCompose J (forget CommRingCat.{w})).map (a ≫ b)) x =
       b.hom.app U (a.hom.app U ((Sheaf.sectionsFunctor J U).map p x)) :=
   rfl
@@ -112,7 +112,7 @@ theorem sections_comp_forget_map_comp {T : Sheaf J (Type w)} {R₁ R₂ R₃ : S
 /-- On sections over `U`, the composite `p ≫ q ≫ r` of morphisms of sheaves of sets sends `x` to
 `r (q (p x))`. -/
 theorem sections_comp_comp {T₁ T₂ T₃ T₄ : Sheaf J (Type w)} (p : T₁ ⟶ T₂) (q : T₂ ⟶ T₃)
-    (r : T₃ ⟶ T₄) (U : Cᵒᵖ) (x : T₁.val.obj U) :
+    (r : T₃ ⟶ T₄) (U : Cᵒᵖ) (x : T₁.obj.obj U) :
     (Sheaf.sectionsFunctor J U).map (p ≫ q ≫ r) x =
       (Sheaf.sectionsFunctor J U).map r ((Sheaf.sectionsFunctor J U).map q
         ((Sheaf.sectionsFunctor J U).map p x)) :=
@@ -386,6 +386,23 @@ theorem homEquiv_inverseImage_map (p : U₁ ⟶ X₁)
   exact ((smallEtaleRingedToposHom B S hS p).toToposHom.adj.unit.naturality a).symm
 
 end Mate
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_IdealCompatibility
+    (W : AlgebraicSpaces B S hS) (J : Type u) :
+    HasLimitsOfShape (Discrete J) ((smallEtaleRingedTopos B S hS W).Cᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of sheaves of sets on the small étale site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_sheaf_IdealCompatibility
+    (W : AlgebraicSpaces B S hS) (J : Type u) :
+    HasLimitsOfShape (Discrete J) (Sheaf (smallEtaleRingedTopos B S hS W).J (Type u)) :=
+  hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape
+    (sheafToPresheaf (smallEtaleRingedTopos B S hS W).J (Type u))
 
 omit hZ₂ in
 /-- The `𝒜`-algebra structure read through `θ`, on underlying sheaves of sets: the composition

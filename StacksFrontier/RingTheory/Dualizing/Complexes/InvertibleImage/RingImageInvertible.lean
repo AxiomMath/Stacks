@@ -408,7 +408,7 @@ public noncomputable def residueFieldRestrictScalarsIso
   exact ModuleCat.isoMk φ (fun r => by
     ext x
     change k at x
-    change (E.smul r).hom x = ((R.obj (ModuleCat.of k k)).smul r).hom x
+    change (E.smul r).asHom.hom x = ((R.obj (ModuleCat.of k k)).smul r).asHom.hom x
     rw [ModuleCat.smul_restrictScalars]
     dsimp [ModuleCat.smul, AddCommGrpCat.Hom.hom]
     rw [Algebra.smul_def]

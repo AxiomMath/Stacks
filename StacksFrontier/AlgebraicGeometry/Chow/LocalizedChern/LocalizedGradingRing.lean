@@ -817,6 +817,7 @@ theorem localizedGradingOpRingHom_apply {T : Scheme.{u}} (t : T ⟶ X) [LocallyO
 
 /-! ### Units -/
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The operation of a difference is the difference of the operations. -/
 private theorem localizedGradingOp_sub {T : Scheme.{u}} (t : T ⟶ X) [LocallyOfFiniteType t]
     (a b : localizedBivariantGrading C (gysinSystemOfInvertible C) sZ sX f hf 1) (k : ℤ) (l : ℕ) :
@@ -862,6 +863,7 @@ theorem localizedGradingInv_fst
       (1 : localizedBivariantGrading C (gysinSystemOfInvertible C) sZ sX f hf 1).1 :=
   rfl
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **An element `1 + c₁ + c₂ + ⋯` of `A⁽¹⁾(Z ⟶ X)` has `Stacks.Chow.localizedGradingInv` as a
 right inverse.** -/
 theorem localizedGrading_mul_inv

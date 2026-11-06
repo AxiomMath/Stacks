@@ -151,8 +151,8 @@ theorem restrictionTransition_cancel (D : InverseSystemOfFiniteSites.{v₁, u₁
     {i j : D.I} (a : j ⟶ i) (V : D.C i) (x : P.obj (op ((u i).obj V))) :
     x = P.map (eqToHom (congrArg op (Functor.congr_obj (hu a) V)))
       ((restrictionTransition D u hu P a).app (op V) x) := by
-  rw [restrictionTransition_app D u hu P a V x, ← FunctorToTypes.map_comp_apply, eqToHom_trans,
-    eqToHom_refl, FunctorToTypes.map_id_apply]
+  rw [restrictionTransition_app D u hu P a V x, ← Functor.map_comp_apply, eqToHom_trans,
+    eqToHom_refl, Functor.map_id_apply]
 
 /-- **Every functor from a level to the colimit site defines a morphism of sites**
 ([Stacks, Tag 0A35]), hence is continuous, so the restriction of a sheaf on the colimit site to a

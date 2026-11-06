@@ -51,6 +51,19 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_InducedDimensionFunction
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_InducedDimensionFunction
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_InducedDimensionFunction B S hS).has_limit _
+
 /-- **Stacks 0EDN.** Let `Y` be a decent, locally Noetherian, universally catenary algebraic
 space and `δ` a dimension function on `|Y|`. If `X` is a decent algebraic space and `f : X ⟶ Y`
 is locally of finite type, then `δ_X`, the value of `δ` at the image of a point plus the

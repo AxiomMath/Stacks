@@ -200,7 +200,7 @@ theorem faithfullyFlat_sigmaDesc {A : AffineSchemesOver T V} (E : PreZeroHyperco
     have : Module.FaithfullyFlat R (ULift.{u + 1} B) :=
       Module.FaithfullyFlat.of_linearEquiv R B ULift.moduleEquiv
     have : IsScalarTower (ULift.{u + 1} R) R (ULift.{u + 1} B) :=
-      ⟨fun x y z => ULift.ext _ _ (mul_smul x.down y z.down)⟩
+      ⟨fun x y z => ULift.ext (mul_smul x.down y z.down)⟩
     exact Module.FaithfullyFlat.trans (ULift.{u + 1} R) R (ULift.{u + 1} B)
   have h2 := (RingHom.faithfullyFlat_algebraMap_iff).2 h1
   have h3 := RingHom.FaithfullyFlat.respectsIso.1 _

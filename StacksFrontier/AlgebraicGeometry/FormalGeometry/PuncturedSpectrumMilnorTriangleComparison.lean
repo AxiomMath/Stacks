@@ -108,7 +108,7 @@ theorem epi_milnorDifference_moduleCat_of_isMittagLefflerCategorical {A : Type u
   have hd : U.map d ≫ piComparison U X = piComparison U X ≫ d' := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
     rw [Category.assoc, piComparison_comp_π, ← U.map_comp]
-    simp only [d, d', Pi.lift_π, U.map_sub, U.map_comp, Category.assoc,
+    simp only [d, d', Pi.lift_comp_π, U.map_sub, U.map_comp, Category.assoc,
       Preadditive.comp_sub, piComparison_comp_π_assoc, piComparison_comp_π]
   have hmap : Epi (U.map d) := by
     rw [← epi_comp_iff_of_isIso (U.map d) (piComparison U X), hd]
@@ -176,12 +176,12 @@ theorem exists_milnorTriangle_isIso_toLimit_homology_puncturedSpectrumSections
     (hπ_epi : ∀ n : ℕᵒᵖ, Epi (π n))
     (hπ_nat : ∀ {m n : ℕᵒᵖ} (h : m ⟶ n), π m ≫ S.map h = π n)
     (hπ_smul : ∀ (n : ℕ) (a : A), a ∈ I ^ n →
-      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
         π (op n) = 0)
     (hπ_univ : ∀ (n : ℕ)
       (G : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))) (f : F ⟶ G),
       (∀ a ∈ I ^ n,
-        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
           f = 0) →
       ∃ g : S.obj (op n) ⟶ G, π (op n) ≫ g = f)
     (L : DerivedCategory (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))))
@@ -256,12 +256,12 @@ theorem exists_homologyIso_limit_puncturedSpectrumSections
     (hπ_epi : ∀ n : ℕᵒᵖ, Epi (π n))
     (hπ_nat : ∀ {m n : ℕᵒᵖ} (h : m ⟶ n), π m ≫ S.map h = π n)
     (hπ_smul : ∀ (n : ℕ) (a : A), a ∈ I ^ n →
-      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+      (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
         π (op n) = 0)
     (hπ_univ : ∀ (n : ℕ)
       (G : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))) (f : F ⟶ G),
       (∀ a ∈ I ^ n,
-        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).app F ≫
+        (baseSmul (puncturedSpectrumRingedSpace A) (puncturedSpectrumScalars A) a).asHom.app F ≫
           f = 0) →
       ∃ g : S.obj (op n) ⟶ G, π (op n) ≫ g = f)
     (L : DerivedCategory (SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A))))

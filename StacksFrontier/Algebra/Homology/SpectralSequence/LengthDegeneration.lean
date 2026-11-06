@@ -327,7 +327,7 @@ lemma length_page_succ_le (r r' : ℤ) (hrr' : r + 1 = r') (hr : r₀ ≤ r) (pq
 /-- **Lengths decrease along the pages.** -/
 lemma length_page_le (pq : κ) (r r' : ℤ) (hrr' : r ≤ r') (hr : r₀ ≤ r) :
     Module.length R ((E.page r' (by omega)).X pq) ≤ Module.length R ((E.page r hr).X pq) := by
-  induction r', hrr' using Int.le_induction with
+  induction r', hrr' using Int.leInduction with
   | base => exact le_rfl
   | succ r' hr' ih => exact (E.length_page_succ_le r' (r' + 1) rfl (by omega) pq).trans ih
 

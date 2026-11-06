@@ -127,7 +127,11 @@ public theorem iteratedUnderlyingVerschiebung_transition (F : LAdicSheaf.{u, u +
 /-- The kernels of the iterated Verschiebung increase with the number of iterations. -/
 public theorem verschiebungKernel_monotone (F : LAdicSheaf.{u, u + 1} B X ℓ) (n : ℕ) :
     Monotone (fun k => kernelSubobject (iteratedUnderlyingVerschiebung B X ℓ F n k)) :=
-  monotone_nat_of_le_succ fun _ => kernelSubobject_comp_le _ _
+  monotone_nat_of_le_succ fun k => le_kernelSubobject _
+    (kernelSubobject (iteratedUnderlyingVerschiebung B X ℓ F n k)) (by
+    rw [show iteratedUnderlyingVerschiebung B X ℓ F n (k + 1) =
+        iteratedUnderlyingVerschiebung B X ℓ F n k ≫ underlyingLAdicVerschiebung B X ℓ F (n + k)
+        from rfl, ← Category.assoc, kernelSubobject_arrow_comp, zero_comp])
 
 /-- The kernels of the iterated Verschiebung out of level `n` stabilise. -/
 public theorem verschiebungKernel_stabilizes (F : LAdicSheaf.{u, u + 1} B X ℓ) (n : ℕ) :
@@ -275,7 +279,11 @@ public theorem initialVerschiebung_kernel_stabilizes (F : LAdicSheaf.{u, u + 1} 
       kernelSubobject (initialVerschiebung B X ℓ F c) =
         kernelSubobject (initialVerschiebung B X ℓ F k) :=
   monotone_chain_condition_of_isNoetherianObject
-    ⟨_, monotone_nat_of_le_succ fun _ => kernelSubobject_comp_le _ _⟩
+    ⟨_, monotone_nat_of_le_succ fun k => le_kernelSubobject _
+      (kernelSubobject (initialVerschiebung B X ℓ F k)) (by
+      rw [show initialVerschiebung B X ℓ F (k + 1) =
+          initialVerschiebung B X ℓ F k ≫ underlyingLAdicVerschiebung B X ℓ F k from rfl,
+        ← Category.assoc, kernelSubobject_arrow_comp, zero_comp])⟩
 
 /-- Where the Verschiebung kernels have stopped growing between levels `n` and `m`, a map into
 level `m` killed by `ℓᵐ` becomes divisible by `ℓⁿ⁺¹` after multiplication by `ℓⁿ`. -/

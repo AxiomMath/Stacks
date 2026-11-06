@@ -161,14 +161,14 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 theorem smulEnd_app_apply (a : GlobalSection O)
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) (U : Cᵒᵖ)
     (x : M.val.obj U) :
-    ((smulEnd O a).app M).val.app U x = a.val U • x := rfl
+    ((smulEnd O a).asHom.app M).val.app U x = a.val U • x := rfl
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{w}] in
 /-- Multiplication by a global section whose local values are all `1` is the identity. -/
 theorem smulEnd_app_eq_id {a : GlobalSection O} (ha : ∀ U : Cᵒᵖ, a.val U = 1)
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
-    (smulEnd O a).app M = 𝟙 M := by
+    (smulEnd O a).asHom.app M = 𝟙 M := by
   ext U x
   rw [smulEnd_app_apply, ha, one_smul]
   rfl
@@ -180,10 +180,10 @@ multiplications. -/
 theorem smulEnd_app_eq_comp {a b c : GlobalSection O}
     (habc : ∀ U : Cᵒᵖ, c.val U = b.val U * a.val U)
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
-    (smulEnd O c).app M = (smulEnd O a).app M ≫ (smulEnd O b).app M := by
+    (smulEnd O c).asHom.app M = (smulEnd O a).asHom.app M ≫ (smulEnd O b).asHom.app M := by
   ext U x
   rw [smulEnd_app_apply]
-  show c.val U • x = ((smulEnd O b).app M).val.app U (((smulEnd O a).app M).val.app U x)
+  show c.val U • x = ((smulEnd O b).asHom.app M).val.app U (((smulEnd O a).asHom.app M).val.app U x)
   rw [smulEnd_app_apply, smulEnd_app_apply, habc, mul_smul]
 
 /-- The rank-one `O`-module, the common value of the Koszul system. -/
@@ -195,7 +195,7 @@ module `O`, with the transition map along `S ⊆ T` given by multiplication by `
 @[reducible] def koszulFunctor (f : Fin r → GlobalSection O) :
     Finset (Fin r) ⥤ SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O) where
   obj _ := koszulObj O
-  map {S T} h := (smulEnd O (prodSection O f (T \ S))).app (koszulObj O)
+  map {S T} h := (smulEnd O (prodSection O f (T \ S))).asHom.app (koszulObj O)
   map_id S := smulEnd_app_eq_id O (fun U ↦ by
     rw [prodSection_val, Finset.sdiff_self, Finset.prod_empty]
     rfl) (koszulObj O)
@@ -218,22 +218,22 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 /-- The transition map of the Koszul system along `S ⊆ T` is multiplication by `f_{T \ S}`. -/
 theorem koszulFunctor_map (f : Fin r → GlobalSection O) {S T : Finset (Fin r)} (h : S ⊆ T) :
     (koszulFunctor O f).map (homOfLE h) =
-      (smulEnd O (prodSection O f (T \ S))).app (koszulObj O) := rfl
+      (smulEnd O (prodSection O f (T \ S))).asHom.app (koszulObj O) := rfl
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{w}] in
 /-- Multiplication by a global section is central: it commutes with every morphism. -/
 theorem smulEnd_app_comp (a : GlobalSection O)
     {M N : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)} (g : M ⟶ N) :
-    (smulEnd O a).app M ≫ g = g ≫ (smulEnd O a).app N :=
-  ((smulEnd O a).naturality g).symm
+    (smulEnd O a).asHom.app M ≫ g = g ≫ (smulEnd O a).asHom.app N :=
+  ((smulEnd O a).asHom.naturality g).symm
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{w}] in
 /-- Multiplication by two global sections with the same local values agrees. -/
 theorem smulEnd_app_congr {a b : GlobalSection O} (hab : ∀ U : Cᵒᵖ, a.val U = b.val U)
     (M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
-    (smulEnd O a).app M = (smulEnd O b).app M := by
+    (smulEnd O a).asHom.app M = (smulEnd O b).asHom.app M := by
   ext U x
   rw [smulEnd_app_apply, smulEnd_app_apply, hab]
 
@@ -243,7 +243,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 `f_k`. -/
 theorem koszulFunctor_map_single (f : Fin r → GlobalSection O) {S T : Finset (Fin r)}
     (h : S ⊆ T) {k : Fin r} (hk : T \ S = {k}) :
-    (koszulFunctor O f).map (homOfLE h) = (smulEnd O (f k)).app (koszulObj O) := by
+    (koszulFunctor O f).map (homOfLE h) = (smulEnd O (f k)).asHom.app (koszulObj O) := by
   rw [koszulFunctor_map]
   exact smulEnd_app_congr O (fun U ↦ by rw [prodSection_val, hk, Finset.prod_singleton]) _
 
@@ -310,7 +310,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 /-- The component of the homotopy at a subset containing `j` vanishes. -/
 theorem koszulHtpy_comp_pi_of_mem {p q : ℤ} (hqp : q + 1 = p) (A : Idx r q) (hA : j ∈ A.1) :
     koszulHtpy O f j hqp ≫ Pi.π (fun S : Idx r q => (koszulFunctor O f).obj S.1) A = 0 := by
-  rw [koszulHtpy, Pi.lift_π, dite_eq_left hA]
+  rw [koszulHtpy, Pi.lift_comp_π, dite_eq_left hA]
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{w}] in
@@ -319,7 +319,7 @@ theorem koszulHtpy_comp_pi_of_notMem {p q : ℤ} (hqp : q + 1 = p) (A : Idx r q)
     koszulHtpy O f j hqp ≫ Pi.π (fun S : Idx r q => (koszulFunctor O f).obj S.1) A =
       Cech.cechSign A.1 j •
         Pi.π (fun S : Idx r p => (koszulFunctor O f).obj S.1) (idxInsert j A hA hqp) := by
-  rw [koszulHtpy, Pi.lift_π, dite_eq_right hA]
+  rw [koszulHtpy, Pi.lift_comp_π, dite_eq_right hA]
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{w}] in
@@ -356,7 +356,7 @@ theorem koszulHtpy_comp_dAux_add_dAux_comp_koszulHtpy {p q s : ℤ} (hqp : q + 1
     (hps : p + 1 = s) :
     koszulHtpy O f j hqp ≫ dAux (koszulFunctor O f) hqp +
         dAux (koszulFunctor O f) hps ≫ koszulHtpy O f j hps =
-      (smulEnd O (f j)).app (term (koszulFunctor O f) p) := by
+      (smulEnd O (f j)).asHom.app (term (koszulFunctor O f) p) := by
   classical
   refine Pi.hom_ext _ _ fun B ↦ ?_
   rw [Preadditive.add_comp, Category.assoc, Category.assoc,
@@ -401,7 +401,7 @@ theorem koszulHtpy_comp_dAux_add_dAux_comp_koszulHtpy {p q s : ℤ} (hqp : q + 1
         ∑ k ∈ B.1.attach, (Cech.cechSign B.1 k.1 * Cech.cechSign (B.1.erase k.1) j) •
           (Pi.π (fun S : Idx r p => (koszulFunctor O f).obj S.1)
               (idxInsert j (idxErase B k hqp) (hjmem k) hqp) ≫
-            (smulEnd O (f k.1)).app (koszulObj O)) := by
+            (smulEnd O (f k.1)).asHom.app (koszulObj O)) := by
       rw [htpy_comp_dAux_comp_pi O f j hqp B]
       refine Finset.sum_congr rfl fun k _ ↦ ?_
       rw [koszulHtpy_comp_pi_of_notMem O f j hqp _ (hjmem k),
@@ -415,11 +415,11 @@ theorem koszulHtpy_comp_dAux_add_dAux_comp_koszulHtpy {p q s : ℤ} (hqp : q + 1
     have key2 : dAux (koszulFunctor O f) hps ≫ koszulHtpy O f j hps ≫
           Pi.π (fun S : Idx r p => (koszulFunctor O f).obj S.1) B =
         (Pi.π (fun S : Idx r p => (koszulFunctor O f).obj S.1) B ≫
-            (smulEnd O (f j)).app (koszulObj O)) +
+            (smulEnd O (f j)).asHom.app (koszulObj O)) +
           ∑ k ∈ B.1.attach, (Cech.cechSign B.1 j * Cech.cechSign (insert j B.1) k.1) •
             (Pi.π (fun S : Idx r p => (koszulFunctor O f).obj S.1)
                 (idxInsert j (idxErase B k hqp) (hjmem k) hqp) ≫
-              (smulEnd O (f k.1)).app (koszulObj O)) := by
+              (smulEnd O (f k.1)).asHom.app (koszulObj O)) := by
       rw [koszulHtpy_comp_pi_of_eq O f j hps B hB T hTB, Preadditive.comp_zsmul,
         dAux_comp_pi (koszulFunctor O f) hps T, Finset.smul_sum,
         sum_attach_insert_of_eq hTB hB]
@@ -462,14 +462,14 @@ theorem koszulHtpy_comp_dAux_add_dAux_comp_koszulHtpy {p q s : ℤ} (hqp : q + 1
 
 /-- Multiplication by `f_j`, as an endomorphism of the Koszul complex. -/
 def koszulSmulMap : koszulComplex O f ⟶ koszulComplex O f where
-  f p := (smulEnd O (f j)).app ((koszulComplex O f).X p)
+  f p := (smulEnd O (f j)).asHom.app ((koszulComplex O f).X p)
   comm' p q _ := smulEnd_app_comp O (f j) ((koszulComplex O f).d p q)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasSheafify J AddCommGrpCat.{w}] in
 /-- In degree `p`, `koszulSmulMap O f j` is multiplication by `f_j` on the `p`-th term. -/
 @[simp] theorem koszulSmulMap_f (p : ℤ) :
-    (koszulSmulMap O f j).f p = (smulEnd O (f j)).app ((koszulComplex O f).X p) := rfl
+    (koszulSmulMap O f j).f p = (smulEnd O (f j)).asHom.app ((koszulComplex O f).X p) := rfl
 
 /-- **Multiplication by `f_j` is null-homotopic on the Koszul complex**: the contracting
 homotopy at `j` realises it. -/
@@ -493,9 +493,9 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The map induced on cohomology by multiplication by `f_j` is multiplication by `f_j`. -/
 theorem homologyMap_koszulSmulMap (p : ℤ) :
     HomologicalComplex.homologyMap (koszulSmulMap O f j) p =
-      (smulEnd O (f j)).app ((koszulComplex O f).homology p) := by
+      (smulEnd O (f j)).asHom.app ((koszulComplex O f).homology p) := by
   have hcyc : HomologicalComplex.cyclesMap (koszulSmulMap O f j) p =
-      (smulEnd O (f j)).app ((koszulComplex O f).cycles p) := by
+      (smulEnd O (f j)).asHom.app ((koszulComplex O f).cycles p) := by
     rw [← cancel_mono ((koszulComplex O f).iCycles p), HomologicalComplex.cyclesMap_i]
     exact (smulEnd_app_comp O (f j) ((koszulComplex O f).iCycles p)).symm
   rw [← cancel_epi ((koszulComplex O f).homologyπ p), HomologicalComplex.homologyπ_naturality,
@@ -507,7 +507,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 Each `f_j` annihilates every cohomology sheaf of the Koszul complex, because multiplication by
 `f_j` is null-homotopic on that complex. -/
 theorem smulEnd_app_homology_eq_zero (p : ℤ) :
-    (smulEnd O (f j)).app ((koszulComplex O f).homology p) = 0 := by
+    (smulEnd O (f j)).asHom.app ((koszulComplex O f).homology p) = 0 := by
   rw [← homologyMap_koszulSmulMap O f j p,
     (koszulSmulNullHomotopic O f j).homologyMap_eq p, HomologicalComplex.homologyMap_zero]
 

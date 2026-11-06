@@ -239,8 +239,8 @@ public noncomputable def completedDividedPowerWedgeMul (i j : ℕ) :
     completedDividedPowerWedgeMul p A hJ i j
         (AdicCompletion.of (pAdicIdeal (A := B) p) _ omega)
         (AdicCompletion.of (pAdicIdeal (A := B) p) _ eta) =
-      AdicCompletion.of (pAdicIdeal (A := B) p) _ (exteriorPower.wedgeMul i j omega eta) :=
-  PAdicCompletion.mapBilinear_of_of p B (exteriorPower.wedgeMul i j) omega eta
+      AdicCompletion.of (pAdicIdeal (A := B) p) _ (exteriorPower.wedgeMul i j omega eta) := by
+  rw [completedDividedPowerWedgeMul, PAdicCompletion.mapBilinear_of_of]
 
 /-- The value of the bigraded wedge product of completed forms at the level `pⁿ`. -/
 public theorem completedDividedPowerWedgeMul_val (i j n : ℕ)

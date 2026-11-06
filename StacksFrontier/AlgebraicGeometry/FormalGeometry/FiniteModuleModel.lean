@@ -374,7 +374,7 @@ private lemma restrict_tilde_map_smul_apply
       (op (S.U.ι ''ᵁ U)) x = _
   refine (tilde_map_smul_apply (R := CommRingCat.of S.A) M a (S.U.ι ''ᵁ U) x).trans ?_
   show _ = ((tilde (R := CommRingCat.of S.A) M).smul
-    ((S.U.ι.appIso U).inv.hom ((S.U.ι.appIso U).hom.hom _))).hom x
+    ((S.U.ι.appIso U).inv.hom ((S.U.ι.appIso U).hom.hom _))).asHom x
   simp only [← CommRingCat.comp_apply, Iso.hom_inv_id, CommRingCat.id_apply]
   rfl
 
@@ -1003,7 +1003,8 @@ public theorem mono_pullbackTilde_homEquiv_symm (G : S.U.toScheme.Modules)
     rw [Adjunction.comp_counit_app]
     infer_instance
   rw [Adjunction.homEquiv_counit]
-  infer_instance
+  have := IsIso.mono_of_iso ((pullbackTildeAdjunction S).counit.app G)
+  exact mono_comp _ _
 
 /-- A finite module model gives a coherent adic system on the punctured
 spectrum. -/

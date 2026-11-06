@@ -107,7 +107,7 @@ theorem inverseImageHomChartRingHom_ext_of_isCoverDense {C : Type*} [Category* C
       ← inverseImageHomChartRingHom_restrict f A φ₂ V j q x]
     exact h c V ((comparisonFunctor B S hS X).map q ≫ j.hom.unop) x
   apply ((smallEtaleRingedToposHom B S hS f).toToposHom.ringAdjunction.homEquiv _ _).injective
-  rw [← cancel_mono (pushforwardRingIsoRan B S hS f A).hom]
+  rw [← Iso.cancel_iso_hom_right _ _ (pushforwardRingIsoRan B S hS f A)]
   apply Sheaf.hom_ext
   ext V x
   exact chartProjection_ext_general B S hS f V.unop (fun j ↦ hj V.unop j x)

@@ -106,6 +106,13 @@ namespace Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullback_presheaf_stackInSetoidsDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A surjective, flat, locally finitely presented morphism of algebraic spaces over `S` has a
 section over a single covering morphism of the site.** For every object `U` of the big fppf site of
 `S` and every section `x` of the target over `U` there are a morphism `j : V ⟶ U` whose generated

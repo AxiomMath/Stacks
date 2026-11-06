@@ -51,19 +51,19 @@ localization and `K` a complex on which the unit of `RΓ` is invertible (e.g. a 
 complex of `Γ`-acyclic objects), `RΓ(X[0]) ≅ Qh(Γ(K))`. -/
 def rightDerivedFunctorPlusResolutionIso {X : C} {K : HomotopyCategory.Plus C}
     (r : (HomotopyCategory.Plus.singleFunctor C 0).obj X ⟶ K)
-    [IsIso (DerivedCategory.Plus.Qh.map r)] [IsIso (Γ.rightDerivedFunctorPlusUnit.app K)] :
+    [IsIso (DerivedCategory.Plus.Qh.map r)] [IsIso (Γ.rightDerivedFunctorPlusUnith.app K)] :
     Γ.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor C 0).obj X) ≅
       DerivedCategory.Plus.Qh.obj (Γ.mapHomotopyCategoryPlus.obj K) :=
   Γ.rightDerivedFunctorPlus.mapIso (resolutionQhIso r) ≪≫
-    (asIso (Γ.rightDerivedFunctorPlusUnit.app K)).symm
+    (asIso (Γ.rightDerivedFunctorPlusUnith.app K)).symm
 
 /-- **The identification on a resolution is natural**: a morphism `f : X ⟶ X'` covered by a
 morphism `g : K ⟶ K'` of resolutions is computed by `Γ(g)`. -/
 theorem rightDerivedFunctorPlusResolutionIso_naturality {X X' : C} {K K' : HomotopyCategory.Plus C}
     (r : (HomotopyCategory.Plus.singleFunctor C 0).obj X ⟶ K)
     (r' : (HomotopyCategory.Plus.singleFunctor C 0).obj X' ⟶ K')
-    [IsIso (DerivedCategory.Plus.Qh.map r)] [IsIso (Γ.rightDerivedFunctorPlusUnit.app K)]
-    [IsIso (DerivedCategory.Plus.Qh.map r')] [IsIso (Γ.rightDerivedFunctorPlusUnit.app K')]
+    [IsIso (DerivedCategory.Plus.Qh.map r)] [IsIso (Γ.rightDerivedFunctorPlusUnith.app K)]
+    [IsIso (DerivedCategory.Plus.Qh.map r')] [IsIso (Γ.rightDerivedFunctorPlusUnith.app K')]
     (f : X ⟶ X') (g : K ⟶ K')
     (h : (HomotopyCategory.Plus.singleFunctor C 0).map f ≫ r' = r ≫ g) :
     Γ.rightDerivedFunctorPlus.map ((DerivedCategory.Plus.singleFunctor C 0).map f) ≫
@@ -75,7 +75,7 @@ theorem rightDerivedFunctorPlusResolutionIso_naturality {X X' : C} {K K' : Homot
     simp only [resolutionQhIso, Iso.trans_hom, Iso.app_hom, asIso_hom, ← Category.assoc,
       (singleFunctorPlusIsoCompQh (A := C) 0).hom.naturality f]
     simp only [Functor.comp_map, Category.assoc, ← Functor.map_comp, h]
-  have e₂ := Γ.rightDerivedFunctorPlusUnit.naturality g
+  have e₂ := Γ.rightDerivedFunctorPlusUnith.naturality g
   simp only [rightDerivedFunctorPlusResolutionIso, Iso.trans_hom, Functor.mapIso_hom,
     Iso.symm_hom, asIso_inv, Category.assoc, ← Functor.map_comp_assoc, e₁]
   simp only [Functor.map_comp, Category.assoc]
@@ -165,8 +165,8 @@ identifications `RΓ₀(X[0]) ≅ Qh(Γ₀(K))` and `r̄(RΓ(P(X)[0])) ≅ Qh(r(
 applied degreewise to `K`. -/
 theorem derivedSquareMap_comp_resolutionIso (α : Γ₀ ⟶ P ⋙ Γ ⋙ r) (X : C₀)
     {K : HomotopyCategory.Plus C₀} (res : (HomotopyCategory.Plus.singleFunctor C₀ 0).obj X ⟶ K)
-    [IsIso (DerivedCategory.Plus.Qh.map res)] [IsIso (Γ₀.rightDerivedFunctorPlusUnit.app K)]
-    [IsIso (Γ.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj K))] :
+    [IsIso (DerivedCategory.Plus.Qh.map res)] [IsIso (Γ₀.rightDerivedFunctorPlusUnith.app K)]
+    [IsIso (Γ.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj K))] :
     derivedSquareMap α X ≫
         r.mapDerivedCategoryPlus.map
           (Γ.rightDerivedFunctorPlusResolutionIso (pushResolution P res)).hom ≫
@@ -183,7 +183,7 @@ theorem derivedSquareMap_comp_resolutionIso (α : Γ₀ ⟶ P ⋙ Γ ⋙ r) (X :
     rw [← Category.assoc, (derivedSquareTrans' α).naturality, Category.assoc,
       ← Functor.map_comp, ρ.hom_inv_id, Functor.map_id, Category.comp_id]
   have e2 : (derivedSquareTrans' α).app (DerivedCategory.Plus.Qh.obj K) =
-      CategoryTheory.inv (Γ₀.rightDerivedFunctorPlusUnit.app K) ≫
+      CategoryTheory.inv (Γ₀.rightDerivedFunctorPlusUnith.app K) ≫
         (DerivedCategory.Plus.Qh.map ((Functor.mapHomotopyCategoryPlusNatTrans α).app K) :
           DerivedCategory.Plus.Qh.obj (Γ₀.mapHomotopyCategoryPlus.obj K) ⟶
             DerivedCategory.Plus.Qh.obj (r.mapHomotopyCategoryPlus.obj
@@ -217,7 +217,7 @@ theorem derivedSquareMap_comp_resolutionIso (α : Γ₀ ⟶ P ⋙ Γ ⋙ r) (X :
       rw [← Γ.rightDerivedFunctorPlus.map_comp, ← Γ.rightDerivedFunctorPlus.map_comp,
         ← Γ.rightDerivedFunctorPlus.map_comp, hmid, Γ.rightDerivedFunctorPlus.map_id]
     have h2 : r.mapDerivedCategoryPlus.map
-          (Γ.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj K)) ≫
+          (Γ.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj K)) ≫
         r.mapDerivedCategoryPlus.map
           (Γ.rightDerivedFunctorPlus.map (P.mapDerivedCategoryPlusFactorsh.inv.app K)) ≫
         r.mapDerivedCategoryPlus.map (Γ.rightDerivedFunctorPlus.map
@@ -226,7 +226,7 @@ theorem derivedSquareMap_comp_resolutionIso (α : Γ₀ ⟶ P ⋙ Γ ⋙ r) (X :
           (P.mapDerivedCategoryPlusObjSingleIso X).hom) ≫
         r.mapDerivedCategoryPlus.map
           (Γ.rightDerivedFunctorPlus.map (resolutionQhIso (pushResolution P res)).hom ≫
-            CategoryTheory.inv (Γ.rightDerivedFunctorPlusUnit.app
+            CategoryTheory.inv (Γ.rightDerivedFunctorPlusUnith.app
               (P.mapHomotopyCategoryPlus.obj K))) = 𝟙 _ := by
       rw [← r.mapDerivedCategoryPlus.map_comp, ← r.mapDerivedCategoryPlus.map_comp,
         ← r.mapDerivedCategoryPlus.map_comp, ← r.mapDerivedCategoryPlus.map_comp,
@@ -289,10 +289,10 @@ theorem derivedSquareMap_transition_resolutionIso (α₂ : Γ₁ ⟶ P₂ ⋙ Γ
     (X : C₀) {K : HomotopyCategory.Plus C₀}
     (res : (HomotopyCategory.Plus.singleFunctor C₀ 0).obj X ⟶ K)
     [IsIso (DerivedCategory.Plus.Qh.map res)]
-    [IsIso (Γ₁.rightDerivedFunctorPlusUnit.app (P₁.mapHomotopyCategoryPlus.obj K))]
-    [IsIso (Γ₂.rightDerivedFunctorPlusUnit.app
+    [IsIso (Γ₁.rightDerivedFunctorPlusUnith.app (P₁.mapHomotopyCategoryPlus.obj K))]
+    [IsIso (Γ₂.rightDerivedFunctorPlusUnith.app
       (P₂.mapHomotopyCategoryPlus.obj (P₁.mapHomotopyCategoryPlus.obj K)))]
-    [IsIso (Γ₂.rightDerivedFunctorPlusUnit.app (P.mapHomotopyCategoryPlus.obj K))]
+    [IsIso (Γ₂.rightDerivedFunctorPlusUnith.app (P.mapHomotopyCategoryPlus.obj K))]
     (g : P₂.mapHomotopyCategoryPlus.obj (P₁.mapHomotopyCategoryPlus.obj K) ⟶
       P.mapHomotopyCategoryPlus.obj K)
     (hg : (HomotopyCategory.Plus.singleFunctor C₂ 0).map (c.hom.app X) ≫ pushResolution P res =
@@ -380,8 +380,6 @@ theorem derivedSquareMap_transition_resolutionIso (α₂ : Γ₁ ⟶ P₂ ⋙ Γ
     ← Functor.map_comp_assoc r.mapDerivedCategoryPlus, hR'', hfac,
     reassoc_of% hρL, reassoc_of% hfac₁, ← DerivedCategory.Plus.Qh.map_comp,
     ← DerivedCategory.Plus.Qh.map_comp]
-  congr 2
-  exact DerivedCategory.Plus.Qh.map_comp _ _
 
 end Composition
 

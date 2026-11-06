@@ -116,6 +116,13 @@ theorem isFinitePresentation_of_isOpenImmersion {F G : (BigFppfOver B S hS)ᵒ�
     isQuasiSeparated_of_isSeparated B S hS
       (isSeparated_of_mono j (mono_of_isOpenImmersion B S hS j hj))⟩
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_ComplexesDiagonalCorrected
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The corrected Stacks 0DPW for the relative derived Isom functor, from the conclusions of
 Stacks 0DLC.** Let `f : X ⟶ Y`, `M, N ∈ D(𝒪_X)`, and suppose given the conclusions of
 Stacks 0DLC for the pairs `(M, N)` and `(N, M)`: quasi-compact open immersions `ι₁ : W₁ ⟶ Y`,

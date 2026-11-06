@@ -107,12 +107,23 @@ theorem subsingleton_sheafH_of_forall_geometricClosedFibre_support
       ((etaleAbelianInverseImage.{u, 0} (pullback.fst f x)).obj
         (((smallEtaleDirectImageAb.{u + 1} j).rightDerived q).obj F)),
       ∃ a : ℕ, 2 * a < m - q ∧ y ∈ Scheme.trdegLESet Ω (pullback.snd f x) a) :
-    Subsingleton (Sheaf.H.{u + 1} F m) :=
-  subsingleton_sheafH_of_forall_geometricClosedFibre_rightDerived f x hx j F hn hF m
-    fun q hq ↦ subsingleton_H_of_forall_mem_smallEtaleSupport_two_mul_lt Ω (pullback.snd f x) _
-      (torsionSheafProperty_etaleAbelianInverseImage.{u, 0} (pullback.fst f x) _
-        (torsionSheafProperty_rightDerived_smallEtaleDirectImageAb_of_nsmul_eq_zero j F hn hF q))
-      (m - q) (h q hq)
+    Subsingleton (Sheaf.H.{u + 1} F m) := by
+  refine subsingleton_sheafH_of_forall_geometricClosedFibre_rightDerived f x hx j F hn hF m
+    fun q hq ↦ ?_
+  have ht := torsionSheafProperty_etaleAbelianInverseImage.{u, 0} (pullback.fst f x)
+    (((smallEtaleDirectImageAb.{u + 1} j).rightDerived q).obj F)
+    (torsionSheafProperty_rightDerived_smallEtaleDirectImageAb_of_nsmul_eq_zero j F hn hF q)
+  haveI : IsSepClosed Ω := IsSepClosed.of_isAlgClosed Ω
+  haveI : QuasiCompact f := inferInstance
+  haveI : CompactSpace (Spec (.of Ω)) := inferInstance
+  haveI : CompactSpace (pullback f x).carrier :=
+    QuasiCompact.compactSpace_of_compactSpace (pullback.snd f x)
+  -- instance search for `LocallyOfFiniteType f` times out on v4.35.0: take it from `IsProper`
+  haveI : LocallyOfFiniteType f := IsProper.toLocallyOfFiniteType
+  haveI : LocallyOfFiniteType (pullback.snd f x) := inferInstance
+  exact subsingleton_H_of_forall_mem_smallEtaleSupport_two_mul_lt Ω (pullback.snd f x)
+    ((etaleAbelianInverseImage.{u, 0} (pullback.fst f x)).obj
+      (((smallEtaleDirectImageAb.{u + 1} j).rightDerived q).obj F)) ht (m - q) (h q hq)
 
 include hx in
 /-- **A cohomological dimension bound from the supports on the geometric closed fibre.** If for

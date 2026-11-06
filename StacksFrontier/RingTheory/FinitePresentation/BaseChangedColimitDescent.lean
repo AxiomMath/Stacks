@@ -77,9 +77,9 @@ omit [Nonempty J] [IsDirectedOrder J] in
 theorem directedSystem_baseChangedMap :
     DirectedSystem (fun j ↦ A ⊗[R] T j) fun i j h ↦ ⇑(baseChangedMap (A := A) f i j h) := by
   refine ⟨fun i z ↦ ?_, fun i j k hij hjk z ↦ ?_⟩
-  · refine TensorProduct.induction_on z (by simp) (fun a x ↦ ?_) fun x y hx hy ↦ by simp [hx, hy]
+  · refine TensorProduct.inductionOn z (fun a x ↦ ?_) fun x y hx hy ↦ by simp [hx, hy]
     simp [DirectedSystem.map_self' f x]
-  · refine TensorProduct.induction_on z (by simp) (fun a x ↦ ?_) fun x y hx hy ↦ by simp [hx, hy]
+  · refine TensorProduct.inductionOn z (fun a x ↦ ?_) fun x y hx hy ↦ by simp [hx, hy]
     simp [DirectedSystem.map_map' f hij hjk x]
 
 omit [Preorder J] [Nonempty J] [IsDirectedOrder J] in
@@ -89,7 +89,7 @@ theorem commBaseChanged_leg (j : J) (z : A ⊗[R] T j) :
     TensorProduct.comm R A Tlim (baseChangedLeg (A := A) (Tlim := Tlim) j z) =
       canonMod (fun i ↦ IsScalarTower.toAlgHom R (T i) Tlim) A j
         (TensorProduct.comm R A (T j) z) := by
-  refine TensorProduct.induction_on z (by simp) (fun a x ↦ rfl) fun x y hx hy ↦ ?_
+  refine TensorProduct.inductionOn z (fun a x ↦ rfl) fun x y hx hy ↦ ?_
   simp only [map_add, hx, hy]
 
 omit [Nonempty J] [IsDirectedOrder J] [DirectedSystem T fun i j h ↦ ⇑(f i j h)] in
@@ -98,7 +98,7 @@ transition map `transMod` of the system `T_i` at the module `A`. -/
 theorem commBaseChanged_map (i j : J) (h : i ≤ j) (z : A ⊗[R] T i) :
     TensorProduct.comm R A (T j) (baseChangedMap (A := A) f i j h z) =
       transMod (fun i j (h : i ≤ j) ↦ f i j h) A h (TensorProduct.comm R A (T i) z) := by
-  refine TensorProduct.induction_on z (by simp) (fun a x ↦ rfl) fun x y hx hy ↦ ?_
+  refine TensorProduct.inductionOn z (fun a x ↦ rfl) fun x y hx hy ↦ ?_
   simp only [map_add, hx, hy]
 
 variable
@@ -155,7 +155,6 @@ theorem statement_one_baseChanged (hM : Module.Finite A M) (u u' : M →ₗ[A] N
         show baseChangedLeg (A := A) (Tlim := Tlim) j (baseChangedMap (A := A) f i j h x) =
           baseChangedLeg (A := A) (Tlim := Tlim) i x
         induction x with
-        | zero => simp
         | tmul a y => simp [hf i j h y]
         | add x y hx hy => simp only [map_add, hx, hy])
       (exists_algebraMap_eq_baseChanged f hf hsurj hinj)

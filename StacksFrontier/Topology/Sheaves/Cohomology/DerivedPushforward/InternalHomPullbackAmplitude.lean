@@ -107,7 +107,7 @@ theorem HasDerivedPullbackAmplitude.restrictedMorphism {d : ℤ}
       (Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical
         (Stacks.Cohomology.HigherDirectImage.restrictedMorphism h V)
         (openSubspaceInclusion Y V)).app N ≪≫
-      eqToIso (congrArg (fun q => (derivedPullbackFunctor q).obj N) hsq.symm) ≪≫
+      eqToIso (congrArg (fun (q : _ ⟶ Y) => (derivedPullbackFunctor q).obj N) hsq.symm) ≪≫
       ((Stacks.DerivedPullback.Composition.derivedPullbackCompIsoCanonical
         (openSubspaceInclusion X (preimageOpen h V)) h).app N).symm
   have := isGE_derivedPullback_obj_of_isFlat _

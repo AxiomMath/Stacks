@@ -90,7 +90,7 @@ theorem exists_forall_factorsThrough_iff_of_presheaf
   have hpb := hW.rep.isPullback (𝟙 (yoneda.obj T))
   have _ : IsIso (hW.rep.fst (𝟙 (yoneda.obj T))) := hpb.isIso_fst_of_isIso
   have he : hW.rep.fst (𝟙 (yoneda.obj T)) ≫ W.ι = yoneda.map (hW.rep.snd (𝟙 (yoneda.obj T))) := by
-    simpa using hpb.w
+    exact hpb.w.trans (Category.comp_id _)
   refine ⟨hW.rep.pullback (𝟙 (yoneda.obj T)), hW.rep.snd (𝟙 (yoneda.obj T)),
     hW.property_snd (𝟙 (yoneda.obj T)), fun T' h => ⟨?_, ?_⟩⟩
   · rintro ⟨t, rfl⟩

@@ -123,7 +123,7 @@ def boundedSectionsUnitPlus :
     boundedSectionsToDerivedCategory X U ⟶
       DerivedCategory.Plus.Qh ⋙
         ((sectionsOverOpen X U).rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) :=
-  Functor.whiskerRight (sectionsOverOpen X U).rightDerivedFunctorPlusUnit DerivedCategory.Plus.ι
+  Functor.whiskerRight (sectionsOverOpen X U).rightDerivedFunctorPlusUnith DerivedCategory.Plus.ι
 
 /-- The comparison `Γ(U, K) ⟶ RΓ(U, K)` from termwise sections of a bounded below complex to the
 unbounded derived sections. -/
@@ -139,7 +139,7 @@ theorem boundedSectionsUnitPlus_app
     (K : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing X))) :
     (boundedSectionsUnitPlus X U).app K =
       DerivedCategory.Plus.ι.map
-        ((sectionsOverOpen X U).rightDerivedFunctorPlusUnit.app K) :=
+        ((sectionsOverOpen X U).rightDerivedFunctorPlusUnith.app K) :=
   rfl
 
 /-- The component of `boundedSectionsUnitBig` at `K` is the component of the unit of `RΓ(U, -)` at
@@ -159,15 +159,15 @@ instance isIso_boundedSectionsUnitPlus_app
     IsIso ((boundedSectionsUnitPlus X U).app
       ((InjectiveObject.ι _).mapHomotopyCategoryPlus.obj Z)) := by
   rw [boundedSectionsUnitPlus_app]
-  have h : IsIso ((sectionsOverOpen X U).rightDerivedFunctorPlusUnit.app
+  have h : IsIso ((sectionsOverOpen X U).rightDerivedFunctorPlusUnith.app
       ((InjectiveObject.ι (SheafOfModules.{u} (structureSheafRing X))).mapHomotopyCategoryPlus.obj
         Z)) :=
     (HomotopyCategory.Plus.localizerMorphism_derives
         ((sectionsOverOpen X U).mapHomotopyCategoryPlus ⋙
           DerivedCategory.Plus.Qh)).isIso_of_isRightDerivedFunctor
-      (sectionsOverOpen X U).rightDerivedFunctorPlusUnit Z
+      (sectionsOverOpen X U).rightDerivedFunctorPlusUnith Z
   exact @Functor.map_isIso _ _ _ _ _ _ DerivedCategory.Plus.ι
-    ((sectionsOverOpen X U).rightDerivedFunctorPlusUnit.app
+    ((sectionsOverOpen X U).rightDerivedFunctorPlusUnith.app
       ((InjectiveObject.ι (SheafOfModules.{u} (structureSheafRing X))).mapHomotopyCategoryPlus.obj
         Z)) h
 
@@ -232,7 +232,7 @@ theorem boundedDerivedSectionsIso_fac :
 theorem boundedDerivedSectionsIso_hom_app
     (K : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing X))) :
     DerivedCategory.Plus.ι.map
-          ((sectionsOverOpen X U).rightDerivedFunctorPlusUnit.app K) ≫
+          ((sectionsOverOpen X U).rightDerivedFunctorPlusUnith.app K) ≫
         (boundedDerivedSectionsIso X U).hom.app (DerivedCategory.Plus.Qh.obj K) =
       (derivedSectionsOverOpenUnit X U).app ((HomotopyCategory.Plus.ι _).obj K) :=
   NatTrans.congr_app (boundedDerivedSectionsIso_fac X U) K

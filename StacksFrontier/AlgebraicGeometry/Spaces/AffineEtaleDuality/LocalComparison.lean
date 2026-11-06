@@ -184,7 +184,7 @@ lemma compMapSections_square :
     exact (map_add _ (ULift.up x) (ULift.up y)).trans
       ((congrArg₂ (· + ·) hx hy).trans (map_add _ (ULift.up x) (ULift.up y)).symm)
   | tmul b d =>
-    refine ULift.ext _ _ (Cochain.ext _ _ (fun p q hpq => ?_))
+    refine ULift.ext (Cochain.ext _ _ (fun p q hpq => ?_))
     refine ModuleCat.hom_ext (LinearMap.ext fun m => ?_)
     exact square_tmul V hV P I ι n b d p q hpq m
 

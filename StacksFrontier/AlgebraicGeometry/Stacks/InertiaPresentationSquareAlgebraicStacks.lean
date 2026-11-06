@@ -123,16 +123,16 @@ theorem isEquivalence_functoriality (p : S ⥤ C) (p' : S' ⥤ C) (F : S ⥤ S')
     let ff := Functor.FullyFaithful.ofFullyFaithful F
     let x := F.objPreimage Bq.obj
     let e : F.obj x ≅ Bq.obj := F.objObjPreimageIso Bq.obj
-    let α : Aut x := ff.preimageIso (e ≪≫ Bq.auto ≪≫ e.symm)
-    have hmap : F.map α.hom = e.hom ≫ Bq.auto.hom ≫ e.inv := ff.map_preimage _
+    let α : Aut x := .of (ff.preimageIso (e ≪≫ Bq.auto.asIso ≪≫ e.symm))
+    have hmap : F.map α.asIso.hom = e.hom ≫ Bq.auto.asIso.hom ≫ e.inv := ff.map_preimage _
     refine ⟨⟨x, α, ?_⟩, ⟨?_⟩⟩
-    · show p'.map (F.map α.hom) = 𝟙 _
+    · show p'.map (F.map α.asIso.hom) = 𝟙 _
       rw [hmap]
       simp [← p'.map_comp, Bq.cond]
     · refine ⟨⟨e.hom, ?_⟩, ⟨e.inv, ?_⟩, ?_, ?_⟩
-      · show e.hom ≫ Bq.auto.hom = F.map α.hom ≫ e.hom
+      · show e.hom ≫ Bq.auto.asIso.hom = F.map α.asIso.hom ≫ e.hom
         simp [hmap]
-      · show e.inv ≫ F.map α.hom = Bq.auto.hom ≫ e.inv
+      · show e.inv ≫ F.map α.asIso.hom = Bq.auto.asIso.hom ≫ e.inv
         simp [hmap]
       · exact RelativeInertiaHom.ext e.hom_inv_id
       · exact RelativeInertiaHom.ext e.inv_hom_id

@@ -235,6 +235,8 @@ theorem exists_injective_sheafOfModules_toSheaf_iso (I : EtaleModules.{u, 0} Λ 
   let : X.smallEtaleTopology.HasSheafCompose
       (forget₂ (ModuleCat.{u + 1} (ULift.{u + 1} Λ)) AddCommGrpCat.{u + 1}) :=
     Stacks.ModuleSheaf.hasSheafCompose_forget₂.{u + 1} (ULift.{u + 1} Λ) _
+  let : HasSheafify X.smallEtaleTopology CommRingCat.{u + 1} :=
+    Stacks.SheafifyCommRing.hasSheafifyCommRingCat.{u + 1, u, u + 1} X.smallEtaleTopology
   let E₂ := Stacks.ConstantSheaf.constantSheafModuleEquivalence X.smallEtaleTopology
     (R := ULift.{u + 1} Λ)
   refine ⟨_, E₂.functor.obj (E₁.functor.obj I),

@@ -201,7 +201,7 @@ private lemma termwiseProductIso_hom_π
     (termwiseProductIso S A E).hom ≫ Pi.π (fun _ : A => E) a =
       ((productProjection S A a).mapHomologicalComplex (ComplexShape.up ℤ)).app E ≫
         (Functor.mapHomologicalComplexIdIso (ModuleCat S) (ComplexShape.up ℤ)).hom.app E :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 private noncomputable def tensorSingleUnitIso
     (S : Type v) [CommRing S] (E : CochainComplex (ModuleCat.{v} S) ℤ) :
@@ -257,6 +257,9 @@ private lemma epi_homology_moduleTensorRingPowerComparison_iff
   simp only [Functor.map_comp] at h
   show Epi (H.map (((moduleTensorRingPowerComparison S A).mapHomologicalComplex
     (ComplexShape.up ℤ)).app E)) ↔ _
+  have : HasLimitsOfShape (Discrete A) (ModuleCat.{v} S) := ModuleCat.hasLimitsOfShape
+  have : HasProductsOfShape A (CochainComplex (ModuleCat.{v} S) ℤ) := by
+    set_option synthInstance.maxHeartbeats 400000 in infer_instance
   rw [← epi_comp_iff_of_isIso _ (H.map (termwiseProductIso S A E).hom), h,
     epi_comp_iff_of_epi, epi_comp_iff_of_epi, epi_comp_iff_of_isIso]
   rfl
@@ -274,6 +277,9 @@ lemma isIso_homology_moduleTensorRingPowerComparison_iff
   simp only [Functor.map_comp] at h
   show IsIso (H.map (((moduleTensorRingPowerComparison S A).mapHomologicalComplex
     (ComplexShape.up ℤ)).app E)) ↔ _
+  have : HasLimitsOfShape (Discrete A) (ModuleCat.{v} S) := ModuleCat.hasLimitsOfShape
+  have : HasProductsOfShape A (CochainComplex (ModuleCat.{v} S) ℤ) := by
+    set_option synthInstance.maxHeartbeats 400000 in infer_instance
   rw [← isIso_comp_right_iff _ (H.map (termwiseProductIso S A E).hom), h,
     isIso_comp_left_iff, isIso_comp_left_iff, isIso_comp_right_iff]
   rfl

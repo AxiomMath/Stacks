@@ -107,6 +107,16 @@ variable {C₁ : Type u₁} [Category.{v₁} C₁] {J₁ : GrothendieckTopology 
   [PreservesColimitsOfSize.{w, w} Φ]
   (u : Φ.obj (SheafOfModules.unit R₁) ≅ SheafOfModules.unit R₂)
 
+/-- Instance search for coproducts of presheaves of modules times out; supply it directly. -/
+private instance hasColimitsOfShape_discrete_globalGenerationComparison₁ (J : Type w) :
+    HasColimitsOfShape (Discrete J) (PresheafOfModules.{w} R₁.obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
+/-- Instance search for coproducts of presheaves of modules times out; supply it directly. -/
+private instance hasColimitsOfShape_discrete_globalGenerationComparison₂ (J : Type w) :
+    HasColimitsOfShape (Discrete J) (PresheafOfModules.{w} R₂.obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
 /-- **A generating family of global sections transported forward.**  The generating map is the
 free comparison `Stacks.Sheaves.QcohTypeComparison.mapFreeIso` followed by the image of the
 original generating map, an epimorphism because `Φ` preserves epimorphisms.  The index type is
@@ -117,7 +127,8 @@ def generatingSectionsMap [Φ.PreservesEpimorphisms] {F : SheafOfModules.{w} R�
   s := (Φ.obj F).freeHomEquiv ((mapFreeIso Φ u σ.I).inv ≫ Φ.map σ.π)
   epi := by
     simp only [Equiv.symm_apply_apply]
-    infer_instance
+    have hσ : Epi σ.π := σ.epi
+    exact epi_comp' (IsIso.epi_of_iso _) (Φ.map_epi σ.π)
 
 variable (P : ObjectProperty (SheafOfModules.{w} R₁))
 
@@ -141,7 +152,7 @@ def generatingSectionsOfMap (hff : (P.ι ⋙ Φ).FullyFaithful)
     have h : Epi ((P.ι ⋙ Φ).map (hff.preimage (X := ⟨_, hfree σ.I⟩) (Y := ⟨F, hF⟩)
         ((mapFreeIso Φ u σ.I).hom ≫ σ.π))) := by
       rw [hff.map_preimage]
-      exact epi_comp _ _
+      exact epi_comp' (IsIso.epi_of_iso _) hσ
     have := (P.ι ⋙ Φ).epi_of_epi_map h
     infer_instance
 

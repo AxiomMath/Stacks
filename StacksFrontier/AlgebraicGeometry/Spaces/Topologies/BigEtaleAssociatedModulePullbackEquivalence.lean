@@ -184,6 +184,7 @@ theorem BigEtaleSpaceSite.quasicoherentPullbackEquivalence_functor_comp_ι
         (spacesEtaleRestrictionRingedSiteHom E X).toRingedToposSiteHom.pullbackTopos :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The pullback along `a_X` of a quasi-coherent module is quasi-coherent** (Stacks 03DO):
 every object of `(Spaces/X)_fppf` maps to `X`, which is an object of the spaces-étale site. -/
 theorem BigFppfSpaceSite.isQuasicoherentOnSite_pullbackTopos_of_isQuasicoherentOnSite

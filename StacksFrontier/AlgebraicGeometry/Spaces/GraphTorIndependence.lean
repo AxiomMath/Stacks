@@ -64,6 +64,17 @@ namespace Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_GraphTorIndependence :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_GraphTorIndependence
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Tor independence is invariant under an isomorphism of the first factor.** -/
 theorem TorIndependent.of_isIso_comp {X' X Y Bs : AlgebraicSpaces B S hS} (e : X' ⟶ X)
     [IsIso e.hom] (f : X ⟶ Bs) (g : Y ⟶ Bs)

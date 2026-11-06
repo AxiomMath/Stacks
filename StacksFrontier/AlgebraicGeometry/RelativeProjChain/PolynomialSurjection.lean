@@ -120,7 +120,7 @@ theorem aeval_mem_of_mem_homogeneousSubmodule {d : ℕ} {p : MvPolynomial (Fin (
     have h := SetLike.prod_pow_mem_graded 𝒮 (fun _ : Fin (n + 1) => (1 : ℕ)) x
       (F := e.support) e fun k _ => hx k
     rwa [hdeg] at h
-  have h := SetLike.mul_mem_graded (halg (MvPolynomial.coeff e p)) hprod
+  have h := SetLike.mul_mem_graded (halg (p.coeff e)) hprod
   simpa using h
 
 /-- **The graded ring homomorphism `R[T_0, …, T_n] → S` sending `T_i` to `x_i`.** It is the

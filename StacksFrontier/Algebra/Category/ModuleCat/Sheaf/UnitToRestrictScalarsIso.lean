@@ -1,6 +1,8 @@
 module
 
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.KernelIdealSheaf
+public import Mathlib.CategoryTheory.Functor.ReflectsIso.Balanced
+public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Abelian
 
 /-!
 # When the unit map to a restriction of scalars is an isomorphism

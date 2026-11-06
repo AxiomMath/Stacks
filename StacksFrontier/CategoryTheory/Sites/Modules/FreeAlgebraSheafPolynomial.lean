@@ -90,7 +90,7 @@ theorem forgetAlgebraSheaf_map_hom {X Y : Under A} (g : X ⟶ Y) :
 /-- The variables of the sheafified polynomial presheaf, as a morphism of sheaves of sets. -/
 def polynomialAlgebraSheafVariable :
     E ⟶ (forgetAlgebraSheaf J A).obj (polynomialAlgebraSheaf J A E) :=
-  Sheaf.Hom.mk (freeAlgebraSheafVariable J A E.obj)
+  ObjectProperty.homMk (freeAlgebraSheafVariable J A E.obj)
 
 /-- The comparison morphism `A ⨿ ℤ[E] ⟶ A[E]`, classified by the variables of the sheafified
 polynomial presheaf. -/
@@ -113,7 +113,8 @@ theorem unit_hom_comp_freeAlgebraSheafComparison :
         ((sheafToPresheaf J CommRingCat.{max u v w}).map
           (freeAlgebraSheafComparison J A E).right) (forget CommRingCat.{max u v w}) =
       freeAlgebraSheafVariable J A E.obj := by
-  exact congrArg (·.hom) (unit_comp_freeAlgebraSheafComparison J A E)
+  exact (ObjectProperty.FullSubcategory.comp_hom ..).symm.trans
+    (congrArg (·.hom) (unit_comp_freeAlgebraSheafComparison J A E))
 
 /-- The comparison morphism `A[E] ⟶ A ⨿ ℤ[E]`, classified by the unit of the free-forgetful
 adjunction for sheaves of `A`-algebras. -/

@@ -59,17 +59,18 @@ Galois cover under a morphism to `V`, and naturality transports the triviality. 
 theorem eq_one_of_app_isGalois_eq_id {X : Scheme.{u}} [ConnectedSpace X] (x : GeometricPoint X)
     (γ : EtaleFundamentalGroup X x)
     (hA : ∀ A : FiniteEtaleOver X, CategoryTheory.PreGaloisCategory.IsGalois A →
-      γ.hom.app A = 𝟙 _) :
+      γ.asIso.hom.app A = 𝟙 _) :
     γ = 1 := by
+  apply Aut.ext
   apply Iso.ext
   ext V p
   obtain ⟨A, f, a, hgal, ha⟩ :=
     exists_hom_from_galois_of_fiber (finiteEtaleFiberFintypeFunctor X x) V p
   have hp : (finiteEtaleFiberFunctor x).map f a = p := ha
-  have hm : (finiteEtaleFiberFunctor x).map f ≫ γ.hom.app V
+  have hm : (finiteEtaleFiberFunctor x).map f ≫ γ.asIso.hom.app V
       = (finiteEtaleFiberFunctor x).map f := by
-    rw [γ.hom.naturality f, hA A hgal, Category.id_comp]
-  show (ConcreteCategory.hom (γ.hom.app V)) p = p
+    rw [γ.asIso.hom.naturality f, hA A hgal, Category.id_comp]
+  show (ConcreteCategory.hom (γ.asIso.hom.app V)) p = p
   rw [← hp]
   exact ConcreteCategory.congr_hom hm a
 
@@ -96,10 +97,10 @@ theorem injective_etaleFundamentalGroupMap_of_essImage_isGalois {X Y : Scheme.{u
     intro γ hone
     refine eq_one_of_app_isGalois_eq_id x γ fun A hA ↦ ?_
     obtain ⟨B, ⟨e⟩⟩ := hgal A hA
-    have hnat := γ.hom.naturality e.hom
-    rw [show γ.hom.app ((finiteEtaleBaseChange f).obj B) = 𝟙 _ from
-      NatTrans.congr_app (congrArg Iso.hom hone) B, Category.id_comp] at hnat
-    exact (cancel_epi ((finiteEtaleFiberFunctor x).map e.hom)).mp
+    have hnat := γ.asIso.hom.naturality e.hom
+    rw [show γ.asIso.hom.app ((finiteEtaleBaseChange f).obj B) = 𝟙 _ from
+      NatTrans.congr_app (congrArg (fun a ↦ a.asIso.hom) hone) B, Category.id_comp] at hnat
+    exact ((finiteEtaleFiberFunctor x).mapIso e).cancel_iso_hom_left _ _ |>.mp
       (hnat.trans (Category.comp_id _).symm)
   have hcomp : (etaleFundamentalGroupMap f x :
       EtaleFundamentalGroup X x → EtaleFundamentalGroup Y (x.map f)) =

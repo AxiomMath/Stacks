@@ -71,7 +71,7 @@ variable {C : Type u} [Category.{v} C] (W : C) {G : Type w} [Group G] (act : G �
 character `χ`: the sections `s` with `g · s = χ g • s` for every `g` in the group. -/
 def characterSections (F : Cᵒᵖ ⥤ AddCommGrpCat.{v}) :
     AddSubgroup (F.obj (op W)) where
-  carrier := {s | ∀ g : G, (F.map ((act g).hom).op) s = (χ g : ℤ) • s}
+  carrier := {s | ∀ g : G, (F.map ((act g).asIso.hom).op) s = (χ g : ℤ) • s}
   zero_mem' g := by simp
   add_mem' {a b} ha hb g := by rw [map_add, ha g, hb g, smul_add]
   neg_mem' {a} ha g := by rw [map_neg, ha g, smul_neg]
@@ -79,7 +79,7 @@ def characterSections (F : Cᵒᵖ ⥤ AddCommGrpCat.{v}) :
 /-- A section lies in `characterSections` exactly when every `g` acts on it as `χ g`. -/
 lemma mem_characterSections_iff {F : Cᵒᵖ ⥤ AddCommGrpCat.{v}} {s : F.obj (op W)} :
     s ∈ characterSections W act χ F ↔
-      ∀ g : G, (F.map ((act g).hom).op) s = (χ g : ℤ) • s :=
+      ∀ g : G, (F.map ((act g).asIso.hom).op) s = (χ g : ℤ) • s :=
   Iff.rfl
 
 /-! ### The twisted free abelian presheaf -/
@@ -88,7 +88,7 @@ lemma mem_characterSections_iff {F : Cᵒᵖ ⥤ AddCommGrpCat.{v}} {s : F.obj (
 `V ⟶ W`: the generator at `g ∘ φ` is `χ g` times the generator at `φ`. -/
 def characterRelations (V : C) : AddSubgroup (FreeAbelianGroup (V ⟶ W)) :=
   AddSubgroup.closure {x | ∃ (g : G) (φ : V ⟶ W),
-    x = FreeAbelianGroup.of (φ ≫ (act g).hom) - (χ g : ℤ) • FreeAbelianGroup.of φ}
+    x = FreeAbelianGroup.of (φ ≫ (act g).asIso.hom) - (χ g : ℤ) • FreeAbelianGroup.of φ}
 
 /-- Precomposition with a morphism of the site carries the relations imposed by `χ` into the
 relations imposed by `χ`. -/
@@ -144,9 +144,9 @@ lemma characterTwistPresheaf_map_twistedGenerator {V V' : C} (f : V' ⟶ V) (φ 
 
 /-- The class of `g ∘ φ` is `χ g` times the class of `φ`. -/
 lemma twistedGenerator_act {V : C} (φ : V ⟶ W) (g : G) :
-    twistedGenerator W act χ (φ ≫ (act g).hom) =
+    twistedGenerator W act χ (φ ≫ (act g).asIso.hom) =
       (χ g : ℤ) • twistedGenerator W act χ φ := by
-  have h : FreeAbelianGroup.of (φ ≫ (act g).hom) -
+  have h : FreeAbelianGroup.of (φ ≫ (act g).asIso.hom) -
       (χ g : ℤ) • FreeAbelianGroup.of φ ∈ characterRelations W act χ V :=
     AddSubgroup.subset_closure ⟨g, φ, rfl⟩
   have h' := (QuotientAddGroup.eq_iff_sub_mem (N := characterRelations W act χ V)).mpr h
@@ -189,8 +189,8 @@ def characterSectionsApp (F : Cᵒᵖ ⥤ AddCommGrpCat.{v}) (s : characterSecti
         rintro y ⟨g, φ, rfl⟩
         simp only [SetLike.mem_coe, AddMonoidHom.mem_ker, map_sub, map_zsmul,
           FreeAbelianGroup.lift_apply_of, sub_eq_zero, op_comp, Functor.map_comp]
-        rw [show (ConcreteCategory.hom (F.map ((act g).hom).op ≫ F.map φ.op)) s.1 =
-          (F.map φ.op) ((F.map ((act g).hom).op) s.1) from rfl, s.2 g, map_zsmul]))
+        rw [show (ConcreteCategory.hom (F.map ((act g).asIso.hom).op ≫ F.map φ.op)) s.1 =
+          (F.map φ.op) ((F.map ((act g).asIso.hom).op) s.1) from rfl, s.2 g, map_zsmul]))
 
 /-- The map attached to a section `s` sends the class of `φ : V ⟶ W` to the restriction of
 `s` along `φ`. -/
@@ -208,8 +208,8 @@ def characterTwistPresheafHomEquiv (F : Cᵒᵖ ⥤ AddCommGrpCat.{v}) :
     (characterTwistPresheaf W act χ ⟶ F) ≃ characterSections W act χ F where
   toFun u := ⟨(u.app (op W)) (twistedGenerator W act χ (𝟙 W)), by
     intro g
-    have h := app_twistedGenerator W act χ u ((act g).hom)
-    have hgen : twistedGenerator W act χ ((act g).hom) =
+    have h := app_twistedGenerator W act χ u ((act g).asIso.hom)
+    have hgen : twistedGenerator W act χ ((act g).asIso.hom) =
         (χ g : ℤ) • twistedGenerator W act χ (𝟙 W) := by
       have hid := twistedGenerator_act W act χ (𝟙 W) g
       rwa [Category.id_comp] at hid

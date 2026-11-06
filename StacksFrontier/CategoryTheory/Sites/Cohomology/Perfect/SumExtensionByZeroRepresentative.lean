@@ -106,7 +106,7 @@ theorem exists_isColimit_cofanExtUnit
   exact (coproductIsCoproduct
       (fun α : I =>
         Stacks.Sites.ExtensionByZeroSpan.extUnit (Tensor.ringSheaf X.O) (U α))).ofIsoColimit
-    (Cocones.ext e (fun α => rfl))
+    (Cocone.ext e (fun α => rfl))
 
 /-- **A bounded above representative whose terms are presented as sums of extensions by zero.**
 A complex of `O`-modules with no cohomology above `b` receives a quasi-isomorphism from a

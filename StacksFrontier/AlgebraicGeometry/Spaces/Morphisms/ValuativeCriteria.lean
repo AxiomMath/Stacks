@@ -140,6 +140,13 @@ namespace AlgebraicGeometry.Space
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 variable {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, supplied directly: instance search
+for them now times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_ValuativeCriteria
+    {Z₁ Z₂ Z₀ : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z₀) (f : Z₂ ⟶ Z₀) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-! ### The morphism of site objects attached to a valuative square -/
 
 /-- The morphism of site objects `Spec K ⟶ Spec R` which is the left column of a valuative
@@ -341,6 +348,9 @@ theorem valuativeCriterion_uniqueness_of_isSeparated (f : X ⟶ Y)
         Function.comp_apply, hxy]
     exact IsClosedImmersion.isIso_of_injective_of_isAffine hinj
   have : IsIso (hf.rep.snd w) := isIso_of_reflects_iso _ (BigFppfOver.toScheme B S hS)
+  have : Epi (yoneda.map (hf.rep.snd w)) := by
+    haveI : IsIso (yoneda.map (hf.rep.snd w)) := Functor.map_isIso _ _
+    exact IsIso.epi_of_iso _
   have hcancel : yoneda.map (hf.rep.snd w) ≫ w ≫ pullback.fst f f =
       yoneda.map (hf.rep.snd w) ≫ w ≫ pullback.snd f f := by
     rw [← Category.assoc, ← Category.assoc, ← sq.w, Category.assoc, Category.assoc,
@@ -1021,6 +1031,7 @@ theorem universallyClosed_iff_valuativeCriterion_existence_of_isQuasiCompact_of_
 
 /-! ### Separatedness from the uniqueness part -/
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The relative diagonal of a morphism satisfying the uniqueness part of the valuative
 criterion satisfies the existence part.
 
@@ -1071,7 +1082,7 @@ private theorem valuativeCriterion_existence_pullbackDiagonal_of_uniqueness (f :
       generic_comm := leftLift.generic_comm
       special_comm := by
         refine pullback.hom_ext ?_ ?_
-        · simp
+        · rw [Category.assoc, pullback.diagonal_fst, Category.comp_id]
         · rw [Category.assoc, pullback.diagonal_snd, Category.comp_id]
           exact hmaps }
   exact ⟨ext, ⟨lifted⟩⟩

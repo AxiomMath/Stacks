@@ -700,8 +700,8 @@ private lemma exists_constantKernelIso
               Spec (CommRingCat.of (ZMod ℓ → A))) ≫
           Spec.map (CommRingCat.ofHom e.toAlgHom.toRingHom)) ≫
         Spec.map (CommRingCat.ofHom (Ideal.Quotient.mkₐ A
-          (Ideal.span {isogeny ℓ ζ hsplit
-            (coordinateGenerator ((ζ - 1) ^ ℓ))})).toRingHom) =
+          (Ideal.span {(isogeny ℓ ζ hsplit
+            (coordinateGenerator ((ζ - 1) ^ ℓ)))})).toRingHom) =
       (pointSection (ζ - 1) (constantPoint ℓ ζ hζ j.toAdd)).left := by
     rw [Category.assoc, ← Category.assoc, hσ j, pointSection_left,
       ← Spec.map_comp, ← Spec.map_comp]

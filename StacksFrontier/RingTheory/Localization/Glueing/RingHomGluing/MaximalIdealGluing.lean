@@ -425,7 +425,7 @@ private noncomputable def quotientMaximalEquivLocalizationQuotient (i : I) :
       Localization.AtPrime (m i) ⧸
         (m i).map (algebraMap A (Localization.AtPrime (m i))) :=
   (IsLocalization.AtPrime.equivQuotMaximalIdeal (m i)
-    (Localization.AtPrime (m i))).trans
+    (Localization.AtPrime (m i))).toRingEquiv.trans
       (Ideal.quotEquivOfEq <|
         (IsLocalization.AtPrime.map_eq_maximalIdeal (m i)
           (Localization.AtPrime (m i))).symm)
@@ -464,7 +464,8 @@ private theorem quotientMap_inf_bijective
         (Ideal.Quotient.mk J x)) i = Ideal.Quotient.mk (m i) x := rfl
     rw [hcrt]
     simp only [quotientMaximalEquivLocalizationQuotient, RingEquiv.coe_trans,
-      Function.comp_apply, IsLocalization.AtPrime.equivQuotMaximalIdeal_apply_mk,
+      Function.comp_apply, AlgEquiv.coe_toRingEquiv,
+      IsLocalization.AtPrime.equivQuotMaximalIdeal_apply_mk,
       Ideal.Quotient.mk_algebraMap, RingHom.pi_apply, K, a]
     rw [← Ideal.Quotient.mk_algebraMap, Ideal.quotEquivOfEq_mk]
     rfl
@@ -583,6 +584,7 @@ private noncomputable def piAlgEquivComponent
     rw [hx, map_mul, hE, E.commutes]
     simp)
 
+set_option maxHeartbeats 800000 in
 /-- Ring maps over the localizations at finitely many pairwise distinct maximal ideals glue to
 one global ring map. The map has kernel and cokernel killed by powers of the
 intersection, and it inherits finiteness, injectivity, or surjectivity when all the local maps
@@ -851,7 +853,8 @@ theorem exists_ringHom_inducing_at_maximal_ideal
       t (ULift.{max u v w, u} A) i => z.1.down) (congrArg Subtype.val hx)
     refine hunit_inj _ _ ?_ fun i ↦ ?_
     · simpa only [map_mul, map_zero] using hn (a c) (hmapPow n c hc) (a x) hgen
-    · rw [map_mul, hx, mul_zero, map_zero]
+    · exact congrArg (fun z : D => z.1.2 i) ((g.map_mul c x).trans
+        ((congrArg (g c * ·) hx).trans ((mul_zero (g c)).trans g.map_zero.symm)))
   have lift_of_generic (d : D) (s : S)
       (hs : F s = d.1.1.down) : ∃ x : A, g x = d := by
     let z : (S ⊗[A] ULift.{max u v w, u} A) ×

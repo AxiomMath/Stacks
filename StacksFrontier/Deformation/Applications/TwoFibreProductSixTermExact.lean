@@ -500,21 +500,21 @@ public theorem infinitesimalAutomorphismsAlongSplitPair_eq_top_of_isThin
     (canonicalRetraction hp g e hge i hi).2.1
   have hrf : i ≫ (canonicalRetraction hp g e hge i hi).1 = 𝟙 x₀.1 :=
     (canonicalRetraction hp g e hge i hi).2.2
-  have hal : p.IsHomLift (𝟙 Aε) a.hom.val := a.hom.2
+  have hal : p.IsHomLift (𝟙 Aε) a.asIso.hom.val := a.asIso.hom.2
   have hcoc := isStronglyCocartesian_of_isCofiberedInGroupoids hp g i hi
   have hi' := hi
-  have hcompl : p.IsHomLift e (a.hom.val ≫ (canonicalRetraction hp g e hge i hi).1) :=
+  have hcompl : p.IsHomLift e (a.asIso.hom.val ≫ (canonicalRetraction hp g e hge i hi).1) :=
     inferInstance
   have hendo : p.IsHomLift (𝟙 A₀)
-      (i ≫ a.hom.val ≫ (canonicalRetraction hp g e hge i hi).1) := by
+      (i ≫ a.asIso.hom.val ≫ (canonicalRetraction hp g e hge i hi).1) := by
     have h : p.IsHomLift (g ≫ e)
-      (i ≫ a.hom.val ≫ (canonicalRetraction hp g e hge i hi).1) := inferInstance
+      (i ≫ a.asIso.hom.val ≫ (canonicalRetraction hp g e hge i hi).1) := inferInstance
     rwa [hge] at h
   have hsub := hthin x₀ x₀
-  have hendoeq : i ≫ a.hom.val ≫ (canonicalRetraction hp g e hge i hi).1 = 𝟙 x₀.1 :=
+  have hendoeq : i ≫ a.asIso.hom.val ≫ (canonicalRetraction hp g e hge i hi).1 = 𝟙 x₀.1 :=
     congrArg Subtype.val
       (Subsingleton.elim
-        (⟨i ≫ a.hom.val ≫ (canonicalRetraction hp g e hge i hi).1, hendo⟩ : x₀ ⟶ x₀) (𝟙 x₀))
+        (⟨i ≫ a.asIso.hom.val ≫ (canonicalRetraction hp g e hge i hi).1, hendo⟩ : x₀ ⟶ x₀) (𝟙 x₀))
   exact Functor.IsStronglyCocartesian.ext p g i e (hendoeq.trans hrf.symm)
 
 /-- The special fibre of a predeformation category is thin: there is a unique morphism between
@@ -671,7 +671,7 @@ public theorem exists_aut_boundaryObject_tangentClassAt_eq
         f.map iI.inv ≫ W.1.iso.hom ≫ g.map jI.hom ≫
           (boundaryCompareSnd.{u, v, w} f g hzy hcmp PG PF
             hF.predeformation.cofibered M).inv) := inferInstance
-  refine ⟨fiberIsoOfVertical _ _
+  refine ⟨Aut.of <| fiberIsoOfVertical _ _
     ⟨(boundaryCompareFst.{u, v, w} f PH PF hF.predeformation.cofibered M).hom ≫
         f.map iI.inv ≫ W.1.iso.hom ≫ g.map jI.hom ≫
           (boundaryCompareSnd.{u, v, w} f g hzy hcmp PG PF hF.predeformation.cofibered M).inv,
@@ -684,7 +684,8 @@ public theorem exists_aut_boundaryObject_tangentClassAt_eq
     (isDeformationCategory_productBased.{u, v, w} pF f g hH hG hF) M _ _).mpr
     ⟨(fiberIsoOfVertical W _
       (TwoFibreProductOver.isoMkVertical iI jI hiI0 hjI0 ?_) ?_).symm⟩
-  · change f.map iI.hom ≫
+  · dsimp only [boundaryObject]
+    change f.map iI.hom ≫
         (boundaryCompareFst.{u, v, w} f PH PF hF.predeformation.cofibered M).inv ≫
           (((boundaryCompareFst.{u, v, w} f PH PF hF.predeformation.cofibered M).hom ≫
               f.map iI.inv ≫ W.1.iso.hom ≫ g.map jI.hom ≫

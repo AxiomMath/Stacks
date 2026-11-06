@@ -237,14 +237,16 @@ theorem hasSeparator_quasicoherentModules_of_essentiallySmall
     intro X₁ X₂ f g hfg
     apply ObjectProperty.IsSeparating.of_le (isSeparating_isAffineBounded B S hS p hp) hPQ f g
     rintro Y ⟨Z, hZ, ⟨e⟩⟩ k
-    simpa using congrArg (fun t ↦ e.hom ≫ t) (hfg Z hZ (e.inv ≫ k))
+    exact (e.cancel_iso_inv_left _ _).1 (by simpa only [Category.assoc] using hfg Z hZ (e.inv ≫ k))
   let β := Shrink.{u} (Subtype Q)
   let f : β → C := fun b ↦ ((equivShrink.{u} (Subtype Q)).symm b).1
   have hOf : Q ≤ ObjectProperty.ofObj f := by
     intro A hA
     apply (ObjectProperty.ofObj_iff f A).2
     refine ⟨equivShrink.{u} (Subtype Q) ⟨A, hA⟩, ?_⟩
-    simp [f]
+    exact congrArg Subtype.val ((equivShrink.{u} (Subtype Q)).symm_apply_apply ⟨A, hA⟩)
+  haveI : HasColimitsOfShape (Discrete β) C := HasColimitsOfSize.has_colimits_of_shape _
+  haveI : HasCoproduct f := HasColimitsOfShape.has_colimit _
   exact ⟨∐ f, (isSeparator_sigma f).2 (ObjectProperty.IsSeparating.of_le hQsep hOf)⟩
 
 end AlgebraicGeometry.FibredSite

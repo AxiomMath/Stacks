@@ -127,6 +127,38 @@ universe u
 
 variable (B : BigFppfSite.{u}) (hZ : B.Contains integerBase)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimits_presheaf_CurveFamiliesFibered
+    {S : Scheme.{u}} {hS : B.Contains S} :
+    HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Limits of small (universe `0`) shape of presheaves on the big fppf site. -/
+local instance (priority := high) hasLimitsOfSizeZero_presheaf_CurveFamiliesFibered
+    {S : Scheme.{u}} {hS : B.Contains S} :
+    HasLimitsOfSize.{0, 0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  hasLimitsOfSizeShrink.{0, 0, u, u} _
+
+/-- Discrete limits of universe-`0` shape of presheaves on the big fppf site. -/
+local instance (priority := high) hasLimitsOfShapeDiscrete_presheaf_CurveFamiliesFibered
+    {S : Scheme.{u}} {hS : B.Contains S} (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  HasLimitsOfSize.has_limits_of_shape.{0, 0} _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_CurveFamiliesFibered
+    {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_CurveFamiliesFibered
+    {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A family of curves, read as a finitely presented, flat and proper family of algebraic spaces
 over a varying base scheme, forgetting the bound on the relative dimension of the structure
 morphism. This is the action on objects of `AlgebraicGeometry.curvesToCartesianProperFlat`, the

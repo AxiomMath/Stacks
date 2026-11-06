@@ -142,13 +142,14 @@ variable (Λ : Type r) [CommRing Λ]
 `CategoryTheory.ModuleCat.smul`, which is an endomorphism of the underlying abelian group, this
 is a morphism in `ModuleCat Λ`; it is `Λ`-linear because `Λ` is commutative. -/
 public def moduleSmulHom (M : ModuleCat.{w} Λ) (a : Λ) : M ⟶ M :=
-  ModuleCat.homMk (M.smul a) fun c => by
-    rw [← End.mul_def, ← End.mul_def, ← map_mul, ← map_mul, mul_comm]
+  ModuleCat.homMk (M.smul a).asHom fun c => by
+    rw [← End.mul_asHom, ← End.mul_asHom, ← map_mul, ← map_mul, mul_comm]
 
 /-- The underlying map of abelian groups of `moduleSmulHom Λ M a` is multiplication by `a`. -/
 @[simp]
 public lemma forget₂_map_moduleSmulHom (M : ModuleCat.{w} Λ) (a : Λ) :
-    (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w}).map (moduleSmulHom.{w} Λ M a) = M.smul a :=
+    (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w}).map (moduleSmulHom.{w} Λ M a) =
+      (M.smul a).asHom :=
   rfl
 
 /-- Every morphism of `Λ`-modules commutes with multiplication by a scalar. -/
@@ -197,7 +198,7 @@ variable [J.HasSheafCompose (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})]
 on the underlying abelian sheaf. -/
 public lemma sheafCompose_map_moduleSheafSmul (F : Sheaf J (ModuleCat.{w} Λ)) (a : Λ) :
     (sheafCompose J (forget₂ (ModuleCat.{w} Λ) AddCommGrpCat.{w})).map
-      (moduleSheafSmul.{w} Λ J F a) = sheafScalarEnd Λ J F a :=
+      (moduleSheafSmul.{w} Λ J F a) = (sheafScalarEnd Λ J F a).asHom :=
   rfl
 
 variable (Φ : J.Point.{w'}) [LocallySmall.{w'} C]

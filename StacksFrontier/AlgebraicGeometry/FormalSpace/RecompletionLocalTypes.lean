@@ -207,7 +207,7 @@ theorem hasAffineEtaleAtlasWithProperty_completionSheafULift {X : FppfSheaf B S 
     have _ : Epi (Sigma.desc fun k ↦ pullback.snd (g k) φ) :=
       (Sheaf.isLocallySurjective_iff_epi _).mp
         (Sheaf.isLocallySurjective_sigmaDesc_pullback_snd φ g hcov)
-    infer_instance
+    exact epi_comp t _
 
 /-- The member of the atlas of `X_{/T}` cut out by a chart `f : Y ⟶ X` — the completion of `Y`
 along the inverse image in `|Y|` of `T` viewed in `|X|` — is the completion of `Y` along the

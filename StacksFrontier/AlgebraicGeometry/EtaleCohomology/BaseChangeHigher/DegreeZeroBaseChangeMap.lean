@@ -117,7 +117,7 @@ theorem higherBaseChangeMapAb_zero {X' Y S T : Scheme.{u}} (f' : X' ⟶ S) (g : 
         (smallEtaleRightDerivedZeroIso h).hom.app ((smallEtalePullbackAb e).obj M) := by
   have : (smallEtalePushforwardAb g).IsRightAdjoint := ⟨_, ⟨smallEtaleAdjunctionAb g⟩⟩
   have : (smallEtalePushforwardAb h).IsRightAdjoint := ⟨_, ⟨smallEtaleAdjunctionAb h⟩⟩
-  have : IsIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnit :=
+  have : IsIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso (smallEtalePullbackAb f')
   let HX := DerivedCategory.Plus.homologyFunctor (Sheaf (smallEtaleTopology X') Ab.{u + 1}) 0
   let HS := DerivedCategory.Plus.homologyFunctor (Sheaf (smallEtaleTopology S) Ab.{u + 1}) 0
@@ -178,7 +178,7 @@ theorem higherBaseChangeMapAb_zero {X' Y S T : Scheme.{u}} (f' : X' ⟶ S) (g : 
   have hU := Stacks.Cohomology.BaseChange.unitSingle_comp_derived (smallEtalePushforwardAb g)
     (smallEtalePushforwardAb h) (smallEtalePullbackAb f') (smallEtalePullbackAb e)
     (smallEtaleBaseChangeAb f' g h e w)
-    (asIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnit) rfl M
+    (asIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnith) rfl M
   have F8 : HX.map uF ≫ HX.map (Rf.map uG) ≫ HX.map dBC =
       HX.map (sgX.map τ) ≫ HX.map uH ≫ HX.map (Rh.map uE) := by
     rw [← HX.map_comp, ← HX.map_comp, ← HX.map_comp, ← HX.map_comp]

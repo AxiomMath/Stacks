@@ -284,7 +284,7 @@ theorem crossingStepTwo_hom_apply (U : P.Opens)
       = (((compAdjunction i).unit.app
           (AlgebraicGeometry.Scheme.Hom.relativeDifferentials g)).val.app (op U))
         ((AlgebraicGeometry.Scheme.Hom.universalRelativeDerivation g).d t) := by
-  have hcompat := PresheafOfModules.Derivation.congr_d
+  have hcompat := PresheafOfModulesOfCommRing.Derivation.congr_d
     (pullbackDifferentialsIso_compatible ((ringedSpaceHom i).hom.base)
       (AlgebraicGeometry.inverseImageStructureMap g))
     (((invRingHom i).hom.app (op U)) t)

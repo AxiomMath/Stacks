@@ -139,8 +139,8 @@ theorem map_eq_map_of_comp_ι_eq {T : BigFppfOver B S hS} (ξ : CompactOpensLimi
     apply opensObjectι_hom_ext
     rw [Category.assoc, Category.assoc, GradedAlgebraRestriction.opensObjectHomOfLE_ι,
       GradedAlgebraRestriction.opensObjectHomOfLE_ι, hk]
-  rw [← ξ.2 U V hV, ← ξ.2 U V' hV', ← FunctorToTypes.map_comp_apply,
-    ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp, hkk]
+  rw [← ξ.2 U V hV, ← ξ.2 U V' hV', ← Functor.map_comp_apply,
+    ← Functor.map_comp_apply, ← op_comp, ← op_comp, hkk]
 
 /-- Extending a compatible family over the quasi-compact opens of `T` to all quasi-compact test
 objects over `T`: the value at `w : W ⟶ T` is the value at a quasi-compact open through which
@@ -149,7 +149,7 @@ def extendCompactOpens {T : BigFppfOver B S hS} (ξ : CompactOpensLimit Φ T) :
     SiteQcExtension Φ T where
   val W hW w := Φ.map (factorThrough hW w).op (ξ.1 (factorOpens hW w))
   compat W W' hW hW' h w := by
-    refine (FunctorToTypes.map_comp_apply Φ _ _ _).symm.trans ?_
+    refine (Functor.map_comp_apply Φ _ _ _).symm.trans ?_
     rw [← op_comp]
     exact map_eq_map_of_comp_ι_eq ξ (factorOpens hW w) (factorOpens hW' (h ≫ w)) _ _
       (by rw [Category.assoc, factorThrough_ι, factorThrough_ι])
@@ -172,7 +172,7 @@ theorem restrictCompactOpens_extendCompactOpens {T : BigFppfOver B S hS}
   have h1 := map_eq_map_of_comp_ι_eq ξ
     (factorOpens (compactSpace_opensObject T V) (opensObjectι B S hS T V.1)) V
     (factorThrough _ _) (𝟙 _) ((factorThrough_ι _ _).trans (Category.id_comp _).symm)
-  rwa [op_id, FunctorToTypes.map_id_apply] at h1
+  rwa [op_id, Functor.map_id_apply] at h1
 
 /-- **The limit over the quasi-compact test objects over `T` is the limit over the quasi-compact
 opens of `T`**: restricting to the inclusions of the quasi-compact opens is a bijection. -/
@@ -261,7 +261,7 @@ def restrictCompactOpens (T : BigFppfOver s.site s.base s.containsBase)
       (GradedAlgebraRestriction.opensObjectHomOfLE T h) (compactSpace_opensObject T V)
       (compactSpace_opensObject T V') _).symm.trans
       (congrArg (s.relativeProjFunctorEquivF _ (compactSpace_opensObject T V')) (by
-        rw [← FunctorToTypes.map_comp_apply, ← op_comp,
+        rw [← Functor.map_comp_apply, ← op_comp,
           GradedAlgebraRestriction.opensObjectHomOfLE_ι]))⟩
 
 /-- **Stacks 084A: for an arbitrary test scheme `T`, `F(T) = lim_{V ⊆ T quasi-compact open}
@@ -291,7 +291,7 @@ theorem relativeProjπ_app_of_compactSpace (T : BigFppfOver s.site s.base s.cont
     (x : s.relativeProjFunctor.obj (op T)) :
     s.relativeProjπ.app (op T) x =
       yonedaEquiv (GradedAlgebraPoints.F.point _ (s.relativeProjFunctorEquivF T hT x)) :=
-  (FunctorToTypes.map_id_apply s.space.1 _).symm.trans
+  (Functor.map_id_apply s.space.1 _ _).symm.trans
     (s.quadrupleRestriction.quadrupleSpaceπ_app s.shrink.contains_relativeProj_pointAlgebra
       s.shrink.space.property.isSheaf x T hT (𝟙 T))
 

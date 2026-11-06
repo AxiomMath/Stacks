@@ -375,7 +375,7 @@ attribute [local instance] MvPolynomial.algebraMvPolynomial in
 coefficient of every relation of the presentation `π`, then the localized presentation `π_f` is
 injective. -/
 private theorem injective_of_mul_coeff_eq_zero (π : MvPolynomial σ R →ₐ[R] S) (f : R)
-    (hf : ∀ p ∈ RingHom.ker π, ∀ v, f * coeff v p = 0)
+    (hf : ∀ p ∈ RingHom.ker π, ∀ v, f * p.coeff v = 0)
     (πf : MvPolynomial σ (Localization.Away f) →ₐ[Localization.Away f]
       Localization (Algebra.algebraMapSubmonoid S (Submonoid.powers f)))
     (hcomp : ∀ p, πf (map (algebraMap R (Localization.Away f)) p) =
@@ -397,7 +397,7 @@ private theorem injective_of_mul_coeff_eq_zero (π : MvPolynomial σ R →ₐ[R]
     simpa [← MvPolynomial.algebraMap_eq] using hj
   have hmap : map (algebraMap R Rf) p = 0 := by
     ext v
-    rw [coeff_map, coeff_zero]
+    rw [coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
     refine (IsLocalization.map_eq_zero_iff (Submonoid.powers f) _ _).mpr
       ⟨⟨f ^ (j + 1), ⟨j + 1, rfl⟩⟩, ?_⟩
     have := hf _ hker v
@@ -496,17 +496,17 @@ of the nonzero polynomial `g` is a unit, then after Nagata's substitution with
 `N = 2 + deg g`, the polynomial `g` viewed as a polynomial in `x_0` has a unit leading
 coefficient. -/
 private theorem isUnit_leadingCoeff_finSuccEquiv_nagataEquiv [Nontrivial R]
-    (g : MvPolynomial (Fin (n + 1)) R) (hg : g ≠ 0) (hu : ∀ v ∈ g.support, IsUnit (coeff v g)) :
+    (g : MvPolynomial (Fin (n + 1)) R) (hg : g ≠ 0) (hu : ∀ v ∈ g.support, IsUnit (g.coeff v)) :
     IsUnit (finSuccEquiv R n (nagataEquiv (2 + g.totalDegree) g)).leadingCoeff := by
   set N := 2 + g.totalDegree with hNdef
   have hN : N ≠ 0 := by omega
-  set P := fun v => finSuccEquiv R n (nagataEquiv N (monomial v (coeff v g))) with hP
+  set P := fun v => finSuccEquiv R n (nagataEquiv N (monomial v (g.coeff v))) with hP
   have hPdeg : ∀ v ∈ g.support, (P v).natDegree = ∑ i : Fin (n + 1), N ^ (i : ℕ) * v i := by
     intro v hv
     simp only [hP]
     rw [finSuccEquiv_nagataEquiv_monomial, Polynomial.natDegree_C_mul_of_isUnit
       ((hu v hv).map C), natDegree_nagata N hN]
-  have hPlc : ∀ v ∈ g.support, (P v).leadingCoeff = C (coeff v g) := by
+  have hPlc : ∀ v ∈ g.support, (P v).leadingCoeff = C (g.coeff v) := by
     intro v hv
     simp only [hP]
     rw [finSuccEquiv_nagataEquiv_monomial, Polynomial.leadingCoeff_C_mul_of_isUnit
@@ -554,7 +554,7 @@ Then `S` is a finite algebra over a polynomial ring in `n` variables: after Naga
 private theorem exists_finite_of_isUnit_coeff [Nontrivial R]
     (π : MvPolynomial (Fin (n + 1)) R →ₐ[R] S) (hπ : Function.Surjective π)
     (g : MvPolynomial (Fin (n + 1)) R) (hgπ : π g = 0) (hg : g ≠ 0)
-    (hu : ∀ v ∈ g.support, IsUnit (coeff v g)) :
+    (hu : ∀ v ∈ g.support, IsUnit (g.coeff v)) :
     ∃ _ : Algebra (MvPolynomial (Fin n) R) S, IsScalarTower R (MvPolynomial (Fin n) R) S ∧
       Module.Finite (MvPolynomial (Fin n) R) S := by
   set A := MvPolynomial (Fin n) R
@@ -719,18 +719,19 @@ private theorem dense_goodLocus_of_forall_isUnit.{u₁, u₂} {n : ℕ}
     (IH : ∀ n', n = n' + 1 → PresentedStatement.{u₁, u₁} n')
     {R : Type u₁} {S : Type u₂} [CommRing R] [IsReduced R] [CommRing S] [Algebra R S]
     (π : MvPolynomial (Fin n) R →ₐ[R] S) (hπ : Function.Surjective π)
-    (g : MvPolynomial (Fin n) R) (hgπ : π g = 0) (hex : ∃ v, IsUnit (coeff v g))
-    (hall : ∀ v ∈ g.support, IsUnit (coeff v g)) : Dense (goodLocus R S S) := by
+    (g : MvPolynomial (Fin n) R) (hgπ : π g = 0) (hex : ∃ v, IsUnit (g.coeff v))
+    (hall : ∀ v ∈ g.support, IsUnit (g.coeff v)) : Dense (goodLocus R S S) := by
   by_cases hS : Subsingleton S
   · exact dense_goodLocus_of_forall isFinitePresentationFreeAway_of_subsingleton
   rw [not_subsingleton_iff_nontrivial] at hS
   have : Nontrivial R := (algebraMap R S).domain_nontrivial
   obtain ⟨v₀, hv₀⟩ := hex
-  have hg : g ≠ 0 := fun h => hv₀.ne_zero (by rw [h, coeff_zero])
+  have hg : g ≠ 0 := fun h => hv₀.ne_zero (by
+    rw [h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply])
   cases n with
   | zero =>
     exfalso
-    have hC : g = C (coeff v₀ g) := by
+    have hC : g = C (g.coeff v₀) := by
       have := eq_C_of_isEmpty g
       rwa [Subsingleton.elim (0 : Fin 0 →₀ ℕ) v₀] at this
     have h0 : IsUnit (0 : S) := by
@@ -756,31 +757,31 @@ private theorem dense_goodLocus_of_card_le.{u₁, u₂} {n : ℕ}
     (IH : ∀ n', n = n' + 1 → PresentedStatement.{u₁, u₁} n') (m : ℕ) :
     ∀ (R : Type u₁) (S : Type u₂) [CommRing R] [IsReduced R] [CommRing S] [Algebra R S]
       (π : MvPolynomial (Fin n) R →ₐ[R] S), Function.Surjective π →
-      ∀ g : MvPolynomial (Fin n) R, π g = 0 → (∃ v, IsUnit (coeff v g)) →
-      (g.support.filter fun v => ¬IsUnit (coeff v g)).card ≤ m → Dense (goodLocus R S S) := by
+      ∀ g : MvPolynomial (Fin n) R, π g = 0 → (∃ v, IsUnit (g.coeff v)) →
+      (g.support.filter fun v => ¬IsUnit (g.coeff v)).card ≤ m → Dense (goodLocus R S S) := by
   induction m with
   | zero =>
     intro R S _ _ _ _ π hπ g hgπ hex hm
     refine dense_goodLocus_of_forall_isUnit IH π hπ g hgπ hex fun v hv => ?_
     by_contra hnu
-    have : v ∈ g.support.filter fun v => ¬IsUnit (coeff v g) := Finset.mem_filter.mpr ⟨hv, hnu⟩
+    have : v ∈ g.support.filter fun v => ¬IsUnit (g.coeff v) := Finset.mem_filter.mpr ⟨hv, hnu⟩
     rw [Nat.le_zero, Finset.card_eq_zero] at hm
     simp [hm] at this
   | succ m ih =>
     intro R S _ _ _ _ π hπ g hgπ hex hm
-    by_cases hall : ∀ v ∈ g.support, IsUnit (coeff v g)
+    by_cases hall : ∀ v ∈ g.support, IsUnit (g.coeff v)
     · exact dense_goodLocus_of_forall_isUnit IH π hπ g hgπ hex hall
     simp only [not_forall] at hall
     obtain ⟨v, hv, hnu⟩ := hall
     refine dense_of_basicOpen_subset_closure _
-      (dense_iUnion_basicOpen_union_annihilator {coeff v g}) fun f hf => ?_
+      (dense_iUnion_basicOpen_union_annihilator {g.coeff v}) fun f hf => ?_
     refine basicOpen_subset_closure_of_dense_localization_self f ?_
     obtain ⟨πf, hπf, hcomp⟩ := exists_localized_presentation π hπ f
     set g' := map (algebraMap R (Localization.Away f)) g
-    have hunit : ∀ w, IsUnit (coeff w g) → IsUnit (coeff w g') := fun w hw => by
+    have hunit : ∀ w, IsUnit (g.coeff w) → IsUnit (g'.coeff w) := fun w hw => by
       rw [coeff_map]
       exact hw.map _
-    have hv' : v ∉ g'.support.filter fun w => ¬IsUnit (coeff w g') := by
+    have hv' : v ∉ g'.support.filter fun w => ¬IsUnit (g'.coeff w) := by
       rw [Finset.mem_filter, mem_support_iff, not_and_or, not_not, not_not]
       rcases hf with hf | hf
       · rw [Set.mem_singleton_iff] at hf
@@ -789,11 +790,11 @@ private theorem dense_goodLocus_of_card_le.{u₁, u₂} {n : ℕ}
         exact IsLocalization.Away.algebraMap_isUnit f
       · left
         rw [coeff_map]
-        have h0 := congrArg (algebraMap R (Localization.Away f)) (hf (coeff v g) rfl)
+        have h0 := congrArg (algebraMap R (Localization.Away f)) (hf (g.coeff v) rfl)
         rw [map_mul, map_zero] at h0
         exact (IsLocalization.Away.algebraMap_isUnit f).mul_right_eq_zero.mp h0
-    have hsub : (g'.support.filter fun w => ¬IsUnit (coeff w g')) ⊆
-        (g.support.filter fun w => ¬IsUnit (coeff w g)).erase v := by
+    have hsub : (g'.support.filter fun w => ¬IsUnit (g'.coeff w)) ⊆
+        (g.support.filter fun w => ¬IsUnit (g.coeff w)).erase v := by
       intro w hw
       refine Finset.mem_erase.mpr ⟨fun h => hv' (h ▸ hw), ?_⟩
       obtain ⟨hw₁, hw₂⟩ := Finset.mem_filter.mp hw
@@ -813,12 +814,12 @@ private theorem presentedStatement_of_lt.{u₁, u₂} (n : ℕ)
     (IH : ∀ n', n = n' + 1 → PresentedStatement.{u₁, u₁} n') :
     PresentedStatement.{u₁, u₂} n := by
   intro R S _ _ _ _ π hπ
-  set t : Set R := {c | ∃ p ∈ RingHom.ker π, ∃ v, coeff v p = c}
+  set t : Set R := {c | ∃ p ∈ RingHom.ker π, ∃ v, p.coeff v = c}
   refine dense_of_basicOpen_subset_closure _ (dense_iUnion_basicOpen_union_annihilator t)
     fun f hf => basicOpen_subset_closure_of_dense_localization_self f ?_
   obtain ⟨πf, hπf, hcomp⟩ := exists_localized_presentation π hπ f
   rcases hf with ⟨p, hp, v, rfl⟩ | hf
-  · refine dense_goodLocus_of_card_le IH _ (Localization.Away (coeff v p)) _ πf hπf
+  · refine dense_goodLocus_of_card_le IH _ (Localization.Away (p.coeff v)) _ πf hπf
       (map (algebraMap R _) p) (by rw [hcomp, RingHom.mem_ker.mp hp, map_zero])
       ⟨v, ?_⟩ le_rfl
     rw [coeff_map]

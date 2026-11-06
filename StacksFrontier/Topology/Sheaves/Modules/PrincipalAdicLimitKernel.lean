@@ -143,10 +143,10 @@ private theorem evaluation_restrictScalars_map_terminalSectionToEnd_apply
     (scalarMap : A →+* R.obj.obj (op T)) (f : A) (M : SheafOfModules.{u} R)
     (x : (SheafOfModules.evaluation R (op T) ⋙ ModuleCat.restrictScalars scalarMap).obj M) :
     ((SheafOfModules.evaluation R (op T) ⋙ ModuleCat.restrictScalars scalarMap).map
-      ((Stacks.SheafOfModules.terminalSectionToEnd R T hT (scalarMap f)).app M)).hom x =
+      ((Stacks.SheafOfModules.terminalSectionToEnd R T hT (scalarMap f)).asHom.app M)).hom x =
         f • x := by
   change M.val.obj (op T) at x
-  show (((Stacks.SheafOfModules.terminalSectionToEnd R T hT (scalarMap f)).app M).val.app
+  show (((Stacks.SheafOfModules.terminalSectionToEnd R T hT (scalarMap f)).asHom.app M).val.app
     (op T)).hom x = scalarMap f • x
   rw [Stacks.SheafOfModules.terminalSectionToEnd_apply, hT.hom_ext (hT.from T) (𝟙 T)]
   simp
@@ -217,14 +217,14 @@ theorem range_pow_eq_ker_limitProjection_terminalSections
   let g := Stacks.SheafOfModules.terminalSectionToEnd R T hT (scalarMap f)
   choose ι w hfac hshort using h
   have hmonoι (k : ℕ) : Mono (ι k) := (hshort k).mono_f
-  have hscalar (M : SheafOfModules.{u} R) (x : E.obj M) : (E.map (g.app M)).hom x = f • x :=
+  have hscalar (M : SheafOfModules.{u} R) (x : E.obj M) : (E.map (g.asHom.app M)).hom x = f • x :=
     evaluation_restrictScalars_map_terminalSectionToEnd_apply R T hT scalarMap f M x
-  have hback (k : ℕ) : ι k ≫ map k = g.app (obj k) := by
+  have hback (k : ℕ) : ι k ≫ map k = g.asHom.app (obj k) := by
     have := hmonoι k
     apply (cancel_mono (ι k)).1
     rw [Category.assoc, hfac]
     exact (Stacks.Cohomology.InverseSystems.TorsionFreeDivisible.mulF_naturality g (ι k)).symm
-  have hkill : g.app (obj 0) = 0 := by
+  have hkill : g.asHom.app (obj 0) = 0 := by
     rw [← hback 0]
     simpa [Stacks.Cohomology.InverseSystems.TorsionFreeDivisible.proj] using w 0
   have hproj := map_proj_apply_limit_π E obj map
@@ -241,7 +241,7 @@ theorem range_pow_eq_ker_limitProjection_terminalSections
     rw [E.map_comp] at he
     exact ((ModuleCat.comp_apply _ _ _).symm.trans he).trans (hscalar _ x)
   · intro x
-    have hzero : (E.map (g.app (obj 0))).hom x = 0 := by
+    have hzero : (E.map (g.asHom.app (obj 0))).hom x = 0 := by
       rw [hkill, E.map_zero, ModuleCat.hom_zero]
       exact LinearMap.zero_apply x
     exact (hscalar (obj 0) x).symm.trans hzero

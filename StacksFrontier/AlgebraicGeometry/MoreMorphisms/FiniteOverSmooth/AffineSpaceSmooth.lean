@@ -18,8 +18,6 @@ factored through affine `n`-space over the base, and the smooth scheme of the co
 
 ## Main results
 
-* `Algebra.IsStandardSmoothOfRelativeDimension.mvPolynomial_fin`: `R[X_1, …, X_n]` is standard
-  smooth of relative dimension `n` over `R`.
 * `AlgebraicGeometry.smoothOfRelativeDimension_specMap_C`: the projection
   `Spec R[X_1, …, X_n] ⟶ Spec R` is smooth of relative dimension `n`.
 * `AlgebraicGeometry.SmoothOfRelativeDimension.comp_relativeDimension_zero`: composing with a
@@ -28,10 +26,9 @@ factored through affine `n`-space over the base, and the smooth scheme of the co
 
 ## Implementation notes
 
-The submersive presentation is `Algebra.Generators.mvPolynomial` together with the empty family
-of relations; its Jacobian is the determinant of the empty matrix, hence `1`. Mathlib's
-`Algebra.Presentation.dimension` is the difference of the cardinalities of the variables and the
-relations, so the dimension is `n - 0 = n`.
+That `R[X_1, …, X_n]` is standard smooth of relative dimension `n` over `R` is Mathlib's instance
+`Algebra.IsStandardSmoothOfRelativeDimension.mvPolynomial_fin`, built from the submersive
+presentation `Algebra.SubmersivePresentation.mvPolynomial` (the variables and no relations).
 
 ## References
 
@@ -44,30 +41,6 @@ relations, so the dimension is `n - 0 = n`.
 open CategoryTheory MvPolynomial
 
 universe u
-
-namespace Algebra
-
-/-- The submersive presentation of a polynomial ring by its variables and no relations. -/
-noncomputable def SubmersivePresentation.mvPolynomial (R : Type*) [CommRing R] (ι : Type) :
-    Algebra.SubmersivePresentation R (MvPolynomial ι R) ι Empty where
-  __ := Algebra.Generators.mvPolynomial R ι
-  relation := Empty.elim
-  span_range_relation_eq_ker := by
-    simp [Generators.ker_mvPolynomial, Set.range_eq_empty]
-  map := Empty.elim
-  map_inj := Function.injective_of_subsingleton _
-  jacobian_isUnit := by
-    rw [Algebra.PreSubmersivePresentation.jacobian_eq_jacobiMatrix_det]
-    simp [Matrix.det_isEmpty]
-
-/-- **Stacks 02G2 for affine space.** The polynomial ring in `n` variables is standard smooth of
-relative dimension `n`. -/
-instance IsStandardSmoothOfRelativeDimension.mvPolynomial_fin (R : Type*) [CommRing R] (n : ℕ) :
-    Algebra.IsStandardSmoothOfRelativeDimension n R (MvPolynomial (Fin n) R) :=
-  (SubmersivePresentation.mvPolynomial R (Fin n)).isStandardSmoothOfRelativeDimension (by
-    simp [Algebra.Presentation.dimension])
-
-end Algebra
 
 namespace AlgebraicGeometry
 

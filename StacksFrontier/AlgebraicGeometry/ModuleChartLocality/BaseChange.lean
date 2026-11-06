@@ -499,8 +499,7 @@ public theorem exists_stageMap
     (hfA : ∀ n : ℕ, IsBaseChange ↥(ℬ 0) (Stacks.Proj.pieceMap ψ halg n))
     (w : ExtSrc 𝒨 ψ a) :
     ∃ (k : ℕ) (u : ↥(ℬ 0) ⊗[↥(𝒜 0)] ↥(𝒨 ((k * d : ℕ) : ℤ))), stageMap ψ halg ha k u = w := by
-  induction w using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, map_zero _⟩
+  induction w using TensorProduct.inductionOn with
   | add w₁ w₂ h₁ h₂ => exact exists_stageMap_add ψ halg ha h₁ h₂
   | tmul q z =>
       obtain ⟨j, x, hx, rfl⟩ := Away.mk_surjective ℬ (ψ.map_mem ha) q
@@ -514,14 +513,11 @@ public theorem exists_stageMap
               extTmul ψ a (Away.mk ℬ (ψ.map_mem ha) j t (Stacks.Proj.mem_of_gradePiece ℬ t))
                 (Stacks.SheafOfModules.fractionHom 𝒜 𝒨 ha k ⟨m, hm⟩) := by
         intro t
-        refine (hfA (j • d)).inductionOn t _ ?_ ?_ ?_ ?_
-        · refine ⟨0, 0, ?_⟩
-          rw [map_zero]
-          refine Eq.trans ?_ (congrArg (fun q => extTmul ψ a q _)
-            (awayMk_zero' (ψ.map_mem ha) (Stacks.Proj.mem_of_gradePiece ℬ 0)).symm)
-          exact (extTmul_zero_left ψ a _).symm
-        · intro y
-          refine ⟨j + k, (1 : ↥(ℬ 0)) ⊗ₜ ⟨(y : A) • m,
+        induction t using (hfA (j • d)).inductionOn with
+        | tmul y => ?_
+        | smul b t ih => ?_
+        | add t₁ t₂ h₁ h₂ => ?_
+        · refine ⟨j + k, (1 : ↥(ℬ 0)) ⊗ₜ ⟨(y : A) • m,
             smul_mem_piece_add (Stacks.Proj.mem_of_gradePiece 𝒜 y) hm⟩, ?_⟩
           rw [stageMap_tmul, map_one]
           have h1 : Away.mk ℬ (ψ.map_mem ha) j (Stacks.Proj.pieceMap ψ halg (j • d) y : B)
@@ -530,14 +526,12 @@ public theorem exists_stageMap
             (Away.map_mk ψ a ha j (y : A) _).symm
           rw [h1, ← one_mul (Away.map ψ a _), ← extTmul_smul,
             awayMk_smul_fractionHom ha j k (y : A) _ ⟨m, hm⟩]
-        · intro b t ih
-          obtain ⟨l, u, hu⟩ := ih
+        · obtain ⟨l, u, hu⟩ := ih
           refine ⟨l, b • u, ?_⟩
           rw [stageMap_smul, hu, smul_extTmul]
           refine congrArg (fun q => extTmul ψ a q _) ?_
           exact (awayMk_zero_mul' (ψ.map_mem ha) b (t : B) _ _).symm
-        · intro t₁ t₂ h₁ h₂
-          obtain ⟨l, u, hu⟩ := exists_stageMap_add ψ halg ha h₁ h₂
+        · obtain ⟨l, u, hu⟩ := exists_stageMap_add ψ halg ha h₁ h₂
           refine ⟨l, u, hu.trans ?_⟩
           rw [← extTmul_add_left]
           refine congrArg (fun q => extTmul ψ a q _) ?_

@@ -187,7 +187,7 @@ along `chartΓIso`, after `Stacks.IdealSheaf.ideal_comap_appLE` has expressed th
 theorem ideal_exceptionalIdeal_chartOpen :
     (exceptionalIdeal I).ideal (chartOpen I U a) =
       Ideal.span {(blowUpToBase I).appLE U.1 (chartOpen I U a).1 (chartOpen_le I U a)
-        (a : Γ(X, U.1))} := by
+                   (a : Γ(X, U.1))} := by
   apply Stacks.IdealSheaf.ideal_map_hom_injective (chartΓIso I U a)
   rw [Stacks.IdealSheaf.ideal_comap_appLE I (blowUpToBase I) U (chartOpen I U a)
       (chartOpen_le I U a), Ideal.map_map, ← CommRingCat.hom_comp, appLE_chartOpen,

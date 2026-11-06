@@ -78,7 +78,7 @@ public theorem exists_mvPolynomial_map_eq_mul [Finite k₀] {σ : Type*} (D₀ :
     have hbot : D'.coeff s ∈ (⊥ : IntermediateField k k₀) := by
       rw [IsGalois.mem_bot_iff_fixed]
       intro τ'
-      have h := congrArg (MvPolynomial.coeff s) (hfix τ')
+      have h := congrArg (fun p : MvPolynomial σ k₀ => p.coeff s) (hfix τ')
       rwa [MvPolynomial.coeff_map] at h
     exact IntermediateField.mem_bot.1 hbot
   obtain ⟨D, hD⟩ := hmem

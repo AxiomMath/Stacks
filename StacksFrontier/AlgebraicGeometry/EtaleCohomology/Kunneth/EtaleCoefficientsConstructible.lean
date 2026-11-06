@@ -462,7 +462,7 @@ theorem exists_isColimit_isConstructibleEtaleModule [CompactSpace X] [QuasiSepar
   refine ⟨I, inferInstance, inferInstance, D, ι, ⟨?_⟩, fun i =>
     ⟨D₀.obj i, hD i, ⟨(α.app i).symm⟩⟩⟩
   refine isColimitOfReflects F (IsColimit.ofIsoColimit
-    ((IsColimit.precomposeHomEquiv α _).symm hc) (Cocones.ext (Iso.refl _) fun i => ?_))
+    ((IsColimit.precomposeHomEquiv α _).symm hc) (Cocone.ext (Iso.refl _) fun i => ?_))
   simp [ι]
 
 end Colimit

@@ -37,28 +37,27 @@ variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (s : Geomet
 chosen site, as an étale neighborhood of `s` in Mathlib's small étale site of `S`. -/
 public def neighborhoodInclusionPublic : (geometricPointFiber B S hS s).Elements ⥤
     (Scheme.pointSmallEtale s.hom).fiber.Elements where
-  obj U := ⟨MorphismProperty.Over.mk _ (B.inclusion.map U.1.obj.hom) U.1.property,
-    Over.homMk U.2.1 U.2.2⟩
-  map {U V} f := ⟨MorphismProperty.Over.homMk ((SmallEtale.toScheme B S hS).map f.1)
-    (by
-      change B.inclusion.map f.1.hom.left ≫ B.inclusion.map V.1.obj.hom =
-        B.inclusion.map U.1.obj.hom
-      rw [← Functor.map_comp, Over.w]) (by trivial),
-    Over.OverMorphism.ext (congrArg Subtype.val f.2)⟩
+  obj U := .mk (obj := MorphismProperty.Over.mk _ (B.inclusion.map U.obj.obj.hom) U.obj.property)
+    (Over.homMk U.val.1 U.val.2)
+  map {U V} f := Functor.Elements.homMk
+    (MorphismProperty.Over.homMk ((SmallEtale.toScheme B S hS).map f.hom)
+      (by
+        change B.inclusion.map f.hom.hom.left ≫ B.inclusion.map V.obj.obj.hom =
+          B.inclusion.map U.obj.obj.hom
+        rw [← Functor.map_comp, Over.w]) (by trivial))
+    (Over.OverMorphism.ext (congrArg Subtype.val f.map_val))
 
 /-- The functor `neighborhoodInclusionPublic B S hS s` is faithful. -/
 public instance : (neighborhoodInclusionPublic B S hS s).Faithful where
-  map_injective h := Subtype.ext <| ObjectProperty.hom_ext _ <| Over.OverMorphism.ext <|
-    ObjectProperty.hom_ext _ <| congrArg (fun k => k.1.left) h
+  map_injective h := Functor.Elements.hom_ext <| ObjectProperty.hom_ext _ <|
+    Over.OverMorphism.ext <| ObjectProperty.hom_ext _ <| congrArg (fun k => k.hom.left) h
 
 /-- The functor `neighborhoodInclusionPublic B S hS s` is full. -/
 public instance : (neighborhoodInclusionPublic B S hS s).Full where
-  map_surjective {U V} f := by
-    refine ⟨⟨ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk f.1.left)
-      (ObjectProperty.hom_ext _ f.1.w)), Subtype.ext (congrArg (fun k => k.left) f.2)⟩, ?_⟩
-    apply Subtype.ext
-    apply MorphismProperty.Over.Hom.ext
-    rfl
+  map_surjective f :=
+    ⟨Functor.Elements.homMk (ObjectProperty.homMk (Over.homMk (ObjectProperty.homMk f.hom.left)
+      (ObjectProperty.hom_ext _ f.hom.w))) (Subtype.ext (congrArg (fun k => k.left) f.map_val)),
+      Functor.Elements.hom_ext (MorphismProperty.Over.Hom.ext rfl)⟩
 
 /-- **The étale neighborhoods of `s` inside the chosen site are initial among all étale
 neighborhoods of `s`.** The inclusion is fully faithful, the étale neighborhoods of `s` in

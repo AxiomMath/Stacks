@@ -90,7 +90,7 @@ family `p_1, …, p_n` of polynomials in `n` variables. -/
 private def universalCoefficientSpecialization {R : Type*} [CommRing R] (n d : ℕ)
     (p : Fin n → MvPolynomial (Fin n) R) : universalCoefficientRing n d →+* R :=
   (MvPolynomial.aeval fun j : Fin n × MultiIndex n d ↦
-    MvPolynomial.coeff (multiIndexExponent n d j.2) (p j.1)).toRingHom
+    (p j.1).coeff (multiIndexExponent n d j.2)).toRingHom
 
 /-- Specializing the universal coefficients to the coefficients of `p_i` turns the universal
 polynomial `f_i` into `p_i`, provided every `p_i` has total degree at most `d`. -/
@@ -102,7 +102,7 @@ private theorem map_universalPolynomial_eq {R : Type*} [CommRing R] (n d : ℕ)
   refine MvPolynomial.ext _ _ fun m ↦ ?_
   simp only [universalPolynomial, map_sum, MvPolynomial.map_monomial, MvPolynomial.coeff_sum,
     MvPolynomial.coeff_monomial]
-  by_cases hcoeff : MvPolynomial.coeff m (p i) = 0
+  by_cases hcoeff : (p i).coeff m = 0
   · rw [hcoeff]
     refine Finset.sum_eq_zero fun E _ ↦ ?_
     by_cases he : multiIndexExponent n d E = m

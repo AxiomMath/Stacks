@@ -214,6 +214,12 @@ theorem Scheme.Modules.pullbackComp_inv_map_pullbackComp_hom_congr {A B' C D : S
     Functor.whiskerLeft_app, Category.id_comp, eqToHom_app] at H
   simp only [Scheme.Modules.pullbackCongr, eqToIso_refl, Iso.refl_hom, NatTrans.id_app,
     CategoryTheory.Functor.map_id, Category.comp_id, eqToIso.hom, eqToHom_app]
+  have : Mono ((Scheme.Modules.pullbackComp f (g ≫ h)).hom.app M) := IsIso.mono_of_iso _
+  have : Epi ((Scheme.Modules.pullbackComp f g).hom.app ((Scheme.Modules.pullback h).obj M)) :=
+    IsIso.epi_of_iso _
+  have : Epi ((Scheme.Modules.pullback f).map ((Scheme.Modules.pullbackComp g h).inv.app M)) :=
+    IsIso.epi_of_iso _
+  have : Epi ((Scheme.Modules.pullbackComp f (g ≫ h)).inv.app M) := IsIso.epi_of_iso _
   rw [← cancel_mono ((Scheme.Modules.pullbackComp f (g ≫ h)).hom.app M)]
   simp only [Category.assoc, Iso.inv_hom_id_app, Category.comp_id]
   rw [← cancel_epi ((Scheme.Modules.pullbackComp f g).hom.app ((Scheme.Modules.pullback h).obj M)),

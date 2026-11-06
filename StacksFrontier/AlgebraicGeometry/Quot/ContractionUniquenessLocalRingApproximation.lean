@@ -1042,7 +1042,7 @@ def isLimitSpecStageCone {Λ : Type u} [Preorder Λ] (R : Λ ⥤ CommRingCat.{u}
     NatIso.ofComponents (fun i => Iso.refl _) (fun {i j} e => by
       simp only [Iso.refl_hom]
       rfl)
-  ((IsLimit.postcomposeHomEquiv α _).symm hl).ofIsoLimit (Cones.ext ε.symm fun i => by
+  ((IsLimit.postcomposeHomEquiv α _).symm hl).ofIsoLimit (Cone.ext ε.symm fun i => by
     change Spec.map (ρ.app i.unop) ≫ 𝟙 _ = ε.inv ≫ ε.hom ≫ Spec.map (ρ.app i.unop)
     simp)
 

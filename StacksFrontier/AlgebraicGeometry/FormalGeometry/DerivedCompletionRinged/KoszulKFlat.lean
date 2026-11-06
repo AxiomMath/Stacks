@@ -108,6 +108,16 @@ universe u d
 namespace AlgebraicGeometry.RingedSite
 
 attribute [local instance] Stacks.hasSheafCompose_forget₂_commRingCat
+
+/-- Weak sheafification of abelian presheaves on a ringed site, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`. It is made a local instance of high priority
+so that the declarations below find it rather than the section variable
+`[HasSheafify X.J AddCommGrpCat.{u}]`, and so do not depend on that variable. -/
+abbrev hasWeakSheafifyAddCommGrpCatKoszulKFlat (X : RingedSite.{u, u, u}) :
+    HasWeakSheafify X.J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCatKoszulKFlat
   hasFiniteBiproducts_sheafOfModules
 
 /-! ## Flatness from the `IsFiniteFreeSummand` spelling -/

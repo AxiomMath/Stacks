@@ -176,6 +176,12 @@ instance preservesFiniteColimits_quasicoherentSheavesι (Z : AlgebraicSpaces B S
   have : ∀ ⦃A C : QuasicoherentSheaves.{u, u} B S hS Z.1 Z.2⦄ (a : A ⟶ C),
       PreservesColimit (parallelPair a 0) (quasicoherentSheavesι B S hS Z) :=
     fun {_ _} a ↦ ObjectProperty.preservesCokernels_ι _ a
+  have : HasFiniteColimits (QuasicoherentSheaves.{u, u} B S hS Z.1 Z.2) :=
+    Abelian.hasFiniteColimits
+  have : HasFiniteCoproducts (QuasicoherentSheaves.{u, u} B S hS Z.1 Z.2) :=
+    hasFiniteCoproducts_of_hasFiniteColimits _
+  have : HasCoequalizers (QuasicoherentSheaves.{u, u} B S hS Z.1 Z.2) :=
+    hasColimitsOfShape_of_hasFiniteColimits _ _
   Functor.preservesFiniteColimits_of_preservesCokernels _
 
 /-! ### Exactness of the inverse image -/

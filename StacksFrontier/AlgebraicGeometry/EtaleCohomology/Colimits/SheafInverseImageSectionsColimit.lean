@@ -51,7 +51,7 @@ along the composite. -/
 lemma presheaf_map_map_apply_types {C : Type*} [Category* C] (P : Cᵒᵖ ⥤ Type (u + 1))
     {U V W : C} (k : U ⟶ V) (k' : V ⟶ W) (x : P.obj (op W)) :
     P.map k.op (P.map k'.op x) = P.map (k ≫ k').op x := by
-  rw [op_comp, FunctorToTypes.map_comp_apply]
+  rw [op_comp, Functor.map_comp_apply]
 
 section Units
 

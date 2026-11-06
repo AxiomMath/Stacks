@@ -117,7 +117,7 @@ maps and the Leibniz and restriction-compatibility data are unchanged; only the 
 condition is transported, across the adjunction defining the structural map. -/
 noncomputable def comorphismDerivation (M : X.Modules)
     (D : SheafOfModules.SheafDerivation (inverseImageStructureMap f) M) :
-    M.val.Derivation f.c := by
+    PresheafOfModulesOfCommRing.Derivation M.val f.c := by
   refine { d := D.d, d_mul := D.d_mul, d_map := D.d_map, d_app := fun {V} a => ?_ }
   let adj := TopCat.Sheaf.pullbackPushforwardAdjunction CommRingCat f.base
   let fc : S.sheaf ⟶ (TopCat.Sheaf.pushforward CommRingCat f.base).obj X.sheaf := ⟨f.c⟩

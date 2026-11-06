@@ -4,6 +4,7 @@ public import Mathlib.Algebra.Category.Grp.Abelian
 public import Mathlib.Algebra.Category.Grp.EpiMono
 public import Mathlib.Algebra.Category.Grp.Ulift
 public import Mathlib.Algebra.Category.Grp.Zero
+public import Mathlib.CategoryTheory.Abelian.Exact
 public import Mathlib.CategoryTheory.Abelian.RightDerived
 public import Mathlib.CategoryTheory.Sites.Abelian
 public import Mathlib.CategoryTheory.Sites.Spaces

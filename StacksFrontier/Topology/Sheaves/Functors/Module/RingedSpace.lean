@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackContinuous
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.PullbackFree
+public import Mathlib.Algebra.Category.Ring.Limits
 public import Mathlib.CategoryTheory.Adjunction.Additive
 public import Mathlib.CategoryTheory.Limits.Shapes.Countable
 public import Mathlib.Combinatorics.Quiver.ReflQuiver

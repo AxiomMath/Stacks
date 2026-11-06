@@ -96,7 +96,7 @@ theorem isLE_rightDerived_obj_of_isZero_rightDerived (F : C ⥤ D) [F.Additive]
     fun A => (hn A).of_iso
       ((Stacks.Cohomology.HigherDirectImagePresheaf.derivedPlusToStandard F n).app A)
   exact ((((Functor.hasRightDerivedFunctor_of_isZero_rightDerived F F.rightDerivedFunctorPlus
-    F.rightDerivedFunctorPlusUnit F.rightAcyclic
+    F.rightDerivedFunctorPlusUnith F.rightAcyclic
     (Stacks.Cohomology.CompactExtensionByZero.rightAcyclic_iff_computesRightDerived F)
     (Stacks.Cohomology.CompactExtensionByZero.exists_mono_rightAcyclic F) n hn').2.2
       RF α).2 E).2.2.2 b hE)

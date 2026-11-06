@@ -45,16 +45,16 @@ lifts locally to cocycles of the middle term.** The class of a global section `t
 the cycles is carried to the image under the inclusion of the cycles `Z⁰K₁[0] ⟶ K₁` of the class
 of the Čech `1`-cocycle `ω` of the differences of the lifts. -/
 theorem shortExactBoundary_imageCycleClass
-    (t : (HomologicalComplex.shortExactCycles (toSC S) 0).X₃.val.obj (op ⊤))
+    (t : (HomologicalComplex.shortExactCycles (toSC S) 0).X₃.obj.obj (op ⊤))
     {I : Type u} (Ui : I → Opens X) (hUi : (⊤ : Opens X) = ⨆ i, Ui i)
-    (e : CechCochains.Cochain Ui (HomologicalComplex.shortExactCycles (toSC S) 0).X₂.val 0)
+    (e : CechCochains.Cochain Ui (HomologicalComplex.shortExactCycles (toSC S) 0).X₂.obj 0)
     (he : ∀ i : Fin 1 → I, (HomologicalComplex.shortExactCycles (toSC S) 0).g.hom.app
         (op (CechCochains.inter Ui i)) (e i) =
-      (HomologicalComplex.shortExactCycles (toSC S) 0).X₃.val.map (homOfLE le_top).op t)
-    (ω : CechCochains.cocycles1 Ui (HomologicalComplex.shortExactCycles (toSC S) 0).X₁.val)
+      (HomologicalComplex.shortExactCycles (toSC S) 0).X₃.obj.map (homOfLE le_top).op t)
+    (ω : CechCochains.cocycles1 Ui (HomologicalComplex.shortExactCycles (toSC S) 0).X₁.obj)
     (hω : ∀ i : Fin 2 → I, (HomologicalComplex.shortExactCycles (toSC S) 0).f.hom.app
         (op (CechCochains.inter Ui i)) (ω.val i) =
-      CechCochains.cechD Ui (HomologicalComplex.shortExactCycles (toSC S) 0).X₂.val 0 e i) :
+      CechCochains.cechD Ui (HomologicalComplex.shortExactCycles (toSC S) 0).X₂.obj 0 e i) :
     shortExactBoundary (sectionsFunctor X ⊤) S hS 0 1 rfl
         (Stacks.DerivedIndexing.imageCycleClass (sectionsFunctor X ⊤) S t) =
       Stacks.DerivedIndexing.cyclesRightDerivedOneMap (sectionsFunctor X ⊤) S

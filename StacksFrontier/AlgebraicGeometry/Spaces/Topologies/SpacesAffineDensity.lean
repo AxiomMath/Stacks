@@ -163,7 +163,7 @@ private theorem generate_mem_over_of_covering_representative
       R ∈ K X ↔ ∃ E : PreZeroHypercover.{u + 2} X, R = E.presieve₀ ∧ IsC ⟨X, E⟩)
     (hrep : ∀ E, Q E → ∃ E', IsC E' ∧ Covering.CombEquiv E E') {X : C} {Y : Over X}
     (R : Presieve Y) (E : PreZeroHypercover.{u + 2} Y.left) (hE : Q ⟨Y.left, E⟩)
-    (hR : ∀ x : E.I₀, Sieve.generate R (Over.homMk (E.f x) : Over.mk _ ⟶ Y)) :
+    (hR : ∀ x : E.I₀, Sieve.generate R (Over.homMk (E.f x) rfl : Over.mk (E.f x ≫ Y.hom) ⟶ Y)) :
     Sieve.generate R ∈ K.toGrothendieck.over X Y := by
   have hgen : Sieve.generate E.presieve₀ ∈ K.toGrothendieck Y.left := by
     obtain ⟨⟨V, F⟩, hF, hleft, hcomb⟩ := hrep ⟨Y.left, E⟩ hE

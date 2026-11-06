@@ -95,7 +95,7 @@ def jointRankLocus : ULift.{u} (ℕ × ℕ) → X.Opens := fun ab ↦
 theorem isClopenDecomposition_jointRankLocus : IsClopenDecomposition (jointRankLocus E F) where
   disjoint i j hij := Opens.coe_disjoint.mp <| Set.disjoint_left.mpr fun x hx hy ↦ by
     rw [SetLike.mem_coe, jointRankLocus, Opens.mem_inf, mem_rankLocus, mem_rankLocus] at hx hy
-    exact hij (ULift.ext _ _ (Prod.ext (hx.1.symm.trans hy.1) (hx.2.symm.trans hy.2)))
+    exact hij (ULift.ext (Prod.ext (hx.1.symm.trans hy.1) (hx.2.symm.trans hy.2)))
   iSup_eq_top := by
     apply top_le_iff.mp
     intro x _

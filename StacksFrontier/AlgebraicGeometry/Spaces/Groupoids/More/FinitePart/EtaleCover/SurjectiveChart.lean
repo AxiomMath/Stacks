@@ -29,6 +29,26 @@ attribute [local instance] schemeSizeBelow_isClosedUnderIsomorphisms
   BigFppfSite.hasPullbacks_schemes
   Space.preservesLimitsOfShape_walkingCospan_toScheme
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_surjectiveChart
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+/-- Small products of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasProducts_presheaf_surjectiveChart
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasProducts.{0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  fun _ => Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_surjectiveChart
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_surjectiveChart B S hS).has_limit _
+
 private theorem pairwise_disjoint_preimage_subtype {P Q : Scheme.{u}} (k : P ⟶ Q)
     {I : Type*} {D : I → Q.Opens} (hD : Pairwise (fun i j ↦ Disjoint (D i) (D j)))
     (J : Set I) : Pairwise (fun i j : J ↦ Disjoint (k ⁻¹ᵁ D i.1) (k ⁻¹ᵁ D j.1)) := by
@@ -383,6 +403,7 @@ private theorem exists_open_representation_of_finite_part
   refine ⟨W, j, hjopen, ?_, ?_⟩
   · rwa [hjfst]
   · have hr : Subfunctor.range (e.hom ≫ z.subspace.ι) = z.subspace := by
+      haveI : Epi e.hom := IsIso.epi_of_iso _
       rw [Subfunctor.range_comp, Subfunctor.range_eq_top,
         Subfunctor.image_top, Subfunctor.range_ι]
     rw [hj]
@@ -488,6 +509,10 @@ private theorem isBaseChange_of_represented_open_pullback
   cases hz'
   let e := ((IsPullback.of_hasPullback b f).map yoneda).isoPullback
   let e' := ((IsPullback.of_hasPullback b' f).map yoneda).isoPullback
+  haveI : Mono (yoneda.map j ≫ e.hom) :=
+    @mono_comp _ _ _ _ _ _ (yoneda.map_mono j) _ (IsIso.mono_of_iso _)
+  haveI : Mono (yoneda.map j' ≫ e'.hom) :=
+    @mono_comp _ _ _ _ _ _ (yoneda.map_mono j') _ (IsIso.mono_of_iso _)
   obtain ⟨i, hi⟩ := exists_iso_subfunctor_of_range (yoneda.map j ≫ e.hom) Z
     (eq_of_heq hr)
   obtain ⟨i', hi'⟩ := exists_iso_subfunctor_of_range (yoneda.map j' ≫ e'.hom) Z'

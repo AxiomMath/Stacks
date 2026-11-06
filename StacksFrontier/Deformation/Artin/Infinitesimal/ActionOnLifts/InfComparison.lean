@@ -31,7 +31,6 @@ attribute [local implicit_reducible] Deformation.Artin.squareZeroRing
   CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.ChoiceOfPullbacks.pullbackFunctor
-  CategoryTheory.Under.post
 
 universe u v w
 

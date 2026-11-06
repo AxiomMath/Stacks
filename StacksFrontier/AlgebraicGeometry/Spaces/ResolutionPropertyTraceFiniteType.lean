@@ -102,6 +102,9 @@ theorem exists_finiteType_modulePullback_epi_traceAction
       ((directImageAlgebraRestrictCoextendAdjunction B S hS π).counit.app F)
   have hc : Epi c := by
     have h0 := epi_etaleSectionAction_comp_map_counit B S hS π g hg ε F pr hε
+    have h1 : Epi ((etaleModulePullback B S hS g hg).map
+        ((directImageAlgebraRestrictScalars B S hS π).map e.inv)) :=
+      @IsIso.epi_of_iso _ _ _ _ _ (Functor.map_isIso _ _)
     exact epi_comp _ _
   -- the terminal affine chart of `V`, and generators of `ℱ|_V` over it
   let T₀ : SmallEtale B S hS (D.chartSpace B S hS hZ X hqc hqs).1 :=

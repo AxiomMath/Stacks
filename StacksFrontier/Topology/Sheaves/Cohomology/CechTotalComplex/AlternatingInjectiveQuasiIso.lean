@@ -172,7 +172,7 @@ theorem globalSectionsAlternatingCechRestriction_comp (ℱ : TopCat.Presheaf Ab.
     rw [cechπ_eq, ← Category.assoc]
     have hlift : globalSectionsCechRestriction X U ℱ 0 ≫
         _root_.Stacks.CategoryTheory.CechComplex.π U ℱ 0 x =
-        ℱ.map (homOfLE le_top).op := Pi.lift_π _ x
+        ℱ.map (homOfLE le_top).op := Pi.lift_comp_π _ x
     rw [hlift, interSectionsIso, Functor.mapIso_hom]
     show _ = ℱ.map (homOfLE (le_top : CechCochains.inter U x ≤ ⊤)).op
     rw [← ℱ.map_comp]

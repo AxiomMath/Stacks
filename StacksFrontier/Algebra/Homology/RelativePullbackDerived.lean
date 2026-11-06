@@ -195,7 +195,7 @@ theorem isIso_homologyMap_of_isIso_derived_app (τ : F ⋙ G ⟶ G' ⋙ F')
   have h₁ : IsIso ((derived F F' G G' τ eG).app
       (DerivedCategory.Plus.Qh.obj (Stacks.DerivedIndexing.resPlus.obj E))) :=
     (NatTrans.isIso_app_iff_of_iso _ (Stacks.DerivedIndexing.singleIsoResPlusQh.app E)).1 h
-  have : IsIso G'.rightDerivedFunctorPlusUnit := exactUnit_isIso G'
+  have : IsIso G'.rightDerivedFunctorPlusUnith := exactUnit_isIso G'
   rw [isIso_derived_app_Qh_iff F F' G G' τ eG _ inferInstance inferInstance] at h₁
   let q : G'.mapHomotopyCategoryPlus.obj (Stacks.DerivedIndexing.resPlus.obj E) ⟶
       Stacks.DerivedIndexing.resPlus.obj (G'.obj E) :=
@@ -206,23 +206,23 @@ theorem isIso_homologyMap_of_isIso_derived_app (τ : F ⋙ G ⟶ G' ⋙ F')
     have : QuasiIso p := quasiIso_comp _ _
     exact (HomotopyCategory.quotient_map_mem_quasiIso_iff p).2
       ((HomologicalComplex.mem_quasiIso_iff p).2 this)
-  have nat : F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj
+  have nat : F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj
         (Stacks.DerivedIndexing.resPlus.obj E)) ≫
         F'.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map q) =
       DerivedCategory.Plus.Qh.map (F'.mapHomotopyCategoryPlus.map q) ≫
-        F'.rightDerivedFunctorPlusUnit.app (Stacks.DerivedIndexing.resPlus.obj (G'.obj E)) :=
-    (F'.rightDerivedFunctorPlusUnit.naturality q).symm
+        F'.rightDerivedFunctorPlusUnith.app (Stacks.DerivedIndexing.resPlus.obj (G'.obj E)) :=
+    (F'.rightDerivedFunctorPlusUnith.naturality q).symm
   have h₂ : IsIso (DerivedCategory.Plus.Qh.map
       ((mapPlus τ).app (Stacks.DerivedIndexing.resPlus.obj E) ≫
       F'.mapHomotopyCategoryPlus.map q)) := by
     have e₃ : DerivedCategory.Plus.Qh.map ((mapPlus τ).app (Stacks.DerivedIndexing.resPlus.obj E) ≫
         F'.mapHomotopyCategoryPlus.map q) ≫
-          F'.rightDerivedFunctorPlusUnit.app (Stacks.DerivedIndexing.resPlus.obj (G'.obj E)) =
+          F'.rightDerivedFunctorPlusUnith.app (Stacks.DerivedIndexing.resPlus.obj (G'.obj E)) =
         (DerivedCategory.Plus.Qh.map ((mapPlus τ).app (Stacks.DerivedIndexing.resPlus.obj E)) ≫
-          F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj
+          F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj
             (Stacks.DerivedIndexing.resPlus.obj E))) ≫
           F'.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map q) := by
-      refine (congrArg (· ≫ F'.rightDerivedFunctorPlusUnit.app
+      refine (congrArg (· ≫ F'.rightDerivedFunctorPlusUnith.app
         (Stacks.DerivedIndexing.resPlus.obj (G'.obj E)))
           (DerivedCategory.Plus.Qh.map_comp _ _)).trans ?_
       refine (Category.assoc _ _ _).trans ?_
@@ -231,11 +231,11 @@ theorem isIso_homologyMap_of_isIso_derived_app (τ : F ⋙ G ⟶ G' ⋙ F')
       exact (Category.assoc _ _ _).symm
     have h₃ : IsIso (DerivedCategory.Plus.Qh.map ((mapPlus τ).app
         (Stacks.DerivedIndexing.resPlus.obj E) ≫ F'.mapHomotopyCategoryPlus.map q) ≫
-          F'.rightDerivedFunctorPlusUnit.app (Stacks.DerivedIndexing.resPlus.obj (G'.obj E))) := by
+          F'.rightDerivedFunctorPlusUnith.app (Stacks.DerivedIndexing.resPlus.obj (G'.obj E))) := by
       rw [e₃]
       infer_instance
     exact IsIso.of_isIso_comp_right _
-      (F'.rightDerivedFunctorPlusUnit.app (Stacks.DerivedIndexing.resPlus.obj (G'.obj E)))
+      (F'.rightDerivedFunctorPlusUnith.app (Stacks.DerivedIndexing.resPlus.obj (G'.obj E)))
   let ψ := (NatTrans.mapHomologicalComplex τ _).app (I.extend emb) ≫
     (F'.mapHomologicalComplex _).map p
   have h₄ : IsIso (homologyMap ψ (n : ℤ)) :=

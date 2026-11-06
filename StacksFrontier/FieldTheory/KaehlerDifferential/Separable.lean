@@ -70,7 +70,6 @@ private lemma mapBaseChange_incl (ξ : A ⊗[k] Ω[k⁄ℤ]) :
     KaehlerDifferential.mapBaseChange ℤ k B (incl k A B ξ) =
       KaehlerDifferential.map ℤ ℤ A B (KaehlerDifferential.mapBaseChange ℤ k A ξ) := by
   induction ξ with
-  | zero => simp
   | add x y hx hy => simp [hx, hy]
   | tmul x y =>
       simp only [incl, LinearMap.rTensor_tmul, AlgHom.toLinearMap_apply,
@@ -98,7 +97,7 @@ end Naturality
 private lemma formallySmooth_of_isSeparablyGenerated (k K : Type*) [Field k] [Field K]
     [Algebra k K] [Algebra.IsSeparablyGenerated k K] : Algebra.FormallySmooth k K := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := K)
   have hr : Set.range ((↑) : s → K) = (s : Set K) := Subtype.range_coe
   rw [← hr] at hsep
   exact Algebra.FormallySmooth.of_algebraicIndependent_of_isSeparable hs.1

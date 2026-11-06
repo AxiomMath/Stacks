@@ -68,6 +68,7 @@ noncomputable def coherentSubobjectCocone (F : Modules.{u, u} B S hS X hX) :
     { app := fun G => G.obj.arrow
       naturality := fun {_ _} f => Subobject.underlying_arrow f.hom }
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- On a locally Noetherian algebraic space, the image in a quasi-coherent module `F` of a
 morphism from a coherent module is a coherent submodule of `F`. -/
 theorem isCoherent_imageSubobject

@@ -76,9 +76,9 @@ def coinductionBotRange : AddSubgroup (coinductionBot.{v, w} M).obj.obj.V :=
 
 /-- The image of `M` in `Coind_1^G M` is stable under the action of `G`. -/
 lemma coinductionBotRange_stable : ∀ g, ∀ a ∈ coinductionBotRange.{v, w} M,
-    ((coinductionBot.{v, w} M).obj.obj.ρ g).hom a ∈ coinductionBotRange.{v, w} M := by
+    ((coinductionBot.{v, w} M).obj.obj.ρ g).asHom.hom a ∈ coinductionBotRange.{v, w} M := by
   rintro g _ ⟨m, rfl⟩
-  exact ⟨(M.obj.obj.ρ g).hom m, hom_comm (coinductionBotUnit.{v, w} M) g m⟩
+  exact ⟨(M.obj.obj.ρ g).asHom.hom m, hom_comm (coinductionBotUnit.{v, w} M) g m⟩
 
 /-- The short complex `0 → M → Coind_1^G M → Q → 0`. -/
 def coinductionBotShortComplex : ShortComplex (ContinuousGModule.{v, max v w} G) :=

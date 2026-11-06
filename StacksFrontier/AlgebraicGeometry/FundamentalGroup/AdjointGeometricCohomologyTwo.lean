@@ -53,7 +53,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] {n �
 /-- The actions of `G` and of `𝐅_ℓ` on the lift of `ad⁰ ρ` commute. -/
 instance smulCommClass_ulift (ρ : G →* Matrix.GeneralLinearGroup (Fin n) (ZMod ℓ)) :
     SMulCommClass G (ZMod ℓ) (ULift.{u} (AdZero ρ)) where
-  smul_comm g a X := ULift.ext _ _ (smul_comm g a X.down)
+  smul_comm g a X := ULift.ext (smul_comm g a X.down)
 
 /-- **`ad⁰ ρ` as a finite `𝐅_ℓ`-module with a continuous `G`-action**, its carrier lifted to the
 universe of `G`. -/
@@ -65,7 +65,7 @@ def finiteTypeContinuousModule (ρ : G →ₜ* Matrix.GeneralLinearGroup (Fin n)
         have hset : {g : G | (Representation.ofDistribMulAction (ZMod ℓ) G
             (ULift.{u} (AdZero ρ.toMonoidHom))) g X = X} = {g : G | g • X.down = X.down} := by
           ext g
-          exact ⟨fun h => congrArg ULift.down h, fun h => ULift.ext _ _ h⟩
+          exact ⟨fun h => congrArg ULift.down h, fun h => ULift.ext h⟩
         rw [hset]
         exact h),
     (inferInstance : Module.Finite (ZMod ℓ) (ULift.{u} (AdZero ρ.toMonoidHom)))⟩

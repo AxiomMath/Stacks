@@ -102,6 +102,14 @@ universe u v
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site times out;
+supply them directly. -/
+local instance : HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+local instance : HasLimitsOfSize.{0, 0} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+local instance (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  HasLimitsOfSize.has_limits_of_shape _
+local instance : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-! ### The topology-free core of Stacks 06ER -/
 
 section CoveringTransfer

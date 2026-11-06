@@ -75,6 +75,32 @@ namespace AlgebraicGeometry.Artin
 
 attribute [local instance] Space.pointTopology
 
+/-- Pullbacks of fppf sheaves (in `Type (u + 1)`, where completions live), found once: instance
+search for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_sheaf_ContractionEtaleWitnessDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+local instance (priority := high) hasLimit_cospan_sheaf_ContractionEtaleWitnessDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_ContractionEtaleWitnessDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+local instance (priority := high) hasLimit_cospan_presheaf_ContractionEtaleWitnessDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace ContractionSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}

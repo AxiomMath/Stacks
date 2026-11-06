@@ -492,14 +492,14 @@ theorem _root_.Stacks.DerivedIndexing.isIso_homologyFunctor_zero_map_rightDerive
     IsIso ((DerivedCategory.Plus.homologyFunctor D 0).map
       ((Stacks.DerivedIndexing.rightDerivedPlusUnitSingle F).app X)) := by
   have h := (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-    F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).2.2.2 inferInstance X
+    F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).2.2.2 inferInstance X
   show IsIso ((DerivedCategory.Plus.homologyFunctor D 0).map
     ((Functor.mapSingleFunctorCompQhIso F).inv.app X ≫
-      F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
+      F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
       F.rightDerivedFunctorPlus.map ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app X)))
   rw [Functor.map_comp, Functor.map_comp]
   have : IsIso ((DerivedCategory.Plus.homologyFunctor D 0).map
-      (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X))) := h
+      (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X))) := h
   infer_instance
 
 variable (B : BigEtaleSite.{u}) (X : B.Scheme) [ConnectedSpace X.1] (Λ : Type) [Ring Λ]
@@ -1047,7 +1047,7 @@ theorem geometricInvariantsGlobalSectionsIsoCanonical_inv_galois
             (y.map
               (fieldBaseChangeObjProj B X f K (contains_fieldBaseChange_of_isCurve B X f K)).hom)
               Λ).obj ρ)) z)).1 : ρ.obj.obj.obj.V) =
-      (ρ.obj.obj.obj.ρ γ).hom
+      (ρ.obj.obj.obj.ρ γ).asHom.hom
         ((geometricInvariantsGlobalSectionsIsoCanonical B X f K Λ y).inv.app ρ z).1 := by
   let := connectedSpace_of_isCurve B X f
   let := connectedSpace_fieldBaseChange f K
@@ -1159,7 +1159,7 @@ def geometricDerivedSectionsIsoRightDerived
       (Functor.rightDerivedUnique _ R
         (continuousModuleRingInvariants.{0, u + 1, u + 1} Λ
           (EtaleFundamentalGroup (Stacks.Frobenius.fieldBaseChange (Over.mk f) K)
-            y)).rightDerivedFunctorPlusUnit α (HomotopyCategory.Plus.quasiIso _)))
+            y)).rightDerivedFunctorPlusUnith α (HomotopyCategory.Plus.quasiIso _)))
 
 end SourceHypotheses
 

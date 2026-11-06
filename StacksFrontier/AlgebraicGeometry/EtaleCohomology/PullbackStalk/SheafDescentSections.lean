@@ -142,9 +142,15 @@ public theorem smallEtalePullbackHomEquivSections_naturality (S : B.Scheme)
           (terminalIsTerminal.uniqueUpToIso
             (isTerminal_smallEtaleSheafPullback_terminal B T.hom)).inv
   have hL : (Adjunction.leftAdjointCompIso
-      ((smallEtaleBaseChange B T.hom).sheafAdjunctionContinuous (Type (u + 1)) _ _)
-      ((smallEtaleBaseChange B g).sheafAdjunctionContinuous (Type (u + 1)) _ _)
-      ((smallEtaleBaseChange B (g ≫ T.hom)).sheafAdjunctionContinuous (Type (u + 1)) _ _)
+      ((smallEtaleBaseChange B T.hom).sheafAdjunctionContinuous (Type (u + 1))
+        (SmallEtale.topology B S.obj S.property)
+        (SmallEtale.topology B T.left.obj T.left.property))
+      ((smallEtaleBaseChange B g).sheafAdjunctionContinuous (Type (u + 1))
+        (SmallEtale.topology B T.left.obj T.left.property)
+        (SmallEtale.topology B T'.obj T'.property))
+      ((smallEtaleBaseChange B (g ≫ T.hom)).sheafAdjunctionContinuous (Type (u + 1))
+        (SmallEtale.topology B S.obj S.property)
+        (SmallEtale.topology B T'.obj T'.property))
       (Functor.sheafPushforwardContinuousComp' e (Type (u + 1)) _ _ _)).hom.app F =
       (smallEtaleMorphism_comp_inverseImageIso B T' (Over.left T) S g (Over.hom T)).hom.app F := by
     rw [he]

@@ -74,7 +74,6 @@ lemma isIso_mateEquiv_symm_of_isEquivalence (adj₁ : L₁ ⊣ R₁) (adj₂ : L
   have e' : ((mateEquiv adj₁ adj₂).symm β).natTrans =
       (conjugateEquiv (adj₁.comp adj₄) (adj₃.comp adj₂)).symm γ.natTrans := by
     rw [hβ, iterated_mateEquiv_conjugateEquiv_symm adj₁ adj₂ adj₃ adj₄ γ]
-    rfl
   rw [e']
   infer_instance
 

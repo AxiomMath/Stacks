@@ -90,7 +90,7 @@ theorem subsingleton_obj_of_mono_completionSheaf_terminal
     (isSheaf_terminal_comp_uliftFunctor (B := B) (S := S) (hS := hS))
   have := subsingleton_terminal_obj (B := B) (S := S) (hS := hS) V
   have : Subsingleton (((⊤_ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)) ⋙ uliftFunctor.{u + 1}).obj V) :=
-    ⟨fun a b => ULift.ext _ _ (Subsingleton.elim _ _)⟩
+    ⟨fun a b => ULift.ext (Subsingleton.elim _ _)⟩
   have : Subsingleton ((Space.sheafifiedULift B S hS
       (⊤_ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u))).obj.obj V) :=
     Equiv.subsingleton (e.app V).symm.toEquiv

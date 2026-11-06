@@ -75,7 +75,7 @@ noncomputable instance commRing_structureSheaf_obj (U : (Opens X)ᵒᵖ) :
 /-- The monoidal structure on presheaves of modules over the structure sheaf of rings. -/
 noncomputable instance monoidalCategory_presheafOfModules :
     MonoidalCategory (PresheafOfModules.{u} (structureSheaf Rc).obj) :=
-  PresheafOfModules.monoidalCategory (R := Rc.obj)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := Rc.obj)
 
 /-- The tensor product of presheaves of modules is additive in its first variable. -/
 instance curriedTensor_additive :

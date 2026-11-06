@@ -146,6 +146,10 @@ theorem derivedBifunctorModelIso_hom_commShift₂Int :
     simp [derivedBifunctorModel₂LiftingIso, iL, iR, j₂, T₂]
   · intro X₁
     have := c₁.commShift_app X₁
+    let : ((((Functor.whiskeringLeft₂ _).obj (@kFlatQLeft _ _ _ _ _ _ _ _ _ F _ _ _ hA₁)).obj
+        (@kFlatQ _ _ _ _ _ _ _ _ _ F _ _ _ hB₁)).obj T₁).CommShift₂Int :=
+      inferInstanceAs ((@kFlatQLeft _ _ _ _ _ _ _ _ _ F _ _ _ hA₁ ⋙ (T₁ ⋙
+        (Functor.whiskeringLeft _ _ _).obj (@kFlatQ _ _ _ _ _ _ _ _ _ F _ _ _ hB₁))).CommShift₂Int)
     refine NatTrans.commShift_of_eq (θ := (Functor.associator _ _ _).inv ≫
       Functor.whiskerRight (j₁.hom.app X₁) GD ≫
       (Functor.associator (kFlatObjects F).ι
@@ -176,6 +180,10 @@ theorem derivedBifunctorModelIso_hom_commShift₂Int :
     simp [derivedBifunctorModel₂LiftingIso, iL, iR, j₂, T₂]
   · intro X₂
     have := c₁.commShift_flipApp X₂
+    let : ((((Functor.whiskeringLeft₂ _).obj (@kFlatQLeft _ _ _ _ _ _ _ _ _ F _ _ _ hA₁)).obj
+        (@kFlatQ _ _ _ _ _ _ _ _ _ F _ _ _ hB₁)).obj T₁).CommShift₂Int :=
+      inferInstanceAs ((@kFlatQLeft _ _ _ _ _ _ _ _ _ F _ _ _ hA₁ ⋙ (T₁ ⋙
+        (Functor.whiskeringLeft _ _ _).obj (@kFlatQ _ _ _ _ _ _ _ _ _ F _ _ _ hB₁))).CommShift₂Int)
     refine NatTrans.commShift_of_eq
         (θ := (Functor.associator (@kFlatQLeft _ _ _ _ _ _ _ _ _ F _ _ _ hA₁)
         (T₁.flip.obj ((@kFlatQ _ _ _ _ _ _ _ _ _ F _ _ _ hB₁).obj X₂)) GD).inv ≫

@@ -23,7 +23,7 @@ The mathematics is entirely proved elsewhere; this file composes two facts:
 * `CategoryTheory.Functor.rightAcyclic`, as its defining file records, is *definitionally*
   invertibility of the unit of the right derived functor at the degree-zero complex, once
   `EnoughInjectives` supplies the `HasRightDerivedFunctor` instance that makes
-  `Functor.rightDerivedFunctorPlus` and `Functor.rightDerivedFunctorPlusUnit` the right derived
+  `Functor.rightDerivedFunctorPlus` and `Functor.rightDerivedFunctorPlusUnith` the right derived
   functor and its unit.
 
 So the proof is the acyclicity statement itself, accepted at the unit spelling.
@@ -82,9 +82,25 @@ unfolding of `CategoryTheory.Functor.rightAcyclic`. -/
 @[stacks 02KG "comparison with the derived direct image", ega "III 1.3.2"]
 theorem isIso_rightDerivedFunctorPlusUnit_app_of_isAffineHom
     {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Modules) [IsAffineHom f] [F.IsQuasicoherent] :
-    IsIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnit.app
+    IsIso ((Scheme.Modules.pushforward f).rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.singleFunctor X.Modules 0).obj F)) := by
+  -- `rightDerivedFunctorPlusUnith` is not exposed: compare it with the unit of
+  -- `totalRightDerived` (the unfolding of `rightAcyclic`) through `rightDerivedDesc`.
+  set G := Scheme.Modules.pushforward f
+  have : IsIso (G.rightDerivedFunctorPlus.rightDerivedDesc G.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso X.Modules) _
+      ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso X.Modules))) :=
+    (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc _ _ _ _ _).1 inferInstance
+  have h : IsIso (((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso X.Modules)).app
       ((HomotopyCategory.Plus.singleFunctor X.Modules 0).obj F)) :=
-  Stacks.AffineHigherDirectImage.rightAcyclic_pushforward f F
+    Stacks.AffineHigherDirectImage.rightAcyclic_pushforward f F
+  rw [← Functor.rightDerived_fac_app G.rightDerivedFunctorPlus G.rightDerivedFunctorPlusUnith
+    (HomotopyCategory.Plus.quasiIso X.Modules) _
+    ((G.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+      DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso X.Modules))] at h
+  exact (isIso_comp_right_iff _ _).1 h
 
 end Stacks.Tag02KGDerivedComparison
 

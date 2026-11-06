@@ -202,7 +202,7 @@ theorem shortExact_etaleConstantSheaf {A B D : Type} [AddCommGroup A] [AddCommGr
       exact ⟨ULift.up a, congrArg ULift.up ha⟩
     · rw [AddCommGrpCat.mono_iff_injective]
       intro x y h
-      exact ULift.ext _ _ (hf (congrArg ULift.down h))
+      exact ULift.ext (hf (congrArg ULift.down h))
     · rw [AddCommGrpCat.epi_iff_surjective]
       intro y
       obtain ⟨b, hb⟩ := hg y.down

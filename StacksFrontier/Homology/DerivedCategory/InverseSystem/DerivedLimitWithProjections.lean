@@ -64,7 +64,7 @@ omit [HasZeroObject D] [HasShift D ℤ] [Preadditive D] [∀ (n : ℤ), (shiftFu
 /-- Splitting a map into a product into its components and reassembling it changes nothing. -/
 theorem pi_lift_comp_π {K : D} (a : K ⟶ ∏ᶜ fun n : ℕ ↦ F.obj ⟨n⟩) :
     (Pi.lift fun n : ℕ ↦ a ≫ Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n) = a :=
-  Pi.hom_ext _ _ fun n ↦ by rw [Pi.lift_π]
+  Pi.hom_ext _ _ fun n ↦ by rw [Pi.lift_comp_π]
 
 /-- **Every inverse system whose objects have a product has a derived-limit presentation with
 projections.** Completing the Milnor difference map to a distinguished triangle gives a
@@ -90,11 +90,11 @@ theorem IsDerivedLimitWithProjections.exists_lift
       Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n -
         Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) (n + 1) ≫ F.map (homOfLE (Nat.le_succ n)).op) = 0 := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, Pi.lift_π, ← Category.assoc,
-      Pi.lift_π, hc n, zero_comp, sub_self]
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π, ← Category.assoc,
+      Pi.lift_comp_π, hc n, zero_comp, sub_self]
   obtain ⟨v, hv⟩ := Triangle.coyoneda_exact₂ _ hT (Pi.lift c) hzero
   refine ⟨v, fun n ↦ ?_⟩
-  simpa only [Triangle.mk_mor₁, Category.assoc, Pi.lift_π] using
+  simpa only [Triangle.mk_mor₁, Category.assoc, Pi.lift_comp_π] using
     (congrArg (· ≫ Pi.π (fun n : ℕ ↦ F.obj ⟨n⟩) n) hv).symm
 
 /-- **Transport of a derived-limit presentation along an isomorphism of the object.** If `π'`
@@ -140,7 +140,7 @@ theorem IsDerivedLimitWithProjections.isIso_of_comp_limit_π
   obtain ⟨e, i, q', w, -, -, hqn, hse⟩ :=
     DerivedCategory.exists_milnor_shortExact_of_distTriang F K (Pi.lift π) δ hT r
   obtain rfl : q = q' :=
-    limit.hom_ext fun ⟨n⟩ ↦ by rw [hq n, hqn n, ← Functor.map_comp, Pi.lift_π]
+    limit.hom_ext fun ⟨n⟩ ↦ by rw [hq n, hqn n, ← Functor.map_comp, Pi.lift_comp_π]
   have : Mono q := hse.exact.mono_g (((Preadditive.epi_iff_isZero_cokernel _).1
     (Stacks.Algebraization.epi_milnorDifference_of_isMittagLefflerCategorical
       (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) (r - 1)) hML)).eq_of_src _ _)
@@ -168,7 +168,7 @@ theorem IsDerivedLimitWithProjections.exists_isIso_comp_limit_π
   have hq : ∀ n : ℕ,
       q ≫ limit.π (F ⋙ DerivedCategory.homologyFunctor (ModuleCat.{u} A) r) (op n) =
         (DerivedCategory.homologyFunctor (ModuleCat.{u} A) r).map (π n) :=
-    fun n ↦ by rw [hqn n, ← Functor.map_comp, Pi.lift_π]
+    fun n ↦ by rw [hqn n, ← Functor.map_comp, Pi.lift_comp_π]
   exact ⟨q, IsDerivedLimitWithProjections.isIso_of_comp_limit_π A F K π ⟨δ, hT⟩ r hML q hq, hq⟩
 
 end ModuleCat

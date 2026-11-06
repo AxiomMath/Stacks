@@ -61,7 +61,7 @@ public theorem smul_eq_of_arithmeticFrobenius [ConnectedSpace (Spec (.of A))]
     (y : Spec (.of A)) [Finite ((Spec (.of A)).residueField y)]
     (σ : EtaleFundamentalGroup (Spec (.of A)) (geometricPointAt _ y))
     (hσ : ∀ (V : FiniteEtaleOver (Spec (.of A))) (q : finiteEtaleFiber (geometricPointAt _ y) V),
-      ((σ.app V).hom q).1 =
+      ((σ.asIso.app V).hom q).1 =
         Spec.map (CommRingCat.ofHom (residueGeometricFrobenius _ y).symm.toAlgHom.toRingHom) ≫ q.1)
     (p : (finiteEtaleFiberFunctor (geometricPointAt _ y)).obj (cover k A g)) :
     σ • p = (finiteEtaleFiberFunctor _).map (coverTranslate k A g

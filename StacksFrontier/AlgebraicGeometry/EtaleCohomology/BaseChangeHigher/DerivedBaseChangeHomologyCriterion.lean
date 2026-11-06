@@ -195,7 +195,6 @@ public theorem isIso_homology_map_mapPlus_app_iff (τ : E₁ ⟶ E₂) (K : Homo
   rw [← isIso_comp_right_iff (τ.app ((HomotopyCategory.homologyFunctor A (ComplexShape.up ℤ) n).obj
     K.obj)) ((Stacks.Homology.homotopyHomologyIso E₂ n).hom.app K.obj), hnat,
     isIso_comp_left_iff]
-  exact Iff.rfl
 
 end Degreewise
 
@@ -267,22 +266,22 @@ factorization `Stacks.Cohomology.BaseChange.derived_fac_app` cancel. -/
 public theorem isIso_derived_app_Qh_iff_of_exact (K : HomotopyCategory.Plus A) :
     IsIso ((derived F F' G G' τ ε).app (DerivedCategory.Plus.Qh.obj K)) ↔
       IsIso (DerivedCategory.Plus.Qh.map ((mapPlus τ).app K)) := by
-  have hFu : IsIso F.rightDerivedFunctorPlusUnit := exactUnit_isIso F
-  have hF'u : IsIso F'.rightDerivedFunctorPlusUnit := exactUnit_isIso F'
-  have hG'u : IsIso G'.rightDerivedFunctorPlusUnit := exactUnit_isIso G'
-  have iU : IsIso (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)) :=
+  have hFu : IsIso F.rightDerivedFunctorPlusUnith := exactUnit_isIso F
+  have hF'u : IsIso F'.rightDerivedFunctorPlusUnith := exactUnit_isIso F'
+  have hG'u : IsIso G'.rightDerivedFunctorPlusUnith := exactUnit_isIso G'
+  have iU : IsIso (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)) :=
     (G.rightDerivedFunctorPlus.mapIso
-      (Iso.app (asIso F.rightDerivedFunctorPlusUnit) K)).isIso_hom
+      (Iso.app (asIso F.rightDerivedFunctorPlusUnith) K)).isIso_hom
   have i1 : IsIso (ε.inv.app (F.mapHomotopyCategoryPlus.obj K)) := (Iso.app ε _).isIso_inv
-  have i3 : IsIso (F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj K)) :=
-    (Iso.app (asIso F'.rightDerivedFunctorPlusUnit) _).isIso_hom
-  have i4 : IsIso (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app K)) :=
+  have i3 : IsIso (F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj K)) :=
+    (Iso.app (asIso F'.rightDerivedFunctorPlusUnith) _).isIso_hom
+  have i4 : IsIso (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app K)) :=
     (F'.rightDerivedFunctorPlus.mapIso
-      (Iso.app (asIso G'.rightDerivedFunctorPlusUnit) K)).isIso_hom
+      (Iso.app (asIso G'.rightDerivedFunctorPlusUnith) K)).isIso_hom
   have hfac := derived_fac_app F F' G G' τ ε K
   rw [onHomotopy_app] at hfac
   have := iU
-  rw [← isIso_comp_left_iff (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)),
+  rw [← isIso_comp_left_iff (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)),
     hfac]
   exact isIso_mid_iff₄ _ _ _ _ i1 i3 i4
 

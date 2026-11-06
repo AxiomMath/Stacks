@@ -213,6 +213,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf_normalizationQuasiFiniteLocus :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_normalizationQuasiFiniteLocus
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Over a cartesian square from a scheme chart, the quasi-finite locus of `f` pulls back to the
 quasi-finite locus of the chart morphism of schemes. -/
 theorem preimage_quasiFiniteLocusSubspace_eq_of_isPullback
@@ -309,7 +320,9 @@ theorem isOpenImmersion_and_preimage_range_eq_of_isPullback
   rw [hPeq, hcomp]
   refine ⟨MorphismProperty.RespectsIso.precomp _ _ _
     ((presheaf_yoneda_map_iff B S hS inferInstance (i ≫ r)).2 hoiS), ?_⟩
-  rw [Subfunctor.range_comp, Subfunctor.range_eq_top, Subfunctor.image_top,
+  have hepi : Epi (rangeIsoOfMono B S hS (yoneda.map i)).inv := IsIso.epi_of_iso _
+  rw [Subfunctor.range_comp,
+    Subfunctor.range_eq_top (p := (rangeIsoOfMono B S hS (yoneda.map i)).inv), Subfunctor.image_top,
     range_yoneda_map_eq_subspaceOfOpens B S hS (i ≫ r) hoiS _ (Scheme.Hom.coe_opensRange _).symm,
     subspaceOfOpens_preimage_yoneda_map, hOpens, hrangei]
 

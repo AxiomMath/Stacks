@@ -6,6 +6,7 @@ public import StacksFrontier.RingTheory.GradedAlgebra.NoetherianModel
 public import StacksFrontier.RingTheory.HomogeneousLocalization.DegreeZero
 public import StacksFrontier.AlgebraicGeometry.ProjectiveSpectrum.NoetherianModelClauses
 public import Mathlib.AlgebraicGeometry.Morphisms.FinitePresentation
+public import Mathlib.RingTheory.RingHom.FinitePresentation
 
 /-!
 # Finite presentation of the structure morphism of a homogeneous spectrum

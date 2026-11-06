@@ -57,7 +57,7 @@ theorem tensorProduct_of_flat [IsNoetherianRing A] [Module.Flat A C]
   let ρ : (C ⊗[A] A →ₗ[C] C ⊗[A] I) →ₗ[C] (C ⊗[A] 𝔞 →ₗ[C] C ⊗[A] I) :=
     LinearMap.lcomp C (C ⊗[A] I) (𝔞.subtype.baseChange C)
   have hG : LinearMap.liftBaseChange C g ∈ LinearMap.range ρ := by
-    refine hbc.inductionOn _ (fun G => G ∈ LinearMap.range ρ) (Submodule.zero_mem _) ?_
+    refine hbc.inductionOn (motive := fun G => G ∈ LinearMap.range ρ) _ ?_
       (fun s n hn => Submodule.smul_mem _ s hn) (fun n₁ n₂ h₁ h₂ => Submodule.add_mem _ h₁ h₂)
     intro f
     obtain ⟨f', hf'⟩ := hI 𝔞 f

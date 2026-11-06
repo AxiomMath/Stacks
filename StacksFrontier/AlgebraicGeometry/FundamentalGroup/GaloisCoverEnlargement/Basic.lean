@@ -131,7 +131,7 @@ theorem galoisExtendsOver_of_extension [Flat f] [IsLocallyNoetherian X] [IsNorma
     (Y : FiniteEtaleGaloisCover (f ⁻¹ᵁ U).toScheme G)
     (e : (finiteEtaleBaseChange (genericFiberToPreimage f U hη)).obj Y.obj ≅ Z.obj)
     (he : ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (genericFiberToPreimage f U hη)).map
-      (Y.action g).hom ≫ e.hom = e.hom ≫ (Z.action g).hom)
+      (Y.action g).asIso.hom ≫ e.hom = e.hom ≫ (Z.action g).asIso.hom)
     (F : FiniteEtaleOver (f ⁻¹ᵁ U').toScheme)
     (eF : (finiteEtaleBaseChange (X.homOfLE (f.preimage_mono hUU'))).obj F ≅ Y.obj) :
     GaloisExtendsOver f Z U' := by

@@ -193,7 +193,7 @@ variable {R : Cᵒᵖ ⥤ CommRingCat.{w}} (a : R ⟶ A)
 
 /-- The objectwise presheaf of relative Kähler differentials. -/
 noncomputable abbrev differentialsPresheaf :=
-  PresheafOfModules.DifferentialsConstruction.relativeDifferentials' a
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' a
 
 /-- The objectwise tensor product `(A/I) ⊗[A] Ω[A/R]`. -/
 noncomputable def tensorObj (X : Cᵒᵖ) : ModuleCat.{w} ((quotientPresheaf φ).obj X) :=
@@ -323,7 +323,7 @@ lemma tensor_hom_ext (X : Cᵒᵖ) {M : ModuleCat.{z} ((quotientPresheaf φ).obj
 /-- Relative differentials of the image presheaf. Its associated sheaf is
 `Ω[B/R]`, since the image presheaf has associated sheaf `B` (Stacks 08TP). -/
 noncomputable def quotientDifferentialsPresheaf :=
-  PresheafOfModules.DifferentialsConstruction.relativeDifferentials' (a ≫ toQuotient φ)
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' (a ≫ toQuotient φ)
 
 /-- The canonical map from the conormal module to the tensor product on sections. -/
 noncomputable def conormalToTensorApp (X : Cᵒᵖ) :
@@ -369,7 +369,7 @@ noncomputable def conormalToTensor : conormalPresheaf φ ⟶ tensorPresheaf φ a
     rw [map_one ((quotientPresheaf φ).map f).hom]
     exact congrArg (fun ω : (differentialsPresheaf a).obj Y ↦
       (1 : A.obj Y ⧸ kernelIdeal φ Y) ⊗ₜ[A.obj Y] ω)
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d a f x).symm
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a f x).symm
 
 /-- The canonical base-change map on objectwise differentials. -/
 noncomputable def tensorToDifferentialsApp (X : Cᵒᵖ) :
@@ -408,14 +408,14 @@ noncomputable def tensorToDifferentials :
           (tmulOver φ a X b (CommRingCat.KaehlerDifferential.d x)))
     have hd : (differentialsPresheaf a).map f (CommRingCat.KaehlerDifferential.d x) =
         CommRingCat.KaehlerDifferential.d (f := a.app Y) (A.map f x) :=
-      PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d a f x
+      PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a f x
     rw [hd, tensorToDifferentialsApp_tmul_d, tensorToDifferentialsApp_tmul_d]
     have h2 : (quotientDifferentialsPresheaf φ a).map f
         (CommRingCat.KaehlerDifferential.d (f := (a ≫ toQuotient φ).app X)
           (Ideal.Quotient.mk (kernelIdeal φ X) x)) =
         CommRingCat.KaehlerDifferential.d (f := (a ≫ toQuotient φ).app Y)
           (Ideal.Quotient.mk (kernelIdeal φ Y) (A.map f x)) :=
-      PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d
+      PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
         (a ≫ toQuotient φ) f (Ideal.Quotient.mk _ x)
     exact (congrArg (fun ω : (quotientDifferentialsPresheaf φ a).obj Y ↦
         (quotientPresheaf φ).map f b • ω) h2.symm).trans
@@ -581,7 +581,7 @@ private lemma differentialsPresheaf_map_d {R A : Cᵒᵖ ⥤ CommRingCat.{w}} (a
     {X Y : Cᵒᵖ} (f : X ⟶ Y) (x : A.obj X) :
     (differentialsPresheaf a).map f (CommRingCat.KaehlerDifferential.d x) =
       CommRingCat.KaehlerDifferential.d (f := a.app Y) (A.map f x) :=
-  PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d a f x
+  PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d a f x
 
 /-- The map on relative differentials commutes with the restriction maps. -/
 lemma differentialsMapOfSquare_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y)

@@ -168,7 +168,7 @@ lemma dualScalingInr_app_tautological :
           (tautologicalPairModule.{w, v} A) := by
   refine PresheafOfModules.hom_ext fun X => ?_
   ext z
-  exact ULift.ext _ _ (dualNumberPairInr_eq_eps_smul X.unop.unop z.down)
+  exact ULift.ext (dualNumberPairInr_eq_eps_smul X.unop.unop z.down)
 
 end Endofunctor
 

@@ -335,6 +335,15 @@ def determinantOverIso : A.determinant.over U ≅ B.determinant :=
       (SheafOfModules.overFunctor.{w} (toRingCat J Osharp) U) :=
     (Adjunction.ofIsLeftAdjoint
       (SheafOfModules.overFunctor.{w} (toRingCat J Osharp) U)).leftAdjoint_preservesColimits
+  -- Instance search for these coproducts times out under Lean v4.35.0: supply them directly.
+  haveI := PresheafOfModules.hasColimitsOfShape (toRingCat J Osharp).obj (Discrete ℕ)
+  haveI := PresheafOfModules.hasColimitsOfShape ((toRingCat J Osharp).over U).obj (Discrete ℕ)
+  letI : HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} (toRingCat J Osharp)) :=
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      (toRingCat J Osharp) (Discrete ℕ)
+  letI : HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} ((toRingCat J Osharp).over U)) :=
+    SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+      ((toRingCat J Osharp).over U) (Discrete ℕ)
   PreservesCoproduct.iso (SheafOfModules.overFunctor.{w} (toRingCat J Osharp) U)
       (fun n : ℕ => (A.exteriorAnnihilator n).toSheafOfModules) ≪≫
     Sigma.mapIso fun n : ℕ => exteriorAnnihilatorOverIso A U B n

@@ -56,7 +56,7 @@ theorem isClosed_singleton_chartGeometricPoint_of_isClosed {U : BigFppfOver B S 
     (hcl : IsClosed ({pointsToScheme B S hS U x.image} :
       Set ((BigFppfOver.toScheme B S hS).obj U))) :
     IsClosed ({(chartGeometricPoint V).hom
-      (IsLocalRing.closedPoint (chartGeometricPoint V).residueField)} :
+                (IsLocalRing.closedPoint (chartGeometricPoint V).residueField)} :
       Set (neighborhoodChartScheme V)) := by
   obtain ⟨c, hc, hcEt⟩ := exists_yoneda_map_chart_etale B S hS V
   have hpt : (BigFppfOver.toScheme B S hS).map c
@@ -94,8 +94,8 @@ theorem hasClosedChartFibreSquare_of_isClosed_pointsToScheme
     hmp, hsq⟩ :=
     exists_pointed_chart_square_of_isPullback B S hS hW (isAlgebraicSpace_yoneda B S hS U)
       (isAlgebraicSpace_yoneda B S hS U') k (yoneda.map h) π₁ π₂ hsq₀ hZ a
-  have hPcl : IsClosed ({(chartGeometricPoint P).hom
-      (IsLocalRing.closedPoint (chartGeometricPoint P).residueField)} :
+  have hPcl : IsClosed ({((chartGeometricPoint P).hom
+      (IsLocalRing.closedPoint (chartGeometricPoint P).residueField))} :
       Set (neighborhoodChartScheme P)) :=
     isClosed_singleton_chartGeometricPoint_of_isClosed B S hS P hcl
   have hgsnd : (BigFppfOver.toScheme B S hS).map gsnd
@@ -109,10 +109,10 @@ theorem hasClosedChartFibreSquare_of_isClosed_pointsToScheme
       rw [← Functor.map_comp, hmp]
       rfl
     exact congrArg (fun m => m (IsLocalRing.closedPoint a.val.carrier)) hmaps
-  have hcl₂ : IsClosed ({((BigFppfOver.toScheme B S hS).map gh).asFiber
+  have hcl₂ : IsClosed ({(((BigFppfOver.toScheme B S hS).map gh).asFiber
       ((BigFppfOver.toScheme B S hS).map gsnd
         ((chartGeometricPoint M).hom
-          (IsLocalRing.closedPoint (chartGeometricPoint M).residueField)))} : Set _) := by
+          (IsLocalRing.closedPoint (chartGeometricPoint M).residueField))))} : Set _) := by
     rw [hgsnd]
     exact isClosed_singleton_asFiber_of_isClosed _ _ hPcl
   have hghft : LocallyOfFiniteType ((BigFppfOver.toScheme B S hS).map gh) := by
@@ -130,9 +130,9 @@ theorem hasClosedChartFibreSquare_of_isClosed_pointsToScheme
     rw [hschemes] at hleft
     exact LocallyOfFiniteType.of_comp hleft
   let := hghft
-  have hcl₁ : IsClosed ({((BigFppfOver.toScheme B S hS).map gfst).asFiber
+  have hcl₁ : IsClosed ({(((BigFppfOver.toScheme B S hS).map gfst).asFiber
       ((chartGeometricPoint M).hom
-        (IsLocalRing.closedPoint (chartGeometricPoint M).residueField))} : Set _) :=
+        (IsLocalRing.closedPoint (chartGeometricPoint M).residueField)))} : Set _) :=
     isClosed_asFiber_of_isPullback hsq _ hcl₂
   exact ⟨M, N, P, Q, gfst, gsnd, gh, gk, hNaff, hQaff, hcomm₁, hcomm₂, hpoint₁, hpoint₂, hmp,
     hsq, hcl₁, hcl₂⟩

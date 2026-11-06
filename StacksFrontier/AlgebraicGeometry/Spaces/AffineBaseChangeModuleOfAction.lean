@@ -86,7 +86,7 @@ variable (F : Modules.{u, u} B S hS X.1 X.2)
 def moduleOfActionRelations :
     (∐ fun _ : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤) => (modulePullback B S hS pr).obj F) ⟶
       (modulePullback B S hS pr).obj F :=
-  Sigma.desc fun r => (modulePullback B S hS pr).map (ρ r) -
+  Sigma.desc fun r => (modulePullback B S hS pr).map (ρ r).asHom -
     globalSmul _ (pullbackFunction B S hS pr' r) ((modulePullback B S hS pr).obj F)
 
 /-- **The `𝒪_{X'}`-module attached to an `𝒪_X`-module with an action of `Γ(W)`**: the quotient
@@ -101,7 +101,7 @@ def moduleOfActionπ : (modulePullback B S hS pr).obj F ⟶ moduleOfAction B S h
 /-- In `F'`, the endomorphism `pr^*(ρ r)` of `pr^* F` and multiplication by `pr'^♯ r` agree after
 composing with the projection `pr^* F ⟶ F'`. -/
 theorem ι_moduleOfActionRelations_moduleOfActionπ (r : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)) :
-    (modulePullback B S hS pr).map (ρ r) ≫ moduleOfActionπ B S hS pr' pr F ρ =
+    (modulePullback B S hS pr).map (ρ r).asHom ≫ moduleOfActionπ B S hS pr' pr F ρ =
       globalSmul _ (pullbackFunction B S hS pr' r) _ ≫ moduleOfActionπ B S hS pr' pr F ρ := by
   have h := Sigma.ι _ r ≫= cokernel.condition (moduleOfActionRelations B S hS pr' pr F ρ)
   rw [comp_zero, ← Category.assoc, moduleOfActionRelations, Sigma.ι_desc, Preadditive.sub_comp,
@@ -112,7 +112,7 @@ theorem ι_moduleOfActionRelations_moduleOfActionπ (r : Γ((BigFppfOver.toSchem
 theorem moduleOfActionπ_globalSmul (r : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)) :
     moduleOfActionπ B S hS pr' pr F ρ ≫
         globalSmul _ (pullbackFunction B S hS pr' r) (moduleOfAction B S hS pr' pr F ρ) =
-      (modulePullback B S hS pr).map (ρ r) ≫ moduleOfActionπ B S hS pr' pr F ρ := by
+      (modulePullback B S hS pr).map (ρ r).asHom ≫ moduleOfActionπ B S hS pr' pr F ρ := by
   rw [comp_globalSmul, ι_moduleOfActionRelations_moduleOfActionπ]
 
 /-- The coproduct of copies of `pr^* F` indexed by `Γ(W)` is quasi-coherent when `F` is. -/
@@ -227,7 +227,7 @@ theorem toPushforwardModuleOfAction_app (U : SmallEtale B S hS X.1) (s : F.val.o
 def moduleOfActionChartAction (U : SmallEtale B S hS X.1) :
     Γ((BigFppfOver.toScheme B S hS).obj W, ⊤) →+*
       Module.End (chartRing B S hS X.1 X.2 U) (F.val.obj (op U)) where
-  toFun r := ((ρ r).val.app (op U)).hom
+  toFun r := ((ρ r).asHom.val.app (op U)).hom
   map_one' := by rw [map_one]; rfl
   map_mul' r r' := by rw [map_mul]; rfl
   map_zero' := by rw [map_zero]; rfl
@@ -236,13 +236,13 @@ def moduleOfActionChartAction (U : SmallEtale B S hS X.1) :
 /-- The action of `r` on `F(U)` is the component of `ρ r` at `U`. -/
 theorem moduleOfActionChartAction_apply (U : SmallEtale B S hS X.1)
     (r : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)) (m : F.val.obj (op U)) :
-    moduleOfActionChartAction B S hS F ρ U r m = (ρ r).val.app (op U) m :=
+    moduleOfActionChartAction B S hS F ρ U r m = (ρ r).asHom.val.app (op U) m :=
   rfl
 
 /-- The relation `pr^*(ρ r) - pr'^♯ r` on `pr^* F`. -/
 abbrev moduleOfActionRelation (r : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤)) :
     (modulePullback B S hS pr).obj F ⟶ (modulePullback B S hS pr).obj F :=
-  (modulePullback B S hS pr).map (ρ r) -
+  (modulePullback B S hS pr).map (ρ r).asHom -
     globalSmul _ (pullbackFunction B S hS pr' r) ((modulePullback B S hS pr).obj F)
 
 /-- The `r`-th component of `moduleOfActionRelations` is `moduleOfActionRelation r`. -/
@@ -298,7 +298,7 @@ variable {pr' pr} (sq : IsPullback pr' pr (schemeSpaceMap q) p)
 proof of injectivity and surjectivity. -/
 private theorem bijective_toModuleOfActionApp_aux (sq : IsPullback pr' pr (schemeSpaceMap q) p)
     (hF : F.IsQuasicoherentOnSite)
-    (hρ : ∀ a, ρ (((BigFppfOver.toScheme B S hS).map q).appTop a) =
+    (hρ : ∀ a, (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V p a) F)
     (U : SmallEtale B S hS X.1)
     (hU : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U)) :
@@ -353,7 +353,7 @@ private theorem bijective_toModuleOfActionApp_aux (sq : IsPullback pr' pr (schem
           (chartRing B S hS X.1 X.2 U) a) := by
     intro a
     ext m
-    show (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).val.app (op U) m = _
+    show (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom.val.app (op U) m = _
     rw [hρ a]
     rfl
   let bc : chartRing B S hS X'.1 X'.2 (baseChangeChart B S hS pr hrep U) ⊗[
@@ -368,10 +368,10 @@ private theorem bijective_toModuleOfActionApp_aux (sq : IsPullback pr' pr (schem
       (moduleOfActionRelation B S hS pr' pr F ρ r).val.app (op (baseChangeChart B S hS pr hrep U))
         (bc z) := by
     intro r z
-    have h1 := modulePullbackChartBaseChange_map B S hS pr (ρ r) d z
+    have h1 := modulePullbackChartBaseChange_map B S hS pr (ρ r).asHom d z
     have e1 : bc ((ρU r).baseChange
         (chartRing B S hS X'.1 X'.2 (baseChangeChart B S hS pr hrep U)) z) =
-        ((modulePullback B S hS pr).map (ρ r)).val.app
+        ((modulePullback B S hS pr).map (ρ r).asHom).val.app
           (op (baseChangeChart B S hS pr hrep U)) (bc z) := by
       rw [LinearMap.baseChange_eq_ltensor]
       exact h1.symm
@@ -454,7 +454,7 @@ include sq in
 quasi-coherent `F` whose action of `Γ(W)` restricts on `Γ(V)` to multiplication by the pulled
 back functions. -/
 theorem injective_toModuleOfActionApp (hF : F.IsQuasicoherentOnSite)
-    (hρ : ∀ a, ρ (((BigFppfOver.toScheme B S hS).map q).appTop a) =
+    (hρ : ∀ a, (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V p a) F)
     (U : SmallEtale B S hS X.1)
     (hU : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U)) :
@@ -467,7 +467,7 @@ include sq in
 quasi-coherent `F` whose action of `Γ(W)` restricts on `Γ(V)` to multiplication by the pulled
 back functions. -/
 theorem surjective_toModuleOfActionApp (hF : F.IsQuasicoherentOnSite)
-    (hρ : ∀ a, ρ (((BigFppfOver.toScheme B S hS).map q).appTop a) =
+    (hρ : ∀ a, (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V p a) F)
     (U : SmallEtale B S hS X.1)
     (hU : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U)) :
@@ -480,7 +480,7 @@ include sq in
 quasi-coherent `F` whose action of `Γ(W)` restricts on `Γ(V)` to multiplication by the pulled
 back functions. -/
 theorem bijective_toModuleOfActionApp (hF : F.IsQuasicoherentOnSite)
-    (hρ : ∀ a, ρ (((BigFppfOver.toScheme B S hS).map q).appTop a) =
+    (hρ : ∀ a, (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V p a) F)
     (U : SmallEtale B S hS X.1)
     (hU : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U)) :
@@ -493,7 +493,7 @@ include sq in
 /-- **`pr_* F' ≅ F`**: the comparison of `AlgebraicGeometry.Space.toPushforwardModuleOfAction`
 is an isomorphism for a quasi-coherent `F`. -/
 theorem isIso_toPushforwardModuleOfAction (hF : F.IsQuasicoherentOnSite)
-    (hρ : ∀ a, ρ (((BigFppfOver.toScheme B S hS).map q).appTop a) =
+    (hρ : ∀ a, (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V p a) F) :
     IsIso (toPushforwardModuleOfAction B S hS pr' pr F ρ hrep) :=
   SmallEtale.isIso_of_bijective_app_of_isAffineChart B S hS X.1 X.2 _ fun U hU =>
@@ -507,7 +507,7 @@ theorem toPushforwardModuleOfAction_comp_globalSmul
     toPushforwardModuleOfAction B S hS pr' pr F ρ hrep ≫
         (smallBaseChangeModulePushforward B S hS pr hrep).map
           (globalSmul _ (pullbackFunction B S hS pr' r) (moduleOfAction B S hS pr' pr F ρ)) =
-      ρ r ≫ toPushforwardModuleOfAction B S hS pr' pr F ρ hrep := by
+      (ρ r).asHom ≫ toPushforwardModuleOfAction B S hS pr' pr F ρ hrep := by
   ext U s
   have h := congrArg (fun φ => φ.val.app (op (baseChangeChart B S hS pr hrep U.unop))
     (modulePullbackChartSection B S hS pr F (baseChangeChartDiagram B S hS pr hrep U.unop) s))
@@ -515,13 +515,13 @@ theorem toPushforwardModuleOfAction_comp_globalSmul
   refine h.trans ?_
   exact congrArg ((moduleOfActionπ B S hS pr' pr F ρ).val.app
     (op (baseChangeChart B S hS pr hrep U.unop))).hom
-    (modulePullbackChartSection_map B S hS pr F (ρ r)
+    (modulePullbackChartSection_map B S hS pr F (ρ r).asHom
       (baseChangeChartDiagram B S hS pr hrep U.unop) s)
 
 /-- On sections, the comparison carries `ρ r` to multiplication by `pr'^♯ r`. -/
 theorem toModuleOfActionApp_action (r : Γ((BigFppfOver.toScheme B S hS).obj W, ⊤))
     (U : SmallEtale B S hS X.1) (s : F.val.obj (op U)) :
-    toModuleOfActionApp B S hS pr' pr F ρ hrep U ((ρ r).val.app (op U) s) =
+    toModuleOfActionApp B S hS pr' pr F ρ hrep U ((ρ r).asHom.val.app (op U) s) =
       (pullbackFunction B S hS pr' r).1 (op (baseChangeChart B S hS pr hrep U)) •
         toModuleOfActionApp B S hS pr' pr F ρ hrep U s :=
   (congrArg (fun φ => φ.val.app (op U) s)
@@ -537,14 +537,14 @@ include sq in
 of `X` surjective on points, the sections of `F` are generated over `Γ(U)` by the
 `ρ(Γ(W))`-translates of finitely many sections. -/
 theorem isCoherent_moduleOfAction (hF : F.IsQuasicoherentOnSite)
-    (hρ : ∀ a, ρ (((BigFppfOver.toScheme B S hS).map q).appTop a) =
+    (hρ : ∀ a, (ρ (((BigFppfOver.toScheme B S hS).map q).appTop a)).asHom =
       globalSmul _ (pullbackToGlobalFunctions B S hS X V p a) F)
     [Fact (HasEtaleLocalProperty B S hS X'.1 (fun V : Scheme.{u} => IsLocallyNoetherian V))]
     (U : SmallEtale B S hS X.1)
     (hU : IsAffine ((SmallEtale.toOver B S hS X.1 ⋙ BigFppfOver.toScheme B S hS).obj U))
     (hUsurj : IsSurjective B S hS U.1.hom) (g : Finset (F.val.obj (op U)))
     (hg : Submodule.span (chartRing B S hS X.1 X.2 U)
-      {x | ∃ r, ∃ y ∈ g, x = (ρ r).val.app (op U) y} = ⊤) :
+      {x | ∃ r, ∃ y ∈ g, x = (ρ r).asHom.val.app (op U) y} = ⊤) :
     IsCoherent B S hS X'.1 X'.2 (moduleOfAction B S hS pr' pr F ρ) := by
   have hpr : IsAffineHom B S hS pr.hom :=
     IsAffineHom.of_isPullback (AlgebraicSpaces.isPullback_hom _ _ _ sq)

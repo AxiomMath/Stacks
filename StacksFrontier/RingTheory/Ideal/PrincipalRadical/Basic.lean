@@ -15,6 +15,7 @@ public import Mathlib.RingTheory.Ideal.Quotient.Nilpotent
 public import Mathlib.RingTheory.Ideal.Quotient.Operations
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
 public import Mathlib.RingTheory.KrullDimension.Basic
+public import Mathlib.RingTheory.KrullDimension.Field
 public import Mathlib.RingTheory.KrullDimension.LocalRing
 public import Mathlib.RingTheory.KrullDimension.Regular
 public import Mathlib.RingTheory.LocalRing.Basic

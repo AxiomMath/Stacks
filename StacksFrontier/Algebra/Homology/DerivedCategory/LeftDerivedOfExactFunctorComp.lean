@@ -18,7 +18,7 @@ the degreewise action of `e`.
 ## Main results
 
 * `Stacks.Homology.comp_leftDerivedIsoMapDerivedCategory_hom`: the comparison corresponds to
-  `CategoryTheory.Functor.mapDerivedCategoryCompIso e`.
+  `CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso e`.
 * `Stacks.Homology.isInducedBy_of_leftDerived_comp`: the comparison is induced by the degreewise
   action of `e`.
 -/
@@ -72,10 +72,10 @@ theorem comp_leftDerivedIsoMapDerivedCategory_hom :
     c ≫ (leftDerivedIsoMapDerivedCategory H LH αH).hom =
       NatTrans.hcomp (leftDerivedIsoMapDerivedCategory F LF αF).hom
           (leftDerivedIsoMapDerivedCategory G LG αG).hom ≫
-        (Functor.mapDerivedCategoryCompIso e).hom := by
+        (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom := by
   suffices key : c = NatTrans.hcomp (leftDerivedIsoMapDerivedCategory F LF αF).hom
           (leftDerivedIsoMapDerivedCategory G LG αG).hom ≫
-        (Functor.mapDerivedCategoryCompIso e).hom ≫ (leftDerivedIsoMapDerivedCategory H LH αH).inv
+        (Functor.mapDerivedCategoryCompIsoOfCompIso e).hom ≫ (leftDerivedIsoMapDerivedCategory H LH αH).inv
             by
     rw [key]
     simp
@@ -83,7 +83,8 @@ theorem comp_leftDerivedIsoMapDerivedCategory_hom :
   ext J
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Category.assoc]
   rw [hc J, ← leftDerivedIsoMapDerivedCategory_hom_app H LH αH J, Iso.inv_hom_id_app_assoc,
-    Functor.mapDerivedCategoryCompIso_hom_app_Qh, NatTrans.hcomp_app']
+    Functor.mapDerivedCategoryCompIso_hom_app_Qh, NatTrans.hcomp_app,
+    ← NatTrans.naturality (leftDerivedIsoMapDerivedCategory G LG αG).hom]
   simp only [Category.assoc, Iso.inv_hom_id_app]
   rw [← leftDerivedIsoMapDerivedCategory_hom_app F LF αF J, Functor.map_comp, Category.assoc]
   refine congrArg (fun t => _ ≫ t) ?_
@@ -111,7 +112,8 @@ theorem isInducedBy_of_leftDerived_comp :
   simp only [leftDerivedFactors, Iso.trans_hom, NatTrans.comp_app, Functor.isoWhiskerLeft_hom,
     Functor.whiskerLeft_app, Functor.compFactorization_hom_app, Functor.map_comp,
     Category.assoc] at h₂ ⊢
-  rw [reassoc_of% h₁, h₂, NatTrans.hcomp_app']
+  rw [reassoc_of% h₁, h₂, NatTrans.hcomp_app,
+    ← NatTrans.naturality (leftDerivedIsoMapDerivedCategory G LG αG).hom]
   simp only [Category.assoc]
   refine congrArg (fun t => _ ≫ t) ?_
   have nat := (leftDerivedIsoMapDerivedCategory G LG αG).hom.naturality

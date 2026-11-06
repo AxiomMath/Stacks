@@ -107,6 +107,9 @@ theorem mul_comm_of_forall_zpowers_eq_top {σ : G}
     a * b = b * a := by
   by_contra hab
   have hx : a * b * (b * a)⁻¹ ≠ 1 := fun h1 => hab (mul_inv_eq_one.1 h1)
+  have : T2Space G := IsTopologicalGroup.t2Space_iff_one_closed.mpr <| by
+    rw [← totallyDisconnectedSpace_iff_connectedComponent_singleton.mp ‹_› 1]
+    exact isClosed_connectedComponent
   obtain ⟨U, hU⟩ := ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one
     (isOpen_compl_singleton (x := a * b * (b * a)⁻¹)) (Ne.symm hx)
   have hmem : ∀ g : G, (g : G ⧸ (U : Subgroup G)) ∈ zpowers (σ : G ⧸ (U : Subgroup G)) :=

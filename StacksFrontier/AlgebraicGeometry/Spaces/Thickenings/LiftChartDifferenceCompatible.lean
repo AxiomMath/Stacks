@@ -144,7 +144,7 @@ abbrev LiftDifferenceFamily (p : X' ⟶ Bb) (Z : ClosedSubspaces C S hS X'.1)
   ∀ U' : SmallEtale C S hS X'.1,
     (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U') →
       (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U') →
-        (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')
+        (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')
 
 /-- **The difference recovers the acting section from a pair of translates of one chart
 presentation.**  For a chart presentation `P` at `U'` whose two charts of `q` are étale, the
@@ -159,7 +159,7 @@ def IsLiftDifferenceOfTranslate {hG : IsThickening C S hS X' Z.1}
     (D : LiftDifferenceFamily C S hS p Z hG q a) : Prop :=
   ∀ ⦃U' : SmallEtale C S hS X'.1⦄ (P : ChartLiftPresentation C S hS p q a.hom U')
     (hP : P.IsEtaleChartSquare C S hS)
-    (θ η : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')),
+    (θ η : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')),
     D U' (P.translateTransportSection C S hS hG hP.1 hP.2 η)
         (P.translateTransportSection C S hS hG hP.1 hP.2 (θ + η)) = θ
 
@@ -175,7 +175,7 @@ def IsLiftDifferenceRestrictionNatural {hG : IsThickening C S hS X' Z.1}
     (x y : (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U')),
     D V' ((liftsSubfunctor C S hS p q a.hom).toFunctor.map m.op x)
         ((liftsSubfunctor C S hS p q a.hom).toFunctor.map m.op y) =
-      (liftActionSheafTransport C S hS Z hG q a).val.map m.op (D U' x y)
+      (liftActionSheafTransport C S hS Z hG q a).obj.map m.op (D U' x y)
 
 /-! ### The translate property from a chartwise subtraction -/
 

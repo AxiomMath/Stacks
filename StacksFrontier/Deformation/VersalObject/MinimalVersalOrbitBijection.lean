@@ -334,7 +334,7 @@ public theorem dualNumbersUp_bijective :
   · intro z
     exact ⟨⟨TrivSqZeroExt.fst z, ULift.down (TrivSqZeroExt.snd z)⟩, by
       refine TrivSqZeroExt.ext rfl ?_
-      exact ULift.ext _ _ rfl⟩
+      exact ULift.ext rfl⟩
 
 /-- The dual-number object of `𝒞_Λ` is `Λ`-algebra isomorphic to the dual numbers. -/
 public noncomputable def dualNumbersEquiv :

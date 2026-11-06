@@ -208,7 +208,7 @@ def sectionsToDerivedNat :
       (DerivedCategory.Plus.QhCompιIsoιCompQh (ModuleCat.{u} (SectionRing O U))).inv ≫
     Functor.whiskerRight
       (Functor.whiskerLeft (HomotopyCategory.Plus.quotient (SheafOfModules.{u} O))
-        (SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnit)
+        (SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnith)
       DerivedCategory.Plus.ι ≫
     Functor.whiskerRight
       (Functor.whiskerRight
@@ -402,6 +402,7 @@ structure CechToDerivedSectionsSystem where
     sectionsToTotalCechDerived X O U V hV ≫ map V hV =
       sectionsToTotalCechDerived X O U W hW ≫ map W hW
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **Any bounded below injective resolution computes the comparison**: apply the Čech functor to
 the resolution map, invert the injective augmentation, and identify sections of the resolution
 with derived sections. -/
@@ -461,7 +462,7 @@ private theorem sectionsToDerivedNat_app_factors
           ((HomotopyCategory.Plus.quotient (SheafOfModules.{u} O) ⋙
             (SheafOfModules.evaluation.{u} O (op U)).mapHomotopyCategoryPlus).obj K) ≫
         (DerivedCategory.Plus.ι (C := ModuleCat.{u} (SectionRing O U))).map
-          ((SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnit.app
+          ((SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient (SheafOfModules.{u} O)).obj K)) ≫
         (DerivedCategory.Plus.ι (C := ModuleCat.{u} (SectionRing O U))).map
           ((SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlus.map
@@ -477,9 +478,22 @@ theorem isIso_sectionsToDerived_of_rightAcyclic
     (K : CochainComplex.Plus (SheafOfModules.{u} O))
     (hK : ∀ n : ℤ, (SheafOfModules.evaluation.{u} O (op U)).rightAcyclic (K.1.X n)) :
     IsIso ((sectionsToDerivedNat X O U).app K) := by
-  have hunit : IsIso ((SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.quotient (SheafOfModules.{u} O)).obj K)) :=
-    CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic _ K.1 K.2 hK
+  have hunit : IsIso ((SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnith.app
+      ((HomotopyCategory.Plus.quotient (SheafOfModules.{u} O)).obj K)) := by
+    have hβ := CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic _ K.1 K.2 hK
+    have hd := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+      (SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlus
+      (SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} O)) _
+      (((SheafOfModules.evaluation.{u} O (op U)).mapHomotopyCategoryPlus ⋙
+        DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} O)))).1
+      inferInstance
+    rw [← Functor.rightDerived_fac_app
+      (SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlus
+      (SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso (SheafOfModules.{u} O))] at hβ
+    rwa [isIso_comp_right_iff] at hβ
   rw [sectionsToDerivedNat_app_factors X O U K]
   have := hunit
   refine IsIso.comp_isIso' ?_ (IsIso.comp_isIso' ?_ (IsIso.comp_isIso' ?_

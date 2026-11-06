@@ -182,7 +182,7 @@ theorem isIso_fppfSmallEtaleAdjunctionDerivedUnit_of_finite :
       have : IsIso ((fppfSmallEtaleAbelianAdjunction B X).mapHomotopyCategoryPlus.unit.app L) :=
         Adjunction.isIso_mapHomotopyCategoryPlus_unit_app _ L
       infer_instance
-    have h₂ : IsIso ((fppfSmallEtaleAbelianPushforward B X).rightDerivedFunctorPlusUnit.app
+    have h₂ : IsIso ((fppfSmallEtaleAbelianPushforward B X).rightDerivedFunctorPlusUnith.app
         ((fppfSmallEtaleAbelianPullback B X).mapHomotopyCategoryPlus.obj L)) :=
       Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun n ↦
         rightAcyclic_fppfSmallEtaleAbelianPushforward_of_finite hex hbc (L.obj.as.X n)

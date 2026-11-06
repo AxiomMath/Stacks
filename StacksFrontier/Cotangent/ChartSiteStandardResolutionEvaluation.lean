@@ -137,7 +137,7 @@ theorem isZero_liftedSectionwiseCotangentComplex_X (i : ℤ) (hi : 0 < i) :
   have h := CommAlgCat.cotangentComplex_isZero_pos.{u, u} Λ
     (sectionCotangentAlgebra Λ X structureMap V.unop) i hi
   rw [ModuleCat.isZero_iff_subsingleton] at h ⊢
-  exact ⟨fun a b => ULift.ext _ _ (h.elim a.down b.down)⟩
+  exact ⟨fun a b => ULift.ext (h.elim a.down b.down)⟩
 
 /-- The comparison in each degree, assembled into a map of chain complexes from the restriction of
 `U ↦ L_{𝒪_X(U)/Λ}` to non-positive degrees to the Moore complex of

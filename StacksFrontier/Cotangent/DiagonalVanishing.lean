@@ -132,7 +132,6 @@ theorem baseChangeUnit_includeRight_apply (z : B ⊗[A] B) :
     baseChangeUnit (A := A) (A' := B) (B := CommAlgCat.of A B)
       (B' := CommAlgCat.of B (B ⊗[A] B)) Algebra.TensorProduct.includeRight z = z := by
   induction z with
-  | zero => rw [map_zero]
   | tmul b b' => rw [baseChangeUnit_tmul]; simp
   | add y z hy hz => rw [map_add, hy, hz]
 

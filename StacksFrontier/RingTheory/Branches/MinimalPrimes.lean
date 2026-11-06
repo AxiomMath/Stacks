@@ -66,7 +66,7 @@ theorem isMaximal_iff_liesOver_maximalIdeal
   · intro hP
     constructor
     exact IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := R) P) |>.symm
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) P) |>.symm
   · intro hP
     let : P.LiesOver (IsLocalRing.maximalIdeal R) := hP
     exact Ideal.IsMaximal.of_liesOver_isMaximal P (IsLocalRing.maximalIdeal R)

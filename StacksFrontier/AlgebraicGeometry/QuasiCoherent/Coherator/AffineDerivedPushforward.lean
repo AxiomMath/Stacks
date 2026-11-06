@@ -368,8 +368,8 @@ public def derivedAffinePushforwardTildeEquivIso :
         (quasicoherentPushforward (Spec.map φ)).mapDerivedCategory ≅
       (ModuleCat.restrictScalars φ.hom).mapDerivedCategory ⋙
         (Stacks.DerivedQCoh.derivedTildeEquiv.{u, u} R).functor :=
-  Functor.mapDerivedCategoryCompIso (affinePushforwardTildeEquivIso φ) ≪≫
-    (Functor.mapDerivedCategoryCompIso
+  Functor.mapDerivedCategoryCompIsoOfCompIso (affinePushforwardTildeEquivIso φ) ≪≫
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
       (Iso.refl (ModuleCat.restrictScalars φ.hom ⋙ (tildeEquiv (R := R)).functor))).symm
 
 /-- **Derived sheafification carries a derived pushforward satisfying the square of

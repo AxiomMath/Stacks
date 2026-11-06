@@ -95,7 +95,7 @@ theorem eq_one_of_comp_diagonalComplementAut_of_nonempty_points (U : SpacesEtale
     (x : T ⟶ underlying B S hS X (diagonalComplement B S hS X U n hsep))
     (hT : Nonempty (points B S hS T.1)) (σ : Equiv.Perm (Fin n))
     (hx : x ≫ (toSpaces B S hS X).map
-      (diagonalComplementAut B S hS X U n hsep σ).hom = x) :
+      (diagonalComplementAut B S hS X U n hsep σ).asIso.hom = x) :
     σ = 1 := by
   by_contra hσ
   obtain ⟨i, hi⟩ : ∃ i : Fin n, σ⁻¹ i ≠ i := by

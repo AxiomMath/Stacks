@@ -2351,6 +2351,7 @@ private theorem relativelyRepresentable_of_isAlgebraicSpace
     yoneda.relativelyRepresentable b :=
   Functor.relativelyRepresentable.of_diag hF.diagonal_representable b
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- A property that is Zariski-local at the source may be checked on the members of an open
 cover of the source of a representable morphism of presheaves. -/
 private theorem presheaf_property_of_openCover
@@ -2651,6 +2652,7 @@ private theorem exists_atlas_of_openSubfunctorCover
   exact ⟨bS.hom,
     surjective_of_representable_locallySurjective B S hS bS.hom hrep hloc, hEt⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- A covering family `gᵢ : Uᵢ ⟶ U` of the big fppf site induces a locally surjective map
 from the coproduct of the representable presheaves `yoneda.obj Uᵢ` to `yoneda.obj U`. -/
 private theorem isLocallySurjective_sigmaDesc_yoneda_of_mem
@@ -2698,6 +2700,7 @@ private theorem isLocallySurjective_sigmaDesc_yoneda_of_mem
   rw [← cofan_desc_eq_sigma_desc]
   exact Presheaf.isLocallySurjective_of_isLocallySurjective_fac J he
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The cover-and-glue step of condition (2) of Tag 04S6.  If a pre-relation on an object
 scheme `U` of the site restricts, along a covering family of flat, locally finitely
 presented morphisms `gᵢ : Uᵢ ⟶ U`, to pre-relations whose quotient sheaves are algebraic
@@ -3715,6 +3718,8 @@ theorem mono_prodLift_pullback_of_jointlyMono {C : Type*} [Category* C] {X U R :
     · simpa only [Category.assoc] using hr'
     · simpa only [Category.assoc] using h₂
 
+set_option maxHeartbeats 1600000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 04S6, condition (1).** Let `j : R ⟶ U ×_Z U` be an equivalence relation of
 algebraic spaces over a presheaf `Z` on the big fppf site of `S`, whose target and source
 `t, s : R ⟶ U` are flat and locally of finite presentation. Then the fppf quotient sheaf `U/R`
@@ -3789,6 +3794,9 @@ theorem bootstrap04S6QuotientSheaf (site : BigFppfSite.{u}) (S : Scheme.{u})
     have hjj : (prod.lift j.target j.source : R ⟶ U ⨯ U) = j :=
       prod.hom_ext (by simp) (by simp)
     rwa [hjj] at h
+  have : HasLimitsOfShape WalkingCospan ((BigFppfOver site S hS)ᵒᵖ ⥤ Type u) := inferInstance
+  have : HasLimitsOfShape WalkingCospan (Over Z) := Over.hasLimitsOfShape_of_isConnected
+  have : HasLimit (cospan (prod.map g g) j) := HasLimitsOfShape.has_limit _
   let iso := hfin.isoIsPullback _ _ (IsPullback.of_hasPullback (prod.map g g) j)
   have hfst : iso.hom ≫ PreRelation.restrict j g = prod.lift (o₁ ≫ a₁) (o₂ ≫ d₂) :=
     IsPullback.isoIsPullback_hom_fst _ _ hfin (IsPullback.of_hasPullback _ _)

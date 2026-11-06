@@ -269,7 +269,7 @@ lemma map_stageEval {n : ℕ} {t : Fin (n + 1) → E.I₀} {j : Λ}
     Q.map h.op (stageEval E M m γ w y hy) = stageEval E M m γ w' y' hy' := by
   rw [stageEval_eq_map E M m γ w' y' hy' (h ≫ cechProductLift (stageFamily E _ M m j) n t w y hy)
     (fun a ↦ by rw [Category.assoc, cechProductLift_π_left, hyy']), op_comp,
-    FunctorToTypes.map_comp_apply]
+    Functor.map_comp_apply]
   rfl
 
 omit [IsAffine U.left] [∀ k, IsAffine (E.X k).left] [IsCofiltered Λ] in
@@ -282,7 +282,7 @@ lemma stageEval_map_transition {n : ℕ} {t : Fin (n + 1) → E.I₀} {i j : Λ}
     (hy' : ∀ a, y' a ≫ (m (t a)).app j = w) (hyy' : ∀ a, y a ≫ (M (t a)).map g = y' a) :
     stageEval E M m (Q.map ((stageFibreProduct E _ M m n t).map g).op γ) w y hy =
       stageEval E M m γ w y' hy' := by
-  rw [stageEval, ← FunctorToTypes.map_comp_apply, ← op_comp]
+  rw [stageEval, ← Functor.map_comp_apply, ← op_comp]
   refine (stageEval_eq_map E M m γ w y' hy' _ fun a ↦ ?_).symm
   rw [Category.assoc, stageFibreProduct_map, cechProductMap_stageFamilyHomOver_comp_π_left,
     cechProductLift_π_left_assoc, hyy']
@@ -298,7 +298,7 @@ lemma stageEval_comp_πM {n : ℕ} {t : Fin (n + 1) → E.I₀} {j : Λ}
     (hby : ∀ a, b a ≫ (πM (t a)).app j = y a) :
     stageEval E M m γ w y hy = Q.map (cechProductLift E n t w b hb).op
       (Q.map ((stageFibreProductCone E _ M m (𝟙 _) πM hπ n t).π.app j).op γ) := by
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+  rw [← Functor.map_comp_apply, ← op_comp]
   refine stageEval_eq_map E M m γ w y hy _ fun a ↦ ?_
   rw [Category.assoc, stageFibreProductCone_π_app, cechProductMap_toStageFamily_comp_π_left,
     cechProductLift_π_left_assoc, hby]
@@ -432,7 +432,7 @@ theorem exists_covering_nonempty_of_isAffine
       ∃ γ : H.presheaf.obj (op ((stageFibreProduct E B M m 1 t).obj j')),
         H.presheaf.map ((stageFibreProductCone E B M m (𝟙 _) πM hπ 1 t).π.app j').op γ = g t :=
     fun t j j' f ⟨γ, hγ⟩ => ⟨H.presheaf.map ((stageFibreProduct E B M m 1 t).map f).op γ,
-      by rw [← FunctorToTypes.map_comp_apply, ← op_comp, Cone.w]; exact hγ⟩
+      by rw [← Functor.map_comp_apply, ← op_comp, Cone.w]; exact hγ⟩
   obtain ⟨j₁, -, hj₁⟩ := Stacks.FilteredColimit.exists_hom_forall_of_finite (K := Λᵒᵖ) (op j₀)
     (fun t j _ => ∃ γ : H.presheaf.obj (op ((stageFibreProduct E B M m 1 t).obj j.unop)),
       H.presheaf.map ((stageFibreProductCone E B M m (𝟙 _) πM hπ 1 t).π.app j.unop).op γ = g t)
@@ -460,8 +460,8 @@ theorem exists_covering_nonempty_of_isAffine
     show H.presheaf.map _ (H.presheaf.map _ _) = _
     rw [hγ₁ ![k₁, k₂]]
     show H.presheaf.map _ ((T.sectionEquivGroup _ _).symm _) = _
-    rw [T.map_sectionEquivGroup_symm, ← FunctorToTypes.map_comp_apply,
-      ← FunctorToTypes.map_comp_apply, ← op_comp, ← op_comp]
+    rw [T.map_sectionEquivGroup_symm, ← Functor.map_comp_apply,
+      ← Functor.map_comp_apply, ← op_comp, ← op_comp]
     exact congrArg₂ (fun a b ↦ (T.sectionEquivGroup (op W)
         (T.presheaf.map (Quiver.Hom.op a) (s k₁))).symm (T.presheaf.map (Quiver.Hom.op b) (s k₂)))
       (cechProductLift_π_left E 1 ![k₁, k₂] c _ hxz 0)
@@ -503,7 +503,7 @@ theorem exists_covering_nonempty_of_isAffine
       H.presheaf.map ((P 2 τ).map (f' ≫ f)).op (cob τ) =
         H.presheaf.map ((P 2 τ).map (f' ≫ f)).op 1 := by
     intro τ j j' f f' h
-    rw [Functor.map_comp, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply,
+    rw [Functor.map_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply,
       h]
   obtain ⟨jμ, gop, hμ⟩ := Stacks.FilteredColimit.exists_hom_forall_of_finite (K := Λᵒᵖ) (op j1)
     (fun τ _ f => H.presheaf.map ((P 2 τ).map f.unop).op (cob τ) =
@@ -584,7 +584,7 @@ theorem exists_covering_nonempty_of_isAffine
     have h1 := hμ τ
     change H.presheaf.map ((P 2 τ).map g).op (cob τ) = H.presheaf.map ((P 2 τ).map g).op 1 at h1
     have h2 := congrArg (H.presheaf.map ℓ.op) h1
-    rw [← FunctorToTypes.map_comp_apply, ← FunctorToTypes.map_comp_apply, ← op_comp,
+    rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp,
       SheafOfGroups.map_one (G := H)] at h2
     change H.presheaf.map (ℓ ≫ (P 2 τ).map g).op (Γ τ 1 2 * Γ τ 0 1 * (Γ τ 0 2)⁻¹) = 1 at h2
     rw [H.map_mul, H.map_mul, ← H.presheafMapHom_apply (ℓ ≫ (P 2 τ).map g).op (Γ τ 0 2)⁻¹,

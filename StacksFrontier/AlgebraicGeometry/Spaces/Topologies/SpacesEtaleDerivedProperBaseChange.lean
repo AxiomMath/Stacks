@@ -71,6 +71,21 @@ variable {S : Scheme.{u}} (T : BigEtaleSpaceSite S)
 attribute [local instance] HasDerivedCategory.standard smallEtaleAbelianInverseImage_additive
   bigToSmallAbelianInverseImage_additive
 
+/- Lean v4.35.0: instance search for these limits on presheaves of the big fppf site and on the
+Kan extensions defining the big direct image times out; supply them directly. -/
+set_option synthInstance.maxHeartbeats 400000 in
+local instance hasLimitsOfSize_presheaf_SpacesEtaleDerivedProperBaseChange :
+    HasLimitsOfSize.{0, 0} ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance hasLimitsOfShape_presheaf_SpacesEtaleDerivedProperBaseChange (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver T.fppfSite S T.fppf_mem)ᵒᵖ ⥤ Type u) :=
+  HasLimitsOfSize.has_limits_of_shape _
+
+set_option synthInstance.maxHeartbeats 400000 in
+local instance hasLimitsOfShape_structuredArrow_SpacesEtaleDerivedProperBaseChange
+    {X Y : T.Spaces} (f : Y ⟶ X) (V : (Over X)ᵒᵖ) :
+    HasLimitsOfShape (StructuredArrow V (Over.map f).op) Ab.{u + 1} := inferInstance
+
 /-- The base change map of a square of algebraic spaces commutes with the shift. -/
 instance natTransCommShift_spacesEtaleDerivedBaseChange {X Y X' Y' : T.Spaces} (f : Y ⟶ X)
     (g : X' ⟶ X) (g' : Y' ⟶ Y) (f' : Y' ⟶ X') (sq : IsPullback g' f' f g) :

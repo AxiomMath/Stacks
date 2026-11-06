@@ -79,11 +79,11 @@ public theorem colimit_ι_comp_eqToHom (B : BigEtaleSite.{u}) (S : Scheme.{u})
     (q' : (geometricPointFiber B S hS { residueField := r, hom := m' }).obj V)
     (hq : q'.1 = q.1) :
     colimit.ι (SmallEtale.etaleStalkDiagram B S hS { residueField := r, hom := m } P)
-          (op ⟨V, q⟩) ≫
+          (op ⟨q⟩) ≫
         eqToHom (congrArg
           (fun n => etaleStalk B S hS { residueField := r, hom := n } P) h) =
       colimit.ι (SmallEtale.etaleStalkDiagram B S hS { residueField := r, hom := m' } P)
-        (op ⟨V, q'⟩) := by
+        (op ⟨q'⟩) := by
   cases h
   obtain rfl : q' = q := Subtype.ext hq
   exact Category.comp_id _
@@ -188,7 +188,7 @@ the comparison of the two spellings of the inverse image, followed by the elemen
 `AlgebraicGeometry.restrictionStalkMap` which reads an étale neighbourhood of `x` in `U` as an
 étale neighbourhood of `s` in `X`. -/
 public theorem restrictionStalkMap_comp_etaleRestrictionIso :
-    colim.map (Functor.whiskerLeft (CategoryOfElements.π (geometricPointFiber B U.obj.left.1
+    colim.map (Functor.whiskerLeft (Functor.Elements.π (geometricPointFiber B U.obj.left.1
             U.obj.left.property (x.toGeometricPoint B U.obj.hom s))).op
           ((etaleRestrictionIso B X hX U).hom.app F).1) ≫
         restrictionStalkMap B X hX U s x F =
@@ -203,8 +203,8 @@ public theorem restrictionStalkMap_comp_etaleRestrictionIso :
       (x.toGeometricPoint B U.obj.hom s)).obj W :=
     fibreBaseChangeLift B X hX U s x N.unop.1 hs
   let A : (geometricPointFiber B X hX s).Elements :=
-    ⟨(smallEtalePostcompose B X hX U).obj W, pushLift B X hX U s W x Wlift⟩
-  let A' : (geometricPointFiber B X hX s).Elements := ⟨N.unop.1, hs⟩
+    ⟨pushLift B X hX U s W x Wlift⟩
+  let A' : (geometricPointFiber B X hX s).Elements := ⟨hs⟩
   let m : A ⟶ A' :=
     ⟨(smallEtalePostcomposeBaseChangeAdjunction_structureMorphism B X hX U).counit.app
         N.unop.1, by
@@ -216,7 +216,7 @@ public theorem restrictionStalkMap_comp_etaleRestrictionIso :
       rw [toScheme_map_structureMorphism_counit B X hX U N.unop.1]
       exact SmallEtale.fiberPointLift_comp_fst B U.obj.hom s N.unop.1 hs x⟩
   have hgerm := etaleStalkSmallEtalePullObjIso_germ B U.obj.hom
-    (x.toGeometricPoint B U.obj.hom s) AddCommGrpCat.{u + 1} F ⟨W, Wlift⟩ N.unop (𝟙 W) (by
+    (x.toGeometricPoint B U.obj.hom s) AddCommGrpCat.{u + 1} F ⟨Wlift⟩ N.unop (𝟙 W) (by
       show SmallEtale.fiberPointLift B U.obj.hom s N.unop.1 hs x ≫
           (SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).map (𝟙 W) ≫
           B.inclusion.map (pullback.fst N.unop.1.obj.hom U.obj.hom) = N.unop.2.1
@@ -230,12 +230,12 @@ public theorem restrictionStalkMap_comp_etaleRestrictionIso :
       pullbackSectionAlongHom B U.obj.hom AddCommGrpCat.{u + 1} F N.unop.1 W (𝟙 W) ≫
         colimit.ι (SmallEtale.etaleStalkDiagram B U.obj.left.1 U.obj.left.property
           (x.toGeometricPoint B U.obj.hom s)
-          ((SmallEtale.abPullback.{u, u + 1} B U.obj.hom).obj F).obj) (op ⟨W, Wlift⟩) :=
+          ((SmallEtale.abPullback.{u, u + 1} B U.obj.hom).obj F).obj) (op ⟨Wlift⟩) :=
     (Iso.comp_inv_eq _).2 ((Category.assoc _ _ _).trans hgerm).symm
   have hmid : colimit.ι (SmallEtale.etaleStalkDiagram B U.obj.left.1 U.obj.left.property
           (x.toGeometricPoint B U.obj.hom s)
-          ((SmallEtale.abPullback.{u, u + 1} B U.obj.hom).obj F).obj) (op ⟨W, Wlift⟩) ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+          ((SmallEtale.abPullback.{u, u + 1} B U.obj.hom).obj F).obj) (op ⟨Wlift⟩) ≫
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B U.obj.left.1 U.obj.left.property
               (x.toGeometricPoint B U.obj.hom s))).op
             ((etaleRestrictionIso B X hX U).hom.app F).1) ≫
@@ -269,7 +269,7 @@ public theorem restrictionStalkMap_comp_etaleRestrictionIso :
         (op N.unop) ≫
       ((etaleStalkSmallEtalePullObjIso B U.obj.hom (x.toGeometricPoint B U.obj.hom s)
             AddCommGrpCat.{u + 1} F).inv ≫
-        colim.map (Functor.whiskerLeft (CategoryOfElements.π
+        colim.map (Functor.whiskerLeft (Functor.Elements.π
             (geometricPointFiber B U.obj.left.1 U.obj.left.property
               (x.toGeometricPoint B U.obj.hom s))).op
             ((etaleRestrictionIso B X hX U).hom.app F).1) ≫

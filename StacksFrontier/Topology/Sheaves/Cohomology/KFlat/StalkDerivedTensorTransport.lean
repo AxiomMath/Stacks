@@ -200,8 +200,9 @@ theorem stalkFunctor_preservesFiniteColimits :
 
 /-! ### Stacks 06YB in the two forms the transport engine consumes -/
 
-variable [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
-  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}]
+section
+
+variable [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} R).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} R).obj M).Additive]
   [∀ (K₁ K₂ : CochainComplex
@@ -209,7 +210,6 @@ variable [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
     HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor R)
       (ComplexShape.up ℤ)]
 
-omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}] in
 /-- **The stalk complex of a K-flat complex is K-flat**, in the bifunctor-relative form at the
 curried tensor product of `𝒪_x`-modules. This is
 `Stacks.SheafOfModules.KFlatStalkCriterion.kFlat_iff_stalkwise` — Stacks 06YB — read at one
@@ -225,7 +225,6 @@ theorem kFlat_stalkComplex
         x).mapHomologicalComplex (ComplexShape.up ℤ)).obj K) :=
   (Stacks.SheafOfModules.KFlatStalkCriterion.kFlat_iff_stalkwise R K).1 hK x
 
-omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}] in
 /-- **The stalk complex of a left K-flat complex is left K-flat.** The stalk criterion
 Stacks 06YB constrains the right variable of the tensor product, so the statement is obtained
 by passing through the symmetry of the tensor product on each side:
@@ -244,6 +243,17 @@ theorem kFlatLeft_stalkComplex
   CochainComplex.KFlat.kFlatLeft_of_kFlat.{u, u}
     ((Stacks.SheafOfModules.KFlatStalkCriterion.kFlat_iff_stalkwise R K).1
       (Stacks.DerivedTensor.RingedSite.kFlat_of_kFlatLeft R hK) x)
+
+end
+
+variable [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{u}]
+  [(Opens.grothendieckTopology X).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} R).Additive]
+  [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} R).obj M).Additive]
+  [∀ (K₁ K₂ : CochainComplex
+      (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} R)) ℤ),
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor R)
+      (ComplexShape.up ℤ)]
 
 /-! ### The comparison on the derived categories -/
 

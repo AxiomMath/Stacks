@@ -26,6 +26,21 @@ open CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) AlgebraicGeometry.Space.hasPullbacks_presheaf_pairsOnSchemes
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) AlgebraicGeometry.Space.hasPullback_presheaf_pairsOnSchemes
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (AlgebraicGeometry.Space.hasPullbacks_presheaf_pairsOnSchemes B S hS).has_limit _
+
 namespace AlgebraicGeometry.Space
 
 /-! ### Base change of pairs, read through factorizations -/
@@ -333,7 +348,7 @@ theorem FiniteOpenSubspace.exists_comp_eq_of_exists {T : BigFppfOver B S hS}
   have := mono_schemeSpaceMap_hom_comp_ambientIso fs b j hz
   obtain ⟨m', hm'⟩ := (Subfunctor.exists_comp_range_ι_eq_iff _ _).mp hy
   have hm'' : m' ≫ (schemeSpaceMap j).hom = (schemeSpaceMap y).hom := by
-    rw [← cancel_mono e.hom, Category.assoc, hm']
+    rw [← Iso.cancel_iso_hom_right _ _ e, Category.assoc, hm']
   refine ⟨yoneda.preimage m', yoneda.map_injective ?_⟩
   exact (yoneda.map_comp _ _).trans
     ((congrArg (· ≫ yoneda.map j) (yoneda.map_preimage m')).trans hm'')

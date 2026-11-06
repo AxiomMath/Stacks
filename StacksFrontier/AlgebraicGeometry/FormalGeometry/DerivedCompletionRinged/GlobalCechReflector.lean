@@ -842,7 +842,7 @@ theorem isDerivedCompleteAtSection_of_isNilpotent (U : X.C)
   obtain ⟨n, hn⟩ := Stacks.SheafOfModules.isNilpotent_terminalSectionToEnd
     (((Stacks.SheafOfModules.Tensor.ringSheaf X.O)).over U) (Over.mk (𝟙 U)) Over.mkIdTerminal hf
   refine isDerivedCompleteAt_of_isNilpotent ⟨n, ?_⟩
-  rw [smul_id_pow, overTerminalRingHom_apply, hn, zero_smul]
+  rw [smul_pow, one_pow, overTerminalRingHom_apply, hn, zero_smul]
 
 omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- **Every object of `D(𝒪)` is derived complete along a sheaf of ideals whose local sections

@@ -233,7 +233,6 @@ theorem forall_not_mem_geometricallyIntegralFibreLocus_of_subsingleton
     have hz : ∀ z : q.asIdeal.ResidueField ⊗[E] (E ⊗[D] T), z = 0 := by
       intro z
       induction z with
-      | zero => rfl
       | tmul c m => rw [Subsingleton.elim m 0, TensorProduct.tmul_zero]
       | add z w hz hw => rw [hz, hw, add_zero]
     rw [hz x, hz y]

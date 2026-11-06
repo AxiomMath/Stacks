@@ -133,18 +133,19 @@ variable (R : Type u) [Ring R] {Q : Type v} [Group Q] [TopologicalSpace Q]
 
 /-- The action of `g * h` on `x` is the action of `g` on the action of `h` on `x`. -/
 lemma continuousModuleRho_mul_apply (g h : Q) (x : N.obj.obj.V) :
-    (N.obj.obj.ρ (g * h)).hom x = (N.obj.obj.ρ g).hom ((N.obj.obj.ρ h).hom x) := by
+    (N.obj.obj.ρ (g * h)).asHom.hom x =
+      (N.obj.obj.ρ g).asHom.hom ((N.obj.obj.ρ h).asHom.hom x) := by
   rw [map_mul]
   rfl
 
 /-- The identity element of `Q` acts trivially. -/
-lemma continuousModuleRho_one_apply (x : N.obj.obj.V) : (N.obj.obj.ρ 1).hom x = x := by
+lemma continuousModuleRho_one_apply (x : N.obj.obj.V) : (N.obj.obj.ρ 1).asHom.hom x = x := by
   rw [map_one]
   rfl
 
 /-- **The `U`-invariants of a discrete `R`-`Q`-module.** -/
 def fixedSubmodule (U : Subgroup Q) : Submodule R N.obj.obj.V where
-  carrier := {x | ∀ g ∈ U, (N.obj.obj.ρ g).hom x = x}
+  carrier := {x | ∀ g ∈ U, (N.obj.obj.ρ g).asHom.hom x = x}
   zero_mem' := fun _ _ ↦ map_zero _
   add_mem' := fun ha hb g hg ↦ by rw [map_add, ha g hg, hb g hg]
   smul_mem' := fun a _ hx g hg ↦ by rw [map_smul, hx g hg]
@@ -152,12 +153,12 @@ def fixedSubmodule (U : Subgroup Q) : Submodule R N.obj.obj.V where
 variable {R N} in
 /-- An element lies in `fixedSubmodule R N U` if and only if every `g ∈ U` fixes it. -/
 lemma mem_fixedSubmodule {U : Subgroup Q} {x : N.obj.obj.V} :
-    x ∈ fixedSubmodule R N U ↔ ∀ g ∈ U, (N.obj.obj.ρ g).hom x = x :=
+    x ∈ fixedSubmodule R N U ↔ ∀ g ∈ U, (N.obj.obj.ρ g).asHom.hom x = x :=
   Iff.rfl
 
 /-- The invariants under a normal subgroup are stable under `Q`. -/
 lemma rho_mem_fixedSubmodule (U : Subgroup Q) [U.Normal] (q : Q) {x : N.obj.obj.V}
-    (hx : x ∈ fixedSubmodule R N U) : (N.obj.obj.ρ q).hom x ∈ fixedSubmodule R N U := by
+    (hx : x ∈ fixedSubmodule R N U) : (N.obj.obj.ρ q).asHom.hom x ∈ fixedSubmodule R N U := by
   intro g hg
   have hconj : q⁻¹ * g * q ∈ U := by simpa using ‹U.Normal›.conj_mem g hg q⁻¹
   have hsplit : g * q = q * (q⁻¹ * g * q) := by group
@@ -166,7 +167,7 @@ lemma rho_mem_fixedSubmodule (U : Subgroup Q) [U.Normal] (q : Q) {x : N.obj.obj.
 /-- The residual action of `Q` on the invariants under a normal subgroup. -/
 instance fixedSubmodule.distribMulAction (U : Subgroup Q) [U.Normal] :
     DistribMulAction Q (fixedSubmodule R N U) where
-  smul q x := ⟨(N.obj.obj.ρ q).hom x, rho_mem_fixedSubmodule R N U q x.2⟩
+  smul q x := ⟨(N.obj.obj.ρ q).asHom.hom x, rho_mem_fixedSubmodule R N U q x.2⟩
   one_smul x := Subtype.ext (continuousModuleRho_one_apply R N x.1)
   mul_smul g h x := Subtype.ext (continuousModuleRho_mul_apply R N g h x.1)
   smul_zero _q := Subtype.ext (map_zero _)
@@ -174,13 +175,13 @@ instance fixedSubmodule.distribMulAction (U : Subgroup Q) [U.Normal] :
 
 /-- The residual action of `q` on an invariant element is the action of `q` on `N`. -/
 lemma fixedSubmodule.coe_smul (U : Subgroup Q) [U.Normal] (q : Q) (x : fixedSubmodule R N U) :
-    ((q • x : fixedSubmodule R N U) : N.obj.obj.V) = (N.obj.obj.ρ q).hom x :=
+    ((q • x : fixedSubmodule R N U) : N.obj.obj.V) = (N.obj.obj.ρ q).asHom.hom x :=
   rfl
 
 /-- The residual action of `Q` on the invariants commutes with the action of `R`. -/
 instance fixedSubmodule.smulCommClass (U : Subgroup Q) [U.Normal] :
     SMulCommClass Q R (fixedSubmodule R N U) where
-  smul_comm q a x := Subtype.ext (map_smul (N.obj.obj.ρ q).hom a x.1)
+  smul_comm q a x := Subtype.ext (map_smul (N.obj.obj.ρ q).asHom.hom a x.1)
 
 /-- The subgroup `U` acts trivially on the `U`-invariants. -/
 lemma fixedSubmodule.smul_eq_self (U : Subgroup Q) [U.Normal] :
@@ -196,14 +197,14 @@ lemma fixedSubmodule_mono {U U' : Subgroup Q} (h : U' ≤ U) :
 lemma exists_mem_fixedSubmodule [IsTopologicalGroup Q] [CompactSpace Q] (x : N.obj.obj.V) :
     ∃ U : OpenNormalSubgroup Q, x ∈ fixedSubmodule R N (U : Subgroup Q) := by
   let S : Subgroup Q :=
-    { carrier := {g | (N.obj.obj.ρ g).hom x = x}
+    { carrier := {g | (N.obj.obj.ρ g).asHom.hom x = x}
       mul_mem' := fun {a b} ha hb ↦ by
-        show (N.obj.obj.ρ (a * b)).hom x = x
-        rw [continuousModuleRho_mul_apply, show (N.obj.obj.ρ b).hom x = x from hb, ha]
+        show (N.obj.obj.ρ (a * b)).asHom.hom x = x
+        rw [continuousModuleRho_mul_apply, show (N.obj.obj.ρ b).asHom.hom x = x from hb, ha]
       one_mem' := continuousModuleRho_one_apply R N x
       inv_mem' := fun {a} ha ↦ by
-        show (N.obj.obj.ρ a⁻¹).hom x = x
-        conv_lhs => rw [← (show (N.obj.obj.ρ a).hom x = x from ha)]
+        show (N.obj.obj.ρ a⁻¹).asHom.hom x = x
+        conv_lhs => rw [← (show (N.obj.obj.ρ a).asHom.hom x = x from ha)]
         rw [← continuousModuleRho_mul_apply, inv_mul_cancel, continuousModuleRho_one_apply] }
   have hS : IsOpen (S : Set Q) := Stacks.GroupCohomology.isOpen_stabilizer R Q N x
   obtain ⟨U, hU⟩ := IsTopologicalGroup.exist_openNormalSubgroup_sub_clopen_nhds_of_one
@@ -355,7 +356,7 @@ theorem discreteSMul_zero_right (x : CompletedGroupAlgebra R Q) : discreteSMul R
 private theorem discreteSMul_eq_smul_rho_of_eval_eq_single (x : CompletedGroupAlgebra R Q) (q : Q)
     (a : R) (hx : ∀ U : OpenNormalSubgroup Q,
       CompletedGroupAlgebra.eval U x = single (q : Q ⧸ (U : Subgroup Q)) a) (v : N.obj.obj.V) :
-    discreteSMul R N x v = a • (N.obj.obj.ρ q).hom v := by
+    discreteSMul R N x v = a • (N.obj.obj.ρ q).asHom.hom v := by
   rw [discreteSMul, smulAt, hx]
   show ((quotientAlgebraAction _ _ _ (single (q : Q ⧸ _) a)
     ⟨v, mem_fixedSubmodule_fixingSubgroup R N v⟩ : fixedSubmodule R N _) : N.obj.obj.V) = _
@@ -364,7 +365,7 @@ private theorem discreteSMul_eq_smul_rho_of_eval_eq_single (x : CompletedGroupAl
 
 /-- A group element acts through the representation. -/
 theorem discreteSMul_of (q : Q) (v : N.obj.obj.V) :
-    discreteSMul R N (CompletedGroupAlgebra.of q) v = (N.obj.obj.ρ q).hom v := by
+    discreteSMul R N (CompletedGroupAlgebra.of q) v = (N.obj.obj.ρ q).asHom.hom v := by
   rw [discreteSMul_eq_smul_rho_of_eval_eq_single R N _ q 1 (fun U ↦ rfl), one_smul]
 
 /-- A constant acts through the `R`-module structure. -/
@@ -389,7 +390,8 @@ theorem discreteSMul_map_semilinear {R' : Type u'} [Ring R'] (φ : R →+* R')
     {N : Stacks.Injectives.ContinuousModule.{u, v, w} R Q}
     {N' : Stacks.Injectives.ContinuousModule.{u', v, w₂} R' Q}
     (f : N.obj.obj.V →ₛₗ[φ] N'.obj.obj.V)
-    (hf : ∀ (q : Q) (v : N.obj.obj.V), f ((N.obj.obj.ρ q).hom v) = (N'.obj.obj.ρ q).hom (f v))
+    (hf : ∀ (q : Q) (v : N.obj.obj.V), f ((N.obj.obj.ρ q).asHom.hom v) =
+      (N'.obj.obj.ρ q).asHom.hom (f v))
     (x : CompletedGroupAlgebra R Q) (v : N.obj.obj.V) :
     f (discreteSMul R N x v) = discreteSMul R' N' (CompletedGroupAlgebra.mapCoeff φ x) (f v) := by
   let U := fixingSubgroup R N v
@@ -409,7 +411,8 @@ theorem discreteSMul_map_semilinear {R' : Type u'} [Ring R'] (φ : R →+* R')
 any two universes. -/
 theorem discreteSMul_map_linear {N : Stacks.Injectives.ContinuousModule.{u, v, w} R Q}
     {N' : Stacks.Injectives.ContinuousModule.{u, v, w₂} R Q} (f : N.obj.obj.V →ₗ[R] N'.obj.obj.V)
-    (hf : ∀ (q : Q) (v : N.obj.obj.V), f ((N.obj.obj.ρ q).hom v) = (N'.obj.obj.ρ q).hom (f v))
+    (hf : ∀ (q : Q) (v : N.obj.obj.V), f ((N.obj.obj.ρ q).asHom.hom v) =
+      (N'.obj.obj.ρ q).asHom.hom (f v))
     (x : CompletedGroupAlgebra R Q) (v : N.obj.obj.V) :
     f (discreteSMul R N x v) = discreteSMul R N' x (f v) := by
   have h := discreteSMul_map_semilinear R Q (RingHom.id R) f hf x v

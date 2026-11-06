@@ -86,6 +86,18 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. These are `local` (not `private`) instances, with names unique
+to this file. -/
+local instance (priority := high) hasPullbacks_presheaf_fibreSliceFlatnessEnlargement :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_fibreSliceFlatnessEnlargement
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_fibreSliceFlatnessEnlargement B S hS).has_limit _
+
 /-- **Stacks 06LW, the flatness half of the conclusion.**  Let `g : X ⟶ Y` be a morphism of
 algebraic spaces over `S` which is flat and locally of finite presentation, let
 `f₁, …, f_r ∈ Γ(X, 𝒪_X)`, let `Spec k ⟶ Y` be a field-valued point of the target, let

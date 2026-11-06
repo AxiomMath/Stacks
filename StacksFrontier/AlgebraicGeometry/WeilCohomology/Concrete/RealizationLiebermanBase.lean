@@ -39,9 +39,9 @@ def corrDz (X Y : (SmoothProjectiveScheme k).FullSubcategory) :
     Corr k X.obj.hom Y.obj.hom 0 →+ (dz X ⟶ dz Y) where
   toFun c := DegreeZero.homMk (ChowMotiveCat.homOf 0 ((SmoothProjectiveCorr.toCorr X Y 0).symm c))
     (ChowMotiveCat.homOf_mem_grade _)
-  map_zero' := DegreeZero.hom_ext (by rw [DegreeZero.homMk_val, map_zero, map_zero,
+  map_zero' := DegreeZero.hom_ext (by rw [DegreeZero.homMk_val, LinearEquiv.map_zero, LinearMap.map_zero,
     DegreeZero.zero_val])
-  map_add' c c' := DegreeZero.hom_ext (by rw [DegreeZero.homMk_val, map_add, map_add,
+  map_add' c c' := DegreeZero.hom_ext (by rw [DegreeZero.homMk_val, LinearEquiv.map_add, LinearMap.map_add,
     DegreeZero.add_val, DegreeZero.homMk_val, DegreeZero.homMk_val])
 
 /-- The underlying morphism of motives of `corrDz X Y c` is `c`, read in degree zero. -/

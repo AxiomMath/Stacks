@@ -64,7 +64,7 @@ noncomputable def zeroUnitAppSingle (F : C ⥤ D) [F.Additive] :
       HomotopyCategory.Plus.singleFunctor C 0 ⋙ DerivedCategory.Plus.Qh ⋙
         F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.homologyFunctor D 0 :=
   Functor.whiskerLeft (HomotopyCategory.Plus.singleFunctor C 0)
-    (Functor.whiskerRight F.rightDerivedFunctorPlusUnit
+    (Functor.whiskerRight F.rightDerivedFunctorPlusUnith
       (DerivedCategory.Plus.homologyFunctor D 0))
 
 /-- **A left exact functor is its own zeroth right derived functor**, as a natural isomorphism
@@ -74,7 +74,7 @@ noncomputable def rightDerivedPlusZeroIso (F : C ⥤ D) [F.Additive] [PreservesF
   have hunit : IsIso (zeroUnitAppSingle F) := by
     have : ∀ X, IsIso ((zeroUnitAppSingle F).app X) :=
       (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-        F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit).2.2.2 inferInstance
+        F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith).2.2.2 inferInstance
     exact NatIso.isIso_of_isIso_app _
   exact
     (Functor.isoWhiskerRight (Functor.mapSingleFunctorCompQhIso F)
@@ -133,7 +133,8 @@ lemma preservesFiniteLimits_invariants :
 
 /-- The action of a product of group elements on a discrete `G`-module is the composite action. -/
 private lemma rho_mul_apply {H : Type u} [Group H] (V : Action (ModuleCat.{v} ℤ) H)
-    (g₁ g₂ : H) (w : V.V) : (V.ρ (g₁ * g₂)).hom w = (V.ρ g₁).hom ((V.ρ g₂).hom w) := by
+    (g₁ g₂ : H) (w : V.V) :
+    (V.ρ (g₁ * g₂)).asHom.hom w = (V.ρ g₁).asHom.hom ((V.ρ g₂).asHom.hom w) := by
   rw [map_mul]; rfl
 
 /-- **A function on `G` constant on the left cosets of the stabiliser of an element of a
@@ -141,22 +142,22 @@ discrete `G`-module is locally constant.** The stabiliser is open because the ac
 continuous and the module discrete. -/
 lemma isLocallyConstant_of_stabilizer {α : Type*} (N : ContinuousGModule.{u, v} G)
     (z : N.obj.obj.V) (φ : G → α)
-    (hφ : ∀ g₁ g₂ : G, (N.obj.obj.ρ g₁).hom z = (N.obj.obj.ρ g₂).hom z → φ g₁ = φ g₂) :
+    (hφ : ∀ g₁ g₂ : G, (N.obj.obj.ρ g₁).asHom.hom z = (N.obj.obj.ρ g₂).asHom.hom z → φ g₁ = φ g₂) :
     IsLocallyConstant φ := by
-  have hone : ∀ w : N.obj.obj.V, (N.obj.obj.ρ 1).hom w = w := by
+  have hone : ∀ w : N.obj.obj.V, (N.obj.obj.ρ 1).asHom.hom w = w := by
     intro w
     rw [map_one]; rfl
   intro s
   rw [isOpen_iff_forall_mem_open]
   intro g hg
-  have hopen : IsOpen ((fun h : G ↦ g⁻¹ * h) ⁻¹' {k : G | (N.obj.obj.ρ k).hom z = z}) :=
+  have hopen : IsOpen ((fun h : G ↦ g⁻¹ * h) ⁻¹' {k : G | (N.obj.obj.ρ k).asHom.hom z = z}) :=
     (isOpen_stabilizer ℤ G N z).preimage (by fun_prop)
-  have hmem : g ∈ (fun h : G ↦ g⁻¹ * h) ⁻¹' {k : G | (N.obj.obj.ρ k).hom z = z} := by
+  have hmem : g ∈ (fun h : G ↦ g⁻¹ * h) ⁻¹' {k : G | (N.obj.obj.ρ k).asHom.hom z = z} := by
     simp only [Set.mem_preimage, Set.mem_setOf_eq, inv_mul_cancel]
     exact hone z
   refine ⟨_, fun h hh ↦ ?_, hopen, hmem⟩
   simp only [Set.mem_preimage, Set.mem_setOf_eq] at hh
-  have hgh : (N.obj.obj.ρ h).hom z = (N.obj.obj.ρ g).hom z := by
+  have hgh : (N.obj.obj.ρ h).asHom.hom z = (N.obj.obj.ρ g).asHom.hom z := by
     simpa only [mul_inv_cancel_left, hh] using rho_mul_apply N.obj.obj g (g⁻¹ * h) z
   exact Set.mem_preimage.mpr (by rw [hφ h g hgh]; exact hg)
 
@@ -168,8 +169,8 @@ condition is `c(g) = g • x - x`; `H ¹(G, M)` is the derived functor group of 
 theorem isZero_continuousGroupCohomology_one_of_forall_isCoboundary
     (M : ContinuousGModule.{u, max u v} G)
     (hM : ∀ c : G → M.obj.obj.V, IsLocallyConstant c →
-        (∀ g₁ g₂ : G, c (g₁ * g₂) = (M.obj.obj.ρ g₁).hom (c g₂) + c g₁) →
-        ∃ x : M.obj.obj.V, ∀ g : G, (M.obj.obj.ρ g).hom x - x = c g) :
+        (∀ g₁ g₂ : G, c (g₁ * g₂) = (M.obj.obj.ρ g₁).asHom.hom (c g₂) + c g₁) →
+        ∃ x : M.obj.obj.V, ∀ g : G, (M.obj.obj.ρ g).asHom.hom x - x = c g) :
     IsZero (continuousGroupCohomology.{u, v} G 1 M) := by
   have : PreservesFiniteLimits (continuousGModuleInvariants.{u, max u v} G) :=
     preservesFiniteLimits_invariants G
@@ -192,24 +193,24 @@ theorem isZero_continuousGroupCohomology_one_of_forall_isCoboundary
   have hgfl : ∀ m : M.obj.obj.V, gl (fl m) = 0 :=
     fun m ↦ ShortComplex.moduleCat_zero_apply (S.map U) m
   have hfeq : ∀ (g : G) (m : M.obj.obj.V),
-      fl ((M.obj.obj.ρ g).hom m) = (P.J.obj.obj.ρ g).hom (fl m) :=
+      fl ((M.obj.obj.ρ g).asHom.hom m) = (P.J.obj.obj.ρ g).asHom.hom (fl m) :=
     fun g m ↦ ConcreteCategory.congr_hom (P.f.hom.hom.comm g) m
   have hgeq : ∀ (g : G) (z : P.J.obj.obj.V),
-      gl ((P.J.obj.obj.ρ g).hom z) = ((cokernel P.f).obj.obj.ρ g).hom (gl z) :=
+      gl ((P.J.obj.obj.ρ g).asHom.hom z) = ((cokernel P.f).obj.obj.ρ g).asHom.hom (gl z) :=
     fun g z ↦ ConcreteCategory.congr_hom ((cokernel.π P.f).hom.hom.comm g) z
   refine isZero_rightDerivedPlus_one_of_epi_map_g
     (continuousGModuleInvariants.{u, max u v} G) hS P.injective ?_
   rw [AddCommGrpCat.epi_iff_surjective]
   intro y
   obtain ⟨x, hx⟩ := hgsurj y.1
-  have hyinv : ∀ g : G, ((cokernel P.f).obj.obj.ρ g).hom y.1 = y.1 := fun g ↦ y.2 g
-  have hker : ∀ g : G, ∃ m : M.obj.obj.V, fl m = (P.J.obj.obj.ρ g).hom x - x := by
+  have hyinv : ∀ g : G, ((cokernel P.f).obj.obj.ρ g).asHom.hom y.1 = y.1 := fun g ↦ y.2 g
+  have hker : ∀ g : G, ∃ m : M.obj.obj.V, fl m = (P.J.obj.obj.ρ g).asHom.hom x - x := by
     intro g
     refine hexact _ ?_
     rw [map_sub, hgeq, hx, hyinv]
     exact sub_self _
   choose c hc using hker
-  have hcoc : ∀ g₁ g₂ : G, c (g₁ * g₂) = (M.obj.obj.ρ g₁).hom (c g₂) + c g₁ := by
+  have hcoc : ∀ g₁ g₂ : G, c (g₁ * g₂) = (M.obj.obj.ρ g₁).asHom.hom (c g₂) + c g₁ := by
     intro g₁ g₂
     refine hfinj ?_
     simp only [hc, map_add, hfeq, map_sub, rho_mul_apply P.J.obj.obj]
@@ -217,9 +218,9 @@ theorem isZero_continuousGroupCohomology_one_of_forall_isCoboundary
   have hcloc : IsLocallyConstant c :=
     isLocallyConstant_of_stabilizer G P.J x c fun g₁ g₂ h ↦ hfinj (by rw [hc, hc, h])
   obtain ⟨m₀, hm₀⟩ := hM c hcloc hcoc
-  have hfix : ∀ g : G, (P.J.obj.obj.ρ g).hom (x - fl m₀) = x - fl m₀ := by
+  have hfix : ∀ g : G, (P.J.obj.obj.ρ g).asHom.hom (x - fl m₀) = x - fl m₀ := by
     intro g
-    have hmg : (M.obj.obj.ρ g).hom m₀ = c g + m₀ := by rw [← hm₀ g]; abel
+    have hmg : (M.obj.obj.ρ g).asHom.hom m₀ = c g + m₀ := by rw [← hm₀ g]; abel
     rw [map_sub, ← hfeq, hmg, map_add, hc]
     abel
   refine ⟨⟨x - fl m₀, hfix⟩, Subtype.ext ?_⟩

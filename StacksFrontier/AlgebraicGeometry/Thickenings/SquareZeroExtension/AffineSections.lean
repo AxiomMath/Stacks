@@ -360,13 +360,13 @@ private noncomputable def derivedPlusIsoNat
     Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C) _
       ((HomotopyCategory.quotient_map_mem_quasiIso_iff s).2 hs)
   have hinj : ∀ i, Injective (hp.obj.as.X i) := fun i => inferInstanceAs (Injective (L.X i))
-  have hunit : IsIso (F.rightDerivedFunctorPlusUnit.app hp) := by infer_instance
+  have hunit : IsIso (F.rightDerivedFunctorPlusUnith.app hp) := by infer_instance
   refine (DerivedCategory.Plus.homologyFunctor D (n : ℤ)).mapIso
     ((F.rightDerivedFunctorPlus.mapIso
         ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).app A ≪≫
           @CategoryTheory.asIso _ _ _ _
             (DerivedCategory.Plus.Qh.map ((HomotopyCategory.Plus.quotient C).map sp)) hq)) ≪≫
-      (@CategoryTheory.asIso _ _ _ _ (F.rightDerivedFunctorPlusUnit.app hp) hunit).symm) ≪≫ ?_
+      (@CategoryTheory.asIso _ _ _ _ (F.rightDerivedFunctorPlusUnith.app hp) hunit).symm) ≪≫ ?_
   · exact (DerivedCategory.homologyFunctor D (n : ℤ)).mapIso
       ((DerivedCategory.quotientCompQhIso D).app ((F.mapHomologicalComplex _).obj L)) ≪≫
       ((DerivedCategory.homologyFunctorFactors D (n : ℤ)).app

@@ -167,7 +167,6 @@ theorem globalSectionSpan_eq_top_of_baseChangeEquiv {T W : C} (hT : IsTerminal T
   refine Submodule.eq_top_iff'.2 fun n => ?_
   obtain ⟨y, rfl⟩ := he n
   induction y with
-  | zero => rw [map_zero]; exact zero_mem _
   | tmul b x =>
     rw [show b ⊗ₜ[A] x = b • ((1 : B) ⊗ₜ[A] x) by rw [smul_tmul', smul_eq_mul, mul_one],
       map_smul, hψ, hone]

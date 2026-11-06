@@ -112,7 +112,7 @@ private theorem isPerfect_restrict_of_fromSpec {X : Scheme.{u}} (C : CochainComp
     (X := V.toScheme.toRingedSpace) ?_ h'
   exact (Scheme.Modules.restrictFunctor hV.isoSpec.hom).mapDerivedCategory.mapIso
       ((Scheme.Modules.restrictFunctor hV.fromSpec).mapDerivedCategoryFactors.app C).symm ≪≫
-    (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
       (Scheme.Modules.restrictFunctorComp hV.isoSpec.hom hV.fromSpec).symm).app _ ≪≫
     (Functor.mapDerivedCategoryCongr (Scheme.Modules.restrictFunctorCongr hcomp)).app _
 

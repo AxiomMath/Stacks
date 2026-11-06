@@ -176,7 +176,7 @@ noncomputable def liftedTensorUnit :
         rfl }
   naturality f := by
     ext a
-    exact ULift.ext _ _
+    exact ULift.ext
       ((congrArg ((baseUnit X F G).app _) (tensorLiftEquiv_naturality X F G f a)).trans
         (PresheafOfModules.naturality_apply (baseUnit X F G) f _))
 
@@ -215,7 +215,7 @@ theorem liftedTensorUnit_isLocallySurjective :
       ((PresheafOfModules.toPresheaf _).map (baseUnit X F G)) t.down)
   rintro W f ⟨a, ha⟩
   refine ⟨(tensorLiftEquiv X F G (op W)).symm a, ?_⟩
-  exact ULift.ext _ _ ((congrArg (fun z ↦ (baseUnit X F G).app (op W) z)
+  exact ULift.ext ((congrArg (fun z ↦ (baseUnit X F G).app (op W) z)
     (LinearEquiv.apply_symm_apply (tensorLiftEquiv X F G (op W)) a)).trans ha)
 
 /-- **The universe lift commutes with the tensor product.**  The tensor product of the lifts of

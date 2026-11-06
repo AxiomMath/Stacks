@@ -77,15 +77,15 @@ Two remarks on notes elsewhere in the library.
 
 ## Implementation notes
 
-`CategoryOfElements.map e.hom` is shown to be an equivalence by full faithfulness and essential
+`e.hom.mapElements` is shown to be an equivalence by full faithfulness and essential
 surjectivity rather than by exhibiting an inverse: Mathlib has no `map_id`/`map_comp` for
-`CategoryOfElements.map`, so the unit and counit of a hand-built equivalence would have to be
+`NatTrans.mapElements`, so the unit and counit of a hand-built equivalence would have to be
 assembled from `eqToIso`, whereas fullness and faithfulness are immediate from the projection to
 `C` being faithful and from `e` being pointwise bijective. The three are plain `theorem`s, not
 instances, and `CategoryTheory.Functor.IsEquivalence` — being a `Prop` — is assembled from them
 inside the definition, so that **this file adds no global instance at all**.
 
-The projections commute on the nose — `CategoryOfElements.map_π` is `rfl` — which is what lets
+The projections commute on the nose — `NatTrans.mapElements_comp_π` is `rfl` — which is what lets
 the colimit comparison be Mathlib's `CategoryTheory.Functor.Final.colimIso` applied to the
 opposite of the equivalence, with no transport of diagrams.
 
@@ -134,42 +134,41 @@ theorem hom_inv_app_apply (e : F1 ≅ F2) (X : C) (y : F2.obj X) :
 
 /-- The functor on categories of elements induced by an isomorphism is faithful. -/
 theorem faithful_elementsMap (e : F1 ≅ F2) :
-    (CategoryOfElements.map e.hom).Faithful where
+    e.hom.mapElements.Faithful where
   map_injective {t1 t2} _k1 _k2 h :=
-    Subtype.ext (congrArg
-      (fun m : (CategoryOfElements.map e.hom).obj t1 ⟶
-        (CategoryOfElements.map e.hom).obj t2 => m.val) h)
+    Functor.Elements.hom_ext (congrArg
+      (fun m : e.hom.mapElements.obj t1 ⟶ e.hom.mapElements.obj t2 => m.hom) h)
 
 /-- The functor on categories of elements induced by an isomorphism is full. -/
-theorem full_elementsMap (e : F1 ≅ F2) : (CategoryOfElements.map e.hom).Full where
+theorem full_elementsMap (e : F1 ≅ F2) : e.hom.mapElements.Full where
   map_surjective {t1 t2} g := by
-    refine ⟨⟨g.val, ?_⟩, Subtype.ext rfl⟩
-    refine injective_app e t2.1 ?_
-    have hnat := ConcreteCategory.congr_hom (e.hom.naturality g.val) t1.2
+    refine ⟨Functor.Elements.homMk g.hom ?_, Functor.Elements.hom_ext rfl⟩
+    refine injective_app e t2.obj ?_
+    have hnat := ConcreteCategory.congr_hom (e.hom.naturality g.hom) t1.val
     simp only [types_comp_apply] at hnat
-    exact hnat.trans g.property
+    exact hnat.trans g.map_val
 
 /-- The functor on categories of elements induced by an isomorphism is essentially
 surjective. -/
 theorem essSurj_elementsMap (e : F1 ≅ F2) :
-    (CategoryOfElements.map e.hom).EssSurj where
+    e.hom.mapElements.EssSurj where
   mem_essImage s := by
-    refine ⟨⟨s.1, e.inv.app s.1 s.2⟩, ⟨eqToIso ?_⟩⟩
-    exact congrArg (fun y => (⟨s.1, y⟩ : F2.Elements)) (hom_inv_app_apply e s.1 s.2)
+    refine ⟨Functor.elementsMk F1 s.obj (e.inv.app s.obj s.val), ⟨eqToIso ?_⟩⟩
+    exact congrArg (fun y => Functor.elementsMk F2 s.obj y) (hom_inv_app_apply e s.obj s.val)
 
 /-- An isomorphism of `Type w`-valued functors induces an equivalence of their categories of
 elements, given on objects by transporting the element along the isomorphism. -/
 def elementsEquivOfIso (e : F1 ≅ F2) : F1.Elements ≌ F2.Elements :=
-  haveI : (CategoryOfElements.map e.hom).IsEquivalence :=
+  haveI : e.hom.mapElements.IsEquivalence :=
     { faithful := faithful_elementsMap e
       full := full_elementsMap e
       essSurj := essSurj_elementsMap e }
-  (CategoryOfElements.map e.hom).asEquivalence
+  e.hom.mapElements.asEquivalence
 
 /-- The equivalence of categories of elements commutes with the projections to `C` on the
 nose. -/
 theorem elementsEquivOfIso_functor_comp_pi (e : F1 ≅ F2) :
-    (elementsEquivOfIso e).functor ⋙ CategoryOfElements.π F2 = CategoryOfElements.π F1 := rfl
+    (elementsEquivOfIso e).functor ⋙ Functor.Elements.π F2 = Functor.Elements.π F1 := rfl
 
 end Elements
 
@@ -214,7 +213,7 @@ def presheafFiberIsoOfFiberIso (Psi : Point.{w} J) {G : C ⥤ Type w} (e : Psi.f
   letI : HasColimitsOfShape (G.Elements)ᵒᵖ A :=
     inferInstanceAs (HasColimitsOfShape ((pointOfFiberIso Psi e).fiber.Elements)ᵒᵖ A)
   Functor.isoWhiskerLeft
-    ((Functor.whiskeringLeft (G.Elements)ᵒᵖ Cᵒᵖ A).obj (CategoryOfElements.π G).op)
+    ((Functor.whiskeringLeft (G.Elements)ᵒᵖ Cᵒᵖ A).obj (Functor.Elements.π G).op)
     (Functor.Final.colimIso (elementsEquivOfIso e).functor.op)
 
 /-- The fibre functors on sheaves of two points with isomorphic fibres are isomorphic: the fibre

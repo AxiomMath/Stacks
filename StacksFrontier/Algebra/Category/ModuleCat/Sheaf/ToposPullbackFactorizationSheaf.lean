@@ -152,7 +152,7 @@ lemma factorizationIota_comp_factorizationRow (k : Fin l) :
     congrArg (fun m => m ≫ Limits.Pi.π (fun _ : Fin l => ringSheaf R) k)
       (factorizationIota_comp_factorizationContract R M n l)
   rw [Category.assoc, Category.assoc, factorizationContract, factorizationZero,
-    Limits.Pi.lift_π, Limits.Pi.lift_π] at h
+    Limits.Pi.lift_comp_π, Limits.Pi.lift_comp_π] at h
   rw [h, comp_hom_ringZero]
 
 /-- On sections, the `k`-th row is the expected sum: its value at a section of
@@ -204,7 +204,7 @@ lemma comp_piLift {X Y : Sheaf J (Type ww)} {ι : Type} [Finite ι]
     {A : ι → Sheaf J (Type ww)} (f : X ⟶ Y) (g : ∀ i, Y ⟶ A i) :
     f ≫ Limits.Pi.lift g = Limits.Pi.lift (fun i => f ≫ g i) :=
   Limits.Pi.hom_ext _ _ fun i => by
-    rw [Category.assoc, Limits.Pi.lift_π, Limits.Pi.lift_π]
+    rw [Category.assoc, Limits.Pi.lift_comp_π, Limits.Pi.lift_comp_π]
 
 /-- The comparison identifying the inverse image of `Mˡ ⨯ (Rⁿ)ˡ` with the corresponding product
 for the inverse-image sheaf of rings and module.  It is the inner half of
@@ -416,8 +416,8 @@ private theorem comp_piLift_eq_map_piLift_comp_iso {E F : Type*} [Category E] [C
     (f : ∀ i, W ⟶ G.obj (A i)) (g : ∀ i, Z ⟶ A i) (h : ∀ i, e ≫ f i = G.map (g i)) :
     e ≫ Limits.Pi.lift f = G.map (Limits.Pi.lift g) ≫ (Limits.PreservesProduct.iso G A).hom :=
   Limits.Pi.hom_ext _ _ fun i => by
-    rw [Category.assoc, Limits.Pi.lift_π, h, Category.assoc, Limits.PreservesProduct.iso_hom,
-      Limits.piComparison_comp_π, ← G.map_comp, Limits.Pi.lift_π]
+    rw [Category.assoc, Limits.Pi.lift_comp_π, h, Category.assoc, Limits.PreservesProduct.iso_hom,
+      Limits.piComparison_comp_π, ← G.map_comp, Limits.Pi.lift_comp_π]
 
 /-- **The square for the matrix condition.**  The comparison isomorphism carries the matrix
 condition of the inverse images to the inverse image of the matrix condition, read through the

@@ -173,7 +173,7 @@ theorem mem_idealOfVars_sq_of_aeval_mem_ker_sq
   have hp0 : constantCoeff p = 0 := by
     rw [← hσ]
     exact Ideal.pow_le_self two_ne_zero hp
-  let c : ι → R := fun i => coeff (Finsupp.single i 1) p
+  let c : ι → R := fun i => p.coeff (Finsupp.single i 1)
   let q := p - ∑ i, c i • (X i : MvPolynomial ι R)
   have hdeg : ∀ x : ι →₀ ℕ, x.degree < 2 → x = 0 ∨ ∃ i, x = Finsupp.single i 1 := by
     intro x hx
@@ -189,7 +189,7 @@ theorem mem_idealOfVars_sq_of_aeval_mem_ker_sq
     rw [mem_pow_idealOfVars_iff']
     intro x hx
     rcases hdeg x hx with rfl | ⟨j, rfl⟩
-    · have h0 : coeff 0 p = 0 := (congrFun constantCoeff_eq p).symm.trans hp0
+    · have h0 : p.coeff 0 = 0 := (constantCoeff_eq p).symm.trans hp0
       simp [q, coeff_sum, coeff_X', h0]
     · simp only [q, coeff_sub, coeff_sum, coeff_smul, coeff_X', smul_eq_mul, mul_ite, mul_one,
         mul_zero, Finsupp.single_left_inj one_ne_zero, Finset.sum_ite_eq', Finset.mem_univ,

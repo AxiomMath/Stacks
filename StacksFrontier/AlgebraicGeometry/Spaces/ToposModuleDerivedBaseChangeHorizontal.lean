@@ -71,7 +71,7 @@ theorem toposModuleDerivedBaseChange_horizontal (comm : g' ≫ f = f' ≫ g)
           (modulePullback B S hS (h ≫ g)) (modulePullback B S hS (g'' ≫ g'))
           (toposModuleBaseChangeMap f (h ≫ g) f'' (g'' ≫ g')
             (pasteBaseComm f g f' g' h f'' g'' comm comm'))
-          (asIso (modulePullback B S hS (h ≫ g)).rightDerivedFunctorPlusUnit)).app M =
+          (asIso (modulePullback B S hS (h ≫ g)).rightDerivedFunctorPlusUnith)).app M =
       (Functor.rightDerivedFunctorPlusCompIsoOfExact (modulePullback B S hS g)
             (modulePullback B S hS h) (modulePullback B S hS (h ≫ g))
             (modulePullbackCompIso B S hS h g)).inv.app
@@ -81,12 +81,12 @@ theorem toposModuleDerivedBaseChange_horizontal (comm : g' ≫ f = f' ≫ g)
               (toposModulePushforward f')
               (modulePullback B S hS g) (modulePullback B S hS g')
               (toposModuleBaseChangeMap f g f' g' comm)
-              (asIso (modulePullback B S hS g).rightDerivedFunctorPlusUnit)).app M) ≫
+              (asIso (modulePullback B S hS g).rightDerivedFunctorPlusUnith)).app M) ≫
           (Stacks.Cohomology.BaseChange.derived (toposModulePushforward f')
               (toposModulePushforward f'')
               (modulePullback B S hS h) (modulePullback B S hS g'')
               (toposModuleBaseChangeMap f' h f'' g'' comm')
-              (asIso (modulePullback B S hS h).rightDerivedFunctorPlusUnit)).app
+              (asIso (modulePullback B S hS h).rightDerivedFunctorPlusUnith)).app
               ((modulePullback B S hS g').rightDerivedFunctorPlus.obj M) ≫
             (toposModulePushforward f'').rightDerivedFunctorPlus.map
               ((Functor.rightDerivedFunctorPlusCompIsoOfExact (modulePullback B S hS g')

@@ -51,7 +51,7 @@ theorem sieveOfSection_range_mem {P : Cᵒᵖ ⥤ Type w} {F : Sheaf J (Type w)}
     {U : C} (s : F.obj.obj (op U)) : (Subfunctor.range u).sieveOfSection s ∈ J U := by
   let G₀ := Subfunctor.range u
   let Gs : Sheaf J (Type w) := ⟨(G₀.sheafify J).toFunctor, (isSheaf_iff_isSheaf_of_type _ _).mpr
-    (G₀.sheafify_isSheaf ((isSheaf_iff_isSheaf_of_type _ _).mp F.cond))⟩
+    (G₀.sheafify_isSheaf ((isSheaf_iff_isSheaf_of_type _ _).mp F.property))⟩
   let ιs : Gs ⟶ F := ⟨(G₀.sheafify J).ι⟩
   let l : P ⟶ Gs.obj := Subfunctor.lift u fun U' x hx ↦ G₀.le_sheafify J U' hx
   have : Sheaf.IsLocallySurjective ιs := (Sheaf.isLocallySurjective_iff_epi ιs).mpr
@@ -66,7 +66,7 @@ theorem sieveOfSection_range_mem {P : Cᵒᵖ ⥤ Type w} {F : Sheaf J (Type w)}
     exact t.2
   refine J.superset_covering (fun U'' k hk ↦ ?_) hmem
   show F.obj.map (k ≫ i).op s ∈ G₀.obj (op U'')
-  rw [op_comp, FunctorToTypes.map_comp_apply]
+  rw [op_comp, Functor.map_comp_apply]
   exact hk
 
 end Range
@@ -113,7 +113,7 @@ theorem exists_locally_lift_of_adjunction (adj : F ⊣ G) {Z : Sheaf K (Type w)}
     ext ⟨W⟩ z
     show (adj.homEquiv _ _ a).hom.app (op W) z = (adj.homEquiv _ _ a').hom.app (op W) z
     obtain ⟨T, hT, hTz⟩ := h W z
-    refine (((isSheaf_iff_isSheaf_of_type _ _).mp (G.obj Y).cond).isSeparated T hT).ext
+    refine (((isSheaf_iff_isSheaf_of_type _ _).mp (G.obj Y).property).isSeparated T hT).ext
       fun W' i hi ↦ ?_
     obtain ⟨k, φ, hφ⟩ := hTz i hi
     have hk : F.map (K.yonedaEquiv.symm (b k)) ≫ a = F.map (K.yonedaEquiv.symm (b k)) ≫ a' := by

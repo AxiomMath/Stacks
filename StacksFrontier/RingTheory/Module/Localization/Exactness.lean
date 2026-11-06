@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Exact.Basic
 public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import Mathlib.Order.Filter.AtTopBot.Finite
+public import Mathlib.Order.Filter.Finite
 public import Mathlib.RingTheory.Ideal.Operations
 import StacksCore.Tactic.StacksAttribute
 

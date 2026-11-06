@@ -423,7 +423,7 @@ add_to_sga "3 I 2.3.3" "special case" AddSubgroup.centralizer
 add_to_sga "3 I 2.3.3" "special case" AddSubgroup.mem_normalizer_iff_addConj_image_eq
 add_to_sga "3 I 2.3.3" "special case" AddSubgroup.mem_normalizer_iff_conj_image_eq
 add_to_sga "3 I 2.3.3" "special case" AddSubgroup.mem_normalizer_iff_map_addConj_eq
-add_to_sga "3 I 2.3.3" "special case" AddSubgroup.setNormalizer
+add_to_sga "3 I 2.3.3" "special case" AddSubgroup.normalizer
 add_to_sga "3 I 2.3.3" "special case" ConjAct.stabilizer_eq_centralizer
 add_to_sga "3 I 2.3.3" "special case" Subgroup.centralizer
 add_to_sga "3 I 2.3.3" "special case" Subgroup.centralizer_eq_comap_stabilizer
@@ -431,7 +431,6 @@ add_to_sga "3 I 2.3.3" "special case" Subgroup.conjAct_pointwise_smul_iff
 add_to_sga "3 I 2.3.3" "special case" Subgroup.mem_normalizer_iff_conj_image_eq
 add_to_sga "3 I 2.3.3" "special case" Subgroup.mem_normalizer_iff_map_conj_eq
 add_to_sga "3 I 2.3.3" "special case" Subgroup.normalizer
-add_to_sga "3 I 2.3.3" "special case" Subgroup.setNormalizer
 add_to_sga "3 I 2.3.3.1" "special case" AddAction.stabilizer_finset_singleton
 add_to_sga "3 I 2.3.3.1" "special case" AddAction.stabilizer_singleton
 add_to_sga "3 I 2.3.3.1" "more general" CategoryTheory.Sheaf.ΓNatIsoSectionsFunctor
@@ -456,7 +455,6 @@ add_to_sga "3 I 2.3.5" "(b)" SemidirectProduct.instMul
 add_to_sga "3 I 2.3.5" "partial" Set.centralizer
 add_to_sga "3 I 2.3.5" "special case" Subgroup.centralizer
 add_to_sga "3 I 2.3.5" "special case" Subgroup.normalizer
-add_to_sga "3 I 2.3.5" "special case" Subgroup.setNormalizer
 add_to_sga "3 I 2.3.6" "partial" AddCommGroup.center_eq_top
 add_to_sga "3 I 2.3.6" "partial" AddGroup.addCommGroupOfCenterEqTop
 add_to_sga "3 I 2.3.6" "special case" AddSubgroup.Normal
@@ -616,7 +614,6 @@ add_to_sga "3 I 4.7.3" "partial" MonoidAlgebra.instBialgebra
 add_to_sga "3 I 4.7.3" "special case" TensorProduct.directSum
 add_to_sga "3 I 4.7.3" "special case" TensorProduct.directSumLeft
 add_to_sga "3 I 4.7.3" "special case" TensorProduct.directSumRight
-add_to_sga "3 I 4.7.3" "special case" TensorProduct.directSumRight'
 add_to_sga "3 I 5.1" "special case" ContinuousCohomology.d₀kerIso
 add_to_sga "3 I 5.1" "special case" ContinuousCohomology.zeroIso
 add_to_sga "3 I 5.1" "H^n(G, special case" groupCohomology

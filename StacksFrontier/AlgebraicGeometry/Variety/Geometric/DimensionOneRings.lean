@@ -286,7 +286,7 @@ private lemma exists_inverse_small_in_integral_range
   let φ := WithZeroMulInt.toNNReal (by norm_num : (2 : ℝ≥0) ≠ 0)
   have hφ : StrictMono φ := WithZeroMulInt.toNNReal_strictMono (by norm_num : 1 < (2 : ℝ≥0))
   let w : (Σ i, J i) → Valuation E ℝ≥0 := fun s =>
-    ((v s.1 s.2).comap ((Pi.evalRingHom F s.1).comp g)).map φ hφ.monotone
+    ((v s.1 s.2).comap ((Pi.evalRingHom F s.1).comp g)).map ⟨φ, hφ.monotone⟩
   have hw : ∀ s, ∃ x, 1 < w s x := by
     rintro ⟨i, j⟩
     have := hv i j

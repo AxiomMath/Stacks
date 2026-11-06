@@ -91,6 +91,7 @@ theorem isUniversalFirstOrderThickening_representedClosedHom {T U : BigFppfOver 
     rw [yoneda_map_representedClosedHom]
     have : IsIso (Zc.2.2.rep.fst (idEtaleChart B S hS T).1.hom) :=
       isIso_representedClosedMap_hom B S hS T Zc
+    have : Mono (Zc.2.2.rep.fst (idEtaleChart B S hS T).1.hom) := IsIso.mono_of_iso _
     exact mono_comp (Zc.2.2.rep.fst (idEtaleChart B S hS T).1.hom) Zc.1.ι
   have hfu' : FormallyUnramified
       ((schemeSpaceFunctor B S hS).map (representedClosedHom B S hS T Zc ≫ r)).hom := by

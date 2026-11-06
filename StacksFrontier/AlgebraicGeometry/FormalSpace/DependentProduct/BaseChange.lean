@@ -331,7 +331,7 @@ private theorem bcPointSection_app_eq_lift {T T' : BigFppfOver B S hS}
   have hgoal : i.hom.app (Opposite.op T') (g.hom.app (Opposite.op T') v)
       = X.obj.map (𝟙 T').op
         (σ.hom.app (Opposite.op T') (i'.hom.app (Opposite.op T') v)).base := by
-    rw [op_id, FunctorToTypes.map_id_apply, congrArg LiftAlong.base hη, hw]
+    rw [op_id, Functor.map_id_apply, congrArg LiftAlong.base hη, hw]
     exact h
   exact (bcPointSection_app hσ hcomm v hgoal).trans
     (LiftAlong.lift_eq_of_eq_restrict (σ.hom.app (Opposite.op T) b) t _ hη

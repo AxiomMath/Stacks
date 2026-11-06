@@ -141,6 +141,7 @@ theorem levelToSourceOverOpen_transition {i j : (etaleNeighborhoodDirectedIndex 
   (Over.w ((etaleNeighborhoodDirectedSystem B S hS s U hU ⋙
     Over.pullback (sourceOverOpen S U f).hom).map g)).symm
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **Compatibility with the transitions.** The transition of the groups `F(X ×_S N_a)`
 (restriction along `X ×_S N_i ⟶ X ×_S N_j`) corresponds to the transition of the degree-zero
 diagram: restriction of global sections along `Y_i ⟶ Y_j`, read through the composition
@@ -241,6 +242,7 @@ theorem levelGammaTransition_eq {i j : (etaleNeighborhoodDirectedIndex B S hS s 
   rw [Iso.eq_inv_comp]
   exact levelSectionsIso_comp_transition B S hS s U hU f F g
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **The degree-zero diagram of the base-change system**, `a ↦ Γ(Y_a, π_a⁻¹F_U)` with the
 restrictions `levelGammaTransition` as transition maps. -/
 def levelGammaDiagram : (etaleNeighborhoodDirectedIndex B S hS s U hU)ᵒᵖᵒᵖ ⥤ Ab.{u + 1} where
@@ -259,6 +261,7 @@ def levelGammaDiagram : (etaleNeighborhoodDirectedIndex B S hS s U hU)ᵒᵖᵒ�
       Functor.map_comp]
     simp only [Category.assoc, Iso.hom_inv_id_assoc]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The groups of the two diagrams agree, naturally. -/
 def levelSectionsDiagramIso :
     levelSectionsDiagram B S hS s U hU f F ≅ levelGammaDiagram B S hS s U hU f F :=
@@ -274,6 +277,7 @@ def levelGammaCocone : Cocone (levelGammaDiagram B S hS s U hU f F) :=
     ((strictHenselizationSectionsCocone B S hS s U hU f F).extend
       (limitSectionsIso B S hS s U hU f F).inv)
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The legs of `levelGammaCocone` are the restrictions of global sections along the legs of the
 limit cone, read through the composition isomorphism. -/
 theorem levelGammaCocone_ι_app (a : (etaleNeighborhoodDirectedIndex B S hS s U hU)ᵒᵖᵒᵖ) :
@@ -304,7 +308,7 @@ def isColimitStrictHenselizationSectionsCoconeOfLevelGamma
     IsColimit (strictHenselizationSectionsCocone B S hS s U hU f F) :=
   IsColimit.ofIsoColimit
     ((IsColimit.precomposeInvEquiv (levelSectionsDiagramIso B S hS s U hU f F) _) h)
-    (Cocones.ext (limitSectionsIso B S hS s U hU f F) (fun _ => by simp))
+    (Cocone.ext (limitSectionsIso B S hS s U hU f F) (fun _ => by simp))
 
 end AlgebraicGeometry
 

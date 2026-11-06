@@ -39,14 +39,12 @@ big étale site is an étale neighborhood of `s` in the sense of the point
 `AlgebraicGeometry.Scheme.pointSmallEtale` of the small étale site. -/
 public def geometricPointNeighborhoodInclusion : (geometricPointFiber B S hS s).Elements ⥤
     (Scheme.pointSmallEtale s.hom).fiber.Elements where
-  obj U := ⟨MorphismProperty.Over.mk _ (B.inclusion.map U.1.obj.hom) U.1.property,
-    Over.homMk U.2.1 U.2.2⟩
-  map {U V} f := ⟨MorphismProperty.Over.homMk ((SmallEtale.toScheme B S hS).map f.1)
-    (by
-      change B.inclusion.map f.1.hom.left ≫ B.inclusion.map V.1.obj.hom =
-        B.inclusion.map U.1.obj.hom
-      rw [← Functor.map_comp, Over.w]) (by trivial),
-    Over.OverMorphism.ext (congrArg Subtype.val f.2)⟩
+  obj U := .mk (obj := MorphismProperty.Over.mk _ (B.inclusion.map U.obj.obj.hom) U.obj.property)
+    (Over.homMk U.val.1 U.val.2)
+  map {U V} f := Functor.Elements.homMk
+    (MorphismProperty.Over.homMk ((SmallEtale.toScheme B S hS).map f.hom)
+      (SmallEtale.toScheme_map_comp B S hS f.hom) (by trivial))
+    (Over.OverMorphism.ext (congrArg Subtype.val f.map_val))
 
 /-- The functor `AlgebraicGeometry.geometricPointNeighborhoodInclusion` is faithful. -/
 public instance : (geometricPointNeighborhoodInclusion B S hS s).Faithful :=

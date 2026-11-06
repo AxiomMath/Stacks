@@ -1,6 +1,8 @@
 module
 
 public import Mathlib.CategoryTheory.Limits.Types.Pullbacks
+public import Mathlib.CategoryTheory.Limits.FunctorCategory.Basic
+public import Mathlib.CategoryTheory.Sites.Limits
 public import Mathlib.CategoryTheory.Sites.LocallyBijective
 public import StacksFrontier.AlgebraicGeometry.Spaces.CoordinateAxesQuotientSpace
 public import StacksFrontier.AlgebraicGeometry.Spaces.SiteLocalSurjectivity
@@ -212,8 +214,8 @@ theorem toQuotientSheaf_eq_axesPoint_sum (T : BigFppfOver B (Spec (.of S.k)) hS)
     rw [show F.map g ≫ p = axesPoint S ((F.map g ≫ a).left.appTop (xSection S) +
         (F.map g ≫ a).left.appTop (ySection S)) 0 (mul_zero _) from
       axes_hom_ext S
-        (by rw [axesPoint_xSection, hres, hres, hres, axesPoint_xSection, map_add]; rfl)
-        (by rw [axesPoint_ySection, hres, axesPoint_ySection, map_zero]; rfl)]
+        (by rw [axesPoint_xSection, hres, hres, hres, axesPoint_xSection, map_add])
+        (by rw [axesPoint_ySection, hres, axesPoint_ySection, map_zero])]
     exact toQuotientSheaf_eq_axesPoint_of_isUnit B S hS _ _ rfl (by rwa [hres, hres])
   have heq : E ∈ J T := by
     choose W m hflat hlfp hrange hmem using hR
@@ -314,6 +316,8 @@ private theorem isIso_pullback_snd_of_isLocallySurjective {C : Type*} [Category 
       (ha.trans (NatTrans.naturality_apply g.hom l.op c).symm)
     exact ⟨b, hb₂⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 1000000 in
 /-- **Stacks 0ENU.** The morphism `X ⟶ 𝔸¹_k` descended from `(x, y) ↦ x + y` is an isomorphism
 over `𝔸¹_k ∖ {0}`: its base change along the inclusion of the punctured affine line is an
 isomorphism. No hypothesis on the field is needed. -/

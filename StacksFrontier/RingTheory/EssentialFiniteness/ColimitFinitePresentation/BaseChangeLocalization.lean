@@ -173,7 +173,6 @@ lemma cond4_fromBaseChange (hqS : IsLocalization q.primeCompl S)
             (Localization.AtPrime (qcon fR lam0 hbot n m frel q πT j)) (e x) := by
     intro x
     induction x with
-    | zero => simp only [map_zero]; rfl
     | add a b ha hb =>
         conv_rhs => rw [map_add, map_add]
         rw [map_add, map_add, map_add, ha, hb]

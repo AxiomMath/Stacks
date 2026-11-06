@@ -43,8 +43,8 @@ variable {G H : Type*} [Group G] [TopologicalSpace G] [Group H] [TopologicalSpac
 `H`-set to a continuous finite `G`-set gives an isomorphism `res_φ A ≅ B`. -/
 public def contActionResIsoMk {A : ContAction FintypeCat.{u} H} {B : ContAction FintypeCat.{u} G}
     (e : A.obj.V ≃ B.obj.V)
-    (he : ∀ g a, e (ConcreteCategory.hom (A.obj.ρ (φ g)) a) =
-      ConcreteCategory.hom (B.obj.ρ g) (e a)) :
+    (he : ∀ g a, e (ConcreteCategory.hom (A.obj.ρ (φ g)).asHom a) =
+      ConcreteCategory.hom (B.obj.ρ g).asHom (e a)) :
     (ContAction.res FintypeCat.{u} φ).obj A ≅ B :=
   ObjectProperty.isoMk _ (Action.mkIso (FintypeCat.equivEquivIso e)
     (fun g => FintypeCat.hom_ext _ _ fun a => he g a))
@@ -52,10 +52,10 @@ public def contActionResIsoMk {A : ContAction FintypeCat.{u} H} {B : ContAction 
 /-- Naturality of `AlgebraicGeometry.contActionResIsoMk`. -/
 public theorem contActionResIsoMk_naturality {A₁ A₂ : ContAction FintypeCat.{u} H}
     {B₁ B₂ : ContAction FintypeCat.{u} G} (e₁ : A₁.obj.V ≃ B₁.obj.V) (e₂ : A₂.obj.V ≃ B₂.obj.V)
-    (he₁ : ∀ g a, e₁ (ConcreteCategory.hom (A₁.obj.ρ (φ g)) a) =
-      ConcreteCategory.hom (B₁.obj.ρ g) (e₁ a))
-    (he₂ : ∀ g a, e₂ (ConcreteCategory.hom (A₂.obj.ρ (φ g)) a) =
-      ConcreteCategory.hom (B₂.obj.ρ g) (e₂ a))
+    (he₁ : ∀ g a, e₁ (ConcreteCategory.hom (A₁.obj.ρ (φ g)).asHom a) =
+      ConcreteCategory.hom (B₁.obj.ρ g).asHom (e₁ a))
+    (he₂ : ∀ g a, e₂ (ConcreteCategory.hom (A₂.obj.ρ (φ g)).asHom a) =
+      ConcreteCategory.hom (B₂.obj.ρ g).asHom (e₂ a))
     (f : A₁ ⟶ A₂) (f' : B₁ ⟶ B₂)
     (hf : ∀ a, e₂ (f.hom.hom a) = f'.hom.hom (e₁ a)) :
     (ContAction.res FintypeCat.{u} φ).map f ≫ (contActionResIsoMk φ e₂ he₂).hom =
@@ -98,8 +98,9 @@ public theorem finiteEtaleEquivalenceBasePointEquiv_action
     (a : ((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.V) :
     finiteEtaleEquivalenceBasePointEquiv t Y
         (ConcreteCategory.hom (((finiteEtaleEquivalenceOfIsGaloisCategory X x).functor.obj Y).obj.ρ
-          (etaleFundamentalGroupBasePointHom t g)) a) =
-      ConcreteCategory.hom (((finiteEtaleEquivalenceOfIsGaloisCategory X x').functor.obj Y).obj.ρ g)
+          (etaleFundamentalGroupBasePointHom t g)).asHom a) =
+      ConcreteCategory.hom (((finiteEtaleEquivalenceOfIsGaloisCategory X x').functor.obj Y).obj.ρ
+        g).asHom
         (finiteEtaleEquivalenceBasePointEquiv t Y a) := by
   have h := etaleFundamentalGroupMulEquiv_action t Y (etaleFundamentalGroupBasePointHom t g) a
   rw [etaleFundamentalGroupMulEquiv_basePointHom] at h

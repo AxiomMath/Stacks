@@ -346,7 +346,8 @@ theorem module_finite_constantCohomology_of_prime [CompactSpace X] [QuasiSeparat
     (finsetClosureCocone Mab).ι (finsetClosureCoconeIsColimit Mab) q x
   let W := AddSubgroup.closure (S : Set Mab)
   have : Module.Finite ℤ W :=
-    Module.Finite.iff_addGroup_fg.2 ((AddGroup.fg_iff_addSubgroup_fg W).2 ⟨S, rfl⟩)
+    Module.Finite.iff_addGroup_fg.2 ((AddGroup.fg_iff_addSubgroup_fg W).2
+      ((AddSubgroup.fg_iff W).2 ⟨S, rfl, S.finite_toSet⟩))
   obtain ⟨d, e, v, hv⟩ := exists_zmod_coordinates ℓ W fun w => Subtype.ext (hM w.1)
   have hc : ∀ k, ∃ c : Fin n → Λ, ((v k : W) : M) = ∑ j, c j • s j := fun k => by
     obtain ⟨c, hc⟩ := hf ((v k : W) : M)

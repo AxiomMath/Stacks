@@ -228,10 +228,10 @@ private lemma exists_comp_point {S : Scheme.{u}}
   let q : (pullback G.source G.target).left := l.left p
   have hq₁ : (pullback.fst G.source G.target).left q = a := by
     have hproj := congrArg (fun f : T ⟶ G.arrows => f.left p) (pullback.lift_fst u v huv)
-    simpa [q, l, u] using hproj.trans hp₁
+    exact hproj.trans hp₁
   have hq₂ : (pullback.snd G.source G.target).left q = b := by
     have hproj := congrArg (fun f : T ⟶ G.arrows => f.left p) (pullback.lift_snd u v huv)
-    simpa [q, l, v] using hproj.trans hp₂
+    exact hproj.trans hp₂
   refine ⟨G.comp.left q, ?_, ?_⟩
   · have hs := congrArg (fun f => f.left.base q) G.source_comp
     simpa [Scheme.Hom.comp_base, TopCat.coe_comp, Function.comp_apply, hq₂] using hs

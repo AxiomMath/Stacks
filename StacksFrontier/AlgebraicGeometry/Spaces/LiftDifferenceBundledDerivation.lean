@@ -15,16 +15,16 @@ say that the sectionwise difference `f - g` of two homomorphisms `f, g : R ⟶ �
 rings agreeing after `i^♯` is a derivation with values in the defining ideal of the closed
 subspace: additivity, the Leibniz rule, the vanishing on a base sheaf of rings and the
 compatibility with restriction.  This file packages those four equations as a
-`PresheafOfModules.Derivation'`, which is the notion of derivation that the sheaf of relative
-differentials of [Stacks Project, Tag 04CT] corepresents and that Equation (0619),
+`PresheafOfModulesOfCommRing.Derivation'`, which is the notion of derivation that the sheaf of
+relative differentials of [Stacks Project, Tag 04CT] corepresents and that Equation (0619),
 `AlgebraicGeometry.Space.derivationDirectImageEquiv`, consumes.
 
-Only one thing has to be arranged for the bundling: `PresheafOfModules.Derivation'` wants the
-differentiated sheaf of rings to be valued in `CommRingCat`, and the coefficients to be a module
-over *it*.  So the source is taken to be the sheaf of rings underlying a sheaf of commutative
-rings — which is what the inverse image `(b')^{-1}𝒪_{Y'}` of a structure sheaf is — and the
-defining ideal is read as a module over it by restricting scalars along `f`, which is exactly
-the module structure for which the Leibniz rule of
+Only one thing has to be arranged for the bundling:
+`PresheafOfModulesOfCommRing.Derivation'` wants the differentiated sheaf of rings to be valued
+in `CommRingCat`, and the coefficients to be a module over *it*.  So the source is taken to be
+the sheaf of rings underlying a sheaf of commutative rings — which is what the inverse image
+`(b')^{-1}𝒪_{Y'}` of a structure sheaf is — and the defining ideal is read as a module over it by
+restricting scalars along `f`, which is exactly the module structure for which the Leibniz rule of
 `AlgebraicGeometry.Space.liftDifference_smul_add_smul` is stated.
 
 ## Main definitions
@@ -122,8 +122,8 @@ Its four fields are `AlgebraicGeometry.Space.liftDifference_add`,
 `AlgebraicGeometry.Space.liftDifference_smul_add_smul`,
 `AlgebraicGeometry.Space.liftDifference_naturality` and
 `AlgebraicGeometry.Space.liftDifference_app_eq_zero`. -/
-@[stacks 0618 "the derivation D of the source, bundled as a `PresheafOfModules.Derivation'`, \
-for two abstract algebra maps"]
+@[stacks 0618 "the derivation D of the source, bundled as a \
+`PresheafOfModulesOfCommRing.Derivation'`, for two abstract algebra maps"]
 noncomputable def liftDifferenceDerivation (hZ : IsFirstOrderThickening B S hS X Z.1)
     (hfg : f ≫ structureSharp B S hS (subspaceInclusion B S hS X Z) =
       g ≫ structureSharp B S hS (subspaceInclusion B S hS X Z))
@@ -131,7 +131,7 @@ noncomputable def liftDifferenceDerivation (hZ : IsFirstOrderThickening B S hS X
           (forget₂ CommRingCat.{u} RingCat.{u})).map φc ≫ f =
       (sheafCompose (SmallEtale.topology B S hS X.1)
           (forget₂ CommRingCat.{u} RingCat.{u})).map φc ≫ g) :
-    (liftDifferenceCoefficients B S hS Z f).Derivation' φc.hom where
+    PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS Z f) φc.hom where
   d {U} := AddMonoidHom.mk' (fun r ↦ liftDifference B S hS Z f g hfg U r)
     (liftDifference_add B S hS Z f g hfg U)
   d_mul {_} a b := liftDifference_smul_add_smul B S hS Z f g hZ hfg _ a b
@@ -190,10 +190,10 @@ noncomputable def liftPairDerivation (hZ : IsFirstOrderThickening B S hS X' G)
           (sheafCompose (SmallEtale.topology B S hS X'.1)
             (forget₂ CommRingCat.{u} RingCat.{u})).map
             (structureSharpInverseImage B S hS b')) :
-    (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
+    PresheafOfModulesOfCommRing.Derivation' (liftDifferenceCoefficients B S hS ⟨G, hG.1⟩
         ((sheafCompose (SmallEtale.topology B S hS X'.1)
           (forget₂ CommRingCat.{u} RingCat.{u})).map
-          (inverseImageStructureSharpOfRestrictEq B S hS hG a' b' h))).Derivation' φc.hom :=
+          (inverseImageStructureSharpOfRestrictEq B S hS hG a' b' h))) φc.hom :=
   liftDifferenceDerivation B S hS ⟨G, hG.1⟩ φc _ _ hZ
     (inverseImageStructureSharpOfRestrictEq_comp_structureSharp B S hS hG a' b' h) hφ
 

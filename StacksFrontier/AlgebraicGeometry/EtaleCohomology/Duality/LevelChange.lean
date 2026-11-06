@@ -85,8 +85,8 @@ def reductionLinearMap :
   ModuleCat.ofHom (Y := (ModuleCat.restrictScalars.{u + 1} (ZMod.castHom h (ZMod d))).obj
       (ModuleCat.of (ZMod d) (ULift.{u + 1} (ZMod d))))
     ({ toFun := fun x => ULift.up (ZMod.castHom h (ZMod d) x.down)
-       map_add' := fun x y => ULift.ext _ _ (map_add (ZMod.castHom h (ZMod d)) x.down y.down)
-       map_smul' := fun a x => ULift.ext _ _ (map_mul (ZMod.castHom h (ZMod d)) a x.down) } :
+       map_add' := fun x y => ULift.ext (map_add (ZMod.castHom h (ZMod d)) x.down y.down)
+       map_smul' := fun a x => ULift.ext (map_mul (ZMod.castHom h (ZMod d)) a x.down) } :
       ULift.{u + 1} (ZMod N) →ₗ[ZMod N]
         (ModuleCat.restrictScalars.{u + 1} (ZMod.castHom h (ZMod d))).obj
           (ModuleCat.of (ZMod d) (ULift.{u + 1} (ZMod d))))
@@ -101,7 +101,7 @@ theorem reductionLinearMap_apply (x : ULift.{u + 1} (ZMod N)) :
 theorem surjective_reductionLinearMap : Function.Surjective (reductionLinearMap.{u} h).hom := by
   intro y
   obtain ⟨x, hx⟩ := ZMod.ringHom_surjective (ZMod.castHom h (ZMod d)) y.down
-  exact ⟨ULift.up x, (reductionLinearMap_apply h _).trans (ULift.ext _ _ hx)⟩
+  exact ⟨ULift.up x, (reductionLinearMap_apply h _).trans (ULift.ext hx)⟩
 
 /-- **The reduction `ℤ/N_X ⟶ R(ℤ/d_X)`**: the constant sheaf on `ℤ/N ↠ ℤ/d`. -/
 def reduction : unitSheaf (X := X) N ⟶ (restrict X h).obj (unitSheaf d) :=
@@ -163,11 +163,11 @@ theorem function_exact_reductionLinearMap [NeZero N] :
   constructor
   · intro hy
     obtain ⟨m, hm⟩ := exists_val_eq_mul_of_castHom_eq_zero h (congrArg ULift.down hy)
-    refine ⟨ULift.up (m : ZMod N), ULift.ext _ _ ?_⟩
+    refine ⟨ULift.up (m : ZMod N), ULift.ext ?_⟩
     show d • (m : ZMod N) = y.down
     rw [nsmul_eq_mul, ← Nat.cast_mul, ← hm, ZMod.natCast_zmod_val]
   · rintro ⟨x, rfl⟩
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     show ZMod.castHom h (ZMod d) (d • x.down) = 0
     rw [map_nsmul, nsmul_eq_mul, ZMod.natCast_self, zero_mul]
 
@@ -270,11 +270,11 @@ def inclusionLinearMap :
           change (e : ℤ) • (d : ZMod N) = 0
           rw [natCast_zsmul, nsmul_eq_mul, ← Nat.cast_mul, mul_comm, hde, ZMod.natCast_self]⟩
           x.down)
-       map_add' := fun x y => ULift.ext _ _ (map_add _ x.down y.down)
+       map_add' := fun x y => ULift.ext (map_add _ x.down y.down)
        map_smul' := fun a x => by
           obtain ⟨z, rfl⟩ := ZMod.intCast_surjective a
           rw [RingHom.id_apply, Int.cast_smul_eq_zsmul, Int.cast_smul_eq_zsmul]
-          exact ULift.ext _ _ (map_zsmul _ z x.down) } :
+          exact ULift.ext (map_zsmul _ z x.down) } :
       (ModuleCat.restrictScalars.{u + 1} (ZMod.castHom (dvd_of_mul_eq_left hde) (ZMod e))).obj
           (ModuleCat.of (ZMod e) (ULift.{u + 1} (ZMod e))) →ₗ[ZMod N] ULift.{u + 1} (ZMod N))
 
@@ -283,7 +283,7 @@ theorem inclusionLinearMap_apply_natCast (m : ℕ) :
     ((inclusionLinearMap.{u} hde).hom (ULift.up (m : ZMod e)) : ULift.{u + 1} (ZMod N)) =
       ULift.up ((d * m : ℕ) : ZMod N) := by
   rw [show (m : ZMod e) = ((m : ℤ) : ZMod e) from (Int.cast_natCast m).symm]
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show ZMod.lift e ⟨zmultiplesHom (ZMod N) (d : ZMod N), _⟩ (((m : ℤ) : ZMod e)) = _
   rw [ZMod.lift_coe]
   show (m : ℤ) • (d : ZMod N) = _
@@ -302,7 +302,7 @@ theorem neZero_right_of_mul_eq [NeZero N] : NeZero e :=
 /-- Every element of `ℤ/e` is the class of its natural number representative. -/
 private theorem eq_up_natCast_val [NeZero e] (x : ULift.{u + 1} (ZMod e)) :
     x = ULift.up ((x.down.val : ℕ) : ZMod e) :=
-  ULift.ext _ _ (ZMod.natCast_zmod_val _).symm
+  ULift.ext (ZMod.natCast_zmod_val _).symm
 
 /-- `ℤ/e ⟶ ℤ/N`, `x ↦ d x`, is injective. -/
 theorem injective_inclusionLinearMap [NeZero N] :
@@ -317,7 +317,7 @@ theorem injective_inclusionLinearMap [NeZero N] :
   rw [← hde] at h1
   have h2 : e ∣ x.down.val := Nat.dvd_of_mul_dvd_mul_left (Nat.pos_of_ne_zero (NeZero.ne d)) h1
   rw [hx']
-  exact ULift.ext _ _ ((ZMod.natCast_eq_zero_iff _ _).2 h2)
+  exact ULift.ext ((ZMod.natCast_eq_zero_iff _ _).2 h2)
 
 /-- `ℤ/e --d--> ℤ/N --> ℤ/d` is exact. -/
 theorem function_exact_inclusionLinearMap [NeZero N] :
@@ -331,12 +331,12 @@ theorem function_exact_inclusionLinearMap [NeZero N] :
       exists_val_eq_mul_of_castHom_eq_zero (Dvd.intro e hde) (congrArg ULift.down hy)
     refine ⟨ULift.up (m : ZMod e), ?_⟩
     rw [inclusionLinearMap_apply_natCast, ← hm]
-    exact ULift.ext _ _ (ZMod.natCast_zmod_val _)
+    exact ULift.ext (ZMod.natCast_zmod_val _)
   · rintro ⟨x, rfl⟩
     have := neZero_right_of_mul_eq hde
     have hx' := eq_up_natCast_val x
     rw [hx', inclusionLinearMap_apply_natCast]
-    refine ULift.ext _ _ ?_
+    refine ULift.ext ?_
     show ZMod.castHom (Dvd.intro e hde) (ZMod d) ((d * x.down.val : ℕ) : ZMod N) = 0
     rw [map_natCast, Nat.cast_mul, ZMod.natCast_self, zero_mul]
 

@@ -137,7 +137,7 @@ theorem restrictFunctor_map_globalSmulCenter {X Y : Scheme.{u}} (j : Y ⟶ X) [I
   have hscalar : (j.appIso V).inv (Y.presheaf.map V.leTop.op (j.appTop c)) =
       X.presheaf.map (j ''ᵁ V).leTop.op c :=
     Scheme.Hom.appLE_appIso_inv_apply j (le_top : V ≤ j ⁻¹ᵁ (⊤ : X.Opens)) c
-  exact (congrArg (fun z : Γ(X, j ''ᵁ V) => (M.smul z).hom x) hscalar).symm
+  exact (congrArg (fun z : Γ(X, j ''ᵁ V) => (M.smul z).asHom.hom x) hscalar).symm
 
 /-- **A factorisation of multiplication by a global section through a morphism of modules, read
 on the sections over the opens inside the image of an open immersion.** If multiplication by the

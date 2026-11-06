@@ -113,8 +113,9 @@ of `ℙ¹_S` replaced by an arbitrary section on the image of an arbitrary open 
 theorem idealStalk_eq_span_germ_of_comap_ideal_eq {X Y : Scheme.{u}} (h : X ⟶ Y)
     [IsOpenImmersion h] (I : Y.IdealSheafData) (s : Γ(Y, h ''ᵁ ⊤))
     (hI : ∀ V : X.affineOpens, (I.comap h).ideal V =
-      Ideal.span {X.presheaf.map (homOfLE le_top).op
-        (h.appLE (h ''ᵁ ⊤) ⊤ (h.preimage_image_eq ⊤).ge s)})
+      Ideal.span
+        {X.presheaf.map (homOfLE le_top).op
+          (h.appLE (h ''ᵁ ⊤) ⊤ (h.preimage_image_eq ⊤).ge s)})
     (z : Y) (hz : z ∈ h ''ᵁ ⊤) :
     IdealSheafData.stalk I z = Ideal.span {(Y.presheaf.germ (h ''ᵁ ⊤) z hz) s} := by
   have hzr : z ∈ Set.range h.base := by
@@ -135,12 +136,14 @@ theorem idealStalk_eq_span_germ_of_comap_ideal_eq {X Y : Scheme.{u}} (h : X ⟶ 
 theorem idealStalk_comap_eq_span_germ_of_comap_ideal_eq {X Y A : Scheme.{u}} (h : X ⟶ Y)
     [IsOpenImmersion h] (I : Y.IdealSheafData) (s : Γ(Y, h ''ᵁ ⊤))
     (hI : ∀ V : X.affineOpens, (I.comap h).ideal V =
-      Ideal.span {X.presheaf.map (homOfLE le_top).op
-        (h.appLE (h ''ᵁ ⊤) ⊤ (h.preimage_image_eq ⊤).ge s)})
+      Ideal.span
+        {X.presheaf.map (homOfLE le_top).op
+          (h.appLE (h ''ᵁ ⊤) ⊤ (h.preimage_image_eq ⊤).ge s)})
     (q : A ⟶ Y) (ξ : A) (hξ : ξ ∈ q ⁻¹ᵁ (h ''ᵁ ⊤)) :
     IdealSheafData.stalk (I.comap q) ξ =
-      Ideal.span {(A.presheaf.germ (q ⁻¹ᵁ (h ''ᵁ ⊤)) ξ hξ)
-        (q.appLE (h ''ᵁ ⊤) (q ⁻¹ᵁ (h ''ᵁ ⊤)) le_rfl s)} := by
+      Ideal.span
+        {(A.presheaf.germ (q ⁻¹ᵁ (h ''ᵁ ⊤)) ξ hξ)
+          (q.appLE (h ''ᵁ ⊤) (q ⁻¹ᵁ (h ''ᵁ ⊤)) le_rfl s)} := by
   rw [AlgebraicGeometry.IdealSheafData.stalk_comap I q ξ,
     idealStalk_eq_span_germ_of_comap_ideal_eq h I s hI (q ξ) hξ, Ideal.map_span,
     Set.image_singleton, appLE_germ_eq q le_rfl ξ hξ s]
@@ -191,8 +194,9 @@ is the case `t = 0`. -/
 theorem lineSectionKer_ideal_comap_affineChart (S : Scheme.{u}) (t : Γ(S, ⊤))
     (V : (affineLineOver S).affineOpens) :
     ((lineSection S t).ker.comap (affineChart S)).ideal V =
-      Ideal.span {(affineLineOver S).presheaf.map (homOfLE le_top).op
-        (affineCoordinate S - (affineLineOverHom S).appTop t)} := by
+      Ideal.span
+        {(affineLineOver S).presheaf.map (homOfLE le_top).op
+          (affineCoordinate S - (affineLineOverHom S).appTop t)} := by
   set τ := inv (affineTranslation S t) with hτ
   have hA : IsAffineOpen (τ ''ᵁ (V : (affineLineOver S).Opens)) :=
     V.2.image_of_isOpenImmersion τ
@@ -252,9 +256,10 @@ theorem appLE_linePointCoordinate (S : Scheme.{u}) (t : Γ(S, ⊤)) :
 theorem comap_ideal_eq_span_appLE_linePointCoordinate (S : Scheme.{u}) (t : Γ(S, ⊤))
     (V : (affineLineOver S).affineOpens) :
     ((lineSection S t).ker.comap (affineChart S)).ideal V =
-      Ideal.span {(affineLineOver S).presheaf.map (homOfLE le_top).op
-        ((affineChart S).appLE (chartOpen S) ⊤ ((affineChart S).preimage_image_eq ⊤).ge
-          (linePointCoordinate S t))} := by
+      Ideal.span
+        {(affineLineOver S).presheaf.map (homOfLE le_top).op
+          ((affineChart S).appLE (chartOpen S) ⊤ ((affineChart S).preimage_image_eq ⊤).ge
+            (linePointCoordinate S t))} := by
   rw [appLE_linePointCoordinate]
   exact lineSectionKer_ideal_comap_affineChart S t V
 
@@ -268,9 +273,10 @@ def lineYChartUnitSection (S : Scheme.{u}) (t : Γ(S, ⊤)) :
 theorem comap_ideal_eq_span_appLE_lineChartCoordinate_affineYChart (S : Scheme.{u})
     (V : (affineLineOver S).affineOpens) :
     ((lineInfinityDivisor S).comap (affineYChart S)).ideal V =
-      Ideal.span {(affineLineOver S).presheaf.map (homOfLE le_top).op
-        ((affineYChart S).appLE (yChartOpen S) ⊤ ((affineYChart S).preimage_image_eq ⊤).ge
-          (lineChartCoordinate (affineYChart S)))} := by
+      Ideal.span
+        {(affineLineOver S).presheaf.map (homOfLE le_top).op
+          ((affineYChart S).appLE (yChartOpen S) ⊤ ((affineYChart S).preimage_image_eq ⊤).ge
+            (lineChartCoordinate (affineYChart S)))} := by
   rw [appLE_lineChartCoordinate]
   exact infinityDivisor_ideal_comap_affineYChart S V
 

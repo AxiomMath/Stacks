@@ -92,7 +92,6 @@ theorem extRightIsScalarTower :
   let := extRightModule R T M N
   { smul_assoc := fun a b x => by
       induction x with
-      | zero => simp
       | tmul m n =>
           rw [extRightModule_smul_tmul, extRightModule_smul_tmul, TensorProduct.smul_tmul',
             TensorProduct.smul_tmul, smul_assoc]
@@ -105,7 +104,6 @@ theorem extRightSMulCommClass :
   let := extRightModule R T M N
   { smul_comm := fun s t x => by
       induction x with
-      | zero => simp
       | tmul m n =>
           rw [extRightModule_smul_tmul, TensorProduct.smul_tmul', TensorProduct.smul_tmul',
             extRightModule_smul_tmul]
@@ -160,13 +158,10 @@ private theorem map_smul_of_map_smul_tmul_tmul {B U V Q Y F : Type*} [CommSemiri
         (s ⊗ₜ[R] t : S ⊗[R] T) • f ((u ⊗ₜ[R] v) ⊗ₜ[B] q))
     (c : S ⊗[R] T) (x : (U ⊗[R] V) ⊗[B] Q) : f (c • x) = c • f x := by
   induction c with
-  | zero => simp
   | tmul s t =>
       induction x with
-      | zero => simp
       | tmul y q =>
           induction y with
-          | zero => simp
           | tmul u v => exact h s t u v q
           | add a b ha hb =>
               rw [TensorProduct.add_tmul] at *
@@ -214,7 +209,6 @@ theorem extCommRight_aux (t : T) (x : M ⊗[R] T) :
     TensorProduct.comm R M T (t • x) = t • TensorProduct.comm R M T x := by
   let := extRightModule R T M T
   induction x with
-  | zero => simp
   | tmul m t' =>
       rw [extRightModule_smul_tmul, TensorProduct.comm_tmul, TensorProduct.comm_tmul,
         TensorProduct.smul_tmul', smul_eq_mul]

@@ -140,7 +140,7 @@ theorem map_milnorDifference_comp_piComparison (T : ℕᵒᵖ ⥤ C)
   apply Pi.hom_ext
   intro n
   dsimp only [Functor.comp_obj, Functor.comp_map]
-  simp only [Category.assoc, piComparison_comp_π, Pi.lift_π, Preadditive.comp_sub,
+  simp only [Category.assoc, piComparison_comp_π, Pi.lift_comp_π, Preadditive.comp_sub,
     piComparison_comp_π_assoc, ← Functor.map_comp, Functor.map_sub]
 
 /-- **For a tower factoring eventually through a constant, every map into the product factors

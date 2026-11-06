@@ -276,7 +276,6 @@ theorem exists_transition_unitCoassoc_of_isPushout
         LinearMap.lTensor A g.toLinearMap x = Algebra.TensorProduct.map (AlgHom.id R A) g x := by
       intro g x
       induction x with
-      | zero => simp
       | add u v hu' hv' => rw [map_add, map_add, hu', hv']
       | tmul a b => rw [LinearMap.lTensor_tmul, Algebra.TensorProduct.map_tmul]; rfl
     have hleft := hmap σ Λ hΛ₁ fun b => by

@@ -92,7 +92,7 @@ theorem eq_of_derivationFamilyOfHom_structureSharpRingInverseImage_eq
           ((structureSharpRingInverseImage B S hS (subspaceInclusion B S hS W W₀)).hom.app V x)) :
     θ = θ' := by
   apply (derivationDirectImageEquiv B S hS e₀ (subspaceInclusion B S hS W W₀ ≫ q) C).injective
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext V t
   refine ((modulePushforward B S hS e₀).obj C).isSheaf.isSeparated V.unop _
     ((isLocallySurjective_structureSharpRingInverseImage B S hS

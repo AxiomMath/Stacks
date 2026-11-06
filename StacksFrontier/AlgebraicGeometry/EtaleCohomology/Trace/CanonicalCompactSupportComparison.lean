@@ -102,7 +102,7 @@ public def compactificationFieldBaseChangeDerivedExtensionByZeroIso
       (etaleModuleDerivedExtensionByZero.{u, r} Λ
         (compactificationFieldBaseChangeImmersion f j kbar)).obj (DerivedCategory.Plus.Q.obj C) :=
   haveI : IsIso (etaleModuleExtensionByZero.{u, r} Λ
-      (compactificationFieldBaseChangeImmersion f j kbar)).rightDerivedFunctorPlusUnit :=
+      (compactificationFieldBaseChangeImmersion f j kbar)).rightDerivedFunctorPlusUnith :=
     Functor.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology _
   haveI : IsIso ((Functor.mapCochainComplexPlusDerivedUnit (etaleModuleExtensionByZero.{u, r} Λ
       (compactificationFieldBaseChangeImmersion f j kbar))).app C) := by

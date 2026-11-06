@@ -248,7 +248,8 @@ theorem envelopeZeroFormsEquiv_symm_smul (b a : ℕ)
     (envelopeZeroFormsEquiv s f b a).symm (r • y) =
       (envelopeZeroCompletedRingEquiv s f b).symm r • (envelopeZeroFormsEquiv s f b a).symm y :=
   (envelopeZeroFormsEquiv s f b a).injective <| by
-    rw [envelopeZeroFormsEquiv_smul]; simp
+    rw [envelopeZeroFormsEquiv_smul]
+    simp only [AddEquiv.apply_symm_apply, RingEquiv.apply_symm_apply]
 
 /-- `Crystalline.envelopeZeroFormsEquiv` as a semilinear map. -/
 def envelopeZeroFormsMapₛₗ (b a : ℕ) :

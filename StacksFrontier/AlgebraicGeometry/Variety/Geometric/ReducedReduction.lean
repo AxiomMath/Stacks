@@ -359,6 +359,7 @@ private theorem exists_finite_common_purelyInseparable_extension_geometricallyRe
     IsScalarTower.of_algebraMap_eq (R := k) (S := ↥Wi.k') (A := ↥F) fun x =>
       (φ.commutes x).symm
   let : IsPurelyInseparable ↥Wi.k' ↥F := IsPurelyInseparable.tower_top k ↥Wi.k' ↥F
+  let : Algebra.IsAlgebraic ↥Wi.k' ↥F := IsPurelyInseparable.isAlgebraic ↥Wi.k' ↥F
   let : Algebra.IsSeparableExtension ↥Wi.k' ↥Wi.K' := Wi.hsep
   exact isGeometricallyReduced_reducedTensorProduct_of_extension
     k ↥Wi.k' (K i) ↥Wi.K' ↥F

@@ -96,6 +96,24 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {hZ : B.Contains (⊤_ Scheme.{u})} {I : Type u} [Preorder I] [IsDirected I (· ≤ ·)]
     [Nonempty I] (C : ConventionalStackDescentSystem B S hS hZ I)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_composablePairsAtStage :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_composablePairsAtStage
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+local instance hasPullbacks_over_presheaf_composablePairsAtStage
+    (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) : HasPullbacks (Over X) := inferInstance
+
+local instance (priority := high) hasPullback_over_presheaf_composablePairsAtStage
+    {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {Y Z W : Over X} (f : Y ⟶ W) (g : Z ⟶ W) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {C} (G : GroupoidInAlgebraicSpaces B S hS C.limitSpace)
 
 /-! ### Smoothness of base changes in a slice -/
@@ -360,14 +378,14 @@ theorem pairsIso_hom_pairSnd : M.pairsIso.hom ≫
 @[reassoc (attr := simp)]
 theorem pairsIso_inv_limFst : M.pairsIso.inv ≫ limFst G =
     (Over.pullback (limit.π C.diagram M.stage)).map M.pairFst ≫ M.arrowsIso.inv := by
-  rw [← cancel_epi M.pairsIso.hom, Iso.hom_inv_id_assoc, pairsIso_hom_pairFst_assoc,
+  rw [← Iso.cancel_iso_hom_left M.pairsIso, Iso.hom_inv_id_assoc, pairsIso_hom_pairFst_assoc,
     Iso.hom_inv_id, Category.comp_id]
 
 /-- The inverse of `pairsIso` is compatible with the second arrows of composable pairs. -/
 @[reassoc (attr := simp)]
 theorem pairsIso_inv_limSnd : M.pairsIso.inv ≫ limSnd G =
     (Over.pullback (limit.π C.diagram M.stage)).map M.pairSnd ≫ M.arrowsIso.inv := by
-  rw [← cancel_epi M.pairsIso.hom, Iso.hom_inv_id_assoc, pairsIso_hom_pairSnd_assoc,
+  rw [← Iso.cancel_iso_hom_left M.pairsIso, Iso.hom_inv_id_assoc, pairsIso_hom_pairSnd_assoc,
     Iso.hom_inv_id, Category.comp_id]
 
 /-- The first arrow of a composable pair at the stage reads over the limit as the first arrow of

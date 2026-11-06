@@ -616,18 +616,19 @@ private lemma hom_eq_zero_of_isIso_smul_of_derivedLimit_isZero
   obtain ⟨L, ⟨p, δ, hT⟩, hL⟩ := hE
   have hD := (Triangle.isZero₁_iff_isIso₂ _ hT).mp hL
   simp only [Triangle.mk_mor₂, Functor.ofOpSequence_map_homOfLE_succ] at hD
-  let w : End X := inv (f • 𝟙 X)
-  have hw : (f • 𝟙 X) ≫ (w : X ⟶ X) = 𝟙 X := IsIso.hom_inv_id _
-  let a : X ⟶ ∏ᶜ fun _ : ℕ => E := Pi.lift fun n => ((w ^ n : End X) : X ⟶ X) ≫ g
+  let w : End X := .of (inv (f • 𝟙 X))
+  have hw : (f • 𝟙 X) ≫ w.asHom = 𝟙 X := IsIso.hom_inv_id _
+  let a : X ⟶ ∏ᶜ fun _ : ℕ => E := Pi.lift fun n => (w ^ n).asHom ≫ g
   have ha : a ≫ Pi.lift (fun n : ℕ => Pi.π (fun _ : ℕ => E) n -
       Pi.π (fun _ : ℕ => E) (n + 1) ≫ (f • 𝟙 E)) = 0 := by
     apply Pi.hom_ext
     intro n
-    simp only [a, Category.assoc, Pi.lift_π, Preadditive.comp_sub, Pi.lift_π_assoc, zero_comp]
-    rw [sub_eq_zero, Linear.comp_smul, Category.comp_id, pow_succ, End.mul_def]
-    have hc : ((w ^ n : End X) : X ⟶ X) ≫ (f • 𝟙 X) = (f • 𝟙 X) ≫ (w ^ n : End X) := by
+    simp only [a, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, Pi.lift_comp_π_assoc,
+      zero_comp]
+    rw [sub_eq_zero, Linear.comp_smul, Category.comp_id, pow_succ, End.mul_asHom]
+    have hc : (w ^ n).asHom ≫ (f • 𝟙 X) = (f • 𝟙 X) ≫ (w ^ n).asHom := by
       simp only [Linear.comp_smul, Linear.smul_comp, Category.comp_id, Category.id_comp]
-    have hw' : (w : X ⟶ X) ≫ (f • 𝟙 X) = 𝟙 X := IsIso.inv_hom_id _
+    have hw' : w.asHom ≫ (f • 𝟙 X) = 𝟙 X := IsIso.inv_hom_id _
     rw [show f • g = (f • 𝟙 X) ≫ g by simp, Category.assoc, reassoc_of% hc,
       reassoc_of% hw']
   have hD' : IsIso (Pi.lift (fun n : ℕ => Pi.π (fun _ : ℕ => E) n -
@@ -781,11 +782,11 @@ private lemma eq_zero_of_comp_difference (x : Z ⟶ c.pt) (hx : x ≫ Dm = 0)
 
 private lemma exists_comp_difference_eq_zero (t : Z ⟶ E) :
     ∃ x : Z ⟶ c.pt, x ≫ Dm = 0 ∧ x ≫ c.proj 0 = t := by
-  let w : End Z := inv (f • 𝟙 Z)
-  refine ⟨Fan.IsLimit.lift hc fun n => ((w ^ n : End Z) : Z ⟶ Z) ≫ t,
+  let w : End Z := .of (inv (f • 𝟙 Z))
+  refine ⟨Fan.IsLimit.lift hc fun n => (w ^ n).asHom ≫ t,
     Fan.IsLimit.hom_ext hc _ _ fun n => ?_, by simp [Fan.IsLimit.fac]⟩
   rw [Category.assoc, hDm, Preadditive.comp_sub, Linear.comp_smul, Fan.IsLimit.fac,
-    Fan.IsLimit.fac, zero_comp, pow_succ', End.mul_def, Category.assoc, ← Linear.comp_smul]
+    Fan.IsLimit.fac, zero_comp, pow_succ', End.mul_asHom, Category.assoc, ← Linear.comp_smul]
   rw [smul_inv_comp hZ]
   exact sub_self _
 

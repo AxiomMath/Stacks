@@ -570,7 +570,6 @@ theorem curvePointInertiaStalkRangeInput : CurvePointInertiaStalkRangeInput.{u} 
           (ConcreteCategory.hom (H' n) w).down := by
       rw [hσdec, map_mul, map_mul, Module.End.mul_apply, hfix n w β hβι, hGφ']
     convert hF.trans (hlev.trans (levelRepresentation_apply ρ₀ (n + 1) _ _)) using 3
-    rfl
   · -- (vii) the image is fixed by the inertia
     intro n w σ hσ
     obtain ⟨γ₀, hγ₀, rfl⟩ := Subgroup.mem_map.mp hσ

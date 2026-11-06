@@ -44,7 +44,7 @@ across the identification of the two small étale sites.
   that `d_{U/V}` followed by the section-pullback map
   `AlgebraicGeometry.SmallEtale.sectionsUnit` is the small Zariski restriction of `d^a` in its
   sections form, `AlgebraicGeometry.SmallEtale.associatedSectionsDerivation`.  Read at one open
-  and one section by `PresheafOfModules.Derivation.congr_d`, that is the whole content.
+  and one section by `PresheafOfModulesOfCommRing.Derivation.congr_d`, that is the whole content.
 * Carrying it up to the small étale site of `yoneda.obj U` costs nothing on values.
   `AlgebraicGeometry.Space.transportedAssociatedDerivation` is built from
   `AlgebraicGeometry.SmallEtale.etaleAssociatedDerivation` by
@@ -144,7 +144,7 @@ theorem transportedAssociatedDerivation_d_opensToSmallEtale (α : U ⟶ V)
             (Scheme.Hom.relativeDifferentials ((BigFppfOver.toScheme B S hS).map α))).inv.val.app
           (op ((_root_.AlgebraicGeometry.SmallEtale.opensToSmallEtale (associatedBigEtaleSite B)
             ((BigFppfOver.toScheme B S hS).obj U) U.left.property).obj W))).hom y)
-    (PresheafOfModules.Derivation.congr_d
+    (PresheafOfModulesOfCommRing.Derivation.congr_d
       (_root_.AlgebraicGeometry.SmallEtale.universalRelativeDerivation_postcomp_sectionsUnit
         (associatedBigEtaleSite B) U.left.property
         ((BigFppfOver.toScheme B S hS).map α)) a).symm

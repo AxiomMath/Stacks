@@ -356,8 +356,8 @@ covariance of Stacks 0F6S for `jY`. -/
 public def compPieceMap :
     (openShriekPushforward.{u, v} B jX (f ≫ g)).obj F ⟶
       (fShriekFunctor.{u, v} B g).obj ((fShriekFunctor.{u, v} B f).obj F) :=
-  ⟨sheafifyLift (SmallEtale.topology B Z.obj Z.property) (compPiecePresheafMap B g sq hsq F)
-      (Sheaf.cond _)⟩ ≫
+  ObjectProperty.homMk (sheafifyLift (SmallEtale.topology B Z.obj Z.property)
+      (compPiecePresheafMap B g sq hsq F) (ObjectProperty.FullSubcategory.property _)) ≫
     (openCovarianceShriekMap.{u, v} B jY g).app ((fShriekFunctor.{u, v} B f).obj F)
 
 end Piece

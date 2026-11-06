@@ -136,11 +136,11 @@ theorem isPushout_π_app_cospan_of_isAffine
     (hT : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj T)))
     (hR : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj R)))
     (hR' : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj R')))
-    [Algebra (E.A.val.obj (op T)) (E.A.val.obj (op R'))]
-    (halg : algebraMap (E.A.val.obj (op T)) (E.A.val.obj (op R')) = (E.A.val.map p'.op).hom) :
-    IsPushout (E.A.val.map p.op ≫ E.π.hom.app (op R)) (E.A.val.map p'.op)
-      ((smallEtaleRingedTopos B S hS X).O.val.map a.op)
-      (E.A.val.map b.op ≫ E.π.hom.app (op P)) := by
+    [Algebra (E.A.obj.obj (op T)) (E.A.obj.obj (op R'))]
+    (halg : algebraMap (E.A.obj.obj (op T)) (E.A.obj.obj (op R')) = (E.A.obj.map p'.op).hom) :
+    IsPushout (E.A.obj.map p.op ≫ E.π.hom.app (op R)) (E.A.obj.map p'.op)
+      ((smallEtaleRingedTopos B S hS X).O.obj.map a.op)
+      (E.A.obj.map b.op ≫ E.π.hom.app (op P)) := by
   rw [E.π.hom.naturality p.op, E.π.hom.naturality b.op]
   exact (isPushout_π_app_of_isAffine B S hS E p' hR' hT halg).paste_horiz
     (SmallEtale.isPushout_structurePresheaf_map_of_isPullback B S hS X.1 hpb hT hR hR')
@@ -167,8 +167,8 @@ theorem isPushout_A_map_of_isPullback_of_isAffine
     (hR : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj R)))
     (hR' : IsAffine ((BigFppfOver.toScheme B S hS).obj
       ((SmallEtale.toOver B S hS X.1).obj R'))) :
-    IsPushout (E.A.val.map p.op) (E.A.val.map p'.op)
-      (E.A.val.map a.op) (E.A.val.map b.op) := by
+    IsPushout (E.A.obj.map p.op) (E.A.obj.map p'.op)
+      (E.A.obj.map a.op) (E.A.obj.map b.op) := by
   have _ := hT
   have _ := hR
   have _ := hR'
@@ -176,65 +176,65 @@ theorem isPushout_A_map_of_isPullback_of_isAffine
       ((SmallEtale.toOver B S hS X.1).obj P)) :=
     IsAffine.of_isIso ((hpb.map (SmallEtale.toOver B S hS X.1)).map
       (BigFppfOver.toScheme B S hS)).isoPullback.hom
-  let algTR : Algebra (E.A.val.obj (op T)) (E.A.val.obj (op R)) :=
-    (E.A.val.map p.op).hom.toAlgebra
-  let algTR' : Algebra (E.A.val.obj (op T)) (E.A.val.obj (op R')) :=
-    (E.A.val.map p'.op).hom.toAlgebra
-  let algRP : Algebra (E.A.val.obj (op R)) (E.A.val.obj (op P)) :=
-    (E.A.val.map a.op).hom.toAlgebra
-  have etTR' : Algebra.Etale (E.A.val.obj (op T)) (E.A.val.obj (op R')) :=
+  let algTR : Algebra (E.A.obj.obj (op T)) (E.A.obj.obj (op R)) :=
+    (E.A.obj.map p.op).hom.toAlgebra
+  let algTR' : Algebra (E.A.obj.obj (op T)) (E.A.obj.obj (op R')) :=
+    (E.A.obj.map p'.op).hom.toAlgebra
+  let algRP : Algebra (E.A.obj.obj (op R)) (E.A.obj.obj (op P)) :=
+    (E.A.obj.map a.op).hom.toAlgebra
+  have etTR' : Algebra.Etale (E.A.obj.obj (op T)) (E.A.obj.obj (op R')) :=
     algebraEtale_app_of_isAffine B S hS E p' hR' hT (RingHom.algebraMap_toAlgebra _)
-  have etRP : Algebra.Etale (E.A.val.obj (op R)) (E.A.val.obj (op P)) :=
+  have etRP : Algebra.Etale (E.A.obj.obj (op R)) (E.A.obj.obj (op P)) :=
     algebraEtale_app_of_isAffine B S hS E a hP hR (RingHom.algebraMap_toAlgebra _)
   -- The pushout of the span, realized as a tensor product, and the comparison out of it.
-  have hPt : IsPushout (E.A.val.map p.op) (E.A.val.map p'.op)
+  have hPt : IsPushout (E.A.obj.map p.op) (E.A.obj.map p'.op)
       (CommRingCat.ofHom (Algebra.TensorProduct.includeLeftRingHom
-        (R := E.A.val.obj (op T)) (A := E.A.val.obj (op R)) (B := E.A.val.obj (op R'))))
+        (R := E.A.obj.obj (op T)) (A := E.A.obj.obj (op R)) (B := E.A.obj.obj (op R'))))
       (CommRingCat.ofHom (Algebra.TensorProduct.includeRight
-        (R := E.A.val.obj (op T)) (A := E.A.val.obj (op R))
-        (B := E.A.val.obj (op R'))).toRingHom) :=
+        (R := E.A.obj.obj (op T)) (A := E.A.obj.obj (op R))
+        (B := E.A.obj.obj (op R'))).toRingHom) :=
     CommRingCat.isPushout_tensorProduct _ _ _
-  have hw : E.A.val.map p.op ≫ E.A.val.map a.op = E.A.val.map p'.op ≫ E.A.val.map b.op := by
-    rw [← E.A.val.map_comp, ← E.A.val.map_comp, ← op_comp, ← op_comp, hpb.w]
-  obtain ⟨φ, hφl, hφr⟩ := hPt.exists_desc (E.A.val.map a.op) (E.A.val.map b.op) hw
+  have hw : E.A.obj.map p.op ≫ E.A.obj.map a.op = E.A.obj.map p'.op ≫ E.A.obj.map b.op := by
+    rw [← E.A.obj.map_comp, ← E.A.obj.map_comp, ← op_comp, ← op_comp, hpb.w]
+  obtain ⟨φ, hφl, hφr⟩ := hPt.exists_desc (E.A.obj.map a.op) (E.A.obj.map b.op) hw
   -- The comparison is a map of formally étale algebras over `𝒜(R)`.
-  let : Algebra (E.A.val.obj (op R) ⊗[E.A.val.obj (op T)] E.A.val.obj (op R'))
-      (E.A.val.obj (op P)) := φ.hom.toAlgebra
-  have : IsScalarTower (E.A.val.obj (op R))
-      (E.A.val.obj (op R) ⊗[E.A.val.obj (op T)] E.A.val.obj (op R'))
-      (E.A.val.obj (op P)) :=
+  let : Algebra (E.A.obj.obj (op R) ⊗[E.A.obj.obj (op T)] E.A.obj.obj (op R'))
+      (E.A.obj.obj (op P)) := φ.hom.toAlgebra
+  have : IsScalarTower (E.A.obj.obj (op R))
+      (E.A.obj.obj (op R) ⊗[E.A.obj.obj (op T)] E.A.obj.obj (op R'))
+      (E.A.obj.obj (op P)) :=
     IsScalarTower.of_algebraMap_eq fun x =>
-      (congrArg (fun k : E.A.val.obj (op R) ⟶ E.A.val.obj (op P) => k.hom x) hφl).symm
+      (congrArg (fun k : E.A.obj.obj (op R) ⟶ E.A.obj.obj (op P) => k.hom x) hφl).symm
   have : Algebra.FormallyEtale
-      (E.A.val.obj (op R) ⊗[E.A.val.obj (op T)] E.A.val.obj (op R'))
-      (E.A.val.obj (op P)) :=
-    Algebra.FormallyEtale.of_restrictScalars (R := E.A.val.obj (op R))
+      (E.A.obj.obj (op R) ⊗[E.A.obj.obj (op T)] E.A.obj.obj (op R'))
+      (E.A.obj.obj (op P)) :=
+    Algebra.FormallyEtale.of_restrictScalars (R := E.A.obj.obj (op R))
   -- Both sides reduce onto `𝒪_X(P)`, the tensor product through the descended arrow `q`.
   have hC := isPushout_π_app_cospan_of_isAffine B S hS E hpb hT hR hR'
     (RingHom.algebraMap_toAlgebra _)
   obtain ⟨q, hql, hqr⟩ := hPt.exists_desc
-    (E.π.hom.app (op R) ≫ (smallEtaleRingedTopos B S hS X).O.val.map a.op)
-    (E.A.val.map b.op ≫ E.π.hom.app (op P)) (by rw [← Category.assoc]; exact hC.w)
+    (E.π.hom.app (op R) ≫ (smallEtaleRingedTopos B S hS X).O.obj.map a.op)
+    (E.A.obj.map b.op ≫ E.π.hom.app (op P)) (by rw [← Category.assoc]; exact hC.w)
   have hQ : IsPushout (E.π.hom.app (op R))
       (CommRingCat.ofHom (Algebra.TensorProduct.includeLeftRingHom
-        (R := E.A.val.obj (op T)) (A := E.A.val.obj (op R)) (B := E.A.val.obj (op R'))))
-      ((smallEtaleRingedTopos B S hS X).O.val.map a.op) q :=
+        (R := E.A.obj.obj (op T)) (A := E.A.obj.obj (op R)) (B := E.A.obj.obj (op R'))))
+      ((smallEtaleRingedTopos B S hS X).O.obj.map a.op) q :=
     IsPushout.of_left (by rw [hqr]; exact hC) hql.symm hPt
   have hπR : Function.Surjective (E.π.hom.app (op R)).hom :=
     surjective_π_app_of_isAffine B S hS E R hR
   have hφq : φ ≫ E.π.hom.app (op P) = q :=
     hPt.hom_ext (by rw [← Category.assoc, hφl, hql]; exact E.π.hom.naturality a.op)
       (by rw [← Category.assoc, hφr, hqr])
-  have hcomp : φ.hom.comp (algebraMap (E.A.val.obj (op R))
-      (E.A.val.obj (op R) ⊗[E.A.val.obj (op T)] E.A.val.obj (op R'))) =
-      (E.A.val.map a.op).hom :=
+  have hcomp : φ.hom.comp (algebraMap (E.A.obj.obj (op R))
+      (E.A.obj.obj (op R) ⊗[E.A.obj.obj (op T)] E.A.obj.obj (op R'))) =
+      (E.A.obj.map a.op).hom :=
     congrArg CommRingCat.Hom.hom hφl
   -- Hence the comparison is bijective modulo a nilpotent ideal, hence bijective.
   have hbij : Function.Bijective φ.hom :=
     Stacks.Etale.bijective_algebraMap_of_formallyEtale_of_bijective_quotientMap
       ((RingHom.ker (E.π.hom.app (op R)).hom).map
-        (algebraMap (E.A.val.obj (op R))
-          (E.A.val.obj (op R) ⊗[E.A.val.obj (op T)] E.A.val.obj (op R'))))
+        (algebraMap (E.A.obj.obj (op R))
+          (E.A.obj.obj (op R) ⊗[E.A.obj.obj (op T)] E.A.obj.obj (op R'))))
       ⟨2, by rw [← Ideal.map_pow, ker_pow_two_eq_bot B S hS E (op R), Ideal.map_bot,
         Submodule.zero_eq_bot]⟩
       (Stacks.Etale.bijective_quotientMap_of_comp_surjective φ.hom

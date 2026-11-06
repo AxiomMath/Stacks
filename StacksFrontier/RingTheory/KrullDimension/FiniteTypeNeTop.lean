@@ -23,5 +23,6 @@ theorem ringKrullDim_ne_top_of_finiteType {κ A : Type*} [Field κ] [CommRing A]
   rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field,
     zero_add] at h
   refine ne_top_of_le_ne_top ?_ h
+  rw [ENat.card_eq_coe_natCard]
   change ((Nat.card ι : ℕ∞) : WithBot ℕ∞) ≠ ((⊤ : ℕ∞) : WithBot ℕ∞)
   exact fun he ↦ ENat.natCast_ne_top _ (WithBot.coe_eq_coe.mp he)

@@ -164,6 +164,7 @@ instance epi_baseChangeModuleMap_comp_quotientProjection (T : SchemesOver D.Y)
   @epi_comp _ _ _ _ _ _ (D.epi_baseChangeModuleMap (hG := hG) φ T) _
     ((D.withModule G hG).epi_quotientProjection T L)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The kernel of the quotient `F_T ⟶ G_T ⟶ G_T/L` of `F_T` induced by a quotient of `G_T`. -/
 def quotientSubobject (T : SchemesOver D.Y)
     (L : Subobject ((D.withModule G hG).baseChangeModule T)) :
@@ -213,7 +214,9 @@ theorem quotientSubobject_injective (T : SchemesOver D.Y) :
   rw [← kernelSubobject_cokernel_π L, ← kernelSubobject_cokernel_π L']
   show kernelSubobject ((D.withModule G hG).quotientProjection T L) =
     kernelSubobject ((D.withModule G hG).quotientProjection T L')
-  rw [← he', kernelSubobject_comp_mono]
+  have : Mono e.hom := ⟨fun g h w => by
+    simpa only [Category.assoc, Iso.hom_inv_id, Category.comp_id] using congrArg (· ≫ e.inv) w⟩
+  rw [← he', kernelSubobject_comp_mono _ e.hom]
 
 /-! ### The image locus -/
 

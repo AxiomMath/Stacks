@@ -72,7 +72,6 @@ namespace Deformation.Artin
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.ChoiceOfPullbacks.pullbackFunctor
-  CategoryTheory.Under.post
 
 /-! ### Composing the transition with a pullback along a module map -/
 

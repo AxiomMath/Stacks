@@ -143,11 +143,10 @@ coefficients of the corresponding polynomial. -/
 theorem basisSymmetricPower_repr_apply (b : Basis κ R M) (n : ℕ)
     (x : SymPow.symmetricPower n R M) (d : {d : κ →₀ ℕ | Finsupp.degree d = n}) :
     (SymPow.basisSymmetricPower b n).repr x d =
-      MvPolynomial.coeff (d : κ →₀ ℕ)
-        (SymmetricAlgebra.equivMvPolynomial b (x : SymmetricAlgebra R M)) := by
+      (SymmetricAlgebra.equivMvPolynomial b (x : SymmetricAlgebra R M)).coeff
+        (d : κ →₀ ℕ) := by
   simp [SymPow.basisSymmetricPower, MvPolynomial.basisHomogeneousSubmodule,
     MvPolynomial.homogeneousSubmoduleEquivFinsupp, coe_symmetricPowerEquivHomogeneousSubmodule]
-  rfl
 
 /-- **Base change of a symmetric power transports monomial coordinates along the ring
 homomorphism.** -/

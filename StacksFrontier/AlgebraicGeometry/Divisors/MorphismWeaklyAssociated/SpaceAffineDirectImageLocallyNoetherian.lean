@@ -40,6 +40,17 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_SpaceAffineDirectImageLocallyNoetherian :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_SpaceAffineDirectImageLocallyNoetherian
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Let `f : X ⟶ Y` be an affine morphism of algebraic spaces over `S` and let `F` be a
 quasi-coherent `𝒪_X`-module. If `X` is locally Noetherian, then the weakly associated points of
 `f_*F` are exactly the images of the weakly associated points of `F`. -/

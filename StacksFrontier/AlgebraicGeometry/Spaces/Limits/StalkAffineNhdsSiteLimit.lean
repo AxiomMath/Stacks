@@ -211,7 +211,7 @@ schemes.** -/
 noncomputable def isLimitMapConeSpecStalkSiteCone :
     IsLimit ((BigFppfOver.toScheme B S hS).mapCone (specStalkSiteCone B S hS s)) :=
   IsLimit.ofIsoLimit (isLimitSpecStalkCone S s)
-    (Cones.ext (Iso.refl _) fun _ => (Category.id_comp _).symm)
+    (Cone.ext (Iso.refl _) fun _ => (Category.id_comp _).symm)
 
 /-! ### Objects of the site whose structure morphism is a monomorphism -/
 

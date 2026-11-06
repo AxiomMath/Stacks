@@ -29,7 +29,7 @@ variable {C D M : Type*} [Category C] [Category D] [Category M]
 lemma bijective_comp_π {ι : Type*} (F : ι → C) [HasProduct F] (X : C) :
     Function.Bijective (fun φ : X ⟶ ∏ᶜ F => fun i => φ ≫ Pi.π F i) :=
   ⟨fun _ _ h => Pi.hom_ext _ _ fun i => congrFun h i,
-    fun g => ⟨Pi.lift g, funext fun i => Pi.lift_π g i⟩⟩
+    fun g => ⟨Pi.lift g, funext fun i => Pi.lift_comp_π g i⟩⟩
 
 /-- If `A` preserves the product of `N`, then `φ ↦ (φ ≫ A (π i))ᵢ` is bijective on morphisms
 into `A (∏ N)`. -/

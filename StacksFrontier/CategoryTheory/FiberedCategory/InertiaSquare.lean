@@ -121,8 +121,8 @@ because `F α = id` and `p' ∘ F = p` force `α` to lie over an identity. -/
 @[simps]
 def comparison : RelativeInertia F ⥤ RelativeInertia p where
   obj A := ⟨A.obj, A.auto, by
-    have h := Functor.congr_hom hF.symm A.auto.hom
-    have hid : (F ⋙ p').map A.auto.hom = 𝟙 ((F ⋙ p').obj A.obj) := by
+    have h := Functor.congr_hom hF.symm A.auto.asIso.hom
+    have hid : (F ⋙ p').map A.auto.asIso.hom = 𝟙 ((F ⋙ p').obj A.obj) := by
       simp [A.cond]
     rw [h, hid]
     simp⟩
@@ -131,8 +131,8 @@ def comparison : RelativeInertia F ⥤ RelativeInertia p where
 /-- The functoriality 1-morphism `I_F : I_S ⥤ I_{S'}`, `(x, α) ↦ (F x, F α)`. -/
 @[simps]
 def functoriality : RelativeInertia p ⥤ RelativeInertia p' where
-  obj A := ⟨F.obj A.obj, F.mapIso A.auto, by
-    have h := Functor.congr_hom hF A.auto.hom
+  obj A := ⟨F.obj A.obj, .of (F.mapIso A.auto.asIso), by
+    have h := Functor.congr_hom hF A.auto.asIso.hom
     simp only [Functor.comp_map] at h
     rw [Functor.mapIso_hom, h, A.cond]
     simp⟩
@@ -240,13 +240,13 @@ The gluing datum `f : e(x') ≅ I_F (x, α)` is an isomorphism of `I_{S'}`, so i
 field reads `f.hom = f.hom ≫ F α`, and `f.hom` is a split monomorphism because `f` is an
 isomorphism; cancelling gives `F α = id`. -/
 lemma map_auto_eq_id (P : FibreProduct p p' F hF) :
-    F.map P.y.auto.hom = 𝟙 (F.obj P.y.obj) := by
+    F.map P.y.auto.asIso.hom = 𝟙 (F.obj P.y.obj) := by
   -- The underlying morphisms of the gluing datum, with their endpoints spelled `P.x` and
   -- `F.obj P.y.obj` rather than as objects of the inertia, so that the cancellation below is
   -- an identity between morphisms of `S'` whose types agree on the nose.
   obtain ⟨e, einv, hinv_id, hcomm⟩ :
       ∃ (e : P.x ⟶ F.obj P.y.obj) (einv : F.obj P.y.obj ⟶ P.x),
-        einv ≫ e = 𝟙 (F.obj P.y.obj) ∧ e ≫ F.map P.y.auto.hom = 𝟙 P.x ≫ e :=
+        einv ≫ e = 𝟙 (F.obj P.y.obj) ∧ e ≫ F.map P.y.auto.asIso.hom = 𝟙 P.x ≫ e :=
     ⟨P.iso.hom.hom, P.iso.inv.hom, congrArg RelativeInertiaHom.hom P.iso.inv_hom_id,
       P.iso.hom.comm⟩
   simpa [reassoc_of% hinv_id, hinv_id] using congrArg (einv ≫ ·) hcomm

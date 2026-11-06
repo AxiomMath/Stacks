@@ -89,6 +89,17 @@ private theorem isOpen_setOf_forall_eq_imp_mem_range {P Y Z : Type*} [Topologica
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_flatLocusOnBase :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_flatLocusOnBase
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_flatLocusOnBase B S hS).has_limit _
+
 variable {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-! ### The flat locus on the base, Stacks 05XB -/

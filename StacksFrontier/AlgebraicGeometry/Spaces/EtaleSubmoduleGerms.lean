@@ -179,25 +179,25 @@ theorem mem_of_forall_germ_mem_etaleGermSet
     (ConcreteCategory.bijective_of_isIso
       ((restrictionPresheafFiberIso (A := Type u) B S hS g hg t).app P).hom).1
       ((hι V w s).trans (he.symm.trans (hι V' w' n).symm))
-  obtain ⟨⟨V₀, w₀⟩, a, b, -⟩ := IsCofilteredOrEmpty.cone_objs
-    (C := Φ.fiber.Elements) ⟨V, w⟩ ⟨V', w'⟩
-  have ha := Φ.toPresheafFiber_w_apply a.1 w₀ ((smallEtalePostcomp B S hS g hg).op ⋙ P) s
-  have hb := Φ.toPresheafFiber_w_apply b.1 w₀ ((smallEtalePostcomp B S hS g hg).op ⋙ P) n
-  rw [a.2] at ha
-  rw [b.2] at hb
+  obtain ⟨E₀, a, b, -⟩ := IsCofilteredOrEmpty.cone_objs
+    (C := Φ.fiber.Elements) (Φ.fiber.elementsMk V w) (Φ.fiber.elementsMk V' w')
+  have ha := Φ.toPresheafFiber_w_apply a.hom E₀.val ((smallEtalePostcomp B S hS g hg).op ⋙ P) s
+  have hb := Φ.toPresheafFiber_w_apply b.hom E₀.val ((smallEtalePostcomp B S hS g hg).op ⋙ P) n
+  rw [a.map_val] at ha
+  rw [b.map_val] at hb
   rw [← ha, ← hb] at heq
-  obtain ⟨V₁, c, w₁, hc, hcs⟩ := (Φ.toPresheafFiber_eq_iff' V₀ w₀ _ _).1 heq
-  refine ⟨V₁, c ≫ a.1, w₁, ?_, ?_⟩
-  · show Φ.fiber.map (c ≫ a.1) w₁ = w
-    rw [Functor.map_comp, types_comp_apply, hc, a.2]
-  · have e : ((etaleModulePullback.{u, u} B S hS g hg).obj M).val.map (c ≫ a.1).op s =
-        ((etaleModulePullback.{u, u} B S hS g hg).obj M).val.map (c ≫ b.1).op n := by
+  obtain ⟨V₁, c, w₁, hc, hcs⟩ := (Φ.toPresheafFiber_eq_iff' E₀.obj E₀.val _ _).1 heq
+  refine ⟨V₁, c ≫ a.hom, w₁, ?_, ?_⟩
+  · show Φ.fiber.map (c ≫ a.hom) w₁ = w
+    rw [Functor.map_comp, types_comp_apply, hc, a.map_val]
+  · have e : ((etaleModulePullback.{u, u} B S hS g hg).obj M).val.map (c ≫ a.hom).op s =
+        ((etaleModulePullback.{u, u} B S hS g hg).obj M).val.map (c ≫ b.hom).op n := by
       simp only [Functor.comp_map] at hcs
       let MY := ((etaleModulePullback.{u, u} B S hS g hg).obj M).val
-      exact (PresheafOfModules.map_comp_apply MY a.1.op c.op s).trans
-        (hcs.trans (PresheafOfModules.map_comp_apply MY b.1.op c.op n).symm)
+      exact (PresheafOfModules.map_comp_apply MY a.hom.op c.op s).trans
+        (hcs.trans (PresheafOfModules.map_comp_apply MY b.hom.op c.op n).symm)
     rw [e]
-    exact N.map_mem (c ≫ b.1).op hn
+    exact N.map_mem (c ≫ b.hom).op hn
 
 /-- A lift `t'` along `k : Y' ⟶ Y` of the geometric point attached to a lift `t` along `g` is a
 lift along the composite `k ≫ g`. -/

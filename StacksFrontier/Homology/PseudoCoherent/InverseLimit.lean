@@ -138,9 +138,9 @@ theorem isIso_derivedTensorProductComparison_nat
     intro n
     have heFE : eFE.inv ≫ Pi.π (fun n => F.obj (S.obj (M n))) n =
         Pi.π (fun a => F.obj (EU a)) (ULift.up n) :=
-      Pi.lift_π _ _
+      Pi.lift_comp_π _ _
     have heE : eE.hom ≫ Pi.π EU (ULift.up n) = Pi.π (fun n => S.obj (M n)) n :=
-      Pi.lift_π _ _
+      Pi.lift_comp_π _ _
     have hcUπ : cU ≫ Pi.π (fun a => F.obj (EU a)) (ULift.up n) =
         F.map (Pi.π EU (ULift.up n)) := by
       simpa [cU, F] using derivedTensorProductComparison_π R T K EU (ULift.up n)
@@ -166,8 +166,8 @@ theorem derivedTensorProductComparison_milnorMap
   apply Pi.hom_ext
   intro n
   rw [Category.assoc, derivedTensorProductComparison_π, ← F.map_comp]
-  simp only [milnorMap, Pi.lift_π, F.map_sub, F.map_comp]
-  rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub,
+  simp only [milnorMap, Pi.lift_comp_π, F.map_sub, F.map_comp]
+  rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub,
     derivedTensorProductComparison_π, derivedTensorProductComparison_π_assoc]
 
 /-- **Stacks Project, Tag 0D2L.** Let `K` be pseudo-coherent and `(Mₙ)` an inverse

@@ -132,7 +132,7 @@ theorem isLocallyInjective_differentialsSheafifyUnit (f : X ⟶ Y) :
         (differentialsSheafifyUnit B S hS f)) := by
   rw [toPresheaf_differentialsSheafifyUnit B S hS f]
   exact ((smallEtaleRingedSite B S hS X.1 X.2).J.W_toSheafify (A := AddCommGrpCat.{u})
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
       (structureSharpInverseImage B S hS f).hom).presheaf).isLocallyInjective
 
 /-- **The vanishing of `Ω_{X/Y}` is the local vanishing of the Kähler differentials of the chart
@@ -166,14 +166,14 @@ theorem isZero_sheafOfDifferentials_iff_locally_kaehlerDifferential_eq_zero (f :
         (((isZero_sheafOfDifferentials_iff B S hS f).mp hzero (op W) c).trans (map_zero _).symm)
     refine ⟨_, (isLocallyInjective_differentialsSheafifyUnit B S hS f).equalizerSieve_mem
       _ _ hunit, fun Bo g hg ↦ ?_⟩
-    have hg' : ((PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+    have hg' : ((PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
             (structureSharpInverseImage B S hS f).hom).map g.op).hom
           (CommRingCat.KaehlerDifferential.d
             (f := (structureSharpInverseImage B S hS f).hom.app (op W)) c) =
-        ((PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+        ((PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
             (structureSharpInverseImage B S hS f).hom).map g.op).hom 0 := hg
     rw [map_zero] at hg'
-    exact (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d
+    exact (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
       (structureSharpInverseImage B S hS f).hom g.op c).symm.trans hg'
   · intro hloc
     refine (isZero_sheafOfDifferentials_iff B S hS f).mpr ?_

@@ -79,7 +79,7 @@ is the canonical map for `α|_V`. Both are compared on sections, where each is t
 theorem tensorUnitMap_over (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :
     (SheafOfModules.overFunctor _ V).map (tensorUnitMap α M).val ≫
         (Stacks.SheafOfModules.TensorPower.overTensorSheafIso O.obj
-          (Stacks.SheafOfModules.Tensor.ringSheaf O).cond V M
+          (Stacks.SheafOfModules.Tensor.ringSheaf O).property V M
           (RestrictedRingModule α)).hom =
       (tensorUnitMap (overRingHom α V) (M.over V)).val := by
   apply (SheafOfModules.fullyFaithfulForget _).map_injective

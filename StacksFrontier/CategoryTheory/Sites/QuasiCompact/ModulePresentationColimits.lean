@@ -148,6 +148,17 @@ local instance (J : GrothendieckTopology C) [UnivLE.{u₁, t}] [UnivLE.{v₁, t}
     J.WEqualsLocallyBijective AddCommGrpCat.{t} :=
   GrothendieckTopology.WEqualsLocallyBijective.ofEssentiallySmall.{v₁, t, u₁, t + 1, t} J
 
+/-- Presheaves of modules with values in `t` have coproducts indexed by `t`-small types. -/
+local instance (R : Sheaf J RingCat.{w}) (K : Type t) :
+    HasColimitsOfShape (Discrete K) (PresheafOfModules.{t} R.obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
+/-- Sheaves of modules with values in `t` have coproducts indexed by `t`-small types. -/
+local instance (R : Sheaf J RingCat.{w}) [UnivLE.{u₁, t}] [UnivLE.{v₁, t}] (K : Type t) :
+    HasColimitsOfShape (Discrete K) (SheafOfModules.{t} R) :=
+  @SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf
+    _ _ _ R _ _ _ _ (PresheafOfModules.hasColimitsOfShape _ _)
+
 /-- Extension by zero of the restricted ring, with module values lifted into a universe
 large enough for sheafification and the subsequent colimit constructions. -/
 noncomputable def extensionByZeroUnit (R : Sheaf J RingCat.{w}) (U : C) :

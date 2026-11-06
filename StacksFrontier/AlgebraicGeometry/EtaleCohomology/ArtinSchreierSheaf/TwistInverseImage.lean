@@ -88,8 +88,8 @@ public theorem representationCoefficientSheafInverseImageIso_hom_act
     (G : LAdicSheaf.CoefficientSheaf B Y ℓ O)
     (hG : G = representationCoefficientSheaf B Y y ρ' hρ' μ hμ') (o : O) :
     (representationCoefficientSheafInverseImageIso B f y ρ hρ μ hμ ρ' hρ' hμ' h F hF G hG).hom ≫
-        G.act o =
-      (LAdicSheaf.CoefficientSheaf.inverseImage f F).act o ≫
+        (G.act o).asHom =
+      ((LAdicSheaf.CoefficientSheaf.inverseImage f F).act o).asHom ≫
         (representationCoefficientSheafInverseImageIso B f y ρ hρ μ hμ ρ' hρ' hμ' h
           F hF G hG).hom := by
   subst hF hG h
@@ -217,12 +217,12 @@ public theorem artinSchreierTwistSheafInverseImageIso_eq :
 /-- **The isomorphism `(Spec φ)⁻¹(ℱ_ρ ⊗ L_ψ(g)) ≅ ℱ_{ρ ∘ φ_*} ⊗ L_ψ(φ(g))` is `O`-linear.** -/
 public theorem artinSchreierTwistSheafInverseImageIso_hom_act (o : O) :
     (artinSchreierTwistSheafInverseImageIso k g φ ψ B hX hY b y p₀ p₀' ρ hρ).hom ≫
-        (artinSchreierTwistSheaf k A' (φ g) ψ B hY b y p₀'
+        ((artinSchreierTwistSheaf k A' (φ g) ψ B hY b y p₀'
           (ρ.comp
             (etaleFundamentalGroupMap (Spec.map (CommRingCat.ofHom φ.toRingHom)) y).toMonoidHom)
-          (continuous_restrictScalarsRepresentation_comp_map k φ B hX hY b y ρ hρ)).act o =
-      (LAdicSheaf.CoefficientSheaf.inverseImage φS
-          (artinSchreierTwistSheaf k A g ψ B hX b _ p₀ ρ hρ)).act o ≫
+          (continuous_restrictScalarsRepresentation_comp_map k φ B hX hY b y ρ hρ)).act o).asHom =
+      ((LAdicSheaf.CoefficientSheaf.inverseImage φS
+          (artinSchreierTwistSheaf k A g ψ B hX b _ p₀ ρ hρ)).act o).asHom ≫
         (artinSchreierTwistSheafInverseImageIso k g φ ψ B hX hY b y p₀ p₀' ρ hρ).hom := by
   rw [artinSchreierTwistSheafInverseImageIso_eq]
   exact representationCoefficientSheafInverseImageIso_hom_act B φS y _ _ _ _ _ _ _ _ _ _ _ _ o

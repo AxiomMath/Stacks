@@ -136,7 +136,7 @@ end
 def sectionSmul (r : O.obj (op (⊤_ C)))
     (M : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)) : M ⟶ M :=
   (terminalSectionToEnd (TensorSheafification.structureSheaf O hO) (⊤_ C) terminalIsTerminal
-    r).app M
+    r).asHom.app M
 
 omit [J.WEqualsLocallyBijective AddCommGrpCat] [HasWeakSheafify J AddCommGrpCat] in
 /-- On sections over `U`, multiplication by a global section is multiplication by its
@@ -296,7 +296,7 @@ theorem comp_sectionSmul (r : O.obj (op (⊤_ C)))
     {M N : SheafOfModules.{w} (TensorSheafification.structureSheaf O hO)} (φ : M ⟶ N) :
     φ ≫ sectionSmul O hO r N = sectionSmul O hO r M ≫ φ :=
   (terminalSectionToEnd (TensorSheafification.structureSheaf O hO) (⊤_ C) terminalIsTerminal
-    r).naturality φ
+    r).asHom.naturality φ
 
 end Stacks.TwistActionLinear
 

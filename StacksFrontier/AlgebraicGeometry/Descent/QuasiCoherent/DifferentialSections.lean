@@ -174,7 +174,6 @@ lemma differentialSectionsMap_id {S : Scheme.{u}} (T : Over S) :
     Functor.id_obj, Functor.op_obj]
   convert (Scheme.Hom.relativeDifferentials T.hom).presheaf.map_id
     (op (⊤ : T.left.Opens)) using 1
-  congr 1
 
 /-- The map on global sections of relative differentials induced by a composite is the
 composite of the induced maps. -/

@@ -96,7 +96,7 @@ theorem small_sheafify_obj_of_essentiallySmall (G : Subfunctor F)
     rw [← h₂]
     rfl
   have h₄ := congrArg (F.map i.inv.op) h₃
-  simp only [← FunctorToTypes.map_comp_apply, ← op_comp] at h₄
+  simp only [← Functor.map_comp_apply, ← op_comp] at h₄
   rwa [Iso.inv_hom_id_assoc] at h₄
 
 end Smallness

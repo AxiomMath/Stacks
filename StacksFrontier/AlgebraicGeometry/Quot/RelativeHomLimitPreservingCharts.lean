@@ -68,6 +68,17 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_relativeHomLimitPreservingCharts :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_relativeHomLimitPreservingCharts
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (a : P ⟶ R) (b : Q ⟶ R) :
+    HasLimit (cospan a b) :=
+  (hasPullbacks_presheaf_relativeHomLimitPreservingCharts (B := B) (S := S) (hS := hS)).has_limit _
+
 /-! ### The base change of a chart along the test schemes -/
 
 namespace HomSituation

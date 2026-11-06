@@ -248,7 +248,7 @@ private lemma exists_ringKrullDim_eq_nat
   obtain ⟨ι, hι, f, hf⟩ := Algebra.FiniteType.iff_quotient_mvPolynomial'.mp
     (inferInstance : Algebra.FiniteType k R)
   have h := ringKrullDim_le_of_surjective f.toRingHom hf
-  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing,
+  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite,
     ringKrullDim_eq_zero_of_field, zero_add] at h
   have htop : ringKrullDim R ≠ ⊤ :=
     ne_top_of_le_ne_top (fun he ↦ ENat.natCast_ne_top _ (WithBot.coe_eq_coe.mp he)) h

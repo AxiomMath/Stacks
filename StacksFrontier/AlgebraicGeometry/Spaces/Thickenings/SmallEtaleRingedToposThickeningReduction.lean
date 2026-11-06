@@ -345,7 +345,7 @@ theorem isEquivalence_and_isIso_of_comp_eq {Z Z' Zr Zr' : AlgebraicSpaces B S hS
     have hsep := ((isSheaf_iff_isSheaf_of_type _ _).mp
       ((smallEtaleRingedTopos B S hS Z').forgetRing.obj
         ((pushforwardCommRingFunctor (smallEtaleRingedToposHom B S hS r').toToposHom).obj
-          (smallEtaleRingedTopos B S hS Zr').O)).cond).isSeparated T hT
+          (smallEtaleRingedTopos B S hS Zr').O)).property).isSeparated T hT
     refine hsep.ext fun W p hp => ?_
     refine (hredsec W _ (hTx p hp)).trans ?_
     exact (map_zero ((((pushforwardCommRingFunctor

@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Algebra.Category.Grp.AB
 public import Mathlib.CategoryTheory.Functor.Flat
+public import Mathlib.CategoryTheory.Sites.Limits
 public import Mathlib.CategoryTheory.Sites.Pullback
 public import StacksFrontier.RingTheory.Ideal.AssociatedPrime.Colimits
 

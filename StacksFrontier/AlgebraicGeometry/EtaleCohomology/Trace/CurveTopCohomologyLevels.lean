@@ -100,8 +100,8 @@ def integralCoinvariantsLevelMap (n : ℕ) :
       (ModuleCat.restrictScalars.{u + 1} (PadicInt.toZModPow (n + 1))).obj
         (ModuleCat.of (ZMod (ℓ ^ (n + 1))) (ULift.{u + 1} (levelCoinvariants H ρ (n + 1)))) where
   toFun x := ULift.up (integralCoinvariantsReduction H ρ (n + 1) x.down)
-  map_add' x y := ULift.ext _ _ (map_add (integralCoinvariantsReduction H ρ (n + 1)) x.down y.down)
-  map_smul' c x := ULift.ext _ _
+  map_add' x y := ULift.ext (map_add (integralCoinvariantsReduction H ρ (n + 1)) x.down y.down)
+  map_smul' c x := ULift.ext
     (LinearMap.map_smulₛₗ (integralCoinvariantsReduction H ρ (n + 1)) c x.down)
 
 omit [H.Normal] in
@@ -121,7 +121,7 @@ theorem ker_integralCoinvariantsLevelMap (n : ℕ) :
     ULift.moduleEquiv
   have : LinearMap.ker (integralCoinvariantsLevelMap ℓ H ρ n) =
       (LinearMap.ker (integralCoinvariantsReduction H ρ (n + 1))).comap eU.toLinearMap :=
-    Submodule.ext fun x => ⟨fun h => congrArg ULift.down h, fun h => ULift.ext _ _ h⟩
+    Submodule.ext fun x => ⟨fun h => congrArg ULift.down h, fun h => ULift.ext h⟩
   rw [this, ker_integralCoinvariantsReduction', Submodule.comap_equiv_eq_map_symm,
     Submodule.map_smul'', Submodule.map_top, LinearEquiv.range]
 
@@ -130,7 +130,7 @@ omit [H.Normal] in
 theorem surjective_integralCoinvariantsLevelMap (n : ℕ) :
     Function.Surjective (integralCoinvariantsLevelMap ℓ H ρ n) := fun y => by
   obtain ⟨x, hx⟩ := surjective_integralCoinvariantsReduction H ρ (n + 1) y.down
-  exact ⟨ULift.up x, ULift.ext _ _ hx⟩
+  exact ⟨ULift.up x, ULift.ext hx⟩
 
 /-- **`(ℤ_ℓ^r)_H / ℓ^{n+1} ≅ ((ℤ/ℓ^{n+1})^r)_H`.** -/
 def integralCoinvariantsQuotientEquiv (n : ℕ) :

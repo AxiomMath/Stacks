@@ -80,7 +80,7 @@ the pure differential `1 ⊗ d p` to `1 ⊗ d (g p)` — downstairs by
 `CommAlgCat.overDifferentialsPush_mk`, upstairs by `ModuleCat.ExtendScalars.map_tmul`,
 `CommAlgCat.atiyahDifferentialsSectionsIso_inv_D`,
 `Stacks.PresheafOfModules.ChangeOfRings.cofMap_tmul`,
-`PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d` and
+`PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d` and
 `CommAlgCat.atiyahDifferentialsSectionsIso_hom_d` in turn. Since naturality is stated for every
 element, the extensionality step is `CategoryTheory.ConcreteCategory.hom_ext`, and no
 extensionality principle for a scalar extension is needed.
@@ -279,7 +279,7 @@ lemma atiyahDifferentialsBaseChangeObjIso_naturality {V W : (atiyahSite A B)ᵒ�
       (ConcreteCategory.congr_arg
         (ModuleCat.ExtendRestrictScalarsAdj.Unit.map.{u + 1, u + 1, u + 1}
           ((atiyahAugmentationComm A B).hom.app W).hom)
-        (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
           (atiyahBaseHom A B).hom g (ULift.up p)))
   have step3 := extendScalars_map_one_tmul ((atiyahAugmentationComm A B).hom.app W).hom
     (atiyahDifferentialsSectionsIso A B W).hom

@@ -940,7 +940,7 @@ theorem augmentation_exact (H : Sheaf J AddCommGrpCat.{max u v})
   have glue (W : P.FullSubcategory) : ∃ t : H.obj.obj (op W.obj), ∀ (Z : C) (g : Z ⟶ W.obj)
       (c : ProHom T 0 Z), H.obj.map g.op t = c.eval H.obj x := by
     have hsh := ((isSheaf_iff_isSheaf_of_type _ _).1
-      ((sheafCompose J (forget AddCommGrpCat.{max u v})).obj H).cond) (reachSieve T W.obj)
+      ((sheafCompose J (forget AddCommGrpCat.{max u v})).obj H).property) (reachSieve T W.obj)
       (reachSieve_mem hP h𝒜 hT₁ W.property)
     let fam : Presieve.FamilyOfElements (H.obj ⋙ forget AddCommGrpCat.{max u v})
         (reachSieve T W.obj).arrows := fun Z _ hg => (Classical.choice hg).eval H.obj x

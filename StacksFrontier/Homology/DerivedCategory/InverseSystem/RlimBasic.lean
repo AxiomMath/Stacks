@@ -103,7 +103,7 @@ public theorem delta_comp_π (A : InvSystemAb.{u}) (n : ℕ) :
       Pi.lift fun n ↦ Pi.π (fun n : ℕ ↦ A.obj (Opposite.op n)) (n + 1) ≫
         A.map (homOfLE (Nat.le_succ n)).op) ≫
       Pi.π (fun n : ℕ ↦ A.obj (Opposite.op n)) n = _
-  rw [Preadditive.sub_comp, Category.id_comp, Pi.lift_π]
+  rw [Preadditive.sub_comp, Category.id_comp, Pi.lift_comp_π]
 
 /-- The product differential written as a single `Pi.lift`. -/
 public theorem delta_eq_lift (A : InvSystemAb.{u}) :
@@ -111,14 +111,14 @@ public theorem delta_eq_lift (A : InvSystemAb.{u}) :
       Pi.π (fun n : ℕ ↦ A.obj (Opposite.op n)) n -
         Pi.π (fun n : ℕ ↦ A.obj (Opposite.op n)) (n + 1) ≫
           A.map (homOfLE (Nat.le_succ n)).op :=
-  Pi.hom_ext _ _ fun n ↦ by rw [delta_comp_π, Pi.lift_π]
+  Pi.hom_ext _ _ fun n ↦ by rw [delta_comp_π, Pi.lift_comp_π]
 
 /-- The `n`-th projection of the canonical map from the limit to the product is the `n`-th limit
 projection. -/
 @[simp]
 public theorem limitToProduct_comp_π (A : InvSystemAb.{u}) (n : ℕ) :
     limitToProduct A ≫ Pi.π (fun n : ℕ ↦ A.obj (Opposite.op n)) n = limit.π A (Opposite.op n) :=
-  Pi.lift_π _ n
+  Pi.lift_comp_π _ n
 
 /-- The canonical map from the inverse limit into the product of the terms is a monomorphism. -/
 public theorem limitToProduct_mono (A : InvSystemAb.{u}) : Mono (limitToProduct A) where
@@ -151,7 +151,7 @@ public theorem exists_limit_iso_kernel_delta (A : InvSystemAb.{u}) :
         A.map (homOfLE (Nat.le_succ n)).op := by
     have h := congrArg (fun f ↦ f ≫ Pi.π (fun n : ℕ ↦ A.obj (Opposite.op n)) n)
       (kernel.condition (delta A))
-    simpa only [Category.assoc, delta_eq_lift, Pi.lift_π, Preadditive.comp_sub,
+    simpa only [Category.assoc, delta_eq_lift, Pi.lift_comp_π, Preadditive.comp_sub,
       zero_comp, sub_eq_zero] using h
   let c : Cone A :=
     ⟨kernel (delta A), NatTrans.ofOpSequence

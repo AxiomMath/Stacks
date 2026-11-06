@@ -283,7 +283,7 @@ noncomputable def derivationOfPushforward
     (d_mul : ∀ (X : Dᵒᵖ) (a b : R.obj X), d X (a * b) = a • d X b + b • d X a)
     (d_map : ∀ {X Y : Dᵒᵖ} (f : X ⟶ Y) (a : R.obj X), d Y (R.map f a) = M.map f (d X a))
     (d_app : ∀ (X : Cᵒᵖ) (s : S'.obj X), d (F.op.obj X) (φ.app X (ψ'.app X s)) = 0) :
-    ((PresheafOfModules.pushforward φ).obj M).Derivation' ψ' where
+    PresheafOfModulesOfCommRing.Derivation' ((PresheafOfModules.pushforward φ).obj M) ψ' where
   d {X} := (d (F.op.obj X)).comp (φ.app X).hom.toAddMonoidHom
   d_mul {X} a b := by
     change d (F.op.obj X) (φ.app X (a * b)) = φ.app X a • d (F.op.obj X) (φ.app X b) +
@@ -618,7 +618,7 @@ theorem schemeEtaleDifferential_structureSharp
 derivation relative to `ψ`.**  On an étale chart `W` of `U` it sends a regular function to its
 differential in `Γ(W, W.hom^*Ω_{U/V})`, and it kills the functions coming from `V`. -/
 noncomputable def schemeSpaceDifferentialsDerivation :
-    (schemeSpaceDifferentialsPresheaf B S hS ψ).Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (schemeSpaceDifferentialsPresheaf B S hS ψ)
       (structureSharpInverseImage B S hS (schemeSpaceMap ψ)).hom :=
   PresheafOfModules.derivationOfPushforward (representedSmallEtaleEquivalence B S hS U).functor
     (R := (schemeToOver B S hS ⋙ Over.forget _).op ⋙ Scheme.Γ)
@@ -641,9 +641,9 @@ theorem schemeSpaceDifferentialsDerivation_d_eq_zero
   obtain ⟨g, hg, -⟩ := universalDerivation_isUniversal B S hS (schemeSpaceMap ψ)
     (schemeSpaceDifferentialsModule B S hS ψ) (schemeSpaceDifferentialsDerivation B S hS ψ)
   have h0 := (isZero_sheafOfDifferentials_iff B S hS (schemeSpaceMap ψ)).mp hz (op W) a
-  have h1 := PresheafOfModules.Derivation.congr_d hg (X := op W) a
+  have h1 := PresheafOfModulesOfCommRing.Derivation.congr_d hg (X := op W) a
   refine h1.symm.trans ?_
-  refine (PresheafOfModules.Derivation.postcomp_d_apply _ _ _).trans ?_
+  refine (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply _ _ _).trans ?_
   exact (congrArg _ h0).trans (map_zero _)
 
 /-- **The vanishing of the spaces-level differentials of a morphism of schemes forces the

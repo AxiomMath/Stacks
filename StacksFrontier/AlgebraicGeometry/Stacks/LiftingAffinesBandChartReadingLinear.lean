@@ -445,7 +445,7 @@ morphisms of the pullbacks of `Δ^*Ω_{I/U'}` and `𝒞_{U/U'}`, along an isomor
 theorem exists_readEquiv (d : (⟨(liftsZ hι₁ ζ.1).1.toFunctor, (liftsZ hι₁ ζ.1).2.1⟩ :
     AlgebraicSpaces B S hS) ⟶ Y')
     (hcd : zs ≫ d = 𝟙 Y') (hdc : d ≫ zs = 𝟙 _) :
-    ∃ e : Additive (𝒢.val.obj (op U)) ≃+
+    ∃ e : Additive (𝒢.obj.obj (op U)) ≃+
         ((Space.modulePullback B S hS φ).obj
         ((Space.modulePullback B S hS (Y := ⟨(liftsW₀ hι₁ ξ).1.toFunctor, (liftsW₀ hι₁ ξ).2.1⟩)
         (diagonalRestriction hι₁ ξ)).obj (Space.sheafOfDifferentials B S hS
@@ -512,7 +512,7 @@ theorem exists_readEquiv (d : (⟨(liftsZ hι₁ ζ.1).1.toFunctor, (liftsZ hι�
 /-- **The reading of the band is linear**: the descended product by a function `c` on `U` is read
 as multiplication by `c` restricted along `zs` (an étale morphism). -/
 theorem readG_bandSmul (hzs : Space.IsEtale B S hS zs.hom) (c : (bandRing B S hS W).obj (op U))
-    (a : 𝒢.val.obj (op U)) :
+    (a : 𝒢.obj.obj (op U)) :
     Space.QuasiCoherentDescent.restrictForm B S hS (zs) (liftsZMap hι₁ (m)) (φ) (hφ)
       ((Iso.homCongr (X := (Space.modulePullback B S hS (liftsZMap hι₁ (m))).obj
           ((Space.modulePullback B S hS (Y := ⟨(liftsW₀ hι₁ ξ).1.toFunctor, (liftsW₀ hι₁ ξ).2.1⟩)
@@ -573,7 +573,7 @@ theorem readG_bandSmul (hzs : Space.IsEtale B S hS zs.hom) (c : (bandRing B S hS
 theorem readEquiv_bandSmul (d : (⟨(liftsZ hι₁ ζ.1).1.toFunctor, (liftsZ hι₁ ζ.1).2.1⟩ :
     AlgebraicSpaces B S hS) ⟶ Y')
     (hcd : zs ≫ d = 𝟙 Y') (hdc : d ≫ zs = 𝟙 _) (hzs : Space.IsEtale B S hS zs.hom)
-    (c : (bandRing B S hS W).obj (op U)) (a : 𝒢.val.obj (op U)) :
+    (c : (bandRing B S hS W).obj (op U)) (a : 𝒢.obj.obj (op U)) :
     (exists_readEquiv hι₁ ξ 𝒢 θ h₁ ζ m zs φ hφ d hcd hdc).choose
     (Additive.ofMul (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U c a)) =
       (exists_readEquiv hι₁ ξ 𝒢 θ h₁ ζ m zs φ hφ d hcd hdc).choose (Additive.ofMul a) ≫
@@ -598,8 +598,8 @@ theorem readEquiv_naturality (d : (⟨(liftsZ hι₁ ζ.1).1.toFunctor, (liftsZ 
     (d' : (⟨(liftsZ hι₁ ζ'.1).1.toFunctor, (liftsZ hι₁ ζ'.1).2.1⟩ : AlgebraicSpaces B S hS) ⟶ Y'')
     (hcd' : zs' ≫ d' = 𝟙 Y'') (hdc' : d' ≫ zs' = 𝟙 _)
     (c : Y'' ⟶ Y') (hc : c ≫ φ = φ')
-    (hzs : zs' ≫ liftsZRestriction hι₁ n = c ≫ zs) (a' : Additive (𝒢.val.obj (op U')))
-    (a : Additive (𝒢.val.obj (op U)))
+    (hzs : zs' ≫ liftsZRestriction hι₁ n = c ≫ zs) (a' : Additive (𝒢.obj.obj (op U')))
+    (a : Additive (𝒢.obj.obj (op U)))
     (hcomm : (Functor.Fiber.fiberInclusion.map
         (Functor.bandFrame θ U' ζ' (Additive.toMul a'))).comp n =
       n.comp (Functor.Fiber.fiberInclusion.map (Functor.bandFrame θ U ζ (Additive.toMul a)))) :
@@ -634,7 +634,7 @@ Stacks 03G1 for `W` (`AlgebraicGeometry.Stack.EtaleSmoothLift.chartScalar`) or t
 localization of `U_étale` at `T` (`AlgebraicGeometry.Space.chartRingMap`), is the same global
 function. -/
 theorem chartScalar_postcomp (T : Space.SmallEtale B S hS ξ.base.obj.left.1)
-    (r : (Space.structureRingSheaf B S hS ξ.base.obj.left).val.obj (op T)) :
+    (r : (Space.structureRingSheaf B S hS ξ.base.obj.left).obj.obj (op T)) :
     (chartScalar B S hS W ((Space.smallEtalePostcomp B S hS ξ.base.obj.hom ξ.base.property).obj T)
         r :
       Space.globalFunctions' B S hS (Space.chartSpace B S hS ξ.base.obj.left T).1) =

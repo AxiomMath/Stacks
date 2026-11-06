@@ -187,6 +187,8 @@ theorem eq_of_comp_eq_of_range_le_preimage {X X₁ : AlgebraicSpaces B S hS}
   have hw := hle w hrange
   have hw' := hle w' (h ▸ hrange)
   have hlift : Subfunctor.lift w hw = Subfunctor.lift w' hw' := by
+    haveI : Mono (C.1.fromPreimage c₁.hom ≫ C.1.ι) :=
+      @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _ inferInstance
     refine (cancel_mono (C.1.fromPreimage c₁.hom ≫ C.1.ι)).1 ?_
     rw [Subfunctor.fromPreimage_ι, ← Category.assoc, ← Category.assoc, Subfunctor.lift_ι,
       Subfunctor.lift_ι, h]

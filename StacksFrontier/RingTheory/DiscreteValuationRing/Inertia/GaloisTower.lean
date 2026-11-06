@@ -1,6 +1,8 @@
 module
 
 public import StacksFrontier.RingTheory.DiscreteValuationRing.Inertia.Character
+public import Mathlib.RingTheory.Ideal.Quotient.Noetherian
+public import Mathlib.RingTheory.Localization.Submodule
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -333,7 +335,11 @@ theorem surjective_restrictions_commute_with_residue_and_inertiaCharacter
     eq_of_pow_mul_eq_pow_mul hπ' huCπ'
       (fun h ↦ (hπ'.dvd_or_dvd h).elim (fun h ↦ hvπ' (hπ'.dvd_of_dvd_pow h)) huBr)
       (huC.symm.trans hρC)
-  have hepos : 0 < q.ramificationIdx A := Ideal.ramificationIdx_pos q A
+  have : IsNoetherianRing B := (IsIntegralClosure.isDedekindDomain A K L B).toIsNoetherian
+  have : IsNoetherianRing (Localization.AtPrime q ⧸
+      (q.under A).map (algebraMap A (Localization.AtPrime q))) :=
+    Ideal.Quotient.isNoetherianRing _
+  have hepos : 0 < q.ramificationIdx A := Ideal.ramificationIdx_pos A q
   have he'pos : 0 < r.ramificationIdx A := he' ▸ Nat.mul_pos hj hepos
   have hdiv : r.ramificationIdx A / q.ramificationIdx A = j := by
     rw [he', Nat.mul_div_cancel j hepos]
@@ -580,7 +586,7 @@ theorem canonicalInertiaCharacter_spec :
   let n := tameRamificationIndex A L P
   have := charP_integralClosure_quotient A K L P
   have : Module.Finite A (integralClosure A L) := IsIntegralClosure.finite A K L _
-  have he : e ≠ 0 := (Ideal.ramificationIdx_pos P A).ne'
+  have he : e ≠ 0 := (Ideal.ramificationIdx_pos A P).ne'
   have heqn : e = q * n := (Nat.ordProj_mul_ordCompl_eq_self e p).symm
   have hq_zero : p = 0 → q = 1 := fun hp ↦ Nat.ordProj_of_not_prime e p (hp ▸ Nat.not_prime_zero)
   have hq_pos : 0 < p → ∃ a : ℕ, q = p ^ a := fun _ ↦ ⟨e.factorization p, rfl⟩
@@ -643,7 +649,7 @@ theorem canonicalInertiaCharacter_spec :
       Nat.ordCompl_dvd_ordCompl_of_dvd hediv
         (ringChar (IsLocalRing.ResidueField A))
     have : Module.Finite A (integralClosure A M) := IsIntegralClosure.finite A K M _
-    have heMne : eM ≠ 0 := (Ideal.ramificationIdx_pos r A).ne'
+    have heMne : eM ≠ 0 := (Ideal.ramificationIdx_pos A r).ne'
     have hqDiv : qL ∣ qM := Nat.ordProj_dvd_ordProj_of_dvd heMne hediv _
     let c := qM / qL
     have hqLne : qL ≠ 0 := by

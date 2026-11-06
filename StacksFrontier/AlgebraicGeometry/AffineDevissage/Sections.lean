@@ -148,7 +148,7 @@ public theorem exists_sectionOfHom_eq_of_finite [IsNoetherianRing A] [Module.Fin
     ⟨ULift.up a, hmemJ a ha⟩ hax) ?_
   refine Eq.trans (LocalizedModule.mk_eq.mpr ⟨1, ?_⟩) hshift.symm
   refine congrArg (fun z => (1 : (x.1 : PrimeSpectrum (ULift.{v} A)).asIdeal.primeCompl) • z)
-    (ULift.ext _ _ ?_)
+    (ULift.ext ?_)
   exact hψ' ⟨a ^ (N₀ + (n + m)),
     hIN (Ideal.pow_mem_pow (haI a ha) (N₀ + (n + m)))⟩ a ha
 

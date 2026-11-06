@@ -174,28 +174,32 @@ private theorem exceptionalStalk_eq_span_iff_localIdeal_eq_span
     (a : I.ideal U) (x : (blowUp I))
     (hx : (blowUpToBase I) x ∈ U.1) :
     AlgebraicGeometry.IdealSheafData.stalk (exceptionalIdeal I) x =
-        Ideal.span {((blowUpToBase I).stalkMap x)
-          (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
-            (a : X.presheaf.obj (.op U.1)))} ↔
+        Ideal.span
+          {((blowUpToBase I).stalkMap x)
+            (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
+              (a : X.presheaf.obj (.op U.1)))} ↔
     (I.ideal U).map (((blowUpToBase I).stalkMap x).hom.comp
         (X.presheaf.germ U.1 ((blowUpToBase I) x) hx).hom) =
-        Ideal.span {((blowUpToBase I).stalkMap x)
-          (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
-            (a : X.presheaf.obj (.op U.1)))} := by
+        Ideal.span
+          {((blowUpToBase I).stalkMap x)
+            (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
+              (a : X.presheaf.obj (.op U.1)))} := by
   dsimp only [exceptionalIdeal]
   rw [idealStalk_comap_eq_map]
   change
     (Ideal.map ((blowUpToBase I).stalkMap x).hom
       (AlgebraicGeometry.IdealSheafData.stalk I ((blowUpToBase I) x)) =
-        Ideal.span {((blowUpToBase I).stalkMap x)
-          (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
-            (a : X.presheaf.obj (.op U.1)))}) ↔
+        Ideal.span
+          {((blowUpToBase I).stalkMap x)
+            (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
+              (a : X.presheaf.obj (.op U.1)))}) ↔
       (Ideal.map (((blowUpToBase I).stalkMap x).hom.comp
         (X.presheaf.germ U.1 ((blowUpToBase I) x) hx).hom)
         (I.ideal U) =
-        Ideal.span {((blowUpToBase I).stalkMap x)
-          (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
-            (a : X.presheaf.obj (.op U.1)))})
+        Ideal.span
+          {((blowUpToBase I).stalkMap x)
+            (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
+              (a : X.presheaf.obj (.op U.1)))})
   rw [idealStalk_eq_map_germ I ((blowUpToBase I) x) U hx, Ideal.map_map]
 
 /-- If a morphism factors over an affine open of its target as `Spec` of a ring map, the composite
@@ -330,8 +334,9 @@ private theorem affineBlowup_stalk_span_iff {R : Type u} [CommRing R]
     (z : Spec (.of (affineBlowupAlgebra J b (Localization.Away b)))) :
     (J.map (algebraMap R (affineBlowupAlgebra J b (Localization.Away b)))).map
       (StructureSheaf.toStalk _ z).hom =
-      Ideal.span {(StructureSheaf.toStalk _ z)
-        (algebraMap R (affineBlowupAlgebra J b (Localization.Away b)) a)} ↔
+      Ideal.span
+        {(StructureSheaf.toStalk _ z)
+          (algebraMap R (affineBlowupAlgebra J b (Localization.Away b)) a)} ↔
       affineBlowupFraction J b a ∉ z.asIdeal := by
   let B := affineBlowupAlgebra J b (Localization.Away b)
   let p : PrimeSpectrum B := z
@@ -363,9 +368,10 @@ public theorem mem_affineBlowupStandardOpen_iff_exceptionalIdeal_stalk_eq_span
         (reesDegreeOne I U a).1).ι ≫
         (Stacks.RelativeProj.Situation.relativeProjChart (reesSituation I) U)) ↔
       AlgebraicGeometry.IdealSheafData.stalk (exceptionalIdeal I) x =
-        Ideal.span {((blowUpToBase I).stalkMap x)
-          (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
-            (a : X.presheaf.obj (.op U.1)))} := by
+        Ideal.span
+          {((blowUpToBase I).stalkMap x)
+            (X.presheaf.germ U.1 ((blowUpToBase I) x) hx
+              (a : X.presheaf.obj (.op U.1)))} := by
   classical
   let := (reesSituation I).sectionRingGradedRing U.1
   let := (reesSituation I).sectionRingGradingGradedRing U.1

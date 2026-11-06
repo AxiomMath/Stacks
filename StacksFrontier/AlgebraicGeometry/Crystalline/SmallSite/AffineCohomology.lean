@@ -363,7 +363,7 @@ theorem tensorDifferentialForms_obj
     (M : PresheafOfModules.{u} (structurePresheaf S ⋙ forget₂ CommRingCat RingCat)) (i : ℕ)
     (A : (CrystallineThickening S)ᵒᵖ) :
     (tensorDifferentialForms M i).obj A = M.obj A ⊗ (crysDifferentialForms S i).obj A :=
-  PresheafOfModules.Monoidal.tensorObj_obj _ _ A
+  PresheafOfModulesOfCommRing.tensorObj_obj _ _ A
 
 /-- **`F ⊗_{𝒪_{X/S}} Ω^0_{X/S} = F`.**  The crystalline forms of degree zero are the structure
 sheaf, `crysFormsZeroIso`, which is the unit of the tensor product of presheaves of modules.  This

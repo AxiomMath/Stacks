@@ -48,9 +48,9 @@ theorem unitSingle_comp_map_resolutionDerivedIso {X : A'} (I : InjectiveResoluti
         DerivedCategory.Plus.Qh.map (G.mapHomotopyCategoryPlus.map
           ((singlePlusToCochainQuotientIso (A := A')).hom.app X ≫
             (HomotopyCategory.Plus.quotient A').map (resolutionSinglePlusHom I))) ≫
-        G.rightDerivedFunctorPlusUnit.app
+        G.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A').obj (resolutionCochainPlus I)) := by
-  have hn := G.rightDerivedFunctorPlusUnit.naturality
+  have hn := G.rightDerivedFunctorPlusUnith.naturality
     ((singlePlusToCochainQuotientIso (A := A')).hom.app X ≫
       (HomotopyCategory.Plus.quotient A').map (resolutionSinglePlusHom I))
   rw [Functor.comp_map, Functor.comp_map] at hn

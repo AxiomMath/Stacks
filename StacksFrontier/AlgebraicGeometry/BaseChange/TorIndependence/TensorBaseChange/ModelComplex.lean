@@ -98,8 +98,7 @@ theorem modelExtendMap_smul (X : Type u) [AddCommGroup X] [Module A X] (b : B₀
     modelExtendMap (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) X (b • m) =
       modelRingMap R A R' A' R₀ b •
         modelExtendMap (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) X m := by
-  refine TensorProduct.induction_on m ?_ ?_ ?_
-  · rw [smul_zero, map_zero, smul_zero]
+  refine TensorProduct.inductionOn m ?_ ?_
   · intro c x
     rw [TensorProduct.smul_tmul', LinearMap.rTensor_tmul, LinearMap.rTensor_tmul,
       TensorProduct.smul_tmul', modelRingMapA_apply, modelRingMapA_apply, smul_eq_mul, smul_eq_mul,
@@ -111,8 +110,7 @@ theorem modelExtendMap_smul (X : Type u) [AddCommGroup X] [Module A X] (b : B₀
 theorem modelUnitAddHom_smul (b : B₀) (w : B₀ ⊗[R₀] R') :
     modelUnitAddHom (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) (b • w) =
       modelRingMap R A R' A' R₀ b * modelUnitAddHom w := by
-  induction w using TensorProduct.induction_on with
-  | zero => simp
+  induction w with
   | add t t' ht ht' => rw [smul_add, map_add, ht, ht', map_add, mul_add]
   | tmul b' s =>
     rw [TensorProduct.smul_tmul', modelUnitAddHom_tmul, modelUnitAddHom_tmul, smul_eq_mul,
@@ -173,12 +171,10 @@ theorem modelTermAdd_naturality {X Y : Type u} [AddCommGroup X] [Module A X]
     modelTermAdd (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) Y
         (LinearMap.rTensor _ (f.baseChange B₀) t) =
       f.baseChange A' (modelTermAdd (R := R) (A := A) (R' := R') (A' := A') (R₀ := R₀) X t) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction t with
   | add t t' ht ht' => simp only [map_add, ht, ht']
   | tmul m w =>
-    induction m using TensorProduct.induction_on with
-    | zero => simp only [TensorProduct.zero_tmul, map_zero]
+    induction m with
     | add m m' hm hm' => simp only [TensorProduct.add_tmul, map_add, hm, hm']
     | tmul c x =>
       rw [LinearMap.rTensor_tmul, LinearMap.baseChange_tmul, modelTermAdd_tmul, modelTermAdd_tmul,

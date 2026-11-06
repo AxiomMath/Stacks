@@ -290,7 +290,7 @@ theorem exists_comp_abelPowerHom_eq [IsIntegral (bc f (Stacks.Hilbert.fieldPoint
   obtain ⟨x, hx⟩ := Stacks.Hilbert.exists_familyOfPoints_eq (Over.mk f) n Z
   refine ⟨Pi.lift x, (representedClass_injective f hdim σ hσ e (Stacks.Hilbert.fieldPoint K)) ?_⟩
   rw [representedClass_comp_abelPowerHom]
-  simp only [Pi.lift_π]
+  simp only [Pi.lift_comp_π]
   rw [hx, show Stacks.Hilbert.abelClass Z = c + E from hclass]
   exact add_sub_cancel_right c E
 

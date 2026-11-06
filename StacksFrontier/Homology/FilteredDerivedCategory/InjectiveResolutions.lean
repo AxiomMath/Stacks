@@ -360,7 +360,7 @@ theorem exists_spectralSequence_rightDerivedFunctorPlus
       exact (HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 hq
     have := Localization.inverts DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A) _ hf
     have hu : IsIso
-        (T.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj XI)) :=
+        (T.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj XI)) :=
       isIso_rightDerivedFunctorPlusUnit_app_forget_of_injective_gradedPiece T I b hI
     exact ⟨(homologyQhQuotientIso ⟨M.X, ⟨b, inferInstance⟩⟩ n).symm ≪≫
       (DerivedCategory.Plus.homologyFunctor B n).mapIso

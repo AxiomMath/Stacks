@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.Localization.LocalizationLocalization
+public import Mathlib.RingTheory.Spectrum.Prime.Topology
 public import StacksFrontier.RingTheory.IndZariski.Defs
 public import StacksFrontier.RingTheory.LocalIso.IdentifiesLocalRings
 

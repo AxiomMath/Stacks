@@ -195,9 +195,9 @@ theorem residueField_module_finite_of_locallyQuasiFinite
   have : Localization.AtPrime.IsLiesOverAlgebra p P := inferInstance
   have : Module.Finite p.ResidueField P.ResidueField := inferInstance
   let eR : IsLocalRing.ResidueField R ≃+* p.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal p (Localization.AtPrime p)).toRingEquiv
   let eA : IsLocalRing.ResidueField A ≃+* P.ResidueField :=
-    IsLocalization.AtPrime.equivQuotMaximalIdeal P (Localization.AtPrime P)
+    (IsLocalization.AtPrime.equivQuotMaximalIdeal P (Localization.AtPrime P)).toRingEquiv
   let : Algebra (IsLocalRing.ResidueField R) (IsLocalRing.ResidueField A) :=
     (IsLocalRing.ResidueField.map φ).toAlgebra
   have hcompat : (algebraMap p.ResidueField P.ResidueField).comp eR.toRingHom =
@@ -324,6 +324,19 @@ private theorem relativeDimension_of_forall_topologicalKrullDimAt_fiber_eq {X Y 
   simp [hloc]
 
 namespace Space
+
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_RelativeDimension
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_RelativeDimension
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_RelativeDimension B S hS).has_limit _
 
 /-! ### Transcendence degree through a locally quasi-finite morphism of algebraic spaces -/
 

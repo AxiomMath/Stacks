@@ -219,7 +219,6 @@ theorem unitCoassoc_of_cocycle
       LinearMap.lTensor A τ.toLinearMap x = Algebra.TensorProduct.map (AlgHom.id R A) τ x := by
     intro τ x
     induction x with
-    | zero => simp
     | add y z hy hz => rw [map_add, map_add, hy, hz]
     | tmul a c => rw [LinearMap.lTensor_tmul, Algebra.TensorProduct.map_tmul]; rfl
   have hmk : TensorProduct.mk R A C 1 =

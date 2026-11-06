@@ -626,7 +626,8 @@ theorem surjective_boundaryReduction [Finite (BoundaryPoints jD)] (n : ℕ) [NeZ
     exact z.2 hy
   refine ⟨⟨d, hd⟩, funext fun z => ?_⟩
   show (((d z.1 : ℤ)) : ZMod n) = v z
-  rw [Finsupp.mapDomain_apply Subtype.val_injective, Finsupp.coe_equivFunOnFinite_symm]
+  rw [show d z.1 = _ from Finsupp.mapDomain_apply_of_injective Subtype.val_injective _ z,
+    Finsupp.coe_equivFunOnFinite_symm]
   simp
 
 /-- A boundary divisor reduces to zero modulo `n` if and only if it is `n` times a boundary

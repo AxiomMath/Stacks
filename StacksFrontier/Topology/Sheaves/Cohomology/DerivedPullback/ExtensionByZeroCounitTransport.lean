@@ -107,11 +107,26 @@ On the image of `DerivedCategory.Qh` the isomorphism
 `CategoryTheory.Functor.mapDerivedCategoryFactorsh`. -/
 theorem Functor.mapDerivedCategoryIdIso_hom_app_Qh
     (M : HomotopyCategory C (ComplexShape.up ℤ)) :
-    Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Qh.obj M) =
+    (Functor.mapDerivedCategoryIdIso C).hom.app (DerivedCategory.Qh.obj M) =
       (𝟭 C).mapDerivedCategoryFactorsh.hom.app M ≫
         DerivedCategory.Qh.map
           ((Functor.mapHomotopyCategoryIdIso C (ComplexShape.up ℤ)).hom.app M) := by
-  simp [Functor.mapDerivedCategoryIdIso]
+  obtain ⟨K, rfl⟩ := HomotopyCategory.quotient_obj_surjective M
+  have h := ((Functor.mapDerivedCategoryIdIso C).hom.naturality
+    ((DerivedCategory.quotientCompQhIso C).hom.app K))
+  rw [← cancel_mono ((DerivedCategory.quotientCompQhIso C).hom.app K)]
+  dsimp at h ⊢
+  rw [← h, Functor.mapDerivedCategoryIdIso_hom_app, Functor.mapDerivedCategoryFactorsh_hom_app]
+  have hq : ((𝟭 C).mapHomotopyCategoryFactors (ComplexShape.up ℤ)).inv.app K ≫
+      (Functor.mapHomotopyCategoryIdIso C (ComplexShape.up ℤ)).hom.app
+        ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).obj K) =
+      (HomotopyCategory.quotient C (ComplexShape.up ℤ)).map
+        ((Functor.mapHomologicalComplexIdIso C (ComplexShape.up ℤ)).hom.app K) :=
+    Category.id_comp _
+  simp only [Category.assoc, ← Functor.map_comp_assoc, ← Functor.map_comp, hq,
+    ← DerivedCategory.quotientCompQhIso_inv_naturality_assoc, Iso.inv_hom_id_app,
+    Category.comp_id]
+  simp
 
 section
 
@@ -223,7 +238,7 @@ theorem NatTrans.mapDerivedCategoryCompToId_app_Qh (η : G ⋙ F ⟶ 𝟭 C)
           ((NatTrans.mapHomotopyCategory η (ComplexShape.up ℤ)).app M ≫
             (Functor.mapHomotopyCategoryIdIso C (ComplexShape.up ℤ)).hom.app M) =
       (NatTrans.mapDerivedCategory η).app (DerivedCategory.Qh.obj M) ≫
-        Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Qh.obj M) :=
+        (Functor.mapDerivedCategoryIdIso C).hom.app (DerivedCategory.Qh.obj M) :=
     (congrArg (fun t => (G ⋙ F).mapDerivedCategoryFactorsh.hom.app M ≫ t)
       (DerivedCategory.Qh.map_comp _ _)).trans
       ((Category.assoc _ _ _).symm.trans
@@ -236,7 +251,7 @@ theorem NatTrans.mapDerivedCategoryCompToId_app_Qh (η : G ⋙ F ⟶ 𝟭 C)
           (DerivedCategory.Qh.obj M) ≫
         (NatTrans.mapDerivedCategoryCompToId G F η).app (DerivedCategory.Qh.obj M) =
       (NatTrans.mapDerivedCategory η).app (DerivedCategory.Qh.obj M) ≫
-        Functor.mapDerivedCategoryIdIso.hom.app (DerivedCategory.Qh.obj M) :=
+        (Functor.mapDerivedCategoryIdIso C).hom.app (DerivedCategory.Qh.obj M) :=
     (congrArg (fun t =>
         (Stacks.Cohomology.PerfectComplexTriangles.mapDerivedCategoryCompIso G F).hom.app
           (DerivedCategory.Qh.obj M) ≫ t) hC).trans

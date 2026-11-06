@@ -239,6 +239,13 @@ section BaseChange
 attribute [local instance] smallEtaleRingedSite_hasSheafify_addCommGrpCat
   smallEtaleRingedSite_wEqualsLocallyBijective_addCommGrpCat
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_QuasicoherentDerivedPushforwardBound
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {W A : AlgebraicSpaces B S hS} {V : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   {Uo : Subfunctor W.1} {fV : V ⟶ W.1}
   (hsq : IsElementaryDistinguishedSquare B S hS W.2 Uo fV)

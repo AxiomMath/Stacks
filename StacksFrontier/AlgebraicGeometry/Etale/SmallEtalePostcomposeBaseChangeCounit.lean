@@ -145,7 +145,8 @@ public theorem baseChangeLocalizationIsoStar_inv_app_left_comp_counit (W : Small
           ((localizationEquivalence B X hX U).counit.app ((Over.star U).obj W)) ≫
             (Over.forgetAdjStar U).counit.app W = (Over.forgetAdjStar U).counit.app W := by
       rw [← Category.assoc, hc, Category.id_comp]
-    simpa [postcomposeStarAdjunction, Over.forgetAdjStar_counit_app, eqToHom_refl] using hfin
+    simpa [postcomposeStarAdjunction, Over.forgetAdjStar_counit_app, eqToHom_refl, -cancelIso]
+      using hfin
   have h4 : (Over.Hom.left
         ((localizationEquivalence B X hX U).counitIso.inv.app ((Over.star U).obj W)) ≫
       Over.Hom.left ((localizationEquivalence B X hX U).functor.map

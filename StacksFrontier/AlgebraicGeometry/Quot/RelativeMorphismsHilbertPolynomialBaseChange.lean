@@ -103,7 +103,7 @@ private theorem isSheaf_subfunctor_of_isCutOutByPoints {F : (BigFppfOver B S hS)
       ((BigFppfOver.toScheme B S hS).map (𝟙 U.unop) v)
     exact (hZs h).1 hh hmem
   have hmem := (hZs (𝟙 U.unop)).2 hall
-  rwa [op_id, FunctorToTypes.map_id_apply] at hmem
+  rwa [op_id, Functor.map_id_apply] at hmem
 
 end Sheaf
 

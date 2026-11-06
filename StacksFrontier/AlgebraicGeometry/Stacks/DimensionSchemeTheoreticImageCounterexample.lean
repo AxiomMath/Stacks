@@ -3,6 +3,7 @@ module
 public import Mathlib.RingTheory.FiniteType
 public import Mathlib.RingTheory.Ideal.Quotient.Operations
 public import Mathlib.RingTheory.KrullDimension.Field
+public import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
 public import Mathlib.RingTheory.KrullDimension.Polynomial
 public import Mathlib.RingTheory.Localization.Away.Basic
 public import Mathlib.RingTheory.Nilpotent.Lemmas

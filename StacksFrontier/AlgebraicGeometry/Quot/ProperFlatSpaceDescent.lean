@@ -394,8 +394,8 @@ theorem descentEq_cartesianProperFlat
   refine ProperFlatFibre.map_injective_of_isHomLift
     ((BigAffineFppf.inclusion B S hS).map (D.map s)) ?_
   rw [(ProperFlatFibre.underlying B S hS).map_comp, (ProperFlatFibre.underlying B S hS).map_comp]
-  refine (cancel_epi (ProperFlatFibre.pullIso xi
-    (Over.mk ((BigAffineFppf.inclusion B S hS).map (D.map s)))).inv).mp ?_
+  refine (Iso.cancel_iso_inv_left (ProperFlatFibre.pullIso xi
+    (Over.mk ((BigAffineFppf.inclusion B S hS).map (D.map s)))) _ _).mp ?_
   rw [← Category.assoc, ← Category.assoc, ProperFlatFibre.pullIso_inv_snd]
   exact hk
 

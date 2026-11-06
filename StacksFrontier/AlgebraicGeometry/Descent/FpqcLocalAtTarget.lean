@@ -3,6 +3,7 @@ module
 public import Mathlib.AlgebraicGeometry.Cover.Sigma
 public import Mathlib.AlgebraicGeometry.Morphisms.LocalFlatDescent
 public import Mathlib.AlgebraicGeometry.Sites.Fpqc
+public import Mathlib.RingTheory.Flat.FaithfullyFlat.Descent
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Descent.FpqcPlumbing
 

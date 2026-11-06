@@ -415,6 +415,8 @@ structure PointedChartSquare {X Y X' Y' : AlgebraicSpaces B S hS}
   /-- The square of chart morphisms commutes. -/
   comm : r ≫ p = s ≫ q
 
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A cartesian square of algebraic spaces has a pointed cartesian square of étale charts.**
 The compatible étale charts of the square are chosen first; the chart of the upper-left corner
 is a surjective étale atlas, so the geometric point lifts to it, and the three images of that

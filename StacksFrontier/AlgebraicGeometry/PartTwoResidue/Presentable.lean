@@ -198,7 +198,7 @@ theorem presentableAlong_of_isFinitePresentation {A : AlgebraSheaf S} (hAqc : A.
   let t' : F ⟶ (Functor.const I).obj ((pushforwardAlgebraFunctor S).obj (op L)) :=
     t ≫ (Functor.const I).map eA.inv
   have ht' : IsColimit (Cocone.mk ((pushforwardAlgebraFunctor S).obj (op L)) t') :=
-    ht.ofIsoColimit (Cocones.ext eA.symm fun _ => rfl)
+    ht.ofIsoColimit (Cocone.ext eA.symm fun _ => rfl)
   obtain ⟨π, ⟨hπ⟩, hcompat⟩ := exists_isLimit_leftOp_of_isColimit (pushforwardAlgebraFunctor S)
     (affineDiagram F hFqc) L (affineDiagramIso F hFqc) t' ht'
     (fun Q j => bijective_map_pushforwardAlgebraFunctor Q ((affineDiagram F hFqc).obj j).unop)

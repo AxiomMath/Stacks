@@ -33,6 +33,17 @@ attribute [local instance] pointTopology
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ProperFlatSteinCore :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ProperFlatSteinCore
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- A geometric fibre of `f` over a geometric point whose image carries the value `1` of the
 number of geometric connected components is connected (and in particular nonempty). -/
 theorem connectedPullback_of_numberGeometricConnectedComponents_eq_one
@@ -41,7 +52,7 @@ theorem connectedPullback_of_numberGeometricConnectedComponents_eq_one
     (h : numberGeometricConnectedComponents B S hS f p.image = 1) :
     ConnectedPullback B S hS f (yonedaEquiv.symm p.val.value) := by
   rw [numberGeometricConnectedComponents_eq B S hS hF hG f p] at h
-  set P := points B S hS (pullback f (yonedaEquiv.symm p.val.value))
+  set P := points B S hS (Limits.pullback f (yonedaEquiv.symm p.val.value))
   have hcard : Cardinal.mk (ConnectedComponents P) = 1 := Cardinal.toENat_eq_one.mp h
   have := Cardinal.le_one_iff_subsingleton.mp hcard.le
   obtain ⟨c⟩ := Cardinal.mk_ne_zero_iff.mp (hcard ▸ one_ne_zero)

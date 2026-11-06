@@ -36,6 +36,19 @@ universe u
 
 namespace Stacks.EtaleCohomology
 
+-- the structure projections of `Stacks.Models.RegularModelSituation` are global instances whose
+-- conclusions (`Field ?k`, `QuasiCompact ?f`, ...) match every goal and send instance search
+-- through `Submodule ?R ?R`; they are irrelevant here
+attribute [-instance] Stacks.Models.RegularModelSituation.commRingR
+  Stacks.Models.RegularModelSituation.isDomainR
+  Stacks.Models.RegularModelSituation.isDiscreteValuationRingR
+  Stacks.Models.RegularModelSituation.fieldK Stacks.Models.RegularModelSituation.algebraRK
+  Stacks.Models.RegularModelSituation.isFractionRingRK Stacks.Models.RegularModelSituation.fieldk
+  Stacks.Models.RegularModelSituation.algebraRk Stacks.Models.RegularModelSituation.isCurve
+  Stacks.Models.RegularModelSituation.smooth Stacks.Models.RegularModelSituation.flat
+  Stacks.Models.RegularModelSituation.locallyOfFiniteType
+  Stacks.Models.RegularModelSituation.quasiCompact
+
 /-- **The base change of `f` to a one-point scheme has dimension at most the bound on the
 fibres of `f`**: for `x'` in `X' = X ×_S T`, the dimension of `X'` at `x'` is that of the fibre
 of `X' ⟶ T` through `x'`, which is all of `X'`, and by [Stacks, Tag 02FY] part (1) it is the
@@ -80,17 +93,27 @@ theorem finite_smallEtaleStalkAb_rightDerived_constantSheaf_of_isProper {X S : S
   let := hasExt_sheaf_smallEtale_succ X'
   let g' := pullback.fst f s.hom
   let F' := (etaleAbelianInverseImage.{u, 0} g').obj F
+  have : Subsingleton (Spec (.of s.residueField)) :=
+    Ring.KrullDimLE.subsingleton_primeSpectrum s.residueField
+  have hf : LocallyOfFiniteType f := IsProper.toLocallyOfFiniteType
+  have hg : LocallyOfFiniteType (pullback.snd f s.hom) :=
+    haveI := locallyOfFiniteType_isStableUnderBaseChange
+    MorphismProperty.IsStableUnderBaseChange.of_isPullback (IsPullback.of_hasPullback f s.hom) hf
   let S0 : TorsionSheafSituation.{u, 0} :=
     { k := s.residueField
       X := X'
       structureMorphism := pullback.snd f s.hom
-      dimension_le_one := topologicalKrullDim_pullback_le_of_subsingleton f s.hom hdim
+      locallyOfFiniteType := hg
+      dimension_le_one :=
+        topologicalKrullDim_pullback_le_of_subsingleton f s.hom hdim
       F := F'
       isTorsion := torsionSheafProperty_etaleAbelianInverseImage.{u, 0} g' F hF }
   let B' := BigEtaleSite.containing X'
   let hX' := BigEtaleSite.contains_containing X'
+  have := SmallEtale.isRightAdjoint_smallEtalePushforward_addCommGrpCat.{u, 0} B'
+  have := SmallEtale.hasWeakSheafify_over_addCommGrpCat.{u, 0} B'
   have hc : IsConstructibleEtaleAbelianSheaf.{u, 0} B' X' hX' F' :=
-    isConstructibleFiniteSheaf_congr B' (B'.obj X' hX')
+    isConstructibleFiniteSheaf_congr (D := AddCommGrpCat.{u + 1}) B' (B'.obj X' hX')
       ((SmallEtale.sheafEquiv B' X' hX' AddCommGrpCat.{u + 1}).inverse.mapIso
         ((etaleAbelianInverseImageConstantIso.{u, 0} g').app A).symm)
       (isConstructibleEtaleAbelianSheaf_constantSheaf.{u, 0} X' A)

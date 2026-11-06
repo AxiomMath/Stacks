@@ -350,24 +350,26 @@ end Abelian
 
 section Generators
 
+/- The `HasSheafify` hypotheses are binders of each declaration rather than section variables:
+Lean 4.35 lets instance search see a section variable even under `omit`, which would make the
+two naturality lemmas below depend on the variable they leave out. -/
 variable (C : Type u) [SmallCategory C] (J : GrothendieckTopology C)
-  [HasSheafify J AddCommGrpCat.{u}]
-  [HasSheafify (projectionTopology C J) AddCommGrpCat.{u}]
 
 /-- **Morphisms out of `(i_n)_!(j_{U!}ℤ_U)` are sections over `(n, U)`.** The adjunction
 `(i_n)_! ⊣ (i_n)⁻¹` followed by the corepresentation of sections by `j_{U!}ℤ_U`; the sections of
 the restriction over `U` are the sections over `(n, U)`. -/
-def fibreExtensionHomEquiv (n : SimplexCategory) (U : C)
+def fibreExtensionHomEquiv [HasSheafify J AddCommGrpCat.{u}]
+    [HasSheafify (projectionTopology C J) AddCommGrpCat.{u}] (n : SimplexCategory) (U : C)
     (Z : Sheaf (projectionTopology C J) AddCommGrpCat.{u}) :
     ((fibreExtension C J n).obj (extensionByZeroUnitAb.{u} J U) ⟶ Z) ≃
       ((fibreRestriction C J n).obj Z).obj.obj (op U) :=
   ((fibreAdjunction C J n).homEquiv _ _).trans
     (extensionByZeroUnitAbHomEquiv.{u} J U ((fibreRestriction C J n).obj Z))
 
-omit [HasSheafify (projectionTopology C J) AddCommGrpCat] in
 /-- `fibreExtensionHomEquiv` is natural in the target: postcomposing with `k : Z ⟶ Z'`
 corresponds to applying the restriction of `k` to the section over `U`. -/
-lemma fibreExtensionHomEquiv_naturality (n : SimplexCategory) (U : C)
+lemma fibreExtensionHomEquiv_naturality [HasSheafify J AddCommGrpCat.{u}]
+    (n : SimplexCategory) (U : C)
     {Z Z' : Sheaf (projectionTopology C J) AddCommGrpCat.{u}}
     (a : (fibreExtension C J n).obj (extensionByZeroUnitAb.{u} J U) ⟶ Z) (k : Z ⟶ Z') :
     fibreExtensionHomEquiv C J n U Z' (a ≫ k) =
@@ -381,7 +383,8 @@ lemma fibreExtensionHomEquiv_naturality (n : SimplexCategory) (U : C)
 /-- **Morphisms out of `j_{(n,U)!}ℤ` are sections over `(n, U)`**, read as sections of the degree
 `n` evaluation over `U`: the two are the same group, restriction along `i_n` being precomposition
 with `i_nᵒᵖ`. -/
-def projExtensionByZeroUnitAbHomEquiv (n : SimplexCategory) (U : C)
+def projExtensionByZeroUnitAbHomEquiv [HasSheafify J AddCommGrpCat.{u}]
+    [HasSheafify (projectionTopology C J) AddCommGrpCat.{u}] (n : SimplexCategory) (U : C)
     (Z : Sheaf (projectionTopology C J) AddCommGrpCat.{u}) :
     (extensionByZeroUnitAb.{u} (projectionTopology C J)
         ((n, U) : SimplexCategory × C) ⟶ Z) ≃
@@ -389,10 +392,10 @@ def projExtensionByZeroUnitAbHomEquiv (n : SimplexCategory) (U : C)
   extensionByZeroUnitAbHomEquiv.{u} (projectionTopology C J)
     ((n, U) : SimplexCategory × C) Z
 
-omit [HasSheafify J AddCommGrpCat] in
 /-- `projExtensionByZeroUnitAbHomEquiv` is natural in the target: postcomposing with
 `k : Z ⟶ Z'` corresponds to applying the restriction of `k` to the section over `U`. -/
-lemma projExtensionByZeroUnitAbHomEquiv_naturality (n : SimplexCategory) (U : C)
+lemma projExtensionByZeroUnitAbHomEquiv_naturality
+    [HasSheafify (projectionTopology C J) AddCommGrpCat.{u}] (n : SimplexCategory) (U : C)
     {Z Z' : Sheaf (projectionTopology C J) AddCommGrpCat.{u}}
     (a : extensionByZeroUnitAb.{u} (projectionTopology C J)
       ((n, U) : SimplexCategory × C) ⟶ Z) (k : Z ⟶ Z') :
@@ -406,7 +409,8 @@ lemma projExtensionByZeroUnitAbHomEquiv_naturality (n : SimplexCategory) (U : C)
 `j_{(n,U)!}ℤ ≅ (i_n)_!(j_{U!}ℤ_U)`: both corepresent the sections over `(n, U)`, the first by
 `Stacks.Cohomology.DerivedLowerShriek.extensionByZeroUnitAbHomEquiv` on `Δ × C` and the second
 by `Stacks.SimplicialModules.fibreExtensionHomEquiv`. -/
-def extensionByZeroUnitAbFibreIso (n : SimplexCategory) (U : C) :
+def extensionByZeroUnitAbFibreIso [HasSheafify J AddCommGrpCat.{u}]
+    [HasSheafify (projectionTopology C J) AddCommGrpCat.{u}] (n : SimplexCategory) (U : C) :
     extensionByZeroUnitAb.{u} (projectionTopology C J) ((n, U) : SimplexCategory × C) ≅
       (fibreExtension C J n).obj (extensionByZeroUnitAb.{u} J U) :=
   isoOfHomEquivs (projExtensionByZeroUnitAbHomEquiv C J n U)

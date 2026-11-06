@@ -183,7 +183,7 @@ theorem DerivedLimitQCoh.isPerfect_and_isIso_baseChange_of (d : S.DerivedLimitQC
   refine Eq.symm ((Category.assoc _ _ _).trans ((congrArg (_ ≫ ·)
     (Limits.Pi.map_π (fun n => (S.levelTensorRestrictionIso n E hE).hom) n)).trans
     ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) ?_))))
-  exact (Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) (Limits.Pi.lift_π _ n))
+  exact (Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) (Limits.Pi.lift_comp_π _ n))
 
 attribute [local instance 10000] HasDerivedCategory.standard in
 /-- **The formation of the level objects commutes with base change**: for perfect `E`, the

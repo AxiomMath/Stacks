@@ -211,7 +211,7 @@ theorem solutionKernelInclusion_smul (U : (Opens X.left.carrier)ᵒᵖ)
     (x : (SchemeDeformationCategory.pulledIdeal A X).val.obj U) :
     solutionKernelInclusion Q U
       ((((SchemeDeformationCategory.pulledIdeal A X).val.obj U).smul
-        ((solutionReduction Q).hom.app U a)).hom x) =
+        ((solutionReduction Q).hom.app U a)).asHom.hom x) =
       a * solutionKernelInclusion Q U x := by
   have hc : X.left.ringCatSheaf.obj.map (ascendHom Q U)
       ((solutionReduction Q).hom.app U a) =

@@ -206,14 +206,14 @@ private theorem finiteCoproductOfTerminal_iff_trivialAutAction
     have hcG : IsColimit (Cofan.mk (G.obj X) (fun i => G.map (f i))) :=
       isColimitCofanMkObjOfIsColimit G A f hc.some
     obtain ⟨i, a, rfl⟩ := Cofan.inj_jointly_surjective_of_isColimit hcG x
-    have hfix : g.hom.app (A i) a = a := by
+    have hfix : g.asIso.hom.app (A i) a = a := by
       obtain ⟨hterm⟩ := hA i
-      have huniq : g.hom.app (A i) = 𝟙 (F.obj (A i)) :=
+      have huniq : g.asIso.hom.app (A i) = 𝟙 (F.obj (A i)) :=
         (hterm.isTerminalObj F (A i)).hom_ext _ _
       exact ConcreteCategory.congr_hom huniq a
-    show g.hom.app X (F.map (f i) a) = F.map (f i) a
-    have hn := NatTrans.naturality_apply g.hom (f i) a
-    change g.hom.app X (F.map (f i) a) = F.map (f i) (g.hom.app (A i) a) at hn
+    show g.asIso.hom.app X (F.map (f i) a) = F.map (f i) a
+    have hn := NatTrans.naturality_apply g.asIso.hom (f i) a
+    change g.asIso.hom.app X (F.map (f i) a) = F.map (f i) (g.asIso.hom.app (A i) a) at hn
     rwa [hfix] at hn
   · intro htriv
     obtain ⟨ι, A, f, hc, hfin, hconn⟩ :=
@@ -268,7 +268,7 @@ private theorem contAction_res_essImage_of_kernel_fixes
       (QuotientGroup.mk k) = Action.ρAut X.obj k
     rfl
   let A : Action FintypeCat G :=
-    ⟨X.obj.V, (Aut.toEnd X.obj.V).comp θ⟩
+    ⟨X.obj.V, Aut.toEnd.comp θ⟩
   have hfq : Topology.IsQuotientMap f :=
     Topology.IsQuotientMap.of_surjective_continuous hf f.continuous
   have hfo : IsOpenQuotientMap f :=
@@ -276,16 +276,16 @@ private theorem contAction_res_essImage_of_kernel_fixes
   have hp : IsOpenQuotientMap (fun p : H × X.obj.V => (f p.1, p.2)) :=
     hfo.prodMap IsOpenQuotientMap.id
   have hcomp :
-      (fun p : G × X.obj.V => ConcreteCategory.hom (A.ρ p.1) p.2) ∘
+      (fun p : G × X.obj.V => ConcreteCategory.hom (A.ρ p.1).asHom p.2) ∘
         (fun p : H × X.obj.V => (f p.1, p.2)) =
-      fun p : H × X.obj.V => ConcreteCategory.hom (X.obj.ρ p.1) p.2 := by
+      fun p : H × X.obj.V => ConcreteCategory.hom (X.obj.ρ p.1).asHom p.2 := by
     funext p
     simp only [Function.comp_apply]
-    show ConcreteCategory.hom ((Aut.toEnd X.obj.V) (θ (f p.1))) p.2 =
-      ConcreteCategory.hom (X.obj.ρ p.1) p.2
+    show ConcreteCategory.hom ((Aut.toEnd (θ (f p.1))).asHom) p.2 =
+      ConcreteCategory.hom (X.obj.ρ p.1).asHom p.2
     rw [hθ]
     rfl
-  have hcont : Continuous (fun p : G × X.obj.V => ConcreteCategory.hom (A.ρ p.1) p.2) :=
+  have hcont : Continuous (fun p : G × X.obj.V => ConcreteCategory.hom (A.ρ p.1).asHom p.2) :=
     hp.isQuotientMap.continuous_iff.mpr
       (hcomp ▸ (Action.isContinuous_def X.obj).mp X.property)
   let Y : ContAction FintypeCat G := ⟨A, (Action.isContinuous_def A).mpr hcont⟩
@@ -293,8 +293,8 @@ private theorem contAction_res_essImage_of_kernel_fixes
     refine Action.mkIso (Iso.refl _) ?_
     intro k
     ext x
-    show ConcreteCategory.hom ((Aut.toEnd X.obj.V) (θ (f k))) x =
-      ConcreteCategory.hom (X.obj.ρ k) x
+    show ConcreteCategory.hom ((Aut.toEnd (θ (f k))).asHom) x =
+      ConcreteCategory.hom (X.obj.ρ k).asHom x
     rw [hθ]
     rfl
   exact ⟨Y, ⟨ObjectProperty.isoMk _ eA⟩⟩
@@ -314,15 +314,15 @@ private theorem contAction_res_essImage_iff_kernel_fixes
     let eA : (Action.res FintypeCat f.toMonoidHom).obj Y.obj ≅ X.obj :=
       (ObjectProperty.ι _).mapIso e
     have hfk' : f.toMonoidHom k = 1 := MonoidHom.mem_ker.mp hk
-    have hc : eA.hom.hom = eA.hom.hom ≫ X.obj.ρ k := by
+    have hc : eA.hom.hom = eA.hom.hom ≫ (X.obj.ρ k).asHom := by
       have hc₀ := eA.hom.comm k
-      change Y.obj.ρ (f.toMonoidHom k) ≫ eA.hom.hom =
-        eA.hom.hom ≫ X.obj.ρ k at hc₀
+      change (Y.obj.ρ (f.toMonoidHom k)).asHom ≫ eA.hom.hom =
+        eA.hom.hom ≫ (X.obj.ρ k).asHom at hc₀
       rw [hfk'] at hc₀
       simpa [Action.res] using hc₀
-    have hρ : 𝟙 X.obj.V = X.obj.ρ k :=
+    have hρ : 𝟙 X.obj.V = (X.obj.ρ k).asHom :=
       (cancel_epi eA.hom.hom).mp ((Category.comp_id _).trans hc)
-    show (ConcreteCategory.hom (X.obj.ρ k)) x = x
+    show (ConcreteCategory.hom (X.obj.ρ k).asHom) x = x
     rw [← hρ]
     rfl
   · exact contAction_res_essImage_of_kernel_fixes f hf X
@@ -417,7 +417,7 @@ private theorem quotientContActionSwitch_basepoint_fixed
   let e := FintypeCat.uSwitchEquiv Q0.obj.V
   let : MulAction G (G ⧸ U.toSubgroup) := MulAction.quotient G U.toSubgroup
   let q : (quotientContActionSwitch U).obj.V := e.symm (⟦1⟧ : G ⧸ U.toSubgroup)
-  show (FintypeCat.uSwitch.map (Q0.obj.ρ g)) q = q
+  show (FintypeCat.uSwitch.map (Q0.obj.ρ g).asHom) q = q
   apply e.injective
   rw [← FintypeCat.uSwitchEquiv_naturality]
   have hq : e q = (⟦1⟧ : G ⧸ U.toSubgroup) := Equiv.apply_symm_apply _ _
@@ -468,10 +468,10 @@ private theorem quotientContActionSwitch_not_fixed
     rw [MulAction.Quotient.smul_mk] at heq
     have hmem : g⁻¹ ∈ U.toSubgroup := by simpa using (QuotientGroup.eq.mp heq)
     exact hg (U.inv_mem_iff.mp hmem)
-  show (FintypeCat.uSwitch.map (Q0.obj.ρ g)) q ≠ q
+  show (FintypeCat.uSwitch.map (Q0.obj.ρ g).asHom) q ≠ q
   intro heq
   have hq : e q = (⟦1⟧ : G ⧸ U.toSubgroup) := Equiv.apply_symm_apply _ _
-  have h' := FintypeCat.uSwitchEquiv_naturality (Q0.obj.ρ g) q
+  have h' := FintypeCat.uSwitchEquiv_naturality (Q0.obj.ρ g).asHom q
   rw [hq, heq, hq] at h'
   exact hmove h'
 
@@ -496,7 +496,7 @@ private theorem actionKernel_mem_iff {G : Type*} [Group G]
     g ∈ (Action.ρAut X.obj).ker ↔ ∀ x : X.obj.V, g • x = x := by
   rw [MonoidHom.mem_ker]
   constructor
-  · exact fun h x => ConcreteCategory.congr_hom (congrArg Iso.hom h) x
+  · exact fun h x => ConcreteCategory.congr_hom (congrArg (fun a => a.asIso.hom) h) x
   · intro h
     apply Aut.ext
     ext x

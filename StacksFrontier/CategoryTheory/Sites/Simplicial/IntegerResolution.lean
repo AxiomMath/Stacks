@@ -1761,6 +1761,7 @@ private theorem toSheafify_comp_transitionInverseImageForgetComparison_inr
   exact toSheafify_comp_homEquiv_symm
     ((⟨Sum.inr C⟩ : SimplicialSiteSituation.{u}).componentTopology m) _ _ _
 
+set_option backward.isDefEq.respectTransparency false in
 /-- In case (B), the sheafification unit followed by the inverse-image transition of Stacks 09WF
 is restriction of the total-site sheaf along the cross-fibre arrows. -/
 private theorem toSheafify_comp_fiberTransition_inr_app (C : CocontinuousSimplicialSite.{u})

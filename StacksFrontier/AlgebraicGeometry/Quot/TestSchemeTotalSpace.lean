@@ -210,7 +210,7 @@ theorem pointsIsoToHom_app_eq {V : BigFppfOver B S hS} (s : V ⟶ T.left) (t : V
   have h := congrArg Subtype.val (NatTrans.naturality_apply φ.hom (mapTestEqHom hs).op ⟨t, ht⟩)
   refine Eq.trans ?_ (h.trans ?_)
   · rfl
-  · exact FunctorToTypes.map_id_apply H _
+  · exact H.map_id_apply _ _
 
 /-- **A representing object of the points over `Y` restricted to a test scheme gives a pullback
 square.**  If the points of `H` over `Y`, on the test schemes over `T.left`, are identified with

@@ -178,9 +178,9 @@ theorem exists_restrictScalarsRepDualCoefficientSheaf_isogeny :
           (restrictScalarsRep b (contragredient σ))
           (continuous_restrictScalarsRep_contragredient b hσ)) (restrictScalarsScalarAlgHom b m)),
         algebraMap _ E o₁ = algebraMap _ E o₂ →
-        φ ≫ (restrictScalarsRepCoefficientSheaf B X x b (contragredient σ)
-          (continuous_restrictScalarsRep_contragredient b hσ)).act o₂ =
-          (restrictScalarsRepDualCoefficientSheaf B X ℓ x E b σ hσ).act o₁ ≫ φ := by
+        φ ≫ ((restrictScalarsRepCoefficientSheaf B X x b (contragredient σ)
+          (continuous_restrictScalarsRep_contragredient b hσ)).act o₂).asHom =
+          ((restrictScalarsRepDualCoefficientSheaf B X ℓ x E b σ hσ).act o₁).asHom ≫ φ := by
   have := compactSpace_etaleFundamentalGroup X.1 x
   have hσ' := continuous_restrictScalarsRep_contragredient b hσ
   have hP : ∀ (ρ : EtaleFundamentalGroup X.1 x →* GL (Fin (m * d)) ℚ_[ℓ]) (hρ : Continuous ρ) g,

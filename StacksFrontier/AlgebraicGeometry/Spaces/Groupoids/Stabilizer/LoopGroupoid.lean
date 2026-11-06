@@ -205,9 +205,9 @@ noncomputable def stabilizerToElements (G : GroupoidInAlgebraicSpaces C S hS B)
     (T : (BigFppfOver C S hS)ᵒᵖ) :
     (stabilizerOverBase G).obj.obj T →
       (G.toGroupoidInFunctors.loopConjugationFunctor T).Elements := fun q =>
-  ⟨(stabilizer G).hom.app T q,
+  Functor.elementsMk _ ((stabilizer G).hom.app T q)
     ⟨(stabilizerArrow G).app T q, stabilizerArrow_source_app G T q,
-      stabilizerArrow_target_app G T q⟩⟩
+      stabilizerArrow_target_app G T q⟩
 
 /-- An element of the loop functor, read as a generalized point of the stabilizer. -/
 noncomputable def elementsToStabilizer (G : GroupoidInAlgebraicSpaces C S hS B)
@@ -215,7 +215,7 @@ noncomputable def elementsToStabilizer (G : GroupoidInAlgebraicSpaces C S hS B)
     (G.toGroupoidInFunctors.loopConjugationFunctor T).Elements →
       (stabilizerOverBase G).obj.obj T := fun e =>
   (stabilizerExplicitPullbackIso G T).inv
-    ⟨(e.2.1, e.1), sourceTarget_eq_diagonal_of_loop G T e.2.1 e.1 e.2.2.1 e.2.2.2⟩
+    ⟨(e.val.1, e.obj), sourceTarget_eq_diagonal_of_loop G T e.val.1 e.obj e.val.2.1 e.val.2.2⟩
 
 /-- The generalized points of the stabilizer over a test object are exactly the pairs consisting
 of a point of the object space and a loop at it. -/
@@ -230,15 +230,20 @@ noncomputable def stabilizerElementsEquiv (G : GroupoidInAlgebraicSpaces C S hS 
       (stabilizerExplicitPullbackIso_inv_fst G T _)
       (stabilizerExplicitPullbackIso_inv_snd G T _)
   right_inv e := by
-    obtain ⟨x, a⟩ := e
+    obtain @⟨x, a⟩ := e
     let q : Types.PullbackObj ((sourceTarget G).hom.app T) ((diagonal G).hom.app T) :=
       ⟨(a.1, x), sourceTarget_eq_diagonal_of_loop G T a.1 x a.2.1 a.2.2⟩
     have hx : (stabilizer G).hom.app T ((stabilizerExplicitPullbackIso G T).inv q) = x :=
       stabilizerExplicitPullbackIso_inv_snd G T q
-    refine Sigma.ext hx ?_
+    have key : ∀ {y z : (G.toGroupoidInFunctors.loopConjugationFunctor T).Elements},
+        y.obj = z.obj → y.val ≍ z.val → y = z := by
+      rintro ⟨y⟩ ⟨z⟩ (rfl : _ = _) h
+      cases eq_of_heq h
+      rfl
+    refine key hx ?_
     let b : G.toGroupoidInFunctors.pointwiseLoops T
         ((stabilizer G).hom.app T ((stabilizerExplicitPullbackIso G T).inv q)) :=
-      (stabilizerToElements G T (elementsToStabilizer G T ⟨x, a⟩)).2
+      (stabilizerToElements G T (elementsToStabilizer G T ⟨a⟩)).val
     change b ≍ a
     have hcast : b = cast (congrArg (G.toGroupoidInFunctors.pointwiseLoops T) hx.symm) a :=
       Subtype.ext ((stabilizerExplicitPullbackIso_inv_fst G T q).trans

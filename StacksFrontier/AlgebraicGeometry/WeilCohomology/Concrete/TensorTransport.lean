@@ -56,8 +56,7 @@ theorem correspondenceEquivOfIso_trans (e r : ℤ) (c : Correspondence C sX'' sY
         (correspondenceEquivOfIso C sX' sY' sX'' sY'' ψX ψY hψX hψY e r c) =
       correspondenceEquivOfIso C sX sY sX'' sY'' (ψX ≫ φX) (ψY ≫ φY)
         (by rw [Category.assoc, hφX, hψX]) (by rw [Category.assoc, hφY, hψY]) e r c := by
-  induction c using TensorProduct.induction_on with
-  | zero => simp
+  induction c using TensorProduct.inductionOn with
   | add a b ha hb => rw [map_add, map_add, ha, hb, map_add]
   | tmul q c =>
     rw [correspondenceEquivOfIso_tmul, correspondenceEquivOfIso_tmul,
@@ -90,7 +89,7 @@ theorem corrEquivOfIso_trans (φX : X' ⟶ X) [IsIso φX] (φY : Y' ⟶ Y) [IsIs
       corrEquivOfIso k sX sX'' sY sY'' (ψX ≫ φX) (ψY ≫ φY) (by rw [Category.assoc, hφX, hψX])
         (by rw [Category.assoc, hφY, hψY]) r c := by
   induction c using Corr.induction_on with
-  | zero => simp
+  | zero => simp only [LinearEquiv.map_zero]
   | add a b ha hb => rw [map_add, map_add, ha, hb, map_add]
   | lof d e x =>
     have h := correspondenceEquivOfIso_congr (fieldChowSituation k) (partBase sX d)
@@ -228,8 +227,7 @@ theorem correspondenceEquivOfIso_tensorBlockInclusion_partMap (d d' e e' : ℕ) 
             (partMap_comp_partBase _ _ _ _ _) (partMap_comp_partBase _ _ _ _ _))
           (prodHom_comp_prodBase _ _ _ _ _ _ _ _) (prodHom_comp_prodBase _ _ _ _ _ _ _ _)
           ((e + e' : ℕ) : ℤ) r z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add x y hx hy => simp only [map_add, hx, hy]
   | tmul q c =>
     rw [tensorBlockInclusion_tmul, correspondenceEquivOfIso_tmul, correspondenceEquivOfIso_tmul,

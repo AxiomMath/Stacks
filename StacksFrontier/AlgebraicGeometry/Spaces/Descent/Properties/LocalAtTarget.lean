@@ -38,6 +38,7 @@ universe u v
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- A property of morphisms of algebraic spaces over `S` which is local on the base for `τ` is
 inherited by the base change along any member of a `τ`-covering presieve of the target. -/
 theorem prop_fiberProduct_fst_of_mem_precoverage
@@ -113,6 +114,7 @@ theorem exists_mem_precoverage_containing
   exact ⟨Yi, q, ⟨ULift.{v, 0} Bool, Yi, q, rfl, hcover⟩,
     Presieve.ofArrows.mk' (ULift.up false) rfl (by rfl)⟩
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- A property of morphisms of algebraic spaces over `S` which is local on the base for `τ` is
 inherited by the base change along any morphism of the kind belonging to `τ`. -/
 @[stacks 06EM]

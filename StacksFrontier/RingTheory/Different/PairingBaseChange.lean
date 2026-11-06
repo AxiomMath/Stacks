@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.FiveLemma
 public import Mathlib.LinearAlgebra.Contraction
 public import Mathlib.LinearAlgebra.Dual.BaseChange
 public import Mathlib.RingTheory.Flat.EquationalCriterion

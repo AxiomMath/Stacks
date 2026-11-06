@@ -105,17 +105,17 @@ theorem rightDerivedFunctorPlusIsoOfCompIso_eq (F : C ⥤ D) (G : D ⥤ E) (H : 
     Stacks.EtaleCohomology.rightDerivedFunctorPlusIsoOfCompIso F G H e =
       Functor.rightDerivedFunctorPlusNatIso e := by
   refine Iso.ext (Functor.rightDerived_ext (F ⋙ G).rightDerivedFunctorPlus
-    (F ⋙ G).rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C) _ _ _
+    (F ⋙ G).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C) _ _ _
     (NatTrans.ext (funext fun K ↦ ?_)))
-  have h1 : (F ⋙ G).rightDerivedFunctorPlusUnit.app K ≫
+  have h1 : (F ⋙ G).rightDerivedFunctorPlusUnith.app K ≫
       (Stacks.EtaleCohomology.rightDerivedFunctorPlusIsoOfCompIso F G H e).hom.app
         (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map
           ((Stacks.EtaleCohomology.mapHomotopyCategoryPlusIsoOfCompIso F G H e).hom.app K) ≫
-        H.rightDerivedFunctorPlusUnit.app K :=
+        H.rightDerivedFunctorPlusUnith.app K :=
     Functor.rightDerivedNatTrans_app (F ⋙ G).rightDerivedFunctorPlus
-      H.rightDerivedFunctorPlus (F ⋙ G).rightDerivedFunctorPlusUnit
-      H.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C)
+      H.rightDerivedFunctorPlus (F ⋙ G).rightDerivedFunctorPlusUnith
+      H.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C)
       (Functor.isoWhiskerRight
         (Stacks.EtaleCohomology.mapHomotopyCategoryPlusIsoOfCompIso F G H e)
         DerivedCategory.Plus.Qh).hom K
@@ -127,7 +127,7 @@ theorem rightDerivedFunctorPlusIsoOfCompIso_eq (F : C ⥤ D) (G : D ⥤ E) (H : 
       (Category.id_comp _)
   exact (h1.trans (CategoryTheory.eq_whisker
         (congrArg DerivedCategory.Plus.Qh.map h2)
-        (H.rightDerivedFunctorPlusUnit.app K))).trans
+        (H.rightDerivedFunctorPlusUnith.app K))).trans
     (Functor.rightDerivedFunctorPlusNatIso_hom_fac_app e K).symm
 
 omit [Abelian E] [HasDerivedCategory E] in

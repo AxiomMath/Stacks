@@ -787,7 +787,7 @@ private theorem mapTowerAugmentation_productLift
   apply Limits.Pi.hom_ext
   intro index
   rw [Category.assoc, piComparison_comp_π, ← Functor.map_comp]
-  simp only [Limits.Pi.lift_π]
+  simp only [Limits.Pi.lift_comp_π]
 
 
 section

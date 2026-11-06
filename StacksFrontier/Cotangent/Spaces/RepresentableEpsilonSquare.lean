@@ -160,8 +160,13 @@ noncomputable def chartComparisonCommRing (f : X ⟶ Y)
       (smallBaseChange B S hS f hf).sheafPushforwardContinuous CommRingCat.{u}
         (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1) :=
   letI := isContinuous_smallBaseChange B S hS f hf
+  -- the instance `restrictionCommRingNatIso` uses; instance search for it times out here
+  letI : PreservesFiniteProducts ((smallBaseChange B S hS f hf).sheafPushforwardContinuous
+      (Type u) (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1)) :=
+    instPreservesFiniteProductsOfPreservesFiniteLimits _
   pullbackCommRingSheafFunctorIsoOfNatIso.{u, u, u, u + 1, u, u + 1}
       (SmallEtale.topology B S hS Y.1)
+      (Φ := (smallEtaleRingedToposHom B S hS f).toToposHom.pushforward)
       (chartComparison B S hS f hf) ≪≫
     restrictionCommRingNatIso.{u, u, u + 1, u, u + 1} (SmallEtale.topology B S hS Y.1)
       (SmallEtale.topology B S hS X.1) (smallBaseChange B S hS f hf)

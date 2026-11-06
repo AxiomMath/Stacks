@@ -305,10 +305,11 @@ private theorem associatedImage_eq_comp (ξ : FormalObject 𝓕.p)
     q.map (b.toBasedFunctor.map g) =
         eqToHom (Functor.congr_obj hproj α) ≫ q.map (c.map g) ≫
           eqToHom (Functor.congr_obj hproj β).symm := by
-      simpa only [q, Functor.comp_map] using Functor.congr_hom hproj g
+      exact Functor.congr_hom hproj g
     _ = q.map (eqToHom (hObj α) ≫ c.map g ≫ eqToHom (hObj β).symm) := by
       rw [Functor.map_comp, Functor.map_comp, CategoryTheory.eqToHom_map,
         CategoryTheory.eqToHom_map]
+      rfl
 
 -- A based functor is determined by its underlying functor:
 -- `CategoryTheory.BasedCategory.BasedFunctor.ext'`, public in
@@ -375,15 +376,16 @@ public theorem hasBijectiveDifferential_imageInIsomorphismClasses
       fun d => mφ (derivationToTangent hpre.cofibered ξ P d) := by
     funext d
     let x := (tangentSpaceDerivationsLinearEquiv ξ.base).symm d
-    let z : Fiber (CategoryOfElements.π (restrictedCoyoneda ξ.base)) A₂ := ⟨⟨A₂, x⟩, rfl⟩
+    let z : Fiber (CategoryOfElements.π (restrictedCoyoneda ξ.base)) A₂ :=
+      ⟨(restrictedCoyoneda ξ.base).elementsMk A₂ x, rfl⟩
     change mapIsomorphismClasses hR hT b.toBasedFunctor A₂
         (classOf (BasedCategory.ofFunctor
           (CategoryOfElements.π (restrictedCoyoneda ξ.base))) hR z) =
       mφ (mapIsomorphismClasses hR hpre.cofibered a.toBasedFunctor A₂
         (classOf (BasedCategory.ofFunctor
           (CategoryOfElements.π (restrictedCoyoneda ξ.base))) hR z))
-    rw [congrArg (fun G => mapIsomorphismClasses hR hT G A₂) hbf,
-      mapIsomorphismClasses_comp hR hpre.cofibered hT a.toBasedFunctor φ A₂]
+    rw [congrArg (fun G => mapIsomorphismClasses hR hT G A₂) hbf]
+    exact congrFun (mapIsomorphismClasses_comp hR hpre.cofibered hT a.toBasedFunctor φ A₂) _
   refine ⟨Q, ?_⟩
   exact (congrArg Function.Bijective hderiv).mpr
     ((mapIsomorphismClasses_bijective_of_isIsomorphismClasses hpre.cofibered hT φ

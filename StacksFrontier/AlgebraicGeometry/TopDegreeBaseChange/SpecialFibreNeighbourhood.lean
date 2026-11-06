@@ -69,7 +69,7 @@ theorem epi_unitToPushforwardUnit_of_isPullback_of_flat {X' Y' : Scheme.{u}} {f 
       Scheme.Modules.unitToPushforwardUnit f' ≫ (Scheme.Modules.pushforward f').map
         (Scheme.Modules.pullbackUnitIso g').inv) := by
     rw [unitToPushforwardUnit_comp_pushforwardBaseChange H.w]
-    infer_instance
+    set_option synthInstance.maxHeartbeats 400000 in infer_instance
   exact (epi_comp_iff_of_isIso _ _).1 ((epi_comp_iff_of_epi _ _).1 this)
 
 /-- The cokernel of the restriction of `𝒪_Y ⟶ f_* 𝒪_X` to an open `U` is the cokernel of
@@ -273,7 +273,7 @@ theorem epi_unitToPushforwardUnit_morphismRestrict_of_epi (f : X ⟶ Y) (V : Y.O
   have : Epi ((ProjectiveSpaceHigherDirectImage.restrictUnitModuleIso V.ι).hom ≫
       Scheme.Modules.unitToPushforwardUnit (f ∣_ V)) := by
     rw [← ProjectiveSpaceHigherDirectImage.restrictUnitToPushforwardUnitSquare f V]
-    infer_instance
+    set_option synthInstance.maxHeartbeats 400000 in infer_instance
   exact epi_of_epi ((ProjectiveSpaceHigherDirectImage.restrictUnitModuleIso V.ι).hom) _
 
 /-- **Persistence under base change.** If over an open `V ⊆ Y` the fibres of `f` have dimension

@@ -147,7 +147,7 @@ theorem tensorTotalSection_restrict
         ((B.X r).val.map (homOfLE hVU).op y) =
       (((F.obj ((underlyingComplex Rc A).X t)).obj ((underlyingComplex Rc B).X r)).map
         (homOfLE hVU).op) (x ⊗ₜ[(structureSheaf Rc).obj.obj (op U)] y) :=
-    (PresheafOfModules.Monoidal.tensorObj_map_tmul (homOfLE hVU).op x y).symm
+    (PresheafOfModulesOfCommRing.Monoidal.tensorObj_map_tmul (homOfLE hVU).op x y).symm
   have h2 := PresheafOfModules.naturality_apply ι (homOfLE hVU).op
     (x ⊗ₜ[(structureSheaf Rc).obj.obj (op U)] y)
   have h3 := PresheafOfModules.naturality_apply η (homOfLE hVU).op

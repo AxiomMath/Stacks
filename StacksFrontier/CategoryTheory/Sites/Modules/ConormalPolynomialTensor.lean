@@ -326,7 +326,8 @@ theorem tensorPresheaf_map_one_tmul_d {X Y : Cᵒᵖ} (f : X ⟶ Y) (x : A₀.ob
   rw [map_one ((quotientPresheaf φ₀).map f).hom]
   exact congrArg (fun ω : (differentialsPresheaf a₀).obj Y ↦
       (1 : A₀.obj Y ⧸ kernelIdeal φ₀ Y) ⊗ₜ[A₀.obj Y] ω)
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d a₀ f x)
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
+      a₀ f x)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat RingCat)] in
 /-- The local section `1 ⊗ d x` is compatible with restriction. -/
@@ -411,7 +412,8 @@ The sheafification unit `A(-)[E(-)] ⟶ A[E]` is locally bijective, so the famil
 `q ↦ 1 ⊗ d q` into the sheafified polynomial model, being a derivation with values in a sheaf,
 extends in exactly one way to a relative derivation of `A[E]` over `A`. -/
 theorem existsUnique_polynomialDerivation :
-    ∃! D : (polynomialTensorOverFree.{v, u, w, z} J A B E a e).Derivation'
+    ∃! D : PresheafOfModulesOfCommRing.Derivation'
+        (polynomialTensorOverFree.{v, u, w, z} J A B E a e)
       (freeAlgebraSheafCoefficientMap J A E).hom,
       ∀ (X : Cᵒᵖ) (q : (polynomialPresheaf J A E).obj X),
         D.d ((polynomialUnit J A E).app X q) =
@@ -435,7 +437,7 @@ theorem existsUnique_polynomialDerivation :
 /-- The relative derivation of `A[E]` over `A` with values in the sheafified polynomial model
 extending the universal differential of the polynomial model. -/
 noncomputable def polynomialDerivation :
-    (polynomialTensorOverFree.{v, u, w, z} J A B E a e).Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (polynomialTensorOverFree.{v, u, w, z} J A B E a e)
       (freeAlgebraSheafCoefficientMap J A E).hom :=
   (existsUnique_polynomialDerivation.{v, u, w, z} J A B E a e).choose
 
@@ -630,7 +632,7 @@ theorem polynomialTensorDescApp_map
           (freeAlgebraSheafCoefficientMap J A E).hom).obj Y ↦
         (quotientPresheaf (freeAlgebraSheafDesc J A B E a e).hom).map f b
           ⊗ₜ[(freeAlgebraSheaf J A E).obj.obj Y] ω)
-        (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d
           (freeAlgebraSheafCoefficientMap J A E).hom f p))
   refine Eq.trans (congrArg (polynomialTensorDescApp.{v, u, w, z} J A B E a e Y) hleft) ?_
   refine Eq.trans (polynomialTensorDescHom_tmul.{v, u, w, z} J A B E a e Y _ _) ?_

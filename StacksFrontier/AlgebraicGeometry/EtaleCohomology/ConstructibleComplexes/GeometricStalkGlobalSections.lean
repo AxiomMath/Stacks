@@ -54,7 +54,8 @@ def etaleModuleSheafFiberIdIsoGlobalSections :
   letI : ∀ P, IsIso (ι.app P) := fun P ↦
     ((Scheme.pointSmallEtale (𝟙 (Spec (.of Ω)))).isColimitPresheafFiberCocone
       P).isIso_ι_app_of_isTerminal
-        (op ⟨Scheme.Etale.mk (𝟙 (Spec (.of Ω))), pointSmallEtaleIdElement Ω⟩)
+        (op (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of Ω))))
+          (pointSmallEtaleIdElement Ω)))
         (isInitialPointSmallEtaleIdElement Ω).op
   letI := NatIso.isIso_of_isIso_app ι
   exact (Functor.isoWhiskerLeft

@@ -63,7 +63,7 @@ theorem isZero_rightDerivedFunctorPlus_obj {C D : Type*} [Category* C] [Category
     rw [IsZero.iff_id_eq_zero]
     ext n : 1
     exact (Functor.map_isZero F (hZX n)).eq_of_src _ _
-  exact (hFL.of_iso (asIso (F.rightDerivedFunctorPlusUnit.app L)).symm).of_iso
+  exact (hFL.of_iso (asIso (F.rightDerivedFunctorPlusUnith.app L)).symm).of_iso
     (F.rightDerivedFunctorPlus.mapIso (hX.iso hQL))
 
 end CategoryTheory.Functor

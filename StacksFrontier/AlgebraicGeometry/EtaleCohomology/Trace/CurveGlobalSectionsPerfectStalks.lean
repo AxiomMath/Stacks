@@ -44,8 +44,10 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} [LocallySmal
 
 /-- The stalk of an abelian sheaf at a point is additive. -/
 instance sheafFiber_additive (Φ : GrothendieckTopology.Point.{w} J) :
-    (Φ.sheafFiber (A := AddCommGrpCat.{w})).Additive :=
-  Functor.additive_of_preserves_binary_products _
+    (Φ.sheafFiber (A := AddCommGrpCat.{w})).Additive := by
+  have : HasBinaryProducts (Sheaf J AddCommGrpCat.{w}) := inferInstance
+  have : PreservesFiniteLimits (Φ.sheafFiber (A := AddCommGrpCat.{w})) := inferInstance
+  exact Functor.additive_of_preserves_binary_products _
 
 /-- **The stalk functor at a point is exact on abelian sheaves**: it preserves finite limits and
 is a left adjoint. -/

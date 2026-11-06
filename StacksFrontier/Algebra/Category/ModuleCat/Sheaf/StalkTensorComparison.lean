@@ -377,7 +377,7 @@ lemma exists_germ_families {l k j : ℕ} (m : Fin l → moduleFiber Φ O A)
       (∀ i, moduleFiberGerm Φ O A X u (a i) = m i) ∧
         (∀ i, moduleFiberGerm Φ O F X u (s i) = n i) ∧
           (∀ i, ringFiberGerm Φ O X u (r i) = c i) := by
-  obtain ⟨⟨X₀, x₀⟩⟩ := IsCofiltered.nonempty (C := Φ.fiber.Elements)
+  obtain ⟨@⟨X₀, x₀⟩⟩ := IsCofiltered.nonempty (C := Φ.fiber.Elements)
   obtain ⟨X₁, x₁, -, -, a, ha⟩ := exists_toPresheafModuleFiber_family Φ A X₀ x₀ m
   obtain ⟨X₂, x₂, g₂, hg₂, s, hs⟩ := exists_toPresheafModuleFiber_family Φ F X₁ x₁ n
   obtain ⟨X, u, g, hg, r, hr⟩ := exists_toPresheafFiber_family Φ (ringPresheaf O) X₂ x₂
@@ -572,7 +572,7 @@ lemma tensorFiberCompare_compareInv
   induction z using TensorProduct.induction_on with
   | zero => rw [map_zero, map_zero]
   | tmul x y =>
-    obtain ⟨⟨⟨X, u⟩, a, s⟩, rfl, rfl⟩ := exists_tensorFiberRep A F x y
+    obtain ⟨⟨@⟨X, u⟩, a, s⟩, rfl, rfl⟩ := exists_tensorFiberRep A F x y
     rw [tensorFiberCompareInv_tmul, tensorFiberBack_germ, tensorFiberCompare_germ_tmul]
   | add z z' h h' => rw [map_add, map_add, h, h']
 

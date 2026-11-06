@@ -244,8 +244,8 @@ theorem quasiIso_to_limit_of_truncGE_resolutions {C : Type u} [Category.{u} C]
       Pi.π (fun n : ℕ ↦ H.obj ⟨n⟩) (n + 1) ≫ H.map (homOfLE (Nat.le_succ n)).op
     have hs : sH ≫ q.hom = q.hom ≫ sG := by
       refine Pi.hom_ext _ _ fun n ↦ ?_
-      simp only [q, sH, sG, Category.assoc, Pi.map_π, Pi.map_π_assoc, Pi.lift_π,
-        Pi.lift_π_assoc, Preadditive.comp_sub, Preadditive.sub_comp]
+      simp only [q, sH, sG, Category.assoc, Pi.map_π, Pi.map_π_assoc, Pi.lift_comp_π,
+        Pi.lift_comp_π_assoc, Preadditive.comp_sub, Preadditive.sub_comp]
       rw [hstep n]
     refine ⟨q.inv ≫ δ, isomorphic_distinguished _ hT _
       (Triangle.isoMk (Triangle.mk p sH δ) (Triangle.mk p' sG (q.inv ≫ δ))

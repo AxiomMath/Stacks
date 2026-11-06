@@ -50,7 +50,8 @@ variable (A : Type u) [CommRing A] (I : Ideal A) (B : BigFppfSite.{u})
 theorem adicFibreSuccHom_comp_adicFibreFstHom (n : ℕ) :
     adicFibreSuccHom A I B hA hX f n ≫ adicFibreFstHom A I B hA hX f (n + 1) =
       adicFibreFstHom A I B hA hX f n :=
-  ObjectProperty.hom_ext _ (adicFibreSucc_fst A I B hA (contains_adicThickening A I B hA) f n)
+  ObjectProperty.hom_ext _ ((ObjectProperty.FullSubcategory.comp_hom _ _ _).trans
+    (adicFibreSucc_fst A I B hA (contains_adicThickening A I B hA) f n))
 
 /-- **`ι_n : X_n ⟶ X` is a closed immersion**, being the base change of the closed immersion of
 `Spec (A / I ^ (n + 1))` into `Spec A`. -/
@@ -60,7 +61,9 @@ theorem isClosedImmersion_adicFibreFstHom (n : ℕ) :
     (MorphismProperty.inverseImage
       (@AlgebraicGeometry.IsClosedImmersion.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme B (Spec (.of A)) hA))).of_isPullback
-    (IsPullback.of_hasPullback f _).flip (isClosedImmersion_yoneda_map_adicThickeningMap A I B hA n)
+    (IsPullback.of_hasPullback f
+      (yoneda.map (adicThickeningMap A I B hA (contains_adicThickening A I B hA) n))).flip
+    (isClosedImmersion_yoneda_map_adicThickeningMap A I B hA n)
 
 /-- **Every adic fibre of an algebraic space locally of finite type over a Noetherian ring is
 locally Noetherian.** -/

@@ -123,7 +123,7 @@ omit [TopologicalSpace G] in
 theorem latticeLevel_nsmul_eq_zero (k : ℕ)
     (x : ULift.{w} (LatticeModule ρ ⧸ latticeLevelSubmodule ρ k)) :
     ℓ ^ k • x = 0 := by
-  refine ULift.ext _ _ ((latticeLevelEquiv ρ k).injective ?_)
+  refine ULift.ext ((latticeLevelEquiv ρ k).injective ?_)
   show latticeLevelEquiv ρ k (ℓ ^ k • x.down) = latticeLevelEquiv ρ k 0
   rw [map_nsmul, map_zero]
   funext i
@@ -148,7 +148,7 @@ theorem groupRingIsContinuous_latticeLevel (hρ : Continuous ρ) (k : ℕ) :
         latticeLevelEquiv ρ k m.down} := by
     ext g
     simp only [Set.mem_setOf_eq, ← latticeLevelEquiv_of_smul]
-    exact ⟨fun h => by rw [← ULift.smul_down, h], fun h => ULift.ext _ _
+    exact ⟨fun h => by rw [← ULift.smul_down, h], fun h => ULift.ext
       ((latticeLevelEquiv ρ k).injective (by rw [ULift.smul_down]; exact h))⟩
   rw [this]
   exact isOpen_setOf_levelRepresentation_apply_eq ρ hρ k _
@@ -170,7 +170,7 @@ def levelModuleLatticeIso (hρ : Continuous ρ) (k : ℕ) [NeZero (ℓ ^ k)] :
       ⟨(AddEquiv.ulift.symm.toAddMonoidHom.comp
           ((latticeLevelEquiv ρ k).symm.toLinearMap.toAddMonoidHom.comp
             AddEquiv.ulift.toAddMonoidHom)).toZModLinearMap (ℓ ^ k), fun g x =>
-        ULift.ext _ _ ((latticeLevelEquiv ρ k).injective (by
+        ULift.ext ((latticeLevelEquiv ρ k).injective (by
           change latticeLevelEquiv ρ k ((latticeLevelEquiv ρ k).symm
               (levelRepresentation ρ k g x.down)) =
             latticeLevelEquiv ρ k (of ℤ G g • (latticeLevelEquiv ρ k).symm x.down)
@@ -180,14 +180,14 @@ def levelModuleLatticeIso (hρ : Continuous ρ) (k : ℕ) [NeZero (ℓ ^ k)] :
       ⟨(AddEquiv.ulift.symm.toAddMonoidHom.comp
           ((latticeLevelEquiv ρ k).toLinearMap.toAddMonoidHom.comp
             AddEquiv.ulift.toAddMonoidHom)).toZModLinearMap (ℓ ^ k), fun g x =>
-        ULift.ext _ _ (by
+        ULift.ext (by
           change latticeLevelEquiv ρ k (of ℤ G g • x.down) =
             levelRepresentation ρ k g (latticeLevelEquiv ρ k x.down)
           rw [latticeLevelEquiv_of_smul])⟩)
     hom_inv_id := continuousModule_hom_ext (ℓ ^ k) fun x =>
-      ULift.ext _ _ (by exact (latticeLevelEquiv ρ k).apply_symm_apply x.down)
+      ULift.ext (by exact (latticeLevelEquiv ρ k).apply_symm_apply x.down)
     inv_hom_id := continuousModule_hom_ext (ℓ ^ k) fun x =>
-      ULift.ext _ _ (by exact (latticeLevelEquiv ρ k).symm_apply_apply x.down) }
+      ULift.ext (by exact (latticeLevelEquiv ρ k).symm_apply_apply x.down) }
 
 end Stacks.EtaleCohomology
 

@@ -382,7 +382,7 @@ def generalLinearTwoPowerPointSection :
 def projectiveSpacePowerMatrixAutOver :
     (Over.post (X := B.obj hk) B.inclusion).obj (projectiveSpacePowerSiteObject k B hk m) ⟶
       (Over.post (X := B.obj hk) B.inclusion).obj (projectiveSpacePowerSiteObject k B hk m) :=
-  (projectiveSpacePowerMatrixAut k 1 m M).hom
+  (projectiveSpacePowerMatrixAut k 1 m M).asIso.hom
 
 /-- **The automorphism of the site object of `(ℙ¹_k)^m` attached to `M`.** -/
 def projectiveSpacePowerSiteMatrixAut :
@@ -390,7 +390,7 @@ def projectiveSpacePowerSiteMatrixAut :
   (fullyFaithful_overPost_bigFppfInclusion B (Spec (CommRingCat.of k)) hk).preimageIso
     (X := projectiveSpacePowerSiteObject k B hk m)
     (Y := projectiveSpacePowerSiteObject k B hk m)
-    (projectiveSpacePowerMatrixAut k 1 m M)
+    (projectiveSpacePowerMatrixAut k 1 m M).asIso
 
 /-- The forward morphism of the automorphism of the site object attached to `M`. -/
 theorem projectiveSpacePowerSiteMatrixAut_hom :

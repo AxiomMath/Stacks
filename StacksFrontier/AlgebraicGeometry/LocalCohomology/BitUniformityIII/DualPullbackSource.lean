@@ -117,7 +117,7 @@ theorem tilde_map_smul_id_val_app (M : ModuleCat.{u} R) (a : R) (U : (Spec R).Op
 theorem tilde_map_smul_id (M : ModuleCat.{u} R) (a : R) :
     tilde.map (a • 𝟙 M) =
       (Stacks.SheafOfModules.terminalSectionToEnd (Spec R).ringCatSheaf ⊤ isTerminalTop
-        ((Scheme.ΓSpecIso R).inv a)).app (tilde M) := by
+        ((Scheme.ΓSpecIso R).inv a)).asHom.app (tilde M) := by
   ext U x
   exact tilde_map_smul_id_val_app M a U x
 
@@ -150,7 +150,7 @@ noncomputable abbrev specSmul (a : R) :
 
 /-- `(a • φ)~` is `φ~` after multiplication by `a`. -/
 theorem tildeForm_smul {M : ModuleCat.{u} R} (a : R) (φ : Module.Dual R M) :
-    tildeForm (a • φ) = (specSmul R a).app (tilde M) ≫ tildeForm φ := by
+    tildeForm (a • φ) = (specSmul R a).asHom.app (tilde M) ≫ tildeForm φ := by
   have h : ModuleCat.ofHom (a • φ) = (a • 𝟙 M) ≫ ModuleCat.ofHom φ := by
     ext m
     exact (φ.map_smul a m).symm
@@ -166,7 +166,7 @@ noncomputable def dualToSectionsTop (M : ModuleCat.{u} R) :
   map_smul' a φ := by
     have h1 : Stacks.Algebraization.internalHomSectionsTopMapAddEquiv (tilde M) (specUnit R)
         (tildeForm (a • φ)) =
-          (Stacks.Algebraization.topOverForget (Spec R)).map ((specSmul R a).app (tilde M)) ≫
+          (Stacks.Algebraization.topOverForget (Spec R)).map ((specSmul R a).asHom.app (tilde M)) ≫
             (Stacks.Algebraization.topOverForget (Spec R)).map (tildeForm φ) := by
       rw [tildeForm_smul]
       exact (Stacks.Algebraization.topOverForget (Spec R)).map_comp _ _

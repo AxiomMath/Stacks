@@ -76,12 +76,13 @@ noncomputable def spacesFiberElementsEquiv :
       map_id p := EtaleNeighborhood.Hom.ext rfl
       map_comp g h := EtaleNeighborhood.Hom.ext rfl }
   inverse :=
-    { obj U := ⟨etaleSiteObjectOfNeighborhood B S hS X x U, ⟨U.point, U.point_comp⟩⟩
-      map f := ⟨spacesNeighborhoodMap x f, Subtype.ext f.point_comp⟩
-      map_id U := by apply CategoryOfElements.ext; rfl
-      map_comp f g := by apply CategoryOfElements.ext; rfl }
+    { obj U := (spacesGeometricFiber x).elementsMk (etaleSiteObjectOfNeighborhood B S hS X x U)
+        ⟨U.point, U.point_comp⟩
+      map f := Functor.Elements.homMk (spacesNeighborhoodMap x f) (Subtype.ext f.point_comp)
+      map_id U := by apply Functor.Elements.hom_ext; rfl
+      map_comp f g := by apply Functor.Elements.hom_ext; rfl }
   unitIso := NatIso.ofComponents (fun p => Iso.refl p) (fun g => by
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     simp only [Functor.id_map, Functor.comp_map, Iso.refl_hom]
     rfl)
   counitIso := NatIso.ofComponents (fun U => Iso.refl U) (fun f => by
@@ -142,7 +143,7 @@ fibre functor is its diagram of sections over the étale neighbourhoods, read al
 `AlgebraicGeometry.Space.spacesFiberElementsEquiv`. -/
 theorem spacesNeighborhoodSections_comp (P : (SpacesEtale B S hS X)ᵒᵖ ⥤ Type (u + 1)) :
     (spacesFiberElementsEquiv x).functor.op ⋙ spacesNeighborhoodSections x P =
-      (CategoryOfElements.π (spacesGeometricFiber x)).op ⋙ P := rfl
+      (Functor.Elements.π (spacesGeometricFiber x)).op ⋙ P := rfl
 
 /-- The stalk at the point of the spaces-étale site of one presheaf of sets is the spaces-étale
 stalk of Stacks 04JZ. -/
@@ -150,9 +151,9 @@ noncomputable def spacesEtaleSitePointStalkIsoComponent
     (P : (SpacesEtale B S hS X)ᵒᵖ ⥤ Type (u + 1)) :
     ((spacesEtaleSitePoint x).presheafFiber (A := Type (u + 1))).obj P ≅ spacesStalkSet x P :=
   Equiv.toIso ((Types.colimitEquivColimitType
-    ((CategoryOfElements.π (spacesGeometricFiber x)).op ⋙ P)).trans
+    ((Functor.Elements.π (spacesGeometricFiber x)).op ⋙ P)).trans
       (Equiv.ofBijective
-        (show ((CategoryOfElements.π (spacesGeometricFiber x)).op ⋙ P).ColimitType →
+        (show ((Functor.Elements.π (spacesGeometricFiber x)).op ⋙ P).ColimitType →
             spacesStalkSet x P from
           Functor.colimitTypePrecomp (spacesFiberElementsEquiv x).functor.op
             (spacesNeighborhoodSections x P))
@@ -168,11 +169,11 @@ theorem spacesEtaleSitePointStalkIsoComponent_toPresheafFiber
         ((spacesEtaleSitePoint x).toPresheafFiber V v P a) =
       (spacesNeighborhoodSections x P).ιColimitType
         (Opposite.op (etaleNeighborhoodOfSitePoint B S hS X x V v.1 v.2)) a := by
-  let D := (CategoryOfElements.π (spacesGeometricFiber x)).op ⋙ P
+  let D := (Functor.Elements.π (spacesGeometricFiber x)).op ⋙ P
   show (show D.ColimitType → spacesStalkSet x P from
       Functor.colimitTypePrecomp (spacesFiberElementsEquiv x).functor.op
         (spacesNeighborhoodSections x P))
-      ((Types.colimitEquivColimitType D) (colimit.ι D (Opposite.op ⟨V, v⟩) a)) = _
+      ((Types.colimitEquivColimitType D) (colimit.ι D (Opposite.op ((spacesGeometricFiber x).elementsMk V v)) a)) = _
   rw [Types.colimitEquivColimitType_apply]
   rfl
 

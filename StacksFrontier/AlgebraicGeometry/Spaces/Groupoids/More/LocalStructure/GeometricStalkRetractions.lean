@@ -136,6 +136,13 @@ variable {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
   {B : AlgebraicSpaces C S hS} (G : GroupoidInAlgebraicSpaces C S hS B)
   (z : Space.GeometricPoint C S hS G.objects.obj)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_geometricStalkRetractions
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The homomorphism `A ⟶ B` of étale local rings induced by the source, at the identity arrow
 above a geometric point of the object space. -/
 def sourceStalk :

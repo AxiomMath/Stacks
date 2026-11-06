@@ -104,7 +104,7 @@ theorem weight_one_eq_finTwo (m : Fin 2 →₀ ℕ) : (Finsupp.weight 1) m = m 0
 
 /-- The coefficient of an exponent vector in a combination of the degree-`d` monomials. -/
 private theorem coeff_sum_binaryMonomial_eq_ite (d : ℕ) (c : ℕ → R) (m : Fin 2 →₀ ℕ) :
-    coeff m (∑ j ∈ Finset.range (d + 1), c j • binaryMonomial R d j) =
+    (∑ j ∈ Finset.range (d + 1), c j • binaryMonomial R d j).coeff m =
       if m 0 + m 1 = d then c (m 1) else 0 := by
   classical
   simp only [binaryMonomial_eq_monomial, smul_monomial, smul_eq_mul, mul_one, coeff_sum,
@@ -131,17 +131,18 @@ private theorem coeff_sum_binaryMonomial_eq_ite (d : ℕ) (c : ℕ → R) (m : F
 /-- **Extracting the `i`-th coefficient of a combination of the degree-`d` monomials.** This is
 the linear independence of the `d + 1` monomials of degree `d` in two variables. -/
 theorem coeff_sum_binaryMonomial (d : ℕ) (c : ℕ → R) {i : ℕ} (hi : i ≤ d) :
-    coeff (binaryExponent d i) (∑ j ∈ Finset.range (d + 1), c j • binaryMonomial R d j) = c i := by
-  simp [coeff_sum_binaryMonomial_eq_ite, Nat.sub_add_cancel hi]
+    (∑ j ∈ Finset.range (d + 1), c j • binaryMonomial R d j).coeff (binaryExponent d i) = c i := by
+  rw [coeff_sum_binaryMonomial_eq_ite]
+  simp [Nat.sub_add_cancel hi]
 
 /-- **A binary form of degree `d` is a combination of the `d + 1` degree-`d` monomials**, with
 its own coefficients. -/
 theorem eq_sum_binaryMonomial (d : ℕ) (p : MvPolynomial (Fin 2) R) (hp : p.IsHomogeneous d) :
-    p = ∑ j ∈ Finset.range (d + 1), (coeff (binaryExponent d j) p) • binaryMonomial R d j := by
+    p = ∑ j ∈ Finset.range (d + 1), (p.coeff (binaryExponent d j)) • binaryMonomial R d j := by
   refine MvPolynomial.ext _ _ fun m => ?_
   rw [coeff_sum_binaryMonomial_eq_ite]
   split_ifs with hm
-  · exact congrArg (fun e => coeff e p) (binaryExponent_eq_self hm).symm
+  · exact congrArg (fun e => p.coeff e) (binaryExponent_eq_self hm).symm
   · by_contra hc
     exact hm ((weight_one_eq_finTwo m).symm.trans (hp hc))
 
@@ -150,7 +151,7 @@ theorem eq_sum_binaryMonomial (d : ℕ) (p : MvPolynomial (Fin 2) R) (hp : p.IsH
 theorem exists_eq_sum_binaryMonomial (d : ℕ) (p : MvPolynomial (Fin 2) R)
     (hp : p ∈ homogeneousSubmodule (Fin 2) R d) :
     ∃ c : ℕ → R, p = ∑ j ∈ Finset.range (d + 1), c j • binaryMonomial R d j :=
-  ⟨fun j => coeff (binaryExponent d j) p,
+  ⟨fun j => p.coeff (binaryExponent d j),
     eq_sum_binaryMonomial d p ((mem_homogeneousSubmodule _ _).1 hp)⟩
 
 /-- **The degree-`d` monomials are linearly independent**: a combination of them vanishes only
@@ -158,7 +159,7 @@ if every coefficient does. -/
 theorem eq_zero_of_sum_binaryMonomial_eq_zero (d : ℕ) (c : ℕ → R)
     (h : ∑ j ∈ Finset.range (d + 1), c j • binaryMonomial R d j = 0) {i : ℕ} (hi : i ≤ d) :
     c i = 0 := by
-  rw [← coeff_sum_binaryMonomial d c hi, h, coeff_zero]
+  rw [← coeff_sum_binaryMonomial d c hi, h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
 
 /-! ### The monomial basis -/
 

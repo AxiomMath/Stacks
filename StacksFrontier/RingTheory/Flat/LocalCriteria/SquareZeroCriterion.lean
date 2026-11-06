@@ -211,8 +211,7 @@ theorem rTensor_subtype_baseChange_inj
     with hRgt
   have hsqt : ∀ (k : ↥K) (x : A ⊗[R] M), L (k ⊗ₜ[A] x) = Rgt (k ⊗ₜ[A] x) := by
     intro k x
-    induction x using TensorProduct.induction_on with
-    | zero => simp [hL, hRgt]
+    induction x with
     | add a b ha hb => rw [tmul_add, map_add, map_add, ha, hb]
     | tmul a m =>
       simp only [hL, hRgt, LinearMap.coe_comp, LinearMap.restrictScalars_apply,
@@ -225,8 +224,7 @@ theorem rTensor_subtype_baseChange_inj
   have hLRgt : L = Rgt := by
     apply LinearMap.ext
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z with
     | add p q hp hq => rw [map_add, map_add, hp, hq]
     | tmul k x => exact hsqt k x
   have hRgtinj : Function.Injective Rgt := by
@@ -796,7 +794,6 @@ private lemma injective_lTensor_mk_of_smul_top_eq_bot {𝔪 : Ideal R}
       ((𝔪 • (⊤ : Submodule R N)).subtype.lTensor V) w = 0 := by
     intro w
     induction w with
-    | zero => simp
     | tmul v y => simpa using hVN v y.1 y.2
     | add a b ha hb => simp [ha, hb]
   rw [injective_iff_map_eq_zero]

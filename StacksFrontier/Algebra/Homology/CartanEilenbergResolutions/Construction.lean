@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Abelian.Exact
 import Mathlib.CategoryTheory.Abelian.Injective.Extend
 import Mathlib.CategoryTheory.Abelian.Injective.Resolution
 public import StacksFrontier.Algebra.Homology.DerivedCategory.RightDerivedFunctorInjective

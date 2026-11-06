@@ -601,7 +601,7 @@ def restrictCompSingleIso {X Y Z : Scheme.{u}} (E : 𝔻ˢ[X.Modules]) (i : ℤ)
   letI := HasDerivedCategory.standard (X.Modules)
   letI := HasDerivedCategory.standard (Y.Modules)
   letI := HasDerivedCategory.standard (Z.Modules)
-  ((Functor.mapDerivedCategoryCompIso (restrictFunctorComp h g).symm ≪≫
+  ((Functor.mapDerivedCategoryCompIsoOfCompIso (restrictFunctorComp h g).symm ≪≫
       Functor.mapDerivedCategoryCongr (restrictFunctorCongr hk)).app E).symm ≪≫
     (restrictFunctor h).mapDerivedCategory.mapIso e ≪≫
       ((restrictFunctor h).mapDerivedCategorySingleFunctor i).app M

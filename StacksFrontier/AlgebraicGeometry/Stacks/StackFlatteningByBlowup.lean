@@ -74,6 +74,17 @@ namespace AlgebraicGeometry.Stack.AlgebraicStacks
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site of `S` (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_StackFlatteningByBlowup :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_StackFlatteningByBlowup
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **A closed substack of a base change of a quasi-compact quasi-separated 1-morphism is
 quasi-compact and quasi-separated over the new base.** For `f : 𝒳 ⟶ 𝒴` quasi-compact and
 quasi-separated, `g : 𝒴' ⟶ 𝒴` and a closed immersion `i : 𝒵 ⟶ 𝒴' ×_𝒴 𝒳`, the composite of `i`

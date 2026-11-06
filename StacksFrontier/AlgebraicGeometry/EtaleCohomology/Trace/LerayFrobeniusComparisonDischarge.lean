@@ -117,7 +117,7 @@ theorem comp_comp_inv_conj {C₀ : Type*} [Category* C₀] {X₁ X₂ X₃ X₄ 
 theorem isIso_mapCochainComplexPlusDerivedUnit_app_of_preservesHomology [EnoughInjectives A]
     (F : A ⥤ B) [F.Additive] [F.PreservesHomology] (K : CochainComplex.Plus A) :
     IsIso ((Functor.mapCochainComplexPlusDerivedUnit F).app K) := by
-  have hu : IsIso (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj K)) :=
+  have hu : IsIso (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj K)) :=
     have := F.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
     NatIso.isIso_app_of_isIso _ _
   rw [Functor.mapCochainComplexPlusDerivedUnit_app]

@@ -138,13 +138,13 @@ private theorem inducedHom_app_apply
     {C : Type u'} [Category.{v'} C] {D : Type u''} [Category.{v''} D]
     (F : C ⥤ FintypeCat.{w}) (F' : D ⥤ FintypeCat.{w}) (H : C ⥤ D)
     (t : H ⋙ F' ≅ F) (σ : Aut F') (X : C) (y : (F'.obj (H.obj X)).obj) :
-    ((inducedHom F F' H t σ).hom.app X) ((t.hom.app X) y) =
-      (t.hom.app X) ((σ.hom.app (H.obj X)) y) := by
+    ((inducedHom F F' H t σ).asIso.hom.app X) ((t.hom.app X) y) =
+      (t.hom.app X) ((σ.asIso.hom.app (H.obj X)) y) := by
   let β := ((Functor.whiskeringLeft C D FintypeCat).obj H).mapAut F' σ
-  have hβ : β.hom.app X = σ.hom.app (H.obj X) := rfl
-  show ((t.conjAut β).hom.app X) ((t.hom.app X) y) = _
+  have hβ : β.asIso.hom.app X = σ.asIso.hom.app (H.obj X) := rfl
+  show ((t.conjAut β).asIso.hom.app X) ((t.hom.app X) y) = _
   rw [Iso.conjAut_apply]
-  show ((t.symm.hom.app X ≫ β.hom.app X ≫ t.hom.app X).hom) ((t.hom.app X) y) = _
+  show ((t.symm.hom.app X ≫ β.asIso.hom.app X ≫ t.hom.app X).hom) ((t.hom.app X) y) = _
   simp [hβ]
 
 private theorem finite_coproduct_terminal_of_action_trivial
@@ -225,7 +225,7 @@ public theorem normal_range_iff_connected_image_finite_coproduct_of_terminal
       have hfix := inducedHom_app_apply F' F'' H' t' σ X' y
       rw [← hmapAuto σ] at hfix
       show d'.hom σ • x = x
-      have hy' : (σ.hom.app (H'.obj X')) y = y := by
+      have hy' : (σ.asIso.hom.app (H'.obj X')) y = y := by
         simpa only [PreGaloisCategory.mulAction_def] using hy σ
       simpa [x, PreGaloisCategory.mulAction_def, hy'] using hfix
     have : Nonempty ((F'.obj X').obj) :=
@@ -242,11 +242,11 @@ public theorem normal_range_iff_connected_image_finite_coproduct_of_terminal
     refine finite_coproduct_terminal_of_action_trivial F'' (H'.obj X') fun σ a ↦ ?_
     let b : (F'.obj X').obj := (t'.hom.app X') a
     have hcomm := htriv σ b
-    change ((d'.hom σ).hom.app X') b = b at hcomm
+    change ((d'.hom σ).asIso.hom.app X') b = b at hcomm
     rw [hmapAuto σ, inducedHom_app_apply F' F'' H' t' σ X' a] at hcomm
     have hinj : Function.Injective (t'.hom.app X') :=
       ((ConcreteCategory.isIso_iff_bijective (t'.hom.app X')).mp inferInstance).1
-    have h' : (σ.hom.app (H'.obj X')) a = a := hinj (by simpa [b] using hcomm)
+    have h' : (σ.asIso.hom.app (H'.obj X')) a = a := hinj (by simpa [b] using hcomm)
     simpa only [b, PreGaloisCategory.mulAction_def] using h'
   · intro hobjects
     refine (normal_range_iff_open_overgroups d'.hom).2 fun U hU g σ ↦ ?_
@@ -299,13 +299,13 @@ public theorem normal_range_iff_connected_image_finite_coproduct_of_terminal
           (Action.FintypeCat.ofMulAction (Aut F')
             (FintypeCat.of (Aut F' ⧸ U.toSubgroup))).V.obj) := by
       change (FintypeCat.uSwitch.map
-        ((quotientContAction U).obj.ρ (d'.hom σ))) _ = _ at hfix
+        ((quotientContAction U).obj.ρ (d'.hom σ)).asHom) _ = _ at hfix
       have h' := congrArg (FintypeCat.uSwitchEquiv (quotientContAction U).obj.V) hfix
       rw [← FintypeCat.uSwitchEquiv_naturality] at h'
       have hqg : FintypeCat.uSwitchEquiv (quotientContAction U).obj.V qg =
           (⟦g⁻¹⟧ : Aut F' ⧸ U.toSubgroup) := Equiv.apply_symm_apply _ _
       rw [hqg] at h'
-      change ConcreteCategory.hom ((Aut F' ⧸ₐ U.toSubgroup).ρ (d'.hom σ))
+      change ConcreteCategory.hom ((Aut F' ⧸ₐ U.toSubgroup).ρ (d'.hom σ)).asHom
         (QuotientGroup.mk g⁻¹) = _ at h'
       change (QuotientGroup.mk (d'.hom σ * g⁻¹) : Aut F' ⧸ U.toSubgroup) =
         QuotientGroup.mk g⁻¹ at h'

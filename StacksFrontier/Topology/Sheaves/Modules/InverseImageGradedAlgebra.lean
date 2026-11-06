@@ -63,7 +63,7 @@ noncomputable def inverseImageGradedAlgebra :
       (underlyingRingSheaf ((TopCat.Sheaf.pullback CommRingCat.{u} f).obj O)) :=
   Stacks.PullbackGradedAlgebra.pullbackGradedAlgebra
     (AlgebraicGeometry.RingedSpace.inverseImageProjection (ringedSpaceOfSheaf O) f) A
-    (underlyingRingSheaf O).cond
+    (underlyingRingSheaf O).property
 
 /-- **The homogeneous pieces of `f⁻¹A` are the inverse images of the homogeneous pieces of
 `A`**, on the nose. -/

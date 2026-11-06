@@ -121,6 +121,15 @@ instance isCohenMacaulay_isLocal_etale :
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 200000 in
+/-- Pullbacks of presheaves on the big fppf site of `S`, found once so that later searches
+do not repeat the expensive instance search. -/
+theorem hasLimit_cospan_presheaf_etaleCharts {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  inferInstance
+
+attribute [local instance high] hasLimit_cospan_presheaf_etaleCharts
+
 /-! ### Fibres at field-valued points of the target -/
 
 /-- The fibre of a morphism of presheaves on the big fppf site of `S` at a field-valued point

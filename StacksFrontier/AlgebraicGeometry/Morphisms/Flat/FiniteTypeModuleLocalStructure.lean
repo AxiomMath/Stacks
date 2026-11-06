@@ -2,6 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Fiber
 public import Mathlib.RingTheory.LocalRing.ResidueField.Fiber
+public import Mathlib.Order.CompactlyGenerated.Basic
 public import StacksFrontier.AlgebraicGeometry.ClosedPushforward.Basic
 public import StacksFrontier.AlgebraicGeometry.CoherentFinite.Basic
 public import StacksFrontier.AlgebraicGeometry.Modules.QuasicoherentPullbackScheme
@@ -75,7 +76,7 @@ private theorem exists_span_le_map_eq {R S : Type*} [CommRing R] [CommRing S]
     rintro y ⟨x, hx, rfl⟩
     exact Submodule.mem_iSup_of_mem (⟨x, hx⟩ : I) (Ideal.mem_span_singleton_self _)
   obtain ⟨s, hs⟩ :=
-    CompleteLattice.IsCompactElement.exists_finset_of_le_iSup (Ideal S) hc _ hle
+    hc.exists_finset_of_le_iSup _ hle
   have hsub : Ideal.span ((s.image Subtype.val : Finset R) : Set R) ≤ I :=
     Ideal.span_le.mpr fun x hx => by
       obtain ⟨y, _, rfl⟩ := Finset.mem_image.mp hx

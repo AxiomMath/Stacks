@@ -157,7 +157,7 @@ theorem hasCompletionAlgebraization_of_hasProperTowerAlgebraizationOverSpec
       κ (n + 1) = κ n := by
     intro n
     ext U s
-    refine Subtype.ext (ULift.ext _ _ ?_)
+    refine Subtype.ext (ULift.ext ?_)
     show (pullback.fst p _).app U ((Space.properThickeningTransition I p n).app U s.down) =
       (pullback.fst p _).app U s.down
     rw [← NatTrans.comp_app_apply, Space.properThickeningTransition, pullback.lift_fst]

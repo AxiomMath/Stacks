@@ -381,7 +381,7 @@ public theorem mapDomain_subtypeDomain_monomialSet
   classical
   refine Finsupp.ext fun ν => ?_
   by_cases hν : ν ∈ G.monomialSet n
-  · have h := Finsupp.mapDomain_apply (M := P)
+  · have h := Finsupp.mapDomain_apply_of_injective (M := P)
       (f := (Subtype.val : G.Monomials n → G.Variable →₀ ℕ)) Subtype.val_injective
       (Finsupp.subtypeDomain (· ∈ G.monomialSet n) c : G.Monomials n →₀ P) ⟨ν, hν⟩
     exact h.trans (Finsupp.subtypeDomain_apply (p := (· ∈ G.monomialSet n)) (a := ⟨ν, hν⟩))

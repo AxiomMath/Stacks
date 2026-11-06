@@ -82,7 +82,7 @@ variable {y : 𝒳.val.val.obj}
 /-- The objectwise tensor square `(g_*𝒪_𝒰)(y) ⊗_{𝒪(y)} (g_*𝒪_𝒰)(y)`, for the canonical direct
 image. -/
 abbrev directImageMulSections (y : 𝒳.val.val.obj) :=
-  (PresheafOfModules.Monoidal.tensorObj
+  (PresheafOfModulesOfCommRing.Monoidal.tensorObj
     (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
     ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val
     ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val).obj (op y)
@@ -194,7 +194,7 @@ theorem ranπ_directImageMulApp
 theorem directImageMulLeg_map {y' : 𝒳.val.val.obj} (k : op y ⟶ op y')
     (j : StructuredArrow (op y') (CatFiberedInGroupoids.homFunctor g.hom).op)
     (z : directImageMulSections g y) :
-    directImageMulLeg g j ((PresheafOfModules.Monoidal.tensorObj
+    directImageMulLeg g j ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val).map k z) =
@@ -206,7 +206,7 @@ theorem directImageMulLeg_map {y' : 𝒳.val.val.obj} (k : op y ⟶ op y')
       (CatFiberedInGroupoids.homFunctor g.hom).op (quasicoherentUnit 𝒰).obj.val.presheaf k j) s
   induction z using TensorProduct.induction_on with
   | zero =>
-    exact (congrArg (directImageMulLeg g j) (map_zero ((PresheafOfModules.Monoidal.tensorObj
+    exact (congrArg (directImageMulLeg g j) (map_zero ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val).map k).hom)).trans
@@ -215,7 +215,7 @@ theorem directImageMulLeg_map {y' : 𝒳.val.val.obj} (k : op y ⟶ op y')
     exact (directImageMulLeg_tmul g j _ _).trans ((congrArg₂ (· * ·) (h1 s) (h1 s')).trans
       (directImageMulLeg_tmul g _ s s').symm)
   | add z z' hz hz' =>
-    exact (congrArg (directImageMulLeg g j) (map_add ((PresheafOfModules.Monoidal.tensorObj
+    exact (congrArg (directImageMulLeg g j) (map_add ((PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val).map k).hom z z')).trans
@@ -241,7 +241,8 @@ theorem directImageMulLeg_smul
     exact (congrArg (· * directImageUnitLeg g j s') (directImageUnitLeg_smul j r s)).trans
       (mul_assoc _ _ _)
   | add z z' hz hz' =>
-    exact (congrArg (directImageMulLeg g j) (smul_add r z z')).trans
+    exact (congrArg (directImageMulLeg g j)
+      (@smul_add _ _ _ (directImageMulSections g y).isModule.toDistribMulAction.toDistribSMul r z z')).trans
       (((directImageMulLeg g j).map_add _ _).trans ((congrArg₂ (· + ·) hz hz').trans
         ((mul_add _ _ _).symm.trans (congrArg (_ * ·)
           ((directImageMulLeg g j).map_add z z').symm))))
@@ -253,7 +254,7 @@ section PresheafMap
 /-- **The multiplication `g_*𝒪_𝒰 ⊗ g_*𝒪_𝒰 ⟶ g_*𝒪_𝒰` of presheaves of modules**, from the
 objectwise tensor product: on sections over `y`, `s ⊗ s' ↦ (s_j · s'_j)_j`. -/
 def directImageMulPresheafMap :
-    PresheafOfModules.Monoidal.tensorObj
+    PresheafOfModulesOfCommRing.Monoidal.tensorObj
       (R := (FibredSite.structureSheaf B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).obj)
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val
       ((ranDirectImage g).obj (quasicoherentUnit 𝒰).obj).val ⟶

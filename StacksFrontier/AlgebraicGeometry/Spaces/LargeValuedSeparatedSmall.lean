@@ -61,6 +61,13 @@ theorem relative_uliftYoneda_zero_iff {C : Type*} [Category.{u} C] (P : Morphism
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_LargeValuedSeparatedSmall
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Separatedness through the trivial universe lift.** A morphism of presheaves of `Type u` on
 the big fppf site of `S` is separated in the sense of
 `AlgebraicGeometry.Space.IsSeparatedULift.{0}`, with scheme-valued points read through

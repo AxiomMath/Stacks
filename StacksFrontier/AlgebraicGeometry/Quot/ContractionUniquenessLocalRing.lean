@@ -312,8 +312,9 @@ theorem exists_iso_of_closedFibre_of_isNoetherianRing_of_pullback (Λ₀ : Type 
     (Iso.refl (Spec (.of (ResidueField Λ₀)))) hι tX₀ t₁₀ t₁₀ _ _ _ hiX₀ hi₁₀ hi₂₀ hdX₀ hd₁₀ hd₁₀
     a₁₀ a₁₀ hat₁₀ hat₁₀ hia₁ hia₂ (Iso.refl _) (by simp) (by simp) hdim₀ h0₀ hR₀
   refine ⟨ψ₀, hψ₀g, hψ₀c, ?_⟩
-  rw [← cancel_epi e₁₀.hom]
-  simpa using hψ₀f
+  simp only [Category.assoc, Iso.trans_hom, Iso.refl_hom, Functor.map_id,
+    Category.id_comp] at hψ₀f
+  exact (Iso.cancel_iso_hom_left e₁₀ _ _).1 hψ₀f
 
 open Stacks.AlgebraicGeometry.TopDegreeBaseChange in
 /-- **The closed-fibre data of [Stacks, Tag 0E89] pass from a point of a base change to the

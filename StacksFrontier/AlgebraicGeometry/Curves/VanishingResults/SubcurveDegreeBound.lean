@@ -331,8 +331,7 @@ theorem exists_le_invertibleCurveDegree_le_of_ne_zero {k : Type u} [Field k]
   -- The twist `ℐ ⟶ ℒ^{-1} ⊗ ω_X` of `φ`.
   have hφ' : (E.toAdjunction.homEquiv _ _) φ ≠ 0 := fun h0 => hφ (by
     rw [← (E.toAdjunction.homEquiv _ _).symm_apply_apply φ, h0, Adjunction.homEquiv_counit,
-      Functor.map_zero, zero_comp]
-    rfl)
+      Functor.map_zero, zero_comp])
   have hφ₀' : kernel.ι (Scheme.IdealSheafData.idealToClosedSubscheme Z
       (Scheme.IdealSheafData.vanishingIdeal T₀)) ≫ (E.toAdjunction.homEquiv _ _) φ = 0 := by
     have h1 := E.toAdjunction.homEquiv_naturality_left (kernel.ι
@@ -347,6 +346,7 @@ theorem exists_le_invertibleCurveDegree_le_of_ne_zero {k : Type u} [Field k]
   let β := Scheme.IdealSheafData.idealToClosedSubscheme Z (Scheme.IdealSheafData.vanishingIdeal T)
   -- The injection `ℒ ⊗ ℐ𝒪_Y ⟶ ω_X`.
   have : Mono (E.functor.map ψ') := E.functor.map_mono ψ'
+  have hcm : Mono (E.counit.app ω) := inferInstanceAs (Mono (E.counitIso.app ω).hom)
   have hmψ : Mono (E.functor.map ψ' ≫ E.counit.app ω) := mono_comp _ _
   have hψ : E.functor.map ψ' ≫ E.counit.app ω ≠ 0 := fun h0 => hψ' (E.functor.map_injective (by
     rw [Functor.map_zero]

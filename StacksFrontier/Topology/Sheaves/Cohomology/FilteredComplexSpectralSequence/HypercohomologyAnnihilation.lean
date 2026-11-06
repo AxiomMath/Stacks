@@ -84,6 +84,11 @@ attribute [local instance] HasDerivedCategory.standard
 
 variable (X : RingedSpace.{u, u})
 
+/-- The sections of `structureSheafRing X` are commutative rings (instance search no longer
+unfolds the `⋙ forget₂ CommRingCat RingCat` in its definition). -/
+local instance (U : (Opens X.carrier)ᵒᵖ) : CommRing ((structureSheafRing X).obj.obj U) :=
+  inferInstanceAs (CommRing (X.presheaf.obj U))
+
 /-! ### Multiplication by a global function on the complex of global sections -/
 
 section

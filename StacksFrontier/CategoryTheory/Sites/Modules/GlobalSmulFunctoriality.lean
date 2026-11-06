@@ -81,7 +81,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 identity attached to it. -/
 lemma globalSmul_eq_globalSectionToEnd_app (a : GlobalSectionRing O)
     (M : _root_.SheafOfModules.{m} O) :
-    globalSmul O a M = (globalSectionToEnd O ⟨a.1, a.2⟩).app M := rfl
+    globalSmul O a M = (globalSectionToEnd O ⟨a.1, a.2⟩).asHom.app M := rfl
 
 /-- **A pushforward of sheaves of modules respects multiplication by global sections** related
 by the ring map: if `φ` carries `b` to `a` objectwise, the pushforward of multiplication by `a`
@@ -173,21 +173,21 @@ section RightAdjoint
 too.** -/
 theorem map_globalSmul_of_adjunction_right {C D : Type*} [Category C] [Category D]
     {L : C ⥤ D} {G : D ⥤ C} (adj : L ⊣ G) (a : End (𝟭 D)) (b : End (𝟭 C))
-    (h : ∀ N : C, L.map (b.app N) = a.app (L.obj N)) (M : D) :
-    G.map (a.app M) = b.app (G.obj M) := by
+    (h : ∀ N : C, L.map (b.asHom.app N) = a.asHom.app (L.obj N)) (M : D) :
+    G.map (a.asHom.app M) = b.asHom.app (G.obj M) := by
   have h₁ := adj.right_triangle_components M
-  have h₂ := a.naturality (adj.counit.app M)
+  have h₂ := a.asHom.naturality (adj.counit.app M)
   simp only [Functor.id_obj, Functor.id_map, Functor.comp_obj] at h₂
-  calc G.map (a.app M)
-      = adj.unit.app (G.obj M) ≫ G.map (adj.counit.app M) ≫ G.map (a.app M) := by
+  calc G.map (a.asHom.app M)
+      = adj.unit.app (G.obj M) ≫ G.map (adj.counit.app M) ≫ G.map (a.asHom.app M) := by
         rw [reassoc_of% h₁]
-    _ = adj.unit.app (G.obj M) ≫ G.map (L.map (b.app (G.obj M))) ≫
+    _ = adj.unit.app (G.obj M) ≫ G.map (L.map (b.asHom.app (G.obj M))) ≫
           G.map (adj.counit.app M) := by
         rw [← G.map_comp, ← G.map_comp, h, ← h₂]
-    _ = b.app (G.obj M) := by
+    _ = b.asHom.app (G.obj M) := by
         rw [← Category.assoc, ← Functor.comp_map, ← adj.unit.naturality, Functor.id_map,
           Category.assoc]
-        exact (congrArg (b.app (G.obj M) ≫ ·) h₁).trans (Category.comp_id _)
+        exact (congrArg (b.asHom.app (G.obj M) ≫ ·) h₁).trans (Category.comp_id _)
 
 end RightAdjoint
 

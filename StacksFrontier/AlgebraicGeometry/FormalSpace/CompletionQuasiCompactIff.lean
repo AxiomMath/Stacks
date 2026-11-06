@@ -86,6 +86,18 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] Space.pointTopology
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search for them times out
+under Lean v4.35.0). -/
+local instance (priority := high) hasPullbacks_presheaf_CompletionQuasiCompactIff :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_CompletionQuasiCompactIff
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Fibre products of a completion morphism with schemes -/
 
 /-- A fibre product of the completion `f_{/T} : X'_{/T'} ⟶ X_{/T}` with a scheme `T₀` of the

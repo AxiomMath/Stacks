@@ -4,6 +4,7 @@ public import Mathlib.Algebra.Category.Grp.Zero
 public import Mathlib.Topology.Sheaves.Flasque
 public import Mathlib.Topology.Sheaves.SheafCondition.UniqueGluing
 public import Mathlib.Topology.Separation.Regular
+public import Mathlib.CategoryTheory.Sites.EpiMono
 import StacksFrontier.CategoryTheory.Sites.Modules.GrothendieckAbelian
 import StacksCore.Tactic.EgaSgaAttribute
 

@@ -390,7 +390,9 @@ theorem exists_mem_genericPoints_notMem_supp_image (L : X.Modules)
   let G := E.inverse
   let u := E.unitIso.inv.app (closedSubschemeStructureSheaf (vanishingIdeal T))
   let j' : G.obj M ⟶ closedSubschemeStructureSheaf (vanishingIdeal T) := G.map j ≫ u
-  have : Mono j' := mono_comp' (G.map_mono j) (inferInstanceAs (Mono (E.unitIso.inv.app _)))
+  have : G.PreservesMonomorphisms := Functor.preservesMonomorphisms_of_adjunction E.toAdjunction
+  have : Mono j' := mono_comp' (G.map_mono j)
+    (IsIso.mono_of_iso (E.unitIso.app (closedSubschemeStructureSheaf (vanishingIdeal T))).symm.hom)
   have hK : ¬ IsZero (G.obj (kernel φ)) := fun h =>
     hφ (Preadditive.mono_of_kernel_zero ((((Scheme.Modules.tensorLeft L).map_isZero h).of_iso
       (E.counitIso.app (kernel φ)).symm).eq_of_src _ _))
@@ -634,6 +636,7 @@ theorem exists_mem_genericPoints_subschemeι_mem [NoetherianSpace X]
   rw [← hhom.topologicalKrullDim_eq]
   exact hnd.topologicalKrullDim_nonpos_of_le_one hS'c hdimY
 
+set_option maxHeartbeats 400000 in
 /-- **A map into `ℒ ⊗ 𝒪_T` which dies in a quotient `𝒬` vanishes on the component of a generic
 point `η` of `T` in the support of `𝒬`.** At `η` the stalk of `ℒ ⊗ 𝒪_T` is a line, which `𝒬`
 does not kill, so the image of the map vanishes at `η`; twisted by `ℒ^{-1}` its restriction to
@@ -670,6 +673,8 @@ theorem comp_tensorLeft_map_restriction_eq_zero (L : X.Modules)
       ((length_stalk_eq_of_iso (E.counitIso.app Q) η).symm.trans ?_) hη
     exact (length_stalk_eq_zero_iff _ η).mpr (notMem_supp_tensorSheaf_of_notMem L (G.obj Q)
       ((length_stalk_eq_zero_iff _ η).mp h0))
+  have : G.PreservesEpimorphisms :=
+    Functor.preservesEpimorphisms_of_adjunction E.symm.toAdjunction
   have hGπ : Epi (G.map π) := G.map_epi π
   have hS := ShortComplex.shortExact_mk_kernel_ι (G.map π)
   have hadd := length_stalk_add_of_shortExact hS η

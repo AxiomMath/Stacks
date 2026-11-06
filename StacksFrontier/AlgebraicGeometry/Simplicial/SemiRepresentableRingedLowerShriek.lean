@@ -701,14 +701,14 @@ instance componentInclusion_isContinuous (n : SimplexCategory) :
               (G.obj.map ((componentInclusion L n).map q).op (x fS hf))
           = G.obj.map ((fibreFactor ((componentInclusion L n).map fS) ≫
               (componentInclusion L n).map q).op) (x fS hf) :=
-            (CategoryTheory.FunctorToTypes.map_comp_apply _ _ _ _).symm
+            by rw [op_comp, Functor.map_comp]; rfl
         _ = G.obj.map (𝟙 ((componentInclusion L n).obj
               (⟨i, A⟩ : ComponentOver (L.obj (op n))))).op (x fS hf) :=
             congrArg (fun k : (componentInclusion L n).obj
                 (⟨i, A⟩ : ComponentOver (L.obj (op n))) ⟶ (componentInclusion L n).obj
                 (⟨i, A⟩ : ComponentOver (L.obj (op n))) =>
               G.obj.map k.op (x fS hf)) hid
-        _ = x fS hf := CategoryTheory.FunctorToTypes.map_id_apply _ _
+        _ = x fS hf := by rw [op_id, Functor.map_id]; rfl
     · intro t' ht'
       refine htuniq t' fun Z h hh => ?_
       change G.obj.map h.op t' = G.obj.map (fibreFactor h).op (x (fibreArrow h) (hmem h hh))

@@ -230,6 +230,9 @@ theorem pullbackObjIsDefined_eq_top_of_family {I : Type v} (ι : I → C)
   simp only [Pi.top_apply, Prop.top_eq_true, iff_true]
   refine Functor.leftAdjointObjIsDefined_of_isColimit
     (isColimitFreePresentationCokernelCofork S ι hι M) ?_
+  have (J : Type v) : HasColimitsOfShape (Discrete J) (PresheafOfModules.{v} R) :=
+    have : HasColimitsOfShape (Discrete J) AddCommGrpCat.{v} := AddCommGrpCat.hasColimitsOfShape
+    PresheafOfModules.hasColimitsOfShape R (Discrete J)
   rintro (_ | _) <;>
     exact Functor.leftAdjointObjIsDefined_colimit _
       (fun _ ↦ pullbackObjIsDefined_freeObjShrink_yoneda.{v} φ _)

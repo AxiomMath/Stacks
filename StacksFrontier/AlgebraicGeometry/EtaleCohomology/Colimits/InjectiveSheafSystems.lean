@@ -108,7 +108,7 @@ theorem transitionAdj_π {i j : Iᵒᵖ} (a : i ⟶ j) (x : Index i) :
       (systemPushforward D Ab.{u + 1} a).map (Pi.π (factor D F i) x) =
         Pi.π (fun y => (systemPushforward D Ab.{u + 1} a).obj (factor D F i y)) x := by
     rw [Iso.inv_comp_eq, PreservesProduct.iso_hom, piComparison_comp_π]
-  rw [transitionAdj, Category.assoc, h, Pi.lift_π]
+  rw [transitionAdj, Category.assoc, h, Pi.lift_comp_π]
 
 /-- The comparison of direct images along a composite transition is the named comparison
 `Stacks.EtaleCohomology.smallEtalePushforwardComp'`. -/
@@ -195,7 +195,7 @@ def ι (i : Iᵒᵖ) : F.obj i ⟶ obj D F i :=
 /-- The component of `ι` on the extra factor is the chosen injection into the injective hull. -/
 @[reassoc (attr := simp)]
 theorem ι_π_none (i : Iᵒᵖ) : ι D F i ≫ Pi.π (factor D F i) none = Injective.ι (F.obj i) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The component of `ι` on the factor of an arrow `c : k ⟶ i` is the map adjoint to
 `F.map c ≫ Injective.ι (F.obj k)`. -/
@@ -203,7 +203,7 @@ theorem ι_π_none (i : Iᵒᵖ) : ι D F i ≫ Pi.π (factor D F i) none = Inje
 theorem ι_π_some (i k : Iᵒᵖ) (c : k ⟶ i) :
     ι D F i ≫ Pi.π (factor D F i) (some ⟨k, c⟩) =
       ((systemAdjunction D Ab.{u + 1} c).homEquiv _ _) (F.map c ≫ Injective.ι (F.obj k)) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- **The levels of the system are injective sheaves.** -/
 instance injective (i : Iᵒᵖ) : Injective (obj D F i) := by

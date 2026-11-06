@@ -327,13 +327,13 @@ theorem singleRightDerivedUnit_comp_rightDerivedFunctorPlusComp_app (M : A) :
   have hfac0 := Functor.rightDerivedFunctorPlusComp_fac_app F G
     ((HomotopyCategory.Plus.singleFunctor A 0).obj M)
   rw [hone] at hfac0
-  have hfac : (F ⋙ G).rightDerivedFunctorPlusUnit.app
+  have hfac : (F ⋙ G).rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.singleFunctor A 0).obj M) ≫
       (Functor.rightDerivedFunctorPlusComp F G).app
         (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) =
-      G.rightDerivedFunctorPlusUnit.app
+      G.rightDerivedFunctorPlusUnith.app
           (F.mapHomotopyCategoryPlus.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) ≫
-        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app
+        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor A 0).obj M)) :=
     hfac0.trans (Category.id_comp _)
   have hsmpf : DerivedCategory.Plus.Qh.map (singleMapPlusHom F M) ≫
@@ -348,19 +348,19 @@ theorem singleRightDerivedUnit_comp_rightDerivedFunctorPlusComp_app (M : A) :
   have hstar := eq_comp_of_naturality_of_comp_eq_id G.rightDerivedFunctorPlus
     ((Functor.mapSingleFunctorCompQhIso (F ⋙ G)).app M).inv
     (DerivedCategory.Plus.Qh.map (G.mapHomotopyCategoryPlus.map (singleMapPlusHom F M)))
-    (G.rightDerivedFunctorPlusUnit.app
+    (G.rightDerivedFunctorPlusUnith.app
       (F.mapHomotopyCategoryPlus.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj M)))
-    (G.rightDerivedFunctorPlusUnit.app
+    (G.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor B 0).obj (F.obj M)))
     (DerivedCategory.Plus.Qh.map (singleMapPlusHom F M))
     ((Functor.singleFunctorPlusIsoCompQh (A := B) 0).inv.app (F.obj M) ≫
       ((Functor.mapSingleFunctorCompQhIso F).app M).inv)
-    (G.rightDerivedFunctorPlusUnit.naturality (singleMapPlusHom F M)) hsmpf
+    (G.rightDerivedFunctorPlusUnith.naturality (singleMapPlusHom F M)) hsmpf
   rw [hinv] at hstar
   rw [singleRightDerivedUnit_app, singleRightDerivedUnit_app, singleRightDerivedUnit_app]
   refine (comp_eq_of_naturality_of_fac
     ((Functor.mapSingleFunctorCompQhIso (F ⋙ G)).app M).inv
-    ((F ⋙ G).rightDerivedFunctorPlusUnit.app
+    ((F ⋙ G).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj M))
     ((F ⋙ G).rightDerivedFunctorPlus.map
       ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M))
@@ -370,22 +370,22 @@ theorem singleRightDerivedUnit_comp_rightDerivedFunctorPlusComp_app (M : A) :
       (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj M)))
     (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlus.map
       ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M)))
-    (G.rightDerivedFunctorPlusUnit.app
+    (G.rightDerivedFunctorPlusUnith.app
       (F.mapHomotopyCategoryPlus.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj M)))
-    (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app
+    (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj M)))
     ((Functor.rightDerivedFunctorPlusComp F G).naturality
       ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M)) hfac).trans ?_
   exact comp_eq_of_star G.rightDerivedFunctorPlus
     ((Functor.mapSingleFunctorCompQhIso (F ⋙ G)).app M).inv
-    (G.rightDerivedFunctorPlusUnit.app
+    (G.rightDerivedFunctorPlusUnith.app
       (F.mapHomotopyCategoryPlus.obj ((HomotopyCategory.Plus.singleFunctor A 0).obj M)))
     ((Functor.mapSingleFunctorCompQhIso G).app (F.obj M)).inv
-    (G.rightDerivedFunctorPlusUnit.app
+    (G.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor B 0).obj (F.obj M)))
     ((Functor.singleFunctorPlusIsoCompQh (A := B) 0).inv.app (F.obj M))
     ((Functor.mapSingleFunctorCompQhIso F).app M).inv
-    (F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor A 0).obj M))
+    (F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor A 0).obj M))
     (F.rightDerivedFunctorPlus.map
       ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M))
     hstar.symm

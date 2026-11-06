@@ -141,7 +141,7 @@ def projectiveSpaceLinearToAut :
 /-- The automorphism of `ℙⁿ_k` attached to `g` is `AlgebraicGeometry.ProjectiveSpaceOfModule.map`
 of `g⁻¹`, conjugated by the identification of `𝐏(V)` with `ℙⁿ_k`. -/
 theorem projectiveSpaceLinearToAut_hom (g : LinearMap.GeneralLinearGroup k V) :
-    (projectiveSpaceLinearToAut b g).hom =
+    (projectiveSpaceLinearToAut b g).asIso.hom =
       (projectiveSpaceOfModuleIso b).inv ≫ ProjectiveSpaceOfModule.map k V g⁻¹ ≫
         (projectiveSpaceOfModuleIso b).hom :=
   rfl
@@ -150,7 +150,7 @@ theorem projectiveSpaceLinearToAut_hom (g : LinearMap.GeneralLinearGroup k V) :
 morphism to `Spec k`. -/
 theorem projectiveSpaceLinearToAut_hom_comp_structureMorphism
     (g : LinearMap.GeneralLinearGroup k V) :
-    (projectiveSpaceLinearToAut b g).hom ≫
+    (projectiveSpaceLinearToAut b g).asIso.hom ≫
         (projectiveSpaceOverRing n (.of k) ↘ Spec (.of k)) =
       projectiveSpaceOverRing n (.of k) ↘ Spec (.of k) := by
   rw [projectiveSpaceLinearToAut_hom, Category.assoc, Category.assoc,
@@ -176,7 +176,7 @@ def projectiveSpaceMatrixToAut :
 morphism to `Spec k`. -/
 theorem projectiveSpaceMatrixToAut_hom_comp_structureMorphism
     (M : Matrix.GeneralLinearGroup (Fin (n + 1)) k) :
-    (projectiveSpaceMatrixToAut k n M).hom ≫
+    (projectiveSpaceMatrixToAut k n M).asIso.hom ≫
         (projectiveSpaceOverRing n (.of k) ↘ Spec (.of k)) =
       projectiveSpaceOverRing n (.of k) ↘ Spec (.of k) :=
   projectiveSpaceLinearToAut_hom_comp_structureMorphism _ _
@@ -220,7 +220,7 @@ def projectiveLineGeneralLinearAction :
     projectiveSpaceOverRing 1 (.of (generalLinearTwoCoordinateRing k)) ⟶
       projectiveSpaceOverRing 1 (.of k) :=
   (projectiveSpaceMatrixToAut (generalLinearTwoCoordinateRing k) 1
-      (genericGeneralLinearTwo k)).hom ≫
+      (genericGeneralLinearTwo k)).asIso.hom ≫
     projectiveSpaceOverRingMap 1 (ofHom (algebraMap k (generalLinearTwoCoordinateRing k)))
 
 /-- The projective line over the coordinate ring of `GL₂` is `GL₂ ×_{Spec k} ℙ¹_k`. -/
@@ -255,18 +255,20 @@ variable (k : Type u) [CommRing k] (n : ℕ)
 def projectiveSpaceMatrixToAutOver :
     Matrix.GeneralLinearGroup (Fin (n + 1)) k →*
       Aut ((projectiveSpaceOverRing n (.of k)).asOver (Spec (.of k))) where
-  toFun M := Over.isoMk (projectiveSpaceMatrixToAut k n M)
-    (projectiveSpaceMatrixToAut_hom_comp_structureMorphism k n M)
+  toFun M := .of (Over.isoMk (projectiveSpaceMatrixToAut k n M).asIso
+    (projectiveSpaceMatrixToAut_hom_comp_structureMorphism k n M))
   map_one' := by
+    apply Aut.ext
     apply Iso.ext
     apply Over.OverMorphism.ext
-    change (projectiveSpaceMatrixToAut k n 1).hom = _
+    change (projectiveSpaceMatrixToAut k n 1).asIso.hom = _
     rw [map_one]
     rfl
   map_mul' M N := by
+    apply Aut.ext
     apply Iso.ext
     apply Over.OverMorphism.ext
-    change (projectiveSpaceMatrixToAut k n (M * N)).hom = _
+    change (projectiveSpaceMatrixToAut k n (M * N)).asIso.hom = _
     rw [map_mul]
     rfl
 
@@ -279,16 +281,16 @@ abbrev projectiveSpacePowerOver (m : ℕ) : Over (Spec (.of k)) :=
 def projectiveSpacePowerMatrixAut (m : ℕ)
     (M : Fin m → Matrix.GeneralLinearGroup (Fin (n + 1)) k) :
     Aut (projectiveSpacePowerOver k n m) :=
-  Pi.mapIso fun i => projectiveSpaceMatrixToAutOver k n (M i)
+  .of (Pi.mapIso fun i => (projectiveSpaceMatrixToAutOver k n (M i)).asIso)
 
 /-- The `i`-th coordinate of the power action is the action of the `i`-th matrix. -/
 theorem projectiveSpacePowerMatrixAut_hom_π (m : ℕ)
     (M : Fin m → Matrix.GeneralLinearGroup (Fin (n + 1)) k) (i : Fin m) :
-    (projectiveSpacePowerMatrixAut k n m M).hom ≫
+    (projectiveSpacePowerMatrixAut k n m M).asIso.hom ≫
         Pi.π (fun _ : Fin m => (projectiveSpaceOverRing n (.of k)).asOver (Spec (.of k))) i =
       Pi.π (fun _ : Fin m => (projectiveSpaceOverRing n (.of k)).asOver (Spec (.of k))) i ≫
-        (projectiveSpaceMatrixToAutOver k n (M i)).hom :=
-  Pi.mapIso_hom_π _ i
+        (projectiveSpaceMatrixToAutOver k n (M i)).asIso.hom :=
+  Pi.mapIso_hom_π (fun i => (projectiveSpaceMatrixToAutOver k n (M i)).asIso) i
 
 end Power
 
@@ -491,7 +493,7 @@ def projectiveLinePowerGenericAutBaseChange :
 def projectiveLinePowerGeneralLinearAction :
     (projectiveLinePowerOverGeneralLinearTwoPower k m).left ⟶
       (projectiveSpacePowerOver k 1 m).left :=
-  (projectiveLinePowerGenericAutBaseChange k m).hom.left ≫
+  (projectiveLinePowerGenericAutBaseChange k m).asIso.hom.left ≫
     pullback.fst (projectiveSpacePowerOver k 1 m).hom
       (Spec.map (generalLinearTwoPowerStructureMap k m))
 
@@ -505,7 +507,7 @@ theorem projectiveLinePowerGeneralLinearAction_comp_structureMorphism :
   rw [projectiveLinePowerGeneralLinearAction, Category.assoc, pullback.condition,
     ← Category.assoc]
   exact congrArg (fun u ↦ u ≫ Spec.map (generalLinearTwoPowerStructureMap k m))
-    (Over.w (projectiveLinePowerGenericAutBaseChange k m).hom)
+    (Over.w (projectiveLinePowerGenericAutBaseChange k m).asIso.hom)
 
 end PowerActionMorphism
 

@@ -93,7 +93,7 @@ def wholeSpaceSectionsCone (n : SimplexCategory) : Cone (wholeSpaceSectionSystem
   π :=
     { app := wholeSpaceSectionsConeπ hp Fc n
       naturality := fun _j _j' h ↦ AddCommGrpCat.ext fun x ↦
-        ULift.ext _ _ (wholeSpaceSectionsVal_restrict hp Fc x.down h.unop).symm }
+        ULift.ext (wholeSpaceSectionsVal_restrict hp Fc x.down h.unop).symm }
 
 /-- The morphism from the point of a cone over `wholeSpaceSectionSystem` to `M(n)` sending an
 element to the compatible family of its images under the projections of the cone. -/
@@ -105,9 +105,9 @@ def wholeSpaceSectionsConeLift (n : SimplexCategory)
         (fun e ↦ (s.π.app (op e) y).down)
         (fun {_e _e'} h ↦ congrArg ULift.down
           (congrFun (congrArg (fun g ↦ (ConcreteCategory.hom g : s.pt → _)) (s.w h.op)) y)))
-      map_zero' := ULift.ext _ _ (wholeSpaceSectionsVal_injective hp Fc fun e ↦
+      map_zero' := ULift.ext (wholeSpaceSectionsVal_injective hp Fc fun e ↦
         congrArg ULift.down (map_zero (ConcreteCategory.hom (s.π.app (op e)))))
-      map_add' := fun y z ↦ ULift.ext _ _ (wholeSpaceSectionsVal_injective hp Fc fun e ↦
+      map_add' := fun y z ↦ ULift.ext (wholeSpaceSectionsVal_injective hp Fc fun e ↦
         congrArg ULift.down (map_add (ConcreteCategory.hom (s.π.app (op e))) y z)) }
 
 /-- The lift of a cone has the components of the cone. -/
@@ -123,7 +123,7 @@ def wholeSpaceSectionsConeIsLimit (n : SimplexCategory) :
     IsLimit (wholeSpaceSectionsCone hp Fc n) where
   lift := wholeSpaceSectionsConeLift hp Fc n
   fac _ _ := AddCommGrpCat.ext fun _ ↦ rfl
-  uniq s m hm := AddCommGrpCat.ext fun y ↦ ULift.ext _ _
+  uniq s m hm := AddCommGrpCat.ext fun y ↦ ULift.ext
     (wholeSpaceSectionsVal_injective hp Fc fun e ↦ by
       rw [wholeSpaceSectionsVal_coneLift]
       exact congrArg ULift.down
@@ -193,7 +193,7 @@ def wholeSpaceCarrierSectionsIso :
       cosimplicialSections (wholeSpaceSystem S hp) (abelianSheaf Fc.obj).obj :=
   NatIso.ofComponents (fun n ↦ wholeSpaceCarrierSectionsIsoApp hp Fc n) (fun {m n} φ ↦ by
     rw [← Iso.eq_comp_inv]
-    refine AddCommGrpCat.ext fun x ↦ ULift.ext _ _
+    refine AddCommGrpCat.ext fun x ↦ ULift.ext
       (wholeSpaceSectionsVal_injective hp Fc fun e ↦ ?_)
     change wholeSpaceSectionsVal hp Fc (wholeSpaceSectionsTrans hp Fc φ x.down) e =
       wholeSpaceSectionsVal hp Fc (ULift.down (ConcreteCategory.hom

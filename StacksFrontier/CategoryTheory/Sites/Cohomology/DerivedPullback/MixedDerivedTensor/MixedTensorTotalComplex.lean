@@ -92,6 +92,17 @@ lemma pasteSummandSquare {D : Type*} [Category D] {S P P' W Q₁ Q₂ Z R R' : D
 
 /-! ### The data the identity of total tensor complexes is assembled from -/
 
+/-- Weak sheafification of abelian presheaves on a small site, from the global instance
+`Stacks.SheafOfModules.coefficientSheafification`. It is made a local instance of high priority
+so that the definitions below find it rather than the section variables
+`[HasSheafify J₀ AddCommGrpCat.{u}]`, `[HasSheafify J₁ AddCommGrpCat.{u}]`, and so do not depend
+on those variables. -/
+abbrev hasWeakSheafifyAddCommGrpCat {C : Type u} [SmallCategory C] (J : GrothendieckTopology C) :
+    HasWeakSheafify J AddCommGrpCat.{u} :=
+  inferInstance
+
+attribute [local instance high] hasWeakSheafifyAddCommGrpCat
+
 section Setup
 
 variable {C₀ : Type u} [SmallCategory C₀] {J₀ : GrothendieckTopology C₀}

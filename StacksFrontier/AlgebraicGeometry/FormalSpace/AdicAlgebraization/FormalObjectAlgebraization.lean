@@ -110,8 +110,8 @@ theorem restrictFamily_succ (k n : ℕ) :
       (restrictFamily hred A hA w hw k (n + 1)) = restrictFamily hred A hA w hw k n := by
   apply Subtype.ext
   show W.obj.map _ (W.obj.map _ (w (n + 1))) = W.obj.map _ (w n)
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp, quotientTruncationSucc_comp_toTruncation,
-    op_comp, FunctorToTypes.map_comp_apply, hw]
+  rw [← Functor.map_comp_apply, ← op_comp, quotientTruncationSucc_comp_toTruncation,
+    op_comp, Functor.map_comp_apply, hw]
 
 /-- **The morphism `ξ'_k : Spec(R/Iᵏ⁺¹) ⟶ W`**, as a section of `W_k`: the section whose
 restriction to each truncation of `R/Iᵏ⁺¹` is the restriction of the formal object. -/
@@ -156,12 +156,12 @@ theorem formalObjectAlgebraization_compatible {k m : ℕ} (h : k ≤ m) :
     (fun n => Subtype.ext (formalObjectAlgebraization_restrict hW hred A hA w hw k n))
     (fun n => Subtype.ext (by
       show W.obj.map _ (W.obj.map _ _) = _
-      rw [← FunctorToTypes.map_comp_apply, ← op_comp]
+      rw [← Functor.map_comp_apply, ← op_comp]
       have e := quotientTruncationMap_comp_ι hS A hA hle n
       show W.obj.map (quotientTruncationι hS A hA _ n ≫ _).op _ = _
-      rw [← e, op_comp, FunctorToTypes.map_comp_apply,
+      rw [← e, op_comp, Functor.map_comp_apply,
         formalObjectAlgebraization_restrict hW hred A hA w hw m n,
-        ← FunctorToTypes.map_comp_apply, ← op_comp, quotientTruncationMap_comp_toTruncation]))
+        ← Functor.map_comp_apply, ← op_comp, quotientTruncationMap_comp_toTruncation]))
   exact (congrArg Subtype.val h1).symm
 
 /-- The kernel of the ring map of `Spec((R/L)/𝔪ⁿ⁺¹) ⟶ Spec R` is `L + 𝔪ⁿ⁺¹`. -/

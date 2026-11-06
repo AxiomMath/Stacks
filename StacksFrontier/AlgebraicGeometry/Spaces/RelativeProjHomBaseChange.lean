@@ -116,6 +116,13 @@ namespace GradedAlgebraRestriction
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves on the big fppf site over `S` (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasLimitsOfShape_discrete_relativeProjHomBaseChange
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-! ### The section attached to a point, over a restricted point of the base -/
 
 section Section

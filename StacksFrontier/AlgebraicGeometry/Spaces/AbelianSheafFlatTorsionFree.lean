@@ -129,14 +129,16 @@ gives a monomorphism.** -/
 lemma mono_whiskerRight_abelianSheaf_of_isTorsionFree (M : Sheaf J AddCommGrpCat.{u})
     (hM : ∀ V, Module.IsTorsionFree ℤ (M.obj.obj V))
     {X Y : Sheaf J AddCommGrpCat.{u}} (i : X ⟶ Y) (hi : Mono i) : Mono (i ▷ M) := by
-  have : Mono ((presheafToSheaf J AddCommGrpCat.{u}).map (i.hom ▷ M.obj)) := by
+  have h₁ : Mono ((presheafToSheaf J AddCommGrpCat.{u}).map (i.hom ▷ M.obj)) := by
     have := mono_whiskerRight_presheaf_of_isTorsionFree M.obj hM i.hom inferInstance
     infer_instance
   have : Mono (((presheafToSheaf J AddCommGrpCat.{u}).map i.hom ▷
       (presheafToSheaf J AddCommGrpCat.{u}).obj M.obj) ≫
       Functor.LaxMonoidal.μ (presheafToSheaf J AddCommGrpCat.{u}) Y.obj M.obj) := by
     rw [Functor.LaxMonoidal.μ_natural_left]
-    infer_instance
+    have hμ : IsIso (Functor.LaxMonoidal.μ (presheafToSheaf J AddCommGrpCat.{u}) X.obj M.obj) :=
+      (Functor.Monoidal.μIso (presheafToSheaf J AddCommGrpCat.{u}) X.obj M.obj).isIso_hom
+    exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ hμ) _ h₁
   have : Mono ((presheafToSheaf J AddCommGrpCat.{u}).map i.hom ▷
       (presheafToSheaf J AddCommGrpCat.{u}).obj M.obj) :=
     mono_of_mono _ (Functor.LaxMonoidal.μ (presheafToSheaf J AddCommGrpCat.{u}) Y.obj M.obj)
@@ -153,7 +155,7 @@ lemma mono_whiskerRight_abelianSheaf_of_isTorsionFree (M : Sheaf J AddCommGrpCat
       ((presheafToSheaf J AddCommGrpCat.{u}).map i.hom ▷ M)) := by
     rw [hex]
     infer_instance
-  have : Mono ((presheafToSheaf J AddCommGrpCat.{u}).map i.hom ▷ M) :=
+  have h₂ : Mono ((presheafToSheaf J AddCommGrpCat.{u}).map i.hom ▷ M) :=
     (mono_comp_iff_of_isIso _ _).mp this
   have hnat : (presheafToSheaf J AddCommGrpCat.{u}).map i.hom ≫
       (sheafificationAdjunction J AddCommGrpCat.{u}).counit.app Y =
@@ -161,7 +163,9 @@ lemma mono_whiskerRight_abelianSheaf_of_isTorsionFree (M : Sheaf J AddCommGrpCat
     (sheafificationAdjunction J AddCommGrpCat.{u}).counit.naturality i
   have : Mono (((sheafificationAdjunction J AddCommGrpCat.{u}).counit.app X ▷ M) ≫ (i ▷ M)) := by
     rw [← MonoidalCategory.comp_whiskerRight, ← hnat, MonoidalCategory.comp_whiskerRight]
-    infer_instance
+    have hc : IsIso ((sheafificationAdjunction J AddCommGrpCat.{u}).counit.app Y ▷ M) :=
+      MonoidalCategory.whiskerRight_isIso _ _
+    exact @mono_comp _ _ _ _ _ _ h₂ _ (@IsIso.mono_of_iso _ _ _ _ _ hc)
   exact (mono_comp_iff_of_isIso _ _).mp this
 
 /-- **A sectionwise torsion-free abelian sheaf is flat: tensoring with it preserves finite

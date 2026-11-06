@@ -70,7 +70,6 @@ private theorem surjective_algebraMap_of_surjective
     Function.Surjective (algebraMap R' S') := by
   intro y
   induction y using H.out.inductionOn with
-  | zero => exact ⟨0, map_zero _⟩
   | tmul x => exact ⟨x, rfl⟩
   | smul s n hn =>
       obtain ⟨x, rfl⟩ := hn

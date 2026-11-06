@@ -226,8 +226,8 @@ theorem bijective_toGradingZeroOf : Function.Bijective (toGradingZeroOf C) := by
   · obtain ⟨p, hp, hpx⟩ := (Stacks.HomogeneousIdeal.mem_quotientGrading_iff _ x.1).mp x.2
     rw [mem_homogeneousSubmodule, ← totalDegree_zero_iff_isHomogeneous,
       totalDegree_eq_zero_iff_eq_C] at hp
-    refine ⟨coeff 0 p, Subtype.ext ?_⟩
-    show (Ideal.Quotient.mk (cubicIdealOf C).toIdeal) (MvPolynomial.C (coeff 0 p)) =
+    refine ⟨p.coeff 0, Subtype.ext ?_⟩
+    show (Ideal.Quotient.mk (cubicIdealOf C).toIdeal) (MvPolynomial.C (p.coeff 0)) =
       (x : coordRingOf C)
     exact (congrArg (Ideal.Quotient.mk (cubicIdealOf C).toIdeal) hp).symm.trans hpx
 

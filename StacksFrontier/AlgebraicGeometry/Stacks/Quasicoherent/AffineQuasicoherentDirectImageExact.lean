@@ -82,6 +82,8 @@ theorem preservesFiniteColimits_affineLqcohSheafFbcPushforward :
   let L' := lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒴
   have : ∀ {X Y : L.FullSubcategory} (g : X ⟶ Y), PreservesLimit (parallelPair g 0) L.ι :=
     fun g => L.preservesKernels_ι g
+  have : HasFiniteBiproducts L.FullSubcategory := Abelian.hasFiniteBiproducts
+  have : HasFiniteProducts L.FullSubcategory := hasFiniteProducts_of_hasFiniteBiproducts _
   have : PreservesFiniteLimits L.ι := Functor.preservesFiniteLimits_of_preservesKernels L.ι
   have hshort : ∀ Sq : ShortComplex L.FullSubcategory, Sq.ShortExact →
       (Sq.map (affineLqcohSheafFbcPushforward B E h S hS f hf ⋙ L'.ι)).ShortExact :=

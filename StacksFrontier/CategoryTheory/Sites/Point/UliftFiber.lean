@@ -56,7 +56,7 @@ def presheafFiberUliftIso (P : Cᵒᵖ ⥤ A) :
 /-- **The stalk of a sheaf at the universe lift of a point is its stalk at the point.** -/
 def sheafFiberUliftIso (F : Sheaf J A) :
     (Φ.ulift.{w'} (J := J)).sheafFiber.obj F ≅ Φ.sheafFiber.obj F :=
-  presheafFiberUliftIso.{w, w'} Φ F.val
+  presheafFiberUliftIso.{w, w'} Φ F.obj
 
 end CategoryTheory.GrothendieckTopology.Point
 

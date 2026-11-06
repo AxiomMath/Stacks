@@ -82,7 +82,7 @@ include hz in
 theorem isMulCommutative_commEvalSubring : IsMulCommutative (commEvalSubring z) :=
   Subring.isMulCommutative_closure (by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩
-    exact (hz i j).eq)
+    exact fun _ ↦ hz i j)
 
 open scoped IsMulCommutative in
 /-- **Evaluation of an integral polynomial at a pairwise commuting family** of elements of a
@@ -145,7 +145,7 @@ theorem commEval_mem {A : ℕ → AddSubgroup R} [SetLike.GradedMonoid A] {w : �
     rw [← hP (mem_support_iff.mp hd), Finsupp.weight_apply, Finsupp.sum]
     simp only [smul_eq_mul]
   rw [monomial_eq, map_mul, Finsupp.prod, ← hdeg,
-    show commEval hz (C (coeff d P)) = ((coeff d P : ℤ) : R) from
+    show commEval hz (C (P.coeff d)) = ((P.coeff d : ℤ) : R) from
       eq_intCast ((commEval hz).comp C) _, ← zsmul_eq_mul]
   exact AddSubgroup.zsmul_mem _ (hprod d d.support) _
 

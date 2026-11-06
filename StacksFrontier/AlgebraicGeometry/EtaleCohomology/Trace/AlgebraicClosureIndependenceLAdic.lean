@@ -166,6 +166,7 @@ variable {O : Type} [CommRing O] [Algebra ℤ_[ℓ] O] (F : LAdicSheaf.Coefficie
   (E : Type) [CommRing E] [Algebra ℚ_[ℓ] E] [Algebra O E]
   [IsLocalization (Submonoid.powers (ℓ : O)) E]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **`Hⁱ_c(X_{k̄₂}, F ⊗ ℚ_ℓ) ≃ Hⁱ_c(X_{k̄₁}, F ⊗ ℚ_ℓ)`, `E`-linearly**, for
 `σ : k̄₁ ≃ₐ[k] k̄₂`. -/
 public def LAdicSheaf.CoefficientSheaf.rationalAlgEquivLinearEquiv :
@@ -176,9 +177,10 @@ public def LAdicSheaf.CoefficientSheaf.rationalAlgEquivLinearEquiv :
   LAdicSheaf.CoefficientSheaf.rationalLinearEquivOfCommute F F f f j j kbar₂ kbar₁ i i E
     (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyAlgEquivIso B ℓ f j σ i
       F.toLAdicSheaf).toLinearEquiv
-    (fun o v => congrArg (fun t => t.hom v)
-      (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyAlgEquivIso_hom_naturality B ℓ f j σ
-        i (F.act o)))
+    (fun o v => by
+      have h := LAdicSheaf.rationalGeometricCompactlySupportedCohomologyAlgEquivIso_hom_naturality B
+        ℓ f j σ i (F.act o).asHom
+      exact congrArg (fun t => t.hom v) h)
 
 omit [Algebra ℚ_[ℓ] E] in
 /-- The `E`-linear identification carries `π_X^*` over `k̄₂` to `π_X^*` over `k̄₁`. -/

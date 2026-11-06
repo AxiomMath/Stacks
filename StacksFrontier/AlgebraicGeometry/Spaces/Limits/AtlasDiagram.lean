@@ -391,7 +391,7 @@ noncomputable def isLimitLimitCone [IsCofiltered I] (hthin : ∀ i j : I, Subsin
     IsLimit (A.limitCone sL tL hsL htL hX a ha_surj ha_et hker) :=
   have := A.isIso_lift_limitCone hcart hcV hcR sL tL hsL htL hX a ha_surj ha_et hker hthin i₀ h₀
   IsLimit.ofIsoLimit (limit.isLimit A.diagram)
-    (Cones.ext (asIso ((limit.isLimit A.diagram).lift
+    (Cone.ext (asIso ((limit.isLimit A.diagram).lift
       (A.limitCone sL tL hsL htL hX a ha_surj ha_et hker))).symm (fun i => by simp))
 
 end Limit

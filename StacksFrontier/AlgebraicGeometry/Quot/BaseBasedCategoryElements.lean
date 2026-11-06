@@ -118,16 +118,16 @@ def elementsToBaseObjects :
     (presheafOfCategories (Y.obj ⋙ typeToCat)).obj ⥤ BaseObjects Y where
   obj Z := ULiftHom.objUp (elementSchemesOver Y Z.base Z.fiber.as)
   map u := ULift.up (elementSchemesOverHom Y u.base (Discrete.eq_of_hom u.fiber))
-  map_id _ := ULift.ext _ _ (CostructuredArrow.hom_ext _ _ rfl)
-  map_comp _ _ := ULift.ext _ _ (CostructuredArrow.hom_ext _ _ rfl)
+  map_id _ := ULift.ext (CostructuredArrow.hom_ext _ _ rfl)
+  map_comp _ _ := ULift.ext (CostructuredArrow.hom_ext _ _ rfl)
 
 /-- An isomorphism of test schemes over `Y`, read in `𝒮_Y`, whose hom-sets are raised. -/
 def baseObjectsIsoUp {A A' : SchemesOver Y} (e : A ≅ A') :
     (ULiftHom.objUp A : BaseObjects Y) ≅ ULiftHom.objUp A' where
   hom := ULift.up e.hom
   inv := ULift.up e.inv
-  hom_inv_id := ULift.ext _ _ e.hom_inv_id
-  inv_hom_id := ULift.ext _ _ e.inv_hom_id
+  hom_inv_id := ULift.ext e.hom_inv_id
+  inv_hom_id := ULift.ext e.inv_hom_id
 
 /-- **`𝒮_Y` is the category of elements of `Y`, over the site.** The Yoneda lemma, as an
 equivalence over the big fppf site of `S` between `AlgebraicGeometry.Space.baseBasedCategory` and

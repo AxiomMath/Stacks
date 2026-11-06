@@ -68,6 +68,13 @@ theorem exists_antitone_opens_factors_iff_fibreDegree_ge_of_quasiCompact
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under
+Lean v4.35.0: supply them directly. -/
+local instance (priority := high) hasLimit_cospan_presheaf_fpqc
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-- Let `f : h_V ⟶ X` be a flat, locally finitely presented, separated, locally quasi-finite
 morphism from a scheme to an algebraic space `X` over `S`, and assume `h086R`, the same
 stratification for morphisms of schemes. Then there is a decreasing chain of open subspaces

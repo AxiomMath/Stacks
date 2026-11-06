@@ -307,7 +307,7 @@ theorem exists_isInvertible_restrict_iso [IsNoetherian X] (U : X.Opens) (N : X.M
       AlgebraicGeometry.SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property N' ∧
         Nonempty (N.restrict U.ι ≅ N'.restrict U.ι) := by
   revert N hUFD hN
-  refine IsWellFounded.induction (α := X.Opens) (· > ·)
+  refine WellFoundedGT.induction (α := X.Opens)
     (motive := fun V => ∀ N : X.Modules,
       (∀ x : X, x ∉ V → UniqueFactorizationMonoid (X.presheaf.stalk x)) →
       AlgebraicGeometry.SheafOfModules.IsInvertible V.toScheme.sheaf.obj

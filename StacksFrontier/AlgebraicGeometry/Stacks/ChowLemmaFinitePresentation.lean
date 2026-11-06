@@ -233,7 +233,8 @@ theorem HasChowCover.of_hasNoetherianApproximation
       algebraicSpaceStackMap.{u, w} B S hS hY hY₀ (A.π.app (op i₀)) ≫
         algebraicSpaceStackMap.{u, w} B S hS hY₀ (A.isAlgebraicSpace i) t :=
     (congrArg (algebraicSpaceStackMap.{u, w} B S hS hY (A.isAlgebraicSpace i))
-      (by simpa using A.π.naturality (homOfLE h₀).op : A.π.app i = A.π.app (op i₀) ≫ t)).trans
+      ((Category.id_comp _).symm.trans (A.π.naturality (homOfLE h₀).op) :
+        A.π.app i = A.π.app (op i₀) ≫ t)).trans
       (algebraicSpaceStackMap_comp B S hS hY hY₀ (A.isAlgebraicSpace i) _ t)
   exact HasChowCover.of_equivalence_twoFibreProduct B S hS hY hY₀ (A.π.app (op i₀)) Sq.snd
     (Bicategory.innerSq hSq (P.reindexSnd (eqToIso hcomp)))

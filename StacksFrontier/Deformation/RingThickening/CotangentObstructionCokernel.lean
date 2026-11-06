@@ -105,7 +105,7 @@ noncomputable def toRestrictedKernelLinearEquiv (M : ModuleCat.{u} S.A) :
         map_add' := fun x y => by rw [map_add]; rfl
         map_smul' := fun a x => by
           rw [map_smul, RingHom.id_apply]
-          exact ULift.ext _ _ (by
+          exact ULift.ext (by
             change a • g x = algebraMap S.A S.B a • g x
             rw [algebraMap_smul]) }
     invFun := fun φ =>

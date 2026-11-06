@@ -370,9 +370,7 @@ theorem isIso_restrictAdjunction_unit_of_iso {Z : Scheme.{u}} (V : Z.Opens) {F :
     have hu : (Scheme.Modules.restrictAdjunction V.ι).unit.app
         ((Scheme.Modules.pushforward V.ι).obj Q) = inv ((Scheme.Modules.pushforward V.ι).map
           ((Scheme.Modules.restrictAdjunction V.ι).counit.app Q)) := by
-      rw [← cancel_mono ((Scheme.Modules.pushforward V.ι).map
-        ((Scheme.Modules.restrictAdjunction V.ι).counit.app Q)), h, IsIso.inv_hom_id]
-      rfl
+      exact IsIso.eq_inv_of_inv_hom_id h
     rw [hu]
     infer_instance
   have hn := (Scheme.Modules.restrictAdjunction V.ι).unit.naturality e.hom

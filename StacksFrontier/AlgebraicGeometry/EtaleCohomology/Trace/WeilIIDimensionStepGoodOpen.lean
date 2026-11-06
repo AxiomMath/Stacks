@@ -362,6 +362,10 @@ theorem LAdicSheaf.exists_open_compactSupportWeightLE_of_smoothAffineFamily
   obtain ⟨u', -⟩ := hu'
   refine ⟨UT, inferInstance, jT, inferInstance, inferInstance,
     ⟨(Spec.map (CommRingCat.ofHom φ')).base u'⟩, ?_⟩
+  have : LocallyOfFiniteType (B.inclusion.map iT) :=
+    AlgebraicGeometry.instLocallyOfFiniteTypeOfIsClosedImmersion _
+  have : LocallyOfFiniteType (B.inclusion.map iT ≫ B.inclusion.map jT ≫ fZ) :=
+    MorphismProperty.comp_mem @LocallyOfFiniteType _ _ ‹_› ‹_›
   refine LAdicSheaf.compactSupportWeightLE_of_surjective (B.inclusion.map jT ≫ fZ) iT hsurj
     (hfin k kbar p q hcard hℓ U' _) ?_
   exact (LAdicSheaf.compactSupportWeightLE_iff_of_padicTowerIso _
@@ -558,6 +562,9 @@ theorem LAdicSheaf.weightBoundInDimension_succ_of_inputs
   exact LAdicSheaf.satisfiesWeightBound_of_forall_exists_open_compactSupportWeightLE X f
     (fun Y _ g _ _ _ _ => hfin k kbar p q hcard hℓ Y g)
     fun Z _ iZ _ hZ G w hl hm hr =>
+      haveI : LocallyOfFiniteType (B.inclusion.map iZ ≫ f) :=
+        MorphismProperty.comp_mem @LocallyOfFiniteType _ _
+          (AlgebraicGeometry.instLocallyOfFiniteTypeOfIsClosedImmersion _) ‹_›
       LAdicSheaf.exists_open_compactSupportWeightLE_of_weightBoundInDimension hleray hstalk hlisse
         hreal hfin hind hS hS1 kbar hcard hℓ ι (B.inclusion.map iZ ≫ f)
         ((B.inclusion.map iZ).isClosedEmbedding.isInducing.topologicalKrullDim_le.trans

@@ -175,15 +175,15 @@ public theorem smul_opensScalars_restrict_tilde (b : Ideal A) (N : ModuleCat.{u}
     (W : (complementZeroLocus A b : Scheme).Opens) (r : A)
     (x : moduleSections N ((complementZeroLocus A b).ι ''ᵁ W)) :
     ConcreteCategory.hom ((((tilde.functor (CommRingCat.of A)).obj N).restrict
-        (complementZeroLocus A b).ι).smul (opensScalars A b W r)) x = r • x := by
+        (complementZeroLocus A b).ι).smul (opensScalars A b W r)).asHom x = r • x := by
   have happ : (((complementZeroLocus A b).ι.appIso W).inv (opensScalars A b W r)) =
       opensScalars A b W r := by
     rw [Scheme.Opens.ι_appIso]
     rfl
   have hstep : ConcreteCategory.hom ((((tilde.functor (CommRingCat.of A)).obj N).restrict
-        (complementZeroLocus A b).ι).smul (opensScalars A b W r)) x =
+        (complementZeroLocus A b).ι).smul (opensScalars A b W r)).asHom x =
       ConcreteCategory.hom (((tilde.functor (CommRingCat.of A)).obj N).smul
-        (((complementZeroLocus A b).ι.appIso W).inv (opensScalars A b W r))) x := rfl
+        (((complementZeroLocus A b).ι.appIso W).inv (opensScalars A b W r))).asHom x := rfl
   rw [hstep, happ]
   refine Subtype.ext (funext fun y => ?_)
   exact algebraMap_smul (StructureSheaf.Localizations A y.1) r (x.1 y)

@@ -69,7 +69,7 @@ with values in the restriction of `Ω_{X/S}` to an open subscheme `U`. The vanis
 recorded here is only the Leibniz rule, over the constant presheaf of rings `ℤ`; the vanishing
 condition over `(f|_U)⁻¹ 𝒪_V` is `restrictUniversalDerivation`. -/
 noncomputable def restrictDerivationData :
-    ((f.relativeDifferentials).restrict U.ι).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' ((f.relativeDifferentials).restrict U.ι).val
       (SheafOfModules.constIntMap U.toScheme.presheaf) where
   d {W} := (f.universalRelativeDerivation.d).comp
     ((U.ι.appIso W.unop).inv.hom.toAddMonoidHom)
@@ -130,7 +130,7 @@ theorem restrict_hom_ext {N : U.toScheme.Modules}
     (inverseImageStructureMap f)).hom_ext ?_
   ext W s
   have key (g : (f.relativeDifferentials).restrict U.ι ⟶ N) :
-      (PresheafOfModules.Derivation.postcomp
+      (PresheafOfModulesOfCommRing.Derivation.postcomp
           (SheafOfModules.universalDerivation (inverseImageStructureMap f))
           (((Scheme.Modules.restrictAdjunction U.ι).homEquiv _ N) g).val).d s =
         (g.val.app (op (U.ι ⁻¹ᵁ W.unop))).hom (f.universalRelativeDerivation.d
@@ -269,7 +269,7 @@ theorem postcomp_restrict_eq_iff (e : U ≤ f ⁻¹ᵁ V)
             ((Scheme.Modules.restrictAppIso U.ι (f.relativeDifferentials) W).inv.hom
               (f.universalRelativeDerivation.d ((U.ι.appIso W).inv.hom x))) =
           (f.resLE V U e).universalRelativeDerivation.d x := by
-  refine ⟨fun hg W x => PresheafOfModules.Derivation.congr_d hg x, fun hg => ?_⟩
+  refine ⟨fun hg W x => PresheafOfModulesOfCommRing.Derivation.congr_d hg x, fun hg => ?_⟩
   ext W x
   exact hg W.unop x
 
@@ -293,8 +293,8 @@ theorem restrictUniversalDerivation_isUniversal (e : U ≤ f ⁻¹ᵁ V) :
           ((f.resLE V U e).relativeDifferentials) =>
         E.postcomp (huniv'.desc D).val) hforward)).trans (huniv'.postcomp_desc D)
   exact ⟨restrictToResLE f e ≫ huniv'.desc D, hex, fun g hg => restrict_hom_ext f fun W x =>
-    (PresheafOfModules.Derivation.congr_d hg x).trans
-      (PresheafOfModules.Derivation.congr_d hex x).symm⟩
+    (PresheafOfModulesOfCommRing.Derivation.congr_d hg x).trans
+      (PresheafOfModulesOfCommRing.Derivation.congr_d hex x).symm⟩
 
 /-- **Stacks Project, Tag 01US.** Let `f : X ⟶ S` be a morphism of schemes and let `U ⊆ X`,
 `V ⊆ S` be open subschemes with `f(U) ⊆ V`. There is a unique isomorphism

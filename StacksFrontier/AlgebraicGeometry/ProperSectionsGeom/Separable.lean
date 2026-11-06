@@ -108,7 +108,7 @@ is the base field itself. -/
 theorem isSeparable_of_isSeparablyGenerated (k F : Type*) [Field k] [Field F] [Algebra k F]
     [Algebra.IsAlgebraic k F] [Algebra.IsSeparablyGenerated k F] : Algebra.IsSeparable k F := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := F)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := F)
   have hempty : IsEmpty s := hs.1.isEmpty_of_isAlgebraic
   have hs0 : s = ∅ := Set.isEmpty_coe_sort.mp hempty
   subst hs0

@@ -262,8 +262,8 @@ theorem charpoly_toMatrix_tateModuleMap (hℓk : IsUnit (ℓ : k))
       ← hF n ((hP n).some)]
     exact Stacks.Picard.charpoly_toMatrix_eq _ n _ _
   have hMF : (LinearMap.toMatrix b b (tateModuleMap ℓ α)).charpoly = F := by
-    ext j
-    refine PadicInt.ext_of_toZModPow.1 fun n => ?_
+    refine Polynomial.ext fun j => ?_
+    refine (PadicInt.ext_of_toZModPow (p := ℓ)).1 fun n => ?_
     rw [← coeff_map, ← coeff_map, hred n]
   rw [hMF, hFχ]
 

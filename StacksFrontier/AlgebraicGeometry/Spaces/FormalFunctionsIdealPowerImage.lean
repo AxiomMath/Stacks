@@ -293,7 +293,7 @@ theorem modulePullbackUnitIso_conj_map (t : SheafOfModules.unit
           ((Sheaf.terminalHomEquivSections (Sheaf.ringSheaf
           (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite S.site
             (Spec (.of S.ring)) S.containsBase (baseSpace S).1 (baseSpace S).2).O))).symm
-            ⟨(unitEndSection _ t).1, (unitEndSection _ t).2⟩)))).app (SheafOfModules.unit _) := by
+            ⟨(unitEndSection _ t).1, (unitEndSection _ t).2⟩)))).asHom.app (SheafOfModules.unit _) := by
   have h2 : t = (Stacks.SheafOfModules.globalSectionToEnd
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite S.site (Spec (.of S.ring))
           S.containsBase (baseSpace S).1 (baseSpace S).2).O)
@@ -303,9 +303,9 @@ theorem modulePullbackUnitIso_conj_map (t : SheafOfModules.unit
           ((Sheaf.terminalHomEquivSections (Sheaf.ringSheaf
           (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite S.site
             (Spec (.of S.ring)) S.containsBase (baseSpace S).1 (baseSpace S).2).O))).symm
-        ⟨(unitEndSection _ t).1, (unitEndSection _ t).2⟩))).app (SheafOfModules.unit _) :=
+        ⟨(unitEndSection _ t).1, (unitEndSection _ t).2⟩))).asHom.app (SheafOfModules.unit _) :=
     (eq_globalSmul_unitEndSection _ t).trans
-      (congrArg (fun x => (Stacks.SheafOfModules.globalSectionToEnd _ x).app
+      (congrArg (fun x => (Stacks.SheafOfModules.globalSectionToEnd _ x).asHom.app
         (SheafOfModules.unit _)) (Equiv.apply_symm_apply _ _).symm)
   have h3 := Stacks.Sheaves.RingedToposModules.pullbackModules_map_globalSectionToEnd_unit
     (X := smallEtaleRingedTopos S.site (Spec (.of S.ring)) S.containsBase S.space)
@@ -345,7 +345,7 @@ theorem pullbackTildeUnitIso_conj_map_toSpanSingleton (a : S.ring) :
     simp only [pullbackTildeUnitIso, Iso.trans_inv, Iso.trans_hom, Functor.mapIso_inv,
       Functor.mapIso_hom, Functor.comp_map, Functor.map_comp, Category.assoc]
   refine h1.trans ((modulePullbackUnitIso_conj_map S _).trans ?_)
-  exact congrArg (fun x => (Stacks.SheafOfModules.globalSectionToEnd _ x).app
+  exact congrArg (fun x => (Stacks.SheafOfModules.globalSectionToEnd _ x).asHom.app
     (SheafOfModules.unit _))
     (terminalHomEquivSections_pullbackTerminalSection_eq_baseRingHom S a _
       (tildeUnitIso_conj_map_toSpanSingleton_val_app_selfChart S a))
@@ -434,7 +434,8 @@ theorem epi_idealPowerSectionSum (n : ℕ) : Epi (idealPowerSectionSum S n) := b
   have := epi_sigmaComparison_comp_map (pullbackTildeFunctor S)
     (fun _ : ↥(S.ideal ^ n) => ModuleCat.of S.ring S.ring) (Sigma.desc (idealPowerElement S n))
   have : Epi (Limits.Sigma.map (fun _ : ↥(S.ideal ^ n) => (pullbackTildeUnitIso S).inv)) :=
-    Limits.Sigma.map_epi _
+    @Limits.Sigma.map_epi _ _ _ _ _ _ _ (fun _ => (pullbackTildeUnitIso S).inv)
+      (fun _ => @IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv _))
   rw [e]
   exact epi_comp _ _
 

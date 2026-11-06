@@ -44,34 +44,34 @@ variable (R : Type u) [Ring R] {Γ : Type v} [Group Γ] [TopologicalSpace Γ]
 /-- Conjugation by `γ` on `Hom_ℤ(M, A)`: `ψ ↦ γ ∘ ψ ∘ γ⁻¹`. -/
 def homDualConj (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (γ : Γ) :
     (M.obj.obj.V →+ A.obj.obj.V) →ₗ[Rᵐᵒᵖ] (M.obj.obj.V →+ A.obj.obj.V) where
-  toFun ψ := (A.obj.obj.ρ γ).hom.toAddMonoidHom.comp (ψ.comp (M.obj.obj.ρ γ⁻¹).hom.toAddMonoidHom)
-  map_add' ψ ψ' := AddMonoidHom.ext fun m ↦ map_add (A.obj.obj.ρ γ).hom _ _
+  toFun ψ := (A.obj.obj.ρ γ).asHom.hom.toAddMonoidHom.comp (ψ.comp (M.obj.obj.ρ γ⁻¹).asHom.hom.toAddMonoidHom)
+  map_add' ψ ψ' := AddMonoidHom.ext fun m ↦ map_add (A.obj.obj.ρ γ).asHom.hom _ _
   map_smul' r ψ := AddMonoidHom.ext fun m ↦ by
-    change (A.obj.obj.ρ γ).hom (ψ (r.unop • (M.obj.obj.ρ γ⁻¹).hom m)) =
-      (A.obj.obj.ρ γ).hom (ψ ((M.obj.obj.ρ γ⁻¹).hom (r.unop • m)))
-    rw [(M.obj.obj.ρ γ⁻¹).hom.map_smul]
+    change (A.obj.obj.ρ γ).asHom.hom (ψ (r.unop • (M.obj.obj.ρ γ⁻¹).asHom.hom m)) =
+      (A.obj.obj.ρ γ).asHom.hom (ψ ((M.obj.obj.ρ γ⁻¹).asHom.hom (r.unop • m)))
+    rw [(M.obj.obj.ρ γ⁻¹).asHom.hom.map_smul]
 
 /-- **The conjugation action of `Γ` on `Hom_ℤ(M, A)`.** -/
 def homDualRepresentation (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) :
     Representation Rᵐᵒᵖ Γ (M.obj.obj.V →+ A.obj.obj.V) where
   toFun γ := homDualConj R A M γ
   map_one' := LinearMap.ext fun ψ ↦ AddMonoidHom.ext fun m ↦ by
-    change (A.obj.obj.ρ 1).hom (ψ ((M.obj.obj.ρ 1⁻¹).hom m)) = ψ m
+    change (A.obj.obj.ρ 1).asHom.hom (ψ ((M.obj.obj.ρ 1⁻¹).asHom.hom m)) = ψ m
     rw [inv_one, continuousModuleRho_one_apply ℤ A, continuousModuleRho_one_apply R M]
   map_mul' g h := LinearMap.ext fun ψ ↦ AddMonoidHom.ext fun m ↦ by
-    change (A.obj.obj.ρ (g * h)).hom (ψ ((M.obj.obj.ρ (g * h)⁻¹).hom m)) =
-      (A.obj.obj.ρ g).hom ((A.obj.obj.ρ h).hom (ψ ((M.obj.obj.ρ h⁻¹).hom
-        ((M.obj.obj.ρ g⁻¹).hom m))))
+    change (A.obj.obj.ρ (g * h)).asHom.hom (ψ ((M.obj.obj.ρ (g * h)⁻¹).asHom.hom m)) =
+      (A.obj.obj.ρ g).asHom.hom ((A.obj.obj.ρ h).asHom.hom (ψ ((M.obj.obj.ρ h⁻¹).asHom.hom
+        ((M.obj.obj.ρ g⁻¹).asHom.hom m))))
     rw [mul_inv_rev, continuousModuleRho_mul_apply ℤ A, continuousModuleRho_mul_apply R M]
 
 /-- The conjugation action sends `ψ` to `m ↦ γ (ψ (γ⁻¹ m))`. -/
 lemma homDualRepresentation_apply (M : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ) (γ : Γ)
     (ψ : M.obj.obj.V →+ A.obj.obj.V) (m : M.obj.obj.V) :
-    homDualRepresentation R A M γ ψ m = (A.obj.obj.ρ γ).hom (ψ ((M.obj.obj.ρ γ⁻¹).hom m)) :=
+    homDualRepresentation R A M γ ψ m = (A.obj.obj.ρ γ).asHom.hom (ψ ((M.obj.obj.ρ γ⁻¹).asHom.hom m)) :=
   rfl
 
 private lemma rho_apply_rho_inv_apply (N : Stacks.Injectives.ContinuousModule.{u, v, w} R Γ)
-    (γ : Γ) (x : N.obj.obj.V) : (N.obj.obj.ρ γ).hom ((N.obj.obj.ρ γ⁻¹).hom x) = x := by
+    (γ : Γ) (x : N.obj.obj.V) : (N.obj.obj.ρ γ).asHom.hom ((N.obj.obj.ρ γ⁻¹).asHom.hom x) = x := by
   rw [← continuousModuleRho_mul_apply, mul_inv_cancel, continuousModuleRho_one_apply]
 
 variable [IsTopologicalGroup Γ]
@@ -98,8 +98,8 @@ lemma isContinuous_homDualRepresentation (M : Stacks.Injectives.ContinuousModule
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one]
         rfl }
   change IsOpen (H : Set Γ)
-  let O : Set Γ := ⋂ m : M.obj.obj.V, ({γ | (M.obj.obj.ρ γ).hom m = m} ∩
-    {γ | (A.obj.obj.ρ γ).hom (ψ m) = ψ m})
+  let O : Set Γ := ⋂ m : M.obj.obj.V, ({γ | (M.obj.obj.ρ γ).asHom.hom m = m} ∩
+    {γ | (A.obj.obj.ρ γ).asHom.hom (ψ m) = ψ m})
   have hO : IsOpen O := isOpen_iInter_of_finite fun m ↦
     (isOpen_stabilizer R Γ M m).inter (isOpen_stabilizer ℤ Γ A (ψ m))
   have h1 : (1 : Γ) ∈ O := Set.mem_iInter.mpr fun m ↦
@@ -109,8 +109,8 @@ lemma isContinuous_homDualRepresentation (M : Stacks.Injectives.ContinuousModule
   have hγ' := Set.mem_iInter.mp hγ
   change homDualRepresentation R A M γ ψ = ψ
   refine AddMonoidHom.ext fun m ↦ ?_
-  change (A.obj.obj.ρ γ).hom (ψ ((M.obj.obj.ρ γ⁻¹).hom m)) = ψ m
-  have hinv : (M.obj.obj.ρ γ⁻¹).hom m = m := by
+  change (A.obj.obj.ρ γ).asHom.hom (ψ ((M.obj.obj.ρ γ⁻¹).asHom.hom m)) = ψ m
+  have hinv : (M.obj.obj.ρ γ⁻¹).asHom.hom m = m := by
     have := rho_apply_rho_inv_apply R M γ⁻¹ m
     rwa [inv_inv, (hγ' m).1] at this
   rw [hinv]
@@ -148,10 +148,10 @@ def homDualFunctor :
   map {M M'} f := ObjectProperty.homMk ((homEquiv Rᵐᵒᵖ Γ _ _).symm
     ⟨homDualPrecomp R A f.unop, fun γ (ψ : M.unop.obj.obj.obj.V →+ A.obj.obj.V) ↦
       AddMonoidHom.ext fun m ↦ by
-        change (A.obj.obj.ρ γ).hom (ψ ((M.unop.obj.obj.obj.ρ γ⁻¹).hom
+        change (A.obj.obj.ρ γ).asHom.hom (ψ ((M.unop.obj.obj.obj.ρ γ⁻¹).asHom.hom
             (f.unop.hom.hom.hom.hom.hom m))) =
-          (A.obj.obj.ρ γ).hom (ψ (f.unop.hom.hom.hom.hom.hom ((M'.unop.obj.obj.obj.ρ γ⁻¹).hom m)))
-        exact congrArg (fun x ↦ (A.obj.obj.ρ γ).hom (ψ x))
+          (A.obj.obj.ρ γ).asHom.hom (ψ (f.unop.hom.hom.hom.hom.hom ((M'.unop.obj.obj.obj.ρ γ⁻¹).asHom.hom m)))
+        exact congrArg (fun x ↦ (A.obj.obj.ρ γ).asHom.hom (ψ x))
           (ConcreteCategory.congr_hom (f.unop.hom.hom.hom.comm γ⁻¹) m).symm⟩)
   map_id _ := rfl
   map_comp _ _ := rfl
@@ -183,16 +183,16 @@ theorem homTwistPairingLinear_comm (M : FiniteTypeContinuousModule.{u, v, w} R �
     Stacks.CharacterModule.zmodToRatCircle n (Stacks.CharacterModule.cyclicEndScalar hA
       (ψ.comp (homTwistRepresentation R A M.obj γ⁻¹ φ)))
   congr 1
-  let σ : A.obj.obj.V →+ A.obj.obj.V := (A.obj.obj.ρ γ).hom.toAddMonoidHom
-  let σ' : A.obj.obj.V →+ A.obj.obj.V := (A.obj.obj.ρ γ⁻¹).hom.toAddMonoidHom
+  let σ : A.obj.obj.V →+ A.obj.obj.V := (A.obj.obj.ρ γ).asHom.hom.toAddMonoidHom
+  let σ' : A.obj.obj.V →+ A.obj.obj.V := (A.obj.obj.ρ γ⁻¹).asHom.hom.toAddMonoidHom
   have hσ : ∀ a, σ (σ' a) = a := rho_apply_rho_inv_apply ℤ A γ
   rw [← Stacks.CharacterModule.cyclicEndScalar_conj hA
     (ψ.comp (homTwistRepresentation R A M.obj γ⁻¹ φ)) σ σ' hσ]
   congr 1
   refine AddMonoidHom.ext fun a ↦ ?_
-  change (A.obj.obj.ρ γ).hom (ψ ((M.obj.obj.obj.ρ γ⁻¹).hom (φ a))) =
-    (A.obj.obj.ρ γ).hom (ψ ((M.obj.obj.obj.ρ γ⁻¹).hom (φ ((A.obj.obj.ρ γ⁻¹⁻¹).hom
-      ((A.obj.obj.ρ γ⁻¹).hom a)))))
+  change (A.obj.obj.ρ γ).asHom.hom (ψ ((M.obj.obj.obj.ρ γ⁻¹).asHom.hom (φ a))) =
+    (A.obj.obj.ρ γ).asHom.hom (ψ ((M.obj.obj.obj.ρ γ⁻¹).asHom.hom (φ ((A.obj.obj.ρ γ⁻¹⁻¹).asHom.hom
+      ((A.obj.obj.ρ γ⁻¹).asHom.hom a)))))
   rw [inv_inv, rho_apply_rho_inv_apply]
 
 variable (hM : ∀ (M : FiniteTypeContinuousModule.{u, v, w} R Γ) (m : M.obj.obj.obj.V), n • m = 0)

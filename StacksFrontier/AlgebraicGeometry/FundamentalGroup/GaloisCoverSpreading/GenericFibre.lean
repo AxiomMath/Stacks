@@ -151,7 +151,7 @@ def isLimitGenericFiberCone : IsLimit (genericFiberCone f) := by
       ι₀ := hι₀
   refine (IsLimit.extendIso (s := preimageSpecStalkCone f (genericPoint S))
     (X := f.fiber (genericPoint S)) ι₀ (isLimitPreimageSpecStalkCone f (genericPoint S))).ofIsoLimit
-    (Cones.ext (Iso.refl _) fun W ↦ ?_)
+    (Cone.ext (Iso.refl _) fun W ↦ ?_)
   refine Eq.trans ?_ (Category.id_comp _).symm
   exact (cancel_mono (f ⁻¹ᵁ W.opens).ι).mp <| ((Category.assoc ι₀ _ _).trans
     ((congrArg (ι₀ ≫ ·) (preimageSpecStalkLeg_ι f (genericPoint S) W)).trans hι₀fst)).trans
@@ -175,8 +175,8 @@ theorem exists_galoisExtendsOver_of_flat [QuasiCompact f] [QuasiSeparated f] [Fl
   let Y : FiniteEtaleGaloisCover (f ⁻¹ᵁ W.opens).toScheme G :=
     { obj := V, connected := hconn, action := act, comparisonIsIso := hiso }
   obtain ⟨e, he⟩ := GaloisCoverLimits.exists_equivariant_iso_of_isPullback
-    (genericFiberToPreimage f W.opens W.mem_opens) V Z.obj P hP (fun g ↦ (act g).hom)
-    (fun g ↦ (Z.action g).hom) hact
+    (genericFiberToPreimage f W.opens W.mem_opens) V Z.obj P hP (fun g ↦ (act g).asIso.hom)
+    (fun g ↦ (Z.action g).asIso.hom) hact
   exact ⟨W.opens, W.mem_opens, Y, e, he⟩
 
 /-- **The generic Galois cover extends over an open neighbourhood of `η`**, the first step of

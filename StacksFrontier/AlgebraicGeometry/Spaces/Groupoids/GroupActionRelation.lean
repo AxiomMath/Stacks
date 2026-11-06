@@ -76,8 +76,8 @@ when every nonidentity element fixing a point acts nontrivially on the residue f
 point. -/
 @[stacks 02Z3 "acts freely: the condition (*) of 02Z2 on the action"]
 def ActsNontriviallyOnFixedResidueFields (a : G →* Aut U) : Prop :=
-  ∀ (g : G) (x : U.left) (hx : (a g).hom.left x = x),
-    g ≠ 1 → (a g).hom.left.residueFieldMap x ≠
+  ∀ (g : G) (x : U.left) (hx : (a g).asIso.hom.left x = x),
+    g ≠ 1 → (a g).asIso.hom.left.residueFieldMap x ≠
       (U.left.residueFieldCongr hx).hom
 
 /-- The scheme of arrows of the graph relation of a group action: the disjoint union of one
@@ -88,7 +88,7 @@ abbrev actionRelationScheme : Over S := ∐ fun _ : G ↦ U
 /-- The target map of the graph relation of a group action, sending the point `x` of the
 copy indexed by `g` to `g x`. -/
 def actionRelationTarget (a : G →* Aut U) : actionRelationScheme U G ⟶ U :=
-  Sigma.desc (fun g : G ↦ (a g).hom)
+  Sigma.desc (fun g : G ↦ (a g).asIso.hom)
 
 /-- The source map of the graph relation of a group action, the identity on every copy
 of `U`. -/
@@ -156,8 +156,8 @@ private theorem actionRelationTarget_etale (a : G →* Aut U) :
   (actionRelation_target_eq U G a).symm ▸ etale_of_forget_ι_comp U G _ fun g ↦ by
     change Etale ((Over.forget S).map _ ≫ (Over.forget S).map _)
     rw [← (Over.forget S).map_comp]
-    have : IsIso ((a g).hom.left) := ((Over.forget S).mapIso (a g)).isIso_hom
-    simpa [actionRelationTarget] using inferInstanceAs (Etale (a g).hom.left)
+    have : IsIso ((a g).asIso.hom.left) := ((Over.forget S).mapIso (a g).asIso).isIso_hom
+    simpa [actionRelationTarget] using inferInstanceAs (Etale (a g).asIso.hom.left)
 
 private def actionRelationIdentity : U ⟶ actionRelationScheme U G :=
   Sigma.ι (fun _ : G ↦ U) 1
@@ -174,7 +174,7 @@ private theorem actionRelationIdentity_target (a : G →* Aut U) :
 
 private def actionRelationInverse (a : G →* Aut U) :
     actionRelationScheme U G ⟶ actionRelationScheme U G :=
-  Sigma.desc fun g : G ↦ (a g).hom ≫ Sigma.ι (fun _ : G ↦ U) g⁻¹
+  Sigma.desc fun g : G ↦ (a g).asIso.hom ≫ Sigma.ι (fun _ : G ↦ U) g⁻¹
 
 private theorem actionRelationInverse_target (a : G →* Aut U) :
     actionRelationInverse U G a ≫ actionRelationTarget U G a =
@@ -182,13 +182,13 @@ private theorem actionRelationInverse_target (a : G →* Aut U) :
   apply Sigma.hom_ext
   intro g
   calc
-    _ = ((a g).hom ≫ Sigma.ι (fun _ : G ↦ U) g⁻¹) ≫
+    _ = ((a g).asIso.hom ≫ Sigma.ι (fun _ : G ↦ U) g⁻¹) ≫
         actionRelationTarget U G a := by
           rw [← Category.assoc, actionRelationInverse, Sigma.ι_desc]
-    _ = (a g).hom ≫ ((a g⁻¹).hom) := by
+    _ = (a g).asIso.hom ≫ ((a g⁻¹).asIso.hom) := by
           rw [Category.assoc, actionRelationTarget, Sigma.ι_desc]
     _ = 𝟙 U := by
-          rw [a.map_inv g, Aut.Aut_inv_def]
+          rw [a.map_inv g, Aut.inv_asIso]
           exact Iso.hom_inv_id _
     _ = Sigma.ι (fun _ : G ↦ U) g ≫ actionRelationSource U G := by
           simp [actionRelationSource]
@@ -199,10 +199,10 @@ private theorem actionRelationInverse_source (a : G →* Aut U) :
   apply Sigma.hom_ext
   intro g
   calc
-    _ = ((a g).hom ≫ Sigma.ι (fun _ : G ↦ U) g⁻¹) ≫
+    _ = ((a g).asIso.hom ≫ Sigma.ι (fun _ : G ↦ U) g⁻¹) ≫
         actionRelationSource U G := by
           rw [← Category.assoc, actionRelationInverse, Sigma.ι_desc]
-    _ = (a g).hom := by
+    _ = (a g).asIso.hom := by
           simp [actionRelationSource]
     _ = Sigma.ι (fun _ : G ↦ U) g ≫ actionRelationTarget U G a := by
           rw [actionRelationTarget, Sigma.ι_desc]
@@ -218,7 +218,7 @@ private theorem actionRelationComposition_exists (a : G →* Aut U) :
           actionRelationSource U G := by
   let F : G → Over S := fun _ ↦ U
   let f : G → (U ⟶ U) := fun _ ↦ 𝟙 U
-  let g : G → (U ⟶ U) := fun i ↦ (a i).hom
+  let g : G → (U ⟶ U) := fun i ↦ (a i).asIso.hom
   have hf (i : G) : Sigma.ι F i ≫ actionRelationSource U G = f i := by
     simp [F, f, actionRelationSource]
   have hg (i : G) : Sigma.ι F i ≫ actionRelationTarget U G a = g i := by
@@ -278,18 +278,18 @@ private theorem actionRelationComposition_exists (a : G →* Aut U) :
         actionRelationTarget U G a =
       (m (i, j) ≫ pullback.fst (actionRelationSource U G)
           (actionRelationTarget U G a)) ≫ actionRelationTarget U G a
-    have hmul : (a (i * j)).hom = (a j).hom ≫ (a i).hom := by
-      rw [a.map_mul i j, Aut.Aut_mul_def]
+    have hmul : (a (i * j)).asIso.hom = (a j).asIso.hom ≫ (a i).asIso.hom := by
+      rw [a.map_mul i j, Aut.mul_asIso]
       rfl
     calc
       (pullback.snd (f i) (g j) ≫ Sigma.ι F (i * j)) ≫
           actionRelationTarget U G a =
-        pullback.snd (f i) (g j) ≫ (a (i * j)).hom := by
+        pullback.snd (f i) (g j) ≫ (a (i * j)).asIso.hom := by
           rw [Category.assoc, actionRelationTarget, Sigma.ι_desc]
-      _ = pullback.snd (f i) (g j) ≫ ((a j).hom ≫ (a i).hom) := by rw [hmul]
-      _ = pullback.fst (f i) (g j) ≫ (a i).hom := by
+      _ = pullback.snd (f i) (g j) ≫ ((a j).asIso.hom ≫ (a i).asIso.hom) := by rw [hmul]
+      _ = pullback.fst (f i) (g j) ≫ (a i).asIso.hom := by
           have hbase : pullback.fst (f i) (g j) =
-              pullback.snd (f i) (g j) ≫ (a j).hom := by
+              pullback.snd (f i) (g j) ≫ (a j).asIso.hom := by
             simpa [f, g] using
               (pullback.condition : pullback.fst (f i) (g j) ≫ f i =
                 pullback.snd (f i) (g j) ≫ g j)
@@ -345,28 +345,28 @@ private theorem actionRelationUnderlyingInclusion_source (g : G) :
 
 private theorem actionRelationUnderlyingInclusion_target (a : G →* Aut U) (g : G) :
     actionRelationUnderlyingInclusion U G g ≫ (actionRelationTarget U G a).left =
-      (a g).hom.left := by
+      (a g).asIso.hom.left := by
   show (Over.forget S).map (Sigma.ι (fun _ : G ↦ U) g) ≫
       (Over.forget S).map (actionRelationTarget U G a) = _
   rw [← (Over.forget S).map_comp]
-  exact congrArg Over.Hom.left (Sigma.ι_desc (fun g : G ↦ (a g).hom) g)
+  exact congrArg Over.Hom.left (Sigma.ι_desc (fun g : G ↦ (a g).asIso.hom) g)
 
 omit [Small.{u} G] in
 private theorem actionRelation_fixedPoint_forces_identity (a : G →* Aut U)
     (ha : ActsNontriviallyOnFixedResidueFields U G a)
     {k : Type u} [Field k] (z : Spec (.of k) ⟶ U.left) (g : G)
-    (hfix : z ≫ (a g).hom.left = z) : g = 1 := by
+    (hfix : z ≫ (a g).asIso.hom.left = z) : g = 1 := by
   let E := Scheme.SpecToEquivOfField k U.left
   let x := z (IsLocalRing.closedPoint k)
   obtain ⟨hx, hres⟩ := Scheme.SpecToEquivOfField_eq_iff.mp (congrArg E hfix)
   simp only [Scheme.SpecToEquivOfField, Equiv.coe_fn_mk, Scheme.Hom.comp_base,
     TopCat.hom_comp, ContinuousMap.coe_comp,
     Scheme.descResidueField_stalkClosedPointTo_comp, E] at hx hres
-  have hres' : (a g).hom.left.residueFieldMap x =
+  have hres' : (a g).asIso.hom.left.residueFieldMap x =
       (U.left.residueFieldCongr hx).hom := by
     let lam := (E z).2
     let : Mono lam := ConcreteCategory.mono_of_injective lam (RingHom.injective lam.hom)
-    have hcomp : (a g).hom.left.residueFieldMap x ≫ lam =
+    have hcomp : (a g).asIso.hom.left.residueFieldMap x ≫ lam =
         (U.left.residueFieldCongr hx).hom ≫ lam := hres
     exact (cancel_mono lam).mp hcomp
   by_contra hne
@@ -376,14 +376,14 @@ omit [Small.{u} G] in
 private theorem actionRelation_eq_of_comp_eq (a : G →* Aut U)
     (ha : ActsNontriviallyOnFixedResidueFields U G a)
     {k : Type u} [Field k] (z : Spec (.of k) ⟶ U.left) {g h : G}
-    (hgh : z ≫ (a g).hom.left = z ≫ (a h).hom.left) : g = h := by
-  have hmul : (a (h⁻¹ * g)).hom.left = (a g).hom.left ≫ (a h⁻¹).hom.left := by
-    rw [a.map_mul, Aut.Aut_mul_def]
+    (hgh : z ≫ (a g).asIso.hom.left = z ≫ (a h).asIso.hom.left) : g = h := by
+  have hmul : (a (h⁻¹ * g)).asIso.hom.left = (a g).asIso.hom.left ≫ (a h⁻¹).asIso.hom.left := by
+    rw [a.map_mul, Aut.mul_asIso]
     rfl
-  have hcancelOver : (a h).hom ≫ (a h⁻¹).hom = 𝟙 U := by
-    rw [a.map_inv h, Aut.Aut_inv_def]
+  have hcancelOver : (a h).asIso.hom ≫ (a h⁻¹).asIso.hom = 𝟙 U := by
+    rw [a.map_inv h, Aut.inv_asIso]
     exact Iso.hom_inv_id _
-  have hcancel : (a h).hom.left ≫ (a h⁻¹).hom.left = 𝟙 U.left :=
+  have hcancel : (a h).asIso.hom.left ≫ (a h⁻¹).asIso.hom.left = 𝟙 U.left :=
     congrArg Over.Hom.left hcancelOver
   have hd := actionRelation_fixedPoint_forces_identity U G a ha z (h⁻¹ * g) (by
     rw [hmul, ← Category.assoc, hgh, Category.assoc, hcancel, Category.comp_id])
@@ -423,14 +423,14 @@ private theorem actionRelationFieldPoint_injective (a : G →* Aut U)
       _ = w := by
         rw [hs, Category.assoc, actionRelationUnderlyingInclusion_source]
         simp
-  have hact : z ≫ (a g).hom.left = z ≫ (a hidx).hom.left := by
+  have hact : z ≫ (a g).asIso.hom.left = z ≫ (a hidx).asIso.hom.left := by
     calc
-      z ≫ (a g).hom.left = r.left ≫ (actionRelationTarget U G a).left := by
+      z ≫ (a g).asIso.hom.left = r.left ≫ (actionRelationTarget U G a).left := by
         rw [hr, Category.assoc, actionRelationUnderlyingInclusion_target]
       _ = s.left ≫ (actionRelationTarget U G a).left := congrArg Over.Hom.left ht
-      _ = w ≫ (a hidx).hom.left := by
+      _ = w ≫ (a hidx).asIso.hom.left := by
         rw [hs, Category.assoc, actionRelationUnderlyingInclusion_target]
-      _ = z ≫ (a hidx).hom.left := by rw [hz]
+      _ = z ≫ (a hidx).asIso.hom.left := by rw [hz]
   have hidx_eq : hidx = g := (actionRelation_eq_of_comp_eq U G a ha z hact).symm
   apply Over.OverMorphism.ext
   rw [hr, hs, hz, hidx_eq]
@@ -594,7 +594,7 @@ private theorem actionGroup_card_le_power (a : G →* Aut U)
   let z : Spec (.of k) ⟶ U.left := U.left.fromSpecResidueField x
   let eG : G ≃ Shrink.{u} G := equivShrink.{u} G
   let φ : Shrink.{u} G → (Spec (.of k) ⟶ U.left) :=
-    fun g ↦ z ≫ (a (eG.symm g)).hom.left
+    fun g ↦ z ≫ (a (eG.symm g)).asIso.hom.left
   have hφ : Function.Injective φ := fun g h hgh ↦
     eG.symm.injective (actionRelation_eq_of_comp_eq U G a ha z hgh)
   have hGroupMaps : Cardinal.mk (Shrink.{u} G) ≤

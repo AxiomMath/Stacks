@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Topology.Spectral.Basic
 public import Mathlib.Topology.Spectral.ConstructibleTopology
 import StacksFrontier.Topology.Spectral.ConstructibleTopology
 

@@ -269,7 +269,7 @@ theorem IsWeakSolution.of_finiteEtale_square
   let : q.LiesOver p := ⟨rfl⟩
   let : q'.LiesOver p' := ⟨rfl⟩
   let : p'.LiesOver p := ⟨((Ideal.under_under q').trans (Ideal.under_under q').symm).symm⟩
-  have hq : q.IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (hI := hq') q'
+  have hq : q.IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal (hI := hq') q'
   exact Ideal.ramificationIdx_eq_one_of_finiteEtale_square p q p' q'
     (hD₁ q hq)
 
@@ -313,7 +313,7 @@ theorem IsWeakSolution.of_ramificationIdx_vertical_eq
   let : q.LiesOver p := ⟨rfl⟩
   let : q'.LiesOver p' := ⟨rfl⟩
   let : p'.LiesOver p := ⟨((Ideal.under_under q').trans (Ideal.under_under q').symm).symm⟩
-  have hq : q.IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (hI := hq') q'
+  have hq : q.IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal (hI := hq') q'
   exact (Ideal.ramificationIdx_eq_one_iff_ramificationIdx_vertical_eq p q p' q'
     (hD₁ q hq) (hpos q' hq')).mpr (hbal q' hq')
 
@@ -358,7 +358,7 @@ theorem IsWeakSolution.of_ramificationIdx_vertical_le
   let : q.LiesOver p := ⟨rfl⟩
   let : q'.LiesOver p' := ⟨rfl⟩
   let : p'.LiesOver p := ⟨((Ideal.under_under q').trans (Ideal.under_under q').symm).symm⟩
-  have hq : q.IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (hI := hq') q'
+  have hq : q.IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal (hI := hq') q'
   exact (Ideal.ramificationIdx_eq_one_iff_ramificationIdx_vertical_le p q p' q'
     (hD₁ q hq) (hpos q' hq') (hposT q' hq')).mpr (hle q' hq')
 

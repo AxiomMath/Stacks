@@ -103,14 +103,14 @@ def LAdicSheaf.CoefficientSheaf.higherDirectImageShriekBaseChangeInv :
 
 /-- **The base change morphism is compatible with the coefficients.** -/
 theorem LAdicSheaf.CoefficientSheaf.higherDirectImageShriekBaseChangeHom_act (o : O) :
-    ((F.higherDirectImageShriek B ℓ g jg r).inverseImage jV).act o ≫
+    (((F.higherDirectImageShriek B ℓ g jg r).inverseImage jV).act o).asHom ≫
         LAdicSheaf.CoefficientSheaf.higherDirectImageShriekBaseChangeHom B ℓ g jg g' jg' jU jV hpb
           F r =
       LAdicSheaf.CoefficientSheaf.higherDirectImageShriekBaseChangeHom B ℓ g jg g' jg' jU jV hpb
           F r ≫
-        ((F.inverseImage jU).higherDirectImageShriek B ℓ g' jg' r).act o :=
+        (((F.inverseImage jU).higherDirectImageShriek B ℓ g' jg' r).act o).asHom :=
   LAdicSheaf.higherDirectImageShriekBaseChangeHom_naturality B ℓ g jg g' jg' jU jV hpb
-    F.toLAdicSheaf r _ _ (F.act o)
+    F.toLAdicSheaf r _ _ (F.act o).asHom
 
 /-- **The base change morphisms compose to `ℓ ^ (N + N')`**, `N`, `N'` the torsion bounds of `F`
 and `F|_{U'}`. -/

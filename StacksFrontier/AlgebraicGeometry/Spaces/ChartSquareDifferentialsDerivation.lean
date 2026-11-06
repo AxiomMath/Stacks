@@ -95,7 +95,7 @@ theorem universalDerivation_chartSquareDifferentialsAssociatedIso (q : Y ⟶ Bb)
             ((representedAssociatedDifferentialsIso B S hS k).hom.val.app E)) y)
           (universalDerivation_sheafOfDifferentialsEtaleLocalizationIso B S hS q w
             (schemeSpaceMap k) v hw hv hsq x)).trans
-        (PresheafOfModules.Derivation.congr_d
+        (PresheafOfModulesOfCommRing.Derivation.congr_d
           (postcomp_representedAssociatedDifferentialsIso B S hS k) x)))
 
 end AlgebraicGeometry.Space

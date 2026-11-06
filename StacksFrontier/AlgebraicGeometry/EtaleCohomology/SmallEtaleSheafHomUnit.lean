@@ -112,7 +112,7 @@ private def presheafUnitUliftIso :
   NatIso.ofComponents
     (fun X => AddEquiv.toAddCommGrpIso (sheafHomUnitSectionsAddEquiv B S hS G X.unop))
     (fun {_X _Y} f => AddCommGrpCat.hom_ext <| AddMonoidHom.ext fun α =>
-      ULift.ext _ _ (internalHomEval_unit_one_naturality B S hS G f α))
+      ULift.ext (internalHomEval_unit_one_naturality B S hS G f α))
 
 /-- **The internal hom out of the structure sheaf on the small étale site of `S` is the universe
 lift of the target.**  A local morphism `𝒪|_T ⟶ 𝓖|_T` is multiplication by its value on the

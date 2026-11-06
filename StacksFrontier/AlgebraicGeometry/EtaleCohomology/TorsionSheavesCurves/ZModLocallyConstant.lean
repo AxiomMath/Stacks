@@ -50,7 +50,7 @@ def fullyFaithfulForget₂ZMod :
 def zmodEndRingHomOf {D : Type*} [Category D] [Preadditive D] (A : D) (h : ℓ • 𝟙 A = 0) :
     ZMod ℓ →+* End A :=
   haveI : CharP (End A) (ringChar (End A)) := ringChar.charP _
-  ZMod.castHom (ringChar.dvd (by rw [← nsmul_one]; exact h)) (End A)
+  ZMod.castHom (ringChar.dvd (by rw [← nsmul_one]; exact End.ext h)) (End A)
 
 /-- The constant sheaf functor on abelian groups is additive. -/
 theorem constantSheaf_additive {C : Type u} [Category.{v} C]

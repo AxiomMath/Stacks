@@ -83,6 +83,13 @@ theorem etaleRestrictionComp_of_representable {C₀ A₀ D₀ : AlgebraicSpaces 
   etaleRestrictionComp_of_unit B S hS h g hh hg hhg
     (etaleModulePullbackCompAdjunction_unit B S hS h g hh hg hhg)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_presheaf_EtaleComparisonRepresentable
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {I : Type v} {X : AlgebraicSpaces B S hS} (Yi : I → AlgebraicSpaces B S hS)
   (f : ∀ i, Yi i ⟶ X)
 

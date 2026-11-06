@@ -91,7 +91,6 @@ lemma tmul_one_ext {g h : (S ⊗[R] P) →ₗ[S] Q} (H : ∀ p : P, g (1 ⊗ₜ 
     g = h := by
   refine LinearMap.ext fun t => ?_
   induction t with
-  | zero => rw [map_zero, map_zero]
   | tmul s p =>
     have e : (s ⊗ₜ[R] p : S ⊗[R] P) = s • ((1 : S) ⊗ₜ[R] p) := by
       rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -307,7 +306,6 @@ lemma tensorStalkIso_comp_comparisonStalkMap :
     (Stacks.SheafOfModules.TensorStalkRingedSpace.tensorStalkIso Y (f.hom.base x) A
       B).symm.surjective p
   induction t with
-  | zero => rw [map_zero, TensorProduct.tmul_zero, map_zero, map_zero]
   | add left right left_eq right_eq =>
       simpa only [map_add, TensorProduct.tmul_add] using
         congrArg₂ (· + ·) left_eq right_eq

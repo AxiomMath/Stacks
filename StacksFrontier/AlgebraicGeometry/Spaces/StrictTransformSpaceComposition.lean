@@ -70,6 +70,13 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 variable {A X A' A'' : AlgebraicSpaces B S hS} (f : X ⟶ A) (b : A' ⟶ A) (c : A'' ⟶ A')
 variable (Z : ClosedSubspaces B S hS A.1) (Z' : ClosedSubspaces B S hS A'.1)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasLimitsOfShape_discrete_strictTransformSpaceComposition
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 /-- The inclusion of a strict transform into `X ×_A A'` is a closed immersion. -/
 private theorem isClosedImmersion_strictTransformSpaceι_hom (E : Subfunctor A'.1) :
     IsClosedImmersion B S hS (strictTransformSpaceι B S hS f b E).hom :=
@@ -838,6 +845,8 @@ theorem range_iteratedStrictTransformSpaceι_comp_iso
       strictTransformSubfunctor B S hS f (c ≫ b) (Y.1.preimage (c ≫ b).hom) := by
   have : IsIso (iteratedStrictTransformPullbackIso B S hS f b c).hom.hom :=
     (ObjectProperty.ι _).map_isIso (iteratedStrictTransformPullbackIso B S hS f b c).hom
+  have : Epi (iteratedStrictTransformPullbackIso B S hS f b c).hom.hom := IsIso.epi_of_iso _
+  have : Mono (iteratedStrictTransformPullbackIso B S hS f b c).hom.hom := IsIso.mono_of_iso _
   have hT := exceptionalPreimageSet_eq_preimage_of_comp_eq B S hS f (c ≫ b)
     (Y.1.preimage (c ≫ b).hom)
     (strictTransformPullbackToBlowUp B S hS f b) c (Y.1.preimage (c ≫ b).hom) (𝟙 A'')
@@ -871,6 +880,8 @@ theorem exists_iteratedStrictTransformSpace_iso
         (iteratedStrictTransformSpaceMap B S hS f b c (Z.1.preimage b.hom)) := by
   have : IsIso (iteratedStrictTransformPullbackIso B S hS f b c).hom.hom :=
     (ObjectProperty.ι _).map_isIso (iteratedStrictTransformPullbackIso B S hS f b c).hom
+  have : Epi (iteratedStrictTransformPullbackIso B S hS f b c).hom.hom := IsIso.epi_of_iso _
+  have : Mono (iteratedStrictTransformPullbackIso B S hS f b c).hom.hom := IsIso.mono_of_iso _
   have : Mono (iteratedStrictTransformSpaceι B S hS f b c Z Z').hom :=
     mono_of_isClosedImmersion B S hS _
       (isClosedImmersion_iteratedStrictTransformSpaceι B S hS f b c Z Z')

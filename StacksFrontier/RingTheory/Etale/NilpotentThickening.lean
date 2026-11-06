@@ -124,10 +124,7 @@ theorem isBaseChange_ker_of_isBaseChange
   have hspan : ∀ (m : M) (j : RingHom.ker (algebraMap B' B)), Φ j = m →
       j ∈ Submodule.span B' (Set.range f) := by
     intro m
-    refine hres.inductionOn m _ ?_ ?_ ?_ ?_
-    · intro j hj
-      rw [show j = 0 from Φ.injective (hj.trans (map_zero Φ).symm)]
-      exact zero_mem _
+    refine hres.inductionOn m ?_ ?_ ?_
     · intro n j hj
       rw [show j = f (ρ n) from Φ.injective (hj.trans (hcomp n).symm)]
       exact Submodule.subset_span ⟨_, rfl⟩
@@ -398,8 +395,9 @@ theorem etale_and_bijective_lift_of_isBaseChange [Algebra.Etale A B]
   · -- the tensor square
     have hJI : J = I.map (algebraMap A' B') := by
       refine le_antisymm (fun j hj ↦ ?_) (Ideal.map_le_iff_le_comap.2 fun x hx ↦ hIJ x hx)
-      refine hbc.inductionOn (⟨j, hj⟩ : J) (fun y : J ↦ (y : B') ∈ I.map (algebraMap A' B'))
-        (zero_mem _) (fun m ↦ Ideal.mem_map_of_mem _ m.2) (fun b y hy ↦ ?_) (fun y z hy hz ↦ ?_)
+      refine hbc.inductionOn (⟨j, hj⟩ : J)
+        (motive := fun y : J ↦ (y : B') ∈ I.map (algebraMap A' B'))
+        (fun m ↦ Ideal.mem_map_of_mem _ m.2) (fun b y hy ↦ ?_) (fun y z hy hz ↦ ?_)
       · exact Ideal.mul_mem_left _ b hy
       · exact add_mem hy hz
     let iso := (CommRingCat.isPushout_tensorProduct A B B).isoIsPushout _ _ hpo

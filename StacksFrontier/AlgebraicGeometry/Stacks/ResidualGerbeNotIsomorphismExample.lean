@@ -333,8 +333,8 @@ abbrev constantGaloisGroupScheme : Grp (Over cover.left) :=
   constantGroupScheme galoisGroup cover.left
 
 private theorem selfFiberProductAction_hom_left_fst (σ : galoisGroup) :
-    (selfFiberProductAction B₀ hQ hK σ).hom.left ≫ pullback.fst cover.hom cover.hom =
-      pullback.fst cover.hom cover.hom ≫ (galoisAction B₀ hQ hK σ).hom.left :=
+    (selfFiberProductAction B₀ hQ hK σ).asIso.hom.left ≫ pullback.fst cover.hom cover.hom =
+      pullback.fst cover.hom cover.hom ≫ (galoisAction B₀ hQ hK σ).asIso.hom.left :=
   pullback.lift_fst _ _ _
 
 /-- **Stacks 06MS.** The Galois group acts freely on the self-fibre-product `U`: the first
@@ -358,14 +358,14 @@ theorem selfFiberProductAction_actsFreely :
   exact hcongr
 
 private theorem selfFiberProductAction_hom_left_snd (σ : galoisGroup) :
-    (selfFiberProductAction B₀ hQ hK σ).hom.left ≫ pullback.snd cover.hom cover.hom =
+    (selfFiberProductAction B₀ hQ hK σ).asIso.hom.left ≫ pullback.snd cover.hom cover.hom =
       pullback.snd cover.hom cover.hom :=
-  Over.w (selfFiberProductAction B₀ hQ hK σ).hom
+  Over.w (selfFiberProductAction B₀ hQ hK σ).asIso.hom
 
 /-- Under the identification `U ≅ Spec(ℚ̄ ⊗_ℚ ℚ̄)`, a Galois element `σ` acts on `U` as `Spec` of
 `σ⁻¹ ⊗ 1`: both are morphisms to a fibre product, and they agree after either projection. -/
 private theorem selfFiberProductAction_hom_left_eq (σ : galoisGroup) :
-    (selfFiberProductAction B₀ hQ hK σ).hom.left =
+    (selfFiberProductAction B₀ hQ hK σ).asIso.hom.left =
       selfFiberProductIsoSpec.hom ≫ Spec.map (CommRingCat.ofHom (tensorAut σ).toRingHom) ≫
         selfFiberProductIsoSpec.inv := by
   have hinvfst : selfFiberProductIsoSpec.inv ≫ pullback.fst cover.hom cover.hom =
@@ -376,7 +376,7 @@ private theorem selfFiberProductAction_hom_left_eq (σ : galoisGroup) :
       Spec.map (CommRingCat.ofHom (Algebra.TensorProduct.includeRight
         (R := ℚ) (A := AlgebraicClosure ℚ) (B := AlgebraicClosure ℚ)).toRingHom) :=
     pullbackSpecIso_inv_snd ℚ (AlgebraicClosure ℚ) (AlgebraicClosure ℚ)
-  have hgal : (galoisAction B₀ hQ hK σ).hom.left =
+  have hgal : (galoisAction B₀ hQ hK σ).asIso.hom.left =
       Spec.map (CommRingCat.ofHom (σ⁻¹ : galoisGroup).toRingEquiv.toRingHom) := rfl
   apply pullback.hom_ext
   · rw [selfFiberProductAction_hom_left_fst, Category.assoc, Category.assoc, hinvfst,
@@ -406,7 +406,7 @@ private theorem selfFiberProductAction_hom_left_eq (σ : galoisGroup) :
 prime of `τ` to the prime of `τ σ⁻¹`. -/
 @[stacks 06MS "G acts transitively on U"]
 theorem selfFiberProductAction_transitive (x y : selfFiberProduct.left) :
-    ∃ σ : galoisGroup, (selfFiberProductAction B₀ hQ hK σ).hom.left x = y := by
+    ∃ σ : galoisGroup, (selfFiberProductAction B₀ hQ hK σ).asIso.hom.left x = y := by
   let e := selfFiberProductIsoSpec
   obtain ⟨τ₁, h₁⟩ := tensorPrime_surjective (e.hom x)
   obtain ⟨τ₂, h₂⟩ := tensorPrime_surjective (e.hom y)
@@ -436,11 +436,11 @@ and on constant points"]
 theorem constantGaloisGroupSchemeAction_eq (σ : galoisGroup) :
     letI := constantGaloisGroupSchemeAction B₀ hQ hK
     constantGroupSchemeLeg selfFiberProduct σ ≫ γ[constantGaloisGroupScheme.X, selfFiberProduct] =
-        (selfFiberProductAction B₀ hQ hK σ).hom ∧
+        (selfFiberProductAction B₀ hQ hK σ).asIso.hom ∧
       ∀ {T : Over cover.left} (x : T ⟶ selfFiberProduct),
         (toUnit T ≫ constantGroupSchemePoint galoisGroup cover.left σ :
             T ⟶ constantGaloisGroupScheme.X) • x =
-          x ≫ (selfFiberProductAction B₀ hQ hK σ).hom :=
+          x ≫ (selfFiberProductAction B₀ hQ hK σ).asIso.hom :=
   ⟨constantGroupSchemeLeg_smul _ _ σ, fun x ↦ constantGroupSchemePoint_smul _ _ σ x⟩
 
 /-- **Stacks 06MS.** The constant group scheme `G` acts freely on `U`, in the sense of
@@ -698,7 +698,7 @@ theorem subsingleton_points_galoisSelfProductQuotient :
   have hleft : (BigFppfOver.toScheme B cover.left hS).map
       (Space.siteActionHom galoisGroup B hS (siteSelfFiberProduct B hS hU)
         (selfFiberProductAction B₀ hQ hK) σ) =
-      (selfFiberProductAction B₀ hQ hK σ).hom.left :=
+      (selfFiberProductAction B₀ hQ hK σ).asIso.hom.left :=
     congrArg Over.Hom.left (Space.post_map_siteActionHom galoisGroup B hS
       (siteSelfFiberProduct B hS hU) (selfFiberProductAction B₀ hQ hK) σ)
   have hmap : Space.pointsMap B cover.left hS

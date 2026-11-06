@@ -441,7 +441,7 @@ private theorem exists_iso_Q_obj_mapHomologicalComplex_tilde_of_isQuasicoherent 
   exact ⟨DerivedCategory.Q.objPreimage M,
     ⟨((tilde.functor R).mapDerivedCategoryFactors.app _).symm ≪≫
       (tilde.functor R).mapDerivedCategory.mapIso (DerivedCategory.Q.objObjPreimageIso M) ≪≫
-      ((Functor.mapDerivedCategoryCompIso (Iso.refl _ : (tildeEquiv (R := R)).functor ⋙
+      ((Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _ : (tildeEquiv (R := R)).functor ⋙
         ObjectProperty.ι (SheafOfModules.isQuasicoherent (Spec R).ringCatSheaf) ≅
           tilde.functor R)).app M).symm ≪≫ e⟩⟩
 

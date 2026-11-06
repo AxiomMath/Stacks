@@ -131,7 +131,7 @@ public theorem exists_isColimitCofan_baseAssociatedModuleOver (τ : SiteKind) (V
   let e := baseAssociatedModuleOverObjIso B S hS τ V 𝓕
   refine ⟨n, fun b => (u.inv ≫ Φ.map (ι b)) ≫ e.hom, ⟨?_⟩⟩
   exact (Stacks.Sheaves.GlobalTypeComparison.isColimitCofanMap Φ u ι hc).ofIsoColimit
-    (Cocones.ext e (fun _ => rfl))
+    (Cocone.ext e (fun _ => rfl))
 
 /-- **Descent, Lemma 05VG for Modules on Sites, Definition 03DL (2): the pullback direction, at
 the big site `(Sch/S)_τ` for every `τ ∈ {Zariski, étale, smooth, syntomic, fppf}`.**  If an

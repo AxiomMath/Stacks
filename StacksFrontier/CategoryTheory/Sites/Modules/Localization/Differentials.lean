@@ -155,9 +155,9 @@ noncomputable def derivationEquivOfRingDataIso
     {g : A ⟶ P} {g' : A' ⟶ P'} (hg : g ≫ β.hom = α.hom ≫ g')
     (M : _root_.SheafOfModules.{t}
       ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, t} (J := J)) P')) :
-    ((_root_.SheafOfModules.restrictScalars
-          ((Stacks.forgetCommRingSheaf.{v, u, t} J).map β.hom)).obj M).val.Derivation' g.hom ≃
-      M.val.Derivation' g'.hom := by
+    PresheafOfModulesOfCommRing.Derivation' ((_root_.SheafOfModules.restrictScalars
+          ((Stacks.forgetCommRingSheaf.{v, u, t} J).map β.hom)).obj M).val g.hom ≃
+      PresheafOfModulesOfCommRing.Derivation' M.val g'.hom := by
   have hβi : ∀ (X : Cᵒᵖ) (z : P'.obj.obj X), β.hom.hom.app X (β.inv.hom.app X z) = z :=
     fun X z ↦ congrArg (fun k : P' ⟶ P' ↦ k.hom.app X z) β.inv_hom_id
   have hβh : ∀ (X : Cᵒᵖ) (z : P.obj.obj X), β.inv.hom.app X (β.hom.hom.app X z) = z :=

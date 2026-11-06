@@ -77,23 +77,23 @@ instance presheafOfModules_monoidalPreadditive {C : Type*} [Category C]
   whiskerLeft_zero := by
     intros
     ext1 X
-    simp only [PresheafOfModules.whiskerLeft_app, PresheafOfModules.zero_app,
+    simp only [PresheafOfModulesOfCommRing.whiskerLeft_app, PresheafOfModules.zero_app,
       MonoidalPreadditive.whiskerLeft_zero]
     rfl
   zero_whiskerRight := by
     intros
     ext1 X
-    simp only [PresheafOfModules.whiskerRight_app, PresheafOfModules.zero_app,
+    simp only [PresheafOfModulesOfCommRing.whiskerRight_app, PresheafOfModules.zero_app,
       MonoidalPreadditive.zero_whiskerRight]
     rfl
   whiskerLeft_add f g := by
     ext1 X
-    simp only [PresheafOfModules.whiskerLeft_app, PresheafOfModules.add_app,
+    simp only [PresheafOfModulesOfCommRing.whiskerLeft_app, PresheafOfModules.add_app,
       MonoidalPreadditive.whiskerLeft_add]
     rfl
   add_whiskerRight f g := by
     ext1 X
-    simp only [PresheafOfModules.whiskerRight_app, PresheafOfModules.add_app,
+    simp only [PresheafOfModulesOfCommRing.whiskerRight_app, PresheafOfModules.add_app,
       MonoidalPreadditive.add_whiskerRight]
     rfl
 
@@ -111,6 +111,7 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
 
 variable [HasBinaryBiproducts (SheafOfModules (ringSheaf R))]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The total tensor complex `Tot(K₁^• ⊗_O K₂^•)` exists.**  Its degree `n` part is the
 coproduct of `K₁^p ⊗_O K₂^q` over the pairs with `p + q = n`, a coproduct indexed by a small
 type, and `Mod(O)` has all small colimits because presheaves of modules do and sheafification

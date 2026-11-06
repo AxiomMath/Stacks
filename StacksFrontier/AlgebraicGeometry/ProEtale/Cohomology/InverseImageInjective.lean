@@ -638,7 +638,7 @@ theorem exists_isLimit_baseChange_of_isPullback {U : X.ProEt} {A : Type u} [Smal
     (comp_comp_eq_comp _ _ _ _ _ _ (hbc_fst k a) (hiso_fst k)), fun k ↦ ⟨?_⟩,
     fun k a ↦ ?_, fun k a ↦ ?_, fun k a a' f ↦ ?_⟩
   · exact IsLimit.ofIsoLimit (baseChangeConeIsLimit D hUlim b₀ (Y k))
-      (Cones.ext (iso k).symm fun a ↦ (Iso.inv_hom_id_assoc (iso k) _).symm)
+      (Cone.ext (iso k).symm fun a ↦ (Iso.inv_hom_id_assoc (iso k) _).symm)
   · have : IsAffine (Y k).left := inferInstanceAs (IsAffine (W k))
     exact isAffine_baseChangeDiagram_obj D b₀ (Y k) a
   · show Etale (pullback.fst (D.map a.hom) (w' k))
@@ -693,7 +693,7 @@ theorem isZero_cechCohomology_of_isPullback {U : X.ProEt} {A : Type u} [SmallCat
   have hB : IsLimit (q.mapCone (Cone.mk U πB)) :=
     IsLimit.ofIsoLimit ((Functor.Initial.isLimitWhiskerEquiv (Over.forget b₀)
       (q.mapCone (Cone.mk U πU))).symm hUlim)
-      (Cones.ext (Iso.refl _) fun _ ↦ (Category.id_comp _).symm)
+      (Cone.ext (Iso.refl _) fun _ ↦ (Category.id_comp _).symm)
   have := fun j ↦ preservesLimit_overPost_forget (stageFamily E B M m j)
   have hS (n : ℕ) (t : Fin (n + 1) → E.I₀) (j : Over b₀) :=
     have : QuasiSeparatedSpace (B.obj j).left := inferInstanceAs

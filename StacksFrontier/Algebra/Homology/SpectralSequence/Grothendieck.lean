@@ -109,12 +109,12 @@ theorem exists_spectralSequence_rightDerivedFunctorPlus_comp (F : A ⥤ B) (G : 
             (imageSubobject (K.X.d (n - 1) n) ⊓ Fil p n ⊔ Fil (p + 1) n)) := by
   let β := whiskerRight (mapHomotopyCategoryPlusCompIso (Iso.refl (F ⋙ G))).inv
       DerivedCategory.Plus.Qh ≫
-    whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnit ≫
-    whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus
+    whiskerLeft F.mapHomotopyCategoryPlus G.rightDerivedFunctorPlusUnith ≫
+    whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus
   let t := (F ⋙ G).rightDerivedFunctorPlus.rightDerivedDesc
-    (F ⋙ G).rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso A)
+    (F ⋙ G).rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A)
     (F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus) β
-  have ht : (F ⋙ G).rightDerivedFunctorPlusUnit ≫ whiskerLeft DerivedCategory.Plus.Qh t = β :=
+  have ht : (F ⋙ G).rightDerivedFunctorPlusUnith ≫ whiskerLeft DerivedCategory.Plus.Qh t = β :=
     Functor.rightDerived_fac _ _ _ _ _
   have : IsIso t := (isIso_iff_rightAcyclic_obj_injective F G t ht).2 hFG
   obtain ⟨M, ⟨eM⟩⟩ :=

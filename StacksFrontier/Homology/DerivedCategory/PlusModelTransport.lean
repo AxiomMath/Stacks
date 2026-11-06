@@ -291,8 +291,8 @@ def rightDerivedIso (F : C ⥤ D) [F.Additive] [EnoughInjectives C] :
     @Functor.rightDerivedFunctorPlus C D _ _ _ _ hC₁ hD₁ F _ _ ⋙ plusFunctor hD₁ hD₂ ≅
       plusFunctor hC₁ hC₂ ⋙ @Functor.rightDerivedFunctorPlus C D _ _ _ _ hC₂ hD₂ F _ _ :=
   derivedIso (HomotopyCategory.Plus.quasiIso C) (plusQhIso hC₁ hC₂)
-    (@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₁ hD₁ F _ _)
-    (@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₂ hD₂ F _ _)
+    (@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₁ hD₁ F _ _)
+    (@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₂ hD₂ F _ _)
     (Functor.associator _ _ _ ≪≫
       Functor.isoWhiskerLeft F.mapHomotopyCategoryPlus (plusQhIso hD₁ hD₂))
 
@@ -300,15 +300,15 @@ def rightDerivedIso (F : C ⥤ D) [F.Additive] [EnoughInjectives C] :
 theorem rightDerivedIso_fac (F : C ⥤ D) [F.Additive] [EnoughInjectives C]
     (X : HomotopyCategory.Plus C) :
     (plusFunctor hD₁ hD₂).map
-        ((@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₁ hD₁ F _ _).app X) ≫
+        ((@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₁ hD₁ F _ _).app X) ≫
       (rightDerivedIso hC₁ hC₂ hD₁ hD₂ F).hom.app ((@DerivedCategory.Plus.Qh C _ _ hC₁).obj X) ≫
         (@Functor.rightDerivedFunctorPlus C D _ _ _ _ hC₂ hD₂ F _ _).map
           ((plusQhIso hC₁ hC₂).hom.app X) =
       (plusQhIso hD₁ hD₂).hom.app (F.mapHomotopyCategoryPlus.obj X) ≫
-        (@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₂ hD₂ F _ _).app X := by
+        (@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₂ hD₂ F _ _).app X := by
   have h := derivedIso_fac' (HomotopyCategory.Plus.quasiIso C) (plusQhIso hC₁ hC₂)
-    (@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₁ hD₁ F _ _)
-    (@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₂ hD₂ F _ _)
+    (@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₁ hD₁ F _ _)
+    (@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₂ hD₂ F _ _)
     (Functor.associator _ _ _ ≪≫
       Functor.isoWhiskerLeft F.mapHomotopyCategoryPlus (plusQhIso hD₁ hD₂)) X
   simp only [Iso.trans_hom, NatTrans.comp_app, Functor.associator_hom_app,
@@ -325,18 +325,18 @@ theorem rightDerivedIso_compat (F : C ⥤ D) [F.Additive] [EnoughInjectives C]
     (θ₂ : @Functor.rightDerivedFunctorPlus C D _ _ _ _ hC₂ hD₂ F _ _ ⟶ H₂)
     (h : ∀ X : HomotopyCategory.Plus C,
       (plusFunctor hD₁ hD₂).map
-          ((@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₁ hD₁ F _ _).app X ≫
+          ((@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₁ hD₁ F _ _).app X ≫
             θ₁.app ((@DerivedCategory.Plus.Qh C _ _ hC₁).obj X)) ≫
         χ.hom.app ((@DerivedCategory.Plus.Qh C _ _ hC₁).obj X) ≫
           H₂.map ((plusQhIso hC₁ hC₂).hom.app X) =
       (plusQhIso hD₁ hD₂).hom.app (F.mapHomotopyCategoryPlus.obj X) ≫
-        (@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₂ hD₂ F _ _).app X ≫
+        (@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₂ hD₂ F _ _).app X ≫
           θ₂.app ((@DerivedCategory.Plus.Qh C _ _ hC₂).obj X)) :
     Functor.whiskerRight θ₁ (plusFunctor hD₁ hD₂) ≫ χ.hom =
       (rightDerivedIso hC₁ hC₂ hD₁ hD₂ F).hom ≫ Functor.whiskerLeft (plusFunctor hC₁ hC₂) θ₂ :=
   derivedIso_compat (HomotopyCategory.Plus.quasiIso C) (plusQhIso hC₁ hC₂)
-    (@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₁ hD₁ F _ _)
-    (@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₂ hD₂ F _ _)
+    (@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₁ hD₁ F _ _)
+    (@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₂ hD₂ F _ _)
     (Functor.associator _ _ _ ≪≫
       Functor.isoWhiskerLeft F.mapHomotopyCategoryPlus (plusQhIso hD₁ hD₂)) χ θ₁ θ₂
     (fun X => by simpa using h X)
@@ -380,7 +380,7 @@ theorem rightComparisonUnit_compat (P : C ⥤ D) (Q : D ⥤ E) [P.Additive] [Q.A
     @Functor.rightComparisonUnit_app C D E _ _ _ _ _ _ hC₂ hD₂ hE₂ P Q _ _ _ _ X,
     transportComp_hom_app]
   have a := (rightDerivedIso hD₁ hD₂ hE₁ hE₂ Q).hom.naturality
-    ((@Functor.rightDerivedFunctorPlusUnit C D _ _ _ _ hC₁ hD₁ P _ _).app X)
+    ((@Functor.rightDerivedFunctorPlusUnith C D _ _ _ _ hC₁ hD₁ P _ _).app X)
   have b := congrArg (@Functor.rightDerivedFunctorPlus D E _ _ _ _ hD₂ hE₂ Q _ _).map
     (rightDerivedIso_fac hC₁ hC₂ hD₁ hD₂ P X)
   have c := rightDerivedIso_fac hD₁ hD₂ hE₁ hE₂ Q (P.mapHomotopyCategoryPlus.obj X)
@@ -541,7 +541,7 @@ an exact `F`, is the identification of `F.mapDerivedCategoryPlus` as a lift. -/
 theorem rightDerivedFunctorPlusUnit_comp_isoMapDerivedCategoryPlus_hom
     [HasDerivedCategory A] [HasDerivedCategory B] [EnoughInjectives A]
     [PreservesFiniteLimits F] [PreservesFiniteColimits F] (X : HomotopyCategory.Plus A) :
-    F.rightDerivedFunctorPlusUnit.app X ≫
+    F.rightDerivedFunctorPlusUnith.app X ≫
         (F.rightDerivedFunctorPlusIsoMapDerivedCategoryPlus).hom.app
           (DerivedCategory.Plus.Qh.obj X) =
       F.mapDerivedCategoryPlusFactorsh.inv.app X := by

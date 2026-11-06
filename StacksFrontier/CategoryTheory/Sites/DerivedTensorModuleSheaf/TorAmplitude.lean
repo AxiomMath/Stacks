@@ -89,11 +89,11 @@ theorem exists_shortExact_smul_id_eq_zero {I : Ideal R} (hI : I.FG) {n : ℕ} {X
     refine (cancel_mono (kernel.ι φ)).1 ?_
     have h : kernel.ι φ ≫ φ ≫ Pi.π (fun _ : s => X) ⟨x, hx⟩ = 0 := by
       rw [← Category.assoc, kernel.condition, zero_comp]
-    rw [Pi.lift_π, Linear.comp_smul, Category.comp_id] at h
+    rw [Pi.lift_comp_π, Linear.comp_smul, Category.comp_id] at h
     rw [Linear.smul_comp, Category.id_comp, h, zero_comp]
   · intro y hy
     have hφ : (y • 𝟙 X) ≫ φ = 0 := Pi.hom_ext _ _ fun x => by
-      rw [Category.assoc, Pi.lift_π, Linear.comp_smul, Category.comp_id, smul_smul, zero_comp]
+      rw [Category.assoc, Pi.lift_comp_π, Linear.comp_smul, Category.comp_id, smul_smul, zero_comp]
       exact hX _ (by
         rw [mul_comm, pow_succ]
         exact Ideal.mul_mem_mul hy (hs ▸ Ideal.subset_span x.2))

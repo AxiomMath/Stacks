@@ -68,25 +68,29 @@ namespace Stacks.Descent
 /-- An action of a group on an object `V` all of whose automorphisms commute with a morphism
 `f : V ⟶ Y`, read as an action on `V` as an object over `Y`. -/
 def actionOverAut {C : Type u} [Category.{v} C] {G : Type*} [Group G] (act : Action C G)
-    {Y : C} (f : act.V ⟶ Y) (hf : ∀ g, act.ρ g ≫ f = f) : G →* Aut (Over.mk f) where
-  toFun g := Over.isoMk
-    { hom := act.ρ g
-      inv := act.ρ g⁻¹
-      hom_inv_id := by simpa [End.mul_def] using (act.ρ.map_mul g⁻¹ g).symm
-      inv_hom_id := by simpa [End.mul_def] using (act.ρ.map_mul g g⁻¹).symm }
+    {Y : C} (f : act.V ⟶ Y) (hf : ∀ g, (act.ρ g).asHom ≫ f = f) : G →* Aut (Over.mk f) where
+  toFun g := .of <| Over.isoMk
+    { hom := (act.ρ g).asHom
+      inv := (act.ρ g⁻¹).asHom
+      hom_inv_id := by simp [← End.mul_asHom, ← map_mul]
+      inv_hom_id := by simp [← End.mul_asHom, ← map_mul] }
     (hf g)
-  map_one' := Aut.ext (Over.OverMorphism.ext act.ρ.map_one)
+  map_one' := by
+    apply Aut.ext
+    apply Iso.ext
+    apply Over.OverMorphism.ext
+    simp
   map_mul' g h := by
     apply Aut.ext
+    apply Iso.ext
     apply Over.OverMorphism.ext
-    change act.ρ (g * h) = act.ρ h ≫ act.ρ g
-    simp [End.mul_def]
+    simp
 
 /-- The automorphism of `Over.mk f` attached to `g` has underlying morphism `act.ρ g`. -/
 @[simp]
 lemma actionOverAut_hom_left {C : Type u} [Category.{v} C] {G : Type*} [Group G]
-    (act : Action C G) {Y : C} (f : act.V ⟶ Y) (hf : ∀ g, act.ρ g ≫ f = f) (g : G) :
-    (actionOverAut act f hf g).hom.left = act.ρ g := rfl
+    (act : Action C G) {Y : C} (f : act.V ⟶ Y) (hf : ∀ g, (act.ρ g).asHom ≫ f = f) (g : G) :
+    (actionOverAut act f hf g).asIso.hom.left = (act.ρ g).asHom := rfl
 
 /-- On the summand indexed by `σ`, the Galois cover comparison is the lift of `𝟙 X` and the
 twist by `σ`. -/
@@ -245,9 +249,10 @@ morphisms `Spec σ`.  The group is the opposite one because `Spec` is contravari
 def specGaloisAction : Action Scheme.{u} (K ≃ₐ[k] K)ᵐᵒᵖ where
   V := Spec (.of K)
   ρ :=
-    { toFun := fun σ ↦ specMapAlgAut k K σ.unop
-      map_one' := by simp
+    { toFun := fun σ ↦ .of (specMapAlgAut k K σ.unop)
+      map_one' := by ext1; simp
       map_mul' := fun σ τ ↦ by
+        ext1
         change specMapAlgAut k K (τ.unop * σ.unop) =
           specMapAlgAut k K τ.unop ≫ specMapAlgAut k K σ.unop
         exact specMapAlgAut_mul k K τ.unop σ.unop }
@@ -262,7 +267,7 @@ def specGaloisOverAction : (K ≃ₐ[k] K)ᵐᵒᵖ →* Aut (Over.mk (specOfExt
 `Spec σ`. -/
 @[simp]
 lemma specGaloisOverAction_hom_left (σ : K ≃ₐ[k] K) :
-    (specGaloisOverAction k K (.op σ)).hom.left = specMapAlgAut k K σ := rfl
+    (specGaloisOverAction k K (.op σ)).asIso.hom.left = specMapAlgAut k K σ := rfl
 
 /-! ### The Galois situation of a base change -/
 
@@ -274,14 +279,14 @@ abbrev baseChangeProjection : SchemeOver.baseChange k K Z ⟶ Z.left :=
 
 /-- A twist `id_X × Spec σ` does not move the projection `X_K ⟶ X`. -/
 lemma baseChangeAction_comp_fst (σ : (K ≃ₐ[k] K)ᵐᵒᵖ) :
-    (galoisActionOnBaseChange k K Z).ρ σ ≫ baseChangeProjection k K Z =
+    ((galoisActionOnBaseChange k K Z).ρ σ).asHom ≫ baseChangeProjection k K Z =
       baseChangeProjection k K Z := by
   dsimp [galoisActionOnBaseChange, SchemeOver.baseChange]
   simp [pullback.map, pullback.lift_fst]
 
 /-- A twist `id_X × Spec σ` acts on the `Spec K` coordinate by `Spec σ`. -/
 lemma baseChangeAction_comp_snd (σ : (K ≃ₐ[k] K)ᵐᵒᵖ) :
-    (galoisActionOnBaseChange k K Z).ρ σ ≫ pullback.snd Z.hom (specOfExtension k K) =
+    ((galoisActionOnBaseChange k K Z).ρ σ).asHom ≫ pullback.snd Z.hom (specOfExtension k K) =
       pullback.snd Z.hom (specOfExtension k K) ≫ specMapAlgAut k K σ.unop := by
   dsimp [galoisActionOnBaseChange, SchemeOver.baseChange]
   simp only [pullback.map, Category.comp_id, pullback.lift_snd]
@@ -296,7 +301,8 @@ def baseChangeOverAction :
 `id_X × Spec σ`. -/
 @[simp]
 lemma baseChangeOverAction_hom_left (σ : (K ≃ₐ[k] K)ᵐᵒᵖ) :
-    (baseChangeOverAction k K Z σ).hom.left = (galoisActionOnBaseChange k K Z).ρ σ := rfl
+    (baseChangeOverAction k K Z σ).asIso.hom.left =
+      ((galoisActionOnBaseChange k K Z).ρ σ).asHom := rfl
 
 /-- The projection `X_K ⟶ X` is surjective. -/
 lemma surjective_baseChangeProjection : Surjective (baseChangeProjection k K Z) := by
@@ -456,7 +462,7 @@ base change of the Galois cover comparison of `Spec K ⟶ Spec k`. -/
 lemma galoisCoverComparison_baseChange_comp_selfPullbackFstIso
     (b : (K ≃ₐ[k] K)ᵐᵒᵖ →* Aut (Over.mk (baseChangeProjection k K Z)))
     (hb : ∀ σ : K ≃ₐ[k] K,
-      (b (.op σ)).hom.left = (galoisActionOnBaseChange k K Z).ρ (.op σ)) :
+      (b (.op σ)).asIso.hom.left = ((galoisActionOnBaseChange k K Z).ρ (.op σ)).asHom) :
     galoisCoverComparison (baseChangeProjection k K Z) b ≫
         (selfPullbackFstIso Z.hom (specOfExtension k K)).hom =
       baseChangeSigmaMap (G := K ≃ₐ[k] K) Z.hom (specOfExtension k K) ≫

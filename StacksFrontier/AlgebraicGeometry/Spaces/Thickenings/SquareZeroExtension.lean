@@ -75,7 +75,7 @@ theorem mul_eq_zero_of_mem_ker (U : (SmallEtale B S hS X.1)ᵒᵖ) (a b : E.A.ob
 section of the kernel is again in the kernel: it is the image of the `𝒪_X`-action on `ℐ`. -/
 theorem mul_mem_ker (U : (SmallEtale B S hS X.1)ᵒᵖ) (a : E.A.obj.obj U)
     (x : E.I.val.obj U) : ∃ y, E.ι U y = a * E.ι U x :=
-  ⟨((E.I.val.obj U).smul (E.π.hom.app U a)).hom x, E.smul_lift U a x⟩
+  ⟨((E.I.val.obj U).smul (E.π.hom.app U a)).asHom.hom x, E.smul_lift U a x⟩
 
 /-- **The algebra structure is compatible with the structure map of `f`, on sections.** This is
 `toBase_π` evaluated at an étale chart, with the composite left as a composite. -/

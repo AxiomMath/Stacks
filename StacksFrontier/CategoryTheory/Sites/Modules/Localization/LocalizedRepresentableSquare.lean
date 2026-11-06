@@ -691,6 +691,7 @@ theorem Hom.representableLocalizationInverseImageIso_inv_comp_triangle :
           (Category.comp_id _))))
     (Category.comp_id _)
 
+set_option maxHeartbeats 1600000 in
 /-- **Stacks 04J9's compatibility of the two localization squares.** The square of Stacks 04J0,
 read through the identification of Stacks 04J3 at `V`, *is* the square of Stacks 04IF read
 through Stacks 04J7's comparison of the two localized morphisms and the identification of

@@ -102,8 +102,7 @@ private theorem bounded_torsion_tensor_mk_bijective
     simp [f]
   have hsurj : ∀ z : N ⊗[R] S, can (invMap z) = z := by
     intro z
-    refine TensorProduct.induction_on z ?_ ?_ ?_
-    · simp [can]
+    refine TensorProduct.inductionOn z ?_ ?_
     · intro x s
       show (f s • x) ⊗ₜ[R] (1 : S) = x ⊗ₜ[R] s
       obtain ⟨r, hr⟩ := Ideal.Quotient.mk_surjective (e.symm (Ideal.Quotient.mk J s))

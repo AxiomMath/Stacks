@@ -129,6 +129,7 @@ open CategoryTheory CategoryTheory.Limits
 
 universe u
 
+
 namespace AlgebraicGeometry.Space
 
 /-! ### The ambient category -/
@@ -139,6 +140,18 @@ fppf category over the base scheme of `D`. The good algebraic spaces over the ba
 `AlgebraicGeometry.Space.BaseSpaceDimensionSituation.IsGood`. -/
 abbrev BaseSpaceDimensionSituation.Ambient (D : BaseSpaceDimensionSituation.{u}) : Type (u + 1) :=
   (BigFppfOver D.site D.base D.base_mem)ᵒᵖ ⥤ Type u
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on a big fppf category (instance search times out without this
+shortcut). -/
+instance hasPullbacks_bigFppfOver_presheaf (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+instance (priority := high) hasPullback_bigFppfOver_presheaf (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S) {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 /-! ### The vanishing locus a Gysin map is attached to -/
 

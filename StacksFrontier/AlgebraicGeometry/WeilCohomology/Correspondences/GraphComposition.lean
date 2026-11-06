@@ -462,6 +462,7 @@ theorem comp_sum_lof_lof [IsProper sY] (Δ : DiagonalClassFamily k) (r s : ℤ) 
     comp_lof_lof_sum_sum k sX sY sZ Δ r s d e (c d e) he N c', Finset.sum_comm]
   exact Finset.sum_congr rfl fun m _ ↦ by rw [map_sum, map_sum]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Transport along an equality of degrees of a finite sum of pure blocks is blockwise. -/
 theorem corrCongr_sum_lof_lof {r r' : ℤ} (h : r = r') (D E : Finset ℕ)
     (c : ∀ d e : ℕ, Correspondence (fieldChowSituation k) (partBase sX d) (partBase sY e) e r) :

@@ -372,6 +372,17 @@ theorem stageToStage_naturality {s s' : Over j} (d : s' ⟶ s) :
 
 end Naturality
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+instance hasPullbacks_presheaf_StageChartSystem :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+instance (priority := high) hasPullback_presheaf_StageChartSystem
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The system of base changes as a diagram of presheaves -/
 
 /-- The diagram of the presheaf base changes of the chart `T` to the later stages. -/
@@ -620,7 +631,7 @@ theorem exists_gpb_stageToStage_eq {s : Over j}
     (isAlgebraicSpace_yoneda B S hS (baseTerminal B S hS))
     (yoneda.map (affineLineToBase B S hS)) (isLocallyOfFinitePresentation_affineLineToBase B S hS)
     s r r' (by
-      apply (cancel_epi (limChartIso B S hS D hSize hHomSize hD hAffine T).hom).1
+      apply (Iso.cancel_iso_hom_left (limChartIso B S hS D hSize hHomSize hD hAffine T) _ _).1
       simp only [r, r']
       rw [hl, hl, h])
     ((baseTerminal_yonedaIsTerminal B S hS).hom_ext _ _)

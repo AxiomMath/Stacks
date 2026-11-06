@@ -99,6 +99,15 @@ open AlgebraicGeometry CategoryTheory CategoryTheory.Limits
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high)
+    AlgebraicGeometry.GroupoidInAlgebraicSpaces.hasPullback_presheaf_groupoidSchemeRealizationComparison
+    {C : BigFppfSite.{u}} {S : Scheme.{u}} {hS : C.Contains S}
+    {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace Stacks.Groupoids.GroupoidScheme
 
 open AlgebraicGeometry.Space

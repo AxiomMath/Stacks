@@ -55,8 +55,8 @@ theorem coeff_toLaurent (p : MvPolynomial σ R) :
 /-- The embedding keeps the coefficients. -/
 theorem coeff_toLaurent_natToInt (p : MvPolynomial σ R) (β : σ →₀ ℕ) :
     (toLaurent R p).coeff (natToInt β) = p.coeff β := by
-  rw [coeff_toLaurent, Finsupp.mapDomain_apply natToInt_injective]
-  rfl
+  rw [coeff_toLaurent]
+  exact Finsupp.mapDomain_apply_of_injective natToInt_injective _ _
 
 /-- A Laurent monomial occurring in the image of a polynomial has nonnegative exponents. -/
 theorem exists_eq_natToInt_of_mem_support (p : MvPolynomial σ R) {w : σ →₀ ℤ}

@@ -81,9 +81,10 @@ public noncomputable def representableMorphismFormalObjectEquivalence
     (formalObjectProjection_isCofiberedInGroupoids p hp) R
   let E := (C.symm.trans H.equiv).trans V
   let levelIsoData : ∀ (φ : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p)) (n : ℕ),
-      { i : Iso (φ.obj ⟨AdicTruncation.obj R n, canonicalQuotientPoint R n⟩)
+      { i : Iso (φ.obj ((restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n)
+          (canonicalQuotientPoint R n)))
           ((E.functor.obj φ).1.level n) //
         p.IsHomLift (𝟙 (AdicTruncation.obj R n)) i.hom } := by
     intro φ n
@@ -92,9 +93,9 @@ public noncomputable def representableMorphismFormalObjectEquivalence
     let X : (coyoneda.obj (Opposite.op R)).Elements := representedIdentityElement R
     let Xb : (BasedCategory.ofFunctor (representedProjection R)).obj := X
     let qpt : (restrictedCoyoneda R).Elements :=
-      ⟨AdicTruncation.obj R n, canonicalQuotientPoint R n⟩
+      (restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n) (canonicalQuotientPoint R n)
     let qptb : (BasedCategory.ofFunctor
-        (CategoryOfElements.π (restrictedCoyoneda R))).obj := qpt
+        (Functor.Elements.π (restrictedCoyoneda R))).obj := qpt
     let qptR : (BasedCategory.ofFunctor
         (Restriction.projection (p := representedProjection R))).obj :=
       (restrictedRepresentableInclusion R).obj qpt
@@ -154,7 +155,7 @@ public noncomputable def representableMorphismFormalObjectEquivalence
     have h2raw' : p.IsHomLift (𝟙 (P.level X n).base) (ψ.map hrest.hom) := h2raw
     have hbase : (P.level X n).base = AdicTruncation.obj R n := by
       simpa [representedRestrictionInverse] using congrArg
-        (fun z : (restrictedCoyoneda R).Elements => z.1) hpt
+        (fun z : (restrictedCoyoneda R).Elements => z.obj) hpt
     have hfunbase : p.obj ((C.functor.obj ψ).obj qptb) = AdicTruncation.obj R n := by
       rw [heqFun]
       calc
@@ -250,18 +251,19 @@ public noncomputable def representableMorphismFormalObjectEquivalence
     exact hcompFinal
   let mapCommProof :
       ∀ {φ ψ : BasedFunctor
-        (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+        (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
         (BasedCategory.ofFunctor p)} (t : φ ⟶ ψ) (n : ℕ),
-        t.toNatTrans.app ⟨AdicTruncation.obj R n, canonicalQuotientPoint R n⟩ ≫
+        t.toNatTrans.app ((restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n)
+          (canonicalQuotientPoint R n)) ≫
             (levelIsoData ψ n).val.hom =
           (levelIsoData φ n).val.hom ≫ ((E.functor.map t).1).app n := fun {φ ψ} t n => by
       let ψ₁ := C.inverse.obj φ
       let ψ₂ := C.inverse.obj ψ
       let s := C.inverse.map t
       let qpt : (restrictedCoyoneda R).Elements :=
-        ⟨AdicTruncation.obj R n, canonicalQuotientPoint R n⟩
+        (restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n) (canonicalQuotientPoint R n)
       let qptb : (BasedCategory.ofFunctor
-          (CategoryOfElements.π (restrictedCoyoneda R))).obj := qpt
+          (Functor.Elements.π (restrictedCoyoneda R))).obj := qpt
       let P := adicPushforwardChoice (representedProjection R) hq
       let U := completionUnit (representedProjection R) hq
       let Z₁ : FormalObject p := (E.functor.obj φ).val
@@ -620,9 +622,9 @@ public noncomputable def representableMorphismFormalObjectEquivalence
         (p := representedProjection R) ⥤ F := ψ.toFunctor
     let X : (coyoneda.obj (Opposite.op R)).Elements := representedIdentityElement R
     let qpt (m : ℕ) : (restrictedCoyoneda R).Elements :=
-      ⟨AdicTruncation.obj R m, canonicalQuotientPoint R m⟩
+      (restrictedCoyoneda R).elementsMk (AdicTruncation.obj R m) (canonicalQuotientPoint R m)
     let qptb (m : ℕ) : (BasedCategory.ofFunctor
-        (CategoryOfElements.π (restrictedCoyoneda R))).obj := qpt m
+        (Functor.Elements.π (restrictedCoyoneda R))).obj := qpt m
     let PlevelB (m : ℕ) : (BasedCategory.ofFunctor
         (Restriction.projection (p := representedProjection R))).obj :=
       P.level X m
@@ -645,7 +647,7 @@ public noncomputable def representableMorphismFormalObjectEquivalence
         (representedRestrictionBasedEquivalence R).counitIso).app (PlevelB m)
     have hrestEq (m : ℕ) : hrest m = representedRestrictionCounitIso R (P.level X m) := by
       rfl
-    let qtrans := CategoryOfElements.homMk (qpt (n + 1)) (qpt n)
+    let qtrans := Functor.Elements.homMk (x := qpt (n + 1)) (y := qpt n)
       (AdicTruncation.transition R n) (canonicalQuotientPoint_transition R n)
     let qtransb : qptb (n + 1) ⟶ qptb n := qtrans
     let rL := eqToHom (heqR (n + 1)).symm ≫
@@ -668,22 +670,22 @@ public noncomputable def representableMorphismFormalObjectEquivalence
       have hbaseX : L.base =
           (AdicTruncation.functor (n + 1)).obj ((representedProjection R).obj X) :=
         artinianToComplete_obj_injective hcomplete
-      have hincl : (P.inclusion X (n + 1)).val = L.obj.2 := by
-        have h := (P.inclusion X (n + 1)).property
-        change X.2 ≫ (P.inclusion X (n + 1)).val = L.obj.2 at h
+      have hincl : (P.inclusion X (n + 1)).hom = L.obj.val := by
+        have h := (P.inclusion X (n + 1)).map_val
+        change X.val ≫ (P.inclusion X (n + 1)).hom = L.obj.val at h
         simpa [X, representedIdentityElement] using h
       have hfac := IsHomLift.fac' (representedProjection R) (P.baseMap X (n + 1))
         (P.inclusion X (n + 1))
-      have hfac' : (P.inclusion X (n + 1)).val =
+      have hfac' : (P.inclusion X (n + 1)).hom =
           P.baseMap X (n + 1) ≫ eqToHom hc.symm := by
-        simpa [representedProjection, CategoryOfElements.π] using hfac
+        simpa [representedProjection, Functor.Elements.π] using hfac
       have hcast : eqToHom hc.symm ≫ eqToHom L.obj_eq ≫
           artinianToComplete.map (eqToHom hbaseX) = 𝟙 _ := by
         simp [eqToHom_map]
-      have hpoint : L.obj.2 ≫ eqToHom L.obj_eq ≫
+      have hpoint : L.obj.val ≫ eqToHom L.obj_eq ≫
           artinianToComplete.map (eqToHom hbaseX) = P.baseMap X (n + 1) := by
         calc
-          _ = (P.inclusion X (n + 1)).val ≫ eqToHom L.obj_eq ≫
+          _ = (P.inclusion X (n + 1)).hom ≫ eqToHom L.obj_eq ≫
               artinianToComplete.map (eqToHom hbaseX) :=
             congrArg (fun f => f ≫ eqToHom L.obj_eq ≫
               artinianToComplete.map (eqToHom hbaseX)) hincl.symm
@@ -695,7 +697,7 @@ public noncomputable def representableMorphismFormalObjectEquivalence
               artinianToComplete.map (eqToHom hbaseX)) := by
             simp [Category.assoc]
           _ = P.baseMap X (n + 1) := by rw [hcast]; exact Category.comp_id _
-      have hsurj : Function.Surjective ((P.level X (n + 1)).obj.2).hom := by
+      have hsurj : Function.Surjective ((P.level X (n + 1)).obj.val).hom := by
         intro y
         let e := eqToHom L.obj_eq ≫
           artinianToComplete.map (eqToHom hbaseX)
@@ -710,22 +712,22 @@ public noncomputable def representableMorphismFormalObjectEquivalence
         refine ⟨x, ?_⟩
         apply hinj
         have hh := congrArg (fun f => f.hom x) hpoint
-        change e.hom ((P.level X (n + 1)).obj.2.hom x) =
+        change e.hom ((P.level X (n + 1)).obj.val.hom x) =
           (P.baseMap X (n + 1)).hom x at hh
         calc
-          e.hom ((P.level X (n + 1)).obj.2.hom x) =
+          e.hom ((P.level X (n + 1)).obj.val.hom x) =
               (P.baseMap X (n + 1)).hom x := hh
           _ = e.hom y := by rw [P.baseMap_hom]; exact hx
-      have hcomp : (P.level X (n + 1)).obj.2 ≫ g.obj.val =
-          (P.level X (n + 1)).obj.2 ≫ ut.obj.val := by
-        have hg' := g.obj.property
-        have hut' := ut.obj.property
-        change (P.level X (n + 1)).obj.2 ≫ g.obj.val =
-          (P.level X n).obj.2 at hg'
-        change (P.level X (n + 1)).obj.2 ≫ ut.obj.val =
-          (P.level X n).obj.2 at hut'
+      have hcomp : (P.level X (n + 1)).obj.val ≫ g.obj.hom =
+          (P.level X (n + 1)).obj.val ≫ ut.obj.hom := by
+        have hg' := g.obj.map_val
+        have hut' := ut.obj.map_val
+        change (P.level X (n + 1)).obj.val ≫ g.obj.hom =
+          (P.level X n).obj.val at hg'
+        change (P.level X (n + 1)).obj.val ≫ ut.obj.hom =
+          (P.level X n).obj.val at hut'
         exact hg'.trans hut'.symm
-      have hval : g.obj.val = ut.obj.val := by
+      have hval : g.obj.hom = ut.obj.hom := by
         apply CompleteLocalAlgCat.Hom.ext
         apply AlgHom.ext
         intro y
@@ -739,14 +741,14 @@ public noncomputable def representableMorphismFormalObjectEquivalence
         have hgcomm := g.comm
         have hutcomm := ut.comm
         change eqToHom (P.level X (n + 1)).obj_eq ≫
-            artinianToComplete.map g.base = g.obj.val ≫
+            artinianToComplete.map g.base = g.obj.hom ≫
               eqToHom (P.level X n).obj_eq at hgcomm
         change eqToHom (P.level X (n + 1)).obj_eq ≫
-            artinianToComplete.map ut.base = ut.obj.val ≫
+            artinianToComplete.map ut.base = ut.obj.hom ≫
               eqToHom (P.level X n).obj_eq at hutcomm
         calc
-          _ = g.obj.val ≫ eqToHom (P.level X n).obj_eq := hgcomm
-          _ = ut.obj.val ≫ eqToHom (P.level X n).obj_eq := by rw [hval]
+          _ = g.obj.hom ≫ eqToHom (P.level X n).obj_eq := hgcomm
+          _ = ut.obj.hom ≫ eqToHom (P.level X n).obj_eq := by rw [hval]
           _ = _ := hutcomm.symm
       have hmap : artinianToComplete.map g.base =
           artinianToComplete.map ut.base := by
@@ -765,7 +767,7 @@ public noncomputable def representableMorphismFormalObjectEquivalence
         have hh := congrArg (fun f => f.hom x) hmap
         simpa [artinianToComplete] using hh
       exact Restriction.Hom.ext
-        (CategoryOfElements.ext (coyoneda.obj (Opposite.op R)) g.obj ut.obj hval) hbase
+        (Functor.Elements.hom_ext hval) hbase
     let Z : FormalObject p := (E.functor.obj φ).1
     have htarget (m : ℕ) : Z.level m =
         ψF.obj (P.level X m) := by

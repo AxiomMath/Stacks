@@ -342,8 +342,8 @@ lemma exists_distTriang_of_degreewise_surjective_of_iso
       inv := Pi.lift fun n => Pi.π X n ≫ (e n).inv
       hom_inv_id := by ext n; simp
       inv_hom_id := by ext n; simp }
-  have hE (n : ℕ) : E.hom ≫ Pi.π X n = Pi.π Y n ≫ (e n).hom := Pi.lift_π _ _
-  have hEi (n : ℕ) : E.inv ≫ Pi.π Y n = Pi.π X n ≫ (e n).inv := Pi.lift_π _ _
+  have hE (n : ℕ) : E.hom ≫ Pi.π X n = Pi.π Y n ≫ (e n).hom := Pi.lift_comp_π _ _
+  have hEi (n : ℕ) : E.inv ≫ Pi.π Y n = Pi.π X n ≫ (e n).inv := Pi.lift_comp_π _ _
   refine ⟨E.inv ≫ δ, ?_⟩
   apply Pretriangulated.isomorphic_distinguished _ hδ
   refine Pretriangulated.Triangle.isoMk _ _ (Iso.refl _) E.symm E.symm ?_ ?_ ?_
@@ -351,17 +351,17 @@ lemma exists_distTriang_of_degreewise_surjective_of_iso
       𝟙 _ ≫ (Pi.lift fun n => DerivedCategory.Q.map (limit.π M (op n)))
     apply Pi.hom_ext
     intro n
-    simp only [Category.id_comp, Category.assoc, hEi, Pi.lift_π_assoc]
+    simp only [Category.id_comp, Category.assoc, hEi, Pi.lift_comp_π_assoc]
     simp only [Iso.hom_inv_id, Category.comp_id]
-    exact (Pi.lift_π (fun n : ℕ => DerivedCategory.Q.map (limit.π M (op n))) n).symm
+    exact (Pi.lift_comp_π (fun n : ℕ => DerivedCategory.Q.map (limit.π M (op n))) n).symm
   · show (Pi.lift fun n => Pi.π X n - Pi.π X (n + 1) ≫ t n) ≫ E.inv =
       E.inv ≫ (Pi.lift fun n => Pi.π Y n - Pi.π Y (n + 1) ≫
         DerivedCategory.Q.map (M.map (homOfLE (Nat.le_succ n)).op))
     rw [Iso.comp_inv_eq, Category.assoc, Iso.eq_inv_comp]
     apply Pi.hom_ext
     intro n
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub, hE]
-    have hd := Pi.lift_π (fun k : ℕ => Pi.π Y k - Pi.π Y (k + 1) ≫
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, hE]
+    have hd := Pi.lift_comp_π (fun k : ℕ => Pi.π Y k - Pi.π Y (k + 1) ≫
       DerivedCategory.Q.map (M.map (homOfLE (Nat.le_succ k)).op)) n
     have hd' := congrArg (fun k => k ≫ (e n).hom) hd
     rw [Category.assoc] at hd'
@@ -484,7 +484,7 @@ public theorem derivedLimit_isPseudoCoherent_and_baseChange_iso
     Pi.lift (fun n => DerivedCategory.Q.map (limit.π M (op n)) ≫ (eX n).hom), ε,
     hε, ⟨limit M, hM, ⟨Iso.refl _⟩⟩, ?_⟩
   intro n
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
   exact isIso_derivedBaseChangeComparison_of_complex_map (c.π.app (op n)).hom
     (limit M) hM (P n) (limit.π M (op n)) (hMred n) (e n)
 

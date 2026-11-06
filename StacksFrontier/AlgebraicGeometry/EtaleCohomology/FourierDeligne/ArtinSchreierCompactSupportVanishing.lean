@@ -151,7 +151,7 @@ theorem subsingleton_compactSupportSheafCohomology_of_torsor_character (x : Geom
     (M : FiniteTypeContinuousModule.{0, u + 1, u + 1} (ZMod m) (EtaleFundamentalGroup U.1 x))
     (ρ : Multiplicative K →* Module.End (ZMod m) M.obj.obj.obj.V)
     (hM : ∀ (σ : EtaleFundamentalGroup U.1 x) (v : M.obj.obj.obj.V),
-      (M.obj.obj.obj.ρ σ).hom v = ρ (T.character x p₀ σ) v)
+      (M.obj.obj.obj.ρ σ).asHom.hom v = ρ (T.character x p₀ σ) v)
     (hfix : ∀ v, ∑ a : K, ρ (Multiplicative.ofAdd a) v = 0)
     {ι : Type (u + 1)} [Fintype ι] [DecidableEq ι]
     (bM : Module.Basis ι (ZMod m) M.obj.obj.obj.V) (i : ℤ) :
@@ -177,7 +177,7 @@ theorem subsingleton_compactSupportSheafCohomology_of_torsor_character (x : Geom
   have hnat : ∀ {W W' : FiniteEtaleOver U.1} (φ : W ⟶ W')
       (σ : EtaleFundamentalGroup U.1 (y.map g.hom)) (z : F.obj W),
       F.map φ (σ • z) = σ • F.map φ z :=
-    fun φ σ z => (ConcreteCategory.congr_hom (σ.hom.naturality φ) z).symm
+    fun φ σ z => (ConcreteCategory.congr_hom (σ.asIso.hom.naturality φ) z).symm
   have hεε : ∀ z : Y, F.map ε.hom (F.map ε.inv z) = z := (F.mapIso ε).inv_hom_id_apply
   have hεε' : ∀ z : F.obj T.cover, F.map ε.inv (F.map ε.hom z) = z :=
     (F.mapIso ε).hom_inv_id_apply
@@ -402,7 +402,7 @@ theorem subsingleton_compactSupportSheafCohomology_artinSchreierSheaf_etaleLevel
         apply ULift.ext
         simp [hAmul, L, Module.End.mul_apply] }
   have hM : ∀ (σ : EtaleFundamentalGroup U.1 x) (v : ULift.{u + 1} (Fin d → Λ)),
-      ((levelModule ρ hρ (n + 1)).obj.obj.obj.ρ σ).hom v =
+      ((levelModule ρ hρ (n + 1)).obj.obj.obj.ρ σ).asHom.hom v =
         ρK ((torsorCover k k[X] Polynomial.X).character x p₀ σ) v := fun σ v => rfl
   have hsum : ∑ a : k, A (Multiplicative.ofAdd a) = 0 := by
     have h1 : ∀ a : k, (R (Multiplicative.ofAdd a)).val = Algebra.leftMulMatrix b (ψ (-a)) :=

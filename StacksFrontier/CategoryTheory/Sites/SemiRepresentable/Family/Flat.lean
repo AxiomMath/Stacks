@@ -3,6 +3,7 @@ module
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.RingedToposFlat
 public import StacksFrontier.CategoryTheory.Sites.SemiRepresentable.Family.Morphism
+public import Mathlib.CategoryTheory.Functor.ReflectsIso.Balanced
 
 /-!
 # Flatness of a morphism between ringed semi-representable localizations

@@ -188,7 +188,6 @@ public theorem ker_tensorProduct_map_quotientMk (K : Ideal R) :
       Ideal.Quotient.mk 𝔞 := by
     refine RingHom.ext fun x => ?_
     induction x with
-    | zero => simp
     | tmul b r => rfl
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   have hinj : RingHom.ker ((ε : (B ⊗[A] (R ⧸ K)) →+* ((B ⊗[A] R) ⧸ 𝔞)).comp ψ) =

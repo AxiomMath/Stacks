@@ -183,8 +183,7 @@ lemma support_sum_monomial_subset {R : Type u} [CommRing R] (s : Finset (E →�
 exponents. -/
 lemma coeff_sum_monomial {R : Type u} [CommRing R] (s : Finset (E →₀ ℕ))
     (a : {x // x ∈ s} → R) (i : {x // x ∈ s}) :
-    MvPolynomial.coeff (i : E →₀ ℕ)
-        (∑ j ∈ s.attach, MvPolynomial.monomial (j : E →₀ ℕ) (a j)) = a i := by
+    (∑ j ∈ s.attach, MvPolynomial.monomial (j : E →₀ ℕ) (a j)).coeff (i : E →₀ ℕ) = a i := by
   classical
   rw [MvPolynomial.coeff_sum, Finset.sum_eq_single i]
   · simp [MvPolynomial.coeff_monomial]
@@ -197,7 +196,7 @@ lemma coeff_sum_monomial {R : Type u} [CommRing R] (s : Finset (E →₀ ℕ))
 there are equal. -/
 lemma mvPolynomial_ext_of_support_subset {R : Type u} [CommRing R] (s : Finset (E →₀ ℕ))
     {p q : MvPolynomial E R} (hp : p.support ⊆ s) (hq : q.support ⊆ s)
-    (h : ∀ i ∈ s, MvPolynomial.coeff i p = MvPolynomial.coeff i q) : p = q := by
+    (h : ∀ i ∈ s, p.coeff i = q.coeff i) : p = q := by
   refine MvPolynomial.ext _ _ fun i => ?_
   by_cases hi : i ∈ s
   · exact h i hi
@@ -287,15 +286,14 @@ def mvPolynomialOfCoeffs (s : Finset (E →₀ ℕ)) (m : SimplexCategoryᵒᵖ)
 /-- The coefficients of `CommAlgCat.mvPolynomialOfCoeffs` are the given family. -/
 lemma coeff_mvPolynomialOfCoeffs (s : Finset (E →₀ ℕ)) (m : SimplexCategoryᵒᵖ)
     (a : {x // x ∈ s} → (R.obj m : Type u)) (i : {x // x ∈ s}) :
-    MvPolynomial.coeff (i : E →₀ ℕ) (mvPolynomialOfCoeffs E R s m a).1 = a i :=
+    (mvPolynomialOfCoeffs E R s m a).1.coeff (i : E →₀ ℕ) = a i :=
   coeff_sum_monomial s a i
 
 /-- A polynomial with monomials in a finite set of exponents is determined by its coefficients
 there. -/
 lemma mvPolynomialSupported_ext {s : Finset (E →₀ ℕ)} {m : SimplexCategoryᵒᵖ}
     {p q : mvPolynomialSupportedType E R s m}
-    (h : ∀ i : {x // x ∈ s}, MvPolynomial.coeff (i : E →₀ ℕ) p.1 =
-      MvPolynomial.coeff (i : E →₀ ℕ) q.1) : p = q :=
+    (h : ∀ i : {x // x ∈ s}, p.1.coeff (i : E →₀ ℕ) = q.1.coeff (i : E →₀ ℕ)) : p = q :=
   Subtype.ext (mvPolynomial_ext_of_support_subset s p.2 q.2 fun i hi => h ⟨i, hi⟩)
 
 /-- The cone exhibiting the polynomials with monomials in a finite set `s` of exponents as the
@@ -305,12 +303,12 @@ def mvPolynomialSupportedFan (s : Finset (E →₀ ℕ)) :
   Fan.mk (mvPolynomialSupported E R s)
     fun i =>
       { app := fun m => ↾fun p =>
-          (MvPolynomial.coeff (i : E →₀ ℕ) p.1 : (R.obj m : Type u))
+          (p.1.coeff (i : E →₀ ℕ) : (R.obj m : Type u))
         naturality := fun m m' f => ConcreteCategory.ext_apply fun p => by
           rw [CategoryTheory.comp_apply, CategoryTheory.comp_apply]
-          change MvPolynomial.coeff (i : E →₀ ℕ)
-              (MvPolynomial.map (CommAlgCat.Hom.hom (R.map f)).toRingHom p.1) =
-            (CommAlgCat.Hom.hom (R.map f)) (MvPolynomial.coeff (i : E →₀ ℕ) p.1)
+          change (MvPolynomial.map (CommAlgCat.Hom.hom (R.map f)).toRingHom p.1).coeff
+              (i : E →₀ ℕ) =
+            (CommAlgCat.Hom.hom (R.map f)) (p.1.coeff (i : E →₀ ℕ))
           exact MvPolynomial.coeff_map _ _ _ }
 
 /-- **A polynomial with monomials in a finite set of exponents is its family of coefficients
@@ -356,7 +354,7 @@ def mvPolynomialSupportedDiagramMap :
         rw [MvPolynomial.coeff_map, MvPolynomial.coeff_map, MvPolynomial.coeff_map,
           MvPolynomial.coeff_map]
         have h := ConcreteCategory.congr_hom (φ.naturality f)
-          (MvPolynomial.coeff j p.1)
+          (p.1.coeff j)
         rw [CategoryTheory.comp_apply, CategoryTheory.comp_apply] at h
         exact h }
   naturality _ _ _ := NatTrans.ext (funext fun _ =>
@@ -388,9 +386,8 @@ theorem trivialKanFibrations_mvPolynomialWhiskerRight
     (Discrete.natTrans fun _ => Functor.whiskerRight φ (forget (CommAlgCat.{u} A)))
     (fun _ => hφ) _ (fun i => ?_)
   refine NatTrans.ext (funext fun m => ConcreteCategory.ext_apply fun p => ?_)
-  show MvPolynomial.coeff (i.as : E →₀ ℕ)
-      (MvPolynomial.map (CommAlgCat.Hom.hom (φ.app m)).toRingHom p.1) =
-    (CommAlgCat.Hom.hom (φ.app m)) (MvPolynomial.coeff (i.as : E →₀ ℕ) p.1)
+  show (MvPolynomial.map (CommAlgCat.Hom.hom (φ.app m)).toRingHom p.1).coeff (i.as : E →₀ ℕ) =
+    (CommAlgCat.Hom.hom (φ.app m)) (p.1.coeff (i.as : E →₀ ℕ))
   exact MvPolynomial.coeff_map _ _ _
 
 end TrivialKanFibration

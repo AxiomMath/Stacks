@@ -334,7 +334,7 @@ commute with shifts. -/
 private def rightDerivedGlobalSectionsCommShift (Z : B.Scheme) :
     (smallEtaleModuleDerivedGlobalSections.{u, w, r} B Λ Z).CommShift ℤ :=
   Functor.IsRightDerivedFunctor.commShift _
-    (smallEtaleModuleGlobalSections.{u, w, r} B Λ Z).rightDerivedFunctorPlusUnit
+    (smallEtaleModuleGlobalSections.{u, w, r} B Λ Z).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (SmallEtaleModuleSheaf.{u, w, r} B Λ Z)) ℤ
 
 attribute [local instance] rightDerivedGlobalSectionsCommShift
@@ -342,9 +342,9 @@ attribute [local instance] rightDerivedGlobalSectionsCommShift
 /-- The unit of the derived global sections commutes with shifts. -/
 private lemma rightDerivedGlobalSectionsUnit_commShift (Z : B.Scheme) :
     NatTrans.CommShift
-      (smallEtaleModuleGlobalSections.{u, w, r} B Λ Z).rightDerivedFunctorPlusUnit ℤ :=
+      (smallEtaleModuleGlobalSections.{u, w, r} B Λ Z).rightDerivedFunctorPlusUnith ℤ :=
   Functor.IsRightDerivedFunctor.natTrans_commShift _
-    (smallEtaleModuleGlobalSections.{u, w, r} B Λ Z).rightDerivedFunctorPlusUnit
+    (smallEtaleModuleGlobalSections.{u, w, r} B Λ Z).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (SmallEtaleModuleSheaf.{u, w, r} B Λ Z)) ℤ
 
 attribute [local instance] rightDerivedGlobalSectionsUnit_commShift
@@ -353,7 +353,7 @@ attribute [local instance] rightDerivedGlobalSectionsUnit_commShift
 private lemma rightDerivedGlobalSections_isTriangulated (Z : B.Scheme) :
     (smallEtaleModuleDerivedGlobalSections.{u, w, r} B Λ Z).IsTriangulated :=
   Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus _ _
-    (smallEtaleModuleGlobalSections.{u, w, r} B Λ Z).rightDerivedFunctorPlusUnit
+    (smallEtaleModuleGlobalSections.{u, w, r} B Λ Z).rightDerivedFunctorPlusUnith
 
 attribute [local instance] rightDerivedGlobalSections_isTriangulated
 

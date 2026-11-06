@@ -85,7 +85,7 @@ reduction of `Res_b σ(g)`**, `g` the transport along `t` of the automorphism of
 functor given by `a`. -/
 public theorem coeffLevelStalkIso_geometricPointStalkMap {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (g : EtaleFundamentalGroup X.1 s) (hg : g.hom = finiteEtaleFiberMap a) (k : ℕ)
+    (g : EtaleFundamentalGroup X.1 s) (hg : g.asIso.hom = finiteEtaleFiberMap a) (k : ℕ)
     (v : (etaleStalk B X.1 X.2 s (coeffLevelStacksSheaf b B X x σ hρ k).obj :
       ModuleCat.{u + 1} (coeffLevelRing ℓ O k))) :
     ((coeffLevelStalkIso b B X x σ hρ t k).hom
@@ -145,7 +145,7 @@ public theorem exists_coeffLevelStalkLinearEquiv {s : GeometricPoint X.1}
   · rw [show Ψ (c • v) = ((coeffLevelStalkIso b B X x σ hρ t k).hom (c • v)).down from rfl,
       coeffLevelStalkIso_smul b B X x σ hρ t k c v]
     exact coeffLevelVecEquiv_mulVec ℓ b m k c ((coeffLevelStalkIso b B X x σ hρ t k).hom v).down
-  · exact hb.1 (ULift.ext _ _ ((coeffLevelVecEquiv ℓ b m k).injective h))
+  · exact hb.1 (ULift.ext ((coeffLevelVecEquiv ℓ b m k).injective h))
   · obtain ⟨v, hv⟩ := hb.2 (ULift.up ((coeffLevelVecEquiv ℓ b m k).symm w))
     refine ⟨v, ?_⟩
     change coeffLevelVecEquiv ℓ b m k ((coeffLevelStalkIso b B X x σ hρ t k).hom v).down = w
@@ -155,7 +155,7 @@ public theorem exists_coeffLevelStalkLinearEquiv {s : GeometricPoint X.1}
 `Λ'_k`-sheaf is the image of `tr σ(g)`.** -/
 public theorem trace_geometricPointStalkMap_coeffLevelStacksSheaf {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (g : EtaleFundamentalGroup X.1 s) (hg : g.hom = finiteEtaleFiberMap a) (k : ℕ) :
+    (g : EtaleFundamentalGroup X.1 s) (hg : g.asIso.hom = finiteEtaleFiberMap a) (k : ℕ) :
     LinearMap.trace (coeffLevelRing ℓ O k)
         (etaleStalk B X.1 X.2 s (coeffLevelStacksSheaf b B X x σ hρ k).obj :
           ModuleCat.{u + 1} (coeffLevelRing ℓ O k))

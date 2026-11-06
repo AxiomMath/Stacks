@@ -161,8 +161,8 @@ theorem isSheaf_discreteFunctions_comp_coyoneda (E : TopCommRingCat.{u + 1}) :
   let σ : E ⟶ (discreteFunctions B S hS).obj (op T) :=
     ⟨toDiscreteFunctions T φ, hφcont⟩
   refine ⟨σ, fun T' t ht => ?_, fun σ' hσ' => ?_⟩
-  · exact Subtype.ext (RingHom.ext fun e => ULift.ext _ _ (hs e t ht))
-  · refine Subtype.ext (RingHom.ext fun e => ULift.ext _ _ (hsep _ _ fun T' t ht => ?_))
+  · exact Subtype.ext (RingHom.ext fun e => ULift.ext (hs e t ht))
+  · refine Subtype.ext (RingHom.ext fun e => ULift.ext (hsep _ _ fun T' t ht => ?_))
     exact (congrArg (fun g : E ⟶ (discreteFunctions B S hS).obj (op T') => (g e).down)
       (hσ' t ht)).trans (hs e t ht).symm
 

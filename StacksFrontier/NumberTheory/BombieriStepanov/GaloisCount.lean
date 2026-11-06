@@ -4,6 +4,7 @@ public import Mathlib.NumberTheory.RamificationInertia.Galois
 public import Mathlib.RingTheory.RamificationInertia.Basic
 public import Mathlib.RingTheory.Invariant.Basic
 public import Mathlib.FieldTheory.Finite.GaloisField
+public import Mathlib.RingTheory.Finiteness.Quotient
 
 /-!
 # The Frobenius-twisted primes of a Galois extension
@@ -56,7 +57,7 @@ theorem natCard_inertia_le_natCard_frobSet [Module.Finite R S] (p : Ideal R) [p.
   have : P.IsMaximal := Ideal.IsMaximal.of_liesOver_isMaximal P p
   let : Field (S ⧸ P) := Ideal.Quotient.field P
   let : Field (R ⧸ p) := Ideal.Quotient.field p
-  have : Module.Finite (R ⧸ p) (S ⧸ P) := inferInstance
+  have : Module.Finite (R ⧸ p) (S ⧸ P) := module_finite_of_liesOver P p
   have : Finite (S ⧸ P) := Module.finite_of_finite (R ⧸ p)
   let : Fintype (R ⧸ p) := Fintype.ofFinite _
   -- the `Q`-power Frobenius of `S ⧸ P` over `R ⧸ p`

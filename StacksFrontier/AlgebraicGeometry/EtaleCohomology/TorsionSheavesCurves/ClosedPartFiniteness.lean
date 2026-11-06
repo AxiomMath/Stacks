@@ -173,7 +173,7 @@ theorem injective_globalSections_toPresheafFiber
     show ((y x).left ≫ (f x).left) p = x
     rw [h1]
     exact GeometricPoint.ofPoint_liesOver X x
-  have hsh := ((sheafCompose X.smallEtaleTopology (forget AddCommGrpCat.{u + 1})).obj F).cond
+  have hsh := ((sheafCompose X.smallEtaleTopology (forget AddCommGrpCat.{u + 1})).obj F).property
   rw [isSheaf_iff_isSheaf_of_type] at hsh
   refine (hsh _ hcov).isSeparatedFor.ext fun Z g hg => ?_
   obtain ⟨x, h, rfl⟩ := (Sieve.mem_ofArrows_iff _ _ _).1 hg

@@ -311,7 +311,7 @@ theorem exists_finiteSchemeCover_finiteEtaleOverDenseOpen_finite_irreducibleComp
     rw [← heW, Category.assoc, ← hsqU.w, ← Category.assoc]
     refine isSeparated_comp B S hS _ _ ?_ (isSeparated_of_mono B S hS U.ι inferInstance)
     exact isSeparated_comp B S hS _ _
-      (isSeparated_of_mono B S hS eW.hom (inferInstanceAs (Mono eW.hom)))
+      (isSeparated_of_mono B S hS eW.hom (IsIso.mono_of_iso eW.hom))
       (isSeparated_of_isIntegralHom B S hS _ hW₀alg hUalg
         (IsFinite.isIntegralHom B S hS hprefin))
   obtain ⟨-, hWcomp⟩ := finite_genericPoints_of_isEtale_of_isQuasiCompactSpace B S hS hZ hX

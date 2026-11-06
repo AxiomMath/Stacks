@@ -98,6 +98,17 @@ section
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Permanence of the member condition of a topology -/
 
 /-- A composite of two morphisms of algebraic spaces over `S` which `τ` admits as members of a
@@ -442,6 +453,13 @@ private theorem goodArrowOpenSubspace_isLargest (τ : Topology) (hτ : τ ≠ .f
   exact (range_pointsMap_subset_iff B S hS).1 (goodArrow_range_subset B S hS τ hτ P f
     ⟨⟨openObject B S hS V, openInclusion B S hS V⟩,
       isMember_of_isEtale B S hS τ Y.property (isEtale_openInclusion B S hS V), hV⟩)
+
+/-- The admissible morphisms into `Y` form a type of the universe of algebraic spaces (instance
+search times out on this). -/
+private instance small_goodArrow (τ : Topology) (P : MorphismProperty (AlgebraicSpaces B S hS))
+    {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) :
+    Small.{u + 1} (GoodArrow B S hS τ P f) :=
+  small_self _
 
 /-! ### Stacks 06R2 -/
 

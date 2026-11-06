@@ -149,44 +149,44 @@ theorem SquareZeroExtension.algebraEtale_app_of_isBaseChange
     {U V : SmallEtale B S hS X.1} (h : U ⟶ V)
     (hU : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj U)))
     (hV : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj V)))
-    [Algebra (E.A.val.obj (op V)) (E.A.val.obj (op U))]
-    (halg : algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)) = (E.A.val.map h.op).hom)
-    (g : RingHom.ker (E.π.hom.app (op V)).hom →ₗ[E.A.val.obj (op V)]
+    [Algebra (E.A.obj.obj (op V)) (E.A.obj.obj (op U))]
+    (halg : algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) = (E.A.obj.map h.op).hom)
+    (g : RingHom.ker (E.π.hom.app (op V)).hom →ₗ[E.A.obj.obj (op V)]
       RingHom.ker (E.π.hom.app (op U)).hom)
-    (hg : ∀ x, ((g x : E.A.val.obj (op U)) : E.A.val.obj (op U)) =
-      algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)) (x : E.A.val.obj (op V)))
-    (hbc : IsBaseChange (E.A.val.obj (op U)) g) :
-    Algebra.Etale (E.A.val.obj (op V)) (E.A.val.obj (op U)) := by
-  let : Algebra (E.A.val.obj (op V)) ((smallEtaleRingedTopos B S hS X).O.val.obj (op V)) :=
+    (hg : ∀ x, ((g x : E.A.obj.obj (op U)) : E.A.obj.obj (op U)) =
+      algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) (x : E.A.obj.obj (op V)))
+    (hbc : IsBaseChange (E.A.obj.obj (op U)) g) :
+    Algebra.Etale (E.A.obj.obj (op V)) (E.A.obj.obj (op U)) := by
+  let : Algebra (E.A.obj.obj (op V)) ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V)) :=
     (E.π.hom.app (op V)).hom.toAlgebra
-  let : Algebra (E.A.val.obj (op U)) ((smallEtaleRingedTopos B S hS X).O.val.obj (op U)) :=
+  let : Algebra (E.A.obj.obj (op U)) ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) :=
     (E.π.hom.app (op U)).hom.toAlgebra
-  let : Algebra ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U)) :=
-    ((smallEtaleRingedTopos B S hS X).O.val.map h.op).hom.toAlgebra
-  let : Algebra (E.A.val.obj (op V)) ((smallEtaleRingedTopos B S hS X).O.val.obj (op U)) :=
-    ((E.π.hom.app (op U)).hom.comp (E.A.val.map h.op).hom).toAlgebra
+  let : Algebra ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) :=
+    ((smallEtaleRingedTopos B S hS X).O.obj.map h.op).hom.toAlgebra
+  let : Algebra (E.A.obj.obj (op V)) ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) :=
+    ((E.π.hom.app (op U)).hom.comp (E.A.obj.map h.op).hom).toAlgebra
   -- The naturality square of the reduction, as a square of ring maps.
-  have hsq : (E.π.hom.app (op U)).hom.comp (E.A.val.map h.op).hom =
-      ((smallEtaleRingedTopos B S hS X).O.val.map h.op).hom.comp
+  have hsq : (E.π.hom.app (op U)).hom.comp (E.A.obj.map h.op).hom =
+      ((smallEtaleRingedTopos B S hS X).O.obj.map h.op).hom.comp
         (E.π.hom.app (op V)).hom := by
     rw [← CommRingCat.hom_comp, ← CommRingCat.hom_comp, E.π.hom.naturality h.op]
-  have htower₁ : IsScalarTower (E.A.val.obj (op V)) (E.A.val.obj (op U))
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U)) :=
+  have htower₁ : IsScalarTower (E.A.obj.obj (op V)) (E.A.obj.obj (op U))
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) :=
     IsScalarTower.of_algebraMap_eq' (by
-      show (E.π.hom.app (op U)).hom.comp (E.A.val.map h.op).hom =
+      show (E.π.hom.app (op U)).hom.comp (E.A.obj.map h.op).hom =
         (E.π.hom.app (op U)).hom.comp
-          (algebraMap (E.A.val.obj (op V)) (E.A.val.obj (op U)))
+          (algebraMap (E.A.obj.obj (op V)) (E.A.obj.obj (op U)))
       rw [halg])
-  have htower₂ : IsScalarTower (E.A.val.obj (op V))
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U)) :=
+  have htower₂ : IsScalarTower (E.A.obj.obj (op V))
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) :=
     IsScalarTower.of_algebraMap_eq' hsq
   -- The bottom row of the square is étale.
-  have hetO : Algebra.Etale ((smallEtaleRingedTopos B S hS X).O.val.obj (op V))
-      ((smallEtaleRingedTopos B S hS X).O.val.obj (op U)) :=
+  have hetO : Algebra.Etale ((smallEtaleRingedTopos B S hS X).O.obj.obj (op V))
+      ((smallEtaleRingedTopos B S hS X).O.obj.obj (op U)) :=
     @SmallEtale.algebraEtale_gamma_of_isAffine B S hS X.1 U V h hU hV
-      ((smallEtaleRingedTopos B S hS X).O.val.map h.op).hom.toAlgebra
+      ((smallEtaleRingedTopos B S hS X).O.obj.map h.op).hom.toAlgebra
       (congrArg CommRingCat.Hom.hom (Scheme.Γ_map_op
         ((BigFppfOver.toScheme B S hS).map ((SmallEtale.toOver B S hS X.1).map h))))
   exact Algebra.Etale.of_ker_sq_eq_bot_of_isBaseChange

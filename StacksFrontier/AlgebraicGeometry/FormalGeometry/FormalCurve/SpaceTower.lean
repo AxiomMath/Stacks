@@ -166,7 +166,7 @@ theorem exists_algebraization_of_isRepresentable [IsNoetherianRing A] [IsAdicCom
       ext
       exact hk n
     show i n ≫ (α (n + 1)).inv ≫ yoneda.map (κ (n + 1)) = (α n).inv ≫ yoneda.map (κ n)
-    rw [← cancel_epi (α n).hom, ← Category.assoc, ← hι n, Category.assoc,
+    rw [← Iso.cancel_iso_hom_left (α n), ← Category.assoc, ← hι n, Category.assoc,
       Iso.hom_inv_id_assoc, Iso.hom_inv_id_assoc, ← yoneda.map_comp, hκ]
   · have _ : PreservesLimitsOfShape WalkingCospan T :=
       preservesLimitsOfShape_walkingCospan_toScheme B _ hS

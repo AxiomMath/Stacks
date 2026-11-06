@@ -149,7 +149,6 @@ noncomputable def comparisonEquiv : B₀ ⊗[A₀] N ≃ₗ[A₀] N₂ :=
 lemma comparison_smul (b : B₀) (x : B₀ ⊗[A₀] N) :
     cechComparison φ₂ (b • x) = (b ⊗ₜ[A₀] (1 : B₀)) • cechComparison φ₂ x := by
   induction x with
-  | zero => simp
   | tmul b' n =>
     rw [TensorProduct.smul_tmul', cechComparison_tmul, cechComparison_tmul, smul_eq_mul,
       ← smul_assoc, smul_eq_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one]
@@ -178,7 +177,6 @@ lemma comparison₃_tmul (b : B₀) (x : B₀ ⊗[A₀] N) :
     cechComparison₃ φ₂ χ₂₃ (b ⊗ₜ[A₀] x) =
       (b ⊗ₜ[A₀] ((1 : B₀) ⊗ₜ[A₀] (1 : B₀))) • χ₂₃ (cechComparison φ₂ x) := by
   induction x with
-  | zero => simp
   | tmul b' n =>
     rw [cechComparison₃_tmul, cechComparison_tmul, H.χ₂₃_smul, smul_smul,
       Algebra.TensorProduct.tmul_mul_tmul, Algebra.TensorProduct.tmul_mul_tmul, mul_one,
@@ -192,7 +190,6 @@ noncomputable def datum : Datum A₀ B₀ N where
     refine counit_coaction_of_retraction H.coaction (cechComparison φ₂) φ₁
       (fun n => (H.comparison_coaction n).symm) θ H.θ_φ₁ (fun x => ?_) n
     induction x with
-    | zero => simp
     | tmul b n => rw [cechComparison_tmul, H.θ_smul, H.θ_φ₂, counit_tmul]
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add]
   coassoc n := by
@@ -200,14 +197,12 @@ noncomputable def datum : Datum A₀ B₀ N where
       (fun n => (H.comparison_coaction n).symm) (cechComparison₃ φ₂ χ₂₃)
       H.injective_comparison₃ χ₁₂ χ₁₃ (fun x => ?_) (fun x => ?_) H.χ₁₂_φ₁ n
     · induction x with
-      | zero => simp
       | tmul b m =>
         rw [TensorProduct.AlgebraTensorModule.lTensor_tmul, cechComparison_tmul, H.χ₁₂_smul,
           H.χ₁₂_φ₂, ← H.comparison_coaction m, LinearMap.restrictScalars_apply,
           H.comparison₃_tmul]
       | add x y hx hy => simp only [map_add, hx, hy]
     · induction x with
-      | zero => simp
       | tmul b m =>
         rw [TensorProduct.AlgebraTensorModule.lTensor_tmul, cechComparison_tmul, H.χ₁₃_smul,
           TensorProduct.mk_apply, cechComparison₃_tmul, H.χ₁₃_φ₂]

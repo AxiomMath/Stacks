@@ -116,7 +116,7 @@ theorem small_sections_of_mono {Y : SheafOfModules.{m} R} {S : SheafOfModules.{m
     Small.{m} (S.val.obj X) := by
   refine small_of_injective (f := fun x : S.val.obj X ↦ ((i.val.app X).hom x).down) ?_
   intro x y h
-  exact PresheafOfModules.injective_of_mono ((forget R).map i) X (ULift.ext _ _ h)
+  exact PresheafOfModules.injective_of_mono ((forget R).map i) X (ULift.ext h)
 
 /-- **A monomorphism into the universe lift of a sheaf of modules is the universe lift of a
 monomorphism**, up to isomorphism of its source. -/

@@ -132,7 +132,7 @@ theorem isPerfect_restrict_opensRange {X Y : Scheme.{u}} (g : Y ⟶ X) [IsOpenIm
   have h2 := isPerfect_derivedRestrict g.isoOpensRange.inv
     ((Scheme.Modules.restrictFunctor g).mapDerivedCategory.obj K) h
   refine Stacks.Cohomology.PerfectComplexTriangles.isPerfect_of_iso.{u, u + 1} ?_ h2
-  exact (Functor.mapDerivedCategoryCompIso
+  exact (Functor.mapDerivedCategoryCompIsoOfCompIso
     ((Scheme.Modules.restrictFunctorComp g.isoOpensRange.inv g).symm ≪≫
       Scheme.Modules.restrictFunctorCongr hι)).app K
 

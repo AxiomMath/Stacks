@@ -262,9 +262,9 @@ private def cartesianSectionFunctorCompApp
   refine ⟨Over.isoMk d hd, ?_⟩
   apply Over.OverMorphism.ext
   change S.p.map d.hom = e.hom
-  have : S.p.IsHomLift e.hom d.hom := by
-    dsimp [d]
-    infer_instance
+  have : S.p.IsHomLift e.hom d.hom :=
+    Functor.IsStronglyCartesian.domainUniqueUpToIso_inv_isHomLift S.p (g := e) hb
+      (t.obj X).hom ((v ⋙ q).obj X).hom
   simpa using (IsHomLift.fac' S.p e.hom d.hom)
 
 /-- The cartesian section functor of the source, followed by the localized 1-morphism, is the

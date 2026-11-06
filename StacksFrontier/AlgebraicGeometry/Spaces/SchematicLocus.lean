@@ -306,9 +306,9 @@ theorem isRepresentable_sheafify_iSup
       ⟨⟨F.map h.op s.1, hi⟩, rfl⟩
     obtain ⟨t, ht⟩ : ∃ t : (yoneda.obj (T i)).obj (Opposite.op W'),
         (w i).hom.app (Opposite.op W') t = v :=
-      ⟨(w i).inv.app (Opposite.op W') v, by rw [← FunctorToTypes.comp, Iso.inv_hom_id]; rfl⟩
+      ⟨(w i).inv.app (Opposite.op W') v, by rw [← NatTrans.comp_app_apply, Iso.inv_hom_id]; rfl⟩
     refine ⟨(Sigma.ι (fun j => yoneda.obj (T j)) i).app (Opposite.op W') t, Subtype.ext ?_⟩
-    rw [← FunctorToTypes.comp, Sigma.ι_desc]
+    rw [← NatTrans.comp_app_apply, Sigma.ι_desc]
     have h2 : (((f i).app (Opposite.op W') t).1 : F.obj (Opposite.op W')) =
         ((w i).hom ≫ (X i).ι).app (Opposite.op W') t := by
       rw [← hfL i]

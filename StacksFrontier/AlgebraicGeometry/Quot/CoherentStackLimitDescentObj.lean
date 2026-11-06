@@ -196,8 +196,8 @@ noncomputable def isLimit_stageSpaceCone_extend {i : I}
     IsLimit ((baseChangeOver D.f ⋙ Over.forget D.X ⋙ ObjectProperty.ι _).mapCone
       ((D.stageTestCone E c g).extend v.hom)) :=
   IsLimit.ofIsoLimit (D.isLimit_stageSpaceCone E c g hc)
-    ((Cones.functoriality _ (baseChangeOver D.f ⋙ Over.forget D.X ⋙ ObjectProperty.ι _)).mapIso
-      (Cones.extendIso _ v.symm))
+    ((Cone.functoriality _ (baseChangeOver D.f ⋙ Over.forget D.X ⋙ ObjectProperty.ι _)).mapIso
+      (Cone.extendIso _ v.symm))
 
 /-- **The limit `T` of the test schemes above a stage, at a test scheme isomorphic to it**: the
 cone of the test schemes `T_k` with vertex `T₀ ≅ T` and projections `T₀ ≅ T ⟶ T_k`. -/
@@ -221,8 +221,8 @@ noncomputable def isLimit_stageSpaceConeAt {i : I}
     IsLimit ((baseChangeOver D.f ⋙ Over.forget D.X ⋙ ObjectProperty.ι _).mapCone
       (D.stageTestConeAt E c g v)) :=
   IsLimit.ofIsoLimit (D.isLimit_stageSpaceCone E c g hc)
-    ((Cones.functoriality _ (baseChangeOver D.f ⋙ Over.forget D.X ⋙ ObjectProperty.ι _)).mapIso
-      (Cones.ext v.symm (fun k => by
+    ((Cone.functoriality _ (baseChangeOver D.f ⋙ Over.forget D.X ⋙ ObjectProperty.ι _)).mapIso
+      (Cone.ext v.symm (fun k => by
         change _ = v.inv ≫ v.hom ≫ _
         rw [Iso.inv_hom_id_assoc])))
 

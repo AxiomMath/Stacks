@@ -169,13 +169,6 @@ private theorem isIso_of_isIso_map_left {𝒳 : Type v} [Category.{w} 𝒳]
   have := hp.isStronglyCartesian δ
   exact Functor.IsStronglyCartesian.isIso_of_base_isIso (p := p) (f := p.map δ) δ
 
-/- The proof below reasons about morphisms of the slices `Over (q.obj x)` obtained from the
-localization equivalence `Over.post q`, and the underlying scheme of such a slice object has two
-spellings -- `((Over.post q).obj a).left` and `(p.obj a.left).left` -- which the `implicit`
-transparency level does not identify. The goals are then not type-correct at that level and `rw`,
-`simp` and `Trans` synthesis decline to act on them. Naming the unfolding chain here is what lets
-the ordinary tactics see through it. -/
-attribute [local implicit_reducible] CategoryTheory.Over.post in
 /-- **Stacks 075D**, part (2). If an arrow of `𝒳` lies over an étale morphism of schemes, the
 comparison of Stacks 06W3 between the inverse image of the restriction at its target and the
 restriction at its source is an isomorphism. -/

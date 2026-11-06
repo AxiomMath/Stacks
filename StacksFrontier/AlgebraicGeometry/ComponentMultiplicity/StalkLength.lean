@@ -139,8 +139,8 @@ theorem stalkLength_of_iso {X : Scheme.{u}} {F G : X.Modules} (e : F ≅ G) (x :
     stalkLength F x = stalkLength G x := by
   have hz : IsZero (0 : X.Modules) := isZero_zero _
   have hse : (ShortComplex.mk e.hom (0 : G ⟶ (0 : X.Modules)) comp_zero).ShortExact :=
-    { exact := (ShortComplex.exact_iff_epi _ rfl).2 inferInstance
-      mono_f := inferInstance
+    { exact := (ShortComplex.exact_iff_epi _ rfl).2 (inferInstanceAs (Epi e.hom))
+      mono_f := inferInstanceAs (Mono e.hom)
       epi_g := hz.epi _ }
   have h := stalkLength_add_of_shortExact _ hse x
   rw [stalkLength_eq_zero_of_isZero _ hz, add_zero] at h

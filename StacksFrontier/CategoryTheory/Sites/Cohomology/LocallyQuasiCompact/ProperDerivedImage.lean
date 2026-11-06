@@ -226,7 +226,7 @@ instance abelianComparisonInverseImage_rightDerivedFunctorPlusUnit_isIso
     [HasSheafify (Opens.grothendieckTopology T.obj) AddCommGrpCat.{max (u + 1) v}]
     [HasSheafify (S.zariskiTopology.over T) AddCommGrpCat.{max (u + 1) v}]
     [EnoughInjectives (Sheaf (Opens.grothendieckTopology T.obj) AddCommGrpCat.{max (u + 1) v})] :
-    IsIso (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} T).rightDerivedFunctorPlusUnit :=
+    IsIso (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} T).rightDerivedFunctorPlusUnith :=
   Functor.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology _
 
 /-- The first four factors of `properDirectImageComparisonOnHomotopy`: undo the derived unit of
@@ -241,7 +241,7 @@ def baseChangeOnHomotopy :
             (S.zariskiTopology.over Y) (S.zariskiTopology.over X)).mapHomotopyCategoryPlus ⋙
           DerivedCategory.Plus.Qh :=
   Functor.whiskerLeft (topologicalPushforward.{u, w, v} S f).mapHomotopyCategoryPlus
-      (inv (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlusUnit) ≫
+      (inv (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlusUnith) ≫
     Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso
       (Iso.refl (topologicalPushforward.{u, w, v} S f ⋙
         S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y))).hom
@@ -278,9 +278,9 @@ def properDirectImageComparisonOnHomotopy :
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} X).mapHomotopyCategoryPlus
       ((Over.pullback f).sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) v}
         (S.zariskiTopology.over Y)
-        (S.zariskiTopology.over X)).rightDerivedFunctorPlusUnit ≫
+        (S.zariskiTopology.over X)).rightDerivedFunctorPlusUnith ≫
     Functor.whiskerRight
-      (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} X).rightDerivedFunctorPlusUnit
+      (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} X).rightDerivedFunctorPlusUnith
       ((Over.pullback f).sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) v}
         (S.zariskiTopology.over Y) (S.zariskiTopology.over X)).rightDerivedFunctorPlus
 
@@ -292,13 +292,13 @@ theorem properDirectImageComparisonOnHomotopy_app
       (baseChangeOnHomotopy.{u, w, v} S f).app K ≫
         ((Over.pullback f).sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) v}
             (S.zariskiTopology.over Y)
-            (S.zariskiTopology.over X)).rightDerivedFunctorPlusUnit.app
+            (S.zariskiTopology.over X)).rightDerivedFunctorPlusUnith.app
           ((S.abelianComparisonInverseImage.{u, w, max (u + 1) v} X).mapHomotopyCategoryPlus.obj
             K) ≫
         ((Over.pullback f).sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) v}
             (S.zariskiTopology.over Y) (S.zariskiTopology.over X)).rightDerivedFunctorPlus.map
           ((S.abelianComparisonInverseImage.{u, w,
-            max (u + 1) v} X).rightDerivedFunctorPlusUnit.app K) := rfl
+            max (u + 1) v} X).rightDerivedFunctorPlusUnith.app K) := rfl
 
 /-- The canonical derived Zariski base-change map, extending `zariskiBaseChange` through the
 universal property of bounded-below right derivation. -/
@@ -312,7 +312,7 @@ def properDerivedImageComparison :
     ((topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlus ⋙
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
     (L := DerivedCategory.Plus.Qh)
-    (Functor.whiskerRight (topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlusUnit
+    (Functor.whiskerRight (topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlusUnith
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
     (HomotopyCategory.Plus.quasiIso
       (Sheaf (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v}))
@@ -321,7 +321,7 @@ def properDerivedImageComparison :
 /-- The defining equation identifying the derived map with the ordinary base-change
 transformation. -/
 theorem properDerivedImageComparison_fac :
-    Functor.whiskerRight (topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlusUnit
+    Functor.whiskerRight (topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlusUnith
         (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh
         (properDerivedImageComparison.{u, w, v} S f) =
@@ -330,7 +330,7 @@ theorem properDerivedImageComparison_fac :
     ((topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlus ⋙
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
     (L := DerivedCategory.Plus.Qh)
-    (Functor.whiskerRight (topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlusUnit
+    (Functor.whiskerRight (topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlusUnith
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
     (HomotopyCategory.Plus.quasiIso
       (Sheaf (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v}))
@@ -364,7 +364,7 @@ theorem isIso_properDerivedImageComparison
         (Sheaf (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v})),
       IsIso (((Over.pullback f).sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) v}
           (S.zariskiTopology.over Y)
-          (S.zariskiTopology.over X)).rightDerivedFunctorPlusUnit.app
+          (S.zariskiTopology.over X)).rightDerivedFunctorPlusUnith.app
         ((S.abelianComparisonInverseImage.{u, w, max (u + 1) v} X).mapHomotopyCategoryPlus.obj
           ((InjectiveObject.ι _).mapHomotopyCategoryPlus.obj K)))) :
     IsIso (properDerivedImageComparison.{u, w, v} S f) := by
@@ -372,7 +372,7 @@ theorem isIso_properDerivedImageComparison
   refine (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
     ((topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlus ⋙
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
-    (Functor.whiskerRight (topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlusUnit
+    (Functor.whiskerRight (topologicalPushforward.{u, w, v} S f).rightDerivedFunctorPlusUnith
       (S.abelianComparisonInverseImage.{u, w, max (u + 1) v} Y).rightDerivedFunctorPlus)
     (HomotopyCategory.Plus.quasiIso
       (Sheaf (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v}))

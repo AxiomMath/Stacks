@@ -802,8 +802,8 @@ theorem normalConeChart_normalConeToExceptionalDivisor_subschemeι :
   rw [normalConeToExceptionalDivisor, Category.assoc,
     normalConeChart_normalConeIsoExceptionalCompl_hom_assoc, exceptionalComplChartT,
     Category.assoc, exceptionalComplChart_ι_assoc, exceptionalChartS_subschemeι,
-    blowupAtInfinityChartS_eq_awayι, Spec.map_comp, Spec.map_comp]
-  simp only [Category.assoc]
+    blowupAtInfinityChartS_eq_awayι]
+  simp only [Spec.map_comp, Category.assoc]
 
 /-- The ring map `Γ(V)[𝒥(V) t]_{(s t)} ⟶ B_{(1 ⊗ s t)} ≅ Γ(Z ∩ U, Sym(𝒞 ⊕ 𝒪_Z))_{(T)} ≅
 Γ(Z ∩ U, Sym(𝒞))` of the chart of `𝐏(𝒞 ⊕ 𝒪_Z)` at `T` inside the Rees chart of `W`. -/

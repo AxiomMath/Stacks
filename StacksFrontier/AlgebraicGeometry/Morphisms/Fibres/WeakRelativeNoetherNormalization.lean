@@ -974,7 +974,7 @@ private theorem exists_fiberDimension_aeval_le_of_noetherian_generic
     ∃ a : S, ∀ p : Spec (.of (Polynomial R)), topologicalKrullDim
       ((AlgebraicGeometry.specMapAeval a).fiber p) ≤ (d : WithBot ℕ∞) := by
   classical
-  have : WellFoundedGT (Ideal R) := IsNoetherian.wellFoundedGT (inferInstance : IsNoetherian R R)
+  have : WellFoundedGT (Ideal R) := IsNoetherian.wellFoundedGT (h := (inferInstance : IsNoetherian R R))
   have hwf : WellFounded ((· > ·) : Ideal R → Ideal R → Prop) := wellFounded_gt
   induction I using hwf.induction generalizing S with
   | h I ih =>

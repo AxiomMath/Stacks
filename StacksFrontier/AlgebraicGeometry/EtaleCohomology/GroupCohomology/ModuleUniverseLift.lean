@@ -58,21 +58,21 @@ def representationOfModule (N : Stacks.Injectives.ContinuousModule.{t, u, w} R G
 /-- `representationOfModule N` acts by the action of `N`. -/
 @[simp] theorem representationOfModule_apply
     (N : Stacks.Injectives.ContinuousModule.{t, u, w} R G) (g : G) (x : N.obj.obj.V) :
-    representationOfModule N g x = (N.obj.obj.ρ g).hom x := rfl
+    representationOfModule N g x = (N.obj.obj.ρ g).asHom.hom x := rfl
 
 variable [IsTopologicalGroup G]
 
 /-- **The orbit map of an element of an `R`-`G`-module is locally constant.** -/
 theorem isLocallyConstant_ρ_apply (N : Stacks.Injectives.ContinuousModule.{t, u, w} R G)
-    (z : N.obj.obj.V) : IsLocallyConstant fun g : G ↦ (N.obj.obj.ρ g).hom z := by
+    (z : N.obj.obj.V) : IsLocallyConstant fun g : G ↦ (N.obj.obj.ρ g).asHom.hom z := by
   intro s
   rw [isOpen_iff_forall_mem_open]
   intro g hg
-  refine ⟨(fun h : G ↦ g⁻¹ * h) ⁻¹' {k : G | (N.obj.obj.ρ k).hom z = z}, fun h hh ↦ ?_,
+  refine ⟨(fun h : G ↦ g⁻¹ * h) ⁻¹' {k : G | (N.obj.obj.ρ k).asHom.hom z = z}, fun h hh ↦ ?_,
     (isOpen_stabilizer R G N z).preimage (by fun_prop), ?_⟩
   · simp only [Set.mem_preimage, Set.mem_setOf_eq] at hh
-    have hmul : (N.obj.obj.ρ (g * (g⁻¹ * h))).hom z =
-        (N.obj.obj.ρ g).hom ((N.obj.obj.ρ (g⁻¹ * h)).hom z) := by rw [map_mul]; rfl
+    have hmul : (N.obj.obj.ρ (g * (g⁻¹ * h))).asHom.hom z =
+        (N.obj.obj.ρ g).asHom.hom ((N.obj.obj.ρ (g⁻¹ * h)).asHom.hom z) := by rw [map_mul]; rfl
     rw [mul_inv_cancel_left, hh] at hmul
     exact Set.mem_preimage.mpr (hmul ▸ hg)
   · simp only [Set.mem_preimage, Set.mem_setOf_eq, inv_mul_cancel]
@@ -130,7 +130,7 @@ def uliftContinuousModule.{t', u', w', s'} {R : Type t'} [Ring R] {G : Type u'} 
       intro x
       have hset :
           {g : G | uliftRepresentation.{t', u', w', s'} (representationOfModule N) g x = x} =
-          {g : G | (N.obj.obj.ρ g).hom x.down = x.down} := by
+          {g : G | (N.obj.obj.ρ g).asHom.hom x.down = x.down} := by
         ext g
         exact ⟨fun h ↦ congrArg ULift.down h, fun h ↦ congrArg ULift.up h⟩
       rw [hset]
@@ -140,16 +140,16 @@ def uliftContinuousModule.{t', u', w', s'} {R : Type t'} [Ring R] {G : Type u'} 
 @[simp] theorem uliftContinuousModule_ρ_hom.{t', u', w', s'} {R : Type t'} [Ring R]
     {G : Type u'} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     (N : Stacks.Injectives.ContinuousModule.{t', u', w'} R G) (g : G) (x : N.obj.obj.V) :
-    ((uliftContinuousModule.{t', u', w', s'} N).obj.obj.ρ g).hom (ULift.up x) =
-      ULift.up ((N.obj.obj.ρ g).hom x) := rfl
+    ((uliftContinuousModule.{t', u', w', s'} N).obj.obj.ρ g).asHom.hom (ULift.up x) =
+      ULift.up ((N.obj.obj.ρ g).asHom.hom x) := rfl
 
 /-- The raised action read through `ULift.down`. -/
 @[simp] theorem uliftContinuousModule_ρ_hom_down.{t', u', w', s'} {R : Type t'} [Ring R]
     {G : Type u'} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     (N : Stacks.Injectives.ContinuousModule.{t', u', w'} R G) (g : G)
     (x : (uliftContinuousModule.{t', u', w', s'} N).obj.obj.V) :
-    (((uliftContinuousModule.{t', u', w', s'} N).obj.obj.ρ g).hom x).down =
-      (N.obj.obj.ρ g).hom x.down := rfl
+    (((uliftContinuousModule.{t', u', w', s'} N).obj.obj.ρ g).asHom.hom x).down =
+      (N.obj.obj.ρ g).asHom.hom x.down := rfl
 
 end Stacks.GroupCohomology
 

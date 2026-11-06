@@ -255,7 +255,7 @@ theorem pointsMap_geometricFibreToSource_geometricFibrePoint
   show X.1.map (𝟙 xbar.val.siteObject).op xbar.val.value =
     (geometricFibreToSource B S hS f (geometricPointMap f.hom xbar)).hom.app _
       (yonedaEquiv (hp.lift (yonedaEquiv.symm xbar.val.value) (𝟙 _) _))
-  rw [op_id, FunctorToTypes.map_id_apply]
+  rw [op_id, Functor.map_id_apply]
   exact ((congrArg yonedaEquiv (hp.lift_fst (yonedaEquiv.symm xbar.val.value) (𝟙 _) _)).trans
     (Equiv.apply_symm_apply yonedaEquiv _)).symm
 

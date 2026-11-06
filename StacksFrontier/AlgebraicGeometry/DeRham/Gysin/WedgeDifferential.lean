@@ -108,8 +108,8 @@ theorem d_one_eq_zero (U : (Opens X.carrier)ᵒᵖ) :
     ((deRhamComplex B D).d 0 (0 + 1)).val.app U (B.exterior.one.eval U) = 0 := by
   have hsmul : (1 : X.sheaf.obj.obj U) • B.exterior.one.eval U = B.exterior.one.eval U :=
     one_smul _ _
-  have hd1 : (PresheafOfModules.Derivation'.app (universalDerivation.{u, u, u} φ) U).d
-      (1 : X.sheaf.obj.obj U) = 0 := PresheafOfModules.Derivation.d_one _ U
+  have hd1 : (PresheafOfModulesOfCommRing.Derivation'.app (universalDerivation.{u, u, u} φ) U).d
+      (1 : X.sheaf.obj.obj U) = 0 := PresheafOfModulesOfCommRing.Derivation.d_one _ U
   rw [← hsmul, eq_of_heq (deRhamComplex_degreeZero B D U 1), exactOne, hd1, map_zero]
   exact rfl
 

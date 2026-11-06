@@ -81,12 +81,12 @@ public theorem exists_inverseImage_representationSheafCommutantCoefficientSheaf_
           (ρ.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom)
           (hρ.comp (etaleFundamentalGroupMap f.hom y).continuous)) α),
         algebraMap _ E o₁ = algebraMap _ E o₂ →
-        φ ≫ (representationSheafCommutantCoefficientSheaf B Y y
+        φ ≫ ((representationSheafCommutantCoefficientSheaf B Y y
           (ρ.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom)
-          (hρ.comp (etaleFundamentalGroupMap f.hom y).continuous) α hα').act o₂ =
-          (LAdicSheaf.CoefficientSheaf.inverseImage f
-            (representationSheafCommutantCoefficientSheaf B X (y.map f.hom) ρ hρ α hα)).act o₁ ≫
-            φ := by
+          (hρ.comp (etaleFundamentalGroupMap f.hom y).continuous) α hα').act o₂).asHom =
+          ((LAdicSheaf.CoefficientSheaf.inverseImage f
+            (representationSheafCommutantCoefficientSheaf B X (y.map f.hom) ρ hρ α hα)).act
+              o₁).asHom ≫ φ := by
   have := compactSpace_etaleFundamentalGroup X.1 (y.map f.hom)
   have := compactSpace_etaleFundamentalGroup Y.1 y
   set φ₀ := (etaleFundamentalGroupMap f.hom y).toMonoidHom
@@ -171,10 +171,10 @@ public theorem exists_inverseImage_restrictScalarsRepCoefficientSheaf_isogeny :
             (restrictScalarsRep b (σ.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom)) hσ')
           (restrictScalarsScalarAlgHom b m)),
         algebraMap _ E o₁ = algebraMap _ E o₂ →
-        φ ≫ (restrictScalarsRepCoefficientSheaf B Y y b
-          (σ.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom) hσ').act o₂ =
-          (LAdicSheaf.CoefficientSheaf.inverseImage f
-            (restrictScalarsRepCoefficientSheaf B X (y.map f.hom) b σ hσ)).act o₁ ≫ φ :=
+        φ ≫ ((restrictScalarsRepCoefficientSheaf B Y y b
+          (σ.comp (etaleFundamentalGroupMap f.hom y).toMonoidHom) hσ').act o₂).asHom =
+          ((LAdicSheaf.CoefficientSheaf.inverseImage f
+            (restrictScalarsRepCoefficientSheaf B X (y.map f.hom) b σ hσ)).act o₁).asHom ≫ φ :=
   exists_inverseImage_representationSheafCommutantCoefficientSheaf_isogeny B f y
     (restrictScalarsRep b σ) hσ (restrictScalarsScalarAlgHom b m)
     (restrictScalarsScalarAlgHom_commute b σ)

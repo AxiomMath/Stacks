@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Limits.Constructions.BinaryProducts
 public import Mathlib.CategoryTheory.Limits.Constructions.LimitsOfProductsAndEqualizers
 public import Mathlib.CategoryTheory.Limits.Constructions.Pullbacks
 public import Mathlib.Tactic.TFAE

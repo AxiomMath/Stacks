@@ -61,12 +61,12 @@ theorem exists_generic_presentation {A C₀ D₀ : Type u} [CommRing A] [CommRin
     simp only [Algebra.Presentation.dimension] at hdim
     lia
   let F := Σ j : σ, (P₀.relation j).support
-  refine ⟨τ, σ, hτ, hσ, P₀, F, inferInstance, fun c ↦ coeff c.2.1 (P₀.relation c.1),
+  refine ⟨τ, σ, hτ, hσ, P₀, F, inferInstance, fun c ↦ (P₀.relation c.1).coeff c.2.1,
     fun j ↦ ∑ d ∈ (P₀.relation j).support.attach, monomial d.1 (X ⟨j, d⟩), hcard, fun j ↦ ?_⟩
   rw [map_sum]
   simp only [map_monomial, eval₂Hom_X']
   conv_rhs => rw [(P₀.relation j).as_sum]
-  exact Finset.sum_attach _ (fun d ↦ monomial d (coeff d (P₀.relation j)))
+  exact Finset.sum_attach _ (fun d ↦ monomial d ((P₀.relation j).coeff d))
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 

@@ -214,7 +214,7 @@ public theorem representationLevelTrivialization_stalkEquiv_stalkMap {s : Geomet
 precomposition with `a`. -/
 public theorem representationLevelTrivialization_stalkEquiv_stalkEnd {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a)
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (v : LAdicSheaf.stalk B X ℓ (representationLAdicSheaf B X x
       (canonicalFiniteLocallyConstantAbelianSheafEquivalence B X x) ρ hρ) s) :
     (representationLevelTrivialization B X x ρ hρ t).stalkEquiv (LAdicSheaf.stalkEnd B X ℓ _ a v) =
@@ -226,7 +226,7 @@ public theorem representationLevelTrivialization_stalkEquiv_stalkEnd {s : Geomet
   intro n
   rw [LAdicSheaf.LevelTrivialization.toZModPow_stalkEquiv]
   show T.equiv n ((finiteLevelStalkEnd B X ℓ _ a n).hom (v.1 n)) i = _
-  have hl := congrArg ULift.down (ULift.ext _ _
+  have hl := congrArg ULift.down (ULift.ext
     (representationLevelStalkIso_geometricPointStalkMap B X x ρ hρ t a σ hσ (n + 1) (v.1 n)))
   change T.equiv n ((finiteLevelStalkEnd B X ℓ _ a n).hom (v.1 n)) =
     levelRepresentation _ (n + 1) _ (T.equiv n (v.1 n)) at hl

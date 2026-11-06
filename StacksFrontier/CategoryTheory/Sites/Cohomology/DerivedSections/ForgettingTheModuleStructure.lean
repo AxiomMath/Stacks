@@ -377,7 +377,7 @@ theorem globalSectionsForgetComparison_isIso :
         intro n x hx
         obtain h | h := mul_eq_zero.mp (congrArg ULift.down hx : (n * x.down : ℤ) = 0)
         · exact Or.inl h
-        · exact Or.inr (ULift.ext _ _ h))
+        · exact Or.inr (ULift.ext h))
       (derivedAbelianGlobalSections X) (derivedAbelianGlobalSectionsUnit X) I
     dsimp only [γ, globalSectionsForgetUnit, NatTrans.comp_app,
       Functor.whiskerRight_app, Functor.whiskerLeft_app]

@@ -96,6 +96,10 @@ private theorem exists_curve_separable_purelyInseparable_factorization {k : Type
   let E := separableClosure Y.functionField X.functionField
   let _ : Algebra.EssFiniteType k E := Algebra.EssFiniteType.comp k Y.functionField E
   have htrE : Algebra.trdeg k E = 1 := by
+    have _ : FaithfulSMul k Y.functionField :=
+      (faithfulSMul_iff_algebraMap_injective _ _).2 (algebraMap k Y.functionField).injective
+    have _ : FaithfulSMul Y.functionField E :=
+      (faithfulSMul_iff_algebraMap_injective _ _).2 (algebraMap Y.functionField E).injective
     have H := trdeg_add_eq k Y.functionField (A := E)
     rw [htrY, trdeg_eq_zero_iff.mpr inferInstance, add_zero] at H
     exact H.symm

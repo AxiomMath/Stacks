@@ -82,7 +82,7 @@ theorem map_maximalIdeal_le_of_isMaximal {A : Type u} [CommRing A] [IsLocalRing 
     [m.IsMaximal] :
     (IsLocalRing.maximalIdeal A).map (algebraMap A B) ≤ m := by
   have hm : (m.comap (algebraMap A B)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m
   rw [Ideal.map_le_iff_le_comap]
   exact le_of_eq (IsLocalRing.eq_maximalIdeal hm).symm
 

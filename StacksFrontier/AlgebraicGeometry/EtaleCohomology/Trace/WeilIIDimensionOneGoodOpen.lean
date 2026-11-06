@@ -114,6 +114,12 @@ theorem LAdicSheaf.exists_open_satisfiesWeightBound_of_specMap {Z : B.Scheme}
   have : LocallyOfFiniteType (Spec.map φ ≫ o ≫ fZ) := inferInstance
   have : QuasiCompact (Spec.map φ ≫ o ≫ fZ) := inferInstance
   have : IsSeparated (Spec.map φ ≫ o ≫ fZ) := inferInstance
+  have : LocallyOfFiniteType (B.inclusion.map iU ≫ B.inclusion.map jU ≫ fZ) :=
+    inferInstanceAs (LocallyOfFiniteType (Spec.map φ ≫ o ≫ fZ))
+  have : QuasiCompact (B.inclusion.map iU ≫ B.inclusion.map jU ≫ fZ) :=
+    inferInstanceAs (QuasiCompact (Spec.map φ ≫ o ≫ fZ))
+  have : IsSeparated (B.inclusion.map iU ≫ B.inclusion.map jU ≫ fZ) :=
+    inferInstanceAs (IsSeparated (Spec.map φ ≫ o ≫ fZ))
   refine ⟨U, inferInstance, jU, inferInstance, inferInstance,
     inferInstanceAs (Nonempty (Spec R)), ?_⟩
   exact LAdicSheaf.satisfiesWeightBound_of_surjective (B.inclusion.map jU ≫ fZ) iU
@@ -323,8 +329,12 @@ theorem LAdicSheaf.satisfiesWeightBound_of_topologicalKrullDim_le_one [IsAlgClos
     LAdicSheaf.hasFiniteCompactSupportCohomology_of_topologicalKrullDim_le_one B ℓ kbar p q hcard Y
       g hY
   exact LAdicSheaf.satisfiesWeightBound_of_forall_exists_open X f
-    (fun Y _ g _ _ _ hY => hfin Y g (hY.trans hdim)) fun _ _ iZ _ hZ =>
-    LAdicSheaf.exists_open_satisfiesWeightBound_of_topologicalKrullDim_le_one hcurve hℓ hfin
+    (fun Y _ g _ _ _ hY => hfin Y g (hY.trans hdim)) fun _ _ iZ _ hZ => by
+    haveI hfinZ : IsFinite (B.inclusion.map iZ) := inferInstance
+    haveI : LocallyOfFiniteType (B.inclusion.map iZ) :=
+      ((IsFinite.iff_isIntegralHom_and_locallyOfFiniteType _).mp hfinZ).2
+    haveI : LocallyOfFiniteType (B.inclusion.map iZ ≫ f) := inferInstance
+    exact LAdicSheaf.exists_open_satisfiesWeightBound_of_topologicalKrullDim_le_one hcurve hℓ hfin
       (B.inclusion.map iZ ≫ f)
       ((B.inclusion.map iZ).isClosedEmbedding.isInducing.topologicalKrullDim_le.trans hdim) hZ
 

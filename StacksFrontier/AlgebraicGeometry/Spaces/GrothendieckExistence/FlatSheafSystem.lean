@@ -246,7 +246,7 @@ theorem epi_transitionAdjoint (n : ℕ) : Epi (D.transitionAdjoint n) := by
     epi_modulePullbackAdjunction_unit_of_essImage_of_annihilated _ _ _ _ hi
       (fun M hM => (essImage_modulePushforward_iff _ _ _ _ hi M).2 hM) _
   unfold transitionAdjoint
-  infer_instance
+  exact epi_comp' this (IsIso.epi_of_iso _)
 
 /-- The direct image along `iₙ₊₁` of the map `Fₙ₊₁ ⟶ tₙ,* Fₙ` adjoint to `φₙ` is an epimorphism. -/
 theorem epi_map_transitionAdjoint (n : ℕ) :
@@ -258,7 +258,7 @@ theorem epi_map_transitionAdjoint (n : ℕ) :
 /-- **The transition maps of the system are surjective.** -/
 theorem epi_pushforwardTransition (n : ℕ) : Epi (D.pushforwardTransition n) := by
   have h := D.epi_map_transitionAdjoint n
-  exact epi_comp' h inferInstance
+  exact epi_comp' h (IsIso.epi_of_iso _)
 
 end FlatSheafExistenceSituation
 

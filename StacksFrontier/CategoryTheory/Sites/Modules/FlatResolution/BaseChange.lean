@@ -348,6 +348,16 @@ section Coproduct
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{z}]
   [HasSheafify J AddCommGrpCat.{z}] {O : Sheaf J CommRingCat.{w}}
 
+/- Instance search for these coproducts times out under Lean v4.35.0: supply them. -/
+local instance : HasColimitsOfShape (Discrete (ULift.{z} Bool))
+    (PresheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O).obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
+set_option synthInstance.maxHeartbeats 400000 in
+local instance (priority := high) : HasColimitsOfShape (Discrete (ULift.{z} Bool))
+    (_root_.SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O)) :=
+  inferInstance
+
 /-- The two-element family whose coproduct is the direct sum of `M` and `N`. -/
 abbrev pairFamily (M N : _root_.SheafOfModules.{z} (Stacks.SheafOfModules.Tensor.ringSheaf O))
     (i : ULift.{z} Bool) := if i.down then N else M

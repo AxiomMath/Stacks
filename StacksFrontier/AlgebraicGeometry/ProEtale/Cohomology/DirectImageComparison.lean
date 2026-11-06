@@ -250,7 +250,7 @@ instance : ((Scheme.proetaleBaseChange f).sheafPushforwardContinuous AddCommGrpC
     (Scheme.ProEt.topology Y) (Scheme.ProEt.topology X)).right_adjoint_additive
 
 /-- The pro-étale direct image of abelian sheaves along `f` has a right derived functor on
-bounded below complexes, with unit `Functor.rightDerivedFunctorPlusUnit`. -/
+bounded below complexes, with unit `Functor.rightDerivedFunctorPlusUnith`. -/
 local instance : (((Scheme.proetaleBaseChange f).sheafPushforwardContinuous
     AddCommGrpCat.{max (u + 1) v} (Scheme.ProEt.topology Y)
       (Scheme.ProEt.topology X)).mapHomotopyCategoryPlus ⋙
@@ -261,7 +261,7 @@ local instance : (((Scheme.proetaleBaseChange f).sheafPushforwardContinuous
     (RF := ((Scheme.proetaleBaseChange f).sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) v}
       (Scheme.ProEt.topology Y) (Scheme.ProEt.topology X)).rightDerivedFunctorPlus)
     (α := ((Scheme.proetaleBaseChange f).sheafPushforwardContinuous AddCommGrpCat.{max (u + 1) v}
-      (Scheme.ProEt.topology Y) (Scheme.ProEt.topology X)).rightDerivedFunctorPlusUnit)
+      (Scheme.ProEt.topology Y) (Scheme.ProEt.topology X)).rightDerivedFunctorPlusUnith)
 
 /-- **The derived comparison from acyclicity.** If `ε⁻¹ℐ` is acyclic for the pro-étale direct
 image along `f` for every injective abelian sheaf `ℐ` on `X_étale`, then

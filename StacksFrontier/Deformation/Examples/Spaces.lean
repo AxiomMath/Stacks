@@ -232,6 +232,17 @@ private theorem existsUnique_comp_eq {P Q R : FlatAlgebraicSpaceFamily B hΛ hSp
   exact Hom.ext rfl <|
     g.cartesian.hom_ext (hleft.trans hmleft.symm) (d'.cartesian.w.trans hmright.symm)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `Spec Λ` (instance search times out
+without this shortcut). -/
+private instance hasPullbacks_presheaf :
+    HasPullbacks ((BigFppfOver B (Spec (.of Λ)) hΛ)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf
+    {X Y Z : (BigFppfOver B (Spec (.of Λ)) hΛ)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The base change of a flat family `P` along a morphism `f : P.base ⟶ A` of `𝒞_Λ`: the
 fibre product of `P.space` with `Spec A` over `Spec P.base`, flat over `Spec A`. -/
 private def baseChange (P : FlatAlgebraicSpaceFamily B hΛ hSpec)

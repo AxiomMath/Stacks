@@ -5,6 +5,7 @@ import Mathlib.Algebra.Category.ModuleCat.Algebra
 import Mathlib.Algebra.Category.ModuleCat.Localization
 import Mathlib.Algebra.Colimit.Ring
 import Mathlib.Algebra.Group.Submonoid.Saturation
+import Mathlib.Algebra.Module.LocalizedModule.Exact
 import Mathlib.Algebra.Module.Presentation.Finite
 import Mathlib.AlgebraicGeometry.FunctionField
 import Mathlib.AlgebraicGeometry.IdealSheaf.IrreducibleComponent
@@ -466,7 +467,7 @@ add_to_ega "0 1.5.5" "special case"
   instIsLocalizedModuleLinearMapIdLocalizationLocalizedModuleMapOfFinitePresentation
 add_to_ega "0 1.5.7" "more general" IsLocalization.map_comp_map
 add_to_ega "0 1.5.7" "more general" IsLocalization.map_map
-add_to_ega "0 1.5.7" "special case" Localization.AtPrime.instIsScalarTowerOfIsLiesOverAlgebra_1
+add_to_ega "0 1.5.7" "special case" Localization.AtPrime.instIsScalarTowerOfLiesOver
 add_to_ega "0 1.5.7" "special case" Localization.localRingHom_comp
 add_to_ega "0 1.5.7" ModuleCat.restrictScalarsComp
 add_to_ega "0 1.5.7" ModuleCat.restrictScalarsComp'

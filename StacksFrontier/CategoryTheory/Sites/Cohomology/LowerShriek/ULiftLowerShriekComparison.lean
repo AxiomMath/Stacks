@@ -37,9 +37,16 @@ one corepresenting section to the other; both sides commute with direct sums.
 
 open CategoryTheory CategoryTheory.Limits Opposite
 
-universe r u₁
+universe v r u₁
 
 namespace Stacks.Cohomology.DerivedLowerShriek.ULiftComparison
+
+/- Instance search for coproducts of sheaves of modules times out since the Lean v4.35.0 bump;
+this local instance gives the direct route. -/
+local instance (priority := high) hasColimitsOfShape_discrete_presheafOfModules
+    {C : Type*} [Category* C] (R : Cᵒᵖ ⥤ RingCat.{v}) (I : Type v) :
+    HasColimitsOfShape (Discrete I) (PresheafOfModules.{v} R) :=
+  PresheafOfModules.hasColimitsOfShape R (Discrete I)
 
 variable {C : Type u₁} [Category.{r} C] {D : Type u₁} [Category.{r} D]
   (J : GrothendieckTopology C) (K : GrothendieckTopology D) (f : C ⥤ D)

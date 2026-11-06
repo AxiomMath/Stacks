@@ -620,6 +620,7 @@ noncomputable def stalkExtensionByZeroIso
       ((PresheafOfModules.sheafificationCompForgetCompToPresheaf
         (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj)).app
           (extensionByZeroPresheaf X U G)) ≪≫ ?_
+  haveI : HasProducts.{u} AddCommGrpCat.{u} := inferInstance
   refine (p.presheafToSheafCompSheafFiberIso AddCommGrpCat).app
       (extensionByZeroPresheaf X U G).presheaf ≪≫ ?_
   exact

@@ -51,7 +51,7 @@ theorem sectionMulNegOne_smul_left {X : Scheme.{u}} (L : X.Modules)
     (t : Γ(Stacks.SheafOfModules.Invertible.tensorPower X.presheaf X.ringCatSheaf.2 L (-1), V)) :
     Stacks.SheafOfModules.Invertible.sectionMulNegOne X.presheaf X.ringCatSheaf.2 L (op V)
         (r • a) t =
-      ((𝟙_ X.Modules).smul r).hom
+      ((𝟙_ X.Modules).smul r).asHom.hom
         (Stacks.SheafOfModules.Invertible.sectionMulNegOne X.presheaf X.ringCatSheaf.2 L
           (op V) a t) := by
   refine Eq.trans (invertibleEvaluation_tensorSectionsAt L V (r • a) t).symm ?_
@@ -61,7 +61,7 @@ theorem sectionMulNegOne_smul_left {X : Scheme.{u}} (L : X.Modules)
       (Stacks.SheafOfModules.Invertible.tensorPower X.presheaf X.ringCatSheaf.2 L (-1))
       r a t)) ?_
   refine Eq.trans (((invertibleEvaluation L).hom.val.app (op V)).hom.map_smul r _) ?_
-  exact congrArg (fun z : Γ(𝟙_ X.Modules, V) => ((𝟙_ X.Modules).smul r).hom z)
+  exact congrArg (fun z : Γ(𝟙_ X.Modules, V) => ((𝟙_ X.Modules).smul r).asHom.hom z)
     (invertibleEvaluation_tensorSectionsAt L V a t)
 
 /-- `Stacks.ProjectiveBundleConormal.sectionMulNegOne_smul_left` with the value of the unscaled
@@ -320,7 +320,7 @@ theorem kernelTautologicalMapTwisted_tensorSectionsAt_eq_mul
     (b : Γ(tautologicalTwist E (symPieces E), V))
     (g g₀ : Γ((bundle E).scheme, V))
     (hz : (kernelTautologicalMap E Q).val.app (op V) z =
-      ((tautologicalTwist E (symPieces E)).smul g).hom b)
+      ((tautologicalTwist E (symPieces E)).smul g).asHom.hom b)
     (hg₀ : Stacks.SheafOfModules.Invertible.sectionMulNegOne (bundle E).scheme.presheaf
         (bundle E).scheme.ringCatSheaf.2 (tautologicalTwist E (symPieces E)) (op V) b w = g₀) :
     (kernelTautologicalMapTwisted E Q).val.app (op V)
@@ -370,7 +370,7 @@ theorem appLE_eq_zero_of_tautologicalSectionOver_eq_smul
     (k : Γ(kernel Q.q, W)) (g : Γ((bundle E).scheme, V))
     (hg : (tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hV).op
           (tautologicalSectionOver E W ((kernel.ι Q.q).val.app (op W) k)) =
-        ((tautologicalTwist E (symPieces E)).smul g).hom
+        ((tautologicalTwist E (symPieces E)).smul g).asHom.hom
           ((tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hV).op
             (tautologicalSectionOver E W s))) :
     σ.appLE V W hWV g = 0 := by
@@ -387,7 +387,7 @@ theorem appLE_eq_zero_of_tautologicalSectionOver_eq_smul
         ((bundle E).toBase ⁻¹ᵁ W) W (preimage_toBase_preimage E hσ W).ge
         (tautologicalSectionOver E W ((kernel.ι Q.q).val.app (op W) k)) =
       (((Scheme.Modules.pullback σ).obj (tautologicalTwist E (symPieces E))).smul
-          (σ.appLE V W hWV g)).hom
+          (σ.appLE V W hWV g)).asHom.hom
         (Scheme.Modules.pullbackSection σ (tautologicalTwist E (symPieces E))
           ((bundle E).toBase ⁻¹ᵁ W) W (preimage_toBase_preimage E hσ W).ge
           (tautologicalSectionOver E W s)) :=
@@ -400,19 +400,19 @@ theorem appLE_eq_zero_of_tautologicalSectionOver_eq_smul
         (congrArg (fun y : Γ((Scheme.Modules.pullback σ).obj
               (tautologicalTwist E (symPieces E)), W) =>
             (((Scheme.Modules.pullback σ).obj (tautologicalTwist E (symPieces E))).smul
-              (σ.appLE V W hWV g)).hom y)
+              (σ.appLE V W hWV g)).asHom.hom y)
           (hres s)))
   have hq0 : Q.q.val.app (op W) ((kernel.ι Q.q).val.app (op W) k) = 0 :=
     (SheafOfModules.comp_val_app_apply (kernel.ι Q.q) Q.q (op W) k).symm.trans
       (congrArg (fun φ : kernel Q.q ⟶ Q.L => φ.val.app (op W) k) (kernel.condition Q.q))
   have hB : (0 : Γ(Q.L, W)) =
-      (Q.L.smul (σ.appLE V W hWV g)).hom (Q.q.val.app (op W) s) :=
+      (Q.L.smul (σ.appLE V W hWV g)).asHom.hom (Q.q.val.app (op W) s) :=
     hq0.symm.trans
       ((hom_pullbackSection_tautologicalMap E Q hσ e hqe W
             ((kernel.ι Q.q).val.app (op W) k)).symm.trans
         ((congrArg (e.hom.val.app (op W)) hA).trans
           ((((e.hom.val.app (op W))).hom.map_smul (σ.appLE V W hWV g) _).trans
-            (congrArg (fun y : Γ(Q.L, W) => (Q.L.smul (σ.appLE V W hWV g)).hom y)
+            (congrArg (fun y : Γ(Q.L, W) => (Q.L.smul (σ.appLE V W hWV g)).asHom.hom y)
               (hom_pullbackSection_tautologicalMap E Q hσ e hqe W s)))))
   refine Eq.symm (Eq.trans (map_zero eL).symm ?_)
   refine Eq.trans (congrArg eL hB) ?_
@@ -447,7 +447,7 @@ theorem appLE_kernelTautologicalMapTwisted_tensorSectionsAt_eq_zero
       (tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hV).op
         (tautologicalSectionOver E W ((kernel.ι Q.q).val.app (op W) k)))
     (hz : (kernelTautologicalMap E Q).val.app (op V) z =
-      ((tautologicalTwist E (symPieces E)).smul g).hom
+      ((tautologicalTwist E (symPieces E)).smul g).asHom.hom
         ((tautologicalTwist E (symPieces E)).presheaf.map (homOfLE hV).op
           (tautologicalSectionOver E W s)))
     (hg₀ : Stacks.SheafOfModules.Invertible.sectionMulNegOne (bundle E).scheme.presheaf
@@ -516,13 +516,13 @@ theorem pullbackSection_smul_appLE_toBase (M : (bundle E).scheme.Modules) (W : X
     (V : (bundle E).scheme.Opens) (hV : V ≤ (bundle E).toBase ⁻¹ᵁ W) (hWV : W ≤ σ ⁻¹ᵁ V)
     (a : Γ(X, W)) (b : Γ(M, V)) :
     Scheme.Modules.pullbackSection σ M V W hWV
-        ((M.smul ((bundle E).toBase.appLE W V hV a)).hom b) =
-      (((Scheme.Modules.pullback σ).obj M).smul a).hom
+        ((M.smul ((bundle E).toBase.appLE W V hV a)).asHom.hom b) =
+      (((Scheme.Modules.pullback σ).obj M).smul a).asHom.hom
         (Scheme.Modules.pullbackSection σ M V W hWV b) :=
   (Scheme.Modules.pullbackSection_smul σ M V W hWV
       ((bundle E).toBase.appLE W V hV a) b).trans
     (congrArg (fun r : Γ(X, W) =>
-        (((Scheme.Modules.pullback σ).obj M).smul r).hom
+        (((Scheme.Modules.pullback σ).obj M).smul r).asHom.hom
           (Scheme.Modules.pullbackSection σ M V W hWV b))
       (appLE_appLE_toBase E hσ W V hV hWV a))
 

@@ -86,8 +86,15 @@ theorem exists_lower_bound_of_isCurve [Fintype k] (pr : ℕ) [Fact pr.Prime] [Ch
     rw [hrange] at h
     exact h
   have : Algebra.EssFiniteType F₀ X.functionField := Algebra.EssFiniteType.of_comp k F₀ _
-  have : FiniteDimensional F₀ X.functionField := Algebra.finite_of_essFiniteType_of_isAlgebraic
+  have : Module.Finite F₀ X.functionField :=
+    Algebra.finite_of_essFiniteType_of_isAlgebraic (F := F₀) (E := X.functionField)
   have htr₀ : Algebra.trdeg k F₀ = 1 := by
+    have : FaithfulSMul k F₀ :=
+      (faithfulSMul_iff_algebraMap_injective k F₀).2 (algebraMap k F₀).injective
+    have : FaithfulSMul F₀ X.functionField :=
+      (faithfulSMul_iff_algebraMap_injective F₀ X.functionField).2
+        (algebraMap F₀ X.functionField).injective
+    have : IsScalarTower k F₀ X.functionField := IntermediateField.isScalarTower_mid' F₀
     have h := trdeg_add_eq k F₀ (A := X.functionField)
     rw [_root_.trdeg_eq_zero (R := F₀) (A := X.functionField), add_zero, htrK] at h
     exact h

@@ -498,8 +498,8 @@ private lemma isLocalHom_algebraMap (R S : Type*) [CommRing R] [CommRing S] [Alg
     [IsLocalRing R] [IsLocalRing S] [Module.Finite R S] : IsLocalHom (algebraMap R S) := by
   refine ⟨fun a ha => notMem_maximalIdeal.mp fun h => notMem_maximalIdeal.mpr ha
     (Ideal.mem_comap.mp ?_)⟩
-  rwa [eq_maximalIdeal
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := R) (maximalIdeal S))]
+  rwa [← Ideal.under_def, eq_maximalIdeal
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) (maximalIdeal S))]
 
 /-- **04GH (1)**: a finite algebra over a henselian local ring is a finite product of henselian
 local rings, each finite over the base. -/
@@ -532,8 +532,8 @@ private lemma surjective_algebraMap_of_liesOver (R : Type u) (A : Type v) (Ap : 
     Function.Surjective (algebraMap A Ap) := by
   classical
   have hpmax : p.IsMaximal := by
-    refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := R) p ?_
-    rw [← Ideal.under_def, ← Ideal.over_def p (maximalIdeal R)]
+    refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) p ?_
+    rw [← Ideal.over_def p (maximalIdeal R)]
     exact maximalIdeal.isMaximal R
   obtain ⟨ι, hι, Aι, hAring, hAlocal, ⟨e⟩⟩ := exists_pi_isLocalRing_of_finite R A inferInstance
   obtain ⟨i, hi⟩ := exists_symm_single_notMem Aι e p

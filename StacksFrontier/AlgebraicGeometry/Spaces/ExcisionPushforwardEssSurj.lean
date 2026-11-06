@@ -49,6 +49,8 @@ universe u
 namespace AlgebraicGeometry.Space
 
 attribute [local instance] pointTopology
+attribute [local instance high] hasPullbacks_presheaf_ExcisionPushforwardGluing
+  hasPullback_presheaf_ExcisionPushforwardGluing
 
 /-- **Essential surjectivity of the base-change functor of Stacks 0BGY**, granted that the
 presheaf of pairs is an algebraic space. Every algebraic space over `V` which is unchanged over

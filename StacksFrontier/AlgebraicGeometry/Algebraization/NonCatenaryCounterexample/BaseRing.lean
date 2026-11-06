@@ -8,6 +8,8 @@ public import Mathlib.RingTheory.Filtration
 public import Mathlib.Algebra.MvPolynomial.CommRing
 public import Mathlib.RingTheory.Noetherian.Basic
 public import Mathlib.RingTheory.Ideal.Quotient.Noetherian
+public import Mathlib.RingTheory.Polynomial.Basic
+public import Mathlib.RingTheory.PrincipalIdealDomain
 
 /-!
 # The semilocal ring of the non-catenary counterexample to Stacks 0EJA

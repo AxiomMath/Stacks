@@ -4,6 +4,7 @@ public import Mathlib.Algebra.Category.ModuleCat.Presheaf.Abelian
 public import Mathlib.Algebra.Category.ModuleCat.Presheaf.EpiMono
 public import Mathlib.Algebra.Homology.DerivedCategory.Basic
 public import Mathlib.Algebra.Homology.DerivedCategory.ShortExact
+public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 public import Mathlib.Algebra.Homology.HomologicalComplexKernels
 public import Mathlib.Algebra.Homology.HomotopyFiber
 public import Mathlib.CategoryTheory.Abelian.Exact

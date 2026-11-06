@@ -164,8 +164,8 @@ private theorem nonempty_isColimit_powerCofan [FinitaryPreExtensive C]
       apply Pi.hom_ext
       intro a
       dsimp [k, d, Cofan.inj, PullbackCone.snd, PullbackCone.mk, productTailProjection]
-      simp only [Category.id_comp, Category.assoc, Pi.map_π, Pi.lift_π]
-      rw [Pi.lift_π_assoc (f := fun b : Fin n ↦ X (j b))]
+      simp only [Category.id_comp, Category.assoc, Pi.map_π, Pi.lift_comp_π]
+      rw [Pi.lift_comp_π_assoc (f := fun b : Fin n ↦ X (j b))]
       rfl
 
 /-- The cofan in the slice category over `T` whose summands are the members of the family `E`
@@ -207,7 +207,7 @@ private theorem cechProductMap_coproduct {T : C} (E : PreZeroHypercover.{w} T)
     apply Pi.hom_ext
     intro a
     dsimp [m]
-    simp only [Category.assoc, Pi.lift_π]
+    simp only [Category.assoc, Pi.lift_comp_π]
     apply Over.OverMorphism.ext
     simp [e, coproductOverCofan, Cofan.inj]
   simpa [Over.comp_left, e] using congrArg (fun f ↦ f.left) hm
@@ -259,7 +259,7 @@ theorem isIso_cechComplexMap_of_preservesFiniteProducts [FinitaryExtensive C]
       refine (cechComplexMap_f_Pi_π E
         (PreZeroHypercover.singleton.{w} (Sigma.desc E.f)) (coproductRefinement E) F n i).trans ?_
       dsimp [m, G, c, cechSimplicialObject, cechFormalCoproduct]
-      rw [Category.assoc, Pi.lift_π, cechProductMap_coproduct]
+      rw [Category.assoc, Pi.lift_comp_π, cechProductMap_coproduct]
       rfl
     rw [heq]
     have : IsIso (Pi.π (fun j : Fin (n + 1) → PUnit.{w + 1} ↦
@@ -351,8 +351,8 @@ private theorem nonempty_isColimit_powerCofan'
       apply Pi.hom_ext
       intro a
       dsimp [k, d, Cofan.inj, PullbackCone.snd, PullbackCone.mk, productTailProjection]
-      simp only [Category.id_comp, Category.assoc, Pi.map_π, Pi.lift_π]
-      rw [Pi.lift_π_assoc (f := fun b : Fin n ↦ X (j b))]
+      simp only [Category.id_comp, Category.assoc, Pi.map_π, Pi.lift_comp_π]
+      rw [Pi.lift_comp_π_assoc (f := fun b : Fin n ↦ X (j b))]
       rfl
 
 attribute [local implicit_reducible] coproductOverCofan
@@ -414,7 +414,7 @@ private theorem isIso_cechComplexMap_aux
       refine (cechComplexMap_f_Pi_π E
         (PreZeroHypercover.singleton.{w} (Sigma.desc E.f)) (coproductRefinement E) F n i).trans ?_
       dsimp [m, G, c, cechSimplicialObject, cechFormalCoproduct]
-      rw [Category.assoc, Pi.lift_π, cechProductMap_coproduct]
+      rw [Category.assoc, Pi.lift_comp_π, cechProductMap_coproduct]
       rfl
     rw [heq]
     have : IsIso (Pi.π (fun j : Fin (n + 1) → PUnit.{w + 1} ↦

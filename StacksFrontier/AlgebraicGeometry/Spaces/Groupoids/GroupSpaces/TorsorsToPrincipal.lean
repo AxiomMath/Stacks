@@ -158,6 +158,13 @@ end TorsorsFor
 
 section Principal
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_TorsorsToPrincipal
+    {X Y Z : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 universe u₁ v₁ w
 
 /-- A property of morphisms which is stable under base change and local at the target for a

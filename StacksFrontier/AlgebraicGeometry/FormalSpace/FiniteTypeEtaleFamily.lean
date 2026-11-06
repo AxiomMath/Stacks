@@ -160,7 +160,7 @@ theorem imageSieve_iSup_mem_comp {ι : Type*} {A B' : ι → Cᵒᵖ ⥤ Type w}
   refine ⟨_, ⟨i, rfl⟩, y, ?_⟩
   show (ψ i ≫ φ i).app (Opposite.op V'') y = F.map (d ≫ c).op s
   rw [NatTrans.comp_app, types_comp_apply, hy, (φ i).naturality_apply d.op z, hz,
-    ← FunctorToTypes.map_comp_apply]
+    ← Functor.map_comp_apply]
   rfl
 
 end Sieves
@@ -452,7 +452,7 @@ theorem exists_schemeChart_pullback_of_etaleFamily {X Y : FppfSheaf B S hS} (f :
   let : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
   have hEsheaf : Presheaf.IsSheaf (BigFppfOver.topology B S hS) (pullback ξ f.hom) :=
     Presheaf.isSheaf_pullback _ ξ f.hom
-      (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS T).isSheaf X.cond Y.cond
+      (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS T).isSheaf X.property Y.property
   choose Zt β hβS hβE hge using fun i =>
     exists_memberChart_pullback B S hS f (p i) (hp i) (hlft i).1 T ξ
   -- each member chart is locally of finite type over `T`
@@ -525,7 +525,7 @@ theorem IsLocallyOfFiniteType.of_etaleFamily {X Y : FppfSheaf B S hS} (f : X ⟶
     obtain ⟨Z, -, q, -, hqs, hqe, -⟩ := hchart T ξ
     exact Space.isAlgebraicSpaceULift_of_relative_surjective_etale B S hS
       (Presheaf.isSheaf_pullback _ ξ f.hom
-        (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS T).isSheaf X.cond Y.cond)
+        (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS T).isSheaf X.property Y.property)
       (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS Z) q hqs hqe
   refine ⟨hrepf, fun T ξ => ?_⟩
   show Space.IsLocallyOfFiniteTypeULift.{u + 1} B S hS (pullback.fst ξ f.hom)

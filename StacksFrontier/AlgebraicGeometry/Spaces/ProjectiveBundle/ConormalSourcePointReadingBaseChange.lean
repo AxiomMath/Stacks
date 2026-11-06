@@ -240,6 +240,7 @@ theorem pointZariskiModuleBaseChangeIso_inv_comp_hom {T T' : BigFppfOver B S hS}
         (pointHom x)).app A) (zariskiReadingPullbackIso h _ (isQuasicoherentOnSite_pointPullback X A
         hA T x))
 
+set_option maxHeartbeats 800000 in
 /-- **The source of the conormal isomorphism of Stacks 0B4I read at scheme points is compatible
 with base change**, given the monoidality of the base change of the Zariski reading and the base
 change of the inverse-line factor: for `x : T ⟶ X` and `h : T' ⟶ T`, the identification of the

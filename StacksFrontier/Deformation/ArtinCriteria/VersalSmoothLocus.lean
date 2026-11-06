@@ -36,7 +36,6 @@ attribute [local implicit_reducible] CategoryTheory.Functor.TwoYoneda.liftBased
   CategoryTheory.Functor.TwoYoneda.liftFunctor
   CategoryTheory.TwoFibreProductOver.fst
   CategoryTheory.BasedCategory.ofFunctor
-  CategoryTheory.Over.post
 
 variable (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   (𝒳 : CatFiberedInGroupoids.{u, v, u + 1, w} (AlgebraicGeometry.BigFppfOver B S hS))

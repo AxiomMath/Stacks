@@ -47,11 +47,13 @@ theorem existsUnique_derivation_of_structureSharpInverseImage_vanishing (i : Z �
     {R : (SmallEtale B S hS Z.1)ᵒᵖ ⥤ CommRingCat.{u}}
     (a : R ⟶ (inverseImageStructureSheaf B S hS i).obj)
     (W : Modules.{u, u} B S hS Z.1 Z.2)
-    (D : (Stacks.Sites.Conormal.restrictModuleAlong (SmallEtale.topology B S hS Z.1) W
-      (structureSharpInverseImage B S hS i).hom).Derivation' a)
+    (D : PresheafOfModulesOfCommRing.Derivation'
+      (Stacks.Sites.Conormal.restrictModuleAlong (SmallEtale.topology B S hS Z.1) W
+        (structureSharpInverseImage B S hS i).hom) a)
     (hD : ∀ (U : (SmallEtale B S hS Z.1)ᵒᵖ) (x : (inverseImageStructureSheaf B S hS i).obj.obj U),
       ((structureSharpInverseImage B S hS i).hom.app U) x = 0 → D.d x = 0) :
-    ∃! D' : W.val.Derivation' (a ≫ (structureSharpInverseImage B S hS i).hom),
+    ∃! D' : PresheafOfModulesOfCommRing.Derivation' W.val
+      (a ≫ (structureSharpInverseImage B S hS i).hom),
       ∀ (U : (SmallEtale B S hS Z.1)ᵒᵖ) (x : (inverseImageStructureSheaf B S hS i).obj.obj U),
         D'.d (((structureSharpInverseImage B S hS i).hom.app U) x) = D.d x := by
   have := isLocallySurjective_structureSharpInverseImage_of_isImmersion B S hS i hi
@@ -65,9 +67,11 @@ noncomputable def derivationStructureSharpInverseImageKernelEquiv (i : Z ⟶ X)
     {R : (SmallEtale B S hS Z.1)ᵒᵖ ⥤ CommRingCat.{u}}
     (a : R ⟶ (inverseImageStructureSheaf B S hS i).obj)
     (W : Modules.{u, u} B S hS Z.1 Z.2) :
-    W.val.Derivation' (a ≫ (structureSharpInverseImage B S hS i).hom) ≃
-      {D : (Stacks.Sites.Conormal.restrictModuleAlong (SmallEtale.topology B S hS Z.1) W
-          (structureSharpInverseImage B S hS i).hom).Derivation' a //
+    PresheafOfModulesOfCommRing.Derivation' W.val
+      (a ≫ (structureSharpInverseImage B S hS i).hom) ≃
+      {D : PresheafOfModulesOfCommRing.Derivation'
+          (Stacks.Sites.Conormal.restrictModuleAlong (SmallEtale.topology B S hS Z.1) W
+            (structureSharpInverseImage B S hS i).hom) a //
         ∀ (U : (SmallEtale B S hS Z.1)ᵒᵖ)
           (x : (inverseImageStructureSheaf B S hS i).obj.obj U),
           ((structureSharpInverseImage B S hS i).hom.app U) x = 0 → D.d x = 0} :=

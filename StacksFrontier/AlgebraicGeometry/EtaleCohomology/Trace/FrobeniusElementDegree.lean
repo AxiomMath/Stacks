@@ -63,7 +63,7 @@ variable {S : Scheme.{u}} [ConnectedSpace S] (z : GeometricPoint S)
 geometric fibre at `z` by precomposition, naturally in the cover: an element of `π₁(S, z)`. -/
 def GeometricPoint.sourceAutElement (α : z.source ≅ z.source) (hα : α.hom ≫ z.hom = z.hom) :
     EtaleFundamentalGroup S z :=
-  NatIso.ofComponents (fun V => Equiv.toIso
+  Aut.of <| NatIso.ofComponents (fun V => Equiv.toIso
     { toFun := fun q => ⟨α.hom ≫ q.1, by rw [Category.assoc, q.2, hα]⟩
       invFun := fun q => ⟨α.inv ≫ q.1, by
         rw [Category.assoc, q.2]
@@ -77,7 +77,7 @@ def GeometricPoint.sourceAutElement (α : z.source ≅ z.source) (hα : α.hom �
 /-- The element given by an automorphism of the source acts by precomposition. -/
 theorem GeometricPoint.sourceAutElement_app_coe (α : z.source ≅ z.source)
     (hα : α.hom ≫ z.hom = z.hom) (V : FiniteEtaleOver S) (q : finiteEtaleFiber z V) :
-    (((z.sourceAutElement α hα).app V).hom q).1 = α.hom ≫ q.1 :=
+    (((z.sourceAutElement α hα).asIso.app V).hom q).1 = α.hom ≫ q.1 :=
   rfl
 
 end SourceAut
@@ -168,7 +168,7 @@ theorem finiteFieldFrobenius_pow_app_coe_specMap (hq : Fintype.card k = p ^ n)
     (z : GeometricPoint (Spec (.of k))) (d : ℕ) (V : FiniteEtaleOver (Spec (.of k)))
     (q : finiteEtaleFiber z V) :
     haveI := z.charP_residueField p
-    ((((finiteFieldFrobenius p n hq z) ^ d).app V).hom q).1 =
+    ((((finiteFieldFrobenius p n hq z) ^ d).asIso.app V).hom q).1 =
       Spec.map (CommRingCat.ofHom (iterateFrobenius z.residueField p (n * d))) ≫ q.1 := by
   have := z.charP_residueField p
   induction d generalizing q with
@@ -177,8 +177,8 @@ theorem finiteFieldFrobenius_pow_app_coe_specMap (hq : Fintype.card k = p ^ n)
     rfl
   | succ d ih =>
     rw [pow_succ]
-    show ((((finiteFieldFrobenius p n hq z) ^ d).app V).hom
-      (((finiteFieldFrobenius p n hq z).app V).hom q)).1 = _
+    show ((((finiteFieldFrobenius p n hq z) ^ d).asIso.app V).hom
+      (((finiteFieldFrobenius p n hq z).asIso.app V).hom q)).1 = _
     rw [ih]
     show _ ≫ (frobeniusSourceIso p n z).hom ≫ q.1 = _
     rw [frobeniusSourceIso_hom, ← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
@@ -189,7 +189,7 @@ theorem finiteFieldFrobenius_pow_app_coe_specMap (hq : Fintype.card k = p ^ n)
 theorem finiteFieldFrobenius_pow_app_coe (hq : Fintype.card k = p ^ n)
     (z : GeometricPoint (Spec (.of k))) (d : ℕ) (V : FiniteEtaleOver (Spec (.of k)))
     (q : finiteEtaleFiber z V) :
-    ((((finiteFieldFrobenius p n hq z) ^ d).app V).hom q).1 =
+    ((((finiteFieldFrobenius p n hq z) ^ d).asIso.app V).hom q).1 =
       q.1 ≫ (frobeniusCoverEnd p n hq V d).left := by
   rw [finiteFieldFrobenius_pow_app_coe_specMap, specMap_iterateFrobenius_eq]
   exact absoluteFrobeniusPow_naturality q.1 p _ _ _
@@ -266,7 +266,7 @@ theorem localElement_frobeniusDataOfPath_app_baseChange
     (V : FiniteEtaleOver (Spec (.of k)))
     (s : finiteEtaleFiber (Stacks.Frobenius.geometricPointAt X y.1)
       ((finiteEtaleBaseChange f).obj V)) :
-    (((Stacks.EtaleCohomology.frobeniusDataOfPath x y t).localElement.app
+    (((Stacks.EtaleCohomology.frobeniusDataOfPath x y t).localElement.asIso.app
         ((finiteEtaleBaseChange f).obj V)).hom s) =
       (finiteEtaleFiberFunctor (Stacks.Frobenius.geometricPointAt X y.1)).map
         ((finiteEtaleBaseChange f).map
@@ -283,21 +283,21 @@ theorem etaleFundamentalGroupMap_element_frobeniusDataOfPath
       finiteFieldFrobenius p n hq (x.map f) ^ Stacks.EtaleCohomology.residueDegree f y.1 := by
   set c := Stacks.EtaleCohomology.frobeniusDataOfPath x y t
   set d := Stacks.EtaleCohomology.residueDegree f y.1
-  refine Iso.ext (NatTrans.ext (funext fun V => ?_))
+  refine Aut.ext (Iso.ext (NatTrans.ext (funext fun V => ?_)))
   ext q
   apply Subtype.ext
-  show (((etaleFundamentalGroupMap f x c.element).app V).hom q).1 =
-    ((((finiteFieldFrobenius p n hq (x.map f)) ^ d).app V).hom q).1
+  show (((etaleFundamentalGroupMap f x c.element).asIso.app V).hom q).1 =
+    ((((finiteFieldFrobenius p n hq (x.map f)) ^ d).asIso.app V).hom q).1
   rw [finiteFieldFrobenius_pow_app_coe]
   let w := (finiteEtaleFiberProjectionEquiv f x V).symm q
   let fe := (finiteEtaleBaseChange f).map (frobeniusCoverEnd p n hq V d)
-  have h1 : ((etaleFundamentalGroupMap f x c.element).app V).hom q =
-      finiteEtaleFiberProjection f x V ((c.element.app _).hom w) :=
+  have h1 : ((etaleFundamentalGroupMap f x c.element).asIso.app V).hom q =
+      finiteEtaleFiberProjection f x V ((c.element.asIso.app _).hom w) :=
     etaleFundamentalGroupMonoidHom_app_apply f x V c.element q
-  have h2 : (c.element.app ((finiteEtaleBaseChange f).obj V)).hom w =
-      t.hom.app _ ((c.localElement.app _).hom (t.inv.app _ w)) :=
+  have h2 : (c.element.asIso.app ((finiteEtaleBaseChange f).obj V)).hom w =
+      t.hom.app _ ((c.localElement.asIso.app _).hom (t.inv.app _ w)) :=
     Stacks.FundamentalGroup.conjAut_app_apply_inv t c.localElement _ w
-  have h3 : (c.localElement.app ((finiteEtaleBaseChange f).obj V)).hom (t.inv.app _ w) =
+  have h3 : (c.localElement.asIso.app ((finiteEtaleBaseChange f).obj V)).hom (t.inv.app _ w) =
       (finiteEtaleFiberFunctor (Stacks.Frobenius.geometricPointAt X y.1)).map fe
         (t.inv.app _ w) :=
     localElement_frobeniusDataOfPath_app_baseChange p n hq f x y t V _

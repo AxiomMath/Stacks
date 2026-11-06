@@ -367,8 +367,8 @@ private noncomputable abbrev freeOne.{u', v', r', m'} {C : Type u'} [Category.{v
         (Y := (ModuleCat.restrictScalars (R.obj.map f).hom).obj
           (ModuleCat.of (R.obj.obj Y) (ULift.{max u' v' r' m'} (R.obj.obj Y))))
         { toFun := fun c ↦ ULift.up ((R.obj.map f).hom c.down)
-          map_add' := fun c d ↦ ULift.ext _ _ (map_add (R.obj.map f).hom c.down d.down)
-          map_smul' := fun s c ↦ ULift.ext _ _ (map_mul (R.obj.map f).hom s c.down) }
+          map_add' := fun c d ↦ ULift.ext (map_add (R.obj.map f).hom c.down d.down)
+          map_smul' := fun s c ↦ ULift.ext (map_mul (R.obj.map f).hom s c.down) }
       map_id := fun X ↦ by ext c; exact congrArg ULift.up (by simp)
       map_comp := fun f g ↦ by
         ext c
@@ -407,7 +407,7 @@ private theorem freeOne_hom_ext.{u', v', r', m'} {C : Type u'} [Category.{v'} C]
   refine ModuleCat.hom_ext (LinearMap.ext fun ⟨s⟩ ↦ ?_)
   show g₁.hom (ULift.up s) = g₂.hom (ULift.up s)
   have hs : (ULift.up s : ULift.{max u' v' r' m'} (R.obj.obj X)) =
-      s • ULift.up (1 : R.obj.obj X) := ULift.ext _ _ (by simp)
+      s • ULift.up (1 : R.obj.obj X) := ULift.ext (by simp)
   rw [hs, map_smul, map_smul, h]
 
 /-- Postcomposition evaluated at the canonical generator. -/

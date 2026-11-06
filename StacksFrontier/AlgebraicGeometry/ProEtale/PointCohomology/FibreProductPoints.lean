@@ -100,7 +100,7 @@ def prodPointHom (ψ : Compatible f) :
 /-- Composing `prodPointHom f ψ` with the `a`-th projection gives the morphism of `ψ a`. -/
 lemma prodPointHom_π (ψ : Compatible f) (a : ι) :
     (prodPointHom f ψ ≫ Pi.π (fun a ↦ Over.mk (f a)) a).left = toHom (ψ.1 a) := by
-  rw [prodPointHom, Pi.lift_π]
+  rw [prodPointHom, Pi.lift_comp_π]
   rfl
 
 /-- The geometric point of a product with prescribed components. -/
@@ -150,7 +150,7 @@ lemma prodComponents_reindex {ι' : Type*} [Nonempty ι'] (g : ι' → ι)
     (prodComponents (fun b ↦ f (g b)) (map (Pi.lift fun b ↦
       Pi.π (fun a ↦ Over.mk (f a)) (g b)).left θ)).1 b = (prodComponents f θ).1 (g b) := by
   change map _ (map _ θ) = map _ θ
-  rw [← map_comp, ← Over.comp_left, Pi.lift_π]
+  rw [← map_comp, ← Over.comp_left, Pi.lift_comp_π]
 
 /-- **Over an affine base, geometric points of a fibre product of affine objects are
 compatible families, homeomorphically.** -/

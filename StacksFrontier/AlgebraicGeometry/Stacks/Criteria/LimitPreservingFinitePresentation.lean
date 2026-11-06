@@ -80,7 +80,6 @@ attribute [local implicit_reducible] Cat.category StrictBicategory.category
   Pseudofunctor.CoGrothendieck.forget BasedCategory.ofFunctor
   PresheafOfCategories.objEquiv Functor.Fiber Functor.Fiber.fiberInclusion
   Functor.ChoiceOfPullbacks.sliceFunctor TwoFibreProductOver.fst
-  Over.post
 
 namespace AlgebraicGeometry.Stack
 
@@ -1020,7 +1019,6 @@ theorem isLimitPreservingOnObjects_iff_isLocallyOfFinitePresentation
         have hstage : (E.obj (D₀.obj j)).hom = eqToHom hbase' ≫ Ds.map j.hom := by
           apply Over.OverMorphism.ext
           simp [E, nestedOverToOver, nestedOverObject, D₀]
-          rfl
         rw [hk', hstage]
         simp only [eqToHom_map, ← Category.assoc, eqToHom_trans]
       rw [← hb] at hh

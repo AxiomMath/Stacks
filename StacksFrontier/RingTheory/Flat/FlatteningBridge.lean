@@ -108,7 +108,6 @@ theorem includeLeftRingHom_surjective {A : Type u} {B : Type v} {C : Type w} [Co
     Function.Surjective (Algebra.TensorProduct.includeLeftRingHom : B →+* B ⊗[A] C) := by
   intro x
   induction x with
-  | zero => exact ⟨0, map_zero _⟩
   | add x y hx hy =>
       obtain ⟨b, rfl⟩ := hx
       obtain ⟨c, rfl⟩ := hy

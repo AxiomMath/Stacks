@@ -143,8 +143,8 @@ private theorem nonempty_fiberFunctor_iso
     [PreGaloisCategory.FiberFunctor H] : Nonempty (F ≅ H) := by
   obtain ⟨f⟩ := nonempty_natTrans F H
   obtain ⟨g⟩ := nonempty_natTrans H F
-  have : IsIso (f ≫ g) := PreGaloisCategory.FibreFunctor.end_isIso F (f ≫ g)
-  have : IsIso (g ≫ f) := PreGaloisCategory.FibreFunctor.end_isIso H (g ≫ f)
+  have : IsIso (f ≫ g) := PreGaloisCategory.FibreFunctor.end_isIso F (End.of (f ≫ g))
+  have : IsIso (g ≫ f) := PreGaloisCategory.FibreFunctor.end_isIso H (End.of (g ≫ f))
   have : Mono f := mono_of_mono f g
   have : IsSplitEpi f := IsSplitEpi.mk' ⟨inv (g ≫ f) ≫ g, by simp⟩
   have : IsIso f := isIso_of_mono_of_isSplitEpi f

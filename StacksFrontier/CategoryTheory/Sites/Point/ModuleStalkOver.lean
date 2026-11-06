@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.PushforwardContinuous
+public import Mathlib.CategoryTheory.Comma.LocallySmall
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.StalkSemilinearComparison
 public import StacksFrontier.CategoryTheory.Sites.Point.LocalizedPoint
 
@@ -80,7 +81,7 @@ lemma toPresheafFiber_comp_presheafFiberOverIso_hom_app (P : Cᵒᵖ ⥤ A) (W :
         (presheafFiberOverIso Φ q A).hom.app P =
       Φ.toPresheafFiber W.left y.val P :=
   Functor.Final.ι_colimitIso_hom (overElements Φ q).op
-    ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op ⟨W, y⟩)
+    ((Functor.Elements.π Φ.fiber).op ⋙ P) (op ((Φ.over q).fiber.elementsMk W y))
 
 end CategoryTheory.GrothendieckTopology.Point
 
@@ -132,6 +133,7 @@ section Module
 variable (O : Sheaf J CommRingCat.{w}) [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
   [(J.over V).HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 
+set_option maxHeartbeats 400000 in
 /-- The underlying additive comparison of `Stacks.sheafModuleFiberOverIso`: the stalk at
 `Φ.over q` of the restriction of `M` to the localized site is the stalk of `M` at `Φ`, as
 abelian groups. It is `presheafFiberOverIso` for the underlying presheaf of abelian groups. -/

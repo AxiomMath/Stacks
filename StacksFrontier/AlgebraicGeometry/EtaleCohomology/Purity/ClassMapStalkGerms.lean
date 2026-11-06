@@ -565,9 +565,9 @@ theorem classMapGermMap_sliceIsoGermMap
   obtain ⟨W, w, c, z, hc, rfl⟩ := exists_germ_over Φ v₂
     (P := (smallEtaleModuleSheafForgetAb (ZMod N) G).obj) p
   have ha : Φ.fiber.map (c ≫ a₂) w = v := by
-    rw [FunctorToTypes.map_comp_apply, hc, ha₂]
+    rw [Functor.map_comp_apply, hc, ha₂]
   have hb : Φ.fiber.map (c ≫ b₂) w = v₁ := by
-    rw [FunctorToTypes.map_comp_apply, hc, hb₂]
+    rw [Functor.map_comp_apply, hc, hb₂]
   rw [sliceIsoGermMap_germ N Φ v₁ ρ w (c ≫ b₂) hb,
     classMapGermMap_germ g q N s Φ v κ hζ G' w (c ≫ a₂) ha,
     classMapGermMap_germ g q N s Φ v κ hζ G w (c ≫ a₂) ha,

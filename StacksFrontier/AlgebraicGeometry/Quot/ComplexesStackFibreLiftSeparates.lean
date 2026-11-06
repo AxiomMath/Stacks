@@ -297,7 +297,7 @@ theorem fibreLift_nonempty_iso_of_isomorphic
     y.1.hom.a y'.1.hom.a g hg htg hl hgl _ _ _ _ _ _ _ _ hK h
   have hbase : y.1.right.base = y'.1.right.base :=
     (congrArg Under.right y.2).trans (congrArg Under.right y'.2).symm
-  have hFn : (complexesToBaseObjects D).map n = Γ := ULift.ext _ _ hn
+  have hFn : (complexesToBaseObjects D).map n = Γ := ULift.ext hn
   have hna : (complexesFunctor D).IsHomLift (eqToHom hbase) n := by
     refine IsHomLift.of_fac' _ _ _ y.1.right.hx y'.1.right.hx ?_
     show n.base.left = _

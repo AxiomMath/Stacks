@@ -185,8 +185,8 @@ theorem chart_inf_chart_le_basicOpen (j k : Fin n) :
   rw [← germ_blowUpChartMap (Stacks.MoreMorphisms.coordinateIdeal R m n)
     (Stacks.MoreMorphisms.topAffineOpen R m n) (centreSection R m n j) x hxj] at hj hk
   change _ = Ideal.span {gj} at hj
-  change _ = Ideal.span {(coordinateBlowup R m n).presheaf.germ (chart R m n j) x hxj
-      ((chartMap R m n j).hom (coord R m n k))} at hk
+  change _ = Ideal.span (singleton ((coordinateBlowup R m n).presheaf.germ (chart R m n j) x hxj
+      ((chartMap R m n j).hom (coord R m n k)))) at hk
   rw [hgk] at hk
   exact isUnit_of_span_singleton_mul_eq (germ_chartMap_coord_mem_nonZeroDivisors R m n j x hxj)
     (hk.symm.trans hj)

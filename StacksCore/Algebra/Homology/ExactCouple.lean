@@ -71,17 +71,17 @@ structure ExactCouple (C : Type*) [Category* C] [Abelian C] where
   /-- The morphism `g : A → E`. -/
   g : A ⟶ E
   /-- `g ∘ α = 0`. -/
-  α_g : α ≫ g = 0 := by cat_disch
+  α_g : α.asHom ≫ g = 0 := by cat_disch
   /-- `f ∘ g = 0`. -/
   g_f : g ≫ f = 0 := by cat_disch
   /-- `α ∘ f = 0`. -/
-  f_α : f ≫ α = 0 := by cat_disch
+  f_α : f ≫ α.asHom = 0 := by cat_disch
   /-- Exactness at the target of `α`: `Ker g = Im α`. -/
-  exact_α : (ShortComplex.mk α g α_g).Exact
+  exact_α : (ShortComplex.mk α.asHom g α_g).Exact
   /-- Exactness at `E`: `Ker f = Im g`. -/
   exact_g : (ShortComplex.mk g f g_f).Exact
   /-- Exactness at the source of `α`: `Ker α = Im f`. -/
-  exact_f : (ShortComplex.mk f α f_α).Exact
+  exact_f : (ShortComplex.mk f α.asHom f_α).Exact
 
 namespace ExactCouple
 
@@ -96,7 +96,7 @@ structure Hom (X Y : ExactCouple C) where
   /-- The component `t_E : X.E ⟶ Y.E`. -/
   tE : X.E ⟶ Y.E
   /-- `t_A` commutes with `α`. -/
-  comm_α : X.α ≫ tA = tA ≫ Y.α := by cat_disch
+  comm_α : X.α.asHom ≫ tA = tA ≫ Y.α.asHom := by cat_disch
   /-- `t` commutes with `f`. -/
   comm_f : X.f ≫ tA = tE ≫ Y.f := by cat_disch
   /-- `t` commutes with `g`. -/
@@ -121,16 +121,16 @@ lemma hom_ext {X Y : ExactCouple C} {φ ψ : X ⟶ Y} (hA : φ.tA = ψ.tA) (hE :
 variable (X : ExactCouple C)
 
 /-- `α^{n+1} = α ≫ α^n`: the monoid power on `End A` as a composition. -/
-lemma pow_succ_eq (n : ℕ) : X.α ^ (n + 1) = X.α ≫ (X.α ^ n) := by
-  rw [pow_succ, End.mul_def]
+lemma pow_succ_eq (n : ℕ) : (X.α ^ (n + 1)).asHom = X.α.asHom ≫ (X.α ^ n).asHom := by
+  rw [pow_succ, End.mul_asHom]
 
 /-- `α^{n+1} = α^n ≫ α`: the monoid power on `End A` as a composition. -/
-lemma pow_succ_eq' (n : ℕ) : X.α ^ (n + 1) = (X.α ^ n) ≫ X.α := by
-  rw [pow_succ', End.mul_def]
+lemma pow_succ_eq' (n : ℕ) : (X.α ^ (n + 1)).asHom = (X.α ^ n).asHom ≫ X.α.asHom := by
+  rw [pow_succ', End.mul_asHom]
 
 /-- `α^0 = 𝟙 A`. -/
-lemma pow_zero_eq : X.α ^ 0 = 𝟙 X.A := by
-  rw [pow_zero, End.one_def]
+lemma pow_zero_eq : (X.α ^ 0).asHom = 𝟙 X.A := by
+  rw [pow_zero, End.one_asHom]
 
 /-- The differential `d = g ∘ f : E ⟶ E` of an exact couple (in Lean's order, `f ≫ g`). -/
 def d : X.E ⟶ X.E := X.f ≫ X.g
@@ -181,8 +181,8 @@ lemma iCycles_d : X.dComplex.iCycles ≫ X.d = 0 := X.dComplex.iCycles_g
 lemma d_pOpcycles : X.d ≫ X.dComplex.pOpcycles = 0 := X.dComplex.f_pOpcycles
 
 /-- `α' : Im α ⟶ Im α`, the endomorphism of `A' = Im α` induced by `α`. -/
-noncomputable def α' : Abelian.image X.α ⟶ Abelian.image X.α :=
-  Abelian.image.ι X.α ≫ Abelian.factorThruImage X.α
+noncomputable def α' : Abelian.image X.α.asHom ⟶ Abelian.image X.α.asHom :=
+  Abelian.image.ι X.α.asHom ≫ Abelian.factorThruImage X.α.asHom
 
 /-- A map `g` between images of `a` and `b` lying over `p` is compatible with the projections. -/
 private lemma factorThruImage_comp_eq_of_comp_ι {A B : C} {a : A ⟶ A} {b : B ⟶ B} {p : A ⟶ B}
@@ -194,22 +194,22 @@ private lemma factorThruImage_comp_eq_of_comp_ι {A B : C} {a : A ⟶ A} {b : B 
 
 /-- `α'` followed by the inclusion `Im α ⊆ A` is the inclusion followed by `α`. -/
 @[reassoc (attr := simp)]
-lemma α'_ι : X.α' ≫ Abelian.image.ι X.α = Abelian.image.ι X.α ≫ X.α := by
+lemma α'_ι : X.α' ≫ Abelian.image.ι X.α.asHom = Abelian.image.ι X.α.asHom ≫ X.α.asHom := by
   unfold α'; rw [assoc, Abelian.image.fac]
 
 /-- The projection `A ↠ Im α` followed by `α'` is `α` followed by the projection. -/
 @[reassoc (attr := simp)]
 lemma factorThruImage_α' :
-    Abelian.factorThruImage X.α ≫ X.α' = X.α ≫ Abelian.factorThruImage X.α := by
+    Abelian.factorThruImage X.α.asHom ≫ X.α' = X.α.asHom ≫ Abelian.factorThruImage X.α.asHom := by
   exact factorThruImage_comp_eq_of_comp_ι rfl X.α'_ι
 
 /-- `f` followed by the projection `A ↠ Im α` vanishes, since `α ∘ f = 0`. -/
 @[reassoc (attr := simp)]
-lemma f_factorThruImage : X.f ≫ Abelian.factorThruImage X.α = 0 := by
-  rw [← cancel_mono (Abelian.image.ι X.α), assoc, Abelian.image.fac, X.f_α, zero_comp]
+lemma f_factorThruImage : X.f ≫ Abelian.factorThruImage X.α.asHom = 0 := by
+  rw [← cancel_mono (Abelian.image.ι X.α.asHom), assoc, Abelian.image.fac, X.f_α, zero_comp]
 
 /-- `f` maps `Ker d` into `Im α = Ker (A ↠ Coker α)`, by exactness at the target of `α`. -/
-lemma iCycles_f_comp_cokernelπ : (X.dComplex.iCycles ≫ X.f) ≫ cokernel.π X.α = 0 := by
+lemma iCycles_f_comp_cokernelπ : (X.dComplex.iCycles ≫ X.f) ≫ cokernel.π X.α.asHom = 0 := by
   have h₁ : (X.dComplex.iCycles ≫ X.f) ≫ X.g = 0 := by
     rw [assoc, ← d_def, X.dComplex.iCycles_g]
   have h₂ := (ShortComplex.exact_iff_kernel_ι_comp_cokernel_π_zero _).1 X.exact_α
@@ -217,23 +217,23 @@ lemma iCycles_f_comp_cokernelπ : (X.dComplex.iCycles ≫ X.f) ≫ cokernel.π X
 
 /-- `f' : Ker d / Im d ⟶ Im α`, the morphism induced by `f` on `E' = Ker d / Im d` (it kills
 `Im d` since `f ∘ d = 0`). -/
-noncomputable def f' : X.dComplex.homology ⟶ Abelian.image X.α :=
-  X.dComplex.descHomology (kernel.lift (cokernel.π X.α) (X.dComplex.iCycles ≫ X.f)
+noncomputable def f' : X.dComplex.homology ⟶ Abelian.image X.α.asHom :=
+  X.dComplex.descHomology (kernel.lift (cokernel.π X.α.asHom) (X.dComplex.iCycles ≫ X.f)
     X.iCycles_f_comp_cokernelπ) (by
-      rw [← cancel_mono (kernel.ι (cokernel.π X.α)), assoc, kernel.lift_ι, zero_comp,
+      rw [← cancel_mono (kernel.ι (cokernel.π X.α.asHom)), assoc, kernel.lift_ι, zero_comp,
         X.dComplex.toCycles_i_assoc, dComplex_f, d_f])
 
 /-- `f'` composed with the quotient `Ker d ↠ E'` and the inclusion `Im α ⊆ A` is `f` on
 `Ker d`. -/
 @[reassoc (attr := simp)]
 lemma homologyπ_f'_ι :
-    X.dComplex.homologyπ ≫ X.f' ≫ Abelian.image.ι X.α = X.dComplex.iCycles ≫ X.f := by
+    X.dComplex.homologyπ ≫ X.f' ≫ Abelian.image.ι X.α.asHom = X.dComplex.iCycles ≫ X.f := by
   unfold f'; rw [ShortComplex.π_descHomology_assoc]; exact kernel.lift_ι _ _ _
 
 /-- `f'` on the class of a cycle `k` is `f ∘ k`, viewed in `A`. -/
 @[reassoc]
 lemma liftCycles_homologyπ_f'_ι {T : C} (k : T ⟶ X.E) (hk : k ≫ X.dComplex.g = 0) :
-    X.dComplex.liftCycles k hk ≫ X.dComplex.homologyπ ≫ X.f' ≫ Abelian.image.ι X.α =
+    X.dComplex.liftCycles k hk ≫ X.dComplex.homologyπ ≫ X.f' ≫ Abelian.image.ι X.α.asHom =
       k ≫ X.f := by
   rw [homologyπ_f'_ι, ShortComplex.liftCycles_i_assoc]
 
@@ -252,10 +252,10 @@ lemma f_liftCycles_g_homologyπ :
 /-- `Ker α` is killed by `A →g Ker d ↠ E'`: by exactness at the source of `α`, an element of
 `Ker α` is `f x`, and `g f x = d x` is a boundary. Proved by refinements. -/
 lemma kernelι_comp_liftCycles_homologyπ :
-    kernel.ι (Abelian.factorThruImage X.α) ≫
+    kernel.ι (Abelian.factorThruImage X.α.asHom) ≫
       X.dComplex.liftCycles X.g X.g_dComplex_g ≫ X.dComplex.homologyπ = 0 := by
-  have h : (kernel.ι (Abelian.factorThruImage X.α)) ≫ X.α = 0 := by
-    have h' := kernel.condition (Abelian.factorThruImage X.α) =≫ Abelian.image.ι X.α
+  have h : (kernel.ι (Abelian.factorThruImage X.α.asHom)) ≫ X.α.asHom = 0 := by
+    have h' := kernel.condition (Abelian.factorThruImage X.α.asHom) =≫ Abelian.image.ι X.α.asHom
     rwa [assoc, Abelian.image.fac, zero_comp] at h'
   obtain ⟨T, π, _, x, hx⟩ := X.exact_f.exact_up_to_refinements _ h
   dsimp only at x hx
@@ -265,15 +265,15 @@ lemma kernelι_comp_liftCycles_homologyπ :
 
 /-- `g' : Im α ⟶ Ker d / Im d`, Stacks' `g ∘ α⁻¹`: the descent of `A →g Ker d ↠ E'` along the
 epimorphism `A ↠ Im α`. -/
-noncomputable def g' : Abelian.image X.α ⟶ X.dComplex.homology :=
-  Abelian.epiDesc (Abelian.factorThruImage X.α)
+noncomputable def g' : Abelian.image X.α.asHom ⟶ X.dComplex.homology :=
+  Abelian.epiDesc (Abelian.factorThruImage X.α.asHom)
     (X.dComplex.liftCycles X.g X.g_dComplex_g ≫ X.dComplex.homologyπ)
     X.kernelι_comp_liftCycles_homologyπ
 
 /-- `g'` on the class `α a` is the class of `g a` in `E'`. -/
 @[reassoc (attr := simp)]
 lemma factorThruImage_g' :
-    Abelian.factorThruImage X.α ≫ X.g' =
+    Abelian.factorThruImage X.α.asHom ≫ X.g' =
       X.dComplex.liftCycles X.g X.g_dComplex_g ≫ X.dComplex.homologyπ := by
   unfold g'; exact Abelian.comp_epiDesc _ _ _
 
@@ -286,7 +286,7 @@ lemma kernelSubobject_d_eq_pullback_kernelSubobject :
 /-- `Ker d = f⁻¹(Im α)`, as subobjects of `E`. -/
 @[stacks 011R "(1) `Ker d = f⁻¹(Im α)`"]
 lemma kernelSubobject_d_eq_pullback_imageSubobject :
-    kernelSubobject X.d = (Subobject.pullback X.f).obj (imageSubobject X.α) := by
+    kernelSubobject X.d = (Subobject.pullback X.f).obj (imageSubobject X.α.asHom) := by
   have h := (ShortComplex.exact_iff_image_eq_kernel _).1 X.exact_α
   dsimp only at h
   rw [kernelSubobject_d_eq_pullback_kernelSubobject, h]
@@ -300,7 +300,7 @@ lemma imageSubobject_d_eq_exists_imageSubobject :
 /-- `Im d = g(Ker α)`, as subobjects of `E`. -/
 @[stacks 011R "(2) `Im d = g(Ker α)`"]
 lemma imageSubobject_d_eq_exists_kernelSubobject :
-    imageSubobject X.d = (Subobject.exists X.g).obj (kernelSubobject X.α) := by
+    imageSubobject X.d = (Subobject.exists X.g).obj (kernelSubobject X.α.asHom) := by
   have h := (ShortComplex.exact_iff_image_eq_kernel _).1 X.exact_f
   dsimp only at h
   rw [imageSubobject_d_eq_exists_imageSubobject, h]
@@ -308,20 +308,20 @@ lemma imageSubobject_d_eq_exists_kernelSubobject :
 /-- `g' ∘ α' = 0`: on the class `α a`, `g' (α' (α a))` is the class of the cycle `g (α a) = 0`. -/
 @[reassoc (attr := simp)]
 lemma α'_g' : X.α' ≫ X.g' = 0 := by
-  rw [← cancel_epi (Abelian.factorThruImage X.α), factorThruImage_α'_assoc, factorThruImage_g',
+  rw [← cancel_epi (Abelian.factorThruImage X.α.asHom), factorThruImage_α'_assoc, factorThruImage_g',
     comp_zero, ShortComplex.comp_liftCycles_assoc,
     X.dComplex.liftCycles_homologyπ_eq_zero_of_boundary _ 0 (by rw [X.α_g, zero_comp])]
 
 /-- `f' ∘ g' = 0`, since `f ∘ g = 0`. -/
 @[reassoc (attr := simp)]
 lemma g'_f' : X.g' ≫ X.f' = 0 := by
-  rw [← cancel_mono (Abelian.image.ι X.α), ← cancel_epi (Abelian.factorThruImage X.α), assoc,
+  rw [← cancel_mono (Abelian.image.ι X.α.asHom), ← cancel_epi (Abelian.factorThruImage X.α.asHom), assoc,
     factorThruImage_g'_assoc, liftCycles_homologyπ_f'_ι, X.g_f, zero_comp, comp_zero]
 
 /-- `α' ∘ f' = 0`, since `α ∘ f = 0`. -/
 @[reassoc (attr := simp)]
 lemma f'_α' : X.f' ≫ X.α' = 0 := by
-  rw [← cancel_mono (Abelian.image.ι X.α), ← cancel_epi X.dComplex.homologyπ, assoc, α'_ι,
+  rw [← cancel_mono (Abelian.image.ι X.α.asHom), ← cancel_epi X.dComplex.homologyπ, assoc, α'_ι,
     homologyπ_f'_ι_assoc, X.f_α, comp_zero, zero_comp, comp_zero]
 
 /-- Exactness of the derived couple at `A' →α' A' →g' E'`, i.e. `Ker g' = Im α'`. Stacks'
@@ -332,7 +332,7 @@ lemma exact_α' : (ShortComplex.mk X.α' X.g' X.α'_g').Exact := by
   intro T a ha
   dsimp only at a ha ⊢
   obtain ⟨T₁, π₁, _, b, hb⟩ :=
-    surjective_up_to_refinements_of_epi (Abelian.factorThruImage X.α) a
+    surjective_up_to_refinements_of_epi (Abelian.factorThruImage X.α.asHom) a
   have hb' : b ≫ X.dComplex.liftCycles X.g X.g_dComplex_g ≫ X.dComplex.homologyπ = 0 := by
     rw [← factorThruImage_g', ← reassoc_of% hb, ha, comp_zero]
   rw [ShortComplex.comp_liftCycles_assoc] at hb'
@@ -343,7 +343,7 @@ lemma exact_α' : (ShortComplex.mk X.α' X.g' X.α'_g').Exact := by
     rw [sub_comp, assoc, hx, d_def, assoc, sub_self]
   obtain ⟨T₃, π₃, _, y, hy⟩ := X.exact_α.exact_up_to_refinements _ hsub
   dsimp only at hy
-  refine ⟨T₃, π₃ ≫ π₂ ≫ π₁, inferInstance, y ≫ Abelian.factorThruImage X.α, ?_⟩
+  refine ⟨T₃, π₃ ≫ π₂ ≫ π₁, inferInstance, y ≫ Abelian.factorThruImage X.α.asHom, ?_⟩
   simp only [assoc]
   rw [factorThruImage_α', ← reassoc_of% hy, sub_comp, assoc, assoc, f_factorThruImage,
     comp_zero, sub_zero, hb]
@@ -361,7 +361,7 @@ lemma exact_g' : (ShortComplex.mk X.g' X.f' X.g'_f').Exact := by
       comp_zero]
   obtain ⟨T₂, π₂, _, y, hy⟩ := X.exact_g.exact_up_to_refinements _ hzf
   dsimp only at hy
-  refine ⟨T₂, π₂ ≫ π₁, inferInstance, y ≫ Abelian.factorThruImage X.α, ?_⟩
+  refine ⟨T₂, π₂ ≫ π₁, inferInstance, y ≫ Abelian.factorThruImage X.α.asHom, ?_⟩
   rw [assoc, hz', assoc, factorThruImage_g', ShortComplex.comp_liftCycles_assoc,
     ShortComplex.comp_liftCycles_assoc]
   congr 2
@@ -374,9 +374,9 @@ lemma exact_f' : (ShortComplex.mk X.f' X.α' X.f'_α').Exact := by
   intro T a ha
   dsimp only at a ha ⊢
   obtain ⟨T₁, π₁, _, b, hb⟩ :=
-    surjective_up_to_refinements_of_epi (Abelian.factorThruImage X.α) a
-  have hbα : (b ≫ X.α) ≫ X.α = 0 := by
-    have h := (reassoc_of% hb) (X.α' ≫ Abelian.image.ι X.α)
+    surjective_up_to_refinements_of_epi (Abelian.factorThruImage X.α.asHom) a
+  have hbα : (b ≫ X.α.asHom) ≫ X.α.asHom = 0 := by
+    have h := (reassoc_of% hb) (X.α' ≫ Abelian.image.ι X.α.asHom)
     rw [reassoc_of% ha, zero_comp, comp_zero, factorThruImage_α'_assoc, Abelian.image.fac] at h
     rw [assoc]; exact h.symm
   obtain ⟨T₂, π₂, _, x, hx⟩ := X.exact_f.exact_up_to_refinements _ hbα
@@ -385,7 +385,7 @@ lemma exact_f' : (ShortComplex.mk X.f' X.α' X.f'_α').Exact := by
     rw [dComplex_g, d_def, ← assoc, ← hx, assoc, assoc, X.α_g, comp_zero, comp_zero]
   refine ⟨T₂, π₂ ≫ π₁, inferInstance,
     X.dComplex.liftCycles x hxd ≫ X.dComplex.homologyπ, ?_⟩
-  rw [← cancel_mono (Abelian.image.ι X.α)]
+  rw [← cancel_mono (Abelian.image.ι X.α.asHom)]
   simp only [assoc]
   rw [liftCycles_homologyπ_f'_ι, ← hx, reassoc_of% hb, Abelian.image.fac]
 
@@ -394,9 +394,9 @@ Stacks 011R (3). An `abbrev` on purpose (load-bearing): the iterated derived cou
 `X.derived.α` to reduce to `X.α'` (and likewise for `A`, `E`, `f`, `g`). -/
 @[stacks 011R "(3) the derived couple `(Im α, Ker d/Im d, α', f', g')` is exact", simps]
 noncomputable abbrev derived : ExactCouple C where
-  A := Abelian.image X.α
+  A := Abelian.image X.α.asHom
   E := X.dComplex.homology
-  α := X.α'
+  α := .of X.α'
   f := X.f'
   g := X.g'
   exact_α := X.exact_α'
@@ -405,12 +405,12 @@ noncomputable abbrev derived : ExactCouple C where
 
 /-- `Im(α^{n+1}) ⊆ Im(α^n)`, as subobjects of `A`. -/
 lemma imageSubobject_pow_succ_le (n : ℕ) :
-    imageSubobject (X.α ^ (n + 1)) ≤ imageSubobject (X.α ^ n) := by
+    imageSubobject (X.α ^ (n + 1)).asHom ≤ imageSubobject (X.α ^ n).asHom := by
   rw [pow_succ_eq]; exact imageSubobject_comp_le _ _
 
 /-- `Ker(α^n) ⊆ Ker(α^{n+1})`, as subobjects of `A`. -/
 lemma kernelSubobject_pow_le_succ (n : ℕ) :
-    kernelSubobject (X.α ^ n) ≤ kernelSubobject (X.α ^ (n + 1)) := by
+    kernelSubobject (X.α ^ n).asHom ≤ kernelSubobject (X.α ^ (n + 1)).asHom := by
   rw [pow_succ_eq']; exact kernelSubobject_comp_le _ _
 
 /-! ### Functoriality of the derived couple -/
@@ -434,25 +434,25 @@ def Hom.dHom : X.dComplex ⟶ Y.dComplex where
   comm₂₃ := t.comm_d.symm
 
 /-- `t_A` maps `Im α` into `Im α = Ker (A ↠ Coker α)` of the target. -/
-lemma Hom.image_ι_tA_cokernelπ : Abelian.image.ι X.α ≫ t.tA ≫ cokernel.π Y.α = 0 := by
-  rw [← cancel_epi (Abelian.factorThruImage X.α), comp_zero, ← assoc, Abelian.image.fac,
+lemma Hom.image_ι_tA_cokernelπ : Abelian.image.ι X.α.asHom ≫ t.tA ≫ cokernel.π Y.α.asHom = 0 := by
+  rw [← cancel_epi (Abelian.factorThruImage X.α.asHom), comp_zero, ← assoc, Abelian.image.fac,
     t.comm_α_assoc, cokernel.condition, comp_zero]
 
 /-- `t_A' : Im α ⟶ Im α`, the restriction of `t_A` to the images of `α`. -/
-noncomputable def Hom.tA' : Abelian.image X.α ⟶ Abelian.image Y.α :=
-  kernel.lift (cokernel.π Y.α) (Abelian.image.ι X.α ≫ t.tA)
+noncomputable def Hom.tA' : Abelian.image X.α.asHom ⟶ Abelian.image Y.α.asHom :=
+  kernel.lift (cokernel.π Y.α.asHom) (Abelian.image.ι X.α.asHom ≫ t.tA)
     (by rw [assoc, t.image_ι_tA_cokernelπ])
 
 /-- `t_A'` followed by the inclusion `Im α ⊆ A` is the inclusion followed by `t_A`. -/
 @[reassoc (attr := simp)]
-lemma Hom.tA'_ι : t.tA' ≫ Abelian.image.ι Y.α = Abelian.image.ι X.α ≫ t.tA := by
+lemma Hom.tA'_ι : t.tA' ≫ Abelian.image.ι Y.α.asHom = Abelian.image.ι X.α.asHom ≫ t.tA := by
   unfold tA'
   rw [kernel.lift_ι]
 
 /-- The projection `A ↠ Im α` followed by `t_A'` is `t_A` followed by the projection. -/
 @[reassoc (attr := simp)]
 lemma Hom.factorThruImage_tA' :
-    Abelian.factorThruImage X.α ≫ t.tA' = t.tA ≫ Abelian.factorThruImage Y.α := by
+    Abelian.factorThruImage X.α.asHom ≫ t.tA' = t.tA ≫ Abelian.factorThruImage Y.α.asHom := by
   exact factorThruImage_comp_eq_of_comp_ι t.comm_α t.tA'_ι
 
 /-- `t_E' : Ker d / Im d ⟶ Ker d / Im d`, the morphism induced by `t_E` on homology. An `abbrev`
@@ -473,15 +473,15 @@ noncomputable def Hom.derived : X.derived ⟶ Y.derived where
   tA := t.tA'
   tE := t.tE'
   comm_α := by
-    rw [← cancel_mono (Abelian.image.ι Y.α), ← cancel_epi (Abelian.factorThruImage X.α)]
+    rw [← cancel_mono (Abelian.image.ι Y.α.asHom), ← cancel_epi (Abelian.factorThruImage X.α.asHom)]
     simp [t.comm_α_assoc]
   comm_f := by
-    rw [← cancel_mono (Abelian.image.ι Y.α), ← cancel_epi X.dComplex.homologyπ]
+    rw [← cancel_mono (Abelian.image.ι Y.α.asHom), ← cancel_epi X.dComplex.homologyπ]
     simp [assoc, homologyπ_f'_ι_assoc, tA'_ι, Hom.tE',
       ShortComplex.homologyπ_naturality_assoc, homologyπ_f'_ι, ShortComplex.cyclesMap_i_assoc,
       Hom.dHom_τ₂, t.comm_f]
   comm_g := by
-    rw [← cancel_epi (Abelian.factorThruImage X.α)]
+    rw [← cancel_epi (Abelian.factorThruImage X.α.asHom)]
     simp [factorThruImage_g'_assoc, Hom.tE', ShortComplex.homologyπ_naturality,
       factorThruImage_tA'_assoc, factorThruImage_g', ShortComplex.comp_liftCycles_assoc]
 
@@ -493,11 +493,11 @@ noncomputable def Hom.derived : X.derived ⟶ Y.derived where
 
 /-- `t_A'` of the identity is the identity. -/
 lemma Hom.tA'_id (X : ExactCouple C) : Hom.tA' (𝟙 X) = 𝟙 _ := by
-  rw [← cancel_mono (Abelian.image.ι X.α), tA'_ι, id_tA, comp_id, id_comp]
+  rw [← cancel_mono (Abelian.image.ι X.α.asHom), tA'_ι, id_tA, comp_id, id_comp]
 
 /-- `t_A'` is compatible with composition. -/
 lemma Hom.tA'_comp {Z : ExactCouple C} (s : Y ⟶ Z) : Hom.tA' (t ≫ s) = t.tA' ≫ s.tA' := by
-  rw [← cancel_mono (Abelian.image.ι Z.α), tA'_ι, comp_tA, assoc, tA'_ι, tA'_ι_assoc]
+  rw [← cancel_mono (Abelian.image.ι Z.α.asHom), tA'_ι, comp_tA, assoc, tA'_ι, tA'_ι_assoc]
 
 /-- `dHom` of the identity is the identity. -/
 lemma Hom.dHom_id (X : ExactCouple C) : Hom.dHom (𝟙 X) = 𝟙 X.dComplex :=

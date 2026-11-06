@@ -204,7 +204,7 @@ private noncomputable def isTerminal_presheafFiber_of_neighborhood {C : Type*} [
   refine (Types.isTerminalEquivUnique _).symm ⟨⟨Φ.toPresheafFiber N.1 N.2 P x⟩, fun a ↦ ?_⟩
   obtain ⟨V, t, y, z, hy, hz⟩ := Φ.toPresheafFiber_jointly_surjective₂ (P := P) a
     (Φ.toPresheafFiber N.1 N.2 P x)
-  let T : Φ.fiber.Elements := ⟨V, t⟩
+  let T : Φ.fiber.Elements := Φ.fiber.elementsMk V t
   let M := IsCofiltered.min (C := Φ.fiber.Elements) T N
   let l : M ⟶ T := IsCofiltered.minToLeft (C := Φ.fiber.Elements) T N
   let r : M ⟶ N := IsCofiltered.minToRight (C := Φ.fiber.Elements) T N
@@ -230,7 +230,7 @@ private noncomputable def pushforwardStalk_isTerminal_complement {Z X : Scheme.{
         (Scheme.smallEtaleTopology X) (Scheme.smallEtaleTopology Z)).obj G)) := by
   let N : X.Etale := MorphismProperty.Over.mk ⊤ (openComplement i).ι inferInstance
   apply isTerminal_presheafFiber_of_neighborhood _ _
-    (⟨N, CategoryTheory.Over.homMk s rfl⟩ : (Scheme.pointSmallEtale _).fiber.Elements)
+    (Functor.elementsMk _ N (CategoryTheory.Over.homMk s rfl) : (Scheme.pointSmallEtale _).fiber.Elements)
   intro V g
   have hdis : Disjoint (Set.range (V.hom : V.left ⟶ X).base) (Set.range i.base) := by
     rw [Set.disjoint_left]

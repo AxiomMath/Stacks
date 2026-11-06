@@ -79,10 +79,12 @@ theorem isZero_rightDerived_globalSectionsFunctor_of_isColimit
     hasSheafify_smallEtaleRingedSite_addCommGrpCat.{u, u} B S hS X hX
   have : J.WEqualsLocallyBijective AddCommGrpCat.{u + 1} :=
     wEqualsLocallyBijective_smallEtaleRingedSite_addCommGrpCat.{u, u} B S hS X hX
-  have : EssentiallySmall.{u} (SmallEtale B S hS X) := inferInstance
+  have : EssentiallySmall.{u} (SmallEtale B S hS X) := SmallEtale.instEssentiallySmall B S hS X
   have : IsGrothendieckAbelian.{u} (Sheaf J AddCommGrpCat.{u}) :=
     Sheaf.isGrothendieckAbelian_of_essentiallySmall.{u} (SmallEtale.topology B S hS X) _
   have : IsGrothendieckAbelian.{u + 1} (Sheaf J AddCommGrpCat.{u + 1}) :=
+    have : EssentiallySmall.{u + 1} (SmallEtale B S hS X) :=
+      essentiallySmallSelf.{0} (C := SmallEtale B S hS X)
     Sheaf.isGrothendieckAbelian_of_essentiallySmall.{u + 1} (SmallEtale.topology B S hS X) _
   have : EnoughInjectives (Sheaf J AddCommGrpCat.{u}) := IsGrothendieckAbelian.enoughInjectives
   have : EnoughInjectives (Sheaf J AddCommGrpCat.{u + 1}) :=

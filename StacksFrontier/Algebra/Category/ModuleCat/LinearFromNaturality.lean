@@ -76,7 +76,7 @@ variable {A : Type u} [CommRing A] {C : Type u₁} [Category.{v₁} C] [Preaddit
 
 /-- Forgetting the module structure carries the scalar `a • 𝟙 M` to multiplication by `a`. -/
 lemma forget₂_map_smul_id (M : ModuleCat.{v} A) (a : A) :
-    (forget₂ (ModuleCat.{v} A) AddCommGrpCat.{v}).map (a • 𝟙 M) = M.smul a := rfl
+    (forget₂ (ModuleCat.{v} A) AddCommGrpCat.{v}).map (a • 𝟙 M) = (M.smul a).asHom := rfl
 
 /-- An `A`-linear functor carries the scalar `a • 𝟙 X` to the scalar `a • 𝟙 (T.obj X)`. -/
 lemma map_smul_id [Functor.Linear A T] (X : C) (a : A) :
@@ -90,7 +90,7 @@ variable [Functor.Linear A T] [Functor.Linear A T']
 /-- **A component of a natural transformation of the underlying abelian-group-valued functors
 commutes with the scalar actions.** This is the naturality square of `η` at `a • 𝟙 X`. -/
 lemma app_comp_smul (X : C) (a : A) :
-    η.app X ≫ (T'.obj X).smul a = (T.obj X).smul a ≫ η.app X := by
+    η.app X ≫ ((T'.obj X).smul a).asHom = ((T.obj X).smul a).asHom ≫ η.app X := by
   have h := η.naturality (a • 𝟙 X)
   rw [Functor.comp_map, Functor.comp_map, map_smul_id, map_smul_id, forget₂_map_smul_id,
     forget₂_map_smul_id] at h

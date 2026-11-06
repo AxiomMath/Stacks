@@ -177,9 +177,10 @@ section ImageDifferentials
 /-- A derivation out of `B`, restricted along the structure map of the image presheaf. -/
 private noncomputable def restrictQuotientDerivation
     (N : _root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B))
-    (D : N.val.Derivation' (a ≫ φ).hom) :
-    ((PresheafOfModules.restrictScalars (quotientToRingSheaf J A B φ)).obj
-      N.val).Derivation' (a.hom ≫ toQuotient φ.hom) where
+    (D : PresheafOfModulesOfCommRing.Derivation' N.val (a ≫ φ).hom) :
+    PresheafOfModulesOfCommRing.Derivation'
+      ((PresheafOfModules.restrictScalars (quotientToRingSheaf J A B φ)).obj
+      N.val) (a.hom ≫ toQuotient φ.hom) where
   d {X} := (D.d (X := X)).comp ((quotientToTarget φ.hom).app X).hom.toAddMonoidHom
   d_mul {X} x y := by
     change D.d ((quotientToTarget φ.hom).app X (x * y)) = _
@@ -199,7 +200,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 presheaf, because those cover. -/
 private theorem quotientDerivation_ext_of_image
     (N : _root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B))
-    (D E : N.val.Derivation' (a ≫ φ).hom)
+    (D E : PresheafOfModulesOfCommRing.Derivation' N.val (a ≫ φ).hom)
     (h : ∀ X b, D.d ((quotientToTarget φ.hom).app X b) =
       E.d ((quotientToTarget φ.hom).app X b)) : D = E := by
   ext X x
@@ -219,7 +220,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 `B`, by `quotientDerivation_ext_of_image`. -/
 private theorem restrictQuotientDerivation_injective
     (N : _root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B))
-    (D E : N.val.Derivation' (a ≫ φ).hom)
+    (D E : PresheafOfModulesOfCommRing.Derivation' N.val (a ≫ φ).hom)
     (h : restrictQuotientDerivation.{v, u, w, z} J R A B a φ N D =
       restrictQuotientDerivation.{v, u, w, z} J R A B a φ N E) : D = E := by
   apply quotientDerivation_ext_of_image J R A B a φ N D E
@@ -241,8 +242,9 @@ private lemma isSheaf_moduleTypes :
 
 /-- A derivation of the image presheaf, descended to a family of maps on sections of `B`. -/
 private noncomputable def extendedQuotientDerivationTypes
-    (D : ((PresheafOfModules.restrictScalars (quotientToRingSheaf J A B φ)).obj
-      N.val).Derivation' (a.hom ≫ toQuotient φ.hom)) (X : Cᵒᵖ) :
+    (D : PresheafOfModulesOfCommRing.Derivation'
+      ((PresheafOfModules.restrictScalars (quotientToRingSheaf J A B φ)).obj
+      N.val) (a.hom ≫ toQuotient φ.hom)) (X : Cᵒᵖ) :
     B.obj.obj X → N.val.obj X :=
   descentFun (H := N.val.presheaf ⋙ forget AddCommGrpCat) J (quotientTypesMap J A B φ)
     (isSheaf_moduleTypes J B N) (fun _ x ↦ D.d x) (fun k x ↦ D.d_map k x) X
@@ -251,8 +253,9 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The descended family of maps agrees with the given derivation on sections coming from the
 image presheaf.  This is the defining equation of `extendedQuotientDerivationTypes`. -/
 private lemma extendedQuotientDerivationTypes_image
-    (D : ((PresheafOfModules.restrictScalars (quotientToRingSheaf J A B φ)).obj
-      N.val).Derivation' (a.hom ≫ toQuotient φ.hom)) (X : Cᵒᵖ)
+    (D : PresheafOfModulesOfCommRing.Derivation'
+      ((PresheafOfModules.restrictScalars (quotientToRingSheaf J A B φ)).obj
+      N.val) (a.hom ≫ toQuotient φ.hom)) (X : Cᵒᵖ)
     (x : (quotientPresheaf φ.hom).obj X) :
     extendedQuotientDerivationTypes J R A B a φ N D X
       ((quotientToTarget φ.hom).app X x) = D.d x :=
@@ -261,9 +264,10 @@ private lemma extendedQuotientDerivationTypes_image
 
 /-- Every derivation of the image presheaf extends uniquely to a derivation out of `B`. -/
 private noncomputable def extendQuotientDerivation
-    (D : ((PresheafOfModules.restrictScalars (quotientToRingSheaf J A B φ)).obj
-      N.val).Derivation' (a.hom ≫ toQuotient φ.hom)) :
-    N.val.Derivation' (a ≫ φ).hom := by
+    (D : PresheafOfModulesOfCommRing.Derivation'
+      ((PresheafOfModules.restrictScalars (quotientToRingSheaf J A B φ)).obj
+      N.val) (a.hom ≫ toQuotient φ.hom)) :
+    PresheafOfModulesOfCommRing.Derivation' N.val (a ≫ φ).hom := by
   let e := extendedQuotientDerivationTypes J R A B a φ N D
   have he (X : Cᵒᵖ) (x : (quotientPresheaf φ.hom).obj X) :
       e X ((quotientToTarget φ.hom).app X x) = D.d x :=
@@ -320,9 +324,10 @@ the objectwise quotient `quotientPresheaf φ = A/ker φ`; the form consumers ask
 of `A` annihilating `ker φ`, is one further step away — see the note on the kernel-ideal
 restatement in the module docstring. -/
 private noncomputable def quotientDerivationEquiv :
-    N.val.Derivation' (a ≫ φ).hom ≃
+    PresheafOfModulesOfCommRing.Derivation' N.val (a ≫ φ).hom ≃
+      PresheafOfModulesOfCommRing.Derivation'
       ((PresheafOfModules.restrictScalars (quotientToRingSheaf J A B φ)).obj
-        N.val).Derivation' (a.hom ≫ toQuotient φ.hom) where
+        N.val) (a.hom ≫ toQuotient φ.hom) where
   toFun := restrictQuotientDerivation J R A B a φ N
   invFun := extendQuotientDerivation J R A B a φ N
   left_inv D := by
@@ -342,22 +347,22 @@ variable {S T : Cᵒᵖ ⥤ CommRingCat.{w}}
 /-- The universal derivation of the objectwise Kähler differentials, after the universe
 lift. -/
 private noncomputable def liftedDifferentialDerivation (b : S ⟶ T) :
-    ((liftModules.{v, u, w, z} _).obj
-      (differentialsPresheaf b)).Derivation' b where
+    PresheafOfModulesOfCommRing.Derivation' ((liftModules.{v, u, w, z} _).obj
+      (differentialsPresheaf b)) b where
   d {X} := (ULift.moduleEquiv (R := T.obj X)).symm.toLinearMap.toAddMonoidHom.comp
-    (PresheafOfModules.DifferentialsConstruction.derivation' b).d
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' b).d
   d_mul x y := by
     change ULift.up (_) = ULift.up (_)
     congr 1
-    exact (PresheafOfModules.DifferentialsConstruction.derivation' b).d_mul x y
+    exact (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' b).d_mul x y
   d_map f x := by
     change ULift.up (_) = ULift.up (_)
     congr 1
-    exact (PresheafOfModules.DifferentialsConstruction.derivation' b).d_map f x
+    exact (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' b).d_map f x
   d_app x := by
     change ULift.up (_) = ULift.up 0
     congr 1
-    exact (PresheafOfModules.DifferentialsConstruction.derivation' b).d_app x
+    exact (PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' b).d_app x
 
 /-- The universe lift of the objectwise differentials, as an isomorphism of modules over the
 sections of the target. Naming it fixes the implicit arguments, so that the component maps
@@ -396,7 +401,7 @@ private lemma liftedDifferential_hom_ext (b : S ⟶ T)
 derivation. -/
 private noncomputable def liftedDifferentialDescApp (b : S ⟶ T)
     (N : PresheafOfModules.{max w u v z} (T ⋙ forget₂ _ RingCat))
-    (D : N.Derivation' b) (X : Cᵒᵖ) :
+    (D : PresheafOfModulesOfCommRing.Derivation' N b) (X : Cᵒᵖ) :
     ((liftModules.{v, u, w, z} _).obj (differentialsPresheaf b)).obj X ⟶ N.obj X := by
   letI := (b.app X).hom.toAlgebra
   letI := Module.compHom (N.obj X) (b.app X).hom
@@ -407,7 +412,7 @@ private noncomputable def liftedDifferentialDescApp (b : S ⟶ T)
 
 private lemma liftedDifferentialDescApp_d (b : S ⟶ T)
     (N : PresheafOfModules.{max w u v z} (T ⋙ forget₂ _ RingCat))
-    (D : N.Derivation' b) (X : Cᵒᵖ) (x : T.obj X) :
+    (D : PresheafOfModulesOfCommRing.Derivation' N b) (X : Cᵒᵖ) (x : T.obj X) :
     liftedDifferentialDescApp.{v, u, w, z} b N D X
       (ULift.up (CommRingCat.KaehlerDifferential.d x)) = D.d x :=
   let := (b.app X).hom.toAlgebra
@@ -419,7 +424,7 @@ private lemma liftedDifferentialDescApp_d (b : S ⟶ T)
 /-- The morphism out of the lifted differentials presheaf determined by a derivation. -/
 private noncomputable def liftedDifferentialDesc (b : S ⟶ T)
     (N : PresheafOfModules.{max w u v z} (T ⋙ forget₂ _ RingCat))
-    (D : N.Derivation' b) :
+    (D : PresheafOfModulesOfCommRing.Derivation' N b) :
     (liftModules.{v, u, w, z} _).obj (differentialsPresheaf b) ⟶ N where
   app X := liftedDifferentialDescApp.{v, u, w, z} b N D X
   naturality {X Y} k := by
@@ -429,7 +434,7 @@ private noncomputable def liftedDifferentialDesc (b : S ⟶ T)
         (ULift.up (CommRingCat.KaehlerDifferential.d x)) =
         ULift.up (CommRingCat.KaehlerDifferential.d (T.map k x)) :=
       congrArg ULift.up
-        (PresheafOfModules.DifferentialsConstruction.relativeDifferentials'_map_d b k x)
+        (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'_map_d b k x)
     change liftedDifferentialDescApp.{v, u, w, z} b N D Y
         ((((liftModules.{v, u, w, z} _).obj (differentialsPresheaf b)).map k)
           (ULift.up (CommRingCat.KaehlerDifferential.d x))) =
@@ -444,7 +449,8 @@ private noncomputable def liftedDifferentialDesc (b : S ⟶ T)
 /-- The lifted differentials presheaf corepresents derivations. -/
 private noncomputable def liftedDifferentialHomEquiv (b : S ⟶ T)
     (N : PresheafOfModules.{max w u v z} (T ⋙ forget₂ _ RingCat)) :
-    ((liftModules.{v, u, w, z} _).obj (differentialsPresheaf b) ⟶ N) ≃ N.Derivation' b where
+    ((liftModules.{v, u, w, z} _).obj (differentialsPresheaf b) ⟶ N) ≃
+      PresheafOfModulesOfCommRing.Derivation' N b where
   toFun f := (liftedDifferentialDerivation.{v, u, w, z} b).postcomp f
   invFun := liftedDifferentialDesc.{v, u, w, z} b N
   left_inv f := by
@@ -463,7 +469,7 @@ section ImageDifferentialsIso
 private noncomputable def imageDifferentialsHomEquiv
     (N : _root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B)) :
     (imageDifferentialsSheaf.{v, u, w, z} J R A B a φ ⟶ N) ≃
-      N.val.Derivation' (a ≫ φ).hom :=
+      PresheafOfModulesOfCommRing.Derivation' N.val (a ≫ φ).hom :=
   (PresheafOfModules.sheafificationHomEquiv.{max w u v z}
     (quotientToRingSheaf J A B φ)).trans
       ((liftedDifferentialHomEquiv.{v, u, w, z} (a.hom ≫ toQuotient φ.hom) _).trans
@@ -750,8 +756,8 @@ with values in the restriction of scalars. -/
 private noncomputable def tensorDifferentialsHomEquiv
     (N : _root_.SheafOfModules.{max w u v z} (Stacks.SheafOfModules.Tensor.ringSheaf B)) :
     (tensorDifferentialsSheaf.{v, u, w, z} J R A B a φ ⟶ N) ≃
-      ((_root_.SheafOfModules.pushforward
-        (underlyingRingHomForPullback J A B φ)).obj N).val.Derivation' a.hom :=
+      PresheafOfModulesOfCommRing.Derivation' (((_root_.SheafOfModules.pushforward
+        (underlyingRingHomForPullback J A B φ)).obj N).val) a.hom :=
   (PresheafOfModules.sheafificationHomEquiv.{max w u v z}
     (quotientToRingSheaf J A B φ)).trans
       ((liftedTensorIso.{v, u, w, z} J R A B a φ).homFromEquiv.trans
@@ -771,7 +777,7 @@ private noncomputable def tensorDifferentialsCorepresentation :
         (tensorDifferentialsSheaf.{v, u, w, z} J R A B a φ) where
   homEquiv := tensorDifferentialsHomEquiv J R A B a φ _
   homEquiv_comp g f := by
-    apply PresheafOfModules.Derivation.ext
+    apply PresheafOfModulesOfCommRing.Derivation.ext
     funext X
     apply AddMonoidHom.ext
     intro x
@@ -1194,8 +1200,8 @@ noncomputable def sectionsLeibnizDerivation
     (hbase : ∀ (X : Cᵒᵖ) (r : R.obj.obj X), δ X ((a.hom.app X).hom r) = 0)
     (hnat : ∀ (X Y : Cᵒᵖ) (f : X ⟶ Y) (x : A.obj.obj X),
       δ Y (A.obj.map f x) = N.val.map f (δ X x)) :
-    ((_root_.SheafOfModules.pushforward
-      (underlyingRingHomForPullback J A B φ)).obj N).val.Derivation' a.hom where
+    PresheafOfModulesOfCommRing.Derivation' (((_root_.SheafOfModules.pushforward
+      (underlyingRingHomForPullback J A B φ)).obj N).val) a.hom where
   d {X} := AddMonoidHom.mk' (δ X) (hadd X)
   d_mul x y := hmul _ x y
   d_map f x := hnat _ _ f x
@@ -1241,8 +1247,9 @@ theorem tensorDifferentialsDesc_tensorDifferential
         (tensorDifferential.{v, u, w, z} J R A B a φ X x) = δ X x := by
   refine Eq.trans (tensorDifferentialsHomEquiv_d.{v, u, w, z} J R A B a φ N
     (tensorDifferentialsDesc.{v, u, w, z} J R A B a φ N δ hadd hmul hbase hnat) X x).symm ?_
-  exact congrArg (fun D : ((_root_.SheafOfModules.pushforward
-      (underlyingRingHomForPullback J A B φ)).obj N).val.Derivation' a.hom ↦ D.d (X := X) x)
+  exact congrArg (fun D : PresheafOfModulesOfCommRing.Derivation'
+      (((_root_.SheafOfModules.pushforward
+      (underlyingRingHomForPullback J A B φ)).obj N).val) a.hom ↦ D.d (X := X) x)
     ((tensorDifferentialsHomEquiv.{v, u, w, z} J R A B a φ N).apply_symm_apply
       (sectionsLeibnizDerivation.{v, u, w, z} J R A B a φ N δ hadd hmul hbase hnat))
 

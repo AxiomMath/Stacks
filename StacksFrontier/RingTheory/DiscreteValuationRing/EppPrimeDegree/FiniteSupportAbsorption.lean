@@ -304,7 +304,7 @@ theorem EppCondition.absorb_finiteSupport_or
       apply (faithfulSMul_iff_algebraMap_injective A₁ L).mpr
       apply (RingHom.injective_iff_ker_eq_bot _).mpr
       apply Ideal.eq_bot_of_comap_eq_bot (R := A)
-      rw [RingHom.ker_eq_comap_bot, Ideal.comap_comap,
+      rw [RingHom.ker_eq_comap_bot, Ideal.under_def, Ideal.comap_comap,
         ← IsScalarTower.algebraMap_eq A A₁ L]
       exact Ideal.comap_bot_of_injective _ (FaithfulSMul.algebraMap_injective A L)
     let : FaithfulSMul A₁ B :=

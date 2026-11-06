@@ -1,6 +1,9 @@
 module
 
 public import Mathlib.Algebra.Category.Grp.AB
+public import Mathlib.Algebra.Category.Grp.Colimits
+public import Mathlib.Algebra.Category.Grp.Limits
+public import Mathlib.Algebra.Category.Grp.Zero
 public import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
 public import Mathlib.Algebra.Homology.Functor
 public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
@@ -8,6 +11,7 @@ public import Mathlib.Algebra.Homology.HomologySequence
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Sheaf
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
 public import Mathlib.CategoryTheory.Abelian.Injective.Basic
+public import Mathlib.CategoryTheory.Limits.FunctorCategory.Basic
 public import Mathlib.CategoryTheory.Limits.Shapes.ConcreteCategory
 public import Mathlib.CategoryTheory.Sites.Equivalence
 public import Mathlib.CategoryTheory.Sites.SheafCohomology.Basic
@@ -94,6 +98,22 @@ noncomputable local instance sheafEnoughInjectives
     Sheaf.isGrothendieckAbelian_of_essentiallySmall.{v} J AddCommGrpCat.{v}
   infer_instance
 
+/-- `w`-indexed limits of abelian groups at the enlarged coefficient universe, stated
+directly so that instance search need not discover the universe comparison. -/
+local instance hasLimitsOfSize_addCommGrpCat_max :
+    HasLimitsOfSize.{w, w} AddCommGrpCat.{max v w} :=
+  inferInstance
+
+/-- `w`-indexed colimits of abelian groups at the enlarged coefficient universe. -/
+local instance hasColimitsOfSize_addCommGrpCat_max :
+    HasColimitsOfSize.{w, w} AddCommGrpCat.{max v w} :=
+  inferInstance
+
+/-- `w`-indexed coproducts of abelian presheaves at the enlarged coefficient universe. -/
+local instance hasCoproducts_presheafAddCommGrpCat_max
+    {C : Type u} [Category.{max v w} C] :
+    HasCoproducts.{w} (Cᵒᵖ ⥤ AddCommGrpCat.{max v w}) := fun _ => inferInstance
+
 private lemma evalOp_preservesFiniteLimits
     {D : Type u} [Category.{v} D] {A : Type uA} [Category.{vA} A]
     [HasProducts.{w} A] [HasFiniteLimits A] :
@@ -168,7 +188,7 @@ private noncomputable def cechUliftIso
         intro i
         dsimp only [Functor.comp_map, Functor.comp_obj, FormalCoproduct.evalOp]
         simp only [PreservesProduct.iso_hom, Category.assoc, piComparison_comp_π,
-          Pi.lift_π, piComparison_comp_π_assoc, ← L.map_comp])
+          Pi.lift_comp_π, piComparison_comp_π_assoc, ← L.map_comp])
   let e : T ⋙ L ≅ T' := Functor.isoWhiskerLeft (cechSimplicialObject E).rightOp e₀
   let e' : (L.mapHomologicalComplex _).obj (cechComplex E I) ≅
       (AlgebraicTopology.alternatingCofaceMapComplex _).obj (T ⋙ L) := by
@@ -302,7 +322,7 @@ public theorem sheafCohomology_isZero_of_cechCohomology_isZero_of_enoughInjectiv
               (∏ᶜ fun a ↦ Over.mk (E.1.f (i a))).left
             show Epi (Limits.Pi.map fun i : Fin (m + 1) → E.1.I₀ =>
               ((sheafToPresheaf J (AddCommGrpCat.{max v w})).map S.g).app (op (W i)))
-            apply epi_piMap_of_surjective
+            apply epi_piMap_of_surjective.{w, v}
             intro i
             exact hsurj (W i) (hm.2.2 m i)
           let Eval := Fcech ⋙ HomologicalComplex.eval _ _ m

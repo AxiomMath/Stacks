@@ -61,7 +61,6 @@ open ModuleGlueing
 -- subring `RingHom.pullback`, and instance search will not unfold the cone to do it. This is
 -- what makes `backward.isDefEq.respectTransparency` unnecessary below.
 attribute [local implicit_reducible] CommRingCat.pullbackCone
-  CategoryTheory.Limits.PullbackCone.mk
 
 /-- A pushout square of commutative rings whose four rings may live in different
 universes. Lifting all four rings into a common universe recovers the usual categorical

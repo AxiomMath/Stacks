@@ -142,7 +142,7 @@ private def rightDerivedFunctorPlusSingleIso
       (F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A 0).obj M)) ≅
         DerivedCategory.Q.obj ((F.mapHomologicalComplex (.up ℤ)).obj I.cochainComplex) :=
     DerivedCategory.Plus.ι.mapIso (F.rightDerivedFunctorPlus.mapIso e) ≪≫
-      (DerivedCategory.Plus.ι.mapIso (asIso (F.rightDerivedFunctorPlusUnit.app K))).symm ≪≫
+      (DerivedCategory.Plus.ι.mapIso (asIso (F.rightDerivedFunctorPlusUnith.app K))).symm ≪≫
       DerivedCategory.Qh.mapIso ((F.mapHomotopyCategoryFactors (.up ℤ)).app I.cochainComplex) ≪≫
       (DerivedCategory.quotientCompQhIso B).app _
   exact (DerivedCategory.homologyFunctor B (n : ℤ)).mapIso e' ≪≫
@@ -192,7 +192,7 @@ private def rightDerivedFunctorPlusSingleShiftIso
       (F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A a).obj M)) ≅
       (F.rightDerived n).obj M := by
   let R := F.rightDerivedFunctorPlus
-  letI := Functor.IsRightDerivedFunctor.commShift R F.rightDerivedFunctorPlusUnit
+  letI := Functor.IsRightDerivedFunctor.commShift R F.rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso A) ℤ
   let e : (DerivedCategory.Plus.singleFunctor A a).obj M ≅
       ((DerivedCategory.Plus.singleFunctor A 0).obj M)⟦-a⟧ :=
@@ -1013,7 +1013,7 @@ private lemma isIso_homotopy_homology_of_rightDerived
     IsIso ((F.mapHomotopyCategory (.up ℤ) ⋙
       HomotopyCategory.homologyFunctor D (.up ℤ) m).map f.hom) := by
   let H := DerivedCategory.Plus.homologyFunctor D m
-  let α := Functor.whiskerRight F.rightDerivedFunctorPlusUnit H
+  let α := Functor.whiskerRight F.rightDerivedFunctorPlusUnith H
   have : IsIso (((DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus) ⋙ H).map f) := h
   have : IsIso (α.app K) := by dsimp [α]; infer_instance
   have : IsIso (α.app L) := by dsimp [α]; infer_instance
@@ -1121,10 +1121,10 @@ private lemma exists_homotopy_derivedLimit_triangle
     apply Pi.hom_ext
     intro n
     rw [Category.assoc, heP, ← Category.assoc, ← F.map_comp]
-    simp only [s, Pi.lift_π, F.map_sub, F.map_comp, Preadditive.sub_comp]
+    simp only [s, Pi.lift_comp_π, F.map_sub, F.map_comp, Preadditive.sub_comp]
     dsimp [T]
     conv_rhs =>
-      rw [Category.assoc, Pi.lift_π, Preadditive.comp_sub, heP n]
+      rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, heP n]
       rw [← Category.assoc, heP (n + 1)]
     simp only [Category.assoc]
     have hn := e.hom.naturality (homOfLE (Nat.le_succ n)).op
@@ -1195,7 +1195,7 @@ private lemma isIso_rightDerived_truncGEPlusMap
       (truncGEPlusMap E a b (by omega))) := by
   subst b
   let R := F.rightDerivedFunctorPlus
-  let α := F.rightDerivedFunctorPlusUnit
+  let α := F.rightDerivedFunctorPlusUnith
   let := Functor.IsRightDerivedFunctor.commShift R α (HomotopyCategory.Plus.quasiIso A) ℤ
   let : R.IsTriangulated :=
     Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus F R α

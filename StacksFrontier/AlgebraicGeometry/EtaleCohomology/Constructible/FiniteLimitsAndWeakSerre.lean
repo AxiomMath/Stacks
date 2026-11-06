@@ -52,6 +52,9 @@ namespace AlgebraicGeometry
 
 universe v u w r
 
+attribute [local instance] SmallEtale.isRightAdjointPushforward_moduleCat
+  SmallEtale.hasWeakSheafifyOver_moduleCat
+
 /-- **Stacks 03RZ.** Let `X` be a scheme of a big étale site and `Λ` a Noetherian ring. Then
 
 1. a finite limit and a finite colimit of constructible sheaves of sets on the small étale site

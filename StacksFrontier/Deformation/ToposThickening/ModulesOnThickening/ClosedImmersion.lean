@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Sites.Limits
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PushforwardEssentialImageDirect.Criterion
 public import StacksFrontier.CategoryTheory.Sites.ClosedImmersion.Basic
 public import StacksFrontier.CategoryTheory.Sites.EmptySheaf
@@ -85,19 +86,19 @@ none, so the projection off it is bijective on sections. -/
 lemma isIso_prod_fst_emptySheaf (G : Sheaf J (Type w)) :
     IsIso (Limits.prod.fst : emptySheaf.{u, v, w} J ⨯ G ⟶ emptySheaf J) := by
   let E := emptySheaf.{u, v, w} J
-  let F := sheafToPresheaf J (Type w)
+  let F : Sheaf J (Type w) ⥤ (Cᵒᵖ ⥤ Type w) := sheafToPresheaf J (Type w)
   let p : E ⨯ G ⟶ E := Limits.prod.fst
   have hp : ∀ U, IsIso ((F.map p).app U) := by
     intro U
-    let A := E.obj.obj U
-    let B := G.obj.obj U
     let Cmp := Limits.prodComparison F E G
     have : IsIso Cmp := inferInstance
     let P := F.obj E
     let Q := F.obj G
-    let ev := (evaluation Cᵒᵖ (Type w)).obj U
+    let ev : (Cᵒᵖ ⥤ Type w) ⥤ Type w := (evaluation Cᵒᵖ (Type w)).obj U
     let cEval := Limits.prodComparison ev P Q
     have : IsIso cEval := inferInstance
+    let A := E.obj.obj U
+    let B := G.obj.obj U
     have hfstPair : IsIso (↾_root_.Prod.fst : A × B ⟶ A) := by
       rw [isIso_iff_bijective]
       show Function.Bijective (fun z : A × B => z.1)

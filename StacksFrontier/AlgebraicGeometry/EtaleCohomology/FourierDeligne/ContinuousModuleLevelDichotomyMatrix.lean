@@ -38,7 +38,7 @@ satisfies the level dichotomy at the image `ℓₙ ∈ ℕ` of `ℓ`. -/
 theorem continuousModuleLevelDichotomy_of_matrix (S₀ : Set (Matrix ι ι O))
     {M : FiniteTypeContinuousModule.{0, v, w} Λ H} (e : M.obj.obj.obj.V ≃ₗ[Λ] (ι → Λ))
     (hS₀ : ∀ a ∈ S₀, ∃ h : H, ∃ c : Λˣ, ∀ x,
-      e ((M.obj.obj.obj.ρ h).hom x) = c • (a.map (algebraMap O Λ) *ᵥ e x))
+      e ((M.obj.obj.obj.ρ h).asHom.hom x) = c • (a.map (algebraMap O Λ) *ᵥ e x))
     (ℓ : O) (ℓₙ : ℕ) (hℓ : algebraMap O Λ ℓ = ℓₙ) (N c₀ : ℕ)
     (hD : ∀ S : Submodule Λ (ι → Λ), (∀ a ∈ S₀, ∀ v ∈ S, a.map (algebraMap O Λ) *ᵥ v ∈ S) →
       (∃ x ∈ S, ℓ ^ N • x ≠ 0) → ∀ w : ι → Λ, ℓ ^ c₀ • w ∈ S) :
@@ -51,7 +51,7 @@ theorem continuousModuleLevelDichotomy_of_matrix (S₀ : Set (Matrix ι ι O))
   have hS : ∀ a ∈ S₀, ∀ v ∈ S, a.map (algebraMap O Λ) *ᵥ v ∈ S := by
     rintro a ha _ ⟨x', hx', rfl⟩
     obtain ⟨h, c, hc⟩ := hS₀ a ha
-    have : a.map (algebraMap O Λ) *ᵥ e x' = (c⁻¹ : Λˣ) • e ((M.obj.obj.obj.ρ h).hom x') := by
+    have : a.map (algebraMap O Λ) *ᵥ e x' = (c⁻¹ : Λˣ) • e ((M.obj.obj.obj.ρ h).asHom.hom x') := by
       rw [hc, smul_smul, inv_mul_cancel, one_smul]
     rw [LinearEquiv.coe_coe, this]
     exact S.smul_mem _ ⟨_, hW h x' hx', rfl⟩

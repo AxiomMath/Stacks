@@ -182,7 +182,7 @@ theorem PoincareDualityPushforwardSetup.kunnethMap_eq_zero_of_lt [HasBinaryProdu
   refine DirectSum.induction_on x (by simp) (fun pq t ↦ ?_) (fun u u' hu hu' ↦ by simp [hu, hu'])
   rw [← DirectSum.lof_eq_of F, S.kunnethMap_lof]
   have ht : TensorProduct.lift (S.externalProductMap pq.1.1 pq.1.2) t = 0 := by
-    refine TensorProduct.induction_on t (by simp) (fun a b ↦ ?_) (fun t t' h h' ↦ by simp [h, h'])
+    refine TensorProduct.inductionOn t (fun a b ↦ ?_) (fun t t' h h' ↦ by simp [h, h'])
     rcases lt_or_ge (2 * (S.dimension X : ℤ)) pq.1.1 with h | h
     · rw [S.bounded X pq.1.1 (.inr h) a]
       simp

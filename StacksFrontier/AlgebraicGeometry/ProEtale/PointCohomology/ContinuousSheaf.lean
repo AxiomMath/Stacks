@@ -164,8 +164,8 @@ theorem isSheaf_contPresheaf :
       rw [heq]
       exact ((mem_contSections_iff_of_isAffine _).1 (x _ hi).down.2).2
   refine ⟨⟨⟨t, htmem⟩⟩, fun W' f' h' ↦ ?_, fun t' ht' ↦ ?_⟩
-  · exact ULift.ext _ _ (Subtype.ext (funext (ht f' h')))
-  · refine ULift.ext _ _ (Subtype.ext (funext fun φ ↦ ?_))
+  · exact ULift.ext (Subtype.ext (funext (ht f' h')))
+  · refine ULift.ext (Subtype.ext (funext fun φ ↦ ?_))
     simpa [contPresheaf_map_apply, hψ] using
       congrArg (fun a : (contPresheaf Λ ρ).obj (op (W φ)) ↦ a.down.1 (ψ φ)) (ht' (f φ) (hf φ))
 

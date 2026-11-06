@@ -325,7 +325,7 @@ theorem isSplitMono_of_dualBasis'
       Finset.sum_congr rfl (fun j _ ↦ hj j), ← Finset.sum_smul, hsum W, one_smul]
     rfl
   refine ⟨Pi.lift α, ⟨⟨∑ j, Pi.π _ j ≫ ρ j, ?_⟩⟩⟩
-  simpa only [Preadditive.comp_sum, ← Category.assoc, Pi.lift_π] using key
+  simpa only [Preadditive.comp_sum, ← Category.assoc, Pi.lift_comp_π] using key
 
 /-- **Stacks Project, Tag 0B8N (b), slice step, with no sheafification hypothesis on the slice
 site.** This is `Stacks.SheafOfModules.exists_isSplitMono_over` with

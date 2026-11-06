@@ -35,6 +35,13 @@ namespace AlgebraicGeometry.Space
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {V W : AlgebraicSpaces B S hS}
 
+/-- Shortcut instance: instance search for products of presheaves on the big fppf site times
+out in Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_excisionAlgebraic
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 /-- **A presheaf over `W` whose two excision legs are algebraic is an algebraic space.**
 
 Let `f : V ⟶ W` be a separated étale morphism of algebraic spaces over `S`, let `T` be a

@@ -148,6 +148,7 @@ private theorem pushforwardModules_isRightAdjoint {X Y : AlgebraicSpaces B S hS}
     (X := smallEtaleRingedTopos B S hS X) (Y := smallEtaleRingedTopos B S hS Y)
     (smallEtaleRingedToposModulesHom B S hS f)).isRightAdjoint
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The module pushforward along a morphism of algebraic spaces is additive. -/
 instance pushforwardModules_additive {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) :
     (Stacks.Sheaves.RingedToposModules.pushforwardModules

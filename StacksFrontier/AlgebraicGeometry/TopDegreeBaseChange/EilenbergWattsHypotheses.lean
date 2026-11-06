@@ -86,6 +86,9 @@ noncomputable instance preservesFiniteColimits_ι_isQuasicoherent (X : Scheme.{u
       PreservesColimit (parallelPair f 0)
         (ObjectProperty.ι (SheafOfModules.isQuasicoherent X.ringCatSheaf)) :=
     fun f => ObjectProperty.preservesCokernels_ι _ f
+  have : HasFiniteCoproducts (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory :=
+    have := @Abelian.hasFiniteBiproducts _ _ (quasicoherentModules_abelian X)
+    hasFiniteCoproducts_of_hasFiniteBiproducts _
   Functor.preservesFiniteColimits_of_preservesCokernels _
 
 /-- **A short exact sequence of quasi-coherent modules is a short exact sequence of module
@@ -209,7 +212,8 @@ theorem preservesColimitsOfShape_discrete_qcohCohomology (X : Scheme.{u})
   let _ : P.IsClosedUnderColimitsOfShape (Discrete J) :=
     Stacks.AlgebraicGeometry.QuasicoherentColimits.isClosedUnderColimitsOfShape
       (K := Discrete J) X
-  let _ : HasColimitsOfShape (Discrete J) P.FullSubcategory := inferInstance
+  let _ : HasColimitsOfShape (Discrete J) P.FullSubcategory :=
+    Limits.hasColimitsOfShape_of_closedUnderColimits (J := Discrete J) (P := P)
   let _ : CreatesColimitsOfShape (Discrete J) (ObjectProperty.ι P) := inferInstance
   let iotaP : P.FullSubcategory ⥤ X.Modules := ObjectProperty.ι P
   let H : X.Modules ⥤ ModuleCat.{u} Γ(X, ⊤) := (moduleGlobalSections X).rightDerived d

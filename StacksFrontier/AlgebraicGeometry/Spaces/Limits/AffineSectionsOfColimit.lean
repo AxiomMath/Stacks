@@ -135,6 +135,7 @@ theorem exists_eq_of_isColimit_of_isQuasicoherentOnSite {K : Type w} [Category.{
       (isClosedUnderCokernels_quasicoherentSheaves B S hS F hF) (φ.app k) (hD k) hM
   have hepi : Epi (factorThruImageSubobject (φ.app k)) := by
     dsimp [factorThruImageSubobject]
+    set_option synthInstance.maxHeartbeats 200000 in
     apply epi_comp
   obtain ⟨y, hy⟩ := surjective_val_app_of_epi_of_isQuasicoherentOnSite
     (factorThruImageSubobject (φ.app k)) hepi (hD k) hIq U hU z

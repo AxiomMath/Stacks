@@ -59,8 +59,8 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian_of_
       (_hz : z ≫ Z.obj.hom = genericFiberSection f σ hσ),
       ∃ (Y : FiniteEtaleGaloisCover X G)
         (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-          e.hom = e.hom ≫ (Z.action g).hom := by
+        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map
+          (Y.action g).asIso.hom ≫ e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   intro S X f _ _ _ _ _ _ σ hσ G _ _ hG Z z hz
   exact Abhyankar.exists_of_galoisExtendsOver_top f Z
     (Abhyankar.galoisExtendsOver_top f Z
@@ -91,8 +91,8 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian
       (_hz : z ≫ Z.obj.hom = genericFiberSection f σ hσ),
       ∃ (Y : FiniteEtaleGaloisCover X G)
         (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-          e.hom = e.hom ≫ (Z.action g).hom :=
+        ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map
+          (Y.action g).asIso.hom ≫ e.hom = e.hom ≫ (Z.action g).asIso.hom :=
   Abhyankar.exists_finiteEtaleGaloisCover_extending_genericFiber_of_quasiCompact_case
     (exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian_of_quasiCompact
       h0BMA h0EYD)

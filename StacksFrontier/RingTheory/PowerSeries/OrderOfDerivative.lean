@@ -29,7 +29,7 @@ variable {K : Type*} [Field K]
 with nonzero constant term. -/
 theorem order_mul_derivative_eq {u F : K⟦X⟧} (hu : constantCoeff u ≠ 0) {t : ℕ}
     (hF : F.order = (t + 1 : ℕ)) (ht : ((t + 1 : ℕ) : K) ≠ 0) :
-    (u * d⁄dX K F).order = t := by
+    (u * d⁄dX F).order = t := by
   have hu0 : u.order = 0 := by
     by_contra h
     exact hu (order_ne_zero_iff_constCoeff_eq_zero.mp h)
@@ -45,14 +45,14 @@ let `D F = u * F'`. If `1, …, k - 1` are nonzero in `K` and the constant terms
 `F, D F, …, D^{k-1} F` vanish, then `F` has order at least `k`. -/
 theorem nat_le_order_of_constantCoeff_iterate_eq_zero {u : K⟦X⟧} (hu : constantCoeff u ≠ 0)
     (F : K⟦X⟧) {k : ℕ} (hk : ∀ t : ℕ, 0 < t → t < k → (t : K) ≠ 0)
-    (h : ∀ j < k, constantCoeff ((fun G => u * d⁄dX K G)^[j] F) = 0) :
+    (h : ∀ j < k, constantCoeff ((fun G => u * d⁄dX G)^[j] F) = 0) :
     (k : ℕ∞) ≤ F.order := by
   by_contra hlt
   push Not at hlt
   obtain ⟨r, hr⟩ : ∃ r : ℕ, F.order = r := ENat.ne_top_iff_exists.mp (ne_top_of_lt hlt) |>.imp
     fun _ h => h.symm
   have hrk : r < k := by exact_mod_cast hr ▸ hlt
-  have key : ∀ i ≤ r, ((fun G => u * d⁄dX K G)^[i] F).order = (r - i : ℕ) := by
+  have key : ∀ i ≤ r, ((fun G => u * d⁄dX G)^[i] F).order = (r - i : ℕ) := by
     intro i hi
     induction i with
     | zero => simpa using hr

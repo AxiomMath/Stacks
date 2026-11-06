@@ -148,7 +148,10 @@ omit [IsLocalRing A'] [IsLocalHom (algebraMap A A')] in
 /-- The map `A' ⊗_A B → V` is compatible with the structure maps from `A'`. -/
 theorem fibreMap_algebraMap (x : A') :
     fibreMap A' P q (algebraMap A' (A' ⊗[A] B) x) = algebraMap A' (FibreRing A' P q) x := by
-  simp [fibreMap, toTensorLocalization, Algebra.TensorProduct.algebraMap_apply]
+  change Ideal.Quotient.mk _ (toTensorLocalization (A := A) A' q (algebraMap A' (A' ⊗[A] B) x)) =
+    Ideal.Quotient.mk _ (algebraMap A' (A' ⊗[A] Localization.AtPrime q) x)
+  rw [Algebra.TensorProduct.algebraMap_apply, Algebra.TensorProduct.algebraMap_apply,
+    toTensorLocalization, Algebra.TensorProduct.map_tmul, map_one]
   rfl
 
 omit [IsLocalRing A'] [IsLocalHom (algebraMap A A')] in
@@ -169,13 +172,12 @@ theorem comap_fibreMap_isMaximal (hV : IsFiniteLength A' (FibreRing A' P q))
   let := P.finite
   have : IsNoetherian A' (FibreRing A' P q) :=
     (isFiniteLength_iff_isNoetherian_isArtinian.mp hV).1
-  apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A')
-  have heq : (p.comap (fibreMap A' P q)).comap (algebraMap A' (A' ⊗[A] B)) =
-      p.comap (algebraMap A' (FibreRing A' P q)) := by
+  apply Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A')
+  have heq : (p.comap (fibreMap A' P q)).under A' = p.under A' := by
     ext x
-    simp only [Ideal.mem_comap, fibreMap_algebraMap]
+    simp only [Ideal.under, Ideal.mem_comap, fibreMap_algebraMap]
   rw [heq]
-  exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal p
+  exact Ideal.isMaximal_under_of_isIntegral_of_isMaximal p
 
 /-- The maximal ideal of `A' ⊗_A B` under a maximal ideal of `V` lies over `𝔮`. -/
 theorem underIdeal_comap_fibreMap (hV : IsFiniteLength A' (FibreRing A' P q))

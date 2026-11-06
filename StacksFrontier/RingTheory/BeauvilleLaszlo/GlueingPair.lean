@@ -373,7 +373,7 @@ private theorem beauvilleLaszloSequence_mono_iff (f : R) (φ : R →+* S) :
   · intro h x y hxy
     exact congrArg ULift.down (h (congrArg ULift.up hxy))
   · intro h x y hxy
-    exact ULift.ext _ _ (h (congrArg ULift.down hxy))
+    exact ULift.ext (h (congrArg ULift.down hxy))
 
 private theorem beauvilleLaszloSequence_exact_iff (f : R) (φ : R →+* S) :
     (beauvilleLaszloSequence f φ).Exact ↔

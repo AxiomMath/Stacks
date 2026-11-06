@@ -201,7 +201,7 @@ theorem affineLine_homOfVector_add_intCast
       T ⟶ AffineLineInvolution.affineLine k) =
       Over.homMk (AffineSpace.homOfVector T.hom (fun _ : PUnit.{u + 1} => x))
         (AffineSpace.homOfVector_over _ _) ≫
-        (AffineLineTranslation.translationAction k (Multiplicative.ofAdd n)).hom := by
+        (AffineLineTranslation.translationAction k (Multiplicative.ofAdd n)).asIso.hom := by
   apply Over.OverMorphism.ext
   apply AffineSpace.hom_ext
   · exact (Over.w _).trans (Over.w _).symm
@@ -212,7 +212,7 @@ theorem affineLine_homOfVector_add_intCast
     show x + (n : Γ(T.left, ⊤)) =
       (AffineSpace.homOfVector T.hom (fun _ : PUnit.{u + 1} => x)).appTop
         (((AffineLineTranslation.translationAction k
-          (Multiplicative.ofAdd n)).hom.left).appTop
+          (Multiplicative.ofAdd n)).asIso.hom.left).appTop
           (AffineSpace.coord (Spec (.of k)) PUnit.unit))
     have h := congrArg
       (fun z => (AffineSpace.homOfVector T.hom (fun _ : PUnit.{u + 1} => x)).appTop z)
@@ -232,7 +232,7 @@ theorem actionRelation_ι_source {S : Scheme.{u}} (U : Over S) (G : Type w) [Gro
 /-- The target map of the graph relation of a group action is `a g` on the copy of `g`. -/
 theorem actionRelation_ι_target {S : Scheme.{u}} (U : Over S) (G : Type w) [Group G]
     [Small.{u} G] (a : G →* Aut U) (g : G) :
-    Sigma.ι (fun _ : G => U) g ≫ (Space.actionRelation U G a).target = (a g).hom := by
+    Sigma.ι (fun _ : G => U) g ≫ (Space.actionRelation U G a).target = (a g).asIso.hom := by
   dsimp only [Space.actionRelation, Stacks.Groupoids.PreRelation.target]
   rw [prod.lift_fst]
   exact Sigma.ι_desc _ _
@@ -245,7 +245,7 @@ theorem quotientSheaf_translate
     (F : C ⥤ Over S) (U : Over S) (G : Type w) [Group G] [Small.{u} G]
     (a : G →* Aut U) (T : Cᵒᵖ) (f : F.obj T.unop ⟶ U) (g : G) :
     (Stacks.Groupoids.toQuotientSheaf J F (Space.actionRelation U G a)).app T
-        (f ≫ (a g).hom) =
+        (f ≫ (a g).asIso.hom) =
       (Stacks.Groupoids.toQuotientSheaf J F (Space.actionRelation U G a)).app T f := by
   let j := Space.actionRelation U G a
   let q := Stacks.Groupoids.toQuotientSheaf J F j
@@ -253,7 +253,7 @@ theorem quotientSheaf_translate
   have h := congrArg (fun α => α.app T (f ≫ ι))
     (Stacks.Groupoids.sourceMap_toQuotientSheaf J F j)
   change q.app T ((f ≫ ι) ≫ j.source) = q.app T ((f ≫ ι) ≫ j.target) at h
-  have ht : ι ≫ j.target = (a g).hom := actionRelation_ι_target U G a g
+  have ht : ι ≫ j.target = (a g).asIso.hom := actionRelation_ι_target U G a g
   have hs : ι ≫ j.source = 𝟙 U := actionRelation_ι_source U G a g
   simpa only [Category.assoc, ht, hs, Category.comp_id] using h.symm
 
@@ -360,7 +360,7 @@ theorem actionRelation_coequalizes_of_invariant
       ((Over.post B.inclusion).obj V) ⟶ P)
     (hf : ∀ (T : (BigFppfOver B S hS)ᵒᵖ)
       (x : (Over.post B.inclusion).obj T.unop ⟶
-      (Over.post B.inclusion).obj V) g, f.app T (x ≫ (a g).hom) = f.app T x) :
+      (Over.post B.inclusion).obj V) g, f.app T (x ≫ (a g).asIso.hom) = f.app T x) :
     Stacks.Groupoids.sourceMap (Over.post B.inclusion)
         (Space.actionRelation ((Over.post B.inclusion).obj V) G a) ≫ f =
       Stacks.Groupoids.targetMap (Over.post B.inclusion)
@@ -395,7 +395,7 @@ theorem actionRelation_coequalizes_of_invariant
   exact (congrArg (f.app (Opposite.op V)) (actionRelation_ι_source U G a g)).trans
     (((hf (Opposite.op V) (𝟙 U) g).symm).trans
       (congrArg (f.app (Opposite.op V))
-        ((Category.id_comp (a g).hom).trans (actionRelation_ι_target U G a g).symm)))
+        ((Category.id_comp (a g).asIso.hom).trans (actionRelation_ι_target U G a g).symm)))
 
 /-! ### `𝔸¹_k/ℤ` as the sheafification of the sections modulo the integers -/
 
@@ -469,7 +469,8 @@ noncomputable abbrev lineToSectionsModZSheaf :
 /-- The projection of the functor of points of the affine line onto the sections modulo the
 integers is an epimorphism of presheaves. -/
 instance : Epi ((lineSectionsIso k B hS).hom ≫
-    presheafModZProjection (sectionsPresheaf k B hS)) := epi_comp _ _
+    presheafModZProjection (sectionsPresheaf k B hS)) :=
+  epi_comp' (IsIso.epi_of_iso _) (presheafModZProjection_epi _)
 
 omit [CharZero k] in
 /-- Reading a global section as a morphism to the affine line and projecting to `𝔸¹_k/ℤ` is
@@ -530,27 +531,27 @@ theorem lineToSectionsModZSheaf_translate
       (Over.post (X := B.obj hS) B.inclusion).obj
         (siteAffineLine k B hS (contains_affineLine k B hS)))
     (g : Multiplicative ℤ) :
-    (lineToSectionsModZSheaf k B hS).app T (x ≫ (translationAction k g).hom) =
+    (lineToSectionsModZSheaf k B hS).app T (x ≫ (translationAction k g).asIso.hom) =
       (lineToSectionsModZSheaf k B hS).app T x := by
   let R := sectionsPresheaf k B hS
   let P := R ⋙ sectionsModZ ⋙ forget AddCommGrpCat
   let J := BigFppfOver.topology B (Spec (.of k)) hS
-  have hact : (((translationAction k g).hom).left).appTop
+  have hact : (((translationAction k g).asIso.hom).left).appTop
       (AffineSpace.coord (Spec (.of k)) PUnit.unit) =
       AffineSpace.coord (Spec (.of k)) PUnit.unit +
         ((g.toAdd : ℤ) : Γ(AffineSpace PUnit.{u + 1} (Spec (.of k)), ⊤)) :=
     translationAction_apply k g.toAdd
   show (toSheafify J P).app T
       ((sectionsModZProjection.app (R.obj T)).hom
-        ((x ≫ (translationAction k g).hom).left.appTop
+        ((x ≫ (translationAction k g).asIso.hom).left.appTop
           (AffineSpace.coord (Spec (.of k)) PUnit.unit))) =
     (toSheafify J P).app T
       ((sectionsModZProjection.app (R.obj T)).hom
         (x.left.appTop (AffineSpace.coord (Spec (.of k)) PUnit.unit)))
   refine congrArg ((toSheafify J P).app T) ?_
-  have h1 : (x ≫ (translationAction k g).hom).left.appTop
+  have h1 : (x ≫ (translationAction k g).asIso.hom).left.appTop
         (AffineSpace.coord (Spec (.of k)) PUnit.unit) =
-      x.left.appTop ((((translationAction k g).hom).left).appTop
+      x.left.appTop ((((translationAction k g).asIso.hom).left).appTop
         (AffineSpace.coord (Spec (.of k)) PUnit.unit)) := rfl
   have h2 : x.left.appTop (AffineSpace.coord (Spec (.of k)) PUnit.unit +
         ((g.toAdd : ℤ) : Γ(AffineSpace PUnit.{u + 1} (Spec (.of k)), ⊤))) =

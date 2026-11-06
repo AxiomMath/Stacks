@@ -100,7 +100,7 @@ private lemma subalgebraOfIdealSmul_finite (R C : Type*) [CommRing R] [CommRing 
 private lemma comap_eq_maximalIdeal_of_isMaximal (R C : Type*) [CommRing R] [IsLocalRing R]
     [CommRing C] [Algebra R C] [Module.Finite R C] (p : Ideal C) (hp : p.IsMaximal) :
     p.comap (algebraMap R C) = IsLocalRing.maximalIdeal R :=
-  IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal p)
+  IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) p)
 
 /-- An ideal whose square lies over the maximal ideal of the base lies in every maximal ideal. -/
 private lemma le_of_mul_self_le_map_maximalIdeal (R C : Type*) [CommRing R] [IsLocalRing R]

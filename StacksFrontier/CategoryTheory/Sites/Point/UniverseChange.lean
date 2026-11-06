@@ -87,13 +87,13 @@ variable (F : C ⥤ Type w)
 /-- The comparison functor of `CategoryTheory.Functor.Elements.uliftEquiv`: an element of `F` is an
 element of the universe-lifted functor `F ⋙ uliftFunctor`. -/
 def ulift : F.Elements ⥤ (F ⋙ uliftFunctor.{w'}).Elements where
-  obj x := ⟨x.1, ULift.up x.2⟩
-  map f := ⟨f.1, ULift.ext _ _ f.2⟩
+  obj x := .mk (F := F ⋙ uliftFunctor.{w'}) (obj := x.obj) (ULift.up x.val)
+  map f := Functor.Elements.homMk f.hom (congrArg ULift.up f.map_val)
 
 /-- The inverse comparison functor of `CategoryTheory.Functor.Elements.uliftEquiv`. -/
 def uliftInv : (F ⋙ uliftFunctor.{w'}).Elements ⥤ F.Elements where
-  obj x := ⟨x.1, x.2.down⟩
-  map f := ⟨f.1, congrArg ULift.down f.2⟩
+  obj x := .mk (F := F) (obj := x.obj) x.val.down
+  map f := Functor.Elements.homMk f.hom (congrArg ULift.down f.map_val)
 
 /-- Raising the universe of a functor to types does not change its category of elements: an element
 of `(F ⋙ uliftFunctor).obj X` is a `ULift` of an element of `F.obj X`, and a morphism of elements
@@ -127,7 +127,7 @@ def GrothendieckTopology.Point.ulift (Φ : GrothendieckTopology.Point.{w} J) :
   fiber := Φ.fiber ⋙ uliftFunctor.{w'}
   jointly_surjective R hR x := by
     obtain ⟨Y, f, hf, y, hy⟩ := Φ.jointly_surjective R hR x.down
-    exact ⟨Y, f, hf, ULift.up y, ULift.ext _ _ hy⟩
+    exact ⟨Y, f, hf, ULift.up y, congrArg ULift.up hy⟩
 
 open GrothendieckTopology in
 /-- Conservativity of a family of points survives raising the universe: if `P` is a `w`-small

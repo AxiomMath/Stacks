@@ -72,7 +72,7 @@ public theorem isMaximal_map_of_under_eq {q : Ideal T} [q.IsPrime] (hq : q.under
   have : (q.map (algebraMap T L)).IsPrime :=
     isPrime_of_isPrime_disjoint _ _ q ‹q.IsPrime›
       (disjoint_algebraMapSubmonoid_of_under_eq p hq)
-  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) _ ?_
+  refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) _ ?_
   have hle : p.map (algebraMap R A) ≤ (q.map (algebraMap T L)).under A := by
     rw [Ideal.map_le_iff_le_comap]
     intro r hr
@@ -83,8 +83,7 @@ public theorem isMaximal_map_of_under_eq {q : Ideal T} [q.IsPrime] (hq : q.under
   rw [AtPrime.map_eq_maximalIdeal p A] at hle
   have heq : (q.map (algebraMap T L)).under A = IsLocalRing.maximalIdeal A :=
     le_antisymm (IsLocalRing.le_maximalIdeal (Ideal.IsPrime.ne_top inferInstance)) hle
-  rw [show (q.map (algebraMap T L)).comap (algebraMap A L) =
-    (q.map (algebraMap T L)).under A from rfl, heq]
+  rw [heq]
   exact IsLocalRing.maximalIdeal.isMaximal A
 
 /-- **The maximal ideals of a localization of an integral extension.** A maximal ideal of the
@@ -95,7 +94,7 @@ public theorem under_under_eq_of_isMaximal (Q : Ideal L) [Q.IsMaximal] :
   let A := Localization.AtPrime p
   let : Algebra A L := localizationAlgebra p.primeCompl T
   obtain ⟨_, _⟩ := isScalarTower_isIntegral_localizationAlgebra (R := R) (T := T) (L := L) p
-  have : (Q.under A).IsMaximal := Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) Q
+  have : (Q.under A).IsMaximal := Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) Q
   have hA : Q.under A = IsLocalRing.maximalIdeal A :=
     IsLocalRing.eq_maximalIdeal inferInstance
   rw [Ideal.under_under, ← Ideal.under_under (B := A), hA]

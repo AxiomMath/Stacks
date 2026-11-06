@@ -57,8 +57,10 @@ theorem sigmaRepι_cancel (l : L) {Z : SpacesEtale B S hS W} (u u' : Z ⟶ N l)
   have h' : u.hom.left.hom ≫ ((iN l).inv ≫ yoneda.map (c l)) =
       u'.hom.left.hom ≫ ((iN l).inv ≫ yoneda.map (c l)) :=
     congrArg (fun g => g.hom.left.hom) h
+  have hm : Mono ((iN l).inv ≫ yoneda.map (c l)) :=
+    @mono_comp _ _ _ _ _ _ (IsIso.mono_of_iso _) _ (Functor.map_mono yoneda _)
   exact ObjectProperty.hom_ext _ (Over.OverMorphism.ext (ObjectProperty.hom_ext _
-    ((cancel_mono _).1 h')))
+    (hm.right_cancellation _ _ h')))
 
 /-- **The summands of the coproduct object are disjoint**: an object mapping to two distinct
 summands compatibly has no points. -/

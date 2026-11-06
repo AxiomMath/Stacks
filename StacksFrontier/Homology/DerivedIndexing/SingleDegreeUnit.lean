@@ -103,12 +103,8 @@ the bounded-below comparison carries are identities. -/
 theorem ι_map_quotientCompQhIso_hom_app (L : CochainComplex.Plus C) :
     DerivedCategory.Plus.ι.map
         ((DerivedCategory.Plus.quotientCompQhIso C).hom.app L) =
-      (DerivedCategory.quotientCompQhIso C).hom.app L.obj := by
-  show DerivedCategory.Plus.ι.map (DerivedCategory.Plus.ι.preimage _) = _
-  refine (DerivedCategory.Plus.ι.map_preimage _).trans ?_
-  show 𝟙 _ ≫ DerivedCategory.Qh.map (𝟙 _) ≫
-      (DerivedCategory.quotientCompQhIso C).hom.app L.obj = _
-  rw [CategoryTheory.Functor.map_id, Category.id_comp, Category.id_comp]
+      (DerivedCategory.quotientCompQhIso C).hom.app L.obj :=
+  rfl
 
 /-- `ι_map_quotientCompQhIso_hom_app` for the inverse, by uniqueness of inverses. -/
 theorem ι_map_quotientCompQhIso_inv_app (L : CochainComplex.Plus C) :
@@ -226,7 +222,7 @@ theorem singleDerivedUnit_eq (q : ℤ) (X : C) :
       (CategoryTheory.Functor.singleFunctorPlusIsoCompQh (A := D) q).hom.app (P.obj X) ≫
         DerivedCategory.Plus.Qh.map ((HomotopyCategory.Plus.quotient D).map
           ((mapSinglePlus P q).app X)) ≫
-        P.rightDerivedFunctorPlusUnit.app
+        P.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C).obj ((singlePlusFunctor C q).obj X)) ≫
         P.rightDerivedFunctorPlus.map
           ((CategoryTheory.Functor.singleFunctorPlusIsoCompQh (A := C) q).inv.app X) := by
@@ -238,14 +234,14 @@ theorem singleDerivedUnit_eq (q : ℤ) (X : C) :
     DerivedCategory.Plus.Q.map ((mapSinglePlus P q).app X) ≫ z) hu) ?_
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   refine Eq.trans (congrArg (fun z => z ≫
-    (P.rightDerivedFunctorPlusUnit.app
+    (P.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient C).obj ((singlePlusFunctor C q).obj X)) ≫
       P.rightDerivedFunctorPlus.map
         ((DerivedCategory.Plus.quotientCompQhIso C).hom.app
           ((singlePlusFunctor C q).obj X)))) hnat) ?_
   refine Eq.trans (congrArg (fun z => (z ≫ DerivedCategory.Plus.Qh.map
       ((HomotopyCategory.Plus.quotient D).map ((mapSinglePlus P q).app X))) ≫
-      (P.rightDerivedFunctorPlusUnit.app
+      (P.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C).obj ((singlePlusFunctor C q).obj X)) ≫
         P.rightDerivedFunctorPlus.map
           ((DerivedCategory.Plus.quotientCompQhIso C).hom.app
@@ -255,7 +251,7 @@ theorem singleDerivedUnit_eq (q : ℤ) (X : C) :
       ((CategoryTheory.Functor.singleFunctorPlusIsoCompQh (A := D) q).hom.app (P.obj X) ≫
         DerivedCategory.Plus.Qh.map
           ((HomotopyCategory.Plus.quotient D).map ((mapSinglePlus P q).app X))) ≫
-      (P.rightDerivedFunctorPlusUnit.app
+      (P.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C).obj ((singlePlusFunctor C q).obj X)) ≫
         P.rightDerivedFunctorPlus.map z))
     (quotientCompQhIso_hom_app_singlePlus q X)) ?_
@@ -288,7 +284,7 @@ theorem singleDerivedUnit_zero (X : C) :
   refine (singleDerivedUnit_eq P 0 X).trans ?_
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   exact congrArg (fun z => z ≫
-      P.rightDerivedFunctorPlusUnit.app
+      P.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient C).obj ((singlePlusFunctor C 0).obj X)) ≫
         P.rightDerivedFunctorPlus.map
           ((CategoryTheory.Functor.singleFunctorPlusIsoCompQh (A := C) 0).inv.app X))

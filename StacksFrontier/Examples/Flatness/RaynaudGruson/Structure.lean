@@ -57,6 +57,13 @@ universe u
 
 variable (k : Type u) [Field k]
 
+/-- A shortcut for the self-action of a semiring: since Lean v4.35.0, the search for the
+`DistribMulAction R R` behind `OreLocalization.instAdd` on the localizations of the
+construction tries the quotient-module instances first and times out. -/
+local instance (priority := high) distribMulActionSelf {R : Type*} [Semiring R] :
+    DistribMulAction R R :=
+  Module.toDistribMulAction
+
 /-- The local ring `k[X]_(X)` occurring in the product decomposition. -/
 abbrev lineAtOrigin :=
   Localization (Submonoid.comap (Polynomial.evalRingHom (0 : k)) (nonZeroDivisors k))
@@ -318,8 +325,8 @@ private noncomputable def ringA_quotient_idealP_equiv_base : (n : PNat) →
         Set (ringA k ⧸ idealI k))).map (e : (ringA k ⧸ idealI k) →+* baseRing k) := by
     calc
       Ideal.span ({f k n} : Set (baseRing k)) =
-          Ideal.span ({ringA_quotient_idealI_equiv_base k
-            (Ideal.Quotient.mk (idealI k) (fA k n))} : Set (baseRing k)) := by
+          Ideal.span ({(ringA_quotient_idealI_equiv_base k
+            (Ideal.Quotient.mk (idealI k) (fA k n)))} : Set (baseRing k)) := by
               rw [ringA_quotient_idealI_equiv_base_mk_f]
       _ = (Ideal.span ({Ideal.Quotient.mk (idealI k) (fA k n)} :
           Set (ringA k ⧸ idealI k))).map (e : (ringA k ⧸ idealI k) →+* baseRing k) := by
@@ -1944,7 +1951,7 @@ private lemma prove_quotientQ (n : PNat) :
       have he : q (xC k * zC k + xC k ^ ((n : ℕ) + 1) + 1) = 0 :=
         Ideal.Quotient.eq_zero_iff_mem.mpr (factor_mem_idealQ k n)
       simpa only [map_add, map_mul, map_pow, map_one] using he
-    rw [rationalCurveC_zC, map_neg, map_add, map_pow, hx]
+    rw [rationalCurveC_zC, F.map_neg, F.map_add, map_pow F, hx]
     apply (quotientQ_x_isUnit k n).mul_left_cancel
     linear_combination -hi - hq
   have hcomp : F.comp (rationalCurveC k n) = q := by

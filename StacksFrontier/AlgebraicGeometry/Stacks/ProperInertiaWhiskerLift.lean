@@ -127,8 +127,8 @@ theorem exists_lift_of_isProper {U V : BigFppfOver B S hS} (j : V ⟶ U)
     (Space.isProper_iff_forall_unique_lift_of_isFiniteType_of_isQuasiSeparated hX hY p
       hp.2.1 (Space.isQuasiSeparated_of_isSeparated B S hS hp.1)).mp hp q
   refine ⟨yoneda.map iR.inv ≫ l.map, ?_, ?_⟩
-  · apply (cancel_epi (yoneda.map iK.hom)).mp
-    rw [← Category.assoc, ← yoneda.map_comp, hj₀, yoneda.map_comp]
+  · apply ((yoneda.mapIso iK).cancel_iso_hom_left _ _).mp
+    rw [Functor.mapIso_hom, ← Category.assoc, ← yoneda.map_comp, hj₀, yoneda.map_comp]
     have hl := l.generic_comm
     change yoneda.map j₀ ≫ l.map = yoneda.map iK.hom ≫ x at hl
     simpa only [Category.assoc, ← yoneda.map_comp_assoc, Iso.hom_inv_id,
@@ -170,7 +170,7 @@ theorem exists_section_of_isProper {U V : BigFppfOver B S hS} (j : V ⟶ U)
     exact spacesOverSmallerBaseFunctor_hom_app_forgetIso_inv_app B U.left.1 S U.left.2 hS
       U.hom A (.op V) s₀
   obtain ⟨l, hl, hlp⟩ := exists_lift_of_isProper B S hS j R eU eV hj (G.obj A).property
-    (isAlgebraicSpace_yoneda B S hS (Over.mk U.hom)) p hp x (𝟙 _) (by simpa using hx)
+    (isAlgebraicSpace_yoneda B S hS (Over.mk U.hom)) p hp x (𝟙 _) (by rw [Category.comp_id]; exact hx)
   let t₀ := i.hom.app (.op U) (yonedaEquiv l)
   have ht : (Over.homMk t₀.1.1 t₀.2 : U ⟶ U) = 𝟙 _ := by
     have ht := spacesOverSmallerBaseFunctor_hom_app_forgetIso_inv_app B U.left.1 S U.left.2 hS
@@ -367,7 +367,7 @@ theorem exists_whiskerLeft_of_isProper_inertiaProjection
   have hτiso : IsIso (τ.hom.toNatTrans.app V₀) :=
     Functor.isIso_of_fiber_isGroupoid (𝒴.val.isFiberedInGroupoids.fiber_isGroupoid V)
       (τ.hom.toNatTrans.app V₀) hτ
-  let τAut : Aut (y.hom.obj (j.hom.obj V₀)) := @asIso _ _ _ _ (τ.hom.toNatTrans.app V₀) hτiso
+  let τAut : Aut (y.hom.obj (j.hom.obj V₀)) := Aut.of (@asIso _ _ _ _ (τ.hom.toNatTrans.app V₀) hτiso)
   let A : RelativeInertia 𝒴.val.val.p :=
     { obj := y.hom.obj (j.hom.obj V₀)
       auto := τAut
@@ -439,7 +439,7 @@ theorem exists_whiskerLeft_of_isProper_inertiaProjection
   have hqv : 𝒴.val.val.p.IsHomLift (𝟙 W) qiso.hom := qvert
   have hqvinv : 𝒴.val.val.p.IsHomLift (𝟙 W) qiso.inv :=
     isHomLift_id_inv 𝒴.val.val.p qiso hqv
-  let au : π.hom.obj qy ⟶ π.hom.obj qy := qy.auto.hom
+  let au : π.hom.obj qy ⟶ π.hom.obj qy := qy.auto.asIso.hom
   have hauto : 𝒴.val.val.p.IsHomLift (𝟙 W) au :=
     isHomLift_id_of_map_eq_id 𝒴.val.val.p au qy.cond qhy
   let E : y.hom.obj T₀ ≅ yf.obj (Over.mk (𝟙 W.left)) := y.hom.toFunctor.mapIso e

@@ -103,13 +103,13 @@ noncomputable def smallerBaseInverseRelocalizeEquiv
         apply Subtype.ext
         refine Eq.trans ?_ (OverShriek.sigmaMk_eq_self _ s e rfl)
         refine congrArg (Sigma.mk _) (Subtype.ext ?_)
-        refine (FunctorToTypes.map_comp_apply X.left
+        refine (X.left.map_comp_apply
           (smallerBaseFactorHom B V S hV hS g hψ0).op _ s.1).symm.trans
           (congrArg (fun k => X.left.map k s.1) (Quiver.Hom.unop_inj (Over.OverMorphism.ext ?_)))
         rfl
       right_inv := by
         intro t
-        refine (FunctorToTypes.map_comp_apply X.left
+        refine (X.left.map_comp_apply
           (smallerBaseFactorHomInv B V S hV hS g (Over.w (X.hom.app T t))).op _ t).symm.trans ?_
         have : smallerBaseFactorHom B V S hV hS g (Over.w (X.hom.app T t)) ≫
             smallerBaseFactorHomInv B V S hV hS g (Over.w (X.hom.app T t)) = 𝟙 _ :=
@@ -117,7 +117,7 @@ noncomputable def smallerBaseInverseRelocalizeEquiv
         have hop : (smallerBaseFactorHomInv B V S hV hS g (Over.w (X.hom.app T t))).op ≫
             (smallerBaseFactorHom B V S hV hS g (Over.w (X.hom.app T t))).op = 𝟙 _ := by
           rw [← op_comp, this, op_id]
-        exact (congrArg (fun k => X.left.map k t) hop).trans (FunctorToTypes.map_id_apply _ _) }
+        exact (congrArg (fun k => X.left.map k t) hop).trans (X.left.map_id_apply _ t) }
 
 /-- The lower-shriek extension along `g : V ⟶ S` of the presheaf `X_V` over `V` that Stacks 04SG
 attaches to a presheaf `X` over the representable presheaf of `g` is `X` again, through the
@@ -130,8 +130,8 @@ noncomputable def smallerBaseInverseRelocalizeIso
     (by
       intro T T' f
       ext ⟨⟨ψ, s⟩, hψ⟩
-      refine (FunctorToTypes.map_comp_apply X.left _ _ s.1).symm.trans
-        (Eq.trans ?_ (FunctorToTypes.map_comp_apply X.left _ f s.1))
+      refine (X.left.map_comp_apply _ _ s.1).symm.trans
+        (Eq.trans ?_ (X.left.map_comp_apply _ f s.1))
       refine congrArg (fun k => X.left.map k s.1) (Quiver.Hom.unop_inj ?_)
       refine Over.OverMorphism.ext ?_
       change 𝟙 _ ≫ f.unop.left = f.unop.left ≫ 𝟙 _

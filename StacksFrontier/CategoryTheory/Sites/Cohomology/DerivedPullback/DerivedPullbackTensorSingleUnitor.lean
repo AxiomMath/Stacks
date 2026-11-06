@@ -514,6 +514,7 @@ lemma pullbackUnitComplexMapDeg_f_self (q : ℤ) :
     Iso.app_hom, HomologicalComplex.singleMapHomologicalComplex_hom_app_self,
     HomologicalComplex.single_map_f_self, Category.assoc, Iso.inv_hom_id_assoc]
 
+set_option maxHeartbeats 1000000 in
 omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]
   [∀ M, ((Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).obj M).Additive]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} Y.O).Additive]

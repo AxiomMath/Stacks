@@ -468,14 +468,16 @@ theorem hasProperSupport_kernel (hZ : B.Contains (⊤_ Scheme.{u}))
       (isPowAnnihilated_of_le B (Spec (.of A)) hA X.1 X.2 K (Nat.le_succ s) _ hks)
   have : IsIso (completionTermProjection B (Spec (.of A)) hA X.1 X.2 K hK P s) :=
     isIso_π_idealPowerMultiple_of_eq_bot B (Spec (.of A)) hA X.1 X.2 K (s + 1) P.obj hPs
+  have : Mono (completionTermProjection B (Spec (.of A)) hA X.1 X.2 K hK P s) :=
+    IsIso.mono_of_iso _
   let ψ : P.obj ⟶ smallEtaleAdicQuotient B (Spec (.of A)) hA X.1 X.2 K (s + c + 1) F'.obj :=
     ι.hom ≫ completionTermProjection B (Spec (.of A)) hA X.1 X.2 K hK F' (s + c)
   have : Mono ψ := by
-    refine Preadditive.mono_of_cancel_zero _ fun {T} g hg => ?_
+    refine Preadditive.mono_of_cancel_zero (C := SheafOfModules _) _ fun {T} g hg => ?_
     exact (cancel_mono (completionTermProjection B (Spec (.of A)) hA X.1 X.2 K hK P s)).1
       ((hc s g hg).trans zero_comp.symm)
   let φ : P.obj ⟶ (d.G (s + c)).obj := ψ ≫ (d.βApp β (s + c)).inv
-  have : Mono φ := mono_comp _ _
+  have : Mono φ := mono_comp' ‹Mono ψ› (IsIso.mono_of_iso (d.βApp β (s + c)).inv)
   have hinj : ∀ U : SmallEtale B (Spec (.of A)) hA X.1, Function.Injective (φ.val.app (op U)) :=
     fun U => (ModuleCat.mono_iff_injective _).mp
       (Functor.map_mono (SheafOfModules.evaluation

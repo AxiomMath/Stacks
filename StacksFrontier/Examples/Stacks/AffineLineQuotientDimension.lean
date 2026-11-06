@@ -91,7 +91,7 @@ namespace Stacks.Examples.AffineLineQuotient
 theorem isStandardSmoothOfRelativeDimension_polynomialC (R : Type*) [CommRing R] :
     (Polynomial.C : R →+* Polynomial R).IsStandardSmoothOfRelativeDimension 1 := by
   have : Algebra.IsStandardSmoothOfRelativeDimension 1 R (MvPolynomial PUnit.{1} R) :=
-    (Algebra.SubmersivePresentation.mvPolynomial R PUnit).isStandardSmoothOfRelativeDimension (by
+    (Algebra.SubmersivePresentation.mvPolynomial.{0} R PUnit).isStandardSmoothOfRelativeDimension (by
       simp [Algebra.Presentation.dimension])
   have h : Algebra.IsStandardSmoothOfRelativeDimension 1 R (Polynomial R) :=
     Algebra.IsStandardSmoothOfRelativeDimension.of_algEquiv (n := 1)
@@ -292,7 +292,7 @@ theorem isSmoothOfRelativeDimension_overStar {F : (BigFppfOver C S hS)ᵒᵖ ⥤
     Space.IsSmoothOfRelativeDimension C S hS d ((Space.overStar C S hS F).obj Q).hom := by
   have hhom : ((Space.overStar C S hS F).obj Q).hom = (prod.fst : F ⨯ Q ⟶ F) := by
     simp only [Space.overStar, Over.star_obj_hom]
-    exact prod.lift_fst _ _
+    rfl
   rw [hhom]
   exact isSmoothOfRelativeDimension_prod_fst C S hS hF Q r d
 

@@ -2,6 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Limits
 public import Mathlib.AlgebraicGeometry.Sites.BigZariski
+public import Mathlib.CategoryTheory.Sites.Preserves
 public import StacksFrontier.AlgebraicGeometry.Topologies.StandardPhRefinement
 public import StacksFrontier.AlgebraicGeometry.Topologies.V.Coverings
 public import StacksFrontier.AlgebraicGeometry.Topologies.V.PhComparison

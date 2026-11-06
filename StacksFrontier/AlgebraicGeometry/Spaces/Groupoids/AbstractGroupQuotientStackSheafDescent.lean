@@ -282,7 +282,7 @@ lemma glueVal_totalSmul {W : BigFppfOver B S hS} (g : W ⟶ V) (hg : R g) (g' : 
     (q : y.Total (op W)) (hq : q.1 = g ≫ h) :
     glueVal h x f hf g hg
       (y.totalSmul (constantSheafOfGroupsUnit (BigFppfOver.topology B S hS) G (op W) g') q)
-      hq = (ρ g').hom.app (op W) (glueVal h x f hf g hg q hq) := by
+      hq = (ρ g').asIso.hom.app (op W) (glueVal h x f hf g hg q hq) := by
   obtain ⟨p, ⟨hp₁, hp₂⟩, -⟩ := glue_pre h x f hf g hg q hq
   rw [glueVal_eq h x f hf g hg q hq p hp₁ hp₂, ← totalToTarget_totalSmul]
   refine glueVal_eq h x f hf g hg _ _ _ hp₁ ?_
@@ -336,7 +336,7 @@ def glueObj : AbstractGroupQuotientStack.{max (u + 1) t} B S hS G X ρ where
       rw [Category.assoc, Over.w m.unop]
       exact hk
     refine (glueMap_restrict h x f hf hc hX hR W₂ _ k hk).trans
-      (Eq.trans ?_ (FunctorToTypes.map_comp_apply X (m.unop.left).op k.op _))
+      (Eq.trans ?_ (X.map_comp_apply (m.unop.left).op k.op _))
     refine Eq.trans ?_ (glueMap_restrict h x f hf hc hX hR W₁ s (k ≫ m.unop.left) hk').symm
     refine glueVal_congr h x f hf (by rw [Category.assoc, Over.w m.unop]) _ _ ?_ _ _
     refine Eq.trans ?_ (SheafOfGroups.Torsors.totalMap_comp y m.unop.left.op k.op _)
@@ -360,7 +360,7 @@ lemma glueMap_eq {Wo : BigFppfOver B S hS} (b : Wo ⟶ V) (hb : R b)
     glueMap h x f hf hc hX hR (op (Over.mk b)) s =
       glueVal h x f hf b hb (⟨b ≫ h, s⟩ : y.Total (op Wo)) rfl := by
   have hmem : R (𝟙 Wo ≫ b) := (congrArg (fun φ => R.arrows φ) (Category.id_comp b)).mpr hb
-  refine (FunctorToTypes.map_id_apply X _).symm.trans ?_
+  refine (X.map_id_apply _ _).symm.trans ?_
   refine (glueMap_restrict h x f hf hc hX hR (op (Over.mk b)) s (𝟙 Wo) hmem).trans ?_
   exact glueVal_congr h x f hf (Category.id_comp b) _ _
     (SheafOfGroups.Torsors.totalMap_id y _) _ _

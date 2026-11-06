@@ -207,7 +207,7 @@ theorem complexChernBounded_koszulComplex_mul :
     let := hK a
     let := hK b
     exact Units.ext (commute_totalChern C sY (K.X a) (K.X b) _ _).eq
-  have := Subgroup.isMulCommutative_closure hcomm
+  have := Subgroup.isMulCommutative_closure fun a ha b hb _ => hcomm a ha b hb
   set G := Subgroup.closure (Set.range u)
   have hmem : ∀ n, complexChernFactor C sY K (koszulRank r) hK n ∈ G := fun n =>
     Subgroup.zpow_mem _ (Subgroup.subset_closure (Set.mem_range_self (f := u) n)) _

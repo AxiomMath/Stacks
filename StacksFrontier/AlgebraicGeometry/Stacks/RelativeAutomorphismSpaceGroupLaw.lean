@@ -103,17 +103,17 @@ abbrev objIso (A : (relativeAutomorphismSpaceOverSpace B S hS Z hZ f x).val.obj)
 /-- The conjugate of the automorphism of an object of `Z ×_{x, 𝒳} ℐ_{𝒳/𝒴}` is vertical. -/
 lemma isHomLift_objConjugate (A : (relativeAutomorphismSpaceOverSpace B S hS Z hZ f x).val.obj) :
     𝒳.val.val.p.IsHomLift (𝟙 A.base)
-      ((objIso B S hS Z hZ f x A).hom ≫ A.y.auto.hom ≫ (objIso B S hS Z hZ f x A).inv) := by
+      ((objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv) := by
   have h1 : 𝒳.val.val.p.IsHomLift (𝟙 A.base) (objIso B S hS Z hZ f x A).hom := A.vertical
   have hy : 𝒳.val.val.p.obj A.y.obj = A.base := A.hy
-  have h2 : 𝒳.val.val.p.IsHomLift (𝟙 A.base) A.y.auto.hom :=
-    (congrArg (fun U => 𝒳.val.val.p.IsHomLift (𝟙 U) A.y.auto.hom) hy).mp
-      (isHomLift_of_map_eq_id B S hS f A.y.auto.hom A.y.cond)
+  have h2 : 𝒳.val.val.p.IsHomLift (𝟙 A.base) A.y.auto.asIso.hom :=
+    (congrArg (fun U => 𝒳.val.val.p.IsHomLift (𝟙 U) A.y.auto.asIso.hom) hy).mp
+      (isHomLift_of_map_eq_id B S hS f A.y.auto.asIso.hom A.y.cond)
   have h3 : 𝒳.val.val.p.IsHomLift (𝟙 A.base) (objIso B S hS Z hZ f x A).inv := by
     rw [← IsIso.Iso.inv_hom]
     exact IsHomLift.lift_id_inv_isIso 𝒳.val.val.p A.base (objIso B S hS Z hZ f x A).hom
   have hc : 𝒳.val.val.p.IsHomLift (𝟙 A.base ≫ 𝟙 A.base ≫ 𝟙 A.base)
-      ((objIso B S hS Z hZ f x A).hom ≫ A.y.auto.hom ≫ (objIso B S hS Z hZ f x A).inv) :=
+      ((objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv) :=
     inferInstance
   simpa using hc
 
@@ -122,9 +122,9 @@ automorphism of the object of the inertia, conjugated into an automorphism of `x
 underlying point of `Z` by the comparison isomorphism. -/
 def objAutomorphism (A : (relativeAutomorphismSpaceOverSpace B S hS Z hZ f x).val.obj) :
     RelativeAutomorphism B S hS Z hZ f x A.x := by
-  refine ⟨⟨(objIso B S hS Z hZ f x A).hom ≫ A.y.auto.hom ≫ (objIso B S hS Z hZ f x A).inv, ?_⟩, ?_⟩
+  refine ⟨⟨(objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv, ?_⟩, ?_⟩
   · exact (congrArg (fun U => 𝒳.val.val.p.IsHomLift (𝟙 U)
-      ((objIso B S hS Z hZ f x A).hom ≫ A.y.auto.hom ≫ (objIso B S hS Z hZ f x A).inv))
+      ((objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv))
         A.hx).mpr (isHomLift_objConjugate B S hS Z hZ f x A)
   · rw [CategoryTheory.Functor.map_comp, CategoryTheory.Functor.map_comp, A.y.cond,
       Category.id_comp, ← CategoryTheory.Functor.map_comp, Iso.hom_inv_id,
@@ -135,7 +135,7 @@ object of the inertia by the comparison isomorphism. -/
 @[simp] lemma objAutomorphism_val
     (A : (relativeAutomorphismSpaceOverSpace B S hS Z hZ f x).val.obj) :
     (objAutomorphism B S hS Z hZ f x A).1.1 =
-      (objIso B S hS Z hZ f x A).hom ≫ A.y.auto.hom ≫ (objIso B S hS Z hZ f x A).inv := rfl
+      (objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv := rfl
 
 /-- The object `(x(a), φ)` of the relative inertia attached to a relative automorphism `φ` of
 `x` at a point `a` of `Z`. -/
@@ -146,7 +146,7 @@ noncomputable def inertiaObj
   obj := x.hom.hom.toFunctor.obj a
   auto :=
     haveI := VertHom.isIso_val 𝒳.val.isFiberedInGroupoids φ.1
-    asIso φ.1.1
+    Aut.of (asIso φ.1.1)
   cond := φ.2
 
 /-- The underlying object of `inertiaObj φ` is `x(a)`. -/
@@ -159,7 +159,7 @@ noncomputable def inertiaObj
 @[simp] lemma inertiaObj_auto_hom
     {a : (algebraicSpaceStack.{u, w} B S hS Z hZ).val.val.obj}
     (φ : RelativeAutomorphism B S hS Z hZ f x a) :
-    (inertiaObj B S hS Z hZ f x φ).auto.hom = φ.1.1 := rfl
+    (inertiaObj B S hS Z hZ f x φ).auto.asIso.hom = φ.1.1 := rfl
 
 /-- **The comparison 1-morphism** from the category of elements of the presheaf of relative
 automorphisms to `Z ×_{x, 𝒳} ℐ_{𝒳/𝒴}`: a relative automorphism `φ` of `x` at a point `a` of `Z`
@@ -315,8 +315,8 @@ noncomputable def objElementIsoHom
     { hom := (objIso B S hS Z hZ f x A).inv
       comm := by
         change (objIso B S hS Z hZ f x A).inv ≫ (objIso B S hS Z hZ f x A).hom ≫
-            A.y.auto.hom ≫ (objIso B S hS Z hZ f x A).inv =
-          A.y.auto.hom ≫ (objIso B S hS Z hZ f x A).inv
+            A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv =
+          A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv
         simp }
   ha := isHomLift_eqToHom_hx_symm B S hS Z hZ f x A
   hb := (CategoryTheory.RelativeInertia.isHomLift_π_comp_iff (p := 𝒳.val.val.p) _ _).mpr
@@ -335,8 +335,8 @@ noncomputable def objElementIsoInv
   b :=
     { hom := (objIso B S hS Z hZ f x A).hom
       comm := by
-        change (objIso B S hS Z hZ f x A).hom ≫ A.y.auto.hom =
-          ((objIso B S hS Z hZ f x A).hom ≫ A.y.auto.hom ≫ (objIso B S hS Z hZ f x A).inv) ≫
+        change (objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom =
+          ((objIso B S hS Z hZ f x A).hom ≫ A.y.auto.asIso.hom ≫ (objIso B S hS Z hZ f x A).inv) ≫
             (objIso B S hS Z hZ f x A).hom
         simp }
   ha := isHomLift_eqToHom_hx B S hS Z hZ f x A

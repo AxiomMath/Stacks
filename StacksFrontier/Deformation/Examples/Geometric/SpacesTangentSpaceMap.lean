@@ -35,6 +35,33 @@ attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
 universe u
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves of sets, supplied directly: instance search for them times out. -/
+local instance (priority := high) hasProducts_presheaf_SpacesTangentSpaceMap
+    (C : Type*) [Category C] : HasProducts.{0} (C ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves of sets, supplied directly: instance search for them times
+out. -/
+local instance (priority := high) hasProducts_presheaf_SpacesTangentSpaceMap'
+    (C : Type*) [Category C] : HasProducts.{u} (C ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Finite limits of sheaves of sets, supplied directly: instance search for them times out. -/
+local instance (priority := high) hasFiniteLimits_sheaf_SpacesTangentSpaceMap
+    {C : Type*} [Category C] (J : GrothendieckTopology C) :
+    HasFiniteLimits (Sheaf J (Type u)) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- The terminal sheaf of sets, supplied directly: instance search for it times out. -/
+local instance (priority := high) hasTerminal_sheaf_SpacesTangentSpaceMap
+    {C : Type*} [Category C] (J : GrothendieckTopology C) :
+    HasTerminal (Sheaf J (Type u)) :=
+  inferInstance
+
 namespace Deformation.Examples
 
 variable {Λ : Type u} {k : Type u} [CommRing Λ] [Field k] [Algebra Λ k]

@@ -199,7 +199,7 @@ theorem sheafOfDifferentials_hom_ext (p : X ⟶ Y) {F : Modules.{u, u} B S hS X.
     ψ₁ = ψ₂ := by
   apply (differentialsHomEquiv B S hS p F).injective
   rw [differentialsHomEquiv_apply, differentialsHomEquiv_apply]
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext U t
   exact h U t
 
@@ -208,11 +208,11 @@ attaches to a `Y`-derivation `D` carries the universal differential `d_{X/Y}(t)`
 section `t` of `𝒪_X` to `D(t)`.  This is the property that characterizes it. -/
 theorem differentialsHomEquiv_symm_app_d (p : X ⟶ Y)
     (F : Modules.{u, u} B S hS X.1 X.2)
-    (D : F.val.Derivation' (structureSharpInverseImage B S hS p).hom)
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val (structureSharpInverseImage B S hS p).hom)
     (U : (SmallEtale B S hS X.1)ᵒᵖ) (t : (structureRingSheaf B S hS X).obj.obj U) :
     ((((differentialsHomEquiv B S hS p F).symm D).val).app U).hom
         ((universalDerivation B S hS p).d t) = D.d t :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     ((differentialsHomEquiv_apply B S hS p F
         ((differentialsHomEquiv B S hS p F).symm D)).symm.trans
       ((differentialsHomEquiv B S hS p F).apply_symm_apply D)) t
@@ -246,7 +246,7 @@ theorem exists_structureSharpInverseImage_comp_factorization (f : X ⟶ Y) (g : 
 sections, with the vanishing clause taken along the structure map of `f ≫ g` instead of that of
 `f`.  It vanishes there because that structure map factors through `f♯`. -/
 noncomputable def relativeUniversalDerivation (f : X ⟶ Y) (g : Y ⟶ Z) :
-    (sheafOfDifferentials B S hS f).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (sheafOfDifferentials B S hS f).val
       (structureSharpInverseImage B S hS (f ≫ g)).hom where
   d := (universalDerivation B S hS f).d
   d_mul := (universalDerivation B S hS f).d_mul
@@ -368,7 +368,7 @@ theorem sheafOfDifferentialsMap_comp_eq_iff_structureSharpSet (f : X' ⟶ X) (p 
       N).injective ?_
     refine (differentialsHomEquiv B S hS p
       ((modulePushforward B S hS f).obj N)).injective ?_
-    refine PresheafOfModules.Derivation.ext ?_
+    refine PresheafOfModulesOfCommRing.Derivation.ext ?_
     ext U t
     exact (hpt k₁ U t).trans ((congr_sections h U t).trans (hpt k₂ U t).symm)
 
@@ -446,7 +446,7 @@ vanishing clause is the one non-formal step, and it is exactly what the hypothes
 noncomputable def derivationOfCompEqZero (f : X ⟶ Y) (g : Y ⟶ Z)
     {W : Modules.{u, u} B S hS X.1 X.2} (b : sheafOfDifferentials B S hS (f ≫ g) ⟶ W)
     (hb : pullbackDifferentialsMap B S hS f g ≫ b = 0) :
-    W.val.Derivation' (structureSharpInverseImage B S hS f).hom where
+    PresheafOfModulesOfCommRing.Derivation' W.val (structureSharpInverseImage B S hS f).hom where
   d := ((universalDerivation B S hS (f ≫ g)).postcomp b.val).d
   d_mul := ((universalDerivation B S hS (f ≫ g)).postcomp b.val).d_mul
   d_map := ((universalDerivation B S hS (f ≫ g)).postcomp b.val).d_map

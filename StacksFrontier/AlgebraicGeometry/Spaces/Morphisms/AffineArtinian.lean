@@ -89,6 +89,19 @@ private theorem presheaf_etale_of_isIso (B : AlgebraicGeometry.BigFppfSite.{u}) 
   show Etale ((AlgebraicGeometry.BigFppfOver.toScheme B S hS).map snd)
   infer_instance
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_affineArtinian (B : AlgebraicGeometry.BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_affineArtinian
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 09TF.** A morphism from the spectrum of an Artinian ring to a quasi-separated
 algebraic space is affine.
 

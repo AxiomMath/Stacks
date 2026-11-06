@@ -5,6 +5,7 @@ public import StacksFrontier.AlgebraicGeometry.Duality.RelativeDualizingModuleDa
 public import StacksFrontier.AlgebraicGeometry.Modules.ChartSheafFiniteType
 public import StacksFrontier.AlgebraicGeometry.Modules.GluedCoherentOfBasis
 public import StacksFrontier.RingTheory.Dualizing.NoetherianPairings.Ports.DualizingModuleLocalization
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

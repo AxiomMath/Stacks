@@ -159,7 +159,7 @@ theorem isIso_colimitDesc_neighbourhoodCocone
       (Sieve.generate fun V _ ↦ IsAffine ((BigFppfOver.toScheme B S hS).obj V))
       (fun V g hV ↦ ⟨V, 𝟙 V, g, hV, Category.id_comp g⟩))).ext ?_
     rintro V g ⟨W, h, g', hg', rfl⟩
-    rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, haff g' hg']
+    rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply, haff g' hg']
   have : Epi d := (Sheaf.isLocallySurjective_iff_epi d).mp hsurj
   have : ∀ T, Mono (d.hom.app T) := fun T ↦ (mono_iff_injective _).2 (hinj T)
   have : Mono d := (sheafToPresheaf JT (Type (u + 1))).mono_of_mono_map

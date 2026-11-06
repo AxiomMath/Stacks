@@ -259,6 +259,7 @@ abbrev schemeChartSheafAb :
       (Space.SpacesEtale.topology E.fppfSite S E.fppf_mem
         (Space.yonedaSpace E.fppfSite S E.fppf_mem A))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **`a_X⁻¹` restricted to the schemes over `A` is `a_A⁻¹`**, for abelian sheaves: restricting
 `a_X⁻¹F` along `schemeSliceToBigFppf` is `a_A⁻¹` of the abelian sheaf `schemeChartSheafAb F` on
 the small étale site of the scheme `A`, naturally in `F`. This is
@@ -292,6 +293,7 @@ def schemeSliceToBigFppfRestriction_abelianInverseImageIso :
 
 /-! ### Part (1) of Stacks 0DGF for abelian sheaves -/
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **`ε_{X,*}a_X⁻¹ = π_X⁻¹` for abelian sheaves**: the abelian form of
 `fppfToSmallEtale_inverseImage_comp_fppfToBigEtale_pushforwardIso`, naturally in the abelian
 sheaf. -/

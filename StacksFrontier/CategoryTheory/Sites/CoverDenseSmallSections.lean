@@ -43,6 +43,6 @@ theorem small_obj_of_small_obj_map (P : Sheaf K (Type w'))
     rw [← Category.assoc, ← G.map_comp, e.hom_inv_id, G.map_id, Category.id_comp]
   have h1 := congrFun hst ⟨(equivSmallModel.{w} C).functor.obj Y, G.map e.inv ≫ f⟩
   change P.obj.map (G.map e.inv ≫ f).op s = P.obj.map (G.map e.inv ≫ f).op t at h1
-  rw [hf, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply, h1]
+  rw [hf, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, h1]
 
 end CategoryTheory.Functor.IsCoverDense

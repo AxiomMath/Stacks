@@ -499,7 +499,7 @@ theorem isPullback_quotientSpaceDiagram_map {i j : ιᵒᵖ} (f : i ⟶ j) :
   set m : pullback (t.app i) φ ⟶ pullback (t.app j) φ :=
     pullback.map (t.app i) φ (t.app j) φ a (𝟙 X)
       (𝟙 (yoneda.obj (affineBaseObject A B hA)))
-      (by simpa using hcomp.symm) (by simp) with hm
+      ((Category.comp_id _).trans hcomp.symm) (by simp) with hm
   have hfirst : m ≫ pullback.fst (t.app j) φ = pullback.fst (t.app i) φ ≫ a :=
     pullback.lift_fst _ _ _
   have hsecond' : m ≫ pullback.snd (t.app j) φ = pullback.snd (t.app i) φ ≫ 𝟙 X :=

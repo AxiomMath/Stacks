@@ -671,7 +671,7 @@ theorem crystalTheta_crystalTheta (K L : wholeSpaceIndex S hp →₀ ℕ)
 `T(1)_e` is a finite sum. -/
 theorem finite_crystalTheta_ne_zero (m : wholeSpaceSections hp Fc ⦋0⦌) (e : ℕ) :
     {K | wholeSpaceSectionsVal hp Fc (crystalTheta hp Fc K m) e ≠ 0}.Finite :=
-  ((levelTaylorExpansion hp Fc e).coeffs (wholeSpaceSectionsVal hp Fc m e)).finite_support
+  ((levelTaylorExpansion hp Fc e).coeffs (wholeSpaceSectionsVal hp Fc m e)).hasFiniteSupport
 
 end TaylorOnLimit
 

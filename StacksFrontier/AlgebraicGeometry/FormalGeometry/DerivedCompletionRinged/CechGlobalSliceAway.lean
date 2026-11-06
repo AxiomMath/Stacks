@@ -217,7 +217,7 @@ omit [HasWeakSheafify X.J CommRingCat.{u}] in
 theorem overFunctor_map_awaySmul_app_apply (V : (Over U)ᵒᵖ)
     (x : (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (X.over U).O))).val.obj V) :
     (((SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).map
-        ((awaySmul X h).app
+        ((awaySmul X h).asHom.app
           (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))).val.app V).hom x =
       globalSectionVal (globalSectionOver X U h) V • x := by
   rw [globalSectionVal_globalSectionOver]
@@ -230,7 +230,7 @@ def awaySmulOver :
     SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (X.over U).O)) ⟶
       SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf (X.over U).O)) :=
   (SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).map
-    ((awaySmul X h).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
+    ((awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
 
 omit [HasWeakSheafify X.J CommRingCat.{u}] in
 /-- `awaySmulOver` acts on sections by multiplication by the value of `f|_U`. -/
@@ -243,19 +243,19 @@ theorem awaySmulOver_app_apply (V : (Over U)ᵒᵖ)
 /-- The sequential diagram of the slice is the restriction of the sequential diagram. -/
 def awaySequenceOverHom :
     awaySequence X
-        ((awaySmul X h).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ⋙
+        ((awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ⋙
         SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U ⟶
       awaySequence (X.over U) (awaySmulOver X U h) :=
   NatTrans.ofSequence (F := awaySequence X
-      ((awaySmul X h).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ⋙
+      ((awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ⋙
         SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U)
     (G := awaySequence (X.over U) (awaySmulOver X U h))
     (fun _ => 𝟙 _) (fun n => by
       have h₁ : (awaySequence X
-            ((awaySmul X h).app
+            ((awaySmul X h).asHom.app
               (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))).map
               (homOfLE (Nat.le_add_right n 1)) =
-          (awaySmul X h).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :=
+          (awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :=
         awaySequence_map_succ X _ n
       have h₂ : (awaySequence (X.over U) (awaySmulOver X U h)).map
             (homOfLE (Nat.le_add_right n 1)) = awaySmulOver X U h :=
@@ -268,7 +268,7 @@ def awaySequenceOverHom :
 instance isIso_awaySequenceOverHom_app (n : ℕ) :
     IsIso ((awaySequenceOverHom X U h).app n) := by
   have happ : (awaySequenceOverHom X U h).app n =
-      𝟙 ((awaySequence X ((awaySmul X h).app
+      𝟙 ((awaySequence X ((awaySmul X h).asHom.app
           (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ⋙
         SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).obj
           n) := rfl
@@ -282,7 +282,7 @@ instance isIso_awaySequenceOverHom : IsIso (awaySequenceOverHom X U h) :=
 /-- **The sequential diagram presenting `𝒪_f` restricts to the one presenting `(𝒪_U)_{f|_U}`.** -/
 def awaySequenceOverIso :
     awaySequence X
-        ((awaySmul X h).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ⋙
+        ((awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ⋙
         SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U ≅
       awaySequence (X.over U) (awaySmulOver X U h) :=
   asIso (awaySequenceOverHom X U h)
@@ -305,11 +305,11 @@ def awayModuleOverColimit :
     IsColimit ((SheafOfModules.overFunctor.{u}
         ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).mapCocone
       (awayModuleCocone X h
-        ((awaySmul X h).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
+        ((awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
         (fun V x => awaySmul_app_apply X h _ V x))) :=
   isColimitOfPreserves _
     (isColimitAwayModuleCocone X h
-      ((awaySmul X h).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
+      ((awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
       (fun V x => awaySmul_app_apply X h _ V x))
 
 /-- The colimit cocone presenting `(𝒪_U)_{f|_U}`. -/
@@ -340,7 +340,7 @@ theorem overFunctor_map_unitToAwayModule_comp_awayModuleOverIso :
   have hsrc : ((SheafOfModules.overFunctor.{u}
         ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).mapCocone
         (awayModuleCocone X h
-          ((awaySmul X h).app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
+          ((awaySmul X h).asHom.app (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))))
           (fun V x => awaySmul_app_apply X h _ V x))).ι.app 0 =
       (SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).map
         (unitToAwayModule X h) := by
@@ -355,7 +355,7 @@ theorem overFunctor_map_unitToAwayModule_comp_awayModuleOverIso :
   rw [htgt] at hleg
   refine hleg.trans ?_
   have happ : (awaySequenceOverIso X U h).hom.app 0 =
-      𝟙 ((awaySequence X ((awaySmul X h).app
+      𝟙 ((awaySequence X ((awaySmul X h).asHom.app
           (SheafOfModules.unit ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) ⋙
         SheafOfModules.overFunctor.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)) U).obj
           0) := rfl

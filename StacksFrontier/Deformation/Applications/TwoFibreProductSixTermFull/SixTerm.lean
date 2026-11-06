@@ -174,7 +174,7 @@ public theorem exact_infLegDiff_infBoundaryLinearMap
       (f.map (QH.transportAut
               (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj w₀.x)
                 (FGModuleCat.of k (ULift.{v} k))).hom
-              (localizedTangentEquivKernel QH x).1).hom.val ≫
+              (localizedTangentEquivKernel QH x).1).asIso.hom.val ≫
             (boundaryCompareFst.{u, v, w} f QH PF hF.predeformation.cofibered
               (FGModuleCat.of k (ULift.{v} k))).inv ≫
               (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
@@ -185,14 +185,14 @@ public theorem exact_infLegDiff_infBoundaryLinearMap
             (PF.transportAut
                 (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj w₀.x)
                   (FGModuleCat.of k (ULift.{v} k))).hom
-                (localizedTangentEquivKernel PF s).1).hom.val ≫
+                (localizedTangentEquivKernel PF s).1).asIso.hom.val ≫
               (boundaryCompareSnd.{u, v, w} f g (w₀.hy.trans w₀.hx.symm)
                   (isHomLift_fibreProduct_iso_hom.{u, v, w} pF f g w₀) QG PF
                   hF.predeformation.cofibered (FGModuleCat.of k (ULift.{v} k))).hom ≫
                 g.map (QG.transportAut
                   (squareZeroCrossUnderIso.{u, v, w} ((g ⋙ pF).obj w₀.y)
                     (FGModuleCat.of k (ULift.{v} k))).hom
-                  (localizedTangentEquivKernel QG y).1).hom.val) := by
+                  (localizedTangentEquivKernel QG y).1).asIso.hom.val) := by
     intro x y s
     set e := (squareZeroCrossUnderIso.{u, v, w} ((f ⋙ pF).obj w₀.x)
       (FGModuleCat.of k (ULift.{v} k))).hom
@@ -208,8 +208,8 @@ public theorem exact_infLegDiff_infBoundaryLinearMap
               w₀.iso.inv hw₀ PF' PF)
               (inducedInfinitesimalLinearMapOfEq.{u, v, w, u₂, v₂, u₃, v₃}
                 (secondLegBased.{u, v, w} pF g).toFunctor (secondLegBased.{u, v, w} pF g).w
-                hG.satisfiesRS hF.satisfiesRS QG PF' y))).1.hom.val ≫ Hε.inv ≫ H₄.hom =
-        (Hε.inv ≫ H₄.hom) ≫ g.map (localizedTangentEquivKernel QG y).1.hom.val := by
+                hG.satisfiesRS hF.satisfiesRS QG PF' y))).1.asIso.hom.val ≫ Hε.inv ≫ H₄.hom =
+        (Hε.inv ≫ H₄.hom) ≫ g.map (localizedTangentEquivKernel QG y).1.asIso.hom.val := by
       have h2 := inv_comp_eq_of_hom_conj Hε (hcε
         (inducedInfinitesimalLinearMapOfEq.{u, v, w, u₂, v₂, u₃, v₃}
           (secondLegBased.{u, v, w} pF g).toFunctor (secondLegBased.{u, v, w} pF g).w
@@ -233,23 +233,31 @@ public theorem exact_infLegDiff_infBoundaryLinearMap
       intro a b
       rw [← hadd, ← hadd, add_comm]
     have hTr : ∀ a b : localizedAutomorphismFunctorTangent.{u, v, w, u₃, v₃} PF,
-        (PF.transportAut e (localizedTangentEquivKernel PF (a + -b)).1).hom.val =
-          (PF.transportAut e (localizedTangentEquivKernel PF a).1).hom.val ≫
-            (PF.transportAut e (localizedTangentEquivKernel PF b).1).inv.val := by
+        (PF.transportAut e (localizedTangentEquivKernel PF (a + -b)).1).asIso.hom.val =
+          (PF.transportAut e (localizedTangentEquivKernel PF a).1).asIso.hom.val ≫
+            (PF.transportAut e (localizedTangentEquivKernel PF b).1).asIso.inv.val := by
       intro a b
       have h : (localizedTangentEquivKernel PF (a + -b)).1 =
           (localizedTangentEquivKernel PF b).1⁻¹ * (localizedTangentEquivKernel PF a).1 := by
         rw [hadd, hcomm a (-b), localizedTangentEquivKernel_neg PF hF.satisfiesRS]
         rfl
       rw [h]
-      exact congrArg (fun z => z.hom.val)
+      exact congrArg (fun z => z.asIso.hom.val)
         (((PF.transportAutHom e).map_mul _ _).trans
           (congrArg (· * _) ((PF.transportAutHom e).map_inv _)))
     refine Iff.trans ?_ (eq_comp_inv_iff_boundary_square _ _
       (Functor.Fiber.fiberInclusion.mapIso
-        (PF.transportAut e (localizedTangentEquivKernel PF _).1))
+        (PF.transportAut e (localizedTangentEquivKernel PF
+          (inducedInfinitesimalLinearMapOfEq.{u, v, w, u₁, v₁, u₃, v₃}
+            (firstLegBased.{u, v, w} pF f).toFunctor (firstLegBased.{u, v, w} pF f).w
+            hH.satisfiesRS hF.satisfiesRS QH PF x)).1).asIso)
       (Functor.Fiber.fiberInclusion.mapIso
-        (PF.transportAut e (localizedTangentEquivKernel PF _).1)) hA1 hA2)
+        (PF.transportAut e (localizedTangentEquivKernel PF
+          ((canonicalLocalizedTangentAutomorphismLinearEquiv.{u, v, w, u₃, v₃} hF.satisfiesRS
+            w₀.iso.inv hw₀ PF' PF)
+            (inducedInfinitesimalLinearMapOfEq.{u, v, w, u₂, v₂, u₃, v₃}
+              (secondLegBased.{u, v, w} pF g).toFunctor (secondLegBased.{u, v, w} pF g).w
+              hG.satisfiesRS hF.satisfiesRS QG PF' y))).1).asIso) hA1 hA2)
     have hinj : Function.Injective (PF.transportAut e) := by
       intro a b hab
       rw [← PF.transportAut_inv_transportAut_hom _ a, hab, PF.transportAut_inv_transportAut_hom]
@@ -257,7 +265,7 @@ public theorem exact_infLegDiff_infBoundaryLinearMap
     · rw [h]
       exact hTr _ _
     · exact (localizedTangentEquivKernel PF).injective
-        (Subtype.ext (hinj (Aut.ext (Functor.Fiber.hom_ext (h.trans (hTr _ _).symm)))))
+        (Subtype.ext (hinj (Aut.ext (Iso.ext (Functor.Fiber.hom_ext (h.trans (hTr _ _).symm))))))
   intro t
   rw [hval t, tangentClassAt_boundaryObject_eq_zero_iff.{u, v, w} pF f g hH hG hF PW QH QG PF
     (FGModuleCat.of k (ULift.{v} k))

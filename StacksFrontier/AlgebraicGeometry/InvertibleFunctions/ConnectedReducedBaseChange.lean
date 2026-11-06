@@ -299,7 +299,7 @@ theorem fg_units_quotient_of_integrallyClosed (k : Type u) [Field k] (X : Scheme
     fg_units_quotient_reducedComponent K fbar i.val i.property
   have hfgPi : Group.FG (∀ i : ι, Q i) := by
     rw [Group.fg_def, ← Subgroup.pi_top]
-    exact Subgroup.FG.pi fun i => (hfgᵢ i).out
+    exact Subgroup.FG.pi fun i => Group.fg_def.mp (hfgᵢ i)
   have hcover : ∀ x : X, ∃ i y, (r i) y = x := by
     intro x
     have hq : Function.Surjective q.base :=

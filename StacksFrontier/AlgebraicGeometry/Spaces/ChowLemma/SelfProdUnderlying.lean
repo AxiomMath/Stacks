@@ -96,6 +96,17 @@ open Stacks.OverProducts
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_selfProdUnderlying :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_selfProdUnderlying
+    {X' Y' Z' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X' ⟶ Z') (g : Y' ⟶ Z') :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_selfProdUnderlying B S hS).has_limit _
+
 /-- **The presheaf underlying a fibre product of algebraic spaces over `S` is the presheaf
 fibre product.** Both squares are cartesian over the same cospan, so Stacks 02X2 in the form
 `AlgebraicGeometry.AlgebraicSpaces.isPullback_fiberProduct` identifies them. -/

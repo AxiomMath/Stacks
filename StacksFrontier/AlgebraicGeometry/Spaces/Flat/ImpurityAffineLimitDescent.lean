@@ -125,6 +125,24 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 attribute [local instance] pointTopology
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_presheaf_ImpurityAffineLimitDescent
+    (J : Type u) [Category.{u} J] :
+    HasLimitsOfShape J ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ImpurityAffineLimitDescent :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_ImpurityAffineLimitDescent
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- Precomposing with an isomorphism does not change the image on points. -/
 private theorem range_pointsMap_iso_comp {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (m : F ≅ G) (g : G ⟶ H) :
@@ -576,7 +594,7 @@ theorem closure_singleton_limitXi :
     closure {A.limitXi} = ⋂ i : A.J,
       pointsMap B S hS (limit A.baseChangeDiagram) (limit.π A.baseChangeDiagram i) ⁻¹'
         closure {pointsMap B S hS (limit A.baseChangeDiagram)
-          (limit.π A.baseChangeDiagram i) A.limitXi} := by
+                  (limit.π A.baseChangeDiagram i) A.limitXi} := by
   rcases A.bound_baseChangeDiagram with ⟨hsize, hhom⟩ | ⟨hsize, ν, hν, hhom, hB⟩
   · exact closure_singleton_limit B S hS _ hsize hhom
       (fun i ↦ A.isAlgebraicSpace_baseChangeDiagram_obj i)

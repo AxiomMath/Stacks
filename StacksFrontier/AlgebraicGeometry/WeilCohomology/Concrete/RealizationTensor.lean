@@ -379,7 +379,8 @@ theorem coe_blockMap_pushCorr_tensorBlock (X X' Y Y' : (SmoothProjectiveScheme k
     rw [blockMap_of_nonempty hA hB hC (p + q) hPn hQn, LinearMap.comp_apply, LinearMap.comp_apply,
       coe_extendDeg, coe_blockAct_eq_extendByZero hA hB hC hP hQ hU hV _ _ hz hw, h3]
     congr 2
-    rw [← blockAct_tensor hA hB hC hXd₁ hX'd'₁ hYe₁ hY'e'₁ hz₁ hz₂]
+    refine Eq.trans ?_ (blockAct_tensor hA hB hC hXd₁ hX'd'₁ hYe₁ hY'e'₁ hz₁ hz₂
+      (W.pullDeg (partι X d) p a) (W.pullDeg (partι X' d') q a'))
     congr 2
     exact congrArg (fun z ↦ W.blockAct hA.perfectPairing hU hV z (p + q)) h4
   -- the right side

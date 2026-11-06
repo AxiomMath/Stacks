@@ -259,7 +259,7 @@ public theorem isGlueable_iff_adicCompletion_beauvilleLaszloModuleSequence_short
       constructor
       · intro hx
         have he := S.ab_exact_iff_function_exact.mp h.exact
-        have hx' : S.g ⟨x⟩ = 0 := ULift.ext _ _ hx
+        have hx' : S.g ⟨x⟩ = 0 := ULift.ext hx
         obtain ⟨y, hy⟩ := (he ⟨x⟩).mp hx'
         exact ⟨y.down, congr_arg ULift.down hy⟩
       · rintro ⟨y, rfl⟩
@@ -340,8 +340,6 @@ private theorem tensorProduct_mod_power_decomposition
     ∃ m : M, ∃ y : TensorProduct R M S,
       x = m ⊗ₜ[R] (1 : S) + f ^ n • y := by
   induction x with
-  | zero =>
-      exact ⟨0, 0, by simp⟩
   | tmul m s =>
       obtain ⟨r, t, hs⟩ := quotientPowMap_surjective_decomposition f n h s
       refine ⟨r • m, m ⊗ₜ[R] t, ?_⟩
@@ -384,7 +382,6 @@ private theorem tensorProduct_mod_power_injective
   have hz : ∀ y : TensorProduct R M (R ⧸ I), f ^ n • y = 0 := by
     intro y
     induction y with
-    | zero => simp
     | tmul m r =>
         rw [← TensorProduct.tmul_smul, Algebra.smul_def, Ideal.Quotient.algebraMap_eq,
           hpow, zero_mul, TensorProduct.tmul_zero]

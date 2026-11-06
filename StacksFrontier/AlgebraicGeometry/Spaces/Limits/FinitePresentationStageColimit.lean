@@ -114,9 +114,8 @@ theorem baseChange_map_eq_of_shift_eq {T₁ T₂ P R : BigFppfOver B S hS}
         (baseChangeFactorIso B S hS h₂).inv.app Yo =
       (baseChangeFactorIso B S hS h₁).hom.app Xo ≫ (baseChange B S hS c).map g ≫
         (baseChangeFactorIso B S hS h₂).inv.app Yo := h
-  exact (cancel_mono ((baseChangeFactorIso B S hS h₂).inv.app Yo)).mp
-    ((cancel_epi ((baseChangeFactorIso B S hS h₁).hom.app Xo)).mp
-      (by rwa [← Category.assoc, ← Category.assoc] at h'))
+  exact (((baseChangeFactorIso B S hS h₂).app Yo).cancel_iso_inv_right _ _).mp
+    ((((baseChangeFactorIso B S hS h₁).app Xo).cancel_iso_hom_left _ _).mp h')
 
 /-- **The comparison of a composite is the composite of the comparisons.** -/
 theorem shift_comp {T₁ T₂ T₃ P R : BigFppfOver B S hS}

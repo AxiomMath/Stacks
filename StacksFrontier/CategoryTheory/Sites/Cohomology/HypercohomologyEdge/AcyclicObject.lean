@@ -203,7 +203,7 @@ theorem isIso_hypercohomologyEdge_app_of_acyclic_cover (U : C)
       Pi.π (fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
         (SheafOfModules.{wModule} O) K).obj ⟨n⟩) N =
       (DerivedCategory.TStructure.t.truncGEπ (-(N : ℤ))).app K :=
-    Pi.lift_π (f := fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
+    Pi.lift_comp_π (f := fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
       (SheafOfModules.{wModule} O) K).obj ⟨n⟩)
       (fun n : ℕ ↦ (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app K) N
   have h1 : IsIso ((DerivedCategory.homologyFunctor

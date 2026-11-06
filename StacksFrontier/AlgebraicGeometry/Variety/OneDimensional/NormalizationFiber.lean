@@ -215,12 +215,12 @@ private theorem localizedPrime_isMaximal_and_liesOver
       exact hmaxBase
     let : (q.asIdeal.map (algebraMap T L)).IsPrime :=
       IsLocalization.isPrime_of_isPrime_disjoint N L q.asIdeal q.isPrime hdisj
-    exact Ideal.isMaximal_of_isIntegral_of_isMaximal_comap
+    exact Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A)
       (q.asIdeal.map (algebraMap T L)) hmaxContract
   · have := hQ.isPrime
     have hQcontract : Q.comap (algebraMap A L) = IsLocalRing.maximalIdeal A :=
       IsLocalRing.eq_maximalIdeal
-        (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) (S := L) Q)
+        (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (S := L) Q)
     have hComp : (Q.comap (algebraMap T L)).comap φ =
         (Q.comap (algebraMap A L)).comap (algebraMap R A) := by
       ext r

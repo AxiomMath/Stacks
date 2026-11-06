@@ -281,24 +281,24 @@ variable {R : Type u} [Ring R] {Q : CochainComplex (ModuleCat.{v} R) ℤ}
 
 /-- The `m`-th power of a chain endomorphism is degreewise the `m`-th power. -/
 theorem hom_f_endPow (g : Q ⟶ Q) (m : ℕ) (i : ℤ) :
-    ((((End.of g) ^ m : End Q) : Q ⟶ Q).f i).hom = (g.f i).hom ^ m := by
+    (((End.of g) ^ m : End Q).asHom.f i).hom = (g.f i).hom ^ m := by
   induction m with
   | zero =>
-    rw [pow_zero, pow_zero, End.one_def, HomologicalComplex.id_f, ModuleCat.hom_id,
+    rw [pow_zero, pow_zero, End.one_asHom, HomologicalComplex.id_f, ModuleCat.hom_id,
       Module.End.one_eq_id]
   | succ m ih =>
-    rw [pow_succ, End.mul_def, HomologicalComplex.comp_f, ModuleCat.hom_comp, ih, pow_succ,
+    rw [pow_succ, End.mul_asHom, HomologicalComplex.comp_f, ModuleCat.hom_comp, ih, pow_succ,
       Module.End.mul_eq_comp]
 
 /-- `Q(g ^ m)` is intertwined with `f ^ m` by an isomorphism intertwining `Q(g)` and `f`. -/
 theorem map_endPow_comp {C D : Type*} [Category C] [Category D] (G : C ⥤ D) {A : C} {B : D}
     (g : A ⟶ A) (f : B ⟶ B) (e : G.obj A ≅ B) (he : G.map g ≫ e.hom = e.hom ≫ f) (m : ℕ) :
-    G.map (((End.of g) ^ m : End A) : A ⟶ A) ≫ e.hom =
-      e.hom ≫ (((End.of f) ^ m : End B) : B ⟶ B) := by
+    G.map ((End.of g) ^ m : End A).asHom ≫ e.hom =
+      e.hom ≫ ((End.of f) ^ m : End B).asHom := by
   induction m with
-  | zero => simp [End.one_def]
+  | zero => simp [End.one_asHom]
   | succ m ih =>
-    rw [pow_succ, pow_succ, End.mul_def, End.mul_def, G.map_comp, Category.assoc, ih,
+    rw [pow_succ, pow_succ, End.mul_asHom, End.mul_asHom, G.map_comp, Category.assoc, ih,
       ← Category.assoc, he, Category.assoc]
 
 section StandardModel
@@ -312,8 +312,8 @@ theorem alternatingTrace_endPow_eq_perfectDerivedTrace (hQ : finiteProjectiveCom
     (g : Q ⟶ Q) (KR : PerfectDerivedCategory.{u, v} R) (fR : KR.obj ⟶ KR.obj)
     (eR : DerivedCategory.Q.obj Q ≅ KR.obj)
     (heR : DerivedCategory.Q.map g ≫ eR.hom = eR.hom ≫ fR) (m : ℕ) :
-    alternatingTrace R Q hQ (((End.of g) ^ m : End Q) : Q ⟶ Q) =
-      perfectDerivedTrace R KR (((End.of fR) ^ m : End KR.obj) : KR.obj ⟶ KR.obj) := by
+    alternatingTrace R Q hQ ((End.of g) ^ m : End Q).asHom =
+      perfectDerivedTrace R KR ((End.of fR) ^ m : End KR.obj).asHom := by
   refine (perfectDerivedTrace_eq_alternatingTrace R KR _ Q hQ eR _ ?_).symm
   rw [← reassoc_of% (map_endPow_comp DerivedCategory.Q g fR eR heR m), Iso.hom_inv_id,
     Category.comp_id]

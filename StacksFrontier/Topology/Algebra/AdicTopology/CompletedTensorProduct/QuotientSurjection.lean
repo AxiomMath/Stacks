@@ -92,7 +92,6 @@ public theorem ker_tensorProduct_map_of_surjective (π : R →ₐ[A] C)
         (Algebra.TensorProduct.map (AlgHom.id A B) (Ideal.Quotient.mkₐ A K)).toRingHom := by
     refine RingHom.ext fun z => ?_
     induction z with
-    | zero => rw [map_zero, RingHom.comp_apply, map_zero, map_zero]
     | tmul b r => exact congrArg (b ⊗ₜ[A] ·) (hεmk r).symm
     | add x y hx hy => rw [map_add, map_add, hx, hy]
   rw [hfac, ker_comp_of_injective _ _ hinj, ker_tensorProduct_map_quotientMk K]

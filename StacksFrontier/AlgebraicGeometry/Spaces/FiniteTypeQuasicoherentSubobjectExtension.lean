@@ -256,6 +256,7 @@ theorem exists_finiteTypeQuasicoherentSubobject_extension (j : U ⟶ X)
     exact preserves_mono_of_preservesLimit (etaleModulePullback.{u, u} B S hS j hje) (D'.map f)
   -- the restricted colimit is `𝒢`, which is of finite type over the quasi-compact `U`
   have hLHft : ((etaleModulePullback.{u, u} B S hS j hje).obj H).IsFiniteType :=
+    haveI : Epi e₀.inv := IsIso.epi_of_iso _
     Stacks.SheafOfModules.isFiniteType_of_epi e₀.inv inferInstance
   obtain ⟨i, hi⟩ := exists_isIso_ι_of_isFiniteType_of_isQuasiCompactSpace B S hS hUqc
     (D' ⋙ etaleModulePullback.{u, u} B S hS j hje)
@@ -274,7 +275,8 @@ theorem exists_finiteTypeQuasicoherentSubobject_extension (j : U ⟶ X)
   refine ⟨Subobject.mk (c'.ι.app i ≫ p), ?_, ?_, ?_⟩
   · exact SheafOfModules.IsQuasicoherentOnSite.of_iso
       (Subobject.underlyingIso (c'.ι.app i ≫ p)).symm hKq
-  · exact Stacks.SheafOfModules.isFiniteType_of_epi
+  · haveI : Epi (Subobject.underlyingIso (c'.ι.app i ≫ p)).inv := IsIso.epi_of_iso _
+    exact Stacks.SheafOfModules.isFiniteType_of_epi
       (Subobject.underlyingIso (c'.ι.app i ≫ p)).inv hKf
   · refine ⟨(etaleModulePullback.{u, u} B S hS j hje).mapIso
       (Subobject.underlyingIso (c'.ι.app i ≫ p)) ≪≫

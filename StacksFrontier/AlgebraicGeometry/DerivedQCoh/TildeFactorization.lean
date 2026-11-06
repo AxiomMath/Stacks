@@ -178,8 +178,7 @@ def derivedTildeEquivCompComparisonIso :
       Functor.isoWhiskerLeft _ (derivedQuasicoherentComparisonCompι.{u} (Spec R)) ≪≫
       Functor.mapDerivedCategoryCompIso
         (F := (tildeEquiv (R := R)).functor)
-        (G := (SheafOfModules.isQuasicoherent (Spec R).ringCatSheaf).ι)
-        (H := tildeSheafOfModules R) (Iso.refl _) ≪≫
+        (G := (SheafOfModules.isQuasicoherent (Spec R).ringCatSheaf).ι) ≪≫
       (derivedTildeCompι R).symm)
 
 /-- **The remaining content of Stacks 06Z0 for an affine scheme, in one statement.** Derived

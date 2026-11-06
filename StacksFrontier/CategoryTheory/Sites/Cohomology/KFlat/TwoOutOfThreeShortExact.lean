@@ -228,6 +228,41 @@ omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} R).Additive]
   [∀ K₁ K₂ : CochainComplex (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ,
     HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor R)
       (ComplexShape.up ℤ)] in
+/-- Coproducts indexed by a type in `Type 0` of presheaves of modules, given explicitly:
+instance search times out on this shape since Lean v4.35.0. -/
+instance hasColimitsOfShape_discrete_presheafOfModules (β : Type) :
+    HasColimitsOfShape (Discrete β)
+      (PresheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R).obj) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} R).Additive]
+  [∀ M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} R).obj M).Additive]
+  [∀ K₁ K₂ : CochainComplex (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ,
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor R)
+      (ComplexShape.up ℤ)] in
+/-- The corresponding coproducts of sheaves of modules, from those of presheaves. -/
+instance hasColimitsOfShape_discrete_sheafOfModules (β : Type) :
+    HasColimitsOfShape (Discrete β)
+      (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) where
+  has_colimit F :=
+    let adj := PresheafOfModules.sheafificationAdjunction
+      (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)
+    let G := F ⋙ SheafOfModules.forget (Stacks.SheafOfModules.Tensor.ringSheaf R)
+    let hG : HasColimit G :=
+      (hasColimitsOfShape_discrete_presheafOfModules R β).has_colimit G
+    let _ := adj.leftAdjoint_preservesColimits.{0, 0}
+    let hS : HasColimit (G ⋙ PresheafOfModules.sheafification
+        (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf R).obj)) :=
+      HasColimit.mk ⟨_, isColimitOfPreserves _ (@colimit.isColimit _ _ _ _ G hG)⟩
+    @hasColimit_of_iso _ _ _ _ _ _ hS (Functor.isoWhiskerLeft F (asIso adj.counit).symm)
+
+omit [(Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} R).Additive]
+  [∀ M : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R),
+    ((Stacks.SheafOfModules.Tensor.sheafTensor.{_, _, _, w, w} R).obj M).Additive]
+  [∀ K₁ K₂ : CochainComplex (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf R)) ℤ,
+    HomologicalComplex.HasMapBifunctor K₁ K₂ (Stacks.SheafOfModules.Tensor.sheafTensor R)
+      (ComplexShape.up ℤ)] in
 /-- **Direct sums of sheaves of modules indexed by a type in `Type 0` are exact.**  Filtered
 colimits of sheaves of modules are exact (Tag 03DB) and AB5 implies AB4; the resulting AB4 at
 the module universe is then shrunk to `Type 0`, which is where the antidiagonal index of a

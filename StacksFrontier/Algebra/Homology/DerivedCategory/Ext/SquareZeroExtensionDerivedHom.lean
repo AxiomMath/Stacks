@@ -159,6 +159,9 @@ theorem preservesColimitsOfShape_homologyFunctor (R : Type u) [Ring R]
       (DerivedCategory.homologyFunctor (ModuleCat.{u} R) q) := by
   let h := moduleCat_hasExactCountableDirectSums R
   have := h.hasCoproducts
+  have : HasColimitsOfShape (Discrete ℕ) (ModuleCat.{u} R) := h.hasCoproducts.1 ℕ
+  have : HasColimitsOfShape (Discrete ℕ) (CochainComplex (ModuleCat.{u} R) ℤ) :=
+    HomologicalComplex.instHasColimitsOfShape
   have := derivedCategory_Q_preservesCoproductsOfShape (ModuleCat.{u} R) h ℕ
   have := homologicalComplex_homologyFunctor_preservesCoproducts (ModuleCat.{u} R) h ℕ q
   have : PreservesColimitsOfShape (Discrete ℕ)

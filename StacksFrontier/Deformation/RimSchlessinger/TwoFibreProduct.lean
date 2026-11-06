@@ -501,7 +501,6 @@ theorem satisfiesRS_twoFibreProductOver
         rw [hmapcomp, hqmap]
         show pF.map compIso.hom ≫ pF.map compIso.inv ≫ eqToHom hy.symm = _
         simp
-        rfl
       have hw : ∀ {X₁ : H} {Y₁ : G} (s : cH.pt ⟶ X₁) (t : dG.pt ⟶ Y₁) (ι : f.obj X₁ ≅ g.obj Y₁),
           compIso.hom ≫ g.map t = f.map s ≫ ι.hom →
             f.map s ≫ ι.hom = compIso'.hom ≫ g.map (q.inv ≫ t) := by

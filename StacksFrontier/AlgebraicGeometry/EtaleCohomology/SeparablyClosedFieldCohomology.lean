@@ -175,13 +175,13 @@ theorem module_finite_etaleModuleGlobalSections_of_isConstructibleModuleSheaf
     module_finite_of_iso ((Φ.sheafFiber (A := ModuleCat.{max (u + 1) r} Λ)).mapIso
       (E.counitIso.app N)) h₂
   have : IsIso ((Φ.presheafFiberCocone N.obj).ι.app
-      (op ⟨Scheme.Etale.mk (𝟙 (Spec (.of k))), pointSmallEtaleIdElement k⟩)) :=
+      (op (Φ.fiber.elementsMk _ (pointSmallEtaleIdElement k)))) :=
     (Φ.isColimitPresheafFiberCocone N.obj).isIso_ι_app_of_isTerminal
-      (op ⟨Scheme.Etale.mk (𝟙 (Spec (.of k))), pointSmallEtaleIdElement k⟩)
+      (op (Φ.fiber.elementsMk _ (pointSmallEtaleIdElement k)))
       (isInitialPointSmallEtaleIdElement k).op
   have h₄ : Module.Finite Λ (N.obj.obj (op (Scheme.Etale.mk (𝟙 (Spec (.of k)))))) :=
     module_finite_of_iso (asIso ((Φ.presheafFiberCocone N.obj).ι.app
-      (op ⟨Scheme.Etale.mk (𝟙 (Spec (.of k))), pointSmallEtaleIdElement k⟩))).symm h₃
+      (op (Φ.fiber.elementsMk _ (pointSmallEtaleIdElement k))))).symm h₃
   exact module_finite_of_iso ((Sheaf.ΓNatIsoSheafSections _ _
     (isTerminalEtaleMkId (Spec (.of k)))).app N).symm h₄
 

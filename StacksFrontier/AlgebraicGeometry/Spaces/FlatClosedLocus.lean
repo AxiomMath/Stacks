@@ -205,7 +205,7 @@ theorem isPullback_ι_of_factors_iff {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (m
   refine ⟨?_, ?_, ?_⟩
   · ext ⟨k⟩
     show F.map k.op (F.map s.op x) = g.app W (ULift.up (k ≫ s))
-    rw [hgapp, ← FunctorToTypes.map_comp_apply]
+    rw [hgapp, ← Functor.map_comp_apply]
     rfl
   · rintro ⟨a⟩ ⟨b⟩ ⟨-, hab⟩
     exact congrArg ULift.up ((cancel_mono s).1 (congrArg ULift.down hab))
@@ -214,7 +214,7 @@ theorem isPullback_ι_of_factors_iff {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (m
     obtain ⟨k, hk⟩ := (hs h).2 (hyh' ▸ hy)
     refine ⟨ULift.up k, Subtype.ext ?_, congrArg ULift.up hk⟩
     show F.map k.op (F.map s.op x) = y
-    rw [hyh', ← hk, ← FunctorToTypes.map_comp_apply]
+    rw [hyh', ← hk, ← Functor.map_comp_apply]
     rfl
 
 /-- A morphism of the site whose underlying morphism of schemes is a closed immersion is a

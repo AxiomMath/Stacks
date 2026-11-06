@@ -529,7 +529,7 @@ def injectiveResolutionToDerivedGlobalSections (F : SheafOfModules.{u} O)
       (((SheafOfModules.evaluation.{u} O (op U)).mapHomologicalComplex (up ℤ)).obj
         J.cochainComplex) ⟶ ((derivedGlobalSectionsFunctor O U).obj F).obj :=
   (DerivedCategory.quotientCompQhIso _).inv.app _ ≫
-  ((SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnit.app
+  ((SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.quotient (SheafOfModules.{u} O)).obj
       ⟨J.cochainComplex, 0, inferInstance⟩)).hom ≫
   ((SheafOfModules.evaluation.{u} O (op U)).rightDerivedFunctorPlus.map

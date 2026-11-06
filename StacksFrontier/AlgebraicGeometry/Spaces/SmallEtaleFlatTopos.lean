@@ -109,9 +109,9 @@ noncomputable def uliftPresheafFiberIso {A : Type u'} [Category.{v'} A]
   let e : (Φ.ulift.{w'}).fiber.Elements ≌ Φ.fiber.Elements :=
     (Functor.Elements.uliftEquiv.{w'} Φ.fiber).symm
   let E := e.op.functor
-  let π₁ : (Φ.fiber.Elements)ᵒᵖ ⥤ Cᵒᵖ := (CategoryOfElements.π Φ.fiber).op
+  let π₁ : (Φ.fiber.Elements)ᵒᵖ ⥤ Cᵒᵖ := (Functor.Elements.π Φ.fiber).op
   let π₂ : ((Φ.ulift.{w'}).fiber.Elements)ᵒᵖ ⥤ Cᵒᵖ :=
-    (CategoryOfElements.π (Φ.ulift.{w'}).fiber).op
+    (Functor.Elements.π (Φ.ulift.{w'}).fiber).op
   have hπ : E ⋙ π₁ = π₂ := rfl
   let L : (((Φ.ulift.{w'}).fiber.Elements)ᵒᵖ ⥤ A) ⥤ A := Limits.colim
   let W : (Cᵒᵖ ⥤ A) ⥤ ((Φ.fiber.Elements)ᵒᵖ ⥤ A) :=
@@ -176,7 +176,7 @@ noncomputable def uliftRingFiberIso' (Φ : J.Point.{u}) (R : Cᵒᵖ ⥤ CommRin
       commRingCatULift.{u, u + 1}.obj
         ((Φ.presheafFiber (A := CommRingCat.{u})).obj R) := by
   let e := (Functor.Elements.uliftEquiv.{u + 1} Φ.fiber).symm.op
-  let π := (CategoryOfElements.π Φ.fiber).op
+  let π := (Functor.Elements.π Φ.fiber).op
   letI : HasColimitsOfSize.{u, u} CommRingCat.{u + 1} :=
     hasColimitsOfSizeShrink.{u, u, u + 1, u + 1} _
   letI : HasColimitsOfShape Φ.fiber.Elementsᵒᵖ CommRingCat.{u + 1} :=
@@ -192,17 +192,18 @@ theorem uliftRingFiberIso'_germ (Φ : J.Point.{u}) (R : Cᵒᵖ ⥤ CommRingCat.
         (uliftRingFiberIso' Φ R).hom =
       commRingCatULift.{u, u + 1}.map (Φ.toPresheafFiber U x R) := by
   let E := (Functor.Elements.uliftEquiv.{u + 1} Φ.fiber).symm.op.functor
-  let π := (CategoryOfElements.π Φ.fiber).op
+  let π := (Functor.Elements.π Φ.fiber).op
   let L := commRingCatULift.{u, u + 1}
   let : HasColimitsOfSize.{u, u} CommRingCat.{u + 1} :=
     hasColimitsOfSizeShrink.{u, u, u + 1, u + 1} _
   let := preservesColimit_commRingCatULift' (π ⋙ R)
-  have h := Functor.Final.ι_colimitIso_hom E (π ⋙ R ⋙ L) (Opposite.op ⟨U, ULift.up x⟩)
+  have h := Functor.Final.ι_colimitIso_hom E (π ⋙ R ⋙ L)
+    (Opposite.op ((Φ.fiber ⋙ uliftFunctor.{u + 1}).elementsMk U (ULift.up x)))
   show colimit.ι _ _ ≫ (Functor.Final.colimitIso E (π ⋙ R ⋙ L)).hom ≫
     (preservesColimitIso L (π ⋙ R)).inv = _
   rw [← Category.assoc]
   exact (h =≫ (preservesColimitIso L (π ⋙ R)).inv).trans
-    (ι_preservesColimitIso_inv L (π ⋙ R) (Opposite.op ⟨U, x⟩))
+    (ι_preservesColimitIso_inv L (π ⋙ R) (Opposite.op (Φ.fiber.elementsMk U x)))
 
 /-- `Stacks.uliftRingFiberIso'` is natural in the presheaf of rings. -/
 theorem uliftRingFiberIso'_naturality (Φ : J.Point.{u})
@@ -256,10 +257,10 @@ noncomputable def ringMapAsModuleColimitAddEquiv :
     PresheafOfModules.ModuleColimit
         (Φ.isColimitPresheafFiberCocone (commRingSheafToRingSheaf O).obj)
         (colimit.isColimit ((PresheafOfModules.pushforward
-          (F := CategoryOfElements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val).presheaf) ≃+
+          (F := Functor.Elements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val).presheaf) ≃+
       (Φ.presheafFiber (A := RingCat.{w})).obj (commRingSheafToRingSheaf O').obj := by
   let H := (PresheafOfModules.pushforward
-    (F := CategoryOfElements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val
+    (F := Functor.Elements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val
   let hcM := colimit.isColimit H.presheaf
   let hcT := Φ.isColimitPresheafFiberCocone (commRingSheafToRingSheaf O').obj
   let hcTAdd := isColimitOfPreserves (forget₂ RingCat.{w} AddCommGrpCat.{w}) hcT
@@ -273,7 +274,7 @@ morphism. -/
 noncomputable def ringMapAsModuleColimitLinearEquiv :
     let hcR := Φ.isColimitPresheafFiberCocone (commRingSheafToRingSheaf O).obj
     let H := (PresheafOfModules.pushforward
-      (F := CategoryOfElements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val
+      (F := Functor.Elements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val
     let hcM := colimit.isColimit H.presheaf
     let A := (Φ.presheafFiberCocone (commRingSheafToRingSheaf O).obj).pt
     let B := (Φ.presheafFiber (A := RingCat.{w})).obj (commRingSheafToRingSheaf O').obj
@@ -284,7 +285,7 @@ noncomputable def ringMapAsModuleColimitLinearEquiv :
     PresheafOfModules.ModuleColimit hcR hcM ≃ₗ[A] B := by
   let cR := Φ.presheafFiberCocone (commRingSheafToRingSheaf O).obj
   let H := (PresheafOfModules.pushforward
-    (F := CategoryOfElements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val
+    (F := Functor.Elements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val
   let e := ringMapAsModuleColimitAddEquiv Φ g
   let B := (Φ.presheafFiber (A := RingCat.{w})).obj (commRingSheafToRingSheaf O').obj
   let ψ : cR.pt →+* B := ((Φ.presheafFiber (A := RingCat.{w})).map
@@ -309,20 +310,20 @@ noncomputable def ringMapAsModuleColimitLinearEquiv :
         have hψapp : ψ ((cR.ι.app U).hom a) =
             (cT.ι.app U).hom
               ((Functor.whiskerRight g.hom
-                (forget₂ CommRingCat.{w} RingCat.{w})).app (Opposite.op U.unop.1) a) := by
-          change ((Φ.toPresheafFiber U.unop.1 U.unop.2
+                (forget₂ CommRingCat.{w} RingCat.{w})).app (Opposite.op U.unop.obj) a) := by
+          change ((Φ.toPresheafFiber U.unop.obj U.unop.val
               (commRingSheafToRingSheaf O).obj ≫
             Φ.presheafFiber.map (Functor.whiskerRight g.hom
               (forget₂ CommRingCat.{w} RingCat.{w}))) a) = _
           exact ConcreteCategory.congr_hom (Φ.toPresheafFiber_naturality
             (Functor.whiskerRight g.hom (forget₂ CommRingCat.{w} RingCat.{w}))
-            U.unop.1 U.unop.2) a
+            U.unop.obj U.unop.val) a
         change e (PresheafOfModules.ModuleColimit.ιR cR a •
           PresheafOfModules.ModuleColimit.ιM x) =
             ψ ((cR.ι.app U).hom a) * e (PresheafOfModules.ModuleColimit.ιM x)
         rw [PresheafOfModules.ModuleColimit.smul_eq, hIota, hIota, hψapp]
         change (cT.ι.app U).hom (((g.hom.app _).hom a) *
-          (show O'.obj.obj ((CategoryOfElements.π Φ.fiber).op.obj U) from x)) = _
+          (show O'.obj.obj ((Functor.Elements.π Φ.fiber).op.obj U) from x)) = _
         exact map_mul _ _ _ }
 
 /-- The fibre of a morphism of sheaves of commutative rings, read through the comparison
@@ -379,7 +380,7 @@ noncomputable def moduleStalkRingMapEquiv :
   let Mc := PresheafOfModules.ModuleColimit
     (Φ.isColimitPresheafFiberCocone (commRingSheafToRingSheaf O).obj)
     (colimit.isColimit ((PresheafOfModules.pushforward
-      (F := CategoryOfElements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val).presheaf)
+      (F := Functor.Elements.π Φ.fiber) (𝟙 _)).obj (ringMapAsModule g).val).presheaf)
   let e : Mc ≃ₗ[A] B := ringMapAsModuleColimitLinearEquiv Φ g
   refine { (e.toAddEquiv.trans
     (commRingSheafFiberIso Φ O').ringCatIsoToRingEquiv.toAddEquiv) with

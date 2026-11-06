@@ -66,11 +66,11 @@ private def exactDerivedSingleIso
     {A : Type*} [Category* A] [Abelian A] [HasDerivedCategory A]
     {B : Type*} [Category* B] [Abelian B] [HasDerivedCategory B]
     [EnoughInjectives A] (F : A ⥤ B) [F.Additive]
-    [IsIso F.rightDerivedFunctorPlusUnit] (M : A) :
+    [IsIso F.rightDerivedFunctorPlusUnith] (M : A) :
     F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A 0).obj M) ≅
       (DerivedCategory.Plus.singleFunctor B 0).obj (F.obj M) :=
   F.rightDerivedFunctorPlus.mapIso ((Functor.singleFunctorPlusIsoCompQh 0).app M) ≪≫
-    ((asIso F.rightDerivedFunctorPlusUnit).app
+    ((asIso F.rightDerivedFunctorPlusUnith).app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj M)).symm ≪≫
     (Functor.mapSingleFunctorCompQhIso F).app M
 
@@ -80,7 +80,7 @@ private def exactDerivedHomologyIso
     {A : Type*} [Category* A] [Abelian A] [HasDerivedCategory A]
     {B : Type*} [Category* B] [Abelian B] [HasDerivedCategory B]
     [EnoughInjectives A] (F : A ⥤ B) [F.Additive] [F.PreservesHomology]
-    [IsIso F.rightDerivedFunctorPlusUnit] (M : DerivedCategory.Plus A) (n : ℤ) :
+    [IsIso F.rightDerivedFunctorPlusUnith] (M : DerivedCategory.Plus A) (n : ℤ) :
     (DerivedCategory.Plus.homologyFunctor B n).obj (F.rightDerivedFunctorPlus.obj M) ≅
       F.obj ((DerivedCategory.Plus.homologyFunctor A n).obj M) := by
   let H := DerivedCategory.Plus.homologyFunctor B n
@@ -90,7 +90,7 @@ private def exactDerivedHomologyIso
   refine H.mapIso (F.rightDerivedFunctorPlus.mapIso e.symm) ≪≫ ?_ ≪≫ F.mapIso (HA.mapIso e)
   let K := (HomotopyCategory.Plus.quotient_obj_surjective L).choose
   rw [← (HomotopyCategory.Plus.quotient_obj_surjective L).choose_spec]
-  exact H.mapIso ((asIso F.rightDerivedFunctorPlusUnit).app
+  exact H.mapIso ((asIso F.rightDerivedFunctorPlusUnith).app
       ((HomotopyCategory.Plus.quotient A).obj K)).symm ≪≫
     (DerivedCategory.homologyFunctor B n).mapIso
       (DerivedCategory.Qh.mapIso ((F.mapHomotopyCategoryFactors (.up ℤ)).app K.obj) ≪≫

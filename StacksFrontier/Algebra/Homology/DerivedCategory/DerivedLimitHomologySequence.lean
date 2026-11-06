@@ -98,7 +98,7 @@ public lemma inverseSystemDifference_comp_π {D : Type u} [Category.{v} D] [Prea
       Pi.π (fun n : ℕ => K.obj ⟨n⟩) n -
         Pi.π (fun n : ℕ => K.obj ⟨n⟩) (n + 1) ≫
           K.map (homOfLE (Nat.le_succ n)).op :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- An additive functor intertwines the difference map of a countable inverse system with the
 difference map of the image system, through the canonical product comparison. -/
@@ -113,7 +113,7 @@ public lemma map_inverseSystemDifference_comp_piComparison
         Pi.π (fun n : ℕ => F.obj (K.obj ⟨n⟩)) n -
           Pi.π (fun n : ℕ => F.obj (K.obj ⟨n⟩)) (n + 1) ≫
             F.map (K.map (homOfLE (Nat.le_succ n)).op) :=
-    Pi.lift_π _ _
+    Pi.lift_comp_π _ _
   refine Pi.hom_ext _ _ fun n ↦ ?_
   rw [Category.assoc, piComparison_comp_π, ← F.map_comp, inverseSystemDifference_comp_π,
     Category.assoc, key, F.map_sub, Functor.map_comp, Preadditive.comp_sub,

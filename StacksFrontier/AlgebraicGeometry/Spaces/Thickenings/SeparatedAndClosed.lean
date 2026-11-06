@@ -71,6 +71,18 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_SeparatedAndClosed :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Shortcut for pullbacks of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_SeparatedAndClosed
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### The relative diagonal -/
 
 section Diagonal
@@ -93,7 +105,7 @@ theorem isSeparated_iff_universallyClosed_pullback_diagonal (hX : IsAlgebraicSpa
   refine Iff.trans ((closedImmersion_conditions_tfae B S hS hX
     (isAlgebraicSpace_pullback B S hS q q hX hX hY) (pullback.diagonal q)).out 1 4) ?_
   exact ⟨And.left, fun h ↦ ⟨h, isLocallyOfFiniteType_pullback_diagonal B S hS hX q,
-    inferInstance⟩⟩
+    IsSplitMono.mono _⟩⟩
 
 end Diagonal
 

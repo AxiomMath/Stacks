@@ -60,6 +60,19 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {pX : X ⟶ D.limitCone.pt}
     {pY : Y ⟶ D.limitCone.pt}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of presheaves on the big fppf site over `S` (instance search times out without this
+shortcut). -/
+local instance hasLimits_presheaf_systemMorphismOfAlgebraicLimit :
+    HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_systemMorphismOfAlgebraicLimit
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Limit bridges of the image system -/
 
 /-- **The image system of a good diagram has limit bridges**, with no bound on the index
@@ -74,6 +87,7 @@ theorem imageSystem_hasChartLimitBridges (GX : GoodDiagram B S hS hZ D pX)
   refine hasChartLimitBridges_of_dominant (imageSystem_isAlgebraicSpace GX)
     (fun g => imageSystem_map_isAffineHom GX g) (isAlgebraicSpace_of_iso B S hS e hX)
     fun j => ?_
+  have : Epi e.inv := IsIso.epi_of_iso _
   rw [← he, schemeTheoreticImageSubfunctor_comp_of_epi]
   exact schemeTheoreticImageSubfunctor_toSchemeTheoreticImage_eq_top B S hS (stageMap GX j)
     (isAlgebraicSpace_stageTarget GX j)

@@ -59,6 +59,13 @@ namespace SpacesEtaleHomDescent
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y : AlgebraicSpaces B S hS}
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_EtaleSpaceHomDescent
+    {P Q R : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : P ⟶ R) (g : Q ⟶ R) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Spaces étale over `X` as objects of the spaces-étale site -/
 
 /-- An algebraic space over `X` whose structure morphism is étale, as an object of the
@@ -161,8 +168,9 @@ theorem transfer_injective :
     Function.Injective (transfer (V := V) (W := W) hV hW f) := by
   intro ψ ψ' h
   have h1 := congrArg (fun k => k.hom.left.hom) h
-  simp only [transfer_hom_left_hom, cancel_epi, cancel_mono] at h1
-  exact Over.OverMorphism.ext h1
+  rw [transfer_hom_left_hom, transfer_hom_left_hom] at h1
+  exact Over.OverMorphism.ext
+    ((Iso.cancel_iso_inv_right _ _ _).1 ((Iso.cancel_iso_hom_left _ _ _).1 h1))
 
 /-- The projection of a base change is natural in the object. -/
 theorem baseChange_map_projection {T T' : AlgebraicSpaces B S hS} (k : T ⟶ T')

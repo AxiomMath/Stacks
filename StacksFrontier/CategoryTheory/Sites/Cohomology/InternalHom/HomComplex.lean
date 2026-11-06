@@ -854,7 +854,7 @@ private theorem globalDifferential_projection_apply (X : RingedSite.{u, v, w})
           (Pi.π (fun a : Triplet n => internalHomSheaf X (L.X a.p) (M.X a.q))
             ⟨t.p + 1, t.q, by have ht := t.hpq; omega⟩) s) := by
   rw [← AddCommGrpCat.comp_apply, ← Functor.map_comp]
-  simp only [sheafHomDifferential, Pi.lift_π, Functor.map_add, Units.smul_def,
+  simp only [sheafHomDifferential, Pi.lift_comp_π, Functor.map_add, Units.smul_def,
     Functor.map_zsmul, Functor.map_comp]
   rfl
 

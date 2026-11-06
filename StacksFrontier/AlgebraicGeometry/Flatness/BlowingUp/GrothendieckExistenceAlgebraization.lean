@@ -107,6 +107,8 @@ theorem pullback_compatibility_of_adjoint (φ : (Scheme.Modules.pullback t).obj 
   let adj₁ := (Scheme.Modules.pullbackPushforwardAdjunction i').comp
     (Scheme.Modules.pullbackPushforwardAdjunction t)
   let adj₂ := Scheme.Modules.pullbackPushforwardAdjunction (t ≫ i')
+  haveI : Epi ((Scheme.Modules.pullbackComp t i').inv.app F) :=
+    inferInstanceAs (Epi ((Scheme.Modules.pullbackComp t i').app F).inv)
   rw [← cancel_epi ((Scheme.Modules.pullbackComp t i').inv.app F), ← Category.assoc,
     ← NatTrans.comp_app, Iso.inv_hom_id, NatTrans.id_app, Category.id_comp]
   apply (adj₂.homEquiv _ _).injective

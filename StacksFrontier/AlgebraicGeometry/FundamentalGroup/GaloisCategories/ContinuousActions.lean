@@ -73,9 +73,9 @@ namespace CategoryTheory
 orbit map is continuous. -/
 public lemma action_continuous_of_orbits
     {G : Type v} [Monoid G] [TopologicalSpace G] (X : Action FintypeCat.{u} G)
-    (h : ∀ x : X.V, Continuous (fun g : G ↦ (X.ρ g).hom x)) : X.IsContinuous := by
+    (h : ∀ x : X.V, Continuous (fun g : G ↦ (X.ρ g).asHom.hom x)) : X.IsContinuous := by
   rw [Action.isContinuous_def]
-  show Continuous (fun p : G × X.V ↦ (X.ρ p.1).hom p.2)
+  show Continuous (fun p : G × X.V ↦ (X.ρ p.1).asHom.hom p.2)
   exact continuous_prod_of_discrete_right.mpr h
 
 /-- An action admitting an injective morphism to a continuous action is continuous. -/
@@ -85,7 +85,7 @@ public lemma action_continuous_of_injective
     X.IsContinuous := by
   refine action_continuous_of_orbits _ fun x ↦ ?_
   apply Topology.continuous_of_injective_discrete f.hom hf
-  have hc : Continuous (fun g : G ↦ (Y.ρ g).hom (f.hom x)) :=
+  have hc : Continuous (fun g : G ↦ (Y.ρ g).asHom.hom (f.hom x)) :=
     hY.continuous_smul.comp (continuous_id.prodMk continuous_const)
   convert hc using 1
   funext g
@@ -113,7 +113,7 @@ public instance continuous_closed_limits
       (Types.isLimitEquivSections hu).injective (Subtype.ext hxy)
     refine action_continuous_of_orbits _ fun x ↦
       Topology.continuous_of_injective_discrete e he _ (continuous_pi fun j ↦ ?_)
-    have hj : Continuous (fun g : G ↦ ((K.obj j).ρ g).hom ((π.app j).hom x)) :=
+    have hj : Continuous (fun g : G ↦ ((K.obj j).ρ g).asHom.hom ((π.app j).hom x)) :=
       (h.prop_diag_obj j).continuous_smul.comp (continuous_id.prodMk continuous_const)
     convert hj using 1
     funext g
@@ -140,7 +140,7 @@ public instance continuous_closed_colimits
     obtain ⟨j, y, hy⟩ := Types.jointly_surjective _ hu x
     change (ι.app j).hom y = x at hy
     subst x
-    have hj : Continuous (fun g : G ↦ ((K.obj j).ρ g).hom y) :=
+    have hj : Continuous (fun g : G ↦ ((K.obj j).ρ g).asHom.hom y) :=
       (h.prop_diag_obj j).continuous_smul.comp (continuous_id.prodMk continuous_const)
     have hf : Continuous (ι.app j).hom := continuous_of_discreteTopology
     exact (hf.comp hj).congr (fun g ↦ ConcreteCategory.congr_hom ((ι.app j).comm g) y)

@@ -290,12 +290,10 @@ private theorem restrictScalars_tensor_extend_hom_ext (R A : Type u) [CommRing R
   apply ModuleCat.hom_ext
   apply LinearMap.ext
   intro z
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | add a b ha hb => simp only [map_add, ha, hb]
   | tmul x y =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add c d hc hd => rw [TensorProduct.tmul_add, map_add, map_add, hc, hd]
     | tmul a q => exact h x a q
 
@@ -334,13 +332,13 @@ theorem restrictTensorLeftExtendSummandIso_naturality_left (R A : Type u) [CommR
   have hR : (ModuleCat.Hom.hom
         (((curriedTensor (ModuleCat.{u} R)).map
             ((ModuleCat.restrictScalars (algebraMap R A)).map (K.d i₁ i₁'))).app (P.X i₂)))
-        (((a : A) • x) ⊗ₜ[R] q)
-      = (((ModuleCat.restrictScalars (algebraMap R A)).map (K.d i₁ i₁')).hom ((a : A) • x))
+        (((@id A a) • x) ⊗ₜ[R] q)
+      = (((ModuleCat.restrictScalars (algebraMap R A)).map (K.d i₁ i₁')).hom ((@id A a) • x))
         ⊗ₜ[R] q :=
     ModuleCat.MonoidalCategory.whiskerRight_apply
-      ((ModuleCat.restrictScalars (algebraMap R A)).map (K.d i₁ i₁')) (P.X i₂) ((a : A) • x) q
+      ((ModuleCat.restrictScalars (algebraMap R A)).map (K.d i₁ i₁')) (P.X i₂) ((@id A a) • x) q
   rw [restrictTensorLeftExtendSummandIso_hom_tmul, hA]
-  exact hR.trans ((congrArg (· ⊗ₜ[R] q) (map_smul (K.d i₁ i₁').hom a x)).trans
+  exact hR.trans ((congrArg (· ⊗ₜ[R] q) (map_smul (K.d i₁ i₁').hom (@id A a) x)).trans
     (restrictTensorLeftExtendSummandIso_hom_tmul R A K P _ _ _ _ _).symm)
 
 /-- **d₂-square (naturality of the summand iso in the `P`-variable).** The per-summand
@@ -379,11 +377,11 @@ theorem restrictTensorLeftExtendSummandIso_naturality_right (R A : Type u) [Comm
   have hR : (ModuleCat.Hom.hom
         (((curriedTensor (ModuleCat.{u} R)).obj
             (((CochainComplex.restrictScalars (algebraMap R A)).obj K).X i₁)).map (P.d i₂ i₂')))
-        (((a : A) • x) ⊗ₜ[R] q)
-      = ((a : A) • x) ⊗ₜ[R] ((P.d i₂ i₂').hom q) :=
+        (((@id A a) • x) ⊗ₜ[R] q)
+      = ((@id A a) • x) ⊗ₜ[R] ((P.d i₂ i₂').hom q) :=
     ModuleCat.MonoidalCategory.whiskerLeft_apply
       (((CochainComplex.restrictScalars (algebraMap R A)).obj K).X i₁) (P.d i₂ i₂')
-      ((a : A) • x) q
+      ((@id A a) • x) q
   rw [restrictTensorLeftExtendSummandIso_hom_tmul, hA]
   exact hR.trans (restrictTensorLeftExtendSummandIso_hom_tmul R A K P _ _ _ _ _).symm
 
@@ -1069,10 +1067,7 @@ theorem mapHomologicalComplexExtendXIso_comm {R : Type u} [CommRing R] (N : Modu
     rw [CategoryTheory.MonoidalCategory.whiskerLeft_eqToHom,
       CategoryTheory.MonoidalCategory.whiskerLeft_eqToHom,
       CategoryTheory.MonoidalCategory.whiskerLeft_eqToHom]
-    generalize_proofs g1 g2 g3 g4 g5 g6 g7 g8 q1 q2 q3 q4
-    rw [eqToHom_trans g6 g7, ← Category.assoc, eqToHom_trans (g6.trans g7) g8]
-    rw [eqToHom_trans q3 q4]
-    rw [Category.assoc, Category.assoc, eqToHom_trans q2 (q3.trans q4)]
+    simp only [Category.assoc, eqToHom_trans, eqToHom_trans_assoc]
 
 /-- Applying `N ⊗ -` degreewise commutes with extending a chain complex indexed by `ℕ` to a
 cochain complex indexed by `ℤ` along `ComplexShape.embeddingDownNat`. -/

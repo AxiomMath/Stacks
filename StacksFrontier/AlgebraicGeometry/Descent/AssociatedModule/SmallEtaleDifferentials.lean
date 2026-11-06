@@ -132,7 +132,7 @@ public noncomputable def pullbackSection (W : Y.Opens) (b : Γ(Y, W)) :
 variable {F : SheafOfModules.{u} (structureSheaf B X hX)}
   {R : (SmallEtale B X hX)ᵒᵖ ⥤ CommRingCat.{u}}
   {ψ : R ⟶ (commRingStructureSheaf B X hX).obj}
-  (D : PresheafOfModules.Derivation'
+  (D : PresheafOfModulesOfCommRing.Derivation'
     (R := (commRingStructureSheaf B X hX).obj) F.val ψ)
 
 /-- The restriction of a derivation of `𝒪_{X_étale}` to the small Zariski site of `X`, as bare
@@ -144,7 +144,7 @@ The vanishing condition recorded here is only the Leibniz rule, over the constan
 rings `ℤ`; the vanishing condition over `f⁻¹𝒪_Y` is
 `AlgebraicGeometry.SmallEtale.zariskiRestriction`. -/
 public noncomputable def zariskiRestrictionData :
-    ((restrictModule B X hX).obj F).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' ((restrictModule B X hX).obj F).val
       (SheafOfModules.constIntMap X.presheaf) where
   d {W} := (D.d (X := op ((opensToSmallEtale B X hX).obj W.unop))).comp
     ((commRingStructureMap B X hX).hom.app W).hom.toAddMonoidHom
@@ -256,7 +256,7 @@ public theorem postcomp_pullbackSection_eq_zero
     (hD : ∀ (W : Y.Opens) (b : Γ(Y, W)), D.d (pullbackSection B hX f W b) = 0) (α : F ⟶ G)
     (W : Y.Opens) (b : Γ(Y, W)) :
     (D.postcomp α.val).d (pullbackSection B hX f W b) = 0 :=
-  Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply D α.val _)
+  Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply D α.val _)
     (Eq.trans (congrArg _ (hD W b)) (map_zero _))
 
 /-- The small Zariski restriction of a derivation is natural in the coefficient sheaf. -/

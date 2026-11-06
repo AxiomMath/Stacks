@@ -83,10 +83,10 @@ theorem compatible_of_isPullback (y : (i : I) → Q.obj (op (X i)))
   intro i j Z gi gj hg
   have h₁ : Q.map gi.op (y i) =
       Q.map ((hW i j).lift gi gj hg).op (Q.map (pr₁ i j).op (y i)) := by
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, (hW i j).lift_fst]
+    rw [← Functor.map_comp_apply, ← op_comp, (hW i j).lift_fst]
   have h₂ : Q.map gj.op (y j) =
       Q.map ((hW i j).lift gi gj hg).op (Q.map (pr₂ i j).op (y j)) := by
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, (hW i j).lift_snd]
+    rw [← Functor.map_comp_apply, ← op_comp, (hW i j).lift_snd]
   rw [h₁, h₂, hy i j]
 
 include hW in

@@ -11,6 +11,7 @@ import Mathlib.AlgebraicGeometry.Sites.Proetale
 import Mathlib.AlgebraicTopology.SimplicialSet.Nerve
 import Mathlib.CategoryTheory.EquivalenceRelation
 import Mathlib.CategoryTheory.Functor.FunctorHom
+import Mathlib.CategoryTheory.Generator.Sheaf
 import Mathlib.CategoryTheory.Idempotents.FunctorExtension
 import Mathlib.CategoryTheory.Limits.Preserves.Over
 import Mathlib.CategoryTheory.Localization.CalculusOfFractions.OfAdjunction
@@ -28,6 +29,7 @@ import Mathlib.CategoryTheory.Sites.Point.Map
 import Mathlib.CategoryTheory.Sites.Point.Monoidal
 import Mathlib.CategoryTheory.Sites.Point.Over
 import Mathlib.CategoryTheory.Sites.Point.Presheaf
+import Mathlib.CategoryTheory.Sites.Preserves
 import Mathlib.CategoryTheory.Sites.Types
 import Mathlib.CategoryTheory.Subobject.Classifier.Defs
 import Mathlib.CategoryTheory.Subobject.NoetherianObject
@@ -42,6 +44,7 @@ import Mathlib.Topology.Algebra.Category.ProfiniteGrp.Completion
 import Mathlib.Topology.Covering.Basic
 import Mathlib.Topology.Sheaves.Abelian
 import Mathlib.Topology.Sheaves.Points
+import Mathlib.Topology.Sheaves.PUnit
 import Mathlib.Topology.Specialization
 import Mathlib.Topology.Spectral.ConstructibleTopology
 import StacksCore.Algebra.Algebra.Opposite
@@ -199,7 +202,6 @@ add_to_sga "4 IV 4.3.5" "partial" CategoryTheory.Adjunction.fullyFaithfulLOfIsIs
 add_to_sga "4 IV 4.3.5" CategoryTheory.Adjunction.unit
 add_to_sga "4 IV 4.3.5" "partial" CategoryTheory.Adjunction.unit_isIso_of_L_fully_faithful
 add_to_sga "4 IV 4.3.5" "special case" CategoryTheory.Functor.instFaithfulConstOfNonempty
-add_to_sga "4 IV 4.3.5" "footnote" CategoryTheory.HasClassifier.reflectsIsomorphisms
 add_to_sga "4 IV 4.3.5" "footnote" CategoryTheory.HasSubobjectClassifier.reflectsIsomorphisms
 add_to_sga "4 IV 4.3.6" CategoryTheory.Sheaf.Γ
 add_to_sga "4 IV 4.3.6" CategoryTheory.Sheaf.ΓNatIsoCoyoneda
@@ -330,14 +332,11 @@ add_to_sga "4 IV 6.3" "more general"
 add_to_sga "4 IV 6.3" "left exactness"
   CategoryTheory.GrothendieckTopology.Point.instPreservesFiniteLimitsFiber
 add_to_sga "4 IV 6.3" "more general"
-  CategoryTheory.GrothendieckTopology.Point.presheafToSheafCompSheafFiber
-add_to_sga "4 IV 6.3" "more general"
   CategoryTheory.GrothendieckTopology.Point.presheafToSheafCompSheafFiberIso
 add_to_sga "4 IV 6.3" CategoryTheory.GrothendieckTopology.Point.sheafFiber
 add_to_sga "4 IV 6.3" "special case" CategoryTheory.Presheaf.colimitOfRepresentable
-add_to_sga "4 IV 6.3" CategoryTheory.categoryOfElements
+add_to_sga "4 IV 6.3" CategoryTheory.Functor.Elements.instCategory
 add_to_sga "4 IV 6.4.0" "special case" CategoryTheory.Functor.ReflectsIsomorphisms
-add_to_sga "4 IV 6.4.0" "partial" CategoryTheory.HasClassifier.reflectsIsomorphisms
 add_to_sga "4 IV 6.4.0" "partial" CategoryTheory.HasSubobjectClassifier.reflectsIsomorphisms
 add_to_sga "4 IV 6.4.0" CategoryTheory.JointlyReflectIsomorphisms
 add_to_sga "4 IV 6.4.1" CategoryTheory.GrothendieckTopology.HasEnoughPoints
@@ -378,8 +377,6 @@ add_to_sga "4 IV 6.8" "more general" CategoryTheory.StructuredArrow.createsFinit
 add_to_sga "4 IV 6.8.2" CategoryTheory.GrothendieckTopology.Point.fiber
 add_to_sga "4 IV 6.8.2" "more general"
   CategoryTheory.GrothendieckTopology.Point.instIsIsoMapFunctorOppositePresheafFiberToSheafify
-add_to_sga "4 IV 6.8.2" "more general"
-  CategoryTheory.GrothendieckTopology.Point.presheafToSheafCompSheafFiber
 add_to_sga "4 IV 6.8.2" "more general"
   CategoryTheory.GrothendieckTopology.Point.presheafToSheafCompSheafFiberIso
 add_to_sga "4 IV 6.8.2" "special case" TopologicalSpace.OpenNhds
@@ -574,7 +571,6 @@ add_to_sga "4 IV 9.5.1" "partial" CategoryTheory.Comma.comp_right
 add_to_sga "4 IV 9.5.1" "more general" CategoryTheory.Comma.mk
 add_to_sga "4 IV 9.5.1" "more general" CategoryTheory.CommaMorphism
 add_to_sga "4 IV 9.5.1" "more general" CategoryTheory.CommaMorphism.mk
-add_to_sga "4 IV 9.5.1" "more general" CategoryTheory.CommaMorphism.mk'
 add_to_sga "4 IV 9.5.1" "more general" CategoryTheory.MorphismProperty.Comma.instCategory
 add_to_sga "4 IV 9.5.1" "more general" CategoryTheory.commaCategory
 add_to_sga "4 IV 9.5.2" "more general" CategoryTheory.Comma.map
@@ -675,16 +671,16 @@ add_to_sga "4 IV 11.3.5" CategoryTheory.GrothendieckTopology.Point.over
 add_to_sga "4 IV 12.3" "(a)" SheafOfModules.overPushforwardOverAdj
 add_to_sga "4 IV 12.4" "special case" CategoryTheory.Presheaf.IsSheaf.hom
 add_to_sga "4 IV 12.4" "partial" PresheafOfModules.Sheafify.module
-add_to_sga "4 IV 12.7" "special case" PresheafOfModules.Monoidal.tensorObj
+add_to_sga "4 IV 12.7" "special case" PresheafOfModulesOfCommRing.Monoidal.tensorObj
 add_to_sga "4 IV 12.7" "special case" TensorProduct
 add_to_sga "4 IV 12.8" "special case" ModuleCat.monoidalClosedHomEquiv
 add_to_sga "4 IV 12.8" "special case" Rep.MonoidalClosed.linearHomEquiv
 add_to_sga "4 IV 12.8" "special case" TensorProduct.LieModule.lift
 add_to_sga "4 IV 12.9" "special case"
-  PresheafOfModules.instPreservesColimitsOfSizeCompOppositeCommRingCatRingCatForget₂RingHomCarrierCarrierTensorLeft
+  PresheafOfModulesOfCommRing.instPreservesColimitsOfSizeTensorLeft
 add_to_sga "4 IV 12.9" "special case"
-  PresheafOfModules.instPreservesColimitsOfSizeCompOppositeCommRingCatRingCatForget₂RingHomCarrierCarrierTensorRight
-add_to_sga "4 IV 12.10" "special case" PresheafOfModules.Monoidal.tensorObj
+  PresheafOfModulesOfCommRing.instPreservesColimitsOfSizeTensorRight
+add_to_sga "4 IV 12.10" "special case" PresheafOfModulesOfCommRing.Monoidal.tensorObj
 add_to_sga "4 IV 12.12" "more general" Bimod.tensorBimod
 add_to_sga "4 IV 12.12" "special case" TensorProduct.instModule
 add_to_sga "4 IV 12.14" "special case" ModuleCat.monoidalClosedHomEquiv

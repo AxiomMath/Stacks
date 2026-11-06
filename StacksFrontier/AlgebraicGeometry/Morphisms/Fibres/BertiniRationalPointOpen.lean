@@ -206,8 +206,9 @@ theorem rationalPointLinearForm_ne_zero
   refine h ?_
   have hpoly := ΓIso_hom_rationalPointLinearForm eU x₀
   rw [hzero, map_zero] at hpoly
-  have hc := congrArg (MvPolynomial.coeff (Finsupp.single (ULift.up i₀) 1)) hpoly
-  rw [MvPolynomial.coeff_zero, MvPolynomial.coeff_sum,
+  have hc := congrArg (MvPolynomial.coeffAddMonoidHom (Finsupp.single (ULift.up i₀) 1)) hpoly
+  simp only [map_zero, MvPolynomial.coeffAddMonoidHom_apply] at hc
+  rw [MvPolynomial.coeff_sum,
     Finset.sum_eq_single_of_mem i₀ (Finset.mem_univ i₀) ?_] at hc
   · rw [MvPolynomial.coeff_C_mul, MvPolynomial.coeff_X_same, mul_one] at hc
     exact hc.symm

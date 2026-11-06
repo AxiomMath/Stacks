@@ -253,7 +253,7 @@ theorem glueSection_restrict (hg' : U'.obj.hom ≫ ((changeBigSite B B' h S hS).
   have hv := Presieve.IsSheafFor.valid_glue (isSheafFor_coverByImage U')
     (glueValue_compatible x g' hg') n (Presieve.in_coverByImage _ n)
   have e := glueValue_restrict x g' hg' n (Presieve.in_coverByImage _ n) U₃ (𝟙 _)
-  exact hv.trans ((FunctorToTypes.map_id_apply F'.obj _).symm.trans
+  exact hv.trans ((F'.obj.map_id_apply _ _).symm.trans
     (e.trans (x.app_congr (congrArg (glueMap g') (Category.id_comp n)) _ _)))
 
 end Glue
@@ -288,7 +288,7 @@ def fiberRestrictEquiv :
     ext U g hg
     have e := glueSection_restrict (U' := (chartTransport B B' h S hS X).obj U) x
       ((inclusionOver h S hS).map g) (comm_transport h f hg) U (𝟙 _)
-    refine (FunctorToTypes.map_id_apply F'.obj _).symm.trans (e.trans (x.app_congr ?_ _ _))
+    refine (F'.obj.map_id_apply _ _).symm.trans (e.trans (x.app_congr ?_ _ _))
     exact (congrArg (descendMap h) (Category.id_comp _)).trans (descendMap_map h g)
 
 end AlgebraicGeometry.SiteEnlargement

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.ModuleCat.Projective
 public import StacksFrontier.Algebra.Homology.InjectiveDimension.Examples
 
 /-!

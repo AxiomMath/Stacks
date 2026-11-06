@@ -98,7 +98,6 @@ attribute [local implicit_reducible] AlgebraicGeometry.Scheme.Modules
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.ChoiceOfPullbacks.pullbackFunctor
   CategoryTheory.Limits.CategoricalPullback.CatCommSqOver.toFunctorToCategoricalPullback
-attribute [local instance_reducible] CategoryTheory.Over.post
 
 section AffinePushout
 

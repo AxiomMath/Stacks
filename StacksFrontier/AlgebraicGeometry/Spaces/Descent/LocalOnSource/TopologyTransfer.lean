@@ -113,6 +113,8 @@ end
 
 /-! ### Composition and base change of covering families -/
 
+-- Instance search for these pullbacks times out at the default budget since Lean v4.35.0.
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The two stability properties of the `τ`-covering families of algebraic spaces over `S`
 which the transfer of source locality from schemes uses: a covering family composed with a
 one-member covering family of each of its members is a covering family, and the first
@@ -208,6 +210,7 @@ theorem Topology.isCovering_etaleAtlases_comp (τ : Topology)
     Topology.isCovering_of_isEtaleCovering B S hS τ _ _
       (isEtaleCovering_atlas B S hS (hbase.2.1 i) (hsurj i) (hetale i))
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Base change of a `τ`-covering family of algebraic spaces over `S` along a chart of its
 target: the fibre products form a `τ`-covering family of the chart, and each of them sits in a
 pullback square over the chart and the corresponding member of the original family. -/

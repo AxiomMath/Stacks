@@ -3,6 +3,7 @@ module
 public import Mathlib.Algebra.Category.Ring.FilteredColimits
 public import Mathlib.CategoryTheory.Limits.Preserves.Over
 public import Mathlib.RingTheory.Finiteness.Descent
+public import Mathlib.RingTheory.Flat.Equalizer
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Category.CommAlgCat.FilteredColimits
 public import StacksFrontier.RingTheory.GeometricallyNormal.TFAE

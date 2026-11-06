@@ -279,7 +279,7 @@ private theorem IsJointlySurjectiveBySieves.sigma_pullback_fst
   refine ⟨⟨i q hq, j⟩, t, ?_⟩
   change (pullback.fst f (a (i q hq))).app (op W') ((b (i q hq) j).app (op W') t) = _
   rw [ht, NatTrans.naturality_apply (pullback.fst f (a (i q hq))) q'.op (σ q hq), hσ, op_comp,
-    FunctorToTypes.map_comp_apply]
+    Functor.map_comp_apply]
 
 /-- A morphism between `affineOver` presentations is the spectrum of a ring map, compatibly with
 the structure morphisms. -/

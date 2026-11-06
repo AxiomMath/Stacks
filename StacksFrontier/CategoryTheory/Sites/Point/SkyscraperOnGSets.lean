@@ -93,30 +93,30 @@ variable (G : Type w) [Monoid G]
 abbrev coindObj (E : Type w) : Action (Type w) G where
   V := G → E
   ρ :=
-    { toFun := fun g => ↾(fun ψ => fun h => ψ (h * g))
-      map_one' := ConcreteCategory.hom_ext _ _ fun ψ => by
+    { toFun := fun g => End.of (↾(fun ψ => fun h => ψ (h * g)))
+      map_one' := End.ext <| ConcreteCategory.hom_ext _ _ fun ψ => by
         change (fun h => ψ (h * 1)) = ψ
         simp
-      map_mul' := fun g g' => ConcreteCategory.hom_ext _ _ fun ψ => by
+      map_mul' := fun g g' => End.ext <| ConcreteCategory.hom_ext _ _ fun ψ => by
         change (fun h => ψ (h * (g * g'))) = (fun h => ψ (h * g * g'))
         simp [mul_assoc] }
 
 /-- In `Map(G, E)`, `(g · ψ)(h) = ψ(h * g)`. -/
 @[simp] lemma coindObj_ρ_apply (E : Type w) (g h : G) (ψ : G → E) :
-    ConcreteCategory.hom ((coindObj G E).ρ g) ψ h = ψ (h * g) := rfl
+    ConcreteCategory.hom ((coindObj G E).ρ g).asHom ψ h = ψ (h * g) := rfl
 
 variable {G}
 
 /-- Acting by a product is acting twice. -/
 lemma ρ_mul_apply (X : Action (Type w) G) (g h : G) (x : X.V) :
-    ConcreteCategory.hom (X.ρ (h * g)) x =
-      ConcreteCategory.hom (X.ρ h) (ConcreteCategory.hom (X.ρ g) x) :=
-  DFunLike.congr_fun (congrArg ConcreteCategory.hom (X.ρ.map_mul h g)) x
+    ConcreteCategory.hom (X.ρ (h * g)).asHom x =
+      ConcreteCategory.hom (X.ρ h).asHom (ConcreteCategory.hom (X.ρ g).asHom x) :=
+  DFunLike.congr_fun (congrArg (fun e => ConcreteCategory.hom e.asHom) (X.ρ.map_mul h g)) x
 
 /-- A morphism of `G`-sets is equivariant. -/
 lemma hom_ρ_apply {X Y : Action (Type w) G} (φ : X ⟶ Y) (g : G) (x : X.V) :
-    ConcreteCategory.hom φ.hom (ConcreteCategory.hom (X.ρ g) x) =
-      ConcreteCategory.hom (Y.ρ g) (ConcreteCategory.hom φ.hom x) :=
+    ConcreteCategory.hom φ.hom (ConcreteCategory.hom (X.ρ g).asHom x) =
+      ConcreteCategory.hom (Y.ρ g).asHom (ConcreteCategory.hom φ.hom x) :=
   DFunLike.congr_fun (congrArg ConcreteCategory.hom (φ.comm g)) x
 
 variable (G)
@@ -140,19 +140,19 @@ def forgetCoindAdj : Action.forget (Type w) G ⊣ coind G :=
   Adjunction.mkOfHomEquiv
     { homEquiv := fun X E =>
         { toFun := fun f =>
-            { hom := ↾(fun x => fun g => f (ConcreteCategory.hom (X.ρ g) x))
+            { hom := ↾(fun x => fun g => f (ConcreteCategory.hom (X.ρ g).asHom x))
               comm := fun g => ConcreteCategory.hom_ext _ _ fun x => by
-                change (fun h => f (ConcreteCategory.hom (X.ρ h)
-                    (ConcreteCategory.hom (X.ρ g) x))) =
-                  (fun h => f (ConcreteCategory.hom (X.ρ (h * g)) x))
+                change (fun h => f (ConcreteCategory.hom (X.ρ h).asHom
+                    (ConcreteCategory.hom (X.ρ g).asHom x))) =
+                  (fun h => f (ConcreteCategory.hom (X.ρ (h * g)).asHom x))
                 exact funext fun h => congrArg _ (ρ_mul_apply X g h x).symm }
           invFun := fun φ => ↾(fun x => ConcreteCategory.hom φ.hom x 1)
           left_inv := fun f => ConcreteCategory.hom_ext _ _ fun x => by
-            change f (ConcreteCategory.hom (X.ρ 1) x) = f x
+            change f (ConcreteCategory.hom (X.ρ 1).asHom x) = f x
             rw [X.ρ_one]
             rfl
           right_inv := fun φ => Action.Hom.ext (ConcreteCategory.hom_ext _ _ fun x => by
-            change (fun g => ConcreteCategory.hom φ.hom (ConcreteCategory.hom (X.ρ g) x) 1) =
+            change (fun g => ConcreteCategory.hom φ.hom (ConcreteCategory.hom (X.ρ g).asHom x) 1) =
               ConcreteCategory.hom φ.hom x
             refine funext fun g => ?_
             rw [hom_ρ_apply φ g x, coindObj_ρ_apply, one_mul]) }
@@ -248,18 +248,18 @@ end Point
 def leftRegularHomEquiv (S : Action (Type w) G) : (Action.leftRegular G ⟶ S) ≃ S.V where
   toFun φ := ConcreteCategory.hom φ.hom (1 : G)
   invFun s :=
-    { hom := ↾(fun g => ConcreteCategory.hom (S.ρ g) s)
+    { hom := ↾(fun g => ConcreteCategory.hom (S.ρ g).asHom s)
       comm := fun g => ConcreteCategory.hom_ext _ _ fun x =>
         ρ_mul_apply S x g s }
   left_inv φ := Action.Hom.ext (ConcreteCategory.hom_ext _ _ fun g => by
-    have h : ∀ x : G, ConcreteCategory.hom ((Action.leftRegular G).ρ x) (1 : G) = x :=
+    have h : ∀ x : G, ConcreteCategory.hom ((Action.leftRegular G).ρ x).asHom (1 : G) = x :=
       fun x => mul_one x
-    change ConcreteCategory.hom (S.ρ g) (ConcreteCategory.hom φ.hom (1 : G)) =
+    change ConcreteCategory.hom (S.ρ g).asHom (ConcreteCategory.hom φ.hom (1 : G)) =
       ConcreteCategory.hom φ.hom g
     rw [← hom_ρ_apply φ g (1 : G)]
     exact congrArg _ (h g))
   right_inv s := by
-    change ConcreteCategory.hom (S.ρ 1) s = s
+    change ConcreteCategory.hom (S.ρ 1).asHom s = s
     rw [S.ρ_one]
     rfl
 
@@ -300,7 +300,7 @@ variable (R : Type w) [CommRing R] [MulSemiringAction G R]
 subring of all maps `X → R` under the pointwise operations. For `X` an object of the site these
 are the sections over `X` of the sheaf of rings attached to `R`. -/
 def equivariantSubring (X : Action (Type w) G) : Subring (X.V → R) where
-  carrier := {f | ∀ (g : G) (x : X.V), f (ConcreteCategory.hom (X.ρ g) x) = g • f x}
+  carrier := {f | ∀ (g : G) (x : X.V), f (ConcreteCategory.hom (X.ρ g).asHom x) = g • f x}
   mul_mem' hf hg g x := by
     rw [Pi.mul_apply, Pi.mul_apply, hf g x, hg g x, smul_mul']
   one_mem' g x := by rw [Pi.one_apply, Pi.one_apply, smul_one]
@@ -312,7 +312,7 @@ def equivariantSubring (X : Action (Type w) G) : Subring (X.V → R) where
 /-- A map `f : X → R` lies in `equivariantSubring G R X` if and only if it is equivariant. -/
 @[simp] lemma mem_equivariantSubring {X : Action (Type w) G} {f : X.V → R} :
     f ∈ equivariantSubring G R X ↔
-      ∀ (g : G) (x : X.V), f (ConcreteCategory.hom (X.ρ g) x) = g • f x :=
+      ∀ (g : G) (x : X.V), f (ConcreteCategory.hom (X.ρ g).asHom x) = g • f x :=
   Iff.rfl
 
 /-- The sections of the sheaf of rings attached to `R` are the sections of the sheaf of sets

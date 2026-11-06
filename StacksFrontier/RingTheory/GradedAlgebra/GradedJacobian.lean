@@ -63,8 +63,8 @@ the variable differentiated against exceeds the weighted degree. -/
 theorem IsWeightedHomogeneous.pderiv_eq_zero_of_lt' {w : σ → ℕ} {n : ℕ} {i : σ}
     (h : φ.IsWeightedHomogeneous w n) (hi : n < w i) : pderiv i φ = 0 := by
   refine MvPolynomial.ext _ _ fun m => ?_
-  rw [coeff_pderiv, coeff_zero]
-  rcases eq_or_ne (coeff (m + Finsupp.single i 1) φ) 0 with h0 | h0
+  rw [coeff_pderiv, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
+  rcases eq_or_ne (φ.coeff (m + Finsupp.single i 1)) 0 with h0 | h0
   · rw [h0, zero_mul]
   · exfalso
     have hw := h h0

@@ -159,22 +159,6 @@ theorem isStableUnderRetracts_rightOrthogonal_and_leftOrthogonal (P : ObjectProp
     P.rightOrthogonal.IsStableUnderRetracts ∧ P.leftOrthogonal.IsStableUnderRetracts :=
   ⟨⟨fun h hY ↦ rightOrthogonal_of_mono P h.i hY⟩, ⟨fun h hY ↦ leftOrthogonal_of_epi P h.r hY⟩⟩
 
-/-- In a category with zero morphisms, a property of objects is contained in the right orthogonal
-of its left orthogonal: a morphism from an object with no nonzero morphism to an object of `P`
-into an object of `P` vanishes by definition. This is the unit of the adjunction between
-`ObjectProperty.leftOrthogonal` and `ObjectProperty.rightOrthogonal`. -/
-private lemma le_rightOrthogonal_leftOrthogonal (P : ObjectProperty C) :
-    P ≤ P.leftOrthogonal.rightOrthogonal :=
-  fun _ hY _ f hX ↦ hX f hY
-
-/-- A property of objects is contained in the left orthogonal of its right orthogonal: a morphism
-from an object of `P` into an object having no nonzero morphism from `P` vanishes by definition.
-This is the counit of the adjunction between `ObjectProperty.rightOrthogonal` and
-`ObjectProperty.leftOrthogonal`. -/
-private lemma le_leftOrthogonal_rightOrthogonal (P : ObjectProperty C) :
-    P ≤ P.rightOrthogonal.leftOrthogonal :=
-  fun _ hX _ f hY ↦ hY f hX
-
 /-- If no nonzero morphism goes from `A` to `B`, then `B` is contained in the right orthogonal
 of `A`. -/
 private lemma le_rightOrthogonal_of_le_leftOrthogonal {A B : ObjectProperty C}

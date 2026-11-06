@@ -174,11 +174,11 @@ def levelModuleMap (k : ℕ) :
   ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     { hom := ModuleCat.ofHom
         { toFun := fun y => ULift.up (A.map (PadicInt.toZModPow k) *ᵥ y.down)
-          map_add' := fun a b => ULift.ext _ _ (Matrix.mulVec_add _ a.down b.down)
-          map_smul' := fun c a => ULift.ext _ _ (Matrix.mulVec_smul _ c a.down) }
+          map_add' := fun a b => ULift.ext (Matrix.mulVec_add _ a.down b.down)
+          map_smul' := fun c a => ULift.ext (Matrix.mulVec_smul _ c a.down) }
       comm := fun g => by
         ext y
-        exact ULift.ext _ _ (mulVec_levelRepresentation A hA k g y.down) }))
+        exact ULift.ext (mulVec_levelRepresentation A hA k g y.down) }))
 
 /-- **The endomorphism of the level coinvariants given by an intertwiner of `ρ`.** -/
 def levelCoinvariantsMap (k : ℕ) [NeZero (ℓ ^ k)] :
@@ -191,7 +191,7 @@ def levelCoinvariantsMap (k : ℕ) [NeZero (ℓ ^ k)] :
           (ULift.moduleEquiv (R := ZMod (ℓ ^ k)) (M := levelCoinvariants H ρ k)).toLinearMap)
       comm := fun g => by
         ext ⟨y⟩
-        exact ULift.ext _ _ (coinvariantsMatrixMap_coinvariantsFrobenius H
+        exact ULift.ext (coinvariantsMatrixMap_coinvariantsFrobenius H
           (levelMatrixRepresentation ρ k) (A.map (PadicInt.toZModPow k))
           (map_toZModPow_commute ρ A hA k) g y) }))
 

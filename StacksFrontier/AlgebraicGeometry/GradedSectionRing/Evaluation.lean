@@ -112,7 +112,7 @@ theorem eval₂_mem_graded {g : R →+* A} (hg : ∀ r, g r ∈ 𝒜 0) {x : σ 
   have hprod : ∏ i ∈ m.support, x i ^ m i ∈ 𝒜 (∑ i ∈ m.support, m i • N) :=
     SetLike.prod_pow_mem_graded 𝒜 (fun _ => N) x (fun i => m i) fun i _ => hx i
   rw [← Finset.sum_smul, hdeg] at hprod
-  simpa using SetLike.mul_mem_graded (hg (MvPolynomial.coeff m p)) hprod
+  simpa using SetLike.mul_mem_graded (hg (p.coeff m)) hprod
 
 end Eval
 

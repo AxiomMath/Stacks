@@ -83,6 +83,24 @@ attribute [local instance] modulesMonoidalCategory
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {U V X Y : AlgebraicSpaces B S hS} {f : X ⟶ U} {g : V ⟶ U} {f' : Y ⟶ V} {pr : Y ⟶ X}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_RelativeAmpleEtaleSourceScheme
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_RelativeAmpleEtaleSourceScheme :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_RelativeAmpleEtaleSourceScheme
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **If the pullback of an invertible module along a surjective étale base change of an affine
 base is relatively ample, the source is a scheme.** This is the part of the proof of
 [Stacks, Tag 0D35] that the source concludes with "Thus `X` is a scheme"; see the module
@@ -210,7 +228,8 @@ theorem isRepresentable_of_isRelativelyAmple_baseChange_etale (hsq : IsPullback 
     ⟨CostructuredArrow.mk (yoneda.map π₁ ≫ gX), MorphismProperty.comp_mem _ _ _ hπE hgE⟩
   let h₁ : cD ⟶ cX := ObjectProperty.homMk (CostructuredArrow.homMk π₁ rfl)
   let h₂ : cD ⟶ cX := ObjectProperty.homMk (CostructuredArrow.homMk π₂ sqD.w.symm)
-  have : Mono cU.1.hom := inferInstanceAs (Mono eU.inv)
+  have : Mono cU.1.hom :=
+    (show Mono eU.inv from ⟨fun _ _ h => by simpa using h =≫ eU.hom⟩)
   have hbX' : gX ≫ f.hom = yoneda.map bX ≫ cU.1.hom := hbX
   have eπ : ∀ π : D ⟶ Y₀, yoneda.map (π ≫ bX) ≫ cU.1.hom = (yoneda.map π ≫ gX) ≫ f.hom :=
     fun π => by rw [Functor.map_comp, Category.assoc, Category.assoc, hbX']

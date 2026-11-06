@@ -326,7 +326,7 @@ abbrev affineLineTorsionSheafSituation {n : ℕ} (hn : n ≠ 0) : TorsionSheafSi
   isTorsion := fun U x => by
     obtain ⟨R, hR, hRx⟩ := exists_sieve_nsmul_eq_zero_constantSheaf
       (affineLine k).smallEtaleTopology n (AddCommGrpCat.of (ULift.{max (u + 1) v} (ZMod n)))
-      (fun z => ULift.ext _ _ (by simp)) U x
+      (fun z => ULift.ext (by simp)) U x
     exact ⟨R, hR, fun V f hf => ⟨n, Nat.pos_of_ne_zero hn, hRx V f hf⟩⟩
 
 /-- **The phenomenon only occurs with `p`-power torsion coefficients.** Let `k'/k` be an
@@ -360,7 +360,7 @@ theorem bijective_etaleCohomologyRestrictionMap_affineLine_of_isUnit {n : ℕ} (
       (ringExpChar S.k) S.F := fun U x => by
     obtain ⟨R, hR, hRx⟩ := exists_sieve_nsmul_eq_zero_constantSheaf
       (affineLine k).smallEtaleTopology n (AddCommGrpCat.of (ULift.{max (u + 1) v} (ZMod n)))
-      (fun z => ULift.ext _ _ (by simp)) U x
+      (fun z => ULift.ext (by simp)) U x
     exact ⟨R, hR, fun V f hf => ⟨n, Nat.pos_of_ne_zero hn0, hcop, hRx V f hf⟩⟩
   exact TorsionSheafSituation.baseChangePrimeToCharacteristic.{w, v, u} S htors k' q
 

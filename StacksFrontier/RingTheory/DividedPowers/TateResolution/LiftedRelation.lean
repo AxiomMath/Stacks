@@ -146,7 +146,7 @@ private theorem differential_sum_mul_eq_generator_mul
       D (b * c) = D b * c + (-1 : R') ^ i • (b * D c))
     (ψ : MvPolynomial ν R' →ₐ[R'] B) (hψ : ∀ p, ψ p ∈ ℬ 0) {f : R'} {m : ℕ}
     (r F : Fin m → MvPolynomial ν R') (g : MvPolynomial ν R')
-    (hrann : ∀ j e, MvPolynomial.coeff e (r j) ∈ (Ideal.span {f}).annihilator)
+    (hrann : ∀ j e, (r j).coeff e ∈ (Ideal.span {f}).annihilator)
     (hrel : ∑ j, r j * F j = g * MvPolynomial.C f)
     (v c : Fin m → B) (hDv : ∀ j, D (v j) = ψ (F j) + algebraMap R' B f * c j) :
     D (∑ j, ψ (r j) * v j) = algebraMap R' B f * ψ g := by
@@ -154,7 +154,7 @@ private theorem differential_sum_mul_eq_generator_mul
     ext e
     rw [MvPolynomial.coeff_C_mul]
     simpa [smul_eq_mul, mul_comm] using (Submodule.mem_annihilator_span_singleton f
-      (MvPolynomial.coeff e (r j))).mp (hrann j e)
+      ((r j).coeff e)).mp (hrann j e)
   have hprod (j : Fin m) : ψ (r j) * D (v j) = ψ (r j) * ψ (F j) := by
     have hscalar : algebraMap R' B f * ψ (r j) = 0 := by
       simpa [map_mul] using congrArg ψ (hrf j)
@@ -204,7 +204,7 @@ public theorem exists_mem_grade_two_derivation_eq_lift
     (hkerφ : RingHom.ker φ.toRingHom = Ideal.span (Set.range F))
     (hrel : ∑ j, r j * F j = 0)
     (hcoeff : ∀ (j : Fin m) (e : Fin n →₀ ℕ),
-      MvPolynomial.coeff e (r j) ∈ squareZeroAnnihilator q f)
+      (r j).coeff e ∈ squareZeroAnnihilator q f)
     (F' r' : Fin m → MvPolynomial (Fin n) R')
     (g : MvPolynomial (Fin n) R')
     (hF : ∀ j, MvPolynomial.map q (F' j) = F j)

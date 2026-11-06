@@ -181,7 +181,8 @@ theorem nonempty_isInitial_of_isEmpty_pointsULift {F : FppfSheaf B S hS}
   have : Epi ι := (Sheaf.isLocallySurjective_iff_epi ι).mp ⟨fun {T} s =>
     (BigFppfOver.topology B S hS).superset_covering bot_le
       (BigFppfOver.bot_mem_topology T (hT T s))⟩
-  have : IsIso ι := isIso_of_mono_of_epi ι
+  have : IsIso ι := by
+    set_option synthInstance.maxHeartbeats 400000 in exact isIso_of_mono_of_epi ι
   exact ⟨initialIsInitial.ofIso (asIso ι)⟩
 
 /-- **A flat formal space over a cdvr with rig-étale rig-surjective diagonal is the base or

@@ -116,7 +116,7 @@ attribute [local implicit_reducible] DividedPowerPullbackChart.fst
 attribute [local implicit_reducible] DividedPowerPullbackChart.snd
 
 attribute [local implicit_reducible] CategoryTheory.PreZeroHypercover.pullback₁
-  CategoryTheory.Precoverage.ZeroHypercover.pullback₁ CategoryTheory.Limits.PullbackCone.mk
+  CategoryTheory.Precoverage.ZeroHypercover.pullback₁
 
 /-- Divided power schemes admit fibre products. -/
 @[stacks 07ME "existence of fibre products"]

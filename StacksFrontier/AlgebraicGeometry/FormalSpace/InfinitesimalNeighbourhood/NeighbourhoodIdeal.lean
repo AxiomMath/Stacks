@@ -93,7 +93,7 @@ theorem IsReductionIdeal.map {T V : BigFppfOver B S hS} {t : W.obj.obj (op T)}
     IsReductionIdeal i (W.obj.map h.op t)
       (Ideal.map ((BigFppfOver.toScheme B S hS).map h).appTop.hom K) := by
   intro T' g
-  rw [← FunctorToTypes.map_comp_apply, ← op_comp, hK T' (g ≫ h), Ideal.map_le_iff_le_comap,
+  rw [← Functor.map_comp_apply, ← op_comp, hK T' (g ≫ h), Ideal.map_le_iff_le_comap,
     Functor.map_comp, Scheme.Hom.comp_appTop, CommRingCat.hom_comp, ← RingHom.comap_ker]
 
 variable {A : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]

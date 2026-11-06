@@ -189,7 +189,11 @@ theorem quasiIso_etaleModuleDirectImage_map_of_rightAcyclic {Y Z : Scheme.{u}} (
         (etaleModuleRestriction.{u, u} Λ j) r' HU e.symm p).app (P.X n)).symm
   -- finite cohomological dimension over the affine `U`
   have : CompactSpace (𝒰.X i) := inferInstance
-  obtain ⟨d, hd⟩ := exists_topologicalKrullDim_fiber_le hU
+  have hUp : IsProper hU := inferInstanceAs (IsProper (pullback.snd h j))
+  have hUl : LocallyOfFiniteType hU := hUp.toLocallyOfFiniteType
+  have hUc : UniversallyClosed hU := hUp.toUniversallyClosed
+  have hUq : QuasiCompact hU := inferInstance
+  obtain ⟨d, hd⟩ := @exists_topologicalKrullDim_fiber_le _ _ hU hUl hUq ‹_›
   have hdim : ∀ (M : EtaleModules.{u, u} Λ (pullback h j)) (p : ℕ), 2 * d < p →
       IsZero ((HU.rightDerived p).obj M) := fun M p hp ↦
     isZero_rightDerived_etaleModuleDirectImage_of_isProper_of_natCast_eq_zero Λ hU m hm hΛ d hd

@@ -876,6 +876,13 @@ theorem isRelativelySmooth_sliceAtlasPoint (hy : y ⋙ 𝒴.val.p = Over.map U.h
   rw [representingMap_sliceAtlasPoint B S hS U f y T e hy W a ĉ ξ hξ]
   exact isSmooth_relocalizeYonedaFactorIso_comp B S hS U T W a hasm
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_TwoFibreProductSliceAtlas
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  Limits.HasLimitsOfShape.has_limit _
+
 /-- **A base change of a morphism into an algebraic space over `S`, along an arbitrary morphism
 of presheaves, is representable by schemes when the morphism being based changed goes out of a
 representable presheaf.** The diagonal clause of `AlgebraicGeometry.IsAlgebraicSpace` makes every

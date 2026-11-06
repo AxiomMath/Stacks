@@ -83,10 +83,10 @@ theorem exists_chart_square_hasClosedChartFibreSquare_of_isClosed_chartPoint
       (gsnd : M.chart.obj.left ⟶ P.chart.obj.left)
       (gh : P.chart.obj.left ⟶ Q.chart.obj.left),
       IsClosed ({(chartGeometricPoint M).hom
-          (IsLocalRing.closedPoint (chartGeometricPoint M).residueField)} : Set _) →
+                  (IsLocalRing.closedPoint (chartGeometricPoint M).residueField)} : Set _) →
         IsClosed ({((BigFppfOver.toScheme B S hS).map gsnd)
-            ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
-              (chartGeometricPoint M).residueField))} : Set _) →
+                    ((chartGeometricPoint M).hom (IsLocalRing.closedPoint
+                      (chartGeometricPoint M).residueField))} : Set _) →
           HasClosedChartFibreSquare B S hS h π₁ π₂ a := by
   obtain ⟨M, N, P, Q, gfst, gsnd, gh, hcl⟩ :=
     exists_chart_square_hasClosedChartFibreSquare_of_isPullback B S hS hW hU hU' k h π₁ π₂

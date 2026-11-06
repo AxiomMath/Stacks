@@ -229,10 +229,11 @@ theorem ideal_comap_exceptionalIdeal_chartBaseChangeOpen (hUXaff : IsAffineOpen 
     ((exceptionalIdeal ℐ).comap (pullback.snd f (blowUpToBase ℐ))).ideal
         ⟨chartBaseChangeOpen f ℐ U (a := a) UX,
           isAffineOpen_chartBaseChangeOpen f ℐ U hUXaff hUX⟩
-      = Ideal.span {((pullback.fst f (blowUpToBase ℐ)).appLE UX
+      = Ideal.span {
+          ((pullback.fst f (blowUpToBase ℐ)).appLE UX
             (chartBaseChangeOpen f ℐ U (a := a) UX)
             (chartBaseChangeOpen_le_preimage_fst f ℐ U (a := a) (UX := UX))).hom
-          ((f.appLE U.1 UX hUX).hom a)} := by
+            ((f.appLE U.1 UX hUX).hom a)} := by
   rw [Stacks.StrictTransform.ideal_comap_exceptionalIdeal_blowUpAffineChart f ℐ U ha.out
     ⟨chartBaseChangeOpen f ℐ U (a := a) UX,
       isAffineOpen_chartBaseChangeOpen f ℐ U hUXaff hUX⟩

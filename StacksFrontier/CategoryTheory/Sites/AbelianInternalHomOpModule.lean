@@ -47,18 +47,21 @@ of `Λ`-modules**, degreewise by `r • -`. -/
 def scalarEndComplex (L : CochainComplex (Sheaf K (ModuleCat.{max u v} Λ)) ℤ) :
     Λ →+* End (((sheafCompose K (forget₂ (ModuleCat.{max u v} Λ)
       AddCommGrpCat.{max u v})).mapHomologicalComplex (ComplexShape.up ℤ)).obj L) where
-  toFun r :=
-    { f := fun n => sheafScalarEnd Λ K (L.X n) r
+  toFun r := .of
+    { f := fun n => (sheafScalarEnd Λ K (L.X n) r).asHom
       comm' := fun i j _ => sheafScalarEnd_naturality Λ K (L.d i j) r }
-  map_one' := HomologicalComplex.hom_ext _ _ fun n => (sheafScalarEnd Λ K (L.X n)).map_one
-  map_mul' r s := HomologicalComplex.hom_ext _ _ fun n => (sheafScalarEnd Λ K (L.X n)).map_mul r s
-  map_zero' := HomologicalComplex.hom_ext _ _ fun n => (sheafScalarEnd Λ K (L.X n)).map_zero
-  map_add' r s := HomologicalComplex.hom_ext _ _ fun n =>
-    (sheafScalarEnd Λ K (L.X n)).map_add r s
+  map_one' := End.ext <| HomologicalComplex.hom_ext _ _ fun n =>
+    congrArg End.asHom (sheafScalarEnd Λ K (L.X n)).map_one
+  map_mul' r s := End.ext <| HomologicalComplex.hom_ext _ _ fun n =>
+    congrArg End.asHom ((sheafScalarEnd Λ K (L.X n)).map_mul r s)
+  map_zero' := End.ext <| HomologicalComplex.hom_ext _ _ fun n =>
+    congrArg End.asHom (sheafScalarEnd Λ K (L.X n)).map_zero
+  map_add' r s := End.ext <| HomologicalComplex.hom_ext _ _ fun n =>
+    congrArg End.asHom ((sheafScalarEnd Λ K (L.X n)).map_add r s)
 
 /-- In degree `n`, `scalarEndComplex K L r` is the action `r • -` on `L.X n`. -/
 lemma scalarEndComplex_f (L : CochainComplex (Sheaf K (ModuleCat.{max u v} Λ)) ℤ) (r : Λ)
-    (n : ℤ) : (scalarEndComplex K L r).f n = sheafScalarEnd Λ K (L.X n) r := rfl
+    (n : ℤ) : (scalarEndComplex K L r).asHom.f n = (sheafScalarEnd Λ K (L.X n) r).asHom := rfl
 
 section HomOp
 
@@ -67,14 +70,14 @@ variable (G : Sheaf K (ModuleCat.{max u v} Λ))
 /-- Precomposition with an endomorphism of `G`, on `ℋom_ℤ(G, F)`. -/
 def precompEnd (F : Sheaf K AddCommGrpCat.{max u v}) (e : End (toAb K G)) :
     End (internalHomSheaf K (toAb K G) F) :=
-  (internalHomFunctor K F).map e.op
+  .of ((internalHomFunctor K F).map e.asHom.op)
 
 /-- On sections over `U`, `precompEnd K G F e` sends `a` to the restriction of `e` to the slice
 over `U` composed with `a`. -/
 lemma precompEnd_hom_app_apply (F : Sheaf K AddCommGrpCat.{max u v}) (e : End (toAb K G))
     (U : Cᵒᵖ) (a : (internalHomSheaf K (toAb K G) F).obj.obj U) :
-    ((precompEnd K G F e).hom.app U).hom a =
-      Functor.whiskerLeft (Over.forget U.unop).op e.hom ≫ a :=
+    ((precompEnd K G F e).asHom.hom.app U).hom a =
+      Functor.whiskerLeft (Over.forget U.unop).op e.asHom.hom ≫ a :=
   rfl
 
 /-- **The action of `Λᵐᵒᵖ` on `ℋom_ℤ(G, F)`**: `op r` acts by precomposition with `r • -`. -/
@@ -83,16 +86,16 @@ def homOpAction (F : Sheaf K AddCommGrpCat.{max u v}) :
   toFun r := precompEnd K G F (sheafScalarEnd Λ K G r.unop)
   map_one' := by
     rw [MulOpposite.unop_one, map_one]
-    exact (internalHomFunctor K F).map_id _
+    exact End.ext ((internalHomFunctor K F).map_id _)
   map_mul' r s := by
     rw [MulOpposite.unop_mul, map_mul]
-    exact (internalHomFunctor K F).map_comp _ _
+    exact End.ext ((internalHomFunctor K F).map_comp _ _)
   map_zero' := by
     rw [MulOpposite.unop_zero, map_zero]
-    exact (internalHomFunctor K F).map_zero _ _
+    exact End.ext ((internalHomFunctor K F).map_zero _ _)
   map_add' r s := by
     rw [MulOpposite.unop_add, map_add]
-    refine Sheaf.hom_ext (NatTrans.ext (funext fun U => AddCommGrpCat.hom_ext
+    refine End.ext <| Sheaf.hom_ext (NatTrans.ext (funext fun U => AddCommGrpCat.hom_ext
       (AddMonoidHom.ext fun x => NatTrans.ext (funext fun W => AddCommGrpCat.hom_ext
         (AddMonoidHom.ext fun y => ?_)))))
     exact map_add (x.app W).hom _ _

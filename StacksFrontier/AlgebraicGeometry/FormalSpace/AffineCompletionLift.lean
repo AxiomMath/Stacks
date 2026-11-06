@@ -771,6 +771,7 @@ around each point of `Y₁` over `T₁`. This is
 `AlgebraicGeometry.Space.exists_isCompletionLift_affineOver` transported along an isomorphism
 `Spec Γ(Y₁) ≅ Y₁`. -/
 theorem affineCompletionLiftProperty : AffineCompletionLiftProperty B S hS := by
+  unfold AffineCompletionLiftProperty
   intro X₁ _ _ T₁ hT₁ X'₁ hX'₁ f₁ hf₁ hfU₁ Y₁ _ _ h α₁ hα₁ q hq
   obtain ⟨R, _, _, hR, s, ι, hι⟩ := exists_isIso_affineOver Y₁
   have hag : yoneda.map ι ≫ yoneda.map h = yoneda.map (ι ≫ h) := (yoneda.map_comp ι h).symm

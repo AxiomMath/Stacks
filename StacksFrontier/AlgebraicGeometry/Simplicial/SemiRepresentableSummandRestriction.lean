@@ -106,7 +106,7 @@ instance componentSite_isContinuous (n : SimplexCategory) :
   constructor
   intro G
   have h : Presieve.IsSheaf (componentRingedTopos X K n).J G.obj :=
-    (isSheaf_iff_isSheaf_of_type _ _).mp G.cond
+    (isSheaf_iff_isSheaf_of_type _ _).mp G.property
   change Presieve.IsSheaf (componentwiseTopology X.J (K.obj (op n))) G.obj
   generalize G.obj = P at h ⊢
   rwa [componentRingedTopos_J_eq] at h
@@ -131,7 +131,7 @@ instance componentSiteInv_isContinuous (n : SimplexCategory) :
   constructor
   intro G
   have h : Presieve.IsSheaf (componentwiseTopology X.J (K.obj (op n))) G.obj :=
-    (isSheaf_iff_isSheaf_of_type _ _).mp G.cond
+    (isSheaf_iff_isSheaf_of_type _ _).mp G.property
   change Presieve.IsSheaf (componentRingedTopos X K n).J G.obj
   generalize G.obj = P at h ⊢
   rwa [← componentRingedTopos_J_eq] at h

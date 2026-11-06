@@ -165,12 +165,7 @@ def ncAlgEquivQuotXRed : (PRed ⧸ Ideal.span {xRed}) ≃ₐ[PRed] NC :=
           intro y hy
           rw [← ker_algebraMap_PRed_NC, RingHom.mem_ker] at hy
           exact hy))
-      ⟨by
-        refine (injective_iff_map_eq_zero _).2 fun y hy => ?_
-        obtain ⟨z, rfl⟩ := Ideal.Quotient.mk_surjective y
-        rw [Ideal.Quotient.lift_mk] at hy
-        rw [Ideal.Quotient.eq_zero_iff_mem, ← ker_algebraMap_PRed_NC, RingHom.mem_ker]
-        exact hy,
+      ⟨RingHom.lift_injective_of_ker_le_ideal _ _ ker_algebraMap_PRed_NC.le,
        by
         intro n
         obtain ⟨z, hz⟩ := surjective_pRedToNC n
@@ -256,8 +251,8 @@ theorem hlocal_nodal {g : PBase} (hg : g ∈ Ideal.span {omegaP}) :
       rw [uElt, map_sub, map_mul, map_mul, htauPg, zero_mul, sub_zero]
     have hr : (Ideal.span {xRed}).map
           (algebraMap PRed (Localization.Away (algebraMap PBase PRed g))) =
-        Ideal.span {algebraMap PBase (Localization.Away (algebraMap PBase PRed g))
-          (AdjoinRoot.root pPoly)} := by
+        Ideal.span {(algebraMap PBase (Localization.Away (algebraMap PBase PRed g))
+          (AdjoinRoot.root pPoly))} := by
       rw [Ideal.map_span, Set.image_singleton, xRed, ← hfac]
     rw [hl, hu, hr]
     exact Ideal.span_singleton_mul_left_unit hunit _

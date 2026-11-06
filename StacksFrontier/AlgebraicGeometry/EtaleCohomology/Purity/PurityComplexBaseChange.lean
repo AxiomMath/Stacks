@@ -219,21 +219,21 @@ theorem _root_.Stacks.Cohomology.DerivedBaseChangePlus.isIso_homology_zero_deriv
     (Stacks.Cohomology.DerivedBaseChangePlus.derivedBaseChangePlus_fac F F' G G' α K)
   rw [Functor.map_comp] at hfac
   have h1 :
-      IsIso (H0.map (G.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnit.app K))) := by
+      IsIso (H0.map (G.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnith.app K))) := by
     let e : G.mapDerivedCategoryPlus ⋙ H0 ≅ DerivedCategory.Plus.homologyFunctor B 0 ⋙ G :=
       Functor.isoWhiskerLeft DerivedCategory.Plus.ι (Stacks.Homology.derivedHomologyIso G 0)
     have h0 := (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-      F _ F.rightDerivedFunctorPlusUnit).2.2.2 inferInstance M
+      F _ F.rightDerivedFunctorPlusUnith).2.2.2 inferInstance M
     have : IsIso (G.map ((DerivedCategory.Plus.homologyFunctor B 0).map
-        (F.rightDerivedFunctorPlusUnit.app K))) := inferInstance
+        (F.rightDerivedFunctorPlusUnith.app K))) := inferInstance
     exact (NatIso.isIso_map_iff e _).2 this
   have hα := isIso_mapHomotopyCategoryPlusNatTrans_app_single α M hM
-  have h2 : IsIso (H0.map (F'.rightDerivedFunctorPlusUnit.app
+  have h2 : IsIso (H0.map (F'.rightDerivedFunctorPlusUnith.app
       (G'.mapHomotopyCategoryPlus.obj K))) := by
     have h0 := (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-      F' _ F'.rightDerivedFunctorPlusUnit).2.2.2 inferInstance (G'.obj M)
+      F' _ F'.rightDerivedFunctorPlusUnith).2.2.2 inferInstance (G'.obj M)
     exact (NatTrans.isIso_app_iff_of_iso
-      (Functor.whiskerRight F'.rightDerivedFunctorPlusUnit H0)
+      (Functor.whiskerRight F'.rightDerivedFunctorPlusUnith H0)
       ((Functor.mapHomotopyCategoryPlusSingleFunctor G' 0).app M)).2 h0
   have h3 : IsIso (H0.map
       ((Stacks.Cohomology.DerivedBaseChangePlus.derivedBaseChangePlusAux F F' G G' α).app K)) := by
@@ -284,7 +284,7 @@ theorem isZero_homology_etaleModuleDerivedDirectImage_single {T S : Scheme.{u}} 
   rcases hm with hm | hm
   · exact ((Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
       (etaleModuleDirectImage.{u, 0} Λ h) _
-      (etaleModuleDirectImage.{u, 0} Λ h).rightDerivedFunctorPlusUnit).1 m hm).obj Y
+      (etaleModuleDirectImage.{u, 0} Λ h).rightDerivedFunctorPlusUnith).1 m hm).obj Y
   · obtain ⟨q, rfl⟩ : ∃ q : ℕ, m = q := ⟨m.toNat, by omega⟩
     exact (Stacks.DerivedIndexing.isZero_rightDerivedPlus_obj_iff
       (etaleModuleDirectImage.{u, 0} Λ h) rfl Y).2 (hY q (by omega))

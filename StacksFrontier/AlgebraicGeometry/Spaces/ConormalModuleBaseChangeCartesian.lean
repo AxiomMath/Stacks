@@ -199,7 +199,7 @@ theorem vertical_eq_preimageProjection_of_isPullback
     f = preimageProjection B S hS g Z' := by
   refine ObjectProperty.hom_ext _ ((cancel_mono Z'.1.ι).mp ?_)
   have h := congrArg (fun k => k.hom) hsq
-  simpa [Subfunctor.fromPreimage_ι] using h.symm
+  exact h.symm.trans (Subfunctor.fromPreimage_ι Z'.1 g.hom).symm
 
 /-- **The canonical inverse-image square is cartesian.**  This is
 `CategoryTheory.Subfunctor.isPullback_preimage` of [Stacks Project, Tag 083Q], transposed, read

@@ -518,7 +518,9 @@ theorem exists_linearEquiv_traceCandidate_of_algEquiv (A : Type u) [CommRing A] 
   have : IsScalarTower R₀ (localizedCompleteIntersection R₀ n h₀ f₀)
       (Ring R₀ (localizedCompleteIntersection R₀ n h₀ f₀) i) :=
     IsScalarTower.of_algebraMap_eq fun r ↦ by
-      simp [Algebra.algebraMap_eq_smul_one]
+      change algebraMap R₀ (Base R₀ i) r ⊗ₜ (1 : localizedCompleteIntersection R₀ n h₀ f₀) =
+        (1 : Base R₀ i) ⊗ₜ algebraMap R₀ (localizedCompleteIntersection R₀ n h₀ f₀) r
+      rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, TensorProduct.smul_tmul]
   have := flat_of_isPushout_localizedCompleteIntersection (R := R₀) (n := n) (h := h₀) (f := f₀)
     (A₀ := Base R₀ i) (B₀ := Ring R₀ (localizedCompleteIntersection R₀ n h₀ f₀) i) F₀
   have : Module.FinitePresentation (Base R₀ i) F₀.middle :=

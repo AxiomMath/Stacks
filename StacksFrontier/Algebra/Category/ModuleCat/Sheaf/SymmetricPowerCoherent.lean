@@ -269,6 +269,8 @@ def symmetricPowerCokernelIso (A : TensorExteriorSymmetricAlgebras J G) (n : ℕ
       (cokernelRelHomIso (valPresheaf J G) n)).symm ≪≫
     PreservesCokernel.iso _ _
 
+set_option maxHeartbeats 1600000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The sheafification of the source of the relator sequence is the coproduct of `n - 1` copies
 of the sheafified degree-`n` tensor power. -/
 def sheafifyRelSourceIso (n : ℕ) :
@@ -277,7 +279,8 @@ def sheafifyRelSourceIso (n : ℕ) :
       ∐ fun _ : Fin (n - 1) =>
         (PresheafOfModules.moduleSheafification J (𝟙 Osharp.obj)).obj
           (tensorPow n (valPresheaf J G)) :=
-  PreservesCoproduct.iso _ _
+  PreservesCoproduct.iso (PresheafOfModules.moduleSheafification J (𝟙 Osharp.obj))
+    (fun _ : Fin (n - 1) => tensorPow n (valPresheaf J G))
 
 end Sheafify
 

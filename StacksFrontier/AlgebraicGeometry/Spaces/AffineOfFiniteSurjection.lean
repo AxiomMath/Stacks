@@ -376,9 +376,9 @@ theorem isAffineSpace_of_isFinite_of_isFinitePresentation_of_isTerminal
   let β : M.targetLimit ≅ Y :=
     @asIso _ _ _ _ (pullback.fst (limit.π M.base (op M.initial)) (𝟙 _)) hfst ≪≫ e.symm
   have hsq : M.mapLimit = α.hom ≫ f ≫ β.inv := by
-    rw [← cancel_mono β.hom]
+    rw [← Iso.cancel_iso_hom_right _ _ β]
     simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
-    rw [← cancel_mono e.hom]
+    rw [← Iso.cancel_iso_hom_right _ _ e]
     have h1 : M.mapLimit ≫ β.hom ≫ e.hom = pullback.fst (limit.π A.diagram i) X₀.hom := by
       simp only [β, Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.inv_hom_id, Category.comp_id]
       exact M.mapLimit_fst

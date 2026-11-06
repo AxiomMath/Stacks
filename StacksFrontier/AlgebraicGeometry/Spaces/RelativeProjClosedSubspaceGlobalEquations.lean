@@ -469,7 +469,7 @@ theorem exists_finiteType_le_pointZariskiImageSubmodule
       @mono_comp _ _ _ _ _ N.ι (SheafOfModules.Submodule.mono_ι_via_forget N) _
         (@mono_comp _ _ _ _ _ ιI
           (SheafOfModules.Submodule.mono_ι_via_forget (s.chartIdeal hi hπ d)) _
-          (inferInstanceAs (Mono (s.smallAlgebraPieceIso (d : ℤ)).hom)))⟩
+          (IsIso.mono_of_iso (s.smallAlgebraPieceIso (d : ℤ)).hom))⟩
   obtain ⟨hℱq, hℱf⟩ := @isQuasicoherentOnSite_and_isFiniteType_monoRangeSubmodule s.site s.base
     s.containsBase s.space _ _ φ0 hφ0 hNq hNf
   obtain ⟨ℱ, hℱq, hℱf, hmem⟩ : ∃ ℱ : (s.algebra.piece (d : ℤ)).Submodule,

@@ -135,8 +135,9 @@ theorem nonempty_etaleStalk_pushforward_of_isEmpty_lifts_univ {X Y : B.Scheme} (
       exact (B.inclusion.map (pullback.fst W.obj.hom k) p').2
     exact hO (by rwa [Scheme.Hom.comp_apply] at hp)
   obtain ⟨s⟩ := nonempty_sections_of_isEmpty_univ B X.1 X.property F _ hempty
-  exact ⟨colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property z)).op ⋙
-    ((B.smallPushforward k _).obj F).obj) (op ⟨W, w⟩) s⟩
+  exact ⟨colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property z)).op ⋙
+    ((B.smallPushforward k _).obj F).obj)
+    (op ((geometricPointFiber B Y.1 Y.property z).elementsMk W w)) s⟩
 
 end Empty
 

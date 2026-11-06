@@ -177,8 +177,10 @@ theorem adjoin_param_gen_eq_top (W : X.affineOpens) (g : Γ(X, W.1))
     (hspan : I.ideal W = Ideal.span {g}) :
     letI : Algebra Γ(X, W.1) Γ(deformationSpace I, deformationSpaceToBase I ⁻¹ᵁ W.1) :=
       ((deformationSpaceToBase I).appLE W.1 (deformationSpaceToBase I ⁻¹ᵁ W.1) le_rfl).hom.toAlgebra
-    Algebra.adjoin Γ(X, W.1) {paramChartOf I W.1, chartIncl I 1 W.1
-      (extReesOfMem I W 1 g (by rw [pow_one, hspan]; exact Ideal.mem_span_singleton_self _))} =
+    Algebra.adjoin Γ(X, W.1)
+      {paramChartOf I W.1,
+        chartIncl I 1 W.1
+          (extReesOfMem I W 1 g (by rw [pow_one, hspan]; exact Ideal.mem_span_singleton_self _))} =
         ⊤ := by
   let : Algebra Γ(X, W.1) Γ(deformationSpace I, deformationSpaceToBase I ⁻¹ᵁ W.1) :=
     ((deformationSpaceToBase I).appLE W.1 (deformationSpaceToBase I ⁻¹ᵁ W.1) le_rfl).hom.toAlgebra
@@ -240,9 +242,9 @@ theorem locallyOfFiniteType_deformationSpaceToBase (hI : IsLocallyPrincipalIdeal
     Stacks.RelativeSpec.isAffineOpen_toBase_preimage (extReesSituation I) W⟩, hxW, le_rfl, ?_⟩
   let : Algebra Γ(X, W.1) Γ(deformationSpace I, deformationSpaceToBase I ⁻¹ᵁ W.1) :=
     ((deformationSpaceToBase I).appLE W.1 (deformationSpaceToBase I ⁻¹ᵁ W.1) le_rfl).hom.toAlgebra
-  exact ⟨⟨{paramChartOf I W.1, chartIncl I 1 W.1
-    (extReesOfMem I W 1 g (mem_ideal_pow_one_of_eq_span I W hspan))}, by
-      rw [Finset.coe_pair]; exact adjoin_param_gen_eq_top I W g hspan⟩⟩
+  exact ⟨⟨{paramChartOf I W.1,
+          chartIncl I 1 W.1 (extReesOfMem I W 1 g (mem_ideal_pow_one_of_eq_span I W hspan))},
+    by rw [Finset.coe_pair]; exact adjoin_param_gen_eq_top I W g hspan⟩⟩
 
 /-- **The residue fields of the deformation space have transcendence degree at most one over
 those of the base.** -/

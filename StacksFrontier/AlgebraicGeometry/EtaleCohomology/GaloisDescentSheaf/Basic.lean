@@ -89,7 +89,7 @@ variable (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (s : Geomet
 /-- The action of a topological group on the underlying set of a continuous `G`-set. -/
 def continuousGSetSmul {G : Type u} [Group G] [TopologicalSpace G]
     (M : ContinuousGSet.{u, w} G) (σ : G) : M.obj.obj.V → M.obj.obj.V :=
-  ConcreteCategory.hom (M.obj.obj.ρ σ)
+  ConcreteCategory.hom (M.obj.obj.ρ σ).asHom
 
 section Plain
 

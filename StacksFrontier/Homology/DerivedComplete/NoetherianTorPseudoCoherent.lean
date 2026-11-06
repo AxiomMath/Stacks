@@ -662,7 +662,7 @@ private theorem isDerivedLimit_of_natIso
     apply Pi.hom_ext
     intro n
     simp only [q, Category.assoc, Pi.map_π, Pi.map_π_assoc, d, d',
-      Pi.lift_π, Pi.lift_π_assoc, Preadditive.comp_sub, Preadditive.sub_comp, Category.assoc]
+      Pi.lift_comp_π, Pi.lift_comp_π_assoc, Preadditive.comp_sub, Preadditive.sub_comp, Category.assoc]
     rw [e.hom.naturality]
   let t := Triangle.mk p d δ
   let s := Triangle.mk (p ≫ q.hom) d' (q.inv ≫ δ)

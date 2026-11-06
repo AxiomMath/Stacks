@@ -499,9 +499,7 @@ noncomputable def groupoidSchemeOfAction : ActionGroupoidConstruction Y G X := b
             calc
               fY ≫ snd G X = gY ≫ γ[G, X] := wfgY
               _ = pairGHY ≫ (Stacks.Groupoids.ActionGroupoid.composition G X ≫ γ[G, X]) := by
-                    simpa [actionComposition_target, Category.assoc] using
-                      (congrArg (fun k => k ≫ γ[G, X])
-                        (pullback.lift_fst gY hY wghY)).symm
+                    rw [actionComposition_target, ← Category.assoc, pullback.lift_fst]
           let fgY := pairFGY ≫ Stacks.Groupoids.ActionGroupoid.composition G X
           let ghY := pairGHY ≫ Stacks.Groupoids.ActionGroupoid.composition G X
           let fg := pullback.lift f g wfg ≫ comp

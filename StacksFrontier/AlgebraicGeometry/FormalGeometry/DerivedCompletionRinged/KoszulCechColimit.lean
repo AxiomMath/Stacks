@@ -107,7 +107,7 @@ private def piDelta (A : ι) : g A ⟶ ∏ᶜ g :=
 
 private theorem piDelta_comp_π (A B : ι) :
     piDelta g A ≫ Pi.π g B = if h : A = B then eqToHom (congrArg g h) else 0 :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 private theorem piDelta_comp_π_self (A : ι) : piDelta g A ≫ Pi.π g A = 𝟙 (g A) := by
   rw [piDelta_comp_π]

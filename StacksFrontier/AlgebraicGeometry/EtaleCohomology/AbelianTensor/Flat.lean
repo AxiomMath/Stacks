@@ -103,7 +103,7 @@ lemma flat_of_mono_zsmul (M : ModuleCat.{w} ULiftInt.{w})
   rw [Module.Flat.flat_iff_torsion_eq_bot_of_isBezout, eq_bot_iff]
   intro x hx
   obtain ⟨⟨r, hr⟩, hrx⟩ := (Submodule.mem_torsion_iff x).1 hx
-  have hr0 : r.down ≠ 0 := fun h ↦ nonZeroDivisors.ne_zero hr (ULift.ext _ _ h)
+  have hr0 : r.down ≠ 0 := fun h ↦ nonZeroDivisors.ne_zero hr (ULift.ext h)
   have hinj := (ModuleCat.mono_iff_injective (r.down • 𝟙 M)).1 (hM _ hr0)
   have hrr : r = ((r.down : ℤ) : ULiftInt.{w}) := by
     cases r

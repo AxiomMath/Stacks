@@ -50,19 +50,19 @@ public theorem of_precoverage {u : C ⥤ Type w} [IsCofiltered u.Elements] {K : 
   | pullback X S _ Y g ih =>
     intro x
     obtain ⟨Z, f, hf, z, hz⟩ := ih (u.map g x)
-    let A : u.Elements := ⟨Z, z⟩
-    let B : u.Elements := ⟨Y, x⟩
+    let A : u.Elements := u.elementsMk Z z
+    let B : u.Elements := u.elementsMk Y x
     let W := IsCofiltered.min A B
     let p : W ⟶ A := IsCofiltered.minToLeft A B
     let q : W ⟶ B := IsCofiltered.minToRight A B
-    let T : u.Elements := ⟨X, u.map g x⟩
-    let α : W ⟶ T := p ≫ ⟨f, hz⟩
-    let β : W ⟶ T := q ≫ ⟨g, rfl⟩
+    let T : u.Elements := u.elementsMk X (u.map g x)
+    let α : W ⟶ T := p ≫ Functor.Elements.homMk (y := T) f hz
+    let β : W ⟶ T := q ≫ Functor.Elements.homMk (y := T) g rfl
     let e : IsCofiltered.eq α β ⟶ W := IsCofiltered.eqHom α β
-    have he : e.1 ≫ p.1 ≫ f = e.1 ≫ q.1 ≫ g :=
-      congrArg Subtype.val (IsCofiltered.eq_condition α β)
-    refine ⟨_, (e ≫ q).1, ?_, (IsCofiltered.eq α β).2, (e ≫ q).2⟩
-    show S ((e.1 ≫ q.1) ≫ g)
+    have he : e.hom ≫ p.hom ≫ f = e.hom ≫ q.hom ≫ g :=
+      congrArg Functor.Elements.Hom.hom (IsCofiltered.eq_condition α β)
+    refine ⟨_, (e ≫ q).hom, ?_, (IsCofiltered.eq α β).val, (e ≫ q).map_val⟩
+    show S ((e.hom ≫ q.hom) ≫ g)
     rw [Category.assoc, ← he, ← Category.assoc]
     exact S.downward_closed hf _
   | transitive X S R _ _ ih₁ ih₂ =>

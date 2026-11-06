@@ -87,8 +87,8 @@ private lemma isDerivedLimit_of_natIso {D : Type*} [Category D] [HasZeroObject D
   have hd : d ≫ pe.hom = pe.hom ≫ d' := by
     refine Pi.hom_ext _ _ fun n ↦ ?_
     dsimp only [d, d']
-    rw [Category.assoc, peπ, ← Category.assoc, Pi.lift_π, Preadditive.sub_comp]
-    simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub]
+    rw [Category.assoc, peπ, ← Category.assoc, Pi.lift_comp_π, Preadditive.sub_comp]
+    simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub]
     congr 1
     · rw [peπ]
     · have hn : E.map (homOfLE (Nat.le_succ n)).op ≫ (e.app ⟨n⟩).hom =
@@ -108,7 +108,7 @@ variable (X : Scheme.{u}) {A : Type u} [CommRing A]
 
 /-- **Multiplication by `f`.** The endomorphism of a sheaf of `𝒪_X`-modules given by the action of
 the image of `f ∈ A` in `Γ(X, 𝒪_X)`. -/
-abbrev mulF : ℱ ⟶ ℱ := (baseSmul X.toRingedSpace ρ f).app ℱ
+abbrev mulF : ℱ ⟶ ℱ := (baseSmul X.toRingedSpace ρ f).asHom.app ℱ
 
 /-- **The quotient tower of `ℱ` at `f`.** The inverse system `n ↦ ℱ/f^(n+1)ℱ` of sheaves of
 `𝒪_X`-modules, whose transition maps are the canonical surjections. -/

@@ -171,7 +171,31 @@ in a single declaration. -/
 private instance (priority := high) bigFppfPresheafHasPullback
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
-    HasPullback f g := inferInstance
+    HasPullback f g := HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Cospan-shaped limits of presheaves on the site (instance search times out without this
+shortcut). -/
+instance (priority := high) bigFppfPresheafHasLimitsOfShapeCospan_finitePresentationDescent
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasLimitsOfShape WalkingCospan ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
+/-- Limits of any cospan of presheaves on the site, also when the two legs' codomains agree
+only up to unfolding (as for `Yᵢ.hom` with `Yᵢ : Over _`). -/
+instance (priority := high) bigFppfPresheafHasLimitCospan_finitePresentationDescent
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    (F : WalkingCospan ⥤ (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :
+    HasLimit F :=
+  HasLimitsOfShape.has_limit F
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on the site (instance search times out without this
+shortcut). -/
+instance (priority := high) bigFppfPresheafHasLimitsOfShapeDiscrete_finitePresentationDescent
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
 
 private theorem relationTarget_prodLift {S : Scheme.{u}} {R U : Over S}
     (s t : R ⟶ U) :
@@ -2382,7 +2406,7 @@ private theorem exists_hom_on_affine_chart (i₀ : I)
       rw [Category.assoc, hf, IsPullback.isoPullback_hom_fst_assoc]
       exact h.w)
   refine ⟨j, g, hg.trans (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.w.symm, ?_⟩
-  apply (cancel_epi h.isoPullback.hom).mp
+  apply (Iso.cancel_iso_hom_left h.isoPullback _ _).mp
   have hh : h.isoPullback.hom ≫
       (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.lift
         (pullback.fst _ _ ≫ limit.π D j.left) (pullback.snd _ _)
@@ -3786,14 +3810,14 @@ private theorem exists_isIso_after_baseChange
     (IsPullback.of_hasPullback Z.hom (D.map e)) hZfp
   have hfg : (Over.pullback (limit.π D j)).map (fj ≫ g) =
       (Over.pullback (limit.π D j)).map (𝟙 Yj) := by
-    apply (cancel_mono β.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ β).mp
     simp only [Yj, Functor.map_comp]
     rw [Category.assoc, ← hg, ← Category.assoc, hn, Category.assoc,
       IsIso.hom_inv_id, Category.comp_id]
     rw [(Over.pullback (limit.π D j)).map_id Yj, Category.id_comp]
   have hgf : (Over.pullback (limit.π D j)).map (g ≫ fj) =
       (Over.pullback (limit.π D j)).map (𝟙 Zj) := by
-    apply (cancel_mono α.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ α).mp
     simp only [Zj, Functor.map_comp]
     rw [Category.assoc, hn, ← Category.assoc, ← hg, Category.assoc,
       IsIso.inv_hom_id, Category.comp_id]
@@ -3889,7 +3913,7 @@ private theorem exists_lift_pair_after_baseChange
         γ.hom = α.hom ≫ (Over.pullback (limit.π D i)).map z := by
       rw [hα']
       exact iteratedBaseChangeIso_naturality _ _ _ (limit.w D e) z
-    apply (cancel_mono γ.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ γ).mp
     rw [Functor.map_comp, Category.assoc, hv, ← Category.assoc, ← hg,
       Category.assoc, hz, hz']
   let Aj := (Over.pullback (D.map e)).obj A
@@ -4085,7 +4109,7 @@ theorem exists_model_of_stage_relation_of_cone (c : Cone D)
   let ca : F.obj cn.pt ⟶ Over.mk pR := F.map cn.fst ≫ εR.inv
   let cb : F.obj cn.pt ⟶ Over.mk pR := F.map cn.snd ≫ εR.inv
   have hcab : ca ≫ tL = cb ≫ sL := by
-    apply (cancel_mono εW.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ εW).mp
     simp only [ca, cb, Category.assoc]
     rw [← hεt, ← hεs, Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc,
       ← F.map_comp, ← F.map_comp, cn.condition]
@@ -4226,7 +4250,7 @@ theorem exists_model_of_stage_relation_of_cone (c : Cone D)
           (iteratedBaseChangeIso (D.map ejm) (D.map aMono.left) (D.map oo.hom)
             hcomp' Zₙ).hom from by
       rw [iteratedBaseChangeIso_naturality, Iso.inv_hom_id_assoc]]
-    infer_instance
+    exact mono_comp' (IsIso.mono_of_iso _) (mono_comp' this (IsIso.mono_of_iso _))
   -- the descended relation as objects of the site
   have hoAff := ((AlgebraicGeometry.Space.isAffineHom_tfae_of_isAlgebraicSpace B S hS (D.map oo.hom)
     (hD oo.left) (hD nn)).out 2 1).mp (hAffine oo.hom)
@@ -4480,7 +4504,7 @@ theorem exists_model_of_stage_relation_of_cone (c : Cone D)
     inferInstanceAs (IsIso ((Over.forget (D.obj oo.left)).map εRO.hom))
   have hνmono : Mono (εRO.hom.left ≫
       ((Over.pullback (D.map oo.hom)).map ψ).left) := by
-    infer_instance
+    exact mono_comp' (IsIso.mono_of_iso _) (Over.mono_left_of_mono _)
   have hνfst : εRO.hom.left ≫ ((Over.pullback (D.map oo.hom)).map ψ).left ≫
       pullback.fst Zₙ.hom (D.map oo.hom) = yoneda.map bR ≫ yoneda.map ψ₀ := by
     simp only [Over.pullback_map_left, Rₙ, Over.mk_hom,
@@ -5265,7 +5289,7 @@ private theorem exists_hom_on_affine_chart_of_baseChangeSizeBounded (i₀ : I)
       rw [Category.assoc, hf, IsPullback.isoPullback_hom_fst_assoc]
       exact h.w)
   refine ⟨j, g, hg.trans (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.w.symm, ?_⟩
-  apply (cancel_epi h.isoPullback.hom).mp
+  apply (Iso.cancel_iso_hom_left h.isoPullback _ _).mp
   have hh : h.isoPullback.hom ≫
       (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.lift
         (pullback.fst _ _ ≫ limit.π D j.left) (pullback.snd _ _)
@@ -6072,14 +6096,14 @@ public theorem exists_isIso_after_baseChange_of_baseChangeSizeBounded
     (IsPullback.of_hasPullback Z.hom (D.map e)) hZfp
   have hfg : (Over.pullback (limit.π D j)).map (fj ≫ g) =
       (Over.pullback (limit.π D j)).map (𝟙 Yj) := by
-    apply (cancel_mono β.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ β).mp
     simp only [Yj, Functor.map_comp]
     rw [Category.assoc, ← hg, ← Category.assoc, hn, Category.assoc,
       IsIso.hom_inv_id, Category.comp_id]
     rw [(Over.pullback (limit.π D j)).map_id Yj, Category.id_comp]
   have hgf : (Over.pullback (limit.π D j)).map (g ≫ fj) =
       (Over.pullback (limit.π D j)).map (𝟙 Zj) := by
-    apply (cancel_mono α.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ α).mp
     simp only [Zj, Functor.map_comp]
     rw [Category.assoc, hn, ← Category.assoc, ← hg, Category.assoc,
       IsIso.inv_hom_id, Category.comp_id]
@@ -6176,7 +6200,7 @@ private theorem exists_lift_pair_after_baseChange_of_baseChangeSizeBounded
         γ.hom = α.hom ≫ (Over.pullback (limit.π D i)).map z := by
       rw [hα']
       exact iteratedBaseChangeIso_naturality _ _ _ (limit.w D e) z
-    apply (cancel_mono γ.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ γ).mp
     rw [Functor.map_comp, Category.assoc, hv, ← Category.assoc, ← hg,
       Category.assoc, hz, hz']
   let Aj := (Over.pullback (D.map e)).obj A
@@ -6342,7 +6366,7 @@ private theorem exists_model_of_stage_relation_of_baseChangeSizeBounded (nn : I)
   let ca : F.obj cn.pt ⟶ Over.mk pR := F.map cn.fst ≫ εR.inv
   let cb : F.obj cn.pt ⟶ Over.mk pR := F.map cn.snd ≫ εR.inv
   have hcab : ca ≫ tL = cb ≫ sL := by
-    apply (cancel_mono εW.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ εW).mp
     simp only [ca, cb, Category.assoc]
     rw [← hεt, ← hεs, Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc,
       ← F.map_comp, ← F.map_comp, cn.condition]
@@ -6486,7 +6510,7 @@ private theorem exists_model_of_stage_relation_of_baseChangeSizeBounded (nn : I)
           (iteratedBaseChangeIso (D.map ejm) (D.map aMono.left) (D.map oo.hom)
             hcomp' Zₙ).hom from by
       rw [iteratedBaseChangeIso_naturality, Iso.inv_hom_id_assoc]]
-    infer_instance
+    exact mono_comp' (IsIso.mono_of_iso _) (mono_comp' this (IsIso.mono_of_iso _))
   -- the descended relation as objects of the site
   have hoAff := ((AlgebraicGeometry.Space.isAffineHom_tfae_of_isAlgebraicSpace B S hS (D.map oo.hom)
     (hD oo.left) (hD nn)).out 2 1).mp (hAffine oo.hom)
@@ -6740,7 +6764,7 @@ private theorem exists_model_of_stage_relation_of_baseChangeSizeBounded (nn : I)
     inferInstanceAs (IsIso ((Over.forget (D.obj oo.left)).map εRO.hom))
   have hνmono : Mono (εRO.hom.left ≫
       ((Over.pullback (D.map oo.hom)).map ψ).left) := by
-    infer_instance
+    exact mono_comp' (IsIso.mono_of_iso _) (Over.mono_left_of_mono _)
   have hνfst : εRO.hom.left ≫ ((Over.pullback (D.map oo.hom)).map ψ).left ≫
       pullback.fst Zₙ.hom (D.map oo.hom) = yoneda.map bR ≫ yoneda.map ψ₀ := by
     simp only [Over.pullback_map_left, Rₙ, Over.mk_hom,
@@ -7475,7 +7499,7 @@ private theorem exists_hom_on_affine_chart_conv (i₀ : I)
       rw [Category.assoc, hf, IsPullback.isoPullback_hom_fst_assoc]
       exact h.w)
   refine ⟨j, g, hg.trans (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.w.symm, ?_⟩
-  apply (cancel_epi h.isoPullback.hom).mp
+  apply (Iso.cancel_iso_hom_left h.isoPullback _ _).mp
   have hh : h.isoPullback.hom ≫
       (affineStageChart B S hS D i₀ U₀ q₀ hAffine j).isPullback.lift
         (pullback.fst _ _ ≫ limit.π D j.left) (pullback.snd _ _)
@@ -8222,7 +8246,7 @@ private theorem exists_lift_pair_after_baseChange_conv
         γ.hom = α.hom ≫ (Over.pullback (limit.π D i)).map z := by
       rw [hα']
       exact iteratedBaseChangeIso_naturality _ _ _ (limit.w D e) z
-    apply (cancel_mono γ.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ γ).mp
     rw [Functor.map_comp, Category.assoc, hv, ← Category.assoc, ← hg,
       Category.assoc, hz, hz']
   let Aj := (Over.pullback (D.map e)).obj A
@@ -8386,7 +8410,7 @@ private theorem exists_model_of_stage_relation_conv (nn : I)
   let ca : F.obj cn.pt ⟶ Over.mk pR := F.map cn.fst ≫ εR.inv
   let cb : F.obj cn.pt ⟶ Over.mk pR := F.map cn.snd ≫ εR.inv
   have hcab : ca ≫ tL = cb ≫ sL := by
-    apply (cancel_mono εW.hom).mp
+    apply (Iso.cancel_iso_hom_right _ _ εW).mp
     simp only [ca, cb, Category.assoc]
     rw [← hεt, ← hεs, Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc,
       ← F.map_comp, ← F.map_comp, cn.condition]
@@ -8529,7 +8553,7 @@ private theorem exists_model_of_stage_relation_conv (nn : I)
           (iteratedBaseChangeIso (D.map ejm) (D.map aMono.left) (D.map oo.hom)
             hcomp' Zₙ).hom from by
       rw [iteratedBaseChangeIso_naturality, Iso.inv_hom_id_assoc]]
-    infer_instance
+    exact mono_comp' (IsIso.mono_of_iso _) (mono_comp' this (IsIso.mono_of_iso _))
   -- the descended relation as objects of the site
   have hoAff := ((AlgebraicGeometry.Space.isAffineHom_tfae_of_isAlgebraicSpace B S hS (D.map oo.hom)
     (hD oo.left) (hD nn)).out 2 1).mp (hAffine oo.hom)
@@ -8783,7 +8807,7 @@ private theorem exists_model_of_stage_relation_conv (nn : I)
     inferInstanceAs (IsIso ((Over.forget (D.obj oo.left)).map εRO.hom))
   have hνmono : Mono (εRO.hom.left ≫
       ((Over.pullback (D.map oo.hom)).map ψ).left) := by
-    infer_instance
+    exact mono_comp' (IsIso.mono_of_iso _) (Over.mono_left_of_mono _)
   have hνfst : εRO.hom.left ≫ ((Over.pullback (D.map oo.hom)).map ψ).left ≫
       pullback.fst Zₙ.hom (D.map oo.hom) = yoneda.map bR ≫ yoneda.map ψ₀ := by
     simp only [Over.pullback_map_left, Rₙ, Over.mk_hom,

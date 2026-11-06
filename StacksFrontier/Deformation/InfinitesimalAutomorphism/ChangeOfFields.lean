@@ -236,19 +236,19 @@ private lemma unique_hom_changeOfFields_point
 
 private lemma fiberAut_map_eq_id {C : Type u} [Category.{v} C]
     {F : Type y} [Category.{z} F] (p : F ⥤ C) {A : C}
-    (x : p.Fiber A) (a : Aut x) : p.map a.hom.val = 𝟙 (p.obj x.val) := by
-  let := a.hom.property
-  have h := IsHomLift.fac' p (𝟙 A) a.hom.val
+    (x : p.Fiber A) (a : Aut x) : p.map a.asIso.hom.val = 𝟙 (p.obj x.val) := by
+  let := a.asIso.hom.property
+  have h := IsHomLift.fac' p (𝟙 A) a.asIso.hom.val
   simpa using h
 
 private lemma pullbackAut_fst_map_eq_id
     {C : Type u} [Category.{v} C] {F : Type y} [Category.{z} F]
     {D : Type w} [Category.{x} D] (p : F ⥤ C) (G : D ⥤ C)
     {A : D} (X : (CategoricalPullback.π₂ p G).Fiber A) (a : Aut X) :
-    p.map a.hom.val.fst = 𝟙 (p.obj X.val.fst) := by
-  have hs : a.hom.val.snd = 𝟙 X.val.snd :=
+    p.map a.asIso.hom.val.fst = 𝟙 (p.obj X.val.fst) := by
+  have hs : a.asIso.hom.val.snd = 𝟙 X.val.snd :=
     fiberAut_map_eq_id (CategoricalPullback.π₂ p G) X a
-  have h := a.hom.val.w
+  have h := a.asIso.hom.val.w
   rw [hs, G.map_id, Category.comp_id] at h
   exact (cancel_mono X.val.iso.hom).mp (by simpa using h)
 
@@ -256,7 +256,7 @@ private lemma pullbackAut_fst_isHomLift
     {C : Type u} [Category.{v} C] {F : Type y} [Category.{z} F]
     {D : Type w} [Category.{x} D] (p : F ⥤ C) (G : D ⥤ C)
     {A : D} (X : (CategoricalPullback.π₂ p G).Fiber A) (a : Aut X) :
-    p.IsHomLift (𝟙 (p.obj X.val.fst)) a.hom.val.fst := by
+    p.IsHomLift (𝟙 (p.obj X.val.fst)) a.asIso.hom.val.fst := by
   rw [← pullbackAut_fst_map_eq_id p G X a]
   exact IsHomLift.map p _
 
@@ -264,9 +264,10 @@ private lemma pullbackAut_fst_injective
     {C : Type u} [Category.{v} C] {F : Type y} [Category.{z} F]
     {D : Type w} [Category.{x} D] (p : F ⥤ C) (G : D ⥤ C)
     {A : D} (X : (CategoricalPullback.π₂ p G).Fiber A) :
-    Function.Injective (fun a : Aut X => a.hom.val.fst) := by
+    Function.Injective (fun a : Aut X => a.asIso.hom.val.fst) := by
   intro a b hab
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
   apply CategoricalPullback.hom_ext hab
   exact (fiberAut_map_eq_id (CategoricalPullback.π₂ p G) X a).trans
@@ -418,11 +419,12 @@ private lemma subsingleton_aut_of_bijective_residue
     (unique_hom_of_specialFiber hp x₀ (P.obj U).val e).some
   refine ⟨fun a b => ?_⟩
   apply Aut.ext
+  apply Iso.ext
   apply Functor.Fiber.hom_ext
-  have hval : a.hom.val = b.hom.val := by
+  have hval : a.asIso.hom.val = b.asIso.hom.val := by
     let := P.inclusion_cocartesian U
-    let : p.IsHomLift (𝟙 U.right) a.hom.val := a.hom.property
-    let : p.IsHomLift (𝟙 U.right) b.hom.val := b.hom.property
+    let : p.IsHomLift (𝟙 U.right) a.asIso.hom.val := a.asIso.hom.property
+    let : p.IsHomLift (𝟙 U.right) b.asIso.hom.val := b.asIso.hom.property
     apply Functor.IsStronglyCocartesian.ext p U.hom (P.inclusion U) (𝟙 U.right)
     exact Subsingleton.elim _ _
   exact hval
@@ -735,7 +737,7 @@ local instance infAutLocalizedTangentIsCentralScalar {k : Type w} [Field k]
 
 attribute [local implicit_reducible] algebrasUnder squareZeroExtensionArtinian
   Deformation.changeOfFieldsProjection Functor.Fiber.fiberInclusion CategoricalPullback.π₂
-  Functor.Fiber Aut
+  Functor.Fiber
 
 private lemma typesEqToHom_apply {A B : Type z} (h : A = B) (a : A) :
     (eqToHom h) a = cast h a := by cases h; rfl
@@ -919,17 +921,17 @@ private noncomputable def comparisonSquareZeroIso
 private def fiberAutConjugate {C : Type u} [Category.{v} C]
     {F : Type y} [Category.{z} F] (p : F ⥤ C) {A B : C}
     (X : p.Fiber A) (Y : p.Fiber B) (e : X.val ≅ Y.val) (a : Aut X) : Aut Y := by
-  let b := e.symm ≪≫ (Functor.Fiber.fiberInclusion.mapIso a) ≪≫ e
-  have hv (a : Aut X) : p.IsHomLift (𝟙 B) (e.inv ≫ a.hom.val ≫ e.hom) := by
+  let b := e.symm ≪≫ (Functor.Fiber.fiberInclusion.mapIso a.asIso) ≪≫ e
+  have hv (a : Aut X) : p.IsHomLift (𝟙 B) (e.inv ≫ a.asIso.hom.val ≫ e.hom) := by
     apply IsHomLift.of_fac' p _ _ Y.property Y.property
     simp only [p.map_comp, fiberAut_map_eq_id, Category.id_comp,
       ← p.map_comp, e.inv_hom_id, p.map_id, Category.id_comp]
     simp
-  exact
+  exact .of
     { hom := ⟨b.hom, hv a⟩
       inv := ⟨b.inv, by
-        simpa only [b, Iso.trans_inv, Iso.symm_inv, Iso.symm_hom, Functor.mapIso_inv,
-          Functor.Fiber.fiberInclusion, Category.assoc] using hv a.symm⟩
+        simpa only [b, Iso.trans_inv, Iso.symm_inv, Iso.symm_hom, Functor.mapIso_inv, Aut.inv_asIso,
+          Functor.Fiber.fiberInclusion, Category.assoc] using hv a⁻¹⟩
       hom_inv_id := by apply Functor.Fiber.hom_ext; exact b.hom_inv_id
       inv_hom_id := by apply Functor.Fiber.hom_ext; exact b.inv_hom_id }
 
@@ -939,24 +941,24 @@ private def fiberAutConjugateEquiv {C : Type u} [Category.{v} C]
   toFun := fiberAutConjugate p X Y e
   invFun := fiberAutConjugate p Y X e.symm
   left_inv a := by
-    apply Aut.ext; apply Functor.Fiber.hom_ext
-    change e.hom ≫ (e.inv ≫ a.hom.val ≫ e.hom) ≫ e.inv = a.hom.val
+    apply Aut.ext; apply Iso.ext; apply Functor.Fiber.hom_ext
+    change e.hom ≫ (e.inv ≫ a.asIso.hom.val ≫ e.hom) ≫ e.inv = a.asIso.hom.val
     simp
   right_inv a := by
-    apply Aut.ext; apply Functor.Fiber.hom_ext
-    change e.inv ≫ (e.hom ≫ a.hom.val ≫ e.inv) ≫ e.hom = a.hom.val
+    apply Aut.ext; apply Iso.ext; apply Functor.Fiber.hom_ext
+    change e.inv ≫ (e.hom ≫ a.asIso.hom.val ≫ e.inv) ≫ e.hom = a.asIso.hom.val
     simp
   map_mul' a b := by
-    apply Aut.ext; apply Functor.Fiber.hom_ext
-    change e.inv ≫ (b.hom.val ≫ a.hom.val) ≫ e.hom =
-      (e.inv ≫ b.hom.val ≫ e.hom) ≫ (e.inv ≫ a.hom.val ≫ e.hom)
+    apply Aut.ext; apply Iso.ext; apply Functor.Fiber.hom_ext
+    change e.inv ≫ (b.asIso.hom.val ≫ a.asIso.hom.val) ≫ e.hom =
+      (e.inv ≫ b.asIso.hom.val ≫ e.hom) ≫ (e.inv ≫ a.asIso.hom.val ≫ e.hom)
     simp
 
 private lemma fiberAutConjugateEquiv_comm {C : Type u} [Category.{v} C]
     {F : Type y} [Category.{z} F] (p : F ⥤ C) {A B : C}
     (X : p.Fiber A) (Y : p.Fiber B) (e : X.val ≅ Y.val) (a : Aut X) :
-    a.hom.val ≫ e.hom = e.hom ≫ (fiberAutConjugateEquiv p X Y e a).hom.val := by
-  change a.hom.val ≫ e.hom = e.hom ≫ e.inv ≫ a.hom.val ≫ e.hom
+    a.asIso.hom.val ≫ e.hom = e.hom ≫ (fiberAutConjugateEquiv p X Y e a).asIso.hom.val := by
+  change a.asIso.hom.val ≫ e.hom = e.hom ≫ e.inv ≫ a.asIso.hom.val ≫ e.hom
   simp
 
 private def pullbackFiberAut
@@ -966,12 +968,12 @@ private def pullbackFiberAut
     (a : Aut (Functor.Fiber.mk (p := p) (a := X.val.fst) rfl)) : Aut X := by
   let f (a : Aut (Functor.Fiber.mk (p := p) (a := X.val.fst) rfl)) :
       X.val ⟶ X.val :=
-    { fst := a.hom.val
+    { fst := a.asIso.hom.val
       snd := 𝟙 _
       w := by
-        have hid : (p.map a.hom.val : p.obj X.val.fst ⟶ p.obj X.val.fst) =
+        have hid : (p.map a.asIso.hom.val : p.obj X.val.fst ⟶ p.obj X.val.fst) =
             𝟙 (p.obj X.val.fst) := fiberAut_map_eq_id p _ a
-        have hw : (p.map a.hom.val : p.obj X.val.fst ⟶ p.obj X.val.fst) ≫ X.val.iso.hom =
+        have hw : (p.map a.asIso.hom.val : p.obj X.val.fst ⟶ p.obj X.val.fst) ≫ X.val.iso.hom =
             X.val.iso.hom ≫ G.map (𝟙 X.val.snd) := by
           rw [hid, G.map_id, Category.id_comp, Category.comp_id]
         exact hw }
@@ -979,19 +981,19 @@ private def pullbackFiberAut
       (CategoricalPullback.π₂ p G).IsHomLift (𝟙 A) (f a) := by
     apply IsHomLift.of_fac' _ _ _ X.property X.property
     simp [f, CategoricalPullback.π₂]
-  exact
+  exact .of
     { hom := ⟨f a, hf a⟩
-      inv := ⟨f a.symm, hf a.symm⟩
+      inv := ⟨f a⁻¹, hf a⁻¹⟩
       hom_inv_id := by
         apply Functor.Fiber.hom_ext
         apply CategoricalPullback.hom_ext
-        · exact congrArg Subtype.val a.hom_inv_id
+        · exact congrArg Subtype.val a.asIso.hom_inv_id
         · change (𝟙 X.val.snd) ≫ 𝟙 X.val.snd = 𝟙 X.val.snd
           simp
       inv_hom_id := by
         apply Functor.Fiber.hom_ext
         apply CategoricalPullback.hom_ext
-        · exact congrArg Subtype.val a.inv_hom_id
+        · exact congrArg Subtype.val a.asIso.inv_hom_id
         · change (𝟙 X.val.snd) ≫ 𝟙 X.val.snd = 𝟙 X.val.snd
           simp }
 
@@ -1001,16 +1003,16 @@ private def pullbackFiberAutEquiv
     {A : D} (X : (CategoricalPullback.π₂ p G).Fiber A) :
     Aut (Functor.Fiber.mk (p := p) (a := X.val.fst) rfl) ≃* Aut X where
   toFun := pullbackFiberAut p G X
-  invFun a :=
-    { hom := ⟨a.hom.val.fst, pullbackAut_fst_isHomLift p G X a⟩
-      inv := ⟨a.inv.val.fst, pullbackAut_fst_isHomLift p G X a.symm⟩
+  invFun a := .of
+    { hom := ⟨a.asIso.hom.val.fst, pullbackAut_fst_isHomLift p G X a⟩
+      inv := ⟨a.asIso.inv.val.fst, pullbackAut_fst_isHomLift p G X a⁻¹⟩
       hom_inv_id := by
         apply Functor.Fiber.hom_ext
-        exact congrArg (fun f => f.val.fst) a.hom_inv_id
+        exact congrArg (fun f => f.val.fst) a.asIso.hom_inv_id
       inv_hom_id := by
         apply Functor.Fiber.hom_ext
-        exact congrArg (fun f => f.val.fst) a.inv_hom_id }
-  left_inv a := by apply Aut.ext; apply Functor.Fiber.hom_ext; rfl
+        exact congrArg (fun f => f.val.fst) a.asIso.inv_hom_id }
+  left_inv a := by apply Aut.ext; apply Iso.ext; apply Functor.Fiber.hom_ext; rfl
   right_inv a := pullbackAut_fst_injective p G X rfl
   map_mul' a b := pullbackAut_fst_injective p G X rfl
 
@@ -1209,7 +1211,7 @@ private def fieldMultiplication
     FGModuleCat.of k (ULift.{v} l) ⟶ FGModuleCat.of k (ULift.{v} l) :=
   FGModuleCat.ofHom
     { toFun := fun x => ⟨a * x.down⟩
-      map_add' := fun x y => ULift.ext _ _ (mul_add a x.down y.down)
+      map_add' := fun x y => ULift.ext (mul_add a x.down y.down)
       map_smul' := fun r x => by
         apply ULift.ext
         change a * (r • x.down) = r • (a * x.down)
@@ -1328,39 +1330,39 @@ private lemma pullbackConjugate_transport
     (pullbackFiberAutEquiv p G (Q.obj V))
   apply pullbackAut_fst_injective p G (Q.obj V)
   apply (cancel_epi H.hom).mp
-  have hE (a : Aut (P.obj U)) : a.hom.val ≫ H.hom = H.hom ≫ (E a).hom.val.fst :=
+  have hE (a : Aut (P.obj U)) : a.asIso.hom.val ≫ H.hom = H.hom ≫ (E a).asIso.hom.val.fst :=
     fiberAutConjugateEquiv_comm p (P.obj U)
       (Functor.Fiber.mk (p := p) (a := (Q.obj V).val.fst) rfl) H a
   rw [← hE]
   let := P.map_cocartesian f
-  let lhs := (P.transportAutHom f a).hom.val
-  let rhs := H.hom ≫ (Q.transportAutHom g (E a)).hom.val.fst ≫ H.inv
+  let lhs := (P.transportAutHom f a).asIso.hom.val
+  let rhs := H.hom ≫ (Q.transportAutHom g (E a)).asIso.hom.val.fst ≫ H.inv
   have hmap : p.map rhs = 𝟙 (p.obj (P.obj U).val) := by
     simp only [rhs, p.map_comp, pullbackAut_fst_map_eq_id, Category.id_comp,
       ← p.map_comp, H.hom_inv_id, p.map_id]
   have heq : lhs = rhs := by
-    let : p.IsHomLift (𝟙 U.right) lhs := (P.transportAutHom f a).hom.property
+    let : p.IsHomLift (𝟙 U.right) lhs := (P.transportAutHom f a).asIso.hom.property
     let : p.IsHomLift (𝟙 U.right) rhs := by
       apply IsHomLift.of_fac' p _ _ (P.obj U).property (P.obj U).property
       simp [hmap]
     apply Functor.IsStronglyCocartesian.ext p f.right (P.map f) (𝟙 U.right)
-    change P.map f ≫ (P.transportAutHom f a).hom.val = P.map f ≫ rhs
-    have hmt : P.map f ≫ (P.transportAutHom f a).hom.val = a.hom.val ≫ P.map f :=
+    change P.map f ≫ (P.transportAutHom f a).asIso.hom.val = P.map f ≫ rhs
+    have hmt : P.map f ≫ (P.transportAutHom f a).asIso.hom.val = a.asIso.hom.val ≫ P.map f :=
       P.map_transportHom f a
     rw [hmt]
     dsimp [rhs]
     have hq := congrArg CategoricalPullback.Hom.fst (Q.map_transportHom g (E a))
-    change (Q.map g).fst ≫ (Q.transportAutHom g (E a)).hom.val.fst =
-      (E a).hom.val.fst ≫ (Q.map g).fst at hq
+    change (Q.map g).fst ≫ (Q.transportAutHom g (E a)).asIso.hom.val.fst =
+      (E a).asIso.hom.val.fst ≫ (Q.map g).fst at hq
     calc
-      a.hom.val ≫ P.map f = (a.hom.val ≫ H.hom) ≫ (Q.map g).fst ≫ H.inv := by
+      a.asIso.hom.val ≫ P.map f = (a.asIso.hom.val ≫ H.hom) ≫ (Q.map g).fst ≫ H.inv := by
         rw [Category.assoc, ← Category.assoc H.hom, ← hfg, Category.assoc,
           Iso.hom_inv_id, Category.comp_id]
-      _ = (H.hom ≫ (E a).hom.val.fst) ≫ (Q.map g).fst ≫ H.inv := by rw [hE]
-      _ = H.hom ≫ ((Q.map g).fst ≫ (Q.transportAutHom g (E a)).hom.val.fst) ≫ H.inv := by
+      _ = (H.hom ≫ (E a).asIso.hom.val.fst) ≫ (Q.map g).fst ≫ H.inv := by rw [hE]
+      _ = H.hom ≫ ((Q.map g).fst ≫ (Q.transportAutHom g (E a)).asIso.hom.val.fst) ≫ H.inv := by
         rw [hq]
         simp only [Category.assoc]
-      _ = P.map f ≫ (H.hom ≫ (Q.transportAutHom g (E a)).hom.val.fst ≫ H.inv) := by
+      _ = P.map f ≫ (H.hom ≫ (Q.transportAutHom g (E a)).asIso.hom.val.fst ≫ H.inv) := by
         rw [← Category.assoc (P.map f), hfg]
         simp only [Category.assoc]
   change lhs ≫ H.hom = _
@@ -1450,9 +1452,9 @@ private theorem unique_infinitesimalAutomorphismsChangeOfFields
           (((Deformation.comparisonFunctor.{u, v, w, max v w} S).pullbackEquiv
               Vε.right) (b.hom a)).val.2 = a.fst) ∧
         (∀ t : localizedAutomorphismFunctorTangent P,
-          (localizedTangentEquivKernel P t).1.hom.val ≫ h =
+          (localizedTangentEquivKernel P t).1.asIso.hom.val ≫ h =
             h ≫ (localizedTangentEquivKernel Q
-              (E₁ (1 ⊗ₜ[S.k] t))).1.hom.val.fst)) →
+              (E₁ (1 ⊗ₜ[S.k] t))).1.asIso.hom.val.fst)) →
       (∃ (j : x₀.1 ⟶ xₗ.1.fst) (h : (P.obj Uε).1 ⟶ (Q.obj Vε).1.fst),
         let b : Uε.right ⟶
             (Deformation.comparisonFunctor.{u, v, w, max v w} S).functor.obj Vε.right :=
@@ -1468,9 +1470,9 @@ private theorem unique_infinitesimalAutomorphismsChangeOfFields
           (((Deformation.comparisonFunctor.{u, v, w, max v w} S).pullbackEquiv
               Vε.right) (b.hom a)).val.2 = a.fst) ∧
         (∀ t : localizedAutomorphismFunctorTangent P,
-          (localizedTangentEquivKernel P t).1.hom.val ≫ h =
+          (localizedTangentEquivKernel P t).1.asIso.hom.val ≫ h =
             h ≫ (localizedTangentEquivKernel Q
-              (E₂ (1 ⊗ₜ[S.k] t))).1.hom.val.fst)) →
+              (E₂ (1 ⊗ₜ[S.k] t))).1.asIso.hom.val.fst)) →
       E₁ = E₂ := by
   classical
   extract_lets hq Uε Vε
@@ -1517,7 +1519,7 @@ private theorem unique_infinitesimalAutomorphismsChangeOfFields
       (Deformation.comparisonFunctor.{u, v, w, max v w} S).functor (Q.obj Vε)
     let a₁ := (localizedTangentEquivKernel Q (E₁ (1 ⊗ₜ[S.k] t))).1
     let a₂ := (localizedTangentEquivKernel Q (E₂ (1 ⊗ₜ[S.k] t))).1
-    have hfst : a₁.hom.val.fst = a₂.hom.val.fst := by
+    have hfst : a₁.asIso.hom.val.fst = a₂.asIso.hom.val.fst := by
       let : p.IsStronglyCocartesian (p.map h₁) h₁ :=
         isStronglyCocartesian_of_isCofiberedInGroupoids hp.predeformation.cofibered _ _
           (IsHomLift.map p h₁)
@@ -1585,9 +1587,9 @@ private theorem exists_infinitesimalAutomorphismsChangeOfFields
           (((Deformation.comparisonFunctor.{u, v, w, max v w} S).pullbackEquiv
               Vε.right) (b.hom a)).val.2 = a.fst) ∧
         (∀ t : localizedAutomorphismFunctorTangent P,
-          (localizedTangentEquivKernel P t).1.hom.val ≫ h =
+          (localizedTangentEquivKernel P t).1.asIso.hom.val ≫ h =
             h ≫ (localizedTangentEquivKernel Q
-              (E (1 ⊗ₜ[S.k] t))).1.hom.val.fst) := by
+              (E (1 ⊗ₜ[S.k] t))).1.asIso.hom.val.fst) := by
   classical
   extract_lets hq Uε Vε
   let := naturalLocalizedTangentAddCommGroup P hp.satisfiesRS
@@ -1733,24 +1735,24 @@ private theorem exists_infinitesimalAutomorphismsChangeOfFields
       (Functor.Fiber.mk (p := p) (a := (Q.obj Vε).val.fst) rfl) H
       (P.transportAutHom f (localizedTangentEquivAut hp.predeformation x₀ P t))
     have hmt : P.map f ≫ (P.transportAutHom f
-        (localizedTangentEquivAut hp.predeformation x₀ P t)).hom.val =
-        (localizedTangentEquivAut hp.predeformation x₀ P t).hom.val ≫ P.map f :=
+        (localizedTangentEquivAut hp.predeformation x₀ P t)).asIso.hom.val =
+        (localizedTangentEquivAut hp.predeformation x₀ P t).asIso.hom.val ≫ P.map f :=
       P.map_transportHom f _
-    have hgoal : (localizedTangentEquivAut hp.predeformation x₀ P t).hom.val ≫
+    have hgoal : (localizedTangentEquivAut hp.predeformation x₀ P t).asIso.hom.val ≫
         (P.map f ≫ H.hom) = (P.map f ≫ H.hom) ≫
           (fiberAutConjugateEquiv p (P.obj W)
             (Functor.Fiber.mk (p := p) (a := (Q.obj Vε).val.fst) rfl) H
             (P.transportAutHom f
-              (localizedTangentEquivAut hp.predeformation x₀ P t))).hom.val :=
-      ((Category.assoc (localizedTangentEquivAut hp.predeformation x₀ P t).hom.val
+              (localizedTangentEquivAut hp.predeformation x₀ P t))).asIso.hom.val :=
+      ((Category.assoc (localizedTangentEquivAut hp.predeformation x₀ P t).asIso.hom.val
           (P.map f) H.hom).symm.trans
         ((congrArg (fun m => m ≫ H.hom) hmt.symm).trans
           ((Category.assoc (P.map f) (P.transportAutHom f
-              (localizedTangentEquivAut hp.predeformation x₀ P t)).hom.val H.hom).trans
+              (localizedTangentEquivAut hp.predeformation x₀ P t)).asIso.hom.val H.hom).trans
             ((congrArg (fun m => P.map f ≫ m) hc).trans
               (Category.assoc (P.map f) H.hom _).symm))))
-    change (localizedTangentEquivAut hp.predeformation x₀ P t).hom.val ≫ h =
-      h ≫ (eQ (E (1 ⊗ₜ[S.k] t))).hom.val.fst
+    change (localizedTangentEquivAut hp.predeformation x₀ P t).asIso.hom.val ≫ h =
+      h ≫ (eQ (E (1 ⊗ₜ[S.k] t))).asIso.hom.val.fst
     rw [he]
     exact hgoal
 
@@ -1802,9 +1804,9 @@ public theorem existsUnique_infinitesimalAutomorphismsChangeOfFields
           (((Deformation.comparisonFunctor.{u, v, w, max v w} S).pullbackEquiv
               Vε.right) (b.hom a)).val.2 = a.fst) ∧
         (∀ t : localizedAutomorphismFunctorTangent P,
-          (localizedTangentEquivKernel P t).1.hom.val ≫ h =
+          (localizedTangentEquivKernel P t).1.asIso.hom.val ≫ h =
             h ≫ (localizedTangentEquivKernel Q
-              (E (1 ⊗ₜ[S.k] t))).1.hom.val.fst) :=
+              (E (1 ⊗ₜ[S.k] t))).1.asIso.hom.val.fst) :=
   existsUnique_of_exists_of_unique
     (exists_infinitesimalAutomorphismsChangeOfFields S p hp x₀ P xₗ Q)
     (unique_infinitesimalAutomorphismsChangeOfFields S p hp x₀ P xₗ Q)

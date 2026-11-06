@@ -96,6 +96,14 @@ instance globalSections_additive
     [HasSheafify (fppfTopology B S hS 𝒳) AddCommGrpCat.{v}]
     [HasGlobalSectionsFunctor (fppfTopology B S hS 𝒳) AddCommGrpCat.{v}] :
     (Sheaf.Γ (fppfTopology B S hS 𝒳) AddCommGrpCat.{v}).Additive :=
+  have : HasBinaryProducts (Sheaf (fppfTopology B S hS 𝒳) AddCommGrpCat.{v}) :=
+    Sheaf.instHasLimitsOfShape
+  have : PreservesLimitsOfShape (Discrete WalkingPair)
+      (Sheaf.Γ (fppfTopology B S hS 𝒳) AddCommGrpCat.{v}) :=
+    (constantSheafΓAdj (fppfTopology B S hS 𝒳) AddCommGrpCat.{v}).rightAdjoint_preservesLimits
+      |>.preservesLimitsOfShape
+  have : (Sheaf.Γ (fppfTopology B S hS 𝒳) AddCommGrpCat.{v}).PreservesZeroMorphisms :=
+    Functor.preservesZeroMorphisms_of_isRightAdjoint _
   Functor.additive_of_preserves_binary_products _
 
 /-- Unbounded derived sections over an object of the fppf site of `𝒳`: the total right derived

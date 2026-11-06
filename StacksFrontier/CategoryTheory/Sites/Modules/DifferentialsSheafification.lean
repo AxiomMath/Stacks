@@ -150,7 +150,7 @@ theorem derivation_ext_of_isLocallySurjective
     {A B : Cᵒᵖ ⥤ CommRingCat.{u}} (α : A ⟶ B) [Presheaf.IsLocallySurjective J α]
     {B₁ : Cᵒᵖ ⥤ CommRingCat.{u}} {φ₂ : B₁ ⟶ B}
     {M : PresheafOfModules.{t} (B ⋙ forget₂ CommRingCat.{u} RingCat.{u})}
-    (hM : Presheaf.IsSheaf J M.presheaf) (D D' : M.Derivation' φ₂)
+    (hM : Presheaf.IsSheaf J M.presheaf) (D D' : PresheafOfModulesOfCommRing.Derivation' M φ₂)
     (h : ∀ (X : Cᵒᵖ) (b : A.obj X), D.d (α.app X b) = D'.d (α.app X b)) : D = D' := by
   ext X b
   refine eq_of_restrict_eq J hM _ (Presheaf.imageSieve_mem J α b) _ _ ?_
@@ -179,7 +179,8 @@ theorem existsUnique_derivation_extension
       d₀ (x * y) = α.app X x • d₀ y + α.app X y • d₀ x)
     (d₀_map : ∀ {X Y : Cᵒᵖ} (g : X ⟶ Y) (x : A.obj X), d₀ (A.map g x) = M.map g (d₀ x))
     (d₀_app : ∀ {X : Cᵒᵖ} (s : A₁.obj X), d₀ (φ₁.app X s) = 0) :
-    ∃! D : M.Derivation' φ₂, ∀ (X : Cᵒᵖ) (b : A.obj X), D.d (α.app X b) = d₀ b := by
+    ∃! D : PresheafOfModulesOfCommRing.Derivation' M φ₂,
+      ∀ (X : Cᵒᵖ) (b : A.obj X), D.d (α.app X b) = d₀ b := by
   classical
   let : Presheaf.IsLocallyInjective J (additiveLiftMap.{w₀} α) :=
     additiveLiftMap_isLocallyInjective J α
@@ -260,7 +261,7 @@ commutative rings, with its values lifted to the universe of the coefficient she
 noncomputable abbrev objectwiseRelativeDifferentials (f : O₁ ⟶ O₂) :
     PresheafOfModules.{max u u₁ v₁ v} (O₂ ⋙ forget₂ CommRingCat.{u} RingCat.{u}) :=
   liftPresheaf.{v, v₁, u, u₁}
-    (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' f)
+    (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' f)
 
 /-- The sheaf of modules associated to the objectwise relative differentials, formed along the
 ring-valued sheafification map of `O₂`. -/
@@ -283,8 +284,8 @@ There is exactly one relative derivation of `O₂^#` over `O₁^#` with values i
 associated to the objectwise differentials that sends the image of a section `b` of `O₂` to
 the image of the objectwise universal differential `d b`. -/
 theorem existsUnique_derivation_sheafifiedObjectwiseDifferentials (f : O₁ ⟶ O₂) :
-    ∃! D : (sheafifiedObjectwiseDifferentials.{v, v₁} J f).val.Derivation'
-        (associatedCommRingSheafMap J f).hom,
+    ∃! D : PresheafOfModulesOfCommRing.Derivation'
+        (sheafifiedObjectwiseDifferentials.{v, v₁} J f).val (associatedCommRingSheafMap J f).hom,
       ∀ (X : Cᵒᵖ) (b : O₂.obj X), D.d ((toSheafify J O₂).app X b)
         = objectwiseDifferentialInSheafification.{v, v₁} J f X b := by
   let η := (PresheafOfModules.sheafificationAdjunction (toAssociatedRingSheaf J O₂)).unit.app
@@ -300,7 +301,7 @@ theorem existsUnique_derivation_sheafifiedObjectwiseDifferentials (f : O₁ ⟶ 
 /-- The universal relative derivation on the sheaf associated to the objectwise
 differentials. -/
 noncomputable def sheafifiedUniversalDerivation (f : O₁ ⟶ O₂) :
-    (sheafifiedObjectwiseDifferentials.{v, v₁} J f).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (sheafifiedObjectwiseDifferentials.{v, v₁} J f).val
       (associatedCommRingSheafMap J f).hom :=
   (existsUnique_derivation_sheafifiedObjectwiseDifferentials.{v, v₁} J f).choose
 
@@ -316,8 +317,9 @@ sheaves of rings. -/
 noncomputable def restrictDerivationAlongSheafification (f : O₁ ⟶ O₂)
     {F : PresheafOfModules.{max u u₁ v₁ v}
       (Stacks.SheafOfModules.Tensor.ringSheaf (associatedCommRingSheaf J O₂)).obj}
-    (D : F.Derivation' (associatedCommRingSheafMap J f).hom) :
-    ((PresheafOfModules.restrictScalars (toAssociatedRingSheaf J O₂)).obj F).Derivation' f where
+    (D : PresheafOfModulesOfCommRing.Derivation' F (associatedCommRingSheafMap J f).hom) :
+    PresheafOfModulesOfCommRing.Derivation' 
+      ((PresheafOfModules.restrictScalars (toAssociatedRingSheaf J O₂)).obj F) f where
   d {X} := AddMonoidHom.mk' (fun b ↦ D.d ((toSheafify J O₂).app X b))
     (fun b b' ↦ (congrArg D.d (map_add ((toSheafify J O₂).app X).hom b b')).trans
       (map_add D.d _ _))
@@ -335,7 +337,7 @@ derivation of `O₂^#` over `O₁^#` with values in a sheaf of modules factors u
 theorem existsUnique_desc_sheafifiedObjectwiseDifferentials (f : O₁ ⟶ O₂)
     (F : _root_.SheafOfModules.{max u u₁ v₁ v}
       (Stacks.SheafOfModules.Tensor.ringSheaf (associatedCommRingSheaf J O₂)))
-    (D : F.val.Derivation' (associatedCommRingSheafMap J f).hom) :
+    (D : PresheafOfModulesOfCommRing.Derivation' F.val (associatedCommRingSheafMap J f).hom) :
     ∃! g : sheafifiedObjectwiseDifferentials.{v, v₁} J f ⟶ F,
       (sheafifiedUniversalDerivation.{v, v₁} J f).postcomp g.val = D := by
   classical
@@ -374,7 +376,8 @@ theorem existsUnique_desc_sheafifiedObjectwiseDifferentials (f : O₁ ⟶ O₂)
     show (PresheafOfModules.sheafificationHomEquiv (toAssociatedRingSheaf J O₂) h).app X
       (dQ.d b) = g₀.app X (dQ.d b)
     rw [hunit h X b, hfac X b, ← sheafifiedUniversalDerivation_d.{v, v₁} J f X b]
-    exact congrArg (fun E : F.val.Derivation' _ ↦ E.d ((toSheafify J O₂).app X b)) hh
+    exact congrArg (fun E : PresheafOfModulesOfCommRing.Derivation' F.val _ ↦
+      E.d ((toSheafify J O₂).app X b)) hh
 
 /-- The sheaf associated to the objectwise relative differentials corepresents the functor of
 relative derivations of the associated sheaves of commutative rings. -/
@@ -415,7 +418,8 @@ lemma differentialsSheafificationIso_inv_unit_d (O₁ O₂ : Cᵒᵖ ⥤ CommRin
   have h1 := (sheafifiedObjectwiseDifferentialsCorepresentableBy.{v, v₁} J f).homEquiv
     |>.apply_symm_apply (G.corepresentableBy.homEquiv (𝟙 G.coreprX))
   rw [← sheafifiedUniversalDerivation_d.{v, v₁} J f X b]
-  exact congrArg (fun E : G.coreprX.val.Derivation' (associatedCommRingSheafMap J f).hom ↦
+  exact congrArg (fun E : PresheafOfModulesOfCommRing.Derivation' G.coreprX.val
+      (associatedCommRingSheafMap J f).hom ↦
     E.d ((toSheafify J O₂).app X b)) h1
 
 end Sheafification

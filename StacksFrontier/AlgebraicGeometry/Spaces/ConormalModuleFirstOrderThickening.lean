@@ -69,7 +69,7 @@ theorem isIso_conormalMap_preimage_iff_mono :
         (preimageProjection B S hS g Y)
         (conormalEtaleRestrictionSquare B S hS g Y)) := by
   have := epi_conormalMap B S hS g Y
-  exact ⟨fun _ => inferInstance, fun _ => isIso_of_mono_of_epi _⟩
+  exact ⟨fun _ => IsIso.mono_of_iso _, fun _ => isIso_of_mono_of_epi _⟩
 
 /-- Let `(f, f') : (X ⊆ X') → (Y ⊆ Y')` be a morphism of first-order thickenings of algebraic
 spaces in which `X = Y ×_{Y'} X'`, that is in which the upper closed subspace is the inverse image

@@ -734,7 +734,6 @@ private theorem finite_tensor {R S : Type*} [CommRing R] [CommRing S] [Algebra R
     { (Algebra.TensorProduct.comm R Rp S).toLinearEquiv with
       map_smul' := fun c x => by
         induction x with
-        | zero => simp
         | tmul a b =>
             simp [Algebra.smul_def, Algebra.TensorProduct.right_algebraMap_apply,
               Algebra.TensorProduct.tmul_mul_tmul]
@@ -793,7 +792,6 @@ private theorem bijective_ofTensorAlgHom {A B : Type*} [CommRing A] [CommRing B]
       = ⇑(adicCompletionLinearEquivMap I B) ∘ ⇑(AdicCompletion.ofTensorProduct I B) := by
     refine funext fun z => ?_
     induction z with
-    | zero => simp
     | tmul x b =>
         rw [Function.comp_apply, Function.comp_apply, Algebra.TensorProduct.comm_tmul,
           ofTensorAlgHom_tmul, AdicCompletion.ofTensorProduct_tmul,

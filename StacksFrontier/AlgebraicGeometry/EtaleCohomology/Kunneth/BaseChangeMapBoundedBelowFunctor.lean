@@ -87,7 +87,7 @@ theorem isIso_map_app_ι_iff_isIso_map_ι_map_derived_app {ℰ : Type*} [Categor
     (K : DerivedCategory.Plus A) :
     IsIso (H.map (bc.app (DerivedCategory.Plus.ι.obj K))) ↔
       IsIso (H.map (DerivedCategory.Plus.ι.map
-        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit)).app K))) := by
+        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith)).app K))) := by
   obtain ⟨n, hn⟩ := K.property
   have : K.IsGE n := (DerivedCategory.Plus.isGE_ι_obj_iff K n).1 hn
   obtain ⟨L, _, ⟨i⟩⟩ := DerivedCategory.Plus.exists_injective_nonempty_iso K n
@@ -101,7 +101,7 @@ theorem isIso_map_app_ι_iff_isIso_map_ι_map_derived_app {ℰ : Type*} [Categor
   refine (NatTrans.isIso_app_iff_of_iso (Functor.whiskerLeft DerivedCategory.Plus.ι
       (Functor.whiskerRight bc H)) j).symm.trans (Iff.trans ?_
     (NatTrans.isIso_app_iff_of_iso (Functor.whiskerRight
-      (Functor.whiskerRight (derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit))
+      (Functor.whiskerRight (derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith))
         DerivedCategory.Plus.ι) H) j))
   simp only [Functor.whiskerLeft_app, Functor.whiskerRight_app]
   let M := G'.mapHomotopyCategoryPlus.obj Kh
@@ -121,28 +121,28 @@ theorem isIso_map_app_ι_iff_isIso_map_ι_map_derived_app {ℰ : Type*} [Categor
     (hf.trans (congrArg (_ ≫ ·) (Category.comp_id _).symm))
   have he := Functor.boundedDerivedIso_hom_app F' hDp uh hres M
   have h₂ : DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map ((mapPlus τ).app Kh) ≫
-        F'.rightDerivedFunctorPlusUnit.app M) ≫
+        F'.rightDerivedFunctorPlusUnith.app M) ≫
       (Functor.boundedDerivedIso F' hDp uh hres).hom.app (DerivedCategory.Plus.Qh.obj M) =
       DerivedCategory.Qh.map ((mapPlus τ).app Kh).hom ≫
         uh.app ((HomotopyCategory.Plus.ι C).obj M) := by
     have h := congrArg (fun t => t ≫ (Functor.boundedDerivedIso F' hDp uh hres).hom.app
       (DerivedCategory.Plus.Qh.obj M)) (DerivedCategory.Plus.ι.map_comp
-        (DerivedCategory.Plus.Qh.map ((mapPlus τ).app Kh)) (F'.rightDerivedFunctorPlusUnit.app M))
+        (DerivedCategory.Plus.Qh.map ((mapPlus τ).app Kh)) (F'.rightDerivedFunctorPlusUnith.app M))
     exact h.trans ((Category.assoc _ _ _).trans (congrArg (_ ≫ ·) he))
   have h₃ := isIso_map_iff_of_comp_eq_of_isIso H (DerivedCategory.Plus.ι.map
-    (DerivedCategory.Plus.Qh.map ((mapPlus τ).app Kh) ≫ F'.rightDerivedFunctorPlusUnit.app M))
+    (DerivedCategory.Plus.Qh.map ((mapPlus τ).app Kh) ≫ F'.rightDerivedFunctorPlusUnith.app M))
     ((Functor.boundedDerivedIso F' hDp uh hres).hom.app (DerivedCategory.Plus.Qh.obj M)) (𝟙 _)
     (DerivedCategory.Qh.map ((mapPlus τ).app Kh).hom ≫ uh.app ((HomotopyCategory.Plus.ι C).obj M))
     (h₂.trans (Category.id_comp _).symm)
-  have hfac' := derived_fac_app F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit) Kh
+  have hfac' := derived_fac_app F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith) Kh
   rw [onHomotopy_app] at hfac'
   have h₄ := isIso_map_iff_of_comp_eq (DerivedCategory.Plus.ι ⋙ H)
-    (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app Kh))
-    ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit)).app
+    (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app Kh))
+    ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith)).app
       (DerivedCategory.Plus.Qh.obj Kh)) (𝟙 _)
-    ((asIso G.rightDerivedFunctorPlusUnit).inv.app (F.mapHomotopyCategoryPlus.obj Kh))
-    (DerivedCategory.Plus.Qh.map ((mapPlus τ).app Kh) ≫ F'.rightDerivedFunctorPlusUnit.app M)
-    (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app Kh))
+    ((asIso G.rightDerivedFunctorPlusUnith).inv.app (F.mapHomotopyCategoryPlus.obj Kh))
+    (DerivedCategory.Plus.Qh.map ((mapPlus τ).app Kh) ≫ F'.rightDerivedFunctorPlusUnith.app M)
+    (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app Kh))
     inferInstance (IsIso.id _) inferInstance inferInstance
     ((congrArg (_ ≫ ·) (Category.comp_id _)).trans (hfac'.trans
       (congrArg (_ ≫ ·) (Category.assoc _ _ _).symm)))

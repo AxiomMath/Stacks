@@ -129,7 +129,6 @@ private theorem exists_addEquiv_tensor_smul {P P₀ Q Q₀ : Type u} [CommRing P
   refine ⟨t.toAddEquiv, fun y z => ?_⟩
   show t (y • z) = εQ y • t z
   induction z with
-  | zero => simp
   | tmul q m =>
     rw [show y • q ⊗ₜ[P₀] m = (y * q) ⊗ₜ[P₀] m from rfl, ht, ht,
       show εQ y • (εQ q) ⊗ₜ[P] (φ m) = (εQ y * εQ q) ⊗ₜ[P] (φ m) from rfl, map_mul]
@@ -382,7 +381,6 @@ private def baseChangeEquivOfRingEquiv (ε : R ≃+* S)
   · refine LinearMap.ext fun z => ?_
     change h (g.liftBaseChange S z) = z
     induction z with
-    | zero => simp
     | tmul s m =>
       rw [LinearMap.liftBaseChange_tmul]
       change (1 : S) ⊗ₜ[R] φ.symm (s • φ m) = s ⊗ₜ[R] m

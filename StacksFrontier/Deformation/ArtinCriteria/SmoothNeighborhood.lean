@@ -86,11 +86,6 @@ private theorem residueFieldEquivOfOpenImmersion_spec {X' X : Scheme.{u}} (j : X
 
 /-! ### Stacks 07XY -/
 
--- The slice functor `CategoryTheory.Over.post` is a plain `def`, so goals reading an object of
--- the site in `Over S` are not type-correct at `implicit` transparency.  Naming it here is what
--- lets `rw`, `change` and instance search see through exactly it and nothing else.
-attribute [local implicit_reducible] CategoryTheory.Over.post
-
 /-- **Stacks 07XY.** Let `𝒳` be a category fibred in groupoids over the big fppf site of a
 locally Noetherian scheme `S` whose diagonal is representable by algebraic spaces, which is
 limit preserving (axiom [1]), satisfies (RS) (axiom [2]) and has finite-dimensional tangent

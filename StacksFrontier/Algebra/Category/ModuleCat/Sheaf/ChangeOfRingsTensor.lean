@@ -101,6 +101,12 @@ universe w v u
 
 namespace Stacks.PresheafOfModules.ChangeOfRings
 
+/-- The sections of `ringPresheaf O` form a commutative ring (instance search no longer unfolds
+the composite `O ⋙ forget₂ CommRingCat RingCat` to find it). -/
+local instance commRingRingPresheafObj {C : Type u} [Category.{v} C]
+    (O : Cᵒᵖ ⥤ CommRingCat.{w}) (X : Cᵒᵖ) : CommRing ((ringPresheaf O).obj X) :=
+  inferInstanceAs (CommRing (O.obj X))
+
 /-! ## Extensionality for linear maps out of a base-changed tensor product -/
 
 section Ext
@@ -165,7 +171,9 @@ theorem changeOfRingsTensorAppIso_naturality {X Y : Cᵒᵖ} (f : X ⟶ Y) :
       (changeOfRingsTensorAppIso θ A B X).hom ≫
         ((changeOfRingsObj θ A) ⊗ (changeOfRingsObj θ B)).map f := by
   let : Algebra ((ringPresheaf O₁).obj X) ((ringPresheaf O₂).obj X) := (θ.app X).hom.toAlgebra
+  let : Algebra (O₁.obj X) ((ringPresheaf O₂).obj X) := (θ.app X).hom.toAlgebra
   let : Algebra ((ringPresheaf O₁).obj Y) ((ringPresheaf O₂).obj Y) := (θ.app Y).hom.toAlgebra
+  let : Algebra (O₁.obj Y) ((ringPresheaf O₂).obj Y) := (θ.app Y).hom.toAlgebra
   refine ModuleCat.hom_ext (linearMap_ext_tmul_tmul fun a x y => ?_)
   have h1 : ((ringPresheaf O₂).map f).hom (1 : (ringPresheaf O₂).obj X) = 1 := map_one _
   show ((((ringPresheaf O₂).map f).hom a) ⊗ₜ[(ringPresheaf O₁).obj Y]
@@ -208,6 +216,7 @@ theorem changeOfRingsTensorObjIso_naturality
         ((changeOfRings θ).map u ⊗ₘ (changeOfRings θ).map v) := by
   refine PresheafOfModules.hom_ext fun X => ?_
   let : Algebra ((ringPresheaf O₁).obj X) ((ringPresheaf O₂).obj X) := (θ.app X).hom.toAlgebra
+  let : Algebra (O₁.obj X) ((ringPresheaf O₂).obj X) := (θ.app X).hom.toAlgebra
   refine ModuleCat.hom_ext (linearMap_ext_tmul_tmul fun _ _ _ => ?_)
   rfl
 
@@ -322,14 +331,17 @@ noncomputable def changeOfRingsCoreMonoidal : (changeOfRings θ).CoreMonoidal :=
     (μIso_inv_natural_left := fun {_ _} _ _ => PresheafOfModules.hom_ext fun X => by
       let : Algebra ((ringPresheaf O₁).obj X) ((ringPresheaf O₂).obj X) :=
         (θ.app X).hom.toAlgebra
+      let : Algebra (O₁.obj X) ((ringPresheaf O₂).obj X) := (θ.app X).hom.toAlgebra
       exact ModuleCat.hom_ext (linearMap_ext_one_tmul_tmul fun _ _ => rfl))
     (μIso_inv_natural_right := fun {_ _} _ _ => PresheafOfModules.hom_ext fun X => by
       let : Algebra ((ringPresheaf O₁).obj X) ((ringPresheaf O₂).obj X) :=
         (θ.app X).hom.toAlgebra
+      let : Algebra (O₁.obj X) ((ringPresheaf O₂).obj X) := (θ.app X).hom.toAlgebra
       exact ModuleCat.hom_ext (linearMap_ext_one_tmul_tmul fun _ _ => rfl))
     (oplax_associativity := fun _ _ _ => PresheafOfModules.hom_ext fun X => by
       let : Algebra ((ringPresheaf O₁).obj X) ((ringPresheaf O₂).obj X) :=
         (θ.app X).hom.toAlgebra
+      let : Algebra (O₁.obj X) ((ringPresheaf O₂).obj X) := (θ.app X).hom.toAlgebra
       exact ModuleCat.hom_ext (linearMap_ext_one_tmul_tmul_tmul fun _ _ _ => rfl))
     (oplax_left_unitality := fun A => PresheafOfModules.hom_ext fun X => by
       let := (θ.app X).hom.toAlgebra

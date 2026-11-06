@@ -63,7 +63,7 @@ public noncomputable def presentationOfIsVersal (p : F ⥤ ArtinianLocalAlgCat.{
     (chosenPushforwardsOfCofibered p hp.cofibered)).toBasedFunctor
   have hu₀ : Nonempty (U.obj (residueFieldObject.{u, w, w} Λ k)) :=
     ⟨(restrictedCoyoneda_isPredeformationFunctor.{u, w, w} ξ.base).some.default⟩
-  let y₀ : U.Elements := ⟨residueFieldObject.{u, w, w} Λ k, hu₀.some⟩
+  let y₀ : U.Elements := U.elementsMk (residueFieldObject.{u, w, w} Λ k) hu₀.some
   have h₀ : (fiberFunctor f (residueFieldObject.{u, w, w} Λ k)).EssSurj :=
     ⟨fun z => ⟨⟨y₀, rfl⟩, by
       obtain ⟨E⟩ := hp.specialFiber

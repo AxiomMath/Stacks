@@ -219,7 +219,7 @@ theorem algebraMap_mem_of_isHomogeneous
   have hdeg : x.degree = j := by
     rw [← hq (MvPolynomial.mem_support_iff.mp hx)]
     simp [Finsupp.degree_eq_weight_one, Pi.one_def]
-  rw [← mul_one (MvPolynomial.coeff x q), ← MvPolynomial.C_mul_monomial, map_mul,
+  rw [← mul_one (q.coeff x), ← MvPolynomial.C_mul_monomial, map_mul,
     ← MvPolynomial.algebraMap_eq, ← IsScalarTower.algebraMap_apply, ← Algebra.smul_def]
   exact Submodule.smul_mem _ _ (key x hdeg)
 

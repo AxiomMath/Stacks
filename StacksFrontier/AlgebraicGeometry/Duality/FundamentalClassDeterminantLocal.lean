@@ -346,8 +346,8 @@ theorem bijective_of_wedge_formula {r₁ r : ℕ} (α : M₁ →ₗ[R] M₀)
     rw [h₁] at h₂
     refine h₂.trans (congrArg (exteriorPower.ιMulti R (r₁ + r)) ?_)
     exact (funext hc).symm
-  have hspan : Submodule.span R {exteriorPower.ιMulti R r₁ (b : Fin r₁ → M₁) ⊗ₜ[R]
-      exteriorPower.ιMulti R r (d : Fin r → F)} = (⊤ : Submodule R _) :=
+  have hspan : Submodule.span R {(exteriorPower.ιMulti R r₁ (b : Fin r₁ → M₁) ⊗ₜ[R]
+      exteriorPower.ιMulti R r (d : Fin r → F))} = (⊤ : Submodule R _) :=
     span_singleton_tmul_eq_top _ _ (span_singleton_ιMulti_basis b)
       (span_singleton_ιMulti_basis d)
   have hz : ∀ z, z = (basisTopDual c (Ψ z)) •

@@ -303,7 +303,7 @@ theorem componentDivisorSum_apply_eq_ordTotalFracInt
       ∃ W : IntegralClosedSubspace D.site D.base D.base_mem X,
         subspacePointSet D.site D.base D.base_mem X W.subspace =
             closure ({chartSchemeToPoints D.site D.base D.base_mem X d.U
-              ((chartScheme d.U).fromSpecStalk u ⟨p, p.2.1.1⟩)} :
+                        ((chartScheme d.U).fromSpecStalk u ⟨p, p.2.1.1⟩)} :
                 Set (points D.site D.base D.base_mem X)) ∧
           ∀ W' : IntegralClosedSubspace D.site D.base D.base_mem X,
             chartSchemeToPoints D.site D.base D.base_mem X d.U

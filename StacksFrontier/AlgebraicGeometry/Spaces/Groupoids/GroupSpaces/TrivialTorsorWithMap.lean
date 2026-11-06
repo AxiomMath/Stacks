@@ -93,6 +93,25 @@ variable {𝒞 : BigFppfSite.{u}} {S : Scheme.{u}} {hS : 𝒞.Contains S}
   {B : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u} (hB : IsAlgebraicSpace 𝒞 S hS B)
   (G : GroupAlgebraicSpace 𝒞 S hS B hB)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_TrivialTorsorWithMap :
+    HasPullbacks ((BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_TrivialTorsorWithMap
+    {X Y Z : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option maxHeartbeats 1000000 in
+set_option synthInstance.maxHeartbeats 1000000 in
+/-- The lax monoidal structure of base change along a morphism into `B` (instance search times
+out without this shortcut). -/
+local instance (priority := high) overPullbackLaxMonoidal_TrivialTorsorWithMap
+    {Y : (BigFppfOver 𝒞 S hS)ᵒᵖ ⥤ Type u} (b : Y ⟶ B) : (Over.pullback b).LaxMonoidal :=
+  inferInstance
+
 /-! ### The projection from a base change of a group algebraic space -/
 
 /-- The two projections of `R_Y ×_Y R_Y` to `R`, where `R_Y = Y ×_{b, B} R` is a base change of

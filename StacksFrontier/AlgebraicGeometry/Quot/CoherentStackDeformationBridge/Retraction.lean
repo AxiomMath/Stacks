@@ -229,7 +229,9 @@ theorem pushforwardModulesCompAt_assoc_of_eq (a : X₀ ⟶ X₂) (b : X₂ ⟶ X
           (smallEtaleRingedToposHom B S hS x).pushforwardModules.obj M)
           (by rw [← e₁, ← e₂, Category.assoc])) := by
   subst e₁ e₂
-  simpa using pushforwardModulesCompAt_assoc B S hS a b c M
+  have h := pushforwardModulesCompAt_assoc B S hS a b c M
+  simp only [eqToHom_refl, Category.comp_id]
+  exact h
 
 /-- **The comparisons `c_* k_* M ⟶ (𝟙)_* M` and `c₂_* a_* M ⟶ (𝟙)_* M` along a morphism of
 thickenings are compatible** (the associativity coherence of Stacks 03LU): for `a ≫ b = k`,

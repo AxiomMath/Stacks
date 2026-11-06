@@ -164,7 +164,7 @@ lemma twistSquareGen_apply {V : Cᵒᵖ} (φ : V.unop ⟶ W) (t : F.obj V) :
 /-- **Translating a morphism into `W` by a group element does not change the attached map to the
 doubly twisted tensor product.** -/
 lemma twistSquareGen_act {V : Cᵒᵖ} (φ : V.unop ⟶ W) (g : G) :
-    twistSquareGen W act χ F (φ ≫ (act g).hom) = twistSquareGen W act χ F φ := by
+    twistSquareGen W act χ F (φ ≫ (act g).asIso.hom) = twistSquareGen W act χ F φ := by
   have hone : ((χ g : ℤ) * (χ g : ℤ)) = 1 := by
     rw [← Units.val_mul, Int.units_mul_self, Units.val_one]
   refine AddMonoidHom.ext fun t => ?_
@@ -436,7 +436,7 @@ theorem isLocallySurjective_trivialTwistAugmentation :
   intro V y
   refine h.mem_of_hom_to_torsor _ fun {V'} f q => ⟨y.down • twistedGenerator W act 1 q, ?_⟩
   rw [map_zsmul, trivialTwistAugmentation_twistedGenerator]
-  exact ULift.ext _ _ (by simp)
+  exact ULift.ext (by simp)
 
 omit [UnivLE.{max u₁ (u + 1), u + 1}] [HasSheafify J AddCommGrpCat.{u + 1}]
     [J.WEqualsLocallyBijective AddCommGrpCat.{u + 1}] in

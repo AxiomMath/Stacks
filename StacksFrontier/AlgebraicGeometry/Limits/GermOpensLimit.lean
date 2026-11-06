@@ -254,7 +254,7 @@ theorem isLimit_germOpensCone_preimage [P.IsPrime] (hc : IsLimit (germOpensCone 
     NatIso.ofComponents β (fun {e e'} a => by
       rw [← cancel_mono (germOpensι hmono' P e'), Category.assoc, Category.assoc, hβ,
         germOpensDiagram_map_germOpensι, hβ, hDπ])
-  refine ⟨((IsLimit.postcomposeHomEquiv α _).symm L).ofIsoLimit (Cones.ext
+  refine ⟨((IsLimit.postcomposeHomEquiv α _).symm L).ofIsoLimit (Cone.ext
     (pullbackSymmetry t π) (fun e => ?_))⟩
   rw [← cancel_mono (germOpensι hmono' P e)]
   have h1 : (germOpensCone hmono' P (pullback.fst π t) ht').π.app e ≫ germOpensι hmono' P e =

@@ -235,7 +235,7 @@ theorem compactSupportCharSeriesInverts_of_galoisCovering (hΛ : ((Nat.card Λ :
     refine ⟨R, inferInstance, Ψ, inferInstance, O, eO, r, b, Q, hQ, g, e, he,
       traceDetectionHypothesis_zmod_monoidAlgebra ℓ M a N (functorRep Ψ eO b) hℓa hM.le, gP,
       fun m hm hmN => ?_, fun x _ => ?_⟩
-    · refine ⟨((End.of g) ^ m : End Q), hom_f_endPow g m, ?_⟩
+    · refine ⟨((End.of g) ^ m : End Q).asHom, hom_f_endPow g m, ?_⟩
       obtain ⟨km, _, _, hkm', hkmd⟩ := hext m hm
       obtain ⟨hperf, htr⟩ := perfectDerivedTrace_pow_descentSheaf_eq_sum R fZ J kbar p q hcard C
         (ULift.{u + 1} R) (groupRingRightAction ℓ M H) eN τ hτ PR (Iso.refl _) lift

@@ -80,7 +80,7 @@ noncomputable def takeCoproduct : SummableFormalCoproduct.{w} C ⥤ C where
     let := U.property
     let := V.property
     let := W.property
-    exact (Sigma.map'_comp_map' f.hom.f g.hom.f f.hom.φ g.hom.φ).symm
+    exact (Sigma.map'_comp_map' g.hom.f f.hom.f g.hom.φ f.hom.φ).symm
 
 /-- Take a summable formal coproduct and regard its coproduct as a singleton formal coproduct. -/
 noncomputable def takeUnions :

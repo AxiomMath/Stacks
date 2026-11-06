@@ -285,9 +285,8 @@ theorem inertia_eq_top_of_isTotallyRamified (F : Type*) [Field F] [Algebra K F] 
   intro c
   have hτq : τ • q = q := by
     have hmax : (τ • q).IsMaximal := by
-      refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) _ ?_
+      refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) _ ?_
       have : (τ • q).under A = q.under A := Ideal.under_smul A q τ
-      rw [Ideal.under] at this
       rw [this]
       exact Ideal.IsMaximal.under A q
     exact huniq _ hmax inferInstance
@@ -394,7 +393,7 @@ theorem exists_eq_pow_sub_self_add_of_forall_inertia [IsSepClosure K L]
       IsScalarTower.of_algebraMap_eq fun x ↦ (fC.commutes x).symm
     let : Algebra.IsIntegral (integralClosure A F) (integralClosure A L) :=
       Algebra.IsIntegral.tower_top A
-    exact Ideal.isMaximal_comap_of_isIntegral_of_isMaximal P
+    exact Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := integralClosure A F) P
   have htop := inertia_eq_top_of_isTotallyRamified A K F htot'.1 q
   obtain ⟨τ, hτ⟩ : ∃ τ : Gal(F/K), τ z ≠ z := by
     by_contra hcon

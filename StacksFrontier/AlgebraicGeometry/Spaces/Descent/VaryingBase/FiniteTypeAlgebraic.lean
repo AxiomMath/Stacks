@@ -219,19 +219,20 @@ private theorem isAlgebraicSpace_pullback_of_isColimit_cofan
     rw [pullback.lift_fst, ← Functor.map_comp, hcv]
     exact hsq k
   let Gsh : Sheaf J (Type u) := ⟨pullback π (yoneda.map v), hGsh⟩
-  have hGcolim : Nonempty (IsColimit (Cofan.mk Gsh
-      (fun k => (⟨p k⟩ : (⟨X k, (hX k).isSheaf⟩ : Sheaf J (Type u)) ⟶ Gsh)))) :=
+  let Xsh : K → Sheaf J (Type u) := fun k => ⟨X k, (hX k).isSheaf⟩
+  let pS : ∀ k, Xsh k ⟶ Gsh := fun k => ObjectProperty.homMk (p k)
+  have hGcolim : Nonempty (IsColimit (Cofan.mk Gsh pS)) :=
     Space.nonempty_isColimit_cofanMk_of_isPullback B S hS
-      (fun k => J.yoneda.map (c k)) hZy (⟨pullback.snd π (yoneda.map v)⟩ : Gsh ⟶ J.yoneda.obj Z)
-      (fun k => (⟨p k⟩ : (⟨X k, (hX k).isSheaf⟩ : Sheaf J (Type u)) ⟶ Gsh))
-      (fun k => (⟨q k⟩ : (⟨X k, (hX k).isSheaf⟩ : Sheaf J (Type u)) ⟶ J.yoneda.obj (W k)))
+      (fun k => J.yoneda.map (c k)) hZy
+      (ObjectProperty.homMk (pullback.snd π (yoneda.map v)) : Gsh ⟶ J.yoneda.obj Z)
+      pS
+      (fun k => (ObjectProperty.homMk (q k) : Xsh k ⟶ J.yoneda.obj (W k)))
       (fun k => IsPullback.of_map_of_faithful (sheafToPresheaf J (Type u)) (hpb k))
   choose Y a hYaff hYsurj hYetale hYsize using fun k =>
     have := hWaff k
     have := hlfp k
     exists_affine_etale_cover_size_le (hX k) (q k) (g k) (hft k)
-  exact isAlgebraicSpace_coproduct_of_size_le B S hS X hX Gsh
-    (fun k => (⟨p k⟩ : (⟨X k, (hX k).isSheaf⟩ : Sheaf J (Type u)) ⟶ Gsh)) hGcolim.some
+  exact isAlgebraicSpace_coproduct_of_size_le B S hS X hX Gsh pS hGcolim.some
     Y a hYsurj (fun k => (Space.isEtale_iff_presheaf_of_yoneda B S hS (a k)).1 (hYetale k))
     (Equiv.refl K) hℵ hμ hK fun k => (hYsize k).trans hUμ
 

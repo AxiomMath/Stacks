@@ -25,6 +25,19 @@ open AlgebraicGeometry.Space
 
 variable {S : Scheme.{u}}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_RestrictionIdentityInverse (C : BigFppfSite.{u})
+    (hS : C.Contains S) :
+    HasPullbacks ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_RestrictionIdentityInverse
+    (C : BigFppfSite.{u}) (hS : C.Contains S) {X Y Z : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The morphism to the object space of the realization of a groupoid scheme represented by a
 morphism of schemes over `S` to its object scheme. -/
 noncomputable abbrev realizationMap (G : GroupoidScheme S) (C : BigFppfSite.{u})

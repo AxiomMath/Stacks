@@ -164,6 +164,9 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify J AddCommGrpCat.{w}]
 
+-- Lean v4.35.0 / Mathlib v4.35.0: the sheafified tensor calculus below unfolds more slowly.
+set_option maxHeartbeats 1600000
+
 local notation "Osh" => (Stacks.SheafOfModules.Tensor.ringSheaf
   (ObjectProperty.FullSubcategory.mk O
     (Presheaf.isSheaf_of_isSheaf_comp _ O (forget₂ CommRingCat RingCat) hO)))

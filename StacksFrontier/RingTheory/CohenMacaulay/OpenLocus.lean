@@ -473,8 +473,7 @@ theorem flat_localization_iff [Module.Flat R T] [Algebra.FinitePresentation R T]
       p.Fiber T := Algebra.TensorProduct.lift (Algebra.ofId _ _) g fun _ _ ↦ .all _ _
   have hF : Function.Surjective F := by
     intro y
-    induction y using TensorProduct.induction_on with
-    | zero => exact ⟨0, map_zero F⟩
+    induction y using TensorProduct.inductionOn with
     | tmul c t =>
       refine ⟨MvPolynomial.C c ⊗ₜ t, ?_⟩
       rw [Algebra.TensorProduct.lift_tmul, Algebra.ofId_apply, ← MvPolynomial.algebraMap_eq,
@@ -522,8 +521,7 @@ theorem flat_localization_iff [Module.Flat R T] [Algebra.FinitePresentation R T]
     show fiberToQuotient p r IM hIM (ψ (e.symm (e x))) =
       Ideal.quotientMap IM _ hIBM (fiberToQuotient p r' IB hIB (e.symm (e x)))
     rw [e.symm_apply_apply]
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | add x y hx hy => simp only [map_add, hx, hy]
     | tmul c a =>
       have hca : (c ⊗ₜ[R] a : p.Fiber (MvPolynomial σ R)) =

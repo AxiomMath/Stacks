@@ -113,7 +113,7 @@ theorem mono_coverLift (U : ι → X.Opens) (hU : ⨆ i, U i = ⊤) (F : X.Modul
       F.presheaf.map (homOfLE ((U i).ι.image_preimage_le V.unop)).op t := by
     intro i
     have hπ : coverLift U F ≫ Pi.π _ i =
-        (Scheme.Modules.restrictAdjunction (U i).ι).unit.app F := Pi.lift_π _ _
+        (Scheme.Modules.restrictAdjunction (U i).ι).unit.app F := Pi.lift_comp_π _ _
     have happ : ∀ x, ((Scheme.Modules.toPresheaf X).map (Pi.π _ i)).app V
         (((Scheme.Modules.toPresheaf X).map (coverLift U F)).app V x) =
           F.presheaf.map (homOfLE ((U i).ι.image_preimage_le V.unop)).op x := fun x ↦ by

@@ -117,9 +117,9 @@ theorem levelMap_abelianSheaf_unit_eq_zero_iff (n e : ℕ)
   · intro h
     obtain ⟨w, hw⟩ := (levelRestrict_structureSheaf_eq_zero_iff hp n e x.down).1
       (congrArg ULift.down h)
-    exact ⟨ULift.up w, ULift.ext _ _ hw⟩
+    exact ⟨ULift.up w, ULift.ext hw⟩
   · rintro ⟨y, hy⟩
-    exact ULift.ext _ _ ((levelRestrict_structureSheaf_eq_zero_iff hp n e x.down).2
+    exact ULift.ext ((levelRestrict_structureSheaf_eq_zero_iff hp n e x.down).2
       ⟨y.down, congrArg ULift.down hy⟩)
 
 /-- The coefficient sheaf `𝒪_{X/S}` satisfies `IsCrystalLevelQuotient` along

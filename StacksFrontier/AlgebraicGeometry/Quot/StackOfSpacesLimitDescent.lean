@@ -224,6 +224,26 @@ theorem inv_left_fst {L Aj A : C} (Y : Over A) {πi : L ⟶ A} (πj : L ⟶ Aj) 
 
 end PullbackAlgebra
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_StackOfSpacesLimitDescent {B : BigFppfSite.{u}}
+    {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_StackOfSpacesLimitDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_StackOfSpacesLimitDescent
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} (K : Type) :
+    HasLimitsOfShape (Discrete K) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-! ### The system of represented presheaves of a system of affine schemes -/
 
 section Setting

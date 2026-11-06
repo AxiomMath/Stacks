@@ -107,14 +107,14 @@ identity. -/
 @[simp, reassoc]
 theorem termι_comp_π_self (S : Idx r p) :
     termι F S ≫ Pi.π (fun T : Idx r p ↦ F.obj T.1) S = 𝟙 _ := by
-  rw [termι, Category.assoc, biproduct.isoProduct_hom, Pi.lift_π, biproduct.ι_π_self]
+  rw [termι, Category.assoc, biproduct.isoProduct_hom, Pi.lift_comp_π, biproduct.ι_π_self]
 
 /-- The inclusion of the factor indexed by `S` followed by the projection onto a different
 factor `T` is zero. -/
 @[reassoc]
 theorem termι_comp_π_of_ne {S T : Idx r p} (h : S ≠ T) :
     termι F S ≫ Pi.π (fun W : Idx r p ↦ F.obj W.1) T = 0 := by
-  rw [termι, Category.assoc, biproduct.isoProduct_hom, Pi.lift_π,
+  rw [termι, Category.assoc, biproduct.isoProduct_hom, Pi.lift_comp_π,
     biproduct.ι_π_ne _ h]
 
 /-- The sum over all factors of projection followed by inclusion is the identity of the

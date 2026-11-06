@@ -88,6 +88,7 @@ def gammaReflexivePowerCocone (σ : (tilde M).sections)
     Cocone (reflexivePowerSystem (tilde M) σ ⋙ moduleSpecΓFunctor) :=
   moduleSpecΓFunctor.mapCocone (reflexivePowerSystemPushforwardCocone (tilde M) σ)
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **The colimit clause of [Stacks, Tag 0EBN] on the global sections of `Spec R`.**
 `Γ(U, 𝒪_U)` is the colimit of the sections of the reflexive powers.  The legs are jointly
 surjective and have the required kernels because `⊤` is an affine open of `Spec R`, which is

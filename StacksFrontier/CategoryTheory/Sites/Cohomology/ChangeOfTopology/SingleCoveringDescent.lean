@@ -177,7 +177,7 @@ private theorem isIso_homology_zero_singleDerivedUnit_aux {A B : Type*} [Categor
     IsIso ((DerivedCategory.Plus.homologyFunctor B 0).map
       (Stacks.DerivedIndexing.singleDerivedUnit P 0 X)) := by
   have hu₀ := (Functor.isZero_and_preservesFiniteLimits_and_isIso_iff_preservesFiniteLimits
-    P P.rightDerivedFunctorPlus P.rightDerivedFunctorPlusUnit).2.2.2 inferInstance X
+    P P.rightDerivedFunctorPlus P.rightDerivedFunctorPlusUnith).2.2.2 inferInstance X
   simp only [Stacks.DerivedIndexing.singleDerivedUnit_zero,
     Stacks.DerivedIndexing.rightDerivedPlusUnitSingle, NatTrans.comp_app,
     Functor.whiskerLeft_app, Functor.whiskerRight_app, Functor.map_comp]

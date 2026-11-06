@@ -2,6 +2,7 @@ module
 
 import Mathlib.RingTheory.RegularLocalRing.Polynomial
 import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.ENatToNat
 
@@ -107,7 +108,8 @@ private lemma height_eq_of_isMaximal_mvPolynomial (k : Type*) [Field k] {σ : Ty
     (FractionRing (MvPolynomial σ k))
   have h : (𝔪.height : WithBot ℕ∞) = ((Nat.card σ : ℕ) : WithBot ℕ∞) := by
     rw [← IsLocalization.AtPrime.ringKrullDim_eq_height 𝔪 (Localization.AtPrime 𝔪),
-      H.2 𝔪 (Localization.AtPrime 𝔪), ← H.1, MvPolynomial.ringKrullDim_of_isNoetherianRing,
+      H.2 𝔪 (Localization.AtPrime 𝔪), ← H.1,
+      MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite,
       ringKrullDim_eq_zero_of_field k, zero_add]
   exact_mod_cast h
 

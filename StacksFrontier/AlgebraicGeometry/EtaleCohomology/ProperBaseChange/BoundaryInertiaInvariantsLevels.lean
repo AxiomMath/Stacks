@@ -106,7 +106,7 @@ underlying morphism `α`. -/
 theorem GeometricPoint.sourceAutElement_hom_eq_finiteEtaleFiberMap {S : Scheme.{u}}
     [ConnectedSpace S] (z : GeometricPoint S) (α : z.source ≅ z.source)
     (hα : α.hom ≫ z.hom = z.hom) (a : GeometricPoint.Hom z z) (ha : a.hom = α.hom) :
-    (z.sourceAutElement α hα).hom = finiteEtaleFiberMap a := by
+    (z.sourceAutElement α hα).asIso.hom = finiteEtaleFiberMap a := by
   ext V q
   apply Subtype.ext
   show α.hom ≫ q.1 = a.hom ≫ q.1
@@ -176,7 +176,7 @@ map along an endomorphism `a` of `g(t̄)` whose action on the fibre functor is `
 theorem representationLevelPointStalkTrivialization_geometricPointStalkMap
     (a : GeometricPoint.Hom (t.map (B'.inclusion.map g)) (t.map (B'.inclusion.map g)))
     (σ : EtaleFundamentalGroup U.1 (t.map (B'.inclusion.map g)))
-    (hσ : σ.hom = finiteEtaleFiberMap a)
+    (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (w : (pointStalkAb B' U K hK g t (ZMod (ℓ ^ k))).obj
       (representationLevelSheafMathlib B' U x ρ hρ k)) :
     (ConcreteCategory.hom (representationLevelPointStalkTrivialization B' U x K hK g t ρ hρ p k).hom
@@ -255,12 +255,12 @@ theorem mem_range_representationLevelDirectImageStalkHom_iff (ht : t.IsAlgebraic
     (fun w => ULift.up (levelRepresentation ρ k (etaleFundamentalGroupMulEquiv p
       (GeometricPoint.sourceAutElement (S := U.1) (t.map (B'.inclusion.map g)) α
         (GeometricPoint.comp_map_hom_of_comp_hom t _ α hαt))) w.down))
-    (fun w => ULift.ext _ _
+    (fun w => ULift.ext
       (representationLevelPointStalkTrivialization_geometricPointStalkMap B' U x K hK g t ρ hρ p k
         _ _ (GeometricPoint.sourceAutElement_hom_eq_finiteEtaleFiberMap (S := U.1)
           (t.map (B'.inclusion.map g)) α _
           ((⟨α.hom, hαt⟩ : GeometricPoint.Hom t t).mapHom (B'.inclusion.map g)) rfl) w)) v).trans
-    ⟨congrArg ULift.down, ULift.ext _ _⟩
+    ⟨congrArg ULift.down, ULift.ext⟩
 
 end Level
 

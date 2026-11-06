@@ -174,9 +174,11 @@ theorem isAffineSpace_of_isPullback_of_isSeparated {P X Y Z : AlgebraicSpaces B 
   have := spaces_inclusion_preservesPullback B S hS f g
   obtain ⟨X₀, hX₀, ⟨eX⟩⟩ := hX
   obtain ⟨Y₀, hY₀, ⟨eY⟩⟩ := hY
+  have : HasPullbacks (BigFppfOver B S hS) := AlgebraicGeometry.hasPullbacks_bigFppfOver B S hS
   let eZ' : Z.obj ≅ yoneda.obj V := (ObjectProperty.ι _).mapIso eZ
   let a : X₀ ⟶ V := Yoneda.fullyFaithful.preimage (eX.inv ≫ f.hom ≫ eZ'.hom)
   let b : Y₀ ⟶ V := Yoneda.fullyFaithful.preimage (eY.inv ≫ g.hom ≫ eZ'.hom)
+  have : HasLimit (cospan a b) := HasLimitsOfShape.has_limit _
   have sq₀ : IsPullback fst.hom snd.hom f.hom g.hom := sq.map (ObjectProperty.ι _)
   have sq₁ : IsPullback (fst.hom ≫ eX.hom) (snd.hom ≫ eY.hom) (yoneda.map a) (yoneda.map b) :=
     IsPullback.of_iso sq₀ (Iso.refl _) eX eY eZ' (by simp) (by simp) (by simp [a]) (by simp [b])

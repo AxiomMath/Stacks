@@ -218,7 +218,7 @@ end AlgebraicGeometry.PolarizedFamily
 /- The goals below mention fibres of structure functors and the induced functor on under
 categories, built from definitions that the `implicit` transparency level does not unfold. -/
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
-  CategoryTheory.Functor.Fiber.fiberInclusion CategoryTheory.Under.post
+  CategoryTheory.Functor.Fiber.fiberInclusion
 
 namespace AlgebraicGeometry.PolarizedDeformation
 

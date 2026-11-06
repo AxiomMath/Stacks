@@ -28,6 +28,14 @@ universe u
 
 namespace AlgebraicGeometry.Space.FlatThickeningDeformation
 
+/- The upstream file's shortcut instances, so that this statement elaborates with the same
+instance terms as `ringOneHom_comp_map_conormalInverseImageι_modulePullbackGlobalSection`. -/
+attribute [local instance high]
+  AlgebraicGeometry.Space.hasLimitsOfShape_discrete_ConormalInverseImageGlobalSectionSets
+  AlgebraicGeometry.Space.hasLimitsOfShape_discrete₀_ConormalInverseImageGlobalSectionSets
+  AlgebraicGeometry.Space.hasDiscreteLimits_topos_ConormalInverseImageGlobalSectionSets
+  AlgebraicGeometry.Space.hasTerminal_topos_ConormalInverseImageGlobalSectionSets
+
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {Y' : AlgebraicSpaces B S hS} {Z : ClosedSubspaces B S hS Y'.1}
   (hZ : IsFirstOrderThickening B S hS Y' Z.1)

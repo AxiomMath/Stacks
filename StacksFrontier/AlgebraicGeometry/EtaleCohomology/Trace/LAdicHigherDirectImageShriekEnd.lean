@@ -479,30 +479,37 @@ theorem LAdicSheaf.isZero_higherDirectImageShriek (G : LAdicSheaf B U ℓ) (r : 
 def LAdicSheaf.higherDirectImageShriekEndRingHom (G : LAdicSheaf B U ℓ) (r : ℕ) :
     End G →+* End (LAdicSheaf.higherDirectImageShriek B ℓ g jg G r) :=
   RingHom.mk'
-    { toFun := LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r
+    { toFun := fun φ => End.of (LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r φ.asHom)
       map_one' := by
+        refine End.ext ?_
+        change LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r (𝟙 G) = 𝟙 _
         by_cases h : LAdicSheaf.HigherDirectImageShriekCondition B ℓ g jg G r
         · have := h.fst
-          rw [LAdicSheaf.higherDirectImageShriekEnd_of_condition B ℓ g jg G r h, End.one_def,
-            End.one_def, LAdicSheaf.lowerShriekTowerEnd_id, LESData.stableImageMap_id,
+          rw [LAdicSheaf.higherDirectImageShriekEnd_of_condition B ℓ g jg G r h,
+            LAdicSheaf.lowerShriekTowerEnd_id, LESData.stableImageMap_id,
             Category.id_comp, Iso.hom_inv_id, LAdicSheaf.homOfPadicTower_id]
         · exact (LAdicSheaf.isZero_higherDirectImageShriek B ℓ g jg G r h).eq_of_src _ _
       map_mul' := fun φ ψ => by
+        refine End.ext ?_
+        change LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r (ψ.asHom ≫ φ.asHom) =
+          LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r ψ.asHom ≫
+            LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r φ.asHom
         by_cases h : LAdicSheaf.HigherDirectImageShriekCondition B ℓ g jg G r
         · have := h.fst
           rw [LAdicSheaf.higherDirectImageShriekEnd_of_condition B ℓ g jg G r h,
             LAdicSheaf.higherDirectImageShriekEnd_of_condition B ℓ g jg G r h,
-            LAdicSheaf.higherDirectImageShriekEnd_of_condition B ℓ g jg G r h, End.mul_def,
-            End.mul_def, LAdicSheaf.lowerShriekTowerEnd_comp, LESData.stableImageMap_comp,
+            LAdicSheaf.higherDirectImageShriekEnd_of_condition B ℓ g jg G r h,
+            LAdicSheaf.lowerShriekTowerEnd_comp, LESData.stableImageMap_comp,
             ← LAdicSheaf.homOfPadicTower_comp]
           simp only [Category.assoc, Iso.inv_hom_id_assoc]
         · exact (LAdicSheaf.isZero_higherDirectImageShriek B ℓ g jg G r h).eq_of_src _ _ }
     (fun φ ψ => by
+      refine End.ext ?_
+      change LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r (φ.asHom + ψ.asHom) =
+        LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r φ.asHom +
+          LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r ψ.asHom
       by_cases h : LAdicSheaf.HigherDirectImageShriekCondition B ℓ g jg G r
       · have := h.fst
-        change LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r (φ + ψ) =
-          LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r φ +
-            LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r ψ
         rw [LAdicSheaf.higherDirectImageShriekEnd_of_condition B ℓ g jg G r h,
           LAdicSheaf.higherDirectImageShriekEnd_of_condition B ℓ g jg G r h,
           LAdicSheaf.higherDirectImageShriekEnd_of_condition B ℓ g jg G r h,
@@ -514,8 +521,8 @@ def LAdicSheaf.higherDirectImageShriekEndRingHom (G : LAdicSheaf B U ℓ) (r : �
 `higherDirectImageShriekEnd φ`. -/
 theorem LAdicSheaf.higherDirectImageShriekEndRingHom_apply (G : LAdicSheaf B U ℓ) (r : ℕ)
     (φ : End G) :
-    LAdicSheaf.higherDirectImageShriekEndRingHom B ℓ g jg G r φ =
-      LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r φ :=
+    (LAdicSheaf.higherDirectImageShriekEndRingHom B ℓ g jg G r φ).asHom =
+      LAdicSheaf.higherDirectImageShriekEnd B ℓ g jg G r φ.asHom :=
   rfl
 
 /-- **The endomorphism of `Rʳ g_! G` induced by `φ`, levelwise**: under the identification of the

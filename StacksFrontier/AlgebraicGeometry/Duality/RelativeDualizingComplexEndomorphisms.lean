@@ -84,8 +84,13 @@ theorem isIso_derivedHomothety_of_isIso_relativeHomothety (K : DerivedCategory (
   let J := Rs.cocomplex
   have : J.IsKInjective := CochainComplex.isKInjective_of_injective J a
   let e : K ≅ DerivedCategory.Q.obj J := eP ≪≫ asIso (DerivedCategory.Q.map Rs.ι)
+  have hbij' : Function.Bijective (LinearMap.toSpanSingleton A (End K) 1) := by
+    convert End.homEquiv.symm.bijective.comp hbij using 1
+    funext r
+    ext
+    simp [End.smul_asHom]
   let e₀ : End K ≃ₗ[A] A :=
-    (LinearEquiv.ofBijective (LinearMap.toSpanSingleton A (End K) (𝟙 K)) hbij).symm
+    (LinearEquiv.ofBijective (LinearMap.toSpanSingleton A (End K) 1) hbij').symm
   have hJ : QuasiIso (homothety J) := by
     refine quasiIso_homothety_of_rankOne.{u, 0} J
       ((homologyZeroEndLinearEquiv J).trans ((endLinearEquivOfIso e.symm).trans e₀))

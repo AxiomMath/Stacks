@@ -40,6 +40,9 @@ variable (hAc : B.Contains (Spec (.of (AdicCompletion (IsLocalRing.maximalIdeal 
 variable {X : (BigFppfOver B (Spec (.of A)) hA)ᵒᵖ ⥤ Type u}
 variable (f : X ⟶ yoneda.obj (Over.mk (𝟙 (B.obj hA))))
 
+attribute [local instance high] hasPullbacks_presheaf_CompletionBaseChange
+  hasPullback_presheaf_CompletionBaseChange
+
 
 omit [IsNoetherianRing A] [IsLocalRing A] in
 /-- The identity of the represented presheaf of the terminal object is an étale chart. -/

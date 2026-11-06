@@ -52,7 +52,7 @@ theorem isPrecomplete_uliftIdeal {R : Type u} [CommRing R] (J : Ideal R) [h : Is
 Hausdorff. -/
 theorem eq_zero_of_forall_mem_uliftIdeal_pow {R : Type u} [CommRing R] (J : Ideal R)
     [h : IsHausdorff J R] (y : ULift.{u + 1} R) (hy : ∀ n, y ∈ uliftIdeal (J ^ n)) : y = 0 := by
-  refine ULift.ext _ _ (h.haus' y.down fun n => ?_)
+  refine ULift.ext (h.haus' y.down fun n => ?_)
   rw [StageLift.smodEq_pow_iff, sub_zero]
   exact (mem_uliftIdeal _ _).1 (hy n)
 
@@ -104,7 +104,7 @@ theorem system_hker (y : limitCompletion (κ := κ) I₀) (hy : (limitAlphaHom W
       ((alphaSystem W hZI₀).app (op k)).hom z = 0 ∧
         (completionToLimit (κ := κ) I₀ k).hom z = y := by
   obtain ⟨k, z, h1, h2⟩ := exists_stage_of_limitAlpha_eq_zero hκ W hZI₀ y.down hy
-  exact ⟨k, ULift.up z, h1, ULift.ext _ _ h2⟩
+  exact ⟨k, ULift.up z, h1, ULift.ext h2⟩
 
 include hκ hZI₀ in
 /-- The `hL` input. -/
@@ -113,7 +113,7 @@ theorem system_hL (k : Over k₀) : ∃ (k' : Over k₀) (g : k' ⟶ k),
       (completionToLimit (κ := κ) I₀ k).hom x = 0 →
         ((completionSystem (D := D) I₀).map g.op).hom x = 0 := by
   obtain ⟨k', g, hg⟩ := exists_stage_cres_eq_zero hκ W hZI₀ k
-  exact ⟨k', g, fun x hx hxl => ULift.ext _ _ (hg x.down hx (congrArg ULift.down hxl))⟩
+  exact ⟨k', g, fun x hx hxl => ULift.ext (hg x.down hx (congrArg ULift.down hxl))⟩
 
 variable (I₀) in
 /-- The ideal `I_k A_k^∧` of `A_k^∧`, in the universe of the system `k ↦ A_k^∧`. -/
@@ -244,7 +244,7 @@ theorem system_hAR (k : Over k₀) :
   obtain ⟨c, hc⟩ := exists_stage_artinRees W hZI₀ k
   refine ⟨c, fun n x hxC hxA => ?_⟩
   obtain ⟨y, hy, h1, h2⟩ := hc n x.down hxC (mem_limitIdealPow.1 hxA)
-  exact ⟨ULift.up y, mem_stageIdealHat_pow.2 hy, h1, ULift.ext _ _ h2⟩
+  exact ⟨ULift.up y, mem_stageIdealHat_pow.2 hy, h1, ULift.ext h2⟩
 
 section OverO
 
@@ -322,7 +322,7 @@ theorem completionToLimit_algebraMap_stageToOpen' (k : Over k₀) (r : Γ((O : S
     (completionToLimit (κ := κ) I₀ k).hom
         (ULift.up (algebraMap _ _ ((stageToOpen' O f₀ k).appTop.hom r))) =
       limitPhi W hZI₀ hB e (x₀ := x₀) (ρ r) := by
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   have h1 := congrArg (fun φ => φ r) (toRingHom_comp_eq_of_isOver O ρ hρ (limitIdeal (κ := κ) I₀)
     (limitToOpen (κ := κ) O f₀) (limitToOpen_ι O f₀ hf₀) hB
     ((continuousHomEquiv (limit_hZI hZI₀) hB).symm (x₀ ≫ e.hom)))

@@ -90,11 +90,7 @@ public lemma seqHomColimIso_hom_app_ι (N : ℕᵒᵖ ⥤ 𝒟) (i : (ULiftHom.{
         colimit.ι (N.op ⋙ coyoneda) (op (op (Pro.liftedIndexDown i).unop)) := by
     refine (HasColimit.ι_isoOfEquivalence_hom (F := (Pro.liftedInverseSequence N).op ⋙ coyoneda)
       (G := N.op ⋙ coyoneda) (ULiftHomULiftCategory.equiv ℕᵒᵖ).symm.op (Iso.refl _) i).trans ?_
-    have hu : ((Pro.liftedInverseSequence N).op ⋙ coyoneda).map
-        ((ULiftHomULiftCategory.equiv ℕᵒᵖ).symm.op.unit.app i) = 𝟙 _ :=
-      Functor.map_id _ i
-    refine (congrArg (· ≫ _) hu).trans ?_
-    exact (Category.id_comp _).trans (Category.id_comp _)
+    exact Category.id_comp _
   exact congrFun (congrArg (fun t => t.app M) h) g
 
 variable {L : 𝒟} {N : ℕᵒᵖ ⥤ 𝒟}

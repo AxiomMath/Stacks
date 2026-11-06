@@ -121,12 +121,12 @@ theorem derived_eq_derivedPaste_app_named
     (hτ : ∀ X, τ.app X = cU.inv.app (P₀.obj X) ≫ U₂.map (τ₁.app X) ≫
       τ₂.app (V₁.obj X) ≫ P₂.map (cV.hom.app X))
     (M : DerivedCategory.Plus A₀) :
-    (derived P₀ P₂ U V τ (asIso U.rightDerivedFunctorPlusUnit)).app M =
+    (derived P₀ P₂ U V τ (asIso U.rightDerivedFunctorPlusUnith)).app M =
       (Functor.rightDerivedFunctorPlusCompIsoOfExact U₁ U₂ U cU).inv.app
           (P₀.rightDerivedFunctorPlus.obj M) ≫
         U₂.rightDerivedFunctorPlus.map
-            ((derived P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnit)).app M) ≫
-          (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnit)).app
+            ((derived P₀ P₁ U₁ V₁ τ₁ (asIso U₁.rightDerivedFunctorPlusUnith)).app M) ≫
+          (derived P₁ P₂ U₂ V₂ τ₂ (asIso U₂.rightDerivedFunctorPlusUnith)).app
               (V₁.rightDerivedFunctorPlus.obj M) ≫
             P₂.rightDerivedFunctorPlus.map
               ((Functor.rightDerivedFunctorPlusCompIsoOfExact V₁ V₂ V cV).hom.app M) :=

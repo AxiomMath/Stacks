@@ -568,7 +568,7 @@ theorem glueDHom_inverseImageStructureApp (hV : IsAffineOpen V) (V₀ : (X.Opens
 /-- **The relative derivation of `𝒪_X` attached to `δ`.** The glued differential of `δ` is a
 derivation of `𝒪_X` relative to `f⁻¹𝒪_S` with values in `a_*N`. -/
 noncomputable def glueDerivation (hV : IsAffineOpen V) :
-    ((Scheme.Modules.pushforward a).obj N).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' ((Scheme.Modules.pushforward a).obj N).val
       (inverseImageStructureMap (ringedSpaceHom f)).hom where
   d {V₀} := glueDHom f a N hWV hW hUW δ V₀.unop
   d_mul {V₀} x y := glueDHom_mul f a N hWV hW hUW δ V₀.unop x y
@@ -613,7 +613,7 @@ theorem exists_hom_pullbackCotangentSheaf (hV : IsAffineOpen V) :
         (pullbackD f a W (le_refl (a ⁻¹ᵁ W)) b)
       = glueD f a N hWV hW hUW δ W b := by
     rw [pullbackD_self, ← pullbackCotangentSheafHomEquiv_app, hψφ]
-    exact PresheafOfModules.Derivation.congr_d hψ b
+    exact PresheafOfModulesOfCommRing.Derivation.congr_d hψ b
   rw [← map_pullbackD f a W (le_refl (a ⁻¹ᵁ W)) hUW hUW b,
     app_map_section ((pullbackCotangentSheafHomEquiv f a N).symm ψ) hUW, hkey, map_glueD_top]
 

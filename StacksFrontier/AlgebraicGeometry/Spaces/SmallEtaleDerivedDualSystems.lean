@@ -275,6 +275,16 @@ instance preservesColimitsOfShape_discrete_nat_smallEtaleHomologyFunctor (i : �
     preservesColimitsOfShape_of_natIso
       (DerivedCategory.homologyFunctorFactors
         (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) i).symm
+  have : HasColimitsOfShape (Discrete (ULift.{u} ℕ))
+      (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) :=
+    inferInstance
+  have : HasColimitsOfShape (Discrete (ULift.{u} ℕ))
+      (CochainComplex (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) ℤ) :=
+    ⟨fun F =>
+      have hF : ∀ n : ℤ, HasColimit (F ⋙ HomologicalComplex.eval
+          (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) (ComplexShape.up ℤ) n) :=
+        fun _ => HasColimitsOfShape.has_colimit _
+      ⟨⟨⟨_, HomologicalComplex.isColimitCoconeOfHasColimitEval F⟩⟩⟩⟩
   have := preservesColimitsOfShape_discrete_of_essSurj_comp DerivedCategory.Q
     (DerivedCategory.homologyFunctor
       (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X)) i)

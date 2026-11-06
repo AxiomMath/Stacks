@@ -482,6 +482,14 @@ def fullyFaithfulPhComparisonInverseImage
     (Functor.sheafPullbackConstruction.sheafPullbackIso (phComparisonFunctor A) (Type (u + 1))
       (etaleSimplicialSite A).totalTopology (SimplicialOver.totalTopology J A.left)).symm
 
+/-- The direct image along the comparison functor of a simplicial degree is a right adjoint, the
+left adjoint being the constructed sheafified left Kan extension. -/
+instance phComparisonDegree_sheafPushforwardContinuous_isRightAdjoint (b : SimplexCategoryᵒᵖ) :
+    ((phComparisonDegree A b).sheafPushforwardContinuous (Type (u + 1)) (etaleDegreeTopology A b)
+      (J.over (A.left.obj b))).IsRightAdjoint :=
+  ⟨_, ⟨Functor.sheafPullbackConstruction.sheafAdjunctionContinuous (phComparisonDegree A b)
+    (Type (u + 1)) (etaleDegreeTopology A b) (J.over (A.left.obj b))⟩⟩
+
 /-- **Stacks 0D96 for the comparison `h`, on inverse images**: the restriction of `h⁻¹G` to the
 simplicial degree `b` is the inverse image along `U_{b, spaces, étale} → Spaces/U_b` of the
 restriction of `G`. This is the base change of left Kan extensions along `phInclusionSquare`,

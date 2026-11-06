@@ -72,6 +72,35 @@ attribute [local instance] MorphismProperty.IsMultiplicative.toContainsIdentitie
 attribute [local instance] relocalizePreservesPullbacks
 attribute [local instance] relocalize_faithful
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_VersalityTransport
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_VersalityTransport
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on `Over T` (instance search times out without this shortcut). -/
+local instance hasPullbacks_overPresheaf_VersalityTransport (T : Scheme.{u}) :
+    HasPullbacks ((Over T)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small products of presheaves on `Over T` (instance search times out without this
+shortcut). -/
+local instance hasLimitsOfShape_discrete_overPresheaf_VersalityTransport (T : Scheme.{u})
+    (J : Type) : HasLimitsOfShape (Discrete J) ((Over T)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_overPresheaf_VersalityTransport
+    (T : Scheme.{u}) {X Y Z : (Over T)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 private theorem isClosed_of_arrowIso
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {F G F' G' : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -127,8 +156,8 @@ private theorem universallyClosed_relocalize
     apply hp.of_iso (Iso.refl _) e (Iso.refl _) (Iso.refl _)
     · simp
     · simp
-    · simpa using hb.symm
-    · simp
+    · simp only [Iso.refl_hom, Category.comp_id]; exact hb.symm
+    · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
   let α : Arrow.mk (R.map (pullback.fst b.hom f.hom)) ≅
       Arrow.mk (pullback.fst a (R.map f.hom)) :=
     Arrow.isoMk hp'.isoPullback e (by simp)

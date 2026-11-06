@@ -378,7 +378,6 @@ noncomputable def sheafifyAbHomEquiv (F : AbelianPresheafCat X) (G : AbelianShea
     ((sheafifyAb X).obj F ⟶ G) ≃ (F ⟶ (inclusionAbSheafToAbPresheaf X).obj G) :=
   (sheafifyAbAdjunction X).homEquiv F G
 
-omit [HasSheafify (opensJ X) AddCommGrpCat] in
 /-- `sheafifyAbHomEquiv` is natural in the presheaf variable. -/
 theorem sheafifyAbHomEquiv_naturality_left
     (F F' : AbelianPresheafCat X) (G : AbelianSheafCat X)
@@ -387,7 +386,6 @@ theorem sheafifyAbHomEquiv_naturality_left
       f ≫ sheafifyAbHomEquiv X F' G g :=
   Adjunction.homEquiv_naturality_left _ _ _
 
-omit [HasSheafify (opensJ X) AddCommGrpCat] in
 /-- `sheafifyAbHomEquiv` is natural in the sheaf variable. -/
 theorem sheafifyAbHomEquiv_naturality_right
     (F : AbelianPresheafCat X) (G G' : AbelianSheafCat X)
@@ -396,7 +394,6 @@ theorem sheafifyAbHomEquiv_naturality_right
       sheafifyAbHomEquiv X F G h ≫ (inclusionAbSheafToAbPresheaf X).map g :=
   Adjunction.homEquiv_naturality_right _ _ _
 
-omit [HasSheafify (opensJ X) AddCommGrpCat] in
 /-- The functor `sheafifyAb` is a sheafification in the sense of Part 1: its unit at `F`
 becomes the set-level sheafification map under the forgetful functor to presheaves of sets. -/
 @[sga "3 IV 4.3.16" "special case", sga "4 II 6.4" "special case"]

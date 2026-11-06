@@ -38,6 +38,24 @@ attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
 
 universe u
 
+/-- Presheaves of sets have products indexed by `Type u`, stated directly so that instance search
+does not time out. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheafType_sqZeroQuotGlobalSections
+    {C : Type*} [Category C] (K : Type u) : HasLimitsOfShape (Discrete K) (C ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+/-- Presheaves of sets have products indexed by `Type`, stated directly so that instance search
+does not time out. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheafType₀_sqZeroQuotGlobalSections
+    {C : Type*} [Category C] (K : Type) : HasLimitsOfShape (Discrete K) (C ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+/-- Sheaves of sets have a terminal object, stated directly so that instance search does not
+time out. -/
+local instance (priority := high) hasTerminal_sheafType_sqZeroQuotGlobalSections
+    {C : Type*} [Category C] (J : GrothendieckTopology C) : HasTerminal (Sheaf J (Type u)) :=
+  inferInstanceAs (HasLimitsOfShape (Discrete PEmpty) (Sheaf J (Type u)))
+
 namespace AlgebraicGeometry.Space.SquareZeroExtension
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
@@ -58,7 +76,10 @@ theorem bijective_globalSectionMap_thickeningImmersion
   have : t.inverseImage.IsEquivalence := t.adj.isEquivalence_left_of_isEquivalence_right
   have hcomp : Function.Bijective (fun b : t.inverseImage.obj (⊤_ _) ⟶ t.inverseImage.obj G =>
       CategoryTheory.inv (terminalComparison t.inverseImage) ≫ b) :=
-    ⟨fun b b' h => by simpa using h, fun c => ⟨terminalComparison t.inverseImage ≫ c, by simp⟩⟩
+    ⟨fun b b' h => by
+        simpa only [IsIso.hom_inv_id_assoc] using
+          congrArg (terminalComparison t.inverseImage ≫ ·) h,
+      fun c => ⟨terminalComparison t.inverseImage ≫ c, IsIso.inv_hom_id_assoc _ _⟩⟩
   exact hcomp.comp ((Functor.FullyFaithful.ofFullyFaithful t.inverseImage).map_bijective _ _)
 
 /-- **The value of a global section of `𝒪_{X'}` on the chart `W'`.** If the inverse image of a

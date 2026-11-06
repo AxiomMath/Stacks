@@ -102,8 +102,7 @@ theorem fSharpRing_projectionRingedSiteHom_eq_restrictionStructureHom :
         eqToHom (congrArg (fun F : SmallEtale B S hS X.1 ⥤ BigFppfOver B S hS =>
           F.op ⋙ (BigFppfOver.structureSheaf B S hS).obj) hc).symm := by
     rintro T rfl
-    simp
-    rfl
+    simp only [eqToHom_refl, NatTrans.op_id, Functor.whiskerRight_id']
   rw [show ((projectionRingedSiteHomGeneral B S hS X.1 p hp X.2 e).toRingedToposSiteHom
       ).fSharpRing =
       (sheafCompose (SmallEtale.topology B S hS X.1)

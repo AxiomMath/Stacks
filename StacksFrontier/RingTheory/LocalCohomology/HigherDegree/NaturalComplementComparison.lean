@@ -102,8 +102,20 @@ theorem isIso_rightDerivedPlusUnitSingle (hF : ∀ M : C, F.rightAcyclic M) :
     IsIso (Stacks.DerivedIndexing.rightDerivedPlusUnitSingle F) := by
   have : ∀ M : C, IsIso ((Stacks.DerivedIndexing.rightDerivedPlusUnitSingle F).app M) := by
     intro M
-    have : IsIso (F.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.singleFunctor C 0).obj M)) := hF M
+    have : IsIso (F.rightDerivedFunctorPlusUnith.app
+        ((HomotopyCategory.Plus.singleFunctor C 0).obj M)) := by
+      have hdesc := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc
+        F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith
+        (HomotopyCategory.Plus.quasiIso C) _
+        ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+          DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C))).1 inferInstance
+      have h : IsIso (((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+          DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C)).app
+          ((HomotopyCategory.Plus.singleFunctor C 0).obj M)) := hF M
+      rw [← Functor.rightDerived_fac_app F.rightDerivedFunctorPlus
+        F.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso C) _ _
+        ((HomotopyCategory.Plus.singleFunctor C 0).obj M)] at h
+      exact (isIso_comp_right_iff _ _).1 h
     dsimp only [Stacks.DerivedIndexing.rightDerivedPlusUnitSingle, NatTrans.comp_app,
       Functor.whiskerLeft_app, Functor.whiskerRight_app]
     infer_instance

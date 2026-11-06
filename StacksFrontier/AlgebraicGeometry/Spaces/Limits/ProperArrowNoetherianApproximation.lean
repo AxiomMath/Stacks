@@ -103,9 +103,10 @@ def tailInclusion (i₁ : I) : {j : I // i₁ ≤ j} ⥤ I :=
 /-- The tail `{j // i₁ ≤ j}` of a preorder, as stages over `i₁` in the opposite category. -/
 def tailOver (i₁ : I) : {j : I // i₁ ≤ j}ᵒᵖ ⥤ Over (op i₁) where
   obj j := Over.mk (homOfLE j.unop.2).op
-  map g := Over.homMk (homOfLE (leOfHom g.unop)).op (Quiver.Hom.unop_inj (Subsingleton.elim _ _))
-  map_id _ := by ext; exact Quiver.Hom.unop_inj (Subsingleton.elim _ _)
-  map_comp _ _ := by ext; exact Quiver.Hom.unop_inj (Subsingleton.elim _ _)
+  map g := Over.homMk (homOfLE (leOfHom g.unop)).op
+    (Quiver.Hom.unop_inj (C := I) (Subsingleton.elim _ _))
+  map_id _ := by ext; exact Subsingleton.elim _ _
+  map_comp _ _ := by ext; exact Subsingleton.elim _ _
 
 /-- A tail of a directed preorder is directed. -/
 theorem isDirected_tail [IsDirected I (· ≤ ·)] (i₁ : I) :
@@ -131,10 +132,10 @@ theorem initial_tailOver (i₁ : I) : (tailOver i₁).Initial := by
   have : Nonempty {j : I // i₁ ≤ j} := ⟨⟨i₁, le_rfl⟩⟩
   refine Functor.initial_of_exists_of_isCofiltered _ (fun d => ?_) (fun {d c} s s' => ?_)
   · exact ⟨op ⟨d.left.unop, leOfHom d.hom.unop⟩, ⟨Over.homMk (𝟙 _)
-      (Quiver.Hom.unop_inj (Subsingleton.elim _ _))⟩⟩
+      (Quiver.Hom.unop_inj (C := I) (Subsingleton.elim _ _))⟩⟩
   · refine ⟨c, 𝟙 _, ?_⟩
     ext
-    exact Quiver.Hom.unop_inj (Subsingleton.elim _ _)
+    exact Subsingleton.elim _ _
 
 end Tail
 
@@ -492,7 +493,9 @@ theorem exists_descentSituation_arrow_of_convNoetherianApproximation
   -- Stacks 0A0W: a closed immersion into a proper space of finite presentation over `Y`.
   obtain ⟨K, _, _, ⟨k⟩, DK, t, π, hDK, ht, -, hπ, hπt, -⟩ := h0A0W hX hY f hf hYqc hYqs
   set p := t.app (op k)
-  have hιp : π.app (op k) ≫ p = f := by simpa using NatTrans.congr_app hπt (op k)
+  have hιp : π.app (op k) ≫ p = f := by
+    have h := NatTrans.congr_app hπt (op k)
+    rwa [NatTrans.comp_app, Functor.const_map_app] at h
   -- Stacks 07SK: a model of `X' ⟶ Y` at a stage.
   obtain ⟨⟨j₀⟩, W₀, hW₀, hW₀fp, ⟨e₀⟩⟩ := h07SK D hA A.isAlgebraicSpace
     A.isAffineHom_map hDqc A.isAbsolutelyQuasiSeparated (Over.mk (p ≫ eL.hom))

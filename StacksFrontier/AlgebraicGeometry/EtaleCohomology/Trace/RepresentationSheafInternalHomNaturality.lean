@@ -194,11 +194,11 @@ omit [ConnectedSpace X.1] in
 /-- `sheafComposeForgetUliftIso` commutes with multiplication by scalars. -/
 lemma sheafComposeForgetUliftIso_smul (R : Type) [Ring R]
     (S : Sheaf (SmallEtale.topology B X.1 X.2) (ModuleCat.{u + 1} R)) (a : R) :
-    sheafScalarEnd R (SmallEtale.topology B X.1 X.2)
+    (sheafScalarEnd R (SmallEtale.topology B X.1 X.2)
         ((sheafCompose (SmallEtale.topology B X.1 X.2) (ModuleCat.uliftFunctor.{0, u + 1} R)).obj S)
-        a ≫ (sheafComposeForgetUliftIso B X R S).hom =
+        a).asHom ≫ (sheafComposeForgetUliftIso B X R S).hom =
       (sheafComposeForgetUliftIso B X R S).hom ≫
-        sheafScalarEnd R (SmallEtale.topology B X.1 X.2) S a := by
+        (sheafScalarEnd R (SmallEtale.topology B X.1 X.2) S a).asHom := by
   apply Sheaf.hom_ext
   ext U m
   rfl
@@ -208,12 +208,12 @@ sheaf underlying `ℱ_N`, multiplication by `a` corresponds to multiplication by
 of Tag 0DV5 (3) on the site of Stacks 021B. -/
 lemma representationSheafForgetIso_smul (R : Type) [Ring R] [Finite R]
     (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} R (EtaleFundamentalGroup X.1 x)) (a : R) :
-    sheafScalarEnd R X.1.smallEtaleTopology ((representationSheaf B X x R).obj N) a ≫
+    (sheafScalarEnd R X.1.smallEtaleTopology ((representationSheaf B X x R).obj N) a).asHom ≫
         (representationSheafForgetIso B X x R N).hom =
       (representationSheafForgetIso B X x R N).hom ≫
         (SmallEtale.sheafEquiv B X.1 X.2 AddCommGrpCat.{u + 1}).functor.map
           (sheafScalarEnd R (SmallEtale.topology B X.1 X.2)
-            (representationModuleSheafSmall B X x R N).obj a) := by
+            (representationModuleSheafSmall B X x R N).obj a).asHom := by
   let := Stacks.EtaleCohomology.moduleCat_hasLimitsOfSize.{u, u, 0, u + 1} R
   have h₁ := CommSq.mk (sheafScalarEnd_naturality R X.1.smallEtaleTopology
     ((sheafEquivFunctorIsoModuleLift B X R).hom.app
@@ -243,7 +243,7 @@ abbrev representationAbelianSheafSmallSmul (R : Type) [Ring R] [Finite R]
     (N : FiniteTypeContinuousModule.{0, u + 1, u + 1} R (EtaleFundamentalGroup X.1 x)) (a : R) :
     representationAbelianSheafSmall B X x R N ⟶ representationAbelianSheafSmall B X x R N :=
   ObjectProperty.homMk (sheafScalarEnd R (SmallEtale.topology B X.1 X.2)
-    (representationModuleSheafSmall B X x R N).obj a)
+    (representationModuleSheafSmall B X x R N).obj a).asHom
 
 /-- **The counit of Tag 0DV5 (3) commutes with multiplication by scalars**, read on the
 discrete `π₁(X, x)`-modules: Tag 0DV5 (2) carries multiplication by `a` on the abelian sheaf of
@@ -533,13 +533,13 @@ theorem internalHomRepresentationSheafForgetIso_smul
     (r : Λ) :
     Stacks.Sites.internalHomSheafPrecomp X.1.smallEtaleTopology
         (Stacks.ModuleCatLift.sheafScalarEnd Λ X.1.smallEtaleTopology
-          ((representationSheaf B X x Λ).obj M) r) _ ≫
+          ((representationSheaf B X x Λ).obj M) r).asHom _ ≫
         (internalHomRepresentationSheafForgetIso B X x Λ n M W).hom =
       (internalHomRepresentationSheafForgetIso B X x Λ n M W).hom ≫
-        Stacks.ModuleCatLift.sheafScalarEnd Λᵐᵒᵖ X.1.smallEtaleTopology
+        (Stacks.ModuleCatLift.sheafScalarEnd Λᵐᵒᵖ X.1.smallEtaleTopology
           ((representationSheaf B X x Λᵐᵒᵖ).obj
             ((homDualFunctor Λ ((Stacks.ContinuousCohomology.continuousModuleForget (ZMod n)
-              (EtaleFundamentalGroup X.1 x)).obj W.obj)).obj (op M))) (MulOpposite.op r) :=
+              (EtaleFundamentalGroup X.1 x)).obj W.obj)).obj (op M))) (MulOpposite.op r)).asHom :=
   internalHomRepresentationSheafForgetIso_comm B X x Λ n W _
     (representationAbelianSheafSmallSmul B X x Λ M r)
     ((finiteContinuousScalarFunctor Λ (EtaleFundamentalGroup X.1 x) M).map

@@ -93,7 +93,7 @@ theorem eq_of_homEquiv_universalDerivation (f : X' ⟶ X) (p : X ⟶ Y)
   set e := (modulePullbackAdjunction B S hS f).homEquiv (sheafOfDifferentials B S hS p) G
   have hD : (universalDerivation B S hS p).postcomp (e c₁).val =
       (universalDerivation B S hS p).postcomp (e c₂).val := by
-    apply PresheafOfModules.Derivation.ext
+    apply PresheafOfModulesOfCommRing.Derivation.ext
     ext U t
     exact h U t
   obtain ⟨_, _, hu⟩ := universalDerivation_isUniversal B S hS p

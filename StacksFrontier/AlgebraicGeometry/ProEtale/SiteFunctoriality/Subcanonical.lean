@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Sites.Subcanonical
 public import Mathlib.CategoryTheory.Sites.SubcanonicalOver
 public import StacksFrontier.AlgebraicGeometry.ProEtale.Site.Limits
 public import StacksFrontier.AlgebraicGeometry.Topologies.Etale.RepresentableSheaves

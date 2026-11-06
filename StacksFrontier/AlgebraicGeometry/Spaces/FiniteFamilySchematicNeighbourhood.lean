@@ -403,7 +403,13 @@ theorem exists_isOpenSubspace_isAffineSpace_preimage_basicOpen
     ((pointsEquivScheme B S hS T).symm t) with hδdef
   have hδinj : Function.Injective δ := by
     intro t₁ t₂ h
-    have hm : Mono (eD.hom ≫ D₀.ι ≫ Zs.ι) := inferInstance
+    have hm₁ : Mono D₀.ι := inferInstance
+    have hm₂ : Mono Zs.ι := inferInstance
+    have hm₃ : Mono (D₀.ι ≫ Zs.ι) := @mono_comp _ _ _ _ _ _ hm₁ _ hm₂
+    have hm₀ : Mono eD.hom := ⟨fun u v w => by
+      simpa only [Category.assoc, Iso.hom_inv_id, Category.comp_id] using
+        congrArg (· ≫ eD.inv) w⟩
+    have hm : Mono (eD.hom ≫ D₀.ι ≫ Zs.ι) := @mono_comp _ _ _ _ _ _ hm₀ _ hm₃
     exact (pointsEquivScheme B S hS T).symm.injective (pointsMap_injective_of_mono B S hS _ h)
   have hδφ : ∀ q, δ ((BigFppfOver.toScheme B S hS).map φ (pointsToScheme B S hS C q)) =
       pointsMap B S hS _ Zs.ι (pointsMap B S hS _ a' q) := by

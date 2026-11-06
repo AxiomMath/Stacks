@@ -74,11 +74,11 @@ variable {k : Type u} [Field k]
 over a discrete coefficient ring. -/
 private theorem continuous_pderiv {n : ℕ} [TopologicalSpace k] [DiscreteTopology k]
     (i : Fin n) :
-    Continuous (pderiv k i : MvPowerSeries (Fin n) k → MvPowerSeries (Fin n) k) := by
+    Continuous (pderiv (R := k) i : MvPowerSeries (Fin n) k → MvPowerSeries (Fin n) k) := by
   classical
   refine continuous_pi_iff.mpr fun d => ?_
-  show Continuous (fun f : MvPowerSeries (Fin n) k => coeff d (pderiv k i f))
-  have heq : (fun f : MvPowerSeries (Fin n) k => coeff d (pderiv k i f)) =
+  show Continuous (fun f : MvPowerSeries (Fin n) k => coeff d (pderiv (R := k) i f))
+  have heq : (fun f : MvPowerSeries (Fin n) k => coeff d (pderiv (R := k) i f)) =
       fun f : MvPowerSeries (Fin n) k =>
         coeff (d + Finsupp.single i (1 : ℕ)) f * ((d i + 1 : ℕ) : k) := by
     funext f
@@ -91,14 +91,14 @@ private theorem continuous_pderiv {n : ℕ} [TopologicalSpace k] [DiscreteTopolo
 private theorem pderiv_subst_chain_poly {n : ℕ}
     (a : Fin n → MvPowerSeries (Fin n) k) (i : Fin n)
     (p : MvPolynomial (Fin n) k) :
-    pderiv k i (MvPolynomial.aeval a p) =
-      ∑ j, MvPolynomial.aeval a (MvPolynomial.pderiv j p) * pderiv k i (a j) := by
+    pderiv (R := k) i (MvPolynomial.aeval a p) =
+      ∑ j, MvPolynomial.aeval a (MvPolynomial.pderiv j p) * pderiv (R := k) i (a j) := by
   classical
   induction p using MvPolynomial.induction_on with
   | C c => simp
   | add p q hp hq => simp [hp, hq, Finset.sum_add_distrib, add_mul]
   | mul_X p j hp =>
-      rw [map_mul, MvPolynomial.aeval_X, (pderiv k i).leibniz]
+      rw [map_mul, MvPolynomial.aeval_X, (pderiv (R := k) i).leibniz]
       simp only [MvPolynomial.pderiv_mul, map_add, map_mul, MvPolynomial.aeval_X, smul_eq_mul]
       have hx (x : Fin n) : MvPolynomial.aeval (R := k) a
           (MvPolynomial.pderiv (R := k) x (MvPolynomial.X (R := k) j)) =
@@ -109,14 +109,14 @@ private theorem pderiv_subst_chain_poly {n : ℕ}
       simp_rw [add_mul, hx]
       rw [Finset.sum_add_distrib]
       have hsum₁ : (∑ x : Fin n,
-          (MvPolynomial.aeval a (MvPolynomial.pderiv x p) * a j) * pderiv k i (a x)) =
+          (MvPolynomial.aeval a (MvPolynomial.pderiv x p) * a j) * pderiv (R := k) i (a x)) =
           (∑ x : Fin n,
-            MvPolynomial.aeval a (MvPolynomial.pderiv x p) * pderiv k i (a x)) * a j := by
+            MvPolynomial.aeval a (MvPolynomial.pderiv x p) * pderiv (R := k) i (a x)) * a j := by
         rw [Finset.sum_mul]
         exact Finset.sum_congr rfl fun _ _ => by ring
       have hsum₂ : (∑ x : Fin n,
-          (MvPolynomial.aeval a p * (if x = j then 1 else 0)) * pderiv k i (a x)) =
-          MvPolynomial.aeval a p * pderiv k i (a j) := by
+          (MvPolynomial.aeval a p * (if x = j then 1 else 0)) * pderiv (R := k) i (a x)) =
+          MvPolynomial.aeval a p * pderiv (R := k) i (a j) := by
         rw [Finset.sum_eq_single j]
         · simp
         · intro x _ hxj
@@ -130,24 +130,24 @@ because the polynomials are dense and both sides are continuous. -/
 private theorem pderiv_subst_chain {n : ℕ}
     (a : Fin n → MvPowerSeries (Fin n) k) (ha : HasSubst a) (i : Fin n)
     (f : MvPowerSeries (Fin n) k) :
-    pderiv k i (subst a f) =
-      ∑ j, subst a (pderiv k j f) * pderiv k i (a j) := by
+    pderiv (R := k) i (subst a f) =
+      ∑ j, subst a (pderiv (R := k) j f) * pderiv (R := k) i (a j) := by
   classical
   let : UniformSpace k := ⊥
   let : DiscreteUniformity k := ⟨rfl⟩
   let : TopologicalSpace k := ⊥
   let : DiscreteTopology k := ⟨rfl⟩
   have hcontR : Continuous (fun z : MvPowerSeries (Fin n) k =>
-      ∑ j, subst a (pderiv k j z) * pderiv k i (a j)) :=
+      ∑ j, subst a (pderiv (R := k) j z) * pderiv (R := k) i (a j)) :=
     continuous_finsetSum _ fun j _ =>
       ((continuous_subst ha).comp (continuous_pderiv j)).mul continuous_const
-  have hpoly : (fun z : MvPowerSeries (Fin n) k => pderiv k i (subst a z)) ∘
+  have hpoly : (fun z : MvPowerSeries (Fin n) k => pderiv (R := k) i (subst a z)) ∘
       MvPolynomial.toMvPowerSeries =
-      (fun z => ∑ j, subst a (pderiv k j z) * pderiv k i (a j)) ∘
+      (fun z => ∑ j, subst a (pderiv (R := k) j z) * pderiv (R := k) i (a j)) ∘
         MvPolynomial.toMvPowerSeries := by
     funext p
-    show pderiv k i (subst a (MvPolynomial.toMvPowerSeries p)) =
-      ∑ j, subst a (pderiv k j (MvPolynomial.toMvPowerSeries p)) * pderiv k i (a j)
+    show pderiv (R := k) i (subst a (MvPolynomial.toMvPowerSeries p)) =
+      ∑ j, subst a (pderiv (R := k) j (MvPolynomial.toMvPowerSeries p)) * pderiv (R := k) i (a j)
     rw [subst_coe]
     simp only [pderiv_coe, subst_coe]
     exact pderiv_subst_chain_poly (k := k) a i p
@@ -159,15 +159,15 @@ matrix of a family `f` of generators. -/
 noncomputable def jacobianMinorIdealModulo {σ : Type v} {τ : Type w}
     (I : Ideal (MvPowerSeries σ k)) (f : τ → MvPowerSeries σ k) (r : ℕ) :
     Ideal (MvPowerSeries σ k ⧸ I) :=
-  (minorIdeal (fun i j ↦ pderiv k i (f j)) r).map (Ideal.Quotient.mk I)
+  (minorIdeal (fun i j ↦ pderiv (R := k) i (f j)) r).map (Ideal.Quotient.mk I)
 
 private theorem jacobianMinorIdealModulo_eq_quotientMatrix {n m : ℕ}
     (I : Ideal (MvPowerSeries (Fin n) k)) (f : Fin m → MvPowerSeries (Fin n) k) (r : ℕ) :
     jacobianMinorIdealModulo I f r =
-      minorIdeal (fun i j => Ideal.Quotient.mk I (pderiv k i (f j))) r := by
+      minorIdeal (fun i j => Ideal.Quotient.mk I (pderiv (R := k) i (f j))) r := by
   unfold jacobianMinorIdealModulo
-  show (minorIdeal (Matrix.of fun i j => pderiv k i (f j)) r).map (Ideal.Quotient.mk I) =
-    minorIdeal (Matrix.of fun i j => Ideal.Quotient.mk I (pderiv k i (f j))) r
+  show (minorIdeal (Matrix.of fun i j => pderiv (R := k) i (f j)) r).map (Ideal.Quotient.mk I) =
+    minorIdeal (Matrix.of fun i j => Ideal.Quotient.mk I (pderiv (R := k) i (f j))) r
   rw [minorIdeal_map_matrix]
   rfl
 
@@ -176,8 +176,8 @@ private theorem exists_quotient_jacobian_factor {n m l : ℕ}
     (f : Fin m → MvPowerSeries (Fin n) k) (g : Fin l → MvPowerSeries (Fin n) k)
     (hf : Ideal.span (Set.range f) = I) (hg : Ideal.span (Set.range g) = I) :
     ∃ C : Matrix (Fin m) (Fin l) (MvPowerSeries (Fin n) k ⧸ I),
-      (Matrix.of fun t j => Ideal.Quotient.mk I (pderiv k t (g j))) =
-        (Matrix.of fun t i => Ideal.Quotient.mk I (pderiv k t (f i))) * C := by
+      (Matrix.of fun t j => Ideal.Quotient.mk I (pderiv (R := k) t (g j))) =
+        (Matrix.of fun t i => Ideal.Quotient.mk I (pderiv (R := k) t (f i))) * C := by
   classical
   let R := MvPowerSeries (Fin n) k
   let Q := R ⧸ I
@@ -190,12 +190,12 @@ private theorem exists_quotient_jacobian_factor {n m l : ℕ}
   let C : Matrix (Fin m) (Fin l) Q :=
     Matrix.of fun i j => Ideal.Quotient.mk I (c j i)
   have hentry (t : Fin n) (j : Fin l) :
-      Ideal.Quotient.mk I (pderiv k t (g j)) =
-        ∑ i, Ideal.Quotient.mk I (pderiv k t (f i)) * Ideal.Quotient.mk I (c j i) := by
+      Ideal.Quotient.mk I (pderiv (R := k) t (g j)) =
+        ∑ i, Ideal.Quotient.mk I (pderiv (R := k) t (f i)) * Ideal.Quotient.mk I (c j i) := by
     rw [← hc j, map_sum, map_sum]
     apply Finset.sum_congr rfl
     intro i hi
-    rw [(pderiv k t).leibniz]
+    rw [(pderiv (R := k) t).leibniz]
     simp only [smul_eq_mul, map_add, map_mul]
     rw [(Ideal.Quotient.eq_zero_iff_mem).2 (show f i ∈ I by
       rw [← hf]
@@ -230,7 +230,7 @@ noncomputable def powerSeriesCoordinateEquiv {n : ℕ}
     (main_theorem_one k n y hy).2
 
 /-- The Jacobian-minor ideal computed with respect to a regular system of parameters
-`y`. Differentiation with respect to `y i` is the conjugate of `pderiv k i` by the
+`y`. Differentiation with respect to `y i` is the conjugate of `pderiv (R := k) i` by the
 canonical coordinate automorphism carrying `X i` to `y i`. -/
 noncomputable def jacobianMinorIdealModuloInParameters {n : ℕ} {τ : Type w}
     (I : Ideal (MvPowerSeries (Fin n) k))
@@ -239,7 +239,7 @@ noncomputable def jacobianMinorIdealModuloInParameters {n : ℕ} {τ : Type w}
     (f : τ → MvPowerSeries (Fin n) k) (r : ℕ) :
     Ideal (MvPowerSeries (Fin n) k ⧸ I) :=
   let e := powerSeriesCoordinateEquiv y hy
-  (minorIdeal (fun i j ↦ e (pderiv k i (e.symm (f j)))) r).map (Ideal.Quotient.mk I)
+  (minorIdeal (fun i j ↦ e (pderiv (R := k) i (e.symm (f j)))) r).map (Ideal.Quotient.mk I)
 
 private theorem jacobianMinorIdealModuloInParameters_eq_quotientMatrix {n m : ℕ}
     (I : Ideal (MvPowerSeries (Fin n) k))
@@ -249,11 +249,11 @@ private theorem jacobianMinorIdealModuloInParameters_eq_quotientMatrix {n m : �
       minorIdeal (Matrix.of fun i j =>
         Ideal.Quotient.mk I
           ((powerSeriesCoordinateEquiv y hy)
-            (pderiv k i ((powerSeriesCoordinateEquiv y hy).symm (f j))))) r := by
+            (pderiv (R := k) i ((powerSeriesCoordinateEquiv y hy).symm (f j))))) r := by
   unfold jacobianMinorIdealModuloInParameters
   show (minorIdeal (Matrix.of fun i j =>
       (powerSeriesCoordinateEquiv y hy)
-        (pderiv k i ((powerSeriesCoordinateEquiv y hy).symm (f j)))) r).map
+        (pderiv (R := k) i ((powerSeriesCoordinateEquiv y hy).symm (f j)))) r).map
         (Ideal.Quotient.mk I) = _
   rw [minorIdeal_map_matrix]
   rfl
@@ -286,9 +286,9 @@ private theorem jacobianMinorIdealModuloInParameters_eq {n m : ℕ}
     apply e.injective
     rw [e.apply_symm_apply, he_subst_b]
   let E : Matrix (Fin n) (Fin n) R :=
-    Matrix.of fun i j => e (pderiv k i (b j))
+    Matrix.of fun i j => e (pderiv (R := k) i (b j))
   let J : Matrix (Fin n) (Fin n) R :=
-    Matrix.of fun i j => pderiv k i (y' j)
+    Matrix.of fun i j => pderiv (R := k) i (y' j)
   have hJE : J * E = 1 := by
     funext i
     funext j
@@ -300,24 +300,24 @@ private theorem jacobianMinorIdealModuloInParameters_eq {n m : ℕ}
       using h.symm
   have hdetE : IsUnit E.det := Matrix.isUnit_det_of_left_inverse hJE
   have hparameterMatrix (i : Fin n) (j : Fin m) :
-      e (pderiv k i (e.symm (g j))) =
-        ∑ l, E i l * pderiv k l (g j) := by
+      e (pderiv (R := k) i (e.symm (g j))) =
+        ∑ l, E i l * pderiv (R := k) l (g j) := by
     have h := pderiv_subst_chain (k := k) b hb i (g j)
     calc
-      e (pderiv k i (e.symm (g j))) = e (pderiv k i (subst b (g j))) := by rw [hsymm]
-      _ = e (∑ l, subst b (pderiv k l (g j)) * pderiv k i (b l)) :=
+      e (pderiv (R := k) i (e.symm (g j))) = e (pderiv (R := k) i (subst b (g j))) := by rw [hsymm]
+      _ = e (∑ l, subst b (pderiv (R := k) l (g j)) * pderiv (R := k) i (b l)) :=
         congrArg e h
-      _ = ∑ l, e (subst b (pderiv k l (g j))) * e (pderiv k i (b l)) := by
+      _ = ∑ l, e (subst b (pderiv (R := k) l (g j))) * e (pderiv (R := k) i (b l)) := by
         simp only [map_sum, map_mul]
-      _ = ∑ l, E i l * pderiv k l (g j) := by
+      _ = ∑ l, E i l * pderiv (R := k) l (g j) := by
         apply Finset.sum_congr rfl
         intro l hl
         rw [he_subst_b]
         simp [E, mul_comm]
   let A : Matrix (Fin n) (Fin m) Q :=
-    Matrix.of fun i j => Ideal.Quotient.mk I (pderiv k i (g j))
+    Matrix.of fun i j => Ideal.Quotient.mk I (pderiv (R := k) i (g j))
   let B : Matrix (Fin n) (Fin m) Q :=
-    Matrix.of fun i j => Ideal.Quotient.mk I (e (pderiv k i (e.symm (g j))))
+    Matrix.of fun i j => Ideal.Quotient.mk I (e (pderiv (R := k) i (e.symm (g j))))
   let C : Matrix (Fin n) (Fin n) Q := E.map (Ideal.Quotient.mk I)
   have hB : B = C * A := by
     ext i j

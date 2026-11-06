@@ -383,10 +383,10 @@ theorem isIso_to_isDerivedLimit_truncGETower
     refine Limits.Pi.hom_ext _ _ (fun n => ?_)
     have e1 : m2 ≫ Pi.π g n = Pi.π g n - Pi.π g (n + 1) ≫
         (@truncGETower (SheafOfModules.{wModule} O) _ _ h₂ (Φ.obj E)).map
-          (homOfLE (Nat.le_succ n)).op := Pi.lift_π _ n
+          (homOfLE (Nat.le_succ n)).op := Pi.lift_comp_π _ n
     have e2 : m1 ≫ Pi.π f n = Pi.π f n - Pi.π f (n + 1) ≫
         (@truncGETower (SheafOfModules.{wModule} O) _ _ hD E).map
-          (homOfLE (Nat.le_succ n)).op := Pi.lift_π _ n
+          (homOfLE (Nat.le_succ n)).op := Pi.lift_comp_π _ n
     rw [Category.assoc, Category.assoc, e1, hpIso n, Preadditive.comp_sub, hpIso n,
       ← Category.assoc, hpIso (n + 1), Category.assoc, hsq n, ← Φ.map_comp_assoc,
       ← Preadditive.sub_comp, ← Φ.map_sub, ← e2, Φ.map_comp_assoc]

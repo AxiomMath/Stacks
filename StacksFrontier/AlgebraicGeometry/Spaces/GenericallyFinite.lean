@@ -132,6 +132,24 @@ namespace Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_genericallyFinite :
+    CategoryTheory.Limits.HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) hasPullback_presheaf_genericallyFinite
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    CategoryTheory.Limits.HasLimit (CategoryTheory.Limits.cospan f g) :=
+  CategoryTheory.Limits.HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Discrete limits of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasDiscreteLimits_presheaf_genericallyFinite (J : Type) :
+    CategoryTheory.Limits.HasLimitsOfShape (CategoryTheory.Discrete J)
+      ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 section Charts
 
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

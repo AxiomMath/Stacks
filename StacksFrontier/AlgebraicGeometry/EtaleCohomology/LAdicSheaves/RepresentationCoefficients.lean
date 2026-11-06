@@ -210,7 +210,7 @@ the transport along `t` of the automorphism `σ` of the fibre functor given by p
 `a`. -/
 public theorem coefficientRepresentationSheafStalkLinearEquiv_stalkEnd {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a)
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a)
     (v : LAdicSheaf.stalk B X ℓ (coefficientRepresentationSheaf B X x b ρ hρ).toLAdicSheaf s) :
     coefficientRepresentationSheafStalkLinearEquiv B X x b ρ hρ t
         ((coefficientRepresentationSheaf B X x b ρ hρ).stalkEnd a v) =
@@ -222,7 +222,7 @@ public theorem coefficientRepresentationSheafStalkLinearEquiv_stalkEnd {s : Geom
 /-- Conjugated by the trivialisation of the stalk, the action of `a` is the matrix `ρ(g)`. -/
 public theorem conj_coefficientRepresentationSheaf_stalkEnd {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a) :
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a) :
     (coefficientRepresentationSheafStalkLinearEquiv B X x b ρ hρ t).conj
         ((coefficientRepresentationSheaf B X x b ρ hρ).stalkEnd a) =
       Matrix.toLin' (ρ (etaleFundamentalGroupMulEquiv t σ)).val := by
@@ -234,7 +234,7 @@ public theorem conj_coefficientRepresentationSheaf_stalkEnd {s : GeometricPoint 
 `tr ρ(g)`.** -/
 public theorem trace_coefficientRepresentationSheaf_stalkEnd {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a) :
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a) :
     LinearMap.trace O _ ((coefficientRepresentationSheaf B X x b ρ hρ).stalkEnd a) =
       (ρ (etaleFundamentalGroupMulEquiv t σ)).val.trace := by
   rw [← LinearMap.trace_conj' _ (coefficientRepresentationSheafStalkLinearEquiv B X x b ρ hρ t),
@@ -281,7 +281,7 @@ variable (χ : EtaleFundamentalGroup X.1 x →* Oˣ)
 stalk of the sheaf of `characterTwist ρ χ` with `O`-trace `χ(g) tr ρ(g)`. -/
 public theorem trace_characterTwist_stalkEnd {s : GeometricPoint X.1}
     (t : finiteEtaleFiberFunctor s ≅ finiteEtaleFiberFunctor x) (a : GeometricPoint.Hom s s)
-    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.hom = finiteEtaleFiberMap a) :
+    (σ : EtaleFundamentalGroup X.1 s) (hσ : σ.asIso.hom = finiteEtaleFiberMap a) :
     LinearMap.trace O _
         ((coefficientRepresentationSheaf B X x b (characterTwist ρ χ) hρχ).stalkEnd a) =
       (χ (etaleFundamentalGroupMulEquiv t σ) : O) *

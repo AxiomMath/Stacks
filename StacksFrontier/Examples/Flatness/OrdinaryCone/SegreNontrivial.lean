@@ -72,7 +72,7 @@ theorem MvPolynomial.exists_eq_sq_sub_of_mul_sq_eq {F σ : Type*} [Field F] [Fin
     rw [← hγ, totalDegree_C] at h3
     omega
   have hPc := totalDegree_eq_zero_iff_eq_C.1 hdeg
-  exact ⟨coeff 0 P, C_injective σ F (by rw [hγ, map_sub, map_pow, ← hPc])⟩
+  exact ⟨P.coeff 0, C_injective σ F (by rw [hγ, map_sub, map_pow, ← hPc])⟩
 
 namespace Stacks.Examples.OrdinaryCone
 
@@ -80,9 +80,9 @@ variable (k : Type*) [Field k]
 
 /-- The `k`-subspace of `G[s, t]` of the polynomials all of whose coefficients have degree `d`. -/
 private noncomputable def coeffComponent (d : ℕ) : Submodule k (MvPolynomial (Fin 2) (Cone k)) where
-  carrier := {A | ∀ m, coeff m A ∈ Cone.component k d}
-  add_mem' ha hb m := by rw [coeff_add]; exact add_mem (ha m) (hb m)
-  zero_mem' m := by rw [coeff_zero]; exact zero_mem _
+  carrier := {A | ∀ m, A.coeff m ∈ Cone.component k d}
+  add_mem' ha hb m := by rw [AddMonoidAlgebra.coeff_add, Finsupp.add_apply]; exact add_mem (ha m) (hb m)
+  zero_mem' m := by rw [AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]; exact zero_mem _
   smul_mem' c A hA m := by rw [coeff_smul]; exact Submodule.smul_mem _ c (hA m)
 
 /-- The coefficients of an element of `G_d ⊗ k[s, t]_d` lie in `G_d`. -/
@@ -173,8 +173,8 @@ theorem sq_zs_div_sq_xs_ne_sq_sub_self [CharP k 2] {d : ℕ} {α β : segre k}
     apply hβ0
     apply Subtype.ext
     ext m
-    have hm := congrArg (coeff m) h0
-    rw [coeff_map, coeff_zero] at hm
+    have hm := congrArg (fun p => p.coeff m) h0
+    rw [coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at hm
     exact Cone.dehomogenize_injOn k (segreComponent_le_coeffComponent k d hβ m) hm
   obtain ⟨u, hu⟩ := MvPolynomial.exists_eq_sq_sub_of_mul_sq_eq (γ := CurveField.v k ^ 2) hB0
     (by rw [map_pow]; exact hL)

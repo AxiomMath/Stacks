@@ -87,12 +87,14 @@ def coindSum (M : Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G) :
     (coind.{u, v, w} R V).obj M ⟶ M :=
   (Stacks.GroupCohomology.homEquiv R G ((coind.{u, v, w} R V).obj M) M).symm
     ⟨coindSumLinearMap R V M.obj.obj.V, fun g f ↦ by
-      change coindSumLinearMap R V M.obj.obj.V (fun x ↦ (M.obj.obj.ρ g).hom (f (g⁻¹ • x))) =
-        (M.obj.obj.ρ g).hom (coindSumLinearMap R V M.obj.obj.V f)
+      change coindSumLinearMap R V M.obj.obj.V (fun x ↦ (M.obj.obj.ρ g).asHom.hom (f (g⁻¹ • x))) =
+        (M.obj.obj.ρ g).asHom.hom (coindSumLinearMap R V M.obj.obj.V f)
       exact (coindSumLinearMap_apply R V _ _).trans
-        ((finsum_comp_equiv (MulAction.toPerm g⁻¹) (f := fun x ↦ (M.obj.obj.ρ g).hom (f x))).trans
-          ((map_finsum (M.obj.obj.ρ g).hom (Set.toFinite _)).symm.trans
-            (congrArg (fun y ↦ (M.obj.obj.ρ g).hom y) (coindSumLinearMap_apply R V _ f).symm)))⟩
+        ((finsum_comp_equiv (MulAction.toPerm g⁻¹)
+          (f := fun x ↦ (M.obj.obj.ρ g).asHom.hom (f x))).trans
+          ((map_finsum (M.obj.obj.ρ g).asHom.hom (Set.toFinite _)).symm.trans
+            (congrArg (fun y ↦ (M.obj.obj.ρ g).asHom.hom y)
+              (coindSumLinearMap_apply R V _ f).symm)))⟩
 
 /-- The sum map `coindSum R V M` sends `f : G ⧸ V → M` to `∑ᶠ x, f x`. -/
 lemma coindSum_apply (M : Stacks.Injectives.ContinuousModule.{u, v, max u v w} R G)

@@ -46,7 +46,7 @@ extension of scalars along the morphism of presheaves of rings induced by `α`, 
   the `R`-algebra structure on `O(U)` and the `R`-module structure on the sections of a
   presheaf of `O`-modules that `coefficientMap` defines.
 * `Stacks.TensorByBaseModule.ringSheaf`: `O` read as a sheaf of not necessarily commutative
-  rings, spelled so that its underlying presheaf is `ringPresheaf O.val` on the nose.
+  rings, spelled so that its underlying presheaf is `ringPresheaf O.obj` on the nose.
 * `Stacks.TensorByBaseModule.tensorByBaseModulePresheaf`: the presheaf-level functor
   `M ↦ 𝓕 ⊗_R M`, the composite of the first three factors.
 * `Stacks.TensorByBaseModule.tensorByBaseModule`: the functor `M ↦ 𝓕 ⊗_R M` with values in
@@ -82,7 +82,7 @@ cannot be kept apart here.
 
 The sheaf of rings indexing the target is `ringSheaf`, which re-spells
 `AlgebraicGeometry.SheafOfModules.underlyingRingSheafOfSite` (reusing its sheaf condition, so
-there is one proof) with `ringPresheaf O.val` as its underlying presheaf *syntactically*.  Both
+there is one proof) with `ringPresheaf O.obj` as its underlying presheaf *syntactically*.  Both
 halves of that matter.  Without it the module instances at each object do not synthesize,
 because the underlying ring of `(sheafCompose J _).obj O` at an object is reachable only by
 unfolding `sheafCompose`; and `PresheafOfModules.sheafification` is applied to the identity of
@@ -295,33 +295,33 @@ variable (J : GrothendieckTopology C)
   [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] (O : Sheaf J CommRingCat.{w})
 
 /-- A sheaf of commutative rings read as a sheaf of not necessarily commutative rings, in the
-spelling whose underlying presheaf is `ringPresheaf O.val` on the nose.  The sheaf condition is
+spelling whose underlying presheaf is `ringPresheaf O.obj` on the nose.  The sheaf condition is
 that of `Stacks.SheafOfModules.Tensor.ringSheaf O`, of which this is a
 re-spelling and not a second object. -/
 abbrev ringSheaf : Sheaf J RingCat.{w} :=
-  ⟨ringPresheaf O.val, (Stacks.SheafOfModules.Tensor.ringSheaf O).property⟩
+  ⟨ringPresheaf O.obj, (Stacks.SheafOfModules.Tensor.ringSheaf O).property⟩
 
 /-- **Tensoring `𝓕` by a module over the base ring, at the level of presheaves**: the composite
 of the constant presheaf of modules, extension of scalars along `coefficientMap α`, and the
 sectionwise tensor product with `𝓕`.  Over an object `U` it is
 `M ↦ 𝓕(U) ⊗_{O(U)} (O(U) ⊗_R M)`; see `tensorByBaseModulePresheaf_obj_obj`. -/
 def tensorByBaseModulePresheaf (𝓕 : SheafOfModules.{w} (ringSheaf J O))
-    (α : R →+* O.val.obj (op U₀)) :
-    ModuleCat.{w} R ⥤ PMod O.val :=
+    (α : R →+* O.obj.obj (op U₀)) :
+    ModuleCat.{w} R ⥤ PMod O.obj :=
   constantModulePresheaf (C := C) R ⋙
-    changeOfRings (coefficientMap R hU₀ (O := O.val) α) ⋙ tensorLeft 𝓕.val
+    changeOfRings (coefficientMap R hU₀ (O := O.obj) α) ⋙ tensorLeft 𝓕.val
 
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
 
 /-- Sheafification of presheaves of `O`-modules, which is `PresheafOfModules.sheafification`
-applied to the identity of `ringPresheaf O.val`. -/
-def sheafify : PMod O.val ⥤ SheafOfModules.{w} (ringSheaf J O) :=
+applied to the identity of `ringPresheaf O.obj`. -/
+def sheafify : PMod O.obj ⥤ SheafOfModules.{w} (ringSheaf J O) :=
   PresheafOfModules.sheafification (𝟙 (ringSheaf J O).obj)
 
 /-- **Tensoring `𝓕` by a module over the base ring.**  This is the functor `M ↦ 𝓕 ⊗_R M` of
 the second part of [Stacks Project, Tag 073K]: the presheaf-level tensor product, sheafified. -/
 def tensorByBaseModule (𝓕 : SheafOfModules.{w} (ringSheaf J O))
-    (α : R →+* O.val.obj (op U₀)) :
+    (α : R →+* O.obj.obj (op U₀)) :
     ModuleCat.{w} R ⥤ SheafOfModules.{w} (ringSheaf J O) :=
   tensorByBaseModulePresheaf R hU₀ J O 𝓕 α ⋙ sheafify J O
 
@@ -333,8 +333,9 @@ instance constantModulePresheaf_additive :
 
 /-- Tensoring presheaves of modules on the left by a fixed one is additive, because it is so
 sectionwise. -/
-instance tensorLeft_additive (F : PMod O.val) : (tensorLeft F).Additive where
+instance tensorLeft_additive (F : PMod O.obj) : (tensorLeft F).Additive where
   map_add {_ _ f g} := PresheafOfModules.hom_ext fun X =>
+    letI : CommRing ((ringPresheaf O.obj).obj X) := inferInstanceAs (CommRing (O.obj.obj X))
     MonoidalPreadditive.whiskerLeft_add (X := F.obj X) (f.app X) (g.app X)
 
 /-- Sheafification of presheaves of modules is additive, being left adjoint to the forgetful
@@ -345,7 +346,7 @@ instance sheafify_additive : (sheafify J O).Additive :=
     { map_add := PresheafOfModules.hom_ext fun _ => rfl }
   (PresheafOfModules.sheafificationAdjunction (𝟙 (ringSheaf J O).obj)).left_adjoint_additive
 
-variable (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (α : R →+* O.val.obj (op U₀))
+variable (𝓕 : SheafOfModules.{w} (ringSheaf J O)) (α : R →+* O.obj.obj (op U₀))
 
 /-- The presheaf-level tensor functor is additive, each of its three factors being so. -/
 instance tensorByBaseModulePresheaf_additive :
@@ -393,7 +394,7 @@ factor of the composite.  This holds by construction. -/
 theorem tensorByBaseModulePresheaf_obj_obj (M : ModuleCat.{w} R) (X : Cᵒᵖ) :
     letI := coefficientAlgebra R hU₀ α X
     ((tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).obj M).obj X
-      = ModuleCat.of (O.val.obj X) (𝓕.val.obj X ⊗[O.val.obj X] (O.val.obj X ⊗[R] M)) :=
+      = ModuleCat.of (O.obj.obj X) (𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M)) :=
   rfl
 
 /-- **The sections of the presheaf-level tensor product, in closed form**: over an object `U`
@@ -404,12 +405,12 @@ def sectionsEquiv (M : ModuleCat.{w} R) (X : Cᵒᵖ) :
     letI := coefficientAlgebra R hU₀ α X
     letI := sectionsModule R hU₀ α 𝓕.val X
     letI := isScalarTower_coefficient R hU₀ α 𝓕.val X
-    ((tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).obj M).obj X ≃ₗ[O.val.obj X]
+    ((tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).obj M).obj X ≃ₗ[O.obj.obj X]
       (𝓕.val.obj X ⊗[R] M) :=
   let := coefficientAlgebra R hU₀ α X
   let := sectionsModule R hU₀ α 𝓕.val X
   let := isScalarTower_coefficient R hU₀ α 𝓕.val X
-  TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.val.obj X) (O.val.obj X)
+  TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.obj.obj X) (O.obj.obj X)
     (𝓕.val.obj X) M
 
 /-- The constant presheaf of modules sends the free module of rank one to the unit of the
@@ -424,8 +425,8 @@ def constantModuleUnitIso :
 /-- Extension of scalars sends the unit to the unit: `O(U) ⊗_R R ≅ O(U)`.  This is the
 base-change unitor of `Stacks.PresheafOfModules.ChangeOfRings`, applied to the change-of-rings
 adjunction. -/
-def changeOfRingsUnitIso (θ : constantRingPresheaf (C := C) R ⟶ O.val) :
-    (changeOfRings θ).obj (𝟙_ (PMod (constantRingPresheaf (C := C) R))) ≅ 𝟙_ (PMod O.val) :=
+def changeOfRingsUnitIso (θ : constantRingPresheaf (C := C) R ⟶ O.obj) :
+    (changeOfRings θ).obj (𝟙_ (PMod (constantRingPresheaf (C := C) R))) ≅ 𝟙_ (PMod O.obj) :=
   baseChangeUnitor _ (changeOfRingsAdjunction θ)
 
 /-- **The presheaf-level tensor product with the free module of rank one is `𝓕`.**  The three
@@ -434,8 +435,8 @@ unitor. -/
 def tensorByBaseModulePresheafUnitIso :
     (tensorByBaseModulePresheaf R hU₀ J O 𝓕 α).obj (ModuleCat.of R R) ≅ 𝓕.val :=
   (tensorLeft 𝓕.val).mapIso
-      ((changeOfRings (coefficientMap R hU₀ (O := O.val) α)).mapIso (constantModuleUnitIso R) ≪≫
-        changeOfRingsUnitIso R J O (coefficientMap R hU₀ (O := O.val) α)) ≪≫
+      ((changeOfRings (coefficientMap R hU₀ (O := O.obj) α)).mapIso (constantModuleUnitIso R) ≪≫
+        changeOfRingsUnitIso R J O (coefficientMap R hU₀ (O := O.obj) α)) ≪≫
     ρ_ 𝓕.val
 
 /-- **`𝓕 ⊗_R R ≅ 𝓕`.**  The value of `tensorByBaseModule` at the free module of rank one is
@@ -471,31 +472,31 @@ variable (J : GrothendieckTopology C)
 `θ : constantRingPresheaf R ⟶ O`, with `R` as its source type rather than the sections of
 `constantRingPresheaf R` over `U`.  The two are definitionally equal; only this spelling lets
 instance search find `Algebra R (O(U))`. -/
-def coefficientRingHomOfHom (θ : constantRingPresheaf (C := C) R ⟶ O.val) (X : Cᵒᵖ) :
-    R →+* O.val.obj X :=
+def coefficientRingHomOfHom (θ : constantRingPresheaf (C := C) R ⟶ O.obj) (X : Cᵒᵖ) :
+    R →+* O.obj.obj X :=
   (θ.app X).hom
 
 /-- The sections of `O` over `U` as an `R`-algebra, via `θ`. -/
 @[instance_reducible]
-def coefficientAlgebraOfHom (θ : constantRingPresheaf (C := C) R ⟶ O.val) (X : Cᵒᵖ) :
-    Algebra R (O.val.obj X) :=
+def coefficientAlgebraOfHom (θ : constantRingPresheaf (C := C) R ⟶ O.obj) (X : Cᵒᵖ) :
+    Algebra R (O.obj.obj X) :=
   (coefficientRingHomOfHom R J O θ X).toAlgebra
 
 /-- The sections of a presheaf of `O`-modules over `U` as an `R`-module, by restriction of
 scalars along `θ`. -/
 @[instance_reducible]
-def sectionsModuleOfHom (θ : constantRingPresheaf (C := C) R ⟶ O.val) (F : PMod O.val)
+def sectionsModuleOfHom (θ : constantRingPresheaf (C := C) R ⟶ O.obj) (F : PMod O.obj)
     (X : Cᵒᵖ) : Module R (F.obj X) :=
   Module.compHom (F.obj X) (coefficientRingHomOfHom R J O θ X)
 
 omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})] in
 /-- The scalar actions of `R` and of `O(U)` on the sections of a presheaf of `O`-modules over
 `U` form a tower. -/
-theorem isScalarTowerOfHom (θ : constantRingPresheaf (C := C) R ⟶ O.val) (F : PMod O.val)
+theorem isScalarTowerOfHom (θ : constantRingPresheaf (C := C) R ⟶ O.obj) (F : PMod O.obj)
     (X : Cᵒᵖ) :
     letI := coefficientAlgebraOfHom R J O θ X
     letI := sectionsModuleOfHom R J O θ F X
-    IsScalarTower R (O.val.obj X) (F.obj X) :=
+    IsScalarTower R (O.obj.obj X) (F.obj X) :=
   let := coefficientAlgebraOfHom R J O θ X
   let := sectionsModuleOfHom R J O θ F X
   IsScalarTower.of_algebraMap_smul fun _ _ => rfl
@@ -503,8 +504,8 @@ theorem isScalarTowerOfHom (θ : constantRingPresheaf (C := C) R ⟶ O.val) (F :
 /-- **Tensoring `𝓕` by a module over the base ring, at the level of presheaves**, from a
 morphism of presheaves of rings.  Over an object `U` it is `M ↦ 𝓕(U) ⊗_{O(U)} (O(U) ⊗_R M)`. -/
 def tensorByBaseModulePresheafOfHom (𝓕 : SheafOfModules.{w} (ringSheaf J O))
-    (θ : constantRingPresheaf (C := C) R ⟶ O.val) :
-    ModuleCat.{w} R ⥤ PMod O.val :=
+    (θ : constantRingPresheaf (C := C) R ⟶ O.obj) :
+    ModuleCat.{w} R ⥤ PMod O.obj :=
   constantModulePresheaf (C := C) R ⋙ changeOfRings θ ⋙ tensorLeft 𝓕.val
 
 variable [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCommGrpCat.{w}]
@@ -512,12 +513,12 @@ variable [J.WEqualsLocallyBijective AddCommGrpCat.{w}] [HasWeakSheafify J AddCom
 /-- **Tensoring `𝓕` by a module over the base ring**, from a morphism of presheaves of rings:
 the presheaf-level tensor product, sheafified. -/
 def tensorByBaseModuleOfHom (𝓕 : SheafOfModules.{w} (ringSheaf J O))
-    (θ : constantRingPresheaf (C := C) R ⟶ O.val) :
+    (θ : constantRingPresheaf (C := C) R ⟶ O.obj) :
     ModuleCat.{w} R ⥤ SheafOfModules.{w} (ringSheaf J O) :=
   tensorByBaseModulePresheafOfHom R J O 𝓕 θ ⋙ sheafify J O
 
 variable (𝓕 : SheafOfModules.{w} (ringSheaf J O))
-  (θ : constantRingPresheaf (C := C) R ⟶ O.val)
+  (θ : constantRingPresheaf (C := C) R ⟶ O.obj)
 
 /-- The presheaf-level tensor functor is additive, each of its three factors being so. -/
 instance tensorByBaseModulePresheafOfHom_additive :
@@ -562,7 +563,7 @@ omit [J.HasSheafCompose (forget₂ CommRingCat.{w} RingCat.{w})]
 theorem tensorByBaseModulePresheafOfHom_obj_obj (M : ModuleCat.{w} R) (X : Cᵒᵖ) :
     letI := coefficientAlgebraOfHom R J O θ X
     ((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).obj M).obj X
-      = ModuleCat.of (O.val.obj X) (𝓕.val.obj X ⊗[O.val.obj X] (O.val.obj X ⊗[R] M)) :=
+      = ModuleCat.of (O.obj.obj X) (𝓕.val.obj X ⊗[O.obj.obj X] (O.obj.obj X ⊗[R] M)) :=
   rfl
 
 /-- **The sections of the presheaf-level tensor product, in closed form**: over an object `U`
@@ -571,12 +572,12 @@ def sectionsEquivOfHom (M : ModuleCat.{w} R) (X : Cᵒᵖ) :
     letI := coefficientAlgebraOfHom R J O θ X
     letI := sectionsModuleOfHom R J O θ 𝓕.val X
     letI := isScalarTowerOfHom R J O θ 𝓕.val X
-    ((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).obj M).obj X ≃ₗ[O.val.obj X]
+    ((tensorByBaseModulePresheafOfHom R J O 𝓕 θ).obj M).obj X ≃ₗ[O.obj.obj X]
       (𝓕.val.obj X ⊗[R] M) :=
   let := coefficientAlgebraOfHom R J O θ X
   let := sectionsModuleOfHom R J O θ 𝓕.val X
   let := isScalarTowerOfHom R J O θ 𝓕.val X
-  TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.val.obj X) (O.val.obj X)
+  TensorProduct.AlgebraTensorModule.cancelBaseChange R (O.obj.obj X) (O.obj.obj X)
     (𝓕.val.obj X) M
 
 /-- **The presheaf-level tensor product with the free module of rank one is `𝓕`.** -/

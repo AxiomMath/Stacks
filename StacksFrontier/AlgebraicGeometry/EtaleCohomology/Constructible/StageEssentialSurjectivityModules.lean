@@ -68,16 +68,22 @@ attribute [local instance] Abelian.hasFiniteBiproducts
 
 variable (Λ : Type (u + 1)) [CommRing Λ]
 
+/-- `etaleModules_hasSheafify` at the universes of this file, stated out so that instance search
+does not have to solve `u + 1 = max (u + 1) ?v`. -/
+local instance (priority := high) hasSheafify_stageEssentialSurjectivityModules (X : Scheme.{u}) :
+    HasSheafify X.smallEtaleTopology (ModuleCat.{u + 1} Λ) :=
+  etaleModules_hasSheafify.{u, u + 1} Λ X
+
 /-- The free module sheaf on the sheafified representable of an étale scheme `e : W ⟶ X` is the
 extension by zero along `e` of the constant sheaf `Λ̲`. -/
 def freeModuleSheafIsoExtensionByZero {X W : Scheme.{u}} (e : W ⟶ X) [Etale e] :
-    (Sheaf.freeModuleSheaf X.smallEtaleTopology Λ).obj (Etale.mk e) ≅
+    (Sheaf.freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).obj (Etale.mk e) ≅
       (etaleModuleExtensionByZero.{u, u + 1} Λ e).obj
         ((constantSheaf W.smallEtaleTopology (ModuleCat.{u + 1} Λ)).obj (ModuleCat.of Λ Λ)) := by
   have : MorphismProperty.ContainsIdentities (@Etale : MorphismProperty Scheme.{u}) :=
     ⟨fun _ => inferInstance⟩
   have hT : IsTerminal (Etale.mk (𝟙 W)) := MorphismProperty.Over.mkIdTerminal _ _
-  refine (Sheaf.freeModuleSheaf X.smallEtaleTopology Λ).mapIso
+  refine (Sheaf.freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).mapIso
     (MorphismProperty.Over.isoMk (Iso.refl _) (by simp)) ≪≫
     (Sheaf.sheafPullbackConstantSheafIsoComposeAndSheafifyFree (Scheme.Etale.smallEtaleCompose e)
       W.smallEtaleTopology X.smallEtaleTopology Λ hT).symm ≪≫
@@ -90,7 +96,7 @@ variable [IsNoetherianRing Λ]
 modules), on a quasi-compact and quasi-separated scheme. -/
 theorem isConstructibleEtaleModule_freeModuleSheaf {X : Scheme.{u}} [CompactSpace X]
     [QuasiSeparatedSpace X] (W : X.Etale) [IsAffine W.left] :
-    IsConstructibleEtaleModule Λ ((Sheaf.freeModuleSheaf X.smallEtaleTopology Λ).obj W) := by
+    IsConstructibleEtaleModule Λ ((Sheaf.freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).obj W) := by
   let e : W.left ⟶ X := W.hom
   have : Etale e := W.prop
   exact (IsConstructibleEtaleModule Λ).prop_of_iso (freeModuleSheafIsoExtensionByZero Λ e).symm
@@ -102,7 +108,7 @@ private theorem isConstructibleEtaleModule_biproduct_freeModuleSheaf {X : Scheme
     [CompactSpace X] [QuasiSeparatedSpace X] {T : Type} [Finite T] (Z : T → X.Etale)
     (hZ : ∀ t, IsAffine (Z t).left) :
     IsConstructibleEtaleModule Λ (⨁ fun t ↦
-      ((Sheaf.freeModuleSheaf X.smallEtaleTopology Λ).obj (Z t) :
+      ((Sheaf.freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).obj (Z t) :
         EtaleModules.{u, u + 1} Λ X)) :=
   (IsConstructibleEtaleModule Λ).prop_of_isLimit_fan (biproduct.isLimit _) fun t ↦ by
     have := hZ t
@@ -115,12 +121,12 @@ theorem exists_epi_biproduct_freeModuleSheaf {X : Scheme.{u}} [CompactSpace X]
     [QuasiSeparatedSpace X] (F : EtaleModules.{u, u + 1} Λ X)
     (hF : IsConstructibleEtaleModule Λ F) :
     ∃ (n : ℕ) (W : Fin n → X.Etale) (_ : ∀ i, IsAffine (W i).left)
-      (p : (⨁ fun i ↦ ((Sheaf.freeModuleSheaf X.smallEtaleTopology Λ).obj (W i) :
+      (p : (⨁ fun i ↦ ((Sheaf.freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).obj (W i) :
         EtaleModules.{u, u + 1} Λ X)) ⟶ F), Epi p := by
   obtain ⟨n, W, e, he, hW, p, hp⟩ :=
     exists_epi_sigma_etaleModuleExtensionByZero_of_isConstructibleEtaleModule Λ F hF
   exact ⟨n, fun i ↦ Etale.mk (e i), hW, (biproduct.isoCoproduct (C := EtaleModules.{u, u + 1} Λ X)
-    fun i ↦ (Sheaf.freeModuleSheaf X.smallEtaleTopology Λ).obj (Etale.mk (e i))).hom ≫
+    fun i ↦ (Sheaf.freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).obj (Etale.mk (e i))).hom ≫
     (Sigma.mapIso fun i ↦ freeModuleSheafIsoExtensionByZero Λ (e i)).hom ≫ p,
     epi_comp' inferInstance (epi_comp' inferInstance hp)⟩
 
@@ -137,13 +143,13 @@ private theorem epi_biproduct_desc_freeModuleSheaf_map {X : Scheme.{u}} {ι : Ty
     (g : ∀ x, W x ⟶ V x.1)
     (hg : ∀ b, Sieve.ofArrows (fun l : κ b ↦ W ⟨b, l⟩) (fun l ↦ g ⟨b, l⟩) ∈
       X.smallEtaleTopology (V b)) :
-    Epi (biproduct.desc fun x ↦ (freeModuleSheaf X.smallEtaleTopology Λ).map (g x) ≫
-      biproduct.ι (fun b ↦ ((freeModuleSheaf X.smallEtaleTopology Λ).obj (V b) :
+    Epi (biproduct.desc fun x ↦ (freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).map (g x) ≫
+      biproduct.ι (fun b ↦ ((freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).obj (V b) :
         EtaleModules.{u, u + 1} Λ X)) x.1) := by
   refine ⟨fun {G} h₁ h₂ hh ↦ biproduct.hom_ext' _ _ fun b ↦ ?_⟩
   have := epi_sigmaDesc_freeModuleSheaf_map X.smallEtaleTopology Λ _ (hg b)
   rw [← cancel_epi (Limits.Sigma.desc fun l : κ b ↦
-    (freeModuleSheaf X.smallEtaleTopology Λ).map (g ⟨b, l⟩))]
+    (freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ).map (g ⟨b, l⟩))]
   refine Limits.Sigma.hom_ext _ _ fun l ↦ ?_
   rw [Limits.Sigma.ι_desc_assoc, Limits.Sigma.ι_desc_assoc]
   simpa only [biproduct.ι_desc_assoc, Category.assoc] using
@@ -170,7 +176,7 @@ theorem exists_iso_cokernel_elementaryMatrix {X : Scheme.{u}} [CompactSpace X]
       (φ : ∀ s a, Fin (N s a) → (V s ⟶ U a)) (c : ∀ s a, Fin (N s a) → Λ),
       Nonempty (cokernel (elementaryMatrix X.smallEtaleTopology Λ V U φ c) ≅ F) := by
   classical
-  let P := freeModuleSheaf X.smallEtaleTopology Λ
+  let P := freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ
   obtain ⟨n, U, hU, p, hp⟩ := exists_epi_biproduct_freeModuleSheaf Λ F hF
   have hK := (IsConstructibleEtaleModule Λ).prop_kernel p
     (isConstructibleEtaleModule_biproduct_freeModuleSheaf Λ U hU) hF
@@ -325,8 +331,8 @@ private theorem nonempty_etaleModuleInverseImage_cokernel_elementaryMatrix_iso {
     (fun s ↦ (σ s).hom) (fun a ↦ (τ a).hom)
     (fun s a k ↦ (smallEtaleBaseChange f).map (φ₀ s a k)) φ cf hστ
   let M₀ := Sheaf.elementaryMatrix Y.smallEtaleTopology Λ V₀ U₀ φ₀ cf
-  let P₀ := Sheaf.freeModuleSheaf Y.smallEtaleTopology Λ
-  let P := Sheaf.freeModuleSheaf X.smallEtaleTopology Λ
+  let P₀ := Sheaf.freeModuleSheaf.{u, u + 1} Y.smallEtaleTopology Λ
+  let P := Sheaf.freeModuleSheaf.{u, u + 1} X.smallEtaleTopology Λ
   let M := Sheaf.elementaryMatrix X.smallEtaleTopology Λ V U φ cf
   let M' := Sheaf.elementaryMatrix X.smallEtaleTopology Λ
     (fun s ↦ (smallEtaleBaseChange f).obj (V₀ s)) (fun a ↦ (smallEtaleBaseChange f).obj (U₀ a))

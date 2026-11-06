@@ -177,12 +177,12 @@ theorem restrictPoint_comp_left {V T S : Scheme.{u}} (ρ : V ⟶ T) (φ : T ⟶ 
     (w : ρ ≫ φ = ψ) (B : AlgebraSheaf S) (a : 𝟙_ (ModuleSheaf T) ⟶ 𝟙_ (ModuleSheaf T))
     (x : 𝟙_ (ModuleSheaf T) ⟶ ((algebraPullback φ).obj B).X) :
     AlgebraicGeometry.restrictPoint ρ φ ψ w (a ≫ x)
-      = unitEndPullbackHom ρ a ≫ AlgebraicGeometry.restrictPoint ρ φ ψ w x := by
+      = (unitEndPullbackHom ρ (End.of a)).asHom ≫ AlgebraicGeometry.restrictPoint ρ φ ψ w x := by
   refine Eq.trans (restrictPoint_eq_mapPoint ρ φ ψ w B _) ?_
   refine Eq.trans (congrArg (fun z => z ≫ (algebraRestrictIso ρ φ ψ w B).hom.hom)
     (Mon.mapPoint_unit_comp (modulePullback ρ) a x)) ?_
   refine Eq.trans (Category.assoc _ _ _) ?_
-  exact congrArg (fun z => unitEndPullbackHom ρ a ≫ z)
+  exact congrArg (fun z => (unitEndPullbackHom ρ (End.of a)).asHom ≫ z)
     (restrictPoint_eq_mapPoint ρ φ ψ w B x).symm
 
 /-- **The trivialisation of `ψ^* B` obtained by restricting a trivialisation of `φ^* B`** along a
@@ -309,13 +309,13 @@ theorem saltmanPoint_eq_sum {V S : Scheme.{u}} (ψ : V ⟶ S) {B : AlgebraSheaf 
     saltmanPoint ψ N
       = ∑ k : ULift.{u, 0} (Fin (n + 1) → Fin (n + 1)) ×
             ULift.{u, 0} (Fin (n + 1) → Fin (n + 1)),
-          Matrix.altProj (R₀ V) k.1.down k.2.down ≫
+          (Matrix.altProj (R₀ V) k.1.down k.2.down).asHom ≫
             pullbackNatTensorPowPoint ψ B (n + 1) (fun j => matIncl (S := V)
               (ULift.up.{u, 0} (k.1.down j), ULift.up.{u, 0} (k.2.down j)) ≫ N.inv.hom) := by
   rw [saltmanPoint_eq_comp, curry'_altProjFree_comp_natTensorPowTrivIso_inv_eq_sum N]
   refine Eq.trans (Preadditive.sum_comp _ _ _) (Finset.sum_congr rfl fun k _ => ?_)
   refine Eq.trans (Category.assoc _ _ _) ?_
-  exact congrArg (fun z => Matrix.altProj (R₀ V) k.1.down k.2.down ≫ z)
+  exact congrArg (fun z => (Matrix.altProj (R₀ V) k.1.down k.2.down).asHom ≫ z)
     (pullbackNatTensorPowPoint_eq ψ B (n + 1) _).symm
 
 /-! ### Restriction carries Saltman's point to Saltman's point -/
@@ -337,13 +337,14 @@ theorem restrictPoint_saltmanPoint {V T S : Scheme.{u}} (ρ : V ⟶ T) (φ : T �
       k.1.down) k.2.down
   refine Eq.trans (restrictPoint_comp_left ρ φ ψ w
     (Stacks.TensorPowers.natTensorPow B (n + 1))
-    (Matrix.altProj (R₀ T) k.1.down k.2.down)
+    (Matrix.altProj (R₀ T) k.1.down k.2.down).asHom
     (pullbackNatTensorPowPoint φ B (n + 1) (fun j => matIncl (S := T)
       (ULift.up.{u, 0} (k.1.down j), ULift.up.{u, 0} (k.2.down j)) ≫ M.inv.hom))) ?_
   refine Eq.trans (congrArg (fun z => z ≫ AlgebraicGeometry.restrictPoint ρ φ ψ w
     (pullbackNatTensorPowPoint φ B (n + 1) (fun j => matIncl (S := T)
-      (ULift.up.{u, 0} (k.1.down j), ULift.up.{u, 0} (k.2.down j)) ≫ M.inv.hom))) hcoef) ?_
-  refine congrArg (fun z => Matrix.altProj (R₀ V) k.1.down k.2.down ≫ z) ?_
+      (ULift.up.{u, 0} (k.1.down j), ULift.up.{u, 0} (k.2.down j)) ≫ M.inv.hom)))
+    (congrArg End.asHom hcoef)) ?_
+  refine congrArg (fun z => (Matrix.altProj (R₀ V) k.1.down k.2.down).asHom ≫ z) ?_
   refine Eq.trans (restrictPoint_pullbackNatTensorPowPoint ρ φ ψ w B (n + 1) _) ?_
   exact congrArg (pullbackNatTensorPowPoint ψ B (n + 1))
     (funext fun j => restrictPoint_matIncl_comp ρ φ ψ w M _)

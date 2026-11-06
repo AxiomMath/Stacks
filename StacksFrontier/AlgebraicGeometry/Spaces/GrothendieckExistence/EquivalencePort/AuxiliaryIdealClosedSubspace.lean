@@ -68,7 +68,7 @@ theorem C1573.isPowAnnihilated_iff_isIso_projection (k : ℕ) (M : Modules.{u, u
   refine ⟨fun h => isIso_π_idealPowerMultiple_of_eq_bot B S hS F hF 𝓘 k M
     ((idealPowerMultiple_eq_bot_iff B S hS F hF 𝓘 k M).2 h), fun h => ?_⟩
   have hι : (idealPowerSubsheaf B S hS F hF 𝓘 k M).ι = 0 :=
-    (cancel_mono (smallEtaleAdicQuotientProjection B S hS F hF 𝓘 k M)).1
+    (@IsIso.mono_of_iso _ _ _ _ _ h).right_cancellation _ _
       ((cokernel.condition _).trans zero_comp.symm)
   exact (idealPowerMultiple_eq_bot_iff B S hS F hF 𝓘 k M).1
     ((submodule_ι_eq_zero_iff B S hS F hF _).1 hι)
@@ -255,9 +255,10 @@ theorem C1573.map_transition_pushforwardBaseQuotientIso_hom
         ((modulePushforward B (Spec (.of A)) hA i).obj M) := by
   have h1 := map_projection_pushforwardBaseQuotientIso_hom i hi I M (k + 1)
   rw [← Iso.eq_comp_inv] at h1
-  refine (cancel_epi (smallEtaleAdicQuotientProjection B (Spec (.of A)) hA X.1 X.2
-      (baseIdealSubmodule X.1 X.2 I) (k + 1) ((modulePushforward B (Spec (.of A)) hA i).obj M) ≫
-        (pushforwardBaseQuotientIso i hi I M (k + 1)).inv)).1 ?_
+  refine (epi_comp' (f := smallEtaleAdicQuotientProjection B (Spec (.of A)) hA X.1 X.2
+      (baseIdealSubmodule X.1 X.2 I) (k + 1) ((modulePushforward B (Spec (.of A)) hA i).obj M))
+    (g := (pushforwardBaseQuotientIso i hi I M (k + 1)).inv) inferInstance
+    (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv _))).left_cancellation _ _ ?_
   rw [← h1, ← Functor.map_comp_assoc, smallEtaleAdicQuotientProjection_comp_transition,
     map_projection_pushforwardBaseQuotientIso_hom,
     map_projection_pushforwardBaseQuotientIso_hom_assoc,
@@ -343,7 +344,7 @@ theorem C1573.isCoherentAdicSystem_descendSystem
     have h := map_projection_pushforwardBaseQuotientIso_hom i hi I (G (n + 1)).obj (n + 1)
     rw [← Iso.eq_comp_inv] at h
     rw [h]
-    exact epi_comp _ _
+    exact epi_comp' inferInstance (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv _))
   let c := pushforwardBaseQuotientIso i hi I (G (n + 1)).obj (n + 1) ≪≫
     (smallEtaleAdicQuotientFunctor B (Spec (.of A)) hA X.1 X.2 (baseIdealSubmodule X.1 X.2 I)
       (n + 1)).mapIso (θ (n + 1)) ≪≫ e' ≪≫ (θ n).symm

@@ -114,7 +114,7 @@ theorem isIso_derivedComparison_app_Qh (w : g' ≫ f = f' ≫ g)
     (G : SheafOfModules.{u} (structureSheafRing S'.toRingedSpace))
     (hG : AlgebraicGeometry.IsFlatOver g.toLRSHom.toShHom G)
     (L : HomotopyCategory.Plus (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)))
-    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app L))
+    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app L))
     (hcmp : IsIso ((comparisonOnHomotopy G w hG).app L)) :
     IsIso ((derivedComparison G w hG).app (DerivedCategory.Plus.Qh.obj L)) := by
   have key := NatTrans.congr_app (derivedComparison_fac G w hG) L
@@ -133,7 +133,7 @@ theorem isIso_derivedComparison_app_single_of_resolution (w : g' ≫ f = f' ≫ 
     (e : DerivedCategory.Plus.Qh.obj L ≅
       (DerivedCategory.Plus.singleFunctor
         (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) 0).obj F)
-    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app L))
+    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app L))
     (hcmp : IsIso ((comparisonOnHomotopy G w hG).app L)) :
     IsIso ((derivedComparison G w hG).app
       ((DerivedCategory.Plus.singleFunctor
@@ -157,7 +157,7 @@ theorem isIso_degreewiseComparison_app_of_resolution (H : IsPullback g' f' f g)
     (e : DerivedCategory.Plus.Qh.obj L ≅
       (DerivedCategory.Plus.singleFunctor
         (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) 0).obj F)
-    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app L))
+    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app L))
     (hcmp : IsIso ((comparisonOnHomotopy G H.w hG).app L)) (i : ℕ) :
     IsIso ((degreewiseComparison H G hG i).app F) :=
   isIso_degreewiseComparison_app_of_isIso H G hG F
@@ -190,7 +190,7 @@ def complexComparison (w : g' ≫ f = f' ≫ g)
           ((totalCoefficients g' f' G).mapHomotopyCategoryPlus.obj L)) :=
   DerivedCategory.Plus.Qh.map
       ((Stacks.Cohomology.BaseChange.mapPlus (underivedComparison w G)).app L) ≫
-    (modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app
+    (modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app
       ((totalCoefficients g' f' G).mapHomotopyCategoryPlus.obj L)
 
 /-- **The hypothesis of `isIso_derivedComparison_app_Qh` is invertibility of the canonical map
@@ -206,12 +206,12 @@ theorem isIso_comparisonOnHomotopy_app_iff (H : IsPullback g' f' f g)
     IsIso ((comparisonOnHomotopy G H.w hG).app L) ↔ IsIso (complexComparison H.w G L) := by
   let := preservesFiniteLimits_totalCoefficients H G hG
   let := preservesFiniteColimits_totalCoefficients H G hG
-  have : IsIso (totalCoefficients g' f' G).rightDerivedFunctorPlusUnit :=
+  have : IsIso (totalCoefficients g' f' G).rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso (totalCoefficients g' f' G)
-  have : IsIso ((totalCoefficients g' f' G).rightDerivedFunctorPlusUnit.app L) :=
+  have : IsIso ((totalCoefficients g' f' G).rightDerivedFunctorPlusUnith.app L) :=
     NatIso.isIso_app_of_isIso _ L
   have : IsIso ((modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlus.map
-      ((totalCoefficients g' f' G).rightDerivedFunctorPlusUnit.app L)) :=
+      ((totalCoefficients g' f' G).rightDerivedFunctorPlusUnith.app L)) :=
     Functor.map_isIso _ _
   have : IsIso ((baseCoefficientsDerivedIso g G hG).inv.app
       ((modulePushforward f.toLRSHom.toShHom).mapHomotopyCategoryPlus.obj L)) :=
@@ -221,10 +221,10 @@ theorem isIso_comparisonOnHomotopy_app_iff (H : IsPullback g' f' f g)
           ((modulePushforward f.toLRSHom.toShHom).mapHomotopyCategoryPlus.obj L) ≫
         DerivedCategory.Plus.Qh.map
           ((Stacks.Cohomology.BaseChange.mapPlus (underivedComparison H.w G)).app L) ≫
-        (modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app
+        (modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app
           ((totalCoefficients g' f' G).mapHomotopyCategoryPlus.obj L) ≫
         (modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlus.map
-          ((totalCoefficients g' f' G).rightDerivedFunctorPlusUnit.app L) :=
+          ((totalCoefficients g' f' G).rightDerivedFunctorPlusUnith.app L) :=
     Stacks.Cohomology.BaseChange.onHomotopy_app
       (modulePushforward f.toLRSHom.toShHom) (modulePushforward f'.toLRSHom.toShHom)
       (baseCoefficients g G) (totalCoefficients g' f' G)
@@ -268,7 +268,7 @@ theorem isIso_complexComparison (w : g' ≫ f = f' ≫ g)
     (hac : ∀ n : ℤ, (modulePushforward f'.toLRSHom.toShHom).rightAcyclic
       ((totalCoefficients g' f' G).obj (L.obj.as.X n))) :
     IsIso (complexComparison w G L) := by
-  have hunit : IsIso ((modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app
+  have hunit : IsIso ((modulePushforward f'.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app
       ((totalCoefficients g' f' G).mapHomotopyCategoryPlus.obj L)) :=
     Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ hac
   have : ∀ n : ℤ, IsIso (((NatTrans.mapHomologicalComplex (underivedComparison w G)
@@ -310,7 +310,7 @@ theorem isIso_degreewiseComparison_app_of_complexComparison (H : IsPullback g' f
     (e : DerivedCategory.Plus.Qh.obj L ≅
       (DerivedCategory.Plus.singleFunctor
         (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) 0).obj F)
-    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app L))
+    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app L))
     (hcmp : IsIso (complexComparison H.w G L)) (i : ℕ) :
     IsIso ((degreewiseComparison H G hG i).app F) :=
   isIso_degreewiseComparison_app_of_resolution H G hG F L e hL
@@ -336,7 +336,7 @@ theorem isIso_degreewiseComparison_app_of_degreewise (H : IsPullback g' f' f g)
     (e : DerivedCategory.Plus.Qh.obj L ≅
       (DerivedCategory.Plus.singleFunctor
         (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)) 0).obj F)
-    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnit.app L))
+    (hL : IsIso ((modulePushforward f.toLRSHom.toShHom).rightDerivedFunctorPlusUnith.app L))
     (hiso : ∀ n : ℤ, IsIso ((underivedComparison H.w G).app (L.obj.as.X n)))
     (hac : ∀ n : ℤ, (modulePushforward f'.toLRSHom.toShHom).rightAcyclic
       ((totalCoefficients g' f' G).obj (L.obj.as.X n))) (i : ℕ) :

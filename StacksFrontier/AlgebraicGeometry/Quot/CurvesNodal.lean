@@ -720,6 +720,24 @@ private theorem nodal_iff_of_curveFamily_iso {F G : CurveFamily B hZ} (e : F ≅
 
 /-! ### The locus over a scheme-valued point of the stack -/
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_curvesNodal
+    {B' : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B'.Contains S} :
+    HasPullbacks ((BigFppfOver B' S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_curvesNodal
+    {B' : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B'.Contains S}
+    {X Y Z : (BigFppfOver B' S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_curvesNodal (B' := B') (S := S) (hS := hS)).has_limit _
+
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_curvesNodal
+    {B' : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B'.Contains S} (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B' S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-- An open subspace of the algebraic space of a scheme of the site is represented by a scheme of
 the site with an open immersion to it, by part (1) of Stacks 03BZ. -/
 private theorem openSubspace_yoneda_representation

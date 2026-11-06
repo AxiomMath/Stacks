@@ -190,7 +190,7 @@ written, as the source does, through `R(g ∘ f)_* = Rg_* ∘ Rf_*` (the canonic
 `AlgebraicGeometry.SmallEtale.isIso_compComparison_etalePushforwardMod`) and
 `(l ∘ l')_! = l_! ∘ l'_!` (Stacks 0F50,
 `AlgebraicGeometry.SmallEtale.etaleModuleLiftFShriekCompIso`, on derived categories by
-`CategoryTheory.Functor.mapDerivedCategoryCompIso`). Then the two transformations
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`). Then the two transformations
 `m_! ∘ m'_! ∘ Rg''_* ∘ Rf''_* ⟶ Rg_* ∘ Rf_* ∘ k_! ∘ k'_!`
 ```
 γ_{B+D} ∘ γ_{A+C}   and   γ_{A+B} ∘ γ_{C+D}
@@ -316,17 +316,17 @@ theorem properBaseChangeMap_rectangle_interchange
               αF αG αP (Functor.mapHomotopyCategoryCompIso
                 (etalePushforwardModCompIso B Λ f g) (ComplexShape.up ℤ)))).app
         ((etaleModuleLift B Λ (fShriekFunctor.{u, u} B k')).mapDerivedCategory.obj K) =
-    (Functor.whiskerLeft RG'' (Functor.mapDerivedCategoryCompIso
+    (Functor.whiskerLeft RG'' (Functor.mapDerivedCategoryCompIsoOfCompIso
             (etaleModuleLiftFShriekCompIso B Λ m' m (m' ≫ m) rfl)).hom ≫
           properBaseChangeMap B Λ (l' ≫ l) g'' g (m' ≫ m) (rectangle_comm_horizontal B wC wD)
             RG'' αG'' RG αG ≫
-          Functor.whiskerRight (Functor.mapDerivedCategoryCompIso
+          Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso
             (etaleModuleLiftFShriekCompIso B Λ l' l (l' ≫ l) rfl)).inv RG).app (RF''.obj K) ≫
-      RG.map ((Functor.whiskerLeft RF'' (Functor.mapDerivedCategoryCompIso
+      RG.map ((Functor.whiskerLeft RF'' (Functor.mapDerivedCategoryCompIsoOfCompIso
             (etaleModuleLiftFShriekCompIso B Λ l' l (l' ≫ l) rfl)).hom ≫
           properBaseChangeMap B Λ (k' ≫ k) f'' f (l' ≫ l) (rectangle_comm_horizontal B wA wB)
             RF'' αF'' RF αF ≫
-          Functor.whiskerRight (Functor.mapDerivedCategoryCompIso
+          Functor.whiskerRight (Functor.mapDerivedCategoryCompIsoOfCompIso
             (etaleModuleLiftFShriekCompIso B Λ k' k (k' ≫ k) rfl)).inv RF).app K) := by
   rw [properBaseChangeMap_rectangle_eq_comp B Λ k' f'' f' l' g'' g' m' wA wC RF'' αF'' RF' αF'
       RG'' αG'' RG' αG' RP'' αP'' RP' αP',
@@ -337,10 +337,10 @@ theorem properBaseChangeMap_rectangle_interchange
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
     Functor.associator_hom_app, Functor.associator_inv_app, Category.id_comp, Category.comp_id,
     Category.assoc, Iso.hom_inv_id_app_assoc, CategoryTheory.Functor.map_comp]
-  rw [← Functor.map_comp_assoc RG ((Functor.mapDerivedCategoryCompIso
+  rw [← Functor.map_comp_assoc RG ((Functor.mapDerivedCategoryCompIsoOfCompIso
       (etaleModuleLiftFShriekCompIso B Λ l' l (l' ≫ l) rfl)).hom.app (RF''.obj K)),
     Iso.hom_inv_id_app, CategoryTheory.Functor.map_id, Category.id_comp,
-    ← Functor.map_comp RG (RF.map ((Functor.mapDerivedCategoryCompIso
+    ← Functor.map_comp RG (RF.map ((Functor.mapDerivedCategoryCompIsoOfCompIso
       (etaleModuleLiftFShriekCompIso B Λ k' k (k' ≫ k) rfl)).hom.app K)),
     ← Functor.map_comp RF, Iso.hom_inv_id_app, CategoryTheory.Functor.map_id,
     CategoryTheory.Functor.map_id]

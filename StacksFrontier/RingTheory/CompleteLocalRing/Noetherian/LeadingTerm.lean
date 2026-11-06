@@ -154,7 +154,7 @@ noncomputable def residueSection (R : Type*) [CommRing R] [IsLocalRing R] :
 `reprMap R ω f = Σ_{α ∈ supp f} residueSection R (coeff α f) * ∏_j ω j ^ (α j)`. -/
 noncomputable def reprMap (R : Type*) [CommRing R] [IsLocalRing R] {t : ℕ} (ω : Fin t → R)
     (f : MvPolynomial (Fin t) (IsLocalRing.ResidueField R)) : R :=
-  ∑ α ∈ f.support, residueSection R (MvPolynomial.coeff α f) * ∏ j, ω j ^ (α j)
+  ∑ α ∈ f.support, residueSection R (f.coeff α) * ∏ j, ω j ^ (α j)
 
 /-- A polynomial `f` lies in the leading-term ideal of `J` when every homogeneous component
 `f_n` has its representative `reprMap R ω f_n` in `(m^n ⊓ J) ⊔ m^(n+1)`. -/
@@ -238,18 +238,18 @@ theorem reprMap_eq_sum_on (R : Type*) [CommRing R] [IsLocalRing R] {t n : ℕ} (
     (hω : IsLocalRing.maximalIdeal R = Ideal.span (Set.range ω))
     (f : MvPolynomial (Fin t) (IsLocalRing.ResidueField R)) (s : Finset (Fin t →₀ ℕ))
     (hsub : f.support ⊆ s) (hdeg : ∀ α ∈ s, ∑ j, α j = n) :
-    reprMap R ω f - ∑ α ∈ s, residueSection R (MvPolynomial.coeff α f) * ∏ j, ω j ^ (α j)
+    reprMap R ω f - ∑ α ∈ s, residueSection R (f.coeff α) * ∏ j, ω j ^ (α j)
       ∈ IsLocalRing.maximalIdeal R ^ (n+1) := by
   classical
   rw [reprMap, ← Finset.sum_sdiff hsub]
-  have hrw : (∑ α ∈ f.support, residueSection R (MvPolynomial.coeff α f) * ∏ j, ω j ^ (α j))
-      - ((∑ x ∈ s \ f.support, residueSection R (MvPolynomial.coeff x f) * ∏ j, ω j ^ x j)
-         + ∑ x ∈ f.support, residueSection R (MvPolynomial.coeff x f) * ∏ j, ω j ^ x j)
-      = - ∑ x ∈ s \ f.support, residueSection R (MvPolynomial.coeff x f) * ∏ j, ω j ^ x j := by ring
+  have hrw : (∑ α ∈ f.support, residueSection R (f.coeff α) * ∏ j, ω j ^ (α j))
+      - ((∑ x ∈ s \ f.support, residueSection R (f.coeff x) * ∏ j, ω j ^ x j)
+         + ∑ x ∈ f.support, residueSection R (f.coeff x) * ∏ j, ω j ^ x j)
+      = - ∑ x ∈ s \ f.support, residueSection R (f.coeff x) * ∏ j, ω j ^ x j := by ring
   rw [hrw, ← Finset.sum_neg_distrib]
   simp only [← neg_mul]
   refine sum_mul_prod_pow_mem_pow_succ R ω hω _ (fun α => α)
-    (fun α => -residueSection R (MvPolynomial.coeff α f)) (fun α hα => ?_)
+    (fun α => -residueSection R (f.coeff α)) (fun α hα => ?_)
     fun α hα => hdeg α (Finset.mem_sdiff.mp hα).1
   rw [MvPolynomial.notMem_support_iff.mp (Finset.mem_sdiff.mp hα).2]
   exact neg_mem (residueSection_zero_mem_maximalIdeal R)
@@ -277,10 +277,10 @@ theorem reprMap_add_defect (R : Type*) [CommRing R] [IsLocalRing R] {t n : ℕ} 
     (by rw [hs]; exact Finset.subset_union_right.trans Finset.subset_union_left) hdeg
   have e3 := reprMap_eq_sum_on R ω hω q s (by rw [hs]; exact Finset.subset_union_right) hdeg
   have hdefect := sum_mul_prod_pow_mem_pow_succ R ω hω s (fun α => α)
-    (fun α => residueSection R (MvPolynomial.coeff α (p + q))
-      - residueSection R (MvPolynomial.coeff α p) - residueSection R (MvPolynomial.coeff α q))
+    (fun α => residueSection R ((p + q).coeff α)
+      - residueSection R (p.coeff α) - residueSection R (q.coeff α))
     (fun α _ => by
-      simpa only [MvPolynomial.coeff_add] using residueSection_add_sub_sub_mem_maximalIdeal R _ _)
+      simpa only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply] using residueSection_add_sub_sub_mem_maximalIdeal R _ _)
     hdeg
   simp only [sub_mul, Finset.sum_sub_distrib] at hdefect
   convert Ideal.add_mem _ (Ideal.sub_mem _ (Ideal.sub_mem _ e1 e2) e3) hdefect using 1
@@ -334,15 +334,15 @@ theorem reprMap_monomial_mul (R : Type*) [CommRing R] [IsLocalRing R] {t d e : �
     · exfalso; apply hγ; rw [MvPolynomial.coeff_monomial_mul']; simp [hble]
   have e1 := reprMap_eq_sum_on R ω hω (MvPolynomial.monomial β b * f) s hsub hdeg
   have hinj : Set.InjOn (fun α => β + α) f.support := fun a _ b _ h => by simpa using h
-  have hsum : (∑ γ ∈ s, residueSection R (MvPolynomial.coeff γ (MvPolynomial.monomial β b * f))
+  have hsum : (∑ γ ∈ s, residueSection R ((MvPolynomial.monomial β b * f).coeff γ)
         * ∏ j, ω j ^ (γ j))
-      = ∑ α ∈ f.support, residueSection R (b * MvPolynomial.coeff α f)
+      = ∑ α ∈ f.support, residueSection R (b * f.coeff α)
           * ∏ j, ω j ^ ((β + α) j) := by
     rw [hs, Finset.sum_image hinj]
     exact Finset.sum_congr rfl (fun α _ => by rw [MvPolynomial.coeff_monomial_mul])
   rw [hsum] at e1
   have hexp : residueSection R b * (∏ j, ω j ^ (β j)) * reprMap R ω f
-      = ∑ α ∈ f.support, (residueSection R b * residueSection R (MvPolynomial.coeff α f))
+      = ∑ α ∈ f.support, (residueSection R b * residueSection R (f.coeff α))
           * ∏ j, ω j ^ ((β + α) j) := by
     rw [reprMap, Finset.mul_sum]
     refine Finset.sum_congr rfl fun α _ => ?_
@@ -352,8 +352,8 @@ theorem reprMap_monomial_mul (R : Type*) [CommRing R] [IsLocalRing R] {t d e : �
     ring
   rw [hexp]
   have hdef := sum_mul_prod_pow_mem_pow_succ R ω hω f.support (fun α => β + α)
-    (fun α => residueSection R (b * MvPolynomial.coeff α f)
-      - residueSection R b * residueSection R (MvPolynomial.coeff α f))
+    (fun α => residueSection R (b * f.coeff α)
+      - residueSection R b * residueSection R (f.coeff α))
     (fun α _ => residueSection_mul_sub_mul_mem_maximalIdeal R b _)
     (fun α hα => hdeg (β + α) (by rw [hs, Finset.mem_image]; exact ⟨α, hα, rfl⟩))
   simp only [sub_mul, Finset.sum_sub_distrib] at hdef
@@ -455,7 +455,7 @@ theorem leadingMem_monomial_mul (R : Type*) [CommRing R] [IsLocalRing R] {t : �
     ring
   · have hzero : MvPolynomial.homogeneousComponent n (MvPolynomial.monomial β b * f) = 0 := by
       ext γ
-      rw [MvPolynomial.coeff_homogeneousComponent, MvPolynomial.coeff_zero]
+      rw [MvPolynomial.coeff_homogeneousComponent, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
       split_ifs with hdeg
       · rw [MvPolynomial.coeff_monomial_mul']
         split_ifs with hβγ

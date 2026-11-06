@@ -46,6 +46,19 @@ namespace AlgebraicGeometry.Space
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+private local instance (priority := high) hasPullbacks_presheaf_elementaryChart
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+private local instance (priority := high) hasPullback_presheaf_elementaryChart
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_elementaryChart B S hS).has_limit _
+
 /-- **An elementary étale chart of the base whose base change has its fibre covered.**  See the
 module docstring.  The output consists of an étale morphism `b₀ : h_{V₀} ⟶ Y`, an étale chart
 `U` of `X`, affine objects `A` and `Y'` of the site, an étale morphism `q : A ⟶ V₀` inducing an

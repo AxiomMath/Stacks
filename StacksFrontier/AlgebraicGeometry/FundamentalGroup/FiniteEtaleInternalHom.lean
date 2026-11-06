@@ -402,10 +402,6 @@ private lemma splitPullbackIso_fst {S : Scheme.{u}} {n : ℕ} (A : Over S)
       pullback.fst (Sigma.desc (fun _ : Fin n => 𝟙 S)) A.hom =
     A.hom ≫ Sigma.ι (fun _ : Fin n => S) i := by
   simp [splitPullbackIso, Category.assoc, pullback.map]
-  simp only [← Category.assoc, pullback.lift_fst]
-  simpa [Category.assoc] using congrArg
-    (fun k => k ≫ Sigma.ι (fun _ : Fin n => S) i)
-      (pullback.condition (f := 𝟙 S) (g := A.hom))
 
 private lemma splitPullbackIso_snd {S : Scheme.{u}} {n : ℕ} (A : Over S)
     (i : Fin n) :
@@ -697,7 +693,7 @@ private noncomputable def overSigmaHomYonedaIso {S : Scheme.{u}} {n : ℕ}
         (Pi.lift (fun k => overSigmaι A.unop k ≫ f)).left ≫
             (Pi.π (fun _ : Fin n => V) i).left =
           (overSigmaι A.unop i ≫ f).left :=
-            congrArg Over.Hom.left (Pi.lift_π (fun k => overSigmaι A.unop k ≫ f) i)
+            congrArg Over.Hom.left (Pi.lift_comp_π (fun k => overSigmaι A.unop k ≫ f) i)
         _ = Sigma.ι (fun _ : Fin n => A.unop.left) i ≫ f.left := rfl
     right_inv := by
       intro f
@@ -707,7 +703,7 @@ private noncomputable def overSigmaHomYonedaIso {S : Scheme.{u}} {n : ℕ}
           change (Pi.lift (fun k => overSigmaι A.unop k ≫
               Over.homMk (Sigma.desc fun j => f.left ≫ (Pi.π (fun _ : Fin n => V) j).left) _) ≫
             Pi.π (fun _ : Fin n => V) i) = f ≫ Pi.π (fun _ : Fin n => V) i
-          rw [Pi.lift_π]
+          rw [Pi.lift_comp_π]
           apply Over.OverMorphism.ext
           simp [overSigmaι])
   }) ?_
@@ -727,8 +723,8 @@ private noncomputable def overSigmaHomYonedaIso {S : Scheme.{u}} {n : ℕ}
             Sigma.map' (fun j : Fin n => j) (fun _ => f.unop.left) =
           f.unop.left ≫ Sigma.ι (fun _ : Fin n => A.unop.left) i
         rw [Sigma.ι_comp_map']
-      rw [Pi.lift_π, ← Category.assoc, hι]
-      simp only [Pi.lift_π, Category.assoc])
+      rw [Pi.lift_comp_π, ← Category.assoc, hι]
+      simp only [Pi.lift_comp_π, Category.assoc])
 
 private noncomputable def splitInternalHomIso {X T : Scheme.{u}} (g : T ⟶ X)
     (U V : Over X) {n : ℕ}

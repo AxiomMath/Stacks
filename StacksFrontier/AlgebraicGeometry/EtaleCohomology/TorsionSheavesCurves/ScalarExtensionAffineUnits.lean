@@ -258,7 +258,8 @@ theorem unitsDivisor_scalarExtension (a : Additive (Γ(X, ⊤))ˣ) :
   rw [unitsDivisor_apply, toMul_ofMul, key]
   by_cases hy : y' ∈ Set.range (scalarExtensionClosedPoint q k')
   · obtain ⟨y, rfl⟩ := hy
-    rw [Finsupp.mapDomain_apply (injective_scalarExtensionClosedPoint q k'), unitsDivisor_apply]
+    rw [Finsupp.mapDomain_apply_of_injective (injective_scalarExtensionClosedPoint q k'),
+      unitsDivisor_apply]
     have hy1 : IsClosed ({(scalarExtensionFst k k' q).base (scalarExtensionClosedPoint q k' y).1} :
         Set Y) := by
       rw [scalarExtensionFst_scalarExtensionClosedPoint]

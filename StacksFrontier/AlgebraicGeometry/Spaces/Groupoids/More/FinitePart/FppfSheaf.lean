@@ -154,6 +154,26 @@ private def finitePartBigFppfOverHasPullbacks (B : BigFppfSite.{u})
 
 attribute [local instance] finitePartBigFppfOverHasPullbacks
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance finitePartPresheafHasPullbacks (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves on the big fppf site over `S` indexed by a small type (instance
+search times out without this shortcut). -/
+local instance finitePartPresheafHasLimitsOfShapeDiscrete (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S) (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+local instance (priority := high) finitePartPresheafHasPullback (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 private theorem isFlat_schemeSpaceMap_of_flat
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {U V : BigFppfOver B S hS} (g : U ⟶ V)

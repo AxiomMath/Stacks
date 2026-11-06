@@ -207,7 +207,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 spaces-étale site of `X`, an action of `G` on `Y` by automorphisms and a group element. -/
 def translationPair (act : G →* Aut Y) {V : SpacesEtale B S hS X} (φ ψ : V ⟶ Y) (g : G) :
     V ⟶ SpacesEtale.prodTwo B S hS X Y :=
-  pullback.lift ψ (φ ≫ (act g).hom) ((SpacesEtale.final_isTerminal B S hS X).hom_ext _ _)
+  pullback.lift ψ (φ ≫ (act g).asIso.hom) ((SpacesEtale.final_isTerminal B S hS X).hom_ext _ _)
 
 /-- The first component of `translationPair act φ ψ g` is `ψ`. -/
 @[simp]
@@ -217,13 +217,13 @@ theorem translationPair_comp_fst (act : G →* Aut Y) {V : SpacesEtale B S hS X}
         pullback.fst (SpacesEtale.toFinal B S hS Y) (SpacesEtale.toFinal B S hS Y) = ψ :=
   pullback.lift_fst _ _ _
 
-/-- The second component of `translationPair act φ ψ g` is `φ ≫ (act g).hom`. -/
+/-- The second component of `translationPair act φ ψ g` is `φ ≫ (act g).asIso.hom`. -/
 @[simp]
 theorem translationPair_comp_snd (act : G →* Aut Y) {V : SpacesEtale B S hS X}
     (φ ψ : V ⟶ Y) (g : G) :
     translationPair act φ ψ g ≫
         pullback.snd (SpacesEtale.toFinal B S hS Y) (SpacesEtale.toFinal B S hS Y) =
-      φ ≫ (act g).hom :=
+      φ ≫ (act g).asIso.hom :=
   pullback.lift_snd _ _ _
 
 /-- **The locus in `V` where `ψ` agrees with the `g`-translate of `φ`**: the fibre product of
@@ -300,7 +300,7 @@ object. -/
 theorem actsFreelyOnObject_of_eq_one_of_nonempty (act : G →* Aut Y)
     (hfr : ∀ {T : (BigFppfOver B S hS)ᵒᵖ} (ξ : (SpacesEtale.underlying B S hS X Y).1.obj T),
       Nonempty ((BigFppfOver.toScheme B S hS).obj T.unop) →
-      ∀ g : G, ((SpacesEtale.toSpaces B S hS X).map (act g).hom).hom.app T ξ = ξ → g = 1) :
+      ∀ g : G, ((SpacesEtale.toSpaces B S hS X).map (act g).asIso.hom).hom.app T ξ = ξ → g = 1) :
     ActsFreelyOnObject act (SpacesEtale.topology B S hS X) := by
   classical
   intro V φ g hφ
@@ -312,7 +312,7 @@ theorem actsFreelyOnObject_of_eq_one_of_nonempty (act : G →* Aut Y)
   refine hfr (((SpacesEtale.toSpaces B S hS X).map φ).hom.app
       (op (FieldValuedPoint.siteObject B S hS _ p)) p.value)
     ⟨IsLocalRing.closedPoint p.carrier⟩ g ?_
-  exact toSpaces_map_app_comp_apply φ (act g).hom hφ _ _
+  exact toSpaces_map_app_comp_apply φ (act g).asIso.hom hφ _ _
 
 /-- **The fppf-to-étale refinement, on points.** Suppose that two sections of `Y` over a test
 object with the same image in `X` become translates of each other by a single group element
@@ -334,7 +334,7 @@ theorem exists_translation_point (act : G →* Aut Y)
       Y.1.hom.hom.app T ξ = Y.1.hom.hom.app T η →
       ∃ R : Sieve T.unop, R ∈ BigFppfOver.topology B S hS T.unop ∧
         ∀ ⦃b : BigFppfOver B S hS⦄ (f : b ⟶ T.unop), R.arrows f →
-          ∃ g : G, ((SpacesEtale.toSpaces B S hS X).map (act g).hom).hom.app (op b)
+          ∃ g : G, ((SpacesEtale.toSpaces B S hS X).map (act g).asIso.hom).hom.app (op b)
               ((SpacesEtale.underlying B S hS X Y).1.map f.op η) =
             (SpacesEtale.underlying B S hS X Y).1.map f.op ξ)
     {V : SpacesEtale B S hS X} (φ ψ : V ⟶ Y)
@@ -359,11 +359,11 @@ theorem exists_translation_point (act : G →* Aut Y)
           (op (FieldValuedPoint.siteObject B S hS _ p)) p.value) := fun χ => by
     rw [← hval]
     exact NatTrans.naturality_apply ((SpacesEtale.toSpaces B S hS X).map χ).hom f.op p.value
-  have hcancel : (act g).hom ≫ (act g⁻¹).hom = 𝟙 Y := by
+  have hcancel : (act g).asIso.hom ≫ (act g⁻¹).asIso.hom = 𝟙 Y := by
     rw [← act_hom_mul, inv_mul_cancel, act_hom_one]
   have hkey : ((SpacesEtale.toSpaces B S hS X).map ψ).hom.app
         (op (FieldValuedPoint.siteObject B S hS _ p')) p'.value =
-      ((SpacesEtale.toSpaces B S hS X).map (act g⁻¹).hom).hom.app
+      ((SpacesEtale.toSpaces B S hS X).map (act g⁻¹).asIso.hom).hom.app
         (op (FieldValuedPoint.siteObject B S hS _ p'))
         (((SpacesEtale.toSpaces B S hS X).map φ).hom.app
           (op (FieldValuedPoint.siteObject B S hS _ p')) p'.value) := by
@@ -403,7 +403,7 @@ theorem translationSieve_mem_of_orbitSieve (act : G →* Aut Y)
       Y.1.hom.hom.app T ξ = Y.1.hom.hom.app T η →
       ∃ R : Sieve T.unop, R ∈ BigFppfOver.topology B S hS T.unop ∧
         ∀ ⦃b : BigFppfOver B S hS⦄ (f : b ⟶ T.unop), R.arrows f →
-          ∃ g : G, ((SpacesEtale.toSpaces B S hS X).map (act g).hom).hom.app (op b)
+          ∃ g : G, ((SpacesEtale.toSpaces B S hS X).map (act g).asIso.hom).hom.app (op b)
               ((SpacesEtale.underlying B S hS X Y).1.map f.op η) =
             (SpacesEtale.underlying B S hS X Y).1.map f.op ξ)
     {V : SpacesEtale B S hS X} (φ ψ : V ⟶ Y) :
@@ -489,21 +489,21 @@ theorem orbitQuotientActionEtale_one :
 
 /-- **The action of `G` by automorphisms of `W` in the spaces-étale site of `W/G`.** -/
 def orbitQuotientAut : G →* Aut (orbitQuotientEtaleSource hnat hW hfree) where
-  toFun g :=
+  toFun g := Aut.of
     { hom := orbitQuotientActionEtale hnat hW hfree g
       inv := orbitQuotientActionEtale hnat hW hfree g⁻¹
       hom_inv_id := by
         rw [orbitQuotientActionEtale_comp, inv_mul_cancel, orbitQuotientActionEtale_one]
       inv_hom_id := by
         rw [orbitQuotientActionEtale_comp, mul_inv_cancel, orbitQuotientActionEtale_one] }
-  map_one' := Iso.ext (orbitQuotientActionEtale_one hnat hW hfree)
-  map_mul' g g' := Iso.ext (orbitQuotientActionEtale_comp hnat hW hfree g' g).symm
+  map_one' := Aut.ext (Iso.ext (orbitQuotientActionEtale_one hnat hW hfree))
+  map_mul' g g' := Aut.ext (Iso.ext (orbitQuotientActionEtale_comp hnat hW hfree g' g).symm)
 
 /-- The automorphism `orbitQuotientAut hnat hW hfree g` has underlying morphism
 `orbitQuotientActionEtale hnat hW hfree g`. -/
 @[simp]
 theorem orbitQuotientAut_hom (g : G) :
-    (orbitQuotientAut hnat hW hfree g).hom = orbitQuotientActionEtale hnat hW hfree g :=
+    (orbitQuotientAut hnat hW hfree g).asIso.hom = orbitQuotientActionEtale hnat hW hfree g :=
   rfl
 
 /-! ### The hypotheses of the general refinement, for the quotient of a free action -/

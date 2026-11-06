@@ -96,7 +96,8 @@ abbrev simplicialAugmentation : simplicialResolution J f ⟶ projectionCommRing 
 `𝒫`-modules along the augmentation. -/
 abbrev simplicialDerivations
     (N : SheafOfModules.{u} (projectionRing C J (targetRing J (B := B)))) :=
-  ((SheafOfModules.restrictScalars (simplicialAugmentationRing J f)).obj N).val.Derivation'
+  PresheafOfModulesOfCommRing.Derivation'
+    ((SheafOfModules.restrictScalars (simplicialAugmentationRing J f)).obj N).val
     (simplicialBaseMap J f).hom
 
 variable {J f}

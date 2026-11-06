@@ -161,17 +161,34 @@ section BaseChange
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {X' X Y' Y : AlgebraicSpaces B S hS} (i : X' ⟶ X) (f' : X' ⟶ Y') (f : X ⟶ Y) (g : Y' ⟶ Y)
 
+set_option maxHeartbeats 1600000 in
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The comparison `AlgebraicGeometry.Space.baseChangeRingMap` of the two transports of `𝒪_X` is
 an isomorphism: it is induced by the isomorphism of Stacks 03LR. -/
 theorem isIso_baseChangeRingMap (sq : IsPullback i f' f g) (hg : Space.IsEtale B S hS g.hom) :
     IsIso (Space.baseChangeRingMap B S hS i f' f g sq hg) := by
-  refine ⟨Stacks.Sheaves.ToposPullback.pullbackRingSheafMapOfNatTrans
-    (Space.SmallEtale.topology B S hS Y'.1) (Space.structureRingSheaf B S hS X)
-    (Space.smallEtaleSetPushforwardBaseChangeIso B S hS i f' f g sq hg).inv, ?_, ?_⟩
-  · rw [Space.baseChangeRingMap,
-      Stacks.Sheaves.ToposPullback.pullbackRingSheafMapOfNatTrans_comp, Iso.hom_inv_id]; rfl
-  · rw [Space.baseChangeRingMap,
-      Stacks.Sheaves.ToposPullback.pullbackRingSheafMapOfNatTrans_comp, Iso.inv_hom_id]; rfl
+  let e : Space.baseChangeRightRingSheaf B S hS f g hg ⟶
+      Space.baseChangeLeftRingSheaf B S hS i f'
+        (Space.isEtale_of_isPullback B S hS f' i g f sq.flip hg) :=
+    Stacks.Sheaves.ToposPullback.pullbackRingSheafMapOfNatTrans
+      (Space.SmallEtale.topology B S hS Y'.1) (Space.structureRingSheaf B S hS X)
+      (Space.smallEtaleSetPushforwardBaseChangeIso B S hS i f' f g sq hg).inv
+  refine ⟨e, ?_, ?_⟩
+  · apply (sheafCompose (Space.SmallEtale.topology B S hS Y'.1)
+      (forget RingCat.{u})).map_injective
+    rw [CategoryTheory.Functor.map_comp, Space.baseChangeRingMap,
+      Stacks.Sheaves.ToposPullback.ringSheafMap_pullbackRingSheafMapOfNatTrans,
+      Stacks.Sheaves.ToposPullback.ringSheafMap_pullbackRingSheafMapOfNatTrans,
+      CategoryTheory.Functor.map_id]
+    exact (Space.smallEtaleSetPushforwardBaseChangeIso B S hS i f' f g sq hg).hom_inv_id_app _
+  · apply (sheafCompose (Space.SmallEtale.topology B S hS Y'.1)
+      (forget RingCat.{u})).map_injective
+    rw [CategoryTheory.Functor.map_comp,
+      Stacks.Sheaves.ToposPullback.ringSheafMap_pullbackRingSheafMapOfNatTrans,
+      Space.baseChangeRingMap,
+      Stacks.Sheaves.ToposPullback.ringSheafMap_pullbackRingSheafMapOfNatTrans,
+      CategoryTheory.Functor.map_id]
+    exact (Space.smallEtaleSetPushforwardBaseChangeIso B S hS i f' f g sq hg).inv_hom_id_app _
 
 /-- **The structure map of a base change along an étale morphism is the restriction of the
 structure map.** If the structure map of `f'` is an isomorphism, then so is the restriction of

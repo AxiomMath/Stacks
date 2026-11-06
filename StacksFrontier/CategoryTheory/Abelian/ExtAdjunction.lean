@@ -2,6 +2,11 @@ module
 
 public import Mathlib.Algebra.Homology.DerivedCategory.Ext.MapBijective
 public import Mathlib.CategoryTheory.Adjunction.Additive
+public import Mathlib.Algebra.FiveLemma
+public import Mathlib.Algebra.Homology.DerivedCategory.Ext.EnoughInjectives
+public import Mathlib.Algebra.Homology.DerivedCategory.Ext.ExactSequences
+public import Mathlib.Algebra.Homology.ShortComplex.Ab
+public import Mathlib.CategoryTheory.Abelian.Exact
 
 /-!
 # `Ext` groups along an adjunction whose inverse image is exact

@@ -28,7 +28,7 @@ universe u
 
 namespace Deformation.Artin
 
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
 
@@ -91,7 +91,7 @@ theorem subsingleton_localizedAutomorphismFunctorTangent_of_faithful {Λ l : Typ
     show pp.map α.1 = pp.map β.1
     rw [IsHomLift.fac' pp (𝟙 A) α.1, IsHomLift.fac' pp (𝟙 A) β.1]⟩
   refine (localizedTangentEquivKernel Q).subsingleton_congr.mpr ⟨fun a b => ?_⟩
-  exact Subtype.ext (Iso.ext (Subsingleton.elim _ _))
+  exact Subtype.ext (Aut.ext (Iso.ext (Subsingleton.elim _ _)))
 
 /-- **The projection of the deformation category of a point of `(Sch/V)` is faithful**: a
 morphism of deformations of a point of a represented category is determined by its ring map. -/

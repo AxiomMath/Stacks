@@ -434,7 +434,11 @@ theorem Space.isClosedImmersion_of_mono_of_thickening_factors_of_isNoetherianRin
   have hmonoq : Mono q := by
     refine yoneda.mono_of_mono_map (f := q) ?_
     rw [hq]
-    have heF : Mono eF.inv := inferInstance
+    have heF : Mono eF.inv :=
+      ⟨fun g h w ↦ by
+        have w' := congrArg (· ≫ eF.hom) w
+        rwa [Category.assoc, Category.assoc, Iso.inv_hom_id, Category.comp_id,
+          Category.comp_id] at w'⟩
     exact CategoryTheory.mono_comp' heF hmono
   have hcart : IsPullback c' (𝟙 b) q m := by
     have hwq : c' ≫ q = (𝟙 b) ≫ m := by rw [Category.id_comp]; exact hfac

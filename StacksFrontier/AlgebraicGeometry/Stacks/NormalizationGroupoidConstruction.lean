@@ -522,7 +522,7 @@ noncomputable def action : G.toGroupoidInFunctors.Evaluation T ⥤ Type u where
 
 /-- A point of `U^ν` as an object of the groupoid of elements of the action. -/
 noncomputable def index (x : (data G hfin).space.obj T) : (action G hG hfin T).Elements :=
-  ⟨(data G hfin).hom.app T x, ⟨x, rfl⟩⟩
+  (action G hG hfin T).elementsMk ((data G hfin).hom.app T x) ⟨x, rfl⟩
 
 /-- The arrows `x ⟶ x'` of the groupoid of elements are the points of `R^ν` from `x` to `x'`. -/
 noncomputable def arrowEquiv (x x' : (data G hfin).space.obj T) :
@@ -543,7 +543,7 @@ noncomputable def arrowEquiv (x x' : (data G hfin).space.obj T) :
       ((ptMk_snd _ _ _ _ _ _).trans (congrArg Subtype.val (Equiv.apply_symm_apply _ _))))).trans
         a.2.2⟩
   left_inv φ := by
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     change (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _).symm _ = φ.1
     apply (G.toGroupoidInFunctors.evaluationArrowEquiv T _ _).injective
     rw [Equiv.apply_symm_apply]

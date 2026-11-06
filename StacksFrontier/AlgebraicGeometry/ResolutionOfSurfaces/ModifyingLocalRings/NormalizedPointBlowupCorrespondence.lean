@@ -378,7 +378,7 @@ theorem nonempty_over_iso_of_baseChange {A B : Over D.S}
   let s : ULift.{u} (Fin D.n) → D.S := fun i => D.points i.down
   have hs : ∀ i, s i ∈ closedPoints D.S := fun i =>
     mem_closedPoints_iff.mpr (D.points_closed i.down)
-  have hinj : Function.Injective s := fun a b h => ULift.ext _ _ (D.points_injective h)
+  have hinj : Function.Injective s := fun a b h => ULift.ext (D.points_injective h)
   have hU : complementOfClosedPoints s hs = D.complement := by
     apply Opens.ext
     apply Set.ext

@@ -66,8 +66,9 @@ theorem eq_zero_of_app_eq_zero_of_isAffineChart {M N : Modules.{u, u} B S hS F h
     SmallEtale.isIso_of_bijective_app_of_isAffineChart B S hS F hF _ fun Z hZ =>
       ⟨fun a b hab => Subtype.ext hab, fun x => ⟨⟨x, (SheafOfModules.Submodule.mem_ker φ (op Z) x).2
         (h Z hZ x)⟩, rfl⟩⟩
-  rw [← cancel_epi (SheafOfModules.Submodule.ker φ).ι, comp_zero]
-  exact SheafOfModules.Submodule.ker_ι_comp φ
+  have hepi : Epi (SheafOfModules.Submodule.ker φ).ι := IsIso.epi_of_iso _
+  exact (cancel_epi (SheafOfModules.Submodule.ker φ).ι).1
+    ((SheafOfModules.Submodule.ker_ι_comp φ).trans comp_zero.symm)
 
 /-! ### The sections of a limit -/
 

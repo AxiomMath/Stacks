@@ -64,12 +64,12 @@ def verticalAutConj (p : X ⥤ C) {a b : X} (e : a ≅ b) :
     p.verticalAut a ≃* p.verticalAut b where
   toFun α := ⟨Aut.autMulEquivOfIso e α, by
     simp only [mem_verticalAut_iff]
-    change p.map (e.inv ≫ (α : Aut a).hom ≫ e.hom) = _
+    change p.map (e.inv ≫ (α : Aut a).asIso.hom ≫ e.hom) = _
     rw [p.map_comp, p.map_comp, verticalAut.cond α, Category.id_comp, ← p.map_comp,
       e.inv_hom_id, p.map_id]⟩
   invFun β := ⟨(Aut.autMulEquivOfIso e).symm β, by
     simp only [mem_verticalAut_iff]
-    change p.map (e.hom ≫ (β : Aut b).hom ≫ e.inv) = _
+    change p.map (e.hom ≫ (β : Aut b).asIso.hom ≫ e.inv) = _
     rw [p.map_comp, p.map_comp, verticalAut.cond β, Category.id_comp, ← p.map_comp,
       e.hom_inv_id, p.map_id]⟩
   left_inv α := Subtype.ext ((Aut.autMulEquivOfIso e).symm_apply_apply _)
@@ -91,8 +91,9 @@ theorem bijective_verticalAutMap_of_iso' (F : X ⥤ Y) (hF : F ⋙ pY = pX) {a b
     simp only [Function.comp_apply, MulEquiv.apply_symm_apply]
     apply Subtype.ext
     apply Aut.ext
-    show F.map e.inv ≫ F.map (α : Aut a).hom ≫ F.map e.hom =
-      F.map (e.inv ≫ (α : Aut a).hom ≫ e.hom)
+    apply Iso.ext
+    show F.map e.inv ≫ F.map (α : Aut a).asIso.hom ≫ F.map e.hom =
+      F.map (e.inv ≫ (α : Aut a).asIso.hom ≫ e.hom)
     simp
   rw [key]
   exact (verticalAutConj pY (F.mapIso e)).symm.bijective.comp
@@ -110,22 +111,22 @@ automorphisms of the underlying object of `A`. -/
 noncomputable def fiberIsoEndEquiv (p : X ⥤ C) {c : C} (A : p.Fiber c) :
     {m : A ⟶ A // IsIso m} ≃ p.verticalAut A.1 where
   toFun m := haveI := m.2
-    ⟨Fiber.fiberInclusion.mapIso (asIso m.1),
+    ⟨Aut.of (Fiber.fiberInclusion.mapIso (asIso m.1)),
       (mem_verticalAut_iff p _).mpr (map_fiberInclusion_map_eq_id p m.1)⟩
   invFun α :=
-    haveI : IsHomLift p (𝟙 c) (α : Aut A.1).hom :=
+    haveI : IsHomLift p (𝟙 c) (α : Aut A.1).asIso.hom :=
       IsHomLift.of_fac' p _ _ A.2 A.2 (by simp [verticalAut.cond α])
-    haveI : IsHomLift p (𝟙 c) (α : Aut A.1).inv :=
+    haveI : IsHomLift p (𝟙 c) (α : Aut A.1).asIso.inv :=
       IsHomLift.of_fac' p _ _ A.2 A.2 (by
-        have h0 : p.map ((α : Aut A.1).hom ≫ (α : Aut A.1).inv) = p.map (𝟙 _) :=
-          congrArg p.map (α : Aut A.1).hom_inv_id
+        have h0 : p.map ((α : Aut A.1).asIso.hom ≫ (α : Aut A.1).asIso.inv) = p.map (𝟙 _) :=
+          congrArg p.map (α : Aut A.1).asIso.hom_inv_id
         rw [p.map_comp, verticalAut.cond α, Category.id_comp, p.map_id] at h0
         simp [h0])
-    ⟨Fiber.homMk p c (α : Aut A.1).hom,
-      ⟨Fiber.homMk p c (α : Aut A.1).inv,
-        Fiber.hom_ext (α : Aut A.1).hom_inv_id, Fiber.hom_ext (α : Aut A.1).inv_hom_id⟩⟩
+    ⟨Fiber.homMk p c (α : Aut A.1).asIso.hom,
+      ⟨Fiber.homMk p c (α : Aut A.1).asIso.inv,
+        Fiber.hom_ext (α : Aut A.1).asIso.hom_inv_id, Fiber.hom_ext (α : Aut A.1).asIso.inv_hom_id⟩⟩
   left_inv m := Subtype.ext (Fiber.hom_ext rfl)
-  right_inv α := Subtype.ext (Aut.ext rfl)
+  right_inv α := Subtype.ext (Aut.ext (Iso.ext rfl))
 
 /-- **Bijectivity on fibre automorphisms is bijectivity on vertical automorphisms.** Let
 `F : X ⥤ Y` be a functor strictly over `C`, let `A` be an object of the fibre of `pX` over `c` and
@@ -149,6 +150,7 @@ theorem bijective_fiberConj_iff (F : X ⥤ Y) (hF : F ⋙ pY = pX) {c : C} (A : 
     simp only [Function.comp_apply, Equiv.apply_symm_apply]
     apply Subtype.ext
     apply Aut.ext
+    apply Iso.ext
     simp [fiberIsoEndEquiv, verticalAutConj, verticalAutMap, Aut.autMulEquivOfIso, e]
     rfl
   rw [key]

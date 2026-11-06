@@ -168,8 +168,8 @@ noncomputable def extensionByZeroSummandsMap {G H : SheafOfModules.{u} (R.over U
     (f : G ⟶ H) (V : C) :
     (∐ extensionByZeroSummands J R U G V) ⟶ (∐ extensionByZeroSummands J R U H V) :=
   Limits.Sigma.map
-    (f := extensionByZeroSummands J R U G V)
-    (g := extensionByZeroSummands J R U H V)
+    (g := extensionByZeroSummands J R U G V)
+    (f := extensionByZeroSummands J R U H V)
     (fun φ => (f.val.app (op (Over.mk φ)) :
       extensionByZeroSummands J R U G V φ ⟶ extensionByZeroSummands J R U H V φ))
 
@@ -226,8 +226,8 @@ lemma extensionByZeroSectionMap_naturality
       Sigma.ι (extensionByZeroSummands J R U H V) φ =
       Sigma.ι (extensionByZeroSummands J R U G V) φ ≫
         extensionByZeroSummandsMap J R U f V :=
-    (Limits.Sigma.ι_map (f := extensionByZeroSummands J R U G V)
-      (g := extensionByZeroSummands J R U H V)
+    (Limits.Sigma.ι_map (g := extensionByZeroSummands J R U G V)
+      (f := extensionByZeroSummands J R U H V)
       (fun ψ => (f.val.app (op (Over.mk ψ)) :
         extensionByZeroSummands J R U G V ψ ⟶ extensionByZeroSummands J R U H V ψ)) φ).symm
   exact (Category.assoc _ _ _).symm.trans

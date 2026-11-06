@@ -118,7 +118,7 @@ theorem exists_isIso_fieldMorphism_iff_hasMonomorphicFieldRepresentative
     · rw [← pointsMap_class]
       exact hsupp (q.class B S hS Z)
     · rw [fieldMorphism_map]
-      exact mono_comp (fieldMorphism B S hS Z q) f
+      exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ hq) f hmono
   · rintro ⟨p, hpx, hpmono⟩
     have hTalg : IsAlgebraicSpace B S hS (yoneda.obj (p.siteObject B S hS X)) :=
       isAlgebraicSpace_yoneda B S hS _

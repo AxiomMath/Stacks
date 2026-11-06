@@ -94,7 +94,7 @@ universe u v w u₁ v₁ u₂ v₂ u₃ v₃
 -- `def`s, so goals mentioning an object of a fibre, or an object of the site read in `Over S`,
 -- are not type-correct at `implicit` transparency.  Naming them here is what lets `rw`,
 -- `simp only` and instance search see through exactly these and nothing else.
-attribute [local implicit_reducible] CategoryTheory.Over.post
+attribute [local implicit_reducible]
   CategoryTheory.Functor.Fiber CategoryTheory.Functor.Fiber.mk
   CategoryTheory.Functor.Fiber.fiberInclusion
   CategoryTheory.Functor.ChoiceOfPullbacks.pullbackFunctor
@@ -336,7 +336,7 @@ public theorem isSmoothAt_baseChange_of_isVersalAt
       h := Over.homMk W.hom (by simp)
       a_etale := etale_presheaf_of_isEtale B V.left.1 V.left.2 aW haW
       b_etale := terminalYonedaIso_etale B V.left.1 V.left.2
-      comm := Subsingleton.elim _ _
+      comm := terminal.hom_ext _ _
       representative := q
       point := IsLocalRing.closedPoint q.carrier
       maps_to := hmaps.trans hpclass }

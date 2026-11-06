@@ -82,29 +82,23 @@ theorem rightDerivedFunctorPlusSingleIsoOfAcyclic_hom_naturality {A A' : C} (a :
   have h₁ := (DerivedCategory.quotientCompQhIso D).inv.naturality
     ((G.mapHomologicalComplex (ComplexShape.up ℤ)).map g)
   have h₂ := (G.mapHomotopyCategoryFactors (ComplexShape.up ℤ)).inv.naturality g
-  have h₃ := G.rightDerivedFunctorPlusUnit.naturality (plusQuotientMap n₀ g)
+  have h₃ := G.rightDerivedFunctorPlusUnith.naturality (plusQuotientMap n₀ g)
   have h₄ := plusQhObjIsoSingleOfQuasiIso_hom_naturality a R R' n₀ q q' g hg
   simp only [Functor.comp_map] at h₁ h₂ h₃
   simp only [rightDerivedFunctorPlusSingleIsoOfAcyclic, Iso.trans_hom, Iso.app_hom, Iso.symm_hom,
-    Functor.mapIso_hom, Category.assoc]
+    Functor.mapIso_hom, asIso_hom, Category.assoc]
   rw [reassoc_of% h₁]
   congr 1
   rw [← Functor.map_comp_assoc, h₂, Functor.map_comp_assoc]
   congr 1
-  show DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map
-      (G.mapHomotopyCategoryPlus.map (plusQuotientMap n₀ g))) ≫
-      (DerivedCategory.Plus.ι.map (G.rightDerivedFunctorPlusUnit.app _) ≫
-        DerivedCategory.Plus.ι.map
-          (G.rightDerivedFunctorPlus.map (plusQhObjIsoSingleOfQuasiIso A' R' n₀ q').hom)) =
-    (DerivedCategory.Plus.ι.map (G.rightDerivedFunctorPlusUnit.app _) ≫
-        DerivedCategory.Plus.ι.map
-          (G.rightDerivedFunctorPlus.map (plusQhObjIsoSingleOfQuasiIso A R n₀ q).hom)) ≫
-      DerivedCategory.Plus.ι.map
-        (G.rightDerivedFunctorPlus.map ((DerivedCategory.Plus.singleFunctor C 0).map a))
-  rw [← Functor.map_comp_assoc, h₃, Functor.map_comp_assoc,
+  have h₀ : DerivedCategory.Qh.map ((G.mapHomotopyCategory (ComplexShape.up ℤ)).map
+      ((HomotopyCategory.quotient C (ComplexShape.up ℤ)).map g)) =
+      DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map
+        (G.mapHomotopyCategoryPlus.map (plusQuotientMap n₀ g))) := rfl
+  rw [h₀, ← Functor.map_comp_assoc, h₃, Functor.map_comp_assoc,
     ← Functor.map_comp DerivedCategory.Plus.ι (G.rightDerivedFunctorPlus.map _),
     ← Functor.map_comp G.rightDerivedFunctorPlus, h₄, Functor.map_comp G.rightDerivedFunctorPlus,
-    Functor.map_comp DerivedCategory.Plus.ι, Category.assoc]
+    Functor.map_comp DerivedCategory.Plus.ι]
 
 end CategoryTheory.Functor
 

@@ -125,7 +125,7 @@ theorem exteriorPowerChernAltProd_mul_altChernOdd :
     let := Scheme.Modules.isFiniteLocallyFreeOfRank_exteriorPower V r a
     let := Scheme.Modules.isFiniteLocallyFreeOfRank_exteriorPower V r b
     exact Units.ext (commute_totalChern C sY _ _ _ _).eq
-  have := Subgroup.isMulCommutative_closure hcomm
+  have := Subgroup.isMulCommutative_closure fun x hx y hy _ => hcomm x hx y hy
   set G := Subgroup.closure (Set.range u) with hG
   let c' : ℕ → G := fun m => ⟨u m, Subgroup.subset_closure (Set.mem_range_self _)⟩
   -- the ordered product is the product in the commutative group `G`

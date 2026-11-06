@@ -144,9 +144,10 @@ theorem preservesColimitsOfShape_etaleModuleDerivedDirectImageUnbounded_of_isPro
     (hΛ : ∃ m : ℕ, 0 < m ∧ (m : Λ) = 0) (I : Type (max (u + 1) r)) :
     PreservesColimitsOfShape (Discrete I) (etaleModuleDerivedDirectImageUnbounded.{u, r} Λ f) := by
   obtain ⟨m, hm, hmΛ⟩ := hΛ
-  have := quasiCompact_of_isProper f
+  have hqc := quasiCompact_of_isProper f
   have := quasiSeparated_of_isProper f
-  obtain ⟨d, hd⟩ := exists_topologicalKrullDim_fiber_le f
+  obtain ⟨d, hd⟩ := @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le X Y f
+    (IsProper.toLocallyOfFiniteType (f := f)) hqc ‹CompactSpace Y›
   exact preservesColimitsOfShape_of_finiteCohomologicalDimension_directImage Λ f
     ⟨2 * d + 1, fun q hq F => isZero_rightDerived_etaleModuleDirectImage_of_isProper_univ Λ f d hd
       F (isTorsionEtaleModule_of_nsmul_eq_zero_univ Λ m hm hmΛ F) q (by omega)⟩

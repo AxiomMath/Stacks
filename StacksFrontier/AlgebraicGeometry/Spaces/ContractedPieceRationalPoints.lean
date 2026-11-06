@@ -246,7 +246,7 @@ theorem exists_reducedClosedSubspace_pair_ne_of_infinite_fibre
     range_pointsMap_reducedClosedSubspace_comp_subset B (Spec (CommRingCat.of K)) hK hX g y C
       hCclosed hCy, hlift p₁ hp₁c hp₁, hlift p₂ hp₂c hp₂,
     fun h ↦ rationalPointOfClosedPoint_ne B K hK U hft (E p₁) (E p₂) (hclosed p₁ hp₁c)
-      (hclosed p₂ hp₂c) (fun h' ↦ hne (E.injective h')) ((cancel_mono e.inv).1 h)⟩
+      (hclosed p₂ hp₂c) (fun h' ↦ hne (E.injective h')) ((Iso.cancel_iso_inv_right _ _ e).1 h)⟩
 
 /-! ### The extraction at a finite power of the projective line -/
 

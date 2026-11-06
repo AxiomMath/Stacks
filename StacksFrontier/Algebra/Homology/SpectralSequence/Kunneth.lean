@@ -9,6 +9,7 @@ public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Colim
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.Subobject
 public import Mathlib.CategoryTheory.Functor.ReflectsIso.Exact
 public import Mathlib.CategoryTheory.Limits.Preserves.Shapes.Products
+public import Mathlib.CategoryTheory.Limits.Types.Pullbacks
 public import Mathlib.CategoryTheory.Monoidal.Limits.Cokernels
 public import Mathlib.CategoryTheory.Monoidal.Limits.Preserves
 public import Mathlib.RingTheory.Flat.Basic
@@ -1602,10 +1603,10 @@ private lemma preservesColimitsOfShape_cochain_tensorRight
       show GradedObject.mapMap (fun ij : ℤ × ℤ => f.f ij.1 ▷ P.X ij.2)
         (fun ij => ij.1 + ij.2) n =
           Limits.Sigma.map
-            (f := GradedObject.mapObjFun
+            (g := GradedObject.mapObjFun
               (fun ij : ℤ × ℤ => (X.X ij.1 ⊗ P.X ij.2 : ModuleCat.{u} R))
               (fun ij => ij.1 + ij.2) n)
-            (g := GradedObject.mapObjFun
+            (f := GradedObject.mapObjFun
               (fun ij : ℤ × ℤ => (Y.X ij.1 ⊗ P.X ij.2 : ModuleCat.{u} R))
               (fun ij => ij.1 + ij.2) n)
             (fun ij => f.f ij.1.1 ▷ P.X ij.1.2)
@@ -1650,10 +1651,10 @@ private lemma preservesColimitsOfShape_cochain_tensorLeft
       show GradedObject.mapMap (fun ij : ℤ × ℤ => P.X ij.1 ◁ f.f ij.2)
         (fun ij => ij.1 + ij.2) n =
           Limits.Sigma.map
-            (f := GradedObject.mapObjFun
+            (g := GradedObject.mapObjFun
               (fun ij : ℤ × ℤ => (P.X ij.1 ⊗ X.X ij.2 : ModuleCat.{u} R))
               (fun ij => ij.1 + ij.2) n)
-            (g := GradedObject.mapObjFun
+            (f := GradedObject.mapObjFun
               (fun ij : ℤ × ℤ => (P.X ij.1 ⊗ Y.X ij.2 : ModuleCat.{u} R))
               (fun ij => ij.1 + ij.2) n)
             (fun ij => P.X ij.1.1 ◁ f.f ij.1.2)

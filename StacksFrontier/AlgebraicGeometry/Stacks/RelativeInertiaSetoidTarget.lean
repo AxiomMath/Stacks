@@ -111,13 +111,13 @@ def ofAbsolute (F : S ⥤ S') (p : S ⥤ C) (p' : S' ⥤ C) (hw : F ⋙ p' = p)
       cond := by
         subst hw
         have := hfib
-        have hA : p'.map (F.map A.auto.hom) = 𝟙 (p'.obj (F.obj A.obj)) := A.cond
-        have h₁ : p'.IsHomLift (𝟙 (p'.obj (F.obj A.obj))) (F.map A.auto.hom) :=
-          IsHomLift.of_fac' p' _ (F.map A.auto.hom) rfl rfl (by simpa using hA)
+        have hA : p'.map (F.map A.auto.asIso.hom) = 𝟙 (p'.obj (F.obj A.obj)) := A.cond
+        have h₁ : p'.IsHomLift (𝟙 (p'.obj (F.obj A.obj))) (F.map A.auto.asIso.hom) :=
+          IsHomLift.of_fac' p' _ (F.map A.auto.asIso.hom) rfl rfl (by simpa using hA)
         have h₂ : p'.IsHomLift (𝟙 (p'.obj (F.obj A.obj))) (𝟙 (F.obj A.obj)) :=
           IsHomLift.id rfl
         exact Functor.hom_unique_of_fiber_isThin p' (𝟙 (p'.obj (F.obj A.obj))) (ht _)
-          (F.map A.auto.hom) (𝟙 (F.obj A.obj)) h₁ h₂ }
+          (F.map A.auto.asIso.hom) (𝟙 (F.obj A.obj)) h₁ h₂ }
   map φ := { hom := φ.hom, comm := φ.comm }
 
 /-- The comparison `I_{S/S'} ⥤ I_S` is the identity on underlying objects. -/

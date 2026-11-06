@@ -138,51 +138,60 @@ variable {C : Type*} [Category C] [MonoidalCategory C] [Preadditive C]
 
 omit [Preadditive C] in
 /-- The multiplication of `End (𝟙_ C)` is composition in either order. -/
-theorem unitEnd_mul_eq_comp (x y : End (𝟙_ C)) : x * y = x ≫ y := comp_comm_unitEnd y x
+theorem unitEnd_mul_eq_comp (x y : End (𝟙_ C)) : x * y = End.of (x.asHom ≫ y.asHom) :=
+  End.ext (comp_comm_unitEnd y.asHom x.asHom)
 
 variable {F : C} {ι : Type*} [Fintype ι] [DecidableEq ι]
   (e : ι → (𝟙_ C ⟶ F)) (p : ι → (F ⟶ 𝟙_ C))
 
 /-- The matrix of an endomorphism of `F` with respect to a family of points `e` and a family of
 coordinates `p`: the `(a, b)` entry is `e a ≫ f ≫ p b`, an endomorphism of the monoidal unit. -/
-def dualBasisMatrix (f : F ⟶ F) : Matrix ι ι (End (𝟙_ C)) := fun a b => e a ≫ f ≫ p b
+def dualBasisMatrix (f : F ⟶ F) : Matrix ι ι (End (𝟙_ C)) := fun a b => End.of (e a ≫ f ≫ p b)
 
 omit [Preadditive C] [Fintype ι] [DecidableEq ι] in
 /-- The `(a, b)` entry of `dualBasisMatrix e p f` is `e a ≫ f ≫ p b`. -/
 lemma dualBasisMatrix_apply (f : F ⟶ F) (a b : ι) :
-    dualBasisMatrix e p f a b = e a ≫ f ≫ p b := rfl
+    dualBasisMatrix e p f a b = End.of (e a ≫ f ≫ p b) := rfl
+
+omit [Preadditive C] [Fintype ι] [DecidableEq ι] in
+/-- The underlying morphism of the `(a, b)` entry of `dualBasisMatrix e p f` is `e a ≫ f ≫ p b`. -/
+lemma dualBasisMatrix_apply_asHom (f : F ⟶ F) (a b : ι) :
+    (dualBasisMatrix e p f a b).asHom = e a ≫ f ≫ p b := rfl
 
 omit [Fintype ι] in
 /-- **The matrix of the identity is the identity matrix.** -/
 theorem dualBasisMatrix_id (hp : ∀ i j, e i ≫ p j = if i = j then 𝟙 (𝟙_ C) else 0) :
     dualBasisMatrix e p (𝟙 F) = 1 := by
   funext a b
-  rw [dualBasisMatrix_apply, Category.id_comp, hp]
+  ext
+  rw [dualBasisMatrix_apply_asHom, Category.id_comp, hp]
   rcases eq_or_ne a b with rfl | h
-  · rw [if_pos rfl, Matrix.one_apply_eq]
-    exact End.one_def.symm
+  · rw [if_pos rfl, Matrix.one_apply_eq, End.one_asHom]
   · rw [if_neg h, Matrix.one_apply_ne h]
+    simp
 
 omit [DecidableEq ι] in
 /-- **Composition goes to the matrix product, in the same order.** -/
 theorem dualBasisMatrix_comp (htot : ∑ i : ι, p i ≫ e i = 𝟙 F) (f g : F ⟶ F) :
     dualBasisMatrix e p (f ≫ g) = dualBasisMatrix e p f * dualBasisMatrix e p g := by
   funext a b
-  have key : ∀ i : ι, dualBasisMatrix e p f a i * dualBasisMatrix e p g i b
+  ext
+  have key : ∀ i : ι, (dualBasisMatrix e p f a i * dualBasisMatrix e p g i b).asHom
       = e a ≫ f ≫ (p i ≫ e i) ≫ g ≫ p b := fun i => by
     rw [unitEnd_mul_eq_comp]
-    simp only [dualBasisMatrix_apply, Category.assoc]
-  rw [Matrix.mul_apply, Finset.sum_congr rfl fun i (_ : i ∈ Finset.univ) => key i,
+    simp only [dualBasisMatrix_apply_asHom, Category.assoc]
+  rw [Matrix.mul_apply, End.sum_asHom, Finset.sum_congr rfl fun i (_ : i ∈ Finset.univ) => key i,
     ← Preadditive.comp_sum, ← Preadditive.comp_sum, ← Preadditive.sum_comp, htot,
     Category.id_comp]
-  simp only [dualBasisMatrix_apply, Category.assoc]
+  simp only [dualBasisMatrix_apply_asHom, Category.assoc]
 
 omit [Fintype ι] [DecidableEq ι] in
 /-- The matrix of a sum is the sum of the matrices. -/
 theorem dualBasisMatrix_add (f g : F ⟶ F) :
     dualBasisMatrix e p (f + g) = dualBasisMatrix e p f + dualBasisMatrix e p g := by
   funext a b
-  simp only [dualBasisMatrix_apply, Matrix.add_apply, Preadditive.add_comp,
+  ext
+  simp [dualBasisMatrix_apply_asHom, Matrix.add_apply, Preadditive.add_comp,
     Preadditive.comp_add]
 
 omit [Fintype ι] [DecidableEq ι] in
@@ -190,7 +199,8 @@ omit [Fintype ι] [DecidableEq ι] in
 @[simp]
 theorem dualBasisMatrix_zero : dualBasisMatrix e p (0 : F ⟶ F) = 0 := by
   funext a b
-  simp only [dualBasisMatrix_apply, Matrix.zero_apply, Limits.zero_comp, Limits.comp_zero]
+  ext
+  simp [dualBasisMatrix_apply_asHom, Matrix.zero_apply, Limits.zero_comp, Limits.comp_zero]
 
 omit [Fintype ι] [DecidableEq ι] in
 /-- The matrix of a finite sum of endomorphisms is the sum of their matrices. -/
@@ -201,10 +211,10 @@ theorem dualBasisMatrix_sum {κ : Type*} (t : Finset κ) (f : κ → (F ⟶ F)) 
 omit [DecidableEq ι] in
 /-- An endomorphism of `F` is recovered from its matrix. -/
 theorem eq_sum_dualBasisMatrix (htot : ∑ i : ι, p i ≫ e i = 𝟙 F) (f : F ⟶ F) :
-    f = ∑ a : ι, ∑ b : ι, p a ≫ dualBasisMatrix e p f a b ≫ e b := by
-  have h : ∀ a : ι, ∑ b : ι, p a ≫ dualBasisMatrix e p f a b ≫ e b = p a ≫ e a ≫ f :=
+    f = ∑ a : ι, ∑ b : ι, p a ≫ (dualBasisMatrix e p f a b).asHom ≫ e b := by
+  have h : ∀ a : ι, ∑ b : ι, p a ≫ (dualBasisMatrix e p f a b).asHom ≫ e b = p a ≫ e a ≫ f :=
     fun a => by
-      simp only [dualBasisMatrix_apply, Category.assoc]
+      simp only [dualBasisMatrix_apply_asHom, Category.assoc]
       rw [← Preadditive.comp_sum, ← Preadditive.comp_sum, ← Preadditive.comp_sum, htot,
         Category.comp_id]
   refine Eq.symm ?_
@@ -410,11 +420,11 @@ variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} {R : S
 of modules: its value on the unit section. -/
 def unitEndValue (V : Cᵒᵖ) (r : End (_root_.SheafOfModules.unit R)) :
     ToType (R.obj.obj V) :=
-  r.val.app V (unitOne V)
+  r.asHom.val.app V (unitOne V)
 
 /-- `unitEndValue V r` is the value of `r` on the unit section over `V`. -/
 lemma unitEndValue_apply (V : Cᵒᵖ) (r : End (_root_.SheafOfModules.unit R)) :
-    unitEndValue V r = r.val.app V (unitOne V) := rfl
+    unitEndValue V r = r.asHom.val.app V (unitOne V) := rfl
 
 /-- The value of the identity endomorphism of the unit sheaf of modules is `1`. -/
 @[simp]
@@ -432,24 +442,25 @@ lemma unitEndValue_add (V : Cᵒᵖ) (r r' : End (_root_.SheafOfModules.unit R))
 /-- The value of a finite sum of endomorphisms is the sum of their values. -/
 lemma unitEndValue_sum {κ : Type*} (t : Finset κ)
     (f : κ → End (_root_.SheafOfModules.unit R)) (V : Cᵒᵖ) :
-    unitEndValue V (∑ k ∈ t, f k) = ∑ k ∈ t, unitEndValue V (f k) :=
-  app_sum t f V (unitOne V)
+    unitEndValue V (∑ k ∈ t, f k) = ∑ k ∈ t, unitEndValue V (f k) := by
+  rw [unitEndValue, End.sum_asHom]
+  exact app_sum t (fun k => (f k).asHom) V (unitOne V)
 
 /-- An endomorphism of the unit sheaf of modules acts on sections by multiplication by its
 value on the unit section. -/
 lemma app_toUnit (g : _root_.SheafOfModules.unit R ⟶ _root_.SheafOfModules.unit R) (V : Cᵒᵖ)
     (c : ToType (R.obj.obj V)) :
-    g.val.app V (toUnit V c) = toUnit V (c * unitEndValue V g) :=
-  (app_unit_eq g V c).trans (toUnit_smul V c (unitEndValue V g))
+    g.val.app V (toUnit V c) = toUnit V (c * unitEndValue V (End.of g)) :=
+  (app_unit_eq g V c).trans (toUnit_smul V c (unitEndValue V (End.of g)))
 
 /-- The value of a composite `r ≫ r'` is the product `unitEndValue V r * unitEndValue V r'`. -/
 lemma unitEndValue_comp (V : Cᵒᵖ) (r r' : End (_root_.SheafOfModules.unit R)) :
-    unitEndValue V (r ≫ r') = unitEndValue V r * unitEndValue V r' :=
-  app_toUnit r' V (unitEndValue V r)
+    unitEndValue V (End.of (r.asHom ≫ r'.asHom)) = unitEndValue V r * unitEndValue V r' :=
+  app_toUnit r'.asHom V (unitEndValue V r)
 
 /-- The value of `if P then 𝟙 _ else 0` is `if P then 1 else 0`. -/
 lemma unitEndValue_ite (V : Cᵒᵖ) {P : Prop} [Decidable P] :
-    unitEndValue (R := R) V (if P then 𝟙 (_root_.SheafOfModules.unit R) else 0)
+    unitEndValue (R := R) V (End.of (if P then 𝟙 (_root_.SheafOfModules.unit R) else 0))
       = if P then 1 else 0 := by
   by_cases h : P
   · rw [if_pos h, if_pos h]; rfl
@@ -458,8 +469,8 @@ lemma unitEndValue_ite (V : Cᵒᵖ) {P : Prop} [Decidable P] :
 /-- Restriction along `f : V ⟶ W` sends the value of `r` over `V` to the value of `r` over `W`. -/
 lemma unitEndValue_res {V W : Cᵒᵖ} (f : V ⟶ W) (r : End (_root_.SheafOfModules.unit R)) :
     (R.obj.map f).hom (unitEndValue V r) = unitEndValue W r :=
-  (PresheafOfModules.naturality_apply r.val f (unitOne V)).symm.trans
-    (congrArg (fun x => r.val.app W x) (PresheafOfModules.unit_map_one R.obj f))
+  (PresheafOfModules.naturality_apply r.asHom.val f (unitOne V)).symm.trans
+    (congrArg (fun x => r.asHom.val.app W x) (PresheafOfModules.unit_map_one R.obj f))
 
 /-- Applying a morphism of sheaves of modules to a finite sum of sections. -/
 lemma app_sum_elt {M N : _root_.SheafOfModules.{w} R} (g : M ⟶ N) (V : Cᵒᵖ) {κ : Type*}
@@ -484,10 +495,10 @@ omit [DecidableEq I] in
 lemma secToMat_app_secOfMat (V : Cᵒᵖ) (ϑ : A ⟶ A)
     (M : Matrix I I (ToType (R.obj.obj V))) (a b : I) :
     secToMat qq V (ϑ.val.app V (secOfMat dd V M)) a b
-      = ∑ c : I, ∑ e : I, M c e * unitEndValue V (dd (c, e) ≫ ϑ ≫ qq (a, b)) := by
+      = ∑ c : I, ∑ e : I, M c e * unitEndValue V (End.of (dd (c, e) ≫ ϑ ≫ qq (a, b))) := by
   have key : ∀ c e : I,
       (qq (a, b)).val.app V (ϑ.val.app V ((dd (c, e)).val.app V (toUnit V (M c e))))
-        = M c e * unitEndValue V (dd (c, e) ≫ ϑ ≫ qq (a, b)) :=
+        = M c e * unitEndValue V (End.of (dd (c, e) ≫ ϑ ≫ qq (a, b))) :=
     fun c e => app_toUnit (dd (c, e) ≫ ϑ ≫ qq (a, b)) V (M c e)
   show (qq (a, b)).val.app V (ϑ.val.app V
     (∑ c : I, ∑ e : I, (dd (c, e)).val.app V (toUnit V (M c e)))) = _
@@ -506,7 +517,7 @@ lemma secToMat_secOfMat (hdq : ∀ k l : I × I,
         = if ((c, e) : I × I) = (a, b) then M c e else 0 := by
     intro c e
     have h1 : (qq (a, b)).val.app V ((dd (c, e)).val.app V (toUnit V (M c e)))
-        = toUnit V (M c e * unitEndValue V (dd (c, e) ≫ qq (a, b))) :=
+        = toUnit V (M c e * unitEndValue V (End.of (dd (c, e) ≫ qq (a, b)))) :=
       app_toUnit (dd (c, e) ≫ qq (a, b)) V (M c e)
     rw [h1, hdq, unitEndValue_ite]
     by_cases hce : ((c, e) : I × I) = (a, b)
@@ -662,7 +673,7 @@ theorem freeMap_comp_freeProj (i a b : I) :
 /-- **The coordinates of a point of the matrix algebra sheaf are the matrix entries of the
 corresponding endomorphism.** -/
 theorem curry'_comp_matCoord (f : freeModule S I ⟶ freeModule S I) (a b : I) :
-    MonoidalClosed.curry' f ≫ matCoord (S := S) (a, b) = freeDualMatrix f a b :=
+    MonoidalClosed.curry' f ≫ matCoord (S := S) (a, b) = (freeDualMatrix f a b).asHom :=
   MonoidalClosed.curry'_comp_ihomIsoOfDualBasis_inv_comp
     (fun i => freeInj (S := S) i) (fun j => freeProj j) sum_freeProj_comp_freeInj
     freeInj_comp_freeProj (fun k => freeInj (S := S) k)
@@ -691,7 +702,7 @@ def pointMatrix (ϑ : endAlgebra (freeModule S I) ⟶ endAlgebra (freeModule S I
 endomorphisms.** -/
 theorem matIncl_comp_comp_matCoord
     (ϑ : endAlgebra (freeModule S I) ⟶ endAlgebra (freeModule S I)) (k : I × I) (a b : I) :
-    matIncl (S := S) k ≫ ϑ.hom ≫ matCoord (a, b) = pointMatrix ϑ k a b :=
+    matIncl (S := S) k ≫ ϑ.hom ≫ matCoord (a, b) = (pointMatrix ϑ k a b).asHom :=
   have h0 : MonoidalClosed.curry' (MonoidalClosed.pointMap ϑ
         (MonoidalClosed.uncurry' (matIncl (S := S) k))) = matIncl (S := S) k ≫ ϑ.hom :=
     (MonoidalClosed.curry'_pointMap ϑ _).trans
@@ -704,13 +715,13 @@ theorem freeDualMatrix_uncurry'_matIncl (a b : I) :
     freeDualMatrix (MonoidalClosed.uncurry' (matIncl (S := S) (a, b)))
       = Matrix.single a b (1 : R₀ S) := by
   funext i j
-  refine Eq.trans ?_ (if_congr
-    (show ((a, b) : I × I) = (i, j) ↔ a = i ∧ b = j by simp [Prod.ext_iff])
-    End.one_def.symm rfl)
-  exact ((curry'_comp_matCoord _ i j).symm.trans
+  apply End.ext
+  refine (((curry'_comp_matCoord _ i j).symm.trans
     (congrArg (fun z => z ≫ matCoord (S := S) (i, j))
       (MonoidalClosed.curry'_uncurry' (matIncl (S := S) (a, b))))).trans
-    (matIncl_comp_matCoord (a, b) (i, j))
+    (matIncl_comp_matCoord (a, b) (i, j))).trans ?_
+  rw [Matrix.single_apply]
+  split_ifs <;> simp_all [Prod.ext_iff]
 
 /-- **The matrix units of the matrix algebra sheaf satisfy the matrix unit relations.** -/
 theorem uncurry'_matIncl_comp (a b c e : I) :
@@ -794,7 +805,7 @@ theorem sectionMap_apply
     (ϑ : (endAlgebra (freeModule S I)).X ⟶ (endAlgebra (freeModule S I)).X)
     (U : S.Opens) (M : Matrix I I Γ(S, U)) (a b : I) :
     sectionMap ϑ U M a b = ∑ c : I, ∑ e : I,
-      M c e * unitEndValueHom S U (matIncl (S := S) (c, e) ≫ ϑ ≫ matCoord (a, b)) :=
+      M c e * unitEndValueHom S U (End.of (matIncl (S := S) (c, e) ≫ ϑ ≫ matCoord (a, b))) :=
   _root_.Stacks.SheafOfModules.secToMat_app_secOfMat _ _ (op U) ϑ M a b
 
 /-- The identity endomorphism induces the identity map on matrices of sections. -/
@@ -849,7 +860,8 @@ theorem sectionMap_eq_unitCombination
   rw [sectionMap_apply, _root_.Stacks.Matrix.unitCombination_apply]
   exact Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun e _ =>
     congrArg (fun z => M c e * unitEndValueHom S U z)
-      (matIncl_comp_comp_matCoord ϑ (c, e) a b)
+      (End.ext (matIncl_comp_comp_matCoord ϑ (c, e) a b) :
+        End.of (matIncl (S := S) (c, e) ≫ ϑ.hom ≫ matCoord (a, b)) = pointMatrix ϑ (c, e) a b)
 
 /-- **An automorphism of the matrix algebra sheaf, read on the sections over an open set**, as an
 algebra automorphism of `Matrix I I Γ(S, U)`. -/

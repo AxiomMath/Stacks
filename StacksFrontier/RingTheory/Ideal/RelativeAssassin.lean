@@ -17,6 +17,7 @@ public import Mathlib.NumberTheory.Height.Projectivization
 public import Mathlib.NumberTheory.LucasLehmer
 public import Mathlib.NumberTheory.SelbergSieve
 public import Mathlib.Order.CompletePartialOrder
+public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.PicardGroup
 public import Mathlib.RingTheory.Radical.NatInt
 public import Mathlib.RingTheory.WittVector.IsPoly
@@ -468,7 +469,6 @@ private theorem isLocalizedModule_fibreMk (p : Ideal R) [p.IsPrime] :
 private theorem smul_eq_zero_of_mem (p : Ideal R) {r : R} (hr : r ∈ p) (z : N ⊗[R] (R ⧸ p)) :
     r • z = 0 := by
   induction z with
-  | zero => rw [smul_zero]
   | tmul n x =>
       rw [TensorProduct.smul_tmul', TensorProduct.smul_tmul]
       obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x

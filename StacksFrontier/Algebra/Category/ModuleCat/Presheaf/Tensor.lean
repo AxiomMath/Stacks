@@ -156,6 +156,11 @@ section Tensor
 
 variable {O : Cᵒᵖ ⥤ CommRingCat.{w}}
 
+/-- The ring of sections of `O ⋙ forget₂ CommRingCat RingCat` over `X` is commutative. -/
+noncomputable instance commRingObjForget₂ (X : Cᵒᵖ) :
+    CommRing ((O ⋙ forget₂ CommRingCat RingCat).obj X) :=
+  inferInstanceAs (CommRing (O.obj X))
+
 /-- The objectwise tensor product of two presheaves of modules over a presheaf of commutative
 rings, the two factors living in module universes independent of each other and of the universe of
 the ring. -/

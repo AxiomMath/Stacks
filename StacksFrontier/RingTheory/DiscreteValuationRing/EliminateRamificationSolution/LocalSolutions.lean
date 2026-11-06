@@ -277,7 +277,7 @@ private theorem ne_bot_of_isMaximal_of_isIntegral_dvr
     [CommRing S] [Algebra R S] [Algebra.IsIntegral R S] [FaithfulSMul R S]
     (q : Ideal S) [q.IsMaximal] : q ≠ ⊥ := by
   have hc : q.comap (algebraMap R S) = maximalIdeal R :=
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) q)
   intro hq
   apply IsDiscreteValuationRing.not_a_field R
   rw [← hc, hq]
@@ -369,7 +369,7 @@ theorem comap_eq_maximalIdeal_of_integral_tower
     (q : Ideal C) [q.IsMaximal] :
     q.comap (algebraMap R C) = maximalIdeal R := by
   have hB : q.comap (algebraMap B C) = maximalIdeal B :=
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := B) q)
   have hA : q.comap (algebraMap A C) = maximalIdeal A := by
     rw [IsScalarTower.algebraMap_eq A B C, ← Ideal.comap_comap, hB,
       IsLocalRing.maximalIdeal_comap]
@@ -420,7 +420,9 @@ theorem faithfulSMul_of_isIntegral_tower
   apply (faithfulSMul_iff_algebraMap_injective R S).mpr
   apply (RingHom.injective_iff_ker_eq_bot _).mpr
   apply Ideal.eq_bot_of_comap_eq_bot (R := A)
-  rw [RingHom.ker_eq_comap_bot, Ideal.comap_comap, ← IsScalarTower.algebraMap_eq A R S]
+  rw [RingHom.ker_eq_comap_bot]
+  change Ideal.comap _ (Ideal.comap _ ⊥) = ⊥
+  rw [Ideal.comap_comap, ← IsScalarTower.algebraMap_eq A R S]
   exact Ideal.comap_bot_of_injective _ (FaithfulSMul.algebraMap_injective A S)
 
 /-- Finite generation of a residue map is invariant under equality of the source prime. -/

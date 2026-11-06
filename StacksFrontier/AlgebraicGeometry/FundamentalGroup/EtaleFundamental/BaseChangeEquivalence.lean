@@ -96,9 +96,9 @@ theorem continuous_etaleFundamentalGroupMulEquivOfIsEquivalence_symm (f : X ⟶ 
     (finiteEtaleBaseChange f).objObjPreimageIso V
   -- The component at `V` of the preimage of `σ`, as a continuous function of `σ`.
   have hkey : ∀ σ : EtaleFundamentalGroup Y (x.map f),
-      (((etaleFundamentalGroupMulEquivOfIsEquivalence f x).symm σ).app V).hom q =
+      (((etaleFundamentalGroupMulEquivOfIsEquivalence f x).symm σ).asIso.app V).hom q =
         (finiteEtaleFiberFunctor x).map α.hom
-          ((finiteEtaleFiberProjectionEquiv f x W).symm ((σ.app W).hom
+          ((finiteEtaleFiberProjectionEquiv f x W).symm ((σ.asIso.app W).hom
             (finiteEtaleFiberProjection f x W
               ((finiteEtaleFiberFunctor x).map α.inv q)))) := by
     intro σ
@@ -114,17 +114,17 @@ theorem continuous_etaleFundamentalGroupMulEquivOfIsEquivalence_symm (f : X ⟶ 
       ((etaleFundamentalGroupMulEquivOfIsEquivalence f x).symm σ)
       ((finiteEtaleFiberFunctor x).map α.inv q)
     rw [hτσ] at hproj
-    have hcomp : ((((etaleFundamentalGroupMulEquivOfIsEquivalence f x).symm σ).app
+    have hcomp : ((((etaleFundamentalGroupMulEquivOfIsEquivalence f x).symm σ).asIso.app
           ((finiteEtaleBaseChange f).obj W)).hom)
           ((finiteEtaleFiberFunctor x).map α.inv q) =
-        (finiteEtaleFiberProjectionEquiv f x W).symm ((σ.app W).hom
+        (finiteEtaleFiberProjectionEquiv f x W).symm ((σ.asIso.app W).hom
           (finiteEtaleFiberProjection f x W
             ((finiteEtaleFiberFunctor x).map α.inv q))) := by
       rw [← hproj]
       exact ((finiteEtaleFiberProjectionEquiv f x W).symm_apply_apply _).symm
     -- naturality of the preimage of `σ` along `α`
     have hnat := NatTrans.naturality_apply
-      ((etaleFundamentalGroupMulEquivOfIsEquivalence f x).symm σ).hom α.hom
+      ((etaleFundamentalGroupMulEquivOfIsEquivalence f x).symm σ).asIso.hom α.hom
       ((finiteEtaleFiberFunctor x).map α.inv q)
     rw [hqq] at hnat
     exact hnat.trans (congrArg (fun z ↦ (finiteEtaleFiberFunctor x).map α.hom z) hcomp)

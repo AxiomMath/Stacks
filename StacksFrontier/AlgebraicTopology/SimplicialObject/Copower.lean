@@ -119,14 +119,14 @@ public theorem existsUnique_hom_app_eq (U : SSet.{w}) {V W : SimplicialObject C}
     (hσ : ∀ (n : ℕ) (i : Fin (n + 1)) (u : U.obj (op ⦋n⦌)),
       V.σ i ≫ d (n + 1) (U.σ i u) = d n u ≫ W.σ i) :
     ∃! f : CategoryOfElements.π U ⋙ V ⟶ CategoryOfElements.π U ⋙ W,
-      ∀ (n : ℕ) (u : U.obj (op ⦋n⦌)), f.app ⟨op ⦋n⦌, u⟩ = d n u := by
-  refine ⟨{ app := fun p => d p.1.unop.len p.2, naturality := ?_ }, fun n u => rfl, ?_⟩
+      ∀ (n : ℕ) (u : U.obj (op ⦋n⦌)), f.app ⟨u⟩ = d n u := by
+  refine ⟨{ app := fun p => d p.obj.unop.len p.val, naturality := ?_ }, fun n u => rfl, ?_⟩
   · intro p q g
-    have h := naturality_of_δ_σ U d hδ hσ g.1.unop p.2
-    rw [Quiver.Hom.op_unop, g.2] at h
+    have h := naturality_of_δ_σ U d hδ hσ g.hom.unop p.val
+    rw [Quiver.Hom.op_unop, g.map_val] at h
     exact h
   · intro f hf
-    ext ⟨⟨n⟩, u⟩
+    ext @⟨⟨n⟩, u⟩
     exact hf n.len u
 
 end SSet
@@ -313,35 +313,36 @@ public theorem exists_corepresentableBy_copower (V : J ⥤ C) (U : J ⥤ Type w)
     ∃ h : ((whiskeringLeft U.Elements J C).obj (CategoryOfElements.π U) ⋙
         coyoneda.obj (op (CategoryOfElements.π U ⋙ V))).CorepresentableBy (V.copower U),
       ∀ (W : J ⥤ C) (g : V.copower U ⟶ W) (j : J) (u : U.obj j),
-        (h.homEquiv g).app ⟨j, u⟩ =
+        (h.homEquiv g).app ⟨u⟩ =
           Sigma.ι (fun _ : U.obj j => V.obj j) u ≫ g.app j := by
   refine ⟨⟨fun {W} => ?_, ?_⟩, ?_⟩
   · refine Equiv.mk
-      (fun g => { app := fun p => Sigma.ι (fun _ : U.obj p.1 => V.obj p.1) p.2 ≫ g.app p.1
+      (fun g => { app := fun p => Sigma.ι (fun _ : U.obj p.obj => V.obj p.obj) p.val ≫ g.app p.obj
                   naturality := ?_ })
       (fun f => { app := fun j =>
                     Limits.Sigma.desc fun u =>
-                      (f.app ⟨j, u⟩ : V.obj j ⟶ W.obj j)
+                      @id (V.obj j ⟶ W.obj j) (f.app ⟨u⟩)
                   naturality := ?_ }) ?_ ?_
     · intro p q ψ
       obtain ⟨φ, hφ⟩ := ψ
-      obtain ⟨j, u⟩ := p
-      obtain ⟨j', u'⟩ := q
+      obtain @⟨j, u⟩ := p
+      obtain @⟨j', u'⟩ := q
       dsimp at hφ
       induction hφ
-      change V.map φ ≫ _ = (_ ≫ g.app j) ≫ W.map φ
+      change V.map (φ : j ⟶ j') ≫ Sigma.ι (fun _ : U.obj j' => V.obj j') (U.map φ u) ≫
+        g.app j' = (Sigma.ι (fun _ : U.obj j => V.obj j) u ≫ g.app j) ≫ W.map (φ : j ⟶ j')
       rw [← Category.assoc, ← ι_comp_copower_map, Category.assoc, g.naturality, Category.assoc]
     · intro j j' φ
       apply Limits.Sigma.hom_ext
       intro u
       rw [reassoc_of% ι_comp_copower_map, Sigma.ι_desc, Sigma.ι_desc_assoc]
-      exact f.naturality (X := (⟨j, u⟩ : U.Elements)) (Y := ⟨j', U.map φ u⟩) ⟨φ, rfl⟩
+      exact f.naturality (X := (⟨u⟩ : U.Elements)) (Y := ⟨U.map φ u⟩) ⟨φ, rfl⟩
     · intro g
       ext j
       exact Limits.Sigma.hom_ext _ _ fun u => Limits.Sigma.ι_desc _ _
-    · exact fun f => NatTrans.ext (funext fun ⟨_, _⟩ => Limits.Sigma.ι_desc _ _)
+    · exact fun f => NatTrans.ext (funext fun ⟨_⟩ => Limits.Sigma.ι_desc _ _)
   · intro W W' k g
-    exact NatTrans.ext (funext fun ⟨_, _⟩ => (Category.assoc _ _ _).symm)
+    exact NatTrans.ext (funext fun ⟨_⟩ => (Category.assoc _ _ _).symm)
   · intro W g j u
     rfl
 

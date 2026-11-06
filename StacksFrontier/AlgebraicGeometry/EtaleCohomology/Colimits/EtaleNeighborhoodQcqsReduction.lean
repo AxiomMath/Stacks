@@ -109,7 +109,8 @@ abbrev EtaleNeighborhoodIndex : Type u := (etaleNeighborhoodAffineIndex B S hS s
 is a small filtered category, so this is `AB5OfSize` for `AddCommGrpCat`. -/
 instance hasExactColimitsOfShape_etaleNeighborhoodIndex :
     HasExactColimitsOfShape (EtaleNeighborhoodIndex B S hS s) AddCommGrpCat.{u + 1} :=
-  letI : AB5OfSize.{u, u} AddCommGrpCat.{u + 1} := AB5OfSize_of_univLE AddCommGrpCat.{u + 1}
+  letI : AB5OfSize.{u, u} AddCommGrpCat.{u + 1} :=
+    AB5OfSize_of_univLE.{u, u, u + 1, u + 1} AddCommGrpCat.{u + 1}
   AB5OfSize.ofShape (EtaleNeighborhoodIndex B S hS s)
 
 /-! ### The system and its limit, over `X` -/

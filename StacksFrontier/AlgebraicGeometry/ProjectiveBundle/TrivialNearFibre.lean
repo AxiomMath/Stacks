@@ -97,7 +97,7 @@ theorem exists_apply_ne_zero_of_isBaseChange {R S M N : Type*} {_ : CommSemiring
   by_contra hc
   push Not at hc
   obtain ⟨n, hn⟩ := exists_ne (0 : N)
-  refine hn (h.inductionOn n (fun n => n = 0) rfl (fun m => hc m) (fun s n hn => ?_)
+  refine hn (h.inductionOn (motive := fun n => n = 0) n (fun m => hc m) (fun s n hn => ?_)
     (fun n₁ n₂ h₁ h₂ => ?_))
   · rw [hn, smul_zero]
   · rw [h₁, h₂, add_zero]

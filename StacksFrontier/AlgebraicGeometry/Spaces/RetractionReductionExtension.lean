@@ -251,6 +251,8 @@ theorem retractionProjection_app_eq_zero_iff (U : SmallEtale B S hS X₀.1)
   refine Iff.trans ?_ (reductionMap_app_eq_zero_iff B S hS r hrep i hi F hF U hU (h.isAffine U hU)
     (h.surjective U hU) x)
   have hinj : Function.Injective (ψ.hom.val.app (op U)) :=
+    haveI : Mono ψ.hom := ⟨fun g g' e => by
+      simpa only [Category.assoc, Iso.hom_inv_id, Category.comp_id] using congrArg (· ≫ ψ.inv) e⟩
     Stacks.SheafOfModules.injective_val_app_of_mono ψ.hom (op U)
   show ψ.hom.val.app (op U) ((reductionMap B S hS r hrep i hi F).val.app (op U) x) = 0 ↔ _
   exact ⟨fun h0 => hinj (h0.trans (map_zero _).symm), fun h0 => by rw [h0, map_zero]⟩

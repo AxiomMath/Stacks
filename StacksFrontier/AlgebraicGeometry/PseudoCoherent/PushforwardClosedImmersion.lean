@@ -27,7 +27,7 @@ is a complete proof of Stacks 09VC from Stacks 09VA, with no further gap.
 
 ## Main results
 
-* `CategoryTheory.Functor.mapDerivedCategoryCompIso`: an isomorphism `F ⋙ G ≅ H` of exact functors
+* `CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`: an isomorphism `F ⋙ G ≅ H` of exact functors
   induces `F.mapDerivedCategory ⋙ G.mapDerivedCategory ≅ H.mapDerivedCategory`.
 * `CategoryTheory.Functor.mapDerivedCategoryCongr`: isomorphic exact functors induce isomorphic
   functors on derived categories.
@@ -41,7 +41,7 @@ is a complete proof of Stacks 09VC from Stacks 09VA, with no further gap.
 
 ## Implementation notes
 
-`CategoryTheory.Functor.mapDerivedCategoryCompIso` is **not** built here. The development already
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` is **not** built here. The development already
 compares the degreewise action of a composite with the composite of the degreewise actions, in
 `Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso`, and already transports the
 degreewise action along an isomorphism of exact functors, in
@@ -109,7 +109,7 @@ degreewise change of functor `Stacks.DerivedCategoryComparisons.mapDerivedCatego
 that `e` induces.  Both of those are lifts through the localization `DerivedCategory.Q`, so this
 one is too, and `CategoryTheory.Functor.mapDerivedCategoryCompIso_hom_app_Q` evaluates it on the
 image of a cochain complex. -/
-public def mapDerivedCategoryCompIso
+public def mapDerivedCategoryCompIsoOfCompIso
     {F : C₁ ⥤ C₂} [F.Additive] [PreservesFiniteLimits F] [PreservesFiniteColimits F]
     {G : C₂ ⥤ C₃} [G.Additive] [PreservesFiniteLimits G] [PreservesFiniteColimits G]
     {H : C₁ ⥤ C₃} [H.Additive] [PreservesFiniteLimits H] [PreservesFiniteColimits H]
@@ -150,7 +150,7 @@ public def mapDerivedCategoryPushforwardComp {X Y Z : Scheme.{u}} (f : X ⟶ Y) 
     [IsClosedImmersion f] [IsClosedImmersion g] :
     (pushforward f).mapDerivedCategory ⋙ (pushforward g).mapDerivedCategory ≅
       (pushforward (f ≫ g)).mapDerivedCategory :=
-  Functor.mapDerivedCategoryCompIso (pushforwardComp f g)
+  Functor.mapDerivedCategoryCompIsoOfCompIso (pushforwardComp f g)
 
 /-- For closed immersions `i : X ⟶ Y` and `k : Y ⟶ Z` of schemes, the local condition of
 Stacks 09UI for the composite `i ≫ k` holds for `E` and `m` if and only if the iterated

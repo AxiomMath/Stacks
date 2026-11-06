@@ -113,13 +113,13 @@ abbrev isoY (c : Obj pX pY F) : F.obj c.x ≅ c.y.obj := c.iso
 /-- The automorphism `ψ ≫ α ≫ ψ⁻¹` of `F x` carried by an object `(x, (y, α), ψ)` of
 `𝒳 ×_𝒴 I_𝒴`. -/
 def aut (c : Obj pX pY F) : F.obj c.x ⟶ F.obj c.x :=
-  (isoY c).hom ≫ c.y.auto.hom ≫ (isoY c).inv
+  (isoY c).hom ≫ c.y.auto.asIso.hom ≫ (isoY c).inv
 
 /-- The automorphism carried by an object of `𝒳 ×_𝒴 I_𝒴` lies over an identity. -/
 theorem isHomLift_aut (c : Obj pX pY F) : pY.IsHomLift (𝟙 c.base) (aut c) := by
   have h₁ : pY.IsHomLift (𝟙 c.base) (isoY c).hom := c.vertical
   have hy : pY.obj c.y.obj = c.base := c.hy
-  have h₃ : pY.IsHomLift (𝟙 c.base) c.y.auto.hom :=
+  have h₃ : pY.IsHomLift (𝟙 c.base) c.y.auto.asIso.hom :=
     IsHomLift.of_fac' pY _ _ hy hy (by rw [c.y.cond]; simp)
   exact Functor.isHomLift_id_comp pY _ _ h₁ (Functor.isHomLift_id_comp pY _ _ h₃ inferInstance)
 
@@ -127,12 +127,12 @@ theorem isHomLift_aut (c : Obj pX pY F) : pY.IsHomLift (𝟙 c.base) (aut c) := 
 theorem aut_naturality {c' c : Obj pX pY F} (u : c' ⟶ c) :
     aut c' ≫ F.map u.a = F.map u.a ≫ aut c := by
   have hw : F.map u.a ≫ (isoY c).hom = (isoY c').hom ≫ u.b.hom := u.w
-  have hcomm : u.b.hom ≫ c.y.auto.hom = c'.y.auto.hom ≫ u.b.hom := u.b.comm
+  have hcomm : u.b.hom ≫ c.y.auto.asIso.hom = c'.y.auto.asIso.hom ≫ u.b.hom := u.b.comm
   have hw' : (isoY c').inv ≫ F.map u.a = u.b.hom ≫ (isoY c).inv := by
     rw [Iso.inv_comp_eq, ← Category.assoc, ← hw, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
   unfold aut
-  rw [Category.assoc, Category.assoc, hw', ← Category.assoc c'.y.auto.hom, ← hcomm,
+  rw [Category.assoc, Category.assoc, hw', ← Category.assoc c'.y.auto.asIso.hom, ← hcomm,
     Category.assoc, ← Category.assoc (isoY c').hom, ← hw, Category.assoc]
 
 /-- An object `(x, (y, α), ψ)` of `𝒳 ×_𝒴 I_𝒴` *lifts its automorphism* when the automorphism
@@ -391,20 +391,20 @@ noncomputable def liftsAutomorphismOpenSubstack
 theorem injective_automorphismGroupMap
     (hfa : (CatFiberedInGroupoids.homFunctor f.hom).Faithful) (b : 𝒳.val.val.obj) :
     Function.Injective (automorphismGroupMap B S hS f b) := fun _ _ h =>
-  Subtype.ext (Iso.ext ((CatFiberedInGroupoids.homFunctor f.hom).map_injective
-    (congrArg (fun z => z.1.hom) h)))
+  Subtype.ext (Aut.ext (Iso.ext ((CatFiberedInGroupoids.homFunctor f.hom).map_injective
+    (congrArg (fun z => z.1.asIso.hom) h))))
 
 /-- An automorphism lying over an identity is a vertical automorphism. -/
 private theorem mem_verticalAut_of_isHomLift_id {𝒞 𝒜 : Type*} [Category 𝒞] [Category 𝒜]
-    (p : 𝒜 ⥤ 𝒞) {R : 𝒞} {a : 𝒜} (τ : Aut a) (h : p.IsHomLift (𝟙 R) τ.hom) :
+    (p : 𝒜 ⥤ 𝒞) {R : 𝒞} {a : 𝒜} (τ : Aut a) (h : p.IsHomLift (𝟙 R) τ.asIso.hom) :
     τ ∈ p.verticalAut a := by
-  rw [Functor.mem_verticalAut_iff, IsHomLift.fac' p (𝟙 R) τ.hom]
+  rw [Functor.mem_verticalAut_iff, IsHomLift.fac' p (𝟙 R) τ.asIso.hom]
   simp
 
 /-- A vertical automorphism lies over the identity of any base object its object lies over. -/
 private theorem isHomLift_id_of_mem_verticalAut {𝒞 𝒜 : Type*} [Category 𝒞] [Category 𝒜]
     (p : 𝒜 ⥤ 𝒞) {R : 𝒞} {a : 𝒜} (ha : p.obj a = R) (σ : p.verticalAut a) :
-    p.IsHomLift (𝟙 R) (σ : Aut a).hom := by
+    p.IsHomLift (𝟙 R) (σ : Aut a).asIso.hom := by
   subst ha
   refine IsHomLift.of_fac' p _ _ rfl rfl ?_
   rw [Functor.verticalAut.cond σ]
@@ -475,9 +475,10 @@ theorem exists_lift_of_bijective_automorphismGroupMap {V : BigFppfOver B S hS}
   have hV' : pX.obj s₁' = V := IsHomLift.domain_eq pX t m₁
   have _ : IsIso β' :=
     Functor.isIso_of_fiber_isGroupoid (𝒴.val.isFiberedInGroupoids.fiber_isGroupoid V) β' hβ'v
-  obtain ⟨α', hα'⟩ := hbij.2 ⟨asIso β', mem_verticalAut_of_isHomLift_id pY (asIso β') hβ'v⟩
-  have hFα : F.map (α' : Aut s₁').hom = β' :=
-    congrArg (fun z : pY.verticalAut (F.obj s₁') => (z : Aut (F.obj s₁')).hom) hα'
+  obtain ⟨α', hα'⟩ := hbij.2
+    ⟨Aut.of (asIso β'), mem_verticalAut_of_isHomLift_id pY (Aut.of (asIso β')) hβ'v⟩
+  have hFα : F.map (α' : Aut s₁').asIso.hom = β' :=
+    congrArg (fun z : pY.verticalAut (F.obj s₁') => (z : Aut (F.obj s₁')).asIso.hom) hα'
   exact exists_isHomLift_map_eq_of_map_comp_eq B S hS f t m₁ m₂ hm₁ hm₂ β _
     (isHomLift_id_of_mem_verticalAut pX hV' α') (by rw [hFα]; exact hβ')
 
@@ -522,21 +523,21 @@ theorem compl_stabilizerPreservingLocus_eq_image
         (s₁' s₂' : 𝒳.val.val.obj) (m₁ : s₁' ⟶ b) (m₂ : s₂' ⟶ b),
         pX.IsHomLift t m₁ → pX.IsHomLift t m₂ →
         ∃ γ : s₁' ⟶ s₂', pX.IsHomLift (𝟙 V) γ ∧
-          F.map γ ≫ F.map m₂ = F.map m₁ ≫ (δ : Aut (F.obj b)).hom := by
+          F.map γ ≫ F.map m₂ = F.map m₁ ≫ (δ : Aut (F.obj b)).asIso.hom := by
       intro V hV t s₁' s₂' m₁ m₂ hm₁ hm₂
       by_contra hno
       apply hcon
       obtain ⟨k, hk, ⟨e⟩⟩ := hV
       let : Field k := hk
       obtain ⟨δ', hδ'v, hδ'⟩ :=
-        exists_isHomLift_comp_map_eq B S hS f t m₁ hm₁ (δ : Aut (F.obj b)).hom hδ
+        exists_isHomLift_comp_map_eq B S hS f t m₁ hm₁ (δ : Aut (F.obj b)).asIso.hom hδ
       have hV' : pX.obj s₁' = V := IsHomLift.domain_eq pX t m₁
       have _ : IsIso δ' := Functor.isIso_of_fiber_isGroupoid (hq.fiber_isGroupoid V) δ' hδ'v
       have hcond : pY.map δ' = 𝟙 (pY.obj (F.obj s₁')) :=
-        (Functor.mem_verticalAut_iff pY (asIso δ')).1
-          (mem_verticalAut_of_isHomLift_id pY (asIso δ') hδ'v)
+        (Functor.mem_verticalAut_iff pY (Aut.of (asIso δ'))).1
+          (mem_verticalAut_of_isHomLift_id pY (Aut.of (asIso δ')) hδ'v)
       have hy : pY.obj (F.obj s₁') = V := (Functor.congr_obj hF s₁').trans hV'
-      let A : RelativeInertia pY := { obj := F.obj s₁', auto := asIso δ', cond := hcond }
+      let A : RelativeInertia pY := { obj := F.obj s₁', auto := Aut.of (asIso δ'), cond := hcond }
       let c' : InertiaPullback.Obj pX pY F :=
         { base := V, x := s₁', y := A, hx := hV', hy := hy, iso := Iso.refl _,
           vertical := IsHomLift.id hy }
@@ -557,10 +558,10 @@ theorem compl_stabilizerPreservingLocus_eq_image
           ⟨fieldValuedPointMap B S hS _ (inertiaPullbackSquare B S hS f).fst.hom.hom qc,
             ⟨𝟙 _⟩, ⟨(m₁ ≫ m : s₁' ⟶ p.obj)⟩⟩
     obtain ⟨γ, hγ, hFγ⟩ := exists_isHomLift_map_eq_of_isRelativelyUnramified B S hS f.hom hf hur
-      (s₁ := b) (s₂ := b) rfl rfl (δ : Aut (F.obj b)).hom hδ hpt
+      (s₁ := b) (s₂ := b) rfl rfl (δ : Aut (F.obj b)).asIso.hom hδ hpt
     have _ : IsIso γ := Functor.isIso_of_fiber_isGroupoid (hp.fiber_isGroupoid _) γ hγ
-    exact ⟨⟨asIso γ, mem_verticalAut_of_isHomLift_id pX (asIso γ) hγ⟩,
-      Subtype.ext (Iso.ext hFγ)⟩
+    exact ⟨⟨Aut.of (asIso γ), mem_verticalAut_of_isHomLift_id pX (Aut.of (asIso γ)) hγ⟩,
+      Subtype.ext (Aut.ext (Iso.ext hFγ))⟩
   · rintro ⟨h, hh, rfl⟩ hx
     induction h using Quotient.inductionOn with
     | h q =>
@@ -570,11 +571,12 @@ theorem compl_stabilizerPreservingLocus_eq_image
         (fieldValuedPointMap B S hS _ (inertiaPullbackSquare B S hS f).fst.hom.hom q) rfl
         q.obj.x (𝟙 _)
       let c : InertiaPullback.Obj pX pY F := q.obj
-      obtain ⟨α, hα⟩ := hbij.2 ⟨InertiaPullback.isoY c ≪≫ c.y.auto ≪≫ (InertiaPullback.isoY c).symm,
+      obtain ⟨α, hα⟩ := hbij.2
+        ⟨Aut.of (InertiaPullback.isoY c ≪≫ c.y.auto.asIso ≪≫ (InertiaPullback.isoY c).symm),
         mem_verticalAut_of_isHomLift_id pY _ (InertiaPullback.isHomLift_aut c)⟩
-      have hFα : F.map (α : Aut c.x).hom = InertiaPullback.aut c :=
-        congrArg (fun z : pY.verticalAut (F.obj c.x) => (z : Aut (F.obj c.x)).hom) hα
-      exact ⟨(α : Aut c.x).hom, isHomLift_id_of_mem_verticalAut pX c.hx α, hFα⟩
+      have hFα : F.map (α : Aut c.x).asIso.hom = InertiaPullback.aut c :=
+        congrArg (fun z : pY.verticalAut (F.obj c.x) => (z : Aut (F.obj c.x)).asIso.hom) hα
+      exact ⟨(α : Aut c.x).asIso.hom, isHomLift_id_of_mem_verticalAut pX c.hx α, hFα⟩
 
 /-- **Stacks 0DUA, openness of the stabilizer-preserving locus.** Let `f : 𝒳 ⟶ 𝒴` be a
 1-morphism of algebraic stacks over `S` which is representable by algebraic spaces and
@@ -653,14 +655,14 @@ theorem isStabilizerPreserving_openSubstack_inclusion_comp
     (fun A B m hm => F'.map_injective (by rw [F'.map_comp, F'.map_comp]; exact hm)) ?_
   intro x β hβ
   have hxb : pY.obj (F.obj x.obj) = pX.obj x.obj := Functor.congr_obj hF x.obj
-  have hβ₀ : pY.IsHomLift (𝟙 (pY.obj (F.obj x.obj))) β.hom := by
-    have h := IsHomLift.map pY β.hom
+  have hβ₀ : pY.IsHomLift (𝟙 (pY.obj (F.obj x.obj))) β.asIso.hom := by
+    have h := IsHomLift.map pY β.asIso.hom
     rwa [hβ] at h
-  have hβ' : pY.IsHomLift (𝟙 (pX.obj x.obj)) β.hom := by rwa [← hxb]
+  have hβ' : pY.IsHomLift (𝟙 (pX.obj x.obj)) β.asIso.hom := by rwa [← hxb]
   have hpt : ∀ (V : BigFppfOver B S hS), IsFieldObject B S hS V → ∀ (t : V ⟶ pX.obj x.obj)
       (s₁' s₂' : 𝒳.val.val.obj) (m₁ : s₁' ⟶ x.obj) (m₂ : s₂' ⟶ x.obj),
       pX.IsHomLift t m₁ → pX.IsHomLift t m₂ →
-      ∃ γ : s₁' ⟶ s₂', pX.IsHomLift (𝟙 V) γ ∧ F.map γ ≫ F.map m₂ = F.map m₁ ≫ β.hom := by
+      ∃ γ : s₁' ⟶ s₂', pX.IsHomLift (𝟙 V) γ ∧ F.map γ ≫ F.map m₂ = F.map m₁ ≫ β.asIso.hom := by
     intro V hV t s₁' s₂' m₁ m₂ hm₁ hm₂
     obtain ⟨k, hk, ⟨e⟩⟩ := hV
     let : Field k := hk
@@ -671,12 +673,12 @@ theorem isStabilizerPreserving_openSubstack_inclusion_comp
       (OpenSubstack.mem_pointSet_iff B S hS U _).2
         ⟨q, OpenSubstack.prop_of_hom B S hS U m₁ x.property, rfl⟩
     rw [hU] at hmem
-    exact exists_lift_of_bijective_automorphismGroupMap B S hS f t m₁ m₂ hm₁ hm₂ β.hom hβ'
+    exact exists_lift_of_bijective_automorphismGroupMap B S hS f t m₁ m₂ hm₁ hm₂ β.asIso.hom hβ'
       ((inducesIsomorphismAt_iff_forall_representatives B S hS f _).1 hmem q rfl s₁' (𝟙 _))
   obtain ⟨γ, hγ, hFγ⟩ := exists_isHomLift_map_eq_of_isRelativelyUnramified B S hS f.hom hf hur
-    (s₁ := x.obj) (s₂ := x.obj) rfl rfl β.hom hβ' hpt
+    (s₁ := x.obj) (s₂ := x.obj) rfl rfl β.asIso.hom hβ' hpt
   have _ : IsIso γ := Functor.isIso_of_fiber_isGroupoid (hp.fiber_isGroupoid _) γ hγ
-  refine ⟨ObjectProperty.isoMk _ (asIso γ), ?_, hFγ⟩
+  refine ⟨Aut.of (ObjectProperty.isoMk _ (asIso γ)), ?_, hFγ⟩
   show pX.map γ = _
   rw [IsHomLift.fac' pX (𝟙 (pX.obj x.obj)) γ]
   simp only [eqToHom_refl, Category.comp_id]

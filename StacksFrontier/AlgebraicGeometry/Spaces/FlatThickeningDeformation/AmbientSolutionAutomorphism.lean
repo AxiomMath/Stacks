@@ -294,6 +294,7 @@ theorem exists_ambientSolutionIso_eq {D E : Deformation f}
   have := isIso_of_isIso_smallEtaleRingedToposHom k
   exact ⟨_, ambientSolutionIso_eq_of_twoIso hZ { hom := asIso k, hom_f' := hf, compat := hi } σ t⟩
 
+set_option maxHeartbeats 800000 in
 /-- **The automorphism group of a flat deformation is the automorphism group of its solution**:
 an automorphism `φ : X' ⟶ X'` over `Y'` reducing to the identity on `X' ×_{Y'} Y` (an element
 of `Aut D`) is sent to `(φ^♯)⁻¹`. -/
@@ -301,19 +302,22 @@ def autMulEquivAmbientSolution (D : Deformation f) :
     Aut D ≃* (D.ambientSolution hZ).AutomorphismGroup :=
   MulEquiv.ofBijective
     (MonoidHom.mk' (M := Aut D) (G := Aut (D.ambientSolution hZ)) (fun a : Aut D =>
-        (Groupoid.isoEquivHom (D.ambientSolution hZ) (D.ambientSolution hZ)).symm
-          (ambientSolutionIso hZ a.hom))
-      fun a b => CategoryTheory.Iso.ext (ambientSolutionIso_comp hZ b.hom a.hom))
-    ⟨fun a b h => CategoryTheory.Iso.ext (ambientSolutionIso_injective hZ
-        (congrArg CategoryTheory.Iso.hom h)),
-      fun x => by
-        obtain ⟨e, he⟩ := exists_ambientSolutionIso_eq hZ x.hom
-        exact ⟨(Groupoid.isoEquivHom D D).symm e, CategoryTheory.Iso.ext he⟩⟩
+        Aut.of ((Groupoid.isoEquivHom (D.ambientSolution hZ) (D.ambientSolution hZ)).symm
+          (ambientSolutionIso hZ a.asIso.hom)))
+      fun a b => Aut.ext (CategoryTheory.Iso.ext (ambientSolutionIso_comp hZ b.asIso.hom a.asIso.hom)))
+    ⟨fun a b h => Aut.ext (CategoryTheory.Iso.ext (ambientSolutionIso_injective hZ
+        (congrArg (fun x : Aut (D.ambientSolution hZ) => x.asIso.hom) h))),
+      fun x : Aut (D.ambientSolution hZ) => by
+        obtain ⟨e, he⟩ := exists_ambientSolutionIso_eq (D := D) (E := D) hZ x.asIso.hom
+        refine ⟨Aut.of ((Groupoid.isoEquivHom D D).symm e), ?_⟩
+        apply Aut.ext
+        apply CategoryTheory.Iso.ext
+        exact he⟩
 
 /-- The image of an automorphism `a` of `D` under `autMulEquivAmbientSolution` has underlying
 isomorphism `ambientSolutionIso a.hom`. -/
 theorem autMulEquivAmbientSolution_apply_hom (D : Deformation f) (a : Aut D) :
-    (autMulEquivAmbientSolution hZ D a).hom = ambientSolutionIso hZ a.hom :=
+    (autMulEquivAmbientSolution hZ D a).asIso.hom = ambientSolutionIso hZ a.asIso.hom :=
   rfl
 
 end Deformation

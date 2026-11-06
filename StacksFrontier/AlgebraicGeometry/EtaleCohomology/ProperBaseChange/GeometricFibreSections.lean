@@ -147,19 +147,19 @@ def pointSmallEtaleIdElement :
 `Spec Ω`-scheme is itself the unique morphism of neighbourhoods out of this one. -/
 def isInitialPointSmallEtaleIdElement :
     IsInitial (show (pointSmallEtale (𝟙 (Spec (.of Ω)))).fiber.Elements from
-      ⟨Scheme.Etale.mk (𝟙 (Spec (.of Ω))), pointSmallEtaleIdElement Ω⟩) := by
+      (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of Ω)))) (pointSmallEtaleIdElement Ω))) := by
   apply IsInitial.ofUniqueHom
     (fun U : (pointSmallEtale (𝟙 (Spec (.of Ω)))).fiber.Elements ↦
-      CategoryOfElements.homMk _ U
-      (MorphismProperty.Over.homMk U.2.left (CategoryTheory.Over.w U.2)) ?_)
+      Functor.Elements.homMk
+      (MorphismProperty.Over.homMk U.val.left (CategoryTheory.Over.w U.val)) ?_)
     (fun U morphism ↦ ?_)
   · apply CategoryTheory.Over.OverMorphism.ext
-    change (𝟙 (Spec (.of Ω))) ≫ U.2.left = U.2.left
+    change (𝟙 (Spec (.of Ω))) ≫ U.val.left = U.val.left
     exact Category.id_comp _
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     apply MorphismProperty.Over.Hom.ext
-    have h : 𝟙 (Spec (.of Ω)) ≫ morphism.1.left = U.2.left :=
-      congrArg (fun b ↦ b.left) morphism.2
+    have h : 𝟙 (Spec (.of Ω)) ≫ morphism.hom.left = U.val.left :=
+      congrArg (fun b ↦ b.left) morphism.map_val
     exact (Category.id_comp morphism.1.left).symm.trans h
 
 /-- The germ at the canonical point of `Spec Ω` of a section over the final object of the small
@@ -180,7 +180,7 @@ def presheafFiberIdIsoSections :
       (pointSmallEtale (𝟙 (Spec (.of Ω)))).presheafFiber := by
   letI : ∀ P, IsIso ((sectionsToPresheafFiberId.{u, v} Ω).app P) := fun P ↦
     ((pointSmallEtale (𝟙 (Spec (.of Ω)))).isColimitPresheafFiberCocone P).isIso_ι_app_of_isTerminal
-      (op ⟨Scheme.Etale.mk (𝟙 (Spec (.of Ω))), pointSmallEtaleIdElement Ω⟩)
+      (op (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of Ω)))) (pointSmallEtaleIdElement Ω)))
       (isInitialPointSmallEtaleIdElement Ω).op
   letI := NatIso.isIso_of_isIso_app (sectionsToPresheafFiberId.{u, v} Ω)
   exact asIso (sectionsToPresheafFiberId.{u, v} Ω)
@@ -344,27 +344,27 @@ that lift, and only one. -/
 @[ega "IV 18.5.11" "special case", sga "3 X 4.5" "special case"]
 def isInitialPointSmallEtaleClosedPointElement :
     IsInitial (show (pointSmallEtale x).fiber.Elements from
-      ⟨Scheme.Etale.mk (𝟙 (Spec (.of R))), pointSmallEtaleClosedPointElement x⟩) := by
+      (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of R)))) (pointSmallEtaleClosedPointElement x))) := by
   classical
   have hsec : ∀ U : (pointSmallEtale x).fiber.Elements,
-      ∃ t : Spec (.of R) ⟶ U.1.left,
-        t ≫ U.1.hom = 𝟙 (Spec (.of R)) ∧ x ≫ t = U.2.left := fun U ↦ by
-    let : Etale U.1.hom := U.1.prop
+      ∃ t : Spec (.of R) ⟶ U.obj.left,
+        t ≫ U.obj.hom = 𝟙 (Spec (.of R)) ∧ x ≫ t = U.val.left := fun U ↦ by
+    let : Etale U.obj.hom := U.obj.prop
     exact AlgebraicGeometry.exists_hom_of_strictlyHenselian
       ({ residueField := Ω, hom := x } : GeometricPoint (Spec (.of R)))
-      (𝟙 (Spec (.of R))) x (Category.comp_id x) hx U.1.hom U.2.left
-      (CategoryTheory.Over.w U.2)
-  refine IsInitial.ofUniqueHom (fun U ↦ CategoryOfElements.homMk _ U
+      (𝟙 (Spec (.of R))) x (Category.comp_id x) hx U.obj.hom U.val.left
+      (CategoryTheory.Over.w U.val)
+  refine IsInitial.ofUniqueHom (fun U ↦ Functor.Elements.homMk
     (MorphismProperty.Over.homMk (hsec U).choose (hsec U).choose_spec.1) ?_) (fun U m ↦ ?_)
   · apply CategoryTheory.Over.OverMorphism.ext
-    change x ≫ (hsec U).choose = U.2.left
+    change x ≫ (hsec U).choose = U.val.left
     exact (hsec U).choose_spec.2
-  · apply CategoryOfElements.ext
+  · apply Functor.Elements.hom_ext
     apply MorphismProperty.Over.Hom.ext
-    let : Etale U.1.hom := U.1.prop
-    have hw : m.1.left ≫ U.1.hom = 𝟙 (Spec (.of R)) := CategoryTheory.Over.w m.1.hom
-    have hpoint : x ≫ m.1.left = U.2.left := congrArg (fun b ↦ b.left) m.2
-    exact eq_of_etale_section_of_comp_eq U.1.hom x hx m.1.left (hsec U).choose hw
+    let : Etale U.obj.hom := U.obj.prop
+    have hw : m.hom.left ≫ U.obj.hom = 𝟙 (Spec (.of R)) := CategoryTheory.Over.w m.hom.hom
+    have hpoint : x ≫ m.hom.left = U.val.left := congrArg (fun b ↦ b.left) m.map_val
+    exact eq_of_etale_section_of_comp_eq U.obj.hom x hx m.hom.left (hsec U).choose hw
       (hsec U).choose_spec.1 (hpoint.trans (hsec U).choose_spec.2.symm)
 
 /-- The germ at the geometric point of a section over the final object of the small étale site
@@ -385,7 +385,7 @@ def presheafFiberClosedPointIsoSections :
       (pointSmallEtale x).presheafFiber := by
   letI : ∀ P, IsIso ((sectionsToPresheafFiberClosedPoint.{u, v} x).app P) := fun P ↦
     ((pointSmallEtale x).isColimitPresheafFiberCocone P).isIso_ι_app_of_isTerminal
-      (op ⟨Scheme.Etale.mk (𝟙 (Spec (.of R))), pointSmallEtaleClosedPointElement x⟩)
+      (op (Functor.Elements.mk (obj := Scheme.Etale.mk (𝟙 (Spec (.of R)))) (pointSmallEtaleClosedPointElement x)))
       (isInitialPointSmallEtaleClosedPointElement x hx).op
   letI := NatIso.isIso_of_isIso_app (sectionsToPresheafFiberClosedPoint.{u, v} x)
   exact asIso (sectionsToPresheafFiberClosedPoint.{u, v} x)

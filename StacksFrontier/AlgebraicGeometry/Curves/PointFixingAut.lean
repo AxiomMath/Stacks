@@ -228,26 +228,26 @@ theorem exists_globalSection_mul_eq_stalkEquiv (X : Scheme.{u}) [IsIntegral X]
 /-- The subgroup of the automorphisms of a scheme over a base consisting of those which fix every
 point of the underlying topological space. -/
 def pointFixingAutSubgroup {X S : Scheme.{u}} (p : X ⟶ S) : Subgroup (Aut (Over.mk p)) where
-  carrier := {a | ∀ x, a.hom.left x = x}
+  carrier := {a | ∀ x, a.asIso.hom.left x = x}
   one_mem' _ := rfl
   mul_mem' := by
     intro a b ha hb x
-    change a.hom.left (b.hom.left x) = x
+    change a.asIso.hom.left (b.asIso.hom.left x) = x
     rw [hb, ha]
   inv_mem' := by
     intro a ha x
-    have hi : a.hom.left (a.inv.left x) = x := by
-      change (a.inv.left ≫ a.hom.left) x = x
-      rw [← Over.comp_left, a.inv_hom_id]
+    have hi : a.asIso.hom.left (a.asIso.inv.left x) = x := by
+      change (a.asIso.inv.left ≫ a.asIso.hom.left) x = x
+      rw [← Over.comp_left, a.asIso.inv_hom_id]
       rfl
     exact (ha _).symm.trans hi
 
 /-- The automorphism of the function field induced by a point-fixing automorphism. -/
 noncomputable def pointFixingAutFunctionField {X : Scheme.{u}} [IsIntegral X] {S : Scheme.{u}}
     (p : X ⟶ S) (a : pointFixingAutSubgroup p) : X.functionField ≃+* X.functionField :=
-  letI : IsIso a.val.hom := ⟨a.val.inv, a.val.hom_inv_id, a.val.inv_hom_id⟩
-  letI : IsIso a.val.hom.left := (Over.forget S).map_isIso a.val.hom
-  pointFixingStalkEquiv a.val.hom.left a.property (genericPoint X)
+  letI : IsIso a.val.asIso.hom := ⟨a.val.asIso.inv, a.val.asIso.hom_inv_id, a.val.asIso.inv_hom_id⟩
+  letI : IsIso a.val.asIso.hom.left := (Over.forget S).map_isIso a.val.asIso.hom
+  pointFixingStalkEquiv a.val.asIso.hom.left a.property (genericPoint X)
 
 /-- Transporting the canonical morphism from the spectrum of a local ring along an equality of
 points. -/
@@ -270,9 +270,9 @@ private lemma pointFixingStalkEquiv_fromSpecStalk {X : Scheme.{u}} (f : X ⟶ X)
 
 /-- The underlying morphism of schemes of an automorphism over the base is an isomorphism. -/
 private lemma isIso_hom_left {X S : Scheme.{u}} {p : X ⟶ S} (a : Aut (Over.mk p)) :
-    IsIso a.hom.left :=
-  haveI : IsIso a.hom := ⟨a.inv, a.hom_inv_id, a.inv_hom_id⟩
-  (Over.forget S).map_isIso a.hom
+    IsIso a.asIso.hom.left :=
+  haveI : IsIso a.asIso.hom := ⟨a.asIso.inv, a.asIso.hom_inv_id, a.asIso.inv_hom_id⟩
+  (Over.forget S).map_isIso a.asIso.hom
 
 /-- A point-fixing automorphism of an integral scheme separated over the base is determined by
 the automorphism it induces on the function field. -/
@@ -280,6 +280,7 @@ theorem pointFixingAutFunctionField_injective {X : Scheme.{u}} [IsIntegral X] {S
     (p : X ⟶ S) [IsSeparated p] : Function.Injective (pointFixingAutFunctionField p) := by
   intro a b hab
   apply Subtype.ext
+  apply Aut.ext
   apply Iso.ext
   apply Over.OverMorphism.ext
   let : IsDominant (X.fromSpecStalk (genericPoint X)) := isDominant_fromSpecStalk_genericPoint X
@@ -287,10 +288,10 @@ theorem pointFixingAutFunctionField_injective {X : Scheme.{u}} [IsIntegral X] {S
     (X.fromSpecStalk (genericPoint X))
   have := isIso_hom_left a.val
   have := isIso_hom_left b.val
-  exact (pointFixingStalkEquiv_fromSpecStalk (X := X) a.val.hom.left a.property
+  exact (pointFixingStalkEquiv_fromSpecStalk (X := X) a.val.asIso.hom.left a.property
     (genericPoint X)).symm.trans ((congrArg (fun e : X.functionField ≃+* X.functionField ↦
       Spec.map (CommRingCat.ofHom e.toRingHom) ≫ X.fromSpecStalk (genericPoint X)) hab).trans
-        (pointFixingStalkEquiv_fromSpecStalk (X := X) b.val.hom.left b.property
+        (pointFixingStalkEquiv_fromSpecStalk (X := X) b.val.asIso.hom.left b.property
           (genericPoint X)))
 
 /-- A group of automorphisms of the fraction field of an algebra of finite type over a finite
@@ -368,7 +369,7 @@ theorem finite_pointFixingAutSubgroup_of_normal_curve (k : Type u) [Field k] [Fi
   apply (Set.finite_range (fun c : Γ(X, ⊤) ↦ X.germToFunctionField ⊤ c * x)).subset
   rintro _ ⟨a, rfl⟩
   have := isIso_hom_left a.val
-  exact exists_globalSection_mul_eq_stalkEquiv X hX a.val.hom.left a.property x
+  exact exists_globalSection_mul_eq_stalkEquiv X hX a.val.asIso.hom.left a.property x
 
 end AlgebraicGeometry
 

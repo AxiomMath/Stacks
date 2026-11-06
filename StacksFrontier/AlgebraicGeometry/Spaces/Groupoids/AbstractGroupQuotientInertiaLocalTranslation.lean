@@ -177,10 +177,10 @@ groups, the automorphism is equivariant for it, and it commutes with the section
 `g` because `G` is commutative. -/
 lemma auto_eq_translationMap_of_eq_at_section (Z : quotientInertia B S hS G X ρ)
     {V : (BigFppfOver B S hS)ᵒᵖ} (g : G) {p q : Z.obj.Total V}
-    (hp : Z.auto.hom.map V p = Z.obj.translationMap g V p) (hq : q.1 = p.1) :
-    Z.auto.hom.map V q = Z.obj.translationMap g V q := by
+    (hp : Z.auto.asIso.hom.map V p = Z.obj.translationMap g V p) (hq : q.1 = p.1) :
+    Z.auto.asIso.hom.map V q = Z.obj.translationMap g V q := by
   obtain ⟨ε, rfl, -⟩ := Z.obj.existsUnique_totalSmul_eq p q hq
-  rw [Z.auto.hom.map_equivariant V ε p, hp, translationMap, translationMap,
+  rw [Z.auto.asIso.hom.map_equivariant V ε p, hp, translationMap, translationMap,
     ← Z.obj.totalSmul_mul, ← Z.obj.totalSmul_mul, constantSheafOfGroupsUnit_central]
 
 /-- If the automorphism of an object of `I_{[X/G]}` is multiplication by the section `δ` of
@@ -190,14 +190,14 @@ above `W` the automorphism is multiplication by `g`. -/
 lemma auto_eq_translationMap_of_restrict (Z : quotientInertia B S hS G X ρ)
     {V W W' : BigFppfOver B S hS} (p : Z.obj.Total (op V))
     (δ : (constantSheafOfGroups (BigFppfOver.topology B S hS) G).presheaf.obj (op V))
-    (hp : Z.auto.hom.map (op V) p = Z.obj.totalSmul δ p) (k : W ⟶ V) (g : G)
+    (hp : Z.auto.asIso.hom.map (op V) p = Z.obj.totalSmul δ p) (k : W ⟶ V) (g : G)
     (hg : (constantSheafOfGroups (BigFppfOver.topology B S hS) G).presheaf.map k.op δ =
       constantSheafOfGroupsUnit (BigFppfOver.topology B S hS) G (op W) g)
     (m : W' ⟶ W) (q : Z.obj.Total (op W')) (hq : q.1 = (m ≫ k) ≫ p.1) :
-    Z.auto.hom.map (op W') q = Z.obj.translationMap g (op W') q := by
-  have hq₀ : Z.auto.hom.map (op W') (Z.obj.totalMap (m ≫ k).op p) =
+    Z.auto.asIso.hom.map (op W') q = Z.obj.translationMap g (op W') q := by
+  have hq₀ : Z.auto.asIso.hom.map (op W') (Z.obj.totalMap (m ≫ k).op p) =
       Z.obj.translationMap g (op W') (Z.obj.totalMap (m ≫ k).op p) := by
-    rw [Z.auto.hom.map_naturality (m ≫ k).op p, hp, Z.obj.totalMap_totalSmul,
+    rw [Z.auto.asIso.hom.map_naturality (m ≫ k).op p, hp, Z.obj.totalMap_totalSmul,
       show (constantSheafOfGroups (BigFppfOver.topology B S hS) G).presheaf.map (m ≫ k).op δ =
         constantSheafOfGroupsUnit (BigFppfOver.topology B S hS) G (op W') g by
         rw [op_comp, Functor.map_comp_apply, hg, constantSheafOfGroupsUnit_naturality]]
@@ -209,7 +209,7 @@ which its automorphism is multiplication by a single element of `G`: at every se
 total space of the torsor lying over `f`, and over every object above `V`. -/
 def autoTranslationSieve (Z : quotientInertia B S hS G X ρ) : Sieve Z.obj.base where
   arrows V f := ∃ g : G, ∀ (W : BigFppfOver B S hS) (k : W ⟶ V) (q : Z.obj.Total (op W)),
-    q.1 = k ≫ f → Z.auto.hom.map (op W) q = Z.obj.translationMap g (op W) q
+    q.1 = k ≫ f → Z.auto.asIso.hom.map (op W) q = Z.obj.translationMap g (op W) q
   downward_closed := by
     rintro V W f ⟨g, hg⟩ k
     exact ⟨g, fun W' l q hq => hg W' (l ≫ k) q (hq.trans (Category.assoc _ _ _).symm)⟩
@@ -247,7 +247,7 @@ theorem exists_covering_auto_eq_translation (Z : quotientInertia B S hS G X ρ) 
     ∃ R ∈ (BigFppfOver.topology B S hS) Z.obj.base,
       ∀ ⦃V : BigFppfOver B S hS⦄ (f : V ⟶ Z.obj.base), R f →
         ∃ g : G, ∀ (W : BigFppfOver B S hS) (k : W ⟶ V) (q : Z.obj.Total (op W)),
-          q.1 = k ≫ f → Z.auto.hom.map (op W) q = Z.obj.translationMap g (op W) q :=
+          q.1 = k ≫ f → Z.auto.asIso.hom.map (op W) q = Z.obj.translationMap g (op W) q :=
   ⟨autoTranslationSieve Z, autoTranslationSieve_mem Z, fun _ _ hf => hf⟩
 
 end AlgebraicGeometry

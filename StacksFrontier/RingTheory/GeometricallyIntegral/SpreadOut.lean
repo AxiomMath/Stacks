@@ -208,7 +208,6 @@ theorem subalgebraTensorMap_injective {K : Type u} [Field K] [Algebra D K] (E : 
         subalgebraTensorMap D T K E z := by
     intro z
     induction z with
-    | zero => simp
     | tmul e t => simp [Algebra.smul_def]
     | add z w hz hw => rw [TensorProduct.tmul_add, map_add, hz, hw, map_add]
   rw [injective_iff_map_eq_zero]

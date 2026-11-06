@@ -249,10 +249,10 @@ theorem eq_of_X_pow_mul_eq {σ : Type*} (R : Type u) [CommRing R] (i : σ) (N : 
   have hz : MvPolynomial.X i ^ N * (f - g) = 0 := by rw [mul_sub, h, sub_self]
   have hfg : f - g = 0 := by
     refine MvPolynomial.ext _ _ fun m => ?_
-    have h2 := congrArg (MvPolynomial.coeff (Finsupp.single i N + m)) hz
-    rw [MvPolynomial.X_pow_eq_monomial, MvPolynomial.coeff_monomial_mul, one_mul,
-      MvPolynomial.coeff_zero] at h2
-    rw [h2, MvPolynomial.coeff_zero]
+    have h2 := congrArg (fun p : MvPolynomial σ R => p.coeff (Finsupp.single i N + m)) hz
+    simp only [MvPolynomial.X_pow_eq_monomial, MvPolynomial.coeff_monomial_mul, one_mul,
+      AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h2
+    rw [h2, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
   exact sub_eq_zero.mp hfg
 
 /-- **The canonical map `(R[T₀, …, Tₙ])_k ⟶ Γ(ℙⁿ_R, 𝒪(k))` is injective.** -/

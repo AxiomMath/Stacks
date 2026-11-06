@@ -110,7 +110,7 @@ theorem exists_etale_decomposition_of_locallyQuasiFinite
   let I := ULift.{u} (Σ i, Fin (m i))
   refine ⟨U, I, inferInstance, D none, (fun i ↦ D (some i.down)), ?_, ?_, ?_, ?_⟩
   · intro i j hij
-    have hne : some i.down ≠ some j.down := fun h ↦ hij (ULift.ext _ _ (Option.some.inj h))
+    have hne : some i.down ≠ some j.down := fun h ↦ hij (ULift.ext (Option.some.inj h))
     exact (TopologicalSpace.Opens.coe_disjoint).mp
       (hdisj (Set.mem_univ _) (Set.mem_univ _) hne)
   · refine Set.eq_univ_of_forall fun p ↦ ?_

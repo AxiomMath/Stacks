@@ -105,8 +105,7 @@ theorem exists_glued_algebra
         (extendScalars (S := S) (genericProjection f αm)) ∘
           (TensorProduct.AlgebraTensorModule.congr (LinearEquiv.refl S S) E) := by
       funext z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul s a =>
         show (Algebra.ofId S A') s * (a : A' × A₁).1 = s • (a : A' × A₁).1
         rw [Algebra.smul_def]

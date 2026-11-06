@@ -627,7 +627,7 @@ theorem diagonalD_app_eq_zero (W : S.Opens) (b : Γ(S, W)) :
 /-- The derivation `d = s₂ - s₁` of [Stacks, Tag 08S2] as a derivation of `𝒪_X` over the
 constant sheaf `ℤ`, with values in the conormal sheaf of the diagonal. -/
 def conormalDerivationData :
-    (conormalSheaf (pullback.diagonal f)).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (conormalSheaf (pullback.diagonal f)).val
       (SheafOfModules.constIntMap X.presheaf) where
   d {W} := AddMonoidHom.mk' (fun b => diagonalD f W.unop b) (diagonalD_add f W.unop)
   d_mul {W} a b := diagonalD_mul f W.unop a b
@@ -657,7 +657,7 @@ def differentialsToConormal :
 theorem differentialsToConormal_d (U : X.Opens) (b : Γ(X, U)) :
     ((differentialsToConormal f).val.app (op U)).hom (f.universalRelativeDerivation.d b) =
       diagonalD f U b :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     ((SheafOfModules.universalDerivation_isUniversal
       (inverseImageStructureMap f)).postcomp_desc (conormalDerivation f)) b
 

@@ -302,7 +302,7 @@ theorem directImageChartProjection_spacesEtaleModelChartDirectImageIso
       ((smallToposMorphismTypeU_comparison B S hS f).inv_hom_id_app H)
   refine (directImageChartProjection_comparison B S hS f V j H _).trans ?_
   refine (congrArg (H.obj.map j.hom) hinv).trans ?_
-  rw [Functor.map_comp, op_comp, FunctorToTypes.map_comp_apply]
+  rw [Functor.map_comp, op_comp, Functor.map_comp_apply]
   rfl
 
 /-- The chart projections of `AlgebraicGeometry.Space.spacesEtaleModelChartSharp` are the

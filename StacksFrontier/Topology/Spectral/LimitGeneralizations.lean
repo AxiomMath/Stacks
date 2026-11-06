@@ -2,6 +2,7 @@ module
 
 import StacksFrontier.Topology.Spectral.ConstructiblyClosed
 public import Mathlib.Topology.Spectral.ConstructibleTopology
+public import Mathlib.Topology.Spectral.Basic
 import Mathlib.Order.CompletePartialOrder
 import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Topology.Category.TopCat.Basic

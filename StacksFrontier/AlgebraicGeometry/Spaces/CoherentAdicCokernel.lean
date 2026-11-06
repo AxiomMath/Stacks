@@ -169,6 +169,7 @@ theorem app_comp_cokernelObjIso_hom {X Y : ℕᵒᵖ ⥤ Modules.{u, u} B S hS F
     (cokernel.π g).app n ≫ (cokernelObjIso B S hS F hF g n).hom = cokernel.π (g.app n) :=
   PreservesCokernel.π_iso_hom ((evaluation ℕᵒᵖ (Modules.{u, u} B S hS F hF)).obj n) g
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- Every component of the projection onto a levelwise cokernel is an epimorphism. -/
 instance epi_cokernel_π_app {X Y : ℕᵒᵖ ⥤ Modules.{u, u} B S hS F hF} (g : X ⟶ Y) (n : ℕᵒᵖ) :
     Epi ((cokernel.π g).app n) := by
@@ -176,7 +177,7 @@ instance epi_cokernel_π_app {X Y : ℕᵒᵖ ⥤ Modules.{u, u} B S hS F hF} (g
     rw [← app_comp_cokernelObjIso_hom B S hS F hF g n, Category.assoc, Iso.hom_inv_id,
       Category.comp_id]
   rw [← h]
-  infer_instance
+  exact epi_comp (cokernel.π (g.app n)) _
 
 /-! ### The cokernel in `Coh(F, 𝓘)` -/
 

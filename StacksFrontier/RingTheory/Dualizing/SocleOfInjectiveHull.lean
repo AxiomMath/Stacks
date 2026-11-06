@@ -187,9 +187,9 @@ def uliftResidueFieldEndEquiv :
           rw [Algebra.smul_def, IsLocalRing.ResidueField.algebraMap_eq, mul_one, hr]
         rw [hx, map_smul, map_smul, h']
       · exact ⟨{ toFun := fun x => ULift.up (x.down * y.down)
-                 map_add' := fun a b => ULift.ext _ _ (add_mul a.down b.down y.down)
-                 map_smul' := fun r a => ULift.ext _ _ (smul_mul_assoc r a.down y.down) },
-          ULift.ext _ _ (one_mul y.down)⟩)
+                 map_add' := fun a b => ULift.ext (add_mul a.down b.down y.down)
+                 map_smul' := fun r a => ULift.ext (smul_mul_assoc r a.down y.down) },
+          ULift.ext (one_mul y.down)⟩)
 
 /-! ### The socle identification -/
 

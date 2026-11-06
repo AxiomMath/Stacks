@@ -287,11 +287,11 @@ private theorem matchIso_hom_π (k : ℕ) {D : Type u} [Category.{v} D] (Y : D)
       (trunc0Incl.ranObjObjIsoLimit (constPowerTrunc.{w} k Y) degOne).hom ≫
         limit.π (StructuredArrow.proj degOne trunc0Incl ⋙ constPowerTrunc.{w} k Y) j ≫
           (vertexCompIso.{w} k Y j).hom := by
-  have hlift := CategoryTheory.Limits.Pi.lift_π
+  have hlift := CategoryTheory.Limits.Pi.lift_comp_π
     (f := (StructuredArrow.proj degOne trunc0Incl ⋙ constPowerTrunc.{w} k Y).obj)
     (p := fun i : VertexOverOne =>
       limit.π (StructuredArrow.proj degOne trunc0Incl ⋙ constPowerTrunc.{w} k Y) i) j
-  have hreindex := CategoryTheory.Limits.Pi.lift_π
+  have hreindex := CategoryTheory.Limits.Pi.lift_comp_π
     (f := fun _ : coveredIdx.{w} k => Y)
     (p := fun b : coveredIdx.{w} k =>
       Pi.π (fun _ : VertexOverOne => Y) ((vertexEquivCovered.{w} k).symm b))
@@ -381,9 +381,10 @@ private theorem unit_comp_matchIso (k : ℕ) {D : Type u} [Category.{v} D] (Y : 
       dsimp only [NatTrans.comp_app, NatTrans.id_app] at h
       dsimp [SimplicialObject.truncation] at h
       simp only [SimplicialObject.coskAdj] at h
-      convert h using 1;
-        simp [L0, FY, SimplicialObject.truncation, SimplicialObject.coskAdj,
-          Functor.ranCounit]
+      convert h using 1 <;> first
+        | rfl
+        | simp [L0, FY, SimplicialObject.truncation, SimplicialObject.coskAdj,
+            Functor.ranCounit]
     have hnat :
         (((SimplicialObject.coskAdj 0).unit.app PY).app d1) ≫
             (L0.ran.obj FY).map j.hom =

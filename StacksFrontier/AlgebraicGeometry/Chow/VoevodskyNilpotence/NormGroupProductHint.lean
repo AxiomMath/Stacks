@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.Separated
+public import Mathlib.RingTheory.Flat.Rank
 public import StacksFrontier.AlgebraicGeometry.Chow.VoevodskyNilpotence.NormGroupTensorChart
 public import StacksFrontier.AlgebraicGeometry.Divisors.Norm.Basic
 public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFree.RankSections

@@ -122,6 +122,13 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C} {R : Sheaf J
   [HasWeakSheafify J AddCommGrpCat.{w}] [J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   {A : GradedAlgebra.{w, w} R} [A.IsCommutative] (M : GradedModule.{w, w, w} A)
 
+/-- Coproducts indexed by `ℕ` of sheaves of modules, supplied directly: instance search for them
+times out. -/
+local instance hasColimitsOfShapeDiscreteNat :
+    HasColimitsOfShape (Discrete ℕ) (SheafOfModules.{w} R) :=
+  haveI := PresheafOfModules.hasColimitsOfShape.{w} R.obj (Discrete ℕ)
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf R _
+
 /-- The comparison morphism from the direct sum over the nonnegative degrees, evaluated on a
 homogeneous local section: it is the homogeneous section, read in the total module. -/
 theorem coprodDirectSumHom_of (U : Cᵒᵖ) (n : ℕ) (x : (M.piece (n : ℤ)).val.obj U) :

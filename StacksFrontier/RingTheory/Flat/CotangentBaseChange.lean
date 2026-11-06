@@ -251,7 +251,6 @@ theorem cotangentToQuotientSquare_cotangentBaseChange_rTensor (v : ↥I ⊗[R] S
         (I.cotangentBaseChange S (LinearMap.rTensor S I.toCotangent v)) =
       Submodule.mkQ (I.map (algebraMap R S) ^ 2) (I.tensorSMulHom S v) := by
   induction v with
-  | zero => simp
   | tmul x b =>
       rw [LinearMap.rTensor_tmul, cotangentBaseChange_tmul, map_smul,
         mapCotangentHom_toCotangent, Ideal.toCotangent_to_quotient_square, tensorSMulHom_tmul]
@@ -282,7 +281,6 @@ theorem tensorSMulHom_rTensor_inclusion (w : ↥(I ^ 2) ⊗[R] S) :
         (LinearMap.rTensor S (Submodule.inclusion (Ideal.pow_le_self two_ne_zero)) w) =
       (I ^ 2).tensorSMulHom S w := by
   induction w with
-  | zero => simp
   | tmul x b => rfl
   | add x y hx hy => simp only [map_add, hx, hy]
 

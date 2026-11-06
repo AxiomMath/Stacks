@@ -204,7 +204,7 @@ public lemma good_zero : ∀ i, ¬ relExp i ≤ (0 : Fin 4 →₀ ℕ) :=
 /-- A coefficient functional vanishes on the relation ideal as soon as no relation exponent
 lies below the exponent it reads off. -/
 public lemma coeff_eq_zero_of_mem_rel {F : MvPolynomial (Fin 4) (ZMod p)} (hF : F ∈ rel p)
-    {s : Fin 4 →₀ ℕ} (hs : ∀ i, ¬ relExp i ≤ s) : coeff s F = 0 := by
+    {s : Fin 4 →₀ ℕ} (hs : ∀ i, ¬ relExp i ≤ s) : F.coeff s = 0 := by
   classical
   obtain ⟨c, rfl⟩ := Ideal.mem_span_range_iff_exists_fun.mp hF
   rw [coeff_sum]
@@ -216,24 +216,25 @@ public lemma coeff_eq_zero_of_mem_rel {F : MvPolynomial (Fin 4) (ZMod p)} (hF : 
 monomial with exponent `s`, available whenever no relation exponent lies below `s`. -/
 public noncomputable def coeffFun (s : Fin 4 →₀ ℕ) (hs : ∀ i, ¬ relExp i ≤ s) :
     Witness p → ZMod p :=
-  Quotient.lift (fun F => coeff s F) fun a b hab => by
+  Quotient.lift (fun F => F.coeff s) fun a b hab => by
     have h2 := coeff_eq_zero_of_mem_rel p ((Submodule.quotientRel_def _).mp hab) hs
     rwa [coeff_sub, sub_eq_zero] at h2
 
 private lemma coeffFun_mk (s : Fin 4 →₀ ℕ) (hs : ∀ i, ¬ relExp i ≤ s)
     (F : MvPolynomial (Fin 4) (ZMod p)) :
-    coeffFun p s hs (Ideal.Quotient.mk (rel p) F) = coeff s F := rfl
+    coeffFun p s hs (Ideal.Quotient.mk (rel p) F) = F.coeff s := rfl
 
 private lemma coeffFun_zero (s : Fin 4 →₀ ℕ) (hs : ∀ i, ¬ relExp i ≤ s) :
     coeffFun p s hs 0 = 0 := by
-  rw [show (0 : Witness p) = Ideal.Quotient.mk (rel p) 0 from (map_zero _).symm, coeffFun_mk,
-    coeff_zero]
+  rw [show (0 : Witness p) = Ideal.Quotient.mk (rel p) 0 from (map_zero _).symm, coeffFun_mk]
+  simp
 
 private lemma coeffFun_add (s : Fin 4 →₀ ℕ) (hs : ∀ i, ¬ relExp i ≤ s) (a b : Witness p) :
     coeffFun p s hs (a + b) = coeffFun p s hs a + coeffFun p s hs b := by
   obtain ⟨F, rfl⟩ := Ideal.Quotient.mk_surjective a
   obtain ⟨G, rfl⟩ := Ideal.Quotient.mk_surjective b
-  rw [← map_add, coeffFun_mk, coeffFun_mk, coeffFun_mk, coeff_add]
+  rw [← map_add, coeffFun_mk, coeffFun_mk, coeffFun_mk]
+  simp
 
 /-- The coefficient of `x²`, as a functional on the witness ring. -/
 public noncomputable def xi : Witness p → ZMod p :=
@@ -425,7 +426,7 @@ private lemma eta_mul_of_mem {k : Witness p} (hk : k ∈ K p) (a : Witness p) :
 public lemma u_mul_v_ne_zero [Fact p.Prime] : u p * v p ≠ 0 := by
   have hval : zeta p (u p * v p) = 1 := by
     rw [u_eq, v_eq, ← map_mul]
-    show coeff (Finsupp.single 2 1 + Finsupp.single 3 1) (X 2 * X 3) = 1
+    show (X 2 * X 3 : MvPolynomial (Fin 4) (ZMod p)).coeff (Finsupp.single 2 1 + Finsupp.single 3 1) = 1
     rw [coeff_X_mul]
     simp
   intro hzero

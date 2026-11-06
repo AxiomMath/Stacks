@@ -102,7 +102,7 @@ noncomputable def agreeSubfunctor :
     have key : ∀ c : (pairPostcomp V).obj U.unop ⟶ V,
         G.obj.map ((pairPostcomp V).map f.unop ≫ c).op s =
           G.obj.map ((pairPostcomp V).map f.unop).op (G.obj.map c.op s) := fun c => by
-      rw [op_comp, FunctorToTypes.map_comp_apply]
+      rw [op_comp, Functor.map_comp_apply]
     rw [← pairPostcomp_map_toPair f.unop, Category.assoc, Category.assoc, key, key]
     exact congrArg _ hx
 
@@ -110,7 +110,7 @@ noncomputable def agreeSubfunctor :
 private theorem map_comp_op_apply {P Q T : SpacesEtale B S hS Y} (f : P ⟶ Q) (c : Q ⟶ T)
     (t : G.obj.obj (op T)) :
     G.obj.map (f ≫ c).op t = G.obj.map f.op (G.obj.map c.op t) := by
-  rw [op_comp, FunctorToTypes.map_comp_apply]
+  rw [op_comp, Functor.map_comp_apply]
 
 /-- The two pullbacks of `s` to an object `W` étale over `V ×_Y V` are the restrictions along
 `W ⟶ U` of their pullbacks to `U`. -/
@@ -413,6 +413,7 @@ theorem exists_quot_desc :
     (quotientMap_surjective_unconditional B S hS (relSource s) (relTarget s))
     (quotientMap_etale_unconditional B S hS (relSource s) (relTarget s))
   have hk : yoneda.map (relTarget s) ≫ V₀.1.hom = yoneda.map (relSource s) ≫ V₀.1.hom := by
+    have : Epi (relIso s).hom := IsIso.epi_of_iso _
     rw [← cancel_epi (relIso s).hom, ← Category.assoc, ← Category.assoc,
       relIso_hom_yoneda_map_relTarget, relIso_hom_yoneda_map_relSource]
     simp only [Functor.map_comp]

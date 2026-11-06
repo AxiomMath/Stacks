@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ToposModuleAdjointPullPush
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.Relocalization
+public import Mathlib.Algebra.Category.Ring.Limits
 import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -105,6 +106,13 @@ section RingSheafMap
 
 variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [J.HasSheafCompose (forget RingCat.{w})] {R R' : Sheaf J RingCat.{w}} (a : R ⟶ R')
+
+/-- Binary products of sheaves of types, created by the forgetful functor to presheaves; given
+directly since instance search for it times out in this context. -/
+noncomputable local instance (priority := high) (X Y : Sheaf J (Type w)) :
+    HasBinaryProduct X Y :=
+  @HasLimitsOfShape.has_limit _ _ _ _
+    (hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf J (Type w))) _
 
 /-- A morphism of sheaves of rings intertwines the two addition morphisms. -/
 lemma ringAddHom_comp_ringSheafMap :

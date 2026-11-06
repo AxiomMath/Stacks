@@ -205,8 +205,8 @@ theorem modulesPullbackTriangleIso_square_paste {T S WW WW' QQ QQ' : Scheme.{u}}
   have P1 := modulesPullbackTriangleIso_pentagon_app bb q v q' n n' e3 en1 hn' en1' N
   have P2 := modulesPullbackTriangleIso_pentagon_app bb r w m n n' e5 en2 hn' hmw N
   have P3 := modulesPullbackTriangleIso_pentagon_app r' cc w m w' n' e6 e4 en2' hmw N
-  rw [← cancel_mono ((modulesPullbackTriangleIso m w n' hmw).hom.app N)]
-  simp only [Functor.map_comp, Category.assoc, P2, P3, reassoc_of% P1]
+  rw [← Iso.cancel_iso_hom_right _ _ ((modulesPullbackTriangleIso m w n' hmw).app N)]
+  simp only [Iso.app_hom, Functor.map_comp, Category.assoc, P2, P3, reassoc_of% P1]
   simp only [← CategoryTheory.Functor.map_comp_assoc, Iso.inv_hom_id_app,
     CategoryTheory.Functor.map_id, Category.id_comp, Category.comp_id]
 

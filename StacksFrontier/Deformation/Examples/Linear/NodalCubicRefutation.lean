@@ -120,6 +120,7 @@ namespace Deformation.Examples.ArtinSchreier
 
 /-! ### The tower `A' → A → P` -/
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **`IsScalarTower A' A P`**, one of the two towers of Stacks 0DZ2 that are not automatic. It
 needs the basis `1, t, t²` of `A' = NC[t]/t³`: `t` dies in `P = P'/t·P'`, so only the
 constant coefficient survives, and that is exactly `redA`. -/
@@ -180,8 +181,7 @@ theorem not_lift_of_tensorEquiv {M' : Type u} [AddCommGroup M'] [Module PBase M'
     (e : (PRed ⊗[PBase] M') ≃ₗ[PRed] NC) : False := by
   -- every element of `P ⊗_{P'} M'` is `1 ⊗ y`, because `P' → P` is surjective
   have htmul : ∀ w : PRed ⊗[PBase] M', ∃ y : M', w = 1 ⊗ₜ[PBase] y := by
-    refine fun w => TensorProduct.induction_on w ?_ ?_ ?_
-    · exact ⟨0, (TensorProduct.tmul_zero _ _).symm⟩
+    refine fun w => TensorProduct.inductionOn w ?_ ?_
     · intro r y
       obtain ⟨p, rfl⟩ := surjective_PBase_PRed r
       refine ⟨p • y, ?_⟩
@@ -206,9 +206,9 @@ theorem not_lift_of_tensorEquiv {M' : Type u} [AddCommGroup M'] [Module PBase M'
   · intro y hy
     have hy' : e ((1 : PRed) ⊗ₜ[PBase] y) = 0 := hy
     have h0 : (1 : PRed) ⊗ₜ[PBase] y = 0 :=
-      e.injective (hy'.trans (map_zero e).symm)
+      e.injective (hy'.trans e.map_zero.symm)
     have hq := congrArg (TensorProduct.quotTensorEquivQuotSMul M' (Ideal.span {tauP})) h0
-    rw [TensorProduct.quotTensorEquivQuotSMul_mk_one_tmul, map_zero,
+    rw [TensorProduct.quotTensorEquivQuotSMul_mk_one_tmul, LinearEquiv.map_zero,
       Submodule.Quotient.mk_eq_zero] at hq
     refine Submodule.smul_induction_on hq ?_ ?_
     · intro r hr n _

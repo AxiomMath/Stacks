@@ -1337,7 +1337,7 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
       have hdiff : algebraMap A_loc A_f z - x ∈ nilAhat :=
         Ideal.Quotient.eq.mp hz
       have hdiffψ : ψ (algebraMap A_loc A_f z) - ψ x ∈ nilBhat := by
-        rw [← map_sub]
+        rw [← ψ.map_sub]
         exact topologicalNilradical_le_comap ψ hψcont hdiff
       have hresEq :
           IsLocalRing.residue (B_f ⧸ q') (Ideal.Quotient.mk q'
@@ -1350,11 +1350,11 @@ public theorem exists_isClosedPointAwayFrom_completedAway_comap_of_isAdic
             IsLocalRing.residue (B_f ⧸ q')
               (Ideal.Quotient.mk q' (ψ (algebraMap A_loc A_f z)) -
                 Ideal.Quotient.mk q' (ψ x)) :=
-          (map_sub (IsLocalRing.residue (B_f ⧸ q')) _ _).symm
+          ((IsLocalRing.residue (B_f ⧸ q')).map_sub _ _).symm
         _ = IsLocalRing.residue (B_f ⧸ q')
               (Ideal.Quotient.mk q' (ψ (algebraMap A_loc A_f z) - ψ x)) :=
           congrArg (IsLocalRing.residue (B_f ⧸ q'))
-            (map_sub (Ideal.Quotient.mk q') _ _).symm
+            ((Ideal.Quotient.mk q').map_sub (ψ (algebraMap A_loc A_f z)) (ψ x)).symm
         _ = 0 := hresnil _ hdiffψ
       calc
         η (Ideal.Quotient.mk nilAhat x) =

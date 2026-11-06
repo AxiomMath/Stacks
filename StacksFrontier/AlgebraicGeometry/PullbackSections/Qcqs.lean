@@ -590,7 +590,6 @@ theorem isBaseChange_appTop_pullbackSections
   have he' : ∀ x, e x = (ρ.liftBaseChange Γ(Y, ⊤)) (can.symm x) := by
     intro x
     induction x with
-    | zero => simp
     | add u v hu hv => simp only [map_add, hu, hv]
     | tmul b m =>
         rw [he b m, Algebra.IsPushout.cancelBaseChange_symm_tmul,

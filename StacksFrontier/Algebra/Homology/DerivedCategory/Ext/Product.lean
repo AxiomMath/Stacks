@@ -81,7 +81,7 @@ public theorem isIso_piComparison_extFunctorObj_zero
     show Pi.π (fun j ↦ (extFunctorObj.{w} X 0).obj (F j)) i
       ((piComparison (extFunctorObj.{w} X 0) F) _) =
         Pi.π (fun j ↦ (extFunctorObj.{w} X 0).obj (F j)) i e
-    rw [piComparison_extFunctorObj_apply F X 0 _ i, Ext.mk₀_comp_mk₀, Pi.lift_π]
+    rw [piComparison_extFunctorObj_apply F X 0 _ i, Ext.mk₀_comp_mk₀, Pi.lift_comp_π]
     exact Ext.mk₀_addEquiv₀_apply _
 
 /-- An extension of `X` by `∏ F` whose corestriction along every projection vanishes is split:
@@ -99,7 +99,8 @@ private theorem ext_one_eq_zero_of_comp_pi_eq_zero (e : Ext.{w} X (∏ᶜ F) 1)
     simpa only [← Ext.mk₀_comp_mk₀, Ext.mk₀_addEquiv₀_apply] using hr
   choose r hr using lifts
   have retraction : incl ≫ Pi.lift r = 𝟙 (∏ᶜ F) :=
-    Pi.hom_ext _ _ fun i ↦ by simpa only [Category.assoc, Pi.lift_π, Category.id_comp] using hr i
+    Pi.hom_ext _ _ fun i ↦ by
+      simpa only [Category.assoc, Pi.lift_comp_π, Category.id_comp] using hr i
   calc
     e = e.comp (Ext.mk₀ (𝟙 (∏ᶜ F))) (add_zero 1) := by simp
     _ = e.comp (Ext.mk₀ (incl ≫ Pi.lift r)) (add_zero 1) := by rw [retraction]

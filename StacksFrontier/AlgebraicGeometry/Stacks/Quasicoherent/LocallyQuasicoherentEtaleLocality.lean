@@ -161,7 +161,6 @@ private theorem etaleFamily_mem (X : Scheme.{u}) (hX : E.Contains X)
   exact (Sieve.generate D.presieve₀).downward_closed
     (Sieve.le_generate _ _ _ (Presieve.ofArrows.mk _)) g
 
-attribute [local implicit_reducible] CategoryTheory.Over.post in
 /-- For an arrow `φ : z ⟶ x` of `𝒳` lying over an étale morphism of schemes, the restriction at `x`
 of a presheaf of modules, transported to the small étale site of the scheme below `z` along
 composition with the chart of `φ`, is isomorphic to the restriction at `z`. -/

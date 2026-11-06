@@ -151,7 +151,7 @@ theorem exists_eq_completionSheafMap {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   apply Subtype.ext
   apply ULift.ext
   show x₀.app (op U₀) (𝟙 U₀) = s₀.1.down
-  exact FunctorToTypes.map_id_apply X s₀.1.down
+  exact X.map_id_apply _ s₀.1.down
 
 /-- Iterating Cantor's inequality: a cardinal is at most `2 ^ 2 ^ a`. -/
 private theorem le_two_pow_two_pow (a : Cardinal.{u}) :

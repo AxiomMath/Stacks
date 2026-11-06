@@ -446,7 +446,7 @@ theorem dominatesModifications_of_isElementaryDistinguishedSquare {W : Algebraic
     let kb : pullback Aset.ι sndC ⟶ Pb.toFunctor := Subfunctor.lift kO (by
       rintro Y _ ⟨x, rfl⟩
       show (O.1.ι ≫ p).app Y (kO.app Y x) ∈ U.obj Y
-      rw [← FunctorToTypes.comp, ← Category.assoc, hkO]
+      rw [← NatTrans.comp_app_apply, ← Category.assoc, hkO]
       simpa [Category.assoc] using hmemU Y x)
     have hkb : kb ≫ Pb.ι = kO := Subfunctor.lift_ι _ _
     let kpre : pullback Aset.ι sndC ⟶ (O.1.preimage b₂.hom).toFunctor :=

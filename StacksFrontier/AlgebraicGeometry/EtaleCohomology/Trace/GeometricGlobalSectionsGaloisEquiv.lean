@@ -450,7 +450,7 @@ theorem representationFibre_geometric_trivial [Finite Λ]
         (contains_fieldBaseChange_of_isCurve B X f kbar)).hom)
           (representationFiniteEtaleCover B X _ Λ ρ)),
       ((etaleFundamentalGroupMap (fieldBaseChangeObjProj B X f kbar
-        (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y g).app
+        (contains_fieldBaseChange_of_isCurve B X f kbar)).hom y g).asIso.app
           (representationFiniteEtaleCover B X _ Λ ρ)).hom p = p := by
   let := connectedSpace_of_isCurve B X f
   let := connectedSpace_fieldBaseChange f kbar
@@ -487,7 +487,7 @@ theorem bijective_geometricGlobalSectionsEval
       left_inv := fun _ => rfl
       right_inv := fun _ => rfl }
   have hW : ∀ (σ : EtaleFundamentalGroup (fieldBaseChange (Over.mk f) kbar) y)
-      (p : (finiteEtaleFiberFunctor y).obj W), (σ.app W).hom p = p := by
+      (p : (finiteEtaleFiberFunctor y).obj W), (σ.asIso.app W).hom p = p := by
     intro σ p
     apply (finiteEtaleFiberProjectionEquiv pr y V).injective
     show finiteEtaleFiberProjection pr y V _ = finiteEtaleFiberProjection pr y V p
@@ -584,6 +584,7 @@ theorem geometricGlobalSectionsEval_galois
   have hsm := representationFibreEquiv_smul B X _ Λ ρ γ
     (fieldBaseChangeCoverPoint B X f kbar y (representationFiniteEtaleCover B X _ Λ ρ) (𝟙 _)
       (Category.id_comp _) τ hτ)
+  simp only [Iso.app_hom] at hsm
   rw [hL, hR, hcov, hpt, hgal, hsm, hfpt]
 
 /-- **`Γ(X_k̄, pr⁻¹ℱ_ρ) ≅ M` for `ρ` trivial on the geometric fundamental group, canonically.**

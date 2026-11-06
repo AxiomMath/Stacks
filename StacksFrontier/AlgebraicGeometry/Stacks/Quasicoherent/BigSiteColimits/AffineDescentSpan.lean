@@ -156,7 +156,6 @@ theorem exists_cancelBaseChange
       g (((1 : B) ⊗ₜ[A] c) * y) n = g y (c • n) := by
     intro c y n
     induction y with
-    | zero => simp
     | tmul b c' =>
       rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, hg, hg, smul_smul, mul_comm c c']
     | add y y' hy hy' => simp [mul_add, hy, hy']
@@ -169,7 +168,6 @@ theorem exists_cancelBaseChange
   have hαg : ∀ (y : B ⊗[A] C) (n : N), α (g y n) = ψ y ⊗ₜ[C] n := by
     intro y n
     induction y with
-    | zero => simp
     | tmul b c =>
       rw [hg, hα, ← TensorProduct.smul_tmul, Algebra.smul_def, ← hv₂, ← hv₁, ← map_mul,
         Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one]
@@ -177,13 +175,11 @@ theorem exists_cancelBaseChange
   have hleft : ∀ x : B ⊗[A] N, β (α x) = x := by
     intro x
     induction x with
-    | zero => simp
     | tmul b n => rw [hα, hβ, hψ₁, hg, one_smul]
     | add x x' hx hx' => simp [hx, hx']
   have hright : ∀ z : D ⊗[C] N, α (β z) = z := by
     intro z
     induction z with
-    | zero => simp
     | tmul d n => rw [hβ, hαg, ψ.apply_symm_apply]
     | add z z' hz hz' => simp [hz, hz']
   have hαbij : Function.Bijective α :=
@@ -198,7 +194,6 @@ theorem exists_cancelBaseChange
   refine ⟨AddEquiv.toLinearEquiv e₀ ?_, he₀⟩
   intro a x
   induction x with
-  | zero => simp
   | tmul b n =>
     rw [TensorProduct.smul_tmul', he₀, he₀, Algebra.smul_def a b, map_mul, hbase,
       ← IsScalarTower.algebraMap_smul C a (v₁ b • ρ n),

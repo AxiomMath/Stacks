@@ -227,9 +227,8 @@ private lemma span_algebraMap_eq_top_of_isPushout
   apply top_unique
   intro element _
   apply (Algebra.IsPushout.out (R := R) (S := A) (R' := B) (S' := C)).inductionOn
-    element (fun element => element ∈ Submodule.span A
+    element (motive := fun element => element ∈ Submodule.span A
       (Set.range fun index => algebraMap B C (generators index)))
-  · exact Submodule.zero_mem _
   · intro element
     have helement : element ∈ Submodule.span R (Set.range generators) := by
       rw [hgenerators]

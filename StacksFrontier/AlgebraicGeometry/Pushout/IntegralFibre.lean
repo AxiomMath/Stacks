@@ -110,7 +110,7 @@ theorem exists_mem_isUnit_of_map_eq_top {k A R : Type*} [Field k] [CommRing A] [
     obtain ⟨a, hat, haQ⟩ := Set.not_subset.mp fun h : (t : Set A) ⊆ (Q : Set A) =>
       hQp.ne_top (top_le_iff.mp (htop ▸ Ideal.span_le.mpr h))
     refine ⟨a, hat, hBt hat, fun hmem => haQ ?_⟩
-    simpa using (hQq ▸ hmem : (⟨a, hBt hat⟩ : B) ∈ Ideal.comap (algebraMap B A) Q)
+    simpa using (hQq.symm ▸ hmem : (⟨a, hBt hat⟩ : B) ∈ Q.under B)
   -- Prime avoidance in the subring of `R` mapping into `B`.
   let R₀ : Subring R := Subring.comap φ B.toSubring
   let ψ : R₀ →+* B :=

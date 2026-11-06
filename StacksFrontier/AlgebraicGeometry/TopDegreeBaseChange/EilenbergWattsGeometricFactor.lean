@@ -151,6 +151,7 @@ variable (R : Type u) [CommRing R]
 of the reduction in [Stacks, Tag 0EX3] (b). -/
 abbrev specBase : Over (Spec (CommRingCat.of R)) := Over.mk (𝟙 (Spec (CommRingCat.of R)))
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **Taking global sections of a module on `Spec R` is `R`-linear.** The `R`-action on sections
 over an open is multiplication by the image of the scalar under `R ⟶ Γ(Spec R, ⊤) ⟶ Γ(Spec R, U)`,
 which is exactly the scalar that the linear structure of the base multiplies by, so the two sides
@@ -163,7 +164,7 @@ theorem linear_moduleSpecΓFunctor :
   intro M r
   apply ModuleCat.hom_ext
   ext x
-  rfl
+  with_unfolding_all rfl
 
 /-- **The tilde functor is `R`-linear.** It is the left adjoint of the `R`-linear global-sections
 functor, and a left adjoint of a linear functor is linear. -/

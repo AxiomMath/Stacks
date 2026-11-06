@@ -130,7 +130,7 @@ private noncomputable def inverseMapNatIso
           (DerivedCategory.Q.map (F.map f) ≫ DerivedCategory.Q.map (α.app j)) ≫
             inv (DerivedCategory.Q.map (α.app j)) := by rw [hn]
     _ = inv (DerivedCategory.Q.map (α.app i)) ≫ DerivedCategory.Q.map (F.map f) := by
-          simp [Category.assoc]
+          simp only [Category.assoc, IsIso.hom_inv_id, Category.comp_id]
 
 /-- Pushing a filtration forward along a monomorphism is an isomorphism on each filtration
 step: the comparison map is monic and epic, hence invertible. -/

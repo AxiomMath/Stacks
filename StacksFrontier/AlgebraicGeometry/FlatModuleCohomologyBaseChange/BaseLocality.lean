@@ -151,9 +151,9 @@ private theorem isIso_derivedPaste_app
     (M : DerivedCategory.Plus A₀)
     (h₁ : IsIso (U₂.rightDerivedFunctorPlus.map
       ((Stacks.Cohomology.BaseChange.derived P₀ P₁ U₁ V₁ τ₁
-        (asIso U₁.rightDerivedFunctorPlusUnit)).app M)))
+        (asIso U₁.rightDerivedFunctorPlusUnith)).app M)))
     (h₂ : IsIso ((Stacks.Cohomology.BaseChange.derived P₁ P₂ U₂ V₂ τ₂
-      (asIso U₂.rightDerivedFunctorPlusUnit)).app (V₁.rightDerivedFunctorPlus.obj M))) :
+      (asIso U₂.rightDerivedFunctorPlusUnith)).app (V₁.rightDerivedFunctorPlus.obj M))) :
     IsIso ((Stacks.Cohomology.BaseChange.derivedPaste P₀ P₁ P₂ U₁ U₂ U V₁ V₂ V cU cV τ₁ τ₂).app
       M) := by
   rw [Stacks.Cohomology.BaseChange.derivedPaste_app]
@@ -167,10 +167,10 @@ private theorem isIso_map_derived_of_isIso_derivedPaste_app
     (h : IsIso ((Stacks.Cohomology.BaseChange.derivedPaste P₀ P₁ P₂ U₁ U₂ U V₁ V₂ V cU cV
       τ₁ τ₂).app M))
     (h₂ : IsIso ((Stacks.Cohomology.BaseChange.derived P₁ P₂ U₂ V₂ τ₂
-      (asIso U₂.rightDerivedFunctorPlusUnit)).app (V₁.rightDerivedFunctorPlus.obj M))) :
+      (asIso U₂.rightDerivedFunctorPlusUnith)).app (V₁.rightDerivedFunctorPlus.obj M))) :
     IsIso (U₂.rightDerivedFunctorPlus.map
       ((Stacks.Cohomology.BaseChange.derived P₀ P₁ U₁ V₁ τ₁
-        (asIso U₁.rightDerivedFunctorPlusUnit)).app M)) := by
+        (asIso U₁.rightDerivedFunctorPlusUnith)).app M)) := by
   rw [Stacks.Cohomology.BaseChange.derivedPaste_app] at h
   exact isIso_of_isIso_comp₄ h inferInstance h₂ inferInstance
 
@@ -215,7 +215,7 @@ theorem isIso_derived_baseChangeNatTrans_restrictSquare {Y Z : Scheme.{u}} (q : 
       (modulePushforward (q ∣_ V).toLRSHom.toShHom) (modulePullback V.ι.toLRSHom.toShHom)
       (modulePullback (q ⁻¹ᵁ V).ι.toLRSHom.toShHom)
       (baseChangeNatTrans (AffineBaseChange.restrictSquare q V))
-      (asIso (modulePullback V.ι.toLRSHom.toShHom).rightDerivedFunctorPlusUnit)) := by
+      (asIso (modulePullback V.ι.toLRSHom.toShHom).rightDerivedFunctorPlusUnith)) := by
   let := preservesInjectiveObjects_modulePullback_opensι (q ⁻¹ᵁ V)
   have : ∀ M, IsIso ((baseChangeNatTrans (AffineBaseChange.restrictSquare q V)).app M) :=
     fun M => AffineBaseChange.isIso_baseChangeNatTrans_restrictSquare q V M

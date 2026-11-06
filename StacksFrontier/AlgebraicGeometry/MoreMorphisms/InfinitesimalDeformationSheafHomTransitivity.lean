@@ -565,7 +565,7 @@ private theorem derivation_postcomp_congr_app {Y₁ S₁ : Scheme.{u}} {q : Y₁
     {M N : Y₁.Modules} (Dv : SheafOfModules.SheafDerivation (inverseImageStructureMap q) M)
     {F₁ F₂ : M ⟶ N} (h : Dv.postcomp F₁.val = Dv.postcomp F₂.val) (W : Y₁.Opens) (s : Γ(Y₁, W)) :
     (F₁.val.app (op W)).hom (Dv.d s) = (F₂.val.app (op W)).hom (Dv.d s) :=
-  PresheafOfModules.Derivation.congr_d h s
+  PresheafOfModulesOfCommRing.Derivation.congr_d h s
 
 /-- **A derivation datum is determined by the lift `θ ⬝ b` it produces.** -/
 private theorem derivationDatum_eq_of_derivationActionSheaf_eq {T T' : Scheme.{u}} {k : T ⟶ T'}

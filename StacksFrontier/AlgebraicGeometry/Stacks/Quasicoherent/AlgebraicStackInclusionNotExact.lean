@@ -150,10 +150,13 @@ theorem not_preservesFiniteLimits_quasicoherentInclusion_of_isTerminal (hx : IsT
       have h2 := congrArg (fun k => k ≫ e.hom) this
       simp only [Category.assoc] at h2
       simp only [Functor.map_nsmul, Preadditive.comp_nsmul, Category.comp_id]
+      set_option synthInstance.maxHeartbeats 400000 in
       simpa [g', h', Preadditive.comp_nsmul, Preadditive.nsmul_comp] using h2
     apply ObjectProperty.hom_ext
     apply Ψ.map_injective
-    simpa [g', h'] using congrArg (fun k => k.hom ≫ e.inv) this
+    have h3 := congrArg (fun k => k.hom ≫ e.inv) this
+    simpa only [g', h', ObjectProperty.homMk_hom, Category.assoc, Iso.hom_inv_id,
+      Category.comp_id] using h3
   have h1 : Mono (Q.ι.map (2 • 𝟙 O)) := inferInstance
   rw [Functor.map_nsmul, CategoryTheory.Functor.map_id] at h1
   have h2 : Mono (Ψ.map (2 • 𝟙 (SheafOfModules.unit (ringStructureSheafCore B S hS p hp .fppf)))) :=
@@ -161,7 +164,9 @@ theorem not_preservesFiniteLimits_quasicoherentInclusion_of_isTerminal (hx : IsT
   rw [Functor.map_nsmul, CategoryTheory.Functor.map_id] at h2
   apply hnot
   rw [nsmul_id_eq_inv_comp_nsmul_id_comp_hom e]
-  infer_instance
+  haveI : Mono e.inv := IsIso.mono_of_iso _
+  haveI : Mono e.hom := IsIso.mono_of_iso _
+  exact mono_comp _ _
 end AlgebraicGeometry.FibredSite
 
 namespace AlgebraicGeometry.AssociatedModuleNotExact
@@ -197,7 +202,10 @@ theorem mono_two_nsmul_unitQuasicoherentOnSite :
     rw [Functor.map_nsmul, CategoryTheory.Functor.map_id]
     exact nsmul_id_eq_inv_comp_nsmul_id_comp_hom _ _
   rw [h]
-  infer_instance
+  haveI : Mono e0.inv := IsIso.mono_of_iso _
+  haveI : Mono e0.hom := IsIso.mono_of_iso _
+  haveI : Mono (E.functor.map (2 • 𝟙 unitQcoh.{u})) := E.functor.map_mono _
+  exact mono_comp _ _
 
 end AlgebraicGeometry.AssociatedModuleNotExact
 

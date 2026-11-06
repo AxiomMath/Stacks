@@ -70,6 +70,43 @@ attribute [local instance] AlgebraicGeometry.BigFppfSite.hasPullbacks_schemes
 attribute [local instance] MorphismProperty.IsMultiplicative.toContainsIdentities
 attribute [local instance] relocalizePreservesPullbacks
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search
+for them times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_curvesOverBase
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_curvesOverBase
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_curvesOverBase (B := B) (S := S) (hS := hS)).has_limit _
+
+/-- Products of presheaves on the big fppf site over `S`, given directly (instance search
+times out under Lean v4.35.0). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_curvesOverBase
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {J : Type} :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_over_curvesOverBase
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {J : Type} :
+    HasLimitsOfShape (Discrete J) ((Over (B.obj hS))ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+/-- The same shortcut for presheaves on `Over (B.obj hS)`. -/
+local instance (priority := high) hasPullbacks_presheaf_over_curvesOverBase
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((Over (B.obj hS))ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_over_curvesOverBase
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (Over (B.obj hS))ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_over_curvesOverBase (B := B) (S := S) (hS := hS)).has_limit _
+
 /-- The structure map of a curve over `S` composes with `S → ℤ` to its base map to `ℤ`. -/
 private theorem curveOverS_hom_comp_eq
     (B : AlgebraicGeometry.BigFppfSite.{u})

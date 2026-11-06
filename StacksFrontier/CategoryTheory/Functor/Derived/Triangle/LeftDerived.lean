@@ -257,7 +257,7 @@ private lemma shift_unop_translate {P : H} {X Y : C} (π : P ⟶ F.obj X) (h' : 
     Iso.unop_hom_inv_id_app_assoc, Functor.map_comp, cancelIso]
   refine Eq.trans ?_ (shiftFunctorCompIsoId_naturality_1_shift
     (π ≫ F.map h' ≫ (F.commShiftIso (1 : ℤ)).hom.app Y))
-  simp only [Functor.map_comp, Category.assoc]
+  simp [Functor.opId, Functor.opComp]
 
 end Translate
 

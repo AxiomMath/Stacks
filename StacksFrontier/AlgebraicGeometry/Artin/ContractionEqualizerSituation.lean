@@ -153,6 +153,15 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 variable {c : ContractionSituation B S hS} {V : BigFppfOver B S hS}
     (d : ContractionEqualizer c V)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of fppf sheaves (instance search times out without this shortcut). -/
+local instance hasPullbacks_fppfSheaf_ContractionEqualizerSituation :
+    HasPullbacks (FppfSheaf B S hS) := inferInstance
+
+local instance (priority := high) hasPullback_fppfSheaf_ContractionEqualizerSituation
+    {X Y Z : FppfSheaf B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- `V`, as a representable fppf sheaf of `Type (u + 1)`. -/
 abbrev ambient : FppfSheaf B S hS := (BigFppfOver.topology B S hS).uliftYoneda.{u + 1}.obj V
 

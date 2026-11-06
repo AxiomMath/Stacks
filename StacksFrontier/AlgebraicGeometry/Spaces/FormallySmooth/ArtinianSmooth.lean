@@ -290,7 +290,7 @@ theorem exists_isLift_of_isSmooth_of_spec
     (e' := Iso.refl _) (i := iK) (hi := by rw [heK]; simp; rfl) a ρ'
     (galoisCoverAut ρ B S hS hA s) (fun σ => by simp; rfl) t ht c hc ha
     f ψ hψ (X.map πT.op x)
-    (fun σ => by rw [← FunctorToTypes.map_comp_apply, ← op_comp, htT])
+    (fun σ => by rw [← Functor.map_comp_apply, ← op_comp, htT])
     (π ≫ y) (fun σ => by rw [← Category.assoc, galoisCoverAut_comp_galoisCoverMap])
     g hg ℓ₀ hℓ₀ hℓ₀y hiK
   -- descent to `T'`
@@ -305,8 +305,8 @@ theorem exists_isLift_of_isSmooth_of_spec
     obtain ⟨⟩ := hπ'
     have hlift : pullback.lift h q hfac.symm ≫ πT = h := pullback.lift_fst _ _ _
     have hlift' : pullback.lift h q hfac.symm ≫ iK = q := pullback.lift_snd _ _ _
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← hfac, op_comp, FunctorToTypes.map_comp_apply,
-      hz', ← hlift, op_comp, FunctorToTypes.map_comp_apply, ← hzK₁, ← FunctorToTypes.map_comp_apply,
+    rw [← Functor.map_comp_apply, ← op_comp, ← hfac, op_comp, Functor.map_comp_apply,
+      hz', ← hlift, op_comp, Functor.map_comp_apply, ← hzK₁, ← Functor.map_comp_apply,
       ← op_comp, hlift']
   · refine (bijective_galoisRestriction ρ B S hS hR hA s hGal
       (isAlgebraicSpace_yoneda B S hS W).isSheaf).1 (Subtype.ext ?_)
@@ -348,7 +348,7 @@ theorem exists_isLift_of_isSmooth_of_isSpecArtinianLocal
   obtain ⟨z, hz₁, hz₂⟩ := exists_isLift_of_isSmooth_of_spec B S hS hX f hf hR s (i ≫ Φ.inv) hi' x
     (Φ.hom ≫ y) (by rw [hxy, Category.assoc, Iso.inv_hom_id_assoc])
   refine ⟨X.map Φ.inv.op z, ?_, ?_⟩
-  · rw [← FunctorToTypes.map_comp_apply, ← op_comp, hz₁]
+  · rw [← Functor.map_comp_apply, ← op_comp, hz₁]
   · rw [NatTrans.naturality_apply f Φ.inv.op z]
     have : f.app (op (galoisBaseObj B S hS hR s)) z = Φ.hom ≫ y := hz₂
     show Φ.inv ≫ f.app (op (galoisBaseObj B S hS hR s)) z = y

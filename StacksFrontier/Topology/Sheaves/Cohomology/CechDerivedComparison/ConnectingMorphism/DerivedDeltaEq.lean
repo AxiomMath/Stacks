@@ -198,7 +198,7 @@ variable {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
 theorem derivedPlusResolutionIso_hom {M : A} (I : InjectiveResolution M) :
     (derivedPlusResolutionIso F I).hom =
       F.rightDerivedFunctorPlus.map (resolutionDerivedIso I).hom ≫
-        inv (F.rightDerivedFunctorPlusUnit.app
+        inv (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I))) := rfl
 
 /-- **The one commuting square of `derivedδ_eq`, abstractly.**  For an additive functor `F`
@@ -242,18 +242,18 @@ theorem comm₃_resolutionDerivedComparison {S : ShortComplex A} (hS : S.ShortEx
   have h2 := descKPlus_comp_unit_comp_mapδ F R hRext
   have hwι : IsIso (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map
     (F.mapHomotopyCategoryPlus.map (descKPlus R)))) := inferInstance
-  have hε₃ι : IsIso (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+  have hε₃ι : IsIso (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I₃)))) := inferInstance
-  have hε₁ι : IsIso (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+  have hε₁ι : IsIso (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
     ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I₁)))) := inferInstance
-  have hG : @inv _ _ _ _ (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+  have hG : @inv _ _ _ _ (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I₃)))) hε₃ι ≫
         (DerivedCategory.quotientCompQhIso B).hom.app
           ((F.mapHomologicalComplex (up ℤ)).obj (extendShortComplex R).X₃) ≫
         DerivedCategory.triangleOfSESδ hFRext =
       Functor.mapδ (F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι)
           (resolutionPlusδ R hRext) ≫
-        (@inv _ _ _ _ (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+        (@inv _ _ _ _ (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
               ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I₁)))) hε₁ι ≫
           (DerivedCategory.quotientCompQhIso B).hom.app
             ((F.mapHomologicalComplex (up ℤ)).obj (extendShortComplex R).X₁))⟦(1 : ℤ)⟧' := by
@@ -261,9 +261,9 @@ theorem comm₃_resolutionDerivedComparison {S : ShortComplex A} (hS : S.ShortEx
     refine (cancel_epi (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map
       (F.mapHomotopyCategoryPlus.map (descKPlus R))))).1 ?_
     refine Eq.trans h1 ?_
-    have hz : (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+    have hz : (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I₁))))⟦(1 : ℤ)⟧' ≫
-          (@inv _ _ _ _ (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+          (@inv _ _ _ _ (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
                 ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I₁)))) hε₁ι ≫
             (DerivedCategory.quotientCompQhIso B).hom.app
               ((F.mapHomologicalComplex (up ℤ)).obj (extendShortComplex R).X₁))⟦(1 : ℤ)⟧' =

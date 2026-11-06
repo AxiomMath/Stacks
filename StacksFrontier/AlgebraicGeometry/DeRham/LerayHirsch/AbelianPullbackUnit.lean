@@ -102,6 +102,7 @@ theorem deRhamCohomologyPullback_apply {S' S : Scheme.{u}} (p : X ⟶ S) (p' : X
     (K' := AlgebraicGeometry.SheafOfModules.deRhamAbelianComplexPlus (deRhamAlgebras p')
       (AlgebraicGeometry.SheafOfModules.deRhamDifferential (deRhamAlgebras p')))
     (deRhamAbelianPushforwardMapPlus f p p' g hcomm)
+  rw [deRhamCohomologyPullback, deRhamDerivedSectionsPullback_eq]
   refine (congrArg (fun φ => ((DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{u} i).map
     φ).hom ξ) h).trans ?_
   rw [Functor.map_comp]
@@ -131,10 +132,10 @@ theorem sectionsUnit_comp_pushforwardPullback
   let F := abelianPushforward.{u, u} f.base
   let G := sectionsFunctor X.toRingedSpace.carrier ⊤
   let qK := (HomotopyCategory.Plus.quotient (AbelianSheaf X'.toRingedSpace.carrier)).obj K
-  have hfac : (sectionsFunctor X'.toRingedSpace.carrier ⊤).rightDerivedFunctorPlusUnit.app qK ≫
+  have hfac : (sectionsFunctor X'.toRingedSpace.carrier ⊤).rightDerivedFunctorPlusUnith.app qK ≫
       (derivedSectionsPushforwardIso f).hom.app (DerivedCategory.Plus.Qh.obj qK) =
-      G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj qK) ≫
-        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app qK) :=
+      G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj qK) ≫
+        G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app qK) :=
     (Functor.rightDerivedFunctorPlusComp_fac_app F G qK).trans
       (Functor.qhMapCompIsoReflInv_comp F G qK _)
   have h₁ : (sectionsFunctor X.toRingedSpace.carrier ⊤).rightDerivedFunctorPlus.map

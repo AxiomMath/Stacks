@@ -47,7 +47,8 @@ variable {C : Type u} [Category.{v} C] {D : Type u} [Category.{v} D]
 instance additive_sheafPullback : (G.sheafPullback (ModuleCat.{w} Λ) J J').Additive := by
   have hadj := G.sheafAdjunctionContinuous (ModuleCat.{w} Λ) J J'
   have : (G.sheafPullback (ModuleCat.{w} Λ) J J').IsLeftAdjoint := ⟨_, ⟨hadj⟩⟩
-  have := hadj.leftAdjoint_preservesColimits
+  have : PreservesColimitsOfSize.{0, 0} (G.sheafPullback (ModuleCat.{w} Λ) J J') :=
+    hadj.leftAdjoint_preservesColimits
   have := Functor.preservesZeroMorphisms_of_isLeftAdjoint (G.sheafPullback (ModuleCat.{w} Λ) J J')
   have := preservesBinaryBiproducts_of_preservesBinaryCoproducts
     (G.sheafPullback (ModuleCat.{w} Λ) J J')

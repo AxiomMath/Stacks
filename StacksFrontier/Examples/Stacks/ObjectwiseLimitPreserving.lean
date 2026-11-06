@@ -812,6 +812,7 @@ private lemma sheaf_mono_app_injective
   let : Mono η.hom := (sheafToPresheaf J AddCommGrpCat).map_mono η
   exact (AddCommGrpCat.mono_iff_injective _).mp inferInstance
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- Every sequence of sections of `H` over `U` is the family of components of a single section
 of the countable product `∏ᶜ fun _ : ℕ => H` over `U`. -/
 private lemma exists_product_sheaf_section
@@ -820,21 +821,27 @@ private lemma exists_product_sheaf_section
     (U : Cᵒᵖ) (s : ℕ → H.obj.obj U) :
     ∃ t : (∏ᶜ fun _ : ℕ => H).obj.obj U,
       ∀ n, (Pi.π (fun _ : ℕ => H) n).hom.app U t = s n := by
+  have hP : HasProduct (fun _ : ℕ => H) := inferInstance
+  have : HasLimitsOfShape (Discrete ℕ) (Cᵒᵖ ⥤ AddCommGrpCat.{u}) :=
+    functorCategoryHasLimitsOfShape
   let F := sheafToPresheaf J AddCommGrpCat ⋙
     (evaluation Cᵒᵖ AddCommGrpCat).obj U ⋙ forget AddCommGrpCat
-  let e := PreservesProduct.iso F (fun _ : ℕ => H) ≪≫
-    Types.productIso (fun _ : ℕ => F.obj H)
-  refine ⟨e.inv s, fun n => ?_⟩
-  show (e.inv ≫ F.map (Pi.π (fun _ : ℕ => H) n)) s = s n
-  have he : (PreservesProduct.iso F (fun _ : ℕ => H)).inv ≫
-      F.map (Pi.π (fun _ : ℕ => H) n) = Pi.π (fun _ : ℕ => F.obj H) n := by
-    apply (cancel_epi (PreservesProduct.iso F (fun _ : ℕ => H)).hom).1
-    rw [Iso.hom_inv_id_assoc, PreservesProduct.iso_hom, piComparison_comp_π]
-  show ((Types.productIso (fun _ : ℕ => F.obj H)).inv ≫
-    (PreservesProduct.iso F (fun _ : ℕ => H)).inv ≫
-      F.map (Pi.π (fun _ : ℕ => H) n)) s = s n
-  rw [he, Types.productIso_inv_comp_π]
-  rfl
+  have : PreservesLimit (Discrete.functor fun _ : ℕ => H) (sheafToPresheaf J AddCommGrpCat) :=
+    inferInstance
+  have : PreservesLimit (Discrete.functor fun _ : ℕ => H) F := inferInstance
+  have : HasProduct (fun _ : ℕ => F.obj H) := inferInstance
+  let e₁ : F.obj (∏ᶜ fun _ : ℕ => H) ≅ ∏ᶜ fun _ : ℕ => F.obj H :=
+    PreservesProduct.iso F (fun _ : ℕ => H)
+  let e₂ := Types.productIso.{0, u} (fun _ : ℕ => F.obj H)
+  refine ⟨e₁.inv (e₂.inv s), fun n => ?_⟩
+  have he : e₁.inv ≫ F.map (Pi.π (fun _ : ℕ => H) n) = Pi.π (fun _ : ℕ => F.obj H) n := by
+    apply (cancel_epi e₁.hom).1
+    rw [Iso.hom_inv_id_assoc,
+      show e₁.hom = piComparison F _ from PreservesProduct.iso_hom F (fun _ : ℕ => H),
+      piComparison_comp_π]
+  have h₂ : Pi.π (fun _ : ℕ => F.obj H) n (e₂.inv s) = s n :=
+    Types.productIso_inv_comp_π_apply.{0, u} (fun _ : ℕ => F.obj H) n s
+  exact (ConcreteCategory.congr_hom he (e₂.inv s)).trans h₂
 
 /-- Over a nonempty `S` there is an injective sheaf of abelian groups on the big fppf site over
 `S`, an `ℕᵒᵖ`-diagram of affine objects whose cone is a limit of schemes, and a section
@@ -1329,7 +1336,7 @@ private lemma isSheaf_pullback {C : Type*} [Category.{u} C]
   · exact hG
 
 attribute [local implicit_reducible] overYonedaSectionEquiv sheafGroupOver
-    sheafGroupSectionMulEquiv CategoryTheory.OverShriek.fiber CategoryTheory.Over.post
+    sheafGroupSectionMulEquiv CategoryTheory.OverShriek.fiber
     Stacks.Cohomology.Torsors.abelianSheafAsGroupSheaf AddCommGrpCat.toCommGrp in
 /-- The sections of `T.F` over `W ⟶ T.U`, with the translation action of `H(W)` transported
 along the identification of `H.over T.U` with the group acting on `T.F`. -/

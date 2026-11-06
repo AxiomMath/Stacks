@@ -68,7 +68,7 @@ base-change maps `𝓕(U') ⊗_{𝒪(U')} 𝒪(U) ⟶ 𝓕(U)` are isomorphisms 
 theorem smallAffineZariski_isSheaf_of_baseChange_isIso
     (B : BigZariskiSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (F : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
-      (smallAffineZariskiRingedSite B S hS).O).val)
+      (smallAffineZariskiRingedSite B S hS).O).obj)
     (h : ∀ ⦃X Y : (SmallAffineZariski B S hS)ᵒᵖ⦄ (f : X ⟶ Y),
       IsIso (Stacks.PresheafOfModules.restrictionBaseChange.{u + 1, u, u, u} F f)) :
     Presheaf.IsSheaf (smallAffineZariskiRingedSite B S hS).J F.presheaf :=
@@ -80,7 +80,7 @@ maps `𝓕(U') ⊗_{𝒪(U')} 𝒪(U) ⟶ 𝓕(U)` are isomorphisms is a sheaf. 
 theorem smallAffineEtale_isSheaf_of_baseChange_isIso
     (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (F : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
-      (smallAffineEtaleRingedSite B S hS).O).val)
+      (smallAffineEtaleRingedSite B S hS).O).obj)
     (h : ∀ ⦃X Y : (SmallAffineEtale B S hS)ᵒᵖ⦄ (f : X ⟶ Y),
       IsIso (Stacks.PresheafOfModules.restrictionBaseChange.{u + 1, u, u, u} F f)) :
     Presheaf.IsSheaf (smallAffineEtaleRingedSite B S hS).J F.presheaf := by
@@ -110,7 +110,7 @@ of modules is quasi-coherent on the ringed site `(S_{affine, Zar}, 𝒪_affine)`
 theorem smallAffineZariski_isSheaf_and_isQuasicoherentOnSite_of_baseChange_isIso
     (B : BigZariskiSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (F : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
-      (smallAffineZariskiRingedSite B S hS).O).val)
+      (smallAffineZariskiRingedSite B S hS).O).obj)
     (h : ∀ ⦃X Y : (SmallAffineZariski B S hS)ᵒᵖ⦄ (f : X ⟶ Y),
       IsIso (Stacks.PresheafOfModules.restrictionBaseChange.{u + 1, u, u, u} F f)) :
     ∃ hs : Presheaf.IsSheaf (smallAffineZariskiRingedSite B S hS).J F.presheaf,
@@ -127,7 +127,7 @@ is quasi-coherent on the ringed site `(S_{affine, étale}, 𝒪_affine)`. -/
 theorem smallAffineEtale_isSheaf_and_isQuasicoherentOnSite_of_baseChange_isIso
     (B : BigEtaleSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (F : PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
-      (smallAffineEtaleRingedSite B S hS).O).val)
+      (smallAffineEtaleRingedSite B S hS).O).obj)
     (h : ∀ ⦃X Y : (SmallAffineEtale B S hS)ᵒᵖ⦄ (f : X ⟶ Y),
       IsIso (Stacks.PresheafOfModules.restrictionBaseChange.{u + 1, u, u, u} F f)) :
     ∃ hs : Presheaf.IsSheaf (smallAffineEtaleRingedSite B S hS).J F.presheaf,

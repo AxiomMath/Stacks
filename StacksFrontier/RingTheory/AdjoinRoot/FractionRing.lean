@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Ring.Hom.InjSurj
 public import Mathlib.RingTheory.AdjoinRoot
 public import Mathlib.RingTheory.Localization.Integral
 

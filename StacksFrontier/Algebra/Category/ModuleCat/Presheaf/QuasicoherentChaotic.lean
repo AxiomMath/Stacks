@@ -490,6 +490,15 @@ theorem finsuppScalarLeft_single_tmul (R : Type r) [CommRing R] (S : Type r) [Co
   rw [finsuppScalarLeft_apply_tmul, Finsupp.sum_single_index]
   simp
 
+/-- The sections of `(Over.forget V).op ⋙ ringPresheaf O` over `X` act through `O(X.left)`
+(instance search no longer unfolds `⋙` here). -/
+private noncomputable instance moduleRestrictScalarsSliceObj {V : C} (X : (Over V)ᵒᵖ)
+    {R : Type r} [Ring R] (f : R →+* (((Over.forget V).op ⋙ ringPresheaf O).obj X : Type r))
+    (M : ModuleCat.{r} (((Over.forget V).op ⋙ ringPresheaf O).obj X)) :
+    Module (O.obj (Opposite.op X.unop.left) : Type r) ((ModuleCat.restrictScalars f).obj M) :=
+  inferInstanceAs (Module (((Over.forget V).op ⋙ ringPresheaf O).obj X)
+    ((ModuleCat.restrictScalars f).obj M))
+
 /-- Restricting a coordinate vector along the canonical slice morphism `𝟙 V ⟶ X` and scaling by
 `c` is `finsuppScalarLeft` of the base change of the vector along `O(g)`, `g = X.unop.hom`. -/
 private theorem smul_freeRank_map_eq_finsuppScalarLeft_tmul {V : C} (X : (Over V)ᵒᵖ)
@@ -568,7 +577,7 @@ private theorem slicePres_objectwise_exact_and_epi
     simp only [LinearEquiv.coe_toEquiv]
     induction z using Finsupp.induction_linear with
     | zero =>
-        simp only [map_zero]
+        repeat (first | erw [LinearEquiv.map_zero] | erw [map_zero])
     | add p q hp hq =>
         simp only [map_add]
         rw [hp, hq]
@@ -599,7 +608,7 @@ private theorem slicePres_objectwise_exact_and_epi
     simp only [LinearEquiv.coe_toEquiv, Equiv.trans_apply]
     induction z using Finsupp.induction_linear with
     | zero =>
-        simp only [map_zero]
+        repeat (first | erw [LinearEquiv.map_zero] | erw [map_zero])
     | add p q hp hq =>
         simp only [map_add]
         rw [hp, hq]
@@ -632,7 +641,8 @@ private theorem slicePres_objectwise_exact_and_epi
       exact (hExact x₂).mp hx₂
     refine exact_transport _ _ _ _ eR eG eP hIdA hIdB (fun p => ?_) hbc.1
     rw [heP]
-    simp
+    simp only [Equiv.trans_apply, LinearEquiv.coe_toEquiv]
+    erw [LinearEquiv.map_eq_zero_iff, LinearEquiv.map_eq_zero_iff]
   · -- Reduce `Epi` to surjectivity of the evaluated `b` as a function.
     rw [PresheafOfModules.evaluation_map, ModuleCat.epi_iff_surjective]
     intro y
@@ -788,7 +798,7 @@ theorem canonicalMap_isIso_of_quasiCoherent
     rw [heGU, heRU]
     simp only [LinearEquiv.coe_toEquiv]
     induction z using Finsupp.induction_linear with
-    | zero => simp only [map_zero]
+    | zero => repeat (first | erw [LinearEquiv.map_zero] | erw [map_zero])
     | add p q hp hq =>
         simp only [map_add]
         rw [hp, hq]
@@ -826,7 +836,7 @@ theorem canonicalMap_isIso_of_quasiCoherent
     simp only [LinearEquiv.coe_toEquiv]
     induction z using Finsupp.induction_linear with
     | zero =>
-        simp only [map_zero]
+        repeat (first | erw [LinearEquiv.map_zero] | erw [map_zero])
     | add p q hp hq =>
         simp only [map_add]
         rw [hp, hq]

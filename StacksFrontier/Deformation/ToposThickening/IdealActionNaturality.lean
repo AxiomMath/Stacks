@@ -61,7 +61,7 @@ noncomputable def idealTensorMap (D : TwoExtensions i) :
   (PresheafOfModules.sheafification
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf
       ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj)).map
-      (PresheafOfModules.Monoidal.tensorHom (𝟙 D.thickening.I.val) D.quotientMap.val)
+      (PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 D.thickening.I.val) D.quotientMap.val)
 
 /-- A map of extensions compatible with its maps on kernels and quotients commutes with
 multiplication by sections of the square-zero ideal. -/
@@ -81,7 +81,7 @@ theorem idealActionMap_naturality
       idealTensorMap D ≫ D.secondActionMap.val := by
   let R := Stacks.SheafOfModules.Tensor.ringSheaf
     ((pushforwardCommRingFunctor i.toToposHom).obj X.O)
-  let P := PresheafOfModules.Monoidal.tensorObj D.thickening.I.val D.F.val
+  let P := PresheafOfModulesOfCommRing.Monoidal.tensorObj D.thickening.I.val D.F.val
   let adj := PresheafOfModules.sheafificationAdjunction (R := R) (𝟙 R.obj)
   let left := adj.homEquiv P D.L (D.firstActionMap.val ≫ D.kernelMap)
   let right := adj.homEquiv P D.L (idealTensorMap D ≫ D.secondActionMap.val)
@@ -131,14 +131,14 @@ theorem idealActionMap_naturality
   let gxV : D.F.val.obj (Opposite.op V) := D.firstExtension.g.val.app (Opposite.op V) x'
   have hxV : xV = gxV := hx'.symm
   rw [hnat left, hnat right, htmul, hxV]
-  have hright : right = PresheafOfModules.Monoidal.tensorHom (𝟙 D.thickening.I.val)
+  have hright : right = PresheafOfModulesOfCommRing.Monoidal.tensorHom (𝟙 D.thickening.I.val)
       D.quotientMap.val ≫ adj.homEquiv _ D.L D.secondActionMap.val :=
     adj.homEquiv_naturality_left _ _
   rw [hright]
   show left.app (Opposite.op V)
       (aV ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj (Opposite.op V)]
         gxV) =
-    (adj.homEquiv (PresheafOfModules.Monoidal.tensorObj D.thickening.I.val D.G.val) D.L
+    (adj.homEquiv (PresheafOfModulesOfCommRing.Monoidal.tensorObj D.thickening.I.val D.G.val) D.L
         D.secondActionMap.val).app (Opposite.op V)
       (aV ⊗ₜ[((pushforwardCommRingFunctor i.toToposHom).obj X.O).obj.obj (Opposite.op V)]
         D.quotientMap.val.app (Opposite.op V) gxV)

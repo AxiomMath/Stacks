@@ -271,7 +271,8 @@ theorem smul_kaehler_baseChange_away_eq_zero (c : C) (hc : ∀ x : Ω[C⁄R], c 
     (x : Ω[C'⁄R']) : algebraMap C'' C' (algebraMap C C'' c) • x = 0 := by
   have h₁ : ∀ y : Ω[C''⁄R'], algebraMap C C'' c • y = 0 := by
     intro y
-    refine (KaehlerDifferential.isBaseChange R R' C C'').inductionOn y _ (smul_zero _)
+    refine (KaehlerDifferential.isBaseChange R R' C C'').inductionOn
+      (motive := fun y ↦ algebraMap C C'' c • y = 0) y
       (fun m ↦ ?_) (fun s n hn ↦ by rw [smul_comm, hn, smul_zero])
       (fun _ _ h₁ h₂ ↦ by rw [smul_add, h₁, h₂, add_zero])
     show algebraMap C C'' c • KaehlerDifferential.map R R' C C'' m = 0

@@ -191,7 +191,10 @@ theorem isEquivalence_quasicoherentEvaluation_of_isTerminal :
   have : PreservesColimitsOfSize.{0, 0} ((SheafOfModules.isQuasicoherentOnSite.{v, u, u, u}
       (ringStructureSheafCore B S hS p hp .fppf)).ι ⋙ SheafOfModules.forget _ ⋙
         PresheafOfModules.evaluation _ (op x₀)) := preservesColimitsOfSize_shrink _
-  have := hasColimitsOfSize_quasicoherentModules' B S hS p hp
+  have hC := hasColimitsOfSize_quasicoherentModules' B S hS p hp
+  have : HasCoproducts.{u} (SheafOfModules.isQuasicoherentOnSite.{v, u, u, u}
+      (ringStructureSheafCore B S hS p hp .fppf)).FullSubcategory :=
+    fun _ => hC.has_colimits_of_shape _
   have := ModuleCat.essSurj_of_full_of_preservesColimits
     ((SheafOfModules.isQuasicoherentOnSite.{v, u, u, u}
       (ringStructureSheafCore B S hS p hp .fppf)).ι ⋙ SheafOfModules.forget _ ⋙

@@ -126,7 +126,7 @@ noncomputable def singleRightDerivedUnit :
       DerivedCategory.Plus.singleFunctor A 0 ⋙ Φ.rightDerivedFunctorPlus :=
   (Functor.mapSingleFunctorCompQhIso Φ).inv ≫
     Functor.whiskerLeft (HomotopyCategory.Plus.singleFunctor A 0)
-      Φ.rightDerivedFunctorPlusUnit ≫
+      Φ.rightDerivedFunctorPlusUnith ≫
     Functor.whiskerRight (Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv
       Φ.rightDerivedFunctorPlus
 
@@ -134,7 +134,7 @@ noncomputable def singleRightDerivedUnit :
 lemma singleRightDerivedUnit_app (M : A) :
     (singleRightDerivedUnit Φ).app M =
       ((Functor.mapSingleFunctorCompQhIso Φ).app M).inv ≫
-        Φ.rightDerivedFunctorPlusUnit.app
+        Φ.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor A 0).obj M) ≫
         Φ.rightDerivedFunctorPlus.map
           ((Functor.singleFunctorPlusIsoCompQh (A := A) 0).inv.app M) :=
@@ -149,7 +149,7 @@ instance isIso_singleRightDerivedUnit_app (I : A) [Injective I] :
       Injective (((HomotopyCategory.Plus.singleFunctor A 0).obj I).obj.as.X m) :=
     fun m ↦ inferInstanceAs
       (Injective (((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj I).X m))
-  have : IsIso (Φ.rightDerivedFunctorPlusUnit.app
+  have : IsIso (Φ.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor A 0).obj I)) := inferInstance
   rw [singleRightDerivedUnit_app]
   infer_instance

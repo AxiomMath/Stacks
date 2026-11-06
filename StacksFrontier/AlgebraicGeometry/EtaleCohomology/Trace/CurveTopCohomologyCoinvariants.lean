@@ -66,7 +66,7 @@ theorem exists_addEquiv_compactSupportSheafCohomology_two_lisseEtaleSheaf_of_tri
         ((lisseEtaleSheaf B U x (ZMod m)).obj Q) ≃+ Q.obj.obj.obj.V,
       ∀ t, θ (((compactSupportSheafFrobenius (ZMod m) f j kbar p q hcard 2).app
           ((lisseEtaleSheaf B U x (ZMod m)).obj Q)).hom t) =
-        (p ^ q : ℕ) • (Q.obj.obj.obj.ρ φ).hom (θ t) := by
+        (p ^ q : ℕ) • (Q.obj.obj.obj.ρ φ).asHom.hom (θ t) := by
   obtain ⟨u₀, _, h₀⟩ := exists_isIso_twist_lisseEtaleSheaf_baseField B U f kbar m p q hcard x hs
     Q hQ φ hφ
   exact exists_addEquiv_compactSupportSheafCohomology_two_lisseEtaleSheaf_of_twist B U f j kbar m p
@@ -126,9 +126,9 @@ theorem LAdicSheaf.exists_linearEquiv_compactSupportSheafCohomology_two_levelMod
   have hQ : ∀ g, etaleFundamentalGroupMap f x g = 1 →
       (levelCoinvariantsModule (etaleFundamentalGroupMap f x).toMonoidHom.ker (integralModel τ hτ)
         (continuous_integralModel τ hτ) (n + 1)).obj.obj.obj.ρ g = 1 := fun g hg =>
-    ModuleCat.hom_ext (LinearMap.ext fun v =>
+    End.ext (ModuleCat.hom_ext (LinearMap.ext fun v =>
       levelCoinvariantsRepresentation_eq_of_mem (etaleFundamentalGroupMap f x).toMonoidHom.ker
-        (integralModel τ hτ) (n + 1) (MonoidHom.mem_ker.2 hg) v)
+        (integralModel τ hτ) (n + 1) (MonoidHom.mem_ker.2 hg) v))
   obtain ⟨θ, hθ⟩ := exists_addEquiv_compactSupportSheafCohomology_two_lisseEtaleSheaf_of_trivial
     B U f j kbar (ℓ ^ (n + 1)) p q hcard x hs
     (levelCoinvariantsModule (etaleFundamentalGroupMap f x).toMonoidHom.ker (integralModel τ hτ)

@@ -95,12 +95,12 @@ theorem ι_map_unit_comp_resolutionDerivedComparison_hom {M : A} (I : InjectiveR
           (F.mapCochainComplexPlus.obj ((singlePlusFunctor A 0).obj M)) ≫
         DerivedCategory.Plus.Qh.map (F.mapHomotopyCategoryPlus.map
           ((HomotopyCategory.Plus.quotient A).map (resolutionSinglePlusHom I))) := by
-    have hn := F.rightDerivedFunctorPlusUnit.naturality
+    have hn := F.rightDerivedFunctorPlusUnith.naturality
       ((HomotopyCategory.Plus.quotient A).map (resolutionSinglePlusHom I))
     simp only [Functor.comp_map] at hn
     rw [Functor.mapCochainComplexPlusDerivedUnit_app]
     show _ ≫ (F.rightDerivedFunctorPlus.map (resolutionDerivedIso I).hom ≫
-      inv (F.rightDerivedFunctorPlusUnit.app
+      inv (F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient A).obj (resolutionCochainPlus I)))) = _
     exact unit_cancel F.rightDerivedFunctorPlus _ _ _ _ _ _ _ hJ hn
   have hN := DerivedCategory.quotientCompQhIso_hom_naturality

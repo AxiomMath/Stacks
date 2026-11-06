@@ -228,7 +228,7 @@ abbrev thickModule : SheafOfModules.{max u v w}
 /-- **The derivation `b - φ ∘ a` of `𝒪_{B'₁}[ℰ]` over `𝒪_{B'₁}` attached to a lift**, which is
 the derivation the source's Step 2 reads a morphism filling the diagram as. -/
 def liftDerivation (p : Lift D) :
-    (thickModule D).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (thickModule D).val
       (freeAlgebraSheafCoefficientMap J D.front.OB' (pairPresheaf D)).hom where
   d {X} := AddMonoidHom.mk' (fun x => liftAlgebraSection D p X x) (liftAlgebraSection_add D p X)
   d_mul {X} x y := liftAlgebraSection_mul D p X x y
@@ -258,7 +258,7 @@ abbrev reducedModule : SheafOfModules.{max u v w}
 /-- The derivation of `𝒪_{B₁}[ℰ]` over `𝒪_{B₁}` corresponding to a morphism out of the degree
 `0` term of `NL(α)`: the degree `0` term corepresents the derivations. -/
 def tensorDerivation (θ : reducedDegreeZero D ⟶ pushedIdeal D) :
-    (reducedModule D).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (reducedModule D).val
       (freeAlgebraSheafCoefficientMap J D.front.OB (pairPresheaf D)).hom :=
   degreeZeroHomEquivDerivation D (pushedIdeal D) θ
 
@@ -271,7 +271,7 @@ theorem tensorDerivation_d (θ : reducedDegreeZero D ⟶ pushedIdeal D) (X : C�
 
 section BaseChangeDerivation
 
-variable (Θ : (reducedModule D).val.Derivation'
+variable (Θ : PresheafOfModulesOfCommRing.Derivation' (reducedModule D).val
   (freeAlgebraSheafCoefficientMap J D.front.OB (pairPresheaf D)).hom)
 
 /-- The value of the pullback along the reduction of coefficients of a derivation of
@@ -328,7 +328,7 @@ descent of derivations is involved: a derivation of the reduced algebra precompo
 reduction of coefficients is a derivation of the thickened one, because that reduction is a
 homomorphism of algebras carrying `𝒪_{B'₁}` into `𝒪_{B₁}`. -/
 def baseChangeDerivation :
-    (thickModule D).val.Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (thickModule D).val
       (freeAlgebraSheafCoefficientMap J D.front.OB' (pairPresheaf D)).hom where
   d {X} := AddMonoidHom.mk' (fun x => baseChangeDerivationFun D Θ X x)
     (baseChangeDerivationFun_add D Θ X)

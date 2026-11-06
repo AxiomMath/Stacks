@@ -367,7 +367,7 @@ private lemma isIso_oneSubSmulShift_module_iff (A : Type*) [CommRing A]
   have h : e.inv ≫ oneSubSmulShift M f = d ≫ e.inv := by
     apply Pi.hom_ext
     intro n
-    simp only [oneSubSmulShift, milnorMap, e, Category.assoc, Pi.lift_π,
+    simp only [oneSubSmulShift, milnorMap, e, Category.assoc, Pi.lift_comp_π,
       Preadditive.comp_sub, Linear.comp_smul, Category.comp_id,
       ModuleCat.piIsoPi_inv_kernel_ι]
     ext a

@@ -149,19 +149,19 @@ public noncomputable def relabelPicardEquiv (T : NumericalType)
 private theorem addSubgroupInt_equiv_int (K : AddSubgroup ℤ) (hK : K ≠ ⊥) :
     Nonempty (K ≃+ ℤ) := by
   obtain ⟨a, ha⟩ := Int.subgroup_cyclic K
-  rw [← AddSubgroup.zmultiples_eq_closure] at ha
-  have ha0 : a ≠ 0 := by
-    rintro rfl
-    exact hK (ha.trans (AddSubgroup.zmultiples_zero_eq_bot))
-  let f : ℤ →+ K := {
-    toFun z := ⟨z * a, ha.ge (AddSubgroup.mem_zmultiples_iff.2 ⟨z, by simp⟩)⟩
-    map_zero' := Subtype.ext (by simp)
-    map_add' x y := Subtype.ext (by simp [add_mul])
-  }
+  have ha0 : (a : ℤ) ≠ 0 := by
+    intro h0
+    refine hK ((AddSubgroup.eq_bot_iff_forall K).2 fun x hx => ?_)
+    obtain ⟨z, hz⟩ := ha ⟨x, hx⟩
+    have := congrArg Subtype.val hz
+    simp only [AddSubgroup.coe_zsmul, h0, smul_zero] at this
+    exact this.symm
+  let f : ℤ →+ K := zmultiplesHom K a
   have hf : Function.Bijective f := by
-    refine ⟨fun x y hxy => mul_right_cancel₀ ha0 (congrArg Subtype.val hxy), fun x => ?_⟩
-    obtain ⟨z, hz⟩ := AddSubgroup.mem_zmultiples_iff.mp (ha.le x.property)
-    exact ⟨z, Subtype.ext hz⟩
+    refine ⟨fun x y hxy => ?_, ha⟩
+    have := congrArg Subtype.val hxy
+    simp only [f, zmultiplesHom_apply, AddSubgroup.coe_zsmul, smul_eq_mul] at this
+    exact mul_right_cancel₀ ha0 this
   exact ⟨(AddEquiv.ofBijective f hf).symm⟩
 
 private theorem addGroup_equiv_int_of_injective_two_range

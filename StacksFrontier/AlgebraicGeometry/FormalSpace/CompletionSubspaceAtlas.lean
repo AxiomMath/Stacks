@@ -200,7 +200,7 @@ theorem exists_affine_etale_atlas_sheafifiedULift (X : AlgebraicSpaces B S hS) :
     rintro T'' h ⟨Y, k, l, ⟨i⟩, hkl⟩
     refine ⟨i, k, ?_⟩
     show f₀.app _ (k ≫ j i) = X.1.map (h ≫ g).op x
-    rw [hkl, op_comp, FunctorToTypes.map_comp_apply, ← ha]
+    rw [hkl, op_comp, Functor.map_comp_apply, ← ha]
     exact NatTrans.naturality_apply f₀ h.op a
   refine ⟨U, I, W, f, fun i ↦ hWaff i.1, fun i ↦ hjetale i.1, hlift, ?_, ?_, fun i ↦ ?_⟩
   · -- joint surjectivity, first among presheaves, then after sheafifying
@@ -216,7 +216,7 @@ theorem exists_affine_etale_atlas_sheafifiedULift (X : AlgebraicSpaces B S hS) :
     refine ⟨(Sigma.ι (fun i : ULift.{u + 1} I ↦
       ((schemeSpaceFunctor B S hS).obj (W i.down)).1 ⋙ uliftFunctor.{u + 1}) ⟨i⟩).app _ x, ?_⟩
     rw [← ConcreteCategory.comp_apply, ← NatTrans.comp_app, Sigma.ι_desc]
-    exact ULift.ext _ _ hk
+    exact ULift.ext hk
   · -- the nonempty summands inject into the points of `U`
     refine (Cardinal.mk_le_of_injective (f := fun i : I ↦
       ((BigFppfOver.toScheme B S hS).map (j i)).base (Classical.choice i.2)) ?_).trans
@@ -332,7 +332,7 @@ theorem exists_epi_uliftYoneda_completionSubspace (X : AlgebraicSpaces B S hS)
     refine (Space.mem_completionSubspaceSubfunctor_preimage B S hS (φ i) Z (op T') ⟨k'⟩).mpr ?_
     have hmap := C.map h'.op hx
     have heq : (ULift.up ((φ i).hom.app (op T') k') : (X.1 ⋙ uliftFunctor.{u + 1}).obj (op T')) =
-        (X.1 ⋙ uliftFunctor.{u + 1}).map h'.op ⟨x⟩ := ULift.ext _ _ hk'
+        (X.1 ⋙ uliftFunctor.{u + 1}).map h'.op ⟨x⟩ := ULift.ext hk'
     rw [heq]
     exact hmap
   obtain ⟨n, w, hw⟩ := Space.exists_factor_of_mem_completionSubspaceSubfunctor B S hS (str i)
@@ -354,7 +354,7 @@ theorem exists_epi_uliftYoneda_completionSubspace (X : AlgebraicSpaces B S hS)
   have hc : (J.sheafify C.toFunctor).map (h' ≫ h).op σ =
       (J.sheafify C.toFunctor).map h'.op ((J.sheafify C.toFunctor).map h.op σ) := by
     rw [op_comp]
-    exact FunctorToTypes.map_comp_apply _ _ _ _
+    exact Functor.map_comp_apply _ _ _ _
   rw [hc, ← hp,
     ← NatTrans.naturality_apply (J.toSheafify C.toFunctor), key]
   exact NatTrans.naturality_apply (J.toSheafify C.toFunctor) h'.op _

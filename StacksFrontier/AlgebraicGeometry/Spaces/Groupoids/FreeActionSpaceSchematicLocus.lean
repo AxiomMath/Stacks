@@ -403,6 +403,13 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} [∀ T, MulAction G (X.obj T)]
     [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FreeActionSpaceSchematicLocus
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The quotient map of a free action of a finite group on an algebraic space is finite
 locally free after every representable base change.**
 

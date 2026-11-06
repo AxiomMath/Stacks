@@ -49,7 +49,7 @@ variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
 
 /-- The cofibered set represented by a complete local algebra. -/
 public abbrev representedProjection (R : CompleteLocalAlgCat.{u, v, w} Λ k) :=
-  CategoryOfElements.π (coyoneda.obj (Opposite.op R))
+  Functor.Elements.π (coyoneda.obj (Opposite.op R))
 
 /-- Evaluation at the identity point, in the strict fibre. -/
 public def evaluation {G : Type uF} [Category.{vF} G]
@@ -57,21 +57,23 @@ public def evaluation {G : Type uF} [Category.{vF} G]
     (R : CompleteLocalAlgCat.{u, v, w} Λ k) :
     BasedFunctor (BasedCategory.ofFunctor (representedProjection R))
       (BasedCategory.ofFunctor q) ⥤ q.Fiber R where
-  obj φ := ⟨φ.obj ⟨R, 𝟙 R⟩, φ.w_obj _⟩
-  map t := ⟨t.toNatTrans.app ⟨R, 𝟙 R⟩, t.isHomLift' ⟨R, 𝟙 R⟩⟩
+  obj φ := ⟨φ.obj ((coyoneda.obj (Opposite.op R)).elementsMk R (𝟙 R)), φ.w_obj _⟩
+  map t := ⟨t.toNatTrans.app ((coyoneda.obj (Opposite.op R)).elementsMk R (𝟙 R)),
+    t.isHomLift' ((coyoneda.obj (Opposite.op R)).elementsMk R (𝟙 R))⟩
   map_id _ := rfl
   map_comp _ _ := rfl
 
 /-- The restricted represented functor as the strict restriction of its category of
 elements. This identifies the two presentations used in Tags 06SK and 06HA. -/
 public def restrictedRepresentableInclusion (R : CompleteLocalAlgCat.{u, v, w} Λ k) :
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor
         (Restriction.projection (p := representedProjection R))) where
-  obj α := ⟨⟨artinianToComplete.obj α.1, α.2⟩, α.1, rfl⟩
+  obj α :=
+    ⟨(coyoneda.obj (Opposite.op R)).elementsMk (artinianToComplete.obj α.1) α.2, α.1, rfl⟩
   map g :=
-    { obj := ⟨artinianToComplete.map g.val, g.property⟩
-      base := g.val
+    { obj := ⟨artinianToComplete.map g.hom, g.map_val⟩
+      base := g.hom
       comm := by
         simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
         rfl }
@@ -86,7 +88,7 @@ public def restrictRepresentedHom {F : Type uF} [Category.{vF} F]
     BasedFunctor (BasedCategory.ofFunctor
         (Restriction.projection (p := representedProjection R)))
       (BasedCategory.ofFunctor p) ⥤
-    BasedFunctor (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+    BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p) where
   obj φ := (restrictedRepresentableInclusion R).comp φ
   map t := BasedCategory.whiskerLeft (restrictedRepresentableInclusion R) t
@@ -111,34 +113,37 @@ public structure RepresentableMorphismFormalObjectEquivalence
       (quotientPoint (n + 1)) = quotientPoint n
   /-- The equivalence between represented morphisms and formal objects over `R`. -/
   equivalence : (BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p)) ≌
       (FormalObject.projection (p := p)).Fiber R
   /-- The value of a represented morphism at the `n`-th quotient point is isomorphic to the
   `n`-th level of the corresponding formal object. -/
   levelIso : ∀ (φ : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p)) (n : ℕ),
-      CategoryTheory.Iso (φ.obj ⟨AdicTruncation.obj R n, quotientPoint n⟩)
+      CategoryTheory.Iso
+        (φ.obj ((restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n) (quotientPoint n)))
         ((equivalence.functor.obj φ).1.level n)
   /-- Evaluation is over the identity of the quotient, not a base automorphism. -/
   levelIso_over : ∀ φ n,
     p.IsHomLift (𝟙 (AdicTruncation.obj R n)) (levelIso φ n).hom
   /-- The level isomorphisms commute with the transition maps. -/
   transition_comm : ∀ (φ : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p)) (n : ℕ),
-      φ.map (CategoryOfElements.homMk
-        ⟨AdicTruncation.obj R (n + 1), quotientPoint (n + 1)⟩
-        ⟨AdicTruncation.obj R n, quotientPoint n⟩
+      φ.map (Functor.Elements.homMk
+        (x := (restrictedCoyoneda R).elementsMk (AdicTruncation.obj R (n + 1))
+          (quotientPoint (n + 1)))
+        (y := (restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n) (quotientPoint n))
         (AdicTruncation.transition R n) (projectionPoint n)) ≫
         (levelIso φ n).hom =
         (levelIso φ (n + 1)).hom ≫ (equivalence.functor.obj φ).1.transition n
   /-- The level isomorphisms are natural in the represented morphism. -/
   map_comm : ∀ {φ ψ : BasedFunctor
-      (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda R)))
+      (BasedCategory.ofFunctor (Functor.Elements.π (restrictedCoyoneda R)))
       (BasedCategory.ofFunctor p)} (t : φ ⟶ ψ) (n : ℕ),
-      t.toNatTrans.app ⟨AdicTruncation.obj R n, quotientPoint n⟩ ≫
+      t.toNatTrans.app
+          ((restrictedCoyoneda R).elementsMk (AdicTruncation.obj R n) (quotientPoint n)) ≫
         (levelIso ψ n).hom =
         (levelIso φ n).hom ≫ ((equivalence.functor.map t).1).app n
   /-- The equivalence is the composite of `Φ` from Tag 06HA and evaluation at
@@ -216,7 +221,8 @@ public theorem cofibered_hom_stronglyCocartesian
 /-- The identity element `𝟙 R` of the functor represented by `R`. -/
 public def representedIdentityElement
     (R : CompleteLocalAlgCat.{u, v, w} Λ k) :
-    (coyoneda.obj (Opposite.op R)).Elements := ⟨R, 𝟙 R⟩
+    (coyoneda.obj (Opposite.op R)).Elements :=
+  (coyoneda.obj (Opposite.op R)).elementsMk R (𝟙 R)
 
 /-- The morphism of elements from the identity element `𝟙 R` to an element `α`, given by `α`
 itself. -/
@@ -224,11 +230,11 @@ public def representedElementFromIdentity
     (R : CompleteLocalAlgCat.{u, v, w} Λ k)
     (α : (coyoneda.obj (Opposite.op R)).Elements) :
     representedIdentityElement R ⟶ α :=
-  CategoryOfElements.homMk (representedIdentityElement R) α α.2 (by
+  Functor.Elements.homMk (x := representedIdentityElement R) (y := α) α.2 (by
     change (𝟙 R ≫ α.2) = α.2
     simp)
 
-/-- A based functor out of the represented set sends `g` to a morphism over `g.val`. -/
+/-- A based functor out of the represented set sends `g` to a morphism over `g.hom`. -/
 private theorem map_isHomLift_of_elements
     {G : Type uF} [Category.{vF} G]
     {p : G ⥤ CompleteLocalAlgCat.{u, v, w} Λ k}
@@ -236,11 +242,11 @@ private theorem map_isHomLift_of_elements
     (F : BasedFunctor (BasedCategory.ofFunctor (representedProjection R))
       (BasedCategory.ofFunctor p))
     {α β : (coyoneda.obj (Opposite.op R)).Elements} (g : α ⟶ β) :
-    p.IsHomLift g.val (F.map g) := by
-  let : (BasedCategory.ofFunctor (representedProjection R)).p.IsHomLift g.val g := by
-    rw [← show (representedProjection R).map g = g.val from rfl]
+    p.IsHomLift g.hom (F.map g) := by
+  let : (BasedCategory.ofFunctor (representedProjection R)).p.IsHomLift g.hom g := by
+    rw [← show (representedProjection R).map g = g.hom from rfl]
     exact IsHomLift.map (p := representedProjection R) g
-  exact F.preserves_isHomLift g.val g
+  exact F.preserves_isHomLift g.hom g
 
 /-- A based functor out of the represented set sends the arrow from the identity element to `α`
 to a strongly cocartesian arrow over `α.2`. -/
@@ -364,22 +370,22 @@ public theorem evaluation_full
         intro α β g
         let eα := representedElementFromIdentity R α
         let eβ := representedElementFromIdentity R β
-        have hcomp : eα ≫ g = eβ := CategoryOfElements.ext _ _ _ g.property
+        have hcomp : eα ≫ g = eβ := Functor.Elements.hom_ext g.map_val
         have hsc : p.IsStronglyCocartesian α.2 (φ.map eα) :=
           map_fromIdentity_isStronglyCocartesian hp φ α
         let : p.IsStronglyCocartesian α.2 (φ.map eα) := hsc
-        have hleft : p.IsHomLift g.val (φ.map g ≫ app β) := by
-          let : p.IsHomLift g.val (φ.map g) := map_isHomLift_of_elements φ g
+        have hleft : p.IsHomLift g.hom (φ.map g ≫ app β) := by
+          let : p.IsHomLift g.hom (φ.map g) := map_isHomLift_of_elements φ g
           let : p.IsHomLift (𝟙 β.1) (app β) := app_lift β
           simpa only [Category.comp_id] using
-            IsHomLift.comp (p := p) (f := g.val) (g := 𝟙 β.1) (φ := φ.map g) (ψ := app β)
-        have hright : p.IsHomLift g.val (app α ≫ ψ.map g) := by
+            IsHomLift.comp (p := p) (f := g.hom) (g := 𝟙 β.1) (φ := φ.map g) (ψ := app β)
+        have hright : p.IsHomLift g.hom (app α ≫ ψ.map g) := by
           let : p.IsHomLift (𝟙 α.1) (app α) := app_lift α
-          let : p.IsHomLift g.val (ψ.map g) := map_isHomLift_of_elements ψ g
+          let : p.IsHomLift g.hom (ψ.map g) := map_isHomLift_of_elements ψ g
           simpa only [Category.id_comp] using
-            IsHomLift.comp (p := p) (f := 𝟙 α.1) (g := g.val) (φ := app α) (ψ := ψ.map g)
-        let : p.IsHomLift g.val (φ.map g ≫ app β) := hleft
-        let : p.IsHomLift g.val (app α ≫ ψ.map g) := hright
+            IsHomLift.comp (p := p) (f := 𝟙 α.1) (g := g.hom) (φ := app α) (ψ := ψ.map g)
+        let : p.IsHomLift g.hom (φ.map g ≫ app β) := hleft
+        let : p.IsHomLift g.hom (app α ≫ ψ.map g) := hright
         have htrans :
             φ.map eα ≫ (φ.map g ≫ app β) =
               φ.map eα ≫ app α ≫ ψ.map g := by
@@ -400,7 +406,7 @@ public theorem evaluation_full
               have hfa := congrArg (fun f => f ≫ ψ.map g) (app_fac α)
               simpa [Category.assoc] using hfa.symm
         exact @Functor.IsStronglyCocartesian.ext _ _ _ _ p _ _ _ _
-          α.2 (φ.map eα) hsc β.1 (ψ.obj β) g.val
+          α.2 (φ.map eα) hsc β.1 (ψ.obj β) g.hom
           (φ.map g ≫ app β) (app α ≫ ψ.map g) hleft hright htrans
       }
   let ηb : φ ⟶ ψ :=
@@ -411,7 +417,7 @@ public theorem evaluation_full
   show ηb.toNatTrans.app α₀ = t₀
   have hfac := app_fac α₀
   have he : representedElementFromIdentity R α₀ = 𝟙 α₀ := by
-    apply CategoryOfElements.ext (coyoneda.obj (Opposite.op R))
+    apply Functor.Elements.hom_ext
     rfl
   have hφe : φ.map (representedElementFromIdentity R α₀) = 𝟙 (φ.obj α₀) :=
     (congrArg φ.map he).trans (φ.map_id _)
@@ -506,7 +512,7 @@ public noncomputable def representedLiftFunctor
       (chosenRepresentedLift hp R x α).strong
     letI : p.IsHomLift β.2 (chosenRepresentedLift hp R x β).arrow :=
       (chosenRepresentedLift hp R x β).strong.toIsHomLift
-    have hcomp : β.2 = α.2 ≫ g.val := g.property.symm
+    have hcomp : β.2 = α.2 ≫ g.hom := g.map_val.symm
     exact Functor.IsStronglyCocartesian.map p α.2
       (chosenRepresentedLift hp R x α).arrow hcomp
       (chosenRepresentedLift hp R x β).arrow
@@ -527,8 +533,8 @@ public noncomputable def representedLiftFunctor
         (chosenRepresentedLift hp R x β).arrow := hβ
     let : p.IsStronglyCocartesian γ.2
         (chosenRepresentedLift hp R x γ).arrow := hγ
-    have hf : α.2 ≫ f.val = β.2 := f.property
-    have hg : β.2 ≫ g.val = γ.2 := g.property
+    have hf : α.2 ≫ f.hom = β.2 := f.map_val
+    have hg : β.2 ≫ g.hom = γ.2 := g.map_val
     simp
 
 /-- The functor `representedLiftFunctor hp R x` as a based functor over complete local algebras. -/
@@ -554,17 +560,17 @@ public noncomputable def representedLiftBasedFunctor
         (chosenRepresentedLift hp R x α).strong
       let : p.IsHomLift β.2 (chosenRepresentedLift hp R x β).arrow :=
         (chosenRepresentedLift hp R x β).strong.toIsHomLift
-      have hcomp : β.2 = α.2 ≫ g.val := g.property.symm
+      have hcomp : β.2 = α.2 ≫ g.hom := g.map_val.symm
       let factor := (representedLiftFunctor hp R x).map g
-      let : p.IsHomLift g.val factor := by
+      let : p.IsHomLift g.hom factor := by
         dsimp [factor, representedLiftFunctor]
         exact Functor.IsStronglyCocartesian.map_isHomLift p α.2
           (chosenRepresentedLift hp R x α).arrow hcomp
           (chosenRepresentedLift hp R x β).arrow
       change p.map ((representedLiftFunctor hp R x).map g) = _
-      have h := IsHomLift.fac' p g.val factor
+      have h := IsHomLift.fac' p g.hom factor
       change p.map ((representedLiftFunctor hp R x).map g) =
-        eqToHom _ ≫ g.val ≫ eqToHom _
+        eqToHom _ ≫ g.hom ≫ eqToHom _
       simpa [representedProjection, representedLiftFunctor, factor] using h
 
 /-- The strict fibre over `R` of a category cofibered in groupoids is a groupoid. -/

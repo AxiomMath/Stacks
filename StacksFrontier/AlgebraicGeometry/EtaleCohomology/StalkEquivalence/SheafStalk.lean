@@ -120,7 +120,7 @@ theorem etaleStalkSmul_germ (σ : GeometricPoint.absoluteGaloisGroup sbar)
     ConcreteCategory.hom (etaleStalkSmul.{u, v} B K hK sbar F σ)
         (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F U t) =
       etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F
-        ⟨U.1, galoisFiberAction B K hK sbar σ U.2⟩ t :=
+        (Functor.elementsMk _ U.1 (galoisFiberAction B K hK sbar σ U.2)) t :=
   ConcreteCategory.congr_hom
     (toPresheafFiber_comp_etaleStalkSmul.{u, v} B K hK sbar F σ U.1 U.2) t
 
@@ -179,8 +179,8 @@ theorem continuousSMul_etaleStalk :
     have hσ' : galoisFiberAction B K hK sbar σ p' = p' := hσ
     show ConcreteCategory.hom (etaleStalkSmul.{u, v} B K hK sbar F σ) x = x
     rw [← hz]
-    exact (etaleStalkSmul_germ.{u, v} B K hK sbar F σ ⟨X, p'⟩ z).trans
-      (congrArg (fun w ↦ etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨X, w⟩ z) hσ')
+    exact (etaleStalkSmul_germ.{u, v} B K hK sbar F σ (Functor.elementsMk _ X (p')) z).trans
+      (congrArg (fun w ↦ etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ X (w)) z) hσ')
   have hp : IsOpen ((MulAction.stabilizer (GeometricPoint.absoluteGaloisGroup sbar) p' :
       Subgroup (GeometricPoint.absoluteGaloisGroup sbar)) :
       Set (GeometricPoint.absoluteGaloisGroup sbar)) :=
@@ -272,8 +272,8 @@ theorem eq_of_etaleStalkGerm_eq (F : smallEtaleTopos.{u, max u v} B (Spec (.of K
     (U : SmallEtale B (Spec (.of K)) hK)
     (t t' : ((sheafToPresheaf _ _).obj F).obj (op U))
     (h : ∀ p : (geometricPointFiber B (Spec (.of K)) hK sbar).obj U,
-      etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨U, p⟩ t =
-        etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨U, p⟩ t') :
+      etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ U (p)) t =
+        etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ U (p)) t') :
     t = t' := by
   classical
   have key : ∀ p : (geometricPointFiber B (Spec (.of K)) hK sbar).obj U,
@@ -302,10 +302,10 @@ theorem etaleStalkGerm_map (F : smallEtaleTopos.{u, max u v} B (Spec (.of K)) hK
     {X Y : SmallEtale B (Spec (.of K)) hK} (f : X ⟶ Y)
     (x : (geometricPointFiber B (Spec (.of K)) hK sbar).obj X)
     (z : ((sheafToPresheaf _ _).obj F).obj (op Y)) :
-    etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨X, x⟩
+    etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ X (x))
         (ConcreteCategory.hom (((sheafToPresheaf _ _).obj F).map f.op) z) =
       etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F
-        ⟨Y, (geometricPointFiber B (Spec (.of K)) hK sbar).map f x⟩ z :=
+        (Functor.elementsMk _ Y ((geometricPointFiber B (Spec (.of K)) hK sbar).map f x)) z :=
   (CategoryTheory.comp_apply (((sheafToPresheaf _ _).obj F).map f.op)
       ((fieldSitePoint B K hK sbar).toPresheafFiber X x
         ((sheafToPresheaf _ _).obj F)) z).symm.trans
@@ -332,13 +332,13 @@ theorem exists_local_section_etaleStalkGerm
       (t : ((sheafToPresheaf _ _).obj F).obj (op W)),
       (geometricPointFiber B (Spec (.of K)) hK sbar).map f y = p ∧
       ∀ r : (geometricPointFiber B (Spec (.of K)) hK sbar).obj W,
-        etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨W, r⟩ t =
+        etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ W (r)) t =
           ψ ((geometricPointFiber B (Spec (.of K)) hK sbar).map f r) := by
   classical
   obtain ⟨X, x, z, hz⟩ := (fieldSitePoint B K hK sbar).toPresheafFiber_jointly_surjective
     (P := (sheafToPresheaf _ _).obj F) (ψ p)
-  let A : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements := ⟨X, x⟩
-  let C : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements := ⟨U, p⟩
+  let A : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements := (Functor.elementsMk _ X (x))
+  let C : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements := Functor.elementsMk _ U p
   let α : IsCofiltered.min A C ⟶ A := IsCofiltered.minToLeft A C
   let β : IsCofiltered.min A C ⟶ C := IsCofiltered.minToRight A C
   obtain ⟨V, f', q', hq', htrans⟩ := exists_transitive_refinement B K hK sbar
@@ -351,16 +351,16 @@ theorem exists_local_section_etaleStalkGerm
     exact α.2
   refine ⟨V, f' ≫ β.1, q', ConcreteCategory.hom
     (((sheafToPresheaf _ _).obj F).map (f' ≫ α.1).op) z, hβ, ?_⟩
-  have hbase : etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨V, q'⟩
+  have hbase : etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ V q')
       (ConcreteCategory.hom (((sheafToPresheaf _ _).obj F).map (f' ≫ α.1).op) z) = ψ p := by
     rw [etaleStalkGerm_map.{u, v} B K hK sbar F (f' ≫ α.1) q' z, hα]
     exact hz
   intro r
   obtain ⟨τ, hτ⟩ := htrans r
-  have h1 : etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨V, r⟩
+  have h1 : etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ V r)
       (ConcreteCategory.hom (((sheafToPresheaf _ _).obj F).map (f' ≫ α.1).op) z) =
       ConcreteCategory.hom (etaleStalkSmul.{u, v} B K hK sbar F τ) (ψ p) := by
-    rw [← hτ, ← etaleStalkSmul_germ.{u, v} B K hK sbar F τ ⟨V, q'⟩, hbase]
+    rw [← hτ, ← etaleStalkSmul_germ.{u, v} B K hK sbar F τ (Functor.elementsMk _ V q'), hbase]
   have h2 : (geometricPointFiber B (Spec (.of K)) hK sbar).map (f' ≫ β.1) r =
       galoisFiberAction B K hK sbar τ p := by
     rw [← hτ, galoisFiberAction_naturality B K hK sbar τ (f' ≫ β.1) q', hβ]
@@ -381,7 +381,7 @@ theorem exists_section_etaleStalkGerm
         ConcreteCategory.hom (etaleStalkSmul.{u, v} B K hK sbar F σ) (ψ p)) :
     ∃ t : ((sheafToPresheaf _ _).obj F).obj (op U),
       ∀ p : (geometricPointFiber B (Spec (.of K)) hK sbar).obj U,
-        etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨U, p⟩ t = ψ p := by
+        etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ U (p)) t = ψ p := by
   classical
   choose W f y tloc hy hgerm using
     exists_local_section_etaleStalkGerm.{u, v} B K hK sbar F U ψ hψ
@@ -390,7 +390,7 @@ theorem exists_section_etaleStalkGerm
       (Sieve.ofArrows W f).arrows h →
       ∃ uu : ((sheafToPresheaf _ _).obj F).obj (op Y),
         ∀ r : (geometricPointFiber B (Spec (.of K)) hK sbar).obj Y,
-          etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨Y, r⟩ uu =
+          etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ Y (r)) uu =
             ψ ((geometricPointFiber B (Spec (.of K)) hK sbar).map h r) := by
     intro Y h hh
     obtain ⟨Z₀, a, b, hb, rfl⟩ := hh
@@ -406,7 +406,7 @@ theorem exists_section_etaleStalkGerm
   have hfam : ∀ ⦃Y : SmallEtale B (Spec (.of K)) hK⦄ (h : Y ⟶ U)
       (hh : (Sieve.ofArrows W f).arrows h)
       (r : (geometricPointFiber B (Spec (.of K)) hK sbar).obj Y),
-      etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨Y, r⟩ (fam h hh) =
+      etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ Y (r)) (fam h hh) =
         ψ ((geometricPointFiber B (Spec (.of K)) hK sbar).map h r) :=
     fun _ h hh ↦ (hex h hh).choose_spec
   have hcompat : fam.Compatible := by
@@ -439,8 +439,8 @@ theorem etaleStalkFunctor_map_germ {F F' : smallEtaleTopos.{u, max u v} B (Spec 
     (p : (geometricPointFiber B (Spec (.of K)) hK sbar).obj U)
     (t : ((sheafToPresheaf _ _).obj F).obj (op U)) :
     ConcreteCategory.hom ((etaleStalkFunctor.{u, v} B (Spec (.of K)) hK sbar).map φ)
-        (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨U, p⟩ t) =
-      etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F' ⟨U, p⟩
+        (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ U (p)) t) =
+      etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F' (Functor.elementsMk _ U (p))
         (ConcreteCategory.hom (((sheafToPresheaf _ _).map φ).app (op U)) t) := by
   have hnat := (fieldSitePoint B K hK sbar).toPresheafFiber_naturality
     ((sheafToPresheaf _ _).map φ) U p
@@ -467,7 +467,7 @@ instance etaleStalkGSetFunctor_faithful :
     refine eq_of_etaleStalkGerm_eq.{u, v} B K hK sbar F' U _ _ (fun p ↦ ?_)
     exact (etaleStalkFunctor_map_germ.{u, v} B K hK sbar φ U p t).symm.trans
       ((ConcreteCategory.congr_hom hv
-          (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨U, p⟩ t)).trans
+          (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ U (p)) t)).trans
         (etaleStalkFunctor_map_germ.{u, v} B K hK sbar φ' U p t))
 
 /-- **The étale stalk functor is full.**  An equivariant map of stalks prescribes, over each
@@ -499,14 +499,14 @@ instance etaleStalkGSetFunctor_full :
         (t : ((sheafToPresheaf _ _).obj F).obj (op U)),
         ∃ t' : ((sheafToPresheaf _ _).obj F').obj (op U),
           ∀ p : (geometricPointFiber B (Spec (.of K)) hK sbar).obj U,
-            etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F' ⟨U, p⟩ t' =
+            etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F' (Functor.elementsMk _ U (p)) t' =
               ConcreteCategory.hom
                 ((AlgebraicGeometry.ContinuousGSet.forget
                   (GeometricPoint.absoluteGaloisGroup sbar)).map h)
-                (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨U, p⟩ t) := by
+                (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ U (p)) t) := by
       intro U t
       refine exists_section_etaleStalkGerm.{u, v} B K hK sbar F' U _ (fun σ p ↦ ?_)
-      rw [← etaleStalkSmul_germ.{u, v} B K hK sbar F σ ⟨U, p⟩ t]
+      rw [← etaleStalkSmul_germ.{u, v} B K hK sbar F σ (Functor.elementsMk _ U (p)) t]
       exact hequiv σ _
     choose sec hsec using hex
     have hnat : ∀ (Uop Vop : (SmallEtale B (Spec (.of K)) hK)ᵒᵖ) (g : Uop ⟶ Vop),
@@ -554,11 +554,11 @@ def ContinuousGSet.mulAction (M : AlgebraicGeometry.ContinuousGSet.{u, v} G) :
     MulAction G M.obj.obj.V where
   smul σ x := continuousGSetSmul M σ x
   one_smul x := by
-    change ConcreteCategory.hom (M.obj.obj.ρ 1) x = x
+    change ConcreteCategory.hom (M.obj.obj.ρ 1).asHom x = x
     simp
   mul_smul σ τ x := by
-    change ConcreteCategory.hom (M.obj.obj.ρ (σ * τ)) x =
-      ConcreteCategory.hom (M.obj.obj.ρ σ) (ConcreteCategory.hom (M.obj.obj.ρ τ) x)
+    change ConcreteCategory.hom (M.obj.obj.ρ (σ * τ)).asHom x =
+      ConcreteCategory.hom (M.obj.obj.ρ σ).asHom (ConcreteCategory.hom (M.obj.obj.ρ τ).asHom x)
     rw [map_mul]
     rfl
 
@@ -574,13 +574,13 @@ theorem ContinuousGSet.isOpen_stabilizer [IsTopologicalGroup G]
   let : TopologicalSpace (M.obj.obj.V) := ⊥
   let : DiscreteTopology (M.obj.obj.V) := ⟨rfl⟩
   have hcont : Continuous (fun p : G × M.obj.obj.V ↦
-      ((forget₂ (Type v) TopCat).map (M.obj.obj.ρ p.1)) p.2) :=
+      ((forget₂ (Type v) TopCat).map (M.obj.obj.ρ p.1).asHom) p.2) :=
     (Action.isContinuous_def (V := Type v) (G := G) M.obj.obj).mp M.obj.property
-  have hf : Continuous (fun σ : G ↦ ConcreteCategory.hom (M.obj.obj.ρ σ) x) := by
-    show Continuous (fun σ ↦ ((forget₂ (Type v) TopCat).map (M.obj.obj.ρ σ)) x)
+  have hf : Continuous (fun σ : G ↦ ConcreteCategory.hom (M.obj.obj.ρ σ).asHom x) := by
+    show Continuous (fun σ ↦ ((forget₂ (Type v) TopCat).map (M.obj.obj.ρ σ).asHom) x)
     exact hcont.comp (continuous_id.prodMk continuous_const)
   have hset : ((MulAction.stabilizer G x : Subgroup G) : Set G) =
-      (fun σ : G ↦ ConcreteCategory.hom (M.obj.obj.ρ σ) x) ⁻¹' {x} := by
+      (fun σ : G ↦ ConcreteCategory.hom (M.obj.obj.ρ σ).asHom x) ⁻¹' {x} := by
     ext σ
     simp only [Set.mem_preimage, Set.mem_singleton_iff, SetLike.mem_coe,
       MulAction.mem_stabilizer_iff]
@@ -621,7 +621,7 @@ theorem galoisHomSheafCounit_germ (U : SmallEtale B (Spec (.of K)) hK)
       (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M)).obj (op U)) :
     ConcreteCategory.hom (galoisHomSheafCounit.{u, v} B K hK sbar M)
         (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar
-          (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) ⟨U, p⟩ g) = g.1 p := by
+          (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) (Functor.elementsMk _ U (p)) g) = g.1 p := by
   have hd := (fieldSitePoint B K hK sbar).toPresheafFiber_presheafFiberDesc
     (P := (sheafToPresheaf _ _).obj
       (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M))
@@ -640,8 +640,8 @@ theorem galoisHomSheafCounit_smul (σ : GeometricPoint.absoluteGaloisGroup sbar)
     (P := (sheafToPresheaf _ _).obj
       (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M)) x
   have hg' : etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar
-      (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) ⟨U, p⟩ g = x := hg
-  rw [← hg', etaleStalkSmul_germ.{u, v} B K hK sbar _ σ ⟨U, p⟩ g,
+      (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) (Functor.elementsMk _ U (p)) g = x := hg
+  rw [← hg', etaleStalkSmul_germ.{u, v} B K hK sbar _ σ (Functor.elementsMk _ U (p)) g,
     galoisHomSheafCounit_germ.{u, v} B K hK sbar M U _ g,
     galoisHomSheafCounit_germ.{u, v} B K hK sbar M U p g]
   exact g.2 σ p
@@ -686,7 +686,7 @@ theorem galoisHomSheafCounit_surjective :
     rw [hkey _ _ h1, mul_smul]
     rfl
   refine ⟨etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar
-    (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) ⟨V', q'⟩
+    (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) (Functor.elementsMk _ V' (q'))
     ⟨fun r ↦ (htrans r).choose • m, hφ⟩, ?_⟩
   exact (galoisHomSheafCounit_germ.{u, v} B K hK sbar M V' q'
     ⟨fun r ↦ (htrans r).choose • m, hφ⟩).trans
@@ -708,20 +708,20 @@ theorem galoisHomSheafCounit_injective :
   have e : ∀ z : ((sheafToPresheaf _ _).obj
         (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M)).obj (op X),
       etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar
-          (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) ⟨V, q⟩
+          (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) (Functor.elementsMk _ V (q))
           (ConcreteCategory.hom (((sheafToPresheaf _ _).obj
             (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M)).map f.op) z) =
         etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar
-          (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) ⟨X, x⟩ z := by
+          (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) (Functor.elementsMk _ X (x)) z := by
     intro z
     rw [etaleStalkGerm_map.{u, v} B K hK sbar _ f q z, hq]
   have e1 : etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar
-      (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) ⟨V, q⟩
+      (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) (Functor.elementsMk _ V (q))
       (ConcreteCategory.hom (((sheafToPresheaf _ _).obj
         (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M)).map f.op) z₁) = x₁ :=
     (e z₁).trans h1
   have e2 : etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar
-      (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) ⟨V, q⟩
+      (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M) (Functor.elementsMk _ V (q))
       (ConcreteCategory.hom (((sheafToPresheaf _ _).obj
         (galoisGeometricPointFiberHomSheaf.{u, v} B K hK sbar M)).map f.op) z₂) = x₂ :=
     (e z₂).trans h2
@@ -825,10 +825,10 @@ theorem etaleStalkEquivalence_rho_germ
     (U : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements)
     (t : ((sheafToPresheaf _ _).obj F).obj (op U.1)) :
     ConcreteCategory.hom
-        (((etaleStalkEquivalence.{u, v} B K hK sbar).functor.obj F).obj.obj.ρ σ)
+        (((etaleStalkEquivalence.{u, v} B K hK sbar).functor.obj F).obj.obj.ρ σ).asHom
         (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F U t) =
       etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F
-        ⟨U.1, galoisFiberAction B K hK sbar σ U.2⟩ t :=
+        (Functor.elementsMk _ U.1 (galoisFiberAction B K hK sbar σ U.2)) t :=
   etaleStalkSmul_germ.{u, v} B K hK sbar F σ U t
 
 /-- **Stacks 03QT.**  For a geometric point of the spectrum of a field, taking stalks is an
@@ -857,9 +857,9 @@ def etaleSheafStalkEquivalence :
             (q : (geometricPointFiber B (Spec (.of K)) hK sbar).obj U.1)
             (_hq : q.1 = Spec.map (CommRingCat.ofHom τ.toRingHom) ≫ U.2.1)
             (t : ((sheafToPresheaf _ _).obj F).obj (op U.1)),
-            let V : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements := ⟨U.1, q⟩
+            let V : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements := Functor.elementsMk _ U.1 q
             ConcreteCategory.hom (α.app F).hom
-                (ConcreteCategory.hom ((e.functor.obj F).obj.obj.ρ σ)
+                (ConcreteCategory.hom ((e.functor.obj F).obj.obj.ρ σ).asHom
                   (ConcreteCategory.hom (α.app F).inv
                     (etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F U t))) =
               etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F V t } := by
@@ -870,7 +870,7 @@ def etaleSheafStalkEquivalence :
     rw [coe_galoisFiberAction_of_extends B K hK sbar σ τ.toRingHom
       (fun a ↦ (hτ a).symm) U.2, hq]
   exact (etaleStalkEquivalence_rho_germ.{u, v} B K hK sbar F σ U t).trans
-    (congrArg (fun w ↦ etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F ⟨U.1, w⟩ t) hqa)
+    (congrArg (fun w ↦ etaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F (Functor.elementsMk _ U.1 w) t) hqa)
 
 /-! ### Non-vacuity of the standing hypotheses -/
 

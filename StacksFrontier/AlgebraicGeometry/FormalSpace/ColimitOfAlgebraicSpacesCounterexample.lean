@@ -419,7 +419,7 @@ theorem not_satisfiesSetTheoreticCondition_colimit_sqZeroSheafDiagram (hσ : B.c
       _ = g := by
           rw [← Category.assoc, ← heq', Category.assoc, hε₁, Category.comp_id]
   have hρ : ρ = 𝟙 T := by
-    have hsh := ((isSheaf_iff_isSheaf_of_type J _).1 (J.uliftYoneda.{u + 1}.obj T).cond) R' hR'
+    have hsh := ((isSheaf_iff_isSheaf_of_type J _).1 (J.uliftYoneda.{u + 1}.obj T).property) R' hR'
     have h := hsh.isSeparatedFor.ext (t₁ := (ULift.up ρ : ULift.{u + 1} (T ⟶ T)))
       (t₂ := ULift.up (𝟙 T)) (fun Y g hg ↦ by
         show ULift.up (g ≫ ρ) = ULift.up (g ≫ 𝟙 T)

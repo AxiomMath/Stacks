@@ -153,10 +153,10 @@ def fibreDegreeZeroGrpFunctor : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ GrpC
   map {T T'} g := GrpCat.ofHom (fibreDegreeZeroMap B hX hk f σ hσ g.unop).toMultiplicative
   map_id T := by
     ext ξ
-    exact Subtype.ext (FunctorToTypes.map_id_apply (picardFunctor B hX hk f) _)
+    exact Subtype.ext ((picardFunctor B hX hk f).map_id_apply _ _)
   map_comp {T T' T''} g g' := by
     ext ξ
-    exact Subtype.ext (FunctorToTypes.map_comp_apply (picardFunctor B hX hk f) g g' _)
+    exact Subtype.ext ((picardFunctor B hX hk f).map_comp_apply g g' _)
 
 /-- The inclusion of the presheaf of degree-zero subgroups into the Picard functor read as a
 presheaf of groups. -/

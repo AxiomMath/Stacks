@@ -146,7 +146,7 @@ instance commShift_derivedComparisonUnit (S : CohomologyComparison C) (X : C) :
       DerivedCategory.Plus.Qh ≫
     (Functor.associator L.mapHomotopyCategoryPlus R.mapHomotopyCategoryPlus
       DerivedCategory.Plus.Qh).hom ≫
-    Functor.whiskerLeft L.mapHomotopyCategoryPlus R.rightDerivedFunctorPlusUnit ≫
+    Functor.whiskerLeft L.mapHomotopyCategoryPlus R.rightDerivedFunctorPlusUnith ≫
     (Functor.associator L.mapHomotopyCategoryPlus DerivedCategory.Plus.Qh
       R.rightDerivedFunctorPlus).inv ≫
     Functor.whiskerRight L.mapDerivedCategoryPlusFactorsh.inv R.rightDerivedFunctorPlus ≫

@@ -149,7 +149,7 @@ theorem isFlat_chartDifferentials :
       (KaehlerDifferential.basisOfMvPolynomialAlgEquiv
         (affineSectionsAlgEquiv Λ X structureMap P.unop)))
   have : Module.Flat ((Stacks.ringPresheaf (affinePresheaf.{u, w} Λ X structureMap)).obj P)
-      ((PresheafOfModules.DifferentialsConstruction.relativeDifferentials'
+      ((PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'
         (basePresheafMap.{u, w} Λ X structureMap)).obj P) := this
   exact Module.Flat.of_linearEquiv ULift.moduleEquiv
 

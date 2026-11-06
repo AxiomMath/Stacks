@@ -128,7 +128,7 @@ theorem Ideal.exists_mem_minimalPrimes_le_height_map (q : Ideal S) [hq : q.IsPri
       step := fun i => c.step i }
   have hc'last : RelSeries.last c' = ⟨⟨q, hq⟩, hrq⟩ := Subtype.ext hlast
   rw [Ideal.height_map_quotientMk_eq_orderHeight r q hrq, ← hlen, ← hc'last]
-  exact Order.length_le_height_last
+  exact Order.length_le_height_last (p := c')
 
 /-- Passing to the quotients by a prime of `S` and its contraction to `R` commutes with the
 structure maps. -/

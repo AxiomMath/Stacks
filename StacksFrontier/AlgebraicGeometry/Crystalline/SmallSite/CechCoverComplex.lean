@@ -296,11 +296,11 @@ def cechSections : CosimplicialObject AddCommGrpCat.{u + 1} where
   map φ := Pi.lift fun α => Pi.π _ (fun j => α (φ.toOrderHom j)) ≫ T.restriction F φ α
   map_id n := by
     refine Pi.hom_ext _ _ fun α => ?_
-    simp only [Pi.lift_π, T.restriction_id, Category.id_comp]
+    simp only [Pi.lift_comp_π, T.restriction_id, Category.id_comp]
     rfl
   map_comp ψ φ := by
     refine Pi.hom_ext _ _ fun α => ?_
-    simp only [Pi.lift_π, T.restriction_comp, Category.assoc, Pi.lift_π_assoc]
+    simp only [Pi.lift_comp_π, T.restriction_comp, Category.assoc, Pi.lift_comp_π_assoc]
     rfl
 
 /-- **`M(n)` is the product of the modules `M_{λ_0 … λ_n}` over the `(n + 1)`-tuples of indices of

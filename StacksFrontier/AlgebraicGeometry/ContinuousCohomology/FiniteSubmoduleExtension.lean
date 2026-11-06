@@ -57,7 +57,7 @@ variable {R : Type u} [Ring R] {G : Type v} [Group G] [TopologicalSpace G]
 maps it into itself. -/
 def IsGStable (N : Stacks.Injectives.ContinuousModule.{u, v, w} R G)
     (P : Submodule R N.obj.obj.V) : Prop :=
-  ∀ (g : G) (x : N.obj.obj.V), x ∈ P → (N.obj.obj.ρ g).hom x ∈ P
+  ∀ (g : G) (x : N.obj.obj.V), x ∈ P → (N.obj.obj.ρ g).asHom.hom x ∈ P
 
 /-- **The finite `G`-stable submodules** of a continuous discrete `R`-`G`-module, ordered by
 inclusion. -/
@@ -72,13 +72,13 @@ instance (N : Stacks.Injectives.ContinuousModule.{u, v, w} R G) :
 /-- The action of `G` on a `G`-stable submodule. -/
 def stableSubmoduleRep (N : Stacks.Injectives.ContinuousModule.{u, v, w} R G)
     (P : Submodule R N.obj.obj.V) (hP : IsGStable N P) : Representation R G P where
-  toFun g := (N.obj.obj.ρ g).hom.restrict (fun x hx ↦ hP g x hx)
+  toFun g := (N.obj.obj.ρ g).asHom.hom.restrict (fun x hx ↦ hP g x hx)
   map_one' := by
     ext x
-    simp [map_one, End.one_def]
+    simp [map_one, End.one_asHom]
   map_mul' g h := by
     ext x
-    simp [map_mul, End.mul_def]
+    simp [map_mul, End.mul_asHom]
 
 variable [IsTopologicalGroup G]
 
@@ -288,7 +288,7 @@ def FiniteStableSubmodule.map {N N' : Stacks.Injectives.ContinuousModule.{u, v, 
     (h : N ⟶ N') (P : FiniteStableSubmodule N) : FiniteStableSubmodule N' :=
   ⟨P.1.map h.hom.hom.hom.hom, fun g y hy ↦ by
       obtain ⟨x, hx, rfl⟩ := Submodule.mem_map.1 hy
-      refine Submodule.mem_map.2 ⟨(N.obj.obj.ρ g).hom x, P.2.1 g x hx, ?_⟩
+      refine Submodule.mem_map.2 ⟨(N.obj.obj.ρ g).asHom.hom x, P.2.1 g x hx, ?_⟩
       exact ConcreteCategory.congr_hom (h.hom.hom.comm g) x,
     haveI := P.2.2; inferInstance⟩
 
@@ -490,7 +490,7 @@ the whole module being the largest of them. -/
 def isColimitFiniteStableSubmoduleCocone (M : FiniteTypeContinuousModule.{u, v, w} R G) :
     IsColimit (finiteStableSubmoduleCocone F M) :=
   IsColimit.ofIsoColimit (colimitOfDiagramTerminal (FiniteStableSubmodule.isTerminalTop M) _)
-    (Cocones.ext (F.mapIso (@asIso _ _ _ _ (FiniteStableSubmodule.top M).ι
+    (Cocone.ext (F.mapIso (@asIso _ _ _ _ (FiniteStableSubmodule.top M).ι
       (isIso_finiteStableSubmoduleTop_ι M))) fun _ ↦
       (F.map_comp _ _).symm.trans (congrArg F.map (FiniteStableSubmodule.diagram_map_comp_ι _)))
 
@@ -581,28 +581,28 @@ variable [CompactSpace G]
 /-- The orbit of an element of a continuous discrete module under a compact group is finite: the
 stabilizer is open, hence of finite index. -/
 lemma finite_range_ρ_apply (N : Stacks.Injectives.ContinuousModule.{u, v, w} R G)
-    (x : N.obj.obj.V) : (Set.range fun g : G ↦ (N.obj.obj.ρ g).hom x).Finite := by
+    (x : N.obj.obj.V) : (Set.range fun g : G ↦ (N.obj.obj.ρ g).asHom.hom x).Finite := by
   have ρ_mul_apply (g h : G) (y : N.obj.obj.V) :
-      (N.obj.obj.ρ (g * h)).hom y = (N.obj.obj.ρ g).hom ((N.obj.obj.ρ h).hom y) := by
-    rw [map_mul, End.mul_def, ModuleCat.hom_comp, LinearMap.comp_apply]
+      (N.obj.obj.ρ (g * h)).asHom.hom y = (N.obj.obj.ρ g).asHom.hom ((N.obj.obj.ρ h).asHom.hom y) := by
+    rw [map_mul, End.mul_asHom, ModuleCat.hom_comp, LinearMap.comp_apply]
   let S : Subgroup G :=
-    { carrier := {g | (N.obj.obj.ρ g).hom x = x}
-      one_mem' := by simp [End.one_def]
+    { carrier := {g | (N.obj.obj.ρ g).asHom.hom x = x}
+      one_mem' := by simp [End.one_asHom]
       mul_mem' := fun {a b} ha hb ↦ by
         simp only [Set.mem_setOf_eq] at ha hb ⊢
         rw [ρ_mul_apply, hb, ha]
       inv_mem' := fun {a} ha ↦ by
         simp only [Set.mem_setOf_eq] at ha ⊢
         conv_lhs => rw [← ha]
-        rw [← ρ_mul_apply, inv_mul_cancel, map_one, End.one_def, ModuleCat.hom_id,
+        rw [← ρ_mul_apply, inv_mul_cancel, map_one, End.one_asHom, ModuleCat.hom_id,
           LinearMap.id_apply] }
   have := Subgroup.quotient_finite_of_isOpen S (isOpen_stabilizer R G N x)
-  let f' : G ⧸ S → N.obj.obj.V := Quotient.lift (fun g ↦ (N.obj.obj.ρ g).hom x) fun a b hab ↦ by
+  let f' : G ⧸ S → N.obj.obj.V := Quotient.lift (fun g ↦ (N.obj.obj.ρ g).asHom.hom x) fun a b hab ↦ by
     have hab' : a⁻¹ * b ∈ S := QuotientGroup.leftRel_apply.1 hab
-    change (N.obj.obj.ρ (a⁻¹ * b)).hom x = x at hab'
-    calc (N.obj.obj.ρ a).hom x = (N.obj.obj.ρ a).hom ((N.obj.obj.ρ (a⁻¹ * b)).hom x) := by
+    change (N.obj.obj.ρ (a⁻¹ * b)).asHom.hom x = x at hab'
+    calc (N.obj.obj.ρ a).asHom.hom x = (N.obj.obj.ρ a).asHom.hom ((N.obj.obj.ρ (a⁻¹ * b)).asHom.hom x) := by
           rw [hab']
-      _ = (N.obj.obj.ρ b).hom x := by
+      _ = (N.obj.obj.ρ b).asHom.hom x := by
           rw [← ρ_mul_apply, mul_inv_cancel_left]
   refine (Set.finite_range f').subset ?_
   rintro _ ⟨g, rfl⟩
@@ -611,11 +611,11 @@ lemma finite_range_ρ_apply (N : Stacks.Injectives.ContinuousModule.{u, v, w} R 
 /-- **The finite stable submodule spanned by the orbits of a finite set** of elements. -/
 def FiniteStableSubmodule.orbitSpan (N : Stacks.Injectives.ContinuousModule.{u, v, w} R G)
     (s : Set N.obj.obj.V) (hs : s.Finite) : FiniteStableSubmodule N :=
-  ⟨Submodule.span R (⋃ x ∈ s, Set.range fun g : G ↦ (N.obj.obj.ρ g).hom x), by
+  ⟨Submodule.span R (⋃ x ∈ s, Set.range fun g : G ↦ (N.obj.obj.ρ g).asHom.hom x), by
       intro g x hx
-      have : Submodule.span R (⋃ x ∈ s, Set.range fun g : G ↦ (N.obj.obj.ρ g).hom x) ≤
-          (Submodule.span R (⋃ x ∈ s, Set.range fun g : G ↦ (N.obj.obj.ρ g).hom x)).comap
-            (N.obj.obj.ρ g).hom := by
+      have : Submodule.span R (⋃ x ∈ s, Set.range fun g : G ↦ (N.obj.obj.ρ g).asHom.hom x) ≤
+          (Submodule.span R (⋃ x ∈ s, Set.range fun g : G ↦ (N.obj.obj.ρ g).asHom.hom x)).comap
+            (N.obj.obj.ρ g).asHom.hom := by
         rw [Submodule.span_le]
         intro y hy
         simp only [Set.mem_iUnion, Set.mem_range] at hy
@@ -623,7 +623,7 @@ def FiniteStableSubmodule.orbitSpan (N : Stacks.Injectives.ContinuousModule.{u, 
         refine Submodule.subset_span ?_
         simp only [Set.mem_iUnion, Set.mem_range]
         refine ⟨z, hz, g * g', ?_⟩
-        rw [map_mul, End.mul_def, ModuleCat.hom_comp, LinearMap.comp_apply]
+        rw [map_mul, End.mul_asHom, ModuleCat.hom_comp, LinearMap.comp_apply]
       exact this hx,
     Module.Finite.span_of_finite R (hs.biUnion fun z _ ↦ finite_range_ρ_apply N z)⟩
 
@@ -631,7 +631,7 @@ def FiniteStableSubmodule.orbitSpan (N : Stacks.Injectives.ContinuousModule.{u, 
 lemma FiniteStableSubmodule.subset_orbitSpan
     (N : Stacks.Injectives.ContinuousModule.{u, v, w} R G) (s : Set N.obj.obj.V) (hs : s.Finite) :
     s ⊆ (FiniteStableSubmodule.orbitSpan N s hs).1 := fun x hx ↦
-  Submodule.subset_span (Set.mem_biUnion hx ⟨1, by simp [End.one_def]⟩)
+  Submodule.subset_span (Set.mem_biUnion hx ⟨1, by simp [End.one_asHom]⟩)
 
 /-- The orbit span of a finite set is the smallest finite stable submodule containing it. -/
 lemma FiniteStableSubmodule.orbitSpan_le
@@ -673,9 +673,9 @@ def FiniteStableSubmodule.comap {N N' : Stacks.Injectives.ContinuousModule.{u, v
     (h : N ⟶ N') (hinj : Function.Injective h.hom.hom.hom.hom) (P : FiniteStableSubmodule N') :
     FiniteStableSubmodule N :=
   ⟨P.1.comap h.hom.hom.hom.hom, fun g x hx ↦ by
-      change h.hom.hom.hom.hom ((N.obj.obj.ρ g).hom x) ∈ P.1
-      rw [show h.hom.hom.hom.hom ((N.obj.obj.ρ g).hom x) =
-        (N'.obj.obj.ρ g).hom (h.hom.hom.hom.hom x) from
+      change h.hom.hom.hom.hom ((N.obj.obj.ρ g).asHom.hom x) ∈ P.1
+      rw [show h.hom.hom.hom.hom ((N.obj.obj.ρ g).asHom.hom x) =
+        (N'.obj.obj.ρ g).asHom.hom (h.hom.hom.hom.hom x) from
           ConcreteCategory.congr_hom (h.hom.hom.comm g) x]
       exact P.2.1 g _ hx,
     haveI := P.2.2

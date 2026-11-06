@@ -189,6 +189,7 @@ def pullbackQuotientMap (D : TautologicalDatum π E) {σ : X ⟶ P} (hσ : σ �
     E ⟶ (modulePullback B S hS σ).obj D.twist :=
   (sectionPullbackIso hc π hσ E).hom ≫ (modulePullback B S hS σ).map D.univ
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The pulled-back tautological quotient map is surjective. -/
 instance epi_pullbackQuotientMap (D : TautologicalDatum π E) {σ : X ⟶ P}
     (hσ : σ ≫ π = 𝟙 X) : Epi (pullbackQuotientMap hc D hσ) := by

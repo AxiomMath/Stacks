@@ -178,13 +178,13 @@ algebras**, in the first factor. -/
 theorem sheafTensor_map_globalSectionToEnd_comp_mul
     (a : (Y.ringCatSheaf.obj ⋙ forget RingCat).sections) :
     ((Stacks.SheafOfModules.Tensor.sheafTensor Y.sheaf).map
-        ((Stacks.SheafOfModules.globalSectionToEnd Y.ringCatSheaf a).app (moduleOfAlgebra A))).app
-          (moduleOfAlgebra A) ≫ mul A =
-      mul A ≫ (Stacks.SheafOfModules.globalSectionToEnd Y.ringCatSheaf a).app
+        ((Stacks.SheafOfModules.globalSectionToEnd Y.ringCatSheaf a).asHom.app
+          (moduleOfAlgebra A))).app (moduleOfAlgebra A) ≫ mul A =
+      mul A ≫ (Stacks.SheafOfModules.globalSectionToEnd Y.ringCatSheaf a).asHom.app
         (moduleOfAlgebra A) :=
   (congrArg (· ≫ mul A) (AlgebraicGeometry.SheafOfModules.sheafTensorRight_map_globalSectionToEnd
     Y.sheaf (moduleOfAlgebra A) a (moduleOfAlgebra A))).trans
-    ((Stacks.SheafOfModules.globalSectionToEnd Y.ringCatSheaf a).naturality (mul A)).symm
+    ((Stacks.SheafOfModules.globalSectionToEnd Y.ringCatSheaf a).asHom.naturality (mul A)).symm
 
 /-! ### The derived unit law -/
 

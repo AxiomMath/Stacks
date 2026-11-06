@@ -199,11 +199,13 @@ theorem relativeSpecOverIso_inv_comp_baseChange :
   have : IsAffineHom ((Over.pullback (projHomOfIsAmple L hL)).obj
       (Over.mk (relativeSpecToBase (nonnegTwistAlgebraSheaf (grading L))))).hom :=
     isAffineHom_overPullback_hom _ _
-  have := isIso_baseChangeAlgebraHom (projHomOfIsAmple L hL)
+  have hiso := isIso_baseChangeAlgebraHom (projHomOfIsAmple L hL)
     (Over.mk (relativeSpecToBase (nonnegTwistAlgebraSheaf (grading L))))
+  have hepi : Epi (baseChangeAlgebraHom (projHomOfIsAmple L hL)
+      (Over.mk (relativeSpecToBase (nonnegTwistAlgebraSheaf (grading L))))) :=
+    @IsIso.epi_of_iso _ _ _ _ _ hiso
   refine eq_of_pushforwardAlgebraMap_eq ?_
-  refine (cancel_epi (baseChangeAlgebraHom (projHomOfIsAmple L hL)
-    (Over.mk (relativeSpecToBase (nonnegTwistAlgebraSheaf (grading L)))))).mp ?_
+  refine hepi.left_cancellation _ _ ?_
   rw [pushforwardAlgebraMap_comp, pushforwardAlgebraMap_comp, pushforwardAlgebraMap_comp,
     pushforwardAlgebraMap_comp]
   simp only [Category.assoc]

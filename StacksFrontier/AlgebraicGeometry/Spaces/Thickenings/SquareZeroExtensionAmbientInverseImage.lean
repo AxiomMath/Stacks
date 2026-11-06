@@ -38,6 +38,18 @@ namespace SquareZeroExtension
 
 attribute [local instance] hasSheafify_bigFppfOver
 
+/-- Restriction of sheaves of sets along a continuous chart base change preserves finite
+products (instance search for it times out). -/
+local instance (priority := high)
+    preservesFiniteProducts_sheafPushforwardContinuous_squareZeroExtensionAmbientInverseImage
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {X Y : AlgebraicSpaces B S hS}
+    (f : X ⟶ Y) (hf : yoneda.relativelyRepresentable f.hom)
+    [(smallBaseChange B S hS f hf).IsContinuous
+      (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1)] :
+    PreservesFiniteProducts ((smallBaseChange B S hS f hf).sheafPushforwardContinuous (Type u)
+      (SmallEtale.topology B S hS Y.1) (SmallEtale.topology B S hS X.1)) :=
+  instPreservesFiniteProductsOfPreservesFiniteLimits _
+
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y} {E : SquareZeroExtension B S hS f}
   {C : ChartedPresentation B S hS f}
@@ -219,8 +231,8 @@ theorem ambientSharp_comp_π :
         (pushforwardCommRingFunctor (smallEtaleRingedToposHom B S hS i).toToposHom).map E.π =
       (smallEtaleRingedToposHom B S hS i).fSharp := by
   let := isContinuous_smallBaseChange B S hS i (ambRep i hi)
-  refine (cancel_mono (pushforwardRingIsoRestriction i hi (smallEtaleRingedTopos B S hS X).O).hom).1
-    ?_
+  refine (Iso.cancel_iso_hom_right _ _
+    (pushforwardRingIsoRestriction i hi (smallEtaleRingedTopos B S hS X).O)).1 ?_
   rw [ambientSharp, Category.assoc, Category.assoc, pushforwardRingIsoRestriction_naturality,
     Iso.inv_hom_id_assoc, ambientSheafHom_comp_π]
   refine commRingSheaf_hom_ext fun W s => ?_

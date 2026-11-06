@@ -453,7 +453,7 @@ private theorem liesOver_maximalIdeal_of_isIntegral {A B : Type*} [CommRing A] [
     [CommRing B] [Algebra A B] [Algebra.IsIntegral A B] (m : Ideal B) [m.IsMaximal] :
     m.LiesOver (IsLocalRing.maximalIdeal A) :=
   ⟨(IsLocalRing.eq_maximalIdeal
-    (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) m)).symm⟩
+    (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) m)).symm⟩
 
 set_option linter.deprecated false in
 /-- **The norm formula for a finite extension.** For `A ⊆ B` a finite extension of domains with
@@ -647,7 +647,7 @@ private theorem sum_inertiaDeg_mul_ord_le_and_finite_of_eq {A B : Type*} [CommRi
       intro m
       have : m.asIdeal.IsPrime := m.isMaximal.isPrime
       have : (m.asIdeal.comap (C.val : C →+* B)).IsPrime := Ideal.comap_isPrime _ _
-      refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) _ ?_
+      refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) _ ?_
       have h1 : (m.asIdeal.comap (C.val : C →+* B)).comap (algebraMap A C)
           = m.asIdeal.comap (algebraMap A B) := by
         rw [Ideal.comap_comap]
@@ -656,7 +656,7 @@ private theorem sum_inertiaDeg_mul_ord_le_and_finite_of_eq {A B : Type*} [CommRi
         have h3 := (hlies m).over
         rw [Ideal.under_def] at h3
         exact h3.symm
-      rw [h1, h2]
+      rw [Ideal.under_def, h1, h2]
       exact IsLocalRing.maximalIdeal.isMaximal A
     -- Distinct maximal ideals of `B` have distinct contractions.
     have hcomaple : ∀ u v : MaximalSpectrum B,

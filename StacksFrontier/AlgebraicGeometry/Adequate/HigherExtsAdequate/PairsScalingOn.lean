@@ -205,7 +205,7 @@ lemma dualScalingInrOn_app_tautological :
         (dualScalingEpsOn.{max u v w} hQ).app (tautologicalPairModuleOn.{w} Qr) := by
   refine PresheafOfModules.hom_ext fun X ↦ ?_
   ext z
-  exact ULift.ext _ _ (dualNumberPairInr_eq_eps_smul X.unop.unop.obj z.down)
+  exact ULift.ext (dualNumberPairInr_eq_eps_smul X.unop.unop.obj z.down)
 
 end EndofunctorOn
 
@@ -385,14 +385,14 @@ lemma unitScalarOn_smul_baseValueOn (X : (Pr.FullSubcategory)ᵒᵖᵒᵖ)
     have h2 : unitLinearOn hA X ℓ a = a.down • unitLinearOn hA X ℓ (ULift.up 1) := by
       rw [← LinearMap.map_smul]
       congr 1
-      exact ULift.ext _ _ (mul_one a.down).symm
+      exact ULift.ext (mul_one a.down).symm
     have h3 : unitLinearOn hA X (unitScalarOn hA X ℓ •
         baseValueOn b (unitLinearPairPullbackOn.{w} hA) (unitElementOn hA b) X) a =
         unitLinearOn hA X ℓ (ULift.up 1) *
           unitLinearOn hA X (baseValueOn b (unitLinearPairPullbackOn.{w} hA)
             (unitElementOn hA b) X) a := rfl
     rw [h3, unitLinearOn_baseValueOn, h2, Algebra.smul_def, mul_comm]
-  exact ULift.ext _ _ (LinearMap.ext key)
+  exact ULift.ext (LinearMap.ext key)
 
 variable (E : PresheafOfModules.{max u v w} (algebraRingDiagramOn.{v} Pr.ι)) (y : E.obj b.obj)
 

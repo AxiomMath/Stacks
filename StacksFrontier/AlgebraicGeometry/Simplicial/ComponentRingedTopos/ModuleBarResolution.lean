@@ -267,11 +267,11 @@ private def moduleBarComponentUnderlyingIso (n m : SimplexCategory) :
         ((componentFunctor _ m).map f.unop).op x)).trans ?_
     have hid : ∀ a, (ConcreteCategory.hom ((simplexIndices.{u, u} _ n).map
         ((componentFunctor _ m).map f.unop).op)) a = a :=
-      fun a => ULift.ext _ _ (Category.comp_id a.down)
+      fun a => ULift.ext (Category.comp_id a.down)
     have hinj : Function.Injective (ConcreteCategory.hom ((simplexIndices.{u, u} _ n).map
         ((componentFunctor _ m).map f.unop).op)) := fun a b h => by rwa [hid, hid] at h
     conv_lhs => rw [← hid i]
-    exact (Finsupp.mapDomain_apply hinj _ _).trans rfl
+    exact (Finsupp.mapDomain_apply_of_injective hinj _ _).trans rfl
 
 /-- **The presheaf `B_n(M)` is a sheaf**: over the component of degree `m` it is a finite direct
 sum of copies of `M`, a sheaf, and the total site is detected on the components. -/

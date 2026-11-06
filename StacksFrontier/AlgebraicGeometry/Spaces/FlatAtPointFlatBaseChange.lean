@@ -66,6 +66,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_FlatAtPointFlatBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Limits.HasLimit (Limits.cospan f g) :=
+  Limits.HasLimitsOfShape.has_limit _
+
 /-- **Flatness at a point is invariant under flat base change.** In a cartesian square of
 algebraic spaces over `S` whose base morphism `g` is flat, the base change `f'` is flat at a
 point `x'` of its source exactly when `f` is flat at the image of `x'`.

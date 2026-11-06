@@ -243,7 +243,7 @@ theorem isIso_of_isIso_modulePullback_chart (W : BigFppfOver B S hS)
     (h : IsIso ((modulePullback B S hS i).map c)) : IsIso c := by
   have := faithful_modulePullback B S hS W i hi hs
   have : Mono c := (modulePullback B S hS i).mono_of_mono_map (f := c) inferInstance
-  have : Epi c := (modulePullback B S hS i).epi_of_epi_map (f := c) inferInstance
+  have : Epi c := (modulePullback B S hS i).epi_of_epi_map (f := c) (IsIso.epi_of_iso _)
   exact isIso_of_mono_of_epi c
 
 /-- **The comparison map of Stacks 04CX of a commutative square of algebraic spaces is an

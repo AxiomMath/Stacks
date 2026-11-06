@@ -300,6 +300,7 @@ theorem pointClosureResidueFieldEquiv_comparison
 
 /-! ### Naturality of the local boundary -/
 
+set_option maxHeartbeats 800000 in
 /-- **The local component `∂_{𝒪_{W_x, t}}` of the first differential of Stacks 0GU9 is natural
 along a morphism carrying reduced closures to reduced closures.** Both squares the transport of
 `Stacks.Chow.stalkMilnorBoundary_ringEquiv` consumes are supplied by the comparison `ψ`: the

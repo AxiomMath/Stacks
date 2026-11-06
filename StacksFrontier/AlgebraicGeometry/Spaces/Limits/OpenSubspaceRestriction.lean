@@ -104,6 +104,18 @@ theorem cardinal_mk_hom_over_lt
 
 /-! ### The restricted system -/
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_OpenSubspaceRestriction :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_OpenSubspaceRestriction
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The inverse system, indexed by the stages over `i`, of the base changes along `g` of
 those stages. -/
 noncomputable abbrev restrictDiagram : Over i ⥤ (BigFppfOver B S hS)ᵒᵖ ⥤ Type u :=

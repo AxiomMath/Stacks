@@ -37,6 +37,32 @@ namespace AlgebraicGeometry.Artin.ContractionSituation
 
 attribute [local instance] Space.pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ContractionSolutionModificationIso
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ContractionSolutionModificationIso
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_ContractionSolutionModificationIso.has_limit _
+
+/-- Pullbacks of fppf sheaves in `Type (u + 1)` on `BigFppfOver B S hS`: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_sheaf_ContractionSolutionModificationIso
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+local instance (priority := high) hasLimit_cospan_sheaf_ContractionSolutionModificationIso
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     (c : ContractionSituation B S hS) {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (α : contractionFunctor c ≅ morOnLocallyNoetherian B S hS X)
@@ -259,7 +285,12 @@ theorem modificationOpenRestr_inv :
     rw [Space.openSubspaceOfPointsRestrict_comp_ι, Category.comp_id]
   rw [e1] at hh
   simp only [Category.assoc, modificationOpenH_ι_h] at hh
-  simp only [← Category.assoc, cancel_mono] at hh
+  have : IsIso (Space.openComplementRestriction B S hS A.h (contractedLocus c α)) :=
+    isIso_openComplementRestriction_h c α A
+  simp only [← Category.assoc] at hh
+  replace hh := (IsIso.mono_of_iso
+    (Space.openComplementRestriction B S hS A.h (contractedLocus c α))).right_cancellation _ _
+    ((Subfunctor.instMonoFunctorTypeι _).right_cancellation _ _ hh)
   rw [e1, ← Category.assoc, ← Category.assoc, ← Category.assoc, hh, Category.assoc, ← e1,
     hξdef]
 

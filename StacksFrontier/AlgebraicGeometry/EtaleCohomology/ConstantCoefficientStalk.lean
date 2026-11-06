@@ -416,9 +416,9 @@ lemma uliftPointPresheafFiberIso_hom_toPresheafFiber (X : C) (x : p.fiber.obj X)
           ((CategoryOfElements.π p.fiber).op ⋙ P)).inv)
         (@Functor.Final.ι_colimitIso_inv _ _ _ _ (Functor.Elements.ulift.{z'} p.fiber).op _ _ _
           ((CategoryOfElements.π (p.ulift.{z'}).fiber).op ⋙ P ⋙
-            ModuleCat.uliftFunctor.{w'} R) (hshape.has_colimit _) (op ⟨X, x⟩)))
+            ModuleCat.uliftFunctor.{w'} R) (hshape.has_colimit _) (op (Functor.elementsMk _ X x))))
       (ι_preservesColimitIso_inv (ModuleCat.uliftFunctor.{w'} R)
-        ((CategoryOfElements.π p.fiber).op ⋙ P) (op ⟨X, x⟩)))
+        ((CategoryOfElements.π p.fiber).op ⋙ P) (op (Functor.elementsMk _ X x))))
 
 end UniverseLift
 
@@ -480,7 +480,7 @@ lemma presheafFiberOverIso_hom_toPresheafFiber (P : Cᵒᵖ ⥤ A) (W : Over V)
         ((GrothendieckTopology.Point.presheafFiberOverIso Φ x A).app P).hom =
       Φ.toPresheafFiber W.left y.val P :=
   Functor.Final.ι_colimitIso_hom (GrothendieckTopology.Point.overElements Φ x).op
-    ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op ⟨W, y⟩)
+    ((CategoryOfElements.π Φ.fiber).op ⋙ P) (op (Functor.elementsMk _ W y))
 
 /-- A morphism of presheaves which the fibre functor at `Φ` inverts is inverted, after
 restriction to the slice site over `V`, by the fibre functor at the lift `Φ.over x`: the two

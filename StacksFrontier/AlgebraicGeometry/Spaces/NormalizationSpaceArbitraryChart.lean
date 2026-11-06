@@ -96,6 +96,13 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     IsCompact (O : Set ((BigFppfOver.toScheme B S hS).obj (Limits.pullback j j))) →
       (irreducibleComponents O).Finite)
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, supplied directly: instance search
+for them now times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_NormalizationSpaceArbitraryChart
+    {Z₁ Z₂ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (g : Z₁ ⟶ Z) (f : Z₂ ⟶ Z) :
+    HasLimit (cospan g f) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-- A composite of morphisms of the site sending generic points to generic points does so. -/
 theorem mem_genericPoints_toScheme_map_comp {X Y Z : BigFppfOver B S hS} (f : X ⟶ Y)
     (g : Y ⟶ Z)

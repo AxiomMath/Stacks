@@ -224,7 +224,7 @@ on derived categories. -/
 public def mapDerivedCategoryPushforwardInv {Y Z : Scheme.{u}} (k : Y ⟶ Z) [IsIso k] :
     (pushforward k).mapDerivedCategory ⋙ (pushforward (inv k)).mapDerivedCategory ≅
       𝟭 (DerivedCategory Y.Modules) :=
-  Functor.mapDerivedCategoryCompIso
+  Functor.mapDerivedCategoryCompIsoOfCompIso
       (pushforwardComp k (inv k) ≪≫ pushforwardCongr (IsIso.hom_inv_id k) ≪≫
         pushforwardId Y) ≪≫
     Functor.mapDerivedCategoryId Y.Modules

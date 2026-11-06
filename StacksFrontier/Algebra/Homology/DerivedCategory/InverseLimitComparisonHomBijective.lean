@@ -177,7 +177,7 @@ theorem shortExact_inverseLimitSequence_of_surjective {R : Type u} [Ring R]
   funext n
   show ((Pi.lift (fun n : ℕ => Pi.π X n - Pi.π X (n + 1) ≫ M.map (homOfLE (Nat.le_succ n)).op) ≫
     Pi.π X n) ((ModuleCat.piIsoPi X).inv x)) = _
-  rw [Pi.lift_π]
+  rw [Pi.lift_comp_π]
   show (Pi.π X n) ((ModuleCat.piIsoPi X).inv x) -
     (M.map (homOfLE (Nat.le_succ n)).op) ((Pi.π X (n + 1)) ((ModuleCat.piIsoPi X).inv x)) =
       (ModuleCat.piIsoPi X).hom y n

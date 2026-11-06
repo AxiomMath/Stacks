@@ -108,11 +108,11 @@ theorem flat_localizedModule_atPrime [Module.Flat R N] (q : Ideal S) [q.IsPrime]
 @[ega "IV 1.3.10" "locality of A_p → B"]
 instance isLocalHom_algebraMap_atPrime (q : Ideal S) [q.IsPrime]
     [Algebra (Localization.AtPrime (q.under R)) (Localization.AtPrime q)]
-    [Localization.AtPrime.IsLiesOverAlgebra (q.under R) q] :
+    [IsScalarTower R (Localization.AtPrime (q.under R)) (Localization.AtPrime q)] :
     IsLocalHom (algebraMap (Localization.AtPrime (q.under R)) (Localization.AtPrime q)) := by
   rw [show algebraMap (Localization.AtPrime (q.under R)) (Localization.AtPrime q) =
       Localization.localRingHom (q.under R) q (algebraMap R S) Ideal.LiesOver.over from
-    Localization.AtPrime.IsLiesOverAlgebra.algebraMap_eq]
+    Localization.AtPrime.algebraMap_eq (q.under R) q]
   infer_instance
 
 end Stacks.UniversalInjectivity

@@ -37,6 +37,14 @@ namespace AlgebraicGeometry.Space
 
 universe u v
 
+/-- Pullbacks of presheaves on the big fppf site of `S`, supplied directly: since Lean v4.35.0
+instance search times out finding them through the functor-category limit instances. -/
+local instance (priority := high)
+    hasLimit_cospan_presheaf_RelativelyPerfectHomDescentLocalization (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S) {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) : HasLimit (cospan f g) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /- The abelian structure of the modules is taken to be `SheafOfModules.instAbelian`, and their
 preadditive structure the one it induces, which is how `DerivedCategory.Qh` reads it: with one
 spelling of these instances throughout, the statements below unify with those of the derived

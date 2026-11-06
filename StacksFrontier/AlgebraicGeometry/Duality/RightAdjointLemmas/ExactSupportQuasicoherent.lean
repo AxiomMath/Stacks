@@ -381,8 +381,8 @@ def affineDerivedPushforwardTildeIso [IsClosedImmersion (Spec.map φ)] :
       (Scheme.Modules.pushforward (Spec.map φ)).mapDerivedCategory ≅
         (ModuleCat.restrictScalars φ.hom).mapDerivedCategory ⋙
           (tilde.functor A).mapDerivedCategory :=
-    CategoryTheory.Functor.mapDerivedCategoryCompIso (pushforwardTildeIso A B φ) ≪≫
-      (CategoryTheory.Functor.mapDerivedCategoryCompIso
+    CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso (pushforwardTildeIso A B φ) ≪≫
+      (CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso
         (Iso.refl (ModuleCat.restrictScalars φ.hom ⋙ tilde.functor A))).symm
   e
 

@@ -420,7 +420,7 @@ private theorem isDerivedComplete_of_nilpotent_scalars
   intro scalar membership
   obtain ⟨exponent, vanishing⟩ := nilpotent scalar membership
   exact isDerivedCompleteAt_of_isNilpotent
-    ⟨exponent, by rw [smul_id_pow]; exact vanishing⟩
+    ⟨exponent, End.ext (by rw [smul_id_pow, End.zero_asHom]; exact vanishing)⟩
 
 private theorem tensorKoszulStage_isDerivedComplete
     [HasProductsOfShape ℕ (DerivedCategory (ModuleCat.{ringLevel} ring))]

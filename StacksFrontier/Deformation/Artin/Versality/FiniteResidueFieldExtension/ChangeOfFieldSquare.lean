@@ -41,7 +41,6 @@ namespace Deformation.Artin
 -- `StacksFrontier.CategoryTheory.FiberedCategory.PairIsoClassPresheaf` does for the same reason.
 attribute [local implicit_reducible]
   CategoryTheory.Functor.ChoiceOfPullbacks.sliceFunctor
-  CategoryTheory.Over.post
   CategoryTheory.BasedFunctor.comp
   Deformation.changeOfFieldsBasedFunctor
 

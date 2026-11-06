@@ -235,8 +235,10 @@ theorem epi_of_pullbackFamily_epi_cover
   refine Stacks.Descent.epi_of_pullback_map_epi g hg (app n) fun k => ?_
   have hk := h k
   rw [pullbackFamily] at hk
-  exact (epi_comp_iff_of_isIso _ (laurentPullback (g k) L n)).mp
-    ((epi_comp_iff_of_epi (compComparison (g k) f (A.piece (n * d))) _).mp hk)
+  have h1 := epi_of_epi (compComparison (g k) f (A.piece (n * d)))
+    ((pullbackFunctor (ringedSpaceHom (g k))).map (app n) ≫ laurentPullback (g k) L n)
+  have : IsIso (laurentPullback (g k) L n) := isIso_laurentPullback _ _ _
+  exact (epi_comp_iff_of_isIso _ (laurentPullback (g k) L n)).mp h1
 
 /-- **The surjectivity of a homogeneous component of a glued `ψ`, in the shape a glueing argument
 meets it.** What a glueing argument knows over a member of the covering is the surjectivity of the

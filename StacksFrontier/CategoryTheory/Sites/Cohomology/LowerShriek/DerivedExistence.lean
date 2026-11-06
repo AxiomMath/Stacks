@@ -82,6 +82,17 @@ variable {C : Type u₁} [Category.{v₁} C] {J : GrothendieckTopology C} (R : S
   [∀ U : C, (SheafOfModules.pushforward.{w} (F := Over.forget U)
     (𝟙 (R.over U) : (R.over U) ⟶ (R.over U))).IsRightAdjoint]
 
+/- Instance search for coproducts of sheaves of modules times out since the Lean v4.35.0 bump;
+these local instances give the direct route. -/
+local instance (priority := high) hasColimitsOfShape_discrete_presheafOfModules (K : Type w) :
+    HasColimitsOfShape (Discrete K) (PresheafOfModules.{w} R.obj) :=
+  PresheafOfModules.hasColimitsOfShape R.obj (Discrete K)
+
+local instance (priority := high) hasCoproducts_sheafOfModules :
+    HasCoproducts.{w} (SheafOfModules.{w} R) := fun K =>
+  SheafOfModules.instHasColimitsOfShapeOfPresheafOfModulesObjFunctorOppositeRingCatIsSheaf R
+    (Discrete K)
+
 /-- `j_{U!} O_U`. -/
 abbrev extensionByZeroUnit (U : C) : SheafOfModules.{w} R :=
   (SheafOfModules.pullback.{w} (F := Over.forget U)

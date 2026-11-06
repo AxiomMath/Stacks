@@ -133,7 +133,7 @@ noncomputable abbrev fibreSupport : Sheaf (SimplicialOpen.grothendieckTopology X
 image is computed degreewise by Stacks 09W4 (1), and the inverse image along `a_n` of the sheaf
 represented by `V` is the sheaf represented by `a_n⁻¹(V)`. -/
 noncomputable def augmentationOpenEquiv (W : SimplicialOpen X) :
-    (fibreSupport X Y a V).val.obj (op W) ≃
+    (fibreSupport X Y a V).obj.obj (op W) ≃
       (W.toOpens ⟶ fibreOpens X Y a V W.degree) := by
   let E := sheafEquivalenceSimplicialSheafSystem X (Type u)
   let P := fibreSupport X Y a V
@@ -149,19 +149,19 @@ noncomputable def augmentationOpenEquiv (W : SimplicialOpen X) :
 
 /-- The support presheaf `fibreSupport` has at most one section over each object. -/
 theorem subsingleton_fibreSupport (W : (SimplicialOpen X)ᵒᵖ) :
-    Subsingleton ((fibreSupport X Y a V).val.obj W) :=
+    Subsingleton ((fibreSupport X Y a V).obj.obj W) :=
   (augmentationOpenEquiv X Y a V W.unop).injective.subsingleton
 
 /-- An object of `X_Zar` over which the support presheaf has a section lies over the fibre. -/
 theorem le_fibreOpens_of_fibreSupport {W : SimplicialOpen X}
-    (p : (fibreSupport X Y a V).val.obj (op W)) :
+    (p : (fibreSupport X Y a V).obj.obj (op W)) :
     W.toOpens ≤ fibreOpens X Y a V W.degree :=
   leOfHom (augmentationOpenEquiv X Y a V W p)
 
 /-- The support presheaf has a canonical section over every object in the image of the
 comparison of total sites. -/
 noncomputable def fibreSupportSection (W : SimplicialOpen (fibreSpace X Y a V)) :
-    (fibreSupport X Y a V).val.obj (op ((fibreImage X Y a V).obj W)) :=
+    (fibreSupport X Y a V).obj.obj (op ((fibreImage X Y a V).obj W)) :=
   (augmentationOpenEquiv X Y a V _).symm
     (homOfLE (Fibre.imageOpens_le X Y a V W.toOpens))
 
@@ -174,10 +174,10 @@ variable {X Y a V}
 /-- Step one: the underlying sheaf of sets of the direct image is the geometric direct image of
 the underlying sheaf of sets. -/
 noncomputable def chain₀ (F : Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{u}) :
-    ((augmentationPushforwardAb X Y a).obj F).val.obj (op V) ≃
+    ((augmentationPushforwardAb X Y a).obj F).obj.obj (op V) ≃
       ((augmentationMorphism X Y a).pushforward.obj
         ((sheafCompose (SimplicialOpen.grothendieckTopology X)
-          (forget Ab.{u})).obj F)).val.obj (op V) :=
+          (forget Ab.{u})).obj F)).obj.obj (op V) :=
   (((sheafToPresheaf (Opens.grothendieckTopology Y) (Type u)).mapIso
     ((Stacks.Topos.AbelianPushforward.abelianPushforward_forgetIso
       (SimplicialOpen.grothendieckTopology X)
@@ -186,7 +186,7 @@ noncomputable def chain₀ (F : Sheaf (SimplicialOpen.grothendieckTopology X) Ab
 /-- The bijection `chain₀` is natural in the abelian sheaf `F`. -/
 theorem chain₀_naturality
     {F G : Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{u}} (f : F ⟶ G)
-    (x : ((augmentationPushforwardAb X Y a).obj F).val.obj (op V)) :
+    (x : ((augmentationPushforwardAb X Y a).obj F).obj.obj (op V)) :
     chain₀ (V := V) G (((augmentationPushforwardAb X Y a).map f).hom.app (op V) x) =
       (((augmentationMorphism X Y a).pushforward.map
         ((sheafCompose (SimplicialOpen.grothendieckTopology X)
@@ -202,7 +202,7 @@ adjunction morphisms out of its inverse image. -/
 noncomputable def chain₁ (F : Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{u}) :
     ((augmentationMorphism X Y a).pushforward.obj
         ((sheafCompose (SimplicialOpen.grothendieckTopology X)
-          (forget Ab.{u})).obj F)).val.obj (op V) ≃
+          (forget Ab.{u})).obj F)).obj.obj (op V) ≃
       (fibreSupport X Y a V ⟶
         (sheafCompose (SimplicialOpen.grothendieckTopology X) (forget Ab.{u})).obj F) :=
   ((Opens.grothendieckTopology Y).yonedaEquiv (X := V)
@@ -217,7 +217,7 @@ theorem chain₁_naturality
     {F G : Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{u}} (f : F ⟶ G)
     (y : ((augmentationMorphism X Y a).pushforward.obj
       ((sheafCompose (SimplicialOpen.grothendieckTopology X)
-        (forget Ab.{u})).obj F)).val.obj (op V)) :
+        (forget Ab.{u})).obj F)).obj.obj (op V)) :
     chain₁ (V := V) G
         (((augmentationMorphism X Y a).pushforward.map
           ((sheafCompose (SimplicialOpen.grothendieckTopology X)
@@ -237,10 +237,10 @@ noncomputable def chain₂ (F : Sheaf (SimplicialOpen.grothendieckTopology X) Ab
     (fibreSupport X Y a V ⟶
         (sheafCompose (SimplicialOpen.grothendieckTopology X) (forget Ab.{u})).obj F) ≃
       ((Functor.const (SimplicialOpen (fibreSpace X Y a V))ᵒᵖ).obj PUnit ⟶
-        ((fibreRestrictionAb X Y a V).obj F).val ⋙ forget Ab.{u}) :=
+        ((fibreRestrictionAb X Y a V).obj F).obj ⋙ forget Ab.{u}) :=
   Sheaf.homEquiv.trans
     (supportedSectionsEquiv (fibreImage X Y a V) (fibreMeet X Y a V)
-      (fibreImageAdjunction X Y a V) (fibreSupport X Y a V).val _
+      (fibreImageAdjunction X Y a V) (fibreSupport X Y a V).obj _
       (subsingleton_fibreSupport X Y a V) (fibreSupportSection X Y a V)
       (fun _ p => isIso_fibreImageAdjunction_counit X Y a V
         (le_fibreOpens_of_fibreSupport X Y a V p)))
@@ -255,7 +255,7 @@ theorem chain₂_naturality
       chain₂ (V := V) F t ≫ Functor.whiskerLeft (fibreImage X Y a V).op
         ((sheafCompose (SimplicialOpen.grothendieckTopology X) (forget Ab.{u})).map f).hom :=
   supportedSectionsEquiv_naturality (fibreImage X Y a V) (fibreMeet X Y a V)
-    (fibreImageAdjunction X Y a V) (fibreSupport X Y a V).val
+    (fibreImageAdjunction X Y a V) (fibreSupport X Y a V).obj
     (subsingleton_fibreSupport X Y a V) (fibreSupportSection X Y a V)
     (fun _ p => isIso_fibreImageAdjunction_counit X Y a V
       (le_fibreOpens_of_fibreSupport X Y a V p)) t.hom
@@ -265,10 +265,10 @@ theorem chain₂_naturality
 restriction. -/
 noncomputable def chain₃ (F : Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{u}) :
     ((Functor.const (SimplicialOpen (fibreSpace X Y a V))ᵒᵖ).obj PUnit ⟶
-        ((fibreRestrictionAb X Y a V).obj F).val ⋙ forget Ab.{u}) ≃
+        ((fibreRestrictionAb X Y a V).obj F).obj ⋙ forget Ab.{u}) ≃
       (Sheaf.Γ (SimplicialOpen.grothendieckTopology (fibreSpace X Y a V)) Ab.{u}).obj
         ((fibreRestrictionAb X Y a V).obj F) :=
-  (constantZHomEquiv (((fibreRestrictionAb X Y a V).obj F).val)).symm.trans
+  (constantZHomEquiv (((fibreRestrictionAb X Y a V).obj F).obj)).symm.trans
     ((Sheaf.ΓHomEquiv (J := SimplicialOpen.grothendieckTopology (fibreSpace X Y a V))
         (A := Ab.{u}) (X := AddCommGrpCat.of (ULift ℤ))
         (F := (fibreRestrictionAb X Y a V).obj F)).trans
@@ -288,7 +288,7 @@ theorem fibreRestriction_whisker_eq
 theorem chain₃_naturality
     {F G : Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{u}} (f : F ⟶ G)
     (t : (Functor.const (SimplicialOpen (fibreSpace X Y a V))ᵒᵖ).obj PUnit ⟶
-      ((fibreRestrictionAb X Y a V).obj F).val ⋙ forget Ab.{u}) :
+      ((fibreRestrictionAb X Y a V).obj F).obj ⋙ forget Ab.{u}) :
     chain₃ (V := V) G (t ≫ Functor.whiskerLeft (fibreImage X Y a V).op
         ((sheafCompose (SimplicialOpen.grothendieckTopology X) (forget Ab.{u})).map f).hom) =
       ((Sheaf.Γ (SimplicialOpen.grothendieckTopology (fibreSpace X Y a V)) Ab.{u}).map
@@ -306,14 +306,14 @@ direct image of an abelian sheaf `F` on `X_Zar` are the morphisms from the const
 on the total site of the fibre into the restriction of `F`. -/
 noncomputable def fibreSectionsHomEquiv
     (F : Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{u}) :
-    ((augmentationPushforwardAb X Y a).obj F).val.obj (op V) ≃
+    ((augmentationPushforwardAb X Y a).obj F).obj.obj (op V) ≃
       (fibreRestrictedSections X Y a V).obj F :=
   (chain₀ F).trans ((chain₁ F).trans ((chain₂ F).trans (chain₃ F)))
 
 /-- The set-level comparison is natural in the abelian sheaf. -/
 theorem fibreSectionsHomEquiv_naturality
     {F G : Sheaf (SimplicialOpen.grothendieckTopology X) Ab.{u}} (f : F ⟶ G)
-    (x : ((augmentationPushforwardAb X Y a).obj F).val.obj (op V)) :
+    (x : ((augmentationPushforwardAb X Y a).obj F).obj.obj (op V)) :
     fibreSectionsHomEquiv X Y a V G
         (((augmentationPushforwardAb X Y a).map f).hom.app (op V) x) =
       ((fibreRestrictedSections X Y a V).map f) (fibreSectionsHomEquiv X Y a V F x) := by

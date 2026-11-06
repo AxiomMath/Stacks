@@ -173,7 +173,7 @@ def truncGETowerCone : E ⟶ ∏ᶜ fun n : ℕ ↦ (truncGETower A E).obj ⟨n�
 theorem truncGETowerCone_comp_π (n : ℕ) :
     truncGETowerCone E ≫ Pi.π (fun n : ℕ ↦ (truncGETower A E).obj ⟨n⟩) n =
       (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app E :=
-  Pi.lift_π _ n
+  Pi.lift_comp_π _ n
 
 /-- **The canonical cone is annihilated by the difference of the projections.** This is the
 cocycle condition which lets the canonical map `E ⟶ ∏ₙ τ_{≥ -n}E` be lifted through the
@@ -184,7 +184,7 @@ theorem truncGETowerCone_comp_diff :
           Pi.π (fun n : ℕ ↦ (truncGETower A E).obj ⟨n⟩) (n + 1) ≫
             (truncGETower A E).map (homOfLE (Nat.le_succ n)).op) = 0 := by
   refine Pi.hom_ext _ _ fun n ↦ ?_
-  rw [zero_comp, Category.assoc, Pi.lift_π, Preadditive.comp_sub, truncGETowerCone_comp_π,
+  rw [zero_comp, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, truncGETowerCone_comp_π,
     truncGETowerCone_comp_π_assoc]
   exact sub_eq_zero_of_eq (truncGEπ_comp_truncGETower_map E n).symm
 

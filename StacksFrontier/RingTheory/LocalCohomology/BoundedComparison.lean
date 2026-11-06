@@ -47,7 +47,7 @@ private abbrev plusSectionsToUnbounded :
 category. -/
 private def plusUnit : plusSectionsToUnbounded.{u, v} A T ⟶ DerivedCategory.Plus.Qh ⋙
     (derivedSectionsWithSupportInPlus.{u, v} A T ⋙ DerivedCategory.Plus.ι) :=
-  whiskerRight (sectionsWithSupportInFunctor.{u, v} A T).rightDerivedFunctorPlusUnit
+  whiskerRight (sectionsWithSupportInFunctor.{u, v} A T).rightDerivedFunctorPlusUnith
     DerivedCategory.Plus.ι
 
 /-- The canonical unit of the unbounded derived functor, restricted to bounded-below objects. -/

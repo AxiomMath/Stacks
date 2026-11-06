@@ -69,7 +69,7 @@ noncomputable def dualNumberDerivationsEquiv
   let nΛ : Module Λ (ULift.{v} k) := ULift.module'
   let nS : Module S (ULift.{v} k) := ULift.module'
   have hΛmod : mΛ = nΛ :=
-    Module.ext' _ _ fun r x ↦ ULift.ext _ _ (Algebra.smul_def r x.down).symm
+    Module.ext' _ _ fun r x ↦ ULift.ext (Algebra.smul_def r x.down).symm
   have hSmod : mS = nS := Module.ext' _ _ fun _ _ ↦ rfl
   have htype : Derivations S (ULift.{v} k) = Derivation Λ S (ULift.{v} k) :=
     congrArg₂ (@Derivation Λ S (ULift.{v} k) _ _ _ _) hSmod hΛmod
@@ -134,7 +134,7 @@ theorem tangentSpaceDerivationsLinearEquiv_apply
   let nΛ : Module Λ (ULift.{v} k) := ULift.module'
   let nS : Module S (ULift.{v} k) := ULift.module'
   have hΛmod : mΛ = nΛ :=
-    Module.ext' _ _ fun r x ↦ ULift.ext _ _ (Algebra.smul_def r x.down).symm
+    Module.ext' _ _ fun r x ↦ ULift.ext (Algebra.smul_def r x.down).symm
   have hSmod : mS = nS := Module.ext' _ _ fun _ _ ↦ rfl
   have htype : Derivations S (ULift.{v} k) = Derivation Λ S (ULift.{v} k) :=
     congrArg₂ (@Derivation Λ S (ULift.{v} k) _ _ _ _) hSmod hΛmod

@@ -141,10 +141,10 @@ theorem exists_eq_of_smallEtaleSheafLan_eq (F : Sheaf (smallEtaleTopology Y) (Ty
   refine ⟨(IsFiltered.coeq φ φ₂).left.unop, ψ.left.unop, (IsFiltered.coeq φ φ₂).hom.unop,
     Quiver.Hom.op_inj (CostructuredArrow.w ψ), ?_⟩
   calc F.obj.map ψ.left h₁ = F.obj.map (IsFiltered.coeqHom φ φ₂).left (F.obj.map φ.left h₁) :=
-        FunctorToTypes.map_comp_apply F.obj φ.left (IsFiltered.coeqHom φ φ₂).left h₁
+        Functor.map_comp_apply F.obj φ.left (IsFiltered.coeqHom φ φ₂).left h₁
     _ = F.obj.map (IsFiltered.coeqHom φ φ₂).left (F.obj.map φ₂.left h₂) := congrArg _ hφ
     _ = F.obj.map (φ₂ ≫ IsFiltered.coeqHom φ φ₂).left h₂ :=
-        (FunctorToTypes.map_comp_apply F.obj φ₂.left (IsFiltered.coeqHom φ φ₂).left h₂).symm
+        (Functor.map_comp_apply F.obj φ₂.left (IsFiltered.coeqHom φ φ₂).left h₂).symm
     _ = F.obj.map ψ.left h₂ := by rw [← IsFiltered.coeq_condition]
 
 /-- The unit of Mathlib's construction of the inverse image, on underlying presheaves: the unit
@@ -261,7 +261,7 @@ theorem exists_covering_of_smallEtaleSheafPullback_unitApp_eq
   refine ⟨Presheaf.equalizerSieve (F := P) y₁ y₂,
     (Presheaf.isLocallyInjective_toSheafify' _ P).equalizerSieve_mem y₁ y₂ hy, fun U' g hg => ?_⟩
   refine exists_eq_of_smallEtaleSheafLan_eq f F (g ≫ m) h₁ h₂ ?_
-  rwa [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply]
+  rwa [op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
 
 end Construction
 
@@ -336,8 +336,8 @@ theorem exists_smallEtaleSheafPullbackUnitApp_eq_of_isLimit {i : I}
       (smallEtaleSheafPullbackUnitApp (D.map f) H V₀ h₁) =
     ((smallEtaleSheafPullback (Type (u + 1)) (D.map f)).obj H).obj.map (g₁ ≫ g' ≫ _).op
       (smallEtaleSheafPullbackUnitApp (D.map f) H V₀ h₂)
-  rw [op_comp, op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply,
-    FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply,
+  rw [op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply,
+    Functor.map_comp_apply, Functor.map_comp_apply,
     ← smallEtaleSheafPullbackUnitApp_naturality, ← smallEtaleSheafPullbackUnitApp_naturality,
     hk]
 

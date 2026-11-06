@@ -132,7 +132,7 @@ def isInitialSpacesGeometricFiberBaseElement :
   IsInitial.ofUniqueHom
     (fun V => ⟨spacesGeometricFiberBaseHom x V, Subtype.ext (yonedaEquiv.apply_symm_apply _)⟩)
     (fun V m => by
-      refine CategoryOfElements.ext _ _ _ ?_
+      refine Functor.Elements.hom_ext ?_
       apply ObjectProperty.hom_ext
       apply Over.OverMorphism.ext
       apply ObjectProperty.hom_ext
@@ -262,6 +262,17 @@ end Pushforward
 /-! ### The comparison of Stacks 0DG1 -/
 
 section Comparison
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Restriction of sheaves of sets along spaces-étale base change has a left adjoint. Instance
+search no longer finds it within the default budget, so it is supplied as for abelian sheaves. -/
+local instance isRightAdjoint_sheafPushforwardContinuous_spacesBaseChange_GeometricPointStalkSections
+    {X' Y' : AlgebraicSpaces B S hS} (g : X' ⟶ Y') :
+    ((spacesBaseChange B S hS g).functor.sheafPushforwardContinuous (Type (u + 1))
+      (SpacesEtale.topology B S hS Y') (SpacesEtale.topology B S hS X')).IsRightAdjoint :=
+  letI : ∀ F : (SpacesEtale B S hS Y')ᵒᵖ ⥤ Type (u + 1),
+      (spacesBaseChange B S hS g).functor.op.HasLeftKanExtension F := fun _ => inferInstance
+  inferInstance
 
 variable {X Y : AlgebraicSpaces B S hS} (f : Y ⟶ X) (x : GeometricPoint B S hS X.1)
 

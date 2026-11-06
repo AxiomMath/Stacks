@@ -328,7 +328,7 @@ def cechMap {m n : ℕ} (f : Fin (m + 1) → Fin (n + 1)) : cechObj R 𝒰 m ⟶
 @[reassoc]
 theorem cechMap_comp_π {m n : ℕ} (f : Fin (m + 1) → Fin (n + 1)) (τ : Fin (n + 1) → 𝒰.ι) :
     cechMap R 𝒰 f ≫ cechπ R 𝒰 n τ = cechπ R 𝒰 m (τ ∘ f) ≫ cechTermRes R 𝒰 τ f :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- Reindexing along the identity is the identity. -/
 theorem cechMap_id (n : ℕ) : cechMap R 𝒰 (id : Fin (n + 1) → Fin (n + 1)) = 𝟙 _ := by

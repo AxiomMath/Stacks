@@ -177,11 +177,23 @@ instance preservesFiniteColimits_ι_coherentModules :
   have : ∀ ⦃X Y : CoherentModules.{u, u} B S hS F hF⦄ (f : X ⟶ Y),
       PreservesColimit (parallelPair f 0) (isCoherent.{u, u} B S hS F hF).ι :=
     fun {_ _} f => ObjectProperty.preservesCokernels_ι _ f
+  have : HasFiniteProducts (Modules.{u} B S hS F hF) := Abelian.has_finite_products
+  have : HasFiniteProducts (CoherentModules.{u, u} B S hS F hF) := inferInstance
+  have : HasFiniteBiproducts (CoherentModules.{u, u} B S hS F hF) :=
+    HasFiniteBiproducts.of_hasFiniteProducts
+  have : HasFiniteCoproducts (CoherentModules.{u, u} B S hS F hF) :=
+    hasFiniteCoproducts_of_hasFiniteBiproducts _
+  have : HasCokernels (Modules.{u} B S hS F hF) := inferInstance
+  have : HasCokernels (CoherentModules.{u, u} B S hS F hF) := inferInstance
+  have : HasCoequalizers (CoherentModules.{u, u} B S hS F hF) :=
+    Preadditive.hasCoequalizers_of_hasCokernels
   Functor.preservesFiniteColimits_of_preservesCokernels _
 
 /-- The inclusion `Coh(𝒪_F) ⥤ Mod(𝒪_F)` is additive: it preserves binary products. -/
 instance additive_ι_coherentModules :
     (isCoherent.{u, u} B S hS F hF).ι.Additive :=
+  have : HasFiniteProducts (Modules.{u} B S hS F hF) := Abelian.has_finite_products
+  have : HasFiniteProducts (CoherentModules.{u, u} B S hS F hF) := inferInstance
   Functor.additive_of_preserves_binary_products _
 
 /-! ### The comparison functor -/

@@ -338,7 +338,8 @@ landing in `U`, agree. -/
 theorem eq_of_comp_f_eq_comp_ι {P : (BigFppfOver T.B T.S T.hS)ᵒᵖ ⥤ Type u} (a a' : P ⟶ T.X')
     (t : P ⟶ T.U.toFunctor) (ha : a ≫ T.f = t ≫ T.U.ι) (ha' : a' ≫ T.f = t ≫ T.U.ι) :
     a = a' := by
-  have := T.f_iso_over_U
+  have hiso : IsIso (pullback.snd T.f T.U.ι) := T.f_iso_over_U
+  have : Mono (pullback.snd T.f T.U.ι) := @IsIso.mono_of_iso _ _ _ _ _ hiso
   have h : pullback.lift a t ha = pullback.lift a' t ha' :=
     (cancel_mono (pullback.snd T.f T.U.ι)).1 (by rw [pullback.lift_snd, pullback.lift_snd])
   have h' := congrArg (· ≫ pullback.fst T.f T.U.ι) h

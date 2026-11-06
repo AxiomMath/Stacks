@@ -583,7 +583,7 @@ private noncomputable def autOfLinearEquiv
     letI := 𝓖.category
     Aut M :=
   letI := 𝓖.category
-  ⟨_, _, homEquiv_symm_homOfLinearEquiv_comp 𝓖 M f f.symm f.symm_apply_apply,
+  .of ⟨_, _, homEquiv_symm_homOfLinearEquiv_comp 𝓖 M f f.symm f.symm_apply_apply,
     homEquiv_symm_homOfLinearEquiv_comp 𝓖 M f.symm f f.apply_symm_apply⟩
 
 /-- A deformation of `V` whose base carries an identification with the dual numbers
@@ -678,15 +678,7 @@ private noncomputable def dualNumberLiftOfHomToSpecialFiber
          map_smul' := ?_ } : TensorProduct M.base S.base M.carrier →ₗ[k]
            TensorProduct (DualNumber k) k M.carrier) ?_
     · intro c z
-      refine TensorProduct.induction_on z ?_ ?_ ?_
-      · calc
-          eT (c • (0 : TensorProduct M.base S.base M.carrier)) = eT 0 :=
-            congrArg eT (smul_zero c)
-          _ = 0 := eT.map_zero
-          _ = c • eT 0 := by
-            have hz : c • (0 : TensorProduct (DualNumber k) k M.carrier) = 0 :=
-              TensorProduct.smul_zero c
-            simpa only [eT.map_zero] using hz.symm
+      refine TensorProduct.inductionOn z ?_ ?_
       · intro a m
         change (eK (c • a)) ⊗ₜ[DualNumber k] (eM m) =
           c • ((eK a) ⊗ₜ[DualNumber k] (eM m))
@@ -769,26 +761,26 @@ private noncomputable def linearEquivOfAut
     (𝓖 : FiniteProjectiveModule.Family (Λ := Λ) (k := k))
     (M : FiniteProjectiveModule (Λ := Λ) (k := k)) :
     letI := 𝓖.category
-    ∀ φ : Aut M, (𝓖.homEquiv M M φ.hom).base = 𝟙 M.base →
+    ∀ φ : Aut M, (𝓖.homEquiv M M φ.asIso.hom).base = 𝟙 M.base →
       M.carrier ≃ₗ[M.base] M.carrier :=
   letI := 𝓖.category
   fun φ hb =>
-  { toFun := (𝓖.homEquiv M M φ.hom).linear
-    invFun := (𝓖.homEquiv M M φ.inv).linear
+  { toFun := (𝓖.homEquiv M M φ.asIso.hom).linear
+    invFun := (𝓖.homEquiv M M φ.asIso.inv).linear
     left_inv := fun z => by
-      have h := 𝓖.comp_linear φ.hom φ.inv z
-      rw [φ.hom_inv_id, 𝓖.id_linear M z] at h
+      have h := 𝓖.comp_linear φ.asIso.hom φ.asIso.inv z
+      rw [φ.asIso.hom_inv_id, 𝓖.id_linear M z] at h
       exact h.symm
     right_inv := fun z => by
-      have h := 𝓖.comp_linear φ.inv φ.hom z
-      rw [φ.inv_hom_id, 𝓖.id_linear M z] at h
+      have h := 𝓖.comp_linear φ.asIso.inv φ.asIso.hom z
+      rw [φ.asIso.inv_hom_id, 𝓖.id_linear M z] at h
       exact h.symm
-    map_add' := (𝓖.homEquiv M M φ.hom).linear.map_add
+    map_add' := (𝓖.homEquiv M M φ.asIso.hom).linear.map_add
     map_smul' := fun c m => by
-      have hc : (𝓖.homEquiv M M φ.hom).base.hom.toRingHom c = c := by
+      have hc : (𝓖.homEquiv M M φ.asIso.hom).base.hom.toRingHom c = c := by
         rw [hb]
         rfl
-      have hs := (𝓖.homEquiv M M φ.hom).linear.map_smulₛₗ c m
+      have hs := (𝓖.homEquiv M M φ.asIso.hom).linear.map_smulₛₗ c m
       rw [hc] at hs
       exact hs }
 
@@ -805,7 +797,7 @@ private lemma exists_fiberAut_of_linearEquiv
     ∀ (xε : p.Fiber Aε) (L : xε.1.left.carrier ≃ₗ[xε.1.left.base] xε.1.left.carrier),
       (∀ m, (𝓖.homEquiv xε.1.left S xε.1.hom).linear (L m) =
         (𝓖.homEquiv xε.1.left S xε.1.hom).linear m) →
-      ∃ c : Aut xε, 𝓖.homEquiv xε.1.left xε.1.left c.hom.val.left = homOfLinearEquiv L := by
+      ∃ c : Aut xε, 𝓖.homEquiv xε.1.left xε.1.left c.asIso.hom.val.left = homOfLinearEquiv L := by
   dsimp only
   intro xε L hL
   let 𝓖 := FiniteProjectiveModule.family.{u, w, t} (Λ := Λ) (k := k)
@@ -814,13 +806,13 @@ private lemma exists_fiberAut_of_linearEquiv
   let p := objectsOverFunctor 𝓖.projection S
   let M := xε.1.left
   let a := autOfLinearEquiv 𝓖 M L
-  have ha : 𝓖.homEquiv M M a.hom = homOfLinearEquiv L := by
+  have ha : 𝓖.homEquiv M M a.asIso.hom = homOfLinearEquiv L := by
     change (𝓖.homEquiv M M)
       ((𝓖.homEquiv M M).symm (homOfLinearEquiv L)) = _
     exact (𝓖.homEquiv M M).apply_symm_apply _
-  have hfix : a.hom ≫ xε.1.hom = xε.1.hom := by
+  have hfix : a.asIso.hom ≫ xε.1.hom = xε.1.hom := by
     apply (𝓖.homEquiv M S).injective
-    have hb : (𝓖.homEquiv M S (a.hom ≫ xε.1.hom)).base =
+    have hb : (𝓖.homEquiv M S (a.asIso.hom ≫ xε.1.hom)).base =
         (𝓖.homEquiv M S xε.1.hom).base := by
       rw [𝓖.comp_base, ha]
       simp [homOfLinearEquiv]
@@ -830,10 +822,10 @@ private lemma exists_fiberAut_of_linearEquiv
     rw [𝓖.comp_linear, ha]
     change (𝓖.homEquiv M S xε.1.hom).linear (L m) = (𝓖.homEquiv M S xε.1.hom).linear m
     exact hL m
-  let b : xε.1 ≅ xε.1 := Over.isoMk a hfix
+  let b : xε.1 ≅ xε.1 := Over.isoMk a.asIso hfix
   have hblift : p.IsHomLift (𝟙 Aε) b.hom := by
-    have hmap : 𝓖.projection.map a.hom = 𝟙 (𝓖.projection.obj M) := by
-      have hh := 𝓖.projection_map a.hom
+    have hmap : 𝓖.projection.map a.asIso.hom = 𝟙 (𝓖.projection.obj M) := by
+      have hh := 𝓖.projection_map a.asIso.hom
       rw [ha] at hh
       have hbasea : (homOfLinearEquiv L).base = 𝟙 M.base := rfl
       rw [hbasea] at hh
@@ -842,7 +834,7 @@ private lemma exists_fiberAut_of_linearEquiv
           eqToHom (𝓖.projection_obj M).symm) hh
       simpa [Category.assoc] using h
     apply IsHomLift.of_fac' p (𝟙 Aε) b.hom xε.2 xε.2
-    change 𝓖.projection.map a.hom =
+    change 𝓖.projection.map a.asIso.hom =
       eqToHom xε.2 ≫ 𝟙 Aε ≫ eqToHom xε.2.symm
     rw [hmap]
     simp only [Category.id_comp, eqToHom_trans,
@@ -853,7 +845,7 @@ private lemma exists_fiberAut_of_linearEquiv
   let : p.IsHomLift (𝟙 Aε) b.hom := hblift
   let : p.IsHomLift (𝟙 Aε) b.inv :=
     IsHomLift.lift_id_inv p Aε b
-  let c : Aut xε := {
+  let c : Aut xε := .of {
     hom := ⟨b.hom, inferInstance⟩
     inv := ⟨b.inv, inferInstance⟩
     hom_inv_id := by
@@ -894,7 +886,7 @@ public theorem nonempty_infinitesimalAutomorphismsEquivEnd
       { E : infinitesimalAutomorphismGroup hp g e hpair i hi ≃*
           Multiplicative (Module.End k V) //
         ∀ (γ : infinitesimalAutomorphismGroup hp g e hpair i hi) (m : M.carrier),
-          let a := 𝓖.homEquiv M M γ.val.hom.val.left
+          let a := 𝓖.homEquiv M M γ.val.asIso.hom.val.left
           ∃ n : M.carrier,
             r.linear n = (Multiplicative.toAdd (E γ)) (r.linear m) ∧
               a.linear m = m + ε • n }) := by
@@ -926,9 +918,9 @@ public theorem nonempty_infinitesimalAutomorphismsEquivEnd
       iεM.symm DualNumber.eps :=
     eqToHom_symm_hom_symm_apply hbase iε DualNumber.eps
   have hbase_aut (ζ : infinitesimalAutomorphismGroup hp g e hpair i hi) :
-      (𝓖.homEquiv M M ζ.val.hom.val.left).base = 𝟙 M.base := by
-    have : p.IsHomLift (𝟙 Aε) ζ.val.hom.val := ζ.val.hom.property
-    have hfac := IsHomLift.fac (p := p) (f := 𝟙 Aε) ζ.val.hom.val
+      (𝓖.homEquiv M M ζ.val.asIso.hom.val.left).base = 𝟙 M.base := by
+    have : p.IsHomLift (𝟙 Aε) ζ.val.asIso.hom.val := ζ.val.asIso.hom.property
+    have hfac := IsHomLift.fac (p := p) (f := 𝟙 Aε) ζ.val.asIso.hom.val
     have h' := congrArg (fun q : Aε ⟶ Aε =>
       eqToHom hbase ≫ q ≫ eqToHom hbase.symm) hfac.symm
     simp only [p, objectsOverFunctor,
@@ -937,7 +929,7 @@ public theorem nonempty_infinitesimalAutomorphismsEquivEnd
     simpa only [𝓖.projection_map] using h'
   let toL (γ : infinitesimalAutomorphismGroup hp g e hpair i hi) :
       dualNumberLift_reductionIdentitySubgroup X := by
-    let overHom := γ.val.hom.val
+    let overHom := γ.val.asIso.hom.val
     let a := 𝓖.homEquiv M M overHom.left
     have hmember := γ.property
     rw [mem_infinitesimalAutomorphisms_iff] at hmember
@@ -956,9 +948,9 @@ public theorem nonempty_infinitesimalAutomorphismsEquivEnd
       change r.linear (a.linear z) = r.linear z
       exact hcomp.symm
     let L := linearEquivOfAut 𝓖 M
-      ⟨overHom.left, γ.val.inv.val.left,
-        congrArg (fun q : xε ⟶ xε => q.val.left) γ.val.hom_inv_id,
-        congrArg (fun q : xε ⟶ xε => q.val.left) γ.val.inv_hom_id⟩ (hbase_aut γ)
+      ⟨overHom.left, γ.val.asIso.inv.val.left,
+        congrArg (fun q : xε ⟶ xε => q.val.left) γ.val.asIso.hom_inv_id,
+        congrArg (fun q : xε ⟶ xε => q.val.left) γ.val.asIso.inv_hom_id⟩ (hbase_aut γ)
     let : Module M.base X.carrier := M.module
     let : Module (DualNumber k) X.carrier :=
       Module.compHom X.carrier jεM.symm.toRingHom
@@ -981,9 +973,9 @@ public theorem nonempty_infinitesimalAutomorphismsEquivEnd
       exact 𝓖.id_linear M m
     map_mul' γ δ := Subtype.ext <| LinearEquiv.ext fun m => by
       change (𝓖.homEquiv M M
-          (δ.val.hom.val.left ≫ γ.val.hom.val.left)).linear m =
-        (𝓖.homEquiv M M γ.val.hom.val.left).linear
-          ((𝓖.homEquiv M M δ.val.hom.val.left).linear m)
+          (δ.val.asIso.hom.val.left ≫ γ.val.asIso.hom.val.left)).linear m =
+        (𝓖.homEquiv M M γ.val.asIso.hom.val.left).linear
+          ((𝓖.homEquiv M M δ.val.asIso.hom.val.left).linear m)
       exact 𝓖.comp_linear _ _ m }
   let E : infinitesimalAutomorphismGroup hp g e hpair i hi ≃*
       Multiplicative (Module.End k V) :=
@@ -992,6 +984,7 @@ public theorem nonempty_infinitesimalAutomorphismsEquivEnd
       · intro γ δ h
         apply Subtype.ext
         apply Aut.ext
+        apply Iso.ext
         apply Functor.Fiber.hom_ext
         apply CostructuredArrow.hom_ext
         apply (𝓖.homEquiv M M).injective
@@ -1020,14 +1013,14 @@ public theorem nonempty_infinitesimalAutomorphismsEquivEnd
         obtain ⟨c, hcL⟩ := exists_fiberAut_of_linearEquiv V xε L fun m => f.2 m
         have hs : Subsingleton (Aut x₀) :=
           let ⟨Q⟩ := hp.specialFiber
-          ⟨fun d e => Aut.ext (Q.functor.map_injective (Subsingleton.elim _ _))⟩
+          ⟨fun d e => Aut.ext (Iso.ext (Q.functor.map_injective (Subsingleton.elim _ _)))⟩
         have hc : c ∈ infinitesimalAutomorphisms hp.cofibered
             g e hpair i hi := by
           change c ∈ relativeInfinitesimalAutomorphisms _ _ _ _
           rw [mem_relativeInfinitesimalAutomorphisms]
           exact hs.elim _ _
         refine ⟨⟨c, hc⟩, Subtype.ext (LinearEquiv.ext fun m => ?_)⟩
-        change (𝓖.homEquiv M M c.hom.val.left).linear m = f.1 m
+        change (𝓖.homEquiv M M c.asIso.hom.val.left).linear m = f.1 m
         rw [hcL]
         rfl)).trans
       (dualNumberLift_reductionIdentityMulEquiv X)
@@ -1037,9 +1030,9 @@ public theorem nonempty_infinitesimalAutomorphismsEquivEnd
   let nM : M.carrier := n
   refine ⟨nM, hnred, ?_⟩
   let : Module M.base X.carrier := M.module
-  change (𝓖.homEquiv M M γ.val.hom.val.left).linear m =
+  change (𝓖.homEquiv M M γ.val.asIso.hom.val.left).linear m =
     m + jεM.symm DualNumber.eps • nM at hnform
-  change (𝓖.homEquiv M M γ.val.hom.val.left).linear m = m +
+  change (𝓖.homEquiv M M γ.val.asIso.hom.val.left).linear m = m +
     (eqToHom hbase.symm).hom (iε.symm DualNumber.eps) • nM
   rw [hepsBase, ← heps]
   exact hnform
@@ -1073,7 +1066,7 @@ public noncomputable def infinitesimalAutomorphismsEquivEnd
       { E : infinitesimalAutomorphismGroup hp g e hpair i hi ≃*
           Multiplicative (Module.End k V) //
         ∀ (γ : infinitesimalAutomorphismGroup hp g e hpair i hi) (m : M.carrier),
-          let a := 𝓖.homEquiv M M γ.val.hom.val.left
+          let a := 𝓖.homEquiv M M γ.val.asIso.hom.val.left
           ∃ n : M.carrier,
             r.linear n = (Multiplicative.toAdd (E γ)) (r.linear m) ∧
               a.linear m = m + ε • n } :=
@@ -1117,12 +1110,12 @@ public theorem exists_infinitesimalAutomorphismsLinearEquivEnd
           (∃ E : infinitesimalAutomorphismGroup hp g e hpair i hi ≃ₗ[k] Module.End k V,
             (∀ (γ : infinitesimalAutomorphismGroup hp g e hpair i hi) (m : M.carrier),
               ∃ n : M.carrier, r.linear n = E γ (r.linear m) ∧
-                (𝓖.homEquiv M M γ.val.hom.val.left).linear m = m + ε • n) ∧
+                (𝓖.homEquiv M M γ.val.asIso.hom.val.left).linear m = m + ε • n) ∧
             ∀ (c : k) (cb : M.base), r.base.hom cb = c →
               ∀ (γ : infinitesimalAutomorphismGroup hp g e hpair i hi)
                 (m n : M.carrier), r.linear n = E γ (r.linear m) →
-                (𝓖.homEquiv M M γ.val.hom.val.left).linear m = m + ε • n →
-                (𝓖.homEquiv M M (c • γ).val.hom.val.left).linear m =
+                (𝓖.homEquiv M M γ.val.asIso.hom.val.left).linear m = m + ε • n →
+                (𝓖.homEquiv M M (c • γ).val.asIso.hom.val.left).linear m =
                   m + ε • (cb • n)) ∧
           FiniteDimensional k (infinitesimalAutomorphismGroup hp g e hpair i hi) := by
   classical

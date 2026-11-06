@@ -187,7 +187,7 @@ theorem forgetCofreeOneInv_comp_map_cofreeOneπ (T : Cᵒᵖ) (g : T ⟶ W₀) :
       CechComplex.cofreeOneπ W₀.unop (cofreeOneInitialValue X hX W₀ J) g.unop ≫
         (forgetCofreeOneFactor X hX W₀ J g).hom := by
   rw [forgetCofreeOneInv, Category.assoc, inv_piComparison_comp_map_π]
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 /-- `forgetCofreeOneInv_comp_map_cofreeOneπ` with the index of the projection of the plain
 cofree presheaf carried as a separate argument together with an equation. -/

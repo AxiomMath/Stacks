@@ -155,7 +155,7 @@ theorem Sheaf.injective_app_cofan_inj_ulift {I : Type v} [Small.{u} I]
   have hinv : Function.Injective ((eF i₀).inv.app T) :=
     ((isIso_iff_bijective ((eF i₀).inv.app T)).1 inferInstance).1
   intro a b hab
-  refine hinv (ULift.ext _ _ ?_)
+  refine hinv (ULift.ext ?_)
   refine h₀ ?_
   rw [hdown i₀ T a, hdown i₀ T b, hab]
 

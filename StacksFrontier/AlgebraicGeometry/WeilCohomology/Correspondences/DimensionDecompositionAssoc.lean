@@ -152,11 +152,13 @@ private theorem comp_assoc_lof_of_ne_left [IsProper sY] [IsProper sZ] (r s t : �
         (comp k sY sZ sW Δ s t
           (DirectSum.lof ℚ ℕ _ e' (DirectSum.lof ℚ ℕ _ f y))
           (DirectSum.lof ℚ ℕ _ f' (DirectSum.lof ℚ ℕ _ g z))) := by
-  simp only [comp_lof_lof_lof_of_ne k sX sY sZ Δ r s d e e' he, map_zero, LinearMap.zero_apply]
+  simp only [comp_lof_lof_lof_of_ne k sX sY sZ Δ r s d e e' he, LinearEquiv.map_zero,
+    LinearMap.map_zero, LinearMap.zero_apply]
   by_cases hf : f = f'
   · subst hf
     simp only [comp_lof_lof_lof_lof, comp_lof_lof_lof_of_ne k sX sY sW Δ r (s + t) d e e' he]
-  · simp only [comp_lof_lof_lof_of_ne k sY sZ sW Δ s t e' f f' hf, map_zero]
+  · simp only [comp_lof_lof_lof_of_ne k sY sZ sW Δ s t e' f f' hf, LinearEquiv.map_zero,
+      LinearMap.map_zero]
 
 omit [IsSeparated sX] [IsSeparated sY] [IsSeparated sZ] [IsSeparated sW] in
 private theorem comp_assoc_lof_of_ne_right [IsProper sY] [IsProper sZ] (r s t : ℤ)
@@ -176,7 +178,8 @@ private theorem comp_assoc_lof_of_ne_right [IsProper sY] [IsProper sZ] (r s t : 
           (DirectSum.lof ℚ ℕ _ f' (DirectSum.lof ℚ ℕ _ g z))) := by
   subst he
   simp only [comp_lof_lof_lof_of_ne k sY sZ sW Δ s t e f f' hf,
-    comp_lof_lof_lof_of_ne k sX sZ sW Δ (r + s) t d f f' hf, comp_lof_lof_lof_lof, map_zero]
+    comp_lof_lof_lof_of_ne k sX sZ sW Δ (r + s) t d f f' hf, comp_lof_lof_lof_lof,
+    LinearEquiv.map_zero, LinearMap.map_zero]
 
 /-- Associativity of composition on pure blocks: for `c ∈ Corrʳ(X_d, Y_e)`,
 `c' ∈ Corrˢ(Y_{e'}, Z_f)` and `c'' ∈ Corrᵗ(Z_{f'}, W_g)`, `c'' ∘ (c' ∘ c) = (c'' ∘ c') ∘ c`,
@@ -215,7 +218,7 @@ private theorem comp_assoc_of_lof_of_lof [IsProper sY] [IsProper sZ]
       comp k sX sY sW Δ r (s + t) (DirectSum.lof ℚ ℕ _ d (DirectSum.lof ℚ ℕ _ e x))
         (comp k sY sZ sW Δ s t (DirectSum.lof ℚ ℕ _ e' (DirectSum.lof ℚ ℕ _ f y)) c'') := by
   induction c'' using Corr.induction_on with
-  | zero => simp only [map_zero]
+  | zero => simp only [LinearEquiv.map_zero, LinearMap.map_zero]
   | add a b ha hb => simp only [map_add, ha, hb]
   | lof f' g z => exact comp_assoc_lof k sX sY sZ sW Δ hassoc r s t d e x e' f y f' g z
 
@@ -229,7 +232,7 @@ private theorem comp_assoc_of_lof [IsProper sY] [IsProper sZ] (hassoc : Δ.Compo
       comp k sX sY sW Δ r (s + t) (DirectSum.lof ℚ ℕ _ d (DirectSum.lof ℚ ℕ _ e x))
         (comp k sY sZ sW Δ s t c' c'') := by
   induction c' using Corr.induction_on with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
+  | zero => simp only [LinearEquiv.map_zero, LinearMap.map_zero, LinearMap.zero_apply]
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
   | lof e' f y =>
     exact comp_assoc_of_lof_of_lof k sX sY sZ sW Δ hassoc r s t d e x e' f y c''
@@ -245,7 +248,7 @@ theorem comp_assoc [IsProper sY] [IsProper sZ] (hassoc : Δ.CompositionAssoc) (r
         (comp k sX sZ sW Δ (r + s) t (comp k sX sY sZ Δ r s c c') c'') =
       comp k sX sY sW Δ r (s + t) c (comp k sY sZ sW Δ s t c' c'') := by
   induction c using Corr.induction_on with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
+  | zero => simp only [LinearEquiv.map_zero, LinearMap.map_zero, LinearMap.zero_apply]
   | add a b ha hb => simp only [map_add, LinearMap.add_apply, ha, hb]
   | lof d e x => exact comp_assoc_of_lof k sX sY sZ sW Δ hassoc r s t d e x c' c''
 

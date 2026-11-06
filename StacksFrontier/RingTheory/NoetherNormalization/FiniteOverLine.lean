@@ -85,7 +85,7 @@ theorem exists_isPrime_le_aeval_mem_of_finite (hfin : (aeval t : k[X] →ₐ[k] 
   have : Algebra.IsIntegral k[X] (R ⧸ P) := ⟨isIntegral_quotient_mk_comp_aeval hfin P⟩
   obtain ⟨Q', -, hQ', hQ'm⟩ := Ideal.exists_ideal_over_prime_of_isIntegral (S := R ⧸ P) m ⊥
     (by
-      rw [Ideal.comap_bot_of_injective]
+      rw [Ideal.under_def, Ideal.comap_bot_of_injective]
       · exact bot_le
       · exact (RingHom.injective_iff_ker_eq_bot _).2
           (ker_aeval_quotient_eq_bot_of_finite hfin P hdim))
@@ -93,6 +93,6 @@ theorem exists_isPrime_le_aeval_mem_of_finite (hfin : (aeval t : k[X] →ₐ[k] 
   · rw [Ideal.mem_comap, Ideal.Quotient.eq_zero_iff_mem.2 hx]
     exact Q'.zero_mem
   · rw [Ideal.mem_comap]
-    exact (hQ'm ▸ hhm (Ideal.mem_span_singleton_self h) : h ∈ Q'.comap (algebraMap k[X] (R ⧸ P)))
+    exact (hQ'm ▸ hhm (Ideal.mem_span_singleton_self h) : h ∈ Q'.under k[X])
 
 end Polynomial

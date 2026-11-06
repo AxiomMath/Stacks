@@ -102,10 +102,10 @@ theorem geometricFibreSetEquiv_smul
     (a : ((geometricFibreSetEquivalence B X x).functor.obj Y).obj.obj.obj.V) :
     geometricFibreSetEquiv B X x Y
         (((geometricFibreSetEquivalence B X x).functor.obj Y).obj.obj.obj.ρ σ a) =
-      (σ.app ((representingCover B X).obj Y)).hom (geometricFibreSetEquiv B X x Y a) := by
+      (σ.asIso.app ((representingCover B X).obj Y)).hom (geometricFibreSetEquiv B X x Y a) := by
   refine (FintypeCat.uSwitchEquiv_naturality
     (((finiteEtaleEquivalenceOfIsGaloisCategory X.1 x).functor.obj
-      ((representingCover B X).obj Y)).obj.ρ σ) a).symm.trans ?_
+      ((representingCover B X).obj Y)).obj.ρ σ).asHom a).symm.trans ?_
   exact finiteEtaleEquivalenceOfIsGaloisCategory_action X.1 x _ σ _
 
 /-- The equivalence `geometricFibreSetEquiv` is natural in the sheaf. -/
@@ -144,7 +144,7 @@ point fixed by every natural automorphism. -/
 theorem card_finiteEtaleFiber_trivialCover_and_smul [ConnectedSpace Y] :
     Nat.card ((finiteEtaleFiberFunctor y).obj (trivialCover ι)) = Nat.card ι ∧
       ∀ (σ : EtaleFundamentalGroup Y y) (a : (finiteEtaleFiberFunctor y).obj (trivialCover ι)),
-        (σ.app (trivialCover ι)).hom a = a := by
+        (σ.asIso.app (trivialCover ι)).hom a = a := by
   classical
   have := Fintype.ofFinite ι
   have := Stacks.FundamentalGroup.preservesFiniteColimits_finiteEtaleFiberFunctor y
@@ -166,9 +166,9 @@ theorem card_finiteEtaleFiber_trivialCover_and_smul [ConnectedSpace Y] :
     Cofan.eq_of_inj_apply_eq_of_isColimit hc' p₀ p₀ h
   refine ⟨(Nat.card_congr (Equiv.ofBijective pts ⟨hinj, hsurj⟩)).symm, fun σ a ↦ ?_⟩
   obtain ⟨i, rfl⟩ := hsurj a
-  have hn := congrArg (fun f ↦ f p₀) (σ.hom.naturality (c.ι.app ⟨i⟩))
+  have hn := congrArg (fun f ↦ f p₀) (σ.asIso.hom.naturality (c.ι.app ⟨i⟩))
   simp only [types_comp_apply] at hn
-  show σ.hom.app (trivialCover ι) ((finiteEtaleFiberFunctor y).map (c.ι.app ⟨i⟩) p₀) =
+  show σ.asIso.hom.app (trivialCover ι) ((finiteEtaleFiberFunctor y).map (c.ι.app ⟨i⟩) p₀) =
     (finiteEtaleFiberFunctor y).map (c.ι.app ⟨i⟩) p₀
   refine hn.trans ?_
   congr 1

@@ -418,6 +418,7 @@ theorem surjective_etaleCohomologyRestrictionMap_X₁_of_shortExact (hS : S.Shor
   rw [← hzeq, hvanishing'.elim z 0]
   simp
 
+set_option maxHeartbeats 800000 in
 /-- **The eight statements of Situation 0A52 for the middle term and for the subsheaf of a short
 exact sequence agree**, once the cohomology of the quotient sheaf is known: it vanishes in
 positive degrees, is finite in degree zero, and restriction along `f` is bijective on it in every

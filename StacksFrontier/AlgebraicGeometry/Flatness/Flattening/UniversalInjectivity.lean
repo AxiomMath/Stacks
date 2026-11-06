@@ -415,8 +415,7 @@ theorem universallyInjective_of_injective_mod_maximalIdeal
   have hcover : ∀ w : X.N ⊗[X.A] Q, ∃ s : X.S, ∃ y : P.N' ⊗[X.A] Q,
       (stage s).rTensor Q y = w := by
     intro w
-    refine TensorProduct.induction_on w ?_ ?_ ?_
-    · exact ⟨1, 0, by simp⟩
+    refine TensorProduct.inductionOn w ?_ ?_
     · intro n q
       obtain ⟨⟨x, s⟩, hn⟩ := IsLocalizedModule.mk'_surjective X.S fB n
       change IsLocalizedModule.mk' fB x s = n at hn

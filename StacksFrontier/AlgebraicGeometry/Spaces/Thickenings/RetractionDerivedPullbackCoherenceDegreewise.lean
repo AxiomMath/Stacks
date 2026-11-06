@@ -120,7 +120,9 @@ theorem mapHomologicalComplexCompIso_coherence_of_comp_of_eq (sW : EW ⋙ pullW 
       cV.inv.app M =
     Q.map ((Functor.mapHomologicalComplexCompIso e (ComplexShape.up ℤ)).hom.app M) := by
   subst hcW hcV hG2c
-  exact mapHomologicalComplexCompIso_coherence_of_comp sW sV G2 τ Q e hMC M
+  exact mapHomologicalComplexCompIso_coherence_of_comp (hEg := hEg) (hextW := hextW)
+    (hextV := hextV) (hEV := hEV) (hEW := hEW) (hpullW := hpullW) (hpullH := hpullH)
+    (hpullV := hpullV) sW sV G2 τ Q e hMC M
 
 end Generic
 
@@ -154,8 +156,12 @@ theorem squareZeroComplexPullbackIso_eq_topos :
     squareZeroComplexPullbackIso (hq := hq) hi h hip hpb hβτ =
       Functor.isoWhiskerRight (@Functor.mapHomologicalComplexCompIso ℤ _ _ _ _ _ _ _ _ _ _ _ _
         (squareZeroPullbackIsoTopos (hq := hq) hi h hip hpb hβτ)
-        (squareZeroModuleEquivalence_functor_additive (hq := hq) hi h hip hpb hβτ)
-        (modulePullbackDataTopos_additive B S hS i) (additive_extensionOfScalars _)
+        (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+          (squareZeroModuleEquivalence_functor_additive (hq := hq) hi h hip hpb hβτ))
+        (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+          (modulePullbackDataTopos_additive B S hS i))
+        (@Functor.preservesZeroMorphisms_of_additive _ _ _ _ _ _ _
+          (additive_extensionOfScalars _))
         (ComplexShape.up ℤ)).symm (@DerivedCategory.Q _ _ _ (HasDerivedCategory.standard _)) ≪≫
         Functor.associator _ _ _ :=
   rfl
@@ -251,6 +257,14 @@ theorem squareZeroComplexPullbackIso_comp_coherence
       DerivedCategory.Q.map ((Functor.mapHomologicalComplexCompIso
         (extensionOfScalarsCompIso g hgp) (ComplexShape.up ℤ)).hom.app M) := by
   apply mapHomologicalComplexCompIso_coherence_of_comp_of_eq
+  case hEg => first | exact additive_extensionOfScalars _ | infer_instance
+  case hextW => first | exact additive_extensionOfScalars _ | infer_instance
+  case hextV => first | exact additive_extensionOfScalars _ | infer_instance
+  case hEV => exact squareZeroModuleEquivalence_functor_additive (hq := hqV) hiV hV hipV hpbV hβτV
+  case hEW => exact squareZeroModuleEquivalence_functor_additive (hq := hqW) hiW hW hipW hpbW hβτW
+  case hpullW => exact modulePullbackDataTopos_additive B S hS iW
+  case hpullH => exact modulePullbackDataTopos_additive B S hS H
+  case hpullV => exact modulePullbackDataTopos_additive B S hS (iW ≫ H)
   case hcW => exact squareZeroComplexPullbackIso_eq_topos (hq := hqW) hiW hW hipW hpbW hβτW
   case hcV => exact squareZeroComplexPullbackIso_eq_topos (hq := hqV) hiV hV hipV hpbV hβτV
   case hG2c => exact rfl

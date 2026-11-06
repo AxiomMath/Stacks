@@ -499,7 +499,7 @@ theorem map_curryHomComplexMap :
     (AddCommGrpCat.uliftFunctor.{u}.mapHomologicalComplex (ComplexShape.up ℤ)).map
         (curryHomComplexMap X A B D) = (curryGlobalIso X A B D).hom := by
   refine HomologicalComplex.hom_ext _ _ fun n => ?_
-  exact AddCommGrpCat.hom_ext (AddMonoidHom.ext fun z => ULift.ext _ _ rfl)
+  exact AddCommGrpCat.hom_ext (AddMonoidHom.ext fun z => ULift.ext rfl)
 
 /-- **The cocycle a cycle of a Hom complex is the class of.**  This is
 `CochainComplex.HomComplex.homologyAddEquiv_homologyπ` with the representative named and its

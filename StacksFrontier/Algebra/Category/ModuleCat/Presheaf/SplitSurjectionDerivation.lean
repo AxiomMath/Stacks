@@ -132,7 +132,7 @@ noncomputable def splitSurjectionDerivation (hsec : sec ≫ π = 𝟙 Q) (ψ : R
       M.map f (κ U x) = κ V ((A.map f).hom x))
     (hψ : ∀ (U : Cᵒᵖ) (t : R₀.obj U),
       (sec.app U).hom ((π.app U).hom ((ψ.app U).hom t)) = (ψ.app U).hom t) :
-    M.Derivation' ψ where
+    PresheafOfModulesOfCommRing.Derivation' M ψ where
   d {U} := (κ U).comp
     (AddMonoidHom.mk' (splitSurjectionDiff π sec U) (fun x y => by
       simp only [splitSurjectionDiff_apply, map_add]

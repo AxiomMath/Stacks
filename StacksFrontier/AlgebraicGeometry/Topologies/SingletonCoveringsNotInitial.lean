@@ -126,7 +126,7 @@ private theorem exists_mem_range_f (x : target.{u}) :
   obtain ⟨b, hb⟩ : ∃ b, gen.{u} b ∉ x.asIdeal := by
     by_contra! hc
     refine x.isPrime.ne_top' ((Ideal.eq_top_iff_one _).mpr ?_)
-    rw [show (1 : ULift.{u} ℤ) = gen true - gen false from ULift.ext _ _ (by simp [gen])]
+    rw [show (1 : ULift.{u} ℤ) = gen true - gen false from ULift.ext (by simp [gen])]
     exact sub_mem (hc true) (hc false)
   exact ⟨ULift.up b, (mem_range_f_iff b x).mpr hb⟩
 

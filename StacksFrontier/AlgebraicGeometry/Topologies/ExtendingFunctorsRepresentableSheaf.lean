@@ -166,7 +166,7 @@ def isColimit_mapCocone_of_natIso {A B : 𝒞ᵒᵖ ⥤ Type v} (e : A ≅ B) {J
     [Category.{v₂} J] {D : J ⥤ 𝒞} (c : Cone D) (h : IsColimit (A.mapCocone c.op)) :
     IsColimit (B.mapCocone c.op) :=
   IsColimit.precomposeHomEquiv (Functor.isoWhiskerLeft D.op e) (B.mapCocone c.op)
-    (h.ofIsoColimit (Cocones.ext (e.app (op c.pt)) fun _ => e.hom.naturality _))
+    (h.ofIsoColimit (Cocone.ext (e.app (op c.pt)) fun _ => e.hom.naturality _))
 
 variable {Λ : Type u} [PartialOrder Λ] (D : Λᵒᵖ ⥤ 𝒞)
 

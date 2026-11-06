@@ -75,10 +75,10 @@ def augmentationOpensDiagram : (Opens X)ᵒᵖ ⥤ SimplexCategory ⥤ (Simplici
         ((Category.id_comp _).trans (Category.comp_id _).symm)) }
   map_id _ := by
     ext n
-    exact Quiver.Hom.unop_inj (SimplicialOpen.Hom.ext _ _ rfl)
+    exact SimplicialOpen.Hom.ext _ _ rfl
   map_comp _ _ := by
     ext n
-    exact Quiver.Hom.unop_inj (SimplicialOpen.Hom.ext _ _ (Category.id_comp _).symm)
+    exact SimplicialOpen.Hom.ext _ _ (Category.id_comp _).symm
 
 /-- The presheaf `Ω ↦ lim_n F(a_n⁻¹ Ω)` on `X` attached to a presheaf `F` on the site of
 simplicial opens, functorially in `F`. -/

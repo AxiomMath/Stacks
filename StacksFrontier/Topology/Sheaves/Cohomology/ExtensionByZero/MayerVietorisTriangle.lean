@@ -391,8 +391,8 @@ private lemma extensionRestrictionInclusion_stalk_isIso_of_mem {X : TopCat.{u}}
 private lemma isIso_biprod_fst_of_isZero {A B : AddCommGrpCat.{u}}
     [HasBinaryBiproduct A B] (hB : IsZero B) :
     IsIso (biprod.fst : A ⊞ B ⟶ A) := by
-  apply IsIso.mk'
-  refine ⟨biprod.inl, ?_, ?_⟩
+  refine ⟨⟨biprod.inl, ?_, ?_⟩⟩
+  swap
   · simp
   · rw [← biprod.total]
     have hi : (biprod.inr : B ⟶ A ⊞ B) = 0 := hB.eq_of_src _ _
@@ -402,8 +402,8 @@ private lemma isIso_biprod_fst_of_isZero {A B : AddCommGrpCat.{u}}
 private lemma isIso_biprod_snd_of_isZero {A B : AddCommGrpCat.{u}}
     [HasBinaryBiproduct A B] (hA : IsZero A) :
     IsIso (biprod.snd : A ⊞ B ⟶ B) := by
-  apply IsIso.mk'
-  refine ⟨biprod.inr, ?_, ?_⟩
+  refine ⟨⟨biprod.inr, ?_, ?_⟩⟩
+  swap
   · simp
   · rw [← biprod.total]
     have hi : (biprod.inl : A ⟶ A ⊞ B) = 0 := hA.eq_of_src _ _

@@ -24,9 +24,11 @@ import Mathlib.CategoryTheory.CodiscreteCategory
 import Mathlib.CategoryTheory.FiberedCategory.BasedCategory
 import Mathlib.CategoryTheory.FiberedCategory.Fiber
 import Mathlib.CategoryTheory.FiberedCategory.Fibered
+import Mathlib.CategoryTheory.Functor.TypeValuedFlat
 import Mathlib.CategoryTheory.Galois.EssSurj
 import Mathlib.CategoryTheory.Limits.FormalCoproducts.ExtraDegeneracy
 import Mathlib.CategoryTheory.MorphismProperty.Representable
+import Mathlib.CategoryTheory.Presentable.Finite
 import Mathlib.CategoryTheory.Presentable.Presheaf
 import Mathlib.CategoryTheory.RegularCategory.Basic
 import Mathlib.CategoryTheory.Sites.Coherent.SheafComparison
@@ -196,7 +198,7 @@ add_to_sga "4 V 2.4.3" "more general" CategoryTheory.cechComplexFunctor
 add_to_sga "4 V 2.4.5" "special case" CategoryTheory.GrothendieckTopology.plusFunctor
 add_to_sga "4 V 2.4.5" "special case" CategoryTheory.GrothendieckTopology.plusObj
 add_to_sga "4 V 2.4.5" "special case"
-  CategoryTheory.GrothendieckTopology.preserveFiniteLimits_plusFunctor
+  CategoryTheory.GrothendieckTopology.preservesFiniteLimits_plusFunctor
 add_to_sga "4 V 2.4.5" "special case"
   CategoryTheory.GrothendieckTopology.preservesLimitsOfShape_plusFunctor
 add_to_sga "4 V 2.5.1" "special case" Module.injective_iff_ulift_injective
@@ -618,8 +620,6 @@ add_to_sga "4 VIII 3.9" "more general"
 add_to_sga "4 VIII 3.9" "more general"
   CategoryTheory.GrothendieckTopology.Point.instLiftingFunctorOppositeSheafPresheafToSheafWPresheafFiberSheafFiber
 add_to_sga "4 VIII 3.9" "more general"
-  CategoryTheory.GrothendieckTopology.Point.presheafToSheafCompSheafFiber
-add_to_sga "4 VIII 3.9" "more general"
   CategoryTheory.GrothendieckTopology.Point.presheafToSheafCompSheafFiberIso
 add_to_sga "4 VIII 3.11" AlgebraicGeometry.Scheme.fromSpecResidueField
 add_to_sga "4 VIII 3.11" AlgebraicGeometry.Scheme.instCanonicallyOverSpecResidueField
@@ -637,7 +637,7 @@ add_to_sga "4 VIII 5.4" "special case" RingHom.finite_isStableUnderBaseChange
 add_to_sga "4 VIII 7.9" AlgebraicGeometry.Scheme.pointSmallEtale
 add_to_sga "4 VIII 7.9.1" CategoryTheory.Functor.Elements
 add_to_sga "4 VIII 7.9.1" "partial" CategoryTheory.Functor.isCofiltered_elements
-add_to_sga "4 VIII 7.9.1" CategoryTheory.categoryOfElements
+add_to_sga "4 VIII 7.9.1" CategoryTheory.Functor.Elements.instCategory
 add_to_sga "4 VIII 7.9.3" "partial" AlgebraicGeometry.instQuasiSoberCarrierCarrierCommRingCat
 add_to_sga "4 VIII 7.9.3" CategoryTheory.GrothendieckTopology.Point.presheafFiber
 add_to_sga "4 VIII 7.9.3" "more general"
@@ -788,8 +788,6 @@ add_to_sga "4 Vbis 3.0.2.3" "E = simplicial sets"
 add_to_sga "4 Vbis 3.0.2.3" "Case E = C" CategoryTheory.SimplicialObject.Homotopy.toChainHomotopy
 add_to_sga "4 Vbis 3.0.2.3" "E = simplicial sets" SSet.Homotopy.chainComplexMap
 add_to_sga "4 Vbis 3.0.2.3" "E = simplicial sets" SSet.Homotopy.singularChainComplexFunctorObjMap
-add_to_sga "4 Vbis 3.0.2.3" "E = simplicial sets"
-  singularChainComplexFunctor_mapHomotopy_of_simplicialHomotopy
 add_to_sga "4 Vbis 3.2.3" CategoryTheory.Functor.const
 add_to_sga "4 Vbis 3.2.3" CategoryTheory.SimplicialObject.const
 add_to_sga "4 Vbis 3.3" "special case" CommRingCat.instIsStableUnderCobaseChangeFlat

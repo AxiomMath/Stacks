@@ -324,7 +324,7 @@ lemma squareCotangentTermMap_comp_d (sq₁ : ResolutionSquareMap.{u, v, w} J f f
       ((cotangentSimplicialModule.{u, v, w} J f'').universalDerivation n).d
         ((sq₂.resolution n).hom.app U ((sq₁.resolution n).hom.app U x)) := by
   rw [squareCotangentTermMap_comp_derivation sq₁ n]
-  have hψ := PresheafOfModules.Derivation.congr_d
+  have hψ := PresheafOfModulesOfCommRing.Derivation.congr_d
     (squareCotangentTermMap_derivation sq₂ n) ((sq₁.resolution n).hom.app U x)
   rwa [(cotangentSimplicialModule.{u, v, w} J f').derivationEquiv_eq_postcomp n
     (squareCotangentTermMap sq₂ n)] at hψ

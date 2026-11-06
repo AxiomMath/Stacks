@@ -185,6 +185,13 @@ local instance : (ModuleCat.restrictScalars.{u,u,u} f).IsRightAdjoint :=
 scalars. -/
 local instance : (ModuleCat.restrictScalars.{u,u,u} f).IsLeftAdjoint :=
   (ModuleCat.restrictCoextendScalarsAdj.{u} f).isLeftAdjoint
+/-- Countable products of `R`-modules exist (supplied directly: instance search times out). -/
+local instance : Limits.HasProductsOfShape ℕ (ModuleCat.{u} R) :=
+  ModuleCat.hasLimitsOfShape
+/-- Countable products of `R`-modules are exact (supplied directly: instance search times out). -/
+local instance : HasExactLimitsOfShape (Discrete ℕ) (ModuleCat.{u} R) :=
+  HasExactLimitsOfShape.domain_of_functor (Discrete ℕ)
+    (forget₂ (ModuleCat R) AddCommGrpCat.{u})
 variable (F : DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} A))
     (α : DerivedCategory.Q ⋙ F ⟶ CochainComplex.extendScalarsLarge f ⋙ DerivedCategory.Q)
     [F.IsLeftDerivedFunctor α (HomologicalComplex.quasiIso (ModuleCat.{u} R) (.up ℤ))]
@@ -482,6 +489,13 @@ local instance : (ModuleCat.restrictScalars.{u,u,u} f).IsRightAdjoint :=
 scalars. -/
 local instance : (ModuleCat.restrictScalars.{u,u,u} f).IsLeftAdjoint :=
   (ModuleCat.restrictCoextendScalarsAdj.{u} f).isLeftAdjoint
+/-- Countable products of `R`-modules exist (supplied directly: instance search times out). -/
+local instance : Limits.HasProductsOfShape ℕ (ModuleCat.{u} R) :=
+  ModuleCat.hasLimitsOfShape
+/-- Countable products of `R`-modules are exact (supplied directly: instance search times out). -/
+local instance : HasExactLimitsOfShape (Discrete ℕ) (ModuleCat.{u} R) :=
+  HasExactLimitsOfShape.domain_of_functor (Discrete ℕ)
+    (forget₂ (ModuleCat R) AddCommGrpCat.{u})
 variable (F : DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} A))
     (α : DerivedCategory.Q ⋙ F ⟶ CochainComplex.extendScalarsLarge f ⋙ DerivedCategory.Q)
     [F.IsLeftDerivedFunctor α (HomologicalComplex.quasiIso (ModuleCat.{u} R) (.up ℤ))]

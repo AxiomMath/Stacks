@@ -24,6 +24,13 @@ universe u
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+private instance (priority := high) hasPullback_presheaf_thickeningAffineSpacesC1573
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The morphism `Y ⟶ Y'` from the affine target into the pushout is a thickening, for a span
 admitting a compatible pair of étale scheme charts. -/
 theorem pushout_inr_isThickening_of_thickeningAffineAtlas

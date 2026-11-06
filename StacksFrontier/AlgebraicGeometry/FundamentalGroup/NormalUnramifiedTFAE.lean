@@ -1480,7 +1480,6 @@ private lemma injective_tensorProduct_map
       LinearMap.lTensor R' f.toLinearMap z := by
     intro z
     induction z with
-    | zero => simp
     | tmul a b => simp
     | add x y hx hy => simp [map_add, hx, hy]
   have hl : Function.Injective (LinearMap.lTensor R' f.toLinearMap) :=
@@ -1753,7 +1752,6 @@ private lemma finite_and_finrank_tensorProduct_le
       x ∈ Submodule.span (R' ⊗[R] K) (Set.range fun j => (1 : R') ⊗ₜ[R] b j) := by
     intro x
     induction x with
-    | zero => exact Submodule.zero_mem _
     | tmul a l =>
         have hl : a ⊗ₜ[R] l = ∑ j, a ⊗ₜ[R] (b.repr l j • b j) := by
           rw [← TensorProduct.tmul_sum, b.sum_repr l]

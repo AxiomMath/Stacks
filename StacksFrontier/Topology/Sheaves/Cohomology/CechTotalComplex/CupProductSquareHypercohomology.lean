@@ -344,6 +344,7 @@ theorem cechClass_homologyπ_totalCechBase (L : CochainComplex.Plus (SheafOfModu
       cechClass S.sheaf Ui hU L n (((cechSections S.sheaf Ui hU).obj L.obj).homologyπ n z) :=
   rfl
 
+set_option maxHeartbeats 800000 in
 /-- The total cup pairing of the `θ`-images of the Čech classes of cycles `zc` and `wc` is the
 image of `zc ⊗ₜ wc` under the Čech cup product at the sheaf-tensor coefficients followed by
 `cechToBaseSections`, with the tensor complex written as `tensorPlusOf`. -/
@@ -371,6 +372,7 @@ theorem cupPairing_hypercohomologyToCohomologyModule_cechClass_of
           (zc ⊗ₜ wc) :=
   cupPairing_hypercohomologyToCohomologyModule_cechClass S Ui hU K M zc wc z₀ hz₀
 
+set_option maxHeartbeats 800000 in
 /-- `cycleClass_Q_cechCup` with the tensor complex written as `tensorPlusOf`. -/
 theorem cycleClass_Q_cechCup_of {i j : ℤ}
     (x : ((totalCechBase S Ui hU K).cycles i ⊗ (totalCechBase S Ui hU M).cycles j : ModuleCat _))
@@ -390,6 +392,7 @@ theorem cycleClass_Q_cechCup_of {i j : ℤ}
           (i + j) (z₀ x))) :=
   cycleClass_Q_cechCup S Ui hU K M x z₀
 
+set_option maxHeartbeats 800000 in
 /-- The cochain of the Čech cup product of two cycles, in the spelling of the total tensor
 complex. -/
 theorem iCycles_cyclesMap_cechCupProductSheafTensor_of {i j : ℤ}
@@ -418,6 +421,22 @@ theorem iCycles_cechSections_totalCechBase (L : CochainComplex.Plus (SheafOfModu
       ((totalCechBase S Ui hU L).iCycles n y : ((cechSections S.sheaf Ui hU).obj L.obj).X n) :=
   rfl
 
+/-- `θ` of the Čech class of a cycle `y` of the total Čech complex, the class taken in
+`cechSections`, is the image under `cechToBaseSections` of the class of `y`. -/
+theorem hypercohomologyToCohomologyModule_cechClass_cechSections
+    (L : CochainComplex.Plus (SheafOfModules.{u} (ringSheaf.{u, u, u} S.sheaf))) (n : ℤ)
+    (y : (totalCechBase S Ui hU L).cycles n) :
+    ((DerivedCategory.homologyFunctor (ModuleCat.{u} (baseRing S)) n).map
+          ((cechToBaseSections S Ui hU).app L)).hom
+        (((DerivedCategory.homologyFunctorFactors (ModuleCat.{u} (baseRing S)) n).inv.app
+          (totalCechBase S Ui hU L)).hom ((totalCechBase S Ui hU L).homologyπ n y)) =
+      hypercohomologyToCohomologyModule S L n
+        (cechClass S.sheaf Ui hU L n (((cechSections S.sheaf Ui hU).obj L.obj).homologyπ n y)) :=
+  (hypercohomologyToCohomologyModule_cechClass' S Ui hU L n _).symm.trans
+    (congrArg (hypercohomologyToCohomologyModule S L n)
+      (cechClass_homologyπ_totalCechBase S Ui hU L n y))
+
+set_option maxHeartbeats 1600000 in
 /-- The image of `zc ⊗ₜ wc` under the Čech cup product followed by `cechToBaseSections` is the
 image under `cechToBaseSections` of the class of the cup product cycle. -/
 theorem cupPairing_chain₂ {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i)
@@ -439,11 +458,11 @@ theorem cupPairing_chain₂ {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i
           ((totalCechBase S Ui hU (tensorPlusOf S.sheaf K M (tensorPlus S K M).2)).homologyπ (i + j)
             ((HomologicalComplex.cyclesMap
               (Stacks.Cech.SheafTensorPairing.cechCupProductSheafTensor S.sheaf ⊤ K.1 M.1 Ui hU)
-              (i + j)).hom (z₀.hom (zc ⊗ₜ wc))))) :=
-  congrArg ((DerivedCategory.homologyFunctor (ModuleCat.{u} (baseRing S)) (i + j)).map
-      ((cechToBaseSections S Ui hU).app (tensorPlusOf S.sheaf K M (tensorPlus S K M).2))).hom
-    (cycleClass_Q_cechCup_of S Ui hU K M (zc ⊗ₜ wc) z₀)
+              (i + j)).hom (z₀.hom (zc ⊗ₜ wc))))) := by
+  simp only [ModuleCat.hom_comp, LinearMap.comp_apply]
+  exact congrArg _ (cycleClass_Q_cechCup_of S Ui hU K M (zc ⊗ₜ wc) z₀)
 
+set_option maxHeartbeats 1600000 in
 /-- The image under `cechToBaseSections` of the class of the cup product cycle is the `θ`-image
 of its Čech class. -/
 theorem cupPairing_chain₃ {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i)
@@ -465,17 +484,10 @@ theorem cupPairing_chain₃ {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i
             (i + j)
             ((HomologicalComplex.cyclesMap
               (Stacks.Cech.SheafTensorPairing.cechCupProductSheafTensor S.sheaf ⊤ K.1 M.1 Ui hU)
-              (i + j)).hom (z₀.hom (zc ⊗ₜ wc))))) :=
-  (hypercohomologyToCohomologyModule_cechClass' S Ui hU
-      (tensorPlusOf S.sheaf K M (tensorPlus S K M).2) (i + j) _).symm.trans
-    (congrArg
-      (hypercohomologyToCohomologyModule S (tensorPlusOf S.sheaf K M (tensorPlus S K M).2) (i + j))
-      (cechClass_homologyπ_totalCechBase S Ui hU (tensorPlusOf S.sheaf K M (tensorPlus S K M).2)
-        (i + j)
-        ((HomologicalComplex.cyclesMap
-          (Stacks.Cech.SheafTensorPairing.cechCupProductSheafTensor S.sheaf ⊤ K.1 M.1 Ui hU)
-          (i + j)).hom (z₀.hom (zc ⊗ₜ wc)))))
+              (i + j)).hom (z₀.hom (zc ⊗ₜ wc))))) := by
+  exact hypercohomologyToCohomologyModule_cechClass_cechSections S Ui hU _ _ _
 
+set_option maxHeartbeats 800000 in
 /-- The cochain of the cup product cycle is the Čech cup product, at the coefficient pairing
 `sheafTensorPairingOf`, of the cochains of `zc` and `wc`. -/
 theorem cupPairing_chain₄a {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles i)
@@ -507,6 +519,7 @@ theorem cupPairing_chain₄a {i j : ℤ} (zc : (totalCechBase S Ui hU K).cycles 
     ((iCycles_cyclesMap_cechCupProductSheafTensor_of S Ui hU K M zc wc z₀ hz₀).trans
       (cechCupProduct_tmulHom_iCycles S Ui hU K M zc wc).symm)
 
+set_option maxHeartbeats 800000 in
 /-- The Čech cup product on hypercohomology of the classes of `zc` and `wc` is the Čech class of
 the cup product cycle, with the classes taken in `cechSections`. -/
 theorem cupPairing_chain₄b (hK : CechComputes S.sheaf K) (hM : CechComputes S.sheaf M)

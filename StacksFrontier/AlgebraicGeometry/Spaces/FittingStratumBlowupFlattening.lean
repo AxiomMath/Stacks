@@ -323,7 +323,10 @@ theorem exists_blowup_fittingStratum {X Ub : AlgebraicSpaces B S hS}
     fun a => ⟨pointsMap B S hS X'.1 b.hom a, (pointsMap_comp_apply B S hS _ _ _).symm⟩, hOiff,
     ?_, ?_, ?_, hq, ?_, ?_⟩
   · rw [hOp]
-    infer_instance
+    have hm1 : Mono (Uo.1.fromPreimage b.hom) := @IsIso.mono_of_iso _ _ _ _ _ hfromiso
+    have hm2 : Mono (Uo.1.ι ≫ ι.hom) := @mono_comp _ _ _ _ _ _ (by infer_instance) _
+      (inferInstanceAs (Mono (Zc r).1.ι))
+    exact @mono_comp _ _ _ _ _ _ hm1 _ hm2
   · exact isLocallyOfFiniteType_comp' B S hS O.ι p.hom X'.2 X.2
       (isLocallyOfFiniteType_of_isEtale' B S hS O.ι (isEtale_of_isOpenImmersion B S hS hO.2))
       hpproper.2.1.1

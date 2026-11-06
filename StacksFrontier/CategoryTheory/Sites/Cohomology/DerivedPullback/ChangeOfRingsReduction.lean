@@ -140,11 +140,9 @@ theorem isFlat_pullbackTopos_of_isFlat_pullbackTopos_auxHomG
   AlgebraicGeometry.SheafOfModules.IsFlat.of_iso X.O ((pullbackFactorIso f).app M)
     (isFlat_pullbackTopos_auxHomH f ((auxHomG f).pullbackTopos.obj M) hM)
 
-variable [HasSheafify Y.J AddCommGrpCat.{u}]
-  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+variable [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
-omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [HasSheafify Y.J AddCommGrpCat.{u}] in
+omit [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})] in
 /-- **Stacks 05VD for `f` follows from Stacks 05VD for `g`.**
 `Stacks.Sheaves.DerivedPullback.KFlatPullback.PullbackPreservesIsFlat` at the auxiliary ringed
 topos `X' = (X.C, X.J, f⁻¹O_Y)` implies it at `X`. -/

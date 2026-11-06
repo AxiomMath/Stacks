@@ -409,8 +409,8 @@ private noncomputable def divisibleBy_of_injective (A : AddCommGrpCat.{v}) [Inje
   intro n hn a
   let f : AddCommGrpCat.of (ULift.{v} ℤ) ⟶ AddCommGrpCat.of (ULift.{v} ℤ) := AddCommGrpCat.ofHom {
       toFun := fun z => ULift.up (z.down * n)
-      map_zero' := ULift.ext _ _ (by simp)
-      map_add' x y := ULift.ext _ _ (by simp [add_mul]) }
+      map_zero' := ULift.ext (by simp)
+      map_add' x y := ULift.ext (by simp [add_mul]) }
   let g : AddCommGrpCat.of (ULift.{v} ℤ) ⟶ A := AddCommGrpCat.ofHom {
       toFun := fun z => z.down • a
       map_zero' := by simp

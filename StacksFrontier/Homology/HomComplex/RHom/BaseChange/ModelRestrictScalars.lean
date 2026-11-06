@@ -608,6 +608,7 @@ public theorem derivedHomChangeOfRingsModelIso_hom_eq
   exact h'.symm
 
 set_option backward.isDefEq.respectTransparency false in
+set_option synthInstance.maxHeartbeats 200000 in
 /-- On a K-flat representative and a K-injective representative, the descended comparison is
 the canonical comparison of Hom complexes, for any K-injective resolution of the restriction. -/
 public theorem modelRestrictScalarsNatIso_hom_app

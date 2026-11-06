@@ -223,12 +223,12 @@ public theorem isArtinian_of_finite_matlisDual
   have hlt : ∀ P Q : Submodule R N, P < Q ↔ ann Q < ann P := by
     intro P Q
     rw [lt_iff_le_not_ge, lt_iff_le_not_ge, hle P Q, hle Q P]
-  refine ⟨RelEmbedding.wellFounded
+  exact RelEmbedding.wellFounded (r := (· < ·)) (s := (· > ·))
     { toFun := ann
       inj' := fun {P Q} h ↦
         le_antisymm ((hle P Q).2 (le_of_eq h.symm)) ((hle Q P).2 (le_of_eq h))
       map_rel_iff' := fun {P Q} ↦ (hlt P Q).symm }
-    ((isNoetherian_iff' (R := A) (M := (N →ₗ[R] E))).mp hNoeth).wf⟩
+    ((isNoetherian_iff' (R := A) (M := (N →ₗ[R] E))).mp hNoeth)
 
 end MatlisDual
 

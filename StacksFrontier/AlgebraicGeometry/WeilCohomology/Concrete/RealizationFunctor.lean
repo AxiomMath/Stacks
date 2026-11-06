@@ -359,7 +359,7 @@ theorem corrMap_comp_zero_left {X Y Z : (SmoothProjectiveScheme k).FullSubcatego
     corrMap hA hB hC X Z (0 + 0) n (comp k X.obj.hom Y.obj.hom Z.obj.hom
       (canonicalDiagonalClassFamily k) 0 0 0 b) =
       corrMap hA hB hC Y Z 0 n b ∘ₗ corrMap hA hB hC X Y 0 n 0 := by
-  simp
+  rw [LinearMap.map_zero₂, AddMonoidHom.map_zero, AddMonoidHom.map_zero, LinearMap.comp_zero]
 
 /-- `G(0 ∘ a) = G(0) ∘ G(a)`. -/
 theorem corrMap_comp_zero_right {X Y Z : (SmoothProjectiveScheme k).FullSubcategory} {n : ℤ}
@@ -367,7 +367,7 @@ theorem corrMap_comp_zero_right {X Y Z : (SmoothProjectiveScheme k).FullSubcateg
     corrMap hA hB hC X Z (0 + 0) n (comp k X.obj.hom Y.obj.hom Z.obj.hom
       (canonicalDiagonalClassFamily k) 0 0 a 0) =
       corrMap hA hB hC Y Z 0 n 0 ∘ₗ corrMap hA hB hC X Y 0 n a := by
-  simp
+  rw [LinearMap.map_zero, AddMonoidHom.map_zero, AddMonoidHom.map_zero, LinearMap.zero_comp]
 
 /-- `G(y ∘ x) = G(y) ∘ G(x)` for single blocks `x ∈ Corr⁰(X_d, Y_e)` and
 `y ∈ Corr⁰(Y_{e'}, Z_f)`. -/

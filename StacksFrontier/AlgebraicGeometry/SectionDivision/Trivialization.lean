@@ -71,8 +71,8 @@ theorem zeroScheme_ideal_eq_span_divBySection
     (σ : Γ(L, ⊤)) (s : L.sections) (U : X.affineOpens)
     (hU : U.1 ≤ nonvanishingOpen (X := X.toRingedSpace) L s) :
     (Stacks.Divisors.zeroScheme X L σ).ideal U =
-      Ideal.span {divBySection (X := X.toRingedSpace) L s hU
-        (L.presheaf.map (homOfLE le_top).op σ)} :=
+      Ideal.span {(divBySection (X := X.toRingedSpace) L s hU
+        (L.presheaf.map (homOfLE le_top).op σ))} :=
   Stacks.Divisors.zeroScheme_ideal_of_trivialization X L σ U (divBySectionEquiv L s hU) _ rfl
 
 section Tensor

@@ -124,7 +124,7 @@ def derivedRestrictInvCompIso {Y Z : Scheme.{u}} (e : Y ≅ Z) :
   (mapDerivedCategoryCompIso (Scheme.Modules.restrictFunctor e.inv)
       (Scheme.Modules.restrictFunctor e.hom)).symm ≪≫
     mapDerivedCategoryIsoOfNatIso _ _ (restrictFunctorInvCompIso e) ≪≫
-    Functor.mapDerivedCategoryIdIso
+    Functor.mapDerivedCategoryIdIso _
 
 /-- **The global sections of an isomorphism undo each other.** -/
 theorem appTop_hom_comp_appTop_hom {Y Z : Scheme.{u}} (e : Y ≅ Z) (φ : A →+* Γ(Y, ⊤)) :

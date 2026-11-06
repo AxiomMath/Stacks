@@ -60,9 +60,10 @@ is the scaled image of that matrix unit. -/
 theorem freeDualMatrix_pointMap_uncurry'_comp_matIncl
     (ϑ : endAlgebra (freeModule S I) ⟶ endAlgebra (freeModule S I)) (r : R₀ S) (k : I × I) :
     freeDualMatrix (MonoidalClosed.pointMap ϑ
-        (MonoidalClosed.uncurry' (r ≫ matIncl (S := S) k)))
+        (MonoidalClosed.uncurry' (r.asHom ≫ matIncl (S := S) k)))
       = r • pointMatrix ϑ k := by
   funext a b
+  apply End.ext
   rw [Matrix.smul_apply, smul_eq_mul, ← curry'_comp_matCoord,
     MonoidalClosed.curry'_pointMap, MonoidalClosed.curry'_uncurry', Category.assoc,
     Category.assoc, matIncl_comp_comp_matCoord,
@@ -75,7 +76,7 @@ private theorem pointMatrix_id (k : I × I) :
 
 /-- The matrix of a scaled matrix unit is the scaled matrix unit. -/
 theorem freeDualMatrix_uncurry'_comp_matIncl (r : R₀ S) (k : I × I) :
-    freeDualMatrix (MonoidalClosed.uncurry' (r ≫ matIncl (S := S) k))
+    freeDualMatrix (MonoidalClosed.uncurry' (r.asHom ≫ matIncl (S := S) k))
       = r • Matrix.single k.1 k.2 (1 : R₀ S) := by
   have h := freeDualMatrix_pointMap_uncurry'_comp_matIncl
     (𝟙 (endAlgebra (freeModule S I))) r k
@@ -94,15 +95,15 @@ theorem unitCombination_single_eq (M : Matrix I I (R₀ S)) :
 theorem freeDualMatrix_sum_uncurry'_comp_matIncl
     (ϑ : endAlgebra (freeModule S I) ⟶ endAlgebra (freeModule S I)) (M : Matrix I I (R₀ S)) :
     freeDualMatrix (MonoidalClosed.pointMap ϑ
-        (∑ a : I, ∑ b : I, MonoidalClosed.uncurry' (M a b ≫ matIncl (S := S) (a, b))))
+        (∑ a : I, ∑ b : I, MonoidalClosed.uncurry' ((M a b).asHom ≫ matIncl (S := S) (a, b))))
       = Stacks.Matrix.unitCombination (pointMatrix ϑ) M := by
   rw [MonoidalClosed.pointMap_sum, freeDualMatrix_sum]
   rw [Finset.sum_congr rfl fun a (_ : a ∈ Finset.univ) => congrArg freeDualMatrix
     (MonoidalClosed.pointMap_sum ϑ Finset.univ
-      fun b : I => MonoidalClosed.uncurry' (M a b ≫ matIncl (S := S) (a, b)))]
+      fun b : I => MonoidalClosed.uncurry' ((M a b).asHom ≫ matIncl (S := S) (a, b)))]
   rw [Finset.sum_congr rfl fun a (_ : a ∈ Finset.univ) => freeDualMatrix_sum Finset.univ
     fun b : I => MonoidalClosed.pointMap ϑ
-      (MonoidalClosed.uncurry' (M a b ≫ matIncl (S := S) (a, b)))]
+      (MonoidalClosed.uncurry' ((M a b).asHom ≫ matIncl (S := S) (a, b)))]
   exact Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ =>
     freeDualMatrix_pointMap_uncurry'_comp_matIncl ϑ (M a b) (a, b)
 
@@ -110,7 +111,7 @@ theorem freeDualMatrix_sum_uncurry'_comp_matIncl
 units with its own matrix as coefficients.** -/
 theorem eq_sum_uncurry'_comp_matIncl (g : freeModule S I ⟶ freeModule S I) :
     g = ∑ a : I, ∑ b : I,
-      MonoidalClosed.uncurry' (freeDualMatrix g a b ≫ matIncl (S := S) (a, b)) := by
+      MonoidalClosed.uncurry' ((freeDualMatrix g a b).asHom ≫ matIncl (S := S) (a, b)) := by
   refine freeDualMatrix_injective ?_
   have h := freeDualMatrix_sum_uncurry'_comp_matIncl
     (𝟙 (endAlgebra (freeModule S I))) (freeDualMatrix g)
@@ -136,8 +137,8 @@ theorem freeDualMatrix_pointMap (ϑ : endAlgebra (freeModule S I) ⟶ endAlgebra
 section, and a morphism out of `𝒪_S` is determined by that value. -/
 theorem unitEnd_eq_of_forall_opens {r r' : R₀ S}
     (h : ∀ U : S.Opens, unitEndValueHom S U r = unitEndValueHom S U r') : r = r' := by
-  refine (_root_.SheafOfModules.unitHomEquiv
-    (_root_.SheafOfModules.unit (Tensor.ringSheaf S.sheaf))).injective ?_
+  refine End.ext ((_root_.SheafOfModules.unitHomEquiv
+    (_root_.SheafOfModules.unit (Tensor.ringSheaf S.sheaf))).injective ?_)
   ext V
   exact h V.unop
 

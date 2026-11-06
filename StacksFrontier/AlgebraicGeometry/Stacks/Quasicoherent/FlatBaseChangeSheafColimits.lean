@@ -525,7 +525,7 @@ theorem isIso_restrictSheafPullbackComparison_of_shortExact
       inferInstance inferInstance
   have he : Epi (η.app T.X₂) :=
     ShortComplex.epi_of_epi_of_epi_of_epi (T.mapNatTrans η) hΨex hΦepi
-      inferInstance inferInstance
+      (IsIso.epi_of_iso _) (IsIso.epi_of_iso _)
   exact isIso_of_mono_of_epi (η.app T.X₂)
 
 end Extension

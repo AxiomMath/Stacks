@@ -76,7 +76,7 @@ noncomputable def restrictionHomOfApply (N₁ N₂ : SheafOfModules.{w} R)
     (f : ∀ X : C₁, N₁.val.obj (op (v.obj X)) →+ N₂.val.obj (op (v.obj X)))
     (nat : ∀ {X Y : C₁} (g : X ⟶ Y) (x : N₁.val.obj (op (v.obj Y))),
       f X (N₁.val.map (v.map g).op x) = N₂.val.map (v.map g).op (f Y x))
-    (smul : ∀ (X : C₁) (r : R.val.obj (op (v.obj X))) (m : N₁.val.obj (op (v.obj X))),
+    (smul : ∀ (X : C₁) (r : R.obj.obj (op (v.obj X))) (m : N₁.val.obj (op (v.obj X))),
       f X (r • m) = r • f X m) :
     (moduleRestriction J K v R).obj N₁ ⟶ (moduleRestriction J K v R).obj N₂ :=
   ⟨Stacks.PresheafOfModules.homOfApply (fun X => f X.unop) (fun g x => nat g.unop x)
@@ -88,7 +88,7 @@ theorem restrictionHomOfApply_app (N₁ N₂ : SheafOfModules.{w} R)
     (f : ∀ X : C₁, N₁.val.obj (op (v.obj X)) →+ N₂.val.obj (op (v.obj X)))
     (nat : ∀ {X Y : C₁} (g : X ⟶ Y) (x : N₁.val.obj (op (v.obj Y))),
       f X (N₁.val.map (v.map g).op x) = N₂.val.map (v.map g).op (f Y x))
-    (smul : ∀ (X : C₁) (r : R.val.obj (op (v.obj X))) (m : N₁.val.obj (op (v.obj X))),
+    (smul : ∀ (X : C₁) (r : R.obj.obj (op (v.obj X))) (m : N₁.val.obj (op (v.obj X))),
       f X (r • m) = r • f X m) (X : C₁) (x : N₁.val.obj (op (v.obj X))) :
     (restrictionHomOfApply J K v R N₁ N₂ f nat smul).val.app (op X) x = f X x :=
   rfl

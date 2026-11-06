@@ -53,6 +53,26 @@ universe w v u
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+instance hasPullbacks_presheaf_LocallyQuasiFiniteFromScheme (B : BigFppfSite.{u})
+    (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+instance (priority := high) hasPullback_presheaf_LocallyQuasiFiniteFromScheme
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Binary products of presheaves on the big fppf site (instance search times out without
+this shortcut). -/
+instance (priority := high) hasBinaryProducts_presheaf_LocallyQuasiFiniteFromScheme
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasBinaryProducts ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
 /-- The comparison from a fibre product to the product of its two factors, taken in the order
 opposite to the one the fibre product is written in, is a monomorphism: a pair of morphisms
 into the fibre product agreeing after both projections agree. -/
@@ -93,7 +113,8 @@ theorem relativelyRepresentable_of_isLocallyQuasiFinite_of_schemeSource
   set f : pullback ξ a ⟶ yoneda.obj (X ⨯ U) :=
     prod.lift (pullback.snd ξ a) (pullback.fst ξ a) ≫ (PreservesLimitPair.iso yoneda X U).inv
       with hf
-  have hfmono : Mono f := mono_comp _ _
+  have hfmono : Mono f := by
+    rw [hf]; exact mono_comp' hcmono (@IsIso.mono_of_iso _ _ _ _ _ (Iso.isIso_inv _))
   -- It is a factorisation of the projection to `h_U`, hence locally quasi-finite.
   have hfsnd : f ≫ yoneda.map prod.snd = pullback.fst ξ a := by
     rw [hf, Category.assoc, PreservesLimitPair.iso_inv_snd, prod.lift_snd]

@@ -54,12 +54,12 @@ private def elementsFiberEquiv {C : Type u} [Category.{w, u} C]
     (F : C ⥤ Type t) (A : C) :
     Functor.Fiber (CategoryOfElements.π F) A ≃ F.obj A where
   toFun x := by
-    rcases x with ⟨⟨B, b⟩, h⟩
+    rcases x with ⟨@⟨B, b⟩, h⟩
     cases h
     exact b
-  invFun x := ⟨⟨A, x⟩, rfl⟩
+  invFun x := ⟨F.elementsMk A x, rfl⟩
   left_inv x := by
-    rcases x with ⟨⟨B, b⟩, h⟩
+    rcases x with ⟨@⟨B, b⟩, h⟩
     cases h
     rfl
   right_inv _ := rfl
@@ -68,9 +68,9 @@ private def elementsFiberEquiv {C : Type u} [Category.{w, u} C]
 private theorem eq_of_isHomLift_id {C : Type u} [Category.{w, u} C] {F : C ⥤ Type t} {A : C}
     {x y : F.obj A} (g : F.elementsMk A x ⟶ F.elementsMk A y)
     (hg : (CategoryOfElements.π F).IsHomLift (𝟙 A) g) : x = y := by
-  have hfac := IsHomLift.fac (p := CategoryOfElements.π F) (𝟙 A) g
-  have hval : g.val = 𝟙 A := by simpa [CategoryOfElements.π] using hfac.symm
-  simpa [hval] using g.property
+  have hfac : 𝟙 A = 𝟙 A ≫ g.hom ≫ 𝟙 A := IsHomLift.fac (p := CategoryOfElements.π F) (𝟙 A) g
+  have hval : g.hom = 𝟙 A := by simpa using hfac.symm
+  simpa [hval] using g.map_val
 
 /-- In a category of elements the class map is injective: an isomorphism of two objects of
 one fibre lies over the identity, so the two elements coincide. -/
@@ -82,8 +82,8 @@ private theorem classOf_injective_elements
     Function.Injective
       (classOf (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof (A := A)) := by
   intro x y h
-  rcases x with ⟨⟨A₁, x⟩, hx⟩
-  rcases y with ⟨⟨A₂, y⟩, hy⟩
+  rcases x with ⟨@⟨A₁, x⟩, hx⟩
+  rcases y with ⟨@⟨A₂, y⟩, hy⟩
   change A₁ = A at hx
   change A₂ = A at hy
   cases hx
@@ -93,12 +93,12 @@ private theorem classOf_injective_elements
     (isomorphismClasses_obj
       (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof A) z) h
   have hqx := classOf_eq
-    (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof (A := A) ⟨⟨A, x⟩, rfl⟩
+    (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof (A := A) ⟨F.elementsMk A x, rfl⟩
   have hqy := classOf_eq
-    (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof (A := A) ⟨⟨A, y⟩, rfl⟩
+    (BasedCategory.ofFunctor (CategoryOfElements.π F)) hcof (A := A) ⟨F.elementsMk A y, rfl⟩
   rw [hqx, hqy] at hq
   obtain ⟨i⟩ := Quotient.exact hq
-  show (⟨A, x⟩ : F.Elements) = ⟨A, y⟩
+  show F.elementsMk A x = F.elementsMk A y
   rw [eq_of_isHomLift_id i.hom.1 i.hom.2]
 
 /-! ### Propagating bijectivity along a small extension -/
@@ -146,7 +146,7 @@ private theorem differential_bijective_of_app_bijective
   have hcomm (z : 𝓕.p.Fiber A) :
       φ.app A (elementsFiberEquiv F A z) =
         elementsFiberEquiv G A ((fiberFunctor (elementsBasedFunctor φ) A).obj z) := by
-    rcases z with ⟨⟨B, z⟩, hz⟩
+    rcases z with ⟨@⟨B, z⟩, hz⟩
     change B = A at hz
     cases hz
     rfl
@@ -158,18 +158,14 @@ private theorem differential_bijective_of_app_bijective
     rw [hcomm x, hcomm y, hxy]
   constructor
   · intro z₁ z₂ h
-    obtain ⟨x₁, hx₁⟩ := classOf_surjective 𝓕 h𝓕 A z₁
-    obtain ⟨x₂, hx₂⟩ := classOf_surjective 𝓕 h𝓕 A z₂
+    obtain ⟨x₁, rfl⟩ := classOf_surjective 𝓕 h𝓕 A z₁
+    obtain ⟨x₂, rfl⟩ := classOf_surjective 𝓕 h𝓕 A z₂
     have h' :
         mapIsomorphismClasses h𝓕 h𝓖 (elementsBasedFunctor φ) A (classOf 𝓕 h𝓕 x₁) =
-        mapIsomorphismClasses h𝓕 h𝓖 (elementsBasedFunctor φ) A (classOf 𝓕 h𝓕 x₂) := by
-      simpa [differential, hx₁, hx₂] using h
+        mapIsomorphismClasses h𝓕 h𝓖 (elementsBasedFunctor φ) A (classOf 𝓕 h𝓕 x₂) := h
     rw [mapIsomorphismClasses_classOf h𝓕 h𝓖 (elementsBasedFunctor φ) x₁,
       mapIsomorphismClasses_classOf h𝓕 h𝓖 (elementsBasedFunctor φ) x₂] at h'
-    calc
-      z₁ = classOf 𝓕 h𝓕 x₁ := hx₁.symm
-      _ = classOf 𝓕 h𝓕 x₂ := congrArg (classOf 𝓕 h𝓕) (hFiberMap (hGclass h'))
-      _ = z₂ := hx₂
+    exact congrArg (classOf 𝓕 h𝓕) (hFiberMap (hGclass h'))
   · intro z
     obtain ⟨y, rfl⟩ := classOf_surjective 𝓖 h𝓖 A z
     obtain ⟨xv, hxv⟩ := happ.2 (elementsFiberEquiv G A y)
@@ -181,7 +177,8 @@ private theorem differential_bijective_of_app_bijective
     refine ⟨classOf 𝓕 h𝓕 x, ?_⟩
     show mapIsomorphismClasses h𝓕 h𝓖 (elementsBasedFunctor φ) A (classOf 𝓕 h𝓕 x) =
         classOf 𝓖 h𝓖 y
-    rw [mapIsomorphismClasses_classOf h𝓕 h𝓖 (elementsBasedFunctor φ) x, himage]
+    rw [mapIsomorphismClasses_classOf h𝓕 h𝓖 (elementsBasedFunctor φ) x]
+    exact congrArg (classOf 𝓖 h𝓖) himage
 
 /-- A bijective differential makes the map on classes of lifts injective: both sides are
 torsors under the tangent space tensored with the kernel, and the map intertwines the two
@@ -246,6 +243,7 @@ private theorem mapLiftClasses_injective_of_differential_bijective
     _ = t₂ +ᵥ a := by rw [hL.1 (htarget.1 hact)]
     _ = b := ht₂
 
+set_option backward.isDefEq.respectTransparency false in
 /-- Injectivity of a component propagates up a small extension. -/
 private theorem injective_app_of_small_extension
     {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
@@ -270,14 +268,6 @@ private theorem injective_app_of_small_extension
   let hGCat := (isDeformationCategory_iff G).2 hG
   let 𝓕 := BasedCategory.ofFunctor (CategoryOfElements.π F)
   let 𝓖 := BasedCategory.ofFunctor (CategoryOfElements.π G)
-  let : Category (Functor.Elements F) := CategoryTheory.categoryOfElements F
-  let : Category (Functor.Elements G) := CategoryTheory.categoryOfElements G
-  let : Quiver.{w, max (max u (w + 1)) t}
-      ((c : ArtinianLocalAlgCat.{u, w, w} Λ k) × F.obj c) :=
-    (CategoryTheory.categoryOfElements F).toQuiver
-  let : Quiver.{w, max (max u (w + 1)) t}
-      ((c : ArtinianLocalAlgCat.{u, w, w} Λ k) × G.obj c) :=
-    (CategoryTheory.categoryOfElements G).toQuiver
   intro y₁ y₂ hy
   have hdown : F.map f y₁ = F.map f y₂ := by
     apply hbase
@@ -286,15 +276,16 @@ private theorem injective_app_of_small_extension
       _ = G.map f (φ.app A' y₂) := by rw [hy]
       _ = φ.app A (F.map f y₂) := (φ.naturality_apply f y₂).symm
   let xval := F.map f y₁
-  let x : 𝓕.p.Fiber A := ⟨⟨A, xval⟩, rfl⟩
-  let hm₁ : (⟨A', y₁⟩ : Functor.Elements F) ⟶ ⟨A, xval⟩ := ⟨f, rfl⟩
-  let hm₂ : (⟨A', y₂⟩ : Functor.Elements F) ⟶ ⟨A, xval⟩ := ⟨f, hdown.symm⟩
+  let x : 𝓕.p.Fiber A := ⟨F.elementsMk A xval, rfl⟩
+  let hm₁ : F.elementsMk A' y₁ ⟶ F.elementsMk A xval := Functor.Elements.homMk f rfl
+  let hm₂ : F.elementsMk A' y₂ ⟶ F.elementsMk A xval :=
+    Functor.Elements.homMk f hdown.symm
   let l₁ : Lift 𝓕.p f x :=
-    { obj := ⟨A', y₁⟩
+    { obj := F.elementsMk A' y₁
       hom := hm₁
       isHomLift := IsHomLift.map (p := 𝓕.p) hm₁ }
   let l₂ : Lift 𝓕.p f x :=
-    { obj := ⟨A', y₂⟩
+    { obj := F.elementsMk A' y₂
       hom := hm₂
       isHomLift := IsHomLift.map (p := 𝓕.p) hm₂ }
   let a₁ : LiftClasses 𝓕.p f x := ThinSkeleton.mk l₁
@@ -305,37 +296,37 @@ private theorem injective_app_of_small_extension
     let L₂ := (liftFunctor (elementsBasedFunctor φ) f x).obj l₂
     show ThinSkeleton.mk L₁ = ThinSkeleton.mk L₂
     apply Quotient.sound
-    let g : L₁.obj ⟶ L₂.obj := ⟨𝟙 A', by
+    let g : L₁.obj ⟶ L₂.obj := Functor.Elements.homMk (𝟙 A') (by
       show G.map (𝟙 A') (φ.app A' y₁) = φ.app A' y₂
-      simpa using hy⟩
-    let ginv : L₂.obj ⟶ L₁.obj := ⟨𝟙 A', by
+      simpa using hy)
+    let ginv : L₂.obj ⟶ L₁.obj := Functor.Elements.homMk (𝟙 A') (by
       show G.map (𝟙 A') (φ.app A' y₂) = φ.app A' y₁
-      simpa using hy.symm⟩
+      simpa using hy.symm)
     let gh : Lift.Hom L₁ L₂ :=
       { hom := g
         isHomLift := IsHomLift.map (p := 𝓖.p) g
         fac := by
-          apply CategoryOfElements.ext
-          show (g.val ≫ f) = f
+          apply Functor.Elements.hom_ext
+          show (g.hom ≫ f) = f
           exact Category.id_comp f }
     let gih : Lift.Hom L₂ L₁ :=
       { hom := ginv
         isHomLift := IsHomLift.map (p := 𝓖.p) ginv
         fac := by
-          apply CategoryOfElements.ext
-          show (ginv.val ≫ f) = f
+          apply Functor.Elements.hom_ext
+          show (ginv.hom ≫ f) = f
           exact Category.id_comp f }
     exact ⟨
       { hom := gh
         inv := gih
         hom_inv_id := by
           apply Lift.Hom.ext
-          apply CategoryOfElements.ext
+          apply Functor.Elements.hom_ext
           show (𝟙 A' ≫ 𝟙 A') = 𝟙 A'
           simp
         inv_hom_id := by
           apply Lift.Hom.ext
-          apply CategoryOfElements.ext
+          apply Functor.Elements.hom_ext
           show (𝟙 A' ≫ 𝟙 A') = 𝟙 A'
           simp }⟩
   have hclass := mapLiftClasses_injective_of_differential_bijective

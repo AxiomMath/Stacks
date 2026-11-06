@@ -284,6 +284,14 @@ theorem chartDiagram_square_iff {U U' : SmallEtale B S hS X.1}
 
 /-! ### Sections of a spaces-étale sheaf as a limit over the scheme charts -/
 
+/-- Right Kan extensions of presheaves of sets valued in `Type (u + 1)` exist along the
+comparison functor of Stacks 03G1; instance search no longer finds the pointwise limits through
+the `HasPointwiseRightKanExtension` abbreviation on its own. -/
+instance hasPointwiseRightKanExtension_comparisonFunctor_succ (X : AlgebraicSpaces B S hS)
+    (F : (SmallEtale B S hS X.1)ᵒᵖ ⥤ Type (u + 1)) :
+    (comparisonFunctor B S hS X).op.HasPointwiseRightKanExtension F :=
+  fun _ ↦ inferInstance
+
 section Sections
 
 variable (Z : AlgebraicSpaces B S hS)

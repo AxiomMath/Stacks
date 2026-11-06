@@ -82,8 +82,8 @@ theorem noetherianCase_at
       rw [Category.assoc, hσ, Category.comp_id, Category.id_comp])) :
     ∃ (Y : FiniteEtaleGaloisCover X G)
       (e : (finiteEtaleBaseChange (f.fiberι y)).obj Y.obj ≅ Z.obj),
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι y)).map (Y.action g).hom ≫ e.hom =
-        e.hom ≫ (Z.action g).hom := by
+      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι y)).map (Y.action g).asIso.hom ≫ e.hom =
+        e.hom ≫ (Z.action g).asIso.hom := by
   subst hy
   exact exists_finiteEtaleGaloisCover_extending_genericFiber_of_isNoetherian h0BMA h0EYD
     f σ hσ G hG Z z hz
@@ -105,22 +105,22 @@ private theorem exists_equivariant_iso_baseChange_of_isPullback {X A F : Scheme.
     (q : F ⟶ X) {G : Type v} [Group G] [Finite G] (Y' : FiniteEtaleGaloisCover A G)
     (Z : FiniteEtaleGaloisCover F G) (n : Z.obj.left ⟶ Y'.obj.left)
     (hn : IsPullback n Z.obj.hom Y'.obj.hom (q ≫ pX))
-    (hact : ∀ g, (Z.action g).hom.left ≫ n = n ≫ (Y'.action g).hom.left)
+    (hact : ∀ g, (Z.action g).asIso.hom.left ≫ n = n ≫ (Y'.action g).asIso.hom.left)
     (hconn : ConnectedSpace ((finiteEtaleBaseChange pX).obj Y'.obj).left) :
     ∃ e : (finiteEtaleBaseChange q).obj (Y'.baseChange pX hconn).obj ≅ Z.obj,
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange q).map ((Y'.baseChange pX hconn).action g).hom ≫
-        e.hom = e.hom ≫ (Z.action g).hom := by
+      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange q).map ((Y'.baseChange pX hconn).action g).asIso.hom ≫
+        e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   let pZ : Z.obj.left ⟶ pullback Y'.obj.hom pX :=
     pullback.lift n (Z.obj.hom ≫ q) (by rw [hn.w, Category.assoc])
   have hpZ₁ : pZ ≫ pullback.fst Y'.obj.hom pX = n := pullback.lift_fst _ _ _
   have hpZ₂ : pZ ≫ pullback.snd Y'.obj.hom pX = Z.obj.hom ≫ q := pullback.lift_snd _ _ _
   have hpZ (g : Gᵐᵒᵖ) :
-      (Z.action g).hom.left ≫ pZ = pZ ≫ ((Y'.baseChange pX hconn).action g).hom.left := by
-    have hY : ((Y'.baseChange pX hconn).action g).hom.left ≫ pullback.snd Y'.obj.hom pX =
+      (Z.action g).asIso.hom.left ≫ pZ = pZ ≫ ((Y'.baseChange pX hconn).action g).asIso.hom.left := by
+    have hY : ((Y'.baseChange pX hconn).action g).asIso.hom.left ≫ pullback.snd Y'.obj.hom pX =
         pullback.snd Y'.obj.hom pX :=
-      MorphismProperty.Over.w ((Y'.baseChange pX hconn).action g).hom
-    have hZ : (Z.action g).hom.left ≫ Z.obj.hom = Z.obj.hom :=
-      MorphismProperty.Over.w (Z.action g).hom
+      MorphismProperty.Over.w ((Y'.baseChange pX hconn).action g).asIso.hom
+    have hZ : (Z.action g).asIso.hom.left ≫ Z.obj.hom = Z.obj.hom :=
+      MorphismProperty.Over.w (Z.action g).asIso.hom
     apply pullback.hom_ext
     · exact ((Category.assoc _ _ _).trans ((congrArg _ hpZ₁).trans (hact g))).trans
         ((Category.assoc _ _ _).trans ((congrArg (pZ ≫ ·)
@@ -131,7 +131,7 @@ private theorem exists_equivariant_iso_baseChange_of_isPullback {X A F : Scheme.
         ((Category.assoc _ _ _).trans ((congrArg (pZ ≫ ·) hY).trans hpZ₂)).symm
   exact exists_equivariant_iso_of_isPullback q (Y'.baseChange pX hconn).obj Z.obj pZ
     (isPullback_pullbackLift_of_isPullback hn)
-    (fun g : Gᵐᵒᵖ ↦ ((Y'.baseChange pX hconn).action g).hom) (fun g : Gᵐᵒᵖ ↦ (Z.action g).hom) hpZ
+    (fun g : Gᵐᵒᵖ ↦ ((Y'.baseChange pX hconn).action g).asIso.hom) (fun g : Gᵐᵒᵖ ↦ (Z.action g).asIso.hom) hpZ
 
 /-- A pointed Galois cover of the generic fibre of a smooth sectioned family over a Noetherian
 integral normal base, pulling back to `Z` along a map of generic fibres, extends `Z` to `X`. -/
@@ -153,15 +153,15 @@ private theorem exists_extending_genericFiber_of_pointed_noetherian_model
     (hb : b ≫ fT.fiberι y = f.fiberι (genericPoint S) ≫ pX)
     (Z : FiniteEtaleGaloisCover (f.fiber (genericPoint S)) G) (P : Z.obj.left ⟶ V.obj.left)
     (hP : IsPullback P Z.obj.hom V.obj.hom b)
-    (hPact : ∀ g, (Z.action g).hom.left ≫ P = P ≫ (V.action g).hom.left) :
+    (hPact : ∀ g, (Z.action g).asIso.hom.left ≫ P = P ≫ (V.action g).asIso.hom.left) :
     ∃ (Y : FiniteEtaleGaloisCover X G)
       (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-        e.hom = e.hom ≫ (Z.action g).hom := by
+      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
+        e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   classical
   obtain ⟨Y', e', he'⟩ := noetherianCase_at h0BMA h0EYD fT σT hσT G hG y hy V w hw
   obtain ⟨n, hn, hnact⟩ := exists_equivariant_isPullback_of_iso (fT.fiberι y) Y'.obj V.obj e'
-    (fun g : Gᵐᵒᵖ ↦ (Y'.action g).hom) (fun g : Gᵐᵒᵖ ↦ (V.action g).hom) he'
+    (fun g : Gᵐᵒᵖ ↦ (Y'.action g).asIso.hom) (fun g : Gᵐᵒᵖ ↦ (V.action g).asIso.hom) he'
   have hchain : IsPullback (P ≫ n) Z.obj.hom Y'.obj.hom (f.fiberι (genericPoint S) ≫ pX) := by
     rw [← hb]
     exact hP.paste_horiz hn
@@ -250,8 +250,8 @@ private theorem exists_extending_genericFiber_of_sectioned_model
     (hz : z ≫ Z.obj.hom = genericFiberSection f σ hσ) :
     ∃ (Y : FiniteEtaleGaloisCover X G)
       (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-        e.hom = e.hom ≫ (Z.action g).hom := by
+      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
+        e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   let c := Cone.mk S π
   let A := stageBaseChangeDiagram D k X₁
   let φ : A ⟶ Over.forget k ⋙ D := stageBaseChangeDiagramι D k X₁
@@ -333,8 +333,8 @@ theorem exists_finiteEtaleGaloisCover_extending_genericFiber
     (hz : z ≫ Z.obj.hom = genericFiberSection f σ hσ) :
     ∃ (Y : FiniteEtaleGaloisCover X G)
       (e : (finiteEtaleBaseChange (f.fiberι (genericPoint S))).obj Y.obj ≅ Z.obj),
-      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).hom ≫
-        e.hom = e.hom ≫ (Z.action g).hom := by
+      ∀ g : Gᵐᵒᵖ, (finiteEtaleBaseChange (f.fiberι (genericPoint S))).map (Y.action g).asIso.hom ≫
+        e.hom = e.hom ≫ (Z.action g).asIso.hom := by
   classical
   obtain ⟨I, _, _, D, π, ⟨hc⟩, haff, hNoeth, hInt, hNormal, hdom⟩ :=
     exists_isLimit_isNoetherian_isIntegral_isNormal S

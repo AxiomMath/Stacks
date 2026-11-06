@@ -148,7 +148,7 @@ theorem isAlgebraicSpace_total_of_bootstrap (hB : IsAlgebraicSpace 𝒞 S hS B)
     (SheafTorsors.Hom.isPullback φ).lift_snd _ _ hsx
   have hRalg : IsAlgebraicSpace 𝒞 S hS Rpt.total.left :=
     isAlgebraicSpace_total_of_section (hB := hB) (G := G) Rpt
-      (Over.homMk sec (by simpa using hw))
+      (Over.homMk sec (by exact hw))
   have hiso : IsIso ((BigFppfOver.toScheme 𝒞 S hS).map (eqToHom hRb)) := by
     rw [eqToHom_map]; infer_instance
   have hcomp : (BigFppfOver.toScheme 𝒞 S hS).map (SheafTorsors.Hom.base φ) =

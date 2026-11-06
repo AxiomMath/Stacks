@@ -233,7 +233,7 @@ theorem isIso_homologyMap_derivedSectionsOverObject_truncGEπ (U : C)
     (isEventuallyConstantTo_of_isIso_succ _ m fun n hn ↦
       hstep j n (by omega) (by omega)).isIso_π_of_isLimit (limit.isLimit _)
   have h3 := (hr m).symm
-  erw [Pi.lift_π] at h3
+  erw [Pi.lift_comp_π] at h3
   exact h3 ▸ IsIso.comp_isIso' (hseq.isIso_g_iff.mpr hzero) hπlim
 
 end Stacks.Cohomology.OlssonLaszlo.OfEssentiallySmall

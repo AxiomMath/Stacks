@@ -261,8 +261,7 @@ theorem generalizedHilbertSamuelMultiplicity_eq_factorial_mul_coeff {R : Type*} 
   classical
   have hex : ∃ Q : ℚ[X], I.ComputesGeneralizedHilbertPoly M Q := ⟨P, hP⟩
   rw [Ideal.generalizedHilbertSamuelMultiplicity, dite_eq_left hex]
-  congr 2
-  exact Ideal.ComputesGeneralizedHilbertPoly.unique hex.choose_spec hP
+  rw [Ideal.ComputesGeneralizedHilbertPoly.unique hex.choose_spec hP]
 
 /-! ### Vanishing of the Tor modules above the length of the sequence -/
 

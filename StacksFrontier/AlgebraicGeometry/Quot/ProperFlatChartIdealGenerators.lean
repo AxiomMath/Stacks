@@ -31,6 +31,24 @@ open Stacks.Sheaves.ToposPushforward (inverseImageCommRingFunctor)
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 
+attribute [local instance] MorphismOfTopoi.preservesFiniteLimits
+
+/-- File-local shortcut: the inverse image of a morphism of topoi preserves finite products
+(instance search through the generic paths times out). -/
+local instance (priority := high) preservesFiniteProducts_inverseImage_properFlatChartIdealGenerators
+    {E : Type*} [Category E] {F : Type*} [Category F] (f : MorphismOfTopoi E F) :
+    PreservesFiniteProducts f.inverseImage :=
+  haveI := f.preservesFiniteLimits
+  inferInstance
+
+/-- File-local shortcut: the inverse image of a morphism of topoi preserves the terminal
+object (instance search through the generic paths times out). -/
+local instance (priority := high) isIso_terminalComparison_inverseImage_properFlatChartIdealGenerators
+    {E : Type*} [Category E] {F : Type*} [Category F] [HasTerminal E] [HasTerminal F]
+    (f : MorphismOfTopoi E F) : IsIso (terminalComparison f.inverseImage) :=
+  haveI := f.preservesFiniteLimits
+  inferInstance
+
 universe u
 
 namespace AlgebraicGeometry.Space
@@ -92,8 +110,8 @@ abbrev chartIdealGeneratorSection (k : D.kernel)
       (smallEtaleRingedToposHom B S hS
         (chartStructureMap x hx ≫ (chartRangeIso D).hom)).toToposHom.inverseImage
       (Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedTopos B S hS
-        (⟨(baseSubspace D.arrow (isSquareZeroClosedImmersion_arrow D)).1.toFunctor,
-          (baseSubspace D.arrow (isSquareZeroClosedImmersion_arrow D)).2.1⟩ :
+        (⟨(squareZeroSubspace B S hS D.arrow (isSquareZeroClosedImmersion_arrow D)).1.toFunctor,
+          (squareZeroSubspace B S hS D.arrow (isSquareZeroClosedImmersion_arrow D)).2.1⟩ :
             AlgebraicSpaces B S hS)).O)).obj.obj
       (Opposite.op ((smallEtaleModelEquiv B S hS x.obj.obj.left).inverse.obj U.unop)))
 

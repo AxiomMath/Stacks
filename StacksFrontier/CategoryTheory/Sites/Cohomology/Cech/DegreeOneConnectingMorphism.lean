@@ -96,7 +96,7 @@ theorem toRightDerived_comp_resolutionDerivedComparison_hom {M : A} (I : Injecti
       (resolutionDerivedIso I).hom = 𝟙 _ := by
     rw [Category.assoc, resolutionDerivedIso_hom_eq]
     exact (whisker_eq _ (Iso.inv_hom_id_assoc I.plusQIso _)).trans (Iso.hom_inv_id _)
-  have hX : F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.quotient A).obj I.plusObj) ≫
+  have hX : F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.quotient A).obj I.plusObj) ≫
       F.rightDerivedFunctorPlus.map (DerivedCategory.Plus.qhQIso I.plusObj).hom ≫
         F.rightDerivedFunctorPlus.map I.plusQIso.inv ≫ (derivedPlusResolutionIso F I).hom =
       𝟙 _ := by
@@ -105,7 +105,7 @@ theorem toRightDerived_comp_resolutionDerivedComparison_hom {M : A} (I : Injecti
     exact (whisker_eq _ ((eq_whisker ((congrArg F.rightDerivedFunctorPlus.map hr).trans
       (F.rightDerivedFunctorPlus.map_id _)) _).trans (Category.id_comp _))).trans
         (IsIso.hom_inv_id _)
-  have e : (F.rightDerivedFunctorPlusUnit.app
+  have e : (F.rightDerivedFunctorPlusUnith.app
         ((HomotopyCategory.Plus.quotient A).obj I.plusObj)).hom ≫
       (F.rightDerivedFunctorPlus.map (ObjectProperty.homMk
         ((DerivedCategory.quotientCompQhIso A).hom.app I.cochainComplex))).hom ≫

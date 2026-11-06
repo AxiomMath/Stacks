@@ -198,7 +198,8 @@ theorem exists_iso_yoneda_of_inverseImage_iso
     rw [← he, hψ]
     rfl
   have : Epi (F.map (JY.yonedaEquiv.symm s)) := (epi_comp_iff_of_isIso _ _).1 hepi
-  have : Epi (JY.yonedaEquiv.symm s) := F.epi_of_epi_map this
+  have : Epi (JY.yonedaEquiv.symm s) :=
+    @Functor.epi_of_epi_map _ _ _ _ F (Functor.reflectsEpimorphisms_of_faithful F) _ _ _ this
   exact ⟨quotObj s, nonempty_iso_quotObj s⟩
 
 end SheafGivesSpace

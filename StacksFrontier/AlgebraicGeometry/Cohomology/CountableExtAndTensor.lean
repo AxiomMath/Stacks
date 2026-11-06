@@ -104,7 +104,7 @@ def tildeRestrictFullyFaithful :
       Scheme.Modules.restrictFunctor hV.isoSpec.hom).mapDerivedCategory.FullyFaithful :=
   ((StandardModel.mapDerivedCategoryFullyFaithful Γ(X, V)).comp
       (restrictIsoSpecHomDerivedEquivalence hV).fullyFaithfulFunctor).ofIso
-    (Functor.mapDerivedCategoryCompIso (Iso.refl _))
+    (Functor.mapDerivedCategoryCompIsoOfCompIso (Iso.refl _))
 
 /-- Sections over the whole affine scheme `V` of `(M^~)|_V` are `M`. -/
 theorem countable_of_countable_sections_tildeRestrict (M : ModuleCat.{u} Γ(X, V))
@@ -186,7 +186,7 @@ def sliceRestrictDerivedIso :
   letI := Functor.additive_of_iso (Scheme.Modules.overFunctorEquiv U)
   letI := preservesFiniteLimits_of_natIso (Scheme.Modules.overFunctorEquiv U)
   letI := preservesFiniteColimits_of_natIso (Scheme.Modules.overFunctorEquiv U)
-  Functor.mapDerivedCategoryCompIso (Scheme.Modules.overFunctorEquiv U)
+  Functor.mapDerivedCategoryCompIsoOfCompIso (Scheme.Modules.overFunctorEquiv U)
 
 /-- **`Ext^n(F|_U, K|_U)` does not depend on the model of the restriction to `U`**: the slice
 site over `U` and the open subscheme `U` give the same groups. -/

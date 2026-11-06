@@ -355,7 +355,7 @@ theorem exists_moduleLiftFunctor_map_idealQuotientπ_comp
     rw [comp_zero, ← Category.assoc, ← Functor.map_comp]
     exact (congrArg (fun g => L.map g ≫ h) (Abelian.image.fac (idealMultipleHom φ M J))).trans h1
   exact ⟨_, (CokernelCofork.IsColimit.desc' (CokernelCofork.mapIsColimit _
-    (cokernelIsCokernel (idealMultipleι φ M J)) L) h (by simpa using h2)).2⟩
+    (cokernelIsCokernel (idealMultipleι φ M J)) L) h h2).2⟩
 
 /-- **Stacks 08AY, clauses (1) and (3), for a module that is the universe lift of one at the
 universe of the structure rings**, transported from the bounds of the latter. -/

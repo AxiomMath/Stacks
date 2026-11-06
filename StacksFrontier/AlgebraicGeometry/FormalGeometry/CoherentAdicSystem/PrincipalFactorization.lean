@@ -117,7 +117,7 @@ theorem mulSection_app (t : Γ(X, ⊤)) (M : X.Modules) (V : X.Opens) (x : Γ(M,
 
 /-- The endomorphism of the identity functor evaluates to multiplication by `t`. -/
 theorem mulGlobalSection_app (t : Γ(X, ⊤)) (M : X.Modules) :
-    (mulGlobalSection X t).app M = mulSection t M := by
+    (mulGlobalSection X t).asHom.app M = mulSection t M := by
   rw [mulSection, Stacks.AlgebraicGeometry.PrincipalIdealExtension.smulPowHom, pow_one]
 
 /-- Multiplication by `t` is natural in the module: it commutes with every morphism of

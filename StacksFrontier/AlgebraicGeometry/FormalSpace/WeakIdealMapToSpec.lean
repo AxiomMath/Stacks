@@ -117,7 +117,7 @@ def toBasePoints (F : FppfSheaf B S hS) :
       naturality := by
         intro U V f
         ext x
-        refine ULift.ext _ _ ?_
+        refine ULift.ext ?_
         change B.inclusion.map V.unop.hom =
           B.inclusion.map f.unop.left ≫ B.inclusion.map U.unop.hom
         rw [← B.inclusion.map_comp, Over.w f.unop] }
@@ -191,7 +191,7 @@ under Yoneda's lemma for sheaves, to the morphism of schemes `Spec (A ⧸ K) ⟶
         simp only [Functor.const_obj_map, Functor.comp_map]
         rw [← Sheaf.sectionEquiv_symm_map]
         refine congrArg (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)).symm ?_
-        exact ULift.ext _ _ (map_weakIdealStageToSpec B S hS A P f) }
+        exact ULift.ext (map_weakIdealStageToSpec B S hS A P f) }
 
 /-- The morphism of sheaves `X ⟶ Spec A` attached to a weak-ideal presentation of `X`: the
 morphism out of the colimit of the stages determined by the morphisms `Spec (A ⧸ K) ⟶ Spec A`.
@@ -244,7 +244,7 @@ theorem weakIdealToSpecPoints_comp_map {X : FppfSheaf B S hS}
   rw [← Category.assoc (colimit.ι _ K) P.colimitIso.inv
       (weakIdealToSpecPoints B S hS A P ≫ (Space.largeSchemePoints B S hS).map fA),
     ← Category.assoc (colimit.ι _ K) P.colimitIso.inv (toBasePoints B S hS X)]
-  refine (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)).injective (ULift.ext _ _ ?_)
+  refine (Sheaf.sectionEquiv (BigFppfOver.topology B S hS)).injective (ULift.ext ?_)
   rw [sectionEquiv_comp_largeSchemePoints_map, sectionEquiv_comp_toBasePoints,
     weakIdealToSpecPoints_comp_stage]
   exact hfA K

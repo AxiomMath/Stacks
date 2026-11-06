@@ -78,7 +78,7 @@ private theorem exists_shortExact_rankOne_sub_aux {E : X.Modules} {n : ℕ}
         AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.of_iso.{u, u, u}
           (asIso g).symm hL1, HasInvertibleFiltration.nil 0 (isZero_zero _)⟩
       exact ShortComplex.ShortExact.mk' ((ShortComplex.exact_iff_epi _ rfl).2 inferInstance)
-        inferInstance inferInstance
+        inferInstance ((isZero_zero _).epi _)
     · -- `ℱ` is an extension of `𝒬_ℱ` by `ℒ'`; pass to the quotients by `ℒ'`
       obtain ⟨L', QF, i', p', w', hS', hL', hQF⟩ := ih r₁ rfl
       have := hS'.mono_f

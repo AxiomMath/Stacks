@@ -155,11 +155,11 @@ private noncomputable def piSumIso {D : Type u} [Category.{v} D]
     apply Pi.hom_ext
     intro s
     cases s
-    · rw [Category.assoc, Pi.lift_π, ← Category.assoc, prod.lift_fst,
-        Pi.lift_π]
+    · rw [Category.assoc, Pi.lift_comp_π, ← Category.assoc, prod.lift_fst,
+        Pi.lift_comp_π]
       simp
-    · rw [Category.assoc, Pi.lift_π, ← Category.assoc, prod.lift_snd,
-        Pi.lift_π]
+    · rw [Category.assoc, Pi.lift_comp_π, ← Category.assoc, prod.lift_snd,
+        Pi.lift_comp_π]
       simp
   inv_hom_id := by
     apply prod.hom_ext
@@ -175,7 +175,7 @@ private noncomputable def piSumIso {D : Type u} [Category.{v} D]
       change ((r ≫ prod.lift p q) ≫ prod.fst) ≫
         Pi.π (fun a : α => H (Sum.inl a)) a =
           (𝟙 _ ≫ prod.fst) ≫ Pi.π (fun a : α => H (Sum.inl a)) a
-      rw [hcomp, prod.lift_fst, Category.assoc, Pi.lift_π]
+      rw [hcomp, prod.lift_fst, Category.assoc, Pi.lift_comp_π]
       simp [r]
     · apply Pi.hom_ext
       intro b
@@ -189,7 +189,7 @@ private noncomputable def piSumIso {D : Type u} [Category.{v} D]
       change ((r ≫ prod.lift p q) ≫ prod.snd) ≫
         Pi.π (fun b : β => H (Sum.inr b)) b =
           (𝟙 _ ≫ prod.snd) ≫ Pi.π (fun b : β => H (Sum.inr b)) b
-      rw [hcomp, prod.lift_snd, Category.assoc, Pi.lift_π]
+      rw [hcomp, prod.lift_snd, Category.assoc, Pi.lift_comp_π]
       simp [r]
 
 private noncomputable def piSplitIso {D : Type u} [Category.{v} D]

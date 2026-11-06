@@ -536,9 +536,9 @@ theorem isArtinianRing_of_add_maximalIdeal {B : ArtinianLocalAlgCat.{u, v, w} Λ
     intro x hx
     exact key n x hx (by simp)
   have hart : IsArtinian C B := by
-    refine ⟨(StrictMono.wellFoundedLT
+    refine StrictMono.wellFoundedLT
       (f := fun (N : Submodule C B) (i : Fin (n + 1)) =>
-        subalgebraFiltrationIdeal C hC N i) ?_).wf⟩
+        subalgebraFiltrationIdeal C hC N i) ?_
     intro N N' hlt
     refine lt_of_le_of_ne (fun i => hmono hlt.le i) fun heq => ?_
     exact hlt.not_ge (hsep hlt.le fun i hi => (congrFun heq ⟨i, by omega⟩).symm)

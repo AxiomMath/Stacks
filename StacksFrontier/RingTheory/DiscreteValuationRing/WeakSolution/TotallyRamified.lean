@@ -66,7 +66,7 @@ private theorem comap_eq_maximalIdeal_of_isMaximal
     (R S : Type*) [CommRing R] [CommRing S] [IsLocalRing R] [Algebra R S]
     [Algebra.IsIntegral R S] (q : Ideal S) [q.IsMaximal] :
     q.comap (algebraMap R S) = IsLocalRing.maximalIdeal R :=
-  IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := R) q)
+  IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) q)
 
 /-- The structure map from a domain `A` to the integral closure of `A` in a finite extension
 `E` of its fraction field `K` is injective. -/
@@ -141,14 +141,14 @@ private theorem isDiscreteValuationRing_tensorProduct
       rw [IsScalarTower.algebraMap_eq A B T, ← Ideal.comap_comap, hqB]
       exact IsLocalRing.maximalIdeal_comap (algebraMap A B)
     have hqS : (q.comap f).IsMaximal := by
-      apply Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A)
+      apply Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A)
       have heq : (q.comap f).comap (algebraMap A S) = IsLocalRing.maximalIdeal A := by
         rw [Ideal.comap_comap]
         change q.comap ((Algebra.TensorProduct.includeRight : S →ₐ[A] T).toRingHom.comp
           (algebraMap A S)) = _
         exact (congrArg (fun k : A →+* T => q.comap k)
           (Algebra.TensorProduct.includeRight : S →ₐ[A] T).comp_algebraMap).trans hqA
-      rw [heq]
+      rw [Ideal.under_def, heq]
       infer_instance
     exact Ideal.map_le_iff_le_comap.mpr (IsLocalRing.eq_maximalIdeal hqS).ge
   have : IsLocalRing T := IsLocalRing.of_unique_max_ideal

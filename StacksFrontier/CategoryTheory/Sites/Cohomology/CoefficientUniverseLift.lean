@@ -110,7 +110,7 @@ public lemma sheafUlift_properties_of_small {C : Type u} [SmallCategory C]
           (evaluationAdjunctionLeft Ab.{u} c).counit.app (Injective.under (F.obj c)) =
             Injective.ι (F.obj c) := by
         rw [← Category.assoc]
-        have hh := congrArg (fun k : F ⟶ Q c ↦ k.app c) (Pi.lift_π a c)
+        have hh := congrArg (fun k : F ⟶ Q c ↦ k.app c) (Pi.lift_comp_π a c)
         change i.app c ≫ (Pi.π Q c).app c = (a c).app c at hh
         rw [hh]
         exact ((evaluationAdjunctionLeft Ab.{u} c).homEquiv F _).symm_apply_apply _

@@ -109,24 +109,35 @@ theorem isIso_coreflectionDerivedAdjunction_unit_app_single (X : P.FullSubcatego
   have := P.ι.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   have hαR : (P.ι.rightDerivedFunctorPlus ⋙ R.rightDerivedFunctorPlus).IsLeftDerivedFunctor
       ((Functor.associator _ _ _).inv ≫
-        Functor.whiskerRight (asIso P.ι.rightDerivedFunctorPlusUnit).inv R.rightDerivedFunctorPlus)
+        Functor.whiskerRight (asIso P.ι.rightDerivedFunctorPlusUnith).inv R.rightDerivedFunctorPlus)
       (HomotopyCategory.Plus.quasiIso P.FullSubcategory) :=
     Functor.isLeftDerivedFunctor_of_inverts _ _
       ((Functor.associator _ _ _).symm ≪≫
-        Functor.isoWhiskerRight (asIso P.ι.rightDerivedFunctorPlusUnit).symm _)
+        Functor.isoWhiskerRight (asIso P.ι.rightDerivedFunctorPlusUnith).symm _)
   let K := (HomotopyCategory.Plus.singleFunctor P.FullSubcategory 0).obj X
   have h₁ : IsIso (adj.mapHomotopyCategoryPlus.unit.app K) :=
     adj.isIso_mapHomotopyCategoryPlus_unit_app K
-  have h₂ : IsIso (R.rightDerivedFunctorPlusUnit.app (P.ι.mapHomotopyCategoryPlus.obj K)) :=
-    (NatTrans.isIso_app_iff_of_iso R.rightDerivedFunctorPlusUnit
-      (P.ι.mapHomotopyCategoryPlusObjSingleIso 0 X)).2 hX
+  have h₂ : IsIso (R.rightDerivedFunctorPlusUnith.app (P.ι.mapHomotopyCategoryPlus.obj K)) := by
+    refine (NatTrans.isIso_app_iff_of_iso R.rightDerivedFunctorPlusUnith
+      (P.ι.mapHomotopyCategoryPlusObjSingleIso 0 X)).2 ?_
+    -- `rightDerivedFunctorPlusUnith` is not exposed: compare it with `totalRightDerivedUnit`.
+    have := (Functor.isRightDerivedFunctor_iff_isIso_rightDerivedDesc R.rightDerivedFunctorPlus
+      R.rightDerivedFunctorPlusUnith (HomotopyCategory.Plus.quasiIso A) _
+      ((R.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A))).1 inferInstance
+    have hX' : IsIso (((R.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).totalRightDerivedUnit
+        DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso A)).app
+        ((HomotopyCategory.Plus.singleFunctor A 0).obj (P.ι.obj X))) := hX
+    rw [← Functor.rightDerived_fac_app R.rightDerivedFunctorPlus R.rightDerivedFunctorPlusUnith
+      (HomotopyCategory.Plus.quasiIso A) _ _] at hX'
+    exact (isIso_comp_right_iff _ _).1 hX'
   have h₃ : IsIso ((Adjunction.derivedη adj.mapHomotopyCategoryPlus
-      (HomotopyCategory.Plus.quasiIso _) (asIso P.ι.rightDerivedFunctorPlusUnit).inv
-      R.rightDerivedFunctorPlusUnit).app (Plus.Qh.obj K) ≫
-      R.rightDerivedFunctorPlus.map ((asIso P.ι.rightDerivedFunctorPlusUnit).inv.app K)) := by
+      (HomotopyCategory.Plus.quasiIso _) (asIso P.ι.rightDerivedFunctorPlusUnith).inv
+      R.rightDerivedFunctorPlusUnith).app (Plus.Qh.obj K) ≫
+      R.rightDerivedFunctorPlus.map ((asIso P.ι.rightDerivedFunctorPlusUnith).inv.app K)) := by
     rw [Adjunction.derivedη_fac_app (adj := adj.mapHomotopyCategoryPlus)
-      (W₁ := HomotopyCategory.Plus.quasiIso _) (α := (asIso P.ι.rightDerivedFunctorPlusUnit).inv)
-      (β := R.rightDerivedFunctorPlusUnit) K]
+      (W₁ := HomotopyCategory.Plus.quasiIso _) (α := (asIso P.ι.rightDerivedFunctorPlusUnith).inv)
+      (β := R.rightDerivedFunctorPlusUnith) K]
     exact IsIso.comp_isIso' (Functor.map_isIso _ _) h₂
   exact (isIso_comp_right_iff _ _).1 h₃
 

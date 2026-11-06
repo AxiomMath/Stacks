@@ -337,7 +337,7 @@ section RightDerived
 variable {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
   [HasDerivedCategory A] [HasDerivedCategory B] [EnoughInjectives A] (F : A ⥤ B) [F.Additive]
   [F.rightDerivedFunctorPlus.CommShift ℤ]
-  [NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ]
+  [NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ]
   (S : ShortComplex (CochainComplex.Plus A))
 
 /-- The image under `F` of `descKPlus S`, followed by the unit of `RF` at `K₃` and the image of
@@ -346,12 +346,12 @@ variable {A B : Type*} [Category* A] [Category* B] [Abelian A] [Abelian B]
 theorem descKPlus_comp_unit_comp_mapδ (hS : (toSC S).ShortExact) :
     DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map
           (F.mapHomotopyCategoryPlus.map (descKPlus S))) ≫
-        DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+        DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj S.X₃)) ≫
         Functor.mapδ (F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) (coneδ S hS) =
       Functor.mapδ ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) ⋙
           DerivedCategory.Plus.ι) (conePlusδ S) ≫
-        (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+        (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj S.X₁)))⟦(1 : ℤ)⟧' := by
   have hΦ₂ : Functor.mapδ ((DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus) ⋙
         DerivedCategory.Plus.ι) (conePlusδ S) =
@@ -366,9 +366,9 @@ theorem descKPlus_comp_unit_comp_mapδ (hS : (toSC S).ShortExact) :
       (fun g ↦ Functor.mapδ (F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) g)
       (plusQh_map_descKPlus_comp_coneδ S hS).symm) ?_
     exact Functor.comp_mapδ _ _ _
-  have hnat := F.rightDerivedFunctorPlusUnit.naturality (descKPlus S)
+  have hnat := F.rightDerivedFunctorPlusUnith.naturality (descKPlus S)
   have hcs := Functor.mapδ_commShift
-    (Functor.whiskerRight F.rightDerivedFunctorPlusUnit DerivedCategory.Plus.ι) (conePlusδ S)
+    (Functor.whiskerRight F.rightDerivedFunctorPlusUnith DerivedCategory.Plus.ι) (conePlusδ S)
   refine Eq.trans (Category.assoc _ _ _).symm ?_
   refine Eq.trans (eq_whisker
     (CategoryTheory.Functor.map_comp DerivedCategory.Plus.ι _ _).symm _) ?_
@@ -380,7 +380,7 @@ theorem descKPlus_comp_unit_comp_mapδ (hS : (toSC S).ShortExact) :
   exact hcs.symm
 
 omit [HasDerivedCategory A] [EnoughInjectives A] [F.rightDerivedFunctorPlus.CommShift ℤ]
-  [NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ] in
+  [NatTrans.CommShift F.rightDerivedFunctorPlusUnith ℤ] in
 /-- `F` applied to `descKPlus` is a quasi-isomorphism when `F` keeps the sequence short exact. -/
 theorem isIso_ι_map_plusQh_map_mapHomotopyCategoryPlus_descKPlus
     (hFS : ((toSC S).map (F.mapHomologicalComplex (up ℤ))).ShortExact) :
@@ -405,7 +405,7 @@ exact, the third morphism of `RF(K₁) ⟶ RF(K₂) ⟶ RF(K₃) ⟶ RF(K₁)[1]
 the unit at `K₁`. -/
 theorem unit_comp_mapδ_coneδ (hS : (toSC S).ShortExact)
     (hFS : ((toSC S).map (F.mapHomologicalComplex (up ℤ))).ShortExact) :
-    DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+    DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.quotient A).obj S.X₃)) ≫
         Functor.mapδ (F.rightDerivedFunctorPlus ⋙ DerivedCategory.Plus.ι) (coneδ S hS) =
       (DerivedCategory.quotientCompQhIso B).hom.app
@@ -413,7 +413,7 @@ theorem unit_comp_mapδ_coneδ (hS : (toSC S).ShortExact)
         DerivedCategory.triangleOfSESδ hFS ≫
           ((DerivedCategory.quotientCompQhIso B).inv.app
             ((F.mapHomologicalComplex (up ℤ)).obj (toSC S).X₁))⟦(1 : ℤ)⟧' ≫
-          (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+          (DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
             ((HomotopyCategory.Plus.quotient A).obj S.X₁)))⟦(1 : ℤ)⟧' := by
   have := isIso_ι_map_plusQh_map_mapHomotopyCategoryPlus_descKPlus F S hFS
   refine (cancel_epi (DerivedCategory.Plus.ι.map (DerivedCategory.Plus.Qh.map
@@ -448,7 +448,7 @@ def unitD (L : CochainComplex.Plus A) :
     DerivedCategory.Q.obj ((F.mapHomologicalComplex (up ℤ)).obj L.obj) ⟶
       DerivedCategory.Plus.ι.obj (F.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Q.obj L)) :=
   (DerivedCategory.quotientCompQhIso B).inv.app ((F.mapHomologicalComplex (up ℤ)).obj L.obj) ≫
-    DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnit.app
+    DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient A).obj L)) ≫
     DerivedCategory.Plus.ι.map (F.rightDerivedFunctorPlus.map
       ((StacksDraft.DerivedSectionsComparison.quotientQhIsoQ A).hom.app L))

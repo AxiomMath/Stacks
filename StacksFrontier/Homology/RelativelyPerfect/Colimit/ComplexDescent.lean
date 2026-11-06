@@ -668,7 +668,8 @@ lemma isIso_stage_comparison_app_of_flat
       _ _ _ _ _ _ _ _ _ ((stageToLimitMap c A₀ i).toAlgebra) inferInstance (by
         ext x
         show stageToLimitMap c A₀ i (1 ⊗ₜ[R₀] x) = 1 ⊗ₜ[R₀] x
-        simp [stageToLimitMap])
+        simp [stageToLimitMap]
+        exact congrArg (· ⊗ₜ[R₀] x) (c.ι.app i).hom.map_one')
   let : Algebra.IsPushout Ri A c.pt B := Algebra.IsPushout.symm hp
   let DR := totalDerivedExtensionScalars.{uR, uR, max uA uM} (algebraMap Ri c.pt)
   let DA := totalDerivedExtensionScalars.{max uR uA, max uR uA, uM} (stageToLimitMap c A₀ i)

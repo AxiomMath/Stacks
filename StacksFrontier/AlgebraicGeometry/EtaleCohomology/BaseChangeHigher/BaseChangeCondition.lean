@@ -106,13 +106,13 @@ homotopy category, the right derived functor because its unit is invertible for 
 functor. -/
 public def exactMapDerivedCategoryPlusIso :
     F.mapDerivedCategoryPlus ≅ F.rightDerivedFunctorPlus :=
-  letI : IsIso F.rightDerivedFunctorPlusUnit :=
+  letI : IsIso F.rightDerivedFunctorPlusUnith :=
     F.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
   Localization.liftNatIso DerivedCategory.Plus.Qh (HomotopyCategory.Plus.quasiIso C)
     (DerivedCategory.Plus.Qh ⋙ F.mapDerivedCategoryPlus)
     (DerivedCategory.Plus.Qh ⋙ F.rightDerivedFunctorPlus)
     F.mapDerivedCategoryPlus F.rightDerivedFunctorPlus
-    (F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnit)
+    (F.mapDerivedCategoryPlusFactorsh ≪≫ asIso F.rightDerivedFunctorPlusUnith)
 
 /-- **The right derived functor of an exact functor commutes with cohomology.** The comparison
 `H^n(RF(K)) ≅ F(H^n(K))` on the bounded below derived category, obtained from the unbounded
@@ -222,11 +222,11 @@ public def smallEtaleDerivedBaseChangeAb :
         (smallEtalePullbackAb f').rightDerivedFunctorPlus ⟶
       (smallEtalePullbackAb e).rightDerivedFunctorPlus ⋙
         (smallEtalePushforwardAb h).rightDerivedFunctorPlus :=
-  letI : IsIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnit :=
+  letI : IsIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnith :=
     Stacks.Cohomology.BaseChange.exactUnit_isIso (smallEtalePullbackAb f')
   Stacks.Cohomology.BaseChange.derived (smallEtalePushforwardAb g) (smallEtalePushforwardAb h)
     (smallEtalePullbackAb f') (smallEtalePullbackAb e) (smallEtaleBaseChangeAb f' g h e w)
-    (asIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnit)
+    (asIso (smallEtalePullbackAb f').rightDerivedFunctorPlusUnith)
 
 /-- The natural identification of `(f')⁻¹ R^q g_*` with the degree-`q` cohomology of the
 bounded below derived source `R(f')⁻¹ Rg_*`: the comparison of the injective-resolution and

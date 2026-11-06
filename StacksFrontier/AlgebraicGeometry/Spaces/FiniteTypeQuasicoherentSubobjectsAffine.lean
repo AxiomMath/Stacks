@@ -134,6 +134,7 @@ theorem isoChartSectionHom_app_one (n : H.val.obj (op (invIsoChart B S hS e)))
   rw [h'] at h
   exact h.symm
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The image of a morphism out of the structure sheaf is a finite type quasi-coherent
 subobject. -/
 theorem imageSubobject_unit_mem [H.IsQuasicoherentOnSite]

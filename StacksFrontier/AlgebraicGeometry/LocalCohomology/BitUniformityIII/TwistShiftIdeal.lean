@@ -332,6 +332,7 @@ theorem exists_mem_degreeZeroModuleAt_map_reesShift_mk (t : ℤ)
     exact Submodule.subset_span ⟨1 + d, (m : reesAlgebra I), _,
       mem_twistGrading_succ_of_mem_reesTruncationGrading I t hd m hm, hden, rfl⟩
 
+set_option maxHeartbeats 400000 in
 /-- **[Stacks, Tag 02OS] part (3) in the degree-zero localization at a point.**
 
 At a point `x` of the blowup at which the degree-one element `b⁽¹⁾` is invertible, the map

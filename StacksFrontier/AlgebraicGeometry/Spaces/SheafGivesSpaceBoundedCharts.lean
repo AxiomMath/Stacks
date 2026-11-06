@@ -245,7 +245,7 @@ theorem sheaf_hom_ext_of_boundedSieve {κ : Cardinal.{u}}
     intro Z m
     refine (hN.isSeparated _ (hκ Z)).ext ?_
     rintro W g ⟨A, hA, e, k, rfl⟩
-    rw [op_comp, FunctorToTypes.map_comp_apply, FunctorToTypes.map_comp_apply,
+    rw [op_comp, Functor.map_comp_apply, Functor.map_comp_apply,
       ← NatTrans.naturality_apply c₁.hom k.op m, ← NatTrans.naturality_apply c₂.hom k.op m,
       h' A hA]
   ext Z m

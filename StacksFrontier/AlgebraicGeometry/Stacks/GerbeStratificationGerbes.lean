@@ -1069,17 +1069,17 @@ theorem bandHom_comm {ξ : (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.ob
   rw [← bandHom_mul, mul_comm]
 
 /-- The automorphism of an object of the stratum, in the stratum, attached to a unit. -/
-noncomputable def bandAut (x : P.FullSubcategory) (t : baseUnits.{u, w} a x.obj) : Aut x where
-  hom := ObjectProperty.homMk (bandHom.{u, w} a hPmor hPchart x.property t)
-  inv := ObjectProperty.homMk (bandHom.{u, w} a hPmor hPchart x.property t⁻¹)
-  hom_inv_id := ObjectProperty.hom_ext _ (by
-    change bandHom.{u, w} a hPmor hPchart x.property t ≫
-      bandHom.{u, w} a hPmor hPchart x.property t⁻¹ = 𝟙 x.obj
-    rw [← bandHom_mul, mul_inv_cancel, bandHom_one])
-  inv_hom_id := ObjectProperty.hom_ext _ (by
-    change bandHom.{u, w} a hPmor hPchart x.property t⁻¹ ≫
-      bandHom.{u, w} a hPmor hPchart x.property t = 𝟙 x.obj
-    rw [← bandHom_mul, inv_mul_cancel, bandHom_one])
+noncomputable def bandAut (x : P.FullSubcategory) (t : baseUnits.{u, w} a x.obj) : Aut x := .of
+  { hom := ObjectProperty.homMk (bandHom.{u, w} a hPmor hPchart x.property t)
+    inv := ObjectProperty.homMk (bandHom.{u, w} a hPmor hPchart x.property t⁻¹)
+    hom_inv_id := ObjectProperty.hom_ext _ (by
+      change bandHom.{u, w} a hPmor hPchart x.property t ≫
+        bandHom.{u, w} a hPmor hPchart x.property t⁻¹ = 𝟙 x.obj
+      rw [← bandHom_mul, mul_inv_cancel, bandHom_one])
+    inv_hom_id := ObjectProperty.hom_ext _ (by
+      change bandHom.{u, w} a hPmor hPchart x.property t⁻¹ ≫
+        bandHom.{u, w} a hPmor hPchart x.property t = 𝟙 x.obj
+      rw [← bandHom_mul, inv_mul_cancel, bandHom_one]) }
 
 /-- **The band of the stratum, from units to automorphisms.** -/
 noncomputable def bandMonoidHom (x : P.FullSubcategory) :
@@ -1092,10 +1092,10 @@ noncomputable def bandMonoidHom (x : P.FullSubcategory) :
     rw [IsHomLift.fac' _ (𝟙 ((weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p.obj x.obj))
       (bandHom.{u, w} a hPmor hPchart x.property t)]
     simp⟩
-  map_one' := Subtype.ext (Aut.ext (ObjectProperty.hom_ext _
-    (bandHom_one.{u, w} a hPmor hPchart x.property)))
-  map_mul' t t' := Subtype.ext (Aut.ext (ObjectProperty.hom_ext _
-    (bandHom_comm.{u, w} a hPmor hPchart x.property t t')))
+  map_one' := Subtype.ext (Aut.ext (Iso.ext (ObjectProperty.hom_ext _
+    (bandHom_one.{u, w} a hPmor hPchart x.property))))
+  map_mul' t t' := Subtype.ext (Aut.ext (Iso.ext (ObjectProperty.hom_ext _
+    (bandHom_comm.{u, w} a hPmor hPchart x.property t t'))))
 
 /-- Membership in the stratum group is local. -/
 theorem mem_stratumUnits_of_locally {T : BigFppfOver 𝒞 𝒵 (Space.contains_specULiftZ 𝒞)}
@@ -1261,7 +1261,7 @@ theorem eq_restrictUnits_of_comp_eq {x y : (weightedQuotientStack.{u, w} 𝒞 k 
 
 /-- The underlying morphism of `bandMonoidHom x t` is the automorphism attached to `t`. -/
 theorem bandMonoidHom_apply_hom (x : P.FullSubcategory) (t : baseUnits.{u, w} a x.obj) :
-    ((bandMonoidHom.{u, w} a hPmor hPchart x t).1 : Aut x).hom.hom =
+    ((bandMonoidHom.{u, w} a hPmor hPchart x t).1 : Aut x).asIso.hom.hom =
       bandHom.{u, w} a hPmor hPchart x.property t :=
   rfl
 
@@ -1269,21 +1269,21 @@ theorem bandMonoidHom_apply_hom (x : P.FullSubcategory) (t : baseUnits.{u, w} a 
 `bandMonoidHom x t`. -/
 theorem bandMonoidHom_eq_of (x : P.FullSubcategory) (t : baseUnits.{u, w} a x.obj)
     (α : (P.ι ⋙ (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p).verticalAut x)
-    (h : bandHom.{u, w} a hPmor hPchart x.property t = (α.1 : Aut x).hom.hom) :
+    (h : bandHom.{u, w} a hPmor hPchart x.property t = (α.1 : Aut x).asIso.hom.hom) :
     bandMonoidHom.{u, w} a hPmor hPchart x t = α :=
-  Subtype.ext (Aut.ext (ObjectProperty.hom_ext _ h))
+  Subtype.ext (Aut.ext (Iso.ext (ObjectProperty.hom_ext _ h)))
 
 /-- Every vertical automorphism of an object of the stratum is the automorphism attached to some
 unit of the stratum group. -/
 theorem exists_bandHom_eq_of_vertical (x : P.FullSubcategory)
     (α : (P.ι ⋙ (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p).verticalAut x) :
     ∃ t : baseUnits.{u, w} a x.obj,
-      bandHom.{u, w} a hPmor hPchart x.property t = (α.1 : Aut x).hom.hom := by
-  have hc : (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p.map (α.1 : Aut x).hom.hom =
+      bandHom.{u, w} a hPmor hPchart x.property t = (α.1 : Aut x).asIso.hom.hom := by
+  have hc : (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p.map (α.1 : Aut x).asIso.hom.hom =
       𝟙 ((weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p.obj x.obj) :=
     Functor.verticalAut.cond α
   have hα := IsHomLift.map (p := (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p)
-    (α.1 : Aut x).hom.hom
+    (α.1 : Aut x).asIso.hom.hom
   rw [hc] at hα
   exact exists_bandHom_eq.{u, w} a hPmor hPchart x.property _
 
@@ -1292,7 +1292,7 @@ theorem bijective_bandMonoidHom (x : P.FullSubcategory) :
     Function.Bijective (bandMonoidHom.{u, w} a hPmor hPchart x) := by
   refine ⟨fun t t' e => bandHom_injective.{u, w} a hPmor hPchart x.property
     (((bandMonoidHom_apply_hom.{u, w} a hPmor hPchart x t).symm.trans
-      (congrArg (fun α => (α.1 : Aut x).hom.hom) e)).trans
+      (congrArg (fun α => (α.1 : Aut x).asIso.hom.hom) e)).trans
       (bandMonoidHom_apply_hom.{u, w} a hPmor hPchart x t')),
     fun α => (exists_bandHom_eq_of_vertical.{u, w} a hPmor hPchart x α).imp
       fun t ht => bandMonoidHom_eq_of.{u, w} a hPmor hPchart x t α ht⟩
@@ -1316,8 +1316,8 @@ theorem bandHom_band_symm [NeZero p] (x : P.FullSubcategory)
     (α : (P.ι ⋙ (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p).verticalAut x) :
     bandHom.{u, w} a hPmor hPchart x.property
         ((MulEquiv.ofBijective _ (bijective_bandMonoidHom.{u, w} a hPmor hPchart x)).symm α) =
-      (α.1 : Aut x).hom.hom :=
-  congrArg (fun β => (β.1 : Aut x).hom.hom)
+      (α.1 : Aut x).asIso.hom.hom :=
+  congrArg (fun β => (β.1 : Aut x).asIso.hom.hom)
     ((MulEquiv.ofBijective _ (bijective_bandMonoidHom.{u, w} a hPmor hPchart x)).apply_symm_apply α)
 
 
@@ -1326,7 +1326,7 @@ include hPmor hPchart in
 theorem band_naturality [NeZero p] (x y : P.FullSubcategory) (f : x ⟶ y)
     (α : (P.ι ⋙ (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p).verticalAut x)
     (β : (P.ι ⋙ (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p).verticalAut y)
-    (h : (α : Aut x).hom ≫ f = f ≫ (β : Aut y).hom) :
+    (h : (α : Aut x).asIso.hom ≫ f = f ≫ (β : Aut y).asIso.hom) :
     Over.Hom.left (band.{u, w} a hPmor hPchart x α) =
       ((P.ι ⋙ (weightedQuotientStack.{u, w} 𝒞 k p hU).val.val.p).map f).left.hom ≫
         Over.Hom.left (band.{u, w} a hPmor hPchart y β) := by
@@ -1336,7 +1336,7 @@ theorem band_naturality [NeZero p] (x y : P.FullSubcategory) (f : x ⟶ y)
         ((MulEquiv.ofBijective _ (bijective_bandMonoidHom.{u, w} a hPmor hPchart x)).symm α) ≫
         f.hom = f.hom ≫ bandHom.{u, w} a hPmor hPchart y.property
         ((MulEquiv.ofBijective _ (bijective_bandMonoidHom.{u, w} a hPmor hPchart y)).symm β) := by
-    have h' : (α.1 : Aut x).hom.hom ≫ f.hom = f.hom ≫ (β.1 : Aut y).hom.hom :=
+    have h' : (α.1 : Aut x).asIso.hom.hom ≫ f.hom = f.hom ≫ (β.1 : Aut y).asIso.hom.hom :=
       congrArg InducedCategory.Hom.hom h
     exact (congrArg (· ≫ f.hom) hx).trans (h'.trans (congrArg (f.hom ≫ ·) hy.symm))
   have ht := eq_restrictUnits_of_comp_eq.{u, w} a hPmor hPchart x.property y.property f.hom _ _ hf

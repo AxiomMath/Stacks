@@ -38,7 +38,7 @@ comparison is the open-immersion comparison followed by the degreewise change of
   `D(F) ⋙ D(G)` as a left derived functor of `K(H) ⋙ Q_h` along an isomorphism `F ⋙ G ≅ H`.
 * `Stacks.Homology.mapDerivedCategoryCompIso`: an isomorphism `F ⋙ G ≅ H` of exact functors
   induces `D(F) ⋙ D(G) ≅ D(H)`.  This is
-  `CategoryTheory.Functor.mapDerivedCategoryCompIso`, which is in turn
+  `CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`, which is in turn
   `Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso` followed by the degreewise change
   of functor; the development has one construction of this comparison, not three.
 
@@ -94,7 +94,7 @@ through a localization, which does not terminate inside the default heartbeat bu
 
 **The composition comparison is not built here.**  It used to be, out of the uniqueness of a left
 derived functor; it is now
-`CategoryTheory.Functor.mapDerivedCategoryCompIso`, hence
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`, hence
 `Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso` inverted and followed by the
 degreewise change of functor.  What the file still owns is the *characterization*
 `Stacks.Homology.mapDerivedCategoryCompIso_hom_app` — unchanged, and now read off the value
@@ -345,7 +345,7 @@ instance isLeftDerivedFunctor_mapDerivedCategoryCompComparison (F : A ⥤ B) (G 
 
 /-- **An isomorphism `F ⋙ G ≅ H` of exact functors induces `D(F) ⋙ D(G) ≅ D(H)`.**
 
-This is `CategoryTheory.Functor.mapDerivedCategoryCompIso`, hence — unfolding that one step
+This is `CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso`, hence — unfolding that one step
 further — the comparison `Stacks.DerivedCategoryComparisons.mapDerivedCategoryCompIso` of
 `D(F ⋙ G)` with `D(F) ⋙ D(G)`, inverted, followed by the degreewise change of functor that `e`
 gives.  It used to be built a second time here, out of the uniqueness of a left derived functor;
@@ -357,7 +357,7 @@ def mapDerivedCategoryCompIso (F : A ⥤ B) (G : B ⥤ C) (H : A ⥤ C)
     [PreservesFiniteLimits G] [PreservesFiniteColimits G]
     [PreservesFiniteLimits H] [PreservesFiniteColimits H] (e : F ⋙ G ≅ H) :
     F.mapDerivedCategory ⋙ G.mapDerivedCategory ≅ H.mapDerivedCategory :=
-  CategoryTheory.Functor.mapDerivedCategoryCompIso e
+  CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso e
 
 /-- The universal property of `Stacks.Homology.mapDerivedCategoryCompIso`.  It is the value of
 the comparison over `DerivedCategory.Qh`,

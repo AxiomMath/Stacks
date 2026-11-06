@@ -275,7 +275,6 @@ theorem tensorDivPow_lTensor_mulPowNum (k n : ℕ) (u : S ⊗[R] ↥(𝒜 (n •
     tensorDivPow 𝒜 S ha (n + k) (LinearMap.lTensor S (mulPowNum 𝒜 ha k n) u) =
       tensorDivPow 𝒜 S ha n u := by
   induction u with
-  | zero => simp
   | tmul s y =>
       simp only [tensorDivPow, LinearMap.lTensor_tmul]
       rw [divPow_mulPowNum]
@@ -295,7 +294,6 @@ theorem exists_tensorDivPow_of_le {n N : ℕ} (h : n ≤ N) (u : S ⊗[R] ↥(�
 theorem exists_tensorDivPow (z : S ⊗[R] Away 𝒜 a) :
     ∃ (n : ℕ) (u : S ⊗[R] ↥(𝒜 (n • d))), tensorDivPow 𝒜 S ha n u = z := by
   induction z with
-  | zero => exact ⟨0, 0, map_zero _⟩
   | tmul s z =>
       obtain ⟨n, y, hy, rfl⟩ := Away.mk_surjective 𝒜 ha z
       exact ⟨n, s ⊗ₜ[R] ⟨y, hy⟩, tensorDivPow_tmul 𝒜 S ha n s ⟨y, hy⟩⟩
@@ -321,9 +319,6 @@ theorem awayBaseChange_tensorDivPow (n : ℕ) (u : S ⊗[R] ↥(𝒜 (n • d)))
       Away.mk (grading 𝒜 S) (tmul_one_mem 𝒜 S ha) n
         ((𝒜 (n • d)).toBaseChange S u : S ⊗[R] A) ((𝒜 (n • d)).toBaseChange S u).2 := by
   induction u with
-  | zero =>
-      rw [map_zero, map_zero]
-      exact (awayMk_zero (grading 𝒜 S) (tmul_one_mem 𝒜 S ha) n).symm
   | tmul s y =>
       have hnum : (s ⊗ₜ[R] (1 : A)) * ((1 : S) ⊗ₜ[R] (y : A)) =
           ((𝒜 (n • d)).toBaseChange S (s ⊗ₜ[R] y) : S ⊗[R] A) := by
@@ -348,7 +343,6 @@ theorem toBaseChange_lTensor_mulPowNum (k n : ℕ) (u : S ⊗[R] ↥(𝒜 (n •
         S ⊗[R] A) =
       ((1 : S) ⊗ₜ[R] a) ^ k * ((𝒜 (n • d)).toBaseChange S u : S ⊗[R] A) := by
   induction u with
-  | zero => simp
   | tmul s y => simp [Algebra.TensorProduct.tmul_pow, Algebra.TensorProduct.tmul_mul_tmul]
   | add u v hu hv => simp only [map_add, Submodule.coe_add, hu, hv, mul_add]
 

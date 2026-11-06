@@ -301,20 +301,20 @@ public theorem fiberStalkComponent_fiberBaseChangeSectionsMap
     have hgerm := ConcreteCategory.congr_hom
       (etaleStalkSmallEtalePullObjIso_germ B p (x.toGeometricPoint B f' t)
         AddCommGrpCat.{u + 1} F
-        ⟨openObject B X'.obj X'.property (baseChange B f' (baseChange B g V))
-            (fiberBaseChangeSupportOpen B p f' f g sq V E),
-          openObjectLift B X'.obj X'.property (x.toGeometricPoint B f' t)
+        (Functor.elementsMk _ (openObject B X'.obj X'.property (baseChange B f' (baseChange B g V))
+            (fiberBaseChangeSupportOpen B p f' f g sq V E))
+          (openObjectLift B X'.obj X'.property (x.toGeometricPoint B f' t)
             (baseChange B f' (baseChange B g V))
             (fiberPointElement B f' t (baseChange B g V)
               (geometricPointFiberBaseChangeEquiv B g t V u) x)
-            (fiberBaseChangeSupportOpen B p f' f g sq V E) hpre⟩
-        ⟨finiteSupportOpenObject B f V E,
-          openObjectLift B X.obj X.property
+            (fiberBaseChangeSupportOpen B p f' f g sq V E) hpre))
+        (Functor.elementsMk _ (finiteSupportOpenObject B f V E)
+          (openObjectLift B X.obj X.property
             ((fiberPointBaseChange B p f' f g sq t x).toGeometricPoint B f
               (t.map (B.inclusion.map g))) (baseChange B f V)
             (fiberPointElement B f (t.map (B.inclusion.map g)) V u
               (fiberPointBaseChange B p f' f g sq t x))
-            (finiteSupportOpen B f V E) hE⟩
+            (finiteSupportOpen B f V E) hE))
         (fiberBaseChangeSupportArrow B p f' f g sq V E)
         (fiberBaseChangeSupportArrow_lift B p f' f g sq t V u E x hpre hE)) s.val
     simp only [ConcreteCategory.comp_apply] at hgerm
@@ -372,12 +372,12 @@ private theorem etaleStalk_pullObjIso_inv_germ
           ((smallEtaleBaseChange B g).obj U.1) (𝟙 _) ≫
         colimit.ι (etaleStalkDiagram B Y'.obj Y'.property t
           ((abPullback.{u, u + 1} B g).obj ((fShriekFunctor.{u, u + 1} B f).obj F)).obj)
-          (op ⟨(smallEtaleBaseChange B g).obj U.1,
-            geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩) := by
+          (op (Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+            (geometricPointFiberBaseChangeEquiv B g t U.1 U.2))) := by
   have hgerm := etaleStalkSmallEtalePullObjIso_germ B g t AddCommGrpCat.{u + 1}
     ((fShriekFunctor.{u, u + 1} B f).obj F)
-    ⟨(smallEtaleBaseChange B g).obj U.1,
-      geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩ U (𝟙 _) (by
+    (Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+      (geometricPointFiberBaseChangeEquiv B g t U.1 U.2)) U (𝟙 _) (by
         rw [CategoryTheory.Functor.map_id, Category.id_comp]
         exact geometricPointFiberBaseChangeEquiv_comp_fiberProjection B g t U.1 U.2)
   rw [← hgerm]
@@ -388,8 +388,8 @@ private theorem etaleStalk_pullObjIso_inv_germ
       ((Category.assoc _ _ _).trans
         ((congrArg (fun k => colimit.ι (etaleStalkDiagram B Y'.obj Y'.property t
               ((abPullback.{u, u + 1} B g).obj ((fShriekFunctor.{u, u + 1} B f).obj F)).obj)
-              (op (⟨(smallEtaleBaseChange B g).obj U.1,
-                geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩ :
+              (op ((Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+                (geometricPointFiberBaseChangeEquiv B g t U.1 U.2)) :
                 (geometricPointFiber B Y'.obj Y'.property t).Elements)) ≫ k)
             (Iso.hom_inv_id _)).trans (Category.comp_id _))))
 
@@ -477,8 +477,8 @@ private theorem fShriekBaseChangeMap_germ_generator
         colimit.ι (etaleStalkDiagram B Y'.obj Y'.property t
             ((finiteSupportPushforward.{u, u + 1} B f' (fun _ => inferInstance)).1.obj
               ((abPullback.{u, u + 1} B p).obj F)))
-          (op ⟨(smallEtaleBaseChange B g).obj U.1,
-            geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩) ≫
+          (op (Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+            (geometricPointFiberBaseChangeEquiv B g t U.1 U.2))) ≫
         etaleStalkSheafificationMap B Y'.obj Y'.property t
           ((finiteSupportPushforward.{u, u + 1} B f' (fun _ => inferInstance)).1.obj
             ((abPullback.{u, u + 1} B p).obj F)) ≫ k := by
@@ -504,13 +504,13 @@ private theorem fShriekBaseChangeMap_germ_generator
     ((smallEtaleBaseChange B g).obj U.1) (𝟙 _) with hϖ
   set ι₂ := colimit.ι (etaleStalkDiagram B Y'.obj Y'.property t
     ((abPullback.{u, u + 1} B g).obj ((fShriekFunctor.{u, u + 1} B f).obj F)).obj)
-      (op (⟨(smallEtaleBaseChange B g).obj U.1,
-        geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩ :
+      (op ((Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+        (geometricPointFiberBaseChangeEquiv B g t U.1 U.2)) :
         (geometricPointFiber B Y'.obj Y'.property t).Elements)) with hι₂
   set ι₂ₛ := colimit.ι (etaleStalkDiagram B Y'.obj Y'.property t
     ((fShriekFunctor.{u, u + 1} B f').obj ((abPullback.{u, u + 1} B p).obj F)).obj)
-      (op (⟨(smallEtaleBaseChange B g).obj U.1,
-        geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩ :
+      (op ((Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+        (geometricPointFiberBaseChangeEquiv B g t U.1 U.2)) :
         (geometricPointFiber B Y'.obj Y'.property t).Elements)) with hι₂ₛ
   set γapp := (fShriekBaseChangeMap.{u} B p f' f g sq F).hom.app
     (op ((smallEtaleBaseChange B g).obj U.1)) with hγapp
@@ -527,8 +527,8 @@ private theorem fShriekBaseChangeMap_germ_generator
   set ι₃ := colimit.ι (etaleStalkDiagram B Y'.obj Y'.property t
     ((finiteSupportPushforward.{u, u + 1} B f' (fun _ => inferInstance)).1.obj
       ((abPullback.{u, u + 1} B p).obj F)))
-      (op (⟨(smallEtaleBaseChange B g).obj U.1,
-        geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩ :
+      (op ((Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+        (geometricPointFiberBaseChangeEquiv B g t U.1 U.2)) :
         (geometricPointFiber B Y'.obj Y'.property t).Elements)) with hι₃
   set Ψ' := etaleStalkSheafificationMap B Y'.obj Y'.property t
     ((finiteSupportPushforward.{u, u + 1} B f' (fun _ => inferInstance)).1.obj
@@ -550,10 +550,10 @@ private theorem fShriekBaseChangeMap_germ_generator
     refine congrArg (fun z => ιE ≫ e₁ ≫ τ ≫ ϖ ≫ z) ?_
     refine comp_reassoc ?_ k
     exact colimit.ι_map (Functor.whiskerLeft
-        (CategoryOfElements.π (geometricPointFiber B Y'.obj Y'.property t)).op
+        (Functor.Elements.π (geometricPointFiber B Y'.obj Y'.property t)).op
         (fShriekBaseChangeMap.{u} B p f' f g sq F).hom)
-      (op (⟨(smallEtaleBaseChange B g).obj U.1,
-        geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩ :
+      (op ((Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+        (geometricPointFiberBaseChangeEquiv B g t U.1 U.2)) :
         (geometricPointFiber B Y'.obj Y'.property t).Elements))
   have s4 : ιE ≫ e₁ ≫ τ ≫ ϖ ≫ γapp ≫ ι₂ₛ ≫ k = ιE ≫ e₁ ≫ τ ≫ βapp ≫ ι₂ₛ ≫ k :=
     congrArg (fun z => ιE ≫ e₁ ≫ τ ≫ z)
@@ -576,8 +576,8 @@ private theorem fShriekBaseChangeMap_germ_generator
       (comp_reassoc (colimit_ι_comp_etaleStalkSheafificationMap B Y'.obj Y'.property t
         ((finiteSupportPushforward.{u, u + 1} B f' (fun _ => inferInstance)).1.obj
           ((abPullback.{u, u + 1} B p).obj F))
-        (op ⟨(smallEtaleBaseChange B g).obj U.1,
-          geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩)).symm k)
+        (op (Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+          (geometricPointFiberBaseChangeEquiv B g t U.1 U.2)))).symm k)
   have s9 : ιE ≫ cV ≫ e₂ ≫ ι₃ ≫ Ψ' ≫ k = dm ≫ ιE' ≫ e₂ ≫ ι₃ ≫ Ψ' ≫ k :=
     comp_reassoc (fiberBaseChangeColimitMap_ι.{u, u + 1} B p f' f g sq U.1 F E)
       (e₂ ≫ ι₃ ≫ Ψ' ≫ k)
@@ -639,8 +639,8 @@ public theorem fShriekBaseChangeMap_stalk :
         colimit.ι (etaleStalkDiagram B Y'.obj Y'.property t
             ((finiteSupportPushforward.{u, u + 1} B f' (fun _ => inferInstance)).1.obj
               ((abPullback.{u, u + 1} B p).obj F)))
-            (op (⟨(smallEtaleBaseChange B g).obj U.1,
-              geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩ :
+            (op ((Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+              (geometricPointFiberBaseChangeEquiv B g t U.1 U.2)) :
               (geometricPointFiber B Y'.obj Y'.property t).Elements)) ≫ z)
     (fShriekStalkIso_comp_sheafification.{u, u + 1} B f' t
       ((abPullback.{u, u + 1} B p).obj F))
@@ -648,8 +648,8 @@ public theorem fShriekBaseChangeMap_stalk :
     (fun z => fiberBaseChangeDiagramMap.{u, u + 1} B p f' f g sq U.1 F E ≫ z)
     (finiteSupportStalkToFiberStalks_generator.{u, u + 1} B f' t
       ((abPullback.{u, u + 1} B p).obj F) (fun _ => inferInstance)
-      ⟨(smallEtaleBaseChange B g).obj U.1,
-        geometricPointFiberBaseChangeEquiv B g t U.1 U.2⟩
+      (Functor.elementsMk _ ((smallEtaleBaseChange B g).obj U.1)
+        (geometricPointFiberBaseChangeEquiv B g t U.1 U.2))
       (fiberBaseChangeSupport B p f' f g sq U.1 E))
   have h4 := fiberBaseChangeDiagramMap_comp_fiberStalkHom.{u} B p f' f g sq t F U.1 U.2 E
   have h5 := comp_reassoc₄ (finiteSupportStalkToFiberStalks_generator.{u, u + 1} B f

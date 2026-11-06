@@ -1,6 +1,8 @@
 module
 
 public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Connected
+public import Mathlib.CategoryTheory.Limits.FunctorCategory.Basic
+public import Mathlib.CategoryTheory.Limits.Types.Limits
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Quot.RelativeHomLimitPreserving
 public import StacksFrontier.AlgebraicGeometry.Spaces.ApproximationSteps
@@ -155,7 +157,7 @@ theorem limitPreserving_of_overMap {T₀ : C} (F : (Over T₀)ᵒᵖ ⥤ Type v)
   let c' : Cone D' := (Over.iteratedSliceForward (D.obj i₀)).mapCone (c.overPost i₀)
   have hc' : IsLimit ((Over.forget A ⋙ T).mapCone c') :=
     ((Functor.Initial.isLimitWhiskerEquiv (Over.forget i₀) _).symm hc).ofIsoLimit
-      (Cones.ext (Iso.refl _) (fun j => (Category.id_comp _).symm))
+      (Cone.ext (Iso.refl _) (fun j => (Category.id_comp _).symm))
   have hD' : ∀ j, IsAffine ((Over.forget A ⋙ T).obj (D'.obj j)) := fun j => hD j.left
   have hC' : IsAffine ((Over.forget A ⋙ T).obj c'.pt) := hC
   obtain ⟨hcol⟩ := h A α (hD i₀) (Over i₀) D' c' hc' hD' hC'
@@ -175,7 +177,7 @@ theorem limitPreserving_of_overMap {T₀ : C} (F : (Over T₀)ᵒᵖ ⥤ Type v)
     exact (Category.comp_id _).trans (Category.id_comp _).symm
   have hcomp : ∀ {W₁ W₂ W₃ : Over T₀} (a : W₁ ⟶ W₂) (b : W₂ ⟶ W₃) (z : F.obj (op W₃)),
       F.map a.op (F.map b.op z) = F.map (a ≫ b).op z := fun a b z => by
-    rw [op_comp, FunctorToTypes.map_comp_apply]
+    rw [op_comp, Functor.map_comp_apply]
   refine isColimit_mapCocone_of_exists_of_eventually_eq F D c ?_ ?_
   · intro x₀
     obtain ⟨j, y', hy'⟩ := Types.jointly_surjective_of_isColimit hcol (F.map isoc.hom.op x₀)
@@ -185,7 +187,7 @@ theorem limitPreserving_of_overMap {T₀ : C} (F : (Over T₀)ᵒᵖ ⥤ Type v)
         isoc.inv ≫ (Over.map α).map (c'.π.app j.unop) := by
       rw [Iso.comp_inv_eq, Category.assoc, hπ, Iso.inv_hom_id_assoc]
     rw [hcomp, hinv, ← hcomp, hy'', hcomp, Iso.inv_hom_id]
-    exact FunctorToTypes.map_id_apply F x₀
+    exact F.map_id_apply _ x₀
   · intro i x₁ x₂ hx
     let jk : Over i₀ := Over.mk (IsCofiltered.minToRight i i₀)
     let fk := IsCofiltered.minToLeft i i₀
@@ -224,6 +226,23 @@ end AffineBase
 namespace Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+
+/- Instance search for pullbacks of presheaves on `BigFppfOver B S hS` times out under Lean
+v4.35.0 (it explores `GradedObject` instances first); supply the functor-category instance. -/
+local instance (priority := high) : HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
+local instance (priority := high) {Y Z W : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : Y ⟶ W)
+    (g : Z ⟶ W) : HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit (cospan f g)
+
+local instance (priority := high) {Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (e : Y ≅ Z) :
+    Epi e.hom :=
+  IsIso.epi_of_iso _
+
+local instance (priority := high) {Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (e : Y ≅ Z) :
+    Epi e.inv :=
+  IsIso.epi_of_iso _
 
 /-! ### Morphisms out of base changes -/
 
@@ -639,7 +658,7 @@ def sectionFiberOverMapIso {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (p : F 
     (Over.map α).op ⋙ sectionFiber B S hS p T₀ y ≅ sectionFiber B S hS p A (G.map α.op y) :=
   NatIso.ofComponents (fun W => Equiv.toIso (Equiv.subtypeEquivRight (fun f => by
       change _ = G.map (W.unop.hom ≫ α).op y ↔ _ = G.map W.unop.hom.op (G.map α.op y)
-      rw [op_comp, FunctorToTypes.map_comp_apply]
+      rw [op_comp, Functor.map_comp_apply]
       exact Iff.rfl))) (by
     intro W W' f
     ext w : 3
@@ -745,7 +764,8 @@ theorem isIso_homFromBaseChangeToSectionFiber {A : BigFppfOver B S hS} (a : yone
         congrArg Subtype.val h0
       have h2 := (relativeHomSections B S hS Z X Q z x hZ hX hQ V.unop.left).symm.injective h1
       have h3 := eq_of_heq (RelativeMorphism.mk.inj h2).2
-      exact Subtype.ext ((cancel_epi _).mp h3)
+      rw [cancel_epi] at h3
+      exact Subtype.ext h3
     · rintro ⟨w⟩
       let P := relativeHomSections B S hS Z X Q z x hZ hX hQ V.unop.left w.1
       have hbase : P.base = yoneda.map V.unop.hom ≫ a := by

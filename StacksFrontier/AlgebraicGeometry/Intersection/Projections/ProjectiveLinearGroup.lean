@@ -185,7 +185,7 @@ public theorem mk_eq_mk_iff_projectivization [Nontrivial V]
   rw [QuotientGroup.eq, MonoidHom.mem_ker, _root_.map_mul, _root_.map_inv, inv_mul_eq_one]
   have hAut : generalLinearToAut k V g = generalLinearToAut k V h ↔
       map k V g = map k V h :=
-    ⟨fun he => congrArg Iso.inv he, fun he => inv_injective (Iso.ext he)⟩
+    ⟨fun he => congrArg (fun a => a.asIso.inv) he, fun he => inv_injective (Aut.ext (Iso.ext he))⟩
   rw [hAut, map_eq_map_iff, Projectivization.mk_eq_mk_iff]
   exact exists_congr fun c => eq_comm
 

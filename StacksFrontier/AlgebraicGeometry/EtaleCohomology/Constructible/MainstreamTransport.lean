@@ -107,7 +107,9 @@ public instance moduleSheafToEtale_preservesColimits :
 private def zmodEndRingHom {C : Type*} [Category* C] [Preadditive C] (n : ℕ) (F : C)
     (hF : (n : ℤ) • 𝟙 F = 0) : ULift.{u + 1} (ZMod n) →+* End F :=
   have : CharP (End F) (ringChar (End F)) := ringChar.charP _
-  (ZMod.castHom (ringChar.dvd (by rw [← nsmul_one, ← natCast_zsmul]; exact hF)) (End F)).comp
+  (ZMod.castHom (ringChar.dvd (by
+    rw [← nsmul_one, ← natCast_zsmul]; ext; rw [End.smul_asHom, End.one_asHom]; exact hF))
+    (End F)).comp
     ULift.ringEquiv.toRingHom
 
 /-- `ULift (ZMod n)` is Noetherian for `n > 0`, being finite. -/
@@ -141,7 +143,7 @@ public theorem exists_isColimit_moduleSheafToEtale_isConstructible
   let e : (moduleSheafToEtale B X (ULift.{u + 1} (ZMod n))).obj Gm ≅ F := E.counitIso.app F
   refine ⟨I, hI, hfilt, D,
     ((moduleSheafToEtale B X _).mapCocone (Cocone.mk Gm ι)).ι ≫ (Functor.const I).map e.hom,
-    ⟨IsColimit.ofIsoColimit hc' (Cocones.ext e (fun _ => rfl))⟩, hD⟩
+    ⟨IsColimit.ofIsoColimit hc' (Cocone.ext e (fun _ => rfl))⟩, hD⟩
 
 /-- The right adjoint of forgetting the module structure. -/
 public abbrev forget₂RightAdjoint : AddCommGrpCat.{u + 1} ⥤ ModuleCat.{u + 1} Λ :=

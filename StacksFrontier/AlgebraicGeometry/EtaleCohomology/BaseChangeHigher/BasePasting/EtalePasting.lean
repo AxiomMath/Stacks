@@ -48,16 +48,16 @@ public theorem smallEtaleDerivedBaseChangeAb_fac_app (f' : X' ⟶ S) (g : T ⟶ 
     (e : Y ⟶ T) (w : h ≫ f' = e ≫ g)
     (K : HomotopyCategory.Plus (Sheaf (smallEtaleTopology T) Ab.{u + 1})) :
     (smallEtalePullbackAb f').rightDerivedFunctorPlus.map
-          ((smallEtalePushforwardAb g).rightDerivedFunctorPlusUnit.app K) ≫
+          ((smallEtalePushforwardAb g).rightDerivedFunctorPlusUnith.app K) ≫
         (smallEtaleDerivedBaseChangeAb f' g h e w).app
           (DerivedCategory.Plus.Qh.obj K) =
       (exactUnitIso (smallEtalePullbackAb f')).inv.app
           ((smallEtalePushforwardAb g).mapHomotopyCategoryPlus.obj K) ≫
         DerivedCategory.Plus.Qh.map ((mapPlus (smallEtaleBaseChangeAb f' g h e w)).app K) ≫
-        (smallEtalePushforwardAb h).rightDerivedFunctorPlusUnit.app
+        (smallEtalePushforwardAb h).rightDerivedFunctorPlusUnith.app
           ((smallEtalePullbackAb e).mapHomotopyCategoryPlus.obj K) ≫
         (smallEtalePushforwardAb h).rightDerivedFunctorPlus.map
-          ((smallEtalePullbackAb e).rightDerivedFunctorPlusUnit.app K) := by
+          ((smallEtalePullbackAb e).rightDerivedFunctorPlusUnith.app K) := by
   rw [smallEtaleDerivedBaseChangeAb_eq, derived_fac_app, onHomotopy_app]
 
 /-- **The composition isomorphism `R(f'' ∘ f')⁻¹ ≅ R(f')⁻¹ ⋙ R(f'')⁻¹`** for inverse image of
@@ -77,7 +77,7 @@ public theorem smallEtale_unit_eq_comp_derivedPullbackCompIso_inv (f' : X' ⟶ S
     iteratedUnit (smallEtalePullbackAb f') (smallEtalePullbackAb f'') M ≫
         (smallEtaleDerivedPullbackCompIso f' f'').inv.app
           (DerivedCategory.Plus.Qh.obj M) =
-      (smallEtalePullbackAb f' ⋙ smallEtalePullbackAb f'').rightDerivedFunctorPlusUnit.app M :=
+      (smallEtalePullbackAb f' ⋙ smallEtalePullbackAb f'').rightDerivedFunctorPlusUnith.app M :=
   unit_eq_comp_exactDerivedCompIso_inv _ _ M
 
 /-- **The composition isomorphism `(f')⁻¹ ∘ (f'')⁻¹ ≅ (f'' ∘ f')⁻¹`** for inverse image of

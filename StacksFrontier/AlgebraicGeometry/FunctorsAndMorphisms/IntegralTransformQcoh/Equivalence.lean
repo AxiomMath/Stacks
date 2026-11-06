@@ -610,7 +610,7 @@ private lemma exists_ringHomOfIsPushout
     · exact (hab x y).eq
     · exact (hab y x).symm.eq
     · exact ((Commute.all x y).map b).eq
-  have : IsMulCommutative T := Subring.isMulCommutative_closure ht
+  have : IsMulCommutative T := Subring.isMulCommutative_closure (fun x hx y hy _ => ht x hx y hy)
   let _ : CommRing T := inferInstance
   let a' : A ⟶ CommRingCat.of T := CommRingCat.ofHom
     (a.codRestrict T (fun x => Subring.subset_closure (Or.inl ⟨x, rfl⟩)))
@@ -934,7 +934,7 @@ noncomputable def tensorRightUnitIso
         (Stacks.SheafOfModules.Invertible.tensorProductBifunctor O hO)).flip.obj P ≅ 𝟭 _ := by
   let : MonoidalCategory (PresheafOfModules.{u}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) :=
-    PresheafOfModules.monoidalCategory (R := O)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   let U := SheafOfModules.forget (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO)
   let L := Stacks.SheafOfModules.TensorSheafification.sheafify O hO
   let t := (MonoidalCategory.tensoringRight _).mapIso (U.mapIso e) ≪≫
@@ -961,7 +961,7 @@ private lemma tensorRightUnitIso_hom_app
         Stacks.SheafOfModules.Invertible.tensorProductRightUnitor O hO K).hom := by
   let _i : MonoidalCategory (PresheafOfModules.{u}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf O hO).obj) :=
-    PresheafOfModules.monoidalCategory (R := O)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := O)
   have hL : (tensorRightUnitIso O hO P e).hom.app K =
       (Stacks.SheafOfModules.TensorSheafification.sheafify O hO).map
           ((K.val ◁ (SheafOfModules.forget
@@ -1022,8 +1022,9 @@ homomorphism to the endomorphism ring of the module. -/
 @[ega "0 5.4.3" "partial"]
 noncomputable def sectionScalarRingHom (X : Scheme.{u}) (M : X.Modules) :
     Γ(X, ⊤) →+* End M where
-  toFun a := sectionScalar X a M
+  toFun a := .of (sectionScalar X a M)
   map_one' := by
+    apply End.ext
     apply SheafOfModules.hom_ext
     apply PresheafOfModules.hom_ext
     intro U
@@ -1034,6 +1035,7 @@ noncomputable def sectionScalarRingHom (X : Scheme.{u}) (M : X.Modules) :
     simp only [map_one]
     exact @one_smul (X.ringCatSheaf.obj.obj U) (M.val.obj U) _ _ x
   map_mul' a b := by
+    apply End.ext
     apply SheafOfModules.hom_ext
     apply PresheafOfModules.hom_ext
     intro U
@@ -1046,6 +1048,7 @@ noncomputable def sectionScalarRingHom (X : Scheme.{u}) (M : X.Modules) :
     simp only [map_mul]
     exact mul_smul _ _ x
   map_zero' := by
+    apply End.ext
     apply SheafOfModules.hom_ext
     apply PresheafOfModules.hom_ext
     intro U
@@ -1056,6 +1059,7 @@ noncomputable def sectionScalarRingHom (X : Scheme.{u}) (M : X.Modules) :
     simp only [map_zero]
     exact zero_smul _ x
   map_add' a b := by
+    apply End.ext
     apply SheafOfModules.hom_ext
     apply PresheafOfModules.hom_ext
     intro U
@@ -1095,7 +1099,7 @@ lemma sectionScalar_unit_surjective (X : Scheme.{u})
 ring homomorphism to the additive endomorphisms of the sections. -/
 noncomputable def sheafEndEvaluation {X : Scheme.{u}} (M : X.Modules)
     (U : X.Opensᵒᵖ) : End M →+* AddMonoid.End (M.val.obj U) where
-  toFun f := (f.val.app U).hom.toAddMonoidHom
+  toFun f := (f.asHom.val.app U).hom.toAddMonoidHom
   map_one' := rfl
   map_mul' _ _ := rfl
   map_zero' := rfl
@@ -1124,11 +1128,15 @@ as a ring homomorphism to its endomorphism ring. -/
 noncomputable def quasicoherentSectionScalarRingHom (X : Scheme.{u})
     (M : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory) :
     Γ(X, ⊤) →+* End M where
-  toFun a := ObjectProperty.homMk (sectionScalar X a M.obj)
-  map_one' := ObjectProperty.hom_ext _ (sectionScalarRingHom X M.obj).map_one
-  map_mul' a b := ObjectProperty.hom_ext _ ((sectionScalarRingHom X M.obj).map_mul a b)
-  map_zero' := ObjectProperty.hom_ext _ (sectionScalarRingHom X M.obj).map_zero
-  map_add' a b := ObjectProperty.hom_ext _ ((sectionScalarRingHom X M.obj).map_add a b)
+  toFun a := .of (ObjectProperty.homMk (sectionScalar X a M.obj))
+  map_one' := End.ext (ObjectProperty.hom_ext _
+    (congrArg End.asHom (sectionScalarRingHom X M.obj).map_one))
+  map_mul' a b := End.ext (ObjectProperty.hom_ext _
+    (congrArg End.asHom ((sectionScalarRingHom X M.obj).map_mul a b)))
+  map_zero' := End.ext (ObjectProperty.hom_ext _
+    (congrArg End.asHom (sectionScalarRingHom X M.obj).map_zero))
+  map_add' a b := End.ext (ObjectProperty.hom_ext _
+    (congrArg End.asHom ((sectionScalarRingHom X M.obj).map_add a b)))
 
 /-- On quasi-coherent module sheaves over a scheme over `R`, multiplication by the image of
 `r : R` in the global sections is the action of `r` from the `R`-linear structure. -/
@@ -1137,8 +1145,8 @@ lemma quasicoherentSectionScalar_base (R : Type u) [CommRing R]
     (M : (SheafOfModules.isQuasicoherent X.left.ringCatSheaf).FullSubcategory) :
     letI : Linear R (SheafOfModules.{u} X.left.ringCatSheaf) :=
       AlgebraicGeometry.modulesLinear R X
-    quasicoherentSectionScalarRingHom X.left M
-      (X.hom.appTop ((Scheme.ΓSpecIso (.of R)).inv r)) = r • 𝟙 M := by
+    (quasicoherentSectionScalarRingHom X.left M
+      (X.hom.appTop ((Scheme.ΓSpecIso (.of R)).inv r))).asHom = r • 𝟙 M := by
   apply ObjectProperty.hom_ext
   exact sectionScalar_base R X r M.obj
 
@@ -1147,8 +1155,8 @@ noncomputable def additiveMapEnd
     {C D : Type*} [Category C] [Category D] [Preadditive C] [Preadditive D]
     (F : C ⥤ D) [F.Additive] (M : C) : End M →+* End (F.obj M) :=
   { F.mapEnd M with
-    map_zero' := F.map_zero _ _
-    map_add' := fun _ _ => F.map_add }
+    map_zero' := End.ext (F.map_zero _ _)
+    map_add' := fun _ _ => End.ext F.map_add }
 
 /-- Multiplication by a global section commutes with the identification of the pullback of the
 structure sheaf, for the pulled-back section. -/
@@ -1233,7 +1241,7 @@ lemma tensorRightUnitor_sectionScalar (X : Scheme.{u}) (a : Γ(X, ⊤))
       (Stacks.SheafOfModules.Invertible.tensorProductRightUnitor X.presheaf
           X.ringCatSheaf.2 M).hom ≫ sectionScalar X a M := by
   let _ : MonoidalCategory (PresheafOfModules.{u} X.ringCatSheaf.obj) :=
-    PresheafOfModules.monoidalCategory (R := X.presheaf)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := X.presheaf)
   let L := Stacks.SheafOfModules.TensorSheafification.sheafify X.presheaf X.ringCatSheaf.2
   let ε := (Stacks.SheafOfModules.TensorSheafification.sheafifyAdjunction X.presheaf
     X.ringCatSheaf.2).counit
@@ -1305,14 +1313,14 @@ private lemma exists_pushforwardModule_of_sectionAction
     (R : Type u) [CommRing R] (X Y : Over (Spec (.of R))) [IsAffine X.left]
     (M : Y.left.Modules) (ρ : Γ(X.left, ⊤) →+* End M)
     (hρ : ∀ r : Γ(Spec (.of R), ⊤),
-      ρ (X.hom.appTop r) = sectionScalar Y.left (Y.hom.appTop r) M) :
+      (ρ (X.hom.appTop r)).asHom = sectionScalar Y.left (Y.hom.appTop r) M) :
     ∃ N : SheafOfModules.{u} (pushforwardRing (pullback.snd X.hom Y.hom).base
         (pullback X.hom Y.hom).ringCatSheaf),
       ∃ e : (SheafOfModules.restrictScalars
         (pullback.snd X.hom Y.hom).toRingCatSheafHom).obj N ≅ M,
       ∀ (U : Y.left.Opensᵒᵖ) (a : Γ(X.left, ⊤)) (x : N.val.obj U),
         e.hom.val.app U (sectionToProduct R X Y U a • x) =
-          (ρ a).val.app U (e.hom.val.app U x) := by
+          (ρ a).asHom.val.app U (e.hom.val.app U x) := by
   let T := pushforwardRing (pullback.snd X.hom Y.hom).base
     (pullback X.hom Y.hom).ringCatSheaf
   let α := Functor.whiskerRight (productStructurePresheafMap R X Y)
@@ -1325,17 +1333,17 @@ private lemma exists_pushforwardModule_of_sectionAction
     right U := Module.toAddMonoidEnd (Y.left.presheaf.obj U) (M.val.obj U)
     commute U a b := by
       ext x
-      exact ((ρ a).val.app U).hom.map_smul b x
+      exact ((ρ a).asHom.val.app U).hom.map_smul b x
     agree U := by
       ext r x
-      show (ρ (X.hom.appTop r)).val.app U x =
+      show (ρ (X.hom.appTop r)).asHom.val.app U x =
         (show Y.left.ringCatSheaf.obj.obj U from
           (Y.hom.appLE ⊤ U.unop
             (le_top.trans (le_of_eq Y.hom.preimage_top.symm))) r) •
           (show M.val.obj U from x)
       rw [hρ]
       rfl
-    left_naturality i a x := (PresheafOfModules.naturality_apply (ρ a).val i x).symm
+    left_naturality i a x := (PresheafOfModules.naturality_apply (ρ a).asHom.val i x).symm
     right_naturality i b x := M.val.map_smul i b x }
   let N := @sheafPushoutModule _ _ _ _ _ _ _ _ T α hα.1 hα.2 _ act
   have hr (U : Y.left.Opensᵒᵖ) (r : Y.left.presheaf.obj U) (x : M.val.obj U) :
@@ -1459,7 +1467,7 @@ lemma affineFunctorIsoOfUnitIso (X : Scheme.{u}) [IsAffine X]
     (ht : ∀ a : End (⟨SheafOfModules.unit X.ringCatSheaf,
       Stacks.AlgebraicGeometry.AffineQcohPushforward.isQuasicoherent_unit X⟩ :
       (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory),
-      F.map a ≫ t.hom = t.hom ≫ G.map a) : Nonempty (F ≅ G) := by
+      F.map a.asHom ≫ t.hom = t.hom ≫ G.map a.asHom) : Nonempty (F ≅ G) := by
   let A := Γ(X, ⊤)
   let E := ModuleCat.restrictScalarsEquivalenceOfRingEquiv (RingEquiv.opOp A)
   let d : E.functor.obj (ModuleCat.of Aᵐᵒᵖᵐᵒᵖ Aᵐᵒᵖ) ≅ ModuleCat.of A A :=
@@ -1473,7 +1481,7 @@ lemma affineFunctorIsoOfUnitIso (X : Scheme.{u}) [IsAffine X]
   let e := (affineQuasicoherentEquivalence X).functor.mapIso d ≪≫
     affineQuasicoherentEquivalenceUnitIso X
   exact functorIsoOfGeneratorIso
-    (A := Aᵐᵒᵖ) (E.trans (affineQuasicoherentEquivalence X)) _ e F G hF hG t ht
+    (A := Aᵐᵒᵖ) (E.trans (affineQuasicoherentEquivalence X)) _ e F G hF hG t (fun a => ht (.of a))
 
 /-- A natural transformation out of a colimit-preserving functor on the quasi-coherent modules
 of an affine scheme is determined by its value on the structure sheaf. -/
@@ -1607,7 +1615,7 @@ private lemma pushforward_sectionScalar_intertwine
       (pullback.snd X.hom Y.hom).toRingCatSheafHom).obj N ≅ M)
     (he : ∀ (U : Y.left.Opensᵒᵖ) (a : Γ(X.left, ⊤)) (x : N.val.obj U),
       e.hom.val.app U (sectionToProduct R X Y U a • x) =
-        (ρ a).val.app U (e.hom.val.app U x))
+        (ρ a).asHom.val.app U (e.hom.val.app U x))
     (K : (SheafOfModules.isQuasicoherent
       (pullback X.hom Y.hom).ringCatSheaf).FullSubcategory)
     (d : (pushforwardModules (pullback.snd X.hom Y.hom).base
@@ -1619,7 +1627,7 @@ private lemma pushforward_sectionScalar_intertwine
         ((SheafOfModules.restrictScalars
           (pullback.snd X.hom Y.hom).toRingCatSheafHom).mapIso d ≪≫ e).hom =
       ((SheafOfModules.restrictScalars
-        (pullback.snd X.hom Y.hom).toRingCatSheafHom).mapIso d ≪≫ e).hom ≫ ρ a := by
+        (pullback.snd X.hom Y.hom).toRingCatSheafHom).mapIso d ≪≫ e).hom ≫ (ρ a).asHom := by
   apply SheafOfModules.hom_ext
   apply PresheafOfModules.hom_ext
   intro U
@@ -1630,7 +1638,7 @@ private lemma pushforward_sectionScalar_intertwine
     (sectionToProduct R X Y U a •
       (show ((pushforwardModules (pullback.snd X.hom Y.hom).base
         (pullback X.hom Y.hom).ringCatSheaf).obj K.obj).val.obj U from x))) =
-      (ρ a).val.app U (e.hom.val.app U (d.hom.val.app U x))
+      (ρ a).asHom.val.app U (e.hom.val.app U (d.hom.val.app U x))
   rw [(d.hom.val.app U).hom.map_smul]
   exact he U a (d.hom.val.app U x)
 
@@ -1718,7 +1726,7 @@ private lemma valueAction_base
     (R : Type u) [CommRing R] (X Y : Over (Spec (.of R))) [IsAffine X.left]
     (F : (rightExactLinearCoproductFunctor R X Y).FullSubcategory)
     (r : Γ(Spec (.of R), ⊤)) :
-    valueAction R X Y F (X.hom.appTop r) =
+    (valueAction R X Y F (X.hom.appTop r)).asHom =
       sectionScalar Y.left (Y.hom.appTop r) ((F.obj.obj (unitQcoh X.left)).obj) := by
   let : Linear R (SheafOfModules.{u} X.left.ringCatSheaf) :=
     AlgebraicGeometry.modulesLinear R X
@@ -1730,7 +1738,7 @@ private lemma valueAction_base
   let F0 := F.obj ⋙ (SheafOfModules.isQuasicoherent Y.left.ringCatSheaf).ι
   obtain ⟨r, rfl⟩ := (ConcreteCategory.bijective_of_isIso (Scheme.ΓSpecIso (.of R)).inv).2 r
   show F0.map (quasicoherentSectionScalarRingHom X.left (unitQcoh X.left)
-    (X.hom.appTop ((Scheme.ΓSpecIso (.of R)).inv r))) = _
+    (X.hom.appTop ((Scheme.ΓSpecIso (.of R)).inv r))).asHom = _
   refine (congrArg F0.map (quasicoherentSectionScalar_base R X r (unitQcoh X.left))).trans ?_
   refine (F0.map_smul r (𝟙 (unitQcoh X.left))).trans ?_
   refine (congrArg (fun z => r • z)
@@ -1783,7 +1791,7 @@ private lemma exists_iso_intertwining_valueAction
       (F.obj.obj (unitQcoh X.left)).obj)
     (he : ∀ (U : Y.left.Opensᵒᵖ) (a : Γ(X.left, ⊤)) (x : N.val.obj U),
       e.hom.val.app U (sectionToProduct R X Y U a • x) =
-        (valueAction R X Y F a).val.app U (e.hom.val.app U x))
+        (valueAction R X Y F a).asHom.val.app U (e.hom.val.app U x))
     (K : (SheafOfModules.isQuasicoherent
       (pullback X.hom Y.hom).ringCatSheaf).FullSubcategory)
     (d : (pushforwardModules (pullback.snd X.hom Y.hom).base
@@ -1794,7 +1802,7 @@ private lemma exists_iso_intertwining_valueAction
         (Scheme.Modules.pushforward (pullback.snd X.hom Y.hom)).map
             (sectionScalar (pullback X.hom Y.hom)
               ((pullback.fst X.hom Y.hom).appTop a) K.obj) ≫ e'.hom =
-          e'.hom ≫ valueAction R X Y F a :=
+          e'.hom ≫ (valueAction R X Y F a).asHom :=
   ⟨(SheafOfModules.restrictScalars
       (pullback.snd X.hom Y.hom).toRingCatSheafHom).mapIso d ≪≫ e,
     fun a => pushforward_sectionScalar_intertwine R X Y _ (valueAction R X Y F) N e he K d a⟩
@@ -1810,7 +1818,7 @@ private lemma exists_kernel_of_pushforwardModule
       (F.obj.obj (unitQcoh X.left)).obj)
     (he : ∀ (U : Y.left.Opensᵒᵖ) (a : Γ(X.left, ⊤)) (x : N.val.obj U),
       e.hom.val.app U (sectionToProduct R X Y U a • x) =
-        (valueAction R X Y F a).val.app U (e.hom.val.app U x)) :
+        (valueAction R X Y F a).asHom.val.app U (e.hom.val.app U x)) :
     ∃ K : (SheafOfModules.isQuasicoherent
         (pullback X.hom Y.hom).ringCatSheaf).FullSubcategory,
       ∃ e' : (Scheme.Modules.pushforward (pullback.snd X.hom Y.hom)).obj K.obj ≅
@@ -1819,7 +1827,7 @@ private lemma exists_kernel_of_pushforwardModule
         (Scheme.Modules.pushforward (pullback.snd X.hom Y.hom)).map
             (sectionScalar (pullback X.hom Y.hom)
               ((pullback.fst X.hom Y.hom).appTop a) K.obj) ≫ e'.hom =
-          e'.hom ≫ valueAction R X Y F a := by
+          e'.hom ≫ (valueAction R X Y F a).asHom := by
   obtain ⟨K, ⟨d⟩⟩ := exists_pushforwardModules_iso R X Y N
     (isQuasicoherent_of_restrictScalars_iso R X Y N (F.obj.obj (unitQcoh X.left)) e)
   exact ⟨K, exists_iso_intertwining_valueAction R X Y F N e he K d⟩
@@ -1837,7 +1845,7 @@ private lemma exists_kernel_of_valueAction
         (Scheme.Modules.pushforward (pullback.snd X.hom Y.hom)).map
             (sectionScalar (pullback X.hom Y.hom)
               ((pullback.fst X.hom Y.hom).appTop a) K.obj) ≫ e.hom =
-          e.hom ≫ valueAction R X Y F a := by
+          e.hom ≫ (valueAction R X Y F a).asHom := by
   obtain ⟨N, e, he⟩ := exists_pushforwardModule_of_sectionAction R X Y
     ((F.obj.obj (unitQcoh X.left)).obj) (valueAction R X Y F) (valueAction_base R X Y F)
   exact exists_kernel_of_pushforwardModule R X Y F N e he
@@ -1855,7 +1863,7 @@ private lemma integralTransformUnitIso_trans_intertwine
       (Scheme.Modules.pushforward (pullback.snd X.hom Y.hom)).map
           (sectionScalar (pullback X.hom Y.hom)
             ((pullback.fst X.hom Y.hom).appTop a) K.obj) ≫ e.hom =
-        e.hom ≫ valueAction R X Y F a)
+        e.hom ≫ (valueAction R X Y F a).asHom)
     (a : unitQcoh X.left ⟶ unitQcoh X.left) :
     (AlgebraicGeometry.integralTransformFormula R X Y K.obj).map a ≫
         (integralTransformUnitIso R X Y K.obj ≪≫ e).hom =
@@ -1869,7 +1877,7 @@ private lemma integralTransformUnitIso_trans_intertwine
         (ObjectProperty.homMk
           (sectionScalar X.left b (SheafOfModules.unit X.left.ringCatSheaf))) ≫
       ((integralTransformUnitIso R X Y K.obj).hom ≫ e.hom) =
-    ((integralTransformUnitIso R X Y K.obj).hom ≫ e.hom) ≫ valueAction R X Y F b
+    ((integralTransformUnitIso R X Y K.obj).hom ≫ e.hom) ≫ (valueAction R X Y F b).asHom
   exact comp_commutes_of_commutes (integralTransformUnitIso_sectionScalar R X Y K.obj b) (hs b)
 
 /-- Every `R`-linear, right exact functor commuting with arbitrary direct sums is the integral
@@ -1901,7 +1909,7 @@ private lemma exists_kernel_of_rightExactLinearCoproductFunctor
     exact inferInstanceAs (PreservesColimitsOfShape (Discrete I) (F.obj ⋙ Q.ι))
   obtain ⟨i⟩ := @affineFunctorIsoOfUnitIso X.left _ _ _ _ _ _ G F0 hGrex hF0rex'
     (fun _ => inferInstance) hF0dis (integralTransformUnitIso R X Y K.obj ≪≫ e)
-    (integralTransformUnitIso_trans_intertwine R X Y F e hs)
+    (fun a => integralTransformUnitIso_trans_intertwine R X Y F e hs a.asHom)
   exact ⟨K, ⟨((Functor.whiskeringRight _ _ _).obj Q.ι).preimageIso
     (i.symm ≪≫ (AlgebraicGeometry.quasicoherentIntegralTransformData R X Y K).comparison.symm)⟩⟩
 

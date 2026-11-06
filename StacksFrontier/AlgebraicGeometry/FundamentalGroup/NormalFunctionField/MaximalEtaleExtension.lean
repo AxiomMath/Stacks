@@ -658,7 +658,7 @@ public theorem galoisToFundamentalGroup_restrict_apply
       ((algebraicClosureGeometricPoint ((X.residueField (genericPoint X))) Ω).map
         (X.fromSpecResidueField (genericPoint X))) Y) :
     ((((AlgebraicGeometry.galoisToFundamentalGroup X L Ω)
-      (AlgEquiv.restrictNormalHom L σ)).app Y).hom p).1 =
+      (AlgEquiv.restrictNormalHom L σ)).asIso.app Y).hom p).1 =
         Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ p.1 := by
   let K := (X.residueField (genericPoint X))
   let j := X.fromSpecResidueField (genericPoint X)
@@ -687,7 +687,7 @@ public theorem galoisToFundamentalGroup_restrict_apply
     exact AlgEquiv.restrictNormal_commutes σ L x
   have hact' :
       (((AlgebraicGeometry.galoisEquivEtaleFundamentalGroup K L Ω
-        (AlgEquiv.restrictNormalHom L σ)).app Z).hom q).1 =
+        (AlgEquiv.restrictNormalHom L σ)).asIso.app Z).hom q).1 =
       Spec.map (CommRingCat.ofHom σ.toAlgHom.toRingHom) ≫ q.1 := by
     rw [hact, hr]
     exact (Category.assoc _ _ _).symm.trans
@@ -697,10 +697,10 @@ public theorem galoisToFundamentalGroup_restrict_apply
   rw [hq] at hproj
   show (((etaleFundamentalGroupMap j t
       (AlgebraicGeometry.galoisEquivEtaleFundamentalGroup K L Ω
-        (AlgEquiv.restrictNormalHom L σ))).app Y).hom p).1 = _
+        (AlgEquiv.restrictNormalHom L σ))).asIso.app Y).hom p).1 = _
   rw [← hproj]
   show (((AlgebraicGeometry.galoisEquivEtaleFundamentalGroup K L Ω
-    (AlgEquiv.restrictNormalHom L σ)).app Z).hom q).1 ≫
+    (AlgEquiv.restrictNormalHom L σ)).asIso.app Z).hom q).1 ≫
       Limits.pullback.fst Y.hom j = _
   exact (congrArg (fun f : t.source ⟶ Z.left => f ≫ Limits.pullback.fst Y.hom j) hact').trans
     ((Category.assoc _ _ _).trans (congrArg

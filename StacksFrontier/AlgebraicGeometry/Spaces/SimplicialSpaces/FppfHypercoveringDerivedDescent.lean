@@ -216,7 +216,8 @@ instance isRightAdjoint_overMap_sheafPushforwardContinuous_fppf :
     ((Over.map f).sheafPushforwardContinuous (Type (u + 1))
       ((fppfTopology B S hS).over Y) ((fppfTopology B S hS).over X)).IsRightAdjoint :=
   haveI : ∀ F : (Over Y)ᵒᵖ ⥤ Type (u + 1), (Over.map f).op.HasPointwiseLeftKanExtension F :=
-    fun _ ↦ inferInstance
+    fun _ ↦ by
+      set_option synthInstance.maxHeartbeats 400000 in exact inferInstance
   ⟨_, ⟨Functor.sheafPullbackConstruction.sheafAdjunctionContinuous (Over.map f) (Type (u + 1))
     ((fppfTopology B S hS).over Y) ((fppfTopology B S hS).over X)⟩⟩
 

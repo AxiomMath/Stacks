@@ -171,7 +171,7 @@ def derivedSectionsWithSupportInPlusAugmentation :
     derivedSectionsWithSupportInPlus.{w, w₂} C T ⟶ 𝟭 _ :=
   letI : EnoughInjectives (ModuleCat.{max w w₂} C) := ModuleCat.enoughInjectives C
   (sectionsWithSupportInFunctor.{w, w₂} C T).rightDerivedFunctorPlus.rightDerivedDesc
-    (sectionsWithSupportInFunctor.{w, w₂} C T).rightDerivedFunctorPlusUnit
+    (sectionsWithSupportInFunctor.{w, w₂} C T).rightDerivedFunctorPlusUnith
     (HomotopyCategory.Plus.quasiIso (ModuleCat.{max w w₂} C)) (𝟭 _)
     (whiskerRight (homotopySectionsWithSupportInPlusSubtype.{w, w₂} C T) DerivedCategory.Plus.Qh)
 
@@ -187,7 +187,7 @@ private def plusSectionsUnit : plusSectionsWithSupportToUnbounded.{w, w₂} C T 
     DerivedCategory.Plus.Qh ⋙
       (derivedSectionsWithSupportInPlus.{w, w₂} C T ⋙ DerivedCategory.Plus.ι) :=
   letI : EnoughInjectives (ModuleCat.{max w w₂} C) := ModuleCat.enoughInjectives C
-  whiskerRight (sectionsWithSupportInFunctor.{w, w₂} C T).rightDerivedFunctorPlusUnit
+  whiskerRight (sectionsWithSupportInFunctor.{w, w₂} C T).rightDerivedFunctorPlusUnith
     DerivedCategory.Plus.ι
 
 /-- The unit of the unbounded derived functor, restricted to bounded-below objects. -/
@@ -261,7 +261,7 @@ theorem derivedSectionsWithSupportInPlusIso_augmentation :
         (unboundedSectionsUnit.{w, w₂} C T)
         (HomotopyCategory.Plus.quasiIso (ModuleCat.{max w w₂} C)) (𝟙 _) from rfl,
     Functor.rightDerivedNatTrans_app_assoc, NatTrans.id_app, Category.id_comp]
-  have hfac : (sectionsWithSupportInFunctor.{w, w₂} C T).rightDerivedFunctorPlusUnit.app X ≫
+  have hfac : (sectionsWithSupportInFunctor.{w, w₂} C T).rightDerivedFunctorPlusUnith.app X ≫
       (derivedSectionsWithSupportInPlusAugmentation.{w, w₂} C T).app
         (DerivedCategory.Plus.Qh.obj X) =
       (whiskerRight (homotopySectionsWithSupportInPlusSubtype.{w, w₂} C T)
@@ -272,7 +272,7 @@ theorem derivedSectionsWithSupportInPlusIso_augmentation :
       (derivedSectionsWithSupportInAugmentation.{w, w₂} C T).app
         (DerivedCategory.Qh.obj X.obj) =
     DerivedCategory.Plus.ι.map
-        ((sectionsWithSupportInFunctor.{w, w₂} C T).rightDerivedFunctorPlusUnit.app X) ≫
+        ((sectionsWithSupportInFunctor.{w, w₂} C T).rightDerivedFunctorPlusUnith.app X) ≫
       DerivedCategory.Plus.ι.map
         ((derivedSectionsWithSupportInPlusAugmentation.{w, w₂} C T).app
           (DerivedCategory.Plus.Qh.obj X))

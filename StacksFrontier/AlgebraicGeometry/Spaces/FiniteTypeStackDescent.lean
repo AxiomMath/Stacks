@@ -96,7 +96,8 @@ theorem hom_comp_structure {a b : FiniteTypeSpaces B S hS} {V W : BigFppfOver B 
       (a.obj.hom ≫ yoneda.map (eqToHom ha)) ≫ yoneda.map g := by
   subst ha hb
   obtain rfl := right_eq_of_isHomLift g φ
-  simpa using φ.hom.w
+  simp only [eqToHom_refl, CategoryTheory.Functor.map_id, Category.comp_id]
+  exact φ.hom.w
 
 /-- A cartesian morphism of finite-type algebraic spaces over varying schemes is a fibre product
 square of presheaves (Stacks 04U9), read through the identifications of the bases with `V` and
@@ -163,7 +164,8 @@ theorem fiberInclusion_map_comp_fibreStructure {V : BigFppfOver B S hS}
       fibreStructure x := by
   have : (finiteTypeSpacesProjection B S hS).IsHomLift (𝟙 V)
       (Functor.Fiber.fiberInclusion.map m) := m.2
-  simpa using map_comp_fibreStructure (𝟙 V) (Functor.Fiber.fiberInclusion.map m)
+  simpa only [CategoryTheory.Functor.map_id, Category.comp_id] using
+    map_comp_fibreStructure (𝟙 V) (Functor.Fiber.fiberInclusion.map m)
 
 /-- The chosen cartesian lift of `g` at `x` is a fibre product square of presheaves. -/
 theorem isPullback_pullbackMap {V W : BigFppfOver B S hS}

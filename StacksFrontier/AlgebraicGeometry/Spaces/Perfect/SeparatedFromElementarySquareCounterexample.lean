@@ -86,6 +86,24 @@ open CategoryTheory CategoryTheory.Limits
 
 universe u
 
+/-- Pullbacks of presheaves on the big fppf site, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high)
+    AlgebraicGeometry.hasPullbacks_presheaf_SeparatedFromElementarySquareCounterexample
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high)
+    AlgebraicGeometry.hasPullback_presheaf_SeparatedFromElementarySquareCounterexample
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : AlgebraicGeometry.Scheme.{u})
+    (hS : B.Contains S) {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (AlgebraicGeometry.hasPullbacks_presheaf_SeparatedFromElementarySquareCounterexample
+    B S hS).has_limit _
+
 namespace CategoryTheory.Limits
 
 variable {C : Type*} [Category C]
@@ -241,7 +259,7 @@ theorem mono_puncturedQuotient_ι_comp_squaringMap (hchar : (2 : k) ≠ 0) :
     Mono ((puncturedQuotient k B hk).ι ≫ squaringMap k B hk) := by
   have := isIso_fromPreimage_squaringMap k B hk hchar
   rw [← Subfunctor.fromPreimage_ι]
-  infer_instance
+  exact @mono_comp _ _ _ _ _ _ (@IsIso.mono_of_iso _ _ _ _ _ this) _ inferInstance
 
 /-- A point of the involution quotient lies in the part over the punctured affine line exactly
 when its image under the squaring map is not the origin. -/
@@ -504,6 +522,8 @@ theorem exists_isElementaryDistinguishedSquare_not_isSeparated (hchar : (2 : k) 
       Space.IsClosedMorphism B (Spec (.of k)) hk (pullback.mapDesc U.ι f g) ∧
       ¬ Space.IsSeparated B (Spec (.of k)) hk g := by
   have hiso := isIso_fromPreimage_squaringMap k B hk hchar
+  have : Mono ((puncturedSubfunctor k B hk).fromPreimage (squaringMap k B hk)) :=
+    @IsIso.mono_of_iso _ _ _ _ _ hiso
   have hmd := isIso_pullback_mapDesc_of_isPullback
     (Subfunctor.isPullback_preimage (squaringMap k B hk) (puncturedSubfunctor k B hk))
     (quotientChart k B hk)

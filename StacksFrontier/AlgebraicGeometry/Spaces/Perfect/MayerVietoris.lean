@@ -310,12 +310,12 @@ theorem mem_distTriang_biprod_of_natural_shortExact_id {ΨP ΨU ΨV : C₁ ⥤ C
           (-((NatTrans.mapDerivedCategory b).app E)))
         (biprod.desc ((NatTrans.mapDerivedCategory cU).app E)
             ((NatTrans.mapDerivedCategory cV).app E) ≫
-          (Functor.mapDerivedCategoryIdIso (C := C₁)).hom.app E) δ ∈
+          (Functor.mapDerivedCategoryIdIso C₁).hom.app E) δ ∈
       distTriang (DerivedCategory C₁) := by
   obtain ⟨δ, hδ⟩ := mem_distTriang_biprod_of_natural_shortExact a b cU cV hzero hex E
-  refine ⟨(Functor.mapDerivedCategoryIdIso (C := C₁)).inv.app E ≫ δ, ?_⟩
+  refine ⟨(Functor.mapDerivedCategoryIdIso C₁).inv.app E ≫ δ, ?_⟩
   refine isomorphic_distinguished _ hδ _ (Triangle.isoMk _ _ (Iso.refl _) (Iso.refl _)
-    ((Functor.mapDerivedCategoryIdIso (C := C₁)).app E).symm ?_ ?_ ?_)
+    ((Functor.mapDerivedCategoryIdIso C₁).app E).symm ?_ ?_ ?_)
   · simp
   · simp
   · simp
@@ -466,7 +466,7 @@ theorem mem_distTriang_mayerVietoris
         (biprod.desc ((NatTrans.mapDerivedCategory adjU.counit).app E)
             ((NatTrans.mapDerivedCategory adjV.counit).app E) ≫
           (Functor.mapDerivedCategoryIdIso
-            (C := Modules.{u, u} B S hS W.1 W.2)).hom.app E) δ ∈
+            (Modules.{u, u} B S hS W.1 W.2)).hom.app E) δ ∈
       distTriang (DerivedCategory (Modules.{u, u} B S hS W.1 W.2)) :=
   mem_distTriang_biprod_of_natural_shortExact_id a b adjU.counit adjV.counit hzero hMV E
 

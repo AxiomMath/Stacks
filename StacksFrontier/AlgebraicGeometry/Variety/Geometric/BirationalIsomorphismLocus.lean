@@ -597,8 +597,6 @@ private theorem quasiFinite_local_residueField_finite
     exact IsLocalRing.maximalIdeal_comap f
   have : q.LiesOver p := ⟨hqp.symm⟩
   let := Localization.AtPrime.algebraOfLiesOver p q
-  have : Localization.AtPrime.IsLiesOverAlgebra p q := by
-    exact ⟨rfl⟩
   have : IsScalarTower R (Localization.AtPrime p) (Localization.AtPrime q) :=
     inferInstance
   have : Algebra.QuasiFiniteAt R q := inferInstance

@@ -393,8 +393,7 @@ private theorem extendedSection_factorization
     show ψ ≫ g = V.hom
     exact hψ'
   have heVleft : Over.Hom.left eV.inv = 𝟙 V.left := by
-    have hh := congrArg Over.Hom.left eV.inv_hom_id
-    simpa [eV, Over.isoMk] using hh
+    rfl
   have hρ : ρ.inv.app (Opposite.op V) eV.inv = ⟨⟨ψ, s₀⟩, hψ₀⟩ := by
     show κ.homEquiv eV.inv = ⟨⟨ψ, s₀⟩, hψ₀⟩
     apply Subtype.ext

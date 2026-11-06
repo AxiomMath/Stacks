@@ -313,7 +313,7 @@ in the small-site spelling. -/
 @[instance_reducible]
 def moduleCrysFormRingSections (B : CrystallineThickening S) :
     Module (crysFormRing S B) (F.val.obj (op B)) :=
-  inferInstanceAs (Module ((structureSheaf S).val.obj (op B)) (F.val.obj (op B)))
+  inferInstanceAs (Module ((structureSheaf S).obj.obj (op B)) (F.val.obj (op B)))
 
 attribute [local instance] moduleCrysFormRingSections
 

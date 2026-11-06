@@ -114,7 +114,7 @@ theorem endAlgebra_d_eq_zero : (endAlgebra A n).d = 0 := by
 /-- The degree-zero endomorphism of `P` underlying an element of `Hom^dg(P, P)`. -/
 def endAlgebraToEnd (a : (endAlgebra A n).A) :
     End (generatorModule A n) :=
-  (liftedGeneratorXZeroIso A n).hom ≫
+  End.of <| (liftedGeneratorXZeroIso A n).hom ≫
     (((RingedSite.Rep.{u, u, u, u, u, 0} (site A n) ℤ (generator A n)).algebraHom 0)
       ⟨a, endAlgebra_mem_grading_zero A n a⟩ :
         Cochain (liftedGenerator A n) (liftedGenerator A n) 0).v 0 0 (add_zero 0) ≫
@@ -123,10 +123,10 @@ def endAlgebraToEnd (a : (endAlgebra A n).A) :
 /-- `endAlgebraToEnd a` only depends on `a` as an element of the degree-zero part. -/
 private theorem endAlgebraToEnd_eq_of_val_eq (a : (endAlgebra A n).A)
     (c : (endAlgebra A n).grading 0) (hc : c.1 = a) :
-    endAlgebraToEnd A n a = (liftedGeneratorXZeroIso A n).hom ≫
+    endAlgebraToEnd A n a = End.of ((liftedGeneratorXZeroIso A n).hom ≫
       (((RingedSite.Rep.{u, u, u, u, u, 0} (site A n) ℤ (generator A n)).algebraHom 0) c :
         Cochain (liftedGenerator A n) (liftedGenerator A n) 0).v 0 0 (add_zero 0) ≫
-      (liftedGeneratorXZeroIso A n).inv := by
+      (liftedGeneratorXZeroIso A n).inv) := by
   subst hc
   rfl
 
@@ -135,6 +135,7 @@ theorem endAlgebraToEnd_one : endAlgebraToEnd A n 1 = 1 := by
   obtain ⟨e, he1, he⟩ :=
     (RingedSite.Rep.{u, u, u, u, u, 0} (site A n) ℤ (generator A n)).algebra_one
   rw [endAlgebraToEnd_eq_of_val_eq A n 1 e he1, he]
+  apply End.ext
   show _ ≫ (Cochain.ofHom (𝟙 (liftedGenerator A n))).v 0 0 (add_zero 0) ≫ _ = 𝟙 _
   rw [Cochain.ofHom_v, HomologicalComplex.id_f, Category.id_comp]
   exact (liftedGeneratorXZeroIso A n).hom_inv_id
@@ -146,7 +147,9 @@ theorem endAlgebraToEnd_mul (a b : (endAlgebra A n).A) :
   obtain ⟨c, hc1, hc⟩ := (RingedSite.Rep.{u, u, u, u, u, 0} (site A n) ℤ
     (generator A n)).algebra_mul 0 0 0 (add_zero 0) ⟨a, endAlgebra_mem_grading_zero A n a⟩
       ⟨b, endAlgebra_mem_grading_zero A n b⟩
-  rw [endAlgebraToEnd_eq_of_val_eq A n _ c hc1, hc, End.mul_def, endAlgebraToEnd, endAlgebraToEnd]
+  rw [endAlgebraToEnd_eq_of_val_eq A n _ c hc1, hc]
+  apply End.ext
+  rw [End.mul_asHom, endAlgebraToEnd, endAlgebraToEnd]
   show _ ≫ (Cochain.comp
     (((RingedSite.Rep.{u, u, u, u, u, 0} (site A n) ℤ (generator A n)).algebraHom 0)
       ⟨b, endAlgebra_mem_grading_zero A n b⟩ :
@@ -163,7 +166,8 @@ theorem endAlgebraToEnd_add (a b : (endAlgebra A n).A) :
     endAlgebraToEnd A n (a + b) = endAlgebraToEnd A n a + endAlgebraToEnd A n b := by
   have h : (⟨a + b, endAlgebra_mem_grading_zero A n (a + b)⟩ : (endAlgebra A n).grading 0) =
       ⟨a, endAlgebra_mem_grading_zero A n a⟩ + ⟨b, endAlgebra_mem_grading_zero A n b⟩ := rfl
-  rw [endAlgebraToEnd, h, map_add, Cochain.add_v, Preadditive.add_comp, Preadditive.comp_add]
+  apply End.ext
+  rw [End.add_asHom, endAlgebraToEnd, h, map_add, Cochain.add_v, Preadditive.add_comp, Preadditive.comp_add]
   rfl
 
 /-- `endAlgebraToEnd` is a bijection from `Hom^dg(P, P)` onto the endomorphisms of `P`. -/
@@ -171,17 +175,18 @@ theorem endAlgebraToEnd_bijective : Function.Bijective (endAlgebraToEnd A n) := 
   let ι := liftedGeneratorXZeroIso A n
   let α := (RingedSite.Rep.{u, u, u, u, u, 0} (site A n) ℤ (generator A n)).algebraHom 0
   refine ⟨fun a b hab => ?_, fun f => ?_⟩
-  · have h1 := congrArg (fun f : End (generatorModule A n) => ι.inv ≫ f ≫ ι.hom) hab
+  · have h1 := congrArg (fun f : End (generatorModule A n) => ι.inv ≫ f.asHom ≫ ι.hom) hab
     simp only [endAlgebraToEnd, Category.assoc] at h1
     exact congrArg Subtype.val (α.injective (cochain_zero_ext A n _ _ h1))
   · let z : Cochain (liftedGenerator A n) (liftedGenerator A n) 0 :=
-      Cochain.single (p := 0) (q := 0) (ι.inv ≫ f ≫ ι.hom) 0
+      Cochain.single (p := 0) (q := 0) (ι.inv ≫ f.asHom ≫ ι.hom) 0
     refine ⟨(α.symm z).1, ?_⟩
     have h : (⟨(α.symm z).1, endAlgebra_mem_grading_zero A n _⟩ : (endAlgebra A n).grading 0) =
       α.symm z := rfl
     rw [endAlgebraToEnd, h, LinearEquiv.apply_symm_apply]
-    show ι.hom ≫ z.v 0 0 (add_zero 0) ≫ ι.inv = f
-    rw [show z.v 0 0 (add_zero 0) = ι.inv ≫ f ≫ ι.hom from Cochain.single_v _ _ _]
+    apply End.ext
+    show ι.hom ≫ z.v 0 0 (add_zero 0) ≫ ι.inv = f.asHom
+    rw [show z.v 0 0 (add_zero 0) = ι.inv ≫ f.asHom ≫ ι.hom from Cochain.single_v _ _ _]
     simp only [Category.assoc, Iso.hom_inv_id, Category.comp_id, Iso.hom_inv_id_assoc]
 
 /-- `endAlgebraToEnd` as a ring homomorphism. -/

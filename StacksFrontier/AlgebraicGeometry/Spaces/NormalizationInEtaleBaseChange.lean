@@ -139,6 +139,13 @@ end AlgebraSheaf
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_normalizationInEtaleBaseChange
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Integral closedness is étale local**: it passes to the restriction of an algebra sheaf
 along an étale morphism.  The structure-algebra maps and the locally integral sections of the
 restriction are those of the original algebra on the same charts read as charts of the target
@@ -305,7 +312,8 @@ theorem isIntegrallyClosed_of_isRelativeNormalization_id {T Y : AlgebraicSpaces 
   let Φinv : N.obj ⟶ (idAffineOver B S hS T).obj :=
     Over.homMk (ObjectProperty.homMk φ.inv) (ObjectProperty.hom_ext _ (by
       show φ.inv ≫ 𝟙 T.1 = N.obj.hom.hom
-      simpa using (congrArg (φ.inv ≫ ·) hφ2).symm))
+      simpa only [Category.comp_id, Iso.inv_hom_id_assoc] using
+        (congrArg (φ.inv ≫ ·) hφ2).symm))
   have hΦ : Φ ≫ Φinv = 𝟙 _ := Over.OverMorphism.ext (ObjectProperty.hom_ext _ φ.hom_inv_id)
   have hΦ' : Φinv ≫ Φ = 𝟙 _ := Over.OverMorphism.ext (ObjectProperty.hom_ext _ φ.inv_hom_id)
   have hq' : overHomToId B S hS q ≫ Φ = q' :=

@@ -106,6 +106,7 @@ theorem isIso_restrictionBaseChange_pushforwardRestriction
     (pushforwardRestriction H).val (pushforwardRestrictionValIso H) k h₁
   convert h₂ using 2
 
+set_option synthInstance.maxHeartbeats 400000 in
 include hV₀ e in
 /-- **Over an affine object `W` of the spaces-étale site, the direct image `a_{X,*}H` of a locally
 presented module is `M^a`**, hence has a global presentation: on the affine schemes étale over

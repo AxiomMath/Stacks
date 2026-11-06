@@ -93,6 +93,11 @@ section TensorModel
 
 variable (A : ℕᵒᵖ ⥤ CommRingCat.{u})
 
+/-- The ring of sections of `A ⋙ forget₂ CommRingCat RingCat` at `n` is commutative. -/
+noncomputable instance commRingObjForget₂ (n : ℕᵒᵖ) :
+    CommRing ((A ⋙ forget₂ CommRingCat RingCat).obj n) :=
+  inferInstanceAs (CommRing (A.obj n))
+
 /-- Pointwise tensor product, with the tensor products of the semilinear transition maps. -/
 noncomputable def tensorSystem (M N : Systems.{u, v} A) : Systems.{u, v} A where
   obj n := ModuleCat.of (A.obj n) (M.obj n ⊗[A.obj n] N.obj n)

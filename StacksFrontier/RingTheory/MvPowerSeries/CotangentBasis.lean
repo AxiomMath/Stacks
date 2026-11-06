@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.RingTheory.MvPowerSeries.LowDegree
+public import Mathlib.LinearAlgebra.Dimension.OrzechProperty
 
 /-!
 # The cotangent space of a power-series ring, with the variables as a basis

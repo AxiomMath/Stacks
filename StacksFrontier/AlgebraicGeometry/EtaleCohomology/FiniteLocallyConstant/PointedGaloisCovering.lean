@@ -178,8 +178,8 @@ covering with group its automorphism group.** -/
 def PointedGaloisCover.etaleGaloisCovering (A : PointedGaloisCover x) :
     EtaleGaloisCovering X (Aut A.obj) where
   cover := (PointedGaloisCover.toEtale x).obj A
-  act h := h.hom.left
-  act_comp_hom h := MorphismProperty.Over.w h.hom
+  act h := h.asIso.hom.left
+  act_comp_hom h := MorphismProperty.Over.w h.asIso.hom
   act_one := rfl
   act_mul _ _ := rfl
   surjective := surjective_hom_of_finiteEtaleOver A.obj
@@ -198,7 +198,7 @@ morphism underlying `h`. -/
 @[simp]
 theorem PointedGaloisCover.etaleGaloisCovering_actHom (A : PointedGaloisCover x)
     (h : Aut A.obj) :
-    (A.etaleGaloisCovering hX).actHom h = (finiteEtaleToEtale X).map h.hom :=
+    (A.etaleGaloisCovering hX).actHom h = (finiteEtaleToEtale X).map h.asIso.hom :=
   rfl
 
 variable (x) in

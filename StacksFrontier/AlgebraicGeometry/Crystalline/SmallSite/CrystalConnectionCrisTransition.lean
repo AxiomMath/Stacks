@@ -434,6 +434,7 @@ theorem tensorTransitionTwo_crystalConnectionExtensionApp (W : A.obj.thickening.
             (op (g.hom.targetHom.hom ⁻¹ᵁ V)) (formsCompOne B (g.hom.targetHom.hom ⁻¹ᵁ V)
               ((crysDifferentialForms S 1).map rV.op ω'))) := by
       rw [extTransR_apply, crystalTensorTransition_tmul, ← formsCompOne_map]
+      set_option maxRecDepth 10000 in
       exact crystalConnectionExtensionApp_tmul B hF (g.hom.targetHom.hom ⁻¹ᵁ V)
         (crystalRestrict F rV x') (formsCompOne B (g.hom.targetHom.hom ⁻¹ᵁ V)
           ((crysDifferentialForms S 1).map rV.op ω'))

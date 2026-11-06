@@ -221,7 +221,7 @@ theorem isClopenDecomposition_levelSets (n : LocallyConstant X ℤ) :
   disjoint i j hij := by
     rw [disjoint_iff]
     refine TopologicalSpace.Opens.ext (Set.eq_empty_iff_forall_notMem.2 fun x hx ↦ hij ?_)
-    exact ULift.ext _ _ (hx.1.symm.trans hx.2)
+    exact ULift.ext (hx.1.symm.trans hx.2)
   iSup_eq_top := top_unique fun x _ ↦
     TopologicalSpace.Opens.mem_iSup.2 ⟨ULift.up (n x), rfl⟩
 

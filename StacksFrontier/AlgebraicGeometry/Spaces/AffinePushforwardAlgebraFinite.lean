@@ -109,6 +109,13 @@ theorem presheaf_etale_openObjHom_comp {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type 
 
 /-! ### The passage from the affine opens of one étale chart to every affine base change -/
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_affinePushforwardAlgebraFinite
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- Let `Q` be Zariski-local at the target.  If the represented base changes of `f` along the

@@ -169,7 +169,7 @@ theorem StageData.exists_open_iso_of_lift (D : StageData hY f W V n)
     rintro U _ ⟨a, rfl⟩
     show g.app U (ι.app U a) ∈ D.V'.1.obj U
     have h := congrArg (fun m : W' ⟶ D.Y'.1 => m.app U a) hιg
-    simp only [FunctorToTypes.comp] at h
+    simp only [NatTrans.comp_app_apply] at h
     rw [h]
     exact (q'.app U a).2
   refine ⟨_, hO, hOV, by rwa [range_pointsMap_range_ι], ?_⟩

@@ -101,11 +101,11 @@ noncomputable def uliftAlgebraRestrictScalarsIso
   hom := ConcreteCategory.ofHom (C := ModuleCat R)
     { toFun := id
       map_add' := fun _ _ => rfl
-      map_smul' := fun r x => ULift.ext _ _ (Algebra.smul_def r x.down) }
+      map_smul' := fun r x => ULift.ext (Algebra.smul_def r x.down) }
   inv := ConcreteCategory.ofHom (C := ModuleCat R)
     { toFun := id
       map_add' := fun _ _ => rfl
-      map_smul' := fun r x => ULift.ext _ _ (Algebra.smul_def r x.down).symm }
+      map_smul' := fun r x => ULift.ext (Algebra.smul_def r x.down).symm }
   hom_inv_id := rfl
   inv_hom_id := rfl
 

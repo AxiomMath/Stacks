@@ -170,15 +170,6 @@ theorem additive_rightDerivedPlus {C D : Type*} [Category C] [Category D]
     [Abelian C] [Abelian D] [HasDerivedCategory C] [HasDerivedCategory D]
     (F : C ⥤ D) [F.Additive] [EnoughInjectives C] (i : ℤ) :
     (F.rightDerivedPlus i).Additive := by
-  let : F.rightDerivedFunctorPlus.CommShift ℤ :=
-    Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnit
-      (HomotopyCategory.Plus.quasiIso C) ℤ
-  let : NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ :=
-    Functor.IsRightDerivedFunctor.natTrans_commShift F.rightDerivedFunctorPlus
-      F.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso C) ℤ
-  let : F.rightDerivedFunctorPlus.IsTriangulated :=
-    Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus
-      F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
   dsimp [Functor.rightDerivedPlus]
   infer_instance
 

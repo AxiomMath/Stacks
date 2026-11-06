@@ -167,11 +167,11 @@ theorem tensorProductBraiding_hom_comp (Y : Scheme.{u})
   let : MonoidalCategory (PresheafOfModules.{u}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf Y.presheaf
         Y.ringCatSheaf.2).obj) :=
-    PresheafOfModules.monoidalCategory (R := Y.presheaf)
+    PresheafOfModulesOfCommRing.monoidalCategory (R := Y.presheaf)
   let : SymmetricCategory (PresheafOfModules.{u}
       (Stacks.SheafOfModules.TensorSheafification.structureSheaf Y.presheaf
         Y.ringCatSheaf.2).obj) :=
-    PresheafOfModules.symmetricCategory (R := Y.presheaf)
+    PresheafOfModulesOfCommRing.symmetricCategory (R := Y.presheaf)
   show (Stacks.SheafOfModules.TensorSheafification.sheafify Y.presheaf Y.ringCatSheaf.2).map
         (β_ A.val B.val).hom ≫
       (Stacks.SheafOfModules.TensorSheafification.sheafify Y.presheaf Y.ringCatSheaf.2).map

@@ -123,7 +123,7 @@ noncomputable def chartOfPoint {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
   app C ℓ := X.map (specOverMap (SmallAlg.homMk ℓ)).op p
   natural f ℓ := by
     change X.map (specOverMap f).op (X.map (specOverMap (SmallAlg.homMk ℓ)).op p) = _
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← specOverMap_comp]
+    rw [← Functor.map_comp_apply, ← op_comp, ← specOverMap_comp]
     rfl
 
 /-- The structure morphism `Spec C → T'` in the site. -/
@@ -147,11 +147,11 @@ noncomputable def relPoints {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     exact specOverMap_comp_toBase f⟩
   map_id C := ConcreteCategory.hom_ext _ _ fun ξ ↦ Subtype.ext (by
     change X.map (specOverMap (𝟙 C)).op ξ.1 = ξ.1
-    rw [specOverMap_id, op_id, FunctorToTypes.map_id_apply])
+    rw [specOverMap_id, op_id, Functor.map_id_apply])
   map_comp f g := ConcreteCategory.hom_ext _ _ fun ξ ↦ Subtype.ext (by
     change X.map (specOverMap (f ≫ g)).op ξ.1 =
       X.map (specOverMap g).op (X.map (specOverMap f).op ξ.1)
-    rw [specOverMap_comp, op_comp, FunctorToTypes.map_comp_apply])
+    rw [specOverMap_comp, op_comp, Functor.map_comp_apply])
 
 /-- The underlying section of `(relPoints T' π).map f ξ` is the restriction of that of `ξ`. -/
 theorem relPoints_map_val {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (π : X ⟶ yoneda.obj T')
@@ -165,7 +165,7 @@ noncomputable def relChart {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (π : X �
     Chart (relPoints T' π) P.obj where
   app C ℓ := (relPoints T' π).map (SmallAlg.homMk ℓ) p
   natural f ℓ := by
-    rw [← FunctorToTypes.map_comp_apply]
+    rw [← Functor.map_comp_apply]
     rfl
 
 /-- Morphisms of small `A'`-algebras are equal if their underlying ring maps are. -/

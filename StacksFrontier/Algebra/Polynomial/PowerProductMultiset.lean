@@ -132,7 +132,7 @@ theorem normCount_const_eq_zero (s : ℝ) (ρ : ℝ) (hρ : ∀ k : ℕ, s ^ k �
 theorem prod_le_prod_of_subset_one_le {u : Fin n → ℝ} {s t : Finset (Fin n)} (h : s ⊆ t)
     (hs : 0 ≤ ∏ j ∈ s, u j) (ht : ∀ j ∈ t \ s, 1 ≤ u j) : ∏ j ∈ s, u j ≤ ∏ j ∈ t, u j := by
   rw [← Finset.prod_sdiff h]
-  exact le_mul_of_one_le_left hs (Finset.one_le_prod ht)
+  exact le_mul_of_one_le_left hs (Finset.one_le_prod₀ ht)
 
 /-- The products over admissible subsets are maximal exactly at the set of coordinates `> 1`. -/
 theorem prod_le_prod_filter_one_lt (u : Fin n → ℝ) (hu : ∀ j, 0 ≤ u j) (h1 : ∀ j, u j ≠ 1)
@@ -149,7 +149,7 @@ theorem prod_le_prod_filter_one_lt (u : Fin n → ℝ) (hu : ∀ j, 0 ≤ u j) (
     obtain ⟨hjS, hj1⟩ := Finset.mem_filter.1 hj
     exact ⟨lt_of_le_of_ne (hu j) (hS j hjS).symm, lt_of_le_of_ne (not_lt.1 hj1) (h1 j)⟩
   have hA : ∏ j ∈ S.filter (fun j => ¬ 1 < u j), u j ≤ 1 :=
-    Finset.prod_le_one (fun j hj => (hlow j hj).1.le) fun j hj => (hlow j hj).2.le
+    Finset.prod_le_one₀ (fun j hj => (hlow j hj).1.le) fun j hj => (hlow j hj).2.le
   have hsub : S.filter (fun j => 1 < u j) ⊆ P :=
     Finset.filter_subset_filter _ (Finset.subset_univ S)
   have hBpos : 0 < ∏ j ∈ S.filter (fun j => 1 < u j), u j :=
@@ -173,7 +173,7 @@ theorem prod_le_prod_filter_one_lt (u : Fin n → ℝ) (hu : ∀ j, 0 ≤ u j) (
       have : ∏ j ∈ S.filter (fun j => ¬ 1 < u j), u j < 1 := by
         rw [← Finset.mul_prod_erase _ _ hj]
         calc u j * ∏ x ∈ (S.filter fun j => ¬ 1 < u j).erase j, u x ≤ u j * 1 :=
-              mul_le_mul_of_nonneg_left (Finset.prod_le_one (fun x hx => (hlow x
+              mul_le_mul_of_nonneg_left (Finset.prod_le_one₀ (fun x hx => (hlow x
                 (Finset.mem_of_mem_erase hx)).1.le) fun x hx => (hlow x
                 (Finset.mem_of_mem_erase hx)).2.le) (hlow j hj).1.le
           _ < 1 := by rw [mul_one]; exact (hlow j hj).2
@@ -329,7 +329,7 @@ theorem forall_eq_of_normCount_eq (s : ℝ) (hs : 1 < s) (u : Fin n → ℝ) (hu
     have : ρmin < 1 := by
       show ∏ x ∈ Q, u x < 1
       rw [← Finset.mul_prod_erase Q u hj]
-      have hle : ∏ x ∈ Q.erase j, u x ≤ 1 := Finset.prod_le_one (fun x _ => hu x) fun x hx => by
+      have hle : ∏ x ∈ Q.erase j, u x ≤ 1 := Finset.prod_le_one₀ (fun x _ => hu x) fun x hx => by
         have hx' := Finset.mem_of_mem_erase hx
         have : 1 < v x := by simpa [Q] using hx'
         simp only [v, ite_eq_right (hQadm x hx')] at this
@@ -368,7 +368,7 @@ theorem forall_eq_of_normCount_eq (s : ℝ) (hs : 1 < s) (u : Fin n → ℝ) (hu
       (∏ j ∈ T, u j = μ → ∃ j ∈ P, u j = μ ∧ T = {j}) := by
     intro T hTP ⟨j, hj⟩
     have hrest : 1 ≤ ∏ x ∈ T.erase j, u x :=
-      Finset.one_le_prod fun x hx => (hP1 x (hTP (Finset.mem_of_mem_erase hx))).le
+      Finset.one_le_prod₀ fun x hx => (hP1 x (hTP (Finset.mem_of_mem_erase hx))).le
     rw [← Finset.mul_prod_erase T u hj]
     have hujpos : 0 < u j := lt_trans one_pos (hP1 j (hTP hj))
     refine ⟨(hμle j (hTP hj)).trans (le_mul_of_one_le_right hujpos.le hrest), fun e => ?_⟩
@@ -386,7 +386,7 @@ theorem forall_eq_of_normCount_eq (s : ℝ) (hs : 1 < s) (u : Fin n → ℝ) (hu
       have : 1 < ∏ y ∈ T.erase j, u y := by
         rw [← Finset.mul_prod_erase _ u hx]
         exact one_lt_mul_of_lt_of_le (hP1 x (hTP (Finset.mem_of_mem_erase hx)))
-          (Finset.one_le_prod fun y hy => (hP1 y (hTP (Finset.mem_of_mem_erase
+          (Finset.one_le_prod₀ fun y hy => (hP1 y (hTP (Finset.mem_of_mem_erase
             (Finset.mem_of_mem_erase hy)))).le)
       exact this.ne' hrest1
     ext x
@@ -795,7 +795,7 @@ theorem norm_eq_sqrt_of_functional_eq (q : ℕ) (hq : 2 ≤ q) (γ : ℕ) {r : �
   -- the norms of the products
   have hnormS : ∀ S : Finset (Fin r), ‖∏ i ∈ S, α i‖ ≤ sq ^ S.card := fun S => by
     rw [norm_prod]
-    exact (Finset.prod_le_prod (fun i _ => norm_nonneg _) fun i _ => hle i).trans_eq
+    exact (Finset.prod_le_prod₀ (fun i _ => norm_nonneg _) fun i _ => hle i).trans_eq
       (Finset.prod_const sq)
   -- on the left only `S = ∅` contributes
   have hL :
@@ -852,7 +852,7 @@ theorem norm_eq_sqrt_of_functional_eq (q : ℕ) (hq : 2 ≤ q) (γ : ℕ) {r : �
   have : ∏ j, ‖α j‖ < sq ^ (r - 1 + 1) := by
     rw [← Finset.mul_prod_erase univ _ (Finset.mem_univ i), pow_succ, mul_comm (sq ^ (r - 1))]
     have hrest : ∏ j ∈ univ.erase i, ‖α j‖ ≤ sq ^ (r - 1) := by
-      refine (Finset.prod_le_prod (fun j _ => norm_nonneg _) fun j _ => hle j).trans_eq ?_
+      refine (Finset.prod_le_prod₀ (fun j _ => norm_nonneg _) fun j _ => hle j).trans_eq ?_
       rw [Finset.prod_const, Finset.card_erase_of_mem (Finset.mem_univ i), Finset.card_univ,
         Fintype.card_fin]
     calc ‖α i‖ * ∏ j ∈ univ.erase i, ‖α j‖ ≤ ‖α i‖ * sq ^ (r - 1) :=

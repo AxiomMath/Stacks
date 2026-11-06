@@ -359,6 +359,7 @@ variable {O : Type} [CommRing O] [Algebra ℤ_[ℓ] O] (F : LAdicSheaf.Coefficie
   (E : Type) [CommRing E] [Algebra ℚ_[ℓ] E] [Algebra O E]
   [IsLocalization (Submonoid.powers (ℓ : O)) E]
 
+set_option backward.isDefEq.respectTransparency false in
 /-- **`Hⁱ_c(X'_k̄, g⁻¹F ⊗ ℚ_ℓ) ≃ Hⁱ_c(X_k̄, F ⊗ ℚ_ℓ)`, `E`-linearly**, for an isomorphism
 `g : X' ⟶ X`, `X'` compactified by `j ∘ g`. -/
 public def LAdicSheaf.CoefficientSheaf.rationalIsoOfIsIsoLinearEquiv :
@@ -372,11 +373,13 @@ public def LAdicSheaf.CoefficientSheaf.rationalIsoOfIsIsoLinearEquiv :
   LAdicSheaf.CoefficientSheaf.rationalLinearEquivOfCommute _ F _ f _ j kbar kbar i i E
     (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso B ℓ g f j kbar i
       F.toLAdicSheaf).toLinearEquiv
-    (fun o v => congrArg (fun t => t.hom v)
-      (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso_hom_naturality B ℓ g f j
-        kbar i (F.act o)))
+    (fun o v => by
+      have h := LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso_hom_naturality B ℓ
+        g f j kbar i (F.act o).asHom
+      exact congrArg (fun t => t.hom v) h)
 
 omit [Algebra ℚ_[ℓ] E] in
+set_option backward.isDefEq.respectTransparency false in
 /-- The `E`-linear identification carries `π_{X'}^*` to `π_X^*`. -/
 public theorem LAdicSheaf.CoefficientSheaf.rationalIsoOfIsIsoLinearEquiv_frobenius
     (v : LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X' ℓ (B.inclusion.map g ≫ f)
@@ -386,10 +389,10 @@ public theorem LAdicSheaf.CoefficientSheaf.rationalIsoOfIsIsoLinearEquiv_frobeni
         ((LAdicSheaf.CoefficientSheaf.inverseImage g F).rationalGeometricCompactlySupportedFrobenius
           (B.inclusion.map g ≫ f) (j.restrictOpen (B.inclusion.map g)) kbar i E p q hcard v) =
       F.rationalGeometricCompactlySupportedFrobenius f j kbar i E p q hcard
-        (F.rationalIsoOfIsIsoLinearEquiv B ℓ g f j kbar i E v) :=
-  congrArg (fun t => t.hom v)
-    (LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso_hom_frobenius B ℓ g f j kbar
-      i p q hcard F.toLAdicSheaf)
+        (F.rationalIsoOfIsIsoLinearEquiv B ℓ g f j kbar i E v) := by
+  have h := LAdicSheaf.rationalGeometricCompactlySupportedCohomologyIsoOfIsIso_hom_frobenius B ℓ g f
+    j kbar i p q hcard F.toLAdicSheaf
+  exact congrArg (fun t => t.hom v) h
 
 end LAdic
 

@@ -89,7 +89,6 @@ theorem homBaseChange_tmul (i : B →ₐ[R] T) (ψ : B ⊗[R] M →ₗ[B] B ⊗[
 theorem rTensor_algHom_smul (i : B →ₐ[R] T) (b : B) (x : B ⊗[R] N) :
     LinearMap.rTensor N i.toLinearMap (b • x) = i b • LinearMap.rTensor N i.toLinearMap x := by
   induction x with
-  | zero => simp
   | tmul c n => simp [TensorProduct.smul_tmul']
   | add x y hx hy => simp [hx, hy]
 

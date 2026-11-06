@@ -59,6 +59,17 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_GeometricPointLiftQuasiFinite :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_GeometricPointLiftQuasiFinite
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_GeometricPointLiftQuasiFinite.has_limit _
+
 /-- **A geometric point lifts along a morphism quasi-finite at a point over it, without changing
 its field.** Let `p : X ⟶ Y` be a morphism of algebraic spaces over `S`, locally of finite type,
 let `ȳ` be a geometric point of `Y` and let `x` be a point of `|X|` over the image of `ȳ` at which

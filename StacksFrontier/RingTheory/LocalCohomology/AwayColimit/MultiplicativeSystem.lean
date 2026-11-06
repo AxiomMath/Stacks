@@ -523,7 +523,7 @@ theorem isIso_colimitLocalCohomology_degreeZero_toModule
       ⟨homOfLE ⟨(g : A), rfl⟩⟩, ⟨homOfLE ⟨(f : A), mul_comm _ _⟩⟩⟩
   · intro f
     rw [colimitLocalCohomologyDegreeZeroToModule_fac]
-    exact fun x y h => ULift.ext _ _ (localCohomologyZeroToModule_injective A
+    exact fun x y h => ULift.ext (localCohomologyZeroToModule_injective A
       (Ideal.span {(f : A)}) (Submodule.fg_span (Set.finite_singleton (f : A))) M
       (congrArg ULift.down h))
   · intro y
@@ -532,7 +532,7 @@ theorem isIso_colimitLocalCohomology_degreeZero_toModule
       exists_localCohomologyZeroToModule_eq_of_smul_eq_zero A M (s : A) y.down hs
     refine ⟨⟨(s : A), s.property⟩, ULift.up z, ?_⟩
     rw [colimitLocalCohomologyDegreeZeroToModule_fac]
-    exact ULift.ext _ _ hz
+    exact ULift.ext hz
 
 /-- A class in `H¹_{V(f)}(M)` dies on an enlarged principal support `V(f s)` with `s ∈ S`,
 because it dies on all of `Spec A` and `M` vanishes after localization at `S`. -/
@@ -568,7 +568,7 @@ theorem isZero_colimitLocalCohomology_degreeOne
   ext x
   obtain ⟨g, hfg, hx⟩ :=
     localCohomologyMultiplicativeSystem_degreeOne_eventually_zero A S M f x.down
-  have hx' : (D.map (homOfLE hfg)).hom x = 0 := ULift.ext _ _ hx
+  have hx' : (D.map (homOfLE hfg)).hom x = 0 := ULift.ext hx
   have h := congrArg (fun k => k x) (colimit.w D (homOfLE hfg))
   simp only [ConcreteCategory.comp_apply, hx', map_zero] at h
   simpa using h.symm

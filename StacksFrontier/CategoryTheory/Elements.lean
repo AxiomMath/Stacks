@@ -16,7 +16,7 @@ For a presheaf `F : Cᵒᵖ ⥤ Type v`, the category `S_F` of the source has ob
 `(U, x)` with `x ∈ F(U)` and morphisms `(V, y) ⟶ (U, x)` the maps `f : V ⟶ U` of `C` with
 `f^* x = y`. Mathlib's `CategoryTheory.Functor.Elements F` has the same objects but the
 opposite morphisms, so `S_F` is `(F.Elements)ᵒᵖ`, and its structure functor to `C` is
-`(CategoryOfElements.π F).leftOp`.
+`(Functor.Elements.π F).leftOp`.
 
 ## Main results
 
@@ -107,11 +107,11 @@ def overEquivElementsOp : Over X ≌ ((yoneda.obj X).Elements)ᵒᵖ where
 
 /-- **The equivalence of `overEquivElementsOp` is an equivalence over `C`.** It carries the
 structure functor `C/X → C` to the structure functor `S_{h_X} → C`, which is
-`(CategoryOfElements.π h_X).leftOp`. This is the sense in which `C/X` is *canonically
+`(Functor.Elements.π h_X).leftOp`. This is the sense in which `C/X` is *canonically
 equivalent over `C`* to `S_{h_X}`. -/
 @[stacks 0044]
 def overEquivElementsOpForget :
-    (overEquivElementsOp X).functor ⋙ (CategoryOfElements.π (yoneda.obj X)).leftOp
+    (overEquivElementsOp X).functor ⋙ (Functor.Elements.π (yoneda.obj X)).leftOp
       ≅ Over.forget X :=
   Iso.refl _
 
@@ -119,7 +119,7 @@ def overEquivElementsOpForget :
 Stacks 0044: `CategoryTheory.overEquivElementsOpForget` already states the compatibility.) -/
 def elementsOpToOverForget :
     (overEquivElementsOp X).inverse ⋙ Over.forget X
-      ≅ (CategoryOfElements.π (yoneda.obj X)).leftOp :=
+      ≅ (Functor.Elements.π (yoneda.obj X)).leftOp :=
   Iso.refl _
 
 section UniverseLift
@@ -130,14 +130,14 @@ variable {X}
 universe-lifted presheaf `F ⋙ uliftFunctor` is an element of `F`. -/
 def elementsUliftEquivFunctor (F : Cᵒᵖ ⥤ Type v) :
     (F ⋙ uliftFunctor.{w}).Elements ⥤ F.Elements where
-  obj x := ⟨x.1, x.2.down⟩
-  map f := ⟨f.1, congrArg ULift.down f.2⟩
+  obj x := F.elementsMk x.obj x.val.down
+  map f := Functor.Elements.homMk f.hom (congrArg ULift.down f.map_val)
 
 /-- The inverse comparison functor of `CategoryTheory.elementsUliftEquiv`. -/
 def elementsUliftEquivInverse (F : Cᵒᵖ ⥤ Type v) :
     F.Elements ⥤ (F ⋙ uliftFunctor.{w}).Elements where
-  obj x := ⟨x.1, ULift.up x.2⟩
-  map f := ⟨f.1, ULift.ext _ _ f.2⟩
+  obj x := (F ⋙ uliftFunctor.{w}).elementsMk x.obj (ULift.up x.val)
+  map f := Functor.Elements.homMk f.hom (congrArg ULift.up f.map_val)
 
 /-- **Raising the universe of a presheaf does not change its category of elements.** An element
 of `(F ⋙ uliftFunctor)(U)` is a `ULift` of an element of `F(U)`, and a morphism of elements is
@@ -175,7 +175,7 @@ theorem exists_opOverEquivalenceElements (X : C) :
     ∃ e : (Over X)ᵒᵖ ≌ (uliftYoneda.{w}.obj X).Elements,
       (∀ ψ : Over X, e.functor.obj (op ψ) =
         (uliftYoneda.{w}.obj X).elementsMk (op ψ.left) (ULift.up ψ.hom)) ∧
-      e.functor ⋙ CategoryOfElements.π _ = (Over.forget X).op :=
+      e.functor ⋙ Functor.Elements.π _ = (Over.forget X).op :=
   ⟨(overEquivElementsOp X).op.trans
     ((opOpEquivalence _).trans (elementsUliftEquiv.{w} (yoneda.obj X)).symm),
    fun _ => rfl, rfl⟩
@@ -195,33 +195,36 @@ base object and the identity on the element: an element of `(G ⋙ F)(Y)` *is* a
 @[simps]
 def preComp (G : D ⥤ C) (F : C ⥤ Type w) :
     (G ⋙ F).Elements ⥤ F.Elements where
-  obj a := ⟨G.obj a.1, a.2⟩
-  map {_ _} f := ⟨G.map f.1, f.2⟩
-  map_id _ := Subtype.ext (G.map_id _)
-  map_comp _ _ := Subtype.ext (G.map_comp _ _)
+  obj a := F.elementsMk (G.obj a.obj) a.val
+  map {_ _} f := Functor.Elements.homMk (G.map f.hom) f.map_val
+  map_id _ := Functor.Elements.hom_ext (G.map_id _)
+  map_comp _ _ := Functor.Elements.hom_ext (G.map_comp _ _)
 
 /-- If `G` is faithful, then `preComp G F` is faithful. -/
 instance faithful_preComp (G : D ⥤ C) [G.Faithful] (F : C ⥤ Type w) :
     (preComp G F).Faithful where
-  map_injective h := Subtype.ext (G.map_injective (congrArg Subtype.val h))
+  map_injective h := Functor.Elements.hom_ext (G.map_injective (congrArg Functor.Elements.Hom.hom h))
 
 /-- If `G` is full, then `preComp G F` is full. -/
 instance full_preComp (G : D ⥤ C) [G.Full] (F : C ⥤ Type w) :
     (preComp G F).Full where
-  map_surjective {_ _} h := by
-    obtain ⟨hv, hp⟩ := h
-    obtain ⟨f, rfl⟩ := G.map_surjective hv
-    exact ⟨⟨f, hp⟩, rfl⟩
+  map_surjective {x y} h :=
+    have e : G.map (G.preimage h.hom) = h.hom := G.map_preimage (X := x.obj) (Y := y.obj) h.hom
+    ⟨Functor.Elements.homMk (G.preimage h.hom) (by
+        change F.map (G.map (G.preimage h.hom)) x.val = y.val
+        rw [e]
+        exact h.map_val),
+      Functor.Elements.hom_ext e⟩
 
 /-- If `G` is essentially surjective, then `preComp G F` is essentially surjective. -/
 instance essSurj_preComp (G : D ⥤ C) [G.EssSurj] (F : C ⥤ Type w) :
     (preComp G F).EssSurj where
   mem_essImage a :=
-    ⟨⟨G.objPreimage a.1, F.map (G.objObjPreimageIso a.1).inv a.2⟩,
-      ⟨CategoryOfElements.isoMk _ _ (G.objObjPreimageIso a.1) (by
-        change F.map (G.objObjPreimageIso a.1).hom
-          (F.map (G.objObjPreimageIso a.1).inv a.2) = a.2
-        rw [← FunctorToTypes.map_comp_apply, Iso.inv_hom_id, FunctorToTypes.map_id_apply])⟩⟩
+    ⟨(G ⋙ F).elementsMk (G.objPreimage a.obj) (F.map (G.objObjPreimageIso a.obj).inv a.val),
+      ⟨Functor.Elements.isoMk (G.objObjPreimageIso a.obj) (by
+        change F.map (G.objObjPreimageIso a.obj).hom
+          (F.map (G.objObjPreimageIso a.obj).inv a.val) = a.val
+        rw [Functor.map_inv_hom'_apply])⟩⟩
 
 /-- If `G` is an equivalence, then `preComp G F` is an equivalence. -/
 instance isEquivalence_preComp (G : D ⥤ C) [G.IsEquivalence]
@@ -244,9 +247,9 @@ initial. -/
 theorem initiallySmall_elements_of_essentiallySmall
     [EssentiallySmall.{w} C] (F : C ⥤ Type w) : InitiallySmall.{w} F.Elements :=
   let G := (equivSmallModel.{w} C).inverse
-  have : Small.{w} (G ⋙ F).Elements := by
-    show Small.{w} (Σ Y : SmallModel.{w} C, F.obj (G.obj Y))
-    infer_instance
+  have : Small.{w} (G ⋙ F).Elements :=
+    small_of_surjective.{w} (α := Σ Y : SmallModel.{w} C, F.obj (G.obj Y))
+      (f := fun x ↦ (G ⋙ F).elementsMk x.1 x.2) (fun x ↦ ⟨⟨x.obj, x.val⟩, rfl⟩)
   have : EssentiallySmall.{w} (G ⋙ F).Elements :=
     essentiallySmall_of_small_of_locallySmall _
   initiallySmall_of_initial_of_essentiallySmall (preComp G F)

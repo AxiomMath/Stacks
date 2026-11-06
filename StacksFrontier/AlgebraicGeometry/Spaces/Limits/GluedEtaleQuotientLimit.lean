@@ -48,7 +48,7 @@ def chartNat : D.ambient ⋙ yoneda ⟶ D.quotients where
 
 /-- The chart `Vinf ⟶ X' = lim Xⱼ` of the limit. -/
 abbrev limitChart : cV.pt ⟶ limit D.quotients :=
-  limit.lift D.quotients ((Cones.postcompose D.chartNat).obj cV)
+  limit.lift D.quotients ((Cone.postcompose D.chartNat).obj cV)
 
 omit [IsCofiltered J] in
 /-- The limit chart followed by the projection to `Xⱼ` is the projection to `Vⱼ` followed by

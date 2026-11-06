@@ -212,7 +212,7 @@ private theorem finite_maximalSpectrum_of_isIntegral_of_quasiFinite
     (IsLocalRing.maximalIdeal R)).to_subtype
   let f : MaximalSpectrum S → (IsLocalRing.maximalIdeal R).primesOver S := fun q =>
     ⟨q.asIdeal, inferInstance, ⟨(IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q.asIdeal)).symm⟩⟩
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal q.asIdeal)).symm⟩⟩
   exact Finite.of_injective f fun x y h => MaximalSpectrum.ext (congrArg Subtype.val h)
 
 private theorem isFiniteProductOfDiscreteValuationRings_of_equiv
@@ -302,9 +302,9 @@ private theorem isLocalRing_of_isIntegral_of_pow_mem_range
   let := hp
   let := hq
   have hpc : p.comap (algebraMap R S) = IsLocalRing.maximalIdeal R :=
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal p)
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal p)
   have hqc : q.comap (algebraMap R S) = IsLocalRing.maximalIdeal R :=
-    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal q)
   ext x
   obtain ⟨n, hn, r, hr⟩ := hpow x
   rw [← hp.isPrime.pow_mem_iff_mem n hn, ← hq.isPrime.pow_mem_iff_mem n hn, ← hr]
@@ -862,7 +862,7 @@ theorem integralClosures_after_finite_fraction_field_extension
   have hmax (q : Ideal B₁) [q.IsMaximal] :
       (q.comap (algebraMap A₁ B₁)).IsMaximal ∧ algebraMap A A₁ π ∈ q.comap (algebraMap A₁ B₁) := by
     have hqB : q.comap (algebraMap B B₁) = IsLocalRing.maximalIdeal B :=
-      IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)
+      IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal q)
     have hqA : q.comap (algebraMap A B₁) = IsLocalRing.maximalIdeal A := by
       rw [IsScalarTower.algebraMap_eq A B B₁, ← Ideal.comap_comap, hqB,
         IsLocalRing.maximalIdeal_comap]

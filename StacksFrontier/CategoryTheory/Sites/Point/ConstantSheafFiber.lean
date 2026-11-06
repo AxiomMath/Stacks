@@ -96,7 +96,7 @@ theorem constantPresheafFiberIso_ι (Φ : J.Point.{w}) (A : D) (V : C) (q : Φ.f
     Φ.toPresheafFiber V q ((Functor.const Cᵒᵖ).obj A) ≫ (constantPresheafFiberIso Φ A).hom =
       𝟙 A :=
   colimit.comp_coconePointUniqueUpToIso_hom (isColimitConstPresheafCocone Φ A)
-    (op (⟨V, q⟩ : Φ.fiber.Elements))
+    (op (Φ.fiber.elementsMk V q))
 
 /-- The identification of the fibre at a point of the site of a constant presheaf with its value
 is natural in the value. -/

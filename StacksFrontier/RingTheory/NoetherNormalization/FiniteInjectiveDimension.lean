@@ -32,7 +32,8 @@ theorem natCast_le_ringKrullDim_of_finite_of_injective (k : Type*) [Field k] {A 
     (s : WithBot ℕ∞) ≤ ringKrullDim A := by
   have hdim : ringKrullDim (MvPolynomial (Fin s) k) = s := by
     rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add,
-      Nat.card_eq_fintype_card, Fintype.card_fin]
+      ENat.card_eq_coe_natCard, Nat.card_eq_fintype_card, Fintype.card_fin]
+    rfl
   rw [← hdim, ← PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim,
     ← PrimeSpectrum.topologicalKrullDim_eq_ringKrullDim]
   let : Algebra (MvPolynomial (Fin s) k) A := g.toRingHom.toAlgebra

@@ -116,10 +116,10 @@ lemma exists_common_neighborhood (Φ : J.Point.{w}) {ι : Type*} [Finite ι] (U 
   classical
   cases nonempty_fintype ι
   obtain ⟨S, hS⟩ := IsCofiltered.inf_objs_exists (C := Φ.fiber.Elements)
-    (Finset.univ.image fun i ↦ (⟨U i, ξ i⟩ : Φ.fiber.Elements))
-  have h : ∀ i, Nonempty (S ⟶ (⟨U i, ξ i⟩ : Φ.fiber.Elements)) := fun i ↦
+    (Finset.univ.image fun i ↦ Φ.fiber.elementsMk (U i) (ξ i))
+  have h : ∀ i, Nonempty (S ⟶ Φ.fiber.elementsMk (U i) (ξ i)) := fun i ↦
     hS (Finset.mem_image_of_mem _ (Finset.mem_univ i))
-  exact ⟨S.1, S.2, fun i ↦ (h i).some.1, fun i ↦ (h i).some.2⟩
+  exact ⟨S.obj, S.val, fun i ↦ (h i).some.hom, fun i ↦ (h i).some.map_val⟩
 
 /-- Two finite families of neighbourhoods of a point of a site have a common refinement. This is
 the form in which `Stacks.exists_common_neighborhood` is used: the two families are the

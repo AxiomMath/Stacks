@@ -109,13 +109,13 @@ abbrev liftedGeneratorPresheaf.{t', u', u₁', v₁'} {S : Scheme.{u'}} (L : S.M
   map_id U := by
     ext x
     change (generatorPresheaf L).map (G.map (𝟙 U.unop)).op x.down = x.down
-    rw [G.map_id, op_id, FunctorToTypes.map_id_apply]
+    rw [G.map_id, op_id, Functor.map_id_apply]
   map_comp f g := by
     ext x
     change (generatorPresheaf L).map (G.map (f ≫ g).unop).op x.down =
       (generatorPresheaf L).map (G.map g.unop).op
         ((generatorPresheaf L).map (G.map f.unop).op x.down)
-    rw [unop_comp, G.map_comp, op_comp, FunctorToTypes.map_comp_apply]
+    rw [unop_comp, G.map_comp, op_comp, Functor.map_comp_apply]
 
 /-- Restriction in `liftedGeneratorPresheaf` is restriction in `generatorPresheaf` along `G`. -/
 theorem liftedGeneratorPresheaf_map_down {U V : Cᵒᵖ} (f : U ⟶ V)
@@ -156,11 +156,11 @@ def generatorPseudoTorsorOn {H : Sheaf J AddCommGrpCat.{max u t}} (e : GlobalUni
   isSheaf := isSheaf_liftedGeneratorPresheaf L hL J G
   act U g s := ULift.up (unitSmul L (e.unitOf g) s.down)
   one_act U s := by
-    refine ULift.ext _ _ (Subtype.ext ?_)
+    refine ULift.ext (Subtype.ext ?_)
     change sec L (unitSmul L (e.unitOf 1) s.down) = sec L s.down
     rw [sec_unitSmul, e.unitOf_one, Units.val_one, one_smul]
   mul_act U g h s := by
-    refine ULift.ext _ _ (Subtype.ext ?_)
+    refine ULift.ext (Subtype.ext ?_)
     change sec L (unitSmul L (e.unitOf (g * h)) s.down) =
       sec L (unitSmul L (e.unitOf g) (unitSmul L (e.unitOf h) s.down))
     rw [sec_unitSmul, sec_unitSmul, sec_unitSmul, e.unitOf_mul, Units.val_mul, mul_smul]
@@ -170,7 +170,7 @@ def generatorPseudoTorsorOn {H : Sheaf J AddCommGrpCat.{max u t}} (e : GlobalUni
       (sec L t.down) (IsUniversalGenerator.bijective L s.down.2)
       (IsUniversalGenerator.bijective L t.down.2)
     obtain ⟨g, rfl⟩ := (e.unitOf_bijective U).2 a
-    refine ⟨g, ULift.ext _ _ (Subtype.ext ((sec_unitSmul L _ _).trans ha)), fun g' hg' => ?_⟩
+    refine ⟨g, ULift.ext (Subtype.ext ((sec_unitSmul L _ _).trans ha)), fun g' hg' => ?_⟩
     refine (e.unitOf_bijective U).1 (hu _ ?_)
     exact (sec_unitSmul L _ _).symm.trans (congrArg (fun z => sec L z.down) hg')
 
@@ -231,7 +231,7 @@ theorem sheafHOneAddEquiv_generatorTorsorOn
     { app U := TypeCat.ofHom fun x => ULift.up (ULift.up x.down)
       naturality _ _ _ := rfl } (fun U => ⟨fun x y h => ?_, fun y => ⟨ULift.up y.down.down, rfl⟩⟩)
     (fun U h x => ?_)
-  · exact ULift.ext _ _ (congrArg (fun z => z.down.down) h)
+  · exact ULift.ext (congrArg (fun z => z.down.down) h)
   · show ULift.up (ULift.up (unitSmul L (e'.unitOf _) x.down)) =
       ULift.up (ULift.up (unitSmul L (e.unitOf _) x.down))
     exact congrArg (fun a => ULift.up (ULift.up (unitSmul L a x.down)))

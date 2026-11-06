@@ -129,8 +129,8 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
           (p.op.map r.op) r.op (Functor.IsHomLift.map (p := p.op) r.op)
       ∃! E : ↥(infinitesimalAutomorphisms hD g e hpair i hi) ≃*
           ↥(MonoidHom.ker restriction),
-        ∀ a, (E a).val.hom.val.unop =
-          (D.morphisms zε.1 zε.1 a.val.hom.val).arrow := by
+        ∀ a, (E a).val.asIso.hom.val.unop =
+          (D.morphisms zε.1 zε.1 a.val.asIso.hom.val).arrow := by
   classical
   intro hD A₀ Aε z₀ zε g e hpair i hi
   let : Category (D.carrier) := D.category
@@ -233,18 +233,21 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
     (Functor.mapAut zε.1 F).comp (Functor.mapAut zε I)
   let toAut (a : Aut zε) : Aut xε' :=
     let b := totalAutMap a
-    { hom := ⟨b.hom, opLift (I.map a.hom) a.hom.2⟩
-      inv := ⟨b.inv, opLift (I.map a.inv) a.inv.2⟩
-      hom_inv_id := Functor.Fiber.hom_ext b.hom_inv_id
-      inv_hom_id := Functor.Fiber.hom_ext b.inv_hom_id }
+    Aut.of
+    { hom := ⟨b.asIso.hom, opLift (I.map a.asIso.hom) a.asIso.hom.2⟩
+      inv := ⟨b.asIso.inv, opLift (I.map a.asIso.inv) a.asIso.inv.2⟩
+      hom_inv_id := Functor.Fiber.hom_ext b.asIso.hom_inv_id
+      inv_hom_id := Functor.Fiber.hom_ext b.asIso.inv_hom_id }
   let toAutHom : Aut zε →* Aut xε' := {
     toFun := toAut
-    map_one' := Aut.ext (Functor.Fiber.hom_ext (congrArg Iso.hom totalAutMap.map_one))
-    map_mul' a b := Aut.ext (Functor.Fiber.hom_ext (congrArg Iso.hom (totalAutMap.map_mul a b)))
+    map_one' := Aut.ext (Iso.ext (Functor.Fiber.hom_ext
+      (congrArg (fun c => c.asIso.hom) totalAutMap.map_one)))
+    map_mul' a b := Aut.ext (Iso.ext (Functor.Fiber.hom_ext
+      (congrArg (fun c => c.asIso.hom) (totalAutMap.map_mul a b))))
   }
   have toAut_hom (a : Aut zε) :
-      (toAutHom a).hom.val.unop =
-        (D.morphisms zε.1 zε.1 a.hom.val).arrow := by
+      (toAutHom a).asIso.hom.val.unop =
+        (D.morphisms zε.1 zε.1 a.asIso.hom.val).arrow := by
     dsimp [toAutHom, toAut, totalAutMap, I, F, Functor.mapAut]
     rfl
   let rc := canonicalRetraction hD g e hpair.split i hi
@@ -261,7 +264,7 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
     · intro hf
       rw [← r_eq, Category.assoc, hf]
   have kernel_mem_iff (b : Aut xε') :
-      b ∈ MonoidHom.ker restriction ↔ r ≫ b.hom.val.unop = r := by
+      b ∈ MonoidHom.ker restriction ↔ r ≫ b.asIso.hom.val.unop = r := by
     show (b ∈ relativeInfinitesimalAutomorphisms
       (p := p.op) (x' := xε') (x := x₀') hpop
       (p.op.map r.op) r.op (Functor.IsHomLift.map (p := p.op) r.op)) ↔ _
@@ -279,8 +282,8 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
       ← D.morphism_projection rc.1]
     simp [Functor.map_comp, Category.assoc]
   have source_fix_iff (a : Aut zε) :
-      a.hom.val ≫ rc.1 = rc.1 ↔
-        t ≫ (D.morphisms zε.1 zε.1 a.hom.val).arrow = t := by
+      a.asIso.hom.val ≫ rc.1 = rc.1 ↔
+        t ≫ (D.morphisms zε.1 zε.1 a.asIso.hom.val).arrow = t := by
     constructor
     · intro hf
       have hm := congrArg (D.morphisms zε.1 z₀.1) hf
@@ -289,11 +292,11 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
     · intro hf
       apply (D.morphisms zε.1 z₀.1).injective
       apply DeformationMorphism.ext_of_components
-      · rw [ringHom_comp, ringHom_eq_id a.hom.val a.hom.2]
+      · rw [ringHom_comp, ringHom_eq_id a.asIso.hom.val a.asIso.hom.2]
         simp [rcMorphism]
       · calc
-          (D.morphisms zε.1 z₀.1 (a.hom.val ≫ rc.1)).arrow =
-              t ≫ (D.morphisms zε.1 zε.1 a.hom.val).arrow := by
+          (D.morphisms zε.1 z₀.1 (a.asIso.hom.val ≫ rc.1)).arrow =
+              t ≫ (D.morphisms zε.1 zε.1 a.asIso.hom.val).arrow := by
                 rw [D.reversed_composition]
           _ = t := hf
   have source_kernel_iff (a : Aut zε) :
@@ -305,14 +308,14 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
   let sourceGroup := infinitesimalAutomorphisms hD g e hpair i hi
   let targetGroup := MonoidHom.ker restriction
   have kernelToAut (b : targetGroup) :
-      {a : Aut zε // (D.morphisms zε.1 zε.1 a.hom.val).arrow =
-        b.1.hom.val.unop} := by
-    let f : y ⟶ y := b.1.hom.val.unop
+      {a : Aut zε // (D.morphisms zε.1 zε.1 a.asIso.hom.val).arrow =
+        b.1.asIso.hom.val.unop} := by
+    let f : y ⟶ y := b.1.asIso.hom.val.unop
     have hfix : r ≫ f = r := (kernel_mem_iff b.1).mp b.2
     have hmap : p.map f = 𝟙 (p.obj y) := by
-      let : p.op.IsHomLift (𝟙 (p.op.obj xε'.1)) b.1.hom.val := b.1.hom.2
+      let : p.op.IsHomLift (𝟙 (p.op.obj xε'.1)) b.1.asIso.hom.val := b.1.asIso.hom.2
       have hbase := IsHomLift.eq_of_isHomLift (p := p.op)
-        (a := xε'.1) (b := xε'.1) (𝟙 (p.op.obj xε'.1)) b.1.hom.val
+        (a := xε'.1) (b := xε'.1) (𝟙 (p.op.obj xε'.1)) b.1.asIso.hom.val
       have hunop := congrArg Quiver.Hom.unop hbase
       simpa [f, Functor.op_map] using hunop.symm
     have hq : q.map f = 𝟙 (q.obj y) := by
@@ -344,7 +347,7 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
       inv := ⟨inv fD, hInvLift⟩
       hom_inv_id := Functor.Fiber.hom_ext (IsIso.hom_inv_id fD)
       inv_hom_id := Functor.Fiber.hom_ext (IsIso.inv_hom_id fD) }
-    refine ⟨aIso, ?_⟩
+    refine ⟨.of aIso, ?_⟩
     simp [aIso, fD, m, f]
   let forward : sourceGroup →* targetGroup := {
     toFun := fun a => ⟨toAutHom a.1, (source_kernel_iff a.1).mp a.2⟩
@@ -353,20 +356,22 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
   have forward_injective : Function.Injective forward := by
     intro a b hab
     have hArrow :
-        (D.morphisms zε.1 zε.1 a.1.hom.val).arrow =
-          (D.morphisms zε.1 zε.1 b.1.hom.val).arrow := by
-      have h := congrArg (fun x : targetGroup => x.1.hom.val.unop) hab
+        (D.morphisms zε.1 zε.1 a.1.asIso.hom.val).arrow =
+          (D.morphisms zε.1 zε.1 b.1.asIso.hom.val).arrow := by
+      have h := congrArg (fun x : targetGroup => x.1.asIso.hom.val.unop) hab
       simpa [forward, toAut_hom] using h
-    have hringA := ringHom_eq_id a.1.hom.val a.1.hom.2
-    have hringB := ringHom_eq_id b.1.hom.val b.1.hom.2
-    have hm : D.morphisms zε.1 zε.1 a.1.hom.val = D.morphisms zε.1 zε.1 b.1.hom.val :=
+    have hringA := ringHom_eq_id a.1.asIso.hom.val a.1.asIso.hom.2
+    have hringB := ringHom_eq_id b.1.asIso.hom.val b.1.asIso.hom.2
+    have hm : D.morphisms zε.1 zε.1 a.1.asIso.hom.val =
+        D.morphisms zε.1 zε.1 b.1.asIso.hom.val :=
       DeformationMorphism.ext_of_components _ _ _ _ (hringA.trans hringB.symm) hArrow
-    exact Subtype.ext (Aut.ext (Subtype.ext ((D.morphisms zε.1 zε.1).injective hm)))
+    exact Subtype.ext (Aut.ext (Iso.ext (Subtype.ext ((D.morphisms zε.1 zε.1).injective hm))))
   have forward_surjective : Function.Surjective forward := by
     intro b
     let a := (kernelToAut b).1
     have hto : toAutHom a = b.1 := by
       apply Aut.ext
+      apply Iso.ext
       apply Subtype.ext
       apply Quiver.Hom.unop_inj
       exact (toAut_hom a).trans (kernelToAut b).2
@@ -376,13 +381,14 @@ private theorem infinitesimalAutomorphisms_equiv_restrictionKernel_of_constructi
     ⟨forward_injective, forward_surjective⟩
   refine ⟨E, ?_, ?_⟩
   · intro a
-    show (toAutHom a).hom.val.unop = _
+    show (toAutHom a).asIso.hom.val.unop = _
     exact toAut_hom a
   · intro E' hE'
     apply MulEquiv.ext
     intro a
     apply Subtype.ext
     apply Aut.ext
+    apply Iso.ext
     apply Functor.Fiber.hom_ext
     apply Quiver.Hom.unop_inj
     exact (hE' a).trans (toAut_hom a).symm
@@ -422,8 +428,8 @@ public theorem infinitesimalAutomorphisms_equiv_restrictionKernel
       ∃! E : ↥(infinitesimalAutomorphisms
           (predeformationCategory_isPredeformationCategory B contains iΛ p x₀ hx₀
             fibered).cofibered g e hpair i hi) ≃* ↥(MonoidHom.ker restriction),
-        ∀ a, (E a).val.hom.val.unop =
-          (D.morphisms zε.1 zε.1 a.val.hom.val).arrow := by
+        ∀ a, (E a).val.asIso.hom.val.unop =
+          (D.morphisms zε.1 zε.1 a.val.asIso.hom.val).arrow := by
   intro D
   let : Category.{max u w} D.carrier := D.category
   have hD : IsCofiberedInGroupoids D.projection :=

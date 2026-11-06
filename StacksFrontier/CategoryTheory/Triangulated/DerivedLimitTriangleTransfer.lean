@@ -103,7 +103,7 @@ theorem derivedLimitTriangle_map_comp_rightDerivedFunctor
         (RF.map (G.map p ≫ piComparison G (fun n : ℕ ↦ X.obj ⟨n⟩)) ≫
           piComparison RF (fun n : ℕ ↦ (X ⋙ G).obj ⟨n⟩)) := by
     refine Pi.hom_ext _ _ fun n => ?_
-    simp only [Functor.map_comp, Category.assoc, asIso_hom, Pi.lift_π, piComparison_comp_π,
+    simp only [Functor.map_comp, Category.assoc, asIso_hom, Pi.lift_comp_π, piComparison_comp_π,
       Functor.comp_obj]
     rw [← RF.map_comp (piComparison G _), piComparison_comp_π, ← RF.map_comp]
   rw [hc]

@@ -360,23 +360,23 @@ theorem bijective_cofiberedProductInfPair :
       (hH₁ : 𝓕.p.IsHomLift (𝟙 B₁) H₁.hom) (ha₁ : 𝓕.p.IsHomLift (𝟙 B₁) a₁.hom)
       (H₂ : X₂ ≅ (cofiberedProductSnd 𝓕 𝓖).obj W.1) (a₂ : X₂ ≅ X₂)
       (hH₂ : 𝓖.p.IsHomLift (𝟙 B₂) H₂.hom) (ha₂ : 𝓖.p.IsHomLift (𝟙 B₂) a₂.hom) :
-      ∃ γ : Aut W, (cofiberedProductFst 𝓕 𝓖).map γ.hom.val = H₁.inv ≫ a₁.hom ≫ H₁.hom ∧
-        (cofiberedProductSnd 𝓕 𝓖).map γ.hom.val = H₂.inv ≫ a₂.hom ≫ H₂.hom := by
+      ∃ γ : Aut W, (cofiberedProductFst 𝓕 𝓖).map γ.asIso.hom.val = H₁.inv ≫ a₁.hom ≫ H₁.hom ∧
+        (cofiberedProductSnd 𝓕 𝓖).map γ.asIso.hom.val = H₂.inv ≫ a₂.hom ≫ H₂.hom := by
     have h₁ : 𝓕.p.IsHomLift (𝟙 B₁) (H₁.inv ≫ a₁.hom ≫ H₁.hom) := inferInstance
     have h₂ : 𝓖.p.IsHomLift (𝟙 B₂) (H₂.inv ≫ a₂.hom ≫ H₂.hom) := inferInstance
-    exact ⟨cofiberedProductFiberIso W W
+    exact ⟨Aut.of (cofiberedProductFiberIso W W
       (fiberIsoOfVertical _ _ (H₁.symm ≪≫ a₁ ≪≫ H₁) (isHomLift_id_of_base_eq
         ((IsHomLift.domain_eq 𝓕.p (𝟙 B₁) (H₁.inv ≫ a₁.hom ≫ H₁.hom)).symm.trans
           ((fiberFunctor (cofiberedProductFst 𝓕 𝓖) A).obj W).2) _ h₁))
       (fiberIsoOfVertical _ _ (H₂.symm ≪≫ a₂ ≪≫ H₂) (isHomLift_id_of_base_eq
         ((IsHomLift.domain_eq 𝓖.p (𝟙 B₂) (H₂.inv ≫ a₂.hom ≫ H₂.hom)).symm.trans
-          ((fiberFunctor (cofiberedProductSnd 𝓕 𝓖) A).obj W).2) _ h₂)), rfl, rfl⟩
+          ((fiberFunctor (cofiberedProductSnd 𝓕 𝓖) A).obj W).2) _ h₂))), rfl, rfl⟩
   obtain ⟨γ, hγ₁, hγ₂⟩ := key
     (PW.obj (dualNumbersUnder (p := (cofiberedProduct 𝓕 𝓖).p) (x := w₀)))
-    H₁ ((Functor.Fiber.fiberInclusion (p := 𝓕.p)).mapIso (localizedTangentEquivKernel QF s).1)
-    hH₁ (localizedTangentEquivKernel QF s).1.hom.2
-    H₂ ((Functor.Fiber.fiberInclusion (p := 𝓖.p)).mapIso (localizedTangentEquivKernel QG t).1)
-    hH₂ (localizedTangentEquivKernel QG t).1.hom.2
+    H₁ ((Functor.Fiber.fiberInclusion (p := 𝓕.p)).mapIso (localizedTangentEquivKernel QF s).1.asIso)
+    hH₁ (localizedTangentEquivKernel QF s).1.asIso.hom.2
+    H₂ ((Functor.Fiber.fiberInclusion (p := 𝓖.p)).mapIso (localizedTangentEquivKernel QG t).1.asIso)
+    hH₂ (localizedTangentEquivKernel QG t).1.asIso.hom.2
   have hmem : γ ∈ MonoidHom.ker (PW.transportAutHom
       (tangentReduction (p := (cofiberedProduct 𝓕 𝓖).p) (x := w₀))) := by
     rw [ker_transportAutHom_eq_top_of_isThin hP.predeformation.cofibered PW
@@ -389,16 +389,16 @@ theorem bijective_cofiberedProductInfPair :
       (cofiberedProductFst 𝓕 𝓖).w hP.satisfiesRS h𝓕.satisfiesRS PW QF
       ((localizedTangentEquivKernel PW).symm ⟨γ, hmem⟩) = s
     apply (localizedTangentEquivKernel QF).injective
-    refine Subtype.ext (Aut.ext (Functor.Fiber.hom_ext
-      ((cancel_mono H₁.hom).1 ((hconj₁ _).trans ?_))))
+    refine Subtype.ext (Aut.ext (Iso.ext (Functor.Fiber.hom_ext
+      ((cancel_mono H₁.hom).1 ((hconj₁ _).trans ?_)))))
     rw [hk]
     exact (congrArg (H₁.hom ≫ ·) hγ₁).trans (H₁.hom_inv_id_assoc _)
   · change inducedInfinitesimalLinearMapOfEq (cofiberedProductSnd 𝓕 𝓖).toFunctor
       (cofiberedProductSnd 𝓕 𝓖).w hP.satisfiesRS h𝓖.satisfiesRS PW QG
       ((localizedTangentEquivKernel PW).symm ⟨γ, hmem⟩) = t
     apply (localizedTangentEquivKernel QG).injective
-    refine Subtype.ext (Aut.ext (Functor.Fiber.hom_ext
-      ((cancel_mono H₂.hom).1 ((hconj₂ _).trans ?_))))
+    refine Subtype.ext (Aut.ext (Iso.ext (Functor.Fiber.hom_ext
+      ((cancel_mono H₂.hom).1 ((hconj₂ _).trans ?_)))))
     rw [hk]
     exact (congrArg (H₂.hom ≫ ·) hγ₂).trans (H₂.hom_inv_id_assoc _)
 

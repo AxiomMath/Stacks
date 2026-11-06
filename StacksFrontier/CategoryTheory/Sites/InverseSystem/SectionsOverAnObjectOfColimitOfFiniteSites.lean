@@ -397,7 +397,7 @@ ambient site of that level, where it is a one-hypercover of `V_n`, and `en n` id
 restriction of the ambient sheaf with the sheaf of the level. -/
 def levelSectionEquiv {n : D.I} (a : n ⟶ i₀) :
     (Hs n).obj.obj (op (Vn a)) ≃ MatchingFamily ((D.u a).op ⋙ (Fs n).obj) W₀ P₀ q₁ q₂ :=
-  sectionOverEquivMatchingFamilyRestrict (D.u a) (wn n) (Hs n).cond (en n) (hVn a)
+  sectionOverEquivMatchingFamilyRestrict (D.u a) (wn n) (Hs n).property (en n) (hVn a)
 
 /-- The component at `k` of the matching family attached to `t` by `levelSectionEquiv` is the
 image under `en n` of the restriction of `t` along `fVn a k`. -/
@@ -413,7 +413,7 @@ at the level `i₀`.** The same construction as `levelSectionEquiv`, with the co
 of a level and `𝒢` in place of `F_n`. -/
 def colimitSectionEquiv :
     G'.obj.obj (op V) ≃ MatchingFamily ((u i₀).op ⋙ G.obj) W₀ P₀ q₁ q₂ :=
-  sectionOverEquivMatchingFamilyRestrict (u i₀) w₀ G'.cond e₀ hV
+  sectionOverEquivMatchingFamilyRestrict (u i₀) w₀ G'.property e₀ hV
 
 /-- The component at `k` of the matching family attached to `s` by `colimitSectionEquiv` is the
 image under `e₀` of the restriction of `s` along `fV k`. -/
@@ -510,7 +510,7 @@ theorem sectionOver_colimit_of_oneHypercoverOf [Finite κ'] [Finite ν']
   · obtain ⟨n, a, y, hy⟩ :=
       hsurjMF (colimitSectionEquiv D u G i₀ W₀ P₀ q₁ q₂ w₀ G' e₀ hV s)
     refine ⟨n, a, (levelSectionEquiv D Fs i₀ W₀ P₀ q₁ q₂ wn Hs en hVn a).symm y, ?_⟩
-    refine sectionOver_eq_of_eq_on_oneHypercoverOf hV G'.cond fun k => ?_
+    refine sectionOver_eq_of_eq_on_oneHypercoverOf hV G'.property fun k => ?_
     refine hinj ?_
     rw [← colimitSectionEquiv_apply_val D u G i₀ W₀ P₀ q₁ q₂ w₀ G' e₀ hV,
       ← colimitSectionEquiv_apply_val D u G i₀ W₀ P₀ q₁ q₂ w₀ G' e₀ hV,

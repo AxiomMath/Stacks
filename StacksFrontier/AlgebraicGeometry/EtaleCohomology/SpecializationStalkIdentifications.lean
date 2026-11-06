@@ -84,11 +84,12 @@ neighbourhoods of `σ`, then the filtered colimit computing the stalk at `σ` is
 `(W₀, v₀)`, so the germ map there is invertible. -/
 theorem isIso_toPresheafFiber_of_isInitial (W₀ : T.Etale)
     (v₀ : (Scheme.pointSmallEtale σ).fiber.obj W₀)
-    (hinit : IsInitial (show (Scheme.pointSmallEtale σ).fiber.Elements from ⟨W₀, v₀⟩))
+    (hinit : IsInitial (show (Scheme.pointSmallEtale σ).fiber.Elements from
+      (Scheme.pointSmallEtale σ).fiber.elementsMk W₀ v₀))
     (P : T.Etaleᵒᵖ ⥤ Ab.{u + 1}) :
     IsIso ((Scheme.pointSmallEtale σ).toPresheafFiber W₀ v₀ P) :=
   ((Scheme.pointSmallEtale σ).isColimitPresheafFiberCocone P).isIso_ι_app_of_isTerminal
-    (op ⟨W₀, v₀⟩) hinit.op
+    (op ((Scheme.pointSmallEtale σ).fiber.elementsMk W₀ v₀)) hinit.op
 
 /-- The comparison `Γ(T, G) ⟶ G_σ` from the global sections of an abelian sheaf on the small
 étale site of `T` to its stalk at a geometric point `σ` of `T`: read a global section as a
@@ -119,7 +120,7 @@ of a geometric point `σ`, is an initial étale neighbourhood of `σ`, then the 
 theorem isIso_smallEtaleGlobalSectionsToStalkAb
     (eσ : (Scheme.pointSmallEtale σ).fiber.obj (Scheme.Etale.mk (𝟙 T)))
     (hinit : IsInitial (show (Scheme.pointSmallEtale σ).fiber.Elements from
-      ⟨Scheme.Etale.mk (𝟙 T), eσ⟩)) :
+      (Scheme.pointSmallEtale σ).fiber.elementsMk (Scheme.Etale.mk (𝟙 T)) eσ)) :
     IsIso (smallEtaleGlobalSectionsToStalkAb σ eσ) := by
   have happ : ∀ G : Sheaf (smallEtaleTopology T) Ab.{u + 1},
       IsIso ((smallEtaleGlobalSectionsToStalkAb σ eσ).app G) := by
@@ -206,7 +207,7 @@ which restricts the germ at `x` of a section over `(W, v)` along `ρ W v` is an 
 theorem isIso_stalkToSectionsAb_of_isInitial
     (eσ : (Scheme.pointSmallEtale σ).fiber.obj (Scheme.Etale.mk (𝟙 T))) (heσ : eσ.left = σ)
     (hinit : IsInitial (show (Scheme.pointSmallEtale σ).fiber.Elements from
-      ⟨Scheme.Etale.mk (𝟙 T), eσ⟩))
+      (Scheme.pointSmallEtale σ).fiber.elementsMk (Scheme.Etale.mk (𝟙 T)) eσ))
     {x : Spec (.of Ω) ⟶ X} (hx : σ ≫ g = x)
     (A : smallEtaleStalkAb x ⟶
       smallEtalePullbackAb g ⋙ Sheaf.Γ (smallEtaleTopology T) Ab.{u + 1})

@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.RingTheory.IntegralClosure.DedekindDomain
 public import StacksFrontier.RingTheory.IntegrallyClosed.ProductOfDomains
+public import Mathlib.RingTheory.TensorProduct.Pi
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

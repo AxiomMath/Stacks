@@ -108,10 +108,10 @@ lemma natTransCommShift_rightDerivedPlusCompUnit :
         DerivedCategory.Plus.Qh ≫
       (Functor.associator P.mapHomotopyCategoryPlus Q.mapHomotopyCategoryPlus
         DerivedCategory.Plus.Qh).hom ≫
-      Functor.whiskerLeft P.mapHomotopyCategoryPlus Q.rightDerivedFunctorPlusUnit ≫
+      Functor.whiskerLeft P.mapHomotopyCategoryPlus Q.rightDerivedFunctorPlusUnith ≫
       (Functor.associator P.mapHomotopyCategoryPlus DerivedCategory.Plus.Qh
         Q.rightDerivedFunctorPlus).inv ≫
-      Functor.whiskerRight P.rightDerivedFunctorPlusUnit Q.rightDerivedFunctorPlus ≫
+      Functor.whiskerRight P.rightDerivedFunctorPlusUnith Q.rightDerivedFunctorPlus ≫
       (Functor.associator DerivedCategory.Plus.Qh P.rightDerivedFunctorPlus
         Q.rightDerivedFunctorPlus).hom) ?_
   refine NatTrans.ext (funext fun K => ?_)
@@ -131,10 +131,10 @@ lemma natTransCommShift_rightDerivedPlusCompTrans :
   refine ⟨fun a => ?_⟩
   refine Functor.rightDerived_ext _
     (Functor.IsRightDerivedFunctor.precomposeShiftNatTrans
-      (P ⋙ Q).rightDerivedFunctorPlus (P ⋙ Q).rightDerivedFunctorPlusUnit a)
+      (P ⋙ Q).rightDerivedFunctorPlus (P ⋙ Q).rightDerivedFunctorPlusUnith a)
     (HomotopyCategory.Plus.quasiIso C) _ _ _ (NatTrans.ext (funext fun K => ?_))
   have key :
-      (P ⋙ Q).rightDerivedFunctorPlusUnit.app
+      (P ⋙ Q).rightDerivedFunctorPlusUnith.app
             ((shiftFunctor (HomotopyCategory.Plus C) a).obj K) ≫
           (P ⋙ Q).rightDerivedFunctorPlus.map
             ((Functor.commShiftIso DerivedCategory.Plus.Qh a).hom.app K) ≫
@@ -143,7 +143,7 @@ lemma natTransCommShift_rightDerivedPlusCompTrans :
         (Functor.commShiftIso
             ((P ⋙ Q).mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh) a).hom.app K ≫
           (shiftFunctor (DerivedCategory.Plus E) a).map
-            ((P ⋙ Q).rightDerivedFunctorPlusUnit.app K) :=
+            ((P ⋙ Q).rightDerivedFunctorPlusUnith.app K) :=
     Functor.IsRightDerivedFunctor.comp_map_commShiftIso_hom_app _ _
       (HomotopyCategory.Plus.quasiIso C) ℤ a K
   have hnat := (rightDerivedPlusCompTrans P Q).naturality

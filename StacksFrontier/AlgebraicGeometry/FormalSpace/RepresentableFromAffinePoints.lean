@@ -303,7 +303,7 @@ For a morphism satisfying the hypothesis, the base change along *every* scheme-v
 of the target is locally of finite type. -/
 theorem isLocallyOfFiniteTypeULift_pullback_of_compact_pullback
     {X Y : FppfSheaf 𝔅 S hS} (Φ : X ⟶ Y) (h : CompactPullbackRepresentable 𝔅 S hS Φ)
-    (T : BigFppfOver 𝔅 S hS) (ξp : (uliftYoneda.{u + 1}).obj T ⟶ Y.val) :
+    (T : BigFppfOver 𝔅 S hS) (ξp : (uliftYoneda.{u + 1}).obj T ⟶ Y.obj) :
     Space.IsLocallyOfFiniteTypeULift.{u + 1} 𝔅 S hS (pullback.fst ξp Φ.hom) := by
   classical
   obtain ⟨V, V', q, k, r, hqsurj, hqet, hklft, hsq⟩ :=

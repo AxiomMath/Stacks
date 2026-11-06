@@ -79,11 +79,12 @@ lemma centralSMul_toFun_apply (M : DifferentialGradedModule.{u, v, w} E) (x : M.
 
 /-- Right multiplication by a central closed element of degree zero, as an element of the center
 of `Mod_(E, d)`. -/
-def centralSMulCenter : CatCenter (DifferentialGradedModule.{u, v, w} E) where
-  app M := centralSMul hc M
-  naturality M N f := by
-    refine Hom.ext (LinearMap.ext fun x => ?_)
-    exact (f.map_smul x c).symm
+def centralSMulCenter : CatCenter (DifferentialGradedModule.{u, v, w} E) :=
+  .of
+  { app M := centralSMul hc M
+    naturality M N f := by
+      refine Hom.ext (LinearMap.ext fun x => ?_)
+      exact (f.map_smul x c).symm }
 
 /-- The component of `centralSMulCenter hc` at `M` is `centralSMul hc M`. -/
 @[simp]

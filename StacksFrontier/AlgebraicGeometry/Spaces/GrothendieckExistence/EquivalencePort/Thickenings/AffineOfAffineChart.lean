@@ -92,6 +92,7 @@ namespace AlgebraicGeometry.Space
 open _root_.AlgebraicGeometry.C1573 _root_.AlgebraicGeometry.Space.C1573
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Descent of a morphism to a representable along a surjective étale chart.** A morphism of
 the site out of a surjective étale chart `f : U ⟶ F` of an algebraic space which is invariant
 under the kernel pair of `f` is the restriction of a morphism `F ⟶ Y`. -/
@@ -123,7 +124,7 @@ theorem C1573.exists_desc_yoneda_of_surjectiveEtale {F : (BigFppfOver B S hS)ᵒ
   let c : Cofork sf tf := Cofork.ofπ k hw
   let d := hc.desc c
   have hfac : (⟨f⟩ : UF ⟶ ⟨F, hF.isSheaf⟩) ≫ d = k := by
-    simpa [d, c] using hc.fac c WalkingParallelPair.one
+    exact hc.fac c WalkingParallelPair.one
   exact ⟨d.hom, congrArg (fun q => q.hom) hfac⟩
 
 /-- The subring of regular functions on `U'` whose pullbacks along two maps `R' ⟶ U'` agree. -/
@@ -216,6 +217,7 @@ theorem C1573.isAffineSpace_of_isPullback_of_isThickeningHom {X G : AlgebraicSpa
     (ObjectProperty.ι _).mapIso ((SpacesEtale.toSpaces B S hS X).mapIso ψ)
   exact ⟨W', inferInstance, ⟨χ⟩⟩
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A thickening of an affine algebraic space with a nilpotent affine chart is affine**, over a
 terminal base. Let `i : G ⟶ X` be a thickening of algebraic spaces over a terminal scheme `S`
 with `G` affine, let `w' : U' ⟶ X` be a surjective étale chart from an affine object of the site,
@@ -394,6 +396,7 @@ theorem C1573.isAffineSpace_of_isThickeningHom_of_isNilpotent_chart_of_isTermina
   exact isAffineSpace_of_isAffineSpace_pullback_of_fpqcSingleton B S hS hZ X.property
     (WA := ⟨T', inferInstance⟩) (WB := ⟨V, inferInstance⟩) f' q hqaff hqflat hqs hP hPaff
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **A thickening of an affine algebraic space with a nilpotent affine chart is affine.** Let
 `i : G ⟶ X` be a thickening of algebraic spaces over `S` with `G` affine, let `w' : U' ⟶ X` be a
 surjective étale chart from an affine object of the site, and suppose the base change

@@ -364,11 +364,11 @@ theorem injective_cohomologyBaseChangeLinearMap (F : S.X.Modules) [F.IsQuasicohe
 /-- Multiplication by a function `b` on `Spec K`, on a module on `X_K`. -/
 abbrev bcSmul (G : (S.baseChange K).X.Modules) (b : Γ(S.bcT K, ⊤)) : G ⟶ G :=
   (Scheme.smulEnd (S.baseChange K).X
-    (((S.baseChange K).f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom b)).app G
+    (((S.baseChange K).f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom b)).asHom.app G
 
 /-- Multiplication by a function `c` on `Spec k`, on a module on `X`. -/
 abbrev baseSmul (G : S.X.Modules) (c : Γ(Spec (.of S.k), ⊤)) : G ⟶ G :=
-  (Scheme.smulEnd S.X ((S.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom c)).app G
+  (Scheme.smulEnd S.X ((S.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom c)).asHom.app G
 
 /-- Transporting a function on `Spec R` along `ΓSpecIso` and back does not change its image under
 `f.appLE`. -/
@@ -394,7 +394,7 @@ private theorem cohomologyOverFieldMap_smulEnd_apply {k : Type u} [Field k] {X :
     (f : X ⟶ Spec (.of k)) (G : X.Modules) (r : Γ(Spec (.of k), ⊤))
     (x : cohomologyOverField k f G 1) :
     (cohomologyOverFieldMap k f
-        ((Scheme.smulEnd X ((f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom r)).app G) 1).hom x =
+        ((Scheme.smulEnd X ((f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom r)).asHom.app G) 1).hom x =
       (Scheme.ΓSpecIso (.of k)).hom r • x := by
   refine (cohomologyOverFieldMap_hom_apply f _ 1 x).trans ?_
   exact (Scheme.rightDerived_sectionsFunctor_map_smulEnd_apply X _ 1 G x).trans
@@ -420,7 +420,7 @@ by `r`. -/
 private theorem dual_smulEnd_comp (T : CohenMacaulayCurveSituation.{u}) {G : T.X.Modules}
     (hG : G.IsQuasicoherent) (ψ : G ⟶ T.omega) (r : Γ(Spec (.of T.k), ⊤)) :
     (firstCohomologyDuality_dualizingSheafOverField T).dual G hG
-        ((Scheme.smulEnd T.X ((T.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom r)).app G ≫ ψ) =
+        ((Scheme.smulEnd T.X ((T.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom r)).asHom.app G ≫ ψ) =
       (Scheme.ΓSpecIso (.of T.k)).hom r •
         (firstCohomologyDuality_dualizingSheafOverField T).dual G hG ψ := by
   refine ((firstCohomologyDuality_dualizingSheafOverField T).dual_comp G G hG hG _ ψ).trans ?_
@@ -546,7 +546,7 @@ theorem dualK_sum_comp {E : S.X.Modules} {ι : Type*} (s : Finset ι) (φ : ι �
       S.bcSmul K (S.omegaPullback K) (b l) =
       S.bcSmul K _ (b l) ≫ (Scheme.Modules.pullback (S.baseChangeProj K)).map (φ l) :=
     (Scheme.smulEnd (S.baseChange K).X
-      (((S.baseChange K).f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom (b l))).naturality
+      (((S.baseChange K).f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom (b l))).asHom.naturality
         ((Scheme.Modules.pullback (S.baseChangeProj K)).map (φ l))
   rw [Category.assoc, ← Category.assoc _ (S.bcSmul K _ _), hnat, Category.assoc,
     S.dualK_comp_bcSmul K hq]
@@ -576,7 +576,7 @@ theorem sum_baseSmul_comp_eq_zero {E : S.X.Modules} {ι : Type*} (s : Finset ι)
     exact Stacks.FlatTrace.twistedUnit_comp_trace (S.bcSquare K) (S.flat_bcSquare K)
       S.isCompact_opens S.omega f (b l)
   have hsm : φ l ≫ S.baseSmul S.omega (f (b l)) = S.baseSmul E (f (b l)) ≫ φ l :=
-    (Scheme.smulEnd S.X ((S.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom (f (b l)))).naturality (φ l)
+    (Scheme.smulEnd S.X ((S.f.appLE ⊤ ⊤ (le_preimage_top _ ⊤)).hom (f (b l)))).asHom.naturality (φ l)
   rw [Functor.map_comp, ← Category.assoc, ← Category.assoc, ← hu, Category.assoc, Category.assoc,
     htw, ← hsm]
 

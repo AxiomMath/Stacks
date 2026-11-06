@@ -110,6 +110,13 @@ namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_ComplexesStackPushoutGluing
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- The inclusion of algebraic spaces into presheaves preserves fibre products. -/
 private theorem preservesPullback_ι_algebraicSpaces {Y Z T : AlgebraicSpaces B S hS}
     (f : Y ⟶ T) (g : Z ⟶ T) :

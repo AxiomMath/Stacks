@@ -273,10 +273,6 @@ private theorem amitsurDiff₀_eq_sub_restrictₛₗ {N : PresheafOfModules.{y} 
     eV (Module.Descent.amitsurDiff₀ A (∀ i, Bi i) (N.obj (op T)) c) i j =
       N.restrictₛₗ (pr₁ i j).op (eW c i) - N.restrictₛₗ (pr₂ i j).op (eW c j) := by
   induction c with
-  | zero =>
-    rw [map_zero, show eV 0 i j = 0 from congrFun (congrFun (map_zero eV) i) j,
-      show eW 0 i = 0 from congrFun (map_zero eW) i,
-      show eW 0 j = 0 from congrFun (map_zero eW) j, map_zero, map_zero, sub_zero]
   | add c c' hc hc' =>
     rw [map_add, map_add]
     show eV (Module.Descent.amitsurDiff₀ A (∀ i, Bi i) (N.obj (op T)) c) i j +
@@ -472,10 +468,6 @@ theorem exists_amitsurDiff₁_data {N : PresheafOfModules.{y} R} {T : C} {ιi : 
           N.restrictₛₗ (s₃ i j k).op (eV (u ⊗ₜ[A] y) i j) := by
     intro u y
     induction y with
-    | zero =>
-      intro i j k
-      rw [TensorProduct.tmul_zero, map_zero, hz₃, hzV, hzV, hzV, map_zero, map_zero, map_zero,
-        sub_zero, add_zero]
     | add y y' hy hy' =>
       intro i j k
       rw [TensorProduct.tmul_add, map_add, ha₃, hy, hy', haV, haV, haV, map_add, map_add, map_add]
@@ -496,9 +488,6 @@ theorem exists_amitsurDiff₁_data {N : PresheafOfModules.{y} R} {T : C} {ιi : 
           N.restrictₛₗ (s₃ i j k).op (eV x i j) := by
     intro x
     induction x with
-    | zero =>
-      intro i j k
-      rw [map_zero, hz₃, hzV, hzV, hzV, map_zero, map_zero, map_zero, sub_zero, add_zero]
     | add x x' hx hx' =>
       intro i j k
       rw [map_add, ha₃, hx, hx', haV, haV, haV, map_add, map_add, map_add]

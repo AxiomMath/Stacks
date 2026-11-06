@@ -138,7 +138,8 @@ private theorem isClosed_singleton_pointsToScheme_of_isAlgebraic_residueFieldMap
     {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (hX : IsAlgebraicSpace B S hS X)
     (T : BigFppfOver B S hS) (π : X ⟶ yoneda.obj T) (p : FieldValuedPoint B S hS X)
     (hclosed : IsClosed ({(BigFppfOver.toScheme B S hS).map
-        (yoneda.preimage (fieldMorphism B S hS X p ≫ π)) (IsLocalRing.closedPoint p.carrier)} :
+                            (yoneda.preimage (fieldMorphism B S hS X p ≫ π))
+                            (IsLocalRing.closedPoint p.carrier)} :
       Set ((BigFppfOver.toScheme B S hS).obj T)))
     (halg : letI := (((BigFppfOver.toScheme B S hS).map
         (yoneda.preimage (fieldMorphism B S hS X p ≫ π))).residueFieldMap
@@ -201,7 +202,8 @@ theorem isClosed_singleton_class_of_isAlgebraic_residueFieldMap
     (hdecent : HasFiniteChartFibersAtEveryPoint B S hS X)
     (T : BigFppfOver B S hS) (π : X ⟶ yoneda.obj T) (p : FieldValuedPoint B S hS X)
     (hclosed : IsClosed ({(BigFppfOver.toScheme B S hS).map
-        (yoneda.preimage (fieldMorphism B S hS X p ≫ π)) (IsLocalRing.closedPoint p.carrier)} :
+                            (yoneda.preimage (fieldMorphism B S hS X p ≫ π))
+                            (IsLocalRing.closedPoint p.carrier)} :
       Set ((BigFppfOver.toScheme B S hS).obj T)))
     (halg : letI := (((BigFppfOver.toScheme B S hS).map
         (yoneda.preimage (fieldMorphism B S hS X p ≫ π))).residueFieldMap
@@ -384,6 +386,17 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (X : AlgebraicSpaces B S hS) (T : BigFppfOver B S hS)
     (f : X ⟶ _root_.AlgebraicGeometry.schemeSpace T)
     (s : Γ((BigFppfOver.toScheme B S hS).obj T, ⊤))
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+instance hasPullbacks_presheaf_rightExactGlobalSectionsSeparated :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+instance (priority := high) hasPullback_presheaf_rightExactGlobalSectionsSeparated
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
 
 section RightExact
 
@@ -699,6 +712,7 @@ theorem isClosedImmersion_of_section (s : _root_.AlgebraicGeometry.schemeSpace T
   exact isClosedImmersion_of_mono_of_charts B S hS s.hom (mono_of_section B S hS q.hom s.hom hsq)
     (locallyOfFiniteType_presheaf_section B S hS q.hom Y.2 s.hom hsq) hUC
 
+set_option synthInstance.maxHeartbeats 400000 in
 include hY hqc hqs hq in
 /-- Let `Y` be a quasi-compact, quasi-separated algebraic space whose global sections are right
 exact on quasi-coherent modules, and let `q : Y ⟶ T` be a morphism to a reduced affine object of
@@ -747,6 +761,8 @@ theorem eq_of_section [IsReduced ((BigFppfOver.toScheme B S hS).obj T)]
   apply ObjectProperty.hom_ext
   have hw : yoneda.map snd ≫ b' = yoneda.map snd ≫ a' := by
     rw [← hpb.w, hfs]
+  have : IsIso (yoneda.map snd) := Functor.map_isIso yoneda snd
+  have : Epi (yoneda.map snd) := IsIso.epi_of_iso _
   exact ((cancel_epi (yoneda.map snd)).1 hw).symm
 
 include hY hqc hqs hq in

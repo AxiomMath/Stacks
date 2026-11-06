@@ -104,7 +104,7 @@ theorem map_restriction_extForgetSheafH {FX : Sheaf X.smallEtaleTopology AddComm
         rw [AddCommGrpCat.epi_iff_surjective]
         intro y
         obtain ⟨z, hz⟩ := ZMod.intCast_surjective y.down
-        refine ⟨ULift.up z, ULift.ext _ _ ?_⟩
+        refine ⟨ULift.up z, ULift.ext ?_⟩
         show z • (1 : ZMod n) = y.down
         rw [zsmul_eq_mul, mul_one, hz]
       have : Epi (etaleModuleUnderlyingAbelianConstantMap (ZMod n) X) := by

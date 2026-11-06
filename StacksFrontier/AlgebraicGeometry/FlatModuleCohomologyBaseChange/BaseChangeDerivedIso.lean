@@ -82,7 +82,7 @@ of injective objects: `G'` preserves injectives, so the terms of that image are 
 right acyclic for `F'`. -/
 private theorem isIso_unit_mapHomotopyCategoryPlus [G'.PreservesInjectiveObjects]
     (M : HomotopyCategory.Plus A) (hM : ∀ n : ℤ, Injective (M.obj.as.X n)) :
-    IsIso (F'.rightDerivedFunctorPlusUnit.app (G'.mapHomotopyCategoryPlus.obj M)) := by
+    IsIso (F'.rightDerivedFunctorPlusUnith.app (G'.mapHomotopyCategoryPlus.obj M)) := by
   refine Functor.isIso_rightDerivedFunctorPlusUnit_app_of_rightAcyclic _ _ fun n => ?_
   have := hM n
   exact (show F'.rightAcyclic (G'.obj (M.obj.as.X n)) from
@@ -109,11 +109,11 @@ theorem isRightDerivedFunctor_onHomotopy (τ : F ⋙ G ⟶ G' ⋙ F') [IsIso τ]
   have := isIso_unit_mapHomotopyCategoryPlus F' G' X
     (fun n => (inferInstance :
       Injective (((InjectiveObject.ι A).mapHomotopyCategoryPlus.obj K).obj.as.X n)))
-  have : IsIso (G'.rightDerivedFunctorPlusUnit.app X) :=
-    inferInstanceAs (IsIso (G'.rightDerivedFunctorPlusUnit.app
+  have : IsIso (G'.rightDerivedFunctorPlusUnith.app X) :=
+    inferInstanceAs (IsIso (G'.rightDerivedFunctorPlusUnith.app
       ((InjectiveObject.ι A).mapHomotopyCategoryPlus.obj K)))
   have : IsIso (DerivedCategory.Plus.Qh.map ((mapPlus τ).app X)) := inferInstance
-  have : IsIso (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnit.app X)) :=
+  have : IsIso (F'.rightDerivedFunctorPlus.map (G'.rightDerivedFunctorPlusUnith.app X)) :=
     inferInstance
   exact @IsIso.comp_isIso _ _ _ _ _ _ _ ‹_›
     (@IsIso.comp_isIso _ _ _ _ _ _ _ ‹_› (@IsIso.comp_isIso _ _ _ _ _ _ _ ‹_› ‹_›))
@@ -128,7 +128,7 @@ theorem isIso_derived (τ : F ⋙ G ⟶ G' ⋙ F') [IsIso τ] [G'.PreservesInjec
     IsIso (derived F F' G G' τ e) := by
   have htarget := isRightDerivedFunctor_onHomotopy F F' G G' τ e
   let hRF : (F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus).IsRightDerivedFunctor
-      (Functor.whiskerRight F.rightDerivedFunctorPlusUnit G.rightDerivedFunctorPlus ≫
+      (Functor.whiskerRight F.rightDerivedFunctorPlusUnith G.rightDerivedFunctorPlus ≫
         (Functor.associator _ _ _).hom) (HomotopyCategory.Plus.quasiIso A) :=
     (HomotopyCategory.Plus.localizerMorphism_derives _).isRightDerivedFunctor_of_isIso _
       (fun K ↦ by dsimp; infer_instance)

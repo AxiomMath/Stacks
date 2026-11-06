@@ -80,7 +80,7 @@ def ComplexPairing.postcomp (P : ComplexPairing R φ A E G)
   pair n p q h := (P.pair n p q h).compr₂ (t.f q).hom.hom.hom.hom.toAddMonoidHom
   galois n p q h σ a e := by
     change (t.f q).hom.hom.hom.hom (P.pair n p q h _ e) =
-      ((G'.X q).obj.obj.ρ σ).hom ((t.f q).hom.hom.hom.hom (P.pair n p q h a _))
+      ((G'.X q).obj.obj.ρ σ).asHom.hom ((t.f q).hom.hom.hom.hom (P.pair n p q h a _))
     rw [P.galois]
     exact ConcreteCategory.congr_hom ((t.f q).hom.hom.comm σ) _
   balanced n p q h s a e := by

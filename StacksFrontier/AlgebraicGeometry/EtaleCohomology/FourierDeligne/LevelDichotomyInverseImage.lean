@@ -53,10 +53,10 @@ theorem ContinuousModuleLevelDichotomy.of_iso {M M' : FiniteTypeContinuousModule
   let g := e.inv.hom.hom.hom.hom.hom
   have hfg : ∀ x, f (g x) = x := fun x =>
     LinearMap.congr_fun (congrArg (fun φ : M' ⟶ M' => φ.hom.hom.hom.hom.hom) e.inv_hom_id) x
-  have hcomm : ∀ h x, f ((M.obj.obj.obj.ρ h).hom x) = (M'.obj.obj.obj.ρ h).hom (f x) :=
+  have hcomm : ∀ h x, f ((M.obj.obj.obj.ρ h).asHom.hom x) = (M'.obj.obj.obj.ρ h).asHom.hom (f x) :=
     fun h x => LinearMap.congr_fun (congrArg ModuleCat.Hom.hom (e.hom.hom.hom.hom.comm h)) x
   intro W' hW' hne y
-  have hstab : ∀ h, ∀ x ∈ W'.comap f, (M.obj.obj.obj.ρ h).hom x ∈ W'.comap f := by
+  have hstab : ∀ h, ∀ x ∈ W'.comap f, (M.obj.obj.obj.ρ h).asHom.hom x ∈ W'.comap f := by
     intro h x hx
     rw [Submodule.mem_comap, hcomm]
     exact hW' h _ hx

@@ -3,6 +3,7 @@ module
 public import StacksFrontier.Topology.Dimension.LocalKrullDim
 public import StacksFrontier.RingTheory.KrullDimension.FiniteTypeOverField
 import StacksCore.Tactic.EgaSgaAttribute
+import Mathlib.RingTheory.Spectrum.Prime.Jacobson
 
 @[expose] public section
 

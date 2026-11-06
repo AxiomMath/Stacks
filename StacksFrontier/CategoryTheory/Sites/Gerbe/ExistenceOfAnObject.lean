@@ -659,7 +659,7 @@ private lemma freeAbelianAugmentation_shortExact {C : Type u} [Category.{v} C]
       (⟨1⟩ : ULift.{w} ℤ))) (y.down • FreeAbelianGroup.of a) = y
     rw [map_zsmul, FreeAbelianGroup.lift_apply_of]
     obtain ⟨n⟩ := y
-    exact ULift.ext _ _ (mul_one n)
+    exact ULift.ext (mul_one n)
   have : Epi ((S.map (presheafToSheaf J AddCommGrpCat.{w})).g) :=
     sheafify_map_epi_of_locallySurjective
       (freeAbelianPresheafAugmentation P)

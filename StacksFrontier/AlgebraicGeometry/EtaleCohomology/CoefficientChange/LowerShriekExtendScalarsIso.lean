@@ -688,7 +688,10 @@ theorem isIso_derivedLowerShriekUnboundedExtendScalarsMap
   -- given by its term: in this module's import closure instance search for
   -- `QuasiSeparated j.toBase` runs out of heartbeats
   have : QuasiSeparated j.toBase := IsSeparated.instQuasiSeparated j.toBase
-  obtain ⟨N, hN⟩ := exists_topologicalKrullDim_fiber_le j.toBase
+  have hP : IsProper j.toBase := j.property.2
+  obtain ⟨N, hN⟩ := @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le _ _ j.toBase
+    hP.toLocallyOfFiniteType
+    (@AlgebraicGeometry.instQuasiCompactOfUniversallyClosed _ _ _ hP.toUniversallyClosed) ‹_›
   have := isIso_derivedDirectImageUnboundedExtendScalarsMap φ j.toBase
     (exists_isZero_rightDerived_etaleModuleDirectImage_of_isProper_of_fiberDim h095T h03SC Λ₁ hΛ₁
       j.toBase N hN)

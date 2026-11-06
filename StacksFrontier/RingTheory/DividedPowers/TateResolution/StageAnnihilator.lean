@@ -63,15 +63,16 @@ public theorem mem_annihilator_smul_top_of_smul_eq_zero_mvPolynomial
     {R' : Type u} [CommRing R'] {σ : Type v} (f : R') (p : MvPolynomial σ R')
     (hp : f • p = 0) :
     p ∈ (Ideal.span {f}).annihilator • (⊤ : Submodule R' (MvPolynomial σ R')) := by
-  have hcoeff : ∀ m : σ →₀ ℕ, MvPolynomial.coeff m p ∈ (Ideal.span {f}).annihilator := by
+  have hcoeff : ∀ m : σ →₀ ℕ, p.coeff m ∈ (Ideal.span {f}).annihilator := by
     intro m
     refine mem_annihilator_of_mul_eq_zero ?_
-    have h := congrArg (MvPolynomial.coeff m) hp
-    rwa [MvPolynomial.coeff_smul, MvPolynomial.coeff_zero, smul_eq_mul] at h
+    have h := congrArg (fun q : MvPolynomial σ R' => q.coeff m) hp
+    simpa only [MvPolynomial.coeff_smul, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply,
+      smul_eq_mul] using h
   rw [← MvPolynomial.support_sum_monomial_coeff p]
   refine Submodule.sum_mem _ fun m _ => ?_
-  have hmon : MvPolynomial.monomial m (MvPolynomial.coeff m p) =
-      MvPolynomial.coeff m p • MvPolynomial.monomial m (1 : R') := by
+  have hmon : MvPolynomial.monomial m (p.coeff m) =
+      p.coeff m • MvPolynomial.monomial m (1 : R') := by
     rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
   rw [hmon]
   exact Submodule.smul_mem_smul (hcoeff m) Submodule.mem_top

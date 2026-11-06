@@ -746,6 +746,14 @@ variable {D : Type u'} [Category.{v'} D] {K : GrothendieckTopology D}
   (hcomm : ∀ (X : Dᵒᵖ) (a b : (Sheaf.sectionsFunctor K X).obj (Sheaf.ringSheaf O)),
     a * b = b * a)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/- Instance search for this binary product otherwise times out exploring limits in
+`Dᵒᵖ ⥤ RingCat`. -/
+local instance : HasBinaryProducts (Sheaf K (Type w')) := inferInstance
+
+noncomputable local instance : HasBinaryProduct (Sheaf.ringSheaf O) (Sheaf.ringSheaf O) :=
+  HasLimitsOfShape.has_limit _
+
 include hcomm in
 /-- If the sections of a sheaf of rings commute, its multiplication map is symmetric. -/
 lemma ringMulHom_comm :

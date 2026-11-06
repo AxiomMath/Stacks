@@ -316,7 +316,7 @@ theorem coheratorClaim_step
     apply ObjectProperty.hom_ext
     show (Subfunctor.range (Subfunctor.homOfLe hle)).ι ≫ W₂.ι =
       (asIso (Subfunctor.toRange (Subfunctor.homOfLe hle))).inv ≫ W₁.ι
-    rw [← cancel_epi (asIso (Subfunctor.toRange (Subfunctor.homOfLe hle))).hom,
+    rw [← (asIso (Subfunctor.toRange (Subfunctor.homOfLe hle))).cancel_iso_hom_left,
       Iso.hom_inv_id_assoc, asIso_hom, ← Category.assoc, Subfunctor.toRange_ι,
       Subfunctor.homOfLe_ι]
   have hok : IsEtale B S hS (o ≫ k).hom := isEtale_comp B S hS ho hk

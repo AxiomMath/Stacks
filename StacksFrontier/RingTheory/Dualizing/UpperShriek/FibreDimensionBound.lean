@@ -159,7 +159,7 @@ private theorem ext_subsingleton_of_lt_depth
     (i : ℕ) (hi : (i : ℕ∞) < Module.depth R I M) :
     Subsingleton (Ext N M i) := by
   obtain ⟨n, hn⟩ := hN
-  exact ModuleCat.subsingleton_ext_of_lt_depth I M N hIM hn hi
+  exact ModuleCat.subsingleton_ext_of_lt_ideal_depth I M N hIM hn hi
 
 /-- The support of a module over the target of a surjection is the preimage of its support over
 the source. -/

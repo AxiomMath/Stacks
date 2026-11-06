@@ -2,6 +2,7 @@ module
 
 public import Mathlib.RingTheory.Flat.Equalizer
 public import Mathlib.RingTheory.Flat.IsBaseChange
+public import Mathlib.Algebra.FiveLemma
 
 /-!
 # Exact bounded complexes of flat modules are universally exact

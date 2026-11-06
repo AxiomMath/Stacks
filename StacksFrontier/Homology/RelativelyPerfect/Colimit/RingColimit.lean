@@ -344,7 +344,9 @@ private def isColimit_stageUnderCocone {R₀ : Type uR} [CommRing R₀]
     ext x
     · change Φ ((c.ι.app i).hom x ⊗ₜ[R₀] (1 : A₀)) = _
       exact hΦ i x
-    · simpa [stageToLimitMap, Algebra.TensorProduct.map_tmul, Φ, α'] using (right i x).symm
+    · refine Eq.trans ?_ (right i x).symm
+      change Φ ((c.ι.app i).hom 1 ⊗ₜ[R₀] x) = α x
+      erw [Algebra.TensorProduct.lift_tmul, map_one (c.ι.app i).hom, map_one ψ, one_mul] <;> rfl
   · intro n hn
     dsimp only [stageUnderCocone] at n
     apply Under.UnderMorphism.ext

@@ -13,6 +13,7 @@ public import StacksFrontier.CategoryTheory.Sites.Localization.RelocalizeReprese
 public import StacksFrontier.Topology.Sheaves.Cohomology.HigherDirectImage.DerivedSectionsOfAPushforward
 public import StacksFrontier.Topology.Sheaves.Cohomology.HigherDirectImage.SheafifiedCohomologyPresheaf
 import StacksCore.Tactic.StacksAttribute
+import all Mathlib.Algebra.Homology.DerivedCategory.RightDerivedFunctorPlus
 
 /-!
 # Relative cohomology across the Zariski comparison morphism
@@ -197,19 +198,19 @@ def compIsoOfExact [EnoughInjectives A] [EnoughInjectives B]
     [PreservesFiniteLimits G] [PreservesFiniteColimits G] :
     (F ⋙ G).rightDerivedFunctorPlus ≅
       F.rightDerivedFunctorPlus ⋙ G.rightDerivedFunctorPlus :=
-  have _ : IsIso G.rightDerivedFunctorPlusUnit :=
+  have _ : IsIso G.rightDerivedFunctorPlusUnith :=
     Functor.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology G
   Stacks.Cohomology.DerivedPushforwardSections.compIso F G (by
     intro I _
-    change IsIso (G.rightDerivedFunctorPlusUnit.app
+    change IsIso (G.rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.singleFunctor B 0).obj (F.obj I)))
-    exact NatIso.isIso_app_of_isIso G.rightDerivedFunctorPlusUnit _)
+    exact NatIso.isIso_app_of_isIso G.rightDerivedFunctorPlusUnith _)
 
 /-- Right derivation does nothing to an identity functor. -/
 def rightDerivedFunctorPlusIdIso (A : Type*) [Category* A] [Abelian A]
     [HasDerivedCategory A] [EnoughInjectives A] :
     (𝟭 A).rightDerivedFunctorPlus ≅ 𝟭 (DerivedCategory.Plus A) := by
-  have _ : IsIso (𝟭 A).rightDerivedFunctorPlusUnit :=
+  have _ : IsIso (𝟭 A).rightDerivedFunctorPlusUnith :=
     Functor.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology (𝟭 A)
   let eCx : (𝟭 A).mapHomotopyCategory (ComplexShape.up ℤ) ≅
       𝟭 (HomotopyCategory A (ComplexShape.up ℤ)) :=
@@ -221,7 +222,7 @@ def rightDerivedFunctorPlusIdIso (A : Type*) [Category* A] [Abelian A]
       (by intro K K' g; ext; exact eCx.hom.naturality g.hom)
   exact (Localization.fullyFaithfulWhiskeringLeft DerivedCategory.Plus.Qh
       (HomotopyCategory.Plus.quasiIso A) _).preimageIso
-    ((asIso (𝟭 A).rightDerivedFunctorPlusUnit).symm ≪≫ Functor.isoWhiskerRight eh _)
+    ((asIso (𝟭 A).rightDerivedFunctorPlusUnith).symm ≪≫ Functor.isoWhiskerRight eh _)
 
 /-- Transport of a sections functor across a right adjoint which preserves injectives: if
 `R ⋙ Γ ≅ Δ` then `RR ⋙ RΓ ≅ RΔ`. -/

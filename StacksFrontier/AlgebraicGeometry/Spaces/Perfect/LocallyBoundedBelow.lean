@@ -130,6 +130,8 @@ theorem supportOfSheaf_homology_smallEtaleDerivedModulePullback {X Y : Algebraic
   rw [← supportOfSheaf_homology_etaleRestrict B S hS a ha E i]
   have key : ∀ {F G : Sheaf (SmallEtale.topology B S hS X.1) AddCommGrpCat.{u}} (e : F ≅ G),
       supportOfSheaf B S hS X.1 F = supportOfSheaf B S hS X.1 G := fun e =>
+    have : Mono e.hom := @IsIso.mono_of_iso _ _ _ _ e.hom (Iso.isIso_hom e)
+    have : Mono e.inv := @IsIso.mono_of_iso _ _ _ _ e.inv (Iso.isIso_inv e)
     Set.eq_of_subset_of_subset (supportOfSheaf_subset_of_mono B S hS X.1 X.2 e.hom)
       (supportOfSheaf_subset_of_mono B S hS X.1 X.2 e.inv)
   exact key ((SheafOfModules.toSheaf _).mapIso

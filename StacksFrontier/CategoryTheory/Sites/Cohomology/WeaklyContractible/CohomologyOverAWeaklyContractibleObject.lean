@@ -116,6 +116,9 @@ theorem exact_sheafSections_of_isWeaklyContractible
   have hLim : PreservesFiniteLimits E :=
     preservesFiniteLimits_of_natIso
       (sheafSectionsNatIsoEvaluation J AddCommGrpCat.{w} (X := U)).symm
+  have : HasFiniteLimits (Sheaf J AddCommGrpCat.{w}) := inferInstance
+  have : HasBinaryProducts (Sheaf J AddCommGrpCat.{w}) := inferInstance
+  have : PreservesLimitsOfShape (Discrete WalkingPair) E := inferInstance
   have : E.Additive := E.additive_of_preserves_binary_products
   have : E.PreservesEpimorphisms := by
     constructor

@@ -471,6 +471,17 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
   (G : GroupoidInAlgebraicSpaces B S hS (Space.terminalSpace B S hS))
   (𝒳 : AlgebraicStacks.{u, w} B S hS)
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_QuotientStackDiagonal :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_QuotientStackDiagonal
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Stacks 04M9 and Stacks 04XD at the diagonal of `[U/R]`.** Let `(U, R, s, t, c)` be a
 groupoid in algebraic spaces over `S` and let `𝒳` be an algebraic stack equivalent over the site
 to its quotient stack `[U/R]`. For a property `P` of morphisms of algebraic spaces over `S`

@@ -187,7 +187,6 @@ theorem exists_datum_of_comparison {N₂ N₃ : Type*} [AddCommGroup N₂] [AddC
       (∀ (b : B) (n : N), e₃ (b ⊗ₜ[A] L n) = w (e (b ⊗ₜ[A] n))) →
       ∀ x : B ⊗[A] N, e₃ (AlgebraTensorModule.lTensor B B L x) = w (e x) := fun L w hL x => by
     induction x with
-    | zero => simp
     | tmul b n => rw [AlgebraTensorModule.lTensor_tmul]; exact hL b n
     | add x x' hx hx' => rw [map_add, map_add, hx, hx', map_add, map_add]
   have hlu := hl (c.restrictScalars A) u fun b n => hu b n (c n) (hc n)
@@ -345,7 +344,6 @@ theorem exists_datum_of_baseChange {N : PresheafOfModules.{y} R} {W V V₃ : C}
     rw [he, map_one, one_smul]
   have hes : ∀ (b : B) (y : B ⊗[A] N.obj (op W)), e (b • y) = v₁ b • e y := fun b y => by
     induction y with
-    | zero => simp
     | tmul b' n => rw [TensorProduct.smul_tmul', smul_eq_mul, he, he, map_mul, mul_smul]
     | add y y' hy hy' => rw [smul_add, map_add, map_add, hy, hy', smul_add]
   refine exists_datum_of_restriction q₁ q₂ δ t₁₂ t₁₃ hδ₁ hc₁ A B e he₁
@@ -357,7 +355,6 @@ theorem exists_datum_of_baseChange {N : PresheafOfModules.{y} R} {W V V₃ : C}
       rw [he₃tmul, he₁, N.restrictₛₗ_restrictₛₗ_op, he, hsm₁₃, h₁₃,
         N.restrictₛₗ_restrictₛₗ_op, hc₃]
   induction x with
-  | zero => rw [map_zero, map_zero, map_zero]
   | tmul b n =>
     rw [he, hsmδ, hwδ, N.restrictₛₗ_restrictₛₗ_op, hδ₂]
     simp

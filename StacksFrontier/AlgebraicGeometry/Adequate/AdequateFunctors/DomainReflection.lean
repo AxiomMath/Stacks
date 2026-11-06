@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.CategoryTheory.Preadditive.LeftExact
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.SectionwiseShortExact
 public import StacksFrontier.Algebra.Module.Adequate.FiniteTypeDetection
 public import StacksFrontier.AlgebraicGeometry.Adequate.AdequateFunctors.DomainRestriction
@@ -158,6 +159,7 @@ public theorem preservesFiniteLimits_adequateι :
   have := (adequate.{u, u, u} A).preservesKernels_ι
   Functor.preservesFiniteLimits_of_preservesKernels _
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- The inclusion of the adequate module-valued functors is right exact. -/
 public theorem preservesFiniteColimits_adequateι :
     PreservesFiniteColimits (adequate.{u, u, u} A).ι :=

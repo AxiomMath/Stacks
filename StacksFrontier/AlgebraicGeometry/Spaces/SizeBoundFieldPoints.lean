@@ -221,7 +221,7 @@ theorem exists_map_siteMapOver_eq_app {Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type (
       exact (Category.assoc _ _ _).trans (toScheme_map_homOfSchemeHom B S hS
         (T := BigFppfOver.siteObjectOver B S hS U (hcont i) (V i).hom) (T' := U₀) h hh).symm)
   refine ⟨i, h, hh, ⟨L, inferInstance, hL, ⟨e⟩⟩, ?_⟩
-  rw [hπ, op_comp, FunctorToTypes.map_comp_apply, hres, ← hfst]
+  rw [hπ, op_comp, Functor.map_comp_apply, hres, ← hfst]
   exact (NatTrans.naturality_apply f κ.op _).symm
 
 /-- Given a scheme atlas `f` of the fppf sheaf `Y` whose source and `S` have size at most the

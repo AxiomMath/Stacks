@@ -62,7 +62,7 @@ composite of the banding `𝒢(U) ≃ Aut(ζ)` with `Aut(ζ) ≃ Hom(Δ^*Ω_{I/U
 isomorphism of groups. -/
 def bandParam (U : Space.SpacesEtale B S hS W)
     (ζ : (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).Fiber U) :
-    Additive (𝒢.val.obj (op U)) ≃+ LiftsActingGroup hι₁ ζ.1 where
+    Additive (𝒢.obj.obj (op U)) ≃+ LiftsActingGroup hι₁ ζ.1 where
   toFun a := paramOf hι₁ (Functor.bandFrame θ U ζ a.toMul)
   invFun t := Additive.ofMul ((Functor.bandFrame θ U ζ).symm (ofParam hι₁ ζ t))
   left_inv a := by
@@ -83,7 +83,7 @@ def bandParam (U : Space.SpacesEtale B S hS W)
 `Functor.bandFrame θ U ζ a` of `ζ`. -/
 theorem bandParam_apply (U : Space.SpacesEtale B S hS W)
     (ζ : (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).Fiber U)
-    (a : Additive (𝒢.val.obj (op U))) :
+    (a : Additive (𝒢.obj.obj (op U))) :
     bandParam hι₁ θ h₁ U ζ a = paramOf hι₁ (Functor.bandFrame θ U ζ a.toMul) :=
   rfl
 
@@ -96,7 +96,7 @@ theorem bandParam_bandSmul
       (Space.SpacesEtale.topology B S hS W)) (h₂ h₃)
     (U : Space.SpacesEtale B S hS W)
     (ζ : (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).Fiber U)
-    (r : (bandRing B S hS W).obj (op U)) (a : 𝒢.val.obj (op U)) :
+    (r : (bandRing B S hS W).obj (op U)) (a : 𝒢.obj.obj (op U)) :
     bandParam hι₁ θ h₁ U ζ (Additive.ofMul (bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U r a)) =
       bandParam hι₁ θ h₁ U ζ (Additive.ofMul a) ≫ frameMul hι₁ ζ r := by
   have h := bandFrame_bandSmul hι₁ hne hlc 𝒢 θ h₁ h₂ h₃ U U (𝟙 U) ζ r a

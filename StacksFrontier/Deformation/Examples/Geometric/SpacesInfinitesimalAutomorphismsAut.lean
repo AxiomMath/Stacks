@@ -375,11 +375,12 @@ theorem spaceFiberHomOfHom_neg_comp (θ : SpaceLiftHom B hΛ hSpec X hX toK i) :
 
 /-- **The fibre automorphism of `xε` attached to `θ`**: the self-map of `X'` over `Spec Aε` with
 `m ≫ π = θ · π`, whose inverse is attached to `-θ`. -/
-def spaceAutOfHom (θ : SpaceLiftHom B hΛ hSpec X hX toK i) : Aut xε where
-  hom := spaceFiberHomOfHom B hΛ hSpec X hX toK hpair i θ
-  inv := spaceFiberHomOfHom B hΛ hSpec X hX toK hpair i (-θ)
-  hom_inv_id := spaceFiberHomOfHom_comp_neg B hΛ hSpec X hX toK hpair i θ
-  inv_hom_id := spaceFiberHomOfHom_neg_comp B hΛ hSpec X hX toK hpair i θ
+def spaceAutOfHom (θ : SpaceLiftHom B hΛ hSpec X hX toK i) : Aut xε :=
+  Aut.of
+    { hom := spaceFiberHomOfHom B hΛ hSpec X hX toK hpair i θ
+      inv := spaceFiberHomOfHom B hΛ hSpec X hX toK hpair i (-θ)
+      hom_inv_id := spaceFiberHomOfHom_comp_neg B hΛ hSpec X hX toK hpair i θ
+      inv_hom_id := spaceFiberHomOfHom_neg_comp B hΛ hSpec X hX toK hpair i θ }
 
 /-- The map attached to the fibre automorphism of `θ` is `θ`. -/
 theorem spaceAutToHom_spaceAutOfHom (θ : SpaceLiftHom B hΛ hSpec X hX toK i) :

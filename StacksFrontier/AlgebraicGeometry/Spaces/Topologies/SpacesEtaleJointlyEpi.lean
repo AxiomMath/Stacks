@@ -57,7 +57,7 @@ theorem ofArrows_mem_of_jointlyEpi {Q : C} {K : Type w} {P : K → C} (a : ∀ k
     { obj := fun T => {t | R.arrows t}
       map := fun {T T'} g t ht => R.downward_closed ht g.unop }
   have hQ : Presieve.IsSheaf J (CategoryTheory.yoneda.obj Q) :=
-    (isSheaf_iff_isSheaf_of_type _ _).1 (J.yoneda.obj Q).cond
+    (isSheaf_iff_isSheaf_of_type _ _).1 (J.yoneda.obj Q).property
   let M : Sheaf J (Type v) :=
     ⟨(Sub.sheafify J).toFunctor, (isSheaf_iff_isSheaf_of_type _ _).2
       (Sub.sheafify_isSheaf hQ)⟩
@@ -66,7 +66,7 @@ theorem ofArrows_mem_of_jointlyEpi {Q : C} {K : Type w} {P : K → C} (a : ∀ k
     have hle : Subfunctor.range (CategoryTheory.yoneda.map (a k)) ≤ Sub.sheafify J := by
       rintro T _ ⟨t, rfl⟩
       exact Sub.le_sheafify J _ (R.downward_closed (Sieve.ofArrows_mk P a k) t)
-    refine ⟨⟨Subfunctor.lift _ hle⟩, ?_⟩
+    refine ⟨ObjectProperty.homMk (Subfunctor.lift _ hle), ?_⟩
     ext1
     exact Subfunctor.lift_ι (CategoryTheory.yoneda.map (a k)) hle
   have hepi : Epi m := ⟨fun {H} α β hαβ => h H α β fun k => by

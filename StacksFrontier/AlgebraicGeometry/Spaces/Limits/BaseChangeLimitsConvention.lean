@@ -113,6 +113,18 @@ namespace Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+instance hasPullbacks_presheaf_baseChangeLimits :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+instance (priority := high) hasPullback_presheaf_baseChangeLimits
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The convention passes along an identification of diagrams of base changes.** If the
 slice over `i` is equivalent to the slice over `i'` by `e`, and the diagram of base changes of
 `D` along `g` is the diagram of base changes of `D'` along `g'` read through `e`, then every
@@ -151,6 +163,7 @@ theorem SiteContainsBaseChangeLimits.limitInSite_of_equivalence
   exact (Functor.leftUnitor _).symm ≪≫ Functor.isoWhiskerRight e.unitIso _ ≪≫
     Functor.associator _ _ _
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Base changing along a point `g` of a stage `D_i ×_Y T` of the base-changed system is base
 changing along the point `g ≫ pr₁` of `D_i`: the stage `D_j ×_Y T` is `D_j ×_{D_i} (D_i ×_Y T)`. -/
 theorem isPullback_baseChangeOverSystem_pullback {I : Type u} [Preorder I]
@@ -166,6 +179,7 @@ theorem isPullback_baseChangeOverSystem_pullback {I : Type u} [Preorder I]
   (IsPullback.of_hasPullback ((baseChangeOverSystem B S hS Dsys t u).map φ) g).paste_horiz
     (isPullback_baseChangeOverMap B S hS (t.app j) (t.app i) (Dsys.map φ) (by simp) u).flip
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The identifications of `AlgebraicGeometry.Space.isPullback_baseChangeOverSystem_pullback`
 are compatible with the transition morphisms. -/
 theorem isPullback_baseChangeOverSystem_pullback_isoPullback_naturality {I : Type u}
@@ -192,6 +206,7 @@ theorem isPullback_baseChangeOverSystem_pullback_isoPullback_naturality {I : Typ
     rw [(baseChangeOverProj B S hS Dsys t u).naturality]
   · simp only [Category.assoc, IsPullback.isoPullback_hom_snd, pullback.lift_snd]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The diagram of base changes, along a point `g` of a stage `D_i ×_Y T` of the base-changed
 system, of the stages over that one is the diagram of base changes, along the point `g ≫ pr₁`
 of `D_i`, of the stages of `D` over `i`. -/
@@ -209,6 +224,7 @@ noncomputable def baseChangeOverSystemDiagramIso {I : Type u} [Preorder I]
     (fun {k l} f => isPullback_baseChangeOverSystem_pullback_isoPullback_naturality Dsys t u
       k.hom l.hom f.left g _ _)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **The chapter's convention passes to a base change of the system.** If every limit of the
 base changes of the stages of `D` over one stage to an affine test object lies in the site,
 then so does every such limit for the system `D_j ×_Y T` of base changes along `u : T ⟶ Y`:

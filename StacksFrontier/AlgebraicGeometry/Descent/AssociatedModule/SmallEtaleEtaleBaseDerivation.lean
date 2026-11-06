@@ -162,7 +162,8 @@ public theorem associatedDerivation_etaleBase_eq_zero {W : Scheme.{u}} (w : W �
     (V : (SmallEtale B X hX)ᵒᵖ) (g : objScheme B X hX V.unop ⟶ W)
     (hg : g ≫ w = objHom B X hX V.unop ≫ f) (t : Γ(W, (⊤ : W.Opens))) :
     (associatedDerivation B hX f).d (g.appTop.hom t) = 0 :=
-  Eq.trans (PresheafOfModules.Derivation.postcomp_d_apply (associatedSectionsDerivation B hX f)
+  Eq.trans (PresheafOfModulesOfCommRing.Derivation.postcomp_d_apply
+    (associatedSectionsDerivation B hX f)
       (associatedModuleIsoSectionsSheaf B X hX (Scheme.Hom.relativeDifferentials f)).inv.val _)
     (Eq.trans (congrArg _
       (associatedSectionsDerivation_etaleBase_eq_zero B hX f w V g hg t)) (map_zero _))

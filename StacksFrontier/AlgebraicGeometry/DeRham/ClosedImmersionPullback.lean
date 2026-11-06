@@ -79,7 +79,7 @@ instance isIso_deRhamPushforwardToDerived : IsIso (deRhamPushforwardToDerived f 
   have := Stacks.ClosedImmersion.preservesHomology_abelianPushforward f.base
     f.isClosedEmbedding
   have := (abelianPushforward.{u, u} f.base).isIso_rightDerivedFunctorPlusUnit_of_preservesHomology
-  have hu : IsIso ((abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnit.app
+  have hu : IsIso ((abelianPushforward.{u, u} f.base).rightDerivedFunctorPlusUnith.app
       ((HomotopyCategory.Plus.quotient (AbelianSheaf X'.toRingedSpace.carrier)).obj
         (SheafOfModules.deRhamAbelianComplexPlus (deRhamAlgebras p')
           (SheafOfModules.deRhamDifferential (deRhamAlgebras p'))))) :=

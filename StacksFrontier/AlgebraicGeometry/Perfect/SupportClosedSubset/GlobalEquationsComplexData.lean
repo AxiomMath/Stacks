@@ -587,7 +587,7 @@ public theorem secIso_difSucc (F : X.Modules) (p : ℕ) (V : X.Opens)
       = CechCochains.ordD (fun i => V ⊓ X.basicOpen (f i)) (Scheme.Modules.presheaf F) p
           (secIso f F p V x) := by
   funext t
-  rw [secIso_apply, ordD_apply, ← comp_app_apply, difSucc, Pi.lift_π]
+  rw [secIso_apply, ordD_apply, ← comp_app_apply, difSucc, Pi.lift_comp_π]
   change restrictedModuleSection f F (p + 1) t V (appApplyHom V x (∑ j, _)) = _
   rw [map_sum, map_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
@@ -601,7 +601,7 @@ public theorem secIso_difZero (F : X.Modules) (V : X.Opens) (x : Γ(F, V))
     (s : CechCochains.OrdIndex (I := Fin c) 0) :
     secIso f F 0 V ((difZero f F).app V x) s
       = F.presheaf.map (homOfLE (interLe f 0 s V)).op x := by
-  rw [secIso_apply, ← comp_app_apply, difZero, Pi.lift_π]
+  rw [secIso_apply, ← comp_app_apply, difZero, Pi.lift_comp_π]
   exact augR_section f F 0 s V x
 
 end Complex
@@ -766,7 +766,7 @@ public theorem prodMap_section {F G : X.Modules} (φ : F ⟶ G) (p : ℕ) (V : X
     secIso f G p V ((prodMap f φ p).app V x) s
       = φ.app (CechCochains.inter (fun i => V ⊓ X.basicOpen (f i)) s.1)
           (secIso f F p V x s) := by
-  rw [secIso_apply, secIso_apply, ← comp_app_apply, prodMap, Pi.lift_π, comp_app_apply,
+  rw [secIso_apply, secIso_apply, ← comp_app_apply, prodMap, Pi.lift_comp_π, comp_app_apply,
     mapR_section]
 
 /-- The ordered Čech differential is natural in the coefficient presheaf. -/
@@ -800,7 +800,7 @@ public theorem prodMap_π {F G : X.Modules} (φ : F ⟶ G) (p : ℕ)
     prodMap f φ p ≫
         Pi.π (fun u : CechCochains.OrdIndex (I := Fin c) p => restrictedModule f G p u) s
       = Pi.π (fun u : CechCochains.OrdIndex (I := Fin c) p => restrictedModule f F p u) s
-        ≫ mapR f φ p s := Limits.Pi.lift_π _ s
+        ≫ mapR f φ p s := Limits.Pi.lift_comp_π _ s
 
 /-- `prodMap_π`, composed on the right with a further morphism. -/
 public theorem prodMap_π_assoc {F G : X.Modules} (φ : F ⟶ G) (p : ℕ)

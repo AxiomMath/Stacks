@@ -478,7 +478,7 @@ public theorem cst_mul (d e : ZMod 2) : (cst (d * e) : AdeleRing K) = cst d * cs
 
 /-- The constant adele of a difference is the difference of the constant adeles. -/
 public theorem cst_sub (d e : ZMod 2) : (cst (d - e) : AdeleRing K) = cst d - cst e := by
-  simp only [cst, map_sub]
+  simp only [cst, RingHom.map_sub]
 
 /-- A matrix of `GL₂(A)` mapping the constant vectors to constant vectors has constant
 entries. -/

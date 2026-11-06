@@ -55,7 +55,7 @@ def ElementaryEtaleNeighborhood.compIso {x : points B S hS F}
   mono_residueField := by
     have := E.mono_residueField
     rw [← Category.assoc]
-    infer_instance
+    exact mono_comp' this (IsIso.mono_of_iso e)
 
 variable (hFdec : IsDecentSpace B S hS F) (hGdec : IsDecentSpace B S hS G)
 

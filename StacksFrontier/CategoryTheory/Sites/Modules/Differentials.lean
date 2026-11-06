@@ -73,11 +73,11 @@ noncomputable def liftPresheaf
 noncomputable def liftedDiffDerivation
     {C : Type u₁} [Category.{v₁} C] {S R : Cᵒᵖ ⥤ CommRingCat.{u}}
     (φ : S ⟶ R) :
-    (liftPresheaf
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ)).Derivation' φ := by
-  let P := PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ
-  let d := PresheafOfModules.DifferentialsConstruction.derivation' φ
-  refine PresheafOfModules.Derivation'.mk (fun X => ?_) ?_
+    PresheafOfModulesOfCommRing.Derivation' (liftPresheaf
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ)) φ := by
+  let P := PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ
+  let d := PresheafOfModulesOfCommRing.DifferentialsConstruction.derivation' φ
+  refine PresheafOfModulesOfCommRing.Derivation'.mk (fun X => ?_) ?_
   · exact ModuleCat.Derivation.mk (fun b => ULift.up ((d.app X).d b))
       (by intro a b; exact congrArg ULift.up ((d.app X).d_add a b))
       (by intro a b; exact congrArg ULift.up ((d.app X).d_mul a b))
@@ -120,13 +120,13 @@ theorem liftedDiffHom_ext
 noncomputable def liftedDiffUniversal
     {C : Type u₁} [Category.{v₁} C] {S R : Cᵒᵖ ⥤ CommRingCat.{u}}
     (φ : S ⟶ R) :
-    PresheafOfModules.Derivation.Universal.{max u u₁ v₁ v, u, v₁, v₁, u₁, u₁}
+    PresheafOfModulesOfCommRing.Derivation.Universal.{max u u₁ v₁ v, u, v₁, v₁, u₁, u₁}
       (liftedDiffDerivation.{v₁, u, u₁, v} φ) := by
-  let P := PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ
+  let P := PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ
   let Q : PresheafOfModules.{max u u₁ v₁ v} (R ⋙ forget₂ CommRingCat RingCat) :=
     liftPresheaf.{v, v₁, u, u₁} P
   let d := liftedDiffDerivation.{v₁, u, u₁, v} φ
-  refine PresheafOfModules.Derivation'.Universal.mk.{max u u₁ v₁ v, u, v₁, u₁}
+  refine PresheafOfModulesOfCommRing.Derivation'.Universal.mk.{max u u₁ v₁ v, u, v₁, u₁}
     (fun {M} d' => ?_) (fun {M} d' => ?_) ?_
   · refine { app := fun X => ?_, naturality := ?_ }
     · letI := (φ.app X).hom.toAlgebra
@@ -185,13 +185,13 @@ noncomputable def liftedDiffUniversal
     funext X
     apply ModuleCat.hom_ext
     apply liftedDiffHom_ext (φ := φ.app X)
-    exact PresheafOfModules.Derivation.congr_d h
+    exact PresheafOfModulesOfCommRing.Derivation.congr_d h
 
 /-- The zero relative derivation. -/
 def zeroDerivation {C : Type u₁} [Category.{v₁} C]
     {S R : Cᵒᵖ ⥤ CommRingCat.{u}} (φ : S ⟶ R)
     (M : PresheafOfModules.{v} (R ⋙ forget₂ CommRingCat RingCat)) :
-    M.Derivation' φ where
+    PresheafOfModulesOfCommRing.Derivation' M φ where
   d := 0
   d_mul := by simp
   d_map := by
@@ -204,7 +204,8 @@ def zeroDerivation {C : Type u₁} [Category.{v₁} C]
 def addDerivation {C : Type u₁} [Category.{v₁} C]
     {S R : Cᵒᵖ ⥤ CommRingCat.{u}} (φ : S ⟶ R)
     (M : PresheafOfModules.{v} (R ⋙ forget₂ CommRingCat RingCat))
-    (D E : M.Derivation' φ) : M.Derivation' φ where
+    (D E : PresheafOfModulesOfCommRing.Derivation' M φ) :
+    PresheafOfModulesOfCommRing.Derivation' M φ where
   d := D.d + E.d
   d_mul := by
     intros
@@ -223,7 +224,8 @@ def addDerivation {C : Type u₁} [Category.{v₁} C]
 def negDerivation {C : Type u₁} [Category.{v₁} C]
     {S R : Cᵒᵖ ⥤ CommRingCat.{u}} (φ : S ⟶ R)
     (M : PresheafOfModules.{v} (R ⋙ forget₂ CommRingCat RingCat))
-    (D : M.Derivation' φ) : M.Derivation' φ where
+    (D : PresheafOfModulesOfCommRing.Derivation' M φ) :
+    PresheafOfModulesOfCommRing.Derivation' M φ where
   d := -D.d
   d_mul := by
     intros
@@ -243,10 +245,10 @@ group under pointwise addition. -/
 instance derivationAddCommGroup {C : Type u₁} [Category.{v₁} C]
     {S R : Cᵒᵖ ⥤ CommRingCat.{u}} (φ : S ⟶ R)
     (M : PresheafOfModules.{v} (R ⋙ forget₂ CommRingCat RingCat)) :
-    AddCommGroup (M.Derivation' φ) := by
-  letI : Zero (M.Derivation' φ) := ⟨zeroDerivation φ M⟩
-  letI : Add (M.Derivation' φ) := ⟨addDerivation φ M⟩
-  letI : Neg (M.Derivation' φ) := ⟨negDerivation φ M⟩
+    AddCommGroup (PresheafOfModulesOfCommRing.Derivation' M φ) := by
+  letI : Zero (PresheafOfModulesOfCommRing.Derivation' M φ) := ⟨zeroDerivation φ M⟩
+  letI : Add (PresheafOfModulesOfCommRing.Derivation' M φ) := ⟨addDerivation φ M⟩
+  letI : Neg (PresheafOfModulesOfCommRing.Derivation' M φ) := ⟨negDerivation φ M⟩
   exact
     { nsmul := nsmulRec
       zsmul := zsmulRec
@@ -263,7 +265,7 @@ instance derivationAddCommGroupSheaf {C : Type u₁} [Category.{v₁} C]
     [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
     {O₁ O₂ : Sheaf J CommRingCat.{u}} (φ : O₁ ⟶ O₂)
     (F : _root_.SheafOfModules (Stacks.SheafOfModules.Tensor.ringSheaf O₂)) :
-    AddCommGroup (F.val.Derivation' φ.hom) :=
+    AddCommGroup (PresheafOfModulesOfCommRing.Derivation' F.val φ.hom) :=
   derivationAddCommGroup (M := F.val) φ.hom
 
 /-- The covariant functor taking an `O₂`-module sheaf to the abelian group of derivations of
@@ -275,7 +277,7 @@ noncomputable def derivationsAddCommGrpFunctor {C : Type u₁} [Category.{v₁} 
     (O₁ O₂ : Sheaf J CommRingCat.{u}) (φ : O₁ ⟶ O₂) :
     _root_.SheafOfModules.{max u u₁ v₁ v} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) ⥤
       AddCommGrpCat.{max u u₁ v₁ v} where
-  obj F := AddCommGrpCat.of (F.val.Derivation' φ.hom)
+  obj F := AddCommGrpCat.of (PresheafOfModulesOfCommRing.Derivation' F.val φ.hom)
   map {X Y} f := AddCommGrpCat.ofHom
     { toFun := fun D ↦ D.postcomp f.val
       map_zero' := by ext U x; exact (f.val.app U).hom.map_zero
@@ -312,7 +314,7 @@ noncomputable def derivationsAddCommGrpCorepresentation {C : Type u₁} [Categor
   · intro f g
     change e.homEquiv (f + g) = e.homEquiv f + e.homEquiv g
     rw [e.homEquiv_eq (f + g), e.homEquiv_eq f, e.homEquiv_eq g]
-    let D : Ω.val.Derivation' φ.hom := e.homEquiv (𝟙 Ω)
+    let D : PresheafOfModulesOfCommRing.Derivation' Ω.val φ.hom := e.homEquiv (𝟙 Ω)
     change D.postcomp (f + g).val = D.postcomp f.val + D.postcomp g.val
     ext U x
     rfl
@@ -340,9 +342,10 @@ noncomputable def universalDerivationCorepresentableBy
     [J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
     (O₁ O₂ : Sheaf J CommRingCat.{u}) (φ : O₁ ⟶ O₂)
     {Ω : _root_.SheafOfModules.{max u u₁ v₁ v} (Stacks.SheafOfModules.Tensor.ringSheaf O₂)}
-    (d : Ω.val.Derivation' φ.hom)
+    (d : PresheafOfModulesOfCommRing.Derivation' Ω.val φ.hom)
     (h : ∀ (F : _root_.SheafOfModules.{max u u₁ v₁ v} (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
-      (D : F.val.Derivation' φ.hom), ∃! f : Ω ⟶ F, d.postcomp f.val = D) :
+      (D : PresheafOfModulesOfCommRing.Derivation' F.val φ.hom),
+        ∃! f : Ω ⟶ F, d.postcomp f.val = D) :
     (derivationsFunctor.{v} O₁ O₂ φ).CorepresentableBy Ω := by
   refine { homEquiv := ?_, homEquiv_comp := ?_ }
   · intro F
@@ -371,7 +374,7 @@ instance derivationsFunctor_isCorepresentable {C : Type u₁} [Category.{v₁} C
     siteWEqualsLocallyBijective (J := J)
   let Q : PresheafOfModules.{max u u₁ v₁ v} (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj :=
     liftPresheaf.{v, v₁, u, u₁}
-      (PresheafOfModules.DifferentialsConstruction.relativeDifferentials' φ.hom)
+      (PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials' φ.hom)
   let S : _root_.SheafOfModules.{max u u₁ v₁ v} (Stacks.SheafOfModules.Tensor.ringSheaf O₂) :=
     (PresheafOfModules.sheafification.{max u u₁ v₁ v}
       (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
@@ -380,13 +383,15 @@ instance derivationsFunctor_isCorepresentable {C : Type u₁} [Category.{v₁} C
     (PresheafOfModules.sheafificationAdjunction
       (R := Stacks.SheafOfModules.Tensor.ringSheaf O₂)
       (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O₂).obj)).unit.app Q
-  let d : Q.Derivation' φ.hom := liftedDiffDerivation.{v₁, u, u₁, v} φ.hom
-  let dS : ((_root_.SheafOfModules.forget
-      (Stacks.SheafOfModules.Tensor.ringSheaf O₂)).obj S).Derivation' φ.hom :=
+  let d : PresheafOfModulesOfCommRing.Derivation' Q φ.hom :=
+    liftedDiffDerivation.{v₁, u, u₁, v} φ.hom
+  let dS : PresheafOfModulesOfCommRing.Derivation' ((_root_.SheafOfModules.forget
+      (Stacks.SheafOfModules.Tensor.ringSheaf O₂)).obj S) φ.hom :=
     d.postcomp η
   have hUniversal :
       ∀ (F : _root_.SheafOfModules.{max u u₁ v₁ v} (Stacks.SheafOfModules.Tensor.ringSheaf O₂))
-        (D : F.val.Derivation' φ.hom), ∃! f : S ⟶ F, dS.postcomp f.val = D := by
+        (D : PresheafOfModulesOfCommRing.Derivation' F.val φ.hom),
+          ∃! f : S ⟶ F, dS.postcomp f.val = D := by
     intro F D
     let eQ := liftedDiffUniversal.{max u u₁ v₁ v, v₁, u, u₁} φ.hom
     let g := eQ.desc D

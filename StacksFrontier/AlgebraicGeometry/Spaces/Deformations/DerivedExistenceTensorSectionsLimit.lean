@@ -245,7 +245,7 @@ def isLimitStageSeqCone :
     exact NatIso.isIso_of_isIso_app α
   refine (IsLimit.postcomposeHomEquiv (asIso α) _).1
     (IsLimit.ofIsoLimit (isLimitBaseSectionsCone D.system)
-      (Cones.ext (Iso.refl _) fun n ↦ ?_))
+      (Cone.ext (Iso.refl _) fun n ↦ ?_))
   exact ((Category.id_comp _).trans (Category.comp_id _)).symm
 
 variable (E : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left)

@@ -124,10 +124,13 @@ public instance instIsAddTorsionFreeD : IsAddTorsionFree T.D := by
         exact ha
       · exact T.eq_zero_of_nsmul_eq_zero_of_not_dvd hdvd ha
   constructor
-  intro n hn a b hab
-  have hab' : n • a = n • b := hab
+  intro n hn a b _ hab'
   rw [← sub_eq_zero]
   exact key n hn (a - b) (by rw [smul_sub, hab', sub_self])
+
+/-- `D` has unique division by nonzero naturals (torsion-freeness of a commutative group). -/
+public instance instHasUniqueDivD : HasUniqueDiv T.D :=
+  ⟨fun _ hn a b h ↦ eq_of_nsmul_eq_nsmul_of_addCommute hn (AddCommute.all a b) h⟩
 
 /-- `D` is `p`-adically complete as a module over the crystalline base `A = 𝐙_p`: the ideal
 `(p) ⊆ 𝐙_p` generates the ideal `(p) ⊆ D` for which `D` is the completion of `P`. -/

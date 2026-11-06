@@ -77,7 +77,7 @@ variable {R}
   exact funext fun U ↦ LinearMap.ext fun x ↦ LinearMap.ext fun y ↦ h U x y
 
 /-- Postcompose a bilinear map with a morphism of presheaves of modules. -/
-public def comp (b : BilinearMap R F G H) (f : H ⟶ H') : BilinearMap R F G H' where
+public noncomputable def comp (b : BilinearMap R F G H) (f : H ⟶ H') : BilinearMap R F G H' where
   app U := LinearMap.compr₂ (b.app U) (f.app U).hom
   naturality g x y :=
     (congrArg (f.app _).hom (b.naturality g x y)).trans
@@ -113,7 +113,7 @@ presheaves of modules. -/
 public noncomputable def BilinearMap.tensorHom (b : BilinearMap R F G H) : F ⊗ G ⟶ H where
   app U := ModuleCat.MonoidalCategory.tensorLift (fun x y ↦ b.app U x y)
     (fun x x' y ↦ by rw [map_add]; rfl)
-    (fun a x y ↦ by rw [map_smul]; rfl)
+    (fun a x y ↦ LinearMap.map_smul₂ (b.app U) a x y)
     (fun x y y' ↦ map_add _ _ _)
     (fun a x y ↦ map_smul _ _ _)
   naturality {U V} g := ModuleCat.MonoidalCategory.tensor_ext fun x y ↦ b.naturality g x y

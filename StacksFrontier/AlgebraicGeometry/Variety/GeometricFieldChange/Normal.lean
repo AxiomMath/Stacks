@@ -190,9 +190,9 @@ lemma geometricallyNormalAt_tfae
         ((PrimeSpectrum.isHomeomorph_comap_of_isPurelyInseparable k K R).injective
           (a₁ := ⟨q, inferInstance⟩) (a₂ := ⟨m, inferInstance⟩) ?_)
       exact PrimeSpectrum.ext <| ((IsLocalRing.isMaximal_iff R).mp
-          (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal q)).trans
+          (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) q)).trans
         ((IsLocalRing.isMaximal_iff R).mp
-          (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal m)).symm
+          (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) m)).symm
     let : IsLocalRing A := e.symm.isLocalRing
     let Y : Scheme := pullback f (Spec.map (CommRingCat.ofHom (algebraMap k K)))
     let z : Spec (.of K) := Classical.choice inferInstance
@@ -203,8 +203,8 @@ lemma geometricallyNormalAt_tfae
     let eAlg : A ≃ₐ[R] (R ⊗[k] K) := AlgEquiv.ofRingEquiv (f := e) heR
     let : Algebra.IsIntegral R A := eAlg.isIntegral_iff.mpr inferInstance
     have hpmax : p.IsMaximal :=
-      Ideal.isMaximal_of_isIntegral_of_isMaximal_comap p
-        (hcontract ▸ IsLocalRing.maximalIdeal.isMaximal R)
+      Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) p
+        (by rw [Ideal.under]; exact hcontract ▸ IsLocalRing.maximalIdeal.isMaximal R)
     have hunit : p.primeCompl ≤ IsUnit.submonoid A := by
       intro a ha
       apply (IsLocalRing.notMem_maximalIdeal).mp

@@ -834,7 +834,6 @@ private lemma etaleDescent_spanCocone
     rw [B.inclusion.map_comp]
     change B.inclusion.map vBase = vSch at hVMap
     rw [hVMap]
-    rfl
   have haBase : aS ≫ B.inclusion.map c.pt.hom = B.inclusion.map X'.hom := by
     dsimp [aS]
     show B.inclusion.map a.left ≫ B.inclusion.map Y'.hom = _
@@ -1146,7 +1145,7 @@ public theorem isPushout_algebraicSpaces_of_isThickening_of_isAffineHom
           yoneda.map (D.map g) ≫ maps s k = maps s j := by
       intro j k g
       have hw := congrArg (fun m ↦ m.hom) (s.w g)
-      simpa [maps, V] using hw
+      set_option synthInstance.maxHeartbeats 200000 in simpa [maps, V] using hw
     let result (s : Cocone (D ⋙ V)) :=
       hUniversal s.pt.1 s.pt.2 (maps s) (hcompat s)
     refine IsColimit.mk (fun s ↦ ObjectProperty.homMk (Classical.choose (result s))) ?_ ?_
@@ -1158,7 +1157,8 @@ public theorem isPushout_algebraicSpaces_of_isThickening_of_isAffineHom
       exact (Classical.choose_spec (result s)).2 m.hom (by
         intro j
         have hj := congrArg (fun q ↦ q.hom) (hm j)
-        simpa [V, maps] using hj)
+        rw [ObjectProperty.FullSubcategory.comp_hom] at hj
+        exact hj)
   have hColimitAS₀ : IsColimit (V.mapCocone c₀) := by
     change IsColimit (Cocone.whisker e.inverse (V.mapCocone c₀)) at hColimitAS
     exact hColimitAS.whiskerEquivalence e

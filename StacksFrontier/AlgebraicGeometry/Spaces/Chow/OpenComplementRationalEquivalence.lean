@@ -390,7 +390,8 @@ theorem IntegralClosedSubspace.isGenericPoint_closureImage
         (IntegralClosedSubspace.closureImage B S hS hX hXdec j W).subspace) := by
   have hgen := isGenericPoint_pointsMap_genericPoint B S hS hU W
   have hstep : closure ({pointsMap B S hS U j
-        (pointsMap B S hS W.subspace.toFunctor W.subspace.ι (W.genericPoint B S hS))} :
+                            (pointsMap B S hS W.subspace.toFunctor W.subspace.ι
+                              (W.genericPoint B S hS))} :
           Set (points B S hS X)) =
       closure (pointsMap B S hS U j '' subspacePointSet B S hS U W.subspace) := by
     rw [← hgen, closure_image_closure (continuous_pointsMap B S hS j), Set.image_singleton]

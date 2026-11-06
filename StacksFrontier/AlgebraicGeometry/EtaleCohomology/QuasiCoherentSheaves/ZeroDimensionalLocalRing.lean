@@ -391,40 +391,40 @@ private lemma liftedResidueAction_tensorMap_bijective
     {C : Type w} [Category.{v} C] (A : Cᵒᵖ ⥤ RingCat.{u})
     {G : Type*} [Group G] {X : Cᵒᵖ} (a : G →* Aut X) :
     MulSemiringAction G (A.obj X) where
-  smul g x := A.map (a g).hom x
+  smul g x := A.map (a g).asIso.hom x
   one_smul x := by
-    change A.map (a 1).hom x = x
+    change A.map (a 1).asIso.hom x = x
     rw [a.map_one]
     change A.map (𝟙 X) x = x
     rw [A.map_id]
     rfl
   mul_smul g h x := by
-    change A.map (a (g * h)).hom x = _
+    change A.map (a (g * h)).asIso.hom x = _
     rw [a.map_mul]
-    exact Functor.map_comp_apply A (a h).hom (a g).hom x
-  smul_zero g := map_zero (A.map (a g).hom).hom
-  smul_add g x y := map_add (A.map (a g).hom).hom x y
-  smul_one g := map_one (A.map (a g).hom).hom
-  smul_mul g x y := map_mul (A.map (a g).hom).hom x y
+    exact Functor.map_comp_apply A (a h).asIso.hom (a g).asIso.hom x
+  smul_zero g := map_zero (A.map (a g).asIso.hom).hom
+  smul_add g x y := map_add (A.map (a g).asIso.hom).hom x y
+  smul_one g := map_one (A.map (a g).asIso.hom).hom
+  smul_mul g x y := map_mul (A.map (a g).asIso.hom).hom x y
 
 @[instance_reducible] private noncomputable def sectionModuleAction
     {C : Type w} [Category.{v} C] (A : Cᵒᵖ ⥤ RingCat.{u})
     (P : PresheafOfModules.{u} A)
     {G : Type*} [Group G] {X : Cᵒᵖ} (a : G →* Aut X) :
     DistribMulAction G (P.obj X) where
-  smul g x := P.map (a g).hom x
+  smul g x := P.map (a g).asIso.hom x
   one_smul x := by
-    change P.map (a 1).hom x = x
+    change P.map (a 1).asIso.hom x = x
     rw [a.map_one]
     change P.map (𝟙 X) x = x
     rw [P.map_id]
     rfl
   mul_smul g h x := by
-    change P.map (a (g * h)).hom x = _
+    change P.map (a (g * h)).asIso.hom x = _
     rw [a.map_mul]
-    exact P.map_comp_apply (a h).hom (a g).hom x
-  smul_zero g := map_zero (P.map (a g).hom).hom
-  smul_add g x y := map_add (P.map (a g).hom).hom x y
+    exact P.map_comp_apply (a h).asIso.hom (a g).asIso.hom x
+  smul_zero g := map_zero (P.map (a g).asIso.hom).hom
+  smul_add g x y := map_add (P.map (a g).asIso.hom).hom x y
 
 private lemma sectionAction_smulDistribClass
     {C : Type w} [Category.{v} C] (A : Cᵒᵖ ⥤ RingCat.{u})
@@ -435,7 +435,7 @@ private lemma sectionAction_smulDistribClass
     SMulDistribClass G (A.obj X) (P.obj X) := by
   let := sectionRingAction A a
   let := sectionModuleAction A P a
-  exact ⟨fun g r m ↦ P.map_smul (a g).hom r m⟩
+  exact ⟨fun g r m ↦ P.map_smul (a g).asIso.hom r m⟩
 
 private lemma smul_sum_smul_orbit
     {G A M : Type*} [Group G] [Fintype G] [Semiring A]
@@ -749,7 +749,7 @@ private noncomputable def finiteEtaleSpecAction
     (B : BigEtaleSite.{u}) (hS : B.Contains (Spec (.of R)))
     {G : Type*} [Group G] (ρ : G →* (A ≃ₐ[R] A)) :
     G →* Aut (op (finiteEtaleSpec R A B hS)) where
-  toFun g := {
+  toFun g := .of {
     hom := (finiteEtaleSpecMap R A A B hS (ρ g).toAlgHom).op
     inv := (finiteEtaleSpecMap R A A B hS (ρ g).symm.toAlgHom).op
     hom_inv_id := by
@@ -763,14 +763,14 @@ private noncomputable def finiteEtaleSpecAction
         finiteEtaleSpecMap_id]
       rfl }
   map_one' := by
-    apply Iso.ext
+    apply Aut.ext; apply Iso.ext
     change (finiteEtaleSpecMap R A A B hS (ρ 1).toAlgHom).op = 𝟙 _
     rw [ρ.map_one]
     change (finiteEtaleSpecMap R A A B hS (AlgHom.id R A)).op = _
     rw [finiteEtaleSpecMap_id]
     rfl
   map_mul' g h := by
-    apply Iso.ext
+    apply Aut.ext; apply Iso.ext
     change (finiteEtaleSpecMap R A A B hS (ρ (g * h)).toAlgHom).op =
       (finiteEtaleSpecMap R A A B hS (ρ h).toAlgHom).op ≫
         (finiteEtaleSpecMap R A A B hS (ρ g).toAlgHom).op
@@ -1031,7 +1031,7 @@ private lemma span_sections_finiteEtale_galois
   let Q := ((AlgebraicGeometry.SmallEtale.structureSheaf B (Spec (.of R)) hS).over T).obj
   let α : G →* Aut (op W) := (E.inverse.op.mapAut (op (finiteEtaleSpec R A B hS))).comp
     (finiteEtaleSpecAction R A B hS ρ)
-  let a (g : G) : W ⟶ W := (α g).hom.unop
+  let a (g : G) : W ⟶ W := (α g).asIso.hom.unop
   let f : W ⟶ Over.mk (𝟙 T) := Over.mkIdTerminal.from W
   have ha (g : G) : a g ≫ f = f := Over.mkIdTerminal.hom_ext _ _
   have hp : P.map f = Spec.map (CommRingCat.ofHom (algebraMap R A)) :=
@@ -1118,7 +1118,7 @@ private lemma exists_galois_finiteEtale_extension_of_isLocalRing
         Nonempty (A →ₐ[R] B) := by
   have : IsLocalHom (algebraMap R A) := by
     have hm : ((IsLocalRing.maximalIdeal A).comap (algebraMap R A)).IsMaximal :=
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal _
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) _
     exact ((IsLocalRing.local_hom_TFAE (algebraMap R A)).out 5 1 rfl rfl).mp
       (IsLocalRing.eq_maximalIdeal hm)
   let K := A ⧸ (IsLocalRing.maximalIdeal R).map (algebraMap R A)

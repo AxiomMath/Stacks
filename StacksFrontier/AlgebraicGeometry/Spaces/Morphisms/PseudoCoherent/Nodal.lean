@@ -87,6 +87,7 @@ theorem isAtWorstNodalOfRelativeDimensionOne_isStableUnderBaseChange (B : BigFpp
       MorphismProperty Scheme.{u})
     AlgebraicGeometry.isAtWorstNodalOfRelativeDimensionOne_isEtaleLocalOnSourceAndTarget
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 0DSG.** Eight criteria for a morphism of algebraic spaces over `S` to be
 at-worst-nodal of relative dimension one: the condition may be tested after base change to
 every scheme or to every affine scheme, on one surjective étale chart of the target, on the
@@ -99,13 +100,13 @@ theorem isAtWorstNodalOfRelativeDimensionOne_tfae (B : BigFppfSite.{u}) (S : Sch
     List.TFAE [
       IsAtWorstNodalOfRelativeDimensionOne B S hS f,
       ∀ (Z : BigFppfOver B S hS) (g : yoneda.obj Z ⟶ Y),
-        IsAtWorstNodalOfRelativeDimensionOne B S hS (pullback.snd f g),
+        IsAtWorstNodalOfRelativeDimensionOne B S hS (Limits.pullback.snd f g),
       ∀ (Z : BigFppfOver B S hS) (g : yoneda.obj Z ⟶ Y),
         IsAffine ((BigFppfOver.toScheme B S hS).obj Z) →
-          IsAtWorstNodalOfRelativeDimensionOne B S hS (pullback.snd f g),
+          IsAtWorstNodalOfRelativeDimensionOne B S hS (Limits.pullback.snd f g),
       ∃ (V : BigFppfOver B S hS) (g : yoneda.obj V ⟶ Y),
         IsSurjective B S hS g ∧ IsEtale B S hS g ∧
-          IsAtWorstNodalOfRelativeDimensionOne B S hS (pullback.snd f g),
+          IsAtWorstNodalOfRelativeDimensionOne B S hS (Limits.pullback.snd f g),
       ∃ (U : BigFppfOver B S hS) (p : yoneda.obj U ⟶ X),
         IsSurjective B S hS p ∧ IsEtale B S hS p ∧
           IsAtWorstNodalOfRelativeDimensionOne B S hS (p ≫ f),
@@ -119,10 +120,10 @@ theorem isAtWorstNodalOfRelativeDimensionOne_tfae (B : BigFppfSite.{u}) (S : Sch
           AlgebraicGeometry.IsAtWorstNodalOfRelativeDimensionOne
             ((BigFppfOver.toScheme B S hS).map a),
       ∃ (I : Type u) (Yopen : I → Subfunctor Y) (J : I → Type u)
-        (Xopen : ∀ i, J i → Subfunctor (pullback f (Yopen i).ι)),
+        (Xopen : ∀ i, J i → Subfunctor (Limits.pullback f (Yopen i).ι)),
         IsZariskiCover B S hS I Yopen ∧ (∀ i, IsZariskiCover B S hS (J i) (Xopen i)) ∧
           ∀ i j, IsAtWorstNodalOfRelativeDimensionOne B S hS
-            ((Xopen i j).ι ≫ pullback.snd f (Yopen i).ι)
+            ((Xopen i j).ι ≫ Limits.pullback.snd f (Yopen i).ι)
     ] :=
   holdsOnEveryEtaleChart_tfae_of_isLocalAtTarget B S hS
     (@AlgebraicGeometry.IsAtWorstNodalOfRelativeDimensionOne.{u} :

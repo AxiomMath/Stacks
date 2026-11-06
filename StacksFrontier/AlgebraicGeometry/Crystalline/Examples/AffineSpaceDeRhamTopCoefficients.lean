@@ -226,7 +226,7 @@ public theorem exists_pow_dvd_monomialCoeff (t : ℕ) (a : T.D) (k : Fin T.r) :
   have ha : a = algebraMap T.P T.D f + ((T.p : T.A) ^ t) • w := by
     rw [Algebra.smul_def, map_pow, map_natCast, ← hw]
     ring
-  have hcoeff : MvPolynomial.coeff (T.diagMonomial N + Finsupp.single k 1) f = 0 := by
+  have hcoeff : f.coeff (T.diagMonomial N + Finsupp.single k 1) = 0 := by
     by_contra hne
     have h := MvPolynomial.monomial_le_degreeOf k (MvPolynomial.mem_support_iff.mpr hne)
     simp only [Finsupp.add_apply, diagMonomial_apply, Finsupp.single_eq_same] at h

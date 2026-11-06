@@ -440,7 +440,7 @@ theorem perfectDerivedTrace_twistedFrobenius_extensionByZeroConstant_eq_openTwis
   show (extensionByZeroConstantTwistedFrobeniusHC Λ Y σ kbar p q hcard jV σV sq N).f n ≫ _ =
     E.hom.hom.f n ≫ (E.inv.hom.f n ≫
       (extensionByZeroConstantTwistedFrobeniusHC Λ Y σ kbar p q hcard jV σV sq N).f n ≫ _)
-  rw [← Category.assoc (E.hom.hom.f n), ← HomologicalComplex.comp_f, hEE,
+  rw [← Category.assoc (E.hom.hom.f n), ← HomologicalComplex.comp_f E.hom.hom E.inv.hom, hEE,
     HomologicalComplex.id_f, Category.id_comp]
   rfl
 

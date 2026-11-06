@@ -81,9 +81,9 @@ theorem X_mem_nonZeroDivisors (v : σ) :
   rw [mem_nonZeroDivisors_iff_left]
   intro f hf
   refine MvPolynomial.ext _ _ fun d => ?_
-  have h := congrArg (coeff (Finsupp.single v 1 + d)) hf
-  rw [coeff_X_mul, coeff_zero] at h
-  rw [h, coeff_zero]
+  have h := congrArg (fun p => p.coeff (Finsupp.single v 1 + d)) hf
+  simp only [coeff_X_mul, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at h
+  rw [h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
 
 variable [DecidableEq τ] (i : τ)
 

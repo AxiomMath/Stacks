@@ -262,12 +262,12 @@ theorem isZero_of_isZero_overPullback_of_connectedSpace [ConnectedSpace X]
     intro U
     obtain ⟨I, W, f, hW, hc⟩ := hF U
     rw [IsZero.iff_id_eq_zero]
-    refine ((F.cond (F.obj.obj (op U))) _ hW).isSeparatedFor.ext fun W' g hg => ?_
+    refine ((F.property (F.obj.obj (op U))) _ hW).isSeparatedFor.ext fun W' g hg => ?_
     refine IsZero.eq_of_tgt ?_ _ _
     obtain ⟨_, a, _, ⟨i⟩, rfl⟩ := hg
     rcases isEmpty_or_nonempty (W i).left with he | hne
     · rw [IsZero.iff_id_eq_zero]
-      exact ((F.cond (F.obj.obj (op W'))) _ (Scheme.ProEt.bot_mem_topology_of_isEmpty W'
+      exact ((F.property (F.obj.obj (op W'))) _ (Scheme.ProEt.bot_mem_topology_of_isEmpty W'
         ⟨fun w' => he.false (a.left w')⟩)).isSeparatedFor.ext fun _ _ h => h.elim
     · obtain ⟨wi⟩ := hne
       obtain ⟨E, hE, ⟨c⟩⟩ := hc i

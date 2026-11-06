@@ -114,7 +114,7 @@ private lemma indEtale_pi (R : CommRingCat.{u}) {I : Type u} [Finite I]
   let h' : c.pt ⟶ ∏ᶜ A := Pi.lift (fun i ↦ c.π.app ⟨i⟩ ≫ h i)
   refine ⟨c.pt, g', h', ?_, etale_piFan R D hD⟩
   refine Pi.hom_ext _ _ fun i ↦ ?_
-  simp only [Category.assoc, h', Pi.lift_π]
+  simp only [Category.assoc, h', Pi.lift_comp_π]
   rw [← Category.assoc, show g' ≫ c.π.app ⟨i⟩ = g i from hc.fac (Fan.mk T g) ⟨i⟩]
   exact hgh i
 

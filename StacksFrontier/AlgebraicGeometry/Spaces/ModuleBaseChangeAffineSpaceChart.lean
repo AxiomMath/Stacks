@@ -322,6 +322,12 @@ theorem isIso_moduleBaseChangeMap_app_of_isAffineSpace (sq : IsPullback g' f' f 
       (by rw [← Functor.map_comp, ← Functor.map_comp, hat]) (hrg.isPullback V.1.hom)
   have : IsAffine ((BigFppfOver.toScheme B S hS).obj ((SmallEtale.toOver B S hS X.1).obj Z)) :=
     hZ
+  letI : PreservesLimitsOfShape WalkingCospan (BigFppfOver.forget B S hS) := inferInstance
+  letI : PreservesLimitsOfShape WalkingCospan B.inclusion := inferInstance
+  letI hpres : PreservesLimitsOfShape WalkingCospan (BigFppfOver.toScheme B S hS) :=
+    comp_preservesLimitsOfShape _ _
+  letI : PreservesLimit (cospan c b) (BigFppfOver.toScheme B S hS) :=
+    hpres.preservesLimit
   have hpo := isPushout_appTop_of_isPullback
     ((IsPullback.of_map_of_faithful yoneda hpb).map (BigFppfOver.toScheme B S hS))
   rw [← ofHom_chartDiagramRestrict_mk g c hc, ← ofHom_chartDiagramRestrict_mk f b hb,

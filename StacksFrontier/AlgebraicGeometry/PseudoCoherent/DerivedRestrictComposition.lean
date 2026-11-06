@@ -103,7 +103,7 @@ theorem mapHomotopyCategoryIso_restrictFunctorIsoPullback_comp {A B C : Scheme.{
     Stacks.DerivedPullback.Composition.pullbackOnHomotopyCompIso,
     Functor.mapHomotopyCategoryCompIso, Quotient.natIsoLift, Functor.isoWhiskerRight_hom,
     Functor.isoWhiskerRight_inv]
-  dsimp only [Quotient.natTransLift]
+  dsimp only [NatTrans.mapHomotopyCategory, Quotient.natTransLift]
   simp only [Functor.whiskerRight_app]
   congr 1
   refine HomologicalComplex.hom_ext _ _ (fun n => ?_)
@@ -145,7 +145,7 @@ theorem derivedRestrictIsoDerivedPullback_inv_comp {A B C : Scheme.{u}} (a : A �
         b.toLRSHom.toShHom) (derivedRestrictIsoDerivedPullback a).inv ≫
       Functor.whiskerRight (derivedRestrictIsoDerivedPullback b).inv
         (restrictFunctor a).mapDerivedCategory ≫
-      (Functor.mapDerivedCategoryCompIso (restrictFunctorComp a b).symm).hom := by
+      (Functor.mapDerivedCategoryCompIsoOfCompIso (restrictFunctorComp a b).symm).hom := by
   refine Functor.leftDerived_ext (restrictFunctor (a ≫ b)).mapDerivedCategory
     (restrictFunctor (a ≫ b)).mapDerivedCategoryFactorsh.hom
     (HomotopyCategory.quasiIso _ (ComplexShape.up ℤ)) _ _ _ ?_
@@ -179,7 +179,7 @@ theorem homologyFunctor_map_mapDerivedCategoryCompIso_restrictFunctorComp {A B C
     (a : A ⟶ B) (b : B ⟶ C) [IsOpenImmersion a] [IsOpenImmersion b]
     (K : DerivedCategory C.Modules) :
     (DerivedCategory.homologyFunctor A.Modules 0).map
-        ((Functor.mapDerivedCategoryCompIso (restrictFunctorComp a b).symm).hom.app K) ≫
+        ((Functor.mapDerivedCategoryCompIsoOfCompIso (restrictFunctorComp a b).symm).hom.app K) ≫
       ((restrictFunctor (a ≫ b)).mapDerivedCategoryHomologyIso 0).hom.app K =
     ((restrictFunctor a).mapDerivedCategoryHomologyIso 0).hom.app
         ((restrictFunctor b).mapDerivedCategory.obj K) ≫

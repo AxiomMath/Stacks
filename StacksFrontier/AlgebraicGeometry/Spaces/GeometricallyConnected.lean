@@ -919,15 +919,17 @@ noncomputable def galoisActionOnBaseChange :
   V := (OverShriek.relocalizePresheafFunctor (fieldExtensionMap B k K hk hK)).obj
     ((Over.map (fieldExtensionMap B k K hk hK)).op ⋙ X)
   ρ :=
-    { toFun := fun σ ↦ OverShriek.relocalizeTwist (fieldExtensionMap B k K hk hK) X
+    { toFun := fun σ ↦ End.of (OverShriek.relocalizeTwist (fieldExtensionMap B k K hk hK) X
         (siteMapAlgAut B k K hK σ.unop)
-        (siteMapAlgAut_comp_fieldExtensionMap B k K hk hK σ.unop)
+        (siteMapAlgAut_comp_fieldExtensionMap B k K hk hK σ.unop))
       map_one' := by
-        simp only [MulOpposite.unop_one, siteMapAlgAut_one]
+        ext1
+        simp only [MulOpposite.unop_one, siteMapAlgAut_one, End.one_asHom]
         exact OverShriek.relocalizeTwist_id (fieldExtensionMap B k K hk hK) X _
       map_mul' := fun σ τ ↦ by
         have hunop : (σ * τ).unop = τ.unop * σ.unop := rfl
-        simp only [hunop, siteMapAlgAut_mul]
+        ext1
+        simp only [hunop, siteMapAlgAut_mul, End.mul_asHom]
         exact OverShriek.relocalizeTwist_comp (fieldExtensionMap B k K hk hK) X _ _
           (siteMapAlgAut_comp_fieldExtensionMap B k K hk hK τ.unop)
           (siteMapAlgAut_comp_fieldExtensionMap B k K hk hK σ.unop) _ }
@@ -947,7 +949,7 @@ theorem galoisActionOnBaseChange_ρ_app_fst (σ : MulOpposite (K ≃ₐ[k] K))
     (W : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ)
     (x : ((OverShriek.relocalizePresheafFunctor (fieldExtensionMap B k K hk hK)).obj
       ((OverShriek.relocalizeRestrict (fieldExtensionMap B k K hk hK)).obj X)).obj W) :
-    (((galoisActionOnBaseChange B k K hk hK X).ρ σ).app W x).val.1 =
+    (((galoisActionOnBaseChange B k K hk hK X).ρ σ).asHom.app W x).val.1 =
       x.val.1 ≫ siteMapAlgAut B k K hK σ.unop :=
   OverShriek.relocalizeTwist_app_fst (fieldExtensionMap B k K hk hK) X _ _ W.unop x
 
@@ -959,7 +961,7 @@ theorem galoisActionOnBaseChange_ρ_app_snd (σ : MulOpposite (K ≃ₐ[k] K))
     (W : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ)
     (x : ((OverShriek.relocalizePresheafFunctor (fieldExtensionMap B k K hk hK)).obj
       ((OverShriek.relocalizeRestrict (fieldExtensionMap B k K hk hK)).obj X)).obj W) :
-    HEq (((galoisActionOnBaseChange B k K hk hK X).ρ σ).app W x).val.2 x.val.2 :=
+    HEq (((galoisActionOnBaseChange B k K hk hK X).ρ σ).asHom.app W x).val.2 x.val.2 :=
   OverShriek.relocalizeTwist_app_snd (fieldExtensionMap B k K hk hK) X _ _ W.unop x
 
 end GaloisAction

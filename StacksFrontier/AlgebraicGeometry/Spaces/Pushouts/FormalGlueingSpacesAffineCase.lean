@@ -118,6 +118,15 @@ theorem isPullback_moduleCat_elements {R : Type*} [Ring R] {K A B' C : ModuleCat
     ⟨(a, b), (mem_moduleFibreProduct_iff _).2 hab⟩
   exact ⟨x, congrArg (fun z => z.1.1) hx, congrArg (fun z => z.1.2) hx⟩
 
+open AlgebraicGeometry in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_FormalGlueingSpacesAffineCase
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace AlgebraicGeometry.Space
 
 /-- **One leg of the comparison is an isomorphism.**  If the pullback `q^*M` of a quasi-coherent

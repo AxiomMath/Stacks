@@ -393,13 +393,13 @@ def locCone : Cone (locSchemes k B L) where
 def isLimitBaseCone : IsLimit (baseCone k B L) :=
   IsLimit.ofIsoLimit (isLimitOfPreserves Scheme.Spec
     (isColimitSubalgebraCocone _ Index.base_mono Index.exists_mem_base).op)
-    (Cones.ext (Iso.refl _) fun _ => (Category.id_comp _).symm)
+    (Cone.ext (Iso.refl _) fun _ => (Category.id_comp _).symm)
 
 /-- **`Spec(L) = lim U_j`**: `L` is the directed union of the `A_j[1/g_j]`. -/
 def isLimitLocCone : IsLimit (locCone k B L) :=
   IsLimit.ofIsoLimit (isLimitOfPreserves Scheme.Spec
     (isColimitSubalgebraCocone _ Index.loc_mono Index.exists_mem_loc).op)
-    (Cones.ext (Iso.refl _) fun _ => (Category.id_comp _).symm)
+    (Cone.ext (Iso.refl _) fun _ => (Category.id_comp _).symm)
 
 /-- `Spec(B) ⟶ S_j ⟶ Spec k` is the structure morphism of `Spec(B)`. -/
 theorem baseCone_π_app_comp_baseToField (j : (Index k B L)ᵒᵖ) :

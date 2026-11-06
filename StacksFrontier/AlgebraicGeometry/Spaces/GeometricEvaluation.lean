@@ -88,7 +88,7 @@ def geometricEvalCocone (x : GeometricPoint B S hS F) :
       naturality := fun N M k => by
         apply CommRingCat.hom_ext
         refine RingHom.ext fun a => ?_
-        refine ULift.ext _ _ ?_
+        refine ULift.ext ?_
         exact DFunLike.congr_fun (geometricEvalApp_comp B S hS F k.unop) a.down }
 
 /-- **Evaluation of germs at a geometric point.**  The homomorphism from the étale local ring of

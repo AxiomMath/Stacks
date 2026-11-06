@@ -86,8 +86,8 @@ noncomputable instance unique_primesOver_maximalIdeal (A A' : Type*) [CommRing A
     rintro ⟨P, hPprime, hPover⟩
     have : P.IsPrime := hPprime
     have hmax : P.IsMaximal := by
-      refine Ideal.isMaximal_of_isIntegral_of_isMaximal_comap (R := A) P ?_
-      rw [← Ideal.under_def, ← Ideal.LiesOver.over (p := maximalIdeal A) (P := P)]
+      refine Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := A) P ?_
+      rw [← Ideal.LiesOver.over (p := maximalIdeal A) (P := P)]
       infer_instance
     exact Subtype.ext (eq_maximalIdeal hmax)
 
@@ -166,7 +166,7 @@ theorem isLocalRing_integralClosure_of_isPurelyInseparable
       R.comap (algebraMap A B) = IsLocalRing.maximalIdeal A := fun R hR => by
     let := hR
     exact IsLocalRing.eq_maximalIdeal
-      (Ideal.isMaximal_comap_of_isIntegral_of_isMaximal (R := A) (S := B) R)
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) (S := B) R)
   refine Ideal.ext fun x => ?_
   obtain ⟨n, a, hx⟩ := key x
   have e : ∀ R : Ideal B, R.IsMaximal → (x ∈ R ↔ a ∈ IsLocalRing.maximalIdeal A) := by

@@ -160,7 +160,7 @@ theorem inverseImageGradedAlgebraPieceIsoRestrictScalars_map_mul
   simp only [inverseImageGradedAlgebraPieceIsoRestrictScalars_hom]
   exact Stacks.PullbackGradedAlgebra.homEquiv_symm_map_mul
     (AlgebraicGeometry.RingedSpace.inverseImageProjection (ringedSpaceOfSheaf O) f) A
-    (underlyingRingSheaf O).cond (scalarRestrict a B) (fun n => (e n).hom) he i j V x y
+    (underlyingRingSheaf O).property (scalarRestrict a B) (fun n => (e n).hom) he i j V x y
 
 /-- For `f` inducing, the isomorphism of sheaves of graded `f⁻¹O`-algebras between `f⁻¹A` and
 `B`, read over `f⁻¹O` by restriction of scalars along `a`, induced by an identification of the

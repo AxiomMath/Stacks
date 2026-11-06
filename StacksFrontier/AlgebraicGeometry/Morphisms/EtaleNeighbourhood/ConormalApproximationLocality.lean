@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.MvPolynomial.CommRing
 public import Mathlib.RingTheory.Localization.BaseChange
 public import StacksFrontier.AlgebraicGeometry.Morphisms.EtaleNeighbourhood.ConormalApproximation
 public import StacksFrontier.RingTheory.ArtinRees.SameDenominatorAway

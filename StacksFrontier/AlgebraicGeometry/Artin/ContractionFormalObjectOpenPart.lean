@@ -231,7 +231,7 @@ theorem exists_effective_of_Z_eq_empty (A : FormalBase S)
   refine (Triple.eq_emptyTriple c (ξ n) _ (h n) ?_).symm
   refine ext_openSubspace_compl_empty (h n) _ _ fun hh => ?_
   show c.U'.toFunctor.map (𝟙 _).op (e n) = (ξ n).u.app (op _) ⟨𝟙 _, hh⟩
-  rw [op_id, FunctorToTypes.map_id_apply]
+  rw [op_id, Functor.map_id_apply]
   rfl
 
 end AlgebraicGeometry.Artin.ContractionSituation

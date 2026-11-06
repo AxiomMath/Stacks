@@ -176,13 +176,13 @@ instance isIso_epsilonAdjunction_unit : IsIso (epsilonAdjunction.{u, v} X).unit 
   Scheme.isIso_unit_of_etaleToProetale_addCommGrp X _
 
 /-- The direct image `ε_*` has a right derived functor on bounded below homotopy categories,
-with unit `Functor.rightDerivedFunctorPlusUnit`. -/
+with unit `Functor.rightDerivedFunctorPlusUnith`. -/
 local instance : ((epsilonDirectImage.{u, v} X).mapHomotopyCategoryPlus ⋙
     DerivedCategory.Plus.Qh).HasRightDerivedFunctor
       (HomotopyCategory.Plus.quasiIso (Sheaf (Scheme.ProEt.topology X)
         AddCommGrpCat.{max (u + 1) v})) :=
   Functor.HasRightDerivedFunctor.mk' (RF := (epsilonDirectImage.{u, v} X).rightDerivedFunctorPlus)
-    (α := (epsilonDirectImage.{u, v} X).rightDerivedFunctorPlusUnit)
+    (α := (epsilonDirectImage.{u, v} X).rightDerivedFunctorPlusUnith)
 
 /-! ### Higher direct images of the inverse image of an injective sheaf -/
 

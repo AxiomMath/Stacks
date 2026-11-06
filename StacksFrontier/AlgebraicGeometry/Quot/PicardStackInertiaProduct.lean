@@ -98,8 +98,8 @@ theorem modulePushforward_map_globalFunctionSMul (f : X ⟶ Y)
     (a : ((structureRingSheaf B S hS Y).obj ⋙ forget RingCat).sections)
     (b : ((structureRingSheaf B S hS X).obj ⋙ forget RingCat).sections)
     (h : GlobalFunctionsCompatible f a b) (N : Modules.{u, u} B S hS X.1 X.2) :
-    (modulePushforward B S hS f).map ((globalFunctionSMul B S hS X b).app N) =
-      (globalFunctionSMul B S hS Y a).app ((modulePushforward B S hS f).obj N) := by
+    (modulePushforward B S hS f).map ((globalFunctionSMul B S hS X b).asHom.app N) =
+      (globalFunctionSMul B S hS Y a).asHom.app ((modulePushforward B S hS f).obj N) := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun V ↦ ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
   have hP : PreservesFiniteProducts (smallEtaleDirectImage B S hS f ⋙
@@ -113,7 +113,7 @@ theorem modulePushforward_map_globalFunctionSMul (f : X ⟶ Y)
     inferInstance
   have e1 := Functor.natTrans_app_map_apply (moduleChartProjection B S hS f V.unop j)
     ((Sheaf.moduleSheafFunctor (structureRingSheaf B S hS X)).map
-      ((globalFunctionSMul B S hS X b).app N)) x
+      ((globalFunctionSMul B S hS X b).asHom.app N)) x
   have e2 := @Sheaf.moduleSMulObj_naturality _ _ _ hR hA
     (structureRingSheaf B S hS X) N _ hP _ hQ
     (moduleChartProjection B S hS f V.unop j)
@@ -135,8 +135,8 @@ theorem modulePullback_map_globalFunctionSMul (f : X ⟶ Y)
     (a : ((structureRingSheaf B S hS Y).obj ⋙ forget RingCat).sections)
     (b : ((structureRingSheaf B S hS X).obj ⋙ forget RingCat).sections)
     (h : GlobalFunctionsCompatible f a b) (M : Modules.{u, u} B S hS Y.1 Y.2) :
-    (modulePullback B S hS f).map ((globalFunctionSMul B S hS Y a).app M) =
-      (globalFunctionSMul B S hS X b).app ((modulePullback B S hS f).obj M) :=
+    (modulePullback B S hS f).map ((globalFunctionSMul B S hS Y a).asHom.app M) =
+      (globalFunctionSMul B S hS X b).asHom.app ((modulePullback B S hS f).obj M) :=
   (modulePullbackAdjunction B S hS f).map_endOfId
     (fun N ↦ modulePushforward_map_globalFunctionSMul f a b h N) M
 
@@ -164,8 +164,8 @@ def tensorRightModuleFullyFaithful (L : Modules.{u, u} B S hS Z.1 Z.2)
 theorem tensorRightModule_map_globalFunctionSMul (L : Modules.{u, u} B S hS Z.1 Z.2)
     (a : ((structureRingSheaf B S hS Z).obj ⋙ forget RingCat).sections)
     (M : Modules.{u, u} B S hS Z.1 Z.2) :
-    (tensorRightModule Z L).map ((globalFunctionSMul B S hS Z a).app M) =
-      (globalFunctionSMul B S hS Z a).app ((tensorRightModule Z L).obj M) :=
+    (tensorRightModule Z L).map ((globalFunctionSMul B S hS Z a).asHom.app M) =
+      (globalFunctionSMul B S hS Z a).asHom.app ((tensorRightModule Z L).obj M) :=
   have := isMulCommutative_structureRingSheaf_obj Z
   SheafOfModules.sheafTensorRight_map_globalSectionToEnd (C := SmallEtale B S hS Z.1)
     (J := SmallEtale.topology B S hS Z.1) (smallEtaleRingedSite B S hS Z.1 Z.2).O L a M
@@ -183,7 +183,7 @@ def unitEndGlobalFunction (ψ : structureModule Z ⟶ structureModule Z) :
 /-- An endomorphism of the structure module is multiplication by its value at `1`. -/
 theorem eq_globalFunctionSMul_unitEndGlobalFunction
     (ψ : structureModule Z ⟶ structureModule Z) :
-    ψ = (globalFunctionSMul B S hS Z (unitEndGlobalFunction Z ψ)).app (structureModule Z) := by
+    ψ = (globalFunctionSMul B S hS Z (unitEndGlobalFunction Z ψ)).asHom.app (structureModule Z) := by
   have := isMulCommutative_structureRingSheaf_obj Z
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U ↦ ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)
@@ -201,8 +201,8 @@ theorem eq_globalFunctionSMul_unitEndGlobalFunction
 /-- Multiplication by a global function on the structure module determines the function. -/
 theorem globalFunctionSMul_injective_structureModule
     {b c : ((structureRingSheaf B S hS Z).obj ⋙ forget RingCat).sections}
-    (h : (globalFunctionSMul B S hS Z b).app (structureModule Z) =
-      (globalFunctionSMul B S hS Z c).app (structureModule Z)) : b = c := by
+    (h : (globalFunctionSMul B S hS Z b).asHom.app (structureModule Z) =
+      (globalFunctionSMul B S hS Z c).asHom.app (structureModule Z)) : b = c := by
   refine Subtype.ext (funext fun U ↦ ?_)
   have h1 := congrArg (fun φ : structureModule Z ⟶ structureModule Z ↦
     φ.val.app U (1 : (structureRingSheaf B S hS Z).obj.obj U)) h
@@ -214,7 +214,7 @@ theorem globalFunctionSMul_injective_structureModule
 theorem globalFunctionSMul_injective_of_isInvertibleModule (L : Modules.{u, u} B S hS Z.1 Z.2)
     (hL : IsInvertibleModule Z L)
     {b c : ((structureRingSheaf B S hS Z).obj ⋙ forget RingCat).sections}
-    (h : (globalFunctionSMul B S hS Z b).app L = (globalFunctionSMul B S hS Z c).app L) :
+    (h : (globalFunctionSMul B S hS Z b).asHom.app L = (globalFunctionSMul B S hS Z c).asHom.app L) :
     b = c := by
   refine globalFunctionSMul_injective_structureModule Z
     ((tensorRightModuleFullyFaithful Z L hL).map_injective ?_)
@@ -222,15 +222,15 @@ theorem globalFunctionSMul_injective_of_isInvertibleModule (L : Modules.{u, u} B
     SheafOfModules.sheafTensorRightUnitIso (C := SmallEtale B S hS Z.1)
       (J := SmallEtale.topology B S hS Z.1) (smallEtaleRingedSite B S hS Z.1 Z.2).O L
   rw [tensorRightModule_map_globalFunctionSMul, tensorRightModule_map_globalFunctionSMul]
-  have hb := (globalFunctionSMul B S hS Z b).naturality ι.hom
-  have hc := (globalFunctionSMul B S hS Z c).naturality ι.hom
+  have hb := (globalFunctionSMul B S hS Z b).asHom.naturality ι.hom
+  have hc := (globalFunctionSMul B S hS Z c).asHom.naturality ι.hom
   simp only [Functor.id_map] at hb hc
   rw [← Iso.cancel_iso_hom_right _ _ ι, ← hb, ← hc, h]
 
 /-- **Every endomorphism of an invertible module is multiplication by a global function.** -/
 theorem exists_eq_globalFunctionSMul_of_isInvertibleModule (L : Modules.{u, u} B S hS Z.1 Z.2)
     (hL : IsInvertibleModule Z L) (φ : L ⟶ L) :
-    ∃ b, φ = (globalFunctionSMul B S hS Z b).app L := by
+    ∃ b, φ = (globalFunctionSMul B S hS Z b).asHom.app L := by
   let ι : (tensorRightModule Z L).obj (structureModule Z) ≅ L :=
     SheafOfModules.sheafTensorRightUnitIso (C := SmallEtale B S hS Z.1)
       (J := SmallEtale.topology B S hS Z.1) (smallEtaleRingedSite B S hS Z.1 Z.2).O L
@@ -240,7 +240,7 @@ theorem exists_eq_globalFunctionSMul_of_isInvertibleModule (L : Modules.{u, u} B
     (tensorRightModuleFullyFaithful Z L hL).map_preimage _
   rw [eq_globalFunctionSMul_unitEndGlobalFunction Z ψ,
     tensorRightModule_map_globalFunctionSMul] at hψ
-  have hb := (globalFunctionSMul B S hS Z (unitEndGlobalFunction Z ψ)).naturality ι.hom
+  have hb := (globalFunctionSMul B S hS Z (unitEndGlobalFunction Z ψ)).asHom.naturality ι.hom
   simp only [Functor.id_map] at hb
   rw [← Iso.cancel_iso_hom_left ι, hb, hψ, Category.assoc, Category.assoc, Iso.inv_hom_id,
     Category.comp_id]
@@ -392,10 +392,10 @@ theorem baseChangeGlobalFunctions_eq_terminalChartPullback (f : X ⟶ Y) (T : Sc
 theorem globalFunctionSMul_app_comp (Z : AlgebraicSpaces B S hS)
     (b c d : ((structureRingSheaf B S hS Z).obj ⋙ forget RingCat).sections)
     (h : ∀ U, d.val U = c.val U * b.val U) (M : Modules.{u, u} B S hS Z.1 Z.2) :
-    (globalFunctionSMul B S hS Z b).app M ≫ (globalFunctionSMul B S hS Z c).app M =
-      (globalFunctionSMul B S hS Z d).app M := by
+    (globalFunctionSMul B S hS Z b).asHom.app M ≫ (globalFunctionSMul B S hS Z c).asHom.app M =
+      (globalFunctionSMul B S hS Z d).asHom.app M := by
   have := isMulCommutative_structureRingSheaf_obj Z
-  exact (congrArg (fun e : End (𝟭 (Modules.{u, u} B S hS Z.1 Z.2)) ↦ e.app M)
+  exact (congrArg (fun e : End (𝟭 (Modules.{u, u} B S hS Z.1 Z.2)) ↦ e.asHom.app M)
     (Stacks.SheafOfModules.globalSectionToEnd_mul_of_val (structureRingSheaf B S hS Z)
       c b d h)).symm
 
@@ -403,7 +403,7 @@ theorem globalFunctionSMul_app_comp (Z : AlgebraicSpaces B S hS)
 theorem globalFunctionSMul_app_eq_id (Z : AlgebraicSpaces B S hS)
     (b : ((structureRingSheaf B S hS Z).obj ⋙ forget RingCat).sections) (h : ∀ U, b.val U = 1)
     (M : Modules.{u, u} B S hS Z.1 Z.2) :
-    (globalFunctionSMul B S hS Z b).app M = 𝟙 M := by
+    (globalFunctionSMul B S hS Z b).asHom.app M = 𝟙 M := by
   have := isMulCommutative_structureRingSheaf_obj Z
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U ↦ ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x ↦ ?_)

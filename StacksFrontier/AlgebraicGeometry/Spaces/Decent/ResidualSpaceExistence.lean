@@ -1111,11 +1111,8 @@ theorem exists_mono_to_space (P : Presentation B S hS X hX) (x : points B S hS X
           rw [yonedaIsoRestrict_naturality]
       _ = yoneda.map g ≫ quotientMap B S hS P.source P.target := by
           rw [quotientMap_eq, Category.assoc]
-  have hem : Mono e.hom := inferInstance
-  have hdmono : Mono (m.hom ≫ e.hom) := by
-    have h1 : Mono m.hom := hmh
-    have h2 : Mono e.hom := hem
-    infer_instance
+  have hem : Mono e.hom := IsIso.mono_of_iso e.hom
+  have hdmono : Mono (m.hom ≫ e.hom) := @mono_comp _ _ _ _ _ m.hom hmh e.hom hem
   refine ⟨m.hom ≫ e.hom, hdmono, ?_⟩
   calc quotientMap B S hS s' t' ≫ (m.hom ≫ e.hom)
       = (quotientMap B S hS s' t' ≫ m.hom) ≫ e.hom := (Category.assoc _ _ _).symm

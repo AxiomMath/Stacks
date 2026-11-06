@@ -76,6 +76,13 @@ noncomputable abbrev arrowsBetween {T : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u}
     (a b : T ⟶ G.objects.obj) : (BigFppfOver C S hS)ᵒᵖ ⥤ Type u :=
   pullback (prod.lift a b) (prod.lift G.target.hom G.source.hom)
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_FlatStabilizerQuotient
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver C S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 variable {G}
 
 /-- The target of an arrow from `b` to `a` is `a`. -/
@@ -539,10 +546,10 @@ theorem isGerbeOver_quotientStackToBase_quotientSheaf
     rw [groupoidPreRelation_target_left] at hrb
     refine ⟨G.arrows.obj.map h.op r, ?_, ?_⟩
     · show G.source.hom.app _ (G.arrows.obj.map h.op r) = _
-      rw [NatTrans.naturality_apply, ← hra, op_comp, FunctorToTypes.map_comp_apply]
+      rw [NatTrans.naturality_apply, ← hra, op_comp, Functor.map_comp_apply]
       rfl
     · show G.target.hom.app _ (G.arrows.obj.map h.op r) = _
-      rw [NatTrans.naturality_apply, ← hrb, op_comp, FunctorToTypes.map_comp_apply]
+      rw [NatTrans.naturality_apply, ← hrb, op_comp, Functor.map_comp_apply]
       rfl
 
 end Gerbe

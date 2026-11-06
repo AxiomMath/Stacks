@@ -373,7 +373,7 @@ private theorem exists_lift_pair_after_baseChange
         γ.hom = α.hom ≫ (Over.pullback (limit.π D i)).map z := by
       rw [hα']
       exact iteratedBaseChangeIso_naturality _ _ _ (limit.w D e) z
-    apply (cancel_mono γ.hom).mp
+    refine (Iso.cancel_iso_hom_right _ _ γ).mp ?_
     rw [Functor.map_comp, Category.assoc, hv, ← Category.assoc, ← hg,
       Category.assoc, hz, hz']
   let Aj := (Over.pullback (D.map e)).obj A

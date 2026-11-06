@@ -792,7 +792,7 @@ noncomputable def descendedDerivation
     (hzero : ∀ (V : (SmallEtale B S hS Y.1)ᵒᵖ)
       (s : (inverseImageStructureSheaf B S hS b).obj.obj V),
       Δ.descend ((structureSharpInverseImage B S hS b).hom.app V s) = 0) :
-    M.val.Derivation' (structureSharpInverseImage B S hS b).hom where
+    PresheafOfModulesOfCommRing.Derivation' M.val (structureSharpInverseImage B S hS b).hom where
   d := Δ.descend
   d_mul := Δ.descend_mul
   d_map := Δ.descend_map
@@ -840,7 +840,7 @@ theorem descendedDifferentialsHom_spec {V : (SmallEtale B S hS Y.1)ᵒᵖ}
           (descendedDifferentialsHom B S hS b a C Δ hzero)).val.app V).hom
         ((universalDerivation B S hS b).d t) =
       Δ.descend t :=
-  PresheafOfModules.Derivation.congr_d
+  PresheafOfModulesOfCommRing.Derivation.congr_d
     (derivationDirectImageEquiv_descendedDifferentialsHom B S hS b a C Δ hzero) t
 
 /-- **The descended linear map is the only one with that property.**  Equation (0619) is a
@@ -861,7 +861,7 @@ theorem eq_descendedDifferentialsHom_of_spec
           θ).val.app V).hom ((universalDerivation B S hS b).d t) = Δ.descend t) :
     θ = descendedDifferentialsHom B S hS b a C Δ hzero := by
   refine eq_descendedDifferentialsHom B S hS b a C Δ hzero θ ?_
-  apply PresheafOfModules.Derivation.ext
+  apply PresheafOfModulesOfCommRing.Derivation.ext
   ext V t
   exact hθ V t
 

@@ -58,7 +58,7 @@ local instance : X.smallEtaleTopology.HasSheafCompose
 `ℤ/nℤ`-modules is multiplication by an integer. -/
 theorem sheafScalarEnd_zmod_eq_zsmul (F : EtaleModules.{u, 0} (ZMod n) X) (a : ZMod n) :
     Stacks.ModuleCatLift.sheafScalarEnd.{u + 1} (ZMod n) X.smallEtaleTopology F a =
-      (ZMod.cast a : ℤ) • 𝟙 _ := by
+      (ZMod.cast a : ℤ) • (1 : End _) := by
   conv_lhs => rw [← ZMod.intCast_zmod_cast a]
   rw [map_intCast]
   exact (zsmul_one _).symm
@@ -70,8 +70,9 @@ def etaleModuleForgetAbZModFullyFaithful :
     (etaleModuleForgetAb.{u, 0} (ZMod n) X).FullyFaithful where
   preimage {F G} φ := Stacks.ModuleCatLift.sheafHomOfForget.{u + 1} (ZMod n) X.smallEtaleTopology φ
     (fun a => by
-      rw [sheafScalarEnd_zmod_eq_zsmul, sheafScalarEnd_zmod_eq_zsmul, Preadditive.zsmul_comp,
-        Preadditive.comp_zsmul, Category.id_comp, Category.comp_id])
+      rw [sheafScalarEnd_zmod_eq_zsmul, sheafScalarEnd_zmod_eq_zsmul]
+      change ((ZMod.cast a : ℤ) • 𝟙 _) ≫ φ = φ ≫ ((ZMod.cast a : ℤ) • 𝟙 _)
+      rw [Preadditive.zsmul_comp, Preadditive.comp_zsmul, Category.id_comp, Category.comp_id])
   map_preimage _ := rfl
   preimage_map _ := rfl
 

@@ -82,10 +82,10 @@ variable {T S X Y T' S' X' Y' : Type*} [Category* T] [Category* S] [Category* X]
   (τ : F ⋙ G ⟶ G' ⋙ F') (τ₁ : F₁ ⋙ G₁ ⟶ G₁' ⋙ F₁')
 
 /-- For exact `G`, the unit of `G.rightDerivedFunctorPlus` is an isomorphism. -/
-instance isIso_rightDerivedFunctorPlusUnit_exactG : IsIso G.rightDerivedFunctorPlusUnit :=
+instance isIso_rightDerivedFunctorPlusUnit_exactG : IsIso G.rightDerivedFunctorPlusUnith :=
   exactUnit_isIso G
 /-- For exact `G₁`, the unit of `G₁.rightDerivedFunctorPlus` is an isomorphism. -/
-instance isIso_rightDerivedFunctorPlusUnit_exactG₁ : IsIso G₁.rightDerivedFunctorPlusUnit :=
+instance isIso_rightDerivedFunctorPlusUnit_exactG₁ : IsIso G₁.rightDerivedFunctorPlusUnith :=
   exactUnit_isIso G₁
 
 /-- The unit exhibiting `(RF ⋙ RG) ⋙ U_X` as a right derived functor. -/
@@ -243,46 +243,46 @@ theorem derived_exactTransport_aux
       aG.hom.app (F.obj t) ≫ G₁.map (aF.hom.app t) ≫ τ₁.app (UT.obj t))
     (K : HomotopyCategory.Plus T) :
     UX.mapDerivedCategoryPlus.map (G.rightDerivedFunctorPlus.map
-        (F.rightDerivedFunctorPlusUnit.app K)) ≫
+        (F.rightDerivedFunctorPlusUnith.app K)) ≫
       UX.mapDerivedCategoryPlus.map ((derived F F' G G' τ
-        (asIso G.rightDerivedFunctorPlusUnit)).app (DerivedCategory.Plus.Qh.obj K)) ≫
+        (asIso G.rightDerivedFunctorPlusUnith)).app (DerivedCategory.Plus.Qh.obj K)) ≫
       (Functor.rightDerivedFunctorPlusExactSquareIso aF' hF').hom.app
         (G'.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) ≫
       F₁'.rightDerivedFunctorPlus.map
         ((Functor.rightDerivedFunctorPlusExactSquareIso aG' hG').hom.app
           (DerivedCategory.Plus.Qh.obj K)) =
     UX.mapDerivedCategoryPlus.map (G.rightDerivedFunctorPlus.map
-        (F.rightDerivedFunctorPlusUnit.app K)) ≫
+        (F.rightDerivedFunctorPlusUnith.app K)) ≫
       (Functor.rightDerivedFunctorPlusExactSquareIso aG hG).hom.app
         (F.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) ≫
       G₁.rightDerivedFunctorPlus.map
         ((Functor.rightDerivedFunctorPlusExactSquareIso aF hF).hom.app
           (DerivedCategory.Plus.Qh.obj K)) ≫
-      (derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnit)).app
+      (derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnith)).app
         (UT.mapDerivedCategoryPlus.obj (DerivedCategory.Plus.Qh.obj K)) := by
-  have l1 := derived_fac_app F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit) K
+  have l1 := derived_fac_app F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith) K
   rw [onHomotopy_app] at l1
   have l2 := (Functor.rightDerivedFunctorPlusExactSquareIso aF' hF').hom.naturality
-    (G'.rightDerivedFunctorPlusUnit.app K)
+    (G'.rightDerivedFunctorPlusUnith.app K)
   simp only [Functor.comp_map] at l2
   have l4 := Functor.rightDerivedFunctorPlusExactSquareIso_hom_app_Qh aG' hG' K
   have l5 := UX.mapDerivedCategoryPlusFactorsh.hom.naturality ((mapPlus τ).app K)
   simp only [Functor.comp_map] at l5
-  have l6 := (F₁'.rightDerivedFunctorPlusUnit.naturality
+  have l6 := (F₁'.rightDerivedFunctorPlusUnith.naturality
     ((Functor.mapHomotopyCategoryPlusCompIso aG').hom.app K ≫
       (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (UT ⋙ G₁'))).inv.app K)).symm
   simp only [Functor.comp_map] at l6
   have r1 := (Functor.rightDerivedFunctorPlusExactSquareIso aG hG).hom.naturality
-    (F.rightDerivedFunctorPlusUnit.app K)
+    (F.rightDerivedFunctorPlusUnith.app K)
   simp only [Functor.comp_map] at r1
   have r2 := Functor.rightDerivedFunctorPlusExactSquareIso_hom_app_Qh aF hF K
-  have r3 := (derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnit)).naturality
+  have r3 := (derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnith)).naturality
     (UT.mapDerivedCategoryPlusFactorsh.inv.app K)
   simp only [Functor.comp_map] at r3
-  have r4 := derived_fac_app F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnit)
+  have r4 := derived_fac_app F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnith)
     (UT.mapHomotopyCategoryPlus.obj K)
   rw [onHomotopy_app] at r4
-  have r5 := (asIso G₁.rightDerivedFunctorPlusUnit).inv.naturality
+  have r5 := (asIso G₁.rightDerivedFunctorPlusUnith).inv.naturality
     ((Functor.mapHomotopyCategoryPlusCompIso aF).hom.app K ≫
       (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (UT ⋙ F₁))).inv.app K)
   simp only [Functor.comp_map] at r5
@@ -296,10 +296,10 @@ theorem derived_exactTransport_aux
     (UY.mapDerivedCategoryPlusFactorsh.inv_hom_id_app (G'.mapHomotopyCategoryPlus.obj K))
   have hr2 := map_comp_eq_map_comp₄ G₁.rightDerivedFunctorPlus r2
   have hv := map_comp_eq_id UX.mapDerivedCategoryPlus
-    ((asIso G.rightDerivedFunctorPlusUnit).inv_hom_id_app (F.mapHomotopyCategoryPlus.obj K))
+    ((asIso G.rightDerivedFunctorPlusUnith).inv_hom_id_app (F.mapHomotopyCategoryPlus.obj K))
   have hx2 := map_comp_eq_id G₁.rightDerivedFunctorPlus
     (US.mapDerivedCategoryPlusFactorsh.inv_hom_id_app (F.mapHomotopyCategoryPlus.obj K))
-  have hx1 := (asIso G₁.rightDerivedFunctorPlusUnit).hom_inv_id_app
+  have hx1 := (asIso G₁.rightDerivedFunctorPlusUnith).hom_inv_id_app
     (US.mapHomotopyCategoryPlus.obj (F.mapHomotopyCategoryPlus.obj K))
   have hZ := exactTransport_chaseZ DerivedCategory.Plus.Qh F₁'.mapHomotopyCategoryPlus
     G₁.mapHomotopyCategoryPlus (b₁ := UY.mapHomotopyCategoryPlus.obj
@@ -323,7 +323,7 @@ and `RG`. -/
 theorem derived_exactTransport
     (hτ : ∀ t : T, UX.map (τ.app t) ≫ aF'.hom.app (G'.obj t) ≫ F₁'.map (aG'.hom.app t) =
       aG.hom.app (F.obj t) ≫ G₁.map (aF.hom.app t) ≫ τ₁.app (UT.obj t)) :
-    Functor.whiskerRight (derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit))
+    Functor.whiskerRight (derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith))
         UX.mapDerivedCategoryPlus ≫ (Functor.associator _ _ _).hom ≫
       Functor.whiskerLeft G'.rightDerivedFunctorPlus
         (Functor.rightDerivedFunctorPlusExactSquareIso aF' hF').hom ≫
@@ -337,7 +337,7 @@ theorem derived_exactTransport
       Functor.whiskerRight (Functor.rightDerivedFunctorPlusExactSquareIso aF hF).hom
         G₁.rightDerivedFunctorPlus ≫ (Functor.associator _ _ _).hom ≫
       Functor.whiskerLeft UT.mapDerivedCategoryPlus
-        (derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnit)) := by
+        (derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnith)) := by
   refine Functor.rightDerived_ext _ (exactTransportUnit (F := F) (G := G) (UX := UX))
     (HomotopyCategory.Plus.quasiIso T) _ _ _ ?_
   refine NatTrans.ext (funext fun K => ?_)
@@ -355,7 +355,7 @@ theorem derived_exactTransport_app
       aG.hom.app (F.obj t) ≫ G₁.map (aF.hom.app t) ≫ τ₁.app (UT.obj t))
     (M : DerivedCategory.Plus T) :
     UX.mapDerivedCategoryPlus.map
-        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnit)).app M) ≫
+        ((derived F F' G G' τ (asIso G.rightDerivedFunctorPlusUnith)).app M) ≫
       (Functor.rightDerivedFunctorPlusExactSquareIso aF' hF').hom.app
         (G'.rightDerivedFunctorPlus.obj M) ≫
       F₁'.rightDerivedFunctorPlus.map
@@ -364,7 +364,7 @@ theorem derived_exactTransport_app
         (F.rightDerivedFunctorPlus.obj M) ≫
       G₁.rightDerivedFunctorPlus.map
         ((Functor.rightDerivedFunctorPlusExactSquareIso aF hF).hom.app M) ≫
-      (derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnit)).app
+      (derived F₁ F₁' G₁ G₁' τ₁ (asIso G₁.rightDerivedFunctorPlusUnith)).app
         (UT.mapDerivedCategoryPlus.obj M) := by
   simpa using NatTrans.congr_app (derived_exactTransport hF hF' hG hG' hτ) M
 

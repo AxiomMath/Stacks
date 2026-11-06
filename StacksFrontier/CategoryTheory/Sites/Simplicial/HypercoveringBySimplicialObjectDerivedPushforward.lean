@@ -162,10 +162,11 @@ an invertible morphism of complexes. -/
 theorem NatTrans.isIso_mapHomotopyCategory_app (α : F ⟶ G) [IsIso α] (c : ComplexShape ι)
     (M : HomotopyCategory V c) :
     IsIso ((NatTrans.mapHomotopyCategory α c).app M) := by
-  have := NatTrans.isIso_mapHomologicalComplex_app α c M.as
+  obtain ⟨M⟩ := M
+  have := NatTrans.isIso_mapHomologicalComplex_app α c M
   rw [NatTrans.mapHomotopyCategory_app]
   exact ((HomotopyCategory.quotient W c).mapIso
-    (asIso ((NatTrans.mapHomologicalComplex α c).app M.as))).isIso_hom
+    (asIso ((NatTrans.mapHomologicalComplex α c).app M))).isIso_hom
 
 /-- An invertible natural transformation of additive functors stays invertible on homotopy
 categories. -/

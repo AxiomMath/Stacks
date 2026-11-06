@@ -71,10 +71,10 @@ variable {K : Type u} [Field K]
 /-- A polynomial over a field with a nonzero coefficient at a nonconstant monomial is neither zero
 nor a unit. -/
 theorem ne_zero_and_not_isUnit_of_coeff_ne_zero {f : MvPolynomial (Fin 2) K} {m : Fin 2 →₀ ℕ}
-    (hm : m ≠ 0) (hf : coeff m f ≠ 0) : f ≠ 0 ∧ ¬ IsUnit f := by
-  refine ⟨fun h => hf (by rw [h, coeff_zero]), fun h => ?_⟩
+    (hm : m ≠ 0) (hf : f.coeff m ≠ 0) : f ≠ 0 ∧ ¬ IsUnit f := by
+  refine ⟨fun h => hf (by rw [h, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]), fun h => ?_⟩
   obtain ⟨r, -, rfl⟩ := MvPolynomial.isUnit_iff_eq_C_of_isReduced.mp h
-  exact hf (by rw [coeff_C, ite_eq_right (Ne.symm hm)])
+  exact hf (coeff_C_of_ne_zero hm r)
 
 /-- The polynomial `Y₀² + Y₁² - a` in `K[Y₀, Y₁]` is neither zero nor a unit. -/
 theorem chart_zero_ne_zero_and_not_isUnit (a : K) :

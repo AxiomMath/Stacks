@@ -766,10 +766,9 @@ private theorem a2_nhds_hasBasis : (𝓝 (0 : A2)).HasBasis
     (fun _ : Finset ℕ × (ℕ → ℕ) => True) (fun p => (a2Ideal p : Set A2)) := by
   rw [ULift.topologicalSpace, nhds_induced]
   convert a_nhds_hasBasis.comap (ULift.down : A2 → A) using 1
-  · simp
-  · funext p
-    ext x
-    rfl
+  funext p
+  ext x
+  rfl
 
 private noncomputable instance a2LinearTopology : IsLinearTopology A2 A2 := by
   let : AddSubmonoidClass (Submodule A2 A2) A2 := Submodule.addSubmonoidClass
@@ -956,7 +955,7 @@ private lemma phi2_prefixLift (n : ℕ) : phi2 (prefixLift n) = (0, qPrefix n) :
 
 private lemma phi2_prefixLift_sub (n N : ℕ) :
     phi2 (prefixLift n - prefixLift N) = (0, qPrefix n - qPrefix N) := by
-  rw [map_sub, phi2_prefixLift, phi2_prefixLift]
+  rw [RingHom.map_sub phi2, phi2_prefixLift, phi2_prefixLift]
   rfl
 
 /-- Equal images in the completion coordinate at `J` follow from `phi2` of the difference

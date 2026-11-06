@@ -137,7 +137,7 @@ theorem isLimitPreservingOnObjects_complexesToBaseCFG (D : ComplexesSituation B 
     ULift.up (CostructuredArrow.homMk (incl.map (Dg.map j'.hom)) rfl)
   have hγ' : q.IsStronglyCartesian (incl.map (Dg.map j'.hom)) γ' := hq.isStronglyCartesian γ'
   have hsq : (complexesToBase D).map (δ : A ⟶ xj) ≫ γ' = (complexesToBase D).map (𝟙 A) ≫ γ := by
-    refine ULift.ext _ _ (CostructuredArrow.hom_ext _ _ ?_)
+    refine ULift.ext (CostructuredArrow.hom_ext _ _ ?_)
     show (d.π.app j' ≫ γ'.down).left = (𝟙 A.T ≫ γ₀).left
     show (eqToHom rfl ≫ incl.map (c.π.app j)) ≫ incl.map (Dg.map j'.hom) = (𝟙 A.T ≫ γ₀).left
     rw [Category.id_comp, hγl, Category.assoc, ← Functor.map_comp, Cone.w]

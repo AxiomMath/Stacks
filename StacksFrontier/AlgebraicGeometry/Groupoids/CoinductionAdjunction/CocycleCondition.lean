@@ -377,6 +377,8 @@ theorem cocycle_coinductionAlpha
   have hiso : IsIso ((baseChangeNatTrans (pasteBase wS hqc)).app
       ((Scheme.Modules.pullback G.target.left).obj 𝒢)) :=
     isIso_baseChangeNatTrans_of_flat hpbf _
+  haveI hmono : Mono ((baseChangeNatTrans (pasteBase wS hqc)).app
+      ((Scheme.Modules.pullback G.target.left).obj 𝒢)) := IsIso.mono_of_iso _
   -- the six steps
   have stepF := reindexHom_conj wT wS hβ (Triple.mid G).left G.comp.left (Triple.comp G).left hqc
   have stepB := reindexHom_conj wT wS hβ (Triple.mid G).left

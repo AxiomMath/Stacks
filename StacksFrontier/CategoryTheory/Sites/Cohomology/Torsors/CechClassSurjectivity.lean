@@ -217,8 +217,8 @@ lemma map_quotSections_congr (z : cocycles1 E S.X₁.obj) (b : cechCochain E S.X
       (sliceComplex U S).X₃.obj.map a'.op (quotSections E S b (k 1)) := by
   let u : W ⟶ (∏ᶜ fun m ↦ Over.mk (E.f (k m))) :=
     Pi.lift (fun m ↦ match m with | 0 => a | 1 => a')
-  have h0 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 0 = a := Pi.lift_π _ _
-  have h1 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 1 = a' := Pi.lift_π _ _
+  have h0 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 0 = a := Pi.lift_comp_π _ _
+  have h1 : u ≫ Pi.π (fun m ↦ Over.mk (E.f (k m))) 1 = a' := Pi.lift_comp_π _ _
   rw [← h0, ← h1, op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply,
     map_quotSections_eq E S z b hb k]
 

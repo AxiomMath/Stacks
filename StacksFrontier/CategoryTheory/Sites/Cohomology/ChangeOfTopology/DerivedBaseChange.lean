@@ -70,7 +70,7 @@ below homotopy categories is an isomorphism. -/
 instance isIso_abelianComparisonPullback_rightDerivedFunctorPlusUnit
     (S : CohomologyComparison C) (X : C) :
     IsIso (abelianComparisonPullback S.fineCoverage S.coarseCoverage
-      X).rightDerivedFunctorPlusUnit := by
+      X).rightDerivedFunctorPlusUnith := by
   have := (abelianComparisonAdjunction S.fineCoverage S.coarseCoverage
     S.coarse_le_fine X).isLeftAdjoint
   exact Functor.isIso_rightDerivedFunctorPlusUnit_of_preservesHomology _
@@ -120,7 +120,7 @@ def derivedComparisonBaseChangeOnHomotopy (S : CohomologyComparison C) {X Y : C}
   let Ff := overPushforward S.fineCoverage.toGrothendieck f
   let EX := abelianComparisonPullback S.fineCoverage S.coarseCoverage X
   let EY := abelianComparisonPullback S.fineCoverage S.coarseCoverage Y
-  Functor.whiskerLeft Fc.mapHomotopyCategoryPlus (inv EY.rightDerivedFunctorPlusUnit) ≫
+  Functor.whiskerLeft Fc.mapHomotopyCategoryPlus (inv EY.rightDerivedFunctorPlusUnith) ≫
     Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (Fc ⋙ EY))).hom
       DerivedCategory.Plus.Qh ≫
     Functor.whiskerRight
@@ -128,8 +128,8 @@ def derivedComparisonBaseChangeOnHomotopy (S : CohomologyComparison C) {X Y : C}
       DerivedCategory.Plus.Qh ≫
     Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (EX ⋙ Ff))).inv
       DerivedCategory.Plus.Qh ≫
-    Functor.whiskerLeft EX.mapHomotopyCategoryPlus Ff.rightDerivedFunctorPlusUnit ≫
-    Functor.whiskerRight EX.rightDerivedFunctorPlusUnit Ff.rightDerivedFunctorPlus
+    Functor.whiskerLeft EX.mapHomotopyCategoryPlus Ff.rightDerivedFunctorPlusUnith ≫
+    Functor.whiskerRight EX.rightDerivedFunctorPlusUnith Ff.rightDerivedFunctorPlus
 
 /-- **The canonical derived base change map for a change of topology,**
 `ε_Y^{-1} Rf_{τ',*} ⟶ Rf_{τ,*} ε_X^{-1}` on bounded below derived categories: the unique
@@ -146,7 +146,7 @@ def derivedComparisonBaseChange (S : CohomologyComparison C) {X Y : C} (f : X �
       (abelianComparisonPullback S.fineCoverage S.coarseCoverage Y).rightDerivedFunctorPlus)
     (L := DerivedCategory.Plus.Qh)
     (Functor.whiskerRight
-      (overPushforward S.coarseCoverage.toGrothendieck f).rightDerivedFunctorPlusUnit
+      (overPushforward S.coarseCoverage.toGrothendieck f).rightDerivedFunctorPlusUnith
       (abelianComparisonPullback S.fineCoverage S.coarseCoverage Y).rightDerivedFunctorPlus)
     (HomotopyCategory.Plus.quasiIso (AbelianSheaves S.coarseCoverage.toGrothendieck X))
     _ (derivedComparisonBaseChangeOnHomotopy S f)
@@ -154,7 +154,7 @@ def derivedComparisonBaseChange (S : CohomologyComparison C) {X Y : C} (f : X �
 /-- The equation defining the canonical derived base change map. -/
 theorem derivedComparisonBaseChange_fac (S : CohomologyComparison C) {X Y : C} (f : X ⟶ Y) :
     Functor.whiskerRight
-        (overPushforward S.coarseCoverage.toGrothendieck f).rightDerivedFunctorPlusUnit
+        (overPushforward S.coarseCoverage.toGrothendieck f).rightDerivedFunctorPlusUnith
         (abelianComparisonPullback S.fineCoverage S.coarseCoverage
           Y).rightDerivedFunctorPlus ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh (derivedComparisonBaseChange S f) =
@@ -164,7 +164,7 @@ theorem derivedComparisonBaseChange_fac (S : CohomologyComparison C) {X Y : C} (
       (abelianComparisonPullback S.fineCoverage S.coarseCoverage Y).rightDerivedFunctorPlus)
     (L := DerivedCategory.Plus.Qh)
     (Functor.whiskerRight
-      (overPushforward S.coarseCoverage.toGrothendieck f).rightDerivedFunctorPlusUnit
+      (overPushforward S.coarseCoverage.toGrothendieck f).rightDerivedFunctorPlusUnith
       (abelianComparisonPullback S.fineCoverage S.coarseCoverage Y).rightDerivedFunctorPlus)
     (HomotopyCategory.Plus.quasiIso (AbelianSheaves S.coarseCoverage.toGrothendieck X))
     _ (derivedComparisonBaseChangeOnHomotopy S f)
@@ -179,7 +179,7 @@ theorem eq_derivedComparisonBaseChange_of_fac (S : CohomologyComparison C) {X Y 
       (abelianComparisonPullback S.fineCoverage S.coarseCoverage X).rightDerivedFunctorPlus ⋙
         (overPushforward S.fineCoverage.toGrothendieck f).rightDerivedFunctorPlus)
     (hτ : Functor.whiskerRight
-        (overPushforward S.coarseCoverage.toGrothendieck f).rightDerivedFunctorPlusUnit
+        (overPushforward S.coarseCoverage.toGrothendieck f).rightDerivedFunctorPlusUnith
         (abelianComparisonPullback S.fineCoverage S.coarseCoverage
           Y).rightDerivedFunctorPlus ≫
       Functor.whiskerLeft DerivedCategory.Plus.Qh τ =
@@ -224,7 +224,7 @@ def derivedComparisonUnit (S : CohomologyComparison C) (X : C) :
         Functor.whiskerRight (abelianComparisonHomotopyUnit S X) DerivedCategory.Plus.Qh ≫
         Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (L ⋙ R))).inv
           DerivedCategory.Plus.Qh ≫
-        Functor.whiskerLeft L.mapHomotopyCategoryPlus R.rightDerivedFunctorPlusUnit ≫
+        Functor.whiskerLeft L.mapHomotopyCategoryPlus R.rightDerivedFunctorPlusUnith ≫
         Functor.whiskerRight L.mapDerivedCategoryPlusFactorsh.inv R.rightDerivedFunctorPlus)
 
 /-- After restriction along the localization functor, the derived unit is the ordinary
@@ -241,7 +241,7 @@ theorem derivedComparisonUnit_fac (S : CohomologyComparison C) (X : C) :
         Functor.whiskerRight (abelianComparisonHomotopyUnit S X) DerivedCategory.Plus.Qh ≫
         Functor.whiskerRight (Functor.mapHomotopyCategoryPlusCompIso (Iso.refl (L ⋙ R))).inv
           DerivedCategory.Plus.Qh ≫
-        Functor.whiskerLeft L.mapHomotopyCategoryPlus R.rightDerivedFunctorPlusUnit ≫
+        Functor.whiskerLeft L.mapHomotopyCategoryPlus R.rightDerivedFunctorPlusUnith ≫
         Functor.whiskerRight L.mapDerivedCategoryPlusFactorsh.inv R.rightDerivedFunctorPlus) :=
   (Localization.fullyFaithfulWhiskeringLeft DerivedCategory.Plus.Qh
     (HomotopyCategory.Plus.quasiIso

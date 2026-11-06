@@ -402,7 +402,7 @@ public theorem projectionFormulaIso_natural_left (φ : R →+* R') {V V' : Modul
     | tmul r' w =>
       let : Module R V := ((ModuleCat.restrictScalars φ).obj V).isModule
       let : Module R V' := ((ModuleCat.restrictScalars φ).obj V').isModule
-      change (r' • f v) ⊗ₜ[R] w = f (r' • v) ⊗ₜ[R] w
+      change ((show R' from r') • f v) ⊗ₜ[R] w = f ((show R' from r') • v) ⊗ₜ[R] w
       rw [_root_.map_smul]
 
 /-- The projection formula is natural in the `R`-module variable. -/

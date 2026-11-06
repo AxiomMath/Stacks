@@ -128,7 +128,8 @@ on a section `b` of `𝒪_X` over `U` is the conormal class of `p₂^♯ b - p�
 canonical open `chart f U`. The four axioms are `cls_add`, `cls_mul`, `cls_restrict` and
 `cls_app_eq_zero`. -/
 noncomputable def comorphismDerivation :
-    (Stacks.Conormal.conormalSheaf (pullback.diagonal f)).val.Derivation f.c where
+    PresheafOfModulesOfCommRing.Derivation
+      (Stacks.Conormal.conormalSheaf (pullback.diagonal f)).val f.c where
   d {W} := AddMonoidHom.mk' (cls f W.unop) (cls_add f W.unop)
   d_mul {_} a b := cls_mul f _ a b
   d_map {_ _} g x := (cls_restrict f g.unop.le x).symm
@@ -178,7 +179,7 @@ noncomputable def toConormal :
 theorem toConormal_d (U : X.Opens) (b : Γ(X, U)) :
     ((toConormal f).val.app (.op U)).hom
         ((Scheme.Hom.universalRelativeDerivation f).d b) = cls f U b :=
-  PresheafOfModules.Derivation.congr_d (existsUnique_toConormal f).choose_spec.1 b
+  PresheafOfModulesOfCommRing.Derivation.congr_d (existsUnique_toConormal f).choose_spec.1 b
 
 /-- **`toConormal` is the unique morphism with that property.** -/
 theorem eq_toConormal
@@ -188,7 +189,8 @@ theorem eq_toConormal
       ((Scheme.Hom.universalRelativeDerivation f).d b) = cls f U b) :
     g = toConormal f :=
   (existsUnique_toConormal f).choose_spec.2 g
-    (PresheafOfModules.Derivation.ext (funext fun W => AddMonoidHom.ext fun b => hg W.unop b))
+    (PresheafOfModulesOfCommRing.Derivation.ext
+      (funext fun W => AddMonoidHom.ext fun b => hg W.unop b))
 
 /-! ### The generator formula of [Stacks, Tag 08S2] -/
 

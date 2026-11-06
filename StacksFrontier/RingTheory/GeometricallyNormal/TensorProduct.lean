@@ -443,7 +443,6 @@ private theorem isNormalRing_tensorProduct_of_isDomain {k : Type u} {A : Type v}
   refine isNormalRing_of_directedUnion (ι := I) (fun S ↦ (f S.1).range.toSubring)
     (fun _ _ h ↦ hmono h) (fun x ↦ ?_) (fun S ↦ ?_)
   · induction x with
-    | zero => exact ⟨Classical.arbitrary I, zero_mem _⟩
     | tmul a b =>
       obtain ⟨S, hS, hN, hle⟩ := exists_fg_normal_subalgebra (Algebra.adjoin k {b})
         ⟨{b}, by rw [Finset.coe_singleton]⟩

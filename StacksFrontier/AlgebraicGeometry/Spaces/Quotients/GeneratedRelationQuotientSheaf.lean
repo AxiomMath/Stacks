@@ -235,10 +235,13 @@ theorem isIso_quotientSheafToAllPaths (P : PathConstruction j) :
       (allPathsToQuotientSheaf P).hom = toQuotientSheaf (presheafPreRelation j) :=
     toQuotientSheaf_quotientSheafDesc _ _ _ _
   have hgf : quotientSheafToAllPaths P ≫ allPathsToQuotientSheaf P = 𝟙 _ :=
-    quotientSheaf_hom_ext (presheafPreRelation j) (by simp [← Category.assoc, hfj, hgj])
+    quotientSheaf_hom_ext (presheafPreRelation j) (by
+      simp only [ObjectProperty.FullSubcategory.comp_hom, ← Category.assoc]
+      erw [hfj, hgj]; simp)
   have hfg : allPathsToQuotientSheaf P ≫ quotientSheafToAllPaths P = 𝟙 _ :=
-    quotientSheaf_hom_ext (presheafPreRelation P.allPathsRelation)
-      (by simp [← Category.assoc, hfj, hgj])
+    quotientSheaf_hom_ext (presheafPreRelation P.allPathsRelation) (by
+      simp only [ObjectProperty.FullSubcategory.comp_hom, ← Category.assoc]
+      erw [hgj, hfj]; simp)
   exact ⟨⟨allPathsToQuotientSheaf P, hgf, hfg⟩⟩
 
 end AlgebraicGeometry.Space

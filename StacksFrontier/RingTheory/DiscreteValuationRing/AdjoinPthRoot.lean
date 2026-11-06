@@ -162,10 +162,9 @@ omit [IsDomain A] [IsDiscreteValuationRing A] [IsFractionRing A K] hp in
 theorem alpha_pow_eq_algebraMap :
     alpha (A := A) (K := K) p a ^ p
       = algebraMap K (FieldExt (A := A) (K := K) p a) (algebraMap A K a) := by
-  have h := aeval_alpha (A := A) (K := K) p a
-  unfold alpha polyK at *
-  simp only [map_sub, map_pow, Polynomial.aeval_X, Polynomial.aeval_C] at h
-  rw [sub_eq_zero] at h
+  have h : Polynomial.aeval (alpha (A := A) (K := K) p a)
+      (Polynomial.X ^ p - Polynomial.C (algebraMap A K a)) = 0 := aeval_alpha p a
+  rw [map_sub, map_pow, Polynomial.aeval_X, Polynomial.aeval_C, sub_eq_zero] at h
   exact h
 
 omit [IsDomain A] [IsDiscreteValuationRing A] [IsFractionRing A K] in
@@ -298,8 +297,8 @@ theorem residue_poly_irreducible
 theorem residue_poly_quot_isField
     (ha : ¬ ∃ b : IsLocalRing.ResidueField A, IsLocalRing.residue A a = b ^ p) :
     IsField (Polynomial (A ⧸ IsLocalRing.maximalIdeal A) ⧸
-      Ideal.span {Polynomial.map (Ideal.Quotient.mk (IsLocalRing.maximalIdeal A))
-        (Polynomial.X ^ p - Polynomial.C a : Polynomial A)}) := by
+      Ideal.span {(Polynomial.map (Ideal.Quotient.mk (IsLocalRing.maximalIdeal A))
+        (Polynomial.X ^ p - Polynomial.C a : Polynomial A))}) := by
   have hirr := residue_poly_irreducible p a ha
   have hmax : (Ideal.span {(Polynomial.X ^ p - Polynomial.C (IsLocalRing.residue A a)
       : Polynomial (IsLocalRing.ResidueField A))}).IsMaximal :=
@@ -370,7 +369,8 @@ theorem ringExt_isLocalRing
   refine ⟨J, hJmax, ?_⟩
   intro M hM
   have hcomap : (Ideal.comap (algebraMap A (↥B)) M).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal M
+    have := hM
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) M
   have hcm : Ideal.comap (algebraMap A (↥B)) M = IsLocalRing.maximalIdeal A :=
     IsLocalRing.eq_maximalIdeal hcomap
   have hle : J ≤ M := by

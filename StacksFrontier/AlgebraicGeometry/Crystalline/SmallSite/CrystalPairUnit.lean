@@ -47,8 +47,8 @@ variable {S : GlobalCrystallineSituation.{u}} [IsAffine S.X] [IsAffine S.S.schem
 /-- **The unit section `1 ∈ lim_e Γ(T_e, 𝒪)`** of the structure sheaf over the system of
 thickenings of [Stacks, Tag 07JN]. -/
 def pairUnitOne : wholeSpaceSections hp (quasiCoherentCrystalUnit S) ⦋0⦌ :=
-  wholeSpaceSectionsMk hp (quasiCoherentCrystalUnit S) (fun _ ↦ (1 : (structureSheaf S).val.obj _))
-    (fun _ ↦ map_one ((structureSheaf S).val.map _).hom)
+  wholeSpaceSectionsMk hp (quasiCoherentCrystalUnit S) (fun _ ↦ (1 : (structureSheaf S).obj.obj _))
+    (fun _ ↦ map_one ((structureSheaf S).obj.map _).hom)
 
 /-- The level components of `r · 1` are the scalars `levelSectionsScalars`. -/
 theorem wholeSpaceSectionsVal_smul_pairUnitOne (r : pairRing hp) (e : ℕ) :
@@ -99,9 +99,9 @@ omit [IsAffine S.X] [IsAffine S.S.scheme] in
 /-- Restricting the unit section of the structure sheaf along a morphism of `Cris(X/S)` gives the
 unit section. -/
 theorem crysRestrict_unit_one {A B : CrystallineThickening S} (k : A ⟶ B) :
-    @Eq ((structureSheaf S).val.obj (op A) : Type u)
-      (crysRestrict (quasiCoherentCrystalUnit S).obj k (1 : (structureSheaf S).val.obj (op B))) 1 :=
-  map_one ((structureSheaf S).val.map k.op).hom
+    @Eq ((structureSheaf S).obj.obj (op A) : Type u)
+      (crysRestrict (quasiCoherentCrystalUnit S).obj k (1 : (structureSheaf S).obj.obj (op B))) 1 :=
+  map_one ((structureSheaf S).obj.map k.op).hom
 
 /-- **The Taylor coefficients of the unit section vanish in positive degree**: `θ_K(1) = 0` for
 `K ≠ 0`, since `p₁^* 1 = 1 = ξ^{[0]} · p₀^* 1`. -/
@@ -115,11 +115,11 @@ theorem crystalTheta_unit_one {K : wholeSpaceIndex S hp →₀ ℕ} (hK : K ≠ 
     refine TaylorExpansion.coeffs_eq_of_taylorSum _ ?_
     rw [taylorSum_single]
     show levelTaylorMonomial hp e 0 • crysRestrict (quasiCoherentCrystalUnit S).obj _
-        (1 : (structureSheaf S).val.obj _) =
-      crysRestrict (quasiCoherentCrystalUnit S).obj _ (1 : (structureSheaf S).val.obj _)
+        (1 : (structureSheaf S).obj.obj _) =
+      crysRestrict (quasiCoherentCrystalUnit S).obj _ (1 : (structureSheaf S).obj.obj _)
     rw [crysRestrict_unit_one, crysRestrict_unit_one, levelTaylorMonomial,
       envelopeTaylorMonomial_zero, map_one]
-    exact one_mul (1 : (structureSheaf S).val.obj (op (levelObj hp 1 e)))
+    exact one_mul (1 : (structureSheaf S).obj.obj (op (levelObj hp 1 e)))
   rw [levelTheta, TaylorExpansion.theta_apply, hc, Finsupp.single_eq_of_ne hK]
   rfl
 

@@ -132,13 +132,13 @@ theorem isIso_homComparisonMonoidal_derivedPullbackSmallModel_of_isPseudoCoheren
     (E M : DerivedCategory (SheafOfModules.{u}
       (Stacks.SheafOfModules.Tensor.ringSheaf S.zariskiRingedSite.O)))
     (hE : S.zariskiRingedSite.IsPseudoCoherent E) (a : ℤ) (hM : M.IsGE a) :
-    letI : (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived
+    letI : (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived.{u}
       (toZariskiSmallModelHom B S hS)).Monoidal := derivedPullbackSmallModelMonoidal B S hS
     IsIso (RingedSite.homComparisonMonoidal (X := S.zariskiRingedSite)
       (Y := (smallModelRingedTopos B S hS).toRingedSite)
-      (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived (toZariskiSmallModelHom B S hS))
+      (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived.{u} (toZariskiSmallModelHom B S hS))
       E M) := by
-  let : (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived
+  let : (Stacks.Sheaves.DerivedPullback.pullbackToposMapDerived.{u}
       (toZariskiSmallModelHom B S hS)).Monoidal := derivedPullbackSmallModelMonoidal B S hS
   have : ∀ W : S.zariskiRingedSite.C, HasBinaryProducts (S.zariskiRingedSite.over W).C :=
     fun W => inferInstanceAs (HasBinaryProducts (Over W))

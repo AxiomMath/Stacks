@@ -137,7 +137,7 @@ theorem exists_kFlat_isQuasicoherent_model_of_isAffine (U : Scheme.{u}) [IsAffin
         (ComplexShape.up ℤ)).app C).symm ≪≫
       ((Scheme.Modules.restrictFunctor U.isoSpec.hom).mapDerivedCategoryFactors.app C).symm ≪≫
       (Scheme.Modules.restrictFunctor U.isoSpec.hom).mapDerivedCategory.mapIso eC ≪≫ ?_
-    exact (Functor.mapDerivedCategoryCompIso
+    exact (Functor.mapDerivedCategoryCompIsoOfCompIso
       (Scheme.Modules.restrictFunctorIsoSpecCancel U.isoSpec) ≪≫
       Functor.mapDerivedCategoryId U.Modules).app K
 

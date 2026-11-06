@@ -67,6 +67,23 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 attribute [local instance] pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_LocallyQuasiFiniteOverFieldRepresentable :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_LocallyQuasiFiniteOverFieldRepresentable
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_LocallyQuasiFiniteOverFieldRepresentable B S hS).has_limit _
+
+/-- Small discrete limits of presheaves on `BigFppfOver B S hS`, given directly. -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_LocallyQuasiFiniteOverFieldRepresentable (J : Type) :
+    HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
 /-- **An algebraic space locally quasi-finite over a field is decent**, for a field which is an
 object `K` of the site over `S` rather than the base itself. An affine étale chart `U` of `X` is
 locally quasi-finite and quasi-compact over the one-point scheme `K`, so it has finitely many

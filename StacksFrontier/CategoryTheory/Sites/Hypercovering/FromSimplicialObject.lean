@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.Functor.KanExtension.Preserves
+public import Mathlib.CategoryTheory.Limits.Constructions.Over.Products
 public import StacksFrontier.CategoryTheory.Sites.Hypercovering.Basic
 
 /-!

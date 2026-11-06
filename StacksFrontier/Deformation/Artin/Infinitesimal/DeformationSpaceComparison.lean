@@ -78,7 +78,7 @@ unfold, so naming the unfolding chain here is what makes the goals type-correct 
 level. -/
 attribute [local implicit_reducible] CategoryTheory.Functor.Fiber
   CategoryTheory.Functor.Fiber.fiberInclusion
-  CategoryTheory.Under.post CategoryTheory.BasedCategory.ofFunctor
+  CategoryTheory.BasedCategory.ofFunctor
   Deformation.Artin.predeformationCategory
 
 universe u v w
@@ -1260,8 +1260,8 @@ private theorem infinitesimalAutomorphismsAlongSplitPair_eq_top
     (dualProjection Λ k) (dualInclusion_comp_dualProjection Λ k) _ _ a).2 ?_
   refine deformationMorphism_ext_of_isIso_arrow B S hS iΛ p x₀ hx₀ _ _ ?_
     (isIso_trivialLift_zero_hom B S hS toS hk p hp x₀ hx)
-  show (a.hom.val : DeformationMorphism _ _ _ _ _ _).ringHom ≫ _ = _
-  rw [fiberMor_ringHom B S hS iΛ p x₀ hx₀ _ _ a.hom]
+  show (a.asIso.hom.val : DeformationMorphism _ _ _ _ _ _).ringHom ≫ _ = _
+  rw [fiberMor_ringHom B S hS iΛ p x₀ hx₀ _ _ a.asIso.hom]
   exact Category.id_comp _
 
 /-- The comparison of endomorphisms turns composition of deformation morphisms into the
@@ -1303,11 +1303,11 @@ private def trivialAutEndEquiv (V : FGModuleCat.{u} k) :
     Aut (trivialDeformationFib B S hS iΛ toS hk p hp x₀ hx₀ hx V) ≃
       (trivialDeformationFib B S hS iΛ toS hk p hp x₀ hx₀ hx V ⟶
         trivialDeformationFib B S hS iΛ toS hk p hp x₀ hx₀ hx V) where
-  toFun a := a.hom
+  toFun a := a.asIso.hom
   invFun f :=
     haveI := isIso_trivialDeformationFib_end B S hS iΛ toS hk p hp x₀ hx₀ hx V f
-    asIso f
-  left_inv _ := Iso.ext rfl
+    .of (asIso f)
+  left_inv _ := Aut.ext (Iso.ext rfl)
   right_inv _ := rfl
 
 
@@ -1398,12 +1398,12 @@ private theorem infinitesimalComparison_arrow
     (((infinitesimalAutomorphismFunctor k B S hS toS hk p x₀ hx hp hRS).autEquiv
           ((fgSiteModule B hk).obj (FGModuleCat.of k k))
         (infinitesimalComparison B S hS iΛ toS hk p hp x₀ hx₀ hx hRS hcof a)).1).right =
-      (a.val.hom.val :
+      (a.val.asIso.hom.val :
         DeformationMorphism iΛ (p ⋙ Over.post B.inclusion) x₀ hx₀ _ _).arrow := by
   show (((infinitesimalAutomorphismFunctor k B S hS toS hk p x₀ hx hp hRS).autEquiv _)
     (((infinitesimalAutomorphismFunctor k B S hS toS hk p x₀ hx hp hRS).autEquiv _).symm
       (trivialEndEquiv B S hS iΛ toS hk p hp x₀ hx₀ hx (FGModuleCat.of k k)
-        a.val.hom)) |>.1).right = _
+        a.val.asIso.hom)) |>.1).right = _
   rw [Equiv.apply_symm_apply]
   rfl
 
@@ -1449,7 +1449,7 @@ public theorem infinitesimalAutomorphisms_deformationCategory_linearEquiv
             letI : Module k G := hM
             ∃ E : G ≃ₗ[k] (L.functor.obj M : Type w),
               ∀ a : G, (L.autEquiv M (E a)).1.right =
-                η.inv ≫ (D.morphisms zε.1 zε.1 a.val.hom.val).arrow ≫ η.hom := by
+                η.inv ≫ (D.morphisms zε.1 zε.1 a.val.asIso.hom.val).arrow ≫ η.hom := by
   intro D hD A₀ Aε g e M L t
   refine ⟨dualInclusion_comp_dualProjection Λ k,
     trivialDeformationFib B S hS iΛ toS hk p hp x₀ hx₀ hx (FGModuleCat.of k PUnit.{u + 1}),

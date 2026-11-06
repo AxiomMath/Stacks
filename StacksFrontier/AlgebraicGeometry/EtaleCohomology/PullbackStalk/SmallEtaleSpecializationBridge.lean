@@ -80,7 +80,7 @@ theorem etaleStalkTransportEquiv_ι (s : GeometricPoint S) (U : SmallEtale B S h
     (z : (forgetSheafTransport B S hS K).obj.obj (op U)) :
     etaleStalkTransportEquiv B S hS K s
         (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
-          (forgetSheafTransport B S hS K).obj) (op ⟨U, x⟩) z) =
+          (forgetSheafTransport B S hS K).obj) (op ⟨x⟩) z) =
       (Scheme.pointSmallEtale s.hom).toPresheafFiber ((SmallEtale.toEtaleSite B S hS).obj U)
         ((toEtaleSiteFiberIso B S hS s).inv.app U x) K.obj z := by
   have h1 := toPresheafFiber_sheafFiberIsoOfAdjOfFiberIso_inv (geometricPointSitePoint B S hS s)
@@ -146,12 +146,12 @@ theorem etaleStalkTransportEquiv_specializationMapOnStalks (s : GeometricPoint S
           (forgetSheafTransport B S hS K).obj a) =
       (smallEtaleSpecializationStalkAb B S hS s t).app K
         (etaleStalkTransportEquiv B S hS K s a) := by
-  obtain ⟨⟨U, x⟩, z, rfl⟩ := Types.jointly_surjective'
+  obtain ⟨@⟨U, x⟩, z, rfl⟩ := Types.jointly_surjective'
     (F := (CategoryOfElements.π (geometricPointFiber B S hS s)).op ⋙
       (forgetSheafTransport B S hS K).obj) a
   refine (congrArg (etaleStalkTransportEquiv B S hS K (t.map (strictHenselizationToBase B S hS s)))
     (specializationMapOnStalks_ι (GeometricSpecialization.ofPoint B S hS s t)
-      (forgetSheafTransport B S hS K).obj ⟨U, x⟩ z)).trans ?_
+      (forgetSheafTransport B S hS K).obj ⟨x⟩ z)).trans ?_
   refine (etaleStalkTransportEquiv_ι B S hS K _ U _ z).trans ?_
   refine Eq.trans ?_ (congrArg
     (ConcreteCategory.hom ((smallEtaleSpecializationStalkAb B S hS s t).app K))

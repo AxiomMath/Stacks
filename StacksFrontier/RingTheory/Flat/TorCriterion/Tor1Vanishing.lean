@@ -434,10 +434,8 @@ theorem rTensor_restrictScalars_injective
         = eY ((LinearMap.rTensor ((R⧸I) ⊗[R] M) f) t) := by
     intro t
     induction t with
-    | zero => simp
     | tmul x m' =>
         induction m' with
-        | zero => simp
         | tmul a m =>
             show (LinearMap.rTensor M (f.restrictScalars R)) (eX (x ⊗ₜ[R⧸I] (a ⊗ₜ[R] m)))
               = eY ((LinearMap.rTensor ((R⧸I) ⊗[R] M) f) (x ⊗ₜ[R⧸I] (a ⊗ₜ[R] m)))
@@ -463,8 +461,7 @@ noncomputable def quotTensorRIEquiv :
   map_smul' := by
     intro c x
     obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective c
-    refine x.induction_on ?_ ?_ ?_
-    · simp
+    refine x.inductionOn ?_ ?_
     · intro a m
       obtain ⟨s, rfl⟩ := Ideal.Quotient.mk_surjective a
       rw [show (Ideal.Quotient.mk I r) • ((Ideal.Quotient.mk I s) ⊗ₜ[R] m)

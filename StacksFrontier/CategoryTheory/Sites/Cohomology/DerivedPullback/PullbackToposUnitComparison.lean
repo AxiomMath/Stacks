@@ -56,12 +56,11 @@ universe u
 variable {X Y : RingedTopos.{u, u, u}}
   [X.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{u} RingCat.{u})]
-  [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
   (f : RingedToposSiteHom X Y) (hmos : f.u.IsMorphismOfSites Y.J X.J)
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
-  [HasSheafify Y.J AddCommGrpCat.{u}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 open Stacks.Sheaves.GradedAlgebraEssentiallySmall in
 /-- The comparison of the two pushforwards of sheaves of modules — the four-field one of
 Stacks 03D6 and the one attached to the presentation by a functor of the underlying sites — is
@@ -75,8 +74,7 @@ theorem pushforwardModulesToposIso_hom_app_val_app
     (moduleSheafFunctor_map_pushforwardModulesIso_hom_app
       (RingedSite.Hom.ofRingedToposSiteHom f hmos).ringedToposHom N)
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- The transpose along Stacks 03D7 of this library's comparison `f^*𝒪_D ⟶ 𝒪_C` takes the unit
 section to the unit section. -/
 theorem adjunct_pullbackModulesObjUnitIso_inv_val_app_one (W : Y.Cᵒᵖ) :
@@ -88,8 +86,7 @@ theorem adjunct_pullbackModulesObjUnitIso_inv_val_app_one (W : Y.Cᵒᵖ) :
       (1 : (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj.obj (f.u.op.obj W)) :=
   pullbackModulesObjUnitIso_inv_adjunct_val_app_one (modulesHomOfSiteHom f hmos) W
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **The transposes of the two comparisons `f^*𝒪_D ⟶ 𝒪_C` agree**, as morphisms
 `𝒪_D ⟶ f_*𝒪_C`. -/
 theorem unitToPushforwardObjUnit_eq :
@@ -116,8 +113,7 @@ theorem unitToPushforwardObjUnit_eq :
           (1 : (Stacks.SheafOfModules.Tensor.ringSheaf Y.O).obj.obj W))).trans
     (adjunct_pullbackModulesObjUnitIso_inv_val_app_one f hmos W)).symm
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 /-- **Mathlib's comparison `f^*𝒪_D ⟶ 𝒪_C` is this library's, read through the identification of
 the two pullbacks of sheaves of modules.** -/
 theorem pullbackModulesSiteIso_hom_app_unit_comp_pullbackObjUnitToUnit :
@@ -138,8 +134,7 @@ theorem pullbackModulesSiteIso_hom_app_unit_comp_pullbackObjUnitToUnit :
   refine Eq.trans (unitToPushforwardObjUnit_eq f hmos) ?_
   exact (Adjunction.homEquiv_ofNatIsoRight_apply _ _ _).symm
 
-omit [HasSheafify X.J AddCommGrpCat.{u}] [HasSheafify Y.J AddCommGrpCat.{u}]
-  [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
+omit [Y.J.WEqualsLocallyBijective AddCommGrpCat.{u}] in
 include hmos in
 /-- **Mathlib's comparison `f^*𝒪_D ⟶ 𝒪_C` is invertible for any morphism of ringed topoi presented
 by a morphism of the underlying sites**, with no finality hypothesis on the presenting functor. -/

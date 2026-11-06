@@ -158,8 +158,9 @@ theorem discreteTopology_points_of_isLocallyQuasiFinite
     (Stack.graph B S hS p p (𝟙 _) (Bicategory.rightUnitor p).symm).hom.hom
   rw [discreteTopology_iff_isOpen_singleton]
   intro z
-  have hpre := (isOpen_discrete {pointsMap B S hS
-    (Stack.graph B S hS p p (𝟙 _) (Bicategory.rightUnitor p).symm) z}).preimage hcont
+  have hpre := (isOpen_discrete
+    ({pointsMap B S hS (Stack.graph B S hS p p (𝟙 _) (Bicategory.rightUnitor p).symm) z} :
+      Set _)).preimage hcont
   convert hpre using 1
   ext a
   simp only [Set.mem_singleton_iff]

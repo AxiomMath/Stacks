@@ -436,7 +436,7 @@ theorem natEnd_app_comp_of_isAffine {V U : BigFppfOver B S hS} (g : V ⟶ U)
   obtain ⟨f, hf⟩ := Stacks.SheafOfModules.exists_eq_globalSectionToEnd_app_of_iso κ
     (δ.app (SheafOfModules.unit _))
   have key : ∀ (X : ((BigFppfOver.toScheme B S hS).obj U).Modules) [X.IsQuasicoherent],
-      δ.app X = (Stacks.SheafOfModules.globalSectionToEnd _ f).app (K.obj X) := by
+      δ.app X = (Stacks.SheafOfModules.globalSectionToEnd _ f).asHom.app (K.obj X) := by
     intro X _
     let σ := generatingSectionsOfIsAffine X
     exact Stacks.SheafOfModules.app_eq_globalSectionToEnd_app_of_jointlyEpi K δ f hf

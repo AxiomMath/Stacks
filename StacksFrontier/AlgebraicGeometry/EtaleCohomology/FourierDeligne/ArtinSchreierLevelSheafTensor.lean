@@ -63,11 +63,11 @@ include h₁ h₂ h in
 theorem characterMulBilinear_equivariant (hχ : χ = χ₁ * χ₂) (g : EtaleFundamentalGroup X.1 x)
     (a : (characterContinuousModule Λ χ₁ h₁).obj.obj.obj.V)
     (b : (characterContinuousModule Λ χ₂ h₂).obj.obj.obj.V) :
-    characterMulBilinear Λ (((characterContinuousModule Λ χ₁ h₁).obj.obj.obj.ρ g).hom a)
-        (((characterContinuousModule Λ χ₂ h₂).obj.obj.obj.ρ g).hom b) =
-      ((characterContinuousModule Λ χ h).obj.obj.obj.ρ g).hom (characterMulBilinear Λ a b) := by
+    characterMulBilinear Λ (((characterContinuousModule Λ χ₁ h₁).obj.obj.obj.ρ g).asHom.hom a)
+        (((characterContinuousModule Λ χ₂ h₂).obj.obj.obj.ρ g).asHom.hom b) =
+      ((characterContinuousModule Λ χ h).obj.obj.obj.ρ g).asHom.hom (characterMulBilinear Λ a b) := by
   subst hχ
-  refine ULift.ext _ _ ?_
+  refine ULift.ext ?_
   show ((χ₁ g : Λ) * a.down) * ((χ₂ g : Λ) * b.down) = ((χ₁ * χ₂) g : Λ) * (a.down * b.down)
   rw [MonoidHom.mul_apply, Units.val_mul]
   ring
@@ -80,7 +80,7 @@ def lisseEtaleSheafCharacterTensorIso (hχ : χ = χ₁ * χ₂) :
         (lisseEtaleSheaf B X x Λ).obj (characterContinuousModule Λ χ₂ h₂) ≅
       (lisseEtaleSheaf B X x Λ).obj (characterContinuousModule Λ χ h) :=
   have hsurj : ∀ r : ULift.{u + 1} Λ, ∃ p q : ULift.{u + 1} Λ, characterMulBilinear Λ p q = r :=
-    fun r => ⟨r, ULift.up 1, ULift.ext _ _ (mul_one r.down)⟩
+    fun r => ⟨r, ULift.up 1, ULift.ext (mul_one r.down)⟩
   have hcard : Nat.card (TensorProduct Λ (ULift.{u + 1} Λ) (ULift.{u + 1} Λ)) ≤
       Nat.card (ULift.{u + 1} Λ) :=
     ((Nat.card_congr ((TensorProduct.congr (ULift.moduleEquiv (R := Λ))

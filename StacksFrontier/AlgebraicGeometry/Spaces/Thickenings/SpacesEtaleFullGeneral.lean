@@ -61,6 +61,14 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, supplied directly: instance search
+for them now times out. -/
+local instance (priority := high) hasLimit_cospan_presheaf_spacesEtaleFullGeneral
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  @HasLimitsOfShape.has_limit _ _ _ _ functorCategoryHasLimitsOfShape _
+
 /-! ### The graph of a morphism into a space unramified over the base -/
 
 section Graph
@@ -144,8 +152,14 @@ theorem mono_of_isPullback_of_isIso_of_isSurjective (hΓ : IsAlgebraicSpace B S 
     have hl₂ : pullback.snd (α ≫ h) g ≫ g = (pullback.fst (α ≫ h) g ≫ β) ≫ h := by
       rw [Category.assoc, ← hαβ, hZsq.w]
     have hpe : pullback.fst (α ≫ h) g ≫ α = pullback.fst (α ≫ h) g ≫ β := by
-      rw [← sq.lift_snd _ _ hl₁, ← sq.lift_snd _ _ hl₂,
-        (cancel_mono h').mp ((sq.lift_fst _ _ hl₁).trans (sq.lift_fst _ _ hl₂).symm)]
+      have e₁ : sq.lift _ _ hl₁ ≫ q = pullback.fst (α ≫ h) g ≫ α :=
+        IsPullback.lift_snd sq _ _ hl₁
+      have e₂ : sq.lift _ _ hl₂ ≫ q = pullback.fst (α ≫ h) g ≫ β :=
+        IsPullback.lift_snd sq _ _ hl₂
+      have : Mono h' := IsIso.mono_of_iso h'
+      have e₃ : sq.lift _ _ hl₁ = sq.lift _ _ hl₂ :=
+        (cancel_mono h').mp ((sq.lift_fst _ _ hl₁).trans (sq.lift_fst _ _ hl₂).symm)
+      rw [← e₁, ← e₂, e₃]
     exact eq_of_comp_eq_of_isSurjective B S hS hΓ hT h hh α β hαβ _ hp hpe
   rw [NatTrans.mono_iff_mono_app]
   intro U

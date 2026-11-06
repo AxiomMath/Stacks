@@ -128,7 +128,7 @@ public structure SquareZeroExtension {X S : Scheme.{u}} (f : X ⟶ S) where
   exact_kernel (U : (Opens X)ᵒᵖ) (a : A.presheaf.obj U)
       (ha : π.hom.app U a = 0) : ∃! x, ι U x = a
   smul_lift (U : (Opens X)ᵒᵖ) (a : A.presheaf.obj U) (x : I.val.obj U) :
-    ι U (((I.val.obj U).smul (π.hom.app U a)).hom x) = a * ι U x
+    ι U (((I.val.obj U).smul (π.hom.app U a)).asHom.hom x) = a * ι U x
   square_zero (U : (Opens X)ᵒᵖ) (x y : I.val.obj U) :
     ι U x * ι U y = 0
 

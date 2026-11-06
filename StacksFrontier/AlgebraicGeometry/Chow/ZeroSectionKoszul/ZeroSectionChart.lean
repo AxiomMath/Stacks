@@ -420,6 +420,11 @@ instance isFiniteLocallyFree_unitModule (X : Scheme.{u}) :
   Stacks.RelativeSpec.AlgebraSheaf.isFiniteLocallyFree_unitModule X
 
 variable (E) in
+/-- The projection `ℰ ⊕ 𝒪_X ⟶ 𝒪_X` is split by the inclusion of `𝒪_X`, hence an epimorphism. -/
+instance epi_completionSnd : Epi (completionSnd E) :=
+  epi_of_epi_fac (Limits.biprod.inr_snd (X := E) (Y := Stacks.Ample.unitModule X))
+
+variable (E) in
 /-- **The zero section `i : X = 𝐏(𝒪_X) ⟶ P = 𝐏(ℰ ⊕ 𝒪_X)` of the projective completion**: the
 closed immersion of projective bundles `Proj_X(𝒪_X[T]) ⟶ Proj_X(Sym(ℰ)[T])` induced by the
 projection `ℰ ⊕ 𝒪_X ⟶ 𝒪_X`. -/

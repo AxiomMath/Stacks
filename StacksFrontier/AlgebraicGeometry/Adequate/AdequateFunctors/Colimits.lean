@@ -51,10 +51,17 @@ namespace AdequateFunctor
 
 universe i j k u v w
 
+/-- Discrete colimits of module-valued functors, found directly: instance search through
+`HasColimitsOfSize` times out. -/
+local instance hasColimitsOfShape_discrete_moduleValuedFunctor (A : Type u) [CommRing A]
+    (ι : Type w) : HasColimitsOfShape (Discrete ι) (ModuleValuedFunctor.{max u v w, v} A) :=
+  PresheafOfModules.hasColimitsOfShape _ _
+
 section Exactness
 
 variable (A : Type u) [CommRing A]
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Coproducts of module-valued functors indexed by a type in the value universe are exact. -/
 public lemma hasExactColimitsOfShape_moduleValuedFunctor (ι : Type w) :
     HasExactColimitsOfShape (Discrete ι) (ModuleValuedFunctor.{max u v w, v} A) :=

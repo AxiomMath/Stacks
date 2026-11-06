@@ -1140,7 +1140,7 @@ sets in an arbitrary universe. -/
 theorem gluesAlongWellOrderedCover (S : LocallyGiven X) : GluesAlongWellOrderedCover.{v} S := by
   intro E _ _ W hmono hlimit hcover K hExt rho hcocycle
   let : LinearOrder ↥(Set.range W) := rangeLinearOrder hmono
-  have : WellFoundedLT ↥(Set.range W) := ⟨wellFounded_lt_range hmono⟩
+  have : WellFoundedLT ↥(Set.range W) := wellFounded_lt_range hmono
   obtain ⟨G, σ₀, hσ₀⟩ := exists_glueing_of_wellOrderedCover_of_gluesAlong S
     (gluesAlongWellOrderedCover_sameUniverse S) ↥(Set.range W) (fun V => W (leastIndex W V))
     (fun V V' h _ => hmono _ _ (leastIndex_strictMono hmono h))

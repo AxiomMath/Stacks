@@ -84,7 +84,7 @@ lemma resPiLift_comp {T : ModuleCat.{m} A}
     (f : ∀ k, T ⟶ (ModuleCat.restrictScalars.{m} ρ).obj (Z k)) (k : κ) :
     resPiLift ρ Z f ≫ (ModuleCat.restrictScalars ρ).map (Pi.π Z k) = f k := by
   rw [resPiLift, Category.assoc, inv_piComparison_comp_map_π]
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 end ResPi
 

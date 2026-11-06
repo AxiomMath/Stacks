@@ -299,7 +299,7 @@ public noncomputable def sectionsToFormalObject
   level n := CategoryTheory.Functor.elementsMk F
     ((AdicTruncation.functor (Λ := Λ) (k := k) n).obj S) (x.1 n)
   level_eq n := rfl
-  transition n := CategoryOfElements.homMk _ _
+  transition n := Functor.Elements.homMk
     ((AdicTruncation.transitionNat (Λ := Λ) (k := k) n).app S) (x.2 n)
   transition_lift n := by
     apply IsHomLift.of_fac (CategoryOfElements.π F) _ _ rfl rfl
@@ -323,14 +323,14 @@ public noncomputable def formalObjectToSections
   calc
     F.map tr (F.map (θ (n + 1)) (X.level (n + 1)).2) =
         F.map (θ (n + 1) ≫ tr) (X.level (n + 1)).2 := by
-          rw [← Functor.map_comp_apply]
+          exact (F.map_comp_apply _ _ _).symm
     _ = F.map (p.map (X.transition n) ≫ θ n) (X.level (n + 1)).2 := by
           rw [htheta]
     _ = F.map (θ n) (F.map (p.map (X.transition n)) (X.level (n + 1)).2) := by
-          rw [Functor.map_comp_apply]
-    _ = F.map (θ n) (F.map (X.transition n).val (X.level (n + 1)).2) := rfl
+          exact F.map_comp_apply _ _ _
+    _ = F.map (θ n) (F.map (X.transition n).hom (X.level (n + 1)).2) := rfl
     _ = F.map (θ n) (X.level n).2 :=
-          congrArg (F.map (θ n)) (CategoryOfElements.map_snd (X.transition n))
+          congrArg (F.map (θ n)) (X.transition n).map_val
 
 /-- Two formal objects of a category of elements with the same base and the same
 levels are equal. -/
@@ -348,7 +348,7 @@ public theorem formalObject_ext
       subst levelY
       have htransition : transitionX = transitionY := by
         funext n
-        apply CategoryOfElements.ext
+        apply Functor.Elements.hom_ext
         let q := AdicTruncation.transitionNat (Λ := Λ) (k := k) n
         let p := CategoryOfElements.π F
         let : p.IsHomLift (q.app baseX) (transitionX n) := transitionLiftX n
@@ -398,7 +398,8 @@ public noncomputable def sectionsFormalObjectEquiv
       (F.map (eqToHom (X.level_eq n)) (X.level n).2) = X.level n
     refine Functor.Elements.ext _ _
       (by simpa [CategoryOfElements.π] using (X.level_eq n).symm) ?_
-    simp
+    exact (F.map_comp_apply _ _ _).symm.trans (by
+      simp only [eqToHom_trans, eqToHom_refl]; exact F.map_id_apply _ _)
 
 /-- The compatible family of images of an element under the quotient maps of its
 base. -/

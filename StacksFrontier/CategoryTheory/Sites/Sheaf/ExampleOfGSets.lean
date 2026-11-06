@@ -297,9 +297,9 @@ private lemma mem_iff_forall_hom (J : GrothendieckTopology T)
 private noncomputable def presheafAction (P : Tᵒᵖ ⥤ Type u) : Action (Type u) G where
   V := P.obj (op u₀)
   ρ :=
-    { toFun := fun g => P.map (rAct ι α g).op
-      map_one' := by simp [rAct_one ι α]
-      map_mul' := fun g h => by simp [rAct_mul ι α, End.mul_def] }
+    { toFun := fun g => .of (P.map (rAct ι α g).op)
+      map_one' := by ext; simp [rAct_one ι α]
+      map_mul' := fun g h => by ext; simp [rAct_mul ι α] }
 
 /-- `presheafAction` is functorial in the presheaf: a morphism of presheaves is a `G`-map on the
 attached `G`-sets, its equivariance being naturality at the right translations. -/

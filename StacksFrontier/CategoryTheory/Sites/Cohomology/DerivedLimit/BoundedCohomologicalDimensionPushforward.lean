@@ -357,7 +357,7 @@ theorem isIso_homologyMap_derivedSectionsOverObject_truncGEπ (U : X.C)
       Pi.π (fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
         (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) K).obj ⟨n⟩) m =
       (DerivedCategory.TStructure.t.truncGEπ (-(m : ℤ))).app K :=
-    Pi.lift_π (f := fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
+    Pi.lift_comp_π (f := fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
       (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) K).obj ⟨n⟩)
       (fun n : ℕ ↦ (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app K) m
   have h3 : (DerivedCategory.homologyFunctor AddCommGrpCat.{u} j).map

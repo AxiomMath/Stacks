@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Noetherian
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 public import StacksFrontier.AlgebraicGeometry.Curves.GlueingSquishing.LowerProperSubalgebra
 public import StacksFrontier.AlgebraicGeometry.Curves.GlueingSquishing.MinimalStep
 public import StacksFrontier.AlgebraicGeometry.SubalgebraGlueCover.Quasicoherent

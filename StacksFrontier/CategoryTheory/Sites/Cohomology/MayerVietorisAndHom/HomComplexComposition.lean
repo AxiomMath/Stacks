@@ -84,7 +84,7 @@ noncomputable local instance (U : X.Cᵒᵖ) :
 /-- The monoidal structure on presheaves of modules over the structure sheaf of `X`. -/
 noncomputable local instance :
     MonoidalCategory (PresheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O).obj) :=
-  PresheafOfModules.monoidalCategory (R := X.O.obj)
+  PresheafOfModulesOfCommRing.monoidalCategory (R := X.O.obj)
 
 /-- Tensoring presheaves of modules preserves zero morphisms in the left variable. -/
 local instance :

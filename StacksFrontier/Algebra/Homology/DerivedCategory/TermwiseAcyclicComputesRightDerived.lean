@@ -177,22 +177,14 @@ theorem isIso_app_of_rightAcyclic_of_isZero_rightDerived (F : A ⥤ B) [F.Additi
     Stacks.Cohomology.CompactExtensionByZero.hasRightDerivedFunctorPlus F
   have hJ' : ∀ i : ℤ, F.rightAcyclic (J.X i) := fun i =>
     (CategoryTheory.rightAcyclic_iff_isZero_rightDerived F (J.X i)).2 (hJ i)
-  have hmono (X : A) : ∃ (Y : A) (i : X ⟶ Y) (_ : Mono i), F.rightAcyclic Y := by
-    classical
-    refine ⟨Injective.under X, Injective.ι X, inferInstance, ?_⟩
-    change IsIso (F.rightDerivedFunctorPlusUnit.app
-      ((HomotopyCategory.Plus.singleFunctor A 0).obj (Injective.under X)))
-    let (i : ℤ) : Injective
-        (((HomotopyCategory.Plus.singleFunctor A 0).obj (Injective.under X)).obj.as.X i) :=
-      inferInstanceAs (Injective
-        (((HomologicalComplex.single A (ComplexShape.up ℤ) 0).obj (Injective.under X)).X i))
-    infer_instance
+  have hmono (X : A) : ∃ (Y : A) (i : X ⟶ Y) (_ : Mono i), F.rightAcyclic Y :=
+    Stacks.Cohomology.CompactExtensionByZero.exists_mono_rightAcyclic F X
   have hn (X : A) : IsZero ((DerivedCategory.Plus.homologyFunctor B n).obj
       (F.rightDerivedFunctorPlus.obj ((DerivedCategory.Plus.singleFunctor A 0).obj X))) := by
     change IsZero ((F.rightDerivedPlus (n : ℤ)).obj X)
     exact (hvanish X).of_iso (CategoryTheory.rightDerivedPlusObjIso F X n)
   have h := Functor.hasRightDerivedFunctor_of_isZero_rightDerived
-    F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit F.rightAcyclic
+    F F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnith F.rightAcyclic
     (Stacks.Cohomology.CompactExtensionByZero.rightAcyclic_iff_computesRightDerived F) hmono n hn
   have hex := h.1
   have hA : ∀ K : CochainComplex A ℤ, ∃ (I : CochainComplex A ℤ) (f : K ⟶ I),

@@ -75,7 +75,7 @@ theorem id_mem_of_mem_etaleSmallModelTopology_point
       inferInstanceAs (IsIso (𝟙 (Spec (.of k))))
     isTerminalOfIsIsoHom _
   have : (AsSmall.up.map (s ≫ h) : etalePointFinal.{u, r} k ⟶ Z) ≫ g = 𝟙 _ :=
-    ULift.ext _ _ (hT.hom_ext _ _)
+    ULift.ext (hT.hom_ext _ _)
   rw [← this]
   exact S.downward_closed hg _
 

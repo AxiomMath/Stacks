@@ -196,7 +196,7 @@ trivialisation are opaque, so each substitution is a metavariable assignment. -/
 public theorem eq_of_smul_frame_app {Y : Scheme.{u}} (M : Y.Modules)
     (ε : M ≅ SheafOfModules.unit Y.ringCatSheaf)
     {v v₀ u u₀ : Γ(M, (⊤ : Y.Opens))} {c r w : Γ(Y, (⊤ : Y.Opens))}
-    (hv : v = (M.smul c).hom v₀) (huv : u = v) (hu0 : u₀ = v₀)
+    (hv : v = (M.smul c).asHom.hom v₀) (huv : u = v) (hu0 : u₀ = v₀)
     (h1 : ε.hom.val.app (op ⊤) u = r)
     (h0 : ε.hom.val.app (op ⊤) u₀ = w) : c * w = r := by
   subst huv

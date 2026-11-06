@@ -213,6 +213,36 @@ local instance schemeCutoff_isClosedUnderPullbacks
 
 attribute [local instance] AlgebraicGeometry.BigFppfSite.hasPullbacks_schemes
 
+/-- Pullbacks in presheaf categories on the big fppf site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_ProperFlatFamilies
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasLimits_presheaf_ProperFlatFamilies
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasFiniteLimits ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_ProperFlatFamilies
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Small discrete limits of presheaves on the big fppf site (instance search times out
+without this shortcut). -/
+local instance hasLimitsOfShape_discrete_presheaf_ProperFlatFamilies
+    {B : AlgebraicGeometry.BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {J : Type} : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  inferInstance
+
 private theorem surjective_specMap_of_artinianLocal
     (R T : CommRingCat.{u}) [IsLocalRing R] [IsArtinianRing R]
     [IsLocalRing T] [IsArtinianRing T] (f : R ⟶ T) :

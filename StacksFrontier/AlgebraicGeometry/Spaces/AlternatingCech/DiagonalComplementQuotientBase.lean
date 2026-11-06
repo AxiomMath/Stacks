@@ -204,7 +204,7 @@ theorem sliceToSmall_diagonalComplementSlice :
 invariant. -/
 theorem diagonalComplementAut_comp_toQuotientObject
     (σ : ULift.{u} (Equiv.Perm (Fin n))) :
-    (diagonalComplementAut B S hS X U n hsep σ.down).hom ≫
+    (diagonalComplementAut B S hS X U n hsep σ.down).asIso.hom ≫
         diagonalComplementToQuotientObject B S hS X U n hsep =
       diagonalComplementToQuotientObject B S hS X U n hsep := by
   refine ObjectProperty.hom_ext _ (Over.OverMorphism.ext (ObjectProperty.hom_ext _ ?_))
@@ -224,7 +224,7 @@ at `U_p`. -/
 def diagonalComplementSliceAut (σ : ULift.{u} (Equiv.Perm (Fin n))) :
     diagonalComplementSlice B S hS X U n hsep ⟶
       diagonalComplementSlice B S hS X U n hsep :=
-  Over.homMk (diagonalComplementAut B S hS X U n hsep σ.down).hom
+  Over.homMk (diagonalComplementAut B S hS X U n hsep σ.down).asIso.hom
     (diagonalComplementAut_comp_toQuotientObject B S hS X U n hsep σ)
 
 /-- **The action on the slice object is the action on `W` over `U_p`**: passing from the slice
@@ -235,7 +235,7 @@ theorem sliceToSmall_map_diagonalComplementSliceAut
     (σ : ULift.{u} (Equiv.Perm (Fin n))) :
     (sliceToSmall B S hS (diagonalComplementQuotientObject B S hS X U n hsep)).map
         (diagonalComplementSliceAut B S hS X U n hsep σ) =
-      (diagonalComplementQuotientAut B S hS X U n hsep σ).hom := by
+      (diagonalComplementQuotientAut B S hS X U n hsep σ).asIso.hom := by
   refine ObjectProperty.hom_ext _ (Over.OverMorphism.ext ?_)
   refine ObjectProperty.hom_ext _ ?_
   exact (actionHom_diagonalComplement B S hS X U n hsep σ).symm

@@ -120,7 +120,7 @@ theorem fppfToSmallEtale_essImage_of_isEtale_of_liftingSieve {V Y : T.Spaces}
   have : IsIso ((sheafToPresheaf _ (Type (u + 1))).map
       ((fppfToSmallEtaleMorphism T E h V).pushforward.map (ρ.map (a.adj.counit.app H)))) :=
     @NatIso.isIso_of_isIso_app _ _ _ _ _ _ _ key
-  exact isIso_of_reflects_iso _ (sheafToPresheaf _ (Type (u + 1)))
+  exact isIso_of_fully_faithful (sheafToPresheaf _ (Type (u + 1))) _
 
 /-- **A surjective étale morphism of algebraic spaces generates a covering sieve** of the big fppf
 site. -/

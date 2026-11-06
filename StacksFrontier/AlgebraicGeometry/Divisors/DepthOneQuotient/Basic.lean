@@ -542,12 +542,10 @@ private lemma exists_restriction_eq_zero_of_finitely_many_germs_eq_zero
     · have h := congrArg (F.presheaf.map (homOfLE (show V ⊓ W ≤ W from inf_le_right)).op) hW
       simp only [← F.presheaf.map_comp_apply, map_zero] at h
       convert h using 1
-      congr 2
     · have h := congrArg (F.presheaf.map (homOfLE (show V ⊓ W ≤ V from inf_le_left)).op)
         (hV j hj)
       simp only [← F.presheaf.map_comp_apply, map_zero] at h
       convert h using 1
-      congr 2
 
 /-- `PresheafOfModules.germ_smul` restated at the spelling an `X.Modules` presents, so that it
 can be rewritten with. -/

@@ -109,7 +109,7 @@ public theorem complementPrincipalIdealSheaf_ideal
     (V : (complementZeroLocus A a : Scheme).affineOpens) :
     (complementPrincipalIdealSheaf A a f).ideal V =
       Ideal.span {(complementZeroLocus A a : Scheme).presheaf.map (homOfLE le_top).op
-        (complementTopScalars a f)} := by
+                    (complementTopScalars a f)} := by
   rw [complementPrincipalIdealSheaf, Scheme.IdealSheafData.ofIdealTop_ideal, Ideal.map_span,
     Set.image_singleton]
 

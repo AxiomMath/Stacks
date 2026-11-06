@@ -82,10 +82,10 @@ theorem ContinuousModuleLevelDichotomy.of_isogeny
     LinearMap.congr_fun (congrArg ModuleCat.Hom.hom (functor_map_comp_eq_nsmul_id Uf hgf)) x
   have hfg' : ∀ y, f' (g' y) = ℓ ^ c • y := fun y =>
     LinearMap.congr_fun (congrArg ModuleCat.Hom.hom (functor_map_comp_eq_nsmul_id Uf hfg)) y
-  have hf : ∀ h x, f' ((M.obj.obj.obj.ρ h).hom x) = (M'.obj.obj.obj.ρ h).hom (f' x) :=
+  have hf : ∀ h x, f' ((M.obj.obj.obj.ρ h).asHom.hom x) = (M'.obj.obj.obj.ρ h).asHom.hom (f' x) :=
     fun h x => LinearMap.congr_fun (congrArg ModuleCat.Hom.hom (f.hom.hom.hom.comm h)) x
   intro W hW hne x
-  have hmapW : ∀ h, ∀ y ∈ W.map f', (M'.obj.obj.obj.ρ h).hom y ∈ W.map f' := by
+  have hmapW : ∀ h, ∀ y ∈ W.map f', (M'.obj.obj.obj.ρ h).asHom.hom y ∈ W.map f' := by
     rintro h _ ⟨x, hx, rfl⟩
     exact ⟨_, hW h x hx, hf h x⟩
   obtain ⟨x₀, hx₀, hx₀N⟩ := hne

@@ -73,11 +73,25 @@ attribute [local instance] pointTopology
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance hasPullbacks_presheaf_LocalRing :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_LocalRing
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
 /-- Two morphisms into a space over `W` which is an isomorphism over `U` agree once they agree
 over `W` through `U`. -/
 theorem eq_of_comp_eq_of_isIso_pullback_snd {X W T : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (f : X ⟶ W) (U : Subfunctor W) [IsIso (pullback.snd f U.ι)] {p q : T ⟶ X}
     (r : T ⟶ U.toFunctor) (hp : p ≫ f = r ≫ U.ι) (hq : q ≫ f = r ≫ U.ι) : p = q := by
+  have : Mono (pullback.snd f U.ι) := IsIso.mono_of_iso _
   have h : pullback.lift p r hp = pullback.lift q r hq := by
     rw [← cancel_mono (pullback.snd f U.ι), pullback.lift_snd, pullback.lift_snd]
   simpa only [pullback.lift_fst] using congrArg (· ≫ pullback.fst f U.ι) h

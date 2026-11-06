@@ -592,7 +592,7 @@ theorem uPoint_injective {V : BigFppfOver B S hS} {t t' : Triple c V} (h : t.Z =
       (J.toSheafify (c.X' ⋙ uliftFunctor.{u + 1})).app (op V) (G.ι.app (op V) e₂) := by
     rw [key, key, e₀]
   have e'' := (mono_iff_injective ((J.toSheafify (c.X' ⋙ uliftFunctor.{u + 1})).app (op V))).mp
-    inferInstance e'
+    (IsIso.mono_of_iso _) e'
   exact Triple.ext_of_Z_eq_empty h h' (congrArg ULift.down e'')
 
 /-- The reading of triples with `Z = ∅` in `X'_{/|X'|}` is compatible with restriction. -/
@@ -606,7 +606,7 @@ theorem uPoint_mapTriple {V₂ V₁ : BigFppfOver B S hS} (φ : V₂ ⟶ V₁) (
   let e₂ : G.toFunctor.obj (op V₂) := ⟨ULift.up ((mapTriple c φ t).uValue
     (Triple.mapTriple_Z_eq_empty c φ t h)), fun _ => Set.mem_univ _⟩
   have he : e₂ = G.toFunctor.map φ.op e₁ :=
-    Subtype.ext (ULift.ext _ _ (Triple.uValue_mapTriple φ t h
+    Subtype.ext (ULift.ext (Triple.uValue_mapTriple φ t h
       (Triple.mapTriple_Z_eq_empty c φ t h)))
   show (J.toSheafify G.toFunctor).app (op V₂) e₂ =
     (J.sheafify G.toFunctor).map φ.op ((J.toSheafify G.toFunctor).app (op V₁) e₁)

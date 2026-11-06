@@ -106,7 +106,6 @@ theorem Q_map_doubleToSingleNegOne_comp_shiftIso_inv {G : C} (g : X₀ ⟶ G) :
         (DerivedCategory.Q.commShiftIso (1 : ℤ)).hom.app
           ((single C (ComplexShape.up ℤ) 0).obj G) := by
     simp [DerivedCategory.singleFunctors]
-    rfl
   have hp : doubleProjQ f ComplexShape.upIntRelNegOneZero =
       DerivedCategory.Q.map (doubleToMappingCone f ComplexShape.upIntRelNegOneZero ≫
           mappingConeTriangleδ ((single C (ComplexShape.up ℤ) 0).map f)) ≫

@@ -335,7 +335,7 @@ private lemma exists_distTriang_single_limit_aux (X : RingedSpace.{u, u})
         G.map (limit.π F ⟨n⟩) := by
     intro n
     have hπ : Sf ≫ Pi.π M n = limit.π F ⟨n⟩ :=
-      Pi.lift_π (fun k : ℕ => limit.π F ⟨k⟩) n
+      Pi.lift_comp_π (fun k : ℕ => limit.π F ⟨k⟩) n
     rw [Category.assoc, piComparison_comp_π, ← G.map_comp, hπ]
   refine ⟨G.map S.f ≫ e.hom, hleg, e.inv ≫ hS.singleδ, ?_⟩
   apply isomorphic_distinguished _ hS.singleTriangle_distinguished

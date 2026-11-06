@@ -48,15 +48,15 @@ of `e.inv`, followed by the unit of `RG` at `F(K)` and `RG` of the unit of `RF` 
 theorem unit_comp_rightDerivedFunctorPlusCompIsoOfIso_hom (F : X ⥤ Y) (G : Y ⥤ Z) (H : X ⥤ Z)
     [F.Additive] [G.Additive] [H.Additive] [F.PreservesInjectiveObjects]
     (e : F ⋙ G ≅ H) (K : HomotopyCategory.Plus X) :
-    H.rightDerivedFunctorPlusUnit.app K ≫
+    H.rightDerivedFunctorPlusUnith.app K ≫
         (rightDerivedFunctorPlusCompIsoOfIso F G H e).hom.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusCompIso e).inv.app K) ≫
-        G.rightDerivedFunctorPlusUnit.app (F.mapHomotopyCategoryPlus.obj K) ≫
-          G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) := by
-  have h1 : H.rightDerivedFunctorPlusUnit.app K ≫
+        G.rightDerivedFunctorPlusUnith.app (F.mapHomotopyCategoryPlus.obj K) ≫
+          G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) := by
+  have h1 : H.rightDerivedFunctorPlusUnith.app K ≫
       (rightDerivedFunctorPlusIsoOfCompIso F G H e).inv.app (DerivedCategory.Plus.Qh.obj K) =
       DerivedCategory.Plus.Qh.map ((mapHomotopyCategoryPlusIsoOfCompIso F G H e).inv.app K) ≫
-        (F ⋙ G).rightDerivedFunctorPlusUnit.app K := by
+        (F ⋙ G).rightDerivedFunctorPlusUnith.app K := by
     rw [rightDerivedFunctorPlusIsoOfCompIso, rightDerivedNatIso_inv]
     exact rightDerivedNatTrans_app _ _ _ _ _ _ K
   dsimp only [rightDerivedFunctorPlusCompIsoOfIso, Iso.trans_hom, Iso.symm_hom, NatTrans.comp_app]
@@ -129,26 +129,26 @@ theorem rightDerivedFunctorPlusCompIsoOfIso_triangle (ea : F ⋙ P₁ ≅ P) (eb
       (rightDerivedFunctorPlusCompIsoOfIso F P₁ P ea).hom ≫
         Functor.whiskerLeft F.rightDerivedFunctorPlus
           (rightDerivedFunctorPlusCompIsoOfIso G H P₁ eb).hom := by
-    refine Functor.rightDerived_ext P.rightDerivedFunctorPlus P.rightDerivedFunctorPlusUnit
+    refine Functor.rightDerived_ext P.rightDerivedFunctorPlus P.rightDerivedFunctorPlusUnith
       (HomotopyCategory.Plus.quasiIso A) _ _ _ (NatTrans.ext (funext fun K => ?_))
     dsimp only [NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app]
     have hu : ∀ {X Y : HomotopyCategory.Plus B} (ψ : X ⟶ Y),
-        H.rightDerivedFunctorPlusUnit.app X ≫
+        H.rightDerivedFunctorPlusUnith.app X ≫
           H.rightDerivedFunctorPlus.map (DerivedCategory.Plus.Qh.map ψ) =
         DerivedCategory.Plus.Qh.map (H.mapHomotopyCategoryPlus.map ψ) ≫
-          H.rightDerivedFunctorPlusUnit.app Y :=
-      fun ψ => (H.rightDerivedFunctorPlusUnit.naturality ψ).symm
-    have hn : P₁.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K) ≫
+          H.rightDerivedFunctorPlusUnith.app Y :=
+      fun ψ => (H.rightDerivedFunctorPlusUnith.naturality ψ).symm
+    have hn : P₁.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K) ≫
         (rightDerivedFunctorPlusCompIsoOfIso G H P₁ eb).hom.app
           (F.rightDerivedFunctorPlus.obj (DerivedCategory.Plus.Qh.obj K)) =
         (rightDerivedFunctorPlusCompIsoOfIso G H P₁ eb).hom.app
             (DerivedCategory.Plus.Qh.obj (F.mapHomotopyCategoryPlus.obj K)) ≫
           H.rightDerivedFunctorPlus.map
-            (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnit.app K)) :=
+            (G.rightDerivedFunctorPlus.map (F.rightDerivedFunctorPlusUnith.app K)) :=
       (rightDerivedFunctorPlusCompIsoOfIso G H P₁ eb).hom.naturality _
     rw [reassoc_of% (unit_comp_rightDerivedFunctorPlusCompIsoOfIso_hom G' H P eb' K),
       ← Functor.map_comp, unit_comp_rightDerivedFunctorPlusCompIsoOfIso_hom F G G' ec K,
-      Functor.map_comp, ← Category.assoc (H.rightDerivedFunctorPlusUnit.app _),
+      Functor.map_comp, ← Category.assoc (H.rightDerivedFunctorPlusUnith.app _),
       hu,
       reassoc_of% (unit_comp_rightDerivedFunctorPlusCompIsoOfIso_hom F P₁ P ea K),
       hn,

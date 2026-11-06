@@ -74,6 +74,31 @@ universe u v
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance hasPullbacks_presheaf_OpenImmersionFppfLocalAtTarget
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+private instance (priority := high) hasPullback_presheaf_OpenImmersionFppfLocalAtTarget
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks in the big fppf site (instance search times out without this shortcut). -/
+private instance hasPullbacks_site_OpenImmersionFppfLocalAtTarget
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks (BigFppfOver B S hS) := inferInstance
+
+private instance (priority := high) hasPullback_site_OpenImmersionFppfLocalAtTarget
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : BigFppfOver B S hS} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **Being an open immersion is fppf local on the base for morphisms of algebraic spaces over
 `S`:** such a morphism is an open immersion exactly when its base change to every member of some
 fppf covering of its target is an open immersion. This is the fppf form of Stacks 041X. -/

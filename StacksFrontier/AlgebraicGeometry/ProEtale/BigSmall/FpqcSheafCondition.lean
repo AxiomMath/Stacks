@@ -202,7 +202,7 @@ theorem eq_of_mem_fpqcTopology (hP : Presheaf.IsSheaf (topology B S hS) P)
         (η.app _ (u.lanSection F φ t₁)) (η.app _ (u.lanSection F φ t₂)) := by
       ext W k
       simp only [Sieve.pullback_apply, Presheaf.equalizerSieve_apply, E,
-        op_comp, FunctorToTypes.map_comp_apply, ← h₁, ← h₂]
+        op_comp, Functor.map_comp_apply, ← h₁, ← h₂]
     rw [hpull]
     refine equalizerSieve_lanSection_mem_topology F η φ t₁ t₂ ?_
     rw [← hpull]
@@ -311,11 +311,11 @@ private theorem pullback_generate_mem_topology (hP : Presheaf.IsSheaf (topology 
     have harr : (e ≫ fst i ≫ oC i) ≫ q = k' ≫ k ≫ g i := by
       simp only [g, Category.assoc, ← hφΓX]
       rw [reassoc_of% (hcond i), ← reassoc_of% he]
-    rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← FunctorToTypes.map_comp_apply, ← op_comp,
+    rw [← Functor.map_comp_apply, ← op_comp, ← Functor.map_comp_apply, ← op_comp,
       ← hx.to_sieveCompatible _ _ hk]
     calc P.map ((k' ≫ k) ≫ hC i ≫ prU).op s₀
         = P.map (e ≫ fst i ≫ oC i).op (P.map φ.op s₀) := by
-          rw [← FunctorToTypes.map_comp_apply, ← op_comp, ← he, ← hφΓU]
+          rw [← Functor.map_comp_apply, ← op_comp, ← he, ← hφΓU]
           simp only [Category.assoc, reassoc_of% (hcond i)]
       _ = P.map (e ≫ fst i ≫ oC i).op (x q hq) := by rw [hφs₀]
       _ = x ((e ≫ fst i ≫ oC i) ≫ q) (D.downward_closed hq _) :=

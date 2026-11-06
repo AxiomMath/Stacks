@@ -114,7 +114,7 @@ theorem galoisAut_mul (σ τ : EtaleFundamentalGroup X x) (A : PointedGaloisCove
 for this endomorphism, so that no projection out of `CategoryTheory.Aut` appears in their
 statements. -/
 def galoisAutHom (σ : EtaleFundamentalGroup X x) (A : PointedGaloisCover x) : A.obj ⟶ A.obj :=
-  Iso.hom (galoisAut x σ A)
+  (galoisAut x σ A).asIso.hom
 
 /-- If `τ_A(σ)` is trivial, its underlying endomorphism is the identity. -/
 private theorem galoisAutHom_eq_id_of_galoisAut_eq_one {σ : EtaleFundamentalGroup X x}
@@ -153,7 +153,7 @@ theorem comp_galoisAutHom {A B : PointedGaloisCover x} (f : A ⟶ B)
   have h : autMap f.val (AutGalois.π _ A ξ) = AutGalois.π _ B ξ := by
     rw [AutGalois.π_apply, AutGalois.π_apply]
     exact ξ.2 f
-  show f.val ≫ Iso.hom (AutGalois.π _ B ξ) = Iso.hom (AutGalois.π _ A ξ) ≫ f.val
+  show f.val ≫ (AutGalois.π _ B ξ).asIso.hom = (AutGalois.π _ A ξ).asIso.hom ≫ f.val
   rw [← h]
   exact comp_autMap _ _
 
@@ -278,14 +278,18 @@ variable [HasColimitsOfShape (PointedGaloisCover x)ᵒᵖ C]
 /-- The action of `π₁` on the colimit of the diagram `(A, a) ↦ F(A)`. -/
 def monodromyRepr (F : (X.Etale)ᵒᵖ ⥤ C) :
     EtaleFundamentalGroup X x →* End (colimit ((monodromyDiagram x).obj F)) where
-  toFun σ := colimMap ((monodromyDiagramAut x σ).app F)
+  toFun σ := .of (colimMap ((monodromyDiagramAut x σ).app F))
   map_one' := by
-    rw [monodromyDiagramAut_one, End.one_def]
+    rw [monodromyDiagramAut_one]
+    ext : 1
+    rw [End.one_asHom]
     apply colimit.hom_ext
     intro A
     simp
   map_mul' σ τ := by
-    rw [monodromyDiagramAut_mul, NatTrans.comp_app, End.mul_def]
+    rw [monodromyDiagramAut_mul, NatTrans.comp_app]
+    ext : 1
+    rw [End.mul_asHom]
     apply colimit.hom_ext
     intro A
     simp
@@ -329,7 +333,7 @@ variable {x} in
 @[reassoc]
 theorem monodromyAction_ρ_ι (F : (X.Etale)ᵒᵖ ⥤ C) (σ : EtaleFundamentalGroup X x)
     (A : (PointedGaloisCover x)ᵒᵖ) :
-    colimit.ι ((monodromyDiagram x).obj F) A ≫ ((monodromyAction x).obj F).ρ σ =
+    colimit.ι ((monodromyDiagram x).obj F) A ≫ (((monodromyAction x).obj F).ρ σ).asHom =
       F.map ((finiteEtaleToEtale X).map (galoisAutHom x σ A.unop)).op ≫
         colimit.ι ((monodromyDiagram x).obj F) A :=
   ι_colimMap _ A
@@ -382,7 +386,8 @@ the transport of that section along `τ_A(σ)`. -/
 theorem monodromyAction_ρ_ι_apply (F : (X.Etale)ᵒᵖ ⥤ ModuleCat.{max (u + 1) r} Λ)
     (σ : EtaleFundamentalGroup X x) (A : (PointedGaloisCover x)ᵒᵖ)
     (s : F.obj (op ((PointedGaloisCover.toEtale x).obj A.unop))) :
-    (((monodromyAction x).obj F).ρ σ).hom ((colimit.ι ((monodromyDiagram x).obj F) A).hom s) =
+    (((monodromyAction x).obj F).ρ σ).asHom.hom
+        ((colimit.ι ((monodromyDiagram x).obj F) A).hom s) =
       (colimit.ι ((monodromyDiagram x).obj F) A).hom
         ((F.map ((finiteEtaleToEtale X).map (galoisAutHom x σ A.unop)).op).hom s) :=
   ConcreteCategory.congr_hom (monodromyAction_ρ_ι F σ A) s
@@ -393,7 +398,8 @@ theorem monodromyAction_ρ_ι_apply_of_galoisAut_eq_one
     (F : (X.Etale)ᵒᵖ ⥤ ModuleCat.{max (u + 1) r} Λ) {σ : EtaleFundamentalGroup X x}
     {A : (PointedGaloisCover x)ᵒᵖ} (hσ : galoisAut x σ A.unop = 1)
     (s : F.obj (op ((PointedGaloisCover.toEtale x).obj A.unop))) :
-    (((monodromyAction x).obj F).ρ σ).hom ((colimit.ι ((monodromyDiagram x).obj F) A).hom s) =
+    (((monodromyAction x).obj F).ρ σ).asHom.hom
+        ((colimit.ι ((monodromyDiagram x).obj F) A).hom s) =
       (colimit.ι ((monodromyDiagram x).obj F) A).hom s := by
   rw [monodromyAction_ρ_ι_apply]
   rw [galoisAutHom_eq_id_of_galoisAut_eq_one x hσ, CategoryTheory.Functor.map_id, op_id, F.map_id]
@@ -413,11 +419,11 @@ theorem monodromyAction_isContinuous (F : (X.Etale)ᵒᵖ ⥤ ModuleCat.{max (u 
   refine ⟨(fun σ ↦ σ₀⁻¹ * σ) ⁻¹' {σ | galoisAut x σ A.unop = 1}, ?_, ?_, ?_⟩
   · intro σ hσ
     change galoisAut x (σ₀⁻¹ * σ) A.unop = 1 at hσ
-    show (((monodromyAction x).obj F).ρ σ).hom _ = _
+    show (((monodromyAction x).obj F).ρ σ).asHom.hom _ = _
     have hσσ : σ = σ₀ * (σ₀⁻¹ * σ) := by group
-    rw [hσσ, map_mul, End.mul_def, ModuleCat.hom_comp]
-    show (((monodromyAction x).obj F).ρ σ₀).hom
-      ((((monodromyAction x).obj F).ρ (σ₀⁻¹ * σ)).hom _) = _
+    rw [hσσ, map_mul, End.mul_asHom, ModuleCat.hom_comp]
+    show (((monodromyAction x).obj F).ρ σ₀).asHom.hom
+      ((((monodromyAction x).obj F).ρ (σ₀⁻¹ * σ)).asHom.hom _) = _
     rw [monodromyAction_ρ_ι_apply_of_galoisAut_eq_one F hσ]
     exact hσ₀
   · exact (isOpen_setOf_galoisAut_eq_one x A.unop).preimage (continuous_const.mul continuous_id)

@@ -44,6 +44,32 @@ namespace AlgebraicGeometry.Artin.ContractionSituation
 
 attribute [local instance] Space.pointTopology
 
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_presheaf_ContractionSolutionModificationMap
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+local instance (priority := high) hasPullback_presheaf_ContractionSolutionModificationMap
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  hasPullbacks_presheaf_ContractionSolutionModificationMap.has_limit _
+
+/-- Pullbacks of fppf sheaves in `Type (u + 1)` on `BigFppfOver B S hS`: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullbacks_sheaf_ContractionSolutionModificationMap
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))) := by
+  set_option synthInstance.maxHeartbeats 400000 in infer_instance
+
+local instance (priority := high) hasLimit_cospan_sheaf_ContractionSolutionModificationMap
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type (u + 1))} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
     (c : ContractionSituation B S hS) {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (α : contractionFunctor c ≅ morOnLocallyNoetherian B S hS X)
@@ -125,7 +151,7 @@ theorem exists_mor_restrict_completion (V : LocallyNoetherianOver B S hS)
       (tripleOfMor c α V (ξ ≫ A.h)).Zᶜ).ι) := by
     have : pullback.snd w.p (Space.openSubspaceOfPoints B S hS (yoneda.obj V.obj)
         (tripleOfMor c α V (ξ ≫ A.h)).Zᶜ).ι = hpb.isoPullback.inv := by
-      rw [← cancel_epi hpb.isoPullback.hom, Iso.hom_inv_id, hpb.isoPullback_hom_snd]
+      rw [← Iso.cancel_iso_hom_left hpb.isoPullback, Iso.hom_inv_id, hpb.isoPullback_hom_snd]
     rw [this]
     infer_instance
   have bij := Space.completionOverFunctor_map_bijective hYV hN
@@ -140,7 +166,7 @@ theorem exists_mor_restrict_completion (V : LocallyNoetherianOver B S hS)
   obtain ⟨σ, hσ⟩ := bij.2 (Over.homMk lift hlift)
   have hσl : Space.completionOverMap B S hS (tripleOfMor c α V (ξ ≫ A.h)).Z σ = lift :=
     congrArg (fun φ => φ.left) hσ
-  have hσw : σ.left ≫ w.p = 𝟙 _ := by simpa using Over.w σ
+  have hσw : σ.left ≫ w.p = 𝟙 _ := Over.w σ
   refine ⟨σ.left ≫ w.x', ?_, ?_⟩
   · have hj : (Space.openSubspaceOfPoints B S hS (yoneda.obj V.obj)
         (tripleOfMor c α V (ξ ≫ A.h)).Zᶜ).ι ≫ σ.left = w.j := by

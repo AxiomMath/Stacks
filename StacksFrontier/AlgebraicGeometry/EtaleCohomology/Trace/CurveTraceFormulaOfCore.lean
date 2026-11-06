@@ -110,6 +110,9 @@ theorem cohomologicalTraceFormula_of_isZero_off_finite (W : Over (Spec (.of k)))
     rw [← hrange] at this
     exact Finite.of_injective_finite_range ι0.isClosedEmbedding.injective
   have : IsFinite (ι0 ≫ W.hom) := by
+    have : LocallyOfFiniteType ι0 := AlgebraicGeometry.instLocallyOfFiniteTypeOfIsClosedImmersion ι0
+    have : LocallyOfFiniteType W.hom := IsProper.toLocallyOfFiniteType
+    have : LocallyOfFiniteType (ι0 ≫ W.hom) := locallyOfFiniteType_comp ι0 W.hom
     have : LocallyQuasiFinite (ι0 ≫ W.hom) :=
       (locallyQuasiFinite_iff_finite_preimage_singleton).2 fun _ => Set.toFinite _
     exact IsFinite.of_isProper_of_locallyQuasiFinite _

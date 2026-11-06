@@ -202,7 +202,7 @@ instance isReduced_galoisCoverOverProd :
 forces that element to be the identity. -/
 theorem eq_one_of_comp_galoisAction {K : Type} [Field K]
     (β : Spec (.of K) ⟶ Spec (.of (AlgebraicClosure ℚ))) (g : galoisGroup)
-    (h : β ≫ (galoisAction B hS hU g).hom.left = β) : g = 1 := by
+    (h : β ≫ (galoisAction B hS hU g).asIso.hom.left = β) : g = 1 := by
   have h' : Spec.map (CommRingCat.ofHom (g⁻¹).toRingEquiv.toRingHom ≫ Spec.preimage β) =
       Spec.map (Spec.preimage β) := by
     rwa [Spec.map_comp, Spec.map_preimage]
@@ -247,13 +247,13 @@ theorem exists_mem_range_relationSummand
 /-- On the summand indexed by `σ`, the target map of the graph relation is the action of `σ`. -/
 theorem relationSummand_target (σ : galoisGroup) :
     relationSummand B hS hU σ ≫ (galoisRelation B hS hU).target.left =
-      (galoisAction B hS hU σ).hom.left := by
+      (galoisAction B hS hU σ).asIso.hom.left := by
   have ht : (galoisRelation B hS hU).target =
       Space.actionRelationTarget (galoisCover B hS hU) galoisGroup (galoisAction B hS hU) :=
     prod.lift_fst _ _
   rw [ht]
   show (Sigma.ι (fun _ : galoisGroup ↦ galoisCover B hS hU) σ ≫
-    Sigma.desc (fun h : galoisGroup ↦ (galoisAction B hS hU h).hom)).left = _
+    Sigma.desc (fun h : galoisGroup ↦ (galoisAction B hS hU h).asIso.hom)).left = _
   rw [Sigma.ι_desc]
 
 /-- On every summand, the source map of the graph relation is the identity. -/
@@ -271,7 +271,7 @@ theorem relationSummand_source (σ : galoisGroup) :
 `Spec ℚ̄ ⟶ Spec ℚ̄ ×_ℚ Spec ℚ̄`. -/
 abbrev galoisGraph (σ : galoisGroup) :
     galoisCover B hS hU ⟶ galoisCover B hS hU ⨯ galoisCover B hS hU :=
-  prod.lift (𝟙 _) (galoisAction B hS hU σ).hom
+  prod.lift (𝟙 _) (galoisAction B hS hU σ).asIso.hom
 
 /-- If the two projections of `Spec ℚ̄ ×_ℚ Spec ℚ̄` are related by the Galois action, then the
 absolute Galois group of `ℚ` is finite.
@@ -309,17 +309,17 @@ theorem finite_galoisGroup_of_rel
     let ρ := IsOpenImmersion.lift (relationSummand B hS hU τ) _ hrange
     have hρ : ρ ≫ relationSummand B hS hU τ = (galoisGraph B hS hU σ).left ≫ r.left :=
       IsOpenImmersion.lift_fac _ _ _
-    have h₁ : ρ ≫ (galoisAction B hS hU τ).hom.left = 𝟙 _ := by
+    have h₁ : ρ ≫ (galoisAction B hS hU τ).asIso.hom.left = 𝟙 _ := by
       rw [← relationSummand_target, ← Category.assoc, hρ, Category.assoc, hrt',
         ← Over.comp_left, prod.lift_fst, Over.id_left]
-    have h₂ : ρ = (galoisAction B hS hU σ).hom.left := by
+    have h₂ : ρ = (galoisAction B hS hU σ).asIso.hom.left := by
       rw [← Category.comp_id ρ, ← relationSummand_source B hS hU τ, ← Category.assoc, hρ,
         Category.assoc, hrs', ← Over.comp_left, prod.lift_snd]
-    have hmul : (galoisAction B hS hU (τ * σ)).hom.left =
-        (galoisAction B hS hU σ).hom.left ≫ (galoisAction B hS hU τ).hom.left := by
+    have hmul : (galoisAction B hS hU (τ * σ)).asIso.hom.left =
+        (galoisAction B hS hU σ).asIso.hom.left ≫ (galoisAction B hS hU τ).asIso.hom.left := by
       rw [map_mul]
       rfl
-    have hone : 𝟙 _ ≫ (galoisAction B hS hU (τ * σ)).hom.left = 𝟙 _ := by
+    have hone : 𝟙 _ ≫ (galoisAction B hS hU (τ * σ)).asIso.hom.left = 𝟙 _ := by
       rw [Category.id_comp, hmul, ← h₂, h₁]
     exact eq_inv_of_mul_eq_one_right (eq_one_of_comp_galoisAction B hS hU _ _ hone)
   have hpick (σ : galoisGroup) : ∃ τ : t, (galoisGraph B hS hU σ).left pt ∈ O τ := by

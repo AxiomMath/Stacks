@@ -2,6 +2,7 @@ module
 
 import Mathlib.RingTheory.RegularLocalRing.Polynomial
 import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.KrullDimension.Polynomial
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Topology.Sheaves.Presheaf
@@ -79,7 +80,7 @@ theorem PrimeSpectrum.exists_notMem_topologicalKrullDim_basicOpen_le_localKrullD
   have hne : s.Nonempty :=
     ⟨_, ⟨1, fun h => x.isPrime.ne_top (Ideal.eq_top_of_isUnit_mem _ h isUnit_one), rfl⟩⟩
   obtain ⟨d₀, hd₀s, hmin⟩ :=
-    (IsWellFounded.wf (r := ((· < ·) : WithBot ℕ∞ → _ → Prop))).has_min s hne
+    (wellFounded_lt (α := WithBot ℕ∞)).has_min s hne
   obtain ⟨g₀, hg₀, hdg₀⟩ := hd₀s
   refine ⟨g₀, hg₀, ?_⟩
   rw [hdg₀, TopologicalSpace.localKrullDim]
@@ -122,7 +123,7 @@ theorem PrimeSpectrum.localKrullDim_add_height_comap_eq_natCard_add_height
   have h := (PrimeSpectrum.localKrullDim_comap_add_height_eq_localKrullDim_add_height_comap
     k f hf x).symm
   rw [PrimeSpectrum.localKrullDim_eq_ringKrullDim_of_isDomain k (MvPolynomial ι k)] at h
-  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field] at h
+  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite, ringKrullDim_eq_zero_of_field] at h
   rw [h]
   norm_num
 
@@ -395,7 +396,8 @@ theorem Algebra.Generators.exists_isGlobalCompleteIntersection_away_of_spanFinra
       (Ideal.IsPrime.ne_top (Ideal.comap_isPrime _ _))
   have hq'ne : (q.comap (algebraMap P.Ring S)).height ≠ ⊤ := by
     intro htop
-    rw [htop, MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field] at hq'le
+    rw [htop, MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite,
+      ringKrullDim_eq_zero_of_field] at hq'le
     simp only [zero_add] at hq'le
     have htle : (⊤ : ℕ∞) ≤ (Nat.card ι : ℕ∞) := by exact_mod_cast hq'le
     simp at htle

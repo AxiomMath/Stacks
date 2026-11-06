@@ -215,7 +215,8 @@ theorem nonempty_isLimit_affineOverToOver_of_mono {Y : AlgebraicSpaces B S hS}
     have ha : ∀ i : J, (a.app i).left ≫ r i = (a.app i₀).left := fun i => by
       simp only [hr]
       have h2 : a.app i ≫ (affineOverToOver B S hS Y).map (D.map (hi₀.from i)) = a.app i₀ := by
-        simpa using (a.naturality (hi₀.from i)).symm
+        have hn := a.naturality (hi₀.from i)
+        exact hn.symm.trans (Category.id_comp _)
       have h3 := congrArg (fun t => t.left) h2
       rw [Over.comp_left] at h3
       exact h3

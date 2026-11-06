@@ -107,10 +107,10 @@ public def widePullbackTerminalIsoFiniteProduct (K : Sheaf J (Type u)) (n : ℕ)
       inv_hom_id := ?_ }
   · apply WidePullback.hom_ext
     · intro i
-      simp only [f, Category.assoc, Pi.lift_π, WidePullback.lift_π, Category.id_comp]
+      simp only [f, Category.assoc, Pi.lift_comp_π, WidePullback.lift_π, Category.id_comp]
     · exact terminal.hom_ext _ _
   · exact Pi.hom_ext _ _ fun i => by
-      simp only [f, Category.assoc, WidePullback.lift_π, Pi.lift_π, Category.id_comp]
+      simp only [f, Category.assoc, WidePullback.lift_π, Pi.lift_comp_π, Category.id_comp]
 
 /-! ### The terms of the free abelian Čech complex -/
 

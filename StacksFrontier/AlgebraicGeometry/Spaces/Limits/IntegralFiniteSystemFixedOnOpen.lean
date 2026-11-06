@@ -214,6 +214,20 @@ theorem isIso_toRelativeSpecPoints (hf : IsAffineHom B S hS f.hom) :
 
 /-! ### The preimage of an open subspace -/
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullbacks_presheaf_IntegralFiniteSystemFixedOnOpen
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  CategoryTheory.Limits.functorCategoryHasLimitsOfShape
+
+/-- The pullback of two morphisms of presheaves on the big fppf site over `S`. -/
+local instance (priority := high) hasPullback_presheaf_IntegralFiniteSystemFixedOnOpen
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 section Preimage
 
 variable {B S hS} {Z₁ Z₂ Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
@@ -387,7 +401,7 @@ theorem isLimit_toRelativeSpecPointsCone_and_isPullback (hf : IsAffineHom B S hS
       relativeSpecPointsπ B S hS (D.obj j) = f.hom := fun j => by
     rw [Category.assoc, relativeSpecPointsMap_comp_π, toRelativeSpecPoints_comp_π]
   refine ⟨⟨(isLimitMapConeRelativeSpecPointsFunctor B S hS hι).ofIsoLimit
-    (Cones.ext (asIso (toRelativeSpecPoints B S hS f)).symm fun j => ?_)⟩, hcomp,
+    (Cone.ext (asIso (toRelativeSpecPoints B S hS f)).symm fun j => ?_)⟩, hcomp,
     fun j => ?_⟩
   · show relativeSpecPointsMap B S hS (ι.app j.unop) =
       inv (toRelativeSpecPoints B S hS f) ≫ toRelativeSpecPoints B S hS f ≫

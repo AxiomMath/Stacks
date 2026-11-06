@@ -6,6 +6,7 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.RingedToposModules
 public import StacksFrontier.CategoryTheory.Sites.Modules.Tensor
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.PullbackTensorComparison
+public import Mathlib.CategoryTheory.Sites.Limits
 
 /-! # Bilinear pairings and the tensor product of sheaves of modules
 
@@ -179,6 +180,9 @@ private lemma eq_iff_forall_prodProd' {X Y Z E : Sheaf J (Type w)} {m m' : X ⨯
         (sectionsFunctor J U).map m' (Functor.prodObjMk x (Functor.prodObjMk y z)) :=
   ⟨fun h _ _ _ _ ↦ by rw [h], hom_ext_prodProd'⟩
 
+-- The instance search for the binary products in the statement became slow in Mathlib v4.35.0.
+set_option maxHeartbeats 2000000 in
+set_option synthInstance.maxHeartbeats 1000000 in
 /-- The element of a binary product of sheaves of sets determined by a pair of local sections,
 written through the inverse of the product comparison of the sections functor. This records
 that `CategoryTheory.Functor.prodObjMk` for the sections functor is the pairing of sections

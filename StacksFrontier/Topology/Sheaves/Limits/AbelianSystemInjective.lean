@@ -224,7 +224,7 @@ indexed by `b.2 : b.1 ⟶ i` is the `f_{b.2}`-map of `𝒜` followed by `(f_{b.2
 @[reassoc] theorem toCoindApp_π (i : J) (b : Σ k : J, (k ⟶ i)) :
     toCoindApp ℐ A ε i ≫ Pi.π (coindFam ℐ i) b =
       A.pushSheaf b.2 ≫ (D.pushFunctor b.2).map (ε b.1) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The components of the morphism into the coinduced system commute with the `f_a`-maps. -/
 theorem toCoindApp_push {j i : J} (a : j ⟶ i) :

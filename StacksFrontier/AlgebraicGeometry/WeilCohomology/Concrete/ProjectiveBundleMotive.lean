@@ -619,6 +619,7 @@ theorem homOf_corrCongr_comp_projectiveBundleCorr {Z : (SmoothProjectiveScheme k
     ← toCorr_correspondenceCompositionData_comp]
   exact of_toCorr_symm_corrCongr h _
 
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The key identity**: on correspondences, `(u_i) ↦ ∑_i c_i ∘ u_i` is
 `Stacks.WeilCohomology.projectiveBundleCompSum`. -/
 theorem homOf_projectiveBundleCompSum

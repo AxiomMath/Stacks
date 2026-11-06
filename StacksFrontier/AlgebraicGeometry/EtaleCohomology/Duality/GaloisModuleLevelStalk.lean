@@ -90,8 +90,8 @@ theorem etaleContinuousGModuleAddEquiv_rho (B : BigEtaleSite.{u}) (K : Type u) [
     (v : ((etaleContinuousGModuleEquivalence.{u, u + 1} B K hK sbar).functor.obj F).obj.obj.V) :
     etaleContinuousGModuleAddEquiv B K hK sbar F
         ((((etaleContinuousGModuleEquivalence.{u, u + 1} B K hK sbar).functor.obj F).obj.obj.ρ
-          σ).hom v) =
-      ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar F).obj.obj.ρ σ)
+          σ).asHom.hom v) =
+      ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B K hK sbar F).obj.obj.ρ σ).asHom
         (etaleContinuousGModuleAddEquiv B K hK sbar F v) :=
   continuousGModuleCounitAddEquiv_rho _ σ v
 
@@ -145,7 +145,7 @@ theorem exists_levelPullbackGaloisModule_addEquiv
         (α : sbar.source ≅ sbar.source) (_ : α.hom = Spec.map (CommRingCat.ofHom τ.toRingHom))
         (hαt : α.hom ≫ sbar.hom = sbar.hom)
         (v : (levelPullbackGaloisModule B V x ρ hρ φ h B'' hK sbar n).obj.obj.V),
-        Θ (((levelPullbackGaloisModule B V x ρ hρ φ h B'' hK sbar n).obj.obj.ρ σ).hom v) =
+        Θ (((levelPullbackGaloisModule B V x ρ hρ φ h B'' hK sbar n).obj.obj.ρ σ).asHom.hom v) =
           levelRepresentation ρ (n + 1) (etaleFundamentalGroupMulEquiv p
             (GeometricPoint.sourceAutElement (S := V.1) ((sbar.map h).map φ) α
               (comp_map_map_hom_eq φ h sbar hαt))) (Θ v) := by
@@ -182,11 +182,13 @@ theorem exists_levelPullbackGaloisModule_addEquiv
   intro σ τ hτ α hα hαt v
   let a : GeometricPoint.Hom sbar sbar := ⟨α.hom, hαt⟩
   let b : GeometricPoint.Hom w w := (a.map h).map φ
-  have c0 : ∀ y, Θ₀ (((levelPullbackGaloisModule B V x ρ hρ φ h B'' hK sbar n).obj.obj.ρ σ).hom y) =
-      ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B'' K hK sbar FB).obj.obj.ρ σ) (Θ₀ y) :=
+  have c0 : ∀ y, Θ₀ (((levelPullbackGaloisModule B V x ρ hρ φ h B'' hK sbar n).obj.obj.ρ
+      σ).asHom.hom y) =
+      ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B'' K hK sbar FB).obj.obj.ρ σ).asHom
+        (Θ₀ y) :=
     etaleContinuousGModuleAddEquiv_rho B'' K hK sbar FB σ
   have c1 : ∀ y, Θ₁ (ConcreteCategory.hom ((etaleGaloisModule.{u, u + 1} B'' K hK sbar FB).obj.obj.ρ
-      σ) y) = ConcreteCategory.hom ((geometricPointStalkMap B'' (Spec (.of K)) hK a
+      σ).asHom y) = ConcreteCategory.hom ((geometricPointStalkMap B'' (Spec (.of K)) hK a
         AddCommGrpCat.{u + 1}).app FB.obj) (Θ₁ y) :=
     etaleGaloisModuleAddEquivStalk_rho B'' K hK sbar FB σ τ hτ a hα
   have c2 : ∀ z, I2.symm.addCommGroupIsoToAddEquiv (ConcreteCategory.hom ((geometricPointStalkMap

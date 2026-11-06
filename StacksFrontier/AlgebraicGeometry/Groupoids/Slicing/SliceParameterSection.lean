@@ -105,14 +105,14 @@ public theorem exists_mem_primeIdealOf_isSMulRegular_cohenMacaulay_quotient
             (G.objects.left.presheaf.germ A.1 u huA b)) ∧
         ∃ _ : IsLocalRing ((G.source.left.fiber u).presheaf.stalk (sourceFiberIdentity G u) ⧸
             Ideal.span {(targetSourceFiberStalkMap G u).hom
-              (G.objects.left.presheaf.germ A.1 u huA b)}),
+                          (G.objects.left.presheaf.germ A.1 u huA b)}),
           IsCohenMacaulayLocalRing
               ((G.source.left.fiber u).presheaf.stalk (sourceFiberIdentity G u) ⧸
                 Ideal.span {(targetSourceFiberStalkMap G u).hom
-                  (G.objects.left.presheaf.germ A.1 u huA b)}) ∧
+                              (G.objects.left.presheaf.germ A.1 u huA b)}) ∧
             ringKrullDim ((G.source.left.fiber u).presheaf.stalk (sourceFiberIdentity G u) ⧸
                 Ideal.span {(targetSourceFiberStalkMap G u).hom
-                  (G.objects.left.presheaf.germ A.1 u huA b)}) + 1 =
+                              (G.objects.left.presheaf.germ A.1 u huA b)}) + 1 =
               ringKrullDim
                 ((G.source.left.fiber u).presheaf.stalk (sourceFiberIdentity G u)) := by
   obtain ⟨f, hfmem, hfreg, hloc, hCMq, hdrop⟩ :=

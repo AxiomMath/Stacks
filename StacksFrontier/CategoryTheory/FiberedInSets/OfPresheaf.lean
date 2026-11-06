@@ -51,4 +51,4 @@ the pairs `(U, x)` with `x ∈ F(U)`, and a morphism `(V, y) ⟶ (U, x)` is an `
 with `f^* x = y`. This is Mathlib's category of elements of `F`. -/
 @[reducible, stacks 04TM, sga "7 VI 1.1(a)" "set-valued F"]
 def elementsCategory {C : Type*} [Category C] (F : Cᵒᵖ ⥤ Type*) :
-    Category F.Elements := categoryOfElements F
+    Category F.Elements := inferInstance

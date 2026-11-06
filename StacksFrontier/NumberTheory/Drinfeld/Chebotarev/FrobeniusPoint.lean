@@ -174,12 +174,12 @@ theorem exists_frobeniusData_element_smul_eq [ConnectedSpace X] [LocallyOfFinite
     show a ^ Fintype.card (X.residueField y) = a ^ p ^ (e * D)
     convert congrArg (a ^ ·) hcard using 2
   have hloc :
-      (c.localElement.app Z).hom qz = (finiteEtaleFiberFunctor c.geometricPoint).map σ qz := by
+      (c.localElement.asIso.app Z).hom qz = (finiteEtaleFiberFunctor c.geometricPoint).map σ qz := by
     apply Subtype.ext
     rw [FrobeniusData.localElement_app_apply c Z qz, hfrob]
     exact htw.symm
   refine ⟨hcl, c, path.hom.app Z qz, ?_⟩
-  show ((path.conjAut c.localElement).app Z).hom (path.hom.app Z qz) = _
+  show ((path.conjAut c.localElement).asIso.app Z).hom (path.hom.app Z qz) = _
   refine (Stacks.FundamentalGroup.conjAut_app_apply path c.localElement Z qz).trans ?_
   rw [hloc]
   exact congrArg (fun φ => φ qz) (path.hom.naturality σ)
@@ -202,9 +202,9 @@ theorem exists_frobeniusData_element_mem_smul {X : Scheme.{u}} [ConnectedSpace X
   obtain ⟨γ, rfl⟩ := htrans w
   have hnat : ∀ (δ : EtaleFundamentalGroup X base) (v : (finiteEtaleFiberFunctor base).obj Z),
       (finiteEtaleFiberFunctor base).map σ (δ • v) = δ • (finiteEtaleFiberFunctor base).map σ v :=
-    fun δ v => (congrArg (fun φ => φ v) (δ.hom.naturality σ)).symm
+    fun δ v => (congrArg (fun φ => φ v) (δ.asIso.hom.naturality σ)).symm
   rw [hnat, hσ] at hw
-  refine ⟨{ c with path := c.path ≪≫ (γ⁻¹ : EtaleFundamentalGroup X base) }, ?_⟩
+  refine ⟨{ c with path := c.path ≪≫ (γ⁻¹ : EtaleFundamentalGroup X base).asIso }, ?_⟩
   rw [FrobeniusData.element_path_trans, inv_inv, mem_leftCoset_iff, SetLike.mem_coe, ← hstab,
     mul_smul, mul_smul, mul_smul, hw, inv_smul_smul, inv_smul_smul]
 

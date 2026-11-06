@@ -437,7 +437,7 @@ def termDualIso
             (Limits.Pi.π (fun T : Idx r p => internalHomSheaf X (F.obj T.1) N) S ≫
               internalHomPre X (Limits.Pi.π (fun T : Idx r p => F.obj T.1) S)) =
           internalHomPre X (Limits.Pi.π (fun T : Idx r p => F.obj T.1) S ≫ termι F S) := fun S => by
-      rw [← Category.assoc, Limits.Pi.lift_π, internalHomPre_comp]
+      rw [← Category.assoc, Limits.Pi.lift_comp_π, internalHomPre_comp]
     rw [Preadditive.comp_sum, Finset.sum_congr rfl fun S _ => hstep S, ← internalHomPre_sum,
       π_comp_termι_sum, internalHomPre_id]
   inv_hom_id := by
@@ -449,7 +449,7 @@ def termDualIso
           Limits.Pi.π (fun T : Idx r p => internalHomSheaf X (F.obj T.1) N) S ≫
             internalHomPre X (termι F S' ≫ Limits.Pi.π (fun T : Idx r p => F.obj T.1) S) :=
         fun S => by rw [Category.assoc, internalHomPre_comp]
-    rw [Category.assoc, Limits.Pi.lift_π, Category.id_comp, Preadditive.sum_comp,
+    rw [Category.assoc, Limits.Pi.lift_comp_π, Category.id_comp, Preadditive.sum_comp,
       Finset.sum_congr rfl fun S _ => hstep S, Finset.sum_eq_single S']
     · rw [termι_comp_π_self, internalHomPre_id, Category.comp_id]
     · intro S _ hS
@@ -464,7 +464,7 @@ theorem termDualIso_hom_π
     (termDualIso X F p N).hom ≫
         Limits.Pi.π (fun T : Idx r p => internalHomSheaf X (F.obj T.1) N) S =
       internalHomPre X (termι F S) :=
-  Limits.Pi.lift_π _ _
+  Limits.Pi.lift_comp_π _ _
 
 end Dual
 
@@ -597,11 +597,11 @@ def signedPiIso {ι κ : Type} (e : κ ≃ ι) (sgn : κ → ℤ) (hsgn : ∀ k,
   inv := Pi.lift fun i => sgn (e.symm i) • Pi.π (fun _ : κ => M) (e.symm i)
   hom_inv_id := by
     refine Pi.hom_ext _ _ fun i => ?_
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_zsmul, Pi.lift_π, smul_smul,
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_zsmul, Pi.lift_comp_π, smul_smul,
       e.apply_symm_apply, hsgn, one_smul, Category.id_comp]
   inv_hom_id := by
     refine Pi.hom_ext _ _ fun k => ?_
-    rw [Category.assoc, Pi.lift_π, Preadditive.comp_zsmul, Pi.lift_π, smul_smul,
+    rw [Category.assoc, Pi.lift_comp_π, Preadditive.comp_zsmul, Pi.lift_comp_π, smul_smul,
       e.symm_apply_apply, hsgn, one_smul, Category.id_comp]
 
 /-- The `k`-th component of the signed reindexing is `sgn k` times the projection onto the
@@ -612,7 +612,7 @@ theorem signedPiIso_hom_π {ι κ : Type} (e : κ ≃ ι) (sgn : κ → ℤ)
     [HasProduct (fun _ : ι => M)] [HasProduct (fun _ : κ => M)] (k : κ) :
     (signedPiIso e sgn hsgn M).hom ≫ Pi.π (fun _ : κ => M) k =
       sgn k • Pi.π (fun _ : ι => M) (e k) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 end SignedReindex
 
@@ -857,7 +857,7 @@ def koszulPowerFunctorOnMapIso
     koszulPowerFunctorOn X f M n ≅ koszulPowerFunctorOn X f M' n :=
   NatIso.ofComponents (fun _ => α) fun {S T} _ =>
     ((Stacks.SheafOfModules.globalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))
-      (koszulFamily X f (koszulExp n S T))).naturality α.hom).symm
+      (koszulFamily X f (koszulExp n S T))).asHom.naturality α.hom).symm
 
 /-- **An isomorphism of coefficient sheaves induces one of the Koszul complexes with
 coefficients.** -/
@@ -1004,7 +1004,7 @@ theorem koszulPowerComplexOnMapIso_dualTrans
   refine Eq.trans (congrArg AlternatingCech.map ?_) (AlternatingCech.map_comp _ _)
   refine NatTrans.ext (funext fun T => ?_)
   exact (Stacks.SheafOfModules.globalSectionToEnd ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))
-    (koszulFamily X f (fun i => if i ∈ Tᶜ then 1 else 0))).naturality α.hom |>.symm
+    (koszulFamily X f (fun i => if i ∈ Tᶜ then 1 else 0))).asHom.naturality α.hom |>.symm
 
 /-- **The `𝒪`-dual of the Koszul complex is the `r`-fold shift of the Koszul complex with
 coefficients in `ℱ`**: the self-duality of the Koszul complex, with coefficients in a sheaf of

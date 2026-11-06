@@ -205,7 +205,7 @@ theorem isPullback_thickeningPushforwardι (hinj : ∀ T, Function.Injective (ι
   refine isPullback_of_existsUnique_app (by ext; rfl) fun T w z hwz ↦ ?_
   have hz : ι.app _ z = X.map (𝟙 T.unop).op w.1.1 := by
     rw [← hwz]
-    simp only [op_id, FunctorToTypes.map_id_apply]
+    simp only [op_id, Functor.map_id_apply]
     rfl
   obtain ⟨e, he⟩ := w.2.nonempty T.unop (𝟙 _) z hz
   have hce : c.app T e = z := (w.2.mem _ _ _ e he).2

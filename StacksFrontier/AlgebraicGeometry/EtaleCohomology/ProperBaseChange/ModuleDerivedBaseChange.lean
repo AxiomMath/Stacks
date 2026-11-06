@@ -111,7 +111,7 @@ with `g^{-1}` of the derived-functor unit of `Rf_*` is the localized degreewise 
 `g^{-1} f_* K ⟶ f'_* (g')^{-1} K` followed by the derived-functor unit of `Rf'_*`. -/
 theorem etaleModuleDerivedBaseChange_fac (K : HomotopyCategory.Plus (EtaleModules.{u, r} Λ X)) :
     (etaleModuleDerivedInverseImagePlus.{u, r} Λ g).map
-        ((etaleModuleDirectImage.{u, r} Λ f).rightDerivedFunctorPlusUnit.app K) ≫
+        ((etaleModuleDirectImage.{u, r} Λ f).rightDerivedFunctorPlusUnith.app K) ≫
       (etaleModuleDerivedBaseChange.{u, r} Λ f f' g g' w).app (DerivedCategory.Plus.Qh.obj K) =
     (etaleModuleDerivedBaseChangeAux.{u, r} Λ f f' g g' w).app K :=
   Stacks.Cohomology.DerivedBaseChangePlus.derivedBaseChangePlus_fac _ _ _ _ _ K

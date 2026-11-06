@@ -173,7 +173,7 @@ theorem liftActionSheafTransport_obj (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     (U' : SmallEtale C S hS X'.1) :
-    (liftActionSheafTransport C S hS Z hG q a).val.obj (op U') =
+    (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U') =
       (liftActionSheaf C S hS Z q a).val.obj
         (op ((thickeningChartBaseChange C S hS hG).obj U')) :=
   rfl
@@ -184,8 +184,8 @@ theorem liftActionSheafTransport_map (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U') :
-    (liftActionSheafTransport C S hS Z hG q a).val.map m.op =
-      (liftActionSheafTypeSheaf C S hS Z q a).val.map
+    (liftActionSheafTransport C S hS Z hG q a).obj.map m.op =
+      (liftActionSheafTypeSheaf C S hS Z q a).obj.map
         ((thickeningChartBaseChange C S hS hG).map m).op :=
   rfl
 
@@ -196,7 +196,7 @@ instance liftActionSheafTransport_addCommGroup (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     (U' : SmallEtale C S hS X'.1) :
-    AddCommGroup ((liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :=
+    AddCommGroup ((liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :=
   inferInstanceAs (AddCommGroup ((liftActionSheaf C S hS Z q a).val.presheaf.obj
     (op ((thickeningChartBaseChange C S hS hG).obj U'))))
 
@@ -208,8 +208,8 @@ theorem liftActionSheafTransport_map_apply (Z : ClosedSubspaces C S hS X'.1)
     (hG : IsThickening C S hS X' Z.1) (q : Y ⟶ Bb)
     (a : (⟨Z.1.toFunctor, Z.2.1⟩ : AlgebraicSpaces C S hS) ⟶ Y)
     {U' V' : SmallEtale C S hS X'.1} (m : V' ⟶ U')
-    (x : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
-    (liftActionSheafTransport C S hS Z hG q a).val.map m.op x =
+    (x : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
+    (liftActionSheafTransport C S hS Z hG q a).obj.map m.op x =
       ((liftActionSheaf C S hS Z q a).val.presheaf.map
         ((thickeningChartBaseChange C S hS hG).map m).op).hom x :=
   rfl
@@ -267,8 +267,8 @@ def transportActionSectionEquiv (hG : IsThickening C S hS X' Z.1)
     (hv : (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme C S hS)).presheaf P.bseChart) :
-    (liftActionSheafTransport C S hS Z hG q a).val.obj (op U') ≃ P.ActionSection :=
-  (((liftActionSheafTypeSheaf C S hS Z q a).val.mapIso
+    (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U') ≃ P.ActionSection :=
+  (((liftActionSheafTypeSheaf C S hS Z q a).obj.mapIso
     (Iso.op (P.subEtaleChartIso C S hS hG))).toEquiv).trans
       (actionSectionEquiv C S hS P hw hv)
 
@@ -283,7 +283,7 @@ def translateTransportSection (hG : IsThickening C S hS X' Z.1)
     (hv : (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme C S hS)).presheaf P.bseChart)
-    (θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
+    (θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
     (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U') :=
   P.translateActionSection (P.transportActionSectionEquiv C S hS hG hw hv θ)
 
@@ -319,7 +319,7 @@ def transportLiftsEquiv (hG : IsThickening C S hS X' Z.1)
     (hv : (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme C S hS)).presheaf P.bseChart) :
-    (liftActionSheafTransport C S hS Z hG q a).val.obj (op U') ≃
+    (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U') ≃
       (liftsSubfunctor C S hS p q a.hom).toFunctor.obj (op U') :=
   Equiv.ofBijective _ (P.translateTransportSection_bijective C S hS hG hw hv)
 
@@ -332,7 +332,7 @@ theorem transportLiftsEquiv_apply (hG : IsThickening C S hS X' Z.1)
     (hv : (MorphismProperty.inverseImage
       (@Etale.{u} : MorphismProperty Scheme.{u})
       (BigFppfOver.toScheme C S hS)).presheaf P.bseChart)
-    (θ : (liftActionSheafTransport C S hS Z hG q a).val.obj (op U')) :
+    (θ : (liftActionSheafTransport C S hS Z hG q a).obj.obj (op U')) :
     P.transportLiftsEquiv C S hS hG hw hv θ =
       P.translateTransportSection C S hS hG hw hv θ :=
   rfl

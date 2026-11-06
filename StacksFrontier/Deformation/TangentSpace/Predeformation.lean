@@ -346,7 +346,7 @@ private theorem derivationMorphism_unique (D : Derivation Λ k k)
     (hf : IsDerivationMorphism D f) :
     f = derivationMorphism (Λ := Λ) (k := k) D := by
   apply ArtinianLocalAlgCat.hom_ext
-  exact AlgHom.ext fun ⟨a⟩ => TrivSqZeroExt.ext (hf a).1 (ULift.ext _ _ (hf a).2)
+  exact AlgHom.ext fun ⟨a⟩ => TrivSqZeroExt.ext (hf a).1 (ULift.ext (hf a).2)
 
 /-- The special-fibre class has a well-defined pushforward along derivation morphisms. -/
 theorem existsUnique_derivationToTangentSpace :

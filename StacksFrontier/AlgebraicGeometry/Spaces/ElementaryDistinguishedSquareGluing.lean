@@ -263,6 +263,92 @@ end Generic
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_presheaf_elementaryDistinguishedSquareGluing
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+/-- Pullbacks in over categories of presheaves on the big fppf site (instance search times out
+without this shortcut). -/
+local instance (priority := high) hasPullback_overPresheaf_elementaryDistinguishedSquareGluing
+    {P : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {X Y Z : Over P} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  haveI : HasLimitsOfShape WalkingCospan (Over P) := Over.hasLimitsOfShape_of_isConnected
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimits_presheaf_elementaryDistinguishedSquareGluing :
+    HasLimitsOfSize.{u, u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Limits of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasLimits_sheaf_elementaryDistinguishedSquareGluing :
+    HasLimitsOfSize.{u, u} (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Finite limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasFiniteLimits_presheaf_elementaryDistinguishedSquareGluing :
+    HasFiniteLimits ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasProducts_presheaf_elementaryDistinguishedSquareGluing :
+    HasProducts.{u} ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Discrete limits of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_presheaf_elementaryDistinguishedSquareGluing
+    (K : Type u) : HasLimitsOfShape (Discrete K) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  hasProducts_presheaf_elementaryDistinguishedSquareGluing B S hS K
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Finite limits of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasFiniteLimits_sheaf_elementaryDistinguishedSquareGluing :
+    HasFiniteLimits (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Products of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasProducts_sheaf_elementaryDistinguishedSquareGluing :
+    HasProducts.{u} (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
+
+/-- Discrete limits of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high)
+    hasLimitsOfShape_discrete_sheaf_elementaryDistinguishedSquareGluing
+    (K : Type u) :
+    HasLimitsOfShape (Discrete K) (Sheaf (BigFppfOver.topology B S hS) (Type u)) :=
+  hasProducts_sheaf_elementaryDistinguishedSquareGluing B S hS K
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullbacks_sheaf_elementaryDistinguishedSquareGluing :
+    HasPullbacks (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
+
+/-- Pullbacks of sheaves on the big fppf site (instance search times out without this
+shortcut). -/
+local instance (priority := high) hasPullback_sheaf_elementaryDistinguishedSquareGluing
+    {X Y Z : Sheaf (BigFppfOver.topology B S hS) (Type u)} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Strict initial objects of sheaves on the big fppf site (instance search times out without
+this shortcut). -/
+local instance (priority := high)
+    hasStrictInitialObjects_sheaf_elementaryDistinguishedSquareGluing :
+    HasStrictInitialObjects (Sheaf (BigFppfOver.topology B S hS) (Type u)) := inferInstance
+
 /-! ### Elementary facts about morphisms of algebraic spaces -/
 
 /-- An open immersion is an isomorphism onto its range. -/
@@ -990,9 +1076,9 @@ private theorem exists_sheafPushout_isAlgebraicSpace
     constructor
     intro Y a b hab
     apply hQ.hom_ext
-    · simpa [q, coprod.inr_desc] using
+    · simpa only [q, ← Category.assoc, coprod.inr_desc] using
         congrArg (fun k => (coprod.inr : E.obj V ⟶ X) ≫ k) hab
-    · simpa [q, coprod.inl_desc] using
+    · simpa only [q, ← Category.assoc, coprod.inl_desc] using
         congrArg (fun k => (coprod.inl : E.obj U ⟶ X) ≫ k) hab
   have hkr : IsKernelPair q (E.map (ObjectProperty.homMk rel.target.left : Rsp ⟶ Xsp))
       (E.map (ObjectProperty.homMk rel.source.left : Rsp ⟶ Xsp)) := by

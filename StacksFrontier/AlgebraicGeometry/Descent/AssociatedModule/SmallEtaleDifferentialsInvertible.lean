@@ -251,9 +251,9 @@ public theorem universalRelativeDerivation_postcomp_sectionsUnit :
 private theorem postcomp_postcomp_of_comp_eq_id
     {C : Type*} [Category C] {R S : Cᵒᵖ ⥤ CommRingCat.{u}} {φ : S ⟶ R}
     {M N : PresheafOfModules.{u} (R ⋙ forget₂ CommRingCat RingCat)}
-    (d : M.Derivation' φ) (a : M ⟶ N) (b : N ⟶ M) (h : ∀ V, (a ≫ b).app V = 𝟙 _) :
+    (d : PresheafOfModulesOfCommRing.Derivation' M φ) (a : M ⟶ N) (b : N ⟶ M) (h : ∀ V, (a ≫ b).app V = 𝟙 _) :
     (d.postcomp a).postcomp b = d :=
-  PresheafOfModules.Derivation.ext (funext fun V => AddMonoidHom.ext fun x =>
+  PresheafOfModulesOfCommRing.Derivation.ext (funext fun V => AddMonoidHom.ext fun x =>
     ConcreteCategory.congr_hom (h V) (d.d x))
 
 /-- **The key compatibility of Stacks 04CS.**  The comparison map `c''` attached to the
@@ -302,7 +302,7 @@ public theorem differentialsComparison_associatedDerivation :
           CategoryTheory.Functor.map_id]
         rfl
     exact Eq.trans (hcollapse A).symm (Eq.trans (congrArg (fun E =>
-      PresheafOfModules.Derivation.postcomp E ((restrictModule B X hX).map
+      PresheafOfModulesOfCommRing.Derivation.postcomp E ((restrictModule B X hX).map
         (associatedModuleIsoSectionsSheaf B X hX
           (Scheme.Hom.relativeDifferentials f)).inv).val) h) (hcollapse C))
   refine hcancel _ _ ?_

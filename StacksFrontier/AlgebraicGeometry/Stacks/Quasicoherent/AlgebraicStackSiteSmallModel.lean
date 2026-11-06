@@ -132,21 +132,25 @@ def etaleModulesSmallModelEquivalence :
     ((FibredSite.ringStructureSheafCore B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids .fppf).ofLE
       (etaleTopologyLeFppf B S hS 𝒳))
 
-/-- The functor of `fppfModulesSmallModelEquivalence` is additive. -/
-instance : (fppfModulesSmallModelEquivalence B S hS 𝒳).functor.Additive :=
-  Functor.additive_of_preserves_binary_products _
-
 /-- The inverse of `fppfModulesSmallModelEquivalence` is additive. -/
 instance : (fppfModulesSmallModelEquivalence B S hS 𝒳).inverse.Additive :=
   Functor.additive_of_preserves_binary_products _
 
-/-- The functor of `etaleModulesSmallModelEquivalence` is additive. -/
-instance : (etaleModulesSmallModelEquivalence B S hS 𝒳).functor.Additive :=
-  Functor.additive_of_preserves_binary_products _
+/-- The functor of `fppfModulesSmallModelEquivalence` is additive, as the inverse of the inverse equivalence. -/
+instance : (fppfModulesSmallModelEquivalence B S hS 𝒳).functor.Additive :=
+  haveI : (fppfModulesSmallModelEquivalence B S hS 𝒳).symm.functor.Additive :=
+    inferInstanceAs (fppfModulesSmallModelEquivalence B S hS 𝒳).inverse.Additive
+  Equivalence.inverse_additive (fppfModulesSmallModelEquivalence B S hS 𝒳).symm
 
 /-- The inverse of `etaleModulesSmallModelEquivalence` is additive. -/
 instance : (etaleModulesSmallModelEquivalence B S hS 𝒳).inverse.Additive :=
   Functor.additive_of_preserves_binary_products _
+
+/-- The functor of `etaleModulesSmallModelEquivalence` is additive, as the inverse of the inverse equivalence. -/
+instance : (etaleModulesSmallModelEquivalence B S hS 𝒳).functor.Additive :=
+  haveI : (etaleModulesSmallModelEquivalence B S hS 𝒳).symm.functor.Additive :=
+    inferInstanceAs (etaleModulesSmallModelEquivalence B S hS 𝒳).inverse.Additive
+  Equivalence.inverse_additive (etaleModulesSmallModelEquivalence B S hS 𝒳).symm
 
 /-! ### `ε_*` commutes with the transport -/
 

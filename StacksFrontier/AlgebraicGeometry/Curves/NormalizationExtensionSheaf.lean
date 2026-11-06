@@ -310,7 +310,7 @@ public theorem existsUnique_extend_normalization_of_hasAtWorstNodalSingularities
           = ((Scheme.normalization X hfin).app U).hom (D.onSections s) := by
     intro D₁ h₁ U s
     refine TopCat.Presheaf.IsSheaf.section_ext
-      (Scheme.normalizationScheme X hfin).sheaf.cond fun q hq => ?_
+      (Scheme.normalizationScheme X hfin).sheaf.property fun q hq => ?_
     obtain ⟨V, hVU, hqV⟩ := exists_affineOpen_le_mem_preimage hfin hq
     have hle := normalization_preimage_le hfin hVU
     refine ⟨Scheme.normalization X hfin ⁻¹ᵁ (V : X.Opens), hle, hqV, ?_⟩
@@ -335,7 +335,7 @@ public theorem existsUnique_extend_normalization_of_hasAtWorstNodalSingularities
       (fun a b => D'.onSections_mul a b) (fun r => haffine i r) hp hp z z rfl
   refine SheafDerivationOf.ext' fun V z => ?_
   refine TopCat.Presheaf.IsSheaf.section_ext
-    (Scheme.normalizationScheme X hfin).sheaf.cond (U := op V) fun q hq => ?_
+    (Scheme.normalizationScheme X hfin).sheaf.property (U := op V) fun q hq => ?_
   obtain ⟨i, hqi⟩ := exists_mem_preimage_affineOpen hfin q
   have hstalk := eq_ownStalkFun_of_leibniz_of_germ D'
     (isAffineOpen_preimage_normalization hfin i.2) hqi (ownStalkAddHom D₂ q)

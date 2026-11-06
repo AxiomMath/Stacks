@@ -178,7 +178,7 @@ lemma diagInr_apply (b : MvPolynomial ι k) :
 by the very definition of those equations. -/
 lemma diagInl_eq_diagInr : diagInl I J = diagInr I J := by
   refine MvPolynomial.algHom_ext fun i ↦ ?_
-  rw [← sub_eq_zero, diagInl_apply, diagInr_apply, ← map_sub, Ideal.Quotient.eq_zero_iff_mem]
+  rw [diagInl_apply, diagInr_apply, Ideal.Quotient.eq]
   exact Ideal.subset_span ⟨i, rfl⟩
 
 /-- Both `I` and `J` die in the quotient of the tensor product by the diagonal equations: `I`

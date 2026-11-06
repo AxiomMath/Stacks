@@ -62,7 +62,7 @@ theorem etaleFundamentalGroupMulEquiv_fiberFunctorIsoOfSourceIso_sourceAutElemen
     (hc : α₁.hom ≫ γ.hom = γ.hom ≫ α₂.hom) :
     etaleFundamentalGroupMulEquiv (GeometricPoint.fiberFunctorIsoOfSourceIso z₁ z₂ γ hγ)
         (z₂.sourceAutElement α₂ h₂) = z₁.sourceAutElement α₁ h₁ := by
-  refine Iso.ext (NatTrans.ext (funext fun V => ?_))
+  refine Aut.ext (Iso.ext (NatTrans.ext (funext fun V => ?_)))
   ext q
   refine Subtype.ext ?_
   show γ.hom ≫ α₂.hom ≫ γ.inv ≫ q.1 = α₁.hom ≫ q.1
@@ -70,52 +70,54 @@ theorem etaleFundamentalGroupMulEquiv_fiberFunctorIsoOfSourceIso_sourceAutElemen
 
 /-- Powers of an automorphism fixing a morphism `f` also fix `f`. -/
 private theorem aut_pow_hom_comp_eq {A B : Scheme.{u}} (α : Aut A) (f : A ⟶ B)
-    (hα : α.hom ≫ f = f) (n : ℕ) : (α ^ n).hom ≫ f = f := by
+    (hα : α.asIso.hom ≫ f = f) (n : ℕ) : (α ^ n).asIso.hom ≫ f = f := by
   induction n with
   | zero => exact Category.id_comp _
   | succ n ih =>
-      rw [pow_succ, Aut.Aut_mul_def]
-      show (α.hom ≫ (α ^ n).hom) ≫ f = f
+      rw [pow_succ, Aut.mul_asIso]
+      show (α.asIso.hom ≫ (α ^ n).asIso.hom) ≫ f = f
       rw [Category.assoc, ih, hα]
 
 /-- **The elements of the powers of an automorphism of the source are the powers.** -/
 theorem GeometricPoint.sourceAutElement_pow [ConnectedSpace S] (z : GeometricPoint S)
-    (α : Aut z.source) (hα : α.hom ≫ z.hom = z.hom) (n : ℕ)
-    (hαn : (α ^ n).hom ≫ z.hom = z.hom) :
-    z.sourceAutElement (α ^ n) hαn = z.sourceAutElement α hα ^ n := by
+    (α : Aut z.source) (hα : α.asIso.hom ≫ z.hom = z.hom) (n : ℕ)
+    (hαn : (α ^ n).asIso.hom ≫ z.hom = z.hom) :
+    z.sourceAutElement (α ^ n).asIso hαn = z.sourceAutElement α.asIso hα ^ n := by
   induction n with
   | zero =>
-      refine Iso.ext (NatTrans.ext (funext fun V => ?_))
+      refine Aut.ext (Iso.ext (NatTrans.ext (funext fun V => ?_)))
       ext q
       exact Subtype.ext (Category.id_comp _)
   | succ n ih =>
       have hn := aut_pow_hom_comp_eq α z.hom hα n
-      calc z.sourceAutElement (α ^ (n + 1)) hαn
-          = z.sourceAutElement (α ≪≫ α ^ n) _ :=
+      calc z.sourceAutElement (α ^ (n + 1)).asIso hαn
+          = z.sourceAutElement (α.asIso ≪≫ (α ^ n).asIso) _ :=
             Stacks.EtaleCohomology.GeometricPoint.sourceAutElement_congr z
-              (by rw [pow_succ, Aut.Aut_mul_def]) hαn
-        _ = z.sourceAutElement α hα * z.sourceAutElement (α ^ n) hn :=
-            Stacks.EtaleCohomology.GeometricPoint.sourceAutElement_trans z α (α ^ n) hα hn
-        _ = z.sourceAutElement α hα ^ (n + 1) := by rw [ih hn, ← pow_succ']
+              (by rw [pow_succ, Aut.mul_asIso]) hαn
+        _ = z.sourceAutElement α.asIso hα * z.sourceAutElement (α ^ n).asIso hn :=
+            Stacks.EtaleCohomology.GeometricPoint.sourceAutElement_trans z α.asIso (α ^ n).asIso
+              hα hn
+        _ = z.sourceAutElement α.asIso hα ^ (n + 1) := by rw [ih hn, ← pow_succ']
 
 /-- The automorphism `Spec σ` of `Spec Ω` given by a ring automorphism `σ` of `Ω`. -/
-def specRingEquivIso {Ω : Type u} [Field Ω] (σ : Ω ≃+* Ω) : Aut (Spec (.of Ω)) where
-  hom := Spec.map (CommRingCat.ofHom σ.toRingHom)
-  inv := Spec.map (CommRingCat.ofHom σ.symm.toRingHom)
-  hom_inv_id := by
-    rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
-    convert Spec.map_id (CommRingCat.of Ω)
-    ext x
-    simp
-  inv_hom_id := by
-    rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
-    convert Spec.map_id (CommRingCat.of Ω)
-    ext x
-    simp
+def specRingEquivIso {Ω : Type u} [Field Ω] (σ : Ω ≃+* Ω) : Aut (Spec (.of Ω)) :=
+  Aut.of
+  { hom := Spec.map (CommRingCat.ofHom σ.toRingHom)
+    inv := Spec.map (CommRingCat.ofHom σ.symm.toRingHom)
+    hom_inv_id := by
+      rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
+      convert Spec.map_id (CommRingCat.of Ω)
+      ext x
+      simp
+    inv_hom_id := by
+      rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
+      convert Spec.map_id (CommRingCat.of Ω)
+      ext x
+      simp }
 
 /-- The powers of `Spec σ` are the spectra of the powers of `σ`. -/
 theorem specRingEquivIso_pow_hom {Ω : Type u} [Field Ω] (σ : Ω ≃+* Ω) (n : ℕ) :
-    (specRingEquivIso σ ^ n).hom =
+    (specRingEquivIso σ ^ n).asIso.hom =
       Spec.map (CommRingCat.ofHom ((σ : RingAut Ω) ^ n).toRingHom) := by
   induction n with
   | zero =>
@@ -123,8 +125,8 @@ theorem specRingEquivIso_pow_hom {Ω : Type u} [Field Ω] (σ : Ω ≃+* Ω) (n 
       rw [pow_zero]
       exact (Spec.map_id _).symm
   | succ n ih =>
-      rw [pow_succ, Aut.Aut_mul_def]
-      show Spec.map _ ≫ (specRingEquivIso σ ^ n).hom = _
+      rw [pow_succ, Aut.mul_asIso]
+      show Spec.map _ ≫ (specRingEquivIso σ ^ n).asIso.hom = _
       rw [ih, ← Spec.map_comp, ← CommRingCat.ofHom_comp, pow_succ']
       rfl
 
@@ -140,7 +142,7 @@ variable {X : Scheme.{u}} [ConnectedSpace X] (base : GeometricPoint X) (y : clos
 omit [ConnectedSpace X] in
 /-- The arithmetic Frobenius of `κ(y)^alg` fixes the geometric point above `y`. -/
 theorem specRingEquivIso_residueGeometricFrobenius_symm_comp :
-    (specRingEquivIso (residueGeometricFrobenius X y.1).symm.toRingEquiv).hom ≫
+    (specRingEquivIso (residueGeometricFrobenius X y.1).symm.toRingEquiv).asIso.hom ≫
       (geometricPointAt X y.1).hom = (geometricPointAt X y.1).hom := by
   show Spec.map _ ≫ Spec.map _ ≫ _ = Spec.map _ ≫ _
   rw [← Category.assoc, ← Spec.map_comp, ← CommRingCat.ofHom_comp]
@@ -153,9 +155,9 @@ theorem localElement_frobeniusDataOfPath_eq_sourceAutElement
     (t : finiteEtaleFiberFunctor (geometricPointAt X y.1) ≅ finiteEtaleFiberFunctor base) :
     (Stacks.EtaleCohomology.frobeniusDataOfPath base y t).localElement =
       (geometricPointAt X y.1).sourceAutElement
-        (specRingEquivIso (residueGeometricFrobenius X y.1).symm.toRingEquiv)
+        (specRingEquivIso (residueGeometricFrobenius X y.1).symm.toRingEquiv).asIso
         (specRingEquivIso_residueGeometricFrobenius_symm_comp y) := by
-  refine Iso.ext (NatTrans.ext (funext fun V => ?_))
+  refine Aut.ext (Iso.ext (NatTrans.ext (funext fun V => ?_)))
   ext q
   refine Subtype.ext ?_
   exact Stacks.EtaleCohomology.localElement_app_coe base y t V q
@@ -252,7 +254,8 @@ theorem exists_etaleFundamentalGroupMap_element_eq_conj_pow
     exact Module.card_eq_pow_finrank
   have hσ₁ : ∀ a, (σ₁ : RingAut Ω) a = a ^ Nat.card κ := fun a =>
     residueGeometricFrobenius_symm_apply X (g.base y'.1) a
-  have hc : ((specRingEquivIso σ₁) ^ e).hom ≫ γ.hom = γ.hom ≫ (specRingEquivIso σ').hom := by
+  have hc : ((specRingEquivIso σ₁) ^ e).asIso.hom ≫ γ.hom =
+      γ.hom ≫ (specRingEquivIso σ').asIso.hom := by
     rw [specRingEquivIso_pow_hom]
     show Spec.map (CommRingCat.ofHom ((σ₁ : RingAut Ω) ^ e).toRingHom) ≫
         Spec.map (CommRingCat.ofHom τ.toRingHom) =
@@ -267,30 +270,31 @@ theorem exists_etaleFundamentalGroupMap_element_eq_conj_pow
   have h₁ := specRingEquivIso_residueGeometricFrobenius_symm_comp (X := X) ⟨g.base y'.1, hy⟩
   have h₁e := aut_pow_hom_comp_eq (specRingEquivIso σ₁) z₁.hom h₁ e
   have h' := specRingEquivIso_residueGeometricFrobenius_symm_comp (X := X') y'
-  have h₂ : (specRingEquivIso σ').hom ≫ z₂.hom = z₂.hom := by
+  have h₂ : (specRingEquivIso σ').asIso.hom ≫ z₂.hom = z₂.hom := by
     show _ ≫ (geometricPointAt X' y'.1).hom ≫ g = (geometricPointAt X' y'.1).hom ≫ g
     rw [← Category.assoc, h']
   let s := GeometricPoint.fiberFunctorIsoOfSourceIso z₁ z₂ γ hγ
   let T := fiberFunctorTransportIso g t'
   let L := (Stacks.EtaleCohomology.frobeniusDataOfPath (x'.map g) ⟨g.base y'.1, hy⟩ t).localElement
-  have hL : L = z₁.sourceAutElement (specRingEquivIso σ₁) h₁ :=
+  have hL : L = z₁.sourceAutElement (specRingEquivIso σ₁).asIso h₁ :=
     localElement_frobeniusDataOfPath_eq_sourceAutElement (x'.map g) ⟨g.base y'.1, hy⟩ t
   have hs :
-      etaleFundamentalGroupMulEquiv s (z₂.sourceAutElement (specRingEquivIso σ') h₂) = L ^ e := by
+      etaleFundamentalGroupMulEquiv s (z₂.sourceAutElement (specRingEquivIso σ').asIso h₂) =
+        L ^ e := by
     rw [etaleFundamentalGroupMulEquiv_fiberFunctorIsoOfSourceIso_sourceAutElement z₁ z₂ γ hγ
-      ((specRingEquivIso σ₁) ^ e) (specRingEquivIso σ') h₁e h₂ hc,
+      ((specRingEquivIso σ₁) ^ e).asIso (specRingEquivIso σ').asIso h₁e h₂ hc,
       GeometricPoint.sourceAutElement_pow z₁ (specRingEquivIso σ₁) h₁ e h₁e]
     exact congrArg (· ^ e) hL.symm
-  have hs' : z₂.sourceAutElement (specRingEquivIso σ') h₂ =
+  have hs' : z₂.sourceAutElement (specRingEquivIso σ').asIso h₂ =
       etaleFundamentalGroupMulEquiv s.symm (L ^ e) := by
     rw [← hs, etaleFundamentalGroupMulEquiv_symm_apply_apply]
   have hmap : etaleFundamentalGroupMap g (geometricPointAt X' y'.1)
       (Stacks.EtaleCohomology.frobeniusDataOfPath x' y' t').localElement =
-        z₂.sourceAutElement (specRingEquivIso σ') h₂ := by
+        z₂.sourceAutElement (specRingEquivIso σ').asIso h₂ := by
     rw [localElement_frobeniusDataOfPath_eq_sourceAutElement x' y' t']
     exact etaleFundamentalGroupMap_sourceAutElement g _ _ _
-  let hh : EtaleFundamentalGroup X (x'.map g) := t.symm ≪≫ s.symm ≪≫ T
-  have hpath : s.symm ≪≫ T = t ≪≫ hh := by
+  let hh : EtaleFundamentalGroup X (x'.map g) := Aut.of (t.symm ≪≫ s.symm ≪≫ T)
+  have hpath : s.symm ≪≫ T = t ≪≫ hh.asIso := by
     show _ = t ≪≫ t.symm ≪≫ s.symm ≪≫ T
     rw [Iso.self_symm_id_assoc]
   refine ⟨hh, ?_⟩
@@ -306,9 +310,9 @@ theorem exists_etaleFundamentalGroupMap_element_eq_conj_pow
         rw [hmap, hs']
     _ = etaleFundamentalGroupMulEquiv (s.symm ≪≫ T) (L ^ e) :=
         (etaleFundamentalGroupMulEquiv_trans _ _ _).symm
-    _ = etaleFundamentalGroupMulEquiv (t ≪≫ hh) L ^ e := by
+    _ = etaleFundamentalGroupMulEquiv (t ≪≫ hh.asIso) L ^ e := by
         rw [hpath]
-        exact _root_.map_pow (etaleFundamentalGroupMulEquiv (t ≪≫ hh)) L e
+        exact _root_.map_pow (etaleFundamentalGroupMulEquiv (t ≪≫ hh.asIso)) L e
     _ = hh * (Stacks.EtaleCohomology.frobeniusDataOfPath (x'.map g) ⟨g.base y'.1, hy⟩ t).element ^
           e * hh⁻¹ :=
         (congrArg (· ^ e) hel).trans conj_pow

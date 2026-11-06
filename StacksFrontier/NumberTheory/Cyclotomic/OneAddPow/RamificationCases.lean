@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.NumberTheory.Cyclotomic.OneAddPow.GaloisDegree
 import all StacksFrontier.NumberTheory.Cyclotomic.OneAddPow.GaloisDegree
+import Mathlib.RingTheory.LocalRing.Quotient
 
 @[expose] public section
 
@@ -121,7 +122,7 @@ private theorem adjoin_isDVR_of_closed_fibre_field
     refine ⟨J, hJmax, ?_⟩
     intro M hM
     have hcomap : (Ideal.comap (algebraMap A ↥S) M).IsMaximal :=
-      Ideal.isMaximal_comap_of_isIntegral_of_isMaximal M
+      Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) M
     have hcm : Ideal.comap (algebraMap A ↥S) M = IsLocalRing.maximalIdeal A :=
       IsLocalRing.eq_maximalIdeal hcomap
     have hle : J ≤ M := by
@@ -403,7 +404,7 @@ private theorem residue_extension_of_irreducible_reduction
   have hJ : J = mS := IsLocalRing.eq_maximalIdeal
     (Ideal.Quotient.maximal_of_isField _ hfield)
   have hcomax : (mS.comap (algebraMap A ↥S)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal mS
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) mS
   let : mS.LiesOver (IsLocalRing.maximalIdeal A) := ⟨(IsLocalRing.eq_maximalIdeal hcomax).symm⟩
   refine ⟨hdvr, inferInstance, ?_, ?_⟩
   · exact ramificationIdx_eq_one_of_uniformizer A ↥S π hπ

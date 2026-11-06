@@ -78,7 +78,7 @@ theorem preservesFiniteLimits_baseChangePresheaf_of_flat (O : Cᵒᵖ ⥤ RingCa
   exact (IsLimit.postcomposeHomEquiv (Functor.isoWhiskerLeft K
       (baseChangeEvaluationIso.{u} O hX Y)).symm _).symm
     (IsLimit.ofIsoLimit (isLimitOfPreserves (ModuleCat.extendScalars.{u, u, u} (rho O hX Y)) hc)
-      (Cones.ext (Iso.refl _) (fun _ ↦ rfl)))
+      (Cone.ext (Iso.refl _) (fun _ ↦ rfl)))
 
 end Stacks.TerminalBaseChange
 
@@ -110,6 +110,9 @@ theorem preservesFiniteLimits_associatedSheaf_of_flat
   exact comp_preservesFiniteLimits _ _
 
 end Stacks.DenseSubsiteBaseChange
+
+-- Instance search for the dense-subsite equivalences below exceeds the default budget.
+set_option synthInstance.maxHeartbeats 400000
 
 namespace AlgebraicGeometry.BigFppfSpaceSite
 

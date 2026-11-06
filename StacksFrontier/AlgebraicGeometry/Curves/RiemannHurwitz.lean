@@ -209,7 +209,7 @@ private theorem separablyGenerated_of_algEquiv
     (e : K ≃ₐ[k] L) [Algebra.IsSeparablyGenerated k K] :
     Algebra.IsSeparablyGenerated k L := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := K)
   let t : Set L := e '' s
   let es : s ≃ t := Equiv.Set.image e.toEquiv s e.toEquiv.injective
   have hcomp : (fun x : t => (x : L)) ∘ es = fun x : s => e x := rfl
@@ -240,7 +240,7 @@ private theorem isSeparable_of_finite_isSeparableExtension
   have hsg : Algebra.IsSeparablyGenerated k K :=
     separablyGenerated_of_algEquiv (IntermediateField.topEquiv :
       (⊤ : IntermediateField k K) ≃ₐ[k] K)
-  obtain ⟨s, hs, hsep⟩ := hsg.exists_isTranscendenceBasis_and_isSeparable
+  obtain ⟨s, hs, hsep⟩ := hsg.isSeparable
   have hsempty : IsEmpty s := hs.isEmpty_iff_isAlgebraic.mpr inferInstance
   rw [Set.isEmpty_coe_sort.mp hsempty, IntermediateField.adjoin_empty] at hsep
   let e₁ : k ≃+* (⊥ : IntermediateField k K) :=
@@ -275,10 +275,11 @@ private theorem residueField_algebraic_of_closed_point
   have : Algebra.FiniteType k (Y.residueField y) := by
     show RingHom.FiniteType (algebraMap k (Y.residueField y))
     convert hcomp using 1
-    · rfl
-    · simp only [RingHom.algebraMap_toAlgebra]
-      rw [← Scheme.Γevaluation_naturality]
-      simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc]
+    all_goals first
+      | rfl
+      | (simp only [RingHom.algebraMap_toAlgebra]
+         rw [← Scheme.Γevaluation_naturality]
+         simp only [Scheme.Γevaluation, Scheme.evaluation, Category.assoc])
   have : Module.Finite k (Y.residueField y) := finite_of_finite_type_of_isJacobsonRing _ _
   exact Algebra.IsAlgebraic.of_finite k (Y.residueField y)
 

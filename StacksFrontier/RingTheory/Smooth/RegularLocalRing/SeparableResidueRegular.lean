@@ -234,7 +234,7 @@ private theorem Algebra.IsSeparablyGenerated.of_algEquiv {k K K' : Type*} [Field
     [Field K'] [Algebra k K] [Algebra k K'] [Algebra.IsSeparablyGenerated k K] (e : K ≃ₐ[k] K') :
     Algebra.IsSeparablyGenerated k K' := by
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := K)
   have hmap : (IntermediateField.adjoin k s).map (e : K →ₐ[k] K')
       = IntermediateField.adjoin k (e '' s) := IntermediateField.adjoin_map k s _
   refine ⟨e '' s, (e.isTranscendenceBasis hs).to_subtype_range'
@@ -256,7 +256,7 @@ private theorem finrank_kaehlerDifferential_le_trdeg (k K : Type*) [Field k] [Fi
   have : Algebra.IsSeparablyGenerated k K :=
     .of_algEquiv (IntermediateField.topEquiv (F := k) (E := K))
   obtain ⟨s, hs, hsep⟩ :=
-    Algebra.IsSeparablyGenerated.exists_isTranscendenceBasis_and_isSeparable (k := k) (K := K)
+    Algebra.IsSeparablyGenerated.isSeparable (k := k) (K := K)
   exact finrank_kaehlerDifferential_le_trdeg_of_isTranscendenceBasis hs hsep
 
 /-- **The fibre estimate that carries Stacks 00TV.** For a prime `𝔮` of a finite type `k`-algebra

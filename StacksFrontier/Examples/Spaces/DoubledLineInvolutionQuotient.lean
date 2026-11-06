@@ -136,11 +136,12 @@ noncomputable def doubledLineInvolutionIso : doubledLineSite k B hk ≅ doubledL
 /-- The involution of the doubled line, as an automorphism of the underlying scheme over the
 ground field. -/
 noncomputable def involutionAut : Aut (Space.underlyingOver B hk (doubledLineSite k B hk)) :=
-  (Over.post B.inclusion).mapIso (doubledLineInvolutionIso k B hk)
+  .of ((Over.post B.inclusion).mapIso (doubledLineInvolutionIso k B hk))
 
 /-- The automorphism `involutionAut` squares to the identity. -/
 theorem involutionAut_mul_self : involutionAut k B hk * involutionAut k B hk = 1 := by
-  rw [Aut.Aut_mul_def]
+  ext1
+  rw [Aut.mul_asIso, Aut.one_asIso]
   ext1
   show (Over.post B.inclusion).map (doubledLineInvolution k B hk) ≫
       (Over.post B.inclusion).map (doubledLineInvolution k B hk) = 𝟙 _
@@ -164,7 +165,7 @@ noncomputable def doubledLineAction :
 
 /-- The element `-1` acts on the doubled line by the involution. -/
 theorem doubledLineAction_neg_one :
-    (doubledLineAction k B hk (-1)).hom =
+    (doubledLineAction k B hk (-1)).asIso.hom =
       (Over.post B.inclusion).map (doubledLineInvolution k B hk) := by
   have h : doubledLineAction k B hk (-1) = involutionAut k B hk :=
     show (if (-1 : ℤˣ) = 1 then 1 else involutionAut k B hk) = _ from ite_eq_right (by decide)
@@ -218,7 +219,7 @@ theorem isEmpty_of_comp_involutionLeft_eq (hchar : (2 : k) ≠ 0) {T : Scheme.{u
   exact hempty.false ⟨t, ht⟩
 
 /-- The element `1` acts on the doubled line by the identity. -/
-theorem doubledLineAction_one : (doubledLineAction k B hk 1).hom = 𝟙 _ := by
+theorem doubledLineAction_one : (doubledLineAction k B hk 1).asIso.hom = 𝟙 _ := by
   rw [map_one]
   rfl
 
@@ -232,7 +233,7 @@ theorem actsNontriviallyOnFixedResidueFields_doubledLineAction (hchar : (2 : k) 
   intro T hT x g g' hgg'
   by_contra hne
   have h1 := doubledLineAction_one k B hk
-  have hfix : x ≫ (doubledLineAction k B hk (-1)).hom = x := by
+  have hfix : x ≫ (doubledLineAction k B hk (-1)).asIso.hom = x := by
     rcases Int.units_eq_one_or g with rfl | rfl <;>
       rcases Int.units_eq_one_or g' with rfl | rfl
     · exact absurd rfl hne
@@ -445,7 +446,7 @@ theorem exists_coveringMorphism_comp_eq_of_invariant
         (involutionRelation k) ≫ (affineLinePointsIso k B hk).hom ≫ κ' =
       Stacks.Groupoids.targetMap (Over.post (X := B.obj hk) B.inclusion)
         (involutionRelation k) ≫ (affineLinePointsIso k B hk).hom ≫ κ' := by
-    rw [← cancel_epi (relationPointsIso k B hk).inv]
+    rw [← Iso.cancel_iso_inv_left (relationPointsIso k B hk)]
     calc (relationPointsIso k B hk).inv ≫ Stacks.Groupoids.sourceMap
           (Over.post (X := B.obj hk) B.inclusion) (involutionRelation k) ≫
             (affineLinePointsIso k B hk).hom ≫ κ'
@@ -519,7 +520,7 @@ theorem doubledLine_freeAction_quotient (hchar : (2 : k) ≠ 0)
     [HasSheafify (BigFppfOver.topology B (Spec (.of k)) hk) (Type u)] :
     (∀ b : Bool, doubledChartHom k B hk b ≫ doubledLineInvolution k B hk =
         chartNeg k B hk ≫ doubledChartHom k B hk (!b)) ∧
-      (doubledLineAction k B hk (-1)).hom =
+      (doubledLineAction k B hk (-1)).asIso.hom =
         (Over.post B.inclusion).map (doubledLineInvolution k B hk) ∧
       Space.ActsNontriviallyOnFixedResidueFields
         (Space.underlyingOver B hk (doubledLineSite k B hk)) ℤˣ (doubledLineAction k B hk) ∧

@@ -184,7 +184,7 @@ theorem exists_versalCogroupoid [IsNoetherianRing Λ] [Module.Finite Λ k] {F : 
     (chosenPushforwardsOfCofibered p hp.cofibered)).toBasedFunctor
   have hU : IsProrepresentable U := ⟨ξ.base, ⟨Iso.refl _⟩⟩
   obtain ⟨hu₀⟩ := restrictedCoyoneda_isPredeformationFunctor.{u, w, w} ξ.base
-  let y₀ : U.Elements := ⟨residueFieldObject.{u, w, w} Λ k, hu₀.default⟩
+  let y₀ : U.Elements := U.elementsMk (residueFieldObject.{u, w, w} Λ k) hu₀.default
   have hbase : p.obj (f.toFunctor.obj y₀) = residueFieldObject.{u, w, w} Λ k :=
     Functor.congr_obj f.w y₀
   have hGpro : GroupoidInFunctors.IsProrepresentable G :=

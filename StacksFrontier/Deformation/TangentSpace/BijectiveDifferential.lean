@@ -89,7 +89,8 @@ public noncomputable def derivationToTangent
         (CategoryOfElements.π (Deformation.restrictedCoyoneda ξ.base)))
       (Deformation.categoryOfElements_projection_isCofibered
         (Deformation.restrictedCoyoneda ξ.base))
-      ⟨⟨Deformation.artinianDualNumbers Λ k, x⟩, rfl⟩)
+      ⟨(Deformation.restrictedCoyoneda ξ.base).elementsMk
+        (Deformation.artinianDualNumbers Λ k) x, rfl⟩)
 
 /-- **Stacks Project, Tag 06IM.** The differential of the morphism associated
 to a formal object is bijective from `Λ`-derivations to its tangent space. -/
@@ -166,25 +167,25 @@ private noncomputable def elementsClassEquiv
         (BasedCategory.ofFunctor (CategoryOfElements.π F)) h).obj A := by
   let B := BasedCategory.ofFunctor (CategoryOfElements.π F)
   let point (x : F.obj A) :=
-    Deformation.classOf B h ⟨⟨A, x⟩, rfl⟩
+    Deformation.classOf B h ⟨F.elementsMk A x, rfl⟩
   refine Equiv.ofBijective point ⟨?_, ?_⟩
   · intro x y hxy
-    let fx : Functor.Fiber (CategoryOfElements.π F) A := ⟨⟨A, x⟩, rfl⟩
-    let fy : Functor.Fiber (CategoryOfElements.π F) A := ⟨⟨A, y⟩, rfl⟩
+    let fx : Functor.Fiber (CategoryOfElements.π F) A := ⟨F.elementsMk A x, rfl⟩
+    let fy : Functor.Fiber (CategoryOfElements.π F) A := ⟨F.elementsMk A y, rfl⟩
     obtain ⟨i⟩ := Quotient.exact (((Deformation.classOf_eq B h fx).symm.trans
       (congrArg (Equiv.cast (Deformation.isomorphismClasses_obj B h A)) hxy)).trans
       (Deformation.classOf_eq B h fy))
-    have hbase : i.hom.val.val = 𝟙 A := by
+    have hbase : i.hom.val.hom = 𝟙 A := by
       have : (CategoryOfElements.π F).IsHomLift (𝟙 A) i.hom.val := i.hom.property
-      simpa [CategoryOfElements.π] using
-        IsHomLift.fac' (p := CategoryOfElements.π F) (R := A) (S := A) (𝟙 A) i.hom.val
-    have hval := i.hom.val.property
-    change F.map (i.hom.val.val) x = y at hval
+      have hfac := IsHomLift.fac' (p := CategoryOfElements.π F) (R := A) (S := A) (𝟙 A) i.hom.val
+      exact hfac.trans (by rw [Category.id_comp, eqToHom_trans]; rfl)
+    have hval := i.hom.val.map_val
+    change F.map (i.hom.val.hom) x = y at hval
     rw [hbase] at hval
     exact (Functor.map_id_apply F A x).symm.trans hval
   · intro z
     obtain ⟨x, hx⟩ := Deformation.classOf_surjective B h A z
-    rcases x with ⟨⟨A', x⟩, hA⟩
+    rcases x with ⟨@⟨A', x⟩, hA⟩
     change A' = A at hA
     cases hA
     exact ⟨x, hx⟩
@@ -237,7 +238,8 @@ public theorem hasBijectiveDifferential_iff_differential_bijective
     funext d
     let z := Deformation.classOf
       (BasedCategory.ofFunctor (CategoryOfElements.π (Deformation.restrictedCoyoneda ξ.base)))
-      hsource ⟨⟨Deformation.artinianDualNumbers Λ k, e.symm d⟩, rfl⟩
+      hsource ⟨(Deformation.restrictedCoyoneda ξ.base).elementsMk
+        (Deformation.artinianDualNumbers Λ k) (e.symm d), rfl⟩
     show Ftarget.map dualNumberModelIso.hom
         (Deformation.mapIsomorphismClasses hsource hp φ
           (Deformation.artinianDualNumbers Λ k) z) =

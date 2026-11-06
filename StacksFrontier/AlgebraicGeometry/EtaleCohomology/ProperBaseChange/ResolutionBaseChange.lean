@@ -53,7 +53,8 @@ theorem isIso_mapHomotopyCategory_app_quotient {V W : Type*} [Category* V] [Cate
     (C : CochainComplex V ℤ) (hC : ∀ n, IsIso (α.app (C.X n))) :
     IsIso ((NatTrans.mapHomotopyCategory α (ComplexShape.up ℤ)).app
       ((HomotopyCategory.quotient V (ComplexShape.up ℤ)).obj C)) := by
-  rw [NatTrans.mapHomotopyCategory_app]
+  change IsIso ((HomotopyCategory.quotient W (ComplexShape.up ℤ)).map
+    ((NatTrans.mapHomologicalComplex α (ComplexShape.up ℤ)).app C))
   exact @Functor.map_isIso _ _ _ _ _ _ _ _
     (@HomologicalComplex.Hom.isIso_of_components _ _ _ _ _ _ _ _ hC)
 

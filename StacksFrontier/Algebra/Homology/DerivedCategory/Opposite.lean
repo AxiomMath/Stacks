@@ -638,7 +638,7 @@ public lemma hom_ext_of_op {L : C ⥤ D} {F : C ⥤ H} (LF : D ⥤ H) (α : L �
     ext X
     have := NatTrans.congr_app h X.unop
     dsimp at this ⊢
-    exact Quiver.Hom.unop_inj this
+    exact this
   ext X
   exact Quiver.Hom.op_inj (NatTrans.congr_app key (Opposite.op X))
 
@@ -683,7 +683,7 @@ public lemma isLeftKanExtension_op {L : C ⥤ D} {F : C ⥤ H} (LF : D ⥤ H) (�
         dsimp [unopUnit] at h ⊢
         simp only [unopOpIso_hom_app, unopOpIso_inv_app, Category.comp_id, Category.id_comp,
           unop_id] at h ⊢
-        exact Quiver.Hom.unop_inj h))
+        exact h))
     (fun e m => by
       ext1
       have hm := StructuredArrow.w m
@@ -702,8 +702,7 @@ public lemma isLeftKanExtension_op {L : C ⥤ D} {F : C ⥤ H} (LF : D ⥤ H) (�
       dsimp at h3 ⊢
       simp only [unopOpIso_inv_app, unopOpIso_hom_app, unop_id, Category.id_comp,
         Category.comp_id] at h3 ⊢
-      rw [← h3]
-      exact rfl)⟩
+      rw [← h3])⟩
 
 /-- A right Kan extension along `L` exists as soon as a left Kan extension along `L.op` does. -/
 public lemma hasRightKanExtension_of_op {L : C ⥤ D} {Φ : C ⥤ H}

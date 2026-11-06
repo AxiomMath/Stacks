@@ -713,16 +713,6 @@ private theorem moduleDepth_eq_plusDepth_single_unconditional
       let F := sectionsWithSupportInFunctor.{u, v} R
         (PrimeSpectrum.zeroLocus ((maximalIdeal R) : Set R))
       have : EnoughInjectives (ModuleCat.{max u v} R) := ModuleCat.enoughInjectives R
-      let : F.rightDerivedFunctorPlus.CommShift ℤ :=
-        Functor.IsRightDerivedFunctor.commShift _ F.rightDerivedFunctorPlusUnit
-          (HomotopyCategory.Plus.quasiIso _) ℤ
-      let : NatTrans.CommShift F.rightDerivedFunctorPlusUnit ℤ :=
-        Functor.IsRightDerivedFunctor.natTrans_commShift F.rightDerivedFunctorPlus
-          F.rightDerivedFunctorPlusUnit (HomotopyCategory.Plus.quasiIso _) ℤ
-      have : F.rightDerivedFunctorPlus.IsTriangulated :=
-        Functor.isTriangulated_of_isRightDerivedFunctor_mapHomotopyCategoryPlus F
-          F.rightDerivedFunctorPlus F.rightDerivedFunctorPlusUnit
-      have : F.rightDerivedFunctorPlus.Additive := inferInstance
       exact (DerivedCategory.Plus.homologyFunctor (ModuleCat.{max u v} R) i).map_isZero
         (F.rightDerivedFunctorPlus.map_isZero hK)
     have hdep := plusDepth_eq_top_of_isZero.{u, v} R (maximalIdeal R) K hLC

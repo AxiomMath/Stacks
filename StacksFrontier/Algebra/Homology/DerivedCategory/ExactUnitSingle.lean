@@ -246,7 +246,7 @@ public theorem exactSingleFunctorRightDerivedPlusIso_hom :
         (DerivedCategory.Plus.Qh.obj ((HomotopyCategory.Plus.singleFunctor C 0).obj X)) =
       F.mapDerivedCategoryPlusFactorsh.hom.app
           ((HomotopyCategory.Plus.singleFunctor C 0).obj X) ≫
-        F.rightDerivedFunctorPlusUnit.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) :=
+        F.rightDerivedFunctorPlusUnith.app ((HomotopyCategory.Plus.singleFunctor C 0).obj X) :=
     exactMapDerivedCategoryPlusIso_hom_app_Qh F _
   have hnat := ((exactMapDerivedCategoryPlusIso F).hom.naturality
     ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).hom.app X)).symm
@@ -254,7 +254,7 @@ public theorem exactSingleFunctorRightDerivedPlusIso_hom :
         F.rightDerivedFunctorPlus.map
           ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).hom.app X) =
       (Functor.mapSingleFunctorCompQhIso F).inv.app X ≫
-        F.rightDerivedFunctorPlusUnit.app
+        F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor C 0).obj X) := by
     refine Eq.trans (CategoryTheory.eq_whisker hL _) ?_
     refine Eq.trans (Category.assoc _ _ _) ?_
@@ -268,7 +268,7 @@ public theorem exactSingleFunctorRightDerivedPlusIso_hom :
         F.rightDerivedFunctorPlus.map
           ((Functor.singleFunctorPlusIsoCompQh (A := C) 0).hom.app X) =
       (Functor.mapSingleFunctorCompQhIso F).inv.app X ≫
-        F.rightDerivedFunctorPlusUnit.app
+        F.rightDerivedFunctorPlusUnith.app
           ((HomotopyCategory.Plus.singleFunctor C 0).obj X) := by
     refine Eq.trans (CategoryTheory.eq_whisker
       (Stacks.DerivedIndexing.rightDerivedPlusUnitSingle_app F X) _) ?_

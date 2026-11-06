@@ -37,12 +37,12 @@ variable {S : Type u₂} [Category.{v₂} S] {S' : Type u₃} [Category.{v₃} S
 their automorphisms are, the automorphisms being compared across the object equality. -/
 lemma RelativeInertia.obj_ext {F : S ⥤ S'} {A B : RelativeInertia F}
     (ho : A.obj = B.obj)
-    (ha : A.auto.hom = eqToHom ho ≫ B.auto.hom ≫ eqToHom ho.symm) : A = B := by
+    (ha : A.auto.asIso.hom = eqToHom ho ≫ B.auto.asIso.hom ≫ eqToHom ho.symm) : A = B := by
   obtain ⟨ao, aa, ai⟩ := A; obtain ⟨bo, ba, bi⟩ := B
   simp only at ho; subst ho
   simp only [eqToHom_refl, Category.comp_id, Category.id_comp] at ha
   congr 1
-  exact Iso.ext ha
+  exact Aut.ext (Iso.ext ha)
 
 /-- The underlying morphism of an `eqToHom` of the relative inertia is the `eqToHom` of
 the underlying objects. -/
@@ -106,29 +106,29 @@ theorem RelativeInertia.isFibered {C : Type*} [Category C] (F : S ⥤ S') (p : S
     Functor.IsPreFibered.exists_isCartesian' (p := F ⋙ p') (a := A.obj) (R := R) f
   have : (F ⋙ p').IsCartesian f φ := hφc
   have : (F ⋙ p').IsStronglyCartesian f φ := inferInstance
-  -- `A.auto.hom` and `A.auto.inv` lie over the identity, since `F A.auto.hom = 𝟙`.
-  have hauto_lift : (F ⋙ p').IsHomLift (𝟙 (p'.obj (F.obj A.obj))) A.auto.hom :=
+  -- `A.auto.asIso.hom` and `A.auto.asIso.inv` lie over the identity, since `F A.auto.asIso.hom = 𝟙`.
+  have hauto_lift : (F ⋙ p').IsHomLift (𝟙 (p'.obj (F.obj A.obj))) A.auto.asIso.hom :=
     isHomLift_id_of_map_eq_id _ (by simp [A.cond])
-  have hautoinv_lift : (F ⋙ p').IsHomLift (𝟙 (p'.obj (F.obj A.obj))) A.auto.inv :=
+  have hautoinv_lift : (F ⋙ p').IsHomLift (𝟙 (p'.obj (F.obj A.obj))) A.auto.asIso.inv :=
     isHomLift_id_of_map_eq_id _ (by simp [A.cond_inv])
   -- Step 2: the induced endomorphisms `βhom`, `βinv` of `x'`, both over `𝟙 R`.
   have hf : f = 𝟙 R ≫ f := (Category.id_comp f).symm
-  set βhom : x' ⟶ x' := Functor.IsStronglyCartesian.map (F ⋙ p') f φ hf (φ ≫ A.auto.hom)
+  set βhom : x' ⟶ x' := Functor.IsStronglyCartesian.map (F ⋙ p') f φ hf (φ ≫ A.auto.asIso.hom)
     with βhom_def
-  set βinv : x' ⟶ x' := Functor.IsStronglyCartesian.map (F ⋙ p') f φ hf (φ ≫ A.auto.inv)
+  set βinv : x' ⟶ x' := Functor.IsStronglyCartesian.map (F ⋙ p') f φ hf (φ ≫ A.auto.asIso.inv)
     with βinv_def
   have hβhom_lift : (F ⋙ p').IsHomLift (𝟙 R) βhom :=
     Functor.IsStronglyCartesian.map_isHomLift (F ⋙ p') f φ hf _
   have hβinv_lift : (F ⋙ p').IsHomLift (𝟙 R) βinv :=
     Functor.IsStronglyCartesian.map_isHomLift (F ⋙ p') f φ hf _
-  have hβhom_fac : βhom ≫ φ = φ ≫ A.auto.hom := Functor.IsStronglyCartesian.fac (F ⋙ p') f φ hf _
-  have hβinv_fac : βinv ≫ φ = φ ≫ A.auto.inv := Functor.IsStronglyCartesian.fac (F ⋙ p') f φ hf _
+  have hβhom_fac : βhom ≫ φ = φ ≫ A.auto.asIso.hom := Functor.IsStronglyCartesian.fac (F ⋙ p') f φ hf _
+  have hβinv_fac : βinv ≫ φ = φ ≫ A.auto.asIso.inv := Functor.IsStronglyCartesian.fac (F ⋙ p') f φ hf _
   have hx'R : (F ⋙ p').obj x' = R := IsHomLift.domain_eq (F ⋙ p') f φ
   -- Step 3: `βhom` and `βinv` are mutually inverse, by uniqueness in the universal property.
   have hhom_inv : βhom ≫ βinv = 𝟙 x' :=
-    comp_eq_id_of_fac_comp_eq_id (F ⋙ p') (f := f) φ A.auto.hom_inv_id hβhom_fac hβinv_fac
+    comp_eq_id_of_fac_comp_eq_id (F ⋙ p') (f := f) φ A.auto.asIso.hom_inv_id hβhom_fac hβinv_fac
   have hinv_hom : βinv ≫ βhom = 𝟙 x' :=
-    comp_eq_id_of_fac_comp_eq_id (F ⋙ p') (f := f) φ A.auto.inv_hom_id hβinv_fac hβhom_fac
+    comp_eq_id_of_fac_comp_eq_id (F ⋙ p') (f := f) φ A.auto.asIso.inv_hom_id hβinv_fac hβhom_fac
   let β : x' ≅ x' := { hom := βhom, inv := βinv, hom_inv_id := hhom_inv, inv_hom_id := hinv_hom }
   -- Step 4: `F βhom = 𝟙`, because `F φ` is strongly cartesian for `p'`.
   have hFφc : p'.IsStronglyCartesian f (F.map φ) := hcart f φ inferInstance
@@ -143,7 +143,7 @@ theorem RelativeInertia.isFibered {C : Type*} [Category C] (F : S ⥤ S') (p : S
     apply Functor.IsStronglyCartesian.ext p' f (F.map φ) (𝟙 R)
     rw [Category.id_comp, ← F.map_comp, hβhom_fac, F.map_comp, A.cond, Category.comp_id]
   -- Step 5: the object `B = (x', β)` of the inertia and the candidate lift `φbar : B ⟶ A`.
-  let B : RelativeInertia F := { obj := x', auto := β, cond := hFβhom }
+  let B : RelativeInertia F := { obj := x', auto := .of β, cond := hFβhom }
   let φbar : B ⟶ A := { hom := φ, comm := hβhom_fac.symm }
   refine ⟨B, φbar, ?_⟩
   -- Step 6: `φbar` is strongly cartesian for `π ⋙ (F ⋙ p')`.
@@ -162,13 +162,13 @@ theorem RelativeInertia.isFibered {C : Type*} [Category C] (F : S ⥤ S') (p : S
     Functor.IsStronglyCartesian.map_isHomLift (F ⋙ p') f φ rfl ψbar.hom
   have hχ_fac : χ ≫ φ = ψbar.hom := Functor.IsStronglyCartesian.fac (F ⋙ p') f φ rfl ψbar.hom
   -- `χ` is a morphism `Z ⟶ B` of the inertia: it commutes with the automorphisms.
-  have hχ_comm : χ ≫ β.hom = Z.auto.hom ≫ χ := by
-    have hZauto : (F ⋙ p').IsHomLift (𝟙 (p'.obj (F.obj Z.obj))) Z.auto.hom :=
+  have hχ_comm : χ ≫ β.hom = Z.auto.asIso.hom ≫ χ := by
+    have hZauto : (F ⋙ p').IsHomLift (𝟙 (p'.obj (F.obj Z.obj))) Z.auto.asIso.hom :=
       isHomLift_id_of_map_eq_id _ (by simp [Z.cond])
-    have : (F ⋙ p').IsHomLift g (Z.auto.hom ≫ χ) := inferInstance
+    have : (F ⋙ p').IsHomLift g (Z.auto.asIso.hom ≫ χ) := inferInstance
     have : (F ⋙ p').IsHomLift g (χ ≫ β.hom) := inferInstance
     apply Functor.IsStronglyCartesian.ext (F ⋙ p') f φ g
-    show (χ ≫ β.hom) ≫ φ = (Z.auto.hom ≫ χ) ≫ φ
+    show (χ ≫ β.hom) ≫ φ = (Z.auto.asIso.hom ≫ χ) ≫ φ
     rw [Category.assoc, show β.hom = βhom from rfl, hβhom_fac, ← Category.assoc, hχ_fac,
       Category.assoc, hχ_fac]
     exact ψbar.comm
@@ -189,7 +189,7 @@ theorem RelativeInertia.isFibered {C : Type*} [Category C] (F : S ⥤ S') (p : S
 /-- The neutral section `e : S ⥤ I_{S/S'}`, `x ↦ (x, 𝟙 x)`, of the relative inertia
 (Stacks 4.34.2.2). -/
 def RelativeInertia.neutralSection (F : S ⥤ S') : S ⥤ RelativeInertia F where
-  obj x := ⟨x, Iso.refl x, by simp⟩
+  obj x := ⟨x, .of (Iso.refl x), by simp⟩
   map φ := ⟨φ, by simp⟩
 
 /-! The three projections of the neutral section. They are deliberately **not** `simp` lemmas:
@@ -204,7 +204,7 @@ lemma RelativeInertia.neutralSection_obj_obj (F : S ⥤ S') (x : S) :
 
 /-- The automorphism of `e x` is the identity of `x`. -/
 lemma RelativeInertia.neutralSection_obj_auto (F : S ⥤ S') (x : S) :
-    ((RelativeInertia.neutralSection F).obj x).auto = Iso.refl x := rfl
+    ((RelativeInertia.neutralSection F).obj x).auto = .of (Iso.refl x) := rfl
 
 /-- The underlying morphism of `e ψ` is `ψ`. -/
 lemma RelativeInertia.neutralSection_map_hom (F : S ⥤ S') {x y : S} (ψ : x ⟶ y) :
@@ -237,16 +237,16 @@ instance RelativeInertia.π_faithful (F : S ⥤ S') : (RelativeInertia.π F).Fai
 
 /-- `π : I_{S/S'} ⥤ S` is essentially surjective: `x` is the image of `(x, 𝟙)`. -/
 instance RelativeInertia.π_essSurj (F : S ⥤ S') : (RelativeInertia.π F).EssSurj where
-  mem_essImage x := ⟨⟨x, Iso.refl x, by simp⟩, ⟨Iso.refl x⟩⟩
+  mem_essImage x := ⟨⟨x, .of (Iso.refl x), by simp⟩, ⟨Iso.refl x⟩⟩
 
 /-- If the fibres of `p` are thin, then every automorphism of an object of `S` lying over an
 identity is the identity; equivalently, the objects of the absolute inertia `I_S` are the
 objects of `S` with their identity automorphism. -/
 lemma RelativeInertia.auto_eq_id_of_fiber_isThin {C : Type*} [Category C] (p : S ⥤ C)
-    (ht : ∀ U, Quiver.IsThin (p.Fiber U)) (A : AbsoluteInertia p) : A.auto.hom = 𝟙 A.obj := by
-  have : p.IsHomLift (𝟙 (p.obj A.obj)) A.auto.hom := isHomLift_id_of_map_eq_id p A.cond
+    (ht : ∀ U, Quiver.IsThin (p.Fiber U)) (A : AbsoluteInertia p) : A.auto.asIso.hom = 𝟙 A.obj := by
+  have : p.IsHomLift (𝟙 (p.obj A.obj)) A.auto.asIso.hom := isHomLift_id_of_map_eq_id p A.cond
   simpa using congrArg Functor.Fiber.fiberInclusion.map
-    ((ht (p.obj A.obj) _ _).allEq (Functor.Fiber.homMk p _ A.auto.hom) (𝟙 _))
+    ((ht (p.obj A.obj) _ _).allEq (Functor.Fiber.homMk p _ A.auto.asIso.hom) (𝟙 _))
 
 /-- If the fibres of `p` are thin, then `π : I_S ⥤ S` is full: every morphism of `S`
 automatically commutes with the automorphisms, since these are identities. -/
@@ -271,9 +271,9 @@ lemma RelativeInertia.fiber_isThin_of_π_full {C : Type*} [Category C] (p : S �
       𝟙 (p.obj (Functor.Fiber.fiberInclusion.obj a)) := by
     simpa using IsHomLift.fac' p (𝟙 U) (Functor.Fiber.fiberInclusion.map α)
   obtain ⟨ψ, hψ⟩ := hfull.map_surjective
-    (X := ⟨Functor.Fiber.fiberInclusion.obj a, Functor.Fiber.fiberInclusion.mapIso (asIso α),
+    (X := ⟨Functor.Fiber.fiberInclusion.obj a, .of (Functor.Fiber.fiberInclusion.mapIso (asIso α)),
       hcond⟩)
-    (Y := ⟨Functor.Fiber.fiberInclusion.obj a, Iso.refl _, by simp⟩)
+    (Y := ⟨Functor.Fiber.fiberInclusion.obj a, .of (Iso.refl _), by simp⟩)
     (𝟙 (Functor.Fiber.fiberInclusion.obj a))
   have hψ' : ψ.hom = 𝟙 (Functor.Fiber.fiberInclusion.obj a) := hψ
   have hval : Functor.Fiber.fiberInclusion.map α = Functor.Fiber.fiberInclusion.map (𝟙 a) := by

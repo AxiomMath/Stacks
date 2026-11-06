@@ -2,7 +2,8 @@ module
 
 public import Mathlib.CategoryTheory.Sites.CartesianClosed
 public import Mathlib.CategoryTheory.Sites.SheafHom
-public import Mathlib.CategoryTheory.Monoidal.Closed.Types
+public import Mathlib.CategoryTheory.Sites.LeftExact
+public import Mathlib.CategoryTheory.Monoidal.Closed.FunctorToTypes
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -26,7 +27,7 @@ This is worth recording because it is not visible from
 `Mathlib/CategoryTheory/Sites/CartesianClosed.lean` alone — that file's instance has
 hypotheses `[HasSheafify J A]`, `[CartesianMonoidalCategory A]` and
 `[MonoidalClosed (Cᵒᵖ ⥤ A)]`, and the two imports discharging the first and third for
-`A = Type (max u v)` (`Sites/LeftExact` and `Monoidal/Closed/Types`) are not among its
+`A = Type (max u v)` (`Sites/LeftExact` and `Monoidal/Closed/FunctorToTypes`) are not among its
 imports, so the instance does not synthesize without them.
 
 Note also that `CartesianClosed` is no longer a class in Mathlib; it survives only as a

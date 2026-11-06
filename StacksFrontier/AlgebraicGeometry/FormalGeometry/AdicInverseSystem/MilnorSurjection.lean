@@ -107,7 +107,7 @@ private theorem piComparison_map_piLift (H : C ⥤ D) (X : ℕ → C) [HasProduc
     [HasProduct fun n => H.obj (X n)] {Y : C} (w : ∀ n, Y ⟶ X n) :
     H.map (Pi.lift w) ≫ piComparison H X = Pi.lift fun n => H.map (w n) := by
   refine Pi.hom_ext _ _ fun n => ?_
-  rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_π, Pi.lift_π]
+  rw [Category.assoc, piComparison_comp_π, ← H.map_comp, Pi.lift_comp_π, Pi.lift_comp_π]
 
 /-- The comparison `H(∏ Xₙ) ⟶ ∏ H(Xₙ)` conjugates the difference map `1 - shift` of an inverse
 system into the difference map of the system of images. -/
@@ -119,7 +119,7 @@ private theorem piComparison_conj_piLiftSub [Preadditive C] [Preadditive D] (H :
         Pi.π (fun n => H.obj (X n)) (n + 1) ≫ H.map (τ n) := by
   rw [piComparison_map_piLift]
   refine Pi.hom_ext _ _ fun n => ?_
-  rw [Pi.lift_π, Category.assoc, Pi.lift_π, Preadditive.comp_sub, piComparison_comp_π,
+  rw [Pi.lift_comp_π, Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub, piComparison_comp_π,
     H.map_sub, H.map_comp, ← Category.assoc, piComparison_comp_π]
 
 /-- If the `n`-th component of `pm : Z ⟶ ∏ Xₙ` is `g`, then the `n`-th component of

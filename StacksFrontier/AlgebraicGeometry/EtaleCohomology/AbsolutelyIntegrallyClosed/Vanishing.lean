@@ -62,7 +62,7 @@ inclusion of the opens into the one-universe model of the small étale site. -/
 private def opensCohomologyZeroIsoSections {Y : Scheme.{u}}
     (F : Sheaf (MayerVietoris.topology Y) AddCommGrpCat.{u + 1}) :
     Stacks.EtaleCohomology.StrictlyHenselian.opensCohomology F 0 ≅
-      (MayerVietoris.opensToSite Y).op ⋙ F.val :=
+      (MayerVietoris.opensToSite Y).op ⋙ F.obj :=
   Functor.isoWhiskerLeft (MayerVietoris.opensToSite Y).op (cohomologyPresheafIsoSections F)
 
 /-- **Degree-zero étale cohomology of a constant sheaf over an open subscheme is the group of
@@ -109,7 +109,7 @@ theorem sectionsSub_constantSheaf_of_exists_locallyConstant {Y : Scheme.{u}}
     have h1 : (opensCohomologyZeroIsoSections F).hom.app (op (U ⊓ V))
           ((Stacks.EtaleCohomology.StrictlyHenselian.opensCohomology F 0).map
             (homOfLE hW).op z) =
-        F.val.map ((MayerVietoris.opensToSite Y).map (homOfLE hW)).op
+        F.obj.map ((MayerVietoris.opensToSite Y).map (homOfLE hW)).op
           ((opensCohomologyZeroIsoSections F).hom.app (op W) z) :=
       (opensCohomologyZeroIsoSections F).hom.naturality_apply (Quiver.Hom.op (homOfLE hW)) z
     have h2 := opensIsoLocallyConstant_naturality B Y hY M hW

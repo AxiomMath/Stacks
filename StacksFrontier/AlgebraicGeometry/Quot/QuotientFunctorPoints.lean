@@ -131,6 +131,18 @@ universe u
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance hasPullbacks_presheaf_QuotientFunctorPoints :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, as a high-priority shortcut. -/
+local instance (priority := high) hasPullback_presheaf_QuotientFunctorPoints
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 namespace QuotientSituation
 
 variable (D : QuotientSituation B S hS)
@@ -144,12 +156,14 @@ situation against `h`. -/
 def spaceBaseChange {T : AlgebraicSpaces B S hS} (h : T ⟶ D.Y) : AlgebraicSpaces B S hS :=
   AlgebraicSpaces.fiberProduct B S hS D.f h
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The projection `X_T ⟶ X` of the base change along a morphism out of an algebraic space, along
 which the module of the situation is pulled back. -/
 def spaceBaseToSource {T : AlgebraicSpaces B S hS} (h : T ⟶ D.Y) :
     D.spaceBaseChange h ⟶ D.X :=
   ObjectProperty.homMk (pullback.fst D.f.hom h.hom)
 
+set_option synthInstance.maxHeartbeats 400000 in
 /-- The projection `X_T ⟶ T` of the base change along a morphism out of an algebraic space, over
 which the quotients are required to be flat. -/
 def spaceBaseToSpace {T : AlgebraicSpaces B S hS} (h : T ⟶ D.Y) : D.spaceBaseChange h ⟶ T :=

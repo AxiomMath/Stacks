@@ -89,7 +89,7 @@ theorem tensorUnitMap_comp_sheafTensorRightUnitIso_hom :
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
   let adj := PresheafOfModules.sheafificationAdjunction
     (𝟙 (Stacks.SheafOfModules.Tensor.ringSheaf O).obj)
-  let lam := ((PresheafOfModules.monoidalCategoryStruct (R := O.obj)).leftUnitor
+  let lam := ((PresheafOfModulesOfCommRing.monoidalCategoryStruct (R := O.obj)).leftUnitor
     (RestrictedRingModule φ).val).hom
   have hτ := (tensorUnitMap φ (RingModule O)).property X x
   have hnat := fun y => congrArg (fun k => (k.app X).hom y) (adj.unit.naturality lam)
@@ -161,7 +161,7 @@ theorem koszulScalar_comp_structureMap (e : Fin r → ℕ) :
           (koszulScalar (ringedSite O') (baseChangeFamily O f φ) e) := by
   rw [restrictScalars_map_koszulScalar]
   exact ((Stacks.SheafOfModules.globalSectionToEnd (Stacks.SheafOfModules.Tensor.ringSheaf O)
-    (koszulFamily (ringedSite O) f e)).naturality (structureMap O φ)).symm
+    (koszulFamily (ringedSite O) f e)).asHom.naturality (structureMap O φ)).symm
 
 /-- Multiplication by `f_S` followed by division by `f_S^{1}` is the map `𝒪 ⟶ 𝒪_{f_S}`. -/
 private theorem koszulScalar_comp_unit (X : RingedSite.{u, u, u})
@@ -201,8 +201,8 @@ theorem restrictScalars_map_awaySmul
     (h : Presheaf.globalSections (O.obj ⋙ forget CommRingCat.{u}))
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} (ringedSite O').O)) :
     (SheafOfModules.restrictScalars (baseChangeRingSheafMap (ringedSite O) O' φ)).map
-        ((awaySmul (ringedSite O') (baseChangeGlobalSection (ringedSite O) O' φ h)).app M) =
-      (awaySmul (ringedSite O) h).app
+        ((awaySmul (ringedSite O') (baseChangeGlobalSection (ringedSite O) O' φ h)).asHom.app M) =
+      (awaySmul (ringedSite O) h).asHom.app
         ((SheafOfModules.restrictScalars (baseChangeRingSheafMap (ringedSite O) O' φ)).obj M) := by
   refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ?_)
   refine ModuleCat.hom_ext (LinearMap.ext fun x => ?_)
@@ -218,8 +218,9 @@ theorem restrictScalars_map_awaySmul_pow
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} (ringedSite O').O))
     (n : ℕ) :
     (SheafOfModules.restrictScalars (baseChangeRingSheafMap (ringedSite O) O' φ)).map
-        ((awaySmul (ringedSite O') (baseChangeGlobalSection (ringedSite O) O' φ h) ^ n).app M) =
-      (awaySmul (ringedSite O) h ^ n).app
+        ((awaySmul (ringedSite O')
+            (baseChangeGlobalSection (ringedSite O) O' φ h) ^ n).asHom.app M) =
+      (awaySmul (ringedSite O) h ^ n).asHom.app
         ((SheafOfModules.restrictScalars (baseChangeRingSheafMap (ringedSite O) O' φ)).obj M) := by
   induction n with
   | zero =>
@@ -237,8 +238,9 @@ theorem restrictScalars_map_awaySmul_pow_prodGlobalSection (S : Finset (Fin r))
     (M : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf.{u, u, u} (ringedSite O').O))
     (n : ℕ) :
     (SheafOfModules.restrictScalars (baseChangeRingSheafMap (ringedSite O) O' φ)).map
-        ((awaySmul (ringedSite O') (prodGlobalSection (baseChangeFamily O f φ) S) ^ n).app M) =
-      (awaySmul (ringedSite O) (prodGlobalSection f S) ^ n).app
+        ((awaySmul (ringedSite O')
+            (prodGlobalSection (baseChangeFamily O f φ) S) ^ n).asHom.app M) =
+      (awaySmul (ringedSite O) (prodGlobalSection f S) ^ n).asHom.app
         ((SheafOfModules.restrictScalars (baseChangeRingSheafMap (ringedSite O) O' φ)).obj M) := by
   have h := restrictScalars_map_awaySmul_pow O φ (prodGlobalSection (X := ringedSite O) f S) M n
   rwa [baseChangeGlobalSection_prodGlobalSection] at h
@@ -264,9 +266,10 @@ theorem awayModuleCoconeι_comp_app_of_comp_app
   let R := SheafOfModules.restrictScalars (baseChangeRingSheafMap (ringedSite O) O' φ)
   let A := awayModule (ringedSite O) (prodGlobalSection f S)
   let A' := awayModule (ringedSite O') (prodGlobalSection (baseChangeFamily O f φ) S)
-  let s := (awaySmul (ringedSite O) (prodGlobalSection f S) ^ n).app (R.obj A')
-  let sA := (awaySmul (ringedSite O) (prodGlobalSection f S) ^ n).app A
-  let s' := (awaySmul (ringedSite O') (prodGlobalSection (baseChangeFamily O f φ) S) ^ n).app A'
+  let s := (awaySmul (ringedSite O) (prodGlobalSection f S) ^ n).asHom.app (R.obj A')
+  let sA := (awaySmul (ringedSite O) (prodGlobalSection f S) ^ n).asHom.app A
+  let s' := (awaySmul (ringedSite O')
+      (prodGlobalSection (baseChangeFamily O f φ) S) ^ n).asHom.app A'
   have : IsIso sA := isIso_awaySmul_pow_awayModule (ringedSite O) (prodGlobalSection f S) n
   have : IsIso s' := isIso_awaySmul_pow_awayModule (ringedSite O')
     (prodGlobalSection (baseChangeFamily O f φ) S) n
@@ -274,7 +277,7 @@ theorem awayModuleCoconeι_comp_app_of_comp_app
   have hes : es.hom = s := restrictScalars_map_awaySmul_pow_prodGlobalSection O f φ S A' n
   have hnat : β.app S ≫ es.hom = sA ≫ β.app S := by
     rw [hes]
-    exact (awaySmul (ringedSite O) (prodGlobalSection f S) ^ n).naturality (β.app S)
+    exact (awaySmul (ringedSite O) (prodGlobalSection f S) ^ n).asHom.naturality (β.app S)
   have hinv : inv sA ≫ β.app S = β.app S ≫ es.inv := by
     refine (IsIso.inv_comp_eq sA).2 ?_
     exact ((((Category.assoc _ _ _).trans (congrArg (β.app S ≫ ·) es.hom_inv_id)).trans

@@ -68,7 +68,20 @@ universe u
 namespace AlgebraicGeometry.Space
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
-  [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out
+without this shortcut). -/
+local instance hasPullbacks_presheaf_FlatChartQuotient :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) := inferInstance
+
+/-- Pullbacks of presheaves on the big fppf site over `S`, at high priority. -/
+local instance (priority := high) hasPullback_presheaf_FlatChartQuotient
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+variable [HasSheafify (BigFppfOver.topology B S hS) (Type u)]
 
 /-! ### Recognizing a sheaf as the quotient of a kernel pair -/
 
@@ -97,7 +110,8 @@ theorem isIso_quotientSheafDesc_of_isPullback (j : PreRelation R U)
     infer_instance
   refine Presheaf.isLocallySurjective_of_surjective _ _ ?_
   intro T
-  exact (epi_iff_surjective _).1 ((NatTrans.epi_iff_epi_app _).1 inferInstance T)
+  have hT := NatIso.isIso_app_of_isIso (pullback.lift j.target.left j.source.left hker.w) T
+  exact ((isIso_iff_bijective _).1 hT).2
 
 /-! ### A flat chart presents its target as the quotient of its kernel pair -/
 

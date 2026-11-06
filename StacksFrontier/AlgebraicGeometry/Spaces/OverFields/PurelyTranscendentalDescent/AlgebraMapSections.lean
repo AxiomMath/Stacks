@@ -338,11 +338,11 @@ private theorem exists_eval_ne_zero_of_totalDegree_lt_card
     ∃ x : Fin n → L, MvPolynomial.eval x P ≠ 0 := by
   induction n with
   | zero =>
-      have hrepr : P = MvPolynomial.C (MvPolynomial.coeff 0 P) := by
+      have hrepr : P = MvPolynomial.C (P.coeff 0) := by
         ext d
         obtain rfl : d = 0 := Subsingleton.elim _ _
         simp
-      have hcoeff : MvPolynomial.coeff 0 P ≠ 0 := by
+      have hcoeff : P.coeff 0 ≠ 0 := by
         intro hc
         apply hP
         rw [hrepr, hc]

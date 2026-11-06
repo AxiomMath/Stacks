@@ -166,7 +166,7 @@ public theorem gradePiece_le_map_span (d : ℕ) (hd : 0 < d) :
   classical
   intro a ha
   have key : ∑ α ∈ a.support,
-      (MvPolynomial.monomial α (MvPolynomial.coeff α a) : MvPolynomial (X ⊕ Y) R) ∈
+      (MvPolynomial.monomial α (a.coeff α) : MvPolynomial (X ⊕ Y) R) ∈
         Submodule.map (segre R X Y).val.toLinearMap
           (Submodule.restrictScalars R (Ideal.span (Set.range (genSub R X Y)))) := by
     refine Submodule.sum_mem _ fun α hα => ?_
@@ -176,7 +176,7 @@ public theorem gradePiece_le_map_span (d : ℕ) (hd : 0 < d) :
     rcases l with _ | ⟨q, l'⟩
     · rw [List.length_nil] at hlen
       omega
-    refine ⟨algebraMap R (segre R X Y) (MvPolynomial.coeff α a) *
+    refine ⟨algebraMap R (segre R X Y) (a.coeff α) *
       genSubProd R X Y (q :: l'), Ideal.mul_mem_left _ _
         (genSubProd_cons_mem_span R X Y q l'), ?_⟩
     rw [AlgHom.toLinearMap_apply, map_mul, AlgHom.commutes, Subalgebra.coe_val,

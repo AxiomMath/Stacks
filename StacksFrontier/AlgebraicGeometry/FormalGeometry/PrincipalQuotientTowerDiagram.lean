@@ -115,7 +115,7 @@ private lemma moduleDifference_naturality {A : Type u} [CommRing A]
   apply Pi.hom_ext
   intro n
   simp only [Category.assoc, Pi.mapIso_hom_π, CompletionSequences.moduleDifference,
-    Pi.lift_π_assoc, Pi.lift_π, comp_sub, sub_comp, Pi.mapIso_hom_π_assoc]
+    Pi.lift_comp_π_assoc, Pi.lift_comp_π, comp_sub, sub_comp, Pi.mapIso_hom_π_assoc]
   simp only [Iso.app_hom]
   rw [e.hom.naturality]
 

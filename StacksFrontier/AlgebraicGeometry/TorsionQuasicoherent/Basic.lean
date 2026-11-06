@@ -2,6 +2,7 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.TorsionQuasicoherent.Local
 public import StacksFrontier.AlgebraicGeometry.TorsionSubsheaf.Basic
+public import Mathlib.Algebra.Module.LocalizedModule.Away
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!

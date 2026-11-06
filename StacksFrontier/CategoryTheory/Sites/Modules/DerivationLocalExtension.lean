@@ -222,11 +222,11 @@ theorem exists_typeSheafHom_app_eq_iff [HasWeakSheafify J (Type u)]
         show d Y _ = d Y _ by rw [hd, hd, h]))
       map_id X := by
         ext ⟨a⟩
-        exact congrArg (Quotient.mk (Setoid.ker (d X))) (FunctorToTypes.map_id_apply A₀.obj a)
+        exact congrArg (Quotient.mk (Setoid.ker (d X))) (A₀.obj.map_id_apply _ a)
       map_comp {X Y Z} f g := by
         ext ⟨a⟩
         exact congrArg (Quotient.mk (Setoid.ker (d Z)))
-          (FunctorToTypes.map_comp_apply A₀.obj f g a) }
+          (A₀.obj.map_comp_apply f g a) }
   let q : A₀.obj ⟶ Q :=
     { app X := ↾(fun a => Quotient.mk (Setoid.ker (d X)) a)
       naturality _ _ _ := rfl }
@@ -235,8 +235,8 @@ theorem exists_typeSheafHom_app_eq_iff [HasWeakSheafify J (Type u)]
       naturality X Y f := by
         ext a
         exact congrArg (Quotient.mk (Setoid.ker (d Y))) (hz f).symm }
-  refine ⟨(presheafToSheaf J _).obj Q, Sheaf.Hom.mk (q ≫ toSheafify J Q),
-    Sheaf.Hom.mk (q' ≫ toSheafify J Q), fun X a => ⟨fun h => ?_, fun h => ?_⟩⟩
+  refine ⟨(presheafToSheaf J _).obj Q, ObjectProperty.homMk (q ≫ toSheafify J Q),
+    ObjectProperty.homMk (q' ≫ toSheafify J Q), fun X a => ⟨fun h => ?_, fun h => ?_⟩⟩
   · have hs := Presheaf.equalizerSieve_mem J (toSheafify J Q)
       (Quotient.mk (Setoid.ker (d X)) a) (Quotient.mk (Setoid.ker (d X)) (z X)) h
     refine (T.isSheaf.isSeparated X.unop _ hs (d X a) 0 fun Y g hg => ?_)
@@ -258,7 +258,7 @@ variable (hmul : ∀ (X : C) (hX : P X) (a b : ToType (O.obj.obj (op X))),
 between them, is the family of values of a unique derivation of `𝒪` with values in `T`, as
 soon as the objects of `P` cover every object; it is a `ψ`-derivation when the glued map vanishes
 on the image of `ψ`. -/
-def glueDerivationOfCover : T.val.Derivation' ψ where
+def glueDerivationOfCover : PresheafOfModulesOfCommRing.Derivation' T.val ψ where
   d {X} :=
     { toFun := glueDerivationOfCoverValue P hP δ hnat X.unop
       map_zero' := glueDerivationOfCoverValue_zero P hP δ hnat X.unop

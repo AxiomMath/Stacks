@@ -229,7 +229,7 @@ lemma cechFormalCoproductMap_φ_comp_π (g : α → β) (i : β → E.I₀) (p :
     (cechFormalCoproductMap E g).φ i ≫
         Pi.π (fun q : α ↦ Over.mk (E.f (i (g q)))) p =
       Pi.π (fun q : β ↦ Over.mk (E.f (i q))) (g p) :=
-  Pi.lift_π _ _
+  Pi.lift_comp_π _ _
 
 /-- The formal coproduct of the family `E` itself. -/
 def famFormalCoproduct : FormalCoproduct.{w} (Over X) where
@@ -368,7 +368,7 @@ noncomputable def overLift {V : C} (i : α → E.I₀) (φ : V ⟶ X)
 lemma overLift_comp_π {V : C} (i : α → E.I₀) (φ : V ⟶ X)
     (k : ∀ p, V ⟶ E.X (i p)) (hk : ∀ p, k p ≫ E.f (i p) = φ) (p : α) :
     overLift E i φ k hk ≫ (Pi.π (fun q : α ↦ Over.mk (E.f (i q))) p).left = k p :=
-  (Over.comp_left ..).symm.trans (congrArg Over.Hom.left (Pi.lift_π _ p))
+  (Over.comp_left ..).symm.trans (congrArg Over.Hom.left (Pi.lift_comp_π _ p))
 
 /-- The composite of `overLift E i φ k hk` with the structure morphism to `X` is `φ`. -/
 lemma overLift_comp_hom {V : C} (i : α → E.I₀) (φ : V ⟶ X)

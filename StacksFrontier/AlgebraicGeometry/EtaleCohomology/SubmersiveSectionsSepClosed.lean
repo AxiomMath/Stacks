@@ -59,24 +59,25 @@ public theorem isIso_toPresheafFiber_etaleMkId_of_isSepClosed (k : Type u) [Fiel
     have hx : x default = (default : Spec (.of k)) := Subsingleton.elim _ _
     simpa only [Scheme.Hom.comp_apply, hx] using congrArg (· default) h
   have hinit : IsInitial (show (pointSmallEtale x).fiber.Elements from
-      ⟨Scheme.Etale.mk (𝟙 (Spec (.of k))), Over.homMk x (by
-        show x ≫ 𝟙 _ = x
-        simp)⟩) := by
+      (pointSmallEtale x).fiber.elementsMk (Scheme.Etale.mk (𝟙 (Spec (.of k))))
+        (Over.homMk x (by
+          show x ≫ 𝟙 _ = x
+          simp))) := by
     classical
     let sectionOf (U : (pointSmallEtale x).fiber.Elements) :=
-      (hsec U.1 U.2.left (Over.w U.2)).choose
+      (hsec U.obj U.val.left (Over.w U.val)).choose
     have hsection (U : (pointSmallEtale x).fiber.Elements) :
-        sectionOf U ≫ U.1.hom = 𝟙 _ ∧ x ≫ sectionOf U = U.2.left :=
-      (hsec U.1 U.2.left (Over.w U.2)).choose_spec
+        sectionOf U ≫ U.obj.hom = 𝟙 _ ∧ x ≫ sectionOf U = U.val.left :=
+      (hsec U.obj U.val.left (Over.w U.val)).choose_spec
     refine IsInitial.ofUniqueHom
-      (fun U : (pointSmallEtale x).fiber.Elements ↦ CategoryOfElements.homMk _ U
+      (fun U : (pointSmallEtale x).fiber.Elements ↦ Functor.Elements.homMk
         (MorphismProperty.Over.homMk (sectionOf U) (hsection U).1)
         (Over.OverMorphism.ext (hsection U).2))
       (fun U morphism ↦ ?_)
-    apply CategoryOfElements.ext
+    apply Functor.Elements.hom_ext
     apply MorphismProperty.Over.Hom.ext
-    exact heq U.1 (MorphismProperty.Over.w morphism.1) (hsection U).1
-      ((congrArg (·.left) morphism.2).trans (hsection U).2.symm)
+    exact heq U.obj (MorphismProperty.Over.w morphism.hom) (hsection U).1
+      ((congrArg (·.left) morphism.map_val).trans (hsection U).2.symm)
   exact ((pointSmallEtale x).isColimitPresheafFiberCocone P).isIso_ι_app_of_isTerminal _
     hinit.op
 

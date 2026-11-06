@@ -212,8 +212,8 @@ theorem exists_specialization_planeCurve {n : ℕ} (P : Polynomial (MvPolynomial
   let gF := GS.map φS.toRingHom
   have hgF0 : gF ≠ 0 := by
     intro h
-    have := congrArg (MvPolynomial.coeff m0) h
-    rw [MvPolynomial.coeff_map, MvPolynomial.coeff_zero] at this
+    have := congrArg (fun p : MvPolynomial (Fin 2) _ ↦ p.coeff m0) h
+    simp only [MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] at this
     exact hφSc this
   refine ⟨fF, gF, MvPolynomial.totalDegree_map_le _ _, MvPolynomial.totalDegree_map_le _ _, ?_,
     ?_, ?_⟩

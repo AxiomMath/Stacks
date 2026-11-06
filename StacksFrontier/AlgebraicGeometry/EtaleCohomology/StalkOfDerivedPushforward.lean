@@ -453,7 +453,8 @@ def strictHenselizationSectionsToFibreSections :
         (geometricFibreToStrictHenselizationBaseChange B hS f s)) ≫
     (Functor.associator _ _ _).inv ≫
     Functor.whiskerRight
-      (Functor.mapDerivedCategoryCompIso (geometricFibrePullbackAbCompIso B hS f s)).hom
+      ((Functor.mapDerivedCategoryCompIso _ _).hom ≫
+        NatTrans.mapDerivedCategory (geometricFibrePullbackAbCompIso B hS f s).hom)
       (smallEtaleDerivedGlobalSections (geometricFibre f s))
 
 end Fibre

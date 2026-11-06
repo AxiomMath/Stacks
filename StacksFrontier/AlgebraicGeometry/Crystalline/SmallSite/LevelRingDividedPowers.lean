@@ -354,7 +354,7 @@ theorem isDPMorphism_wholeSpaceEnvelopeRingLevelEquiv (n e : ℕ) :
         (isPAdicLevel_wholeSpaceEnvelopeDPRing hp n e).1
         (isPAdicLevel_wholeSpaceEnvelopeDPRing hp n e).2)
       (wholeSpaceEnvelopeRingLevelEquiv hp n e :
-        ((structureSheaf S).val.obj
+        ((structureSheaf S).obj.obj
             (op (((wholeSpaceSystem S hp).obj (op (SimplexCategory.mk n))).obj e)) : Type u) →+*
           (((wholeSpaceEnvelopeRing hp).obj (SimplexCategory.mk n) : Type u) ⧸
             DividedPowers.pAdicIdeal
@@ -396,7 +396,7 @@ theorem isDPMorphism_wholeSpaceEnvelopeRingLevelEquiv_symm (n e : ℕ) :
                 (A := ((wholeSpaceEnvelopeRing hp).obj (SimplexCategory.mk n) : Type u))
                 (affineSituation S hp).p ^
               (_root_.Crystalline.uniformLevel (affineSituation S hp) + e)) →+*
-        ((structureSheaf S).val.obj
+        ((structureSheaf S).obj.obj
             (op (((wholeSpaceSystem S hp).obj (op (SimplexCategory.mk n))).obj e)) : Type u)) :=
   DividedPowers.IsDPMorphism.comp _
     (isDPMorphism_wholeSpaceSystemLevelRingEquiv_symm hp n e)

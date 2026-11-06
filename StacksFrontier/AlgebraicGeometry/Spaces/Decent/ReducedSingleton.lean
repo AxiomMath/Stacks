@@ -141,6 +141,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Shortcut instance: instance search for products of presheaves on the big fppf site times
+out in Lean v4.35.0. -/
+local instance (priority := high) hasLimitsOfShape_discrete_presheaf_reducedSingleton
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    (J : Type) : HasLimitsOfShape (Discrete J) ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  functorCategoryHasLimitsOfShape
+
 /-! ### Flat field covers -/
 
 /-- There is a surjective flat morphism to `F` from an object of the site whose underlying
@@ -596,8 +603,9 @@ theorem isEmpty_points_or_isIso_of_mono_to_fieldSpectrum
   let ε : yoneda.obj V ≅ F := Functor.representableByEquiv (Classical.choice hV)
   let g : V ⟶ T := yoneda.preimage (ε.hom ≫ f)
   have hg : yoneda.map g = ε.hom ≫ f := yoneda.map_preimage _
-  have : Mono (ε.hom ≫ f) := inferInstance
-  have : Mono (yoneda.map g) := by rw [hg]; infer_instance
+  have : Mono ε.hom := IsIso.mono_of_iso _
+  have hεf : Mono (ε.hom ≫ f) := mono_comp _ _
+  have : Mono (yoneda.map g) := by rw [hg]; exact hεf
   have : Mono g := yoneda.mono_of_mono_map inferInstance
   have : Mono ((BigFppfOver.toScheme B S hS).map g) :=
     Functor.map_mono (BigFppfOver.toScheme B S hS) g

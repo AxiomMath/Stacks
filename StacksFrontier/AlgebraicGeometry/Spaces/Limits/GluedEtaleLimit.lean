@@ -242,7 +242,8 @@ theorem mem_range_Δ_or_ι (κ : (𝕋).obj D.K) :
       exact congrArg (sR ≫ ·) D.isPullback_K.w
     have hl : pullback.lift sD (sR ≫ yoneda.map D.k₁) h₁ =
         pullback.lift sD (sR ≫ yoneda.map D.k₂) h₂ := by
-      refine (cancel_mono (pullback.fst Tc.ι D.f)).1 ?_
+      have hmono : Mono (pullback.fst Tc.ι D.f) := @IsIso.mono_of_iso _ _ _ _ _ hiso
+      refine (@cancel_mono _ _ _ _ _ _ hmono _ _).1 ?_
       rw [pullback.lift_fst, pullback.lift_fst]
     have ha : sR ≫ yoneda.map D.k₁ = sR ≫ yoneda.map D.k₂ := by
       have := congrArg (· ≫ pullback.snd Tc.ι D.f) hl

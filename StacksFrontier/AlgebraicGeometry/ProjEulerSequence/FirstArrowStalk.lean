@@ -105,7 +105,7 @@ private theorem stalkMap_eulerFirstArrow_chartDiffGerm (j : Fin (n + 1)) :
           (ProjectiveSpectrum.basicOpen (polyGrading R n) (MvPolynomial.X i)) x hxb).hom
         ((eulerDerivation R n).d (chartFracSection R n i j)) := by
   rw [chartDiffGerm, AlgebraicGeometry.SheafOfModules.stalkMap_germ]
-  exact congrArg _ (PresheafOfModules.Derivation.congr_d
+  exact congrArg _ (PresheafOfModulesOfCommRing.Derivation.congr_d
     (universalRelativeDerivation_postcomp_eulerFirstArrow R n) _)
 
 /-- The `k`-th component of the germ of the value of the Euler derivation on a section is the

@@ -884,6 +884,25 @@ public theorem nonempty_iso_of_trivializations {S : B.Scheme} {K : Type*}
     rw [Functor.map_comp, hψ, hψ', CategoryTheory.Functor.map_id]
     simp
 
+/-- The transition between two restricted trivializations, written out. -/
+public theorem smallEtaleTrivializationRestrict_inv_hom_eq_trans {S X₁ X₂ O : B.Scheme}
+    {F : Sheaf (SmallEtale.topology B S.obj S.property) A} {f₁ : X₁ ⟶ S} {f₂ : X₂ ⟶ S}
+    {E₁ E₂ : A}
+    (ε₁ : (smallEtaleSheafPullback B A f₁).obj F ≅
+      (constantSheaf (SmallEtale.topology B X₁.obj X₁.property) A).obj E₁)
+    (ε₂ : (smallEtaleSheafPullback B A f₂).obj F ≅
+      (constantSheaf (SmallEtale.topology B X₂.obj X₂.property) A).obj E₂)
+    (p : O ⟶ X₁) (q : O ⟶ X₂) (r : O ⟶ S) (h₁ : p ≫ f₁ = r) (h₂ : q ≫ f₂ = r) :
+    (smallEtaleTrivializationRestrict B A ε₁ p r h₁).inv ≫
+        (smallEtaleTrivializationRestrict B A ε₂ q r h₂).hom =
+      ((smallEtaleConstantPullbackIso B A p E₁).symm ≪≫
+        (smallEtaleSheafPullback B A p).mapIso ε₁.symm ≪≫
+        (smallEtaleSheafPullbackCompIso' B A p f₁ r h₁).app F ≪≫
+        (smallEtaleSheafPullbackCompIso' B A q f₂ r h₂).symm.app F ≪≫
+        (smallEtaleSheafPullback B A q).mapIso ε₂ ≪≫
+        smallEtaleConstantPullbackIso B A q E₂).hom := by
+  simp [smallEtaleTrivializationRestrict]
+
 end Comparison
 
 section Main
@@ -1043,8 +1062,7 @@ public theorem smallEtaleStagesEssSurj_isTrivialized (hc : IsLimit c)
         (smallEtaleTrivializationRestrict B A (ε₂ m) (overlapSndBC B (W n) (W m) t)
           (pullback.snd (smallEtaleOverlapObj B (W n) (W m)).obj.hom t)
           (smallEtaleBaseChangeMap_snd B _ _ _)).hom = (τ n m).hom := by
-      rw [← h2]
-      simp [smallEtaleTrivializationRestrict]
+      exact (smallEtaleTrivializationRestrict_inv_hom_eq_trans _ _ _ _ _ _ _).trans h2
     rw [h3]
     exact hτθ n m
 
@@ -1069,6 +1087,8 @@ public theorem isTrivializedSmallEtaleSheaf_mono {Q Q' : A → Prop} (h : ∀ E,
 end Mono
 
 section Instances
+
+attribute [local instance high] Stacks.ConstantSheaf.hasSheafify_moduleCat_of_univLE
 
 attribute [local instance] SmallEtale.isRightAdjointPushforward_type
   SmallEtale.isRightAdjointPushforward_addCommGrpCat
@@ -1125,7 +1145,7 @@ public theorem smallEtaleStagesEssSurj_isFiniteTypeLocallyConstant_moduleCat
     (hqc : ∀ p : I, CompactSpace (Dg.obj (op p)).obj)
     (hqs : ∀ p : I, QuasiSeparatedSpace (Dg.obj (op p)).obj) :
     SmallEtaleStagesEssSurj B (ModuleCat.{u + 1} Λ) Dg c hX
-      (isFiniteTypeLocallyConstantSmallEtaleSheaf B Λ) := by
+      (isFiniteTypeLocallyConstantSmallEtaleSheaf.{u + 1} B Λ) := by
   intro F hF
   obtain ⟨i, Fi, hFi, e⟩ := smallEtaleStagesEssSurj_isTrivialized B Dg c hX hc haff hqc hqs
     (fun E : ModuleCat.{u + 1} Λ => Module.Finite Λ E)

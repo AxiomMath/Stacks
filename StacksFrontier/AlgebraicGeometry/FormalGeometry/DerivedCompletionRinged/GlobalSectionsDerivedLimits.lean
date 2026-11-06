@@ -205,8 +205,16 @@ theorem map_globalSectionScalar_moduleGlobalSectionsOver (x : A)
     (P : SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O))) :
     (moduleGlobalSectionsOver X A ρ).map ((globalSectionScalar X A ρ x).app P) =
       x • 𝟙 ((moduleGlobalSectionsOver X A ρ).obj P) :=
-  ModuleCat.hom_ext <| LinearMap.ext fun g ↦ (globalSectionScalar X A ρ x).naturality
-    (show SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⟶ P from g)
+  ModuleCat.hom_ext <| LinearMap.ext fun g ↦ by
+    let g' : SheafOfModules.unit (Stacks.SheafOfModules.Tensor.ringSheaf X.O) ⟶ P := g
+    have h1 : ((moduleGlobalSectionsOver X A ρ).map ((globalSectionScalar X A ρ x).app P)).hom g =
+        g' ≫ (globalSectionScalar X A ρ x).app P := rfl
+    have h2 : (x • 𝟙 ((moduleGlobalSectionsOver X A ρ).obj P)).hom g =
+        (globalSectionScalar X A ρ x).app _ ≫ g' := by
+      rw [ModuleCat.hom_smul, ModuleCat.hom_id, LinearMap.smul_apply, LinearMap.id_apply]
+      exact smul_moduleGlobalSectionsOver X A ρ P x g
+    rw [h1, h2]
+    exact (globalSectionScalar X A ρ x).naturality g'
 
 /-- **The Milnor condition transports from the global section `ρ x` to the scalar `x`.** If
 `T(K, ρ x) = 0` in `D(𝒪)` then `T(RΓ(𝒞, K), x) = 0` in `D(A)`.

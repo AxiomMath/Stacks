@@ -153,7 +153,7 @@ private noncomputable def fixedPolynomialMap
         MvPolynomial.map (FixedPoints.subring R G).subtype p
       ext m
       simp only [MvPolynomial.coeff_map]
-      exact (MvPolynomial.coeff m p).2 g)
+      exact (p.coeff m).2 g)
 
 private lemma fixedPolynomialMap_surjective
     (R G σ : Type*) [CommRing R] [Group G] [MulSemiringAction G R] :

@@ -178,7 +178,7 @@ private theorem hom_from_single_ext {Y : CochainComplex (ModuleCat.{u} A) ℤ}
     (φ ψ : ((CochainComplex.singleFunctors (ModuleCat.{u} A)).functor 0).obj
         (ModuleCat.of A A) ⟶ Y)
     (h : φ.f 0 = ψ.f 0) : φ = ψ := by
-  ext1 i
+  refine HomologicalComplex.hom_ext _ _ fun i => ?_
   by_cases hi : i = 0
   · subst hi; exact h
   · exact (HomologicalComplex.isZero_single_obj_X _ _ _ _ hi).eq_of_src _ _

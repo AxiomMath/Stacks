@@ -69,7 +69,7 @@ theorem exists_mem_le_map_of_fg_of_isChain {C : Set (Ideal A)} (hne : C.Nonempty
     · exact ⟨p.map f, ⟨p, hp, rfl⟩, le_rfl, Ideal.map_mono h⟩
   rw [Ideal.map_sSup, ← sSup_image] at hle
   obtain ⟨_, ⟨p, hp, rfl⟩, hab⟩ :=
-    (CompleteLattice.isCompactElement_iff_le_of_directed_sSup_le (Ideal B) a).mp
+    (isCompactElement_iff_le_of_directed_sSup_le a).mp
       ((Submodule.fg_iff_compact a).mp hfg) _ (hne.image _) hdir hle
   exact ⟨p, hp, hab⟩
 

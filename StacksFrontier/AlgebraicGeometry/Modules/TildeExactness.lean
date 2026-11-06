@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Module.LocalizedModule.Exact
 public import Mathlib.CategoryTheory.Limits.ExactFunctor
 public import StacksFrontier.AlgebraicGeometry.Scheme.Affine.Functoriality
 public import StacksFrontier.Topology.Sheaves.Modules.Exactness

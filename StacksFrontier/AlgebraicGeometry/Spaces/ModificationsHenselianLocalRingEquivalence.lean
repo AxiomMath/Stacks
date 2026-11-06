@@ -849,7 +849,7 @@ theorem full_henselianBaseChangeFunctor : (D.henselianBaseChangeFunctor R hR).Fu
     A'.property.1 ψ₁
   have hE_eq : (Over.pullback (E'.toSpace ≫ a)).map ψ₀ = hE := by
     have hn := β.hom.naturality ψ₀
-    rw [← cancel_mono (β.hom.app A'.obj), hn]
+    rw [← Iso.cancel_iso_hom_right _ _ (β.app A'.obj), Iso.app_hom, hn]
     change β.hom.app A.obj ≫ (Over.pullback E'.toSpace).map ((Over.pullback a).map ψ₀) = _
     rw [hψ₀, hψ₁]
     simp only [h₁, Iso.app_inv, Iso.app_hom, Iso.hom_inv_id_app_assoc]

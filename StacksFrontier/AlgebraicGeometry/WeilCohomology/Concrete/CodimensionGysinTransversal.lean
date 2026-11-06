@@ -216,6 +216,7 @@ theorem pullbackFstPullbackFstIso_hom_bivariantBaseChangeMap (i : Z ⟶ Y) {Y' :
   · simp only [pullbackFstPullbackFstIso, bivariantBaseChangeMap, Category.assoc, pullback.map]
     rw [pullback.lift_snd, ← Category.assoc, pullback.lift_snd, pullback.lift_snd]
 
+set_option maxHeartbeats 800000 in
 /-- **The Gysin map caps the class of a smooth closed subscheme of a test scheme to the class of
 its inverse image.** Let `X`, `Y` be smooth over `k` of constant dimensions `d`, `e`, let
 `g : T ⟶ Y` be a test scheme and `Z ⊆ T` a closed subscheme smooth over `k` of constant dimension

@@ -742,8 +742,8 @@ noncomputable def arrowsYonedaEquiv (W : BigFppfOver 𝒞 𝒵 (Space.contains_s
     eqToHom (actionGroupoid_arrows_obj 𝒞 k p hU).symm
   left_inv y := by
     dsimp only
-    rw [← cancel_mono (eqToHom (actionGroupoid_arrows_obj 𝒞 k p hU)), Category.assoc,
-      eqToHom_trans, eqToHom_refl, Category.comp_id]
+    rw [← Iso.cancel_iso_hom_right _ _ (eqToIso (actionGroupoid_arrows_obj 𝒞 k p hU)),
+      eqToIso.hom, Category.assoc, eqToHom_trans, eqToHom_refl, Category.comp_id]
     apply pullback.hom_ext
     · rw [pullback.lift_fst]
       apply prod.hom_ext
@@ -757,7 +757,7 @@ noncomputable def arrowsYonedaEquiv (W : BigFppfOver 𝒞 𝒵 (Space.contains_s
             y ≫ (actionGroupoid 𝒞 k p hU).source.hom ≫ (objectsIso 𝒞 k p hU).inv :=
           yonedaEquiv.injective (yonedaEquiv_yoneda_map _)
         rw [prod.lift_snd, this, source_hom_comp_objectsIso_inv]
-        simp
+        simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
   right_inv mh := by
     refine Prod.ext ?_ ?_
     · dsimp only

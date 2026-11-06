@@ -68,7 +68,27 @@ open scoped TensorProduct nonZeroDivisors
 
 universe u v w
 
+namespace AlgebraicGeometry
+
+/-- Pullbacks of presheaves of types (instance search times out without this shortcut). -/
+abbrev hasLimit_cospan_presheaf_EffectiveCartierGenericFibreExtension
+    {C : Type v} [Category.{u} C] {X Y Z : Cᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  @HasLimitsOfShape.has_limit _ _ _ _
+    (@functorCategoryHasLimitsOfShape _ _ _ _ _ _ inferInstance) _
+
+/-- Small products of presheaves of types (instance search times out without this shortcut). -/
+abbrev hasLimitsOfShape_discrete_presheaf_EffectiveCartierGenericFibreExtension
+    {C : Type v} [Category.{u} C] (J : Type) :
+    HasLimitsOfShape (Discrete J) (Cᵒᵖ ⥤ Type u) :=
+  @functorCategoryHasLimitsOfShape _ _ _ _ _ _ inferInstance
+
+end AlgebraicGeometry
+
 namespace AlgebraicGeometry.GenericFibreExtension
+
+attribute [local instance high] hasLimit_cospan_presheaf_EffectiveCartierGenericFibreExtension
+  hasLimitsOfShape_discrete_presheaf_EffectiveCartierGenericFibreExtension
 
 attribute [local instance] MorphismProperty.IsStableUnderBaseChange.respectsIso
   MorphismProperty.relative_isStableUnderBaseChange
@@ -1106,6 +1126,9 @@ spaces over `S` whose bottom edge is the image of `Spec K ⟶ Spec R` in the big
 monomorphism of algebraic spaces over `S`, and no change of base is needed. -/
 
 namespace AlgebraicGeometry.Space
+
+attribute [local instance high] hasLimit_cospan_presheaf_EffectiveCartierGenericFibreExtension
+  hasLimitsOfShape_discrete_presheaf_EffectiveCartierGenericFibreExtension
 
 attribute [local instance] MorphismProperty.IsStableUnderBaseChange.respectsIso
   MorphismProperty.relative_isStableUnderBaseChange

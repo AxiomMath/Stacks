@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Basic.Rel
 public import Mathlib.Topology.Separation.Hausdorff
+import StacksCore.Tactic.StacksAttribute
 
 /-!
 # The graph of a continuous map to a Hausdorff space
@@ -14,9 +15,6 @@ public import Mathlib.Topology.Separation.Hausdorff
 
 @[expose] public section
 
-/-- **Stacks 08ZF.** The graph of a continuous map `f : X → Y` into a Hausdorff space is a
-closed subset of `X × Y`: it is the equaliser of `f ∘ Prod.fst` and `Prod.snd`. -/
-@[stacks 08ZF]
-theorem Continuous.isClosed_graph {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
-    [T2Space Y] {f : X → Y} (hf : Continuous f) : IsClosed (Function.graph f) :=
-  isClosed_eq (hf.comp continuous_fst) continuous_snd
+/-! `Continuous.isClosed_graph` is now in Mathlib (`Mathlib.Topology.Separation.Hausdorff`);
+we only attach the Stacks tag here. -/
+add_to_stacks 08ZF Continuous.isClosed_graph

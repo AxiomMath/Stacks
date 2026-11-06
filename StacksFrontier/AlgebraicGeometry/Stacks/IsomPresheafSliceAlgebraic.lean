@@ -224,6 +224,12 @@ def presheafExtendAlongIso (G : (Over Z)ᵒᵖ ⥤ Type v) :
 
 end Extend
 
+/-- Pullbacks of presheaves of sets (instance search times out without this shortcut). -/
+local instance (priority := high) hasLimit_cospan_presheaf_IsomPresheafSliceAlgebraic
+    {C : Type*} [Category C] {X Y Z : Cᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-! ### Algebraic presheaves on the slice -/
 
 /-- A presheaf `G` on the slice of the big fppf site of `S` over `U` is *algebraic* when the

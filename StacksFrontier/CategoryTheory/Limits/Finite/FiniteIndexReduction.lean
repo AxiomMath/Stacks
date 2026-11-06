@@ -258,8 +258,6 @@ def jGen (k : Fin gens.length) :
 lemma jFunctor_map_gen (k : Fin gens.length) :
     (jFunctor gens).map (jGen (gens := gens) k) = (gens.get k).snd.snd := by
   simp only [jFunctor_map, jMap, jGen]
-  generalize_proofs h
-  cases h
   rfl
 
 /-- A generator in the list is the image under `jFunctor` of an arrow `y_a ⟶ z_b` of `J`. -/

@@ -71,7 +71,7 @@ public theorem map_span_nodalEquation :
           (MvPolynomial (Fin 2) (Localization.AtPrime 𝔭)))
         (Ideal.span {nodalEquation R h}) =
       Ideal.span {nodalEquation (Localization.AtPrime 𝔭)
-        (algebraMap R (Localization.AtPrime 𝔭) h)} := by
+                    (algebraMap R (Localization.AtPrime 𝔭) h)} := by
   rw [Ideal.map_span, Set.image_singleton, MvPolynomial.algebraMap_def, map_nodalEquation]
 
 /-- The nodal chart over the localized base is an algebra over the nodal chart, through

@@ -183,9 +183,9 @@ theorem bijective_uliftMap_meromorphicValueCounit_app (W : SmallEtale B S hS X.1
     (h : Function.Bijective ((P.meromorphicValueCounit M τ hwa hfin).app (op W))) :
     Function.Bijective (PresheafOfModules.Hom.app (PresheafOfModules.uliftMap.{_, _, _, _, u + 1}
       (P.meromorphicValueCounit M τ hwa hfin)) (op W)) := by
-  refine ⟨fun a b hab => ULift.ext _ _ (h.injective (congrArg ULift.down hab)), fun c => ?_⟩
+  refine ⟨fun a b hab => ULift.ext (h.injective (congrArg ULift.down hab)), fun c => ?_⟩
   obtain ⟨t, ht⟩ := h.surjective c.down
-  exact ⟨ULift.up t, ULift.ext _ _ ht⟩
+  exact ⟨ULift.up t, ULift.ext ht⟩
 
 include hwa hfin in
 /-- **The universe lift of the transpose of the meromorphic value is locally injective.** -/

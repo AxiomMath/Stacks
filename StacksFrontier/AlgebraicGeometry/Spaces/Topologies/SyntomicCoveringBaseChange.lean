@@ -68,6 +68,15 @@ theorem isSyntomic_of_isPullback {X' X Z Y : AlgebraicSpaces B S hS}
 
 /-! ### Stacks 041B, the base-change clause -/
 
+/-- Pullbacks of presheaves on the big fppf site over `S`, given directly: instance search for
+them times out under Lean v4.35.0. -/
+private instance (priority := high) hasPullback_presheaf_syntomicCoveringBaseChange
+    {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
+    {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : F ⟶ H) (g : G ⟶ H) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
+set_option synthInstance.maxHeartbeats 400000 in
 /-- **Stacks 041B**, the base-change clause. The first projections of the presheaf fibre
 products of a syntomic covering of an algebraic space over `S` with a morphism `g` into its
 target form a syntomic covering of the source of `g`. -/

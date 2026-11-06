@@ -304,11 +304,9 @@ private theorem conormalMap_range_span_generator {P A Λ : Type*} [CommRing P] [
     let I := RingHom.ker (algebraMap P A)
     letI : Module A I.Cotangent := ConormalSeq.cotangentModule hsurj
     LinearMap.range (ConormalSeq.conormalMap Λ hsurj) =
-      Submodule.span A {ConormalSeq.conormalMap Λ hsurj
-        (Ideal.toCotangent I ⟨f, by
-          change f ∈ RingHom.ker (algebraMap P A)
-          rw [hI]
-          exact Ideal.subset_span (Set.mem_singleton f)⟩)} := by
+      Submodule.span A (singleton (ConormalSeq.conormalMap Λ hsurj
+        (Ideal.toCotangent I ⟨f, show f ∈ RingHom.ker (algebraMap P A) from
+          hI ▸ Ideal.subset_span (Set.mem_singleton f)⟩))) := by
   let I : Ideal P := RingHom.ker (algebraMap P A)
   let : Module A I.Cotangent := ConormalSeq.cotangentModule hsurj
   let : IsScalarTower P A I.Cotangent :=
@@ -390,7 +388,6 @@ noncomputable def tensorQuotientSpanEquiv
     apply le_antisymm
     · rintro z ⟨x, rfl⟩
       induction x with
-      | zero => exact (Submodule.span S _).zero_mem
       | add x y hx hy =>
           rw [map_add]
           exact (Submodule.span S _).add_mem hx hy

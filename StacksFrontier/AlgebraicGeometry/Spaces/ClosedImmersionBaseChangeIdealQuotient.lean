@@ -265,6 +265,9 @@ theorem isIso_baseChangeQuotientUnitMap
     rw [← Category.assoc, idealQuotientπ_baseChangeQuotientUnitMap]
     exact ((modulePullbackAdjunction B S hS i).unit.naturality
       (idealQuotientπ (targetScalars B S hS π) M (siteMapKer B S hS ι))).symm
+  have : Mono ((modulePullbackAdjunction B S hS i).unit.app
+      (idealQuotient (targetScalars B S hS π) M (siteMapKer B S hS ι))) :=
+    @IsIso.mono_of_iso _ _ _ _ _ hQ
   have hmono : Mono (baseChangeQuotientUnitMap B S hS π ι i p hpb M) := mono_of_mono_fac hfac
   exact isIso_of_mono_of_epi _
 

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Data.Fintype.Shrink
 public import StacksFrontier.AlgebraicGeometry.AffineChartLocalization.Basic
 public import StacksFrontier.AlgebraicGeometry.CoherentOfFiniteType
 public import StacksFrontier.AlgebraicGeometry.Crystalline.BigSite.TrivialThickeningFunctor

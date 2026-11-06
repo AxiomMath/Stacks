@@ -424,7 +424,7 @@ theorem mA_le_jacobson (R : Type) [CommRing R] [IsLocalRing R] (A : Type) [CommR
   simp only [Set.mem_ofPred_eq] at hQ
   rw [Ideal.map_le_iff_le_comap]
   have hmax : (Q.comap (algebraMap R A)).IsMaximal :=
-    Ideal.isMaximal_comap_of_isIntegral_of_isMaximal Q
+    Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := R) Q
   rw [IsLocalRing.eq_maximalIdeal hmax]
 
 /-- **Units lift from the closed fibre.** An element of `A` whose image in the closed fibre
@@ -490,7 +490,7 @@ theorem hensel_factorization_over_R (R : Type u) [CommRing R] [HenselianLocalRin
     ∃ e : ResidueField R ≃+* (maximalIdeal R).ResidueField,
       ∀ r : R, e (residue R r) = algebraMap R (maximalIdeal R).ResidueField r :=
     ⟨IsLocalization.AtPrime.equivQuotMaximalIdeal (maximalIdeal R)
-        (Localization.AtPrime (maximalIdeal R)),
+        (Localization.AtPrime (maximalIdeal R)) |>.toRingEquiv,
       fun r => rfl⟩
   set g₀' : Polynomial (maximalIdeal R).ResidueField := g₀.map e.toRingHom with hg₀'def
   set h₀' : Polynomial (maximalIdeal R).ResidueField := h₀.map e.toRingHom with hh₀'def

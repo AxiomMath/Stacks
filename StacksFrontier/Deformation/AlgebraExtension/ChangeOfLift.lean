@@ -74,9 +74,9 @@ variable [Presheaf.IsLocallySurjective J (presentation J A O a E α).hom]
 
 /-- **The difference of two lifts is a derivation** of `𝒜[ℰ]` over `𝒜` with values in `𝒩`. -/
 noncomputable def diffDerivation :
-    ((_root_.SheafOfModules.pushforward
+    PresheafOfModulesOfCommRing.Derivation' ((_root_.SheafOfModules.pushforward
       (underlyingRingHomForPullback J (freeAlgebraSheaf J A E) O
-        (presentation J A O a E α))).obj N).val.Derivation'
+        (presentation J A O a E α))).obj N).val
       (freeAlgebraSheafCoefficientMap J A E).hom :=
   sectionsLeibnizDerivation.{u, u, u, u} J A (freeAlgebraSheaf J A E) O
     (freeAlgebraSheafCoefficientMap J A E) (presentation J A O a E α) N (β.diff β')
@@ -147,9 +147,9 @@ theorem exists_tensorHom_sub :
       (Stacks.SheafOfModules.tensorHomEquivDerivation_d.{u, u, u} J A O a E α N θ V _).trans
         (hθ V e)
   exact (Stacks.SheafOfModules.tensorHomEquivDerivation_d.{u, u, u} J A O a E α N θ U y).symm.trans
-    (congrArg (fun D : ((_root_.SheafOfModules.pushforward
+    (congrArg (fun D : PresheafOfModulesOfCommRing.Derivation' ((_root_.SheafOfModules.pushforward
         (underlyingRingHomForPullback J (freeAlgebraSheaf J A E) O
-          (presentation J A O a E α))).obj N).val.Derivation'
+          (presentation J A O a E α))).obj N).val
         (freeAlgebraSheafCoefficientMap J A E).hom => D.d (X := U) y) hEq)
 
 omit [HasSheafify J AddCommGrpCat.{u}] in

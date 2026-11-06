@@ -410,7 +410,7 @@ theorem isPreEquivalenceRelation_rel : IsPreEquivalenceRelation (rel hC) := by
         _ = (l ≫ (BigFppfOver.toScheme B S hS).map (q₁ hC)) ≫ B.inclusion.map (R hC).hom := by
             rw [Category.assoc, BigFppfOver.toScheme_map_comp_hom]
         _ = (r.left : T.left ⟶ (BigFppfOver.toScheme B S hS).obj (R hC)) ≫
-            B.inclusion.map (R hC).hom := by rw [hl₁]; exact rfl
+            B.inclusion.map (R hC).hom := by rw [hl₁]
         _ = T.hom := Over.w r
     · rw [ht, ← h₁]
       apply Over.OverMorphism.ext
@@ -418,14 +418,12 @@ theorem isPreEquivalenceRelation_rel : IsPreEquivalenceRelation (rel hC) := by
         (BigFppfOver.toScheme B S hS).map (sR hC) = (r.left : T.left ⟶
           (BigFppfOver.toScheme B S hS).obj (R hC)) ≫ (BigFppfOver.toScheme B S hS).map (sR hC)
       rw [Category.assoc, ← Functor.map_comp, compR_sR, Functor.map_comp, ← Category.assoc, hl₁]
-      exact rfl
     · rw [hs, ← h₂']
       apply Over.OverMorphism.ext
       show (l ≫ (BigFppfOver.toScheme B S hS).map (compR hC)) ≫
         (BigFppfOver.toScheme B S hS).map (tR hC) = (r'.left : T.left ⟶
           (BigFppfOver.toScheme B S hS).obj (R hC)) ≫ (BigFppfOver.toScheme B S hS).map (tR hC)
       rw [Category.assoc, ← Functor.map_comp, compR_tR, Functor.map_comp, ← Category.assoc, hl₂]
-      exact rfl
 
 /-- **`∐ N i j ⇉ ∐ M i` is an étale equivalence relation** (the claim in the proof of
 Stacks 0DUT). -/

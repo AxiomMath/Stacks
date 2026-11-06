@@ -502,7 +502,7 @@ private theorem topologicalKrullDim_lt_nat_succ_le {X : Type u} [TopologicalSpac
     | coe m =>
       have hm' : m < n + 1 := by exact_mod_cast h'
       have hm : m ≤ n := by omega
-      exact WithBot.coe_le_coe.mpr (WithBot.coe_le_coe.mpr hm)
+      exact WithBot.coe_le_coe.mpr (by exact_mod_cast hm)
 
 private theorem topologicalKrullDim_lt_zero_iff_isEmpty {X : Type u}
     [TopologicalSpace X] : topologicalKrullDim X < 0 ↔ IsEmpty X := by

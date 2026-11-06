@@ -156,9 +156,10 @@ theorem exists_isCompact_opens_geometricallyConnected_fibers
         ⟨z, (sectionedPullback f g σ hσ).sectionPoint _,
           (sectionedPullback f g σ hσ).sectionPoint_mem_fiberComponent _,
           (sectionedPullback f g σ hσ).fiberι_sectionPoint _⟩, hq _ ?_⟩
-      simpa using congrArg (fun φ : Z ⟶ Z => φ z)
-        (show (sectionedPullback f g σ hσ).s ≫ pullback.snd f g = 𝟙 Z from
-          pullback.lift_snd _ _ _)
+      rw [← Scheme.Hom.comp_apply,
+        show (sectionedPullback f g σ hσ).s ≫ pullback.snd f g = 𝟙 Z from
+          pullback.lift_snd _ _ _]
+      rfl
     have hrange : Set.range ((pullback.fst f g ⁻¹ᵁ U).ι ≫ pullback.fst f g) ⊆
         Set.range U.ι := by
       rintro x ⟨w, rfl⟩

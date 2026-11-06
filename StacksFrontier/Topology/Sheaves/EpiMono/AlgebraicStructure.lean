@@ -168,7 +168,7 @@ noncomputable def germPi (𝓕 : X.Presheaf S.C) (U : Opens X) :
 @[reassoc (attr := simp)]
 lemma germPi_π (𝓕 : X.Presheaf S.C) (U : Opens X) (x : U) :
     germPi 𝓕 U ≫ Limits.Pi.π _ x = germC S 𝓕 U x.1 x.2 :=
-  Limits.Pi.lift_π _ _
+  Limits.Pi.lift_comp_π _ _
 
 /-- The component at `x` of the underlying function of `germPi` is the underlying function of the
 germ map at `x`. -/

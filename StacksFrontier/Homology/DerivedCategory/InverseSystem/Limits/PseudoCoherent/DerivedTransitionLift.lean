@@ -224,8 +224,8 @@ lemma map_pi_difference_comp_piComparison
         Pi.π (fun n ↦ F.obj (M n)) (n + 1) ≫ F.map (g n)) := by
   apply Pi.hom_ext
   intro n
-  simp only [Category.assoc, Pi.lift_π, Preadditive.comp_sub]
-  rw [piComparison_comp_π, ← F.map_comp, Pi.lift_π, F.map_sub, F.map_comp]
+  simp only [Category.assoc, Pi.lift_comp_π, Preadditive.comp_sub]
+  rw [piComparison_comp_π, ← F.map_comp, Pi.lift_comp_π, F.map_sub, F.map_comp]
   rw [← Category.assoc, piComparison_comp_π]
 
 /-- The complex-level form of `epi_pi_difference_of_surjective`: for a tower of cochain
@@ -284,7 +284,7 @@ lemma exists_distTriang_of_degreewise_surjective
     rw [Category.id_comp, Iso.comp_inv_eq]
     apply Pi.hom_ext
     intro n
-    simp only [Category.assoc, Pi.lift_π]
+    simp only [Category.assoc, Pi.lift_comp_π]
     show _ = DerivedCategory.Q.map p ≫ piComparison DerivedCategory.Q N ≫ Pi.π X n
     rw [piComparison_comp_π, ← Functor.map_comp]
     simp [p, N, X]

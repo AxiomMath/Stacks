@@ -78,7 +78,7 @@ variable {Z : Over (Spec (CommRingCat.of k))}
 theorem localizedTangentEquivSelfMapsCross_val (a : localizedAutomorphismFunctorTangent P) :
     (localizedTangentEquivSelfMapsCross hp P a).1 =
       (P.transportAut (dualNumbersUnderIsoCross x₀).hom
-        (localizedTangentEquivKernel P a).1).hom.val.map := rfl
+        (localizedTangentEquivKernel P a).1).asIso.hom.val.map := rfl
 
 /-- **Addition on the `Inf` term is composition of self-maps of the re-based pushforward.** -/
 theorem localizedTangentEquivSelfMapsCross_add :
@@ -95,7 +95,7 @@ theorem localizedTangentEquivSelfMapsCross_add :
     localizedTangentEquivSelfMapsCross_val, (naturalLocalizedTangentModule_spec P hrs).1 a b]
   exact congrArg (fun α : Aut (P.obj (squareZeroCrossUnder.{u, u, u}
       ((schemeDeformationCategoryProjection (Λ := Λ) (k := k) Z).obj x₀)
-      (FGModuleCat.of k (ULift.{u} k)))) => α.hom.val.map)
+      (FGModuleCat.of k (ULift.{u} k)))) => α.asIso.hom.val.map)
     ((P.transportAutHom (dualNumbersUnderIsoCross x₀).hom).map_mul _ _)
 
 /-- The coordinate scaling commutes with the comparison of the two square-zero extensions. -/

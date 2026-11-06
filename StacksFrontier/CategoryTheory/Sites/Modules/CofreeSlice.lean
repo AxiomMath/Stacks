@@ -130,7 +130,7 @@ theorem mono_toCofreeHull : Mono (toCofreeHull M) :=
         ((Pi.π (fun W : C ↦ cofreeOne (op W) (M.obj (op W))) W).app (op W) ≫
           cofreeOneπ (op W) (M.obj (op W)) (𝟙 (op W))) =
         M.map (𝟙 (op W)) := by
-      rw [← Category.assoc, ← _root_.PresheafOfModules.comp_app, toCofreeHull, Pi.lift_π,
+      rw [← Category.assoc, ← _root_.PresheafOfModules.comp_app, toCofreeHull, Pi.lift_comp_π,
         cofreeOneDesc_app_comp_cofreeOneπ]
       exact (congrArg (M.map (𝟙 (op W)) ≫ ·)
         (CategoryTheory.Functor.map_id (ModuleCat.restrictScalars (R.map (𝟙 (op W))).hom)
@@ -276,7 +276,7 @@ theorem sliceInv_comp_map_cofreeOneπ (T : Over V) (a : R.obj (op V) ⟶ R.obj (
       CechComplex.cofreeOneπ (Over.mk h) (sliceCofreeValue h J) ((sliceIndex h T).symm g) ≫
         (sliceFactor h J T a ha g).hom := by
   rw [sliceInv, Category.assoc, inv_piComparison_comp_map_π]
-  exact Pi.lift_π _ _
+  exact Pi.lift_comp_π _ _
 
 /-- `sliceInv_comp_map_cofreeOneπ` with the index of the projection of the plain cofree presheaf
 carried as a separate argument together with an equation. -/

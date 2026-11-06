@@ -41,6 +41,13 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
+/-- Pullbacks of presheaves on the big fppf site over `S` (instance search times out without
+this shortcut). -/
+local instance (priority := high) hasPullback_presheaf_ChartSectionsProjectiveOfChartPullback
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  HasLimitsOfShape.has_limit _
+
 /-- **The reading of a quasi-coherent module on a scheme through a chart is the Zariski pullback
 of its chart restriction.**  For `G` quasi-coherent on `X`, an étale chart `U` of `X` and a
 morphism `r : W ⟶ U` of the site, `baseChangeModule G W (h_r ≫ U)` is the pullback along `r` of

@@ -280,7 +280,7 @@ private theorem exists_quasiIso_factorization_aux
       intro n
       let : IsSplitEpi (l₀.f n) := hl n
       show Epi (S.map (l₀.f n))
-      infer_instance
+      exact ((hl n).exists_splitEpi.some.map S).epi
     exact Stacks.KernelQuasiIso.pullback_fst_quasiIso_of_epi (η.app F) (Scomplex.map l₀)
   let : IsIso (Q.map i) :=
     (HomologicalComplex.isIso_quotient_map_iff_homotopyEquivalences i).2 hI

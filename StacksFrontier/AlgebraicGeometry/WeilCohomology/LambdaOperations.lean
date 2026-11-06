@@ -192,6 +192,9 @@ theorem isFiniteLocallyFree_exteriorPower
     (hF : Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, v, u₁} F) :
     Stacks.FiniteLocallyFree.IsFiniteLocallyFree.{u, v, u₁} (A.exteriorPower n) := by
   classical
+  have _hP : ∀ (U : C) (K : Type u), HasColimitsOfShape (Discrete K)
+      (PresheafOfModules.{u} ((Sheaf.toRingCat J Osharp).over U).obj) :=
+    fun _ _ => PresheafOfModules.hasColimitsOfShape _ _
   obtain ⟨q, hq, hft⟩ := hF.exists_isFiniteLocallyFreeData
   let _lo : ∀ i : q.I, LinearOrder ((q.generators i).I) :=
     fun _ => IsWellOrder.linearOrder WellOrderingRel
@@ -203,7 +206,7 @@ theorem isFiniteLocallyFree_exteriorPower
   refine ⟨⟨q.I, q.X, q.coversTop, fun i =>
       ⟨↥(Set.powersetCard ((q.generators i).I) n),
         ((A.exteriorPower n).over (q.X i)).freeHomEquiv (E i).hom,
-        by rw [Equiv.symm_apply_apply]; infer_instance⟩⟩,
+        by rw [Equiv.symm_apply_apply]; exact IsIso.epi_of_iso _⟩⟩,
     ⟨fun i => by
       dsimp only [_root_.SheafOfModules.GeneratingSections.π]
       rw [Equiv.symm_apply_apply]

@@ -69,8 +69,7 @@ private theorem generalizedMultiplicity_eq_factorial_mul_coeff
   classical
   have hex : ∃ Q : ℚ[X], ComputesGeneralizedHilbertPoly I M Q := ⟨P, hP⟩
   rw [Ideal.generalizedHilbertSamuelMultiplicity, dite_eq_left hex]
-  congr 2
-  exact ComputesGeneralizedHilbertPoly.unique hex.choose_spec hP
+  rw [ComputesGeneralizedHilbertPoly.unique hex.choose_spec hP]
 
 /-- Two ideals over possibly different rings with the same generalized Hilbert function have
 the same generalized multiplicities. -/

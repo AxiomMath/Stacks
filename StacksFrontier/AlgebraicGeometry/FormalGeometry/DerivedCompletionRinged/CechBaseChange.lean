@@ -117,6 +117,10 @@ namespace AlgebraicGeometry.RingedSite
 
 universe u
 
+-- `hasWeakSheafifyAddCommGrpCat` (from `AwayKFlat.lean`) at high priority, so that the
+-- declarations below do not depend on the section variable `[HasSheafify X.J AddCommGrpCat.{u}]`.
+attribute [local instance high] hasWeakSheafifyAddCommGrpCat
+
 variable (X : RingedSite.{u, u, u}) [HasWeakSheafify X.J CommRingCat.{u}]
   [X.J.WEqualsLocallyBijective AddCommGrpCat.{u}] [HasSheafify X.J AddCommGrpCat.{u}]
   [(Stacks.SheafOfModules.Tensor.sheafTensor.{u, u, u, u, u} X.O).Additive]

@@ -155,7 +155,7 @@ theorem correspondenceEquivOfIso_congr (C : ChowSituation.{u}) {A B A' B' : Sche
 theorem corrEquivOfIso_id (r : ℤ) (c : Corr k sX sY r) :
     corrEquivOfIso k sX sX sY sY (𝟙 X) (𝟙 Y) (Category.id_comp _) (Category.id_comp _) r c = c := by
   induction c using Corr.induction_on with
-  | zero => simp
+  | zero => exact LinearEquiv.map_zero _
   | add a b ha hb => rw [map_add, ha, hb]
   | lof d e x =>
     rw [corrEquivOfIso_lof_lof, correspondenceEquivOfIso_congr _ _ _ _ _ _ (𝟙 _) _ (𝟙 _) _
@@ -191,7 +191,7 @@ theorem comp_corrEquivOfIso_blocks {Δ : DiagonalClassFamily k} (hΔ : Δ.IsoInv
         (relativeDimension_partBase sZ f) (relativeDimension_partBase sX' d)
         (relativeDimension_partBase sY' e) (relativeDimension_partBase sZ' f)]
   · simp only [corrEquivOfIso_lof_lof, comp_lof_lof_lof_of_ne k sX sY sZ Δ r s d e e' he,
-      comp_lof_lof_lof_of_ne k sX' sY' sZ' Δ r s d e e' he, map_zero]
+      comp_lof_lof_lof_of_ne k sX' sY' sZ' Δ r s d e e' he, LinearEquiv.map_zero]
 
 /-- Transport is compatible with composition when the first correspondence is concentrated in a
 single block. -/
@@ -206,8 +206,8 @@ theorem comp_corrEquivOfIso_lof_lof {Δ : DiagonalClassFamily k} (hΔ : Δ.IsoIn
       corrEquivOfIso k sX sX' sZ sZ' φX φZ hφX hφZ (r + s)
         (comp k sX' sY' sZ' Δ r s (DirectSum.lof ℚ ℕ _ d (DirectSum.lof ℚ ℕ _ e x)) b) := by
   induction b using Corr.induction_on with
-  | zero => simp only [map_zero]
-  | add b b' hb hb' => simp only [map_add, hb, hb']
+  | zero => simp only [LinearEquiv.map_zero, LinearMap.map_zero]
+  | add b b' hb hb' => simp only [LinearEquiv.map_add, LinearMap.map_add, hb, hb']
   | lof e' f y =>
     exact comp_corrEquivOfIso_blocks k sX sX' sY sY' φX φY hφX hφY sZ sZ' φZ hφZ hΔ r s d e x e' f y
 
@@ -220,8 +220,9 @@ theorem comp_corrEquivOfIso {Δ : DiagonalClassFamily k} (hΔ : Δ.IsoInvariant)
         (corrEquivOfIso k sY sY' sZ sZ' φY φZ hφY hφZ s b) =
       corrEquivOfIso k sX sX' sZ sZ' φX φZ hφX hφZ (r + s) (comp k sX' sY' sZ' Δ r s a b) := by
   induction a using Corr.induction_on with
-  | zero => simp only [map_zero, LinearMap.zero_apply]
-  | add a a' ha ha' => simp only [map_add, LinearMap.add_apply, ha, ha']
+  | zero => simp only [LinearEquiv.map_zero, LinearMap.map_zero, LinearMap.zero_apply]
+  | add a a' ha ha' =>
+    simp only [LinearEquiv.map_add, LinearMap.map_add, LinearMap.add_apply, ha, ha']
   | lof d e x =>
     exact comp_corrEquivOfIso_lof_lof k sX sX' sY sY' φX φY hφX hφY sZ sZ' φZ hφZ hΔ r s d e x b
 
@@ -297,6 +298,8 @@ theorem graphBlock_eq_correspondenceEquivOfIso (d : ℕ) :
     (graphMorphism (partBase sQ' d) (partBase sQ' d) (𝟙 _) (Category.id_comp _)) ((d : ℤ) - 0)
   exact (congrArg (QuotientAddGroup.mk' (rationalEquivalences _ _ _)) key).symm
 
+-- Lean v4.35.0: instance search for `AddMonoidHomClass` on `Corr` needs more heartbeats.
+set_option synthInstance.maxHeartbeats 200000 in
 /-- **The graph of `β⁻¹ ≫ α` is the transport of the diagonal along `α × β`**:
 `[Γ_{β⁻¹ ≫ α}] = (α × β)_* [Δ_{Q'}]` in `Corr⁰(P, Q)`. -/
 theorem graphCorr_eq_corrEquivOfIso [QuasiCompact sQ] [QuasiCompact sQ'] :

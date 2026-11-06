@@ -84,8 +84,8 @@ theorem hasImageIn_map_iff_of_isIso {W W' : BigFppfOver B S hS} (f : W' ⟶ W) [
   have := (completionSubfunctor B S hS X.left T).map (inv f).op
     (a := ULift.up (X.left.map f.op y)) h
   change HasImageIn B S hS X.left T W (X.left.map (inv f).op (X.left.map f.op y)) at this
-  rwa [← FunctorToTypes.map_comp_apply, ← op_comp, IsIso.inv_hom_id, op_id,
-    FunctorToTypes.map_id_apply] at this
+  rwa [← Functor.map_comp_apply, ← op_comp, IsIso.inv_hom_id, op_id,
+    Functor.map_id_apply] at this
 
 /-- For `ψ : W ⟶ V` with `ψ ≫ g = W.hom`, the morphism
 `AlgebraicGeometry.Space.smallerBaseFactorHom` of the big fppf site of `S` is an isomorphism. -/
@@ -170,8 +170,8 @@ theorem completionSubfunctorSmallerBaseEquiv_naturality {W W' : (BigFppfOver B S
   apply Subtype.ext
   apply ULift.ext
   show X.left.map _ (X.left.map _ x.1) = X.left.map f (X.left.map _ x.1)
-  refine (FunctorToTypes.map_comp_apply X.left _ _ x.1).symm.trans
-    (Eq.trans ?_ (FunctorToTypes.map_comp_apply X.left _ f x.1))
+  refine (X.left.map_comp_apply _ _ x.1).symm.trans
+    (Eq.trans ?_ (X.left.map_comp_apply _ f x.1))
   refine congrArg (fun k => X.left.map k x.1) (Quiver.Hom.unop_inj ?_)
   refine Over.OverMorphism.ext ?_
   show 𝟙 _ ≫ f.unop.left = f.unop.left ≫ 𝟙 _

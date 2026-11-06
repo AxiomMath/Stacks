@@ -146,13 +146,13 @@ def deltaInj (i : I) : M i ⟶ ∏ᶜ M :=
 /-- The `i`-th component of the `i`-th canonical injection is the identity. -/
 @[simp]
 theorem deltaInj_comp_π_self (i : I) : deltaInj R M i ≫ Pi.π M i = 𝟙 (M i) := by
-  rw [deltaInj, Pi.lift_π]
+  rw [deltaInj, Pi.lift_comp_π]
   simp
 
 /-- The `j`-th component of the `i`-th canonical injection vanishes for `j ≠ i`. -/
 @[simp]
 theorem deltaInj_comp_π_ne {i j : I} (h : i ≠ j) : deltaInj R M i ≫ Pi.π M j = 0 := by
-  rw [deltaInj, Pi.lift_π]
+  rw [deltaInj, Pi.lift_comp_π]
   simp [h]
 
 /-- The comparison morphism of presheaves of modules from the objectwise coproduct of the
@@ -265,7 +265,7 @@ def coprodToProd : (∐ M) ⟶ ∏ᶜ M :=
 theorem ι_coprodToProd_comp_π (i j : I) :
     Sigma.ι M i ≫ coprodToProd R M ≫ Pi.π M j =
       if h : i = j then eqToHom (congrArg M h) else 0 := by
-  rw [← Category.assoc, coprodToProd, Sigma.ι_desc, deltaInj, Pi.lift_π]
+  rw [← Category.assoc, coprodToProd, Sigma.ι_desc, deltaInj, Pi.lift_comp_π]
 
 /-- **Any family of components of `∐ M` is recovered from the canonical comparison.** If
 `π i : ∐ M ⟶ M i` is the identity on the `i`-th summand and zero on the others — which is how a
@@ -348,7 +348,7 @@ theorem exists_hom_comp_eq (h : IsLocallyFinitelySupported M) {T : SheafOfModule
   have := isIso_coprodToProd R M h
   refine ⟨Pi.lift f ≫ inv (coprodToProd R M), fun i => ?_⟩
   rw [Category.assoc, ← coprodToProd_comp_π_eq R M π hself hzero i,
-    IsIso.inv_hom_id_assoc, Pi.lift_π]
+    IsIso.inv_hom_id_assoc, Pi.lift_comp_π]
 
 omit [DecidableEq I] in
 /-- **A morphism into a locally finitely supported coproduct is determined by its components.**

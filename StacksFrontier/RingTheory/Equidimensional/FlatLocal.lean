@@ -142,14 +142,13 @@ lemma height_ne_top_of_isLocalRing [IsNoetherianRing B] [IsLocalRing B] (Q : Pri
 lemma wf_instances [IsNoetherianRing B] [IsLocalRing B] :
     WellFoundedLT (PrimeSpectrum B) ∧ WellFoundedGT (PrimeSpectrum B) := by
   have hgt : WellFoundedGT (PrimeSpectrum B) := by
-    constructor
     apply WellFounded.onFun (f := PrimeSpectrum.asIdeal) (r := (· > ·))
-    exact (IsWellFounded.wf : WellFounded (· > · : Ideal B → Ideal B → Prop))
+    exact (wellFounded_gt : WellFounded (· > · : Ideal B → Ideal B → Prop))
   have hfd : FiniteDimensionalOrder (PrimeSpectrum B) := by
     rw [Order.finiteDimensionalOrder_iff_krullDim_ne_bot_and_top]
     exact ⟨(Order.bot_lt_krullDim).ne', ringKrullDim_lt_top.ne⟩
-  exact ⟨⟨SetRel.IsWellFounded.of_finiteDimensional
-    {(a, b) : PrimeSpectrum B × PrimeSpectrum B | a < b}⟩, hgt⟩
+  exact ⟨SetRel.IsWellFounded.of_finiteDimensional
+    {(a, b) : PrimeSpectrum B × PrimeSpectrum B | a < b}, hgt⟩
 
 /-- A covering chain between any two comparable primes of a Noetherian local ring. -/
 lemma exists_covChain [IsNoetherianRing B] [IsLocalRing B] (p q : PrimeSpectrum B)

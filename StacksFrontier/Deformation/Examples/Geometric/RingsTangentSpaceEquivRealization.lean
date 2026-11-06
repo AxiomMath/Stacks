@@ -338,7 +338,6 @@ omit [IsScalarTower k (TrivSqZeroExt k V) E.B'] in
 public lemma kerIncl_mem_kerIdeal_smul (y : P ⊗[k] V) :
     kerIncl E y ∈ kerIdeal k V • (⊤ : Submodule (TrivSqZeroExt k V) E.B') := by
   induction y with
-  | zero => rw [map_zero]; exact Submodule.zero_mem _
   | tmul p v =>
       obtain ⟨q, hq⟩ := toRed_surjective E p
       have h : kerIncl E (p ⊗ₜ[k] v) = (inr v : TrivSqZeroExt k V) • q := by
@@ -360,7 +359,6 @@ started from.** -/
 public lemma firstOrderConormalHom_eq_kerIncl (x : P ⊗[k] V) :
     firstOrderConormalHom (V := V) (toRed E) (toRed_surjective E) x = kerIncl E x := by
   induction x with
-  | zero => rw [map_zero, map_zero]
   | tmul p v =>
       obtain ⟨q, hq⟩ := toRed_surjective E p
       rw [firstOrderConormalHom_tmul (toRed E) (toRed_surjective E)
@@ -447,7 +445,6 @@ kernel. -/
 public lemma tensorSMulHom_realizationTensorSection (x : P ⊗[k] V) :
     (kerIdeal k V).tensorSMulHom E.B' (realizationTensorSection E x) = kerIncl E x := by
   induction x with
-  | zero => rw [map_zero, map_zero, map_zero]
   | tmul p v =>
       rw [realizationTensorSection_tmul, Ideal.tensorSMulHom_tmul]
       change (inr v : TrivSqZeroExt k V) • _ = _
@@ -461,7 +458,6 @@ public lemma realizationTensorSection_surjective :
     Function.Surjective (realizationTensorSection E) := by
   intro z
   induction z with
-  | zero => exact ⟨0, map_zero _⟩
   | tmul i q =>
       refine ⟨toRed E q ⊗ₜ[k] (i : TrivSqZeroExt k V).snd, ?_⟩
       rw [realizationTensorSection_tmul]
@@ -529,7 +525,6 @@ omit [IsScalarTower k (TrivSqZeroExt k V) E.B'] hstr in
 private lemma exists_tmul_one (x : E.B' ⊗[TrivSqZeroExt k V] k) :
     ∃ z : E.B', z ⊗ₜ[TrivSqZeroExt k V] (1 : k) = x := by
   induction x with
-  | zero => exact ⟨0, TensorProduct.zero_tmul _ _⟩
   | tmul z c =>
       refine ⟨(inl c : TrivSqZeroExt k V) • z, ?_⟩
       rw [TensorProduct.smul_tmul]
@@ -664,7 +659,6 @@ public lemma firstOrderConormalHom_eq_kerIncl' (π : E.B' →ₐ[k] P)
     (hπ : Function.Surjective π) (hπeq : ∀ z, π z = toRed E z) (x : P ⊗[k] V) :
     firstOrderConormalHom (V := V) π hπ x = kerIncl E x := by
   induction x with
-  | zero => rw [map_zero, map_zero]
   | tmul p v =>
       obtain ⟨q, hq⟩ := hπ p
       rw [firstOrderConormalHom_tmul π hπ (kerCondition_of_eq_toRed E hstr π hπeq) p v q hq,

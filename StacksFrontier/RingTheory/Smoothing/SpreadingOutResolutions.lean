@@ -145,13 +145,13 @@ private theorem exists_mem_and_C_mul_eq_sum {R Rp : Type*} [CommRing R] [CommRin
     obtain ⟨m, hm, hr⟩ := MvPolynomial.mem_coeffs_iff.mp r.property
     have hcoeff := congrArg (fun z : MvPolynomial σ Rp => z.coeff m) hmapW
     rw [hr]
-    simpa only [MvPolynomial.coeff_map, MvPolynomial.coeff_zero] using hcoeff
+    simpa only [MvPolynomial.coeff_map, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply] using hcoeff
   obtain ⟨e, he, hecoeff⟩ := exists_mem_forall_mul_eq_zero (R := R) (T := Rp) M _ hcoeffzero
   have hW : C e * ((∑ j, b j * f j) - C d * p) = 0 := by
     ext m
     rw [MvPolynomial.coeff_C_mul]
     by_cases hm : ((∑ j, b j * f j) - C d * p).coeff m = 0
-    · simp [hm]
+    · rw [hm, mul_zero, AddMonoidAlgebra.coeff_zero, Finsupp.zero_apply]
     · simpa using hecoeff ⟨_, MvPolynomial.coeff_mem_coeffs m hm⟩
   refine ⟨e * d, M.mul_mem he hd, fun j => C e * b j, ?_⟩
   calc

@@ -1077,7 +1077,7 @@ theorem DiagonalClassFamily.ProperIntersectionFormula.comp_diagonalCorr
     (c : Corr k sX sY s) :
     comp k sX sX sY Δ 0 s (diagonalCorr k sX) c = corrCongr k sX sY (zero_add s).symm c := by
   induction c using Corr.induction_on with
-  | zero => simp
+  | zero => simp [LinearEquiv.map_zero]
   | add a b ha hb => rw [map_add, map_add, ha, hb]
   | lof d e x => rw [corrCongr_lof_lof, hΔ.comp_diagonalCorr_lof_lof k sX sY s d e x]
 
@@ -1092,7 +1092,7 @@ theorem DiagonalClassFamily.ProperIntersectionFormula.diagonalCorr_comp
     (c : Corr k sX sY r) :
     comp k sX sY sY Δ r 0 c (diagonalCorr k sY) = corrCongr k sX sY (add_zero r).symm c := by
   induction c using Corr.induction_on with
-  | zero => simp
+  | zero => simp [LinearEquiv.map_zero]
   | add a b ha hb => rw [map_add, LinearMap.add_apply, map_add, ha, hb]
   | lof d e x => rw [corrCongr_lof_lof, hΔ.comp_lof_lof_diagonalCorr k sX sY r d e x]
 

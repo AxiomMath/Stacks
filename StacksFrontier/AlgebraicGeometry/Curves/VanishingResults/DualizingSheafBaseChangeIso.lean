@@ -200,12 +200,12 @@ theorem basePairing_comp_smulEnd_apply {F : (S.baseChange K).X.Modules}
     (ψ : F ⟶ (Scheme.Modules.pullback (S.baseChangeProj K)).obj ω) (a : K)
     (y : cohomologyOverField K (S.baseChange K).f F 1) :
     basePairing K hone h (ψ ≫ (Scheme.smulEnd (S.baseChange K).X
-        (((S.baseChange K).structureRingHom).hom a)).app _) y = a * basePairing K hone h ψ y := by
+        (((S.baseChange K).structureRingHom).hom a)).asHom.app _) y = a * basePairing K hone h ψ y := by
   show baseChangeTraceForm K hone h
       ((cohomologyOverFieldMap K (S.baseChange K).f (ψ ≫ _) 1).hom y) =
     a * baseChangeTraceForm K hone h ((cohomologyOverFieldMap K (S.baseChange K).f ψ 1).hom y)
   have h1 := (congrArg (fun m => m.hom y) (cohomologyOverFieldMap_comp K (S.baseChange K).f ψ
-    ((Scheme.smulEnd (S.baseChange K).X (((S.baseChange K).structureRingHom).hom a)).app
+    ((Scheme.smulEnd (S.baseChange K).X (((S.baseChange K).structureRingHom).hom a)).asHom.app
       ((Scheme.Modules.pullback (S.baseChangeProj K)).obj ω)) 1)).trans
     (cohomologyOverFieldMap_smulEnd _ 1 a ((cohomologyOverFieldMap K (S.baseChange K).f ψ 1).hom y))
   exact (congrArg (baseChangeTraceForm K hone h) h1).trans (by rw [map_smul, smul_eq_mul])
@@ -248,7 +248,7 @@ theorem exists_basePairing_eq_of_isCoherent (F0 : S.X.Modules) [hF0q : F0.IsQuas
       ((Scheme.Modules.pullback (S.baseChangeProj K)).obj F0 ⟶
         (Scheme.Modules.pullback (S.baseChangeProj K)).obj ω) :=
     fun i => (Scheme.Modules.pullback (S.baseChangeProj K)).map (φ i) ≫
-      (Scheme.smulEnd (S.baseChange K).X (((S.baseChange K).structureRingHom).hom (c i))).app _
+      (Scheme.smulEnd (S.baseChange K).X (((S.baseChange K).structureRingHom).hom (c i))).asHom.app _
   have hu : ∀ i x, basePairing K hone h (u i) (S.pullbackCohomology K F0 1 x) =
       c i * algebraMap S.k K (b.coord i x) := by
     intro i x
@@ -278,7 +278,6 @@ theorem exists_basePairing_eq_of_isCoherent (F0 : S.X.Modules) [hF0q : F0.IsQuas
   refine LinearMap.ext fun w => ?_
   obtain ⟨z, rfl⟩ := (S.cohomologyBaseChange_bijective K F0 hF0 1).2 w
   induction z with
-  | zero => rw [map_zero, map_zero, map_zero]
   | tmul a x =>
     rw [cohomologyBaseChange_tmul, map_smul, map_smul, hpb]
   | add z w hz hw => rw [map_add, map_add, map_add, hz, hw]

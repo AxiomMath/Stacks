@@ -648,6 +648,11 @@ private theorem isZero_rightDerived_openSections_constantSheaf
   let : G.IsLeftAdjoint := ⟨_, ⟨
     TopCat.Presheaf.ExtensionByInitial.sheafRestrictPushforwardAdjunction U⟩⟩
   let : G.IsRightAdjoint := ⟨_, ⟨TopCat.Presheaf.extendByInitialSheafAdjunction U⟩⟩
+  let : HasLimitsOfShape (Discrete WalkingPair) ((Opens T)ᵒᵖ ⥤ AddCommGrpCat.{w}) :=
+    inferInstance
+  let : HasLimitsOfShape (Discrete WalkingPair)
+      (Sheaf (Opens.grothendieckTopology T) AddCommGrpCat.{w}) :=
+    hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf _ _)
   let : G.Additive := Functor.additive_of_preserves_binary_products _
   let : G.PreservesInjectiveObjects := sheafRestrict_preservesInjectiveObjects U
   let e : G ⋙ H ≅ (sheafSections (Opens.grothendieckTopology T)
@@ -726,6 +731,14 @@ private theorem isZero_rightDerived_etaleOpenSections_constantSheaf
     let G := E.inverse
     let H := (sheafSections (Opens.grothendieckTopology X) AddCommGrpCat.{w}).obj
       (Opposite.op U)
+    let : HasLimitsOfShape (Discrete WalkingPair) (X.Etaleᵒᵖ ⥤ AddCommGrpCat.{w}) :=
+      inferInstance
+    let : HasLimitsOfShape (Discrete WalkingPair) (Sheaf X.smallEtaleTopology AddCommGrpCat.{w}) :=
+      hasLimitsOfShape_of_hasLimitsOfShape_createsLimitsOfShape (sheafToPresheaf _ _)
+    let : PreservesLimitsOfShape (Discrete WalkingPair) G :=
+      (E.toAdjunction.rightAdjoint_preservesLimits.{0, 0}).preservesLimitsOfShape
+    let : G.IsRightAdjoint := ⟨_, ⟨E.toAdjunction⟩⟩
+    let : G.PreservesZeroMorphisms := Functor.preservesZeroMorphisms_of_isRightAdjoint G
     let : G.Additive := Functor.additive_of_preserves_binary_products _
     show IsZero (((G ⋙ H).rightDerived q).obj _)
     apply IsZero.of_iso _ (rightDerivedCompIso_of_preservesInjectiveObjects G H _ q)

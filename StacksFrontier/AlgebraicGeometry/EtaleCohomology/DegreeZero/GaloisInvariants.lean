@@ -53,7 +53,7 @@ namespace CategoryTheory
 fixed by every element of the monoid. -/
 def Action.addInvariants {G : Type*} [Monoid G] (M : Action AddCommGrpCat.{w} G) :
     AddSubgroup (M.V : Type w) where
-  carrier := {x | ∀ σ : G, ConcreteCategory.hom (M.ρ σ) x = x}
+  carrier := {x | ∀ σ : G, ConcreteCategory.hom (M.ρ σ).asHom x = x}
   zero_mem' := fun _ ↦ map_zero _
   add_mem' := fun ha hb σ ↦ by rw [map_add, ha σ, hb σ]
   neg_mem' := fun ha σ ↦ by rw [map_neg, ha σ]
@@ -62,7 +62,7 @@ def Action.addInvariants {G : Type*} [Monoid G] (M : Action AddCommGrpCat.{w} G)
 of the monoid fixes it. -/
 theorem Action.mem_addInvariants {G : Type*} [Monoid G] (M : Action AddCommGrpCat.{w} G)
     (x : (M.V : Type w)) :
-    x ∈ M.addInvariants ↔ ∀ σ : G, ConcreteCategory.hom (M.ρ σ) x = x :=
+    x ∈ M.addInvariants ↔ ∀ σ : G, ConcreteCategory.hom (M.ρ σ).asHom x = x :=
   Iff.rfl
 
 end CategoryTheory
@@ -119,7 +119,7 @@ private theorem etaleGaloisModuleAddEquivStalk_symm_abelianEtaleStalkGerm
 underlying sheaf of sets. -/
 theorem etaleGaloisModule_rho_apply (σ : GeometricPoint.absoluteGaloisGroup sbar)
     (x : ((etaleGaloisModule.{u, v} B K hK sbar F).obj.obj.V : _)) :
-    ConcreteCategory.hom ((etaleGaloisModule.{u, v} B K hK sbar F).obj.obj.ρ σ) x =
+    ConcreteCategory.hom ((etaleGaloisModule.{u, v} B K hK sbar F).obj.obj.ρ σ).asHom x =
       ConcreteCategory.hom (etaleStalkSmul.{u, v} B K hK sbar
         (abelianEtaleSheafOfSets.{u, v} B K hK F) σ) x :=
   rfl
@@ -134,18 +134,18 @@ theorem etaleGaloisModuleAddEquivStalk_rho_abelianEtaleStalkGerm
     (U : (geometricPointFiber B (Spec (.of K)) hK sbar).Elements)
     (t : ((sheafToPresheaf _ _).obj F).obj (op U.1)) :
     etaleGaloisModuleAddEquivStalk.{u, v} B K hK sbar F
-        (ConcreteCategory.hom ((etaleGaloisModule.{u, v} B K hK sbar F).obj.obj.ρ σ)
+        (ConcreteCategory.hom ((etaleGaloisModule.{u, v} B K hK sbar F).obj.obj.ρ σ).asHom
           ((etaleGaloisModuleAddEquivStalk.{u, v} B K hK sbar F).symm
             (abelianEtaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F U t))) =
       abelianEtaleStalkGerm.{u, v} B (Spec (.of K)) hK sbar F
-        ⟨U.1, galoisFiberAction B K hK sbar σ U.2⟩ t := by
+        (Functor.elementsMk _ U.1 (galoisFiberAction B K hK sbar σ U.2)) t := by
   rw [etaleGaloisModuleAddEquivStalk_symm_abelianEtaleStalkGerm]
   exact (congrArg (etaleGaloisModuleAddEquivStalk.{u, v} B K hK sbar F)
       ((etaleGaloisModule_rho_apply.{u, v} B K hK sbar F σ _).trans
         (etaleStalkSmul_germ.{u, v} B K hK sbar
           (abelianEtaleSheafOfSets.{u, v} B K hK F) σ U t))).trans
     (etaleGaloisModuleAddEquivStalk_germ.{u, v} B K hK sbar F
-      ⟨U.1, galoisFiberAction B K hK sbar σ U.2⟩ t)
+      (Functor.elementsMk _ U.1 (galoisFiberAction B K hK sbar σ U.2)) t)
 
 /-- **The Galois invariants `M ^ G` of the module attached to an abelian étale sheaf over a
 field**: the elements of the module on which every element of the absolute Galois group acts as
@@ -160,7 +160,7 @@ theorem mem_etaleStalkGaloisInvariants
     (x : ((etaleGaloisModule.{u, v} B K hK sbar F).obj.obj.V : _)) :
     x ∈ etaleStalkGaloisInvariants.{u, v} B K hK sbar F ↔
       ∀ σ : GeometricPoint.absoluteGaloisGroup sbar,
-        ConcreteCategory.hom ((etaleGaloisModule.{u, v} B K hK sbar F).obj.obj.ρ σ) x = x :=
+        ConcreteCategory.hom ((etaleGaloisModule.{u, v} B K hK sbar F).obj.obj.ρ σ).asHom x = x :=
   Action.mem_addInvariants _ x
 
 /-- **The germ at the geometric point of a global section of an abelian étale sheaf over a

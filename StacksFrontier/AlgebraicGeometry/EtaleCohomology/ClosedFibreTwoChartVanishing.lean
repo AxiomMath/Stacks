@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Algebra.Category.Grp.Zero
 public import StacksFrontier.AlgebraicGeometry.Constructions.ProjectiveSpaceCharts
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.MayerVietoris
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperHenselianFirstCohomology

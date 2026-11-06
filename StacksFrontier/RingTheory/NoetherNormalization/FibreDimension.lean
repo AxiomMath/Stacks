@@ -141,7 +141,8 @@ theorem exists_algHom_mvPolynomial_topologicalKrullDim_fibre_le_one (k A : Type 
   have hs₂ : ((n + 1 : ℕ) : WithBot ℕ∞) ≤ s := by
     have hdim : ringKrullDim (MvPolynomial (Fin s) k) = s := by
       rw [MvPolynomial.ringKrullDim_of_isNoetherianRing, ringKrullDim_eq_zero_of_field, zero_add,
-        Nat.card_eq_fintype_card, Fintype.card_fin]
+        ENat.card_eq_coe_natCard, Nat.card_eq_fintype_card, Fintype.card_fin]
+      rfl
     have := (integral_dim_up φ.toRingHom hfin.to_isIntegral).1
     rw [h, hdim] at this
     exact_mod_cast this

@@ -70,6 +70,21 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
+set_option synthInstance.maxHeartbeats 400000
+
+/-- Pullbacks of presheaves on the big fppf site (instance search times out without this
+shortcut). -/
+private instance (priority := high) hasPullbacks_presheaf_finitePartWithSection
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) :
+    HasPullbacks ((AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u) :=
+  Limits.functorCategoryHasLimitsOfShape
+
+private instance (priority := high) hasPullback_presheaf_finitePartWithSection
+    (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X Y Z : (AlgebraicGeometry.BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (hasPullbacks_presheaf_finitePartWithSection B S hS).has_limit _
+
 private theorem yoneda_subfunctor_lift_iff
     {C : Type*} [Category C] {F : Cᵒᵖ ⥤ Type u} (Z : Subfunctor F)
     (U : C) (α : yoneda.obj U ⟶ F) :
@@ -178,7 +193,7 @@ public theorem containsSection_restrict_iff_factor
               simpa [Category.assoc] using congrArg
                 (fun k => k ≫ p.subspace.ι ≫ pullback.snd p.toBase.hom f.hom) h₂
         _ = hmap ≫ sP ≫ pullback.snd p.toBase.hom f.hom := by
-              simpa [sP, Category.assoc] using hsnd
+              simpa only [Category.assoc] using hsnd
         _ = hmap ≫ (p.toBase.hom ≫ σ.hom) := by rw [hsPsnd]
         _ = q.toBase.hom ≫ σ.hom := by rw [hbase', Category.assoc]
         _ = sQ ≫ pullback.snd q.toBase.hom f.hom := hsQsnd.symm

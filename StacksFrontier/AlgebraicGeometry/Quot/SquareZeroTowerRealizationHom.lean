@@ -44,6 +44,7 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 theorem isThickeningHom_of_hom_eq_comp_ι {X X' : AlgebraicSpaces B S hS} (Z : Subfunctor X'.1)
     (hZ : IsThickening B S hS X' Z) (i : X ⟶ X') (eZ : X.1 ⟶ Z.toFunctor) [IsIso eZ]
     (hi : i.hom = eZ ≫ Z.ι) : IsThickeningHom B S hS i := by
+  have : Mono eZ := IsIso.mono_of_iso eZ
   have : Mono i.hom := hi ▸ mono_comp _ _
   rw [isThickeningHom_iff_of_mono]
   have hr : Subfunctor.range i.hom = Z := by

@@ -173,16 +173,16 @@ theorem derivedBaseChangePlus_pasteH (α₁ : F ⋙ G₁ ⟶ H₁ ⋙ F') (α₂
   have sL := (derivedBaseChangePlus_fac F F'' G H (pasteH α₁ α₂ eG eH) K).trans
     (derivedBaseChangePlusAux_app' G H (pasteH α₁ α₂ eG eH) K)
   have n1 := (Functor.mapDerivedCategoryPlusCompIsoh eG).inv.naturality
-    (F.rightDerivedFunctorPlusUnit.app K)
+    (F.rightDerivedFunctorPlusUnith.app K)
   have f1 : G₂.mapDerivedCategoryPlus.map
-        (G₁.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnit.app K)) ≫
+        (G₁.mapDerivedCategoryPlus.map (F.rightDerivedFunctorPlusUnith.app K)) ≫
       G₂.mapDerivedCategoryPlus.map
         ((derivedBaseChangePlus F F' G₁ H₁ α₁).app (DerivedCategory.Plus.Qh.obj K)) =
       G₂.mapDerivedCategoryPlus.map
           (G₁.mapDerivedCategoryPlusFactorsh.hom.app (F.mapHomotopyCategoryPlus.obj K)) ≫
         G₂.mapDerivedCategoryPlus.map (DerivedCategory.Plus.Qh.map (hmap G₁ H₁ α₁ K)) ≫
         G₂.mapDerivedCategoryPlus.map
-          (F'.rightDerivedFunctorPlusUnit.app (H₁.mapHomotopyCategoryPlus.obj K)) ≫
+          (F'.rightDerivedFunctorPlusUnith.app (H₁.mapHomotopyCategoryPlus.obj K)) ≫
         G₂.mapDerivedCategoryPlus.map
           (F'.rightDerivedFunctorPlus.map (H₁.mapDerivedCategoryPlusFactorsh.inv.app K)) := by
     rw [← Functor.map_comp, derivedBaseChangePlus_fac, derivedBaseChangePlusAux_app']
@@ -203,7 +203,7 @@ theorem derivedBaseChangePlus_pasteH (α₁ : F ⋙ G₁ ⟶ H₁ ⋙ F') (α₂
         F''.rightDerivedFunctorPlus.map (H.mapDerivedCategoryPlusFactorsh.inv.app K) := by
     rw [← Functor.map_comp, ← Functor.map_comp, ← Functor.map_comp]
     exact congrArg _ (Functor.mapDerivedCategoryPlusCompIsoh_compatible eH K)
-  have n7 := F''.rightDerivedFunctorPlusUnit.naturality
+  have n7 := F''.rightDerivedFunctorPlusUnith.naturality
     ((Functor.mapHomotopyCategoryPlusNatTrans eH.hom).app K)
   have hx : DerivedCategory.Plus.Qh.map
         ((Functor.mapHomotopyCategoryPlusNatTrans eG.hom).app (F.mapHomotopyCategoryPlus.obj K)) ≫

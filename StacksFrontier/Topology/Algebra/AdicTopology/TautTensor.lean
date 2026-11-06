@@ -162,7 +162,7 @@ public lemma isTaut_completedTensorProduct_baseChange
   refine ⟨hOpen, IsLinearTopology.hasBasis_open_ideal.to_hasBasis (fun H hH => ?_)
     fun K hK => ⟨Ideal.closure (K.map φ), hOpen K hK, Set.Subset.rfl⟩⟩
   have hpreC : φ ⁻¹' (H : Set D) ∈ nhds (0 : C) :=
-    hφ.continuousAt.preimage_mem_nhds (by simpa using hH.mem_nhds H.zero_mem)
+    hφ.continuousAt.preimage_mem_nhds (by rw [map_zero]; exact hH.mem_nhds H.zero_mem)
   obtain ⟨K, hKopen, hKpre⟩ := IsLinearTopology.hasBasis_open_ideal.mem_iff.mp hpreC
   have hKmap : Ideal.map φ K ≤ H := Ideal.map_le_iff_le_comap.mpr fun c hc => hKpre hc
   refine ⟨K, hKopen, ?_⟩

@@ -139,7 +139,7 @@ theorem preimage_closedSubspaceComponentImage
       ⟨Y.1.ι.app U y, hy⟩
     have h1 : Y.1.ι.app U (V.subspace.ι.app U (φ.inv.app U z)) = Y.1.ι.app U y := by
       have h := congrArg (fun f => f.app U (φ.inv.app U z)) hφ
-      simp only [FunctorToTypes.comp] at h
+      simp only [NatTrans.comp_app_apply] at h
       have hid : φ.hom.app U (φ.inv.app U z) = z := by
         simp
       rw [← h, hid]
@@ -171,7 +171,7 @@ theorem closedSubspaceComponentImage_le
   have h1 : (closedSubspaceComponentImage D sX hX Y.1 Y.2 V).subspace.ι.app U z =
       Y.1.ι.app U (V.subspace.ι.app U (φ.inv.app U z)) := by
     have h := congrArg (fun f => f.app U (φ.inv.app U z)) hφ
-    simp only [FunctorToTypes.comp] at h
+    simp only [NatTrans.comp_app_apply] at h
     have hid : φ.hom.app U (φ.inv.app U z) = z := by
       simp
     rw [← h, hid]

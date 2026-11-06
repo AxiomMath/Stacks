@@ -69,7 +69,7 @@ include hstab in
 theorem apply_rho_eq_of_mem_stabilizer
     (l : (finiteTypeContinuousModuleRes (ZMod m) φ).obj P ⟶ trivialContinuousModule m)
     {s : G} (hs : s ∈ MulAction.stabilizer G y₀) (p : P.obj.obj.obj.V) :
-    l.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ s).hom p) = l.hom.hom.hom.hom.hom p := by
+    l.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ s).asHom.hom p) = l.hom.hom.hom.hom.hom p := by
   rw [← hstab] at hs
   obtain ⟨t, rfl⟩ := hs
   exact ConcreteCategory.congr_hom (l.hom.hom.hom.comm t) p
@@ -84,7 +84,7 @@ def resTrivialHomEquiv :
   have hrep : ∀ y, rep y • y₀ = y := fun y => Classical.choose_spec (htrans y)
   { toFun := fun l => finiteTypeContinuousModuleHomMk m
       { toFun := fun p => ⟨fun y _ =>
-          (l.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ (rep y)⁻¹).hom p)).down⟩
+          (l.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ (rep y)⁻¹).asHom.hom p)).down⟩
         map_add' := fun p p' => by
           apply ULift.ext
           funext y a
@@ -98,23 +98,23 @@ def resTrivialHomEquiv :
       (fun g p => by
         apply ULift.ext
         funext y a
-        change (l.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ (rep y)⁻¹).hom
-            ((P.obj.obj.obj.ρ g).hom p))).down =
-          (l.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ (rep (g⁻¹ • y))⁻¹).hom p)).down
+        change (l.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ (rep y)⁻¹).asHom.hom
+            ((P.obj.obj.obj.ρ g).asHom.hom p))).down =
+          (l.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ (rep (g⁻¹ • y))⁻¹).asHom.hom p)).down
         set s := (rep (g⁻¹ • y))⁻¹ * g⁻¹ * rep y with hs_def
         have hs : s ∈ MulAction.stabilizer G y₀ := by
           rw [MulAction.mem_stabilizer_iff, hs_def, mul_smul, mul_smul, hrep]
           exact inv_smul_eq_iff.2 (hrep _).symm
         have key : ∀ (b c : G) (x : P.obj.obj.obj.V),
-            (P.obj.obj.obj.ρ (b * c)).hom x =
-              (P.obj.obj.obj.ρ b).hom ((P.obj.obj.obj.ρ c).hom x) :=
-          fun b c x => congrArg (fun f => f.hom x) (map_mul P.obj.obj.obj.ρ b c)
-        have e₁ : (P.obj.obj.obj.ρ (rep y)⁻¹).hom ((P.obj.obj.obj.ρ g).hom p) =
-            (P.obj.obj.obj.ρ ((rep y)⁻¹ * g)).hom p := (key _ _ _).symm
-        have e₂ : (P.obj.obj.obj.ρ (rep (g⁻¹ • y))⁻¹).hom p =
-            (P.obj.obj.obj.ρ s).hom ((P.obj.obj.obj.ρ ((rep y)⁻¹ * g)).hom p) := by
+            (P.obj.obj.obj.ρ (b * c)).asHom.hom x =
+              (P.obj.obj.obj.ρ b).asHom.hom ((P.obj.obj.obj.ρ c).asHom.hom x) :=
+          fun b c x => congrArg (fun f => f.asHom.hom x) (map_mul P.obj.obj.obj.ρ b c)
+        have e₁ : (P.obj.obj.obj.ρ (rep y)⁻¹).asHom.hom ((P.obj.obj.obj.ρ g).asHom.hom p) =
+            (P.obj.obj.obj.ρ ((rep y)⁻¹ * g)).asHom.hom p := (key _ _ _).symm
+        have e₂ : (P.obj.obj.obj.ρ (rep (g⁻¹ • y))⁻¹).asHom.hom p =
+            (P.obj.obj.obj.ρ s).asHom.hom ((P.obj.obj.obj.ρ ((rep y)⁻¹ * g)).asHom.hom p) := by
           rw [← key]
-          exact congrArg (fun b => (P.obj.obj.obj.ρ b).hom p) (by rw [hs_def]; group)
+          exact congrArg (fun b => (P.obj.obj.obj.ρ b).asHom.hom p) (by rw [hs_def]; group)
         exact congrArg (fun z => (l.hom.hom.hom.hom.hom z).down) e₁ |>.trans
           ((congrArg ULift.down (apply_rho_eq_of_mem_stabilizer m φ hstab P l hs _)).symm.trans
             (congrArg (fun z => (l.hom.hom.hom.hom.hom z).down) e₂.symm)))
@@ -130,7 +130,7 @@ def resTrivialHomEquiv :
             z.down y₀ PUnit.unit) (map_smul Θ.hom.hom.hom.hom.hom c p) }
       (fun t p => by
         apply ULift.ext
-        change (Θ.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ (φ t)).hom p)).down y₀ PUnit.unit =
+        change (Θ.hom.hom.hom.hom.hom ((P.obj.obj.obj.ρ (φ t)).asHom.hom p)).down y₀ PUnit.unit =
           (Θ.hom.hom.hom.hom.hom p).down y₀ PUnit.unit
         have ht : φ t ∈ MulAction.stabilizer G y₀ := hstab ▸ ⟨t, rfl⟩
         exact (congrArg (fun z : ULift.{u + 1} (Y → PUnit.{u + 2} → ZMod m) =>

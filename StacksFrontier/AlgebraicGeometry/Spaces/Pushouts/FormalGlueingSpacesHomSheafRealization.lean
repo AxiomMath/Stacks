@@ -37,7 +37,16 @@ universe u
 namespace AlgebraicGeometry.Space.FormalGlueingSituation
 
 variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
-  {D : FormalGlueingSituation B S hS}
+
+/-- Pullbacks of presheaves on `BigFppfOver B S hS`, given directly: instance search for them
+times out under Lean v4.35.0. -/
+local instance (priority := high) hasPullback_presheaf_FormalGlueingSpacesHomSheafRealization
+    {X Y Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Z) (g : Y ⟶ Z) :
+    HasLimit (cospan f g) :=
+  (Limits.functorCategoryHasLimitsOfShape :
+    HasPullbacks ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)).has_limit _
+
+variable {D : FormalGlueingSituation B S hS}
 
 /-- The comparison of the two restrictions of `A` to `V`, on points. -/
 theorem restrictionComparison_left_fst {W : BigFppfOver B S hS} (A : Over D.X)

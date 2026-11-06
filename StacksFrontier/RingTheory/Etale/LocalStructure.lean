@@ -727,7 +727,6 @@ private lemma eq_top_of_forall_mem (𝔮 : Ideal (R' ⊗[R] S)) [𝔮.IsPrime]
       (Algebra.TensorProduct.includeRight s) ∈ E) : E = ⊤ := by
   refine top_unique fun x _ => mem_of_forall_algebraMap_mem 𝔮 E (fun b => ?_) x
   induction b with
-  | zero => simp
   | tmul r s =>
     rw [show (r ⊗ₜ[R] s : R' ⊗[R] S) =
       algebraMap R' (R' ⊗[R] S) r * Algebra.TensorProduct.includeRight s from by

@@ -56,7 +56,7 @@ private instance scaledVariableRingDomain.{u} : IsDomain (ScaledVariableRing.{u}
   let : NoZeroDivisors (ScaledVariableRing.{u}) :=
     Function.Injective.noZeroDivisors
       (fun x : ScaledVariableRing.{u} => (x.down : Polynomial ℚ))
-      (fun x y h => ULift.ext x y (Subtype.ext h)) rfl fun _ _ => rfl
+      (fun _ _ h => ULift.ext (Subtype.ext h)) rfl fun _ _ => rfl
   exact NoZeroDivisors.to_isDomain _
 
 private noncomputable def scaledGen.{u} (p : PrimeIndex) : ScaledVariableRing.{u} :=
@@ -139,8 +139,8 @@ private theorem localized_scaledGen_mem_span.{u}
     {q : Ideal (ScaledVariableRing.{u})} [q.IsPrime] (p r : PrimeIndex)
     (hr : algebraMap ℤ (ScaledVariableRing.{u}) (r.1 : ℤ) ∉ q) :
     algebraMap (ScaledVariableRing.{u}) (Localization.AtPrime q) (scaledGen r) ∈
-      Ideal.span ({algebraMap (ScaledVariableRing.{u}) (Localization.AtPrime q)
-        (scaledGen p)} : Set (Localization.AtPrime q)) := by
+      Ideal.span ({(algebraMap (ScaledVariableRing.{u}) (Localization.AtPrime q)
+        (scaledGen p))} : Set (Localization.AtPrime q)) := by
   apply (Ideal.unit_mul_mem_iff_mem _ ((localized_int_unit_iff r.1).2 hr)).mp
   have hrel := congrArg (algebraMap (ScaledVariableRing.{u}) (Localization.AtPrime q))
     ((int_mul_scaledGen r).trans (int_mul_scaledGen p).symm)

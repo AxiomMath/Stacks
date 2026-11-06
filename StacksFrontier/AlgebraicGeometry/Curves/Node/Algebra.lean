@@ -1564,7 +1564,7 @@ private theorem dvd_pair_of_dvd_nodal_gradient
 
 private theorem pderiv_zero_nodalBinaryQuadratic
     {K : Type*} [Field K] (a b c : K) :
-    MvPowerSeries.pderiv K (0 : Fin 2) (nodalBinaryQuadratic a b c) =
+    MvPowerSeries.pderiv (R := K) (0 : Fin 2) (nodalBinaryQuadratic a b c) =
       MvPowerSeries.C (2 * a) * MvPowerSeries.X 0 +
         MvPowerSeries.C b * MvPowerSeries.X 1 := by
   simp [nodalBinaryQuadratic, Derivation.leibniz,
@@ -1574,7 +1574,7 @@ private theorem pderiv_zero_nodalBinaryQuadratic
 
 private theorem pderiv_one_nodalBinaryQuadratic
     {K : Type*} [Field K] (a b c : K) :
-    MvPowerSeries.pderiv K (1 : Fin 2) (nodalBinaryQuadratic a b c) =
+    MvPowerSeries.pderiv (R := K) (1 : Fin 2) (nodalBinaryQuadratic a b c) =
       MvPowerSeries.C b * MvPowerSeries.X 0 +
         MvPowerSeries.C (2 * c) * MvPowerSeries.X 1 := by
   simp [nodalBinaryQuadratic, Derivation.leibniz,
@@ -1584,10 +1584,10 @@ private theorem pderiv_one_nodalBinaryQuadratic
 
 private theorem dvd_pderiv_of_square_dvd
     {K : Type*} [Field K] (f q : MvPowerSeries (Fin 2) K) (i : Fin 2)
-    (h : f * f ∣ q) : f ∣ MvPowerSeries.pderiv K i q := by
+    (h : f * f ∣ q) : f ∣ MvPowerSeries.pderiv (R := K) i q := by
   obtain ⟨g, rfl⟩ := h
-  refine ⟨f * MvPowerSeries.pderiv K i g +
-    2 * MvPowerSeries.pderiv K i f * g, ?_⟩
+  refine ⟨f * MvPowerSeries.pderiv (R := K) i g +
+    2 * MvPowerSeries.pderiv (R := K) i f * g, ?_⟩
   simp only [Derivation.leibniz]
   ring
 

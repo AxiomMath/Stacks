@@ -139,8 +139,8 @@ public theorem isLocallySurjective_of_surjective_etaleStalkMap_type (α : F ⟶ 
   replace hz : (Φ.presheafFiber.map α.hom) (Φ.toPresheafFiber W y F.obj c) =
       Φ.toPresheafFiber V p G.obj b := hz
   rw [Φ.toPresheafFiber_naturality_apply α.hom] at hz
-  let ZW : Φ.fiber.Elements := ⟨W, y⟩
-  let ZV : Φ.fiber.Elements := ⟨V, p⟩
+  let ZW : Φ.fiber.Elements := ⟨y⟩
+  let ZV : Φ.fiber.Elements := ⟨p⟩
   let Z : Φ.fiber.Elements := IsCofiltered.min ZW ZV
   let l : Z ⟶ ZW := IsCofiltered.minToLeft ZW ZV
   let r : Z ⟶ ZV := IsCofiltered.minToRight ZW ZV
@@ -385,21 +385,21 @@ theorem pushforwardEtaleStalkComponent_germ_baseChange
     (F : Sheaf (SmallEtale.topology B X.1 X.property) (Type (u + 1)))
     (σ : F.obj.obj (op ((smallEtaleBaseChange B f).obj V))) :
     pushforwardEtaleStalkComponent B f x y h F
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
-          ((B.smallPushforward f (Type (u + 1))).obj F).obj) (op ⟨V, v⟩) σ) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj)
-        (op ⟨(smallEtaleBaseChange B f).obj V, baseChangeEtalePoint B f h V v⟩) σ := by
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B Y.1 Y.property y)).op ⋙
+          ((B.smallPushforward f (Type (u + 1))).obj F).obj) (op ⟨v⟩) σ) =
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj)
+        (op ⟨baseChangeEtalePoint B f h V v⟩) σ := by
   have ht : (baseChangeEtalePoint B f h V v).1 ≫
       (SmallEtale.toScheme B X.1 X.property).map (𝟙 ((smallEtaleBaseChange B f).obj V)) ≫
         B.inclusion.map (pullback.fst V.obj.hom f) =
       eqToHom (congrArg (fun q : GeometricPoint Y.1 => q.source) h) ≫ v.1 := by
     rw [CategoryTheory.Functor.map_id, Category.id_comp]
     exact baseChangeEtalePointHom_fst B f h V v
-  refine (pushforwardEtaleStalkComponent_germ B f x y h F ⟨V, v⟩
-    ⟨(smallEtaleBaseChange B f).obj V, baseChangeEtalePoint B f h V v⟩ (𝟙 _) ht σ).trans ?_
+  refine (pushforwardEtaleStalkComponent_germ B f x y h F ⟨v⟩
+    ⟨baseChangeEtalePoint B f h V v⟩ (𝟙 _) ht σ).trans ?_
   exact congrArg (fun z => colimit.ι
-      ((CategoryOfElements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj)
-      (op ⟨(smallEtaleBaseChange B f).obj V, baseChangeEtalePoint B f h V v⟩) z)
+      ((Functor.Elements.π (geometricPointFiber B X.1 X.property x)).op ⋙ F.obj)
+      (op ⟨baseChangeEtalePoint B f h V v⟩) z)
     (ConcreteCategory.congr_hom (F.obj.map_id (op ((smallEtaleBaseChange B f).obj V))) σ)
 
 end BaseChangeNeighborhood
@@ -510,16 +510,16 @@ theorem pushforwardEtaleStalkComponent_comp
   obtain ⟨V, v, σ, hz⟩ :=
     (geometricPointSitePoint B S.1 S.property s).toPresheafFiber_jointly_surjective
       (P := ((B.smallPushforward (k ≫ l) (Type (u + 1))).obj F).obj) z
-  have hz' : colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.1 S.property s)).op ⋙
-      ((B.smallPushforward (k ≫ l) (Type (u + 1))).obj F).obj) (op ⟨V, v⟩) σ = z := hz
+  have hz' : colimit.ι ((Functor.Elements.π (geometricPointFiber B S.1 S.property s)).op ⋙
+      ((B.smallPushforward (k ≫ l) (Type (u + 1))).obj F).obj) (op ⟨v⟩) σ = z := hz
   subst hz'
   have hR1 : (etaleStalkFunctor.{u, u + 1} B S.1 S.property s).map
         ((smallEtaleSheafPushforwardCompIso B W T S k l (Type (u + 1))).inv.app F)
-        (colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.1 S.property s)).op ⋙
-          ((B.smallPushforward (k ≫ l) (Type (u + 1))).obj F).obj) (op ⟨V, v⟩) σ) =
-      colimit.ι ((CategoryOfElements.π (geometricPointFiber B S.1 S.property s)).op ⋙
+        (colimit.ι ((Functor.Elements.π (geometricPointFiber B S.1 S.property s)).op ⋙
+          ((B.smallPushforward (k ≫ l) (Type (u + 1))).obj F).obj) (op ⟨v⟩) σ) =
+      colimit.ι ((Functor.Elements.π (geometricPointFiber B S.1 S.property s)).op ⋙
         ((B.smallPushforward l (Type (u + 1))).obj
-          ((B.smallPushforward k (Type (u + 1))).obj F)).obj) (op ⟨V, v⟩)
+          ((B.smallPushforward k (Type (u + 1))).obj F)).obj) (op ⟨v⟩)
         (F.obj.map ((smallEtaleBaseChange_compIso B W T S k l).val.hom.app V).op σ) :=
     (geometricPointSitePoint B S.1 S.property s).toPresheafFiber_naturality_apply
       ((smallEtaleSheafPushforwardCompIso B W T S k l (Type (u + 1))).inv.app F).hom V v σ
@@ -538,8 +538,8 @@ theorem pushforwardEtaleStalkComponent_comp
     (baseChangeEtalePoint B k hk ((smallEtaleBaseChange B l).obj V)
       (baseChangeEtalePoint B l hl V v)) F.obj σ
   have c5 := congrArg (fun pt => colimit.ι
-      ((CategoryOfElements.π (geometricPointFiber B W.1 W.property w)).op ⋙ F.obj)
-      (op ⟨(smallEtaleBaseChange B (k ≫ l)).obj V, pt⟩) σ)
+      ((Functor.Elements.π (geometricPointFiber B W.1 W.property w)).op ⋙ F.obj)
+      (op ⟨pt⟩) σ)
     (baseChangeEtalePoint_comp B k l hk hl hm V v)
   exact (pushforwardEtaleStalkComponent_germ_baseChange B (k ≫ l) hm V v F σ).trans
     (((c1.trans c2).trans (c3.trans (c4.trans c5))).symm)

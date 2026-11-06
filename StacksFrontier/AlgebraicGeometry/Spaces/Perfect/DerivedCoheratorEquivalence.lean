@@ -104,6 +104,9 @@ end Criterion
 
 section AffineDiagonal
 
+-- Instance search for the binary product behind `diag (viewOverIntegers ..)` needs more time.
+set_option synthInstance.maxHeartbeats 400000
+
 /-- **The hypothesis of [Stacks, Tag 09TG] holds on a quasi-compact algebraic space with affine
 diagonal over `ℤ`.** -/
 theorem affineEtaleDerivedPushforwardSquareCommutes_of_isAffineHom_diag

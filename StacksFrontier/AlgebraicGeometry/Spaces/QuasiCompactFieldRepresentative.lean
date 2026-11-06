@@ -109,6 +109,7 @@ theorem isQuasiCompact_fieldMorphism_of_isFinite_pullback
   have hqc : QuasiCompact (Q.map a) := by
     rw [quasiCompact_iff_forall_isAffineOpen]
     exact fun _ _ ↦ (Set.toFinite _).isCompact
+  have : HasPullback (ψi j) fm := sq.hasPullback
   refine isQuasiCompact_of_isIso_comp B S hS sq.isoPullback.hom ?_
   rw [sq.isoPullback_hom_fst]
   exact quasiCompact_schemeMap_isQuasiCompact B S hS a hqc

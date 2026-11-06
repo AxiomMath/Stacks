@@ -70,6 +70,8 @@ theorem directImageBaseChange_eq (T : SchemesOver D.base) :
       (D.isPullback_baseChangeOfMap T).flip.w :=
   rfl
 
+set_option synthInstance.maxHeartbeats 400000 in
+set_option maxHeartbeats 1600000 in
 /-- Over a test scheme the morphism of Stacks 0DP1 sends a quotient to the kernel of the
 projection of `G_T` onto its direct image. -/
 theorem directImageQuotFunctorMap_app (H : D.PushforwardIsCoherent) (T : SchemesOver D.base)

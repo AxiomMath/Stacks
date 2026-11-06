@@ -102,7 +102,7 @@ variable {𝒞 : Type u₁} [Category.{v₁} 𝒞] {𝒜 : Type u₂} [Category.
 
 omit [HasSheafify (⊥ : GrothendieckTopology 𝒞) 𝒜] in
 /-- A sheaf whose underlying presheaf is zero is zero. -/
-lemma isZero_of_isZero_val {J : GrothendieckTopology 𝒞} (M : Sheaf J 𝒜) (h : IsZero M.val) :
+lemma isZero_of_isZero_val {J : GrothendieckTopology 𝒞} (M : Sheaf J 𝒜) (h : IsZero M.obj) :
     IsZero M := by
   rw [IsZero.iff_id_eq_zero]
   exact Sheaf.hom_ext (h.eq_of_src _ _)
@@ -176,7 +176,7 @@ variable (A B C) in
 abbrev IsFibreAcyclicSheaf :
     ObjectProperty (Sheaf (⊥ : GrothendieckTopology (polynomialTowerSite A B C))
       AddCommGrpCat.{u + 1}) :=
-  fun M => IsFibreAcyclic A B C M.val
+  fun M => IsFibreAcyclic A B C M.obj
 
 open ZeroObject in
 /-- The class of abelian sheaves acyclic on the fibres of `u₃` contains a zero object. -/
@@ -204,7 +204,7 @@ lemma exists_epi_isFibreAcyclicSheaf
     (M : Sheaf (⊥ : GrothendieckTopology (polynomialTowerSite A B C)) AddCommGrpCat.{u + 1}) :
     ∃ (M' : Sheaf (⊥ : GrothendieckTopology (polynomialTowerSite A B C)) AddCommGrpCat.{u + 1})
       (_ : IsFibreAcyclicSheaf A B C M') (p : M' ⟶ M), Epi p := by
-  obtain ⟨G', hG', p, hp⟩ := exists_epi_isFibreAcyclic A B C M.val
+  obtain ⟨G', hG', p, hp⟩ := exists_epi_isFibreAcyclic A B C M.obj
   refine ⟨⟨G', Presheaf.isSheaf_bot G'⟩, hG', ⟨p⟩, ?_⟩
   exact (sheafToPresheaf ⊥ AddCommGrpCat.{u + 1}).epi_of_epi_map hp
 
@@ -310,7 +310,7 @@ def derivedLowerShriekThirdInverseImageIsoOfEqBot (hJ : J = ⊥) (hK : K = ⊥)
     ((polynomialTowerThird A B C).sheafAdjunctionContinuous AddCommGrpCat.{u + 1} ⊥ ⊥)
     (IsFibreAcyclicSheaf A B C) isFibreAcyclicSheaf_biprod exists_epi_isFibreAcyclicSheaf
     (fun a K hK hKP hac => acyclic_lowerShriekThird a K hK hKP hac)
-    (fun N => isFibreAcyclic_inverseImage N.val) L α G e
+    (fun N => isFibreAcyclic_inverseImage N.obj) L α G e
 
 /-- **Tag 08QW, the case `i = 3`.** Inverse image along `g₃` followed by derived lower shriek is
 the identity of `D(Ab(C_{C/B}))`. The statement is for an arbitrary left derived functor `L` of

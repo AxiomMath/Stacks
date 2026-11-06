@@ -53,7 +53,7 @@ theorem subsingleton_terminal_obj (V : (BigFppfOver B S hS)ᵒᵖ) :
 private theorem subsingleton_terminal_comp_uliftFunctor_obj (W : (BigFppfOver B S hS)ᵒᵖ) :
     Subsingleton (((⊤_ ((BigFppfOver B S hS)ᵒᵖ ⥤ Type u)) ⋙ uliftFunctor.{u + 1}).obj W) := by
   have := subsingleton_terminal_obj (B := B) (S := S) (hS := hS) W
-  exact ⟨fun a b => ULift.ext _ _ (Subsingleton.elim _ _)⟩
+  exact ⟨fun a b => ULift.ext (Subsingleton.elim _ _)⟩
 
 /-- The universe lift of the terminal presheaf is an fppf sheaf: its values are subsingletons
 and inhabited, so every matching family has exactly one amalgamation. -/

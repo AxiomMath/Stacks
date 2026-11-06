@@ -122,7 +122,7 @@ private lemma globalSectionsCechRestriction_π
     globalSectionsCechRestriction X U P n ≫
         Pi.π (fun j : Fin (n + 1) → κ => P.obj (op (∏ᶜ fun a => U (j a)))) i =
       P.map (homOfLE (le_top (a := ∏ᶜ fun a => U (i a)))).op :=
-  Pi.lift_π _ i
+  Pi.lift_comp_π _ i
 
 /-- The two descriptions of the degree-zero Čech augmentation of an abelian presheaf — the one
 of Tag 07M9 and the one of Tag 01EG — agree: each component of each is the image under the

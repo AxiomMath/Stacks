@@ -138,14 +138,14 @@ def fiberEquiv (γ : Gamma (inverseCharacter (Fintype.card k))) (Y : TameCover k
 
 /-- **The automorphism of the fibre functor of `γ ∈ Γ`.** -/
 def tameAut (γ : Gamma (inverseCharacter (Fintype.card k))) : tameFundamentalGroup k :=
-  NatIso.ofComponents (fun Y ↦ (fiberEquiv γ Y).toIso) (fun g ↦ by
+  Aut.of <| NatIso.ofComponents (fun Y ↦ (fiberEquiv γ Y).toIso) (fun g ↦ by
     ext y
     exact (fiberAct_map γ g y).symm)
 
 /-- The value of an element of `π₁ᵗ` at a point of a fibre. -/
 abbrev autApply (σ : tameFundamentalGroup k) (Y : TameCover k) (y : (tameFiberFunctor k).obj Y) :
     (tameFiberFunctor k).obj Y :=
-  (Iso.hom (σ : Aut (tameFiberFunctor k))).app Y y
+  (σ : Aut (tameFiberFunctor k)).asIso.hom.app Y y
 
 /-- The value of `tameAut γ` at a point of a fibre is `fiberAct γ`. -/
 theorem autApply_tameAut (γ : Gamma (inverseCharacter (Fintype.card k))) (Y : TameCover k)
@@ -154,9 +154,9 @@ theorem autApply_tameAut (γ : Gamma (inverseCharacter (Fintype.card k))) (Y : T
 /-- Two elements of `π₁ᵗ` agreeing at every point of every fibre are equal. -/
 theorem tameFundamentalGroup_ext {σ τ : tameFundamentalGroup k}
     (h : ∀ Y y, autApply σ Y y = autApply τ Y y) : σ = τ :=
-  Iso.ext (NatTrans.ext (funext fun Y ↦ by
+  Aut.ext (Iso.ext (NatTrans.ext (funext fun Y ↦ by
     ext y
-    exact h Y y))
+    exact h Y y)))
 
 /-- The value of a product `σ * τ` at a point is that of `σ` at the value of `τ`. -/
 theorem autApply_mul (σ τ : tameFundamentalGroup k) (Y : TameCover k)
@@ -167,7 +167,7 @@ theorem autApply_mul (σ τ : tameFundamentalGroup k) (Y : TameCover k)
 theorem autApply_map (σ : tameFundamentalGroup k) {Y Y' : TameCover k} (g : Y ⟶ Y')
     (y : (tameFiberFunctor k).obj Y) :
     autApply σ Y' ((tameFiberFunctor k).map g y) = (tameFiberFunctor k).map g (autApply σ Y y) :=
-  NatTrans.naturality_apply (Iso.hom (σ : Aut (tameFiberFunctor k))) g y
+  NatTrans.naturality_apply (σ : Aut (tameFiberFunctor k)).asIso.hom g y
 
 /-- **`γ ↦ (y ↦ τ_γ ∘ y)` is a homomorphism `Γ → π₁ᵗ(𝐆_{m,k}, η̄)`.** -/
 def tameAutHom : Gamma (inverseCharacter (Fintype.card k)) →* tameFundamentalGroup k where

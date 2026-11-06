@@ -81,7 +81,6 @@ variable {R : Type*} [CommRing R] {M : Type*} [AddCommGroup M] [Module R M]
 theorem eq_zero_of_subsingleton_right {S A N : Type*} [CommRing S] [AddCommMonoid A] [Module S A]
     [AddCommMonoid N] [Module S N] (hN : ∀ n : N, n = 0) (x : TensorProduct S A N) : x = 0 := by
   induction x with
-  | zero => rfl
   | tmul a n => rw [hN n, TensorProduct.tmul_zero]
   | add p q hp hq => rw [hp, hq, add_zero]
 

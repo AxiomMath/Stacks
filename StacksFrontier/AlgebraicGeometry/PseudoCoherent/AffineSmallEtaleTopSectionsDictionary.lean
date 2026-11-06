@@ -57,7 +57,7 @@ restriction has to be undone.  That restriction is along `⊤.ι`, which is an i
 isomorphism in a fixed degree) carries the condition back along the pushforward, and
 `AlgebraicGeometry.Scheme.Modules.restrictFunctorCompPushforwardIso` says the restriction followed
 by that pushforward is the identity.  Reading the latter on derived categories is
-`CategoryTheory.Functor.mapDerivedCategoryCompIso` followed by
+`CategoryTheory.Functor.mapDerivedCategoryCompIsoOfCompIso` followed by
 `CategoryTheory.Functor.mapDerivedCategoryId`, exactly as in
 `AlgebraicGeometry.IsAffineOpen.nonempty_iso_derivedTilde_derivedSectionsSpec`; no equivalence of
 categories and no coherence condition is needed.
@@ -143,7 +143,7 @@ public theorem isPseudoCoherentFrom_iff_derivedSectionsUnbounded_top {T : Scheme
   have : IsIso (⊤ : T.Opens).ι := by rw [← Scheme.topIso_hom]; exact Iso.isIso_hom _
   have ecancel : (Scheme.Modules.pushforward (⊤ : T.Opens).ι).mapDerivedCategory.obj
       ((Scheme.Modules.restrictFunctor (⊤ : T.Opens).ι).mapDerivedCategory.obj E) ≅ E :=
-    (Functor.mapDerivedCategoryCompIso
+    (Functor.mapDerivedCategoryCompIsoOfCompIso
         (Scheme.Modules.restrictFunctorCompPushforwardIso (⊤ : T.Opens).ι)).app E ≪≫
       (Functor.mapDerivedCategoryId T.Modules).app E
   refine Iff.trans ?_ (isPseudoCoherentFrom_restrictFunctor_iff_derivedSectionsUnbounded E hE

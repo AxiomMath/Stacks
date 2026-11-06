@@ -296,7 +296,7 @@ theorem exists_nsmul_id_eq_zero_of_isConstructibleAbelianSheaf (B : BigEtaleSite
   have hc : IsColimit (Cocone.mk F (Stacks.Torsion.torsionFiltrationι
       (SmallEtale.topology B X.obj X.property) F)) :=
     IsColimit.ofIsoColimit (colimit.isColimit _)
-      (Cocones.ext (asIso (Stacks.Torsion.torsionFiltrationDesc
+      (Cocone.ext (asIso (Stacks.Torsion.torsionFiltrationDesc
         (SmallEtale.topology B X.obj X.property) F))
         (fun j => Stacks.Torsion.ι_torsionFiltrationDesc _ F j))
   have : Fact Cardinal.aleph0.IsRegular := Cardinal.fact_isRegular_aleph0

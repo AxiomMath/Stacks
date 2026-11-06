@@ -493,10 +493,10 @@ noncomputable def zeroDerivationStep₃
           (Stacks.Sites.Conormal.underlyingRingHomForPullback J
             (freeAlgebraSheaf J A (underlyingPresheaf J B)) B
             (canonicalPresentation J A B a))).obj N) ≃
-      ((((_root_.SheafOfModules.pushforward
+      PresheafOfModulesOfCommRing.Derivation' ((((_root_.SheafOfModules.pushforward
           (Stacks.Sites.Conormal.underlyingRingHomForPullback J
             (freeAlgebraSheaf J A (underlyingPresheaf J B)) B
-            (canonicalPresentation J A B a))).obj N)).val).Derivation'
+            (canonicalPresentation J A B a))).obj N)).val)
         (freeAlgebraSheafCoefficientMap J A (underlyingPresheaf J B)).hom :=
   (derivationsFunctor.{max uu vv ww} A (freeAlgebraSheaf J A (underlyingPresheaf J B))
     (freeAlgebraSheafCoefficientMap J A
@@ -509,9 +509,9 @@ noncomputable def naiveCotangentZeroDerivationEquiv
     (N : _root_.SheafOfModules.{max uu vv ww} (Stacks.SheafOfModules.Tensor.ringSheaf B)) :
     ((canonicalConormalSequence.{vv, uu, max uu vv ww, max uu vv ww}
         J A B a).X₂ ⟶ N) ≃
-      ((((_root_.SheafOfModules.restrictScalars
+      PresheafOfModulesOfCommRing.Derivation' ((((_root_.SheafOfModules.restrictScalars
           ((Stacks.forgetCommRingSheaf.{vv, uu, max uu vv ww} J).map
-            (canonicalPresentation J A B a))).obj N)).val).Derivation'
+            (canonicalPresentation J A B a))).obj N)).val)
         (freeAlgebraSheafCoefficientMap J A (underlyingPresheaf J B)).hom :=
   (zeroDerivationStep₁ J A B a N).trans
     ((zeroDerivationStep₂ J A B a N).trans (zeroDerivationStep₃ J A B a N))
@@ -556,11 +556,11 @@ noncomputable def inverseImageZeroStep₂
     ((canonicalConormalSequence.{v', u', max u' v' w', max u' v' w'}
           K A B a).X₂ ⟶
         (directImageModules f (Tensor.ringSheaf.{u', v', max u' v' w'} B)).obj M) ≃
-      ((((_root_.SheafOfModules.restrictScalars
+      PresheafOfModulesOfCommRing.Derivation' ((((_root_.SheafOfModules.restrictScalars
           ((Stacks.forgetCommRingSheaf.{v', u', max u' v' w'} K).map
             (canonicalPresentation K A B a))).obj
             ((directImageModules f (Tensor.ringSheaf.{u', v', max u' v' w'} B)).obj
-              M))).val).Derivation'
+              M))).val)
         (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B)).hom :=
   naiveCotangentZeroDerivationEquiv.{u', v', w'} K A B a _
 
@@ -569,16 +569,16 @@ direct image. -/
 noncomputable def inverseImageZeroStep₃
     (M : _root_.SheafOfModules.{max u v w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (f.inverseImageRing.obj B))) :
-    ((((_root_.SheafOfModules.restrictScalars
+    PresheafOfModulesOfCommRing.Derivation' ((((_root_.SheafOfModules.restrictScalars
           ((Stacks.forgetCommRingSheaf.{v', u', max u' v' w'} K).map
             (canonicalPresentation K A B a))).obj
             ((directImageModules f (Tensor.ringSheaf.{u', v', max u' v' w'} B)).obj
-              M))).val).Derivation'
+              M))).val)
         (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B)).hom ≃
-      (((directImageModules f (Tensor.ringSheaf.{u', v', max u' v' w'}
+      PresheafOfModulesOfCommRing.Derivation' (((directImageModules f (Tensor.ringSheaf.{u', v', max u' v' w'}
             (freeAlgebraSheaf K A (underlyingPresheaf K B)))).obj
           ((_root_.SheafOfModules.restrictScalars (inverseImageRingMap f
-            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val).Derivation'
+            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val)
         (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B)).hom :=
   PresheafOfModules.Derivation.postcompEquiv
     ((_root_.SheafOfModules.forget _).mapIso (directImageModulesRestrictScalarsIso f
@@ -588,16 +588,16 @@ noncomputable def inverseImageZeroStep₃
 noncomputable def inverseImageZeroStep₄
     (M : _root_.SheafOfModules.{max u v w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (f.inverseImageRing.obj B))) :
-    (((directImageModules f
+    PresheafOfModulesOfCommRing.Derivation' (((directImageModules f
             ((Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', max u' v' w'} (J := K))
             (freeAlgebraSheaf K A (underlyingPresheaf K B)))).obj
           ((_root_.SheafOfModules.restrictScalars (inverseImageRingMap f
-            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val).Derivation'
+            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val)
         (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B)).hom ≃
-      (((show _root_.SheafOfModules.{max u v w} (Tensor.ringSheaf.{u, v, max u v w}
+      PresheafOfModulesOfCommRing.Derivation' (((show _root_.SheafOfModules.{max u v w} (Tensor.ringSheaf.{u, v, max u v w}
             (f.inverseImageRing.obj (freeAlgebraSheaf K A (underlyingPresheaf K B)))) from
           (_root_.SheafOfModules.restrictScalars (inverseImageRingMap f
-            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val).Derivation'
+            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val)
         (f.inverseImageRing.map
           (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B))).hom :=
   (inverseImageDerivationEquiv f (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B))
@@ -610,15 +610,15 @@ noncomputable def inverseImageZeroStep₄
 noncomputable def inverseImageZeroStep₅
     (M : _root_.SheafOfModules.{max u v w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (f.inverseImageRing.obj B))) :
-    (((show _root_.SheafOfModules.{max u v w}
+    PresheafOfModulesOfCommRing.Derivation' (((show _root_.SheafOfModules.{max u v w}
             ((Stacks.SheafOfModules.Tensor.ringSheaf.{u, v, max u v w} (J := J))
             (f.inverseImageRing.obj (freeAlgebraSheaf K A (underlyingPresheaf K B)))) from
           (_root_.SheafOfModules.restrictScalars (inverseImageRingMap f
-            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val).Derivation'
+            (underlyingRingHomOfSite (canonicalPresentation K A B a)))).obj M)).val)
         (f.inverseImageRing.map
           (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B))).hom ≃
-      (((_root_.SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf.{v, u, max u v w} J).map
-          (f.inverseImageRing.map (canonicalPresentation K A B a)))).obj M).val).Derivation'
+      PresheafOfModulesOfCommRing.Derivation' (((_root_.SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf.{v, u, max u v w} J).map
+          (f.inverseImageRing.map (canonicalPresentation K A B a)))).obj M).val)
         (f.inverseImageRing.map
           (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B))).hom :=
   restrictScalarsDerivationCongr M
@@ -630,13 +630,13 @@ noncomputable def inverseImageZeroStep₅
 noncomputable def inverseImageZeroStep₆
     (M : _root_.SheafOfModules.{max u v w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (f.inverseImageRing.obj B))) :
-    (((_root_.SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf.{v, u, max u v w} J).map
-          (f.inverseImageRing.map (canonicalPresentation K A B a)))).obj M).val).Derivation'
+    PresheafOfModulesOfCommRing.Derivation' (((_root_.SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf.{v, u, max u v w} J).map
+          (f.inverseImageRing.map (canonicalPresentation K A B a)))).obj M).val)
         (f.inverseImageRing.map
           (freeAlgebraSheafCoefficientMap K A (underlyingPresheaf K B))).hom ≃
-      (((_root_.SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf.{v, u, max u v w} J).map
+      PresheafOfModulesOfCommRing.Derivation' (((_root_.SheafOfModules.restrictScalars ((Stacks.forgetCommRingSheaf.{v, u, max u v w} J).map
           (canonicalPresentation J (f.inverseImageRing.obj A) (f.inverseImageRing.obj B)
-            (f.inverseImageRing.map a)))).obj M).val).Derivation'
+            (f.inverseImageRing.map a)))).obj M).val)
         (freeAlgebraSheafCoefficientMap J (f.inverseImageRing.obj A)
           (underlyingPresheaf J (f.inverseImageRing.obj B))).hom :=
   derivationRingEquiv M (inverseImageFreeAlgebraIso f A B)
@@ -653,10 +653,10 @@ noncomputable def inverseImageNaiveCotangentZeroDerivationEquiv
     ((inverseImageModules f
         ((Stacks.SheafOfModules.Tensor.ringSheaf.{u', v', max u' v' w'} (J := K)) B)).obj
         (canonicalConormalSequence.{v', u', max u' v' w', max u' v' w'} K A B a).X₂ ⟶ M) ≃
-      ((((_root_.SheafOfModules.restrictScalars
+      PresheafOfModulesOfCommRing.Derivation' ((((_root_.SheafOfModules.restrictScalars
           ((Stacks.forgetCommRingSheaf.{v, u, max u v w} J).map
             (canonicalPresentation J (f.inverseImageRing.obj A) (f.inverseImageRing.obj B)
-              (f.inverseImageRing.map a)))).obj M)).val).Derivation'
+              (f.inverseImageRing.map a)))).obj M)).val)
         (freeAlgebraSheafCoefficientMap J (f.inverseImageRing.obj A)
           (underlyingPresheaf J (f.inverseImageRing.obj B))).hom :=
   (inverseImageZeroStep₁ J K f a M).trans ((inverseImageZeroStep₂ J K f a M).trans

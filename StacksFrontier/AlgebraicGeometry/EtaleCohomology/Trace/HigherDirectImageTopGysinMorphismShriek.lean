@@ -66,7 +66,7 @@ theorem LAdicSheaf.surjective_rationalStalkMap_of_isZero {X : B.Scheme} [IsNoeth
   have h : LAdicSheaf.rationalStalkEndRingHom G s (1 : End G) =
       LAdicSheaf.rationalStalkEndRingHom G s 0 := by
     congr 1
-    exact hG.eq_of_src _ _
+    exact End.ext (hG.eq_of_src _ _)
   rw [map_one, map_zero] at h
   have hy : y = 0 := by
     have := LinearMap.congr_fun h y

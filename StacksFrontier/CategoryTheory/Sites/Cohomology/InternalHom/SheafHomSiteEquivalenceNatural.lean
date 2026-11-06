@@ -113,7 +113,6 @@ universe u v
 attribute [local implicit_reducible]
   CategoryTheory.sheafCompose
   CategoryTheory.Functor.sheafPushforwardContinuous
-  CochainComplex.HomComplex
   ModuleCat.restrictScalars
   ModuleCat.RestrictScalars.obj'
   PresheafOfModules.pushforward

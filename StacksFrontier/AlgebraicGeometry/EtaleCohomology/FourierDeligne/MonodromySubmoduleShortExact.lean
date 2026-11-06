@@ -49,22 +49,22 @@ variable {Λ : Type} [CommRing Λ] [Finite Λ] {H : Type v} [Group H] [Topologic
 
 /-- **The quotient of a finite continuous module by a stable submodule.** -/
 def finiteTypeContinuousModuleQuotient (P : FiniteTypeContinuousModule.{0, v, w} Λ H)
-    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) :
+    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) :
     FiniteTypeContinuousModule.{0, v, w} Λ H :=
   haveI : Finite (ToType P.obj.obj.obj.V) := (moduleCat_isFG_iff_finite Λ _).mp P.property
   haveI : Finite (P.obj.obj.obj.V ⧸ W) :=
     Finite.of_surjective _ (Submodule.Quotient.mk_surjective W)
   ⟨ofRepresentation (R := Λ) (M := P.obj.obj.obj.V ⧸ W)
-      { toFun := fun h ↦ W.mapQ W (P.obj.obj.obj.ρ h).hom (fun x hx ↦ hW h x hx)
+      { toFun := fun h ↦ W.mapQ W (P.obj.obj.obj.ρ h).asHom.hom (fun x hx ↦ hW h x hx)
         map_one' := by
           ext x
-          change Submodule.Quotient.mk ((P.obj.obj.obj.ρ 1).hom x) = Submodule.Quotient.mk x
+          change Submodule.Quotient.mk ((P.obj.obj.obj.ρ 1).asHom.hom x) = Submodule.Quotient.mk x
           rw [map_one]
           rfl
         map_mul' := fun g g' ↦ by
           ext x
-          change Submodule.Quotient.mk ((P.obj.obj.obj.ρ (g * g')).hom x) =
-            Submodule.Quotient.mk ((P.obj.obj.obj.ρ g).hom ((P.obj.obj.obj.ρ g').hom x))
+          change Submodule.Quotient.mk ((P.obj.obj.obj.ρ (g * g')).asHom.hom x) =
+            Submodule.Quotient.mk ((P.obj.obj.obj.ρ g).asHom.hom ((P.obj.obj.obj.ρ g').asHom.hom x))
           rw [map_mul]
           rfl }
       ((isContinuous_actionOfRepresentation_iff _).2 fun z ↦ by
@@ -73,19 +73,19 @@ def finiteTypeContinuousModuleQuotient (P : FiniteTypeContinuousModule.{0, v, w}
         rw [isOpen_iff_mem_nhds]
         intro g hg
         have hmem : (fun s ↦ g⁻¹ * s) ⁻¹'
-            {s : H | (P.obj.obj.obj.ρ s).hom y = y} ∈ nhds g :=
+            {s : H | (P.obj.obj.obj.ρ s).asHom.hom y = y} ∈ nhds g :=
           (continuous_const.mul continuous_id).continuousAt.preimage_mem_nhds
             (hst.mem_nhds (by
-              change (P.obj.obj.obj.ρ (g⁻¹ * g)).hom y = y
+              change (P.obj.obj.obj.ρ (g⁻¹ * g)).asHom.hom y = y
               rw [inv_mul_cancel, map_one]
               rfl))
         filter_upwards [hmem] with s hs
-        have hs' : (P.obj.obj.obj.ρ (g⁻¹ * s)).hom y = y := hs
-        have hsg : (P.obj.obj.obj.ρ s).hom y = (P.obj.obj.obj.ρ g).hom y := by
+        have hs' : (P.obj.obj.obj.ρ (g⁻¹ * s)).asHom.hom y = y := hs
+        have hsg : (P.obj.obj.obj.ρ s).asHom.hom y = (P.obj.obj.obj.ρ g).asHom.hom y := by
           rw [show s = g * (g⁻¹ * s) by group, map_mul]
-          change (P.obj.obj.obj.ρ g).hom ((P.obj.obj.obj.ρ (g⁻¹ * s)).hom y) = _
+          change (P.obj.obj.obj.ρ g).asHom.hom ((P.obj.obj.obj.ρ (g⁻¹ * s)).asHom.hom y) = _
           rw [hs']
-        change Submodule.Quotient.mk ((P.obj.obj.obj.ρ s).hom y) = Submodule.Quotient.mk y
+        change Submodule.Quotient.mk ((P.obj.obj.obj.ρ s).asHom.hom y) = Submodule.Quotient.mk y
         rw [hsg]
         exact hg),
     (ModuleCat.isFG_iff _).2
@@ -93,14 +93,14 @@ def finiteTypeContinuousModuleQuotient (P : FiniteTypeContinuousModule.{0, v, w}
 
 /-- The projection onto `Stacks.EtaleCohomology.finiteTypeContinuousModuleQuotient`. -/
 def finiteTypeContinuousModuleQuotientπ (P : FiniteTypeContinuousModule.{0, v, w} Λ H)
-    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) :
+    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) :
     P ⟶ finiteTypeContinuousModuleQuotient P W hW :=
   ObjectProperty.homMk (ObjectProperty.homMk (ObjectProperty.homMk
     ⟨ModuleCat.ofHom W.mkQ, fun _ ↦ ModuleCat.hom_ext (LinearMap.ext fun _ ↦ rfl)⟩))
 
 /-- The projection `finiteTypeContinuousModuleQuotientπ P W hW` sends `x` to its class mod `W`. -/
 theorem finiteTypeContinuousModuleQuotientπ_apply (P : FiniteTypeContinuousModule.{0, v, w} Λ H)
-    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W)
+    (W : Submodule Λ P.obj.obj.obj.V) (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W)
     (x : P.obj.obj.obj.V) :
     (finiteTypeContinuousModuleQuotientπ P W hW).hom.hom.hom.hom.hom x =
       Submodule.Quotient.mk x := rfl
@@ -108,7 +108,7 @@ theorem finiteTypeContinuousModuleQuotientπ_apply (P : FiniteTypeContinuousModu
 /-- The inclusion of a stable submodule composed with the projection onto the quotient vanishes. -/
 private theorem finiteTypeContinuousModuleOfStableι_comp_quotientπ
     (P : FiniteTypeContinuousModule.{0, v, w} Λ H) (W : Submodule Λ P.obj.obj.obj.V)
-    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) :
+    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) :
     finiteTypeContinuousModuleOfStableι P W hW ≫ finiteTypeContinuousModuleQuotientπ P W hW =
       0 := by
   apply ObjectProperty.hom_ext
@@ -134,7 +134,7 @@ private theorem nsmul_hom_apply_eq_zero_of_nsmul_eq_zero
 /-- An integer killing the inclusion of a stable submodule kills the submodule. -/
 theorem nsmul_eq_zero_of_nsmul_finiteTypeContinuousModuleOfStableι
     (P : FiniteTypeContinuousModule.{0, v, w} Λ H) (W : Submodule Λ P.obj.obj.obj.V)
-    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) (e : ℕ)
+    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) (e : ℕ)
     (h : e • finiteTypeContinuousModuleOfStableι P W hW = 0) : ∀ x ∈ W, e • x = 0 :=
   fun x hx ↦ nsmul_hom_apply_eq_zero_of_nsmul_eq_zero _ e h ⟨x, hx⟩
 
@@ -142,7 +142,7 @@ theorem nsmul_eq_zero_of_nsmul_finiteTypeContinuousModuleOfStableι
 the submodule. -/
 theorem nsmul_mem_of_nsmul_finiteTypeContinuousModuleQuotientπ
     (P : FiniteTypeContinuousModule.{0, v, w} Λ H) (W : Submodule Λ P.obj.obj.obj.V)
-    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).hom x ∈ W) (e : ℕ)
+    (hW : ∀ h, ∀ x ∈ W, (P.obj.obj.obj.ρ h).asHom.hom x ∈ W) (e : ℕ)
     (h : e • finiteTypeContinuousModuleQuotientπ P W hW = 0) : ∀ x, e • x ∈ W :=
   fun x ↦ (Submodule.Quotient.mk_eq_zero W).1 (nsmul_hom_apply_eq_zero_of_nsmul_eq_zero _ e h x)
 
@@ -350,7 +350,7 @@ theorem exists_shortExact_of_monodromy_submodule (B : BigEtaleSite.{u}) {X : Sch
     (W : Submodule Λ ((finiteTypeLocallyConstantModuleSheafEquivalenceEtaleSite B VB v
       Λ).functor.obj ⟨_, hG⟩).obj.obj.obj.V)
     (hW : ∀ h, ∀ x ∈ W, (((finiteTypeLocallyConstantModuleSheafEquivalenceEtaleSite B VB v
-      Λ).functor.obj ⟨_, hG⟩).obj.obj.obj.ρ h).hom x ∈ W) :
+      Λ).functor.obj ⟨_, hG⟩).obj.obj.obj.ρ h).asHom.hom x ∈ W) :
     ∃ (A Q : EtaleModules.{u, 0} Λ X) (α : A ⟶ G) (β : G ⟶ Q) (w : α ≫ β = 0),
       (ShortComplex.mk α β w).ShortExact ∧
       Stacks.ConstantSheaf.IsLocallyConstantWith Λ VB.1.smallEtaleTopology

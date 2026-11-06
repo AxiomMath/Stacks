@@ -46,27 +46,28 @@ abbrev FiniteEtaleGaloisCover.overAction : Gᵐᵒᵖ →* Aut (Over.mk Z.obj.ho
 
 /-- The stabiliser in `G` of a point of the total space of a Galois cover. -/
 def FiniteEtaleGaloisCover.stabilizer (y : Z.obj.left) : Subgroup G where
-  carrier := {σ | (Z.overAction (.op σ)).hom.left y = y}
+  carrier := {σ | (Z.overAction (.op σ)).asIso.hom.left y = y}
   one_mem' := by
-    change (Z.overAction 1).hom.left y = y
+    change (Z.overAction 1).asIso.hom.left y = y
     rw [map_one]
     rfl
   mul_mem' := by
     intro σ τ hσ hτ
-    change (Z.overAction (.op (σ * τ))).hom.left y = y
-    rw [MulOpposite.op_mul, map_mul, Aut.Aut_mul_def]
-    change (Z.overAction (.op τ)).hom.left ((Z.overAction (.op σ)).hom.left y) = y
-    rwa [show (Z.overAction (.op σ)).hom.left y = y from hσ]
+    change (Z.overAction (.op (σ * τ))).asIso.hom.left y = y
+    rw [MulOpposite.op_mul, map_mul, Aut.mul_asIso]
+    change (Z.overAction (.op τ)).asIso.hom.left ((Z.overAction (.op σ)).asIso.hom.left y) = y
+    rwa [show (Z.overAction (.op σ)).asIso.hom.left y = y from hσ]
   inv_mem' := by
     intro σ hσ
-    change (Z.overAction (.op σ⁻¹)).hom.left y = y
-    rw [MulOpposite.op_inv, map_inv, Aut.Aut_inv_def]
-    have h2 : (Z.overAction (.op σ)).inv.left ((Z.overAction (.op σ)).hom.left y) = y := by
+    change (Z.overAction (.op σ⁻¹)).asIso.hom.left y = y
+    rw [MulOpposite.op_inv, map_inv, Aut.inv_asIso]
+    have h2 : (Z.overAction (.op σ)).asIso.inv.left
+        ((Z.overAction (.op σ)).asIso.hom.left y) = y := by
       have h3 := congrArg (fun φ : Over.mk Z.obj.hom ⟶ Over.mk Z.obj.hom ↦ φ.left y)
-        (Z.overAction (.op σ)).hom_inv_id
+        (Z.overAction (.op σ)).asIso.hom_inv_id
       simp only [Over.comp_left, Over.id_left, Scheme.Hom.comp_apply] at h3
       exact h3.trans rfl
-    rwa [show (Z.overAction (.op σ)).hom.left y = y from hσ] at h2
+    rwa [show (Z.overAction (.op σ)).asIso.hom.left y = y from hσ] at h2
 
 /-- A morphism out of the spectrum of a field factoring through the spectrum of another field
 sends the closed point to the image of the closed point. -/
@@ -144,9 +145,9 @@ theorem natCard_algHom_eq_card_stabilizer (F : Type u) [Field F] [Algebra K F] [
   have hex := fun φ ↦ existsUnique_comp_twist π a sF (t φ) (ht φ)
   let Θ : (L →ₐ[K] F) → Z.stabilizer y := fun φ ↦ ⟨(hex φ).choose, by
     have h := congrArg (· (closedPoint F)) (hex φ).choose_spec.1
-    change (a _).hom.left (sF (closedPoint F)) = t φ (closedPoint F) at h
+    change (a _).asIso.hom.left (sF (closedPoint F)) = t φ (closedPoint F) at h
     rwa [hsy, hty φ] at h⟩
-  have hΘ : ∀ φ, sF ≫ (a (.op (Θ φ : G))).hom.left = t φ := fun φ ↦ (hex φ).choose_spec.1
+  have hΘ : ∀ φ, sF ≫ (a (.op (Θ φ : G))).asIso.hom.left = t φ := fun φ ↦ (hex φ).choose_spec.1
   refine Nat.card_congr (Equiv.ofBijective Θ ⟨fun φ φ' h ↦ ?_, fun σ ↦ ?_⟩)
   · have h1 : t φ = t φ' := by rw [← hΘ, ← hΘ, h]
     simp only [t] at h1
@@ -154,9 +155,9 @@ theorem natCard_algHom_eq_card_stabilizer (F : Type u) [Field F] [Algebra K F] [
       Spec.map_inj] at h1
     ext l
     simpa using congrArg (fun χ ↦ χ.hom (e.symm l)) h1
-  · let m := sF ≫ (a (.op (σ : G))).hom.left
+  · let m := sF ≫ (a (.op (σ : G))).asIso.hom.left
     have hm : m (closedPoint F) = y := by
-      show (a (.op (σ : G))).hom.left (sF (closedPoint F)) = y
+      show (a (.op (σ : G))).asIso.hom.left (sF (closedPoint F)) = y
       rw [hsy]
       exact σ.2
     obtain ⟨φ₀, htφ₀⟩ := exists_ringHom_spec_map_comp_eq U Z L v e he _ hm
@@ -166,10 +167,10 @@ theorem natCard_algHom_eq_card_stabilizer (F : Type u) [Field F] [Algebra K F] [
         htφ₀, ← hπ (IsScalarTower.toAlgHom K L F)]
       simp only [m, π, Category.assoc]
       congr 1
-      exact Over.w (a (.op (σ : G))).hom
+      exact Over.w (a (.op (σ : G))).asIso.hom
     let φ : L →ₐ[K] F := { φ₀ with commutes' := fun r ↦ congrArg (· r) hlin }
     exact ⟨φ, Subtype.ext ((hex φ).unique (hex φ).choose_spec.1
-      (show sF ≫ (a (.op (σ : G))).hom.left = t φ from htφ₀.symm))⟩
+      (show sF ≫ (a (.op (σ : G))).asIso.hom.left = t φ from htφ₀.symm))⟩
 
 end FieldFactor
 

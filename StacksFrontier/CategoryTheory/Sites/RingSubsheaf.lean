@@ -2,6 +2,7 @@ module
 
 public import Mathlib.CategoryTheory.Sites.Subsheaf
 public import Mathlib.Topology.Sheaves.CommRingCat
+public import Mathlib.Algebra.Category.Ring.FilteredColimits
 
 /-!
 # Subsheaves of a sheaf of commutative rings, and images

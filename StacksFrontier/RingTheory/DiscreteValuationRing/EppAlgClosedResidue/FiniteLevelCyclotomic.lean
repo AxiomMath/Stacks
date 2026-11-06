@@ -431,7 +431,7 @@ theorem ramificationIdx_dvd_finrank_of_isLocalRing
   let : Unique (p.primesOver S) :=
     { default := Ideal.primesOver.mk p q
       uniq P := Subtype.ext (IsLocalRing.eq_maximalIdeal
-        (Ideal.isMaximal_of_isIntegral_of_isMaximal_comap P.1 (by
+        (Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := R) P.1 (by
           change (P.1.under R).IsMaximal
           rw [← Ideal.over_def P.1 p]
           infer_instance))) }

@@ -75,7 +75,7 @@ public theorem exists_derivationDifferentialGraph_of_isVersal
     (BasedCategory.ofFunctor (CategoryOfElements.π (restrictedCoyoneda ξ.base)))
     (categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base))
     (artinianDualNumbers.{u, w, v} Λ k) z
-  rcases x with ⟨⟨A', α⟩, hA⟩
+  rcases x with ⟨⟨α⟩, hA⟩
   cases hA
   let : Algebra ξ.base k := (residueHom ξ.base).toRingHom.toAlgebra
   refine ⟨standardToDerivation ξ ((tangentSpaceDerivationsLinearEquiv ξ.base) α), ?_⟩
@@ -140,8 +140,8 @@ public theorem exists_derivationDifferentialGraph_action
     let h𝓑 := categoryOfElements_projection_isCofibered (restrictedCoyoneda ξ.base)
     let φ := (associatedMorphism hp.cofibered ξ P).toBasedFunctor
     let dual := artinianDualNumbers.{u, w, v} Λ k
-    let xα : 𝓑.p.Fiber dual := ⟨⟨dual, α⟩, rfl⟩
-    let xα' : 𝓑.p.Fiber dual := ⟨⟨dual, α'⟩, rfl⟩
+    let xα : 𝓑.p.Fiber dual := ⟨(restrictedCoyoneda ξ.base).elementsMk dual α, rfl⟩
+    let xα' : 𝓑.p.Fiber dual := ⟨(restrictedCoyoneda ξ.base).elementsMk dual α', rfl⟩
     let a : xα.1 ⟶ xα'.1 := ⟨tw, rfl⟩
     have ha : 𝓑.p.IsHomLift tw a :=
       CategoryTheory.IsHomLift.of_fac 𝓑.p tw a rfl rfl rfl
